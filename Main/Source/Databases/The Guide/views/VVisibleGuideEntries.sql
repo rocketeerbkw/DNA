@@ -1,0 +1,32 @@
+CREATE VIEW VVisibleGuideEntries WITH SCHEMABINDING
+AS
+	SELECT EntryID, 
+			blobid, 
+			DateCreated, 
+			DateExpired, 
+			Cancelled, 
+			SupercededBy, 
+			BasedOn, 
+			Editor, 
+			ForumID, 
+			Subject, 
+			Keywords, 
+			LatestVersion, 
+			Style, 
+			Status, 
+			h2g2ID, 
+			stamp, 
+			LastUpdated, 
+			Hidden, 
+			SiteID, 
+			Submittable, 
+			ExtraInfo, 
+			Type, 
+			ModerationStatus, 
+			text, 
+			PreProcessed, 
+			CanRead, 
+			CanWrite, 
+			CanChangePermissions
+	  FROM dbo.GuideEntries
+	 WHERE Hidden IS NULL And Status != 7

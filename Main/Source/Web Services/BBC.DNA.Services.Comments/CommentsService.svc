@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="BBC.Dna.Services.CommentsService"  Factory="BBC.Dna.Services.DnaWebServiceHostFactory"%>

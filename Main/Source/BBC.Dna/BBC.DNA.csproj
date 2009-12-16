@@ -1,0 +1,410 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BBC.Dna</RootNamespace>
+    <AssemblyName>BBC.Dna</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>bbc.dna.snk</AssemblyOriginatorKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\BBC.DNA.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugSmallGuide\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\BBC.DNA.XML</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DnaIdentityWebServiceProxy, Version=1.0.1.15, Culture=neutral, PublicKeyToken=8e1f4c7d0de58a62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Reference DLLs\DnaIdentityWebServiceProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=1.0.7.30072, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files\MySQL\MySQL Connector Net 1.0.7\bin\.NET 2.0\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppContext.cs" />
+    <Compile Include="ArticleBuilder.cs" />
+    <Compile Include="ArticleDiagnostic.cs" />
+    <Compile Include="ArticleHistory.cs" />
+    <Compile Include="ArticleKeyPhrases.cs" />
+    <Compile Include="ArticleList.cs" />
+    <Compile Include="ArticleLocation.cs" />
+    <Compile Include="ArticleMember.cs" />
+    <Compile Include="ArticleSubscriptionList.cs" />
+    <Compile Include="AuthorsList.cs" />
+    <Compile Include="BannedEmail.cs" />
+    <Compile Include="BlockedUserSubscriptions.cs" />
+    <Compile Include="BlogSummary.cs" />
+    <Compile Include="ArticleSearchParameters.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="CategoryList.cs" />
+    <Compile Include="CategoryListPageBuilder.cs" />
+    <Compile Include="CategoryListPageParameters.cs" />
+    <Compile Include="ComingUp.cs" />
+    <Compile Include="CommentBoxForum.cs" />
+    <Compile Include="CommentForumListBuilder.cs" />
+    <Compile Include="CommentForumListCacheDependency.cs" />
+    <Compile Include="CommentsList.cs" />
+    <Compile Include="ContentSignif.cs" />
+    <Compile Include="ContentSignifAdminBuilder.cs" />
+    <Compile Include="ContentSignifSettings.cs" />
+    <Compile Include="ContentSignifSettingsParameters.cs" />
+    <Compile Include="ForumPageBuilder.cs" />
+    <Compile Include="IUser.cs" />
+    <Compile Include="LinkTranslator.cs" />
+    <Compile Include="ModerateExLinks.cs" />
+    <Compile Include="ModeratePosts.cs" />
+    <Compile Include="ModerationDistressMessages.cs" />
+    <Compile Include="ModerationHistory.cs" />
+    <Compile Include="ModerationReasons.cs" />
+    <Compile Include="EmailTemplate.cs" />
+    <Compile Include="ModerateNickNames.cs" />
+    <Compile Include="ModerationUserStatuses.cs" />
+    <Compile Include="ModeratorManagement.cs" />
+    <Compile Include="ProcessRecommendation.cs" />
+    <Compile Include="ProcessRecommendationForm.cs" />
+    <Compile Include="QuoteTranslator.cs" />
+    <Compile Include="RecommendEntry.cs" />
+    <Compile Include="RecommendEntryForm.cs" />
+    <Compile Include="SiteXmlBuilder.cs" />
+    <Compile Include="SmileyTranslator.cs" />
+    <Compile Include="SoloGuideEntries.cs" />
+    <Compile Include="SubmitSubbedEntry.cs" />
+    <Compile Include="SubmitSubbedEntryForm.cs" />
+    <Compile Include="ThreadEntrySearch.cs" />
+    <Compile Include="Translator.cs" />
+    <Compile Include="UserDetailsPageBuilder.cs" />
+    <Compile Include="EditReviewForum.cs" />
+    <Compile Include="EditReviewForumForm.cs" />
+    <Compile Include="NewUsersPageBuilder.cs" />
+    <Compile Include="InfoBuilder.cs" />
+    <Compile Include="ArticleSearch.cs" />
+    <Compile Include="dlistupdatesp.cs" />
+    <Compile Include="DnaBasePage.IAppContext.cs">
+    </Compile>
+    <Compile Include="CommentForumList.cs" />
+    <Compile Include="DnaBasePage.IInputContext.cs">
+    </Compile>
+    <Compile Include="DnaBasePage.IOutputContext.cs">
+    </Compile>
+    <Compile Include="DnaComponent.cs" />
+    <Compile Include="DnaBasePage.cs">
+    </Compile>
+    <Compile Include="DnaFormComponent.cs" />
+    <Compile Include="DnaInputComponent.cs" />
+    <Compile Include="DnaMessage.cs" />
+    <Compile Include="DnaWebPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DnaXmlSourceDetails.cs" />
+    <Compile Include="EmailAddressFilter.cs" />
+    <Compile Include="Entities.cs" />
+    <Compile Include="ForumPost.cs" />
+    <Compile Include="IAllowedURLs.cs" />
+    <Compile Include="IDnaFormComponent.cs" />
+    <Compile Include="ArticleModeration.cs" />
+    <Compile Include="MediaAssetParameters.cs" />
+    <Compile Include="MessageBoardStatistics.cs" />
+    <Compile Include="ModerationClasses.cs" />
+    <Compile Include="ModerationMemberDetails.cs" />
+    <Compile Include="MonthSummary.cs" />
+    <Compile Include="MoreJournal.cs" />
+    <Compile Include="MorePages.cs" />
+    <Compile Include="MorePosts.cs" />
+    <Compile Include="MoreRoutes.cs" />
+    <Compile Include="AllowedURLs.cs" />
+    <Compile Include="NamespacePhrases.cs" />
+    <Compile Include="PostJournal.cs" />
+    <Compile Include="PostList.cs" />
+    <Compile Include="ProfanityAdmin.cs" />
+    <Compile Include="ProfanityList.cs" />
+    <Compile Include="RecentCommentForumPostsBuilder.cs" />
+    <Compile Include="RecentSearch.cs" />
+    <Compile Include="RefereeList.cs" />
+    <Compile Include="ReservedArticles.cs" />
+    <Compile Include="ReviewForumBuilder.cs" />
+    <Compile Include="ReviewSubmissionForum.cs" />
+    <Compile Include="RoutesList.cs" />
+    <Compile Include="ScoutRecommendations.cs" />
+    <Compile Include="SignifContent.cs" />
+    <Compile Include="SiteManager.cs" />
+    <Compile Include="SiteSummary.cs" />
+    <Compile Include="SkinUploadServer.cs" />
+    <Compile Include="StatisticsReport.cs" />
+    <Compile Include="SubAllocationForm.cs" />
+    <Compile Include="SubbedArticleStatusBuilder.cs" />
+    <Compile Include="SubmitReviewForum.cs" />
+    <Compile Include="SubNotificationEmail.cs" />
+    <Compile Include="SystemMessageMailbox.cs" />
+    <Compile Include="SubEditorAllocationPageBuilder.cs" />
+    <Compile Include="TagItem.cs" />
+    <Compile Include="TokenizedNamespacedPhrases.cs" />
+    <Compile Include="TypedArticle.cs" />
+    <Compile Include="UIField.cs" />
+    <Compile Include="ExceptionMsgs.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionMsgs.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ExtraInfo.cs" />
+    <Compile Include="FileCache.cs" />
+    <Compile Include="CommentBoxForumUsingApi.cs" />
+    <Compile Include="Forum.cs" />
+    <Compile Include="GuideEntry.cs" />
+    <Compile Include="Hierarchy.cs" />
+    <Compile Include="HtmlTransformer.cs" />
+    <Compile Include="IAppContext.cs" />
+    <Compile Include="ICache.cs" />
+    <Compile Include="ICategory.cs" />
+    <Compile Include="IDnaInputComponent.cs" />
+    <Compile Include="IDnaTransformer.cs" />
+    <Compile Include="IDnaWebPage.cs" />
+    <Compile Include="IPAddressRequester.cs" />
+    <Compile Include="IPollFactory.cs" />
+    <Compile Include="IResponse.cs" />
+    <Compile Include="IServerUtility.cs" />
+    <Compile Include="Link.cs" />
+    <Compile Include="LinksList.cs" />
+    <Compile Include="LinkSubscriptionList.cs" />
+    <Compile Include="ListDefinition.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="ManageRoute.cs" />
+    <Compile Include="MediaAsset.cs" />
+    <Compile Include="MemberList.cs" />
+    <Compile Include="MoreArticleSubscriptions.cs" />
+    <Compile Include="MoreComments.cs" />
+    <Compile Include="MoreLinks.cs" />
+    <Compile Include="MoreLinkSubscriptions.cs" />
+    <Compile Include="MoreRestrictedUsers.cs" />
+    <Compile Include="MoreSubscribingUsers.cs" />
+    <Compile Include="MoreUserSubscriptions.cs" />
+    <Compile Include="MoveThread.cs" />
+    <Compile Include="NameSpaces.cs" />
+    <Compile Include="PageUI.cs" />
+    <Compile Include="ParameterTracker.cs" />
+    <Compile Include="Phrase.cs" />
+    <Compile Include="Poll.cs" />
+    <Compile Include="PollContentRating.cs" />
+    <Compile Include="PollContentRatingFactory.cs" />
+    <Compile Include="PollResults.cs" />
+    <Compile Include="PopularPhrases.cs" />
+    <Compile Include="PureXmlTransformer.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="Response.cs" />
+    <Compile Include="RestrictedUserList.cs" />
+    <Compile Include="ReviewForum.cs" />
+    <Compile Include="Route.cs" />
+    <Compile Include="ServerUtility.cs" />
+    <Compile Include="Search.cs" />
+    <Compile Include="ServiceBrokerConversations.cs" />
+    <Compile Include="ServiceBrokerServices.cs" />
+    <Compile Include="ServiceBrokerTransmissionQueue.cs" />
+    <Compile Include="SkinSelector.cs" />
+    <Compile Include="Signal.cs" />
+    <Compile Include="SkinParams.cs" />
+    <Compile Include="Status.cs" />
+    <Compile Include="SubscribingUsersList.cs" />
+    <Compile Include="UITemplate.cs" />
+    <Compile Include="TimestampTextWriterListener.cs" />
+    <Compile Include="UITemplateDefinition.cs" />
+    <Compile Include="updatesp.cs" />
+    <Compile Include="URLFilter.cs" />
+    <Compile Include="UserComplaint.cs" />
+    <Compile Include="UserGroups.cs" />
+    <Compile Include="UserList.cs" />
+    <Compile Include="UserPage.cs" />
+    <Compile Include="UserPageParameters.cs" />
+    <Compile Include="UserStatistics.cs" />
+    <Compile Include="UserSubscriptionsList.cs" />
+    <Compile Include="Vote.cs" />
+    <Compile Include="WatchList.cs" />
+    <Compile Include="WholePage.cs" />
+    <Compile Include="DNATransformer.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="IDnaComponent.cs" />
+    <Compile Include="IInputContext.cs" />
+    <Compile Include="IOutputContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="WhosOnline.cs" />
+    <Compile Include="XmlTransformer.cs" />
+    <Compile Include="XsltExceptions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="bbc.dna.snk" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ExceptionMsgs.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionMsgs.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
+      <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
+      <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
+      <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
+      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\BBC.Dna.Groups\BBC.Dna.Groups.csproj">
+      <Project>{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}</Project>
+      <Name>BBC.Dna.Groups %28Source\Shared\BBC.Dna.Groups\BBC.Dna.Groups%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
+      <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
+      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
+      <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
+      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
+      <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
+      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
+      <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
+      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj">
+      <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
+      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
+      <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
+      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+	if not exist "$(ProjectDir)..\dnapages\bin" mkdir "$(ProjectDir)..\dnapages\bin"
+	xcopy "$(TargetDir)*.dll" "$(ProjectDir)..\dnapages\bin" /D /Y
+	xcopy "$(TargetDir)*.pdb" "$(ProjectDir)..\dnapages\bin" /D /Y
+
+
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

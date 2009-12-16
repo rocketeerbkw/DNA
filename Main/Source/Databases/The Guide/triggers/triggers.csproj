@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectGuid>{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>obj\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>obj\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputTarget>$(OutputPath)triggers.sql</OutputTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
+    <OutputPath>bin\DebugSmallGuide\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <UsingTask TaskName="UpdateSpTask" AssemblyFile="..\..\..\..\updatesp.exe" />
+  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
+    <UpdateSpTask BuildFiles="@(None)" BuildTargetFile="$(OutputTarget)" Config="..\..\..\..\updatesp.config" BuildConfig="$(Configuration)" />
+  </Target>
+  <Target Name="Clean">
+    <Delete Files="$(OutputTarget)" TreatErrorsAsWarnings="true" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+  <ItemGroup>
+    <None Include="FixGELastUpdated.sql" />
+    <None Include="trg_GuideEntries_d.sql" />
+    <None Include="trg_GuideEntries_i.sql" />
+    <None Include="trg_GuideEntries_u.sql" />
+    <None Include="trg_Topics_iu.sql" />
+    <None Include="trg_Forums_u.sql" />
+    <None Include="trg_Threads_iu.sql" />
+  </ItemGroup>
+  <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
+</Project>
