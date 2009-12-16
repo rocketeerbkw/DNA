@@ -165,6 +165,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NUnitASP", "NUnitASP", "{B5
 		Source\Reference DLLs\NUnitASP\NUnitAsp.dll = Source\Reference DLLs\NUnitASP\NUnitAsp.dll
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C55F7869-3C5D-42AD-B4A5-A847BB965D4D}"
+	ProjectSection(SolutionItems) = preProject
+		UserServices.vsmdi = UserServices.vsmdi
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 32
@@ -295,6 +300,9 @@ Global
 		SccProjectTopLevelParentUniqueName31 = UserServices.sln
 		SccProjectName31 = Source/Shared/TestUtils
 		SccLocalPath31 = Source\\Shared\\TestUtils
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = UserServices.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
