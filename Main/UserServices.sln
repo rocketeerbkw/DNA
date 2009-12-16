@@ -145,16 +145,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microsoft.Http", "Microsoft
 		Source\Reference DLLs\Microsoft.Http\Microsoft.Http.Extensions.dll = Source\Reference DLLs\Microsoft.Http\Microsoft.Http.Extensions.dll
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{45B09485-B28D-4105-A435-1609664FBCE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Objects.Tests", "Source\Shared\BBC.Dna.Objects.Tests\BBC.Dna.Objects.Tests.csproj", "{13939AC3-85A5-40DC-BD6E-8211451D27BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{A13B69D8-B212-48D7-A4A8-436B64AA3E38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUtils", "TestUtils", "{BC783F72-181C-49E1-888D-3C05BFEFDAD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtils", "Source\Shared\TestUtils\TestUtils.csproj", "{E09BF891-7D4F-403E-B830-B9E2606D2C22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NMock", "NMock", "{4F19FE89-637B-4B05-A067-C868B2FF5BF1}"
 	ProjectSection(SolutionItems) = preProject
-		updatesp.config = updatesp.config
-		updatesp.exe = updatesp.exe
-		updatespSmallGuide.config = updatespSmallGuide.config
+		Source\Reference DLLs\NMock\NMock2.AcceptanceTests.dll = Source\Reference DLLs\NMock\NMock2.AcceptanceTests.dll
+		Source\Reference DLLs\NMock\NMock2.dll = Source\Reference DLLs\NMock\NMock2.dll
+		Source\Reference DLLs\NMock\NMock2.Test.dll = Source\Reference DLLs\NMock\NMock2.Test.dll
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 30
+		SccNumberOfProjects = 32
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/
 		SccLocalPath0 = .
@@ -274,6 +282,14 @@ Global
 		SccProjectTopLevelParentUniqueName29 = UserServices.sln
 		SccProjectName29 = Source/Windows\u0020Services/DnaEventsService/SNeSActivityProcessor
 		SccLocalPath29 = Source\\Windows\u0020Services\\DnaEventsService\\SNeSActivityProcessor
+		SccProjectUniqueName30 = Source\\Shared\\BBC.Dna.Objects.Tests\\BBC.Dna.Objects.Tests.csproj
+		SccProjectTopLevelParentUniqueName30 = UserServices.sln
+		SccProjectName30 = Source/Shared/BBC.Dna.Objects.Tests
+		SccLocalPath30 = Source\\Shared\\BBC.Dna.Objects.Tests
+		SccProjectUniqueName31 = Source\\Shared\\TestUtils\\TestUtils.csproj
+		SccProjectTopLevelParentUniqueName31 = UserServices.sln
+		SccProjectName31 = Source/Shared/TestUtils
+		SccLocalPath31 = Source\\Shared\\TestUtils
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -514,6 +530,22 @@ Global
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.Retail|Any CPU.ActiveCfg = Release|Any CPU
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Retail|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -554,6 +586,7 @@ Global
 		{6327E7F4-5495-4A9C-8B7D-D55234DD7679} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{D651DDAE-4623-4E78-83B5-6905A0CEEC16} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{67595DFD-E528-4F60-8298-5A3484BE5E28} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
+		{BC783F72-181C-49E1-888D-3C05BFEFDAD6} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614} = {2BF3EB98-483E-4C8D-98B7-C0BE3F649C39}
 		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53} = {E7D52159-4788-490A-8E44-14FE7C556338}
 		{F79CF818-D597-4C2F-A61D-87773951E234} = {DA384153-9F00-48D4-AEC8-3D445FB65C95}
@@ -561,6 +594,7 @@ Global
 		{ED8FAD29-DC4F-40DC-A275-45D215591FA2} = {E8CACC67-1E8F-4142-B2DE-1BAC73309E6C}
 		{8EB8245F-927C-469B-9DBB-4BAED2A9F420} = {38F22A8A-7C67-4D41-8294-5C5FE31FF325}
 		{B4EA926E-7D99-4077-8315-882F413B994D} = {EE3A6C77-9CAC-43F3-ACFF-190C3E584B0A}
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB} = {EE3A6C77-9CAC-43F3-ACFF-190C3E584B0A}
 		{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77} = {E34060C1-4265-4040-AFB2-3CBE4A98E38A}
 		{2CE05465-9B21-4CD9-A592-FABD2AD051B3} = {0FDD2665-B401-48BC-92F9-2BFE1B5A5E86}
 		{19609A9E-E93A-4106-8529-F3A6C7DE9BF7} = {C9A343BA-0502-4C5F-B347-FB8150000926}
@@ -585,5 +619,7 @@ Global
 		{B2ECD482-BF9E-42D5-ABDF-51BE487DD627} = {D289C02D-A34C-4019-94EC-E935EBDDBA69}
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9} = {17DFE8B1-DE40-4E91-AF42-40DCEDEC5052}
 		{A135E839-C263-4171-A2B3-E1D41355B6BB} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{4F19FE89-637B-4B05-A067-C868B2FF5BF1} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {BC783F72-181C-49E1-888D-3C05BFEFDAD6}
 	EndGlobalSection
 EndGlobal

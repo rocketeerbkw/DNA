@@ -40,10 +40,6 @@
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Configuration.Design, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.ServiceModel.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e570bac22bf88fdf, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Microsoft.ServiceModel.Web\bin\debug\Microsoft.ServiceModel.Web.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core">
@@ -86,9 +82,9 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
+    <ProjectReference Include="..\..\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
       <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
-      <Name>Microsoft.ServiceModel.Web</Name>
+      <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
       <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
@@ -113,6 +109,10 @@
     <ProjectReference Include="..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
       <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
+      <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
+      <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
