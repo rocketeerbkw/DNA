@@ -1,0 +1,182 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E09BF891-7D4F-403E-B830-B9E2606D2C22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestUtils</RootNamespace>
+    <AssemblyName>TestUtils</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>http://localhost/TestUtils/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugSmallGuide\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DnaIdentityWebServiceProxy, Version=1.0.0.2, Culture=neutral, PublicKeyToken=8e1f4c7d0de58a62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferenceDlls\DnaIdentityWebServiceProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="NMock2, Version=1.0.2313.18049, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference DLLs\NMock\NMock2.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NUnitAsp, Version=1.5.1.30981, Culture=neutral, PublicKeyToken=b4d7b29ca95f48d3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Tests\NUnitASP\NUnitAsp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DnaMockery.cs" />
+    <Compile Include="DnaTestURLRequest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DnaXmlValidator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FullInputContext.cs" />
+    <Compile Include="Host.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IIsInitialise.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serializer.cs" />
+    <Compile Include="SnapshotInitialisation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TestDataCreator.cs" />
+    <Compile Include="TestDnaCache.cs" />
+    <Compile Include="TestInputContext.cs" />
+    <Compile Include="TestSite.cs" />
+    <Compile Include="TestUser.cs" />
+    <Compile Include="TestUserAccounts.cs" />
+    <Compile Include="TestUserCreator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BBC.Dna\BBC.DNA.csproj">
+      <Project>{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}</Project>
+      <Name>BBC.DNA %28Source\BBC.Dna\BBC.DNA%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
+      <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
+      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
+      <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
+      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
+      <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
+      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
+      <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
+      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Users\BBC.Dna.Users.csproj">
+      <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
+      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
+      <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
+      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
