@@ -131,6 +131,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnesActivityProcessor", "So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnesActivityProcessorTests", "Source\Windows Services\DnaEventsService\SnesActivityProcessor.Tests\SnesActivityProcessorTests.csproj", "{A2A07BB9-8417-4859-932A-AC92BDB599F9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference DLLs", "Reference DLLs", "{444038EE-D867-45BE-87CA-062461221E5F}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Reference DLLs\DnaIdentityWebServiceProxy.dll = Source\Reference DLLs\DnaIdentityWebServiceProxy.dll
+		Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb = Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb
+		Source\Reference DLLs\Microsoft.ServiceModel.Web.dll = Source\Reference DLLs\Microsoft.ServiceModel.Web.dll
+		Source\Reference DLLs\Rhino.Mocks.dll = Source\Reference DLLs\Rhino.Mocks.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microsoft.Http", "Microsoft.Http", "{A135E839-C263-4171-A2B3-E1D41355B6BB}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Reference DLLs\Microsoft.Http\Microsoft.Http.dll = Source\Reference DLLs\Microsoft.Http\Microsoft.Http.dll
+		Source\Reference DLLs\Microsoft.Http\Microsoft.Http.Extensions.dll = Source\Reference DLLs\Microsoft.Http\Microsoft.Http.Extensions.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 30
@@ -503,6 +517,7 @@ Global
 		{611F017D-BA2C-40F0-B8EB-572363E37B11} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{665D577F-30EE-4385-9A71-6478DFC0C15B} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{40DFBBBB-885D-4644-B713-03C080E5C1C9} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
+		{444038EE-D867-45BE-87CA-062461221E5F} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{E7BD8804-51E6-4DA7-BB12-F98DB83307CF} = {27BEAF25-1192-471B-BEF9-15422544012B}
 		{9F869A44-4EA0-4BD1-B73E-07D51C343C70} = {E7BD8804-51E6-4DA7-BB12-F98DB83307CF}
 		{0F288817-2F62-461E-BF0B-BD071C5A796D} = {E7BD8804-51E6-4DA7-BB12-F98DB83307CF}
@@ -562,5 +577,6 @@ Global
 		{F2C46478-2092-4D90-AEB2-46FD54FF6053} = {7C043B49-2FBC-4D8B-B333-318B30C6F098}
 		{B2ECD482-BF9E-42D5-ABDF-51BE487DD627} = {D289C02D-A34C-4019-94EC-E935EBDDBA69}
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9} = {17DFE8B1-DE40-4E91-AF42-40DCEDEC5052}
+		{A135E839-C263-4171-A2B3-E1D41355B6BB} = {444038EE-D867-45BE-87CA-062461221E5F}
 	EndGlobalSection
 EndGlobal

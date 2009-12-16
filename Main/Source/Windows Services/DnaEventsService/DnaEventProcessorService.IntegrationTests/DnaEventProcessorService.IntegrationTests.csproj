@@ -69,19 +69,19 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
-      <Name>BBC.Dna.Data</Name>
+      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\DnaEventService.Common\DnaEventService.Common.csproj">
       <Project>{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}</Project>
-      <Name>DnaEventService.Common</Name>
+      <Name>DnaEventService.Common %28Source\Windows Services\DnaEventsService\DnaEventService.Common\DnaEventService.Common%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\ExModerationProcessor\ExModerationProcessor.csproj">
       <Project>{F2C46478-2092-4D90-AEB2-46FD54FF6053}</Project>
-      <Name>ExModerationProcessor</Name>
+      <Name>ExModerationProcessor %28Source\Windows Services\DnaEventsService\ExModerationProcessor\ExModerationProcessor%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\SNeSActivityProcessor\SnesActivityProcessor.csproj">
       <Project>{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}</Project>
-      <Name>SnesActivityProcessor</Name>
+      <Name>SnesActivityProcessor %28Source\Windows Services\DnaEventsService\SNeSActivityProcessor\SnesActivityProcessor%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

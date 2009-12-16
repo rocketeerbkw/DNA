@@ -79,7 +79,7 @@
     </ProjectReference>
     <ProjectReference Include="..\DnaEventService.Common\DnaEventService.Common.csproj">
       <Project>{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}</Project>
-      <Name>DnaEventService.Common</Name>
+      <Name>DnaEventService.Common %28Source\Windows Services\DnaEventsService\DnaEventService.Common\DnaEventService.Common%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\SNeSActivityProcessor\SnesActivityProcessor.csproj">
       <Project>{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}</Project>
