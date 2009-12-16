@@ -7,9 +7,7 @@ using Tests;
 using TestUtils;
 
 namespace BBC.Dna.Objects.Tests
-{
-    
-    
+{       
     /// <summary>
     ///This is a test class for ArticleInfoPageAuthorTest and is intended
     ///to contain all ArticleInfoPageAuthorTest Unit Tests
