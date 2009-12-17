@@ -171,6 +171,32 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		UserServices.vsmdi = UserServices.vsmdi
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dnapages", "dnapages", "{EFF16980-7650-48B5-8512-A683FF4F9FAF}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "dnapages", "http://localhost/dna/dnapages", "{E68A3A37-DB29-4B15-8708-17B58823C74D}"
+	ProjectSection(WebsiteProperties) = preProject
+		SccProjectName = ""
+		SccAuxPath = ""
+		SccLocalPath = ""
+		SccProvider = ""
+		TargetFramework = "3.5"
+		Debug.AspNetCompiler.VirtualPath = "/dnapages"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\Projects\DNAProjects\dnapages\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\dnapages\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/dnapages"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\Projects\DNAProjects\dnapages\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\dnapages\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		SlnRelativePath = "..\..\..\Projects\DNAProjects\dnapages\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 32
@@ -560,6 +586,14 @@ Global
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Retail|Any CPU.ActiveCfg = Release|Any CPU
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{E68A3A37-DB29-4B15-8708-17B58823C74D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68A3A37-DB29-4B15-8708-17B58823C74D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E68A3A37-DB29-4B15-8708-17B58823C74D}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68A3A37-DB29-4B15-8708-17B58823C74D}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{E68A3A37-DB29-4B15-8708-17B58823C74D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68A3A37-DB29-4B15-8708-17B58823C74D}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{E68A3A37-DB29-4B15-8708-17B58823C74D}.Retail|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68A3A37-DB29-4B15-8708-17B58823C74D}.Retail|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -617,6 +651,7 @@ Global
 		{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3} = {67595DFD-E528-4F60-8298-5A3484BE5E28}
 		{FF6B0888-50F6-4B13-B804-3E010866916E} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{06315016-E046-45CD-B63F-B68A10D3A8C8} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
+		{EFF16980-7650-48B5-8512-A683FF4F9FAF} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{E4C34C5F-5F3B-4A43-A2BF-E593E1884786} = {FF6B0888-50F6-4B13-B804-3E010866916E}
 		{BF321555-30BC-45A3-BF5F-0E381DE31FAE} = {06315016-E046-45CD-B63F-B68A10D3A8C8}
 		{DAE118D2-98F7-4F5E-94BF-8576B9352086} = {40DFBBBB-885D-4644-B713-03C080E5C1C9}
@@ -636,5 +671,6 @@ Global
 		{4F19FE89-637B-4B05-A067-C868B2FF5BF1} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{B52F7B8B-91F4-4003-B2C8-9419238E2508} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {54187AB7-0320-401A-948D-F1AE381F3D2C}
+		{E68A3A37-DB29-4B15-8708-17B58823C74D} = {EFF16980-7650-48B5-8512-A683FF4F9FAF}
 	EndGlobalSection
 EndGlobal
