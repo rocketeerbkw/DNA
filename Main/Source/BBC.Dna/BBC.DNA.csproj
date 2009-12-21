@@ -403,9 +403,9 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>
-	if not exist "$(ProjectDir)..\dnapages\bin" mkdir "$(ProjectDir)..\dnapages\bin"
-	xcopy "$(TargetDir)*.dll" "$(ProjectDir)..\dnapages\bin" /D /Y
-	xcopy "$(TargetDir)*.pdb" "$(ProjectDir)..\dnapages\bin" /D /Y
+	if not exist "$(ProjectDir)..\Web Services\dnapages\bin" mkdir "$(ProjectDir)..\Web Services\dnapages\bin"
+	xcopy "$(TargetDir)*.dll" "$(ProjectDir)..\Web Services\dnapages\bin" /D /Y
+	xcopy "$(TargetDir)*.pdb" "$(ProjectDir)..\Web Services\dnapages\bin" /D /Y
 
 
 </PostBuildEvent>
