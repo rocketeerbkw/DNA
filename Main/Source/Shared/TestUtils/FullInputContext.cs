@@ -203,8 +203,8 @@ namespace Tests
 
             if (_siteList == null)
             {
-                _siteList = new SiteList(_dnaDiagnostics, _dnaConfig.ConnectionString);
-                _siteList.LoadSiteList();
+                //_siteList = new SiteList(_dnaDiagnostics, _dnaConfig.ConnectionString);
+                //_siteList.LoadSiteList();
             }
 
             try

@@ -7,7 +7,7 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <ProjectGuid>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</ProjectGuid>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>Microsoft.ServiceModel.Web.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>BBC.Dna.snk</AssemblyOriginatorKeyFile>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -137,7 +137,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Microsoft.ServiceModel.Web.snk" />
+    <None Include="BBC.Dna.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
