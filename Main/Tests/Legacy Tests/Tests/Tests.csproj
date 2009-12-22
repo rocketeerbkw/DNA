@@ -78,6 +78,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="NMock2, Version=1.0.2313.18049, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -132,7 +140,6 @@
     <Compile Include="Dna.Sites\SiteOptionTests.cs" />
     <Compile Include="Dna.Sites\SiteTests.cs" />
     <Compile Include="EmailFilterTests.cs" />
-    <Compile Include="memcached.ClientLib\UnitTests.cs" />
     <Compile Include="MessageBoardStatisticsTests.cs" />
     <Compile Include="ModerationReasonsTests.cs" />
     <Compile Include="ModeratorManagementTests.cs" />

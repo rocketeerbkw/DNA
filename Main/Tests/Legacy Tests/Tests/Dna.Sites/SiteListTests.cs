@@ -13,19 +13,36 @@ namespace Tests
     [TestClass]
     public class SiteListTests
     {
-        SiteList _testSiteList;
-        bool _siteListloaded = false;
+        /// <summary>
+        /// static variable
+        /// </summary>
+        static public ISiteList _testSiteList;
+
+        /// <summary>
+        /// whether sitelist is loaded or not
+        /// </summary>
+        static public  bool _siteListloaded = false;
 
         /// <summary>
         /// Constructor for the test
         /// </summary>
-        public SiteListTests()
+        [TestInitialize]
+        public void Setup()
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            InitialiseSiteList();
+        }
+
+        private static void InitialiseSiteList()
+        {
+            if (!_siteListloaded)
             {
-                _testSiteList = new SiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                inputcontext.SetCurrentSite("h2g2");
-                inputcontext.InitDefaultUser();
+                using (FullInputContext inputcontext = new FullInputContext(false))
+                {
+                    _testSiteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                    inputcontext.SetCurrentSite("h2g2");
+                    inputcontext.InitDefaultUser();
+                    _siteListloaded = true;
+                }
             }
         }
 
@@ -48,7 +65,8 @@ namespace Tests
             Console.WriteLine("Test2LoadSiteListTest");
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                _testSiteList.LoadSiteList();
+                SiteList testSiteList = new SiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                testSiteList.LoadSiteList();
                 _siteListloaded = true;
             }
         }
@@ -88,16 +106,19 @@ namespace Tests
         public void Test5AddASiteTest()
         {
             Console.WriteLine("Test5AddASiteTest");
-            _testSiteList.AddSiteDetails(999, "MyTestSite", 0, false, "TestSiteSkin", true, "NewTestSite", "TestSite",
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                SiteList testSiteList = new SiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                testSiteList.LoadSiteList();
+                testSiteList.AddSiteDetails(999, "MyTestSite", 0, false, "TestSiteSkin", true, "NewTestSite", "TestSite",
                             "moderator@bbc.co.uk", "editor@bbc.co.uk", "feedback@bbc.co.uk", 1090497224, false, true, true, "", "Alert", 2000, 1090497224, 0,
                             1, 1, false, false, 16, 255, 1,"MySSOService",false,"skinset","");
 
-            using (FullInputContext inputcontext = new FullInputContext(false))
-            {
-                Site h2g2 = (Site)_testSiteList.GetSite(999);
+            
+                Site h2g2 = (Site)testSiteList.GetSite(999);
                 Assert.AreEqual(h2g2.SiteName, "MyTestSite");
 
-                h2g2 = (Site)_testSiteList.GetSite("MyTestSite");
+                h2g2 = (Site)testSiteList.GetSite("MyTestSite");
                 Assert.AreEqual(h2g2.SiteID, 999);
                 Assert.AreEqual(h2g2.SSOService, "MySSOService");
             }
@@ -108,18 +129,11 @@ namespace Tests
         /// </summary>
         /// <param name="siteName">The name of the site that you want to get the id for</param>
         /// <returns>The ID of the requested site</returns>
-        public int GetIDForSiteName(string siteName)
+        static public int GetIDForSiteName(string siteName)
         {
-            // Make sure the sitelist has been loaded at least once!
-            using (FullInputContext inputcontext = new FullInputContext(false))
-            {
-                if (!_siteListloaded)
-                {
-                    _testSiteList.LoadSiteList();
-                    _siteListloaded = true;
-                }
-                return _testSiteList.GetSite(siteName).SiteID;
-            }
+            InitialiseSiteList();
+            return _testSiteList.GetSite(siteName).SiteID;
+            
         }
     }
 }

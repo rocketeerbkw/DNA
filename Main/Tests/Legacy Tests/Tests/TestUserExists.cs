@@ -20,7 +20,6 @@ namespace Tests
         // the input context to use
         IInputContext _inputContext = null;
         string _siteName = "haveyoursay";
-        SiteListTests _siteListTest = null;
         private const string _schemaUri = "H2G2CommentBoxFlat.xsd";
 
         /// <summary>
@@ -34,11 +33,7 @@ namespace Tests
 
         private int GetIDForSiteName()
         {
-            if (_siteListTest == null)
-            {
-                _siteListTest = new SiteListTests();
-            }
-            return _siteListTest.GetIDForSiteName(_siteName);
+            return SiteListTests.GetIDForSiteName(_siteName);
         }
 
         /// <summary>

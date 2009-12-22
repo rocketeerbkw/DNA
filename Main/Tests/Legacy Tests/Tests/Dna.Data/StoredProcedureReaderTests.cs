@@ -49,7 +49,7 @@ namespace Tests
             }
             catch (SqlException ex)
             {
-                StringAssert.StartsWith("Could not find stored procedure", ex.Message);
+                StringAssert.StartsWith(ex.Message, "Could not find stored procedure");
                 throw;
             }
         }
@@ -74,7 +74,7 @@ namespace Tests
             catch (SqlException ex)
             {
                 string expected = string.Format("Procedure or Function '{0}' expects parameter", name);
-                StringAssert.StartsWith(expected.ToLower(), ex.Message.ToLower());
+                StringAssert.StartsWith( ex.Message.ToLower(),expected.ToLower());
                 throw;
             }
         }
@@ -100,7 +100,7 @@ namespace Tests
             catch (SqlException ex)
             {
                 string expected = string.Format("{0}", paramName);
-                StringAssert.StartsWith(expected, ex.Message);
+                StringAssert.StartsWith( ex.Message,expected);
                 throw;
             }
         }
@@ -126,7 +126,7 @@ namespace Tests
             catch (IndexOutOfRangeException ex)
             {
                 string expected = "notavalidcolname";
-                StringAssert.StartsWith(expected, ex.Message);
+                StringAssert.StartsWith( ex.Message,expected);
                 throw;
             }
         }
@@ -153,7 +153,7 @@ namespace Tests
             catch (IndexOutOfRangeException ex)
             {
                 string expected = "Index was outside the bounds of the array";
-                StringAssert.StartsWith(expected, ex.Message);
+                StringAssert.StartsWith( ex.Message,expected);
                 throw;
             }
         }
@@ -180,7 +180,7 @@ namespace Tests
             catch (InvalidCastException ex)
             {
                 string expected = "Specified cast is not valid";
-                StringAssert.StartsWith(expected, ex.Message);
+                StringAssert.StartsWith( ex.Message,expected);
                 throw;
             }
         }
@@ -210,7 +210,7 @@ namespace Tests
             catch (InvalidOperationException ex)
             {
                 string expected = "Invalid attempt to read when no data is present";
-                StringAssert.StartsWith(expected, ex.Message);
+                StringAssert.StartsWith( ex.Message,expected);
                 throw;
             }
         }
@@ -239,7 +239,7 @@ namespace Tests
             catch (IndexOutOfRangeException ex)
             {
                 string expected = "An SqlParameter";
-                StringAssert.StartsWith(expected, ex.Message);
+                StringAssert.StartsWith( ex.Message,expected);
                 throw;
             }
         }

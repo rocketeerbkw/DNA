@@ -20,15 +20,10 @@ namespace Tests
         int _reapplyGroupsForUserID = 0;
         List<string> _userGroups = new List<string>();
         string _siteName = "haveyoursay";
-        SiteListTests _siteListTest = null;
 
         private int GetIDForSiteName()
         {
-            if (_siteListTest == null)
-            {
-                _siteListTest = new SiteListTests();
-            }
-            return _siteListTest.GetIDForSiteName(_siteName);
+            return SiteListTests.GetIDForSiteName(_siteName);
         }
 
         /// <summary>
@@ -177,7 +172,7 @@ namespace Tests
             string output = UserGroups.GetUserGroupsAsXml(6, 1, _context);
             DnaXmlValidator validator = new DnaXmlValidator(output, "Groups.xsd");
             validator.Validate();
-            StringAssert.Contains("<GROUP><NAME>EDITOR", output);
+            StringAssert.Contains(output, "<GROUP><NAME>EDITOR");
         }
 
          /// <summary>

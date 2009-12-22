@@ -22,7 +22,7 @@ namespace Tests
 		/// <returns></returns>
 		public override string GetSkinPath(string leaf)
 		{
-			return @"..\..\TestXmlTransformer-" + leaf;
+            return @"../../../Tests/Legacy Tests/Tests/TestXmlTransformer-" + leaf;
 		}
 
 		/// <summary>

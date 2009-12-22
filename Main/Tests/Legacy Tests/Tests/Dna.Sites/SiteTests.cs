@@ -239,6 +239,10 @@ namespace Tests
         [TestMethod]
         public void TestCTestIsSiteScheduledClosed()
         {
+            //setup open/close times
+            _testSite.AddOpenCloseTime(2, 23, 55, 1);
+            _testSite.AddOpenCloseTime(2, 1, 5, 0);
+
             Console.WriteLine("TestCTestIsSiteScheduledClosed");
             DateTime date = new DateTime();
             date = Convert.ToDateTime("30/10/06 00:00:00");

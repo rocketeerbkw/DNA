@@ -20,7 +20,7 @@ namespace Tests
 		public void InitialiseProfanityTests()
 		{
 			ProfanityFilter.ClearTestData();
-            ProfanityFilter.InitialiseTestData(@"../../Dna.Moderation/ProfanityData.xml", @"../../Dna.Moderation/ProfanityData.xsd");
+            ProfanityFilter.InitialiseTestData(@"../../../Tests/Legacy Tests/Tests/Dna.Moderation/ProfanityData.xml", @"../../../Tests/Legacy Tests/Tests/Dna.Moderation/ProfanityData.xsd");
 		}
 
 		/// <summary>

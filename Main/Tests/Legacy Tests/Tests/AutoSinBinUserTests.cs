@@ -71,7 +71,7 @@ namespace Tests
             int userID = CreateUserInDatabase(context, 1);
 
             // First create a new comment forum
-            string uid = "TestUniqueKeyValue";
+            string uid = "TestUniqueKeyValue" + Guid.NewGuid().ToString();
             string url = "www.bbc.co.uk/dna/commentforumtestpage.html";
             using (IDnaDataReader reader = context.CreateDnaDataReader("getcommentforum"))
             {

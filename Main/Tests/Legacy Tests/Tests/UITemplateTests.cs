@@ -171,6 +171,8 @@ namespace Tests
         [TestMethod]
         public void Test03UpdateUITemplateReplacesFields()
         {
+            //this sets up the _createdUITemplateID
+            Test01CreateUITemplate();
             Console.WriteLine("Before Test03UpdateUITemplateReplacesFields");
 
             //Create the mocked inputcontext
@@ -223,6 +225,8 @@ namespace Tests
         {
             Console.WriteLine("Before Test04UpdateUITemplateUpdateFields");
 
+            //this sets up the _createdUITemplateID
+            Test03UpdateUITemplateReplacesFields();
             //Create the mocked inputcontext
             Mockery mock = new Mockery();
             IInputContext mockedInputContext = mock.NewMock<IInputContext>();
