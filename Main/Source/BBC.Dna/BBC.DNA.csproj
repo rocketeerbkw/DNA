@@ -403,11 +403,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>
-	if not exist "$(ProjectDir)..\Web Services\dna\dnapages\bin" mkdir "$(ProjectDir)..\Web Services\dna\dnapages\bin"
-	xcopy "$(TargetDir)*.dll" "$(ProjectDir)..\Web Services\dna\dnapages\bin" /D /Y
-	xcopy "$(TargetDir)*.pdb" "$(ProjectDir)..\Web Services\dna\dnapages\bin" /D /Y
-
-
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

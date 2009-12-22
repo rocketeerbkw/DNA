@@ -1,0 +1,807 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C47CC990-90A2-457C-96A8-53722D81795A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BBC.DNA.Dnapages</RootNamespace>
+    <AssemblyName>BBC.DNA.Dnapages</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="acsdemoindex.aspx.cs">
+      <DependentUpon>acsdemoindex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="acsdemoindex.aspx.designer.cs">
+      <DependentUpon>acsdemoindex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ArticleDiagnosticPage.aspx.designer.cs">
+      <DependentUpon>ArticleDiagnosticPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ArticleHistoryPage.aspx.designer.cs">
+      <DependentUpon>ArticleHistoryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ArticleLocationPage.aspx.designer.cs">
+      <DependentUpon>ArticleLocationPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ArticlePage.aspx.designer.cs">
+      <DependentUpon>ArticlePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ArticleSearchPage.aspx.designer.cs">
+      <DependentUpon>ArticleSearchPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BannedEmailAdminPage.aspx.designer.cs">
+      <DependentUpon>BannedEmailAdminPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BannedEmailsPage.aspx.designer.cs">
+      <DependentUpon>BannedEmailsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BlockedUserSubscriptionsPage.aspx.designer.cs">
+      <DependentUpon>BlockedUserSubscriptionsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BlogSummaryPage.aspx.designer.cs">
+      <DependentUpon>BlogSummaryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CategoryListPage.aspx.designer.cs">
+      <DependentUpon>CategoryListPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ComingUpPage.aspx.designer.cs">
+      <DependentUpon>ComingUpPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CommentBox.aspx.designer.cs">
+      <DependentUpon>CommentBox.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CommentBoxUsingApi.aspx.designer.cs">
+      <DependentUpon>CommentBoxUsingApi.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CommentForumListPage.aspx.designer.cs">
+      <DependentUpon>CommentForumListPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentSignifAdminBuilderPage.aspx.designer.cs">
+      <DependentUpon>ContentSignifAdminBuilderPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ContentSignifPage.aspx.designer.cs">
+      <DependentUpon>ContentSignifPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DnaSignal.aspx.designer.cs">
+      <DependentUpon>DnaSignal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicListAdmin.aspx.designer.cs">
+      <DependentUpon>DynamicListAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditDynamicListDefinition.aspx.designer.cs">
+      <DependentUpon>EditDynamicListDefinition.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EditReviewForumPage.aspx.designer.cs">
+      <DependentUpon>EditReviewForumPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ForumPage.aspx.designer.cs">
+      <DependentUpon>ForumPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HierarchyPage.aspx.designer.cs">
+      <DependentUpon>HierarchyPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Info.aspx.designer.cs">
+      <DependentUpon>Info.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="IPLookup.aspx.designer.cs">
+      <DependentUpon>IPLookup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ManageRoutePage.aspx.designer.cs">
+      <DependentUpon>ManageRoutePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MediaAssetPage.aspx.designer.cs">
+      <DependentUpon>MediaAssetPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MemberDetails.aspx.designer.cs">
+      <DependentUpon>MemberDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MemberListPage.aspx.designer.cs">
+      <DependentUpon>MemberListPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBoardStatsPage.aspx.designer.cs">
+      <DependentUpon>MessageBoardStatsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModerateExLinksPage.aspx.designer.cs">
+      <DependentUpon>ModerateExLinksPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModeratePostsPage.aspx.designer.cs">
+      <DependentUpon>ModeratePostsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModerationClassAdmin.aspx.designer.cs">
+      <DependentUpon>ModerationClassAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModerationHistoryPage.aspx.designer.cs">
+      <DependentUpon>ModerationHistoryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModeratorManagementPage.aspx.designer.cs">
+      <DependentUpon>ModeratorManagementPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MonthSummaryPage.aspx.designer.cs">
+      <DependentUpon>MonthSummaryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreArticleSubscriptionsPage.aspx.designer.cs">
+      <DependentUpon>MoreArticleSubscriptionsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreCommentsPage.aspx.designer.cs">
+      <DependentUpon>MoreCommentsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreJournalPage.aspx.designer.cs">
+      <DependentUpon>MoreJournalPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreLinksPage.aspx.designer.cs">
+      <DependentUpon>MoreLinksPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreLinkSubscriptionsPage.aspx.designer.cs">
+      <DependentUpon>MoreLinkSubscriptionsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MorePagesPage.aspx.designer.cs">
+      <DependentUpon>MorePagesPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MorePostsPage.aspx.designer.cs">
+      <DependentUpon>MorePostsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreRestrictedUsersPage.aspx.designer.cs">
+      <DependentUpon>MoreRestrictedUsersPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreRoutesPage.aspx.designer.cs">
+      <DependentUpon>MoreRoutesPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreSubscribingUsersPage.aspx.designer.cs">
+      <DependentUpon>MoreSubscribingUsersPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoreUserSubscriptionsPage.aspx.designer.cs">
+      <DependentUpon>MoreUserSubscriptionsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MoveThreadPage.aspx.designer.cs">
+      <DependentUpon>MoveThreadPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NameSpaceAdminPage.aspx.designer.cs">
+      <DependentUpon>NameSpaceAdminPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NewUsers.aspx.designer.cs">
+      <DependentUpon>NewUsers.aspx</DependentUpon>
+    </Compile>
+    <None Include="App_Code\ActionlessForm.cs" />
+    <Compile Include="ArticleDiagnosticPage.aspx.cs">
+      <DependentUpon>ArticleDiagnosticPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ArticleHistoryPage.aspx.cs">
+      <DependentUpon>ArticleHistoryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ArticleLocationPage.aspx.cs">
+      <DependentUpon>ArticleLocationPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ArticlePage.aspx.cs">
+      <DependentUpon>ArticlePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ArticleSearchPage.aspx.cs">
+      <DependentUpon>ArticleSearchPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BannedEmailAdminPage.aspx.cs">
+      <DependentUpon>BannedEmailAdminPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BannedEmailsPage.aspx.cs">
+      <DependentUpon>BannedEmailsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BlockedUserSubscriptionsPage.aspx.cs">
+      <DependentUpon>BlockedUserSubscriptionsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BlogSummaryPage.aspx.cs">
+      <DependentUpon>BlogSummaryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CategoryListPage.aspx.cs">
+      <DependentUpon>CategoryListPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ComingUpPage.aspx.cs">
+      <DependentUpon>ComingUpPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommentBox.aspx.cs">
+      <DependentUpon>CommentBox.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommentBoxUsingApi.aspx.cs">
+      <DependentUpon>CommentBoxUsingApi.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommentForumListPage.aspx.cs">
+      <DependentUpon>CommentForumListPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentSignifAdminBuilderPage.aspx.cs">
+      <DependentUpon>ContentSignifAdminBuilderPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ContentSignifPage.aspx.cs">
+      <DependentUpon>ContentSignifPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DnaSignal.aspx.cs">
+      <DependentUpon>DnaSignal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DynamicListAdmin.aspx.cs">
+      <DependentUpon>DynamicListAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditDynamicListDefinition.aspx.cs">
+      <DependentUpon>EditDynamicListDefinition.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditReviewForumPage.aspx.cs">
+      <DependentUpon>EditReviewForumPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForumPage.aspx.cs">
+      <DependentUpon>ForumPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HierarchyPage.aspx.cs">
+      <DependentUpon>HierarchyPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Info.aspx.cs">
+      <DependentUpon>Info.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IPLookup.aspx.cs">
+      <DependentUpon>IPLookup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ManageRoutePage.aspx.cs">
+      <DependentUpon>ManageRoutePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MediaAssetPage.aspx.cs">
+      <DependentUpon>MediaAssetPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberDetails.aspx.cs">
+      <DependentUpon>MemberDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberListPage.aspx.cs">
+      <DependentUpon>MemberListPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MessageBoardStatsPage.aspx.cs">
+      <DependentUpon>MessageBoardStatsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModerateExLinksPage.aspx.cs">
+      <DependentUpon>ModerateExLinksPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModeratePostsPage.aspx.cs">
+      <DependentUpon>ModeratePostsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModerationClassAdmin.aspx.cs">
+      <DependentUpon>ModerationClassAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModerationHistoryPage.aspx.cs">
+      <DependentUpon>ModerationHistoryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModeratorManagementPage.aspx.cs">
+      <DependentUpon>ModeratorManagementPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MonthSummaryPage.aspx.cs">
+      <DependentUpon>MonthSummaryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreArticleSubscriptionsPage.aspx.cs">
+      <DependentUpon>MoreArticleSubscriptionsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreCommentsPage.aspx.cs">
+      <DependentUpon>MoreCommentsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreJournalPage.aspx.cs">
+      <DependentUpon>MoreJournalPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreLinksPage.aspx.cs">
+      <DependentUpon>MoreLinksPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreLinkSubscriptionsPage.aspx.cs">
+      <DependentUpon>MoreLinkSubscriptionsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MorePagesPage.aspx.cs">
+      <DependentUpon>MorePagesPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MorePostsPage.aspx.cs">
+      <DependentUpon>MorePostsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreRestrictedUsersPage.aspx.cs">
+      <DependentUpon>MoreRestrictedUsersPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreRoutesPage.aspx.cs">
+      <DependentUpon>MoreRoutesPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreSubscribingUsersPage.aspx.cs">
+      <DependentUpon>MoreSubscribingUsersPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoreUserSubscriptionsPage.aspx.cs">
+      <DependentUpon>MoreUserSubscriptionsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MoveThreadPage.aspx.cs">
+      <DependentUpon>MoveThreadPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NameSpaceAdminPage.aspx.cs">
+      <DependentUpon>NameSpaceAdminPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewUsers.aspx.cs">
+      <DependentUpon>NewUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PostJournalPage.aspx.cs">
+      <DependentUpon>PostJournalPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PostJournalPage.aspx.designer.cs">
+      <DependentUpon>PostJournalPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessRecommendationPage.aspx.cs">
+      <DependentUpon>ProcessRecommendationPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProcessRecommendationPage.aspx.designer.cs">
+      <DependentUpon>ProcessRecommendationPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecommendEntryPage.aspx.cs">
+      <DependentUpon>RecommendEntryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RecommendEntryPage.aspx.designer.cs">
+      <DependentUpon>RecommendEntryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReservedArticlesPage.aspx.cs">
+      <DependentUpon>ReservedArticlesPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReservedArticlesPage.aspx.designer.cs">
+      <DependentUpon>ReservedArticlesPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RestrictedUserListPage.aspx.cs">
+      <DependentUpon>RestrictedUserListPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RestrictedUserListPage.aspx.designer.cs">
+      <DependentUpon>RestrictedUserListPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReviewForumPage.aspx.cs">
+      <DependentUpon>ReviewForumPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReviewForumPage.aspx.designer.cs">
+      <DependentUpon>ReviewForumPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ScoutRecommendationsPage.aspx.cs">
+      <DependentUpon>ScoutRecommendationsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ScoutRecommendationsPage.aspx.designer.cs">
+      <DependentUpon>ScoutRecommendationsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SearchPage.aspx.cs">
+      <DependentUpon>SearchPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SearchPage.aspx.designer.cs">
+      <DependentUpon>SearchPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ServerTooBusyPage.aspx.cs">
+      <DependentUpon>ServerTooBusyPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ServerTooBusyPage.aspx.designer.cs">
+      <DependentUpon>ServerTooBusyPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceBrokerConversationsPage.aspx.cs">
+      <DependentUpon>ServiceBrokerConversationsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ServiceBrokerConversationsPage.aspx.designer.cs">
+      <DependentUpon>ServiceBrokerConversationsPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceBrokerServicesPage.aspx.cs">
+      <DependentUpon>ServiceBrokerServicesPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ServiceBrokerServicesPage.aspx.designer.cs">
+      <DependentUpon>ServiceBrokerServicesPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceBrokerTransmissionQueuePage.aspx.cs">
+      <DependentUpon>ServiceBrokerTransmissionQueuePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ServiceBrokerTransmissionQueuePage.aspx.designer.cs">
+      <DependentUpon>ServiceBrokerTransmissionQueuePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SiteConfigEditor.aspx.cs">
+      <DependentUpon>SiteConfigEditor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SiteConfigEditor.aspx.designer.cs">
+      <DependentUpon>SiteConfigEditor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SiteManagerPage.aspx.cs">
+      <DependentUpon>SiteManagerPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SiteManagerPage.aspx.designer.cs">
+      <DependentUpon>SiteManagerPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SiteSummaryPage.aspx.cs">
+      <DependentUpon>SiteSummaryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SiteSummaryPage.aspx.designer.cs">
+      <DependentUpon>SiteSummaryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SkinUploadServerPage.aspx.cs">
+      <DependentUpon>SkinUploadServerPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SkinUploadServerPage.aspx.designer.cs">
+      <DependentUpon>SkinUploadServerPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SoloGuideEntriesPage.aspx.cs">
+      <DependentUpon>SoloGuideEntriesPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SoloGuideEntriesPage.aspx.designer.cs">
+      <DependentUpon>SoloGuideEntriesPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StatisticsReportPage.aspx.cs">
+      <DependentUpon>StatisticsReportPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StatisticsReportPage.aspx.designer.cs">
+      <DependentUpon>StatisticsReportPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="status.aspx.cs">
+      <DependentUpon>status.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="status.aspx.designer.cs">
+      <DependentUpon>status.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="stylepage.aspx.cs">
+      <DependentUpon>stylepage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="stylepage.aspx.designer.cs">
+      <DependentUpon>stylepage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SubbedArticleStatus.aspx.cs">
+      <DependentUpon>SubbedArticleStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubbedArticleStatus.aspx.designer.cs">
+      <DependentUpon>SubbedArticleStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SubbedEditorAllocation.aspx.cs">
+      <DependentUpon>SubbedEditorAllocation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubbedEditorAllocation.aspx.designer.cs">
+      <DependentUpon>SubbedEditorAllocation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SubmitReviewForumPage.aspx.cs">
+      <DependentUpon>SubmitReviewForumPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubmitReviewForumPage.aspx.designer.cs">
+      <DependentUpon>SubmitReviewForumPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SubmitSubbedEntryPage.aspx.cs">
+      <DependentUpon>SubmitSubbedEntryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SubmitSubbedEntryPage.aspx.designer.cs">
+      <DependentUpon>SubmitSubbedEntryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMessageMailboxPage.aspx.cs">
+      <DependentUpon>SystemMessageMailboxPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemMessageMailboxPage.aspx.designer.cs">
+      <DependentUpon>SystemMessageMailboxPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestComments.aspx.cs">
+      <DependentUpon>TestComments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestComments.aspx.designer.cs">
+      <DependentUpon>TestComments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ThreadEntrySearchPage.aspx.cs">
+      <DependentUpon>ThreadEntrySearchPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThreadEntrySearchPage.aspx.designer.cs">
+      <DependentUpon>ThreadEntrySearchPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TypedArticlePage.aspx.cs">
+      <DependentUpon>TypedArticlePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TypedArticlePage.aspx.designer.cs">
+      <DependentUpon>TypedArticlePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UITemplateDefinitionPage.aspx.cs">
+      <DependentUpon>UITemplateDefinitionPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UITemplateDefinitionPage.aspx.designer.cs">
+      <DependentUpon>UITemplateDefinitionPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserComplaintPage.aspx.cs">
+      <DependentUpon>UserComplaintPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserComplaintPage.aspx.designer.cs">
+      <DependentUpon>UserComplaintPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserDetails.aspx.cs">
+      <DependentUpon>UserDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserDetails.aspx.designer.cs">
+      <DependentUpon>UserDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserPagePage.aspx.cs">
+      <DependentUpon>UserPagePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserPagePage.aspx.designer.cs">
+      <DependentUpon>UserPagePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserSearchPage.aspx.cs">
+      <DependentUpon>UserSearchPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserSearchPage.aspx.designer.cs">
+      <DependentUpon>UserSearchPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserStatisticsPage.aspx.cs">
+      <DependentUpon>UserStatisticsPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserStatisticsPage.aspx.designer.cs">
+      <DependentUpon>UserStatisticsPage.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BBC.Dna\BBC.DNA.csproj">
+      <Project>{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}</Project>
+      <Name>BBC.DNA %28Source\BBC.Dna\BBC.DNA%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
+      <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
+      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
+      <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
+      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
+      <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
+      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj">
+      <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
+      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
+      <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
+      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="acsdemoindex.aspx" />
+    <Content Include="acsdoc.js" />
+    <Content Include="ArticleDiagnosticPage.aspx" />
+    <Content Include="ArticleHistoryPage.aspx" />
+    <Content Include="ArticleLocationPage.aspx" />
+    <Content Include="ArticlePage.aspx" />
+    <Content Include="ArticleSearchPage.aspx" />
+    <Content Include="BannedEmailAdminPage.aspx" />
+    <Content Include="BannedEmailsPage.aspx" />
+    <Content Include="BlockedUserSubscriptionsPage.aspx" />
+    <Content Include="BlogSummaryPage.aspx" />
+    <Content Include="CategoryListPage.aspx" />
+    <Content Include="ComingUpPage.aspx" />
+    <Content Include="CommentBox.aspx" />
+    <Content Include="CommentBoxUsingApi.aspx" />
+    <Content Include="CommentForumListPage.aspx" />
+    <Content Include="ContentSignifAdminBuilderPage.aspx" />
+    <Content Include="ContentSignifPage.aspx" />
+    <Content Include="DnaSignal.aspx" />
+    <Content Include="DynamicListAdmin.aspx" />
+    <Content Include="EditDynamicListDefinition.aspx" />
+    <Content Include="EditReviewForumPage.aspx" />
+    <Content Include="ForumPage.aspx" />
+    <Content Include="Global.asax" />
+    <Content Include="HierarchyPage.aspx" />
+    <Content Include="Info.aspx" />
+    <Content Include="IPLookup.aspx" />
+    <Content Include="ManageRoutePage.aspx" />
+    <Content Include="MediaAssetPage.aspx" />
+    <Content Include="MemberDetails.aspx" />
+    <Content Include="MemberListPage.aspx" />
+    <Content Include="MessageBoardStatsPage.aspx" />
+    <Content Include="ModerateExLinksPage.aspx" />
+    <Content Include="ModeratePostsPage.aspx" />
+    <Content Include="ModerationClassAdmin.aspx" />
+    <Content Include="ModerationHistoryPage.aspx" />
+    <Content Include="ModeratorManagementPage.aspx" />
+    <Content Include="MonthSummaryPage.aspx" />
+    <Content Include="MoreArticleSubscriptionsPage.aspx" />
+    <Content Include="MoreCommentsPage.aspx" />
+    <Content Include="MoreJournalPage.aspx" />
+    <Content Include="MoreLinksPage.aspx" />
+    <Content Include="MoreLinkSubscriptionsPage.aspx" />
+    <Content Include="MorePagesPage.aspx" />
+    <Content Include="MorePostsPage.aspx" />
+    <Content Include="MoreRestrictedUsersPage.aspx" />
+    <Content Include="MoreRoutesPage.aspx" />
+    <Content Include="MoreSubscribingUsersPage.aspx" />
+    <Content Include="MoreUserSubscriptionsPage.aspx" />
+    <Content Include="MoveThreadPage.aspx" />
+    <Content Include="NameSpaceAdminPage.aspx" />
+    <Content Include="NewUsers.aspx" />
+    <Content Include="PostJournalPage.aspx" />
+    <Content Include="ProcessRecommendationPage.aspx" />
+    <Content Include="RecommendEntryPage.aspx" />
+    <Content Include="ReservedArticlesPage.aspx" />
+    <Content Include="RestrictedUserListPage.aspx" />
+    <Content Include="ReviewForumPage.aspx" />
+    <Content Include="ScoutRecommendationsPage.aspx" />
+    <Content Include="SearchPage.aspx" />
+    <Content Include="ServerTooBusyPage.aspx" />
+    <Content Include="ServiceBrokerConversationsPage.aspx" />
+    <Content Include="ServiceBrokerServicesPage.aspx" />
+    <Content Include="ServiceBrokerTransmissionQueuePage.aspx" />
+    <Content Include="SiteConfigEditor.aspx" />
+    <Content Include="SiteManagerPage.aspx" />
+    <Content Include="SiteSummaryPage.aspx" />
+    <Content Include="SkinUploadServerPage.aspx" />
+    <Content Include="SoloGuideEntriesPage.aspx" />
+    <Content Include="StatisticsReportPage.aspx" />
+    <Content Include="status.aspx" />
+    <Content Include="stylepage.aspx" />
+    <Content Include="SubbedArticleStatus.aspx" />
+    <Content Include="SubbedEditorAllocation.aspx" />
+    <Content Include="SubmitReviewForumPage.aspx" />
+    <Content Include="SubmitSubbedEntryPage.aspx" />
+    <Content Include="SystemMessageMailboxPage.aspx" />
+    <Content Include="TestComments.aspx" />
+    <Content Include="ThreadEntrySearchPage.aspx" />
+    <Content Include="TypedArticlePage.aspx" />
+    <Content Include="UITemplateDefinitionPage.aspx" />
+    <Content Include="UserComplaintPage.aspx" />
+    <Content Include="UserDetails.aspx" />
+    <Content Include="UserPagePage.aspx" />
+    <Content Include="UserSearchPage.aspx" />
+    <Content Include="UserStatisticsPage.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\forum closing date has passed.xml" />
+    <Content Include="App_Data\forum emergency closed.xml" />
+    <Content Include="App_Data\forum manually closed.xml" />
+    <Content Include="App_Data\forum open logged in one comment.xml" />
+    <Content Include="App_Data\forum open message premodded.xml" />
+    <Content Include="App_Data\forum open more than one page.xml" />
+    <Content Include="App_Data\forum open not logged in.xml" />
+    <Content Include="App_Data\forum open profanity blocked.xml" />
+    <Content Include="App_Data\forum scheduled closed.xml" />
+    <Content Include="App_Data\test_template6music.htm" />
+    <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="Web.Config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1839</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
