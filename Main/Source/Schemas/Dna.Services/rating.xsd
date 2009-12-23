@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BBC.Dna.Api" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="BBC.Dna.Api">
+	<xs:include schemaLocation="dateTimeHelper.xsd"/>
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="poststyle.xsd"/>
+	<xs:element name="rating">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="uri" nillable="true" type="xs:string"/>
+				<xs:element name="text" type="xs:string" />
+				<xs:element name="created" type="dateTimeHelper"/>
+				<xs:element ref="user"/>
+				<xs:element name="id" type="xs:int" />
+				<xs:element ref="poststyle" />
+				<xs:element name="complaintUri" type="xs:string" />
+				<xs:element name="forumUri" type="xs:string" />
+				<xs:element name="status" type="xs:string" />
+				<xs:element name="rating" type="xs:unsignedByte" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

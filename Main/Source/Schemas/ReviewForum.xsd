@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="REVIEWFORUM">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FORUMNAME" type="xs:string" />
+				<xs:element name="URLFRIENDLYNAME" type="xs:string" />
+				<xs:element name="RECOMMENDABLE" type="xs:unsignedByte" />
+				<xs:element name="H2G2ID" type="xs:unsignedInt" />
+				<xs:element name="SITEID" type="xs:unsignedByte" />
+				<xs:element name="INCUBATETIME" type="xs:unsignedByte" />
+				<xs:element name="REVIEWFORUMTHREADS" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="THREAD">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="THREADID" type="xs:unsignedByte" />
+										<xs:element name="H2G2ID" type="xs:unsignedInt" />
+										<xs:element name="SUBJECT" type="xs:string" />
+										<xs:element name="DATEPOSTED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DATEENTERED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="AUTHOR">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="USER">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="USERID" type="xs:unsignedByte" />
+																<xs:element name="USERNAME" type="xs:string" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SUBMITTER">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="USER">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="USERID" type="xs:unsignedByte" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="INDEX" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="FORUMID" type="xs:unsignedShort" use="required" />
+						<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="TOTALTHREADS" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="ORDERBY" type="xs:string" use="required" />
+						<xs:attribute name="DIR" type="xs:unsignedByte" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="ID" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

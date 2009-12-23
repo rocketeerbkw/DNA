@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="GroupName.xsd"/>
+	<xs:group name="group">
+		<xs:annotation>
+			<xs:documentation>Backwardly compatible group definition.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ACES" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ADVISER" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ALERTMESSAGES" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ANIMALBUFF" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ARTISTS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="ASSETMODERATOR" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BBCSTAFF" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BBCTESTER" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BESTCONVO" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BESTDIARY" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BESTFRIENDS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BESTIDEAS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BESTNEWBIE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BESTPROFILE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BESTQUOTE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="BIGGESTCLUB" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="CHATTIEST" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="CLUBMONITOR" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="COMMUNITYARTISTS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="EDITOR" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="EX-VOLUNTEERS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FIELDRESEARCHERS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FILMBUFF" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FIRSTGOSS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FORMERSTAFF" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="FUNNYCONVO" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="GROOBERS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="GUARDIAN" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="GURUS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="HELPERSLITTLE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="HOST" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="INVITED" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="LONGESTCONVO" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MENTOR" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MODERATOR" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MOSTORIGINALIDEA" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MOSTPOSTS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="MOSTSOCIABLE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="NOTABLES" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="PHOTOGRAPHER" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="POSTREPORTERS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="PREMODERATED" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="PROLIFICSCRIBE1" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="PROLIFICSCRIBE2" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="PROLIFICSCRIBE3" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="PROLIFICSCRIBE4" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="RECOMMENDED" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="REFEREE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="RESTRICTED" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SCHOOLBUFF" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SCOUTS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SECTIONHEADS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="STARCLUBBER" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="STARCLUBOFDAY" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SUBS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SYOCLAWCOURTS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SYOCPARLIMENT" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="SYOCPRISON" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="TRANSLATORS" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="TRUSTEDCLUBBER" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="TRUSTEDVIP" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="UNDERGUIDE" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="GROUP" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="NAME" type="GroupName" minOccurs="0" maxOccurs="1">
+							<xs:annotation>
+								<xs:documentation>Name of group. New style model of group.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="NAME" type="xs:string" use="optional">
+						<xs:annotation>
+							<xs:documentation>
+							More ripley randomness...					
+							</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+</xs:schema>

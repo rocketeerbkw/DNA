@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="GroupName">
+		<xs:annotation>
+			<xs:documentation>Global definition of GROUPNAME. Includes formatting checks.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9-]*">
+				<xs:annotation>
+					<xs:documentation>Names can only contain alphanumeric characters and "-" and must be in upper case.</xs:documentation>
+				</xs:annotation>
+			</xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

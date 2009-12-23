@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd" />
+	<xs:include schemaLocation="Date.xsd" />
+	<xs:include schemaLocation="PostSummary.xsd" />
+	<xs:element name="FORUMTHREADS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MODERATIONSTATUS">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:unsignedByte">
+								<xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ORDERBY" type="xs:string" />
+				<xs:element maxOccurs="unbounded" name="THREAD" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="THREADID" type="xs:unsignedInt" />
+							<xs:element name="SUBJECT" type="xs:string" />
+							<xs:element name="DATEPOSTED">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="DATE" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TOTALPOSTS" type="xs:unsignedInt" />
+							<xs:element name="TYPE" minOccurs="0"/>
+							<xs:element name="FIRSTPOST" type="POSTSUMMARY" />
+							<xs:element name="LASTPOST" type="POSTSUMMARY" />
+						</xs:sequence>
+						<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+						<xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
+						<xs:attribute name="INDEX" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="SKIPTO" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="COUNT" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="TOTALTHREADS" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="FORUMPOSTCOUNT" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="FORUMPOSTLIMIT" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="SITEID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="THREADCANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="THREADCANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="ALERTINSTANTLY" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="MORE" type="xs:unsignedByte" use="optional" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

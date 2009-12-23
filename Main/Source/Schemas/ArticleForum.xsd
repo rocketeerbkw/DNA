@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="threads.xsd"/>
+	<xs:include schemaLocation="thread.xsd"/>
+	<xs:element name="ARTICLEFORUM">
+		<xs:annotation>
+			<xs:documentation>A collection of articles.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="FORUMTHREADS" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="FORUMTHREADPOSTS" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
