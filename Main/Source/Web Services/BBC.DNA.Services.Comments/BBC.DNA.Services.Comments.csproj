@@ -138,12 +138,7 @@
     <Content Include="status.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="configurations\Dev.dconfig" />
-    <None Include="configurations\DevUnitTesting.dconfig" />
-    <None Include="configurations\Marcus.dconfig" />
-    <None Include="configurations\Test.dconfig" />
     <Content Include="memcachedstatus.aspx" />
-    <Content Include="web.config" />
     <Content Include="xslt\2.0\comment.xsl" />
     <Content Include="xslt\2.0\commentinfo.xsl" />
     <Content Include="xslt\2.0\commentslist.xsl" />
@@ -152,6 +147,9 @@
     <Content Include="xslt\2.0\ratinginfo.xsl" />
     <Content Include="xslt\2.0\ratingslist.xsl" />
     <Content Include="xslt\2.0\ratingssummary.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.Config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

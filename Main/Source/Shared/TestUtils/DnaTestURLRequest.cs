@@ -609,12 +609,12 @@ namespace Tests
             TestConfig.GetConfig().CopyRipleyServerConfig();
 
             // Check to see if we've got a host already setup
-            if (_hostRequest == null)
-            {
+            //if (_hostRequest == null)
+            //{
                 // Use dnapages directory as physical dir.
                 //string dnapagesdir = System.Environment.GetEnvironmentVariable("dnapages");
                 _hostRequest = Host.Create(TestConfig.GetConfig().GetDnaPagesDir());
-            }
+            //}
 
             // Check to see if the query contains the site
             if (!pageParams.Contains("_si="))
