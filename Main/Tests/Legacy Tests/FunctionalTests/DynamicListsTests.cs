@@ -43,7 +43,7 @@ namespace FunctionalTests
         /// Remove Dynamic Lists created during test run.
         /// Will  Deactivate and Delete any Dynamic Lists.
         /// </summary>
-        [TestCleanup]
+        //[TestCleanup]
         public void DeleteDynamicLists()
         {
             foreach ( KeyValuePair<int,string> dlist in _dynamicLists )
