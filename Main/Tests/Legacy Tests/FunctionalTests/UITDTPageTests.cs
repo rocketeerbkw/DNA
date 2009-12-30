@@ -157,6 +157,7 @@ namespace FunctionalTests
         [TestMethod]
         public void Test04UpdateTemplate()
         {
+            Test03CreateTemplate();
             Console.WriteLine("Test04UpdateTemplate");
             _request.RequestPage("UITDT?action=update&uitemplateid=" + _uiTemplateID + "&uitemplatename=Test" + DateTime.Now.ToString() + "&builderguid=" + Guid.NewGuid().ToString() + "&" +
                 "uifieldid=0&name=NewSubject&label=NewSubject&type=String&Description=Test&iskeyphrase=true" +
