@@ -190,7 +190,7 @@ namespace FunctionalTests
         /// Test we can get to the top node. 
         /// </summary>
         [TestMethod]
-        void Test03CheckHierarchyXmlFormatTest()
+        public void Test03CheckHierarchyXmlFormatTest()
         {
             Console.WriteLine("Test03CheckHierarchyXmlFormatTest");
             _request.RequestPage("Hierarchy?skin=purexml");
