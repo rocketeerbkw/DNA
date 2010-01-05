@@ -32,28 +32,25 @@ namespace BBC.Dna.Utils.Tests
 			myData mydata = (myData)data;
 			Console.WriteLine(":SecondThreadCode ({0})", mydata.message);
 			Assert.IsNotNull(data, "Second thread: object is not null");
-            using (FullInputContext fullInputContext = new FullInputContext(false))
+            if (mydata._delay > 0)
             {
-                if (mydata._delay > 0)
+                Thread.Sleep(mydata._delay);
+            }
+            if (mydata._whichWork == 2)
+            {
+                Console.WriteLine(":Doing second piece of work");
+                Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, mydata._recache, null);
+            }
+            else if (mydata._whichWork == 1)
+            {
+                Console.WriteLine(":Doing first piece of work");
+                Locking.InitialiseOrRefresh(sharedLock, FirstThreadWork, IsStringAssigned, mydata._recache, null);
+            }
+            else
+            {
+                for (int i = 0; i < 10; i++)
                 {
-                    Thread.Sleep(mydata._delay);
-                }
-                if (mydata._whichWork == 2)
-                {
-                    Console.WriteLine(":Doing second piece of work");
-                    Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, mydata._recache, fullInputContext);
-                }
-                else if (mydata._whichWork == 1)
-                {
-                    Console.WriteLine(":Doing first piece of work");
-                    Locking.InitialiseOrRefresh(sharedLock, FirstThreadWork, IsStringAssigned, mydata._recache, fullInputContext);
-                }
-                else
-                {
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Locking.InitialiseOrRefresh(sharedLock, ThirdThreadWork, IsStringAssigned, mydata._recache, fullInputContext);
-                    }
+                    Locking.InitialiseOrRefresh(sharedLock, ThirdThreadWork, IsStringAssigned, mydata._recache, null);
                 }
             }
 			Console.WriteLine(":Finished second thread");
@@ -127,96 +124,94 @@ namespace BBC.Dna.Utils.Tests
 		public void Locktest()
 		{
             Console.WriteLine("Locktest");
-            using (FullInputContext fullInputContext = new FullInputContext(false))
+
+            myData data = new myData();
+            data.message = ": 1 :";
+            data._delay = 200;
+            data._whichWork = 2;
+            data._recache = false;
+            Thread newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
+            newThread.Start(data);
+            Locking.InitialiseOrRefresh(sharedLock, FirstThreadWork, IsStringAssigned, false, null);
+            newThread.Join();
+            Assert.IsNotNull(syncstring, "String still null after initialisation");
+            Assert.AreEqual("FirstThreadWork", syncstring, "Failed after first attempt");
+            syncstring = null;
+
+            data.message = ": 2 :";
+            data._whichWork = 1;
+            newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
+            newThread.Start(data);
+            Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, false, null);
+            newThread.Join();
+            Assert.IsNotNull(syncstring, "String still null after initialisation");
+            Assert.AreEqual("SecondThreadWork", syncstring, "Failed after second attempt");
+
+            data.message = ": 3 :";
+            syncstring = null;
+            data._whichWork = 1;
+            data._delay = 0;
+            newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
+            newThread.Start(data);
+            Thread.Sleep(100);
+            Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, false, null);
+            newThread.Join();
+            Assert.IsNotNull(syncstring, "String still null after initialisation");
+            Assert.AreEqual("FirstThreadWork", syncstring, "Failed after second attempt");
+
+            Assert.AreEqual(2, _numFirst, "First should have only run twice");
+            Assert.AreEqual(1, _numSecond, "Second shold only have run first");
+
+            data.message = ": 4 :";
+            data._whichWork = 1;
+            data._delay = 0;
+            newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
+            newThread.Start(data);
+            Thread.Sleep(100);
+            Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, false, null);
+            newThread.Join();
+            Assert.IsNotNull(syncstring, "String still null after initialisation");
+            Assert.AreEqual("FirstThreadWork", syncstring, "Failed after second attempt");
+
+            Assert.AreEqual(2, _numFirst, "First should have only run twice");
+            Assert.AreEqual(1, _numSecond, "Second shold only have run first");
+
+            data.message = ": 5 :";
+            data._whichWork = 1;
+            data._delay = 0;
+            data._recache = true;
+            newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
+            newThread.Start(data);
+            Thread.Sleep(1000);
+            Console.WriteLine("Calling from first thread");
+            Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, true, null);
+            Console.WriteLine("Finished from first thread");
+            newThread.Join();
+            Assert.IsNotNull(syncstring, "String still null after initialisation");
+            Assert.AreEqual("SecondThreadWork", syncstring, "Failed after second attempt");
+
+            Assert.AreEqual(3, _numFirst, "First should have only run twice");
+            Assert.AreEqual(2, _numSecond, "Second shold only have run first");
+
+            for (int j = 0; j < 1; j++)
             {
-                myData data = new myData();
-                data.message = ": 1 :";
-                data._delay = 200;
-                data._whichWork = 2;
-                data._recache = false;
-                Thread newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
-                newThread.Start(data);
-                Locking.InitialiseOrRefresh(sharedLock, FirstThreadWork, IsStringAssigned, false, fullInputContext);
-                newThread.Join();
-                Assert.IsNotNull(syncstring, "String still null after initialisation");
-                Assert.AreEqual("FirstThreadWork", syncstring, "Failed after first attempt");
-                syncstring = null;
-
-                data.message = ": 2 :";
-                data._whichWork = 1;
-                newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
-                newThread.Start(data);
-                Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, false, fullInputContext);
-                newThread.Join();
-                Assert.IsNotNull(syncstring, "String still null after initialisation");
-                Assert.AreEqual("SecondThreadWork", syncstring, "Failed after second attempt");
-
-                data.message = ": 3 :";
-                syncstring = null;
-                data._whichWork = 1;
-                data._delay = 0;
-                newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
-                newThread.Start(data);
-                Thread.Sleep(100);
-                Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, false, fullInputContext);
-                newThread.Join();
-                Assert.IsNotNull(syncstring, "String still null after initialisation");
-                Assert.AreEqual("FirstThreadWork", syncstring, "Failed after second attempt");
-
-                Assert.AreEqual(2, _numFirst, "First should have only run twice");
-                Assert.AreEqual(1, _numSecond, "Second shold only have run first");
-
-                data.message = ": 4 :";
-                data._whichWork = 1;
-                data._delay = 0;
-                newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
-                newThread.Start(data);
-                Thread.Sleep(100);
-                Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, false, fullInputContext);
-                newThread.Join();
-                Assert.IsNotNull(syncstring, "String still null after initialisation");
-                Assert.AreEqual("FirstThreadWork", syncstring, "Failed after second attempt");
-
-                Assert.AreEqual(2, _numFirst, "First should have only run twice");
-                Assert.AreEqual(1, _numSecond, "Second shold only have run first");
-
-                data.message = ": 5 :";
-                data._whichWork = 1;
+                _numFirst = 0;
+                _numSecond = 0;
+                //syncstring = null;
+                Console.WriteLine(" -- first = {0}, second = {1}", _numFirst, _numSecond);
+                data._whichWork = 3;
                 data._delay = 0;
                 data._recache = true;
                 newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
                 newThread.Start(data);
-                Thread.Sleep(1000);
-                Console.WriteLine("Calling from first thread");
-                Locking.InitialiseOrRefresh(sharedLock, SecondThreadWork, IsStringAssigned, true, fullInputContext);
-                Console.WriteLine("Finished from first thread");
-                newThread.Join();
-                Assert.IsNotNull(syncstring, "String still null after initialisation");
-                Assert.AreEqual("SecondThreadWork", syncstring, "Failed after second attempt");
-
-                Assert.AreEqual(3, _numFirst, "First should have only run twice");
-                Assert.AreEqual(2, _numSecond, "Second shold only have run first");
-
-                for (int j = 0; j < 1; j++)
+                for (int i = 0; i < 10; i++)
                 {
-                    _numFirst = 0;
-                    _numSecond = 0;
-                    //syncstring = null;
-                    Console.WriteLine(" -- first = {0}, second = {1}", _numFirst, _numSecond);
-                    data._whichWork = 3;
-                    data._delay = 0;
-                    data._recache = true;
-                    newThread = new Thread(new ParameterizedThreadStart(SecondThreadCode));
-                    newThread.Start(data);
-                    for (int i = 0; i < 10; i++)
-                    {
-                        Locking.InitialiseOrRefresh(sharedLock, FourthThreadWork, IsStringAssigned, true, fullInputContext);
-                    }
-                    Console.WriteLine("first = {0}, second = {1}", _numFirst, _numSecond);
-                    //Assert.IsTrue(99 < (_numFirst + _numSecond), "Too few items");
-                    //Assert.IsTrue(150 > (_numFirst + _numSecond), "Too many items");
-                    Console.WriteLine("first = {0}, second = {1}", _numFirst, _numSecond);
+                    Locking.InitialiseOrRefresh(sharedLock, FourthThreadWork, IsStringAssigned, true, null);
                 }
+                Console.WriteLine("first = {0}, second = {1}", _numFirst, _numSecond);
+                //Assert.IsTrue(99 < (_numFirst + _numSecond), "Too few items");
+                //Assert.IsTrue(150 > (_numFirst + _numSecond), "Too many items");
+                Console.WriteLine("first = {0}, second = {1}", _numFirst, _numSecond);
             }
 		}
 	}
