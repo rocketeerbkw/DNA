@@ -69,7 +69,7 @@
   <ItemGroup>
     <Reference Include="DnaIdentityWebServiceProxy, Version=1.0.0.2, Culture=neutral, PublicKeyToken=8e1f4c7d0de58a62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDlls\DnaIdentityWebServiceProxy.dll</HintPath>
+      <HintPath>..\..\..\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -86,7 +86,7 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="NMock2, Version=1.0.2313.18049, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Tests\NMock\NMock2.dll</HintPath>
+      <HintPath>..\..\..\Source\Reference DLLs\NMock\NMock2.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.4.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="NUnitAsp, Version=2.0.0.41294, Culture=neutral, PublicKeyToken=f9bdb8e9d00f2b23">

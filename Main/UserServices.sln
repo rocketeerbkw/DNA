@@ -275,6 +275,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{E297
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schemas", "Source\Schemas\Schemas.csproj", "{C32DB42E-9E40-4963-82D1-A968FAB86583}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Saxon", "Saxon", "{E23162C3-B3CA-4DEC-910A-EB7187BA0B8C}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Reference DLLs\saxon\charsets.dll = Source\Reference DLLs\saxon\charsets.dll
+		Source\Reference DLLs\saxon\IKVM.OpenJDK.ClassLibrary.dll = Source\Reference DLLs\saxon\IKVM.OpenJDK.ClassLibrary.dll
+		Source\Reference DLLs\saxon\IKVM.Runtime.dll = Source\Reference DLLs\saxon\IKVM.Runtime.dll
+		Source\Reference DLLs\saxon\saxon9.dll = Source\Reference DLLs\saxon\saxon9.dll
+		Source\Reference DLLs\saxon\saxon9api.dll = Source\Reference DLLs\saxon\saxon9api.dll
+		Source\Reference DLLs\saxon\saxon9api.netmodule = Source\Reference DLLs\saxon\saxon9api.netmodule
+		Source\Reference DLLs\saxon\saxon9sa.dll = Source\Reference DLLs\saxon\saxon9sa.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 37
@@ -1234,6 +1245,7 @@ Global
 		{4F19FE89-637B-4B05-A067-C868B2FF5BF1} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{B52F7B8B-91F4-4003-B2C8-9419238E2508} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{C3B6D85B-AA27-4DB4-B42A-4967AFC08BC6} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{E23162C3-B3CA-4DEC-910A-EB7187BA0B8C} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {54187AB7-0320-401A-948D-F1AE381F3D2C}
 		{EA19FCEE-4091-44A3-BD72-B0267FF2F4FE} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
 		{1FC1E57E-9EE1-4A88-8D6C-60DA89013E8A} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
