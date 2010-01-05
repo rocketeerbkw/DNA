@@ -114,6 +114,7 @@
       </SubType>
     </None>
     <None Include="Club.xsd" />
+    <None Include="flickrlink.xsd" />
     <None Include="H2G2ForumFlat.xsd" />
     <None Include="H2G2ForumFlat606Site.xsd" />
     <None Include="Mod-Reasons.xsd" />
