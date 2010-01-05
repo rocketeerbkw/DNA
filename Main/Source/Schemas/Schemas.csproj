@@ -124,6 +124,7 @@
     <None Include="PostSummary.xsd" />
     <None Include="PostType.xsd" />
     <None Include="ReviewForumArticle.xsd" />
+    <None Include="Statistics.xsd" />
     <None Include="SubscribeResult.xsd" />
     <None Include="ForumSource.xsd" />
     <None Include="CrumbTrails.xsd" />
