@@ -116,6 +116,7 @@
     <None Include="Club.xsd" />
     <None Include="H2G2ForumFlat.xsd" />
     <None Include="H2G2ForumFlat606Site.xsd" />
+    <None Include="Mod-Reasons.xsd" />
     <None Include="OpenCloseTimeEvent.xsd" />
     <None Include="H2G2ArticleFlat.xsd" />
     <None Include="Links.xsd" />
@@ -125,6 +126,7 @@
     <None Include="PostType.xsd" />
     <None Include="ReviewForumArticle.xsd" />
     <None Include="Statistics.xsd" />
+    <None Include="subnotificationemail.xsd" />
     <None Include="SubscribeResult.xsd" />
     <None Include="ForumSource.xsd" />
     <None Include="CrumbTrails.xsd" />
