@@ -286,6 +286,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Saxon", "Saxon", "{E23162C3
 		Source\Reference DLLs\saxon\saxon9sa.dll = Source\Reference DLLs\saxon\saxon9sa.dll
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CertsAndGACUtils", "CertsAndGACUtils", "{88B566EF-02FA-4C58-A4E7-4BCC0E6C6091}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Reference DLLs\CertsAndGACUtils\dna-dev.pfx = Source\Reference DLLs\CertsAndGACUtils\dna-dev.pfx
+		Source\Reference DLLs\CertsAndGACUtils\dna-live.pfx = Source\Reference DLLs\CertsAndGACUtils\dna-live.pfx
+		Source\Reference DLLs\CertsAndGACUtils\gacutil.exe = Source\Reference DLLs\CertsAndGACUtils\gacutil.exe
+		Source\Reference DLLs\CertsAndGACUtils\gacutil.exe.config = Source\Reference DLLs\CertsAndGACUtils\gacutil.exe.config
+		Source\Reference DLLs\CertsAndGACUtils\InstallCerts.bat = Source\Reference DLLs\CertsAndGACUtils\InstallCerts.bat
+		Source\Reference DLLs\CertsAndGACUtils\RegAsm.exe = Source\Reference DLLs\CertsAndGACUtils\RegAsm.exe
+		Source\Reference DLLs\CertsAndGACUtils\regasm.exe.config = Source\Reference DLLs\CertsAndGACUtils\regasm.exe.config
+		Source\Reference DLLs\CertsAndGACUtils\RegisterIdentityDLL-DevMachine.bat = Source\Reference DLLs\CertsAndGACUtils\RegisterIdentityDLL-DevMachine.bat
+		Source\Reference DLLs\CertsAndGACUtils\winhttpcertcfg.exe = Source\Reference DLLs\CertsAndGACUtils\winhttpcertcfg.exe
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 37
@@ -1246,6 +1259,7 @@ Global
 		{B52F7B8B-91F4-4003-B2C8-9419238E2508} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{C3B6D85B-AA27-4DB4-B42A-4967AFC08BC6} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{E23162C3-B3CA-4DEC-910A-EB7187BA0B8C} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{88B566EF-02FA-4C58-A4E7-4BCC0E6C6091} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {54187AB7-0320-401A-948D-F1AE381F3D2C}
 		{EA19FCEE-4091-44A3-BD72-B0267FF2F4FE} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
 		{1FC1E57E-9EE1-4A88-8D6C-60DA89013E8A} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
