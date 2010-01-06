@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="CONTENTSIGNIFSETTINGS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" name="SETTING">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ACTION">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ID" type="xs:unsignedByte" />
+										<xs:element name="DESCRIPTION" type="xs:string" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ITEM">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ID" type="xs:unsignedByte" />
+										<xs:element name="DESCRIPTION" type="xs:string" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="VALUE" type="xs:unsignedByte" />
+						</xs:sequence>
+						<xs:attribute name="TYPE" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="MESSAGEBOARDSTATS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SITEID" type="xs:unsignedByte" />
+				<xs:element name="DAY">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MODSTATSPERTOPIC">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="TOPICMODSTAT">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TOPICTITLE" type="xs:string" />
+										<xs:element name="FORUMID" type="xs:unsignedInt" />
+										<xs:element name="USERID" type="xs:unsignedInt" />
+										<xs:element name="USERNAME" type="xs:string" />
+										<xs:element name="EMAIL" type="xs:string" />
+										<xs:element name="PASSED" type="xs:unsignedByte" />
+										<xs:element name="FAILED" type="xs:unsignedByte" />
+										<xs:element name="REFERRED" type="xs:unsignedByte" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MODSTATSTOPICTOTALS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="TOPICTOTALS">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TOPICTITLE" type="xs:string" />
+										<xs:element name="FORUMID" type="xs:unsignedInt" />
+										<xs:element name="PASSED" type="xs:unsignedShort" />
+										<xs:element name="FAILED" type="xs:unsignedByte" />
+										<xs:element name="REFERRED" type="xs:unsignedByte" />
+										<xs:element name="COMPLAINTS" type="xs:unsignedByte" />
+										<xs:element name="TOTAL" type="xs:unsignedShort" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="HOSTSPOSTSPERTOPIC">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="HOSTPOSTSINTOPIC">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="USERID" type="xs:unsignedInt" />
+										<xs:element name="USERNAME" type="xs:string" />
+										<xs:element name="EMAIL" type="xs:string" />
+										<xs:element name="TOPICTITLE" type="xs:string" />
+										<xs:element name="FORUMID" type="xs:unsignedInt" />
+										<xs:element name="TOTALPOSTS" type="xs:unsignedByte" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

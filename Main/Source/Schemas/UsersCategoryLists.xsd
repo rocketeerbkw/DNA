@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="User.xsd" />
+	<xs:include schemaLocation="Date.xsd" />
+	<xs:element name="USERCATEGORYLISTS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CATEGORYLISTSOWNERID" type="xs:unsignedInt" />
+				<xs:element maxOccurs="unbounded" name="LIST">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GUID" type="xs:string" />
+							<xs:element name="DESCRIPTION" type="xs:string" />
+							<xs:element name="OWNER">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="USER" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CREATEDDATE">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="DATE"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="LASTUPDATED">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="DATE"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CATEGORYLISTNODES">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="GUID" type="xs:string" />
+										<xs:element name="NODECOUNT" type="xs:unsignedByte" />
+										<xs:element name="DESCRIPTION" type="xs:string" />
+										<xs:element name="LISTWIDTH" type="xs:unsignedByte" />
+										<xs:element name="CATEGORY" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="TYPE" type="xs:unsignedByte" />
+													<xs:element name="DISPLAYNAME" type="xs:string" />
+												</xs:sequence>
+												<xs:attribute name="NODEID" type="xs:unsignedByte" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

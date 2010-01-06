@@ -93,10 +93,14 @@
       </SubType>
     </None>
     <None Include="ArticleSummary.xsd" />
+    <None Include="BlockedUserSubscriptions-List.xsd" />
+    <None Include="BlockedUserSubscriptions.xsd" />
     <None Include="BlogSummary.xsd">
       <SubType>
       </SubType>
     </None>
+    <None Include="CategoryList.xsd" />
+    <None Include="Cmd.xsd" />
     <None Include="CommentBox.xsd">
       <SubType>
       </SubType>
@@ -114,16 +118,27 @@
       </SubType>
     </None>
     <None Include="Club.xsd" />
+    <None Include="ContentSignifSettings.xsd" />
+    <None Include="DistressMessages.xsd" />
     <None Include="Dna.Services\thread.xsd" />
     <None Include="Dna.Services\threadlist.xsd" />
     <None Include="Dna.Services\filterBy.xsd" />
+    <None Include="ExLinkModerationList.xsd" />
     <None Include="flickrlink.xsd" />
     <None Include="H2G2ForumFlat.xsd" />
     <None Include="H2G2ForumFlat606Site.xsd" />
     <None Include="H2G2ModeratePosts.xsd" />
     <None Include="H2G2ModeratorManagementPage.xsd" />
     <None Include="H2G2UITemplateFlat.xsd" />
+    <None Include="Journal.xsd" />
+    <None Include="Message.xsd" />
+    <None Include="MessageBoardStatistics.xsd" />
     <None Include="Mod-Reasons.xsd" />
+    <None Include="Moderation-Classes.xsd" />
+    <None Include="Moderator-List.xsd" />
+    <None Include="MoreLinks.xsd" />
+    <None Include="MoreLinkSubscriptions.xsd" />
+    <None Include="MoreSubscribingUsers.xsd" />
     <None Include="OpenCloseTimeEvent.xsd" />
     <None Include="H2G2ArticleFlat.xsd" />
     <None Include="Links.xsd" />
@@ -131,7 +146,9 @@
     <None Include="OnlineUsers.xsd" />
     <None Include="PostSummary.xsd" />
     <None Include="PostType.xsd" />
+    <None Include="Referee-List.xsd" />
     <None Include="ReviewForumArticle.xsd" />
+    <None Include="SiteSummary.xsd" />
     <None Include="Statistics.xsd" />
     <None Include="subnotificationemail.xsd" />
     <None Include="SubscribeResult.xsd" />
@@ -424,6 +441,8 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="SubscribingUsers-List.xsd" />
+    <None Include="SystemMessageMailbox.xsd" />
     <None Include="Thread.xsd" />
     <None Include="Threads.xsd" />
     <None Include="threadsearchphrase.xsd">
@@ -431,6 +450,7 @@
       </SubType>
     </None>
     <None Include="ThreadSummary.xsd" />
+    <None Include="TopicList.xsd" />
     <None Include="TrackedParameters.xsd">
       <SubType>
       </SubType>
@@ -459,15 +479,19 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="User-Statuses.xsd" />
     <None Include="user.xsd">
       <SubType>
       </SubType>
     </None>
+    <None Include="UserComplaint.xsd" />
     <None Include="userdetails.xsd" />
+    <None Include="UserModStatuses.xsd" />
     <None Include="Users-List.xsd">
       <SubType>
       </SubType>
     </None>
+    <None Include="UsersCategoryLists.xsd" />
     <None Include="UserStatistics.xsd" />
     <None Include="UserStatus.xsd">
       <SubType>
@@ -477,6 +501,7 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="UsersubscriptionLinksList.xsd" />
     <None Include="ViewingUser.xsd">
       <SubType>
       </SubType>
