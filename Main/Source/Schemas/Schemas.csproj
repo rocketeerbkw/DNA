@@ -114,9 +114,15 @@
       </SubType>
     </None>
     <None Include="Club.xsd" />
+    <None Include="Dna.Services\thread.xsd" />
+    <None Include="Dna.Services\threadlist.xsd" />
+    <None Include="Dna.Services\filterBy.xsd" />
     <None Include="flickrlink.xsd" />
     <None Include="H2G2ForumFlat.xsd" />
     <None Include="H2G2ForumFlat606Site.xsd" />
+    <None Include="H2G2ModeratePosts.xsd" />
+    <None Include="H2G2ModeratorManagementPage.xsd" />
+    <None Include="H2G2UITemplateFlat.xsd" />
     <None Include="Mod-Reasons.xsd" />
     <None Include="OpenCloseTimeEvent.xsd" />
     <None Include="H2G2ArticleFlat.xsd" />
