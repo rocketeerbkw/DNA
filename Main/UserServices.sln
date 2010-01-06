@@ -277,6 +277,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schemas", "Source\Schemas\S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Saxon", "Saxon", "{E23162C3-B3CA-4DEC-910A-EB7187BA0B8C}"
 	ProjectSection(SolutionItems) = preProject
+		Source\Reference DLLs\saxon\AddSaxonToGac.bat = Source\Reference DLLs\saxon\AddSaxonToGac.bat
 		Source\Reference DLLs\saxon\charsets.dll = Source\Reference DLLs\saxon\charsets.dll
 		Source\Reference DLLs\saxon\IKVM.OpenJDK.ClassLibrary.dll = Source\Reference DLLs\saxon\IKVM.OpenJDK.ClassLibrary.dll
 		Source\Reference DLLs\saxon\IKVM.Runtime.dll = Source\Reference DLLs\saxon\IKVM.Runtime.dll
