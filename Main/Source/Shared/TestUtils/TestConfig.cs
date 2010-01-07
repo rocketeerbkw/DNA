@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using BBC.Dna;
+using System.Xml;
 
 namespace Tests
 {
@@ -117,6 +118,8 @@ namespace Tests
             {
                 Console.Out.Write("Copying RipleyServer.xmlconf from " + root + " to " + dnapages);
                 File.Copy(root + "RipleyServer.xmlconf", dnapages + "RipleyServer.xmlconf", true);
+
+                File.Copy(root + "web.config", dnapages + "web.config", true);
             }
             catch (Exception e)
             {
@@ -138,6 +141,7 @@ namespace Tests
             try
             {
                 File.Delete(dnapages + "RipleyServer.xmlconf");
+                File.Delete(dnapages + "web.config");
             }
             catch (Exception e)
             {
@@ -153,6 +157,29 @@ namespace Tests
         public string GetSkinPath()
         {
             return Environment.GetEnvironmentVariable("ripleyserverpath");
+        }
+
+        /// <summary>
+        /// Returns the value of the application setting
+        /// </summary>
+        /// <param name="name">The setting to return</param>
+        /// <returns>The value or exception if not found</returns>
+        public string GetAppSetting(string name)
+        {
+            //Use admin account for restoring small guide - get admin account for Web.Config ( alsoo used for creating dynamic lists)
+            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+
+            doc.Load(GetRipleyServerPath() + @"\Web.Config");
+
+            XmlNamespaceManager nsMgr = new System.Xml.XmlNamespaceManager(doc.NameTable);
+            nsMgr.AddNamespace("microsoft", @"http://schemas.microsoft.com/.NetConfiguration/v2.0");
+
+            XmlNode node = doc.SelectSingleNode(@"/configuration/appSettings/add[@key='" + name + "']", nsMgr);
+            if (node == null)
+            {
+                throw new Exception("AppSetting \"" + name + "\" not found.");
+            }
+            return node.Attributes["value"].Value;
         }
     }
 }

@@ -2,12 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
-
 using System.Data.SqlClient;
-
 using System.Configuration;
 using System.Web.Configuration;
-
 using BBC.Dna;
 using BBC.Dna.Data;
 
@@ -89,21 +86,20 @@ namespace Tests
 				System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
 
 				TestConfig config = TestConfig.GetConfig();
-				doc.Load(config.GetDnaPagesDir() + @"\Web.Config");
+                doc.Load(config.GetRipleyServerPath() + @"\Web.Config");
 
 				System.Xml.XmlNamespaceManager nsMgr = new System.Xml.XmlNamespaceManager(doc.NameTable);
 				nsMgr.AddNamespace("microsoft", @"http://schemas.microsoft.com/.NetConfiguration/v2.0");
 
-				System.Xml.XmlNode node = doc.SelectSingleNode(@"/microsoft:configuration/microsoft:connectionStrings/microsoft:add[@name='updateSP']", nsMgr);
+				System.Xml.XmlNode node = doc.SelectSingleNode(@"/configuration/connectionStrings/add[@name='updateSP']", nsMgr);
 				if (node == null)
 				{
 					NUnit.Framework.Assert.Fail("Unable to read updateSP connnection string from Web.Config");
 				}
 
-				
+                string updateSpConnString = node.Attributes["connectionString"].Value;
 
                 // Check to make sure there are no connection on the small guide database
-                IInputContext context = DnaMockery.CreateDatabaseInputContext();
                 bool noConnections = false;
                 int tries = 0;
                 DateTime start = DateTime.Now;
@@ -113,7 +109,7 @@ namespace Tests
                 // in between each check. A total of 2 minutes before giving up.
                 while (!noConnections && tries++ <= 24)
                 {
-                    using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+                    using (IDnaDataReader reader = StoredProcedureReader.Create("", updateSpConnString))
                     {
                         string sql = "USE Master; SELECT 'count' = COUNT(*) FROM sys.sysprocesses sp INNER JOIN sys.databases db ON db.database_id = sp.dbid WHERE db.name = '" + smallGuideName + "' AND sp.SPID >= 50";
                         reader.ExecuteDEBUGONLY(sql);
@@ -144,7 +140,7 @@ namespace Tests
 
 				//Cannot Use Small Guide connection to restore Small Guide.
 				//Cannot Restore SmallGuide whilst connections are open so close them by setting to single user.
-                using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+                using (IDnaDataReader reader = StoredProcedureReader.Create("", updateSpConnString))
                 {
                     Console.WriteLine(builder);
                     reader.ExecuteDEBUGONLY(builder.ToString());

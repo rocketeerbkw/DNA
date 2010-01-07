@@ -123,7 +123,6 @@
     <Compile Include="AutoMod_UsersPostHasFailedModeration.cs" />
     <Compile Include="AutoSinBinUserTests.cs" />
     <Compile Include="BannedEmailTests.cs" />
-    <Compile Include="CategoryTests.cs" />
     <Compile Include="CheckIfArticleShouldBeHidden.cs" />
     <Compile Include="CheckUserNameSetSiteOptionTests.cs" />
     <Compile Include="Dna.Api\CommentCreate.cs" />
@@ -181,7 +180,6 @@
     <Compile Include="TestOutputContext.cs" />
     <Compile Include="TestUserExists.cs" />
     <Compile Include="TimedPremoderatedUserTests.cs" />
-    <Compile Include="TypedArticleTests.cs" />
     <Compile Include="UITemplateTests.cs" />
     <Compile Include="URLFilterTests.cs" />
     <Compile Include="UseRedirectTestContext.cs" />
@@ -202,7 +200,7 @@
     <Content Include="UserGroupData1.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.config" />
     <None Include="Dna.Moderation\ProfanityData.xsd" />
     <None Include="Dna.Moderation\ProfanityData.xsx">
       <DependentUpon>ProfanityData.xsd</DependentUpon>
@@ -248,6 +246,10 @@
     <ProjectReference Include="..\..\..\Source\Shared\TestUtils\TestUtils.csproj">
       <Project>{E09BF891-7D4F-403E-B830-B9E2606D2C22}</Project>
       <Name>TestUtils %28Source\Shared\TestUtils\TestUtils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Web Services\BBC.DNA.Dnapages\BBC.DNA.Dnapages.csproj">
+      <Project>{C47CC990-90A2-457C-96A8-53722D81795A}</Project>
+      <Name>BBC.DNA.Dnapages %28Source\Web Services\BBC.DNA.Dnapages\BBC.DNA.Dnapages%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

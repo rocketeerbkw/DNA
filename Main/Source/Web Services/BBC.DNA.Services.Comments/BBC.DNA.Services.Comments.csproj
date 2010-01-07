@@ -155,9 +155,6 @@
     <Content Include="xslt\2.0\ratingssummary.xsl" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.Config" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

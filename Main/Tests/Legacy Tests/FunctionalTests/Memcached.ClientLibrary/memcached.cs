@@ -71,7 +71,7 @@ namespace FunctionalTests
         public void GetAndSetCompressibleFile()
         {
             NameValueCollection settings = new NameValueCollection();
-            settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+            settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
             settings.Add("poolname", Guid.NewGuid().ToString());
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
@@ -117,7 +117,7 @@ namespace FunctionalTests
         public void GetAndSetBiggerThan1MegFile()
         {
             NameValueCollection settings = new NameValueCollection();
-            settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+            settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
             settings.Add("poolname", Guid.NewGuid().ToString());
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
@@ -166,7 +166,7 @@ namespace FunctionalTests
             
             
             NameValueCollection settings = new NameValueCollection();
-            settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+            settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
             settings.Add("poolname", Guid.NewGuid().ToString());
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
@@ -214,7 +214,7 @@ namespace FunctionalTests
             try
             {
                 NameValueCollection settings = new NameValueCollection();
-                settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+                settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
                 settings.Add("poolname", Guid.NewGuid().ToString());
                 using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
                 {
@@ -267,7 +267,7 @@ namespace FunctionalTests
             try
             {
                 NameValueCollection settings = new NameValueCollection();
-                settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"] + "," + ConfigurationManager.AppSettings["SecondaryMemcachedServer"]);
+                settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList") + "," + TestConfig.GetConfig().GetAppSetting("SecondaryMemcachedServer"));
                 settings.Add("poolname", Guid.NewGuid().ToString());
                 using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
                 {
@@ -320,7 +320,7 @@ namespace FunctionalTests
         public void GetAndSetWithExpiryDate()
         {
             NameValueCollection settings = new NameValueCollection();
-            settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+            settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
             settings.Add("poolname", Guid.NewGuid().ToString());
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
@@ -347,7 +347,7 @@ namespace FunctionalTests
         public void GetAndSetWithExpiryTimespan()
         {
             NameValueCollection settings = new NameValueCollection();
-            settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+            settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
             settings.Add("poolname", Guid.NewGuid().ToString());
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
@@ -376,7 +376,7 @@ namespace FunctionalTests
             try
             {
                 NameValueCollection settings = new NameValueCollection();
-                settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"] + "," + ConfigurationManager.AppSettings["SecondaryMemcachedServer"]);
+                settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList") + "," + TestConfig.GetConfig().GetAppSetting("SecondaryMemcachedServer"));
                 settings.Add("poolname", Guid.NewGuid().ToString());
                 using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
                 {
@@ -528,7 +528,7 @@ namespace FunctionalTests
         public void Delete()
         {
             NameValueCollection settings = new NameValueCollection();
-            settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+            settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
             settings.Add("poolname", Guid.NewGuid().ToString());
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
@@ -560,7 +560,7 @@ namespace FunctionalTests
         public void FlushAll()
         {
             NameValueCollection settings = new NameValueCollection();
-            settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+            settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
             settings.Add("poolname", Guid.NewGuid().ToString());
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
@@ -595,7 +595,7 @@ namespace FunctionalTests
             try
             {
                 NameValueCollection settings = new NameValueCollection();
-                settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+                settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
                 settings.Add("poolname", Guid.NewGuid().ToString());
                 using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
                 {
@@ -635,7 +635,7 @@ namespace FunctionalTests
             try
             {
                 NameValueCollection settings = new NameValueCollection();
-                settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+                settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
                 settings.Add("poolname", Guid.NewGuid().ToString());
                 using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
                 {
@@ -680,7 +680,7 @@ namespace FunctionalTests
         public void WriteOutStats()
         {
             NameValueCollection settings = new NameValueCollection();
-                settings.Add("ServerList", ConfigurationManager.AppSettings["ServerList"]);
+                settings.Add("ServerList", TestConfig.GetConfig().GetAppSetting("ServerList"));
                 settings.Add("poolname", Guid.NewGuid().ToString());
                 using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
                 {

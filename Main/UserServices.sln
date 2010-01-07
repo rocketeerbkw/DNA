@@ -171,7 +171,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		filter.reg = filter.reg
 		ripleyserver.xmlconf = ripleyserver.xmlconf
 		userservices.vsmdi = userservices.vsmdi
-		Source\Web Services\BBC.DNA.Services.Comments\Web.Config = Source\Web Services\BBC.DNA.Services.Comments\Web.Config
+		Web.config = Web.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B3785050-CB28-428E-8454-FD261DBD2EE5}"

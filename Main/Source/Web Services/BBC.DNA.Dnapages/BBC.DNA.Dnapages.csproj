@@ -774,7 +774,6 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
-    <Content Include="Web.Config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
