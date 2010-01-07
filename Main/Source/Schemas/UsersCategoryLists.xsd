@@ -45,7 +45,7 @@
 													<xs:element name="TYPE" type="xs:unsignedByte" />
 													<xs:element name="DISPLAYNAME" type="xs:string" />
 												</xs:sequence>
-												<xs:attribute name="NODEID" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="NODEID" type="xs:int" use="required" />
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
