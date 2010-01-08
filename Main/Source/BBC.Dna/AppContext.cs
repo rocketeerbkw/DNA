@@ -8,6 +8,7 @@ using System.Net;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
+using BBC.Dna.Objects;
 
 namespace BBC.Dna
 {
@@ -43,6 +44,11 @@ namespace BBC.Dna
 #endif
 
 			Statistics.InitialiseIfEmpty(/*TheAppContext*/);
+
+            //load the smiley list
+            IDnaDataReaderCreator _creator = new DnaDataReaderCreator(_appContext.Config.ConnectionString,
+                _appContext.Diagnostics);
+            SmileyTranslator.LoadSmileys(_creator);
 		}
 
 		/// <summary>

@@ -127,7 +127,6 @@
     <Compile Include="ContentSignifSettingsParameters.cs" />
     <Compile Include="ForumPageBuilder.cs" />
     <Compile Include="IUser.cs" />
-    <Compile Include="LinkTranslator.cs" />
     <Compile Include="ModerateExLinks.cs" />
     <Compile Include="ModeratePosts.cs" />
     <Compile Include="ModerationDistressMessages.cs" />
@@ -139,16 +138,13 @@
     <Compile Include="ModeratorManagement.cs" />
     <Compile Include="ProcessRecommendation.cs" />
     <Compile Include="ProcessRecommendationForm.cs" />
-    <Compile Include="QuoteTranslator.cs" />
     <Compile Include="RecommendEntry.cs" />
     <Compile Include="RecommendEntryForm.cs" />
     <Compile Include="SiteXmlBuilder.cs" />
-    <Compile Include="SmileyTranslator.cs" />
     <Compile Include="SoloGuideEntries.cs" />
     <Compile Include="SubmitSubbedEntry.cs" />
     <Compile Include="SubmitSubbedEntryForm.cs" />
     <Compile Include="ThreadEntrySearch.cs" />
-    <Compile Include="Translator.cs" />
     <Compile Include="UserDetailsPageBuilder.cs" />
     <Compile Include="EditReviewForum.cs" />
     <Compile Include="EditReviewForumForm.cs" />

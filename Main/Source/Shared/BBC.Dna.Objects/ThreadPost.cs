@@ -83,7 +83,7 @@ namespace BBC.Dna.Objects
                 //apply style
                 if (Style == PostStyle.Style.plaintext)
                 {
-                    return StringUtils.ConvertPlainText(_text);
+                    return _text;
                 }
                 else
                 {
@@ -107,15 +107,16 @@ namespace BBC.Dna.Objects
         {
             get
             {
+                string _text = Translator.TranslateText(Text);
                 XmlDocument doc = new XmlDocument();
                 try
                 {
-                    doc.LoadXml("<TEXT>" + Text + "</TEXT>");
+                    doc.LoadXml("<TEXT>" + _text + "</TEXT>");
                 }
                 catch
                 {
                     doc.LoadXml("<TEXT/>");
-                    doc.DocumentElement.InnerText = Text;
+                    doc.DocumentElement.InnerText = _text;
                 }
                 return doc.DocumentElement;
             }

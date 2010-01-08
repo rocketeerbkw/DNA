@@ -4,13 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
-
 using BBC.Dna.Utils;
 
 
-namespace BBC.Dna
+namespace BBC.Dna.Objects
 {
     /// <summary>
     /// </summary>

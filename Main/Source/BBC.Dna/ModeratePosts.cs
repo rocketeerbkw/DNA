@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml;
 using BBC.Dna.Moderation;
 using BBC.Dna.Data;
+using BBC.Dna.Objects;
 
 namespace BBC.Dna.Component
 {

@@ -11,8 +11,6 @@ using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
-using TestUtils;
-
 namespace FunctionalTests
 {
     /// <summary>
@@ -1076,7 +1074,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void Test36GetH2G2ForumAndValidateSmileyRelacement()
         {
             string siteName = "h2g2";

@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
 
 
-namespace BBC.Dna
+namespace BBC.Dna.Utils
 {
     /// <summary>
     /// The quote translator class

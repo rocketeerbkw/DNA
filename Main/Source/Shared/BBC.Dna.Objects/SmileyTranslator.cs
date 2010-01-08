@@ -4,21 +4,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-using BBC.Dna.Component;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 
 
-namespace BBC.Dna
+namespace BBC.Dna.Objects
 {
     /// <summary>
     /// Class to translate shorthand smiley text eg :-) into smiley XML elements.
     /// </summary>
     public class SmileyTranslator 
     {
-        static Hashtable replacements = new Hashtable();
-        static Regex regEx;
-        static bool _initialised = false;
+        public static Hashtable Replacements = new Hashtable();
+        public static bool IsInitialised = false;
 
         /// <summary>
         /// 
@@ -35,25 +33,15 @@ namespace BBC.Dna
         /// <returns>The translated string.</returns>
         public static string TranslateText(string raw)
         {
-            if ( _initialised == false)
-            {
-                LoadSmileys();
-                _initialised = true;
+            if ( IsInitialised == false)
+            {//not iniatlised so just return
+                return raw;
             }
 
             String result = raw;
-            if ( regEx.IsMatch(raw) )
+            foreach (string shortcut in Replacements.Keys)
             {
-                MatchCollection matches = regEx.Matches(raw);
-                foreach ( Match match in matches )
-                {
-                    String s = match.Value;
-                    String replacement = (String)replacements[s];
-                    if (replacement != null)
-                    {
-                        result = result.Replace(s, replacement);
-                    }
-                }
+                result = result.Replace(shortcut, (string)Replacements[shortcut]);
             }
             return result; 
         }
@@ -64,12 +52,12 @@ namespace BBC.Dna
         /// Generate RegEx to match smiley shortcode.
         /// </summary>
         /// <returns></returns>
-        private static bool LoadSmileys()
+        public static void LoadSmileys(IDnaDataReaderCreator  creator)
         {
-            replacements.Clear();
-
+            Replacements.Clear();
+            IsInitialised = false;
             String regex = String.Empty;
-            using (IDnaDataReader dataReader = AppContext.TheAppContext.CreateDnaDataReader("getsmileylist"))
+            using (IDnaDataReader dataReader = creator.CreateDnaDataReader("getsmileylist"))
             {
                 dataReader.Execute();
                 while (dataReader.Read())
@@ -79,19 +67,10 @@ namespace BBC.Dna
                     
                     String replace = "<SMILEY TYPE='***' H2G2='Smiley#***'/>";
                     shorthand = StringUtils.EscapeAllXml(shorthand);
-                    replacements.Add(shorthand, replace.Replace("***",name));
-
-                    if (regex != String.Empty)
-                        regex += @"|" + Regex.Escape(shorthand);
-                    else
-                        regex = Regex.Escape(shorthand);
+                    Replacements.Add(shorthand, replace.Replace("***",name));
                 }
             }
-           
-
-            // Set up the experssion to match on.
-            regEx = new Regex( regex, RegexOptions.IgnoreCase);
-            return true;
+            IsInitialised = true;
         }
     }
 }

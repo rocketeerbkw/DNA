@@ -8,6 +8,7 @@ using BBC.Dna.Component;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Objects;
 
 
 namespace BBC.Dna

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
-using BBC.Dna;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
@@ -25,7 +24,8 @@ namespace BBC.Dna.Utils.Tests
 		public void StatsTests()
 		{
             Console.WriteLine("StatsTests");
-
+            //using (FullInputContext _fullInputContext = new FullInputContext(false))
+            //{
                 Statistics.InitialiseIfEmpty(/*_fullInputContext*/);
                 for (int i = 0; i < 5; i++)
                     Statistics.AddCacheHit();
@@ -94,6 +94,7 @@ namespace BBC.Dna.Utils.Tests
                 Assert.AreEqual(000, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/AVERAGEREQUESTTIME)"), "Wrong Averagerequesttime value");
                 Assert.AreEqual(00, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/REQUESTS)"), "Wrong requests value");
                 Assert.AreEqual(1, 1);
+            //}
 		}
 
 		private static void CommonXpathTests1(XPathNavigator nav, int interval)

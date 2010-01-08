@@ -5,7 +5,7 @@ BEGIN
 	RETURN
 END
 
-IF ( DB_NAME() = 'SmallGuide' AND DB_ID('SmallGuideSS') > 0  )
+IF ( DB_NAME() = 'SmallGuide' AND DB_ID('SmallGuideSS') > 0  ) 
 BEGIN
 	-- Restore SmallGuide DB from SnapShot, cannot restore whilst it has active connections.
 	USE MASTER
@@ -1737,13 +1737,13 @@ BEGIN
 		INTO @h2g2ID
 
 		SET @Count = @Count - 1
-		
+
 		SET ROWCOUNT @Count
 	END
 
 	CLOSE UserPageCursor
 	DEALLOCATE UserPageCursor
-	
+
 	SET ROWCOUNT 0 ',
 	N'Populating dbo.Links for ArticleSearch bookmark count testing.', @curerror OUTPUT
 END
@@ -1824,7 +1824,7 @@ N'UPDATE SiteOptions SET VALUE=0 WHERE Name=''SiteIsPrivate'' AND Section=''Gene
 N'Updating Default Value for Site Option SiteIsPrivate', @curerror OUTPUT
 IF ( @curerror <> 0 ) RETURN
 
---Adds Step field to UIField
+--Adds Step field to the UITemplate
 EXEC dbu_dosql N'SteveF: 6E535F7D-2649-42b4-AF93-EE1AC7402112',
 N'ALTER TABLE dbo.[UIField] ADD Step int NOT NULL DEFAULT 0',
 N'Adding column Step to UIField', @curerror OUTPUT
@@ -2590,7 +2590,7 @@ N'UPDATE SiteOptions
     WHERE name=''postlimit'' AND section=''forum''',
 N'Changing PostLimit Description', @curerror OUTPUT
 IF (@curerror <> 0) RETURN
-
+ 
 IF DB_NAME() = 'SmallGuide'
 BEGIN
 	EXEC dbu_dosql N'MH: {DD737608-9833-405a-B805-B4BAD0935ED1}', 
@@ -2603,7 +2603,7 @@ BEGIN
 	N'DELETE FROM ThreadEntriesIPAddress WHERE entryid = 1 AND ipaddress = ''12.34.56.78'' AND bbcuid=''47BEB336-3409-00CF-CAD0-080020C4C7DD''',
 	N'Removing ipaddress and bbcuid test data from ThreadEntriesIPAddress table', @curerror OUTPUT
 	IF (@curerror <> 0) RETURN
-	
+
 END
 
 EXEC dbu_dosql N'MH: {EE737608-9833-405a-B805-B4BAD0935ED2}', 
@@ -2677,6 +2677,7 @@ CREATE TABLE dbo.KeyValueData
 ',
 N'Creating new KeyValueData table', @curerror OUTPUT
 IF (@curerror <> 0) RETURN
+
 
 EXEC dbu_dosql N'Mark H - {DFDF8C31-741C-47e8-9337-97DD6398B6C1}', 
 N'
@@ -2929,8 +2930,6 @@ N'  exec dbu_createsiteoption 1, ''ProlificScribe'', ''Level0Group'', ''Prolific
   exec dbu_createsiteoption 1, ''ProlificScribe'', ''Level9Group'', ''ProlificScribe9'', 2, ''The group denoting Level 9 ProlificScribe status.''
 ',
 N'Solo Edited Entries LevelGroups Site 1 ', @curerror OUTPUT
-IF (@curerror <> 0) RETURN
-
 -- Checking tables have been converted to support Unicode
 
 EXEC dbu_dosql N'Markn: 4B9200F4-CADC-43FD-B608-BD19C80E3AD0',
@@ -2987,7 +2986,6 @@ BEGIN
 END',
 N'Checking that Threads has been converted to Unicode', @curerror OUTPUT
 IF (@curerror <> 0) RETURN
-
 
 EXEC dbu_dosql N'MarcusP: {6615CF8B-AC13-4cdb-8416-8520B375D24D}',
 N'
@@ -3314,32 +3312,29 @@ N'ALTER TABLE dbo.Users ADD
 	N'Altering User table - adding last updated date column', @curerror OUTPUT
 IF ( @curerror <> 0 ) RETURN
 
-
-/*
-EXEC dbu_dosql N'SteveF: 7688EA0F-7C3B-484a-B446-7709B0818E70',
-N'CREATE TABLE [dbo].[WeatherUKLocations](
-	[WeatherID] INT NOT NULL IDENTITY, 
-	[Town] [varchar](255) NOT NULL,
-	[PostCodeID] INT NOT NULL, 
-	[CountyID] INT NOT NULL, 
-	[Latitude] [float] NOT NULL,
-	[Longitude] [float] NOT NULL,
-	[WorldID] INT NOT NULL, 
-	[WMOID] INT NOT NULL, 
-	[AreaID] INT NOT NULL, 
-	[RegionLink] [varchar](255) NOT NULL
-CONSTRAINT [PK_WeatherID] PRIMARY KEY CLUSTERED 
-(
-	[WeatherID] ASC
-)WITH (IGNORE_DUP_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
-',
-N'Creating new WeatherUKLocations table', @curerror OUTPUT
+EXEC dbu_dosql N'MR: 23C2BF0B-2AD9-4103-9928-1CA5ADF4E087',
+N'DELETE FROM SiteOptions WHERE Section=''Moderation'' AND Name=''PremoderateNicknameChanges''',
+N'Deleting SiteOption ''PreModerateNicknameChanges''', @curerror OUTPUT
 IF (@curerror <> 0) RETURN
-*/
 
+-- Add a smileys to Small Guide
+IF DB_NAME() = 'SmallGuide'
+BEGIN
+EXEC dbu_dosql N'MarcusP: 397ED2DE-1EA2-4d99-8F54-D494E81735FB',
+	N'INSERT INTO Smileys ( name, tag) VALUES
+	(''kiss'',''<kiss>'')
+	INSERT INTO Smileys ( name, tag) VALUES
+	(''ale'',''<ale>'')
+	INSERT INTO Smileys ( name, tag) VALUES
+	(''spork'',''--OE'')
+	',
+	N'Adding Smileys into Small Guide', @curerror OUTPUT
+	IF (@curerror <> 0) RETURN
+END
+
+
+------------------------------------------------------------------------------------------------
 -- INSERT NEW CODE BEFORE HERE!!!
-
 
 -- COMMIT TRANSACTION *MUST* be last line in this file	
 COMMIT TRANSACTION
@@ -3381,6 +3376,3 @@ BEGIN
 		PRINT 'SmallGuide backed-up'
 	END
 END
-
-
-
