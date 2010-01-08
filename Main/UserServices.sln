@@ -26,14 +26,33 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbu_storedprocedures", "Source\Databases\The Guide\dbu_storedprocedures\dbu_storedprocedures.csproj", "{AFBC01F8-38CB-4B7E-8038-B663BB7B5830}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUpgradeScript", "Source\Databases\The Guide\DBUpgradeScript\DBUpgradeScript.csproj", "{FC9FCE85-B818-48F2-80A4-F8851A0D4944}"
+	ProjectSection(ProjectDependencies) = postProject
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C} = {93C4165F-3283-4A40-9609-C4B37A78EE6C}
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830} = {AFBC01F8-38CB-4B7E-8038-B663BB7B5830}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "functions", "Source\Databases\The Guide\functions\functions.csproj", "{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4} = {30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storedprocedures", "Source\Databases\The Guide\storedprocedures\storedprocedures.csproj", "{648D0947-995E-407C-9B65-2A2BF855AA55}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4} = {30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "triggers", "Source\Databases\The Guide\triggers\triggers.csproj", "{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4} = {30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "views", "Source\Databases\The Guide\views\views.csproj", "{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna", "BBC.Dna", "{3FEECA36-C430-42EB-B37D-01EB46BA0875}"
 EndProject
