@@ -201,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Createh2g2UnitTestingSite.bat" />
     <None Include="Dna.Moderation\ProfanityData.xsd" />
     <None Include="Dna.Moderation\ProfanityData.xsx">
       <DependentUpon>ProfanityData.xsd</DependentUpon>
