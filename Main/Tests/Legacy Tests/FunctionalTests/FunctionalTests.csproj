@@ -236,6 +236,14 @@
       <Project>{C47CC990-90A2-457C-96A8-53722D81795A}</Project>
       <Name>BBC.DNA.Dnapages %28Source\Web Services\BBC.DNA.Dnapages\BBC.DNA.Dnapages%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Web Services\BBC.DNA.Services.Comments\BBC.DNA.Services.Comments.csproj">
+      <Project>{E4C34C5F-5F3B-4A43-A2BF-E593E1884786}</Project>
+      <Name>BBC.DNA.Services.Comments %28Source\Web Services\BBC.DNA.Services.Comments\BBC.DNA.Services.Comments%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Web Services\BBC.DNA.Services.Moderation\BBC.DNA.Services.Moderation.csproj">
+      <Project>{BF321555-30BC-45A3-BF5F-0E381DE31FAE}</Project>
+      <Name>BBC.DNA.Services.Moderation %28Source\Web Services\BBC.DNA.Services.Moderation\BBC.DNA.Services.Moderation%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BBC.Dna.BannedEmailsTests.cs" />

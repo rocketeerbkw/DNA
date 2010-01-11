@@ -15,12 +15,8 @@
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Services\bin\Debug\BBC.Dna.Services.dll" pdbFile="Source\Shared\BBC.Dna.Services\bin\Debug\BBC.Dna.Services.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Users\bin\Debug\BBC.Dna.Users.dll" pdbFile="Source\Shared\BBC.Dna.Users\bin\Debug\BBC.Dna.Users.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\Memcached.ClientLibrary\bin\Debug\Memcached.ClientLibrary.dll" pdbFile="Source\Shared\Memcached.ClientLibrary\bin\Debug\Memcached.ClientLibrary.pdb" instrumentInPlace="true" />
+      <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Sites\bin\BBC.Dna.Site.dll" pdbFile="Source\Shared\BBC.Dna.Sites\bin\BBC.Dna.Site.pdb" instrumentInPlace="true" />
     </Regular>
-    <AspNet>
-      <AspNetCodeCoverageItem id="2ce05465-9b21-4cd9-a592-fabd2ad051b3" name="Source\Shared\BBC.Dna.Sites" applicationRoot="/" url="http://localhost:0/" />
-      <AspNetCodeCoverageItem id="e4c34c5f-5f3b-4a43-a2bf-e593e1884786" name="Source\Web Services\BBC.DNA.Services.Comments" applicationRoot="/" url="http://localhost:0/" />
-      <AspNetCodeCoverageItem id="bf321555-30bc-45a3-bf5f-0e381de31fae" name="Source\Web Services\BBC.DNA.Services.Moderation" applicationRoot="/" url="http://localhost:0/" />
-    </AspNet>
   </CodeCoverage>
   <TestTypeSpecific />
 </TestRunConfiguration>
