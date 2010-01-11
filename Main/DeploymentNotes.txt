@@ -474,3 +474,6 @@ Add the following as a *sibling* of the <sso> element:
        <url>http://id.bbc.co.uk</url>
 </identity>
 
+============== v 3.4.6.0 =============
+13/01/10 MarcusP
+On live web.config change all public token values for Enterprise Library to PublicKeyToken=54b8fe30038faf0d
