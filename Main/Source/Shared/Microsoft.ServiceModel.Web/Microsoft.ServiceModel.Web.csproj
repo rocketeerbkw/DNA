@@ -143,8 +143,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>if not exist "D:\BBC_Assemblies" mkdir "D:\BBC_Assemblies"
-               xcopy "$(TargetDir)*.dll" "D:\BBC_Assemblies" /D /Y
-	xcopy "$(TargetDir)*.pdb" "D:\BBC_Assemblies" /D /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
