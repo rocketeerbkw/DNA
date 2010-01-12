@@ -1886,6 +1886,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MembersHomePageBuilder.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MessageBoardAdmin.h"
 				>
 			</File>
