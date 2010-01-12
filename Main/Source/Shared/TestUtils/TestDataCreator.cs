@@ -17,7 +17,7 @@ namespace TestUtils
         /// <summary>
         /// alphabet used for creating random strings
         /// </summary>
-        private string _Alphabet = "abcdefghijklmnopqrstuvwxyz";
+        //private string _Alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         /// <summary>
         /// Constructor
