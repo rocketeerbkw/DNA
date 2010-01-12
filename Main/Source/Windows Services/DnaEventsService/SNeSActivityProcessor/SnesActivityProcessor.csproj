@@ -43,33 +43,33 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Reference DLLs\Microsoft.Http\Microsoft.Http.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDlls\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDlls\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.PolicyInjection, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.PolicyInjection, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDlls\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll</HintPath>
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDlls\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.dll</HintPath>
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ObjectBuilder2, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDlls\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.ObjectBuilder2.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDlls\Microsoft.Practices.Unity.dll</HintPath>
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity.Interception, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ReferenceDlls\Microsoft.Practices.Unity.Interception.dll</HintPath>
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.Interception.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />

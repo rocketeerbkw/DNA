@@ -282,6 +282,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseLibrary", "Enterp
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Validation.Integration.WinForms.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Validation.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Validation.XML
+		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.ObjectBuilder2.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.ObjectBuilder2.dll
+		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.Configuration.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.Configuration.dll
+		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.dll
+		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.Interception.Configuration.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.Interception.Configuration.dll
+		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.Interception.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.Interception.dll
+		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.StaticFactory.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.StaticFactory.dll
 		Source\Reference DLLs\EnterpriseLibrary\MsmqDistributor.exe = Source\Reference DLLs\EnterpriseLibrary\MsmqDistributor.exe
 		Source\Reference DLLs\EnterpriseLibrary\MsmqDistributor.exe.config = Source\Reference DLLs\EnterpriseLibrary\MsmqDistributor.exe.config
 	EndProjectSection
