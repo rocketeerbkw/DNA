@@ -77,7 +77,6 @@
     <Compile Include="ThreadPostSummary.cs" />
     <Compile Include="Entities.cs" />
     <Compile Include="ForumHelper.cs" />
-    <Compile Include="Nullable.cs" />
     <Compile Include="OnlineUser.cs" />
     <Compile Include="OnlineUserInfo.cs" />
     <Compile Include="SubscribeResult.cs" />
