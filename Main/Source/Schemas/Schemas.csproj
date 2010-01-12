@@ -55,8 +55,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
-  </Target>
+  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)"></Target>
+  <Target Name="Rebuild" Inputs="@(None)" Outputs="$(OutputTarget)"></Target>
+  
   <!-- <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /> -->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
