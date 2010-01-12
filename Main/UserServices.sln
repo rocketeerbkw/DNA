@@ -343,10 +343,45 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "profileapi", "profileapi", "{9659F3CB-9747-4C28-A39B-79CC440599DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{D50C359B-5C27-4269-BECF-AA5E4D1BB5C9}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\profileapi\profileapi\include\AdminLogMessage.h = Source\Ripley\profileapi\profileapi\include\AdminLogMessage.h
+		Source\Ripley\profileapi\profileapi\include\AdminMessage.h = Source\Ripley\profileapi\profileapi\include\AdminMessage.h
+		Source\Ripley\profileapi\profileapi\include\ApiAccess.h = Source\Ripley\profileapi\profileapi\include\ApiAccess.h
+		Source\Ripley\profileapi\profileapi\include\Attribute.h = Source\Ripley\profileapi\profileapi\include\Attribute.h
+		Source\Ripley\profileapi\profileapi\include\Code.h = Source\Ripley\profileapi\profileapi\include\Code.h
+		Source\Ripley\profileapi\profileapi\include\Constants.h = Source\Ripley\profileapi\profileapi\include\Constants.h
+		Source\Ripley\profileapi\profileapi\include\Countries.h = Source\Ripley\profileapi\profileapi\include\Countries.h
+		Source\Ripley\profileapi\profileapi\include\OtherUserStatus.h = Source\Ripley\profileapi\profileapi\include\OtherUserStatus.h
+		Source\Ripley\profileapi\profileapi\include\ProfileApi.h = Source\Ripley\profileapi\profileapi\include\ProfileApi.h
+		Source\Ripley\profileapi\profileapi\include\ProfileApiBase.h = Source\Ripley\profileapi\profileapi\include\ProfileApiBase.h
+		Source\Ripley\profileapi\profileapi\include\ProfileApiContext.h = Source\Ripley\profileapi\profileapi\include\ProfileApiContext.h
+		Source\Ripley\profileapi\profileapi\include\ProfileCodeRef.h = Source\Ripley\profileapi\profileapi\include\ProfileCodeRef.h
+		Source\Ripley\profileapi\profileapi\include\ProfileErrorMessage.h = Source\Ripley\profileapi\profileapi\include\ProfileErrorMessage.h
+		Source\Ripley\profileapi\profileapi\include\ProfileSql.h = Source\Ripley\profileapi\profileapi\include\ProfileSql.h
+		Source\Ripley\profileapi\profileapi\include\ProfileValue.h = Source\Ripley\profileapi\profileapi\include\ProfileValue.h
+		Source\Ripley\profileapi\profileapi\include\Service.h = Source\Ripley\profileapi\profileapi\include\Service.h
+		Source\Ripley\profileapi\profileapi\include\User.h = Source\Ripley\profileapi\profileapi\include\User.h
+		Source\Ripley\profileapi\profileapi\include\UserProfile.h = Source\Ripley\profileapi\profileapi\include\UserProfile.h
+		Source\Ripley\profileapi\profileapi\include\UserService.h = Source\Ripley\profileapi\profileapi\include\UserService.h
+		Source\Ripley\profileapi\profileapi\include\UserStatus.h = Source\Ripley\profileapi\profileapi\include\UserStatus.h
+		Source\Ripley\profileapi\profileapi\include\UserToUserRequest.h = Source\Ripley\profileapi\profileapi\include\UserToUserRequest.h
+		Source\Ripley\profileapi\profileapi\include\WarningPeriod.h = Source\Ripley\profileapi\profileapi\include\WarningPeriod.h
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bbcutil", "bbcutil", "{782B204B-C883-49B4-992A-E56A5C6670CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{4CA9BB18-AD52-4B71-B168-71336F95A6D4}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\profileapi\bbcutil\include\Cgi.h = Source\Ripley\profileapi\bbcutil\include\Cgi.h
+		Source\Ripley\profileapi\bbcutil\include\DirScanner.h = Source\Ripley\profileapi\bbcutil\include\DirScanner.h
+		Source\Ripley\profileapi\bbcutil\include\Dll.h = Source\Ripley\profileapi\bbcutil\include\Dll.h
+		Source\Ripley\profileapi\bbcutil\include\FileUt.h = Source\Ripley\profileapi\bbcutil\include\FileUt.h
+		Source\Ripley\profileapi\bbcutil\include\MiscUt.h = Source\Ripley\profileapi\bbcutil\include\MiscUt.h
+		Source\Ripley\profileapi\bbcutil\include\SimpleTemplates.h = Source\Ripley\profileapi\bbcutil\include\SimpleTemplates.h
+		Source\Ripley\profileapi\bbcutil\include\Str.h = Source\Ripley\profileapi\bbcutil\include\Str.h
+		Source\Ripley\profileapi\bbcutil\include\StrUt.h = Source\Ripley\profileapi\bbcutil\include\StrUt.h
+		Source\Ripley\profileapi\bbcutil\include\TimeUt.h = Source\Ripley\profileapi\bbcutil\include\TimeUt.h
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bbcdbc", "bbcdbc", "{BCA7212F-0FBA-4401-BA2C-366E345971A1}"
 EndProject
