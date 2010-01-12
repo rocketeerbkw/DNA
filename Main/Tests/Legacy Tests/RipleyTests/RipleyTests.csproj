@@ -138,7 +138,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Tests\Tests.csproj">
       <Project>{6049CBC4-1622-46D4-AA01-E528106493EC}</Project>
-      <Name>Tests</Name>
+      <Name>Tests %28Tests\Legacy Tests\Tests%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

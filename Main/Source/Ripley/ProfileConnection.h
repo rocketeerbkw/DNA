@@ -11,8 +11,8 @@
 
 #include "TDVString.h"
 #include "TDVDateTime.h"
-#include "service.h"
-#import ".\TLBLibrary\DnaIdentityWebServiceProxy.tlb" no_namespace
+#include "profileapi\profileapi\include\service.h"
+#import "..\Reference DLLs\DnaIdentityWebServiceProxy.tlb" no_namespace
 
 class CProfileConnectionPool;
 class CProfileApi;

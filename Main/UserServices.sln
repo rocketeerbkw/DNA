@@ -340,6 +340,51 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RipleyServer", "Source\Ripl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RipleyTests", "Tests\Legacy Tests\RipleyTests\RipleyTests.csproj", "{351113F5-DBA7-4AE0-A218-1FFD165D1747}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "profileapi", "profileapi", "{9659F3CB-9747-4C28-A39B-79CC440599DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{D50C359B-5C27-4269-BECF-AA5E4D1BB5C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bbcutil", "bbcutil", "{782B204B-C883-49B4-992A-E56A5C6670CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{4CA9BB18-AD52-4B71-B168-71336F95A6D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bbcdbc", "bbcdbc", "{BCA7212F-0FBA-4401-BA2C-366E345971A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{A3AE5E69-B5C3-4EC5-8747-6B3133B76C0C}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\profileapi\bbcdbc\include\ConfFile.h = Source\Ripley\profileapi\bbcdbc\include\ConfFile.h
+		Source\Ripley\profileapi\bbcdbc\include\Configuration.h = Source\Ripley\profileapi\bbcdbc\include\Configuration.h
+		Source\Ripley\profileapi\bbcdbc\include\DBConnection.h = Source\Ripley\profileapi\bbcdbc\include\DBConnection.h
+		Source\Ripley\profileapi\bbcdbc\include\DBCursor.h = Source\Ripley\profileapi\bbcdbc\include\DBCursor.h
+		Source\Ripley\profileapi\bbcdbc\include\InClause.h = Source\Ripley\profileapi\bbcdbc\include\InClause.h
+		Source\Ripley\profileapi\bbcdbc\include\MySqlDBConnection.h = Source\Ripley\profileapi\bbcdbc\include\MySqlDBConnection.h
+		Source\Ripley\profileapi\bbcdbc\include\SQL.h = Source\Ripley\profileapi\bbcdbc\include\SQL.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "profileapi", "profileapi", "{F0432186-A062-496B-BA71-906766C5BA40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vwcl", "vwcl", "{321FDD86-CD72-457D-A8AF-5038B62C52FE}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\vwcl\vstandard.h = Source\Ripley\vwcl\vstandard.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "strings", "strings", "{37B81E1F-D9D4-448A-B792-EF06F94A259B}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\vwcl\strings\vstring.hpp = Source\Ripley\vwcl\strings\vstring.hpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "networking", "networking", "{41C0ED7D-DF87-4C6D-9E93-DEAC789E2904}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\vwcl\networking\vsmtpsocket.hpp = Source\Ripley\vwcl\networking\vsmtpsocket.hpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "debug", "debug", "{9E379CAA-5B2B-4C37-A28F-A804BEE61416}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\profileapi\profileapi\debug\profileapi_d.dll = Source\Ripley\profileapi\profileapi\debug\profileapi_d.dll
+		Source\Ripley\profileapi\profileapi\debug\profileapi_d.lib = Source\Ripley\profileapi\profileapi\debug\profileapi_d.lib
+		Source\Ripley\profileapi\profileapi\debug\profileapi_d.pdb = Source\Ripley\profileapi\profileapi\debug\profileapi_d.pdb
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 40
@@ -2019,6 +2064,17 @@ Global
 		{C32DB42E-9E40-4963-82D1-A968FAB86583} = {E2971637-C176-41F1-9C2B-A60A2249BBF8}
 		{ECAF0B64-57F6-4883-A633-93367D3BF1F1} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
 		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
+		{F0432186-A062-496B-BA71-906766C5BA40} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
+		{321FDD86-CD72-457D-A8AF-5038B62C52FE} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
+		{D50C359B-5C27-4269-BECF-AA5E4D1BB5C9} = {9659F3CB-9747-4C28-A39B-79CC440599DE}
+		{9E379CAA-5B2B-4C37-A28F-A804BEE61416} = {9659F3CB-9747-4C28-A39B-79CC440599DE}
+		{4CA9BB18-AD52-4B71-B168-71336F95A6D4} = {782B204B-C883-49B4-992A-E56A5C6670CD}
+		{A3AE5E69-B5C3-4EC5-8747-6B3133B76C0C} = {BCA7212F-0FBA-4401-BA2C-366E345971A1}
+		{BCA7212F-0FBA-4401-BA2C-366E345971A1} = {F0432186-A062-496B-BA71-906766C5BA40}
+		{782B204B-C883-49B4-992A-E56A5C6670CD} = {F0432186-A062-496B-BA71-906766C5BA40}
+		{9659F3CB-9747-4C28-A39B-79CC440599DE} = {F0432186-A062-496B-BA71-906766C5BA40}
+		{37B81E1F-D9D4-448A-B792-EF06F94A259B} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
+		{41C0ED7D-DF87-4C6D-9E93-DEAC789E2904} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 35

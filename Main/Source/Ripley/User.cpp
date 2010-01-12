@@ -31,7 +31,7 @@ any other party whatsoever.
 #include "StoredProcedure.h"
 #include "GuideEntry.h"
 #include "ProfileConnection.h"
-#include <ProfileApi.h>
+#include "profileapi\profileapi\include\ProfileApi.h"
 #include "user.h"
 #include "SiteOptions.h"
 #include "UserStatuses.h"
