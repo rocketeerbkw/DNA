@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-
 using BBC.Dna;
-using BBC.Dna.Page;
 using BBC.Dna.Component;
-using NUnit.Framework;
+using BBC.Dna.Page;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 
 namespace Tests
 {
@@ -464,13 +464,13 @@ namespace Tests
 	/// <summary>
 	/// Tests for the DnaBasePage.UserTypes enum, just for sanity
 	/// </summary>
-	[TestFixture(Description="User Types test")]
+	[TestClass]
 	public class UserTypesTest
 	{
 		/// <summary>
 		/// Test that all the enums work in a predicted way
 		/// </summary>
-		[Test(Description="TestEnums")]
+		[TestMethod]
 		public void TestEnums()
 		{
 			// Set up a few combinations of user types (as they might be specified in AllowedUsers)

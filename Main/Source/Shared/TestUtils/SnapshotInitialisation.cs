@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Web.Configuration;
 using BBC.Dna;
 using BBC.Dna.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
 namespace Tests
@@ -94,7 +95,7 @@ namespace Tests
 				System.Xml.XmlNode node = doc.SelectSingleNode(@"/configuration/connectionStrings/add[@name='updateSP']", nsMgr);
 				if (node == null)
 				{
-					NUnit.Framework.Assert.Fail("Unable to read updateSP connnection string from Web.Config");
+					Assert.Fail("Unable to read updateSP connnection string from Web.Config");
 				}
 
                 string updateSpConnString = node.Attributes["connectionString"].Value;
@@ -163,7 +164,7 @@ namespace Tests
 			catch (Exception e)
 			{
                 Console.WriteLine("FAILED!!! SmallGuide Snapshot restore." + e.Message);
-                NUnit.Framework.Assert.Fail(e.Message);
+                Assert.Fail(e.Message);
             }
 		}
     }

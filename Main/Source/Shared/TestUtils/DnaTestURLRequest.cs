@@ -10,7 +10,7 @@ using System.Xml;
 using BBC.Dna;
 using BBC.Dna.Data;
 using NUnit.Extensions.Asp;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtils;
 
 namespace Tests

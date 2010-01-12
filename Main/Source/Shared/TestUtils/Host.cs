@@ -9,7 +9,7 @@ using System.Web;
 using System;
 using System.Runtime.Serialization;
 using BBC.Dna.Page;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
 {

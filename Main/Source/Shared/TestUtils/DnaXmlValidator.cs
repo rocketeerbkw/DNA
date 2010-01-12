@@ -7,7 +7,7 @@ using System.IO;
 using System.Net;
 
 using BBC.Dna;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna.Utils;
 
 namespace Tests
