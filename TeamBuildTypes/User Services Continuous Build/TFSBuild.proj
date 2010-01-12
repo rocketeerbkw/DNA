@@ -6,8 +6,9 @@
 
   <!-- Do not edit this -->
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
-
-  <ProjectExtensions>
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" Condition="'$(Solutions.VSVersion)' == '9.0'" />
+  
+	<ProjectExtensions>
 
     <!-- Team Foundation Build Version - DO NOT CHANGE -->
     <ProjectFileVersion>2</ProjectFileVersion>
@@ -83,7 +84,7 @@
      on the installed language. For example, "System.Reason" is the reference name for the "Reason" 
      field.
      -->
-    <WorkItemFieldValues>System.Reason=Build Failure;System.Description=Start the build using Team Build</WorkItemFieldValues>
+    <WorkItemFieldValues>System.Description=Start the build using Team Build</WorkItemFieldValues>
 
     <!--  WorkItemTitle
      Title of the work item created on build failure.
