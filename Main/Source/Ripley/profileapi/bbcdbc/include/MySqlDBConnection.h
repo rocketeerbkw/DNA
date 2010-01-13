@@ -12,7 +12,7 @@ Purpose:	MySQL specific implementation of CDBConnection class. Constructor tries
 #ifndef MYSQLDBCONNECTION_H
 #define MYSQLDBCONNECTION_H
 
-#include <mysql.h>
+#include "mysql\include\mysql.h"
 #include "DBConnection.h"
 #include <string.h>
 #include <assert.h>

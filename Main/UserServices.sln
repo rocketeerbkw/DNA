@@ -420,6 +420,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "debug", "debug", "{9E379CAA
 		Source\Ripley\profileapi\profileapi\debug\profileapi_d.pdb = Source\Ripley\profileapi\profileapi\debug\profileapi_d.pdb
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysql", "mysql", "{480B30AF-4FF9-4188-B706-5A05D8447F6D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{C54DD6AC-BC30-4ADF-A47D-18CCB8709CDE}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\mysql\include\config-netware.h = Source\Ripley\mysql\include\config-netware.h
+		Source\Ripley\mysql\include\config-os2.h = Source\Ripley\mysql\include\config-os2.h
+		Source\Ripley\mysql\include\config-win.h = Source\Ripley\mysql\include\config-win.h
+		Source\Ripley\mysql\include\errmsg.h = Source\Ripley\mysql\include\errmsg.h
+		Source\Ripley\mysql\include\libmysql.def = Source\Ripley\mysql\include\libmysql.def
+		Source\Ripley\mysql\include\libmysqld.def = Source\Ripley\mysql\include\libmysqld.def
+		Source\Ripley\mysql\include\m_ctype.h = Source\Ripley\mysql\include\m_ctype.h
+		Source\Ripley\mysql\include\m_string.h = Source\Ripley\mysql\include\m_string.h
+		Source\Ripley\mysql\include\my_alloc.h = Source\Ripley\mysql\include\my_alloc.h
+		Source\Ripley\mysql\include\my_dbug.h = Source\Ripley\mysql\include\my_dbug.h
+		Source\Ripley\mysql\include\my_getopt.h = Source\Ripley\mysql\include\my_getopt.h
+		Source\Ripley\mysql\include\my_global.h = Source\Ripley\mysql\include\my_global.h
+		Source\Ripley\mysql\include\my_list.h = Source\Ripley\mysql\include\my_list.h
+		Source\Ripley\mysql\include\my_pthread.h = Source\Ripley\mysql\include\my_pthread.h
+		Source\Ripley\mysql\include\my_sys.h = Source\Ripley\mysql\include\my_sys.h
+		Source\Ripley\mysql\include\mysql.h = Source\Ripley\mysql\include\mysql.h
+		Source\Ripley\mysql\include\mysql_com.h = Source\Ripley\mysql\include\mysql_com.h
+		Source\Ripley\mysql\include\mysql_embed.h = Source\Ripley\mysql\include\mysql_embed.h
+		Source\Ripley\mysql\include\mysql_time.h = Source\Ripley\mysql\include\mysql_time.h
+		Source\Ripley\mysql\include\mysql_version.h = Source\Ripley\mysql\include\mysql_version.h
+		Source\Ripley\mysql\include\mysqld_ername.h = Source\Ripley\mysql\include\mysqld_ername.h
+		Source\Ripley\mysql\include\mysqld_error.h = Source\Ripley\mysql\include\mysqld_error.h
+		Source\Ripley\mysql\include\raid.h = Source\Ripley\mysql\include\raid.h
+		Source\Ripley\mysql\include\typelib.h = Source\Ripley\mysql\include\typelib.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 40
@@ -2101,6 +2131,7 @@ Global
 		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
 		{F0432186-A062-496B-BA71-906766C5BA40} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
 		{321FDD86-CD72-457D-A8AF-5038B62C52FE} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
+		{480B30AF-4FF9-4188-B706-5A05D8447F6D} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
 		{D50C359B-5C27-4269-BECF-AA5E4D1BB5C9} = {9659F3CB-9747-4C28-A39B-79CC440599DE}
 		{9E379CAA-5B2B-4C37-A28F-A804BEE61416} = {9659F3CB-9747-4C28-A39B-79CC440599DE}
 		{4CA9BB18-AD52-4B71-B168-71336F95A6D4} = {782B204B-C883-49B4-992A-E56A5C6670CD}
@@ -2110,6 +2141,7 @@ Global
 		{9659F3CB-9747-4C28-A39B-79CC440599DE} = {F0432186-A062-496B-BA71-906766C5BA40}
 		{37B81E1F-D9D4-448A-B792-EF06F94A259B} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
 		{41C0ED7D-DF87-4C6D-9E93-DEAC789E2904} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
+		{C54DD6AC-BC30-4ADF-A47D-18CCB8709CDE} = {480B30AF-4FF9-4188-B706-5A05D8447F6D}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 35

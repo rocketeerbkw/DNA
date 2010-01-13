@@ -126,7 +126,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include;c:\mysql\include;&quot;C:\Program Files\MySQL\MySQL Server 5.0\include&quot;;D:\CruiseControl\BBC.DNA.root\BBC.DNA\DnaIdentityWebServiceProxy\bin\Debug"
+				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include"
 				PreprocessorDefinitions="_DEBUG;WIN32;_ADMIN_VERSION;_LIB;__LCC__"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
