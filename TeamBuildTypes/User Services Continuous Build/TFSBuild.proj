@@ -238,7 +238,7 @@
   </Target>
 
   <ItemGroup>
-    <SolutionFiles Include="$(SolutionRoot)\Main\Source\**\*.*" />
+    <SolutionFiles Include="$(SolutionRoot)\Main\Source\**\*.*"></SolutionFiles>
   </ItemGroup>
 
 
@@ -250,7 +250,7 @@
     </BuildStep>
 
     <!-- Do something -->
-    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="C:/deploy/" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="C:/deploy/%(RecursiveDir)%(Filename)%(Extension)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
