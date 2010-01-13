@@ -240,13 +240,13 @@
   
   <Target Name="PostBuildStep">
     <!-- Create the build steps which start in mode "Running" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Doing Something on a PostBuild Event" Condition=" '$(IsDesktopBuild)' != 'true' ">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to integration server" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
     <!-- Do something -->
-    <Copy SourceFiles="$(SolutionRoot)/Main/Source/*.*" DestinationFolder="\\ops-dna1\scratch\TFSDrop\" SkipUnchangedFiles="false" ContinueOnError="false"/>
+    <Copy SourceFiles="$(SolutionRoot)/Main/Source/*.*" DestinationFolder="C:/deploy/" SkipUnchangedFiles="false" ContinueOnError="false"/>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
