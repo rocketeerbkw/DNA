@@ -186,8 +186,7 @@
 
   <ItemGroup>
     <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi">
-      <TestList>BBC.Dna.Objects.Tests</TestList>
-      <TestList>BBC.Dna.Utils.Tests</TestList>
+      <TestList>Unit Tests</TestList>
     </MetaDataFile>
     <!--  TEST ARGUMENTS
      If the RunTest property is set to true then the following test arguments will be used to run 
@@ -247,7 +246,7 @@
     </BuildStep>
 
     <!-- Do something -->
-    <Copy SourceFiles="$(SolutionRoot)/Main/Source/*.*" DestinationFolder="\\ops-dna1\scratch\TFSDrop\" SkipUnchangedFiles="false" ContinueOnError="false" Message="Deploying build to dev server" Condition=" '$(IsDesktopBuild)' != 'true' "/>
+    <Copy SourceFiles="$(SolutionRoot)/Main/Source/*.*" DestinationFolder="\\ops-dna1\scratch\TFSDrop\" SkipUnchangedFiles="false" ContinueOnError="false"/>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
