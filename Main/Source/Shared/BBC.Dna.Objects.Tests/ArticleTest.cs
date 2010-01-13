@@ -5,8 +5,8 @@ using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
-using Tests;
-using TestUtils;
+
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -397,15 +397,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(1, target.NonAllowedUrlsTriggered);
         }
 
-        /// <summary>
-        ///A test for ArticleInfo Constructor
-        ///</summary>
-        [TestMethod()]
-        public void ArticleXmlTest()
-        {
-            Article target = CreateArticle();
-            Serializer.ValidateObjectToSchema(target, "article.xsd");
-        }
+        
 
         static public Article CreateArticle()
         {

@@ -3,8 +3,8 @@ using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Tests;
-using TestUtils;
+
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -86,8 +86,6 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(actual.CrumbTrail.Count, 2);
             Assert.AreEqual(actual.CrumbTrail[0].Ancestor.Count, 1);
             Assert.AreEqual(actual.CrumbTrail[0].Ancestor[0].Name, "test");
-
-            Serializer.ValidateObjectToSchema(actual, "crumbtrails.xsd");
         }
 
         /// <summary>
@@ -112,18 +110,10 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(actual.CrumbTrail[0].Ancestor.Count, 1);
             Assert.AreEqual(actual.CrumbTrail[0].Ancestor[0].Name, "test");
 
-            Serializer.ValidateObjectToSchema(actual, "crumbtrails.xsd");
+            
         }
 
-        /// <summary>
-        ///A test for CrumbTrial Constructor
-        ///</summary>
-        [TestMethod()]
-        public void CrumbTrailXmlTest()
-        {
-            CrumbTrails target = CrumbTrailsTest.CreateCrumbTrails();
-            Serializer.ValidateObjectToSchema(target, "crumbtrails.xsd");
-        }
+        
 
 
         public static CrumbTrails CreateCrumbTrails()

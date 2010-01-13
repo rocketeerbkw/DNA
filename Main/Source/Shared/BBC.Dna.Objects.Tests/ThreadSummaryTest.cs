@@ -3,7 +3,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using TestUtils;
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -92,15 +92,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(actual.Subject, "test&gt;");
         }
 
-        /// <summary>
-        ///A test for ThreadSummary Constructor
-        ///</summary>
-        [TestMethod()]
-        public void ThreadSummaryXmlTest()
-        {
-            ThreadSummary target = ThreadSummaryTest.CreateThreadSummaryTest();
-            Serializer.ValidateObjectToSchema(target, "ThreadSummary.xsd");
-        }
+        
 
         static public ThreadSummary CreateThreadSummaryTest()
         {

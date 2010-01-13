@@ -4,7 +4,7 @@ using BBC.Dna.Objects;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using TestUtils;
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -68,15 +68,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for ForumThreads Constructor
-        ///</summary>
-        [TestMethod()]
-        public void ForumThreadsXmlTest()
-        {
-            ForumThreads target = ForumThreadsTest.CreateForumThreadsTest();
-            Serializer.ValidateObjectToSchema(target, "ForumThreads.xsd");
-        }
+        
 
         static public ForumThreads CreateForumThreadsTest()
         {

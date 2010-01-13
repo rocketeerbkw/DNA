@@ -3,8 +3,8 @@ using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Tests;
-using TestUtils;
+
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -68,21 +68,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for GetRelatedClubs
-        ///</summary>
-        [TestMethod()]
-        public void GetRelatedClubsXMLTest()
-        {
-            RelatedClubs clubs = CreateRelatedClubs();
-
-            XmlDocument xml = Serializer.SerializeToXml(clubs);
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "relatedclubs.xsd");
-            validator.Validate();
-
-
-
-        }
+        
 
         public static RelatedClubs CreateRelatedClubs()
         {

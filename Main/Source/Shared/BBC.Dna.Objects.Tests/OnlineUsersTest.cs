@@ -5,7 +5,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
-using TestUtils;
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -139,16 +139,7 @@ namespace BBC.Dna.Objects.Tests
 
         }
 
-        /// <summary>
-        ///A test for OnlineUsers Constructor
-        ///</summary>
-        [TestMethod()]
-        public void OnlineUserXmlTest()
-        {
-            OnlineUsers target = GetOnlineUsers();
-            Serializer.ValidateObjectToSchema(target, "OnlineUsers.xsd");
-            
-        }
+        
 
         /// <summary>
         /// Create a test online users object

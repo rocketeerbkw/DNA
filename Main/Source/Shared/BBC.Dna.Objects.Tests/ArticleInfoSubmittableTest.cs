@@ -2,7 +2,7 @@
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using TestUtils;
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -66,15 +66,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for ArticleInfoSubmittable Constructor
-        ///</summary>
-        [TestMethod()]
-        public void ArticleInfoSubmittableXmlTest()
-        {
-            ArticleInfoSubmittable target = ArticleInfoSubmittableTest.Create();
-            Serializer.ValidateObjectToSchema(target, "ArticleInfoSubmittable.xsd");
-        }
+       
 
         /// <summary>
         ///A test for CreateSubmittable

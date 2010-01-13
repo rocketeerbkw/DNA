@@ -5,7 +5,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using TestUtils;
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -345,13 +345,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
-        public void ThreadPostXmlTest()
-        {
-            ThreadPost post = ThreadPostTest.CreateThreadPost();
-            
-            Serializer.ValidateObjectToSchema(post, "post.xsd");
-        }
+        
 
         public static ThreadPost CreateThreadPost()
         {

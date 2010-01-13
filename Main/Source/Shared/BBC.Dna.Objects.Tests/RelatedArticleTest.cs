@@ -5,8 +5,8 @@ using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Tests;
-using TestUtils;
+
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -70,19 +70,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for RelatedArticle Constructor
-        ///</summary>
-        [TestMethod()]
-        public void RelatedArticlesXmlTest()
-        {
-            ArticleInfoRelatedMembers relatedmembers = new ArticleInfoRelatedMembers();
-            relatedmembers.RelatedArticles = CreateRelatedArticles();
-
-            XmlDocument xml = Serializer.SerializeToXml(relatedmembers);
-            DnaXmlValidator validator = new DnaXmlValidator(xml.DocumentElement.SelectSingleNode("RELATEDARTICLES").OuterXml, "relatedarticles.xsd");
-            validator.Validate();
-        }
+        
 
         public static List<RelatedArticle> CreateRelatedArticles()
         {

@@ -6,8 +6,8 @@ using System.Xml;
 using BBC.Dna.Objects;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tests;
-using TestUtils;
+
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -93,36 +93,7 @@ namespace BBC.Dna.Objects.Tests
 
         }
 
-        [TestMethod]
-        public void DateAsXml()
-        {
-
-            DateTime dateTime = DateTime.Now;
-            Date date = new Date(dateTime);
-
-            XmlDocument xml = Serializer.SerializeToXml(date);
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "date.xsd");
-            validator.Validate();
-
-            XmlNode local = xml.SelectSingleNode("DATE/LOCAL");
-            Assert.AreEqual(local.Attributes["SECONDS"].Value, dateTime.Second.ToString());
-            Assert.AreEqual(local.Attributes["MINUTES"].Value, dateTime.Minute.ToString());
-            Assert.AreEqual(local.Attributes["HOURS"].Value, dateTime.Hour.ToString());
-            Assert.AreEqual(local.Attributes["DAY"].Value, dateTime.Day.ToString());
-            Assert.AreEqual(local.Attributes["MONTH"].Value, dateTime.Month.ToString());
-            Assert.AreEqual(local.Attributes["YEAR"].Value, dateTime.Year.ToString());
-
-
-            local = xml.SelectSingleNode("DATE");
-            dateTime = dateTime.ToUniversalTime();
-            Assert.AreEqual(local.Attributes["SECONDS"].Value, dateTime.Second.ToString());
-            Assert.AreEqual(local.Attributes["MINUTES"].Value, dateTime.Minute.ToString());
-            Assert.AreEqual(local.Attributes["HOURS"].Value, dateTime.Hour.ToString());
-            Assert.AreEqual(local.Attributes["DAY"].Value, dateTime.Day.ToString());
-            Assert.AreEqual(local.Attributes["MONTH"].Value, dateTime.Month.ToString());
-            Assert.AreEqual(local.Attributes["YEAR"].Value, dateTime.Year.ToString());
-           
-        }
+        
 
         
     }

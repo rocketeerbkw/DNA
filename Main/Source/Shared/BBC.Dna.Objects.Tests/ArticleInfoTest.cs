@@ -4,8 +4,8 @@ using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Tests;
-using TestUtils;
+
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -69,23 +69,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for ArticleInfo Constructor
-        ///</summary>
-        [TestMethod()]
-        public void ArticleInfoXmlTest()
-        {
-            ArticleInfo target = CreateArticleInfo();
-
-            XmlDocument xml = Serializer.SerializeToXml(target);
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "articleinfo.xsd");
-            validator.Validate();
-
-            //string json = Serializer.SerializeToJson(target);
-
-
-            
-        }
+        
 
         public static ArticleInfo CreateArticleInfo()
         {

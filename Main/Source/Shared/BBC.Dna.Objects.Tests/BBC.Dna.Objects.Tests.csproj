@@ -79,10 +79,6 @@
     <Compile Include="EmailAlertGroupTest.cs" />
     <Compile Include="ExtraInfoTest.cs" />
     <Compile Include="ForumHelperTest.cs" />
-    <Compile Include="ForumSourceClubTest.cs" />
-    <Compile Include="ForumSourceJournalTest.cs" />
-    <Compile Include="ForumSourceReviewForumTest.cs" />
-    <Compile Include="ForumSourceTest.cs" />
     <Compile Include="ForumThreadsTest.cs" />
     <Compile Include="GuideEntryTest.cs" />
     <Compile Include="OnlineUsersTest.cs" />
@@ -118,10 +114,6 @@
     <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
       <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestUtils\TestUtils.csproj">
-      <Project>{E09BF891-7D4F-403E-B830-B9E2606D2C22}</Project>
-      <Name>TestUtils %28Source\Shared\TestUtils\TestUtils%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -4,7 +4,7 @@ using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
-using TestUtils;
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -68,15 +68,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for ReviewForum Constructor
-        ///</summary>
-        [TestMethod()]
-        public void ReviewForumXmlTest()
-        {
-            ReviewForum target = ReviewForumTest.CreateRevievForum();
-            Serializer.ValidateObjectToSchema(target, "reviewforum.xsd");
-        }
+        
 
         /// <summary>
         ///A test for CreateFromDatabase

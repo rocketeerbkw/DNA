@@ -2,7 +2,7 @@
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using TestUtils;
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -66,19 +66,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for SubscribeResult Constructor
-        ///</summary>
-        [TestMethod()]
-        public void SubscribeResultXmlTest()
-        {
-            SubscribeResult target = GetSubscribeResult();
-            Serializer.ValidateObjectToSchema(target, "SubscribeResult.xsd");
-
-            //as error
-            target.Value = "error occurred";
-            Serializer.ValidateObjectToSchema(target, "SubscribeResult.xsd");
-        }
+        
 
         /// <summary>
         ///A test for SubscribeToForum

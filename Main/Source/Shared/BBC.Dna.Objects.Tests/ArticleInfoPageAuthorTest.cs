@@ -3,8 +3,8 @@ using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Tests;
-using TestUtils;
+
+
 
 namespace BBC.Dna.Objects.Tests
 {       
@@ -66,18 +66,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for ArticleInfoPageAuthor Constructor
-        ///</summary>
-        [TestMethod()]
-        public void ArticleInfoPageAuthorXMLTest()
-        {
-            ArticleInfoPageAuthor target = CreatePageAuthor();
-
-            XmlDocument xml = Serializer.SerializeToXml(target);
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "pageauthor.xsd");
-            validator.Validate();
-        }
+        
 
         public static ArticleInfoPageAuthor CreatePageAuthor()
         {

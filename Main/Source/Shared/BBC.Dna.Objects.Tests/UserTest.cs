@@ -7,8 +7,8 @@ using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
-using Tests;
-using TestUtils;
+
+
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -72,34 +72,7 @@ namespace BBC.Dna.Objects.Tests
         #endregion
 
 
-        /// <summary>
-        ///A test for userName
-        ///</summary>
-        [TestMethod()]
-        public void UserAsXmlWithoutGroups()
-        {
-            User target = CreateTestUser();
-            XmlDocument xml = Serializer.SerializeToXml(target);
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "user.xsd");
-            validator.Validate();
-            
-        }
-
-        /// <summary>
-        ///A test for userName
-        ///</summary>
-        [TestMethod()]
-        public void UserAsXmlWithGroups()
-        {
-            User target = CreateTestUser();
-
-            target.Groups.Group.Add(new Group("EDITOR"));
-            target.Groups.Group.Add(new Group("MODERATOR"));
-            XmlDocument xml = Serializer.SerializeToXml(target);
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "user.xsd");
-            validator.Validate();
-
-        }
+        
 
         public static User CreateTestUser()
         {
