@@ -57,7 +57,7 @@
     <!--  TESTING
      Set this flag to enable/disable running tests as a post-compilation build step.
     -->
-    <RunTest>false</RunTest>
+    <RunTest>true</RunTest>
 
     <!--  CODE ANALYSIS
      Set this property to enable/disable running code analysis. Valid values for this property are 
@@ -180,6 +180,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <MetaDataFile Include="$(BuildProjectFolderPath)/Sources/Main/userservices.vsmdi">
+      <TestList>Unit Tests</TestList>
+    </MetaDataFile>
     <!--  TEST ARGUMENTS
      If the RunTest property is set to true then the following test arguments will be used to run 
      tests. Tests can be run by specifying one or more test lists and/or one or more test containers.
