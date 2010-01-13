@@ -177,7 +177,12 @@
         <PlatformToBuild>Any CPU</PlatformToBuild>
     </ConfigurationToBuild>
 
-  </ItemGroup>
+    <ConfigurationToBuild Include="Debug|Win32">
+        <FlavorToBuild>Debug</FlavorToBuild>
+        <PlatformToBuild>Win32</PlatformToBuild>
+    </ConfigurationToBuild>
+
+	</ItemGroup>
 
   <ItemGroup>
     <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi">
