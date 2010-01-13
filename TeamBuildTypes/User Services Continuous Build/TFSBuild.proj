@@ -52,7 +52,7 @@
      definition is now stored in the database. For compatibility with V1 clients, keep this property 
      in sync with the value in the database.
     -->
-    <DropLocation>\\UNKNOWN\drops</DropLocation>
+    <DropLocation>\\ops-dna1\scratch\TFSDrop</DropLocation>
 
     <!--  TESTING
      Set this flag to enable/disable running tests as a post-compilation build step.
