@@ -180,7 +180,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <MetaDataFile Include="$(BuildProjectFolderPath)/Sources/Main/userservices.vsmdi">
+    <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi">
       <TestList>Unit Tests</TestList>
     </MetaDataFile>
     <!--  TEST ARGUMENTS
