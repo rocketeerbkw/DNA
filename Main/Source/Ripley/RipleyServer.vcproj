@@ -133,7 +133,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="iisreset /stop"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
