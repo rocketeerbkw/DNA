@@ -222,6 +222,13 @@
 
   </PropertyGroup>
 
+  <!-- Make it an incremental build -->
+  <PropertyGroup>
+    <SkipClean>true</SkipClean>
+    <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
+    <ForceGet>false</ForceGet>
+  </PropertyGroup>
+
   <ItemGroup>
     <!--  ADDITIONAL REFERENCE PATH
      The list of additional reference paths to use while resolving references. For example:
@@ -251,7 +258,7 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
     
-    <!-- Exec IPC$ command-->
+    <!-- Exec IPC$ command - get access to ops-dna1-->
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
     
     <!-- Copy binaries to int drop location -->
@@ -260,8 +267,8 @@
     <!-- Copy schema directory -->
     <Copy SourceFiles="@(Schemas)" DestinationFolder="\\ops-dna1\TFSBuilds\int\schemas\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
-    <!-- Close Access-->
-    <Exec Command="NET USE \\ops-dna1\IPC$ ?D"></Exec>
+    <!-- Close Access to ops-dna1 -->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
