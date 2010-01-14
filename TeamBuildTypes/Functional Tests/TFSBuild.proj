@@ -209,6 +209,13 @@
 
   </ItemGroup>
 
+  <!-- Make it an incremental build -->
+  <PropertyGroup>
+    <SkipClean>true</SkipClean>
+    <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
+    <ForceGet>false</ForceGet>
+  </PropertyGroup>
+
   <PropertyGroup>
     <!-- TEST ARGUMENTS
      If the RunTest property is set to true, then particular tests within a
