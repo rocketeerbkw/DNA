@@ -137,7 +137,7 @@
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/ripleycore.pdb"
-				BrowseInformation="1"
+				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -155,7 +155,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\ripleycored.lib"
+				OutputFile="debug\ripleycored.lib"
 				AdditionalLibraryDirectories=""
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="msvcrtd.lib"
