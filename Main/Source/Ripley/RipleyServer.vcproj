@@ -192,7 +192,7 @@
 				OutputFile=".\Debug/RipleyServer.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories=".\lib;profileapi\profileapi\Debug;mysql\lib\opt"
+				AdditionalLibraryDirectories=".\Debug;profileapi\profileapi\Debug;mysql\lib\opt"
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile=".\RipleyServer.def"
 				GenerateDebugInformation="true"
