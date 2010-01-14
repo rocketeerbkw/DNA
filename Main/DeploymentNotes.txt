@@ -477,3 +477,7 @@ Add the following as a *sibling* of the <sso> element:
 ============== v 3.4.6.0 =============
 13/01/10 MarcusP
 On live web.config change all public token values for Enterprise Library to PublicKeyToken=54b8fe30038faf0d
+On live web.config - within  <system.web> change
+	<pages>
+	to
+	<pages  validateRequest="false">
