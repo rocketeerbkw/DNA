@@ -450,6 +450,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{C54D
 		Source\Ripley\mysql\include\typelib.h = Source\Ripley\mysql\include\typelib.h
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{B16FA7C0-26CA-401B-BCE5-7D676F652D53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opt", "opt", "{E60F9F07-594B-4FD3-BC01-6F3C4D109D86}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Ripley\mysql\lib\opt\libmysql.dll = Source\Ripley\mysql\lib\opt\libmysql.dll
+		Source\Ripley\mysql\lib\opt\libmysql.lib = Source\Ripley\mysql\lib\opt\libmysql.lib
+		Source\Ripley\mysql\lib\opt\mysqlclient.lib = Source\Ripley\mysql\lib\opt\mysqlclient.lib
+		Source\Ripley\mysql\lib\opt\mysys-max.lib = Source\Ripley\mysql\lib\opt\mysys-max.lib
+		Source\Ripley\mysql\lib\opt\mysys.lib = Source\Ripley\mysql\lib\opt\mysys.lib
+		Source\Ripley\mysql\lib\opt\mysys_tls.lib = Source\Ripley\mysql\lib\opt\mysys_tls.lib
+		Source\Ripley\mysql\lib\opt\regex.lib = Source\Ripley\mysql\lib\opt\regex.lib
+		Source\Ripley\mysql\lib\opt\strings.lib = Source\Ripley\mysql\lib\opt\strings.lib
+		Source\Ripley\mysql\lib\opt\zlib.lib = Source\Ripley\mysql\lib\opt\zlib.lib
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 40
@@ -2142,6 +2157,8 @@ Global
 		{37B81E1F-D9D4-448A-B792-EF06F94A259B} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
 		{41C0ED7D-DF87-4C6D-9E93-DEAC789E2904} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
 		{C54DD6AC-BC30-4ADF-A47D-18CCB8709CDE} = {480B30AF-4FF9-4188-B706-5A05D8447F6D}
+		{B16FA7C0-26CA-401B-BCE5-7D676F652D53} = {480B30AF-4FF9-4188-B706-5A05D8447F6D}
+		{E60F9F07-594B-4FD3-BC01-6F3C4D109D86} = {B16FA7C0-26CA-401B-BCE5-7D676F652D53}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 35
