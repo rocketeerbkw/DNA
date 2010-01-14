@@ -186,7 +186,7 @@
 
   <ItemGroup>
     <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi">
-      <TestList>BBC.Dna.Objects.Tests;BBC.Dna.Utils.Tests</TestList>
+      <TestList>BBC.Dna.Utils.Tests</TestList>
     </MetaDataFile>
     <!--  TEST ARGUMENTS
      If the RunTest property is set to true then the following test arguments will be used to run 
@@ -221,6 +221,8 @@
     -->
 
   </PropertyGroup>
+  
+  
 
   <!-- Make it an incremental build -->
   <PropertyGroup>
@@ -250,6 +252,25 @@
     
   </ItemGroup>
 
+  <!-- Fail the build if the tests fail... -->
+  <Target Name="AfterTest">
+
+    <!-- Refresh the build properties. -->
+    <GetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <Output TaskParameter="TestSuccess" PropertyName="TestSuccess" />
+    </GetBuildProperties>
+
+    <!-- Set CompilationStatus to Failed if TestSuccess is false. -->
+    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        CompilationStatus="Failed"
+                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(TestSuccess)' != 'true' ">
+
+    </Target>
+
+<!-- do post build step stuff -->
 
   <Target Name="PostBuildStep">
     <!-- Create the build steps which start in mode "Running" -->
