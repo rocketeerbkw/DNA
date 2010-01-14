@@ -244,6 +244,7 @@
          <AdditionalReferencePath Include="C:\MyFolder\" />
          <AdditionalReferencePath Include="C:\MyFolder2\" />
     -->
+         <AdditionalReferencePath Include="$(SolutionRoot)\Main\Source\Ripley\Debug\" />
   </ItemGroup>
 
   <!-- Adding post build step to deploy whole solution to test server... -->
