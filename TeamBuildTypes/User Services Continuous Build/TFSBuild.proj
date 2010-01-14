@@ -238,7 +238,7 @@
   </Target>
 
   <ItemGroup>
-    <SolutionFiles Include="$(SolutionRoot)\Main\Source\**\*.*"></SolutionFiles>
+    <SolutionFiles Include="$(SolutionRoot)\Main\Source\schemas\**\*.*"></SolutionFiles>
   </ItemGroup>
 
 
@@ -248,9 +248,18 @@
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
+    
+    <!-- Exec IPC$ command-->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
+    
+    <!-- Copy binaries to int drop location -->
+    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="\\ops-dna1\TFSBuilds\int\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    
+    <!-- Copy schema directory -->
+    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="\\ops-dna1\TFSBuilds\int\schemas\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
-    <!-- Do something -->
-    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="C:/deploy/%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Close Access-->
+    <Exec Command="NET USE \\ops-dna1\IPC$ ?D"></Exec>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
