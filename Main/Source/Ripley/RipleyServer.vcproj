@@ -188,7 +188,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="&#x0D;&#x0A;"
-				AdditionalDependencies="odbc32.lib odbccp32.lib mysqlclient.lib profileapi\profileapi\debug\profileapi_d.lib ripleycored.lib version.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib mysqlclient.lib profileapi\profileapi\debug\profileapi_d.lib $(OutDir)\ripleycored.lib version.lib"
 				OutputFile=".\Debug/RipleyServer.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

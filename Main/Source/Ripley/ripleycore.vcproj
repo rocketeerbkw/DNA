@@ -155,7 +155,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="debug\ripleycored.lib"
+				OutputFile="$(OutDir)\ripleycored.lib"
 				AdditionalLibraryDirectories=""
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="msvcrtd.lib"
