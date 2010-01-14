@@ -260,14 +260,14 @@
                         BuildUri="$(BuildUri)"
                         Condition=" '$(IsDesktopBuild)' != 'true' ">
       <Output TaskParameter="TestSuccess" PropertyName="TestSuccess" />
-    </GetBuildProperties>
+      </GetBuildProperties>
 
-    <!-- Set CompilationStatus to Failed if TestSuccess is false. -->
+
+      <!-- Set CompilationStatus to Failed if TestSuccess is false. -->
     <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
                         BuildUri="$(BuildUri)"
                         CompilationStatus="Failed"
-                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(TestSuccess)' != 'true' ">
-
+                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(TestSuccess)' != 'true' " />
     </Target>
 
 <!-- do post build step stuff -->
