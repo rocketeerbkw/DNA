@@ -186,7 +186,7 @@
 
   <ItemGroup>
     <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi">
-      <TestList>Unit Tests</TestList>
+      <TestList>UBBC.Dna.Objects.Tests;BBC.Dna.Utils.Tests</TestList>
     </MetaDataFile>
     <!--  TEST ARGUMENTS
      If the RunTest property is set to true then the following test arguments will be used to run 
