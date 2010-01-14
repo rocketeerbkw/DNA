@@ -238,7 +238,9 @@
   </Target>
 
   <ItemGroup>
-    <SolutionFiles Include="$(SolutionRoot)\Main\Source\schemas\**\*.*"></SolutionFiles>
+    <Schemas Include="$(SolutionRoot)\Main\Source\schemas\**\*.*"></Schemas>
+      <Binaries Include="$(BinariesRoot)\$(Platfom)\$(Configuration)\**\*.*"></Binaries>
+    
   </ItemGroup>
 
 
@@ -253,10 +255,10 @@
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
     
     <!-- Copy binaries to int drop location -->
-    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="\\ops-dna1\TFSBuilds\int\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Binaries)" DestinationFolder="\\ops-dna1\TFSBuilds\int\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     
     <!-- Copy schema directory -->
-    <Copy SourceFiles="@(SolutionFiles)" DestinationFolder="\\ops-dna1\TFSBuilds\int\schemas\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Schemas)" DestinationFolder="\\ops-dna1\TFSBuilds\int\schemas\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- Close Access-->
     <Exec Command="NET USE \\ops-dna1\IPC$ ?D"></Exec>
