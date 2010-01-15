@@ -237,7 +237,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\**\*.*"></Binaries>
+    <WebSites Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\_PublishedWebsites\**\*.*"></WebSites>
+    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.*"></Binaries>
   </ItemGroup>
   
   <Target Name="BeforeTest">
@@ -247,8 +248,11 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
-    <!-- Copy binaries to int drop location -->
-    <Copy SourceFiles="@(Binaries)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Copy Websites to location -->
+    <Copy SourceFiles="@(WebSites)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    
+    <!-- Copy Dlls into dnapages for tests... -->
+    <Copy SourceFiles="@(Binaries)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\BBC.DNA.Dnapages\bin\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
