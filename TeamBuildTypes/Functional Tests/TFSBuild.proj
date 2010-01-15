@@ -235,4 +235,26 @@
          <AdditionalReferencePath Include="C:\MyFolder2\" />
     -->
   </ItemGroup>
+
+  <ItemGroup>
+    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\**\*.*"></Binaries>
+  </ItemGroup>
+  
+  <Target Name="BeforeTest">
+    <!-- Create the build steps which start in mode "Running" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to test server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+    </BuildStep>
+
+    <!-- Copy binaries to int drop location -->
+    <Copy SourceFiles="@(Binaries)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+    <OnError ExecuteTargets="PostBuildStepFailed" />
+  </Target>
 </Project>
