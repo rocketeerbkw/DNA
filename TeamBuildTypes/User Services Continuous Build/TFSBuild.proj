@@ -181,11 +181,13 @@
         <PlatformToBuild>Any CPU</PlatformToBuild>
     </ConfigurationToBuild>
 
+		<!--
     <ConfigurationToBuild Include="Debug|Win32">
         <FlavorToBuild>Debug</FlavorToBuild>
         <PlatformToBuild>Win32</PlatformToBuild>
     </ConfigurationToBuild>
-
+-->
+		
 	</ItemGroup>
 
   <ItemGroup>
@@ -230,11 +232,9 @@
 
   <!-- Make it an incremental build -->
   <PropertyGroup>
-		<!--
     <SkipClean>true</SkipClean>
     <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
     <ForceGet>false</ForceGet>
-  -->
 	</PropertyGroup>
 
   <ItemGroup>
