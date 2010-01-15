@@ -255,6 +255,11 @@
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
     <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
-    <OnError ExecuteTargets="PostBuildStepFailed" />
+    <OnError ExecuteTargets="FailedBeforeTest" />
+  </Target>
+
+  <Target Name="FailedBeforeTest">
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 </Project>
