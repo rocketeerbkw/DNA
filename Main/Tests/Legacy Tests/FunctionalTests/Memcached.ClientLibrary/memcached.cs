@@ -36,6 +36,7 @@ namespace FunctionalTests
         ServiceController service = new ServiceController("memcached Server");
         TimeSpan timeout = TimeSpan.FromMilliseconds(5000);
         int runs = 10;
+        private string testString = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
 
         [TestCleanup]
         public void ShutDown()
@@ -76,7 +77,7 @@ namespace FunctionalTests
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
                 string keyBase = "testKey" + Guid.NewGuid().ToString();
-                string obj = File.ReadAllText("../../../Tests/Legacy Tests/FunctionalTests/Memcached.ClientLibrary/compressablefile.txt");
+                string obj = GetlargeString();
                 Console.WriteLine("Compressible File Metrics obj size:" + obj.Length + " bytes");
 
 
@@ -122,7 +123,7 @@ namespace FunctionalTests
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
                 string keyBase = "testKey" + Guid.NewGuid().ToString();
-                string obj = File.ReadAllText("../../../Tests/Legacy Tests/FunctionalTests/Memcached.ClientLibrary/biggerthan1megfile.txt");
+                string obj = GetlargeString();
                 Console.WriteLine("Big File Metrics obj size:" + obj.Length + " bytes");
 
                 int _bigRun = 10;
@@ -172,7 +173,7 @@ namespace FunctionalTests
             {
 
                 string keyBase = "testKey" + Guid.NewGuid().ToString();
-                string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                string obj = testString;
                 Console.WriteLine("Single local server Metrics obj size:" + obj.Length + " bytes");
 
                 long begin = DateTime.Now.Ticks;
@@ -220,7 +221,7 @@ namespace FunctionalTests
                 {
 
                     string keyBase = "testKey" + Guid.NewGuid().ToString();
-                    string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                    string obj = testString;
                     Console.WriteLine("Single Remote server Metrics obj size:" + obj.Length + " bytes");
 
                     long begin = DateTime.Now.Ticks;
@@ -273,7 +274,7 @@ namespace FunctionalTests
                 {
                     _mc.Flush();
                     string keyBase = "testKey" + Guid.NewGuid().ToString();
-                    string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                    string obj = testString;
                     Console.WriteLine("Multiple servers Metrics obj size:" + obj.Length + " bytes");
 
 
@@ -325,7 +326,7 @@ namespace FunctionalTests
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
                 string keyBase = "testKey" + Guid.NewGuid().ToString();
-                string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                string obj = testString;
 
                 //add with a day expirey
                 _mc.Add(keyBase, obj, CacheItemPriority.Normal, null, new AbsoluteTime(DateTime.Now.AddDays(1)));
@@ -352,7 +353,7 @@ namespace FunctionalTests
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
                 string keyBase = "testKey" + Guid.NewGuid().ToString();
-                string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                string obj = testString;
 
                 //add with a day expirey
                 _mc.Add(keyBase, obj, CacheItemPriority.Normal, null, new AbsoluteTime(new TimeSpan(24, 0, 0)));//span for a day
@@ -383,7 +384,7 @@ namespace FunctionalTests
                     _mc.Flush();
 
                     string keyBase = "testKey" + Guid.NewGuid().ToString();
-                    string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                    string obj = testString;
                     Console.WriteLine("Multiple servers Metrics obj size:" + obj.Length + " bytes");
 
 
@@ -533,7 +534,7 @@ namespace FunctionalTests
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
                 string keyBase = "testKey" + Guid.NewGuid().ToString();
-                string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                string obj = testString;
 
                 //add with a day expirey
                 _mc.Add(keyBase, obj);
@@ -565,7 +566,7 @@ namespace FunctionalTests
             using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
             {
                 string keyBase = "testKey" + Guid.NewGuid().ToString();
-                string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                string obj = testString;
 
                 //add with a day expirey
                 _mc.Add(keyBase, obj);
@@ -600,7 +601,7 @@ namespace FunctionalTests
                 using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
                 {
                     string keyBase = "testKey" + Guid.NewGuid().ToString();
-                    string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                    string obj = testString;
 
                     //add
                     _mc.Add(keyBase, obj);
@@ -640,7 +641,7 @@ namespace FunctionalTests
                 using (MemcachedCacheManager _mc = new MemcachedCacheManager(settings))
                 {
                     string keyBase = "testKey" + Guid.NewGuid().ToString();
-                    string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                    string obj = testString;
 
                     //add
                     _mc.Add(keyBase, obj);
@@ -688,7 +689,7 @@ namespace FunctionalTests
 
                     //warm up the cache...
                     string keyBase = "testKey" + Guid.NewGuid().ToString();
-                    string obj = "This is a test of an object blah blah es, serialization does not seem to slow things down so much.  The gzip compression is horrible horrible performance, so we only use it for very large objects.  I have not done any heavy benchmarking recently";
+                    string obj = testString;
 
                     //add with a day expirey
                     _mc.Add(keyBase, obj);
@@ -715,7 +716,19 @@ namespace FunctionalTests
                 }
         }
 
-
+        /// <summary>
+        /// Creates a large test string
+        /// </summary>
+        /// <returns></returns>
+        private string GetlargeString()
+        {
+            string str = testString;
+            for (int i = 0; i < 1000; i++)
+            {
+                str += testString;
+            }
+            return str;
+        }
 
         /// <summary>
         /// Sub function

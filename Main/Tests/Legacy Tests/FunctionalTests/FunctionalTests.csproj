@@ -290,10 +290,6 @@
     <Compile Include="UserSynchronisationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Memcached.ClientLibrary\biggerthan1megfile.txt" />
-    <Content Include="Memcached.ClientLibrary\compressablefile.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework Client Profile</ProductName>
