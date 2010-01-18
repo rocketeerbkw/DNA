@@ -1,0 +1,355 @@
+﻿		body 
+		{
+			margin:0px;
+/*			font-family:Trebuchet MS, Arial, Helvetica,Sans-Serif;
+			font-size:10px;
+			color:White;
+*/		}
+		.nav,
+		A.nav,
+		A.nav:link,
+		A.nav:visited,
+		.lhnav, 
+		.lhnav A:link, 
+		.lhnav A:visited,
+		.mus-navbar A:visited 
+		{color:#FFFF00;text-decoration:none;}
+		A,A:link,.norm,A.norm,A.norm:link {color:#FFFF00;text-decoration:none;}
+		A:visited,A.norm:visited {color:#BBBB00;text-decoration:none;}
+		A:hover,
+		A.norm:hover,
+		A.nav:hover,
+		.lhnav A:hover 
+		{
+			
+			color:#FFFFCC;text-decoration:underline;
+		}
+		
+		.pos,
+		A.pos,
+		A.pos:link,
+		.ps-functions A,
+		.ps-functions A:link
+		{
+			color:#0066FF;text-decoration:none;
+		}
+		
+		
+		A.pos:visited {color:#0000AA;text-decoration:none;}
+		A.pos:hover,
+		.ps-functions A:hover
+		{color:#0066FF;text-decoration:underline;}
+		.postxt A,.postxt A:link, .psnav A, .psnav A:link, .psnav A:visited {color:#0066FF;text-decoration:none;}
+		.postxt A:visited {color:#0000AA;text-decoration:none;}
+		.postxt A:hover, .psnav A:hover {color:#0066FF;text-decoration:underline;}
+		.b,A.b,A.b:link,A.b:visited {color:#FFFFFF;text-decoration:none;}
+		A.b:hover {color:#FFFFFF;text-decoration:underline;}
+		.postxt 
+		{
+			color:#000000;
+			/*font-family:Trebuchet MS, arial, helvetica, sans-serif;*/
+			/*font-size:smaller;*/
+		}
+		.poshead 
+		{
+			color:#CC3300;
+			font-family:Trebuchet MS, arial, helvetica, sans-serif;
+			font-size:medium;
+		}
+		.postable {background:#FFFFFF;}
+		
+		.psnav
+		{
+			font-family:verdana, helvetica, sans-serif; 
+			font-size:10px;
+			color:#ffffff;
+		}
+		
+		
+		.guideentries, 
+		.usersubscriptions,
+		.subscribing-users,
+		.blockedusers
+		{
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/dotted_line_inv.jpg');
+			background-repeat:repeat-x;
+			background-position:bottom;
+			padding-bottom:12px;			
+		}
+
+		.guideentries TABLE, 
+		.usersubscriptions TABLE,
+		.subscribing-users TABLE,
+		.blockedusers TABLE
+		{
+			table-layout:fixed;
+			width:100%;
+		}
+
+		.guideentries TH, 
+		.usersubscriptions TH,
+		.subscribing-users TH,
+		.blockedusers TH 
+		{
+			font-weight:bold;
+			font-size:10px;
+			font-family:verdana, helvetica, sans-serif;
+			font-variant:small-caps;
+			text-align:left;
+		}
+		.guideentries TD,
+		.usersubscriptions TD,
+		.subscribing-users TD,
+		.blockedusers TD
+		{
+			font-family:arial, helvetica, sans-serif;
+			font-size:smaller;
+			vertical-align:top;
+		}
+		col.h2g2ID
+		{
+			width:85px;
+		}
+		col.date
+		{
+			width:180px;
+		}
+		col.createdby
+		{
+			width:20%;
+		}
+		
+		col.mus-userid,
+		col.msu-userid,
+		col.bus-userid
+		{
+			width:100px;
+		}
+		col.mus-action, col.mus-unsubscribe, col.mus-resubscribe, col.bus-unblock
+		{
+			width:80px;
+		}
+		col.msu-action
+		{
+			width:110px;
+		}
+		
+		
+		.dottedline
+		{
+			margin-top:8px;
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/dotted_line_inv.jpg');
+			background-repeat:repeat-x;
+		}
+		.morepages
+		{
+			margin-bottom:10px;
+			margin-left:3px;
+		}
+		.morepages A
+		{
+			font-family:verdana, helvetica, Sans-Serif;
+			font-size:10px;
+			font-weight:bold;
+		}
+		
+		div.mus-actionresult
+		{
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/dotted_line_inv.jpg');
+			background-repeat:repeat-x;
+			background-position:bottom;
+			padding-bottom:12px;			
+		}
+		
+		.mus-actionresult P
+		{
+			font-weight:bold;
+			font-family:Trebuchet MS,Verdana , Arial,helvetica,Sans-Serif;
+			font-size:18px;
+			color:#BBBBBB;
+			padding-bottom:0;
+			margin-bottom:0;
+		}
+		
+		.mus-navbar LI
+		{
+			display:inline;
+			padding:3px;
+		}
+		.mus-navbar LI.mus-navselected
+		{
+			border-color:#FFFFFF;
+			border-style:solid;
+			border-width:thin;
+		}
+		UL.mus-navbar 
+		{
+			margin-left:0px;
+			padding-left:0px;
+		}
+		.mus-navbar LI
+		{
+			padding-right:10px;
+			padding-left:10px;
+		}
+		
+		.ps-functions
+		{
+			background-color:#FFFFFF;
+			font-size:smaller;
+			font-weight:bold;
+			font-family:Trebuchet MS;
+		}
+		
+		UL.ps-functions
+		{
+			padding-top:3px;
+			margin-top:0px;
+			padding-left:24px;
+			margin-left:0px;
+			padding-bottom:0px;
+			margin-bottom:0px;
+			width:100%;
+		}
+		.ps-functions LI
+		{
+			list-style-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/arrowh_pos.gif');
+			padding-bottom:4px;
+		}
+		UL.lhnav
+		{
+			margin-top:0px;
+			padding-left:4px;
+			margin-left:0px;
+			font-size:smaller;
+			font-weight:bold;
+			font-family:Arial,helvetica, sans-serif;
+			font-style:italic;
+		}
+		.lhnav LI
+		{
+			list-style-type:none;
+/*			border-bottom-style:dashed;
+			border-bottom-color:#999999;
+			border-bottom-width:thin;
+*/
+			padding-bottom:4px;
+			padding-top:3px;
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/nav_dash.gif');
+			background-position:bottom;
+			background-repeat:repeat-x;
+
+		}
+		
+		.mus-navselected A,
+		.mus-navselected A:visited,
+		.mus-navselected A:hover
+		{
+			color:#FFFFFF;
+		}
+		
+		.catblock-title
+		{
+			background-color:#CCCCCC;
+			font-size:smaller;
+			font-family:Trebuchet MS, arial, helvetica, sans-serif;
+			color:#000000;
+			font-weight:bold;
+			padding:3px;
+			width:200px;
+		}
+		.catblock-topfives H3,
+		.catblock-categorisation H3
+		{
+			padding-left:20px;
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/bullet_fake_white.gif');
+			background-repeat:no-repeat;
+			background-position:left center;
+			color:White;
+			font-family:verdana, helvetica, sans-serif;
+			font-size:10px;
+			font-weight:bold;
+		}
+		
+		.catblock-categorisation P A
+		{
+			font-size:10px;
+			font-family:verdana,arial,helvetica,sans-serif;
+		}
+		.catblock-categorisation P
+		{
+			padding:0px 20px 20px 20px;
+			line-height:10px;
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/dotted_line_inv.jpg');
+			background-repeat:repeat-x;
+			background-position:bottom;
+		}
+		.catblock-links
+		{
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/dotted_line_inv.jpg');
+			background-repeat:repeat-x;
+			background-position:bottom;
+		}
+		.catblock-links A
+		{
+			font-size:10px;
+			font-family:verdana,arial,helvetica,sans-serif;
+			font-weight:bold;
+			display:block;
+			padding-bottom:10px;
+			padding-left:20px;
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/bullet_fake_white.gif');
+			background-repeat:no-repeat;
+			background-position:left top;
+		}
+		
+		.catblock-topfive OL
+		{
+			font-size:10px;
+			font-family:verdana,arial,helvetica,sans-serif;
+			padding-bottom:0px;
+			
+		}		
+		.catblock-topfive
+		{
+			padding-bottom:20px;
+			background-image:url('http://www.bbc.co.uk/h2g2/skins/brunel/images/dotted_line_inv.jpg');
+			background-repeat:repeat-x;
+			background-position:bottom;
+			
+		}
+		
+		.bbcpageBlack {height:1px;}
+		.bbcpageShadow A,
+		.bbcpageShadow BR {display:none;}
+		.ssoThree, .ssoTwo {height:0px;margin:0 0 0 0;padding:0 0 0 0;line-height :0;}
+		.ssoThree {height:0px;}
+		
+		.frontpage-title
+		{
+			background-color:#666666;
+			text-align:center;
+			color:#FFFFFF;
+			font-family:Verdana,helvetica,arial,Sans-Serif;
+			font-size:10px;
+			font-weight:bold;
+			padding:3;
+			border-bottom-style:solid;
+			border-bottom-width:1px;
+			border-bottom-color:#000000;
+			border-top-color:#000000;
+			border-top-style:solid;
+			border-top-width:1px;
+		}
+		
+		.frontpage-body
+		{
+			font-family:Trebuchet MS, arial, helvetica, sans-serif;
+			color:#000000;
+			font-size:12px;
+		}
+		
+		#myMap 
+		{
+			z-index:500;
+		}
