@@ -48,6 +48,14 @@ namespace Tests
         {
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public SiteOptionListTests()
+            : base(false)
+        {
+        }
+
         private List<SiteOptionSpec> ReadSiteOptionsDirectly()
         {
             List<SiteOptionSpec> list = new List<SiteOptionSpec>();
@@ -347,14 +355,5 @@ namespace Tests
             }
         }
 
-        /// <summary>
-        /// Tests the Set methods work correctly.
-        /// They modify the database so we need to ensure that the database is put back correctly
-        /// </summary>
-        [TestMethod]
-        public void TestSiteOptionListSetMethods()
-        {
-            Assert.Inconclusive("Need to write the Set tests when we have a reliable way of restoring the db after the tests have run");
-        }
     }
 }

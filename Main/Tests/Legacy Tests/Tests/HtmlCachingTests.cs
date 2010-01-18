@@ -35,6 +35,15 @@ namespace Tests
             ReadSiteOptionListFromDatabase();
         }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public HtmlCachingTests()
+            : base(false)
+        {
+            ReadSiteOptionListFromDatabase();
+        }
+
         private void ReadSiteOptionListFromDatabase()
         {
             _siteOptionList = new SiteOptionList(this.dnaDiagnostics,  DnaMockery.DnaConfig.ConnectionString);
@@ -133,6 +142,7 @@ namespace Tests
             DateTime start = DateTime.Now;
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteUrlName);
+            request.SetCurrentUserNotLoggedInUser();
             string s = RequestPage(request);
             Assert.IsTrue(s.Contains("HTML caching is OFF"),"Initial request doesn't contain correct string");
 
@@ -166,6 +176,7 @@ namespace Tests
             DateTime start = DateTime.Now;
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteUrlName);
+            request.SetCurrentUserNotLoggedInUser();
             string s = RequestPage(request);
             Assert.IsTrue(s.Contains("HTML caching is ON"),"Initial request doesn't contain correct string");
 
