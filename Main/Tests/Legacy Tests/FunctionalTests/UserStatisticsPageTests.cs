@@ -109,7 +109,12 @@ namespace FunctionalTests
         [TestMethod]
         public void Test03ValidateUserStatisticsPage()
         {
+
+
             Console.WriteLine("Before Test03ValidateUserStatisticsPage");
+
+            //add data to user...
+            Test02PostAndCheckUserStatisticsPage();
 
             // now get the response
             _request.RequestPage("US" + _request.CurrentUserID + "&skin=purexml");

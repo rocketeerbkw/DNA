@@ -301,9 +301,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Legacy Tests\Tests\Tests.csproj", "{6049CBC4-1622-46D4-AA01-E528106493EC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{E2971637-C176-41F1-9C2B-A60A2249BBF8}"
-	ProjectSection(SolutionItems) = preProject
-		Tests\Legacy Tests\Tests\TestXmlTransformer-output.xsl = Tests\Legacy Tests\Tests\TestXmlTransformer-output.xsl
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schemas", "Source\Schemas\Schemas.csproj", "{C32DB42E-9E40-4963-82D1-A968FAB86583}"
 EndProject

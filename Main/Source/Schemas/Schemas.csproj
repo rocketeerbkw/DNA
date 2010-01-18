@@ -546,5 +546,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProfanityData.xml" />
+    <Content Include="TestXmlTransformer-output.xsl" />
   </ItemGroup>
 </Project>
