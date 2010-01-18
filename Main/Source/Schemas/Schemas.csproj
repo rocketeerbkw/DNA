@@ -68,6 +68,8 @@
   </Target>
   -->
   <ItemGroup>
+    <None Include="ActionResult.xsd" />
+    <None Include="AddedNode.xsd" />
     <None Include="AllocateSubs.xsd">
       <SubType>
       </SubType>
