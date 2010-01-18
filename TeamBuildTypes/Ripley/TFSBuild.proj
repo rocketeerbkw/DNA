@@ -202,6 +202,11 @@
 
   </ItemGroup>
 
+	<!-- Make it an incremental build -->
+  <PropertyGroup>
+     <IncrementalBuild>true</IncrementalBuild>
+  </PropertyGroup>
+
   <PropertyGroup>
     <!-- TEST ARGUMENTS
      If the RunTest property is set to true, then particular tests within a
