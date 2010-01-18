@@ -15,6 +15,10 @@ gacutil -u ../saxon/IKVM.Runtime.dll
 gacutil -i ../saxon/IKVM.Runtime.dll
 
 
+gacutil -u ../saxon/IKVM.OpenJDK.ClassLibrary.dll
+gacutil -i ../saxon/IKVM.OpenJDK.ClassLibrary.dll
+
+
 gacutil -u ../saxon/charsets.dll
 gacutil -i ../saxon/charsets.dll
 
