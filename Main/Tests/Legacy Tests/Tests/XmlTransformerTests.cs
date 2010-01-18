@@ -22,7 +22,8 @@ namespace Tests
 		/// <returns></returns>
 		public override string GetSkinPath(string leaf)
 		{
-            return @"../../../Tests/Legacy Tests/Tests/TestXmlTransformer-" + leaf;
+            string schemas = IIsInitialise.GetIIsInitialise().GetVDirPath("h2g2UnitTesting", "Schemas");
+            return schemas + "/TestXmlTransformer-" + leaf;
 		}
 
 		/// <summary>

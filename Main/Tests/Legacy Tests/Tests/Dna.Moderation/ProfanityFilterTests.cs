@@ -20,7 +20,8 @@ namespace Tests
 		public void InitialiseProfanityTests()
 		{
 			ProfanityFilter.ClearTestData();
-            ProfanityFilter.InitialiseTestData(@"../../../Tests/Legacy Tests/Tests/Dna.Moderation/ProfanityData.xml", @"../../../Tests/Legacy Tests/Tests/Dna.Moderation/ProfanityData.xsd");
+            string schemas = IIsInitialise.GetIIsInitialise().GetVDirPath("h2g2UnitTesting", "Schemas");
+            ProfanityFilter.InitialiseTestData(schemas + "\\ProfanityData.xml", schemas + "\\ProfanityData.xsd");
 		}
 
 		/// <summary>

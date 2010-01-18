@@ -55,9 +55,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)"></Target>
-  <Target Name="Rebuild" Inputs="@(None)" Outputs="$(OutputTarget)"></Target>
-  
+  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
+  </Target>
+  <Target Name="Rebuild" Inputs="@(None)" Outputs="$(OutputTarget)">
+  </Target>
   <!-- <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /> -->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -131,10 +132,12 @@
     <None Include="flickrlink.xsd" />
     <None Include="H2G2ForumFlat.xsd" />
     <None Include="H2G2ForumFlat606Site.xsd" />
+    <None Include="H2G2ModerateExlinksPage.xsd" />
     <None Include="H2G2ModeratePosts.xsd" />
     <None Include="H2G2ModeratorManagementPage.xsd" />
     <None Include="H2G2UITemplateFlat.xsd" />
     <None Include="Journal.xsd" />
+    <None Include="Links-List.xsd" />
     <None Include="Message.xsd" />
     <None Include="MessageBoardStatistics.xsd" />
     <None Include="Mod-Reasons.xsd" />
@@ -150,6 +153,10 @@
     <None Include="OnlineUsers.xsd" />
     <None Include="PostSummary.xsd" />
     <None Include="PostType.xsd" />
+    <None Include="ProfanityData.xsd" />
+    <None Include="ProfanityData.xsx">
+      <DependentUpon>ProfanityData.xsd</DependentUpon>
+    </None>
     <None Include="Referee-List.xsd" />
     <None Include="ReviewForumArticle.xsd" />
     <None Include="SiteSummary.xsd" />
@@ -536,5 +543,8 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ProfanityData.xml" />
   </ItemGroup>
 </Project>

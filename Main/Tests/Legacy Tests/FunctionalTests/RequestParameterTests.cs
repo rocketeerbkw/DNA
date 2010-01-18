@@ -89,7 +89,7 @@ namespace FunctionalTests
             postparams.Enqueue(new KeyValuePair<string, string>("s_param", "3,3"));
             
             string uploadfile;// set to file to upload
-            uploadfile = @"../../../Tests/Legacy Tests/Tests/test.jpg";
+            uploadfile = GetTestFile();
 
             //everything except upload file and url can be left blank if needed
             request.UploadFileEx(uploadfile, "acs", "image/jpeg",postparams,new CookieContainer());
@@ -109,6 +109,29 @@ namespace FunctionalTests
             {
                 Assert.AreEqual(paramvalue, node.SelectSingleNode("VALUE").InnerText);
             }
+        }
+
+        /// <summary>
+        /// Retrieves or creates a test file
+        /// </summary>
+        /// <returns></returns>
+        private string GetTestFile()
+        {
+            
+            //check if file exists...
+            FileInfo file = new FileInfo(TestConfig.GetConfig().GetRipleyServerPath() + "test.jpg");
+            if (!file.Exists)
+            {
+                StreamWriter sw = file.CreateText();
+                for(int i=0; i < 100;i++)
+                {
+                    sw .WriteLine("this is test data and not a real jpg");
+                }
+                sw.Flush();
+                sw.Close();
+            }
+            return file.FullName;
+
         }
     }
 }

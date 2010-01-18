@@ -189,7 +189,6 @@
     <Compile Include="XSLTCachingTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dna.Moderation\ProfanityData.xml" />
     <Content Include="fetchgroupsforuser1.xml" />
     <Content Include="test.jpg" />
     <Content Include="testredirectparams.txt" />
@@ -200,10 +199,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Createh2g2UnitTestingSite.bat" />
-    <None Include="Dna.Moderation\ProfanityData.xsd" />
-    <None Include="Dna.Moderation\ProfanityData.xsx">
-      <DependentUpon>ProfanityData.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Source\BBC.Dna\BBC.DNA.csproj">
