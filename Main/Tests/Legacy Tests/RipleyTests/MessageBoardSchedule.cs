@@ -87,7 +87,7 @@ namespace RipleyTests
         [TestMethod]
         public void ccTestForumPermissions()
         {
-            aaCreateTopic();
+            bbActivateBoard();
 
             Console.WriteLine("Before ccTestForumPermissions");
             //Need an active topic to get a forumid.
