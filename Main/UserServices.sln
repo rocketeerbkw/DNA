@@ -188,6 +188,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		bbc.dna.tests.testrunconfig = bbc.dna.tests.testrunconfig
 		DeploymentNotes.txt = DeploymentNotes.txt
 		filter.reg = filter.reg
+		PublishRipleyDebug.bat = PublishRipleyDebug.bat
 		ripleyserver.xmlconf = ripleyserver.xmlconf
 		userservices.vsmdi = userservices.vsmdi
 		Web.config = Web.config
