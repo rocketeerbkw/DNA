@@ -191,7 +191,7 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi">
+    <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi" Condition=" '$(PlatformToBuild)' == 'Any CPU' " >
       <TestList>Unit Tests</TestList>
     </MetaDataFile>
     <!--  TEST ARGUMENTS
@@ -307,13 +307,13 @@
     <Message Text="Skins: @(Skins)"></Message>
 
     <!-- stop website to copy ripley -->
-    <Exec Command="iisweb /stop &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
+    <Exec Command="iisreset /stop ops-dna1"></Exec>
 
     <!-- Copy ripley dlls over existing-->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2 DNADev\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- start website to copy ripley -->
-    <Exec Command="iisweb /start &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
+    <Exec Command="iisreset ops-dna1"></Exec>
     
     <!-- Close Access to ops-dna1 -->
     <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
