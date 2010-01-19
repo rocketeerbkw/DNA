@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="DNADayOfWeek.xsd"/>
+	<xs:include schemaLocation="DNAMinute.xsd"/>
+	<xs:include schemaLocation="DNAHour.xsd"/>
+  <xs:element name="DATE">
+    <xs:annotation>
+      <xs:documentation>DNA's DateTime XML. </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="LOCAL">
+          <xs:complexType>
+            <xs:attribute name="DAYNAME" type="xs:string" use="required" />
+            <xs:attribute name="SECONDS" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="MINUTES" type="DNAMinute" use="required"/>
+            <xs:attribute name="HOURS" type="DNAHour" use="required"/>
+            <xs:attribute name="DAY" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="MONTH" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="MONTHNAME" type="xs:string" use="required" />
+            <xs:attribute name="YEAR" type="xs:unsignedShort" use="required" />
+            <xs:attribute name="SORT" type="xs:unsignedLong" use="required" />
+            <xs:attribute name="RELATIVE" type="xs:string" use="optional">
+              <xs:annotation>
+                <xs:documentation>Describes date relative to now (e.g. 5 minutes ago, 2 hours ago, 1 day ago etc.).</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="DAYNAME" type="xs:string" use="required" />
+      <xs:attribute name="SECONDS" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="MINUTES" type="DNAMinute" use="required"/>
+      <xs:attribute name="HOURS" type="DNAHour" use="required"/>
+      <xs:attribute name="DAY" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="MONTH" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="MONTHNAME" type="xs:string" use="required" />
+      <xs:attribute name="YEAR" type="xs:unsignedShort" use="required" />
+      <xs:attribute name="SORT" type="xs:unsignedLong" use="required" />
+      <xs:attribute name="RELATIVE" type="xs:string"  use="optional">
+        <xs:annotation>
+          <xs:documentation>Describes date relative to now (e.g. 5 minutes ago, 2 hours ago, 1 day ago etc.).</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

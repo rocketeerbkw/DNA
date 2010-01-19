@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:include schemaLocation="Date.xsd"/>
+<xs:include schemaLocation="Site.xsd"/>
+<xs:element name="MEMBERDETAILSLIST">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MEMBERDETAILS">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="USER">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="USERID" type="xs:unsignedInt" />
+                  <xs:element name="USERNAME" type="xs:string" />
+                  <xs:element name="LOGINNAME" type="xs:string" />
+                  <xs:element name="EMAIL" type="xs:string" />
+                  <xs:element name="STATUS">
+                    <xs:complexType>
+                      <xs:attribute name="STATUSID" type="xs:unsignedByte" use="required" />
+                    </xs:complexType>
+                  </xs:element>
+                  <xs:element name="ACTIVE" type="xs:unsignedByte" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+			<xs:element ref="SITE"/>
+            <xs:element minOccurs="0" name="DATEJOINED">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="DATE"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="POSTPASSEDCOUNT" type="xs:unsignedByte" />
+            <xs:element name="POSTFAILEDCOUNT" type="xs:unsignedByte" />
+            <xs:element name="POSTTOTALCOUNT" type="xs:unsignedByte" />
+            <xs:element name="ARTICLEPASSEDCOUNT" type="xs:unsignedByte" />
+            <xs:element name="ARTICLEFAILEDCOUNT" type="xs:unsignedByte" />
+            <xs:element name="ARTICLETOTALCOUNT" type="xs:unsignedByte" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SUMMARY">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="POSTPASSEDCOUNT" type="xs:unsignedByte" />
+            <xs:element name="POSTFAILEDCOUNT" type="xs:unsignedByte" />
+            <xs:element name="POSTTOTALCOUNT" type="xs:unsignedByte" />
+            <xs:element name="ARTICLEPASSEDCOUNT" type="xs:unsignedByte" />
+            <xs:element name="ARTICLEFAILEDCOUNT" type="xs:unsignedByte" />
+            <xs:element name="ARTICLETOTALCOUNT" type="xs:unsignedByte" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+  </xs:complexType>
+</xs:element>
+</xs:schema>

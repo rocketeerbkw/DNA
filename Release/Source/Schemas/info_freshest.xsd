@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Date.xsd" />
+	<xs:element name="INFO">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FRESHESTARTICLES">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="RECENTARTICLE">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="H2G2ID" type="xs:unsignedInt" />
+										<xs:element name="STATUS" type="xs:unsignedByte" />
+										<xs:element name="DATEUPDATED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SUBJECT" type="xs:string" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="MODE" type="xs:string" use="required" />
+			<xs:attribute name="MORE" type="xs:unsignedByte" use="optional" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

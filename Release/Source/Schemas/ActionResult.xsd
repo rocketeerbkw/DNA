@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="User.xsd"/>
+	<xs:element name="ACTIONRESULT">
+		<xs:annotation>
+			<xs:documentation>Xml for the Action Result in the More User Subscriptions page for a user.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="USER" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="ACTION" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

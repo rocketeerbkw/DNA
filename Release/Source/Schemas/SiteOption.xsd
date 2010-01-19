@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="SITEOPTION">
+    <xs:annotation>
+      <xs:documentation>Representation of a site option.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+		  <xs:element name="SITEID" type="xs:int" minOccurs="0">
+			  <xs:annotation>
+				  <xs:documentation>The current site id</xs:documentation>
+			  </xs:annotation>
+		  </xs:element>
+		  <xs:element name="DEFINITION" type="xs:int" minOccurs="0">
+			  <xs:annotation>
+				  <xs:documentation>No idea what this is - ripley has it though</xs:documentation>
+			  </xs:annotation>
+		  </xs:element>
+        <xs:element name="SECTION" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>The area of DNA functionality the option relates to. E.g. “Forum”, “User”. If the option doesn’t fit in a particular functional section, put it in section “General”.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="NAME" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Name of the site option.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="VALUE" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Value of the option as a string.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="TYPE">
+          <xs:annotation>
+            <xs:documentation>Describes the type of data held in value. Used to control how the option should be presented to the user.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:unsignedByte">
+              <xs:enumeration value="0">
+                <xs:annotation>
+                  <xs:documentation>Integer</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="1">
+                <xs:annotation>
+                  <xs:documentation>Boolean</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="2">
+                <xs:annotation>
+                  <xs:documentation>String</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="DESCRIPTION" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Description of the site option.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="GLOBAL" type="xs:boolean" use="optional">
+        <xs:annotation>
+          <xs:documentation>Details if the option is site specific or a DNA default: 0 means it's an option that has been explicitly defined for this site, 1 means it's a global setting i.e. the site option has not been explicitly set for the site so it inherits the global setting.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

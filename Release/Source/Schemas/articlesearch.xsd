@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Articles.xsd"/>
+	<xs:include schemaLocation="Phrases.xsd"/>
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="ARTICLESEARCH">
+		<xs:annotation>
+			<xs:documentation>List of articles returned for a search.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="PHRASES" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Searched for KeyPhrases.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DATERANGESTART" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>Start of search date range. Element does not appear in XML if not passed in. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DATERANGEEND" minOccurs="0" maxOccurs="1">
+					<xs:annotation>
+						<xs:documentation>End of search date range. Element does not appear in XML is not passed in.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FREETEXTSEARCH" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Free Text Search Term.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="ARTICLES" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:attribute name="CONTENTTYPE" type="ArticleSearch_ContentType" use="required"/>
+			<xs:attribute name="SORTBY" type="ArticleSearch_SortBy" use="required">
+				<xs:annotation>
+					<xs:documentation>Description of ordering of results e.g. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SKIPTO" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Index of first row in list of articles.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SHOW" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Number of articles requested.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="DATESEARCHTYPE" type="ArticleSearch_DateSearchType" use="required"/>
+			<xs:attribute name="TIMEINTERVAL" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>The duration the article we are searching for. E.g 1 means articles written about a day in within the date range, 7 means article's written about a week in the date range etc.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ARTICLESTATUS" type="ArticleSearch_Status" use="required"/>
+			<xs:attribute name="ARTICLETYPE" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Article Type to filter on.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="LATITUDE" type="xs:double" use="optional" >
+				<xs:annotation>
+					<xs:documentation>Latitude to search around on.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="LONGITUDE" type="xs:double" use="optional" >
+				<xs:annotation>
+					<xs:documentation>Longitude to search around on.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="RANGE" type="xs:double" use="optional" >
+				<xs:annotation>
+					<xs:documentation>Range to search around.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="POSTCODE" type="xs:string" use="optional" >
+				<xs:annotation>
+					<xs:documentation>Postcode to search around.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="PLACENAME" type="xs:string" use="optional" >
+				<xs:annotation>
+					<xs:documentation>Placename to search around.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="LOCATIONSEARCHTYPE" type="ArticleSearch_LocationSearchType" use="optional" >
+				<xs:annotation>
+					<xs:documentation>The type of location to search around.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="DESCENDINGORDER" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>The sort order of the search results ascending or descending.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="COUNT" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Number of articles returned on this page.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="TOTAL" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Total number of articles returned for this search.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="ArticleSearch_ContentType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="-1">
+				<xs:annotation>
+					<xs:documentation>No media assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>Any media assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Image assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Audio assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Video assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ArticleSearch_DateSearchType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>Don't restrict on dates</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Within data range search</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Touching date range search</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ArticleSearch_SortBy">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Rating">
+				<xs:annotation>
+					<xs:documentation>Order by rating.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="Caption">
+				<xs:annotation>
+					<xs:documentation>Order by article caption.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="StartDate">
+				<xs:annotation>
+					<xs:documentation>Order by article start date.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ArticleZeitgeist">
+				<xs:annotation>
+					<xs:documentation>Order by article zeitgeist.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PostCount">
+				<xs:annotation>
+					<xs:documentation>Order by number of posts.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="BookmarkCount">
+				<xs:annotation>
+					<xs:documentation>Order by bookmark count.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="">
+				<xs:annotation>
+					<xs:documentation>Default</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ArticleSearch_Status">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Editorial articles</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>User articles</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>Default any status search</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ArticleSearch_LocationSearchType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="">
+				<xs:annotation>
+					<xs:documentation>No location search type provided</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="latlon">
+				<xs:annotation>
+					<xs:documentation>Search around the latitude and longitude given</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="postcode">
+				<xs:annotation>
+					<xs:documentation>Search around the postcode given</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="placename">
+				<xs:annotation>
+					<xs:documentation>Search around the placename given</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

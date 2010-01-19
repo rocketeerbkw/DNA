@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="ViewingUser.xsd"/>
+  <xs:include schemaLocation="Site.xsd"/>
+  <xs:include schemaLocation="Date.xsd"/>
+  <xs:include schemaLocation="SiteConfig.xsd"/>
+  <xs:include schemaLocation="TrackedParameters.xsd"/>
+  <xs:include schemaLocation ="Site-List.xsd"/>
+  <xs:include schemaLocation="Params.xsd"/>
+  <xs:include schemaLocation="DistressMessages.xsd"/>
+  <xs:include schemaLocation="Moderation-Classes.xsd"/>
+  <xs:include schemaLocation="Referee-List.xsd"/>
+  <xs:include schemaLocation="User-Statuses.xsd"/>
+  <xs:include schemaLocation="Mod-Reasons.xsd"/>
+  <xs:element name="H2G2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="VIEWING-USER"/>
+        <xs:element name="SERVERNAME" type="xs:string"/>
+        <xs:element name="USERAGENT" type="xs:string"/>
+        <xs:element ref="DATE"/>
+        <xs:element ref="SITECONFIG" />
+        <xs:element name="POSTMODERATION">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="POST" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="MODERATION-STATUS" type="xs:unsignedByte" />
+                    <xs:element name="SITEID" type="xs:unsignedByte" />
+                    <xs:element name="TOPICTITLE" type="xs:string" />
+                    <xs:element name="SUBJECT" type="xs:string" />
+                    <xs:element name="RAWTEXT" type="xs:string" />
+                    <xs:element name="TEXT">
+                      <xs:complexType mixed="true">
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="BR" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="NOTES" />
+                    <xs:element name="LOCKED">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="DATELOCKED">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element ref="DATE"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="USER">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="USERID" type="xs:unsignedInt" />
+                                <xs:element name="USERNAME" type="xs:string" />
+                                <xs:element name="FIRSTNAMES" type="xs:string" />
+                                <xs:element name="LASTNAME" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="USER">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="USERID" type="xs:unsignedInt" />
+                          <xs:element name="USERNAME" type="xs:string" />
+                          <xs:element name="FIRSTNAMES" type="xs:string" />
+                          <xs:element name="LASTNAME" type="xs:string" />
+                          <xs:element name="STATUS">
+                            <xs:complexType>
+                              <xs:attribute name="STATUSID" type="xs:unsignedByte" use="required" />
+                              <xs:attribute name="DURATION" type="xs:unsignedByte" use="required" />
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="GROUPS">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element maxOccurs="unbounded" name="GROUP">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element name="NAME" type="xs:string" />
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ALERT" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="USER">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="USERID" type="xs:unsignedInt" />
+                                <xs:element name="USERNAME" type="xs:string" />
+                                <xs:element name="FIRSTNAMES" type="xs:string" />
+                                <xs:element name="LASTNAME" type="xs:string" />
+                                <xs:element name="STATUS">
+                                  <xs:complexType>
+                                    <xs:attribute name="STATUSID" type="xs:unsignedByte" use="required" />
+                                    <xs:attribute name="DURATION" type="xs:unsignedByte" use="required" />
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="GROUPS">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element maxOccurs="unbounded" name="GROUP">
+                                        <xs:complexType>
+                                          <xs:sequence>
+                                            <xs:element name="NAME" type="xs:string" />
+                                          </xs:sequence>
+                                        </xs:complexType>
+                                      </xs:element>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="TEXT" type="xs:string" />
+                          <xs:element name="DATEQUEUED">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element ref="DATE"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="ALERTCOUNT" type="xs:unsignedByte" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="INREPLYTO" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="POSTID" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="MODERATIONID" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="ISPREMODPOSTING" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="MODCLASSID" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="ALERTS" type="xs:unsignedByte" use="optional" />
+            <xs:attribute name="LOCKEDITEMS" type="xs:unsignedByte" use="optional" />
+            <xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="SITE-LIST"/>
+        <xs:element name="SITEOPTIONSLIST">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="SITEOPTIONS">
+                <xs:complexType>
+                  <xs:sequence minOccurs="0">
+                    <xs:element maxOccurs="unbounded" name="SITEOPTION">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="SECTION" type="xs:string" />
+                          <xs:element name="NAME" type="xs:string" />
+                          <xs:element name="VALUE" type="xs:string" />
+                          <xs:element name="TYPE" type="xs:unsignedByte" />
+                          <xs:element name="DESCRIPTION" type="xs:string" />
+                        </xs:sequence>
+                        <xs:attribute name="GLOBAL" type="xs:unsignedByte" use="required" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element ref="MOD-REASONS"/>
+        <xs:element ref="DISTRESSMESSAGES"/>
+        <xs:element ref="REFEREE-LIST"/>
+        <xs:element ref="MODERATION-CLASSES"/>
+        <xs:element ref="USER-STATUSES"/>
+        <xs:element ref="PARAMS"/>
+        <xs:element ref="SITE"/>
+        <xs:element name="TIMEFORPAGE" type="xs:int"/>
+        <xs:element ref="TRACKEDPARAMETERS"/>
+      </xs:sequence>
+      <xs:attribute name="TYPE" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

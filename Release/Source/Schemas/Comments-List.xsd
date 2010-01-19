@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="User.xsd" />
+  <xs:include schemaLocation="Date.xsd" />
+  <xs:element name="COMMENTS-LIST">
+    <xs:annotation>
+      <xs:documentation>List of comments for a user.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="USER" minOccurs="0" />
+        <xs:element name="COMMENTS" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="COMMENT" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="SITEID" type="xs:int" />
+                    <xs:element name="SUBJECT" type="xs:string" />
+                    <xs:element name="DATEPOSTED">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="DATE" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="FORUMID" type="xs:int" />
+                    <xs:element name="FORUMTITLE" type="xs:string" />
+					<xs:element name="FORUMPOSTCOUNT" type="xs:int" />
+					<xs:element name="FORUMPOSTLIMIT" type="xs:int" />
+					<xs:element name="URL" type="xs:string" />
+                    <xs:element name="POSTINDEX" type="xs:int" />
+                    <xs:element name="TEXT" type="xs:string" />
+                    <xs:element name="FORUMCLOSEDATE">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="DATE" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="SKIP" type="xs:int" use="required" />
+      <xs:attribute name="SHOW" type="xs:int" use="required" />
+      <xs:attribute name="MORE" type="xs:int" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectGuid>{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>obj\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>obj\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputTarget>$(OutputPath)functions.sql</OutputTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
+    <OutputPath>bin\DebugSmallGuide\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <UsingTask TaskName="UpdateSpTask" AssemblyFile="..\updatesp.exe" />
+  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
+    <UpdateSpTask BuildFiles="@(None)" BuildTargetFile="$(OutputTarget)" UpdateSpBuildConfigFile="" BuildConfig="$(Configuration)" />
+  </Target>
+  <Target Name="Clean">
+    <Delete Files="$(OutputTarget)" TreatErrorsAsWarnings="true" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+  <ItemGroup>
+    <None Include="udf_calcdistance.sql" />
+    <None Include="udf_checkerr.sql" />
+    <None Include="udf_generateh2g2id.sql" />
+    <None Include="udf_GetGuideEntryType.sql" />
+    <None Include="udf_getkeyphrasenamespacepairs.sql" />
+    <None Include="udf_getobjectname.sql" />
+    <None Include="udf_GetSiteOptionSetting.sql" />
+    <None Include="udf_GetVisibleSites.sql" />
+    <None Include="udf_getusersiteidpairs.sql" />
+    <None Include="udf_HasUserAcceptedTermsAndConditionsOfSite.sql" />
+    <None Include="udf_IsUserAcceptingSubscriptions.sql" />
+    <None Include="udf_IsUserSubscriptionBlocked.sql" />
+    <None Include="udf_IsWithinRange.sql" />
+    <None Include="udf_removegrammaticalarticlesfromtext.sql" />
+    <None Include="udf_snapdate.sql" />
+    <None Include="udf_splitint.sql" />
+    <None Include="udf_splitvarchar.sql" />
+    <None Include="udf_splitvarcharwithdelimiter.sql" />
+    <None Include="udf_getguideentryfulltextcatalogname.sql" />
+    <None Include="udf_getfulltextcatalogpopulatestatusdescription.sql" />
+  </ItemGroup>
+  <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
+</Project>

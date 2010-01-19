@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Html Example Using Glow</title>
+    
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"></script>
+    <script type="text/javascript">
+        gloader.load(["glow", "1", "glow.data", "glow.net", "glow.widgets.Slider", "glow.widgets.Overlay"]);
+    </script>
+    <script type="text/javascript">
+        var pageSize = 20;
+        var startIndex = 0;
+        var totalItems = 0;
+        var urlCommentForums = "/dna/api/comments/CommentsService.svc";
+        var $ = glow.dom.get;
+        var pagingInit = false;
+        var mySlider;
+        var startIndex = 0;
+        var sortBy = "Created";
+        var sortDirection = "Ascending";
+        var host = location.host;
+       
+
+        function getUrl(path, sitename, prefix) {
+            var querystring = "?itemsPerPage=" + pageSize + "&startIndex=" + startIndex;
+            if (prefix != "") {
+                querystring += "&prefix=" + prefix;
+            }
+
+            if (sortBy != "") {
+                querystring += "&sortBy=" + sortBy;
+            }
+            if (sortDirection != "") {
+                querystring += "&sortDirection=" + sortDirection;
+            }
+
+            if (sitename == "") {
+                return "http://" + host  + path + "/V1/commentsforums/" + querystring;
+            }
+            else {
+                return "http://" + host + path + "/V1/site/" + sitename + "/" + querystring;
+            }
+        }
+
+        function getCreateUrl(path, sitename) {
+            return "http://" + location.host + path + "/V1/site/" + sitename + "/";
+        }
+        
+        function loaddata() {
+
+            document.getElementById("txtPageSize").value = pageSize;
+            //document.getElementById("txtApiUrl").value = urlCommentForums;
+            var url = getUrl(urlCommentForums, document.getElementById("txtSitename").value, document.getElementById("txtPrefix").value);
+            addToDebug("############################################\n\nRequest: " + url + "\n\n############################################");
+
+            //set up JSON response in header
+            var headers = { headers:
+					{ "Content-Type": "text/javascript" },
+					onLoad: function(response) {
+					    processResponse(response);
+					},
+					onError: function(response) {
+					    processResponse(response);
+					}
+
+            };
+
+            //Make call
+            glow.net.get(url, headers);
+        }
+
+        function processResponse(response) {
+
+            addToDebug(response.text());
+            if (response.status == 200) {//all ok
+                
+                var objComForums = glow.data.decodeJson(response.text());
+                loadPaging(objComForums);
+                loadForums(objComForums);
+            }
+            else {
+                addToDebug(response.status + ":"+response.statusText());
+            }
+        }
+
+        function loadPaging(objComForums) {
+
+            //pageSize = Number(objComForums.itemsPerPage);
+            //startIndex = Number(objComForums.startIndex)+1;
+            totalItems = Number(objComForums.totalCount);
+            addToDebug(pageSize + " - " + startIndex + " - " + totalItems);
+
+            var itemFrom = startIndex;
+            var itemTo = startIndex + pageSize - 1;
+
+            if (itemTo > totalItems) {
+                itemTo = totalItems;
+            }
+
+            document.getElementById("spPagingInfo").innerHTML = (itemFrom) + " to " + itemTo + " of " + totalItems;
+
+            document.getElementById("pagingSliderContainer").innerHTML = "";
+            mySlider = new glow.widgets.Slider("#pagingSliderContainer",
+            {
+                min: 0,
+                max: totalItems/pageSize-1,
+                id: "pagingSlider",
+                tickMajor: 20,
+                tickMinor: 10,
+                labels: 20,
+                size: 700,
+                snapOnDrag: true,
+                val: startIndex/ pageSize,
+                bindTo: "#pInput",
+                onChange: changePaging
+                
+            });
+          }
+
+        function loadForums(objComForums) {
+
+            var tblData = document.getElementById("tblForums");
+            //empty table
+            if (tblData.rows.length >  1) {
+                var rows = tblData.rows.length;
+                while (tblData.rows.length > 1) {
+                    tblData.deleteRow(1);
+                }
+            }
+            for (var i = objComForums.commentForums.length - 1; i >= 0; i--) {
+                var row = null;
+
+                row = tblData.insertRow(1);
+                row.insertCell(0).innerHTML = startIndex + i;
+                row.insertCell(1).innerHTML = objComForums.commentForums[i].sitename;
+                row.insertCell(2).innerHTML = objComForums.commentForums[i].title;
+                row.insertCell(3).innerHTML = objComForums.commentForums[i].id;
+                row.insertCell(4).innerHTML = objComForums.commentForums[i].commentsSummary.total;
+                row.insertCell(5).innerHTML = objComForums.commentForums[i].created.at;
+                row.insertCell(6).innerHTML = "<a href='commentforum.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">Details</a>" +
+                    "&nbsp;<a href='comedyextra.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">Comedy Extra</a>" +
+                    "&nbsp;<a href='news.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">News</a>" +
+                    "&nbsp;<a href='iplayer.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">iPlayer</a>";
+            }
+        }
+
+        function changePaging() {
+            //change page size so reformat slider
+            if (pageSize != Number(document.getElementById("txtPageSize").value)) {
+                mySlider.val(0);
+                newPage = Number(0);
+                pageSize = Number(document.getElementById("txtPageSize").value);
+                startIndex = 0;
+            }
+            else {
+                newPage = Number(mySlider.val());
+                startIndex = newPage * pageSize;
+            }
+            addToDebug(newPage);
+            mySlider.max = (totalItems / pageSize);
+            loaddata();
+
+        }
+
+        function changeSitePrefix() {
+            //change page size so reformat slider
+            mySlider.val(0);
+            newPage = Number(0);
+            pageSize = Number(document.getElementById("txtPageSize").value);
+            startIndex = 0;
+
+            addToDebug(newPage);
+            loaddata();
+
+        }
+
+        function changeSorting(sortVar) {
+            sortBy = sortVar;
+            if (sortDirection == "Descending") {
+                sortDirection = "Ascending";
+            }
+            else {
+                sortDirection = "Descending";
+            }
+            addToDebug("sortBy:" + sortBy + " sortDirection:" + sortDirection);
+            loaddata();
+        }
+
+        function addToDebug(str) {
+            var debugObj = document.getElementById("txtDebug");
+            debugObj.value = str + "\r\n" + debugObj.value;
+        }
+
+        var overlay;
+        function showCreateBox() {
+            overlay = new glow.widgets.Overlay("#divCreateForum",
+            {
+                modal: true,
+                anim: "fade"
+            });
+            overlay.show();
+        }
+
+        function createCommentForum() {
+            var xml = "<commentForum xmlns=\"BBC.Dna.Api\">" +
+                "<id>" + document.getElementById("txtId").value + "</id>" +
+                "<title>" + document.getElementById("txtTitle").value + "</title>" +
+                "<parentUri>" + document.getElementById("txtParentUri").value + "</parentUri>" +
+                "</commentForum>";
+
+            addToDebug(xml);
+
+            var urlCreate = getCreateUrl(urlCommentForums, document.getElementById("txtSiteName").value);
+            addToDebug(urlCreate);
+            startIndex = 0;
+            glow.net.post(urlCreate,
+                xml,
+                {
+                    headers: { "Content-Type": "text/xml" },
+                    onLoad: function(response) {
+                        addToDebug(response);
+                        loaddata();
+                        overlay.hide();
+                        
+                    },
+                    onError: function(response) {
+                    alert("url:" + urlCreate + "\n\ndata:" + xml + "\n\nGot error: " + response.status + " - " + response.statusText() + "\n\ntext:" + response.text());
+                    }
+
+                });
+
+            
+            
+            
+        }
+    </script>
+    
+<!--#set var="blq_identity" value="on" -->
+<!--#include virtual="/includes/blq/include/blq_head.sssi" -->
+
+<!-- NOTE Example style and script tags - Please use or delete as appropriate -->
+<!-- NOTE Stylesheets MUST be included after the blq-head include due to the reset CSS technique included in Barlesque -->
+<!--[if IE]><![if gte IE 6]><![endif]-->
+<style type="text/css" media="screen">@import 'style/example.css';</style>
+<!--[if IE]><![endif]><![endif]-->
+<script type="text/javascript" src="script/example.js"></script>
+
+
+
+</head>
+<body class="blq-typ" onload="loaddata();">
+<!--#include virtual="/includes/blq/include/blq_body_first.sssi" -->
+<div>
+    <h1>Identity SSI Variables</h1>
+identity_user_loggedin: <!--#echo var="identity_user_loggedin" --><br>
+identity_user_id: 	<!--#echo var="identity_user_id" --><br>
+identity_user_username: 	<!--#echo var="identity_user_username" --><br>
+identity_user_displayname: 	<!--#echo var="identity_user_displayname" --><br>
+identity_user_under13: 	<!--#echo var="identity_user_under13" --><br>
+identity_user_under16: 	<!--#echo var="identity_user_under16" --><br>
+
+
+</div>
+
+<div style="clear:both;padding:5px" id="div1">
+    <h1>Comment Forums</h1>
+    <div style="border: solid 1px #C0C0C0; padding:5px; width:800px">
+    Site Name: <input id="txtSitename" value=""  size="20"/>
+    Prefix: <input id="txtPrefix" value=""  size="20"/>
+    <input type="button" onclick="changeSitePrefix();" value="GO" />
+    </div>
+</div>
+<div style="clear:both;padding:20px 5px 20px 5px" id="divForums">
+    <table id="tblForums" style="width: 700px;">
+    <thead>
+        <tr>
+          <th>No.</th>
+          <th>Site</th>
+          <th>Name</th>
+          <th>ID</th>
+          <th>Comments</th>
+          <th><a href="Javascript:changeSorting('Created');">Created</a></th>
+          <th>&nbsp;</th>
+        </tr>
+    </thead>
+
+    <tfoot>
+    <tr>
+        <td colspan="5">
+            
+        </td>
+    </tr>
+    </tfoot>
+    </table>  
+    <div style="border: solid 1px #C0C0C0; padding:5px; width:700px">
+            Items <span id="spPagingInfo"></span>
+            <div style="clear:both;">    
+                <div id="pagingSliderContainer"></div>
+                <label for="pagingSlider">Page:</label>
+                <input type="text" name="pInput" id="pInput" size="2" />&nbsp;&nbsp;
+                Page Size: <input id="txtPageSize" value=""  size="2"/> &nbsp;&nbsp;
+                <input type="button" onclick="changePaging();" value="GO" />
+                
+            </div>
+    </div>  
+</div>
+
+<a href="Javascript:showCreateBox();">Add Comment Forum</a><br />
+
+<div  style="display:none;">
+<div id="divCreateForum">
+    <H2>Create Comment Forum</H2>
+    Unique ID: <input id="txtId" value=""/><br />
+    Site Name: <input id="txtSiteName" value=""/><br />
+    Parent Uri: <input id="txtParentUri" value=""/><br />
+    Title: <input id="txtTitle" value=""/><br />
+    <input type="button" id="butCreateForum" value="Create" onclick="createCommentForum();" />
+    
+</div>    
+</div>
+
+
+<div style="clear:both;"> 
+DEBUG:<br />
+<textarea cols="85" rows="30" id="txtDebug"></textarea>
+</div>
+
+<!--#include virtual="/includes/blq/include/blq_body_last.sssi" -->
+
+</body>
+</html>

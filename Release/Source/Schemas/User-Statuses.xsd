@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="USER-STATUSES">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="USER-STATUS">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="USERSTATUSDESCRIPTION" type="xs:string" />
+            </xs:sequence>
+            <xs:attribute name="USERSTATUSID" type="xs:unsignedByte" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

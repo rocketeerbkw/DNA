@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectGuid>{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>obj\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>obj\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputTarget>$(OutputPath)views.sql</OutputTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
+    <OutputPath>bin\DebugSmallGuide\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <UsingTask TaskName="UpdateSpTask" AssemblyFile="..\updatesp.exe" />
+  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
+    <UpdateSpTask BuildFiles="@(None)" BuildTargetFile="$(OutputTarget)" UpdateSpBuildConfigFile="" BuildConfig="$(Configuration)" />
+  </Target>
+  <Target Name="Clean">
+    <Delete Files="$(OutputTarget)" TreatErrorsAsWarnings="true" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+  <ItemGroup>
+    <None Include="VRatings.sql" />
+    <None Include="VRatingForums.sql" />
+    <None Include="VComments.sql" />
+    <None Include="VAPIUsers.sql" />
+    <None Include="VArticleAssets.sql" />
+    <None Include="VArticleAudioAssets.sql" />
+    <None Include="VArticleImageAssets.sql" />
+    <None Include="VArticleKeyphraseCounts.sql" />
+    <None Include="VArticleVideoAssets.sql" />
+    <None Include="VCommentForums.sql" />
+    <None Include="VGuideEntryForumLastPosted.sql" />
+    <None Include="VGuideEntryForumPostCount.sql" />
+    <None Include="VHosts.sql" />
+    <None Include="VLinkCounts.sql" />
+    <None Include="VModerators.sql" />
+    <None Include="VThreadKeyphraseCounts.sql" />
+    <None Include="VUserArticleCount.sql" />
+    <None Include="VUserComments.sql" />
+    <None Include="VUserGroups.sql" />
+    <None Include="VUserPostCount.sql" />
+    <None Include="VUsersArticles.sql" />
+    <None Include="VUsersComments.sql" />
+    <None Include="VUsersPosts.sql" />
+    <None Include="VVisibleArticleKeyPhrasesWithDateCreated.sql" />
+    <None Include="VVisibleArticleKeyPhrasesWithLastUpdated.sql" />
+    <None Include="VVisibleArticleKeyPhrasesWithLastUpdatedAndAverageRating.sql" />
+    <None Include="VVisibleGuideEntries.sql" />
+    <None Include="VGuideEntryText_Collective.sql" />
+    <None Include="VGuideEntryText_MemoryShare.sql" />
+  </ItemGroup>
+  <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
+</Project>

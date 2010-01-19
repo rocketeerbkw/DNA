@@ -1,0 +1,9 @@
+; RIPLEYSERVER.def : declares the module parameters for the DLL.
+
+LIBRARY	     "RIPLEYSERVER"
+
+EXPORTS
+    ; Explicit exports can go here
+
+	HttpExtensionProc	@1
+	GetExtensionVersion	@2

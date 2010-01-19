@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="Date.xsd"/>
+  <xs:element name="STATISTICS">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="STARTDATE">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="DATE"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CURRENTDATE">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="DATE"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="unbounded" name="STATISTICSDATA">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="RAWREQUESTS" type="xs:unsignedShort" />
+              <xs:element name="SERVERBUSYCOUNT" type="xs:unsignedByte" />
+              <xs:element name="CACHEHITS" type="xs:unsignedShort" />
+              <xs:element name="CACHEMISSES" type="xs:unsignedShort" />
+              <xs:element name="RSSCACHEHITS" type="xs:unsignedByte" />
+              <xs:element name="RSSCACHEMISSES" type="xs:unsignedByte" />
+              <xs:element name="SSICACHEHITS" type="xs:unsignedByte" />
+              <xs:element name="SSICACHEMISSES" type="xs:unsignedByte" />
+              <xs:element name="NONSSOREQUESTS" type="xs:unsignedShort" />
+              <xs:element name="HTMLCACHEHITS" type="xs:unsignedByte" />
+              <xs:element name="HTMLCACHEMISSES" type="xs:unsignedByte" />
+              <xs:element name="AVERAGEREQUESTTIME" type="xs:unsignedShort" />
+              <xs:element name="REQUESTS" type="xs:unsignedShort" />
+            </xs:sequence>
+            <xs:attribute name="INTERVALSTARTTIME" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

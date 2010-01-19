@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectGuid>{FC9FCE85-B818-48F2-80A4-F8851A0D4944}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>obj\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>obj\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputTarget>$(OutputPath)dbupgradescript-output.sql</OutputTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
+    <OutputPath>bin\DebugSmallGuide\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <UsingTask TaskName="UpdateSpTask" AssemblyFile="..\updatesp.exe" />
+  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
+    <UpdateSpTask BuildFiles="@(None)" BuildTargetFile="$(OutputTarget)" UpdateSpBuildConfigFile="" BuildConfig="$(Configuration)" />
+  </Target>
+  <Target Name="Clean">
+    <Delete Files="$(OutputTarget)" TreatErrorsAsWarnings="true" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+  <ItemGroup>
+    <None Include="DBUpgradeScript.sql" />
+  </ItemGroup>
+  <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
+</Project>

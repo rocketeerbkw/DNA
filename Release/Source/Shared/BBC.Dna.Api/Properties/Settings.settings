@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BBC.Dna.Api.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ProfileRead" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">server=ops-dbdev1.national.core.bbc.co.uk; port=3312; user id=profile; password=crudmeister; database=mdb; pooling=true</Value>
+    </Setting>
+    <Setting Name="ProfileWrite" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">server=ops-dbdev1.national.core.bbc.co.uk; port=3312; user id=profile; password=crudmeister; database=mdb; pooling=true</Value>
+    </Setting>
+    <Setting Name="Identity" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://api.stage.bbc.co.uk/opensso/identityservices/IdentityServices;dna live;10.152.4.15:80;logging</Value>
+    </Setting>
+    <Setting Name="DNADataBase" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=.;Initial Catalog=TheGuide;Integrated Security=True;MultipleActiveResultSets=True</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

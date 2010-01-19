@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="POSTPREMODERATED">
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>Indicates post was moderated.</xs:documentation>
+			</xs:annotation>
+			<xs:attribute name="UID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The unique id of the comment box.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="POST" type="xs:unsignedInt">
+				<xs:annotation>
+					<xs:documentation>The unique id of the post.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="USERPREMODERATED" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Boolean: is user pre moderated?</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="AUTOSINBIN" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Boolean: is the user still sinbinned?.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="ISPREMODPOSTING" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Boolean: is this post being processes as a pre mod posting for this site. </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

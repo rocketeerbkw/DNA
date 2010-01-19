@@ -1,0 +1,64 @@
+﻿using System;
+using System.Collections.Specialized;
+using System.Configuration;
+using System.IO;
+using System.ServiceModel;
+using System.ServiceModel.Activation;
+using System.ServiceModel.Syndication;
+using System.ServiceModel.Web;
+using System.Text;
+using System.Xml;
+using BBC.Dna.Sites;
+using BBC.Dna.Users;
+using BBC.Dna.Utils;
+using BBC.Dna.Services;
+using Microsoft.ServiceModel.Web;
+using BBC.Dna.Moderation;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
+
+
+namespace BBC.Dna.Services
+{
+    [ServiceContract]
+    public class ModerationService : baseService
+    {
+
+        public ModerationService()
+            : base(Global.connectionString, Global.siteList)
+        {
+           
+
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{sitename}/items/")]
+        [WebHelp(Comment = "Create a new moderation item for the site concerned.")]
+        [OperationContract]
+        public void CreateModerationItem(string sitename, ModerationItem modItem )
+        {
+            try
+            {
+
+                ISite site = GetSite(sitename);
+                CallingUser viewer = GetCallingUser(site);
+                if (viewer.IsUserA(UserTypes.Editor))
+                {
+                    ExternalLinkModeration exLinkMod = new ExternalLinkModeration();
+                    exLinkMod.AddToModerationQueue(new Uri(modItem.Uri), new Uri(modItem.CallBackUri), modItem.ComplaintText, modItem.Notes, site.SiteID);
+                }
+                else
+                {
+                    throw new  DnaWebProtocolException(System.Net.HttpStatusCode.Unauthorized, "User must be an editor", null);
+                }
+            }
+            catch (DnaException ex)
+            {
+                throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
+            }
+            
+        }
+
+        
+    }
+}

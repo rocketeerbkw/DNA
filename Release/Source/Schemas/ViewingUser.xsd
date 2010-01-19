@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="Groups.xsd" />
+  <xs:include schemaLocation="Status.xsd" />
+  <xs:element name="VIEWING-USER">
+    <xs:annotation>
+      <xs:documentation>The user viewing the page. Child element USER exists if system recognises a logged in user. </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element name="USER" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Optional elements only returned if ShowFullDetails property for a user object is set.</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:all>
+              <xs:element name="USERID" type="xs:unsignedInt" />
+              <xs:element name="USERNAME" type="xs:string" />
+		      <xs:element name="USER-MODE" type="xs:unsignedInt" minOccurs="0"/>
+              <xs:element name="FIRST-NAMES" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Bodge for backward compatibility with old skins. TODO: It is planned to remove this element and update Ripley + skins accordingly.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="FIRSTNAMES" type="xs:string"  minOccurs="0"/>
+              <xs:element name="LAST-NAME" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Bodge for backward compatibility with old skins. TODO: It is planned to remove this element and update Ripley + skins accordingly.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="LASTNAME" type="xs:string" minOccurs="0" />
+              <xs:element ref="STATUS" />
+              <xs:element name="EMAIL" type="xs:string" minOccurs="0" />
+              <xs:element name="LOGINNAME" type="xs:string" minOccurs="0" />
+              <xs:element name="PASSWORD" type="xs:string" minOccurs="0" />
+              <xs:element name="POSTCODE" type="xs:string"  minOccurs="0"/>
+              <xs:element name="REGION" type="xs:string"  minOccurs="0"/>
+              <xs:element name="PREFUSERMODE" type="xs:unsignedInt" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Code stating site specific mode in which the user wishes to navigate. E.g. Used in H2G2 to expose complex functionality through the skins for some users.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="AREA" type="xs:string"  minOccurs="0"/>
+              <xs:element name="TITLE" type="xs:string"  minOccurs="0"/>
+              <xs:element name="SITESUFFIX" type="xs:string"  minOccurs="0"/>
+              <xs:element name="TEAMID" type="xs:unsignedInt" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Site specific Team.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="UNREADPUBLICMESSAGECOUNT" type="xs:unsignedInt" />
+              <xs:element name="UNREADPRIVATEMESSAGECOUNT" type="xs:unsignedInt" />
+              <xs:element name="TAXONOMYNODE" type="xs:string" minOccurs="0" />
+              <xs:element name="HIDELOCATION" type="xs:unsignedByte" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Anonymise user information setting.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="HIDEUSERNAME" type="xs:unsignedByte" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Anonymise user information setting.</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="MODERATIONSTATUS">
+                <xs:complexType>
+                  <xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+                  <xs:attribute name="NAME" type="xs:string" use="required" />
+                </xs:complexType>
+              </xs:element>
+              <xs:element ref="GROUPS" minOccurs="0" />
+              <xs:element name="PREFXML" type="xs:string" minOccurs="0" />
+              <xs:element name="BBCUID" type="xs:string" minOccurs="0" />
+              <xs:element name="COOKIE" type="xs:string" minOccurs="0" />
+              <xs:element name="MASTHEAD" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Site specific masthead (aka user's personal "About me" article). .</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="JOURNAL" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Site specific journal (aka user's personal public Forum).</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="PRIVATEFORUM" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>Site specific private forum (aka user's personal private Forum).</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+              <xs:element name="DATEJOINED" type="xs:string" minOccurs="0" />
+              <xs:element name="DATERELEASED" type="xs:string" minOccurs="0" />
+              <xs:element name="ACTIVE" type="xs:string" minOccurs="0" />
+              <xs:element name="ANONYMOUS" type="xs:string" minOccurs="0" />
+              <xs:element name="SINBIN" type="xs:string" minOccurs="0" />
+              <xs:element name="LATITUDE" type="xs:string" minOccurs="0" />
+              <xs:element name="LONGITUDE" type="xs:string" minOccurs="0" />
+              <xs:element name="PREFSKIN" type="xs:string" minOccurs="0" />
+              <xs:element name="ISMODCLASSMEMBER" type="xs:string" minOccurs="0" />
+              <xs:element name="PREFFORUMSTYLE" type="xs:string" minOccurs="0" />
+              <xs:element name="AGREEDTERMS" type="xs:string" minOccurs="0" />
+              <xs:element name="PREFSTATUS" type="xs:string" minOccurs="0" />
+              <xs:element name="AUTOSINBIN" type="xs:string" minOccurs="0" />
+				<xs:element name="SITEPREFERENCES"  type="xs:string" minOccurs="0" />
+            </xs:all>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SSO" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SSOLOGINNAME" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SIGNINNAME" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

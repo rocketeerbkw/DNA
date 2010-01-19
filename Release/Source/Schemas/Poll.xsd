@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by bbc (BBC) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="OptionList.xsd"/>
+	<xs:element name="POLL">
+		<xs:annotation>
+			<xs:documentation>Poll</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="OPTION-LIST"/>
+				<xs:element name="USER-VOTE" minOccurs="0">
+					<xs:complexType>
+					<xs:attribute name="CHOICE" type="xs:byte" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="POLLID" type="xs:int" use="required"/>
+			<xs:attribute name="POLLTYPE" type="xs:string" use="required"/>
+			<xs:attribute name="ANONYMOUSRATING" type="xs:boolean" use="optional"/>
+			<xs:attribute name="HIDDEN" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

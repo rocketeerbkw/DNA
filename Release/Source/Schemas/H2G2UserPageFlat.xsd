@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="ViewingUser.xsd" />
+	<xs:include schemaLocation="user.xsd" />
+	<xs:include schemaLocation="ExtraInfo.xsd" />
+	<xs:include schemaLocation="Date.xsd" />
+	<xs:include schemaLocation="Site.xsd" />
+	<xs:include schemaLocation="SiteConfig.xsd" />
+	<xs:include schemaLocation="Site-List.xsd" />
+	<xs:element name="H2G2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="VIEWING-USER"/>
+				<xs:element ref="DATE" />
+				<xs:element ref="SITECONFIG" />
+				<xs:element name="TOPICLIST">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="TOPIC">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TOPICID" type="xs:unsignedShort" />
+										<xs:element name="H2G2ID" type="xs:unsignedInt" />
+										<xs:element name="SITEID" type="xs:unsignedByte" />
+										<xs:element name="TOPICSTATUS" type="xs:unsignedByte" />
+										<xs:element name="TOPICLINKID" type="xs:unsignedShort" />
+										<xs:element name="TITLE" type="xs:string" />
+										<xs:element name="FORUMID" type="xs:unsignedInt" />
+										<xs:element name="FORUMPOSTCOUNT" type="xs:unsignedByte" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="STATUS" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PAGE-OWNER">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER">
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JOURNAL">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="JOURNALPOSTS">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="POST">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="SUBJECT" type="xs:string" />
+													<xs:element name="DATEPOSTED">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="LASTREPLY">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element ref="USER">
+													</xs:element>
+													<xs:element name="TEXT" type="xs:string" />
+												</xs:sequence>
+												<xs:attribute name="POSTID" type="xs:unsignedInt" use="required" />
+												<xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
+												<xs:attribute name="HIDDEN" type="xs:unsignedByte" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+									<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="TOTALTHREADS" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RECENT-POSTS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="POST-LIST">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="USER">
+										</xs:element>
+										<xs:element maxOccurs="unbounded" name="POST">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="SITEID" type="xs:unsignedByte" />
+													<xs:element name="HAS-REPLY" type="xs:unsignedByte" />
+													<xs:element name="THREAD">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="DATEFIRSTPOSTED">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element ref="DATE">
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="0" name="GROUPS" />
+																<xs:element minOccurs="0" name="SUBJECT" type="xs:string" />
+																<xs:element minOccurs="0" name="REPLYDATE">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element ref="DATE">
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="0" name="JOURNAL">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="USERNAME" type="xs:string" />
+																			<xs:element name="AREA" type="xs:string" />
+																			<xs:element name="FIRSTNAMES" type="xs:string" />
+																			<xs:element name="LASTNAME" type="xs:string" />
+																		</xs:sequence>
+																		<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="0" name="FORUMTITLE" type="xs:string" />
+																<xs:element minOccurs="0" name="LASTUSERPOST">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="DATEPOSTED">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element ref="DATE">
+																						</xs:element>
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																		<xs:attribute name="POSTID" type="xs:unsignedInt" use="required" />
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+															<xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="0" name="FIRSTPOSTER">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="USER">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="COUNTPOSTS" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="LASTPOSTCOUNTREAD" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="EDITABLE" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="PRIVATE" type="xs:unsignedByte" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RECENT-ENTRIES">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ARTICLE-LIST">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="ARTICLE">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="H2G2-ID" type="xs:unsignedInt" />
+													<xs:element name="SITEID" type="xs:unsignedByte" />
+													<xs:element name="EDITOR">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="USER">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="STATUS" type="xs:unsignedByte" />
+													<xs:element name="SUBJECT" type="xs:string" />
+													<xs:element name="DATE-CREATED">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="LASTUPDATED">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element ref="EXTRAINFO"/>
+													<xs:element name="FORUMPOSTCOUNT" type="xs:unsignedByte" />
+													<xs:element minOccurs="0" name="DATERANGESTART">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="0" name="DATERANGEEND">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element minOccurs="0" name="TIMEINTERVAL" type="xs:unsignedByte" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="TYPE" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element ref="USER">
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RECENT-APPROVALS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ARTICLE-LIST">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="ARTICLE">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="H2G2-ID" type="xs:unsignedInt" />
+													<xs:element name="SITEID" type="xs:unsignedByte" />
+													<xs:element name="EDITOR">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="USER">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="STATUS" type="xs:unsignedByte" />
+													<xs:element name="SUBJECT" type="xs:string" />
+													<xs:element name="DATE-CREATED">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="LASTUPDATED">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="EXTRAINFO">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="TYPE">
+																	<xs:complexType>
+																		<xs:attribute name="ID" type="xs:unsignedByte" use="required" />
+																	</xs:complexType>
+																</xs:element>
+																<xs:element minOccurs="0" name="AUTODESCRIPTION" type="xs:string" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="FORUMPOSTCOUNT" type="xs:unsignedByte" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="TYPE" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RECENT-COMMENTS" />
+				<xs:element name="RECENT-SUBSCRIBEDARTICLES">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ARTICLESUBSCRIPTIONLIST">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ARTICLES" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PAGEUI">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SITEHOME">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SEARCH">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DONTPANIC">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MYHOME">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="REGISTER">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MYDETAILS">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="LOGOUT">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EDITPAGE">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="RECOMMEND-ENTRY">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ENTRY-SUBBED">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DISCUSS">
+								<xs:complexType>
+									<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element maxOccurs="unbounded" name="BANNER">
+								<xs:complexType>
+									<xs:attribute name="NAME" type="xs:string" use="required" />
+									<xs:attribute name="SEED" type="xs:unsignedShort" use="required" />
+									<xs:attribute name="SECTION" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ARTICLE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ARTICLEINFO">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="STATUS">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:string">
+														<xs:attribute name="TYPE" type="xs:unsignedByte" use="required" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="H2G2ID" type="xs:unsignedInt" />
+										<xs:element name="SUBMITTABLE">
+											<xs:complexType>
+												<xs:attribute name="TYPE" type="xs:string" use="required" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="FORUMID" type="xs:unsignedInt" />
+										<xs:element name="SITE">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ID" type="xs:unsignedByte" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SITEID" type="xs:unsignedByte" />
+										<xs:element name="MODERATIONSTATUS">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:unsignedByte">
+														<xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="PAGEAUTHOR">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="RESEARCHERS" />
+													<xs:element name="EDITOR">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="USER">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DATECREATED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="LASTUPDATED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="RELATEDMEMBERS">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="RELATEDCLUBS" />
+													<xs:element name="RELATEDARTICLES" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="PREPROCESSED" type="xs:unsignedByte" />
+										<xs:element name="REFERENCES" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SUBJECT" type="xs:string" />
+							<xs:element name="GUIDE">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="BODY" type="xs:string" />
+										<xs:element name="AUTHORNAME" type="xs:string" />
+										<xs:element name="AUTHORUSERID" type="xs:unsignedInt" />
+										<xs:element name="AUTHORUSERNAME" type="xs:string" />
+										<xs:element name="DATECREATED" type="xs:unsignedLong" />
+										<xs:element name="EXTERNALLINK1" />
+										<xs:element name="EXTERNALLINK1TITLE" />
+										<xs:element name="EXTERNALLINK2" />
+										<xs:element name="EXTERNALLINK2TITLE" />
+										<xs:element name="EXTERNALLINK3" />
+										<xs:element name="EXTERNALLINK3TITLE" />
+										<xs:element name="FAVOURITEMATCH" type="xs:string" />
+										<xs:element name="FAVOURITEMATCHLINK" />
+										<xs:element name="FAVOURITEPLAYER" type="xs:string" />
+										<xs:element name="LASTUPDATED" />
+										<xs:element name="SPORTINGINTEREST1" type="xs:string" />
+										<xs:element name="SPORTINGINTEREST2" />
+										<xs:element name="SPORTINGINTEREST3" />
+										<xs:element name="TEAMPLAYEDIN" />
+										<xs:element name="TEAMPLAYEDINLINK" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element ref="EXTRAINFO"/>
+							<xs:element name="BOOKMARKCOUNT" type="xs:unsignedByte" />
+						</xs:sequence>
+						<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="CANCHANGEPERMISSIONS" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="DEFAULTCANCHANGEPERMISSIONS" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="PROFANITYTRIGGERED" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="NONALLOWEDURLSTRIGGERED" type="xs:unsignedByte" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ARTICLEFORUM">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FORUMTHREADS">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MODERATIONSTATUS">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:unsignedByte">
+														<xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ORDERBY" type="xs:string" />
+									</xs:sequence>
+									<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+									<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="TOTALTHREADS" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="FORUMPOSTCOUNT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="THREADCANREAD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="THREADCANWRITE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="ALERTINSTANTLY" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="SITE-LIST">
+				</xs:element>
+				<xs:element name="WATCHED-USER-LIST">
+					<xs:complexType>
+						<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="WATCHING-USER-LIST">
+					<xs:complexType>
+						<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ONLINEUSERS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ONLINEUSER">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="USER">
+										</xs:element>
+										<xs:element name="DAYSSINCEJOINED" type="xs:decimal" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="THISSITE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="ORDER-BY" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="USERCLUBACTIONLIST">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CLUBACTION">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DATEREQUESTED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="DATECOMPLETED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ACTIONUSER">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="USER">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="COMPLETEUSER">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="USER">
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="CLUBNAME" type="xs:string" />
+									</xs:sequence>
+									<xs:attribute name="CLUBID" type="xs:unsignedShort" use="required" />
+									<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="ACTIONTYPE" type="xs:string" use="required" />
+									<xs:attribute name="ACTIONID" type="xs:unsignedShort" use="required" />
+									<xs:attribute name="RESULT" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+						<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="TOTALACTIONS" type="xs:unsignedByte" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="USERMYCLUBS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CLUBSSUMMARY">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="CLUB">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="NAME" type="xs:string" />
+													<xs:element name="SITEID" type="xs:unsignedByte" />
+													<xs:element name="ARTICLEINFO">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="STATUS">
+																	<xs:complexType>
+																		<xs:simpleContent>
+																			<xs:extension base="xs:string">
+																				<xs:attribute name="TYPE" type="xs:unsignedByte" use="required" />
+																			</xs:extension>
+																		</xs:simpleContent>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="DATECREATED">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="MEMBERSHIPSTATUS" type="xs:string" />
+													<xs:element name="MEMBERSHIPCOUNT" type="xs:unsignedByte" />
+													<xs:element ref="EXTRAINFO"/>
+													<xs:element name="LASTUPDATED">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="ID" type="xs:unsignedShort" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="PRIVATEFORUM">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FORUMTHREADS">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="MODERATIONSTATUS">
+											<xs:complexType>
+												<xs:simpleContent>
+													<xs:extension base="xs:unsignedByte">
+														<xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+													</xs:extension>
+												</xs:simpleContent>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ORDERBY" type="xs:string" />
+									</xs:sequence>
+									<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+									<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="TOTALTHREADS" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="FORUMPOSTCOUNT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="THREADCANREAD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="THREADCANWRITE" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="ALERTINSTANTLY" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EMAIL-SUBSCRIPTION" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LINKS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GROUP">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="NAME" />
+										<xs:element name="LINK">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="TITLE" type="xs:string" />
+													<xs:element name="DESCRIPTION" type="xs:string" />
+													<xs:element name="SUBMITTER">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="USER">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="TEAM">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="MEMBER">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="ROLE" type="xs:string" />
+																			<xs:element ref="USER">
+																			</xs:element>
+																			<xs:element name="DATEJOINED">
+																				<xs:complexType>
+																					<xs:sequence>
+																						<xs:element ref="DATE">
+																						</xs:element>
+																					</xs:sequence>
+																				</xs:complexType>
+																			</xs:element>
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="AUTHOR">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="USER">
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="TYPE" type="xs:string" use="required" />
+												<xs:attribute name="LINKID" type="xs:unsignedShort" use="required" />
+												<xs:attribute name="TEAMID" type="xs:unsignedInt" use="required" />
+												<xs:attribute name="RELATIONSHIP" type="xs:string" use="required" />
+												<xs:attribute name="DNAID" type="xs:string" use="required" />
+												<xs:attribute name="PRIVATE" type="xs:unsignedByte" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="CURRENT" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="TOTALLINKS" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="COUNT" type="xs:unsignedShort" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LINKGROUPS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="GROUP">
+								<xs:complexType>
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CRUMBTRAILS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CRUMBTRAIL">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="ANCESTOR">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="NODEID" type="xs:unsignedShort" />
+													<xs:element name="NAME" type="xs:string" />
+													<xs:element name="TREELEVEL" type="xs:unsignedByte" />
+													<xs:element name="NODETYPE" type="xs:unsignedByte" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="NOTICEBOARD" type="xs:string" />
+				<xs:element name="SERVERNAME" type="xs:string" />
+				<xs:element name="TIMEFORPAGE" type="xs:unsignedShort" />
+				<xs:element name="USERAGENT" type="xs:string" />
+				<xs:element name="PARAMS" />
+				<xs:element name="CURRENTSITE" type="xs:unsignedByte" />
+				<xs:element name="CURRENTSITEURLNAME" type="xs:string" />
+				<xs:element name="CURRENTSITESSOSERVICE" type="xs:string" />
+				<xs:element name="CURRENTSITEMINAGE" type="xs:unsignedByte" />
+				<xs:element name="CURRENTSITEMAXAGE" type="xs:unsignedByte" />
+				<xs:element name="SITE-CLOSED" type="xs:unsignedByte" />
+				<xs:element ref="SITE">
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ExtraInfoType">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="TYPE">
+					<xs:complexType>
+						<xs:attribute name="ID" type="xs:unsignedShort" use="required" />
+						<xs:attribute name="NAME" type="xs:string" use="optional" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AUTODESCRIPTION" type="xs:string" />
+				<xs:element name="ALTNAME" type="xs:string" />
+				<xs:element name="ARTICLECLASS" type="xs:string" />
+				<xs:element name="ENDDATE" type="xs:string" />
+				<xs:element name="AUTHORNAME" type="xs:string" />
+				<xs:element name="ENDDAY" type="xs:unsignedByte" />
+				<xs:element name="AUTHORUSERID" type="xs:unsignedInt" />
+				<xs:element name="ENDMONTH" type="xs:unsignedByte" />
+				<xs:element name="AUTHORUSERNAME" type="xs:string" />
+				<xs:element name="ENDYEAR" type="xs:unsignedByte" />
+				<xs:element name="DATECREATED" type="xs:unsignedLong" />
+				<xs:element name="INTROTEXT" />
+				<xs:element name="LASTUPDATED" type="xs:string" />
+				<xs:element name="LOCATION" type="xs:string" />
+				<xs:element name="LOCATIONUSER" />
+				<xs:element name="STARTDATE" type="xs:string" />
+				<xs:element name="STARTDAY" type="xs:unsignedByte" />
+				<xs:element name="TYPEOFARTICLE" type="xs:string" />
+				<xs:element name="STARTMONTH" type="xs:unsignedByte" />
+				<xs:element name="STARTYEAR" type="xs:unsignedByte" />
+				<xs:element name="TIMEINTERVAL" type="xs:byte" />
+				<xs:element name="COMPETITION" />
+				<xs:element name="DECLARATION_EMAIL" type="xs:string" />
+				<xs:element name="DECLARATION_LEGAL" type="xs:string" />
+				<xs:element name="DECLARATION_WARRANTY" type="xs:string" />
+				<xs:element name="DIRECTOR" />
+				<xs:element name="FILMTITLE" />
+				<xs:element name="FIRSTNAME" type="xs:string" />
+				<xs:element name="GENRE" />
+				<xs:element name="GENRE01" />
+				<xs:element name="GENRE02" />
+				<xs:element name="GENRE03" />
+				<xs:element name="IMAGE" />
+				<xs:element name="LENGTH_MIN" />
+				<xs:element name="LENGTH_SEC" />
+				<xs:element name="OTHERCOMPETITION" />
+				<xs:element name="OTHERSPORT" />
+				<xs:element name="OTHERSPORTUSERS" />
+				<xs:element name="OTHERTEAM" />
+				<xs:element name="PLATFORM" />
+				<xs:element name="PUB_DAY" />
+				<xs:element name="PUB_MONTH" />
+				<xs:element name="PUB_YEAR" />
+				<xs:element name="SCENE" />
+				<xs:element name="SITELOCATION" />
+				<xs:element name="SPORT" />
+				<xs:element name="SURNAME" type="xs:string" />
+				<xs:element name="SYNOPSIS" />
+				<xs:element name="TAGLINE" type="xs:string" />
+				<xs:element name="TEAM" />
+				<xs:element name="THEME" />
+				<xs:element name="ASPECTRATIO" type="xs:string" />
+				<xs:element name="DURATION_MINS" type="xs:string" />
+				<xs:element name="DURATION_SECS" type="xs:string" />
+				<xs:element name="MEDIAASSETID" />
+				<xs:element name="PCCAT" />
+				<xs:element name="STRONG_CONTENT" />
+				<xs:element name="STRONG_CONTENT_DESC" />
+				<xs:element name="SUBMISSION_METHOD" type="xs:string" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,553 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C32DB42E-9E40-4963-82D1-A968FAB86583}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Schemas</RootNamespace>
+    <AssemblyName>Schemas</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <PublishUrl>http://localhost/Schemas/</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
+  </Target>
+  <Target Name="Rebuild" Inputs="@(None)" Outputs="$(OutputTarget)">
+  </Target>
+  <!-- <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /> -->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <None Include="ActionResult.xsd" />
+    <None Include="AddedNode.xsd" />
+    <None Include="AllocateSubs.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Article.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ArticleForum.xsd" />
+    <None Include="ArticleHotPhrases.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ArticleInfo.xsd" />
+    <None Include="ArticleInfoReferences.xsd" />
+    <None Include="ArticleInfoSubmittable.xsd" />
+    <None Include="ArticleListUndecidedRecommendations.xsd" />
+    <None Include="Articles.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="articlesearch.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ArticleSubscriptionList.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ArticleSummary.xsd" />
+    <None Include="BlockedUserSubscriptions-List.xsd" />
+    <None Include="BlockedUserSubscriptions.xsd" />
+    <None Include="BlogSummary.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="CategoryList.xsd" />
+    <None Include="Cmd.xsd" />
+    <None Include="CommentBox.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="commentforumlist.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="CommentForumListBase.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Comments-List.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Club.xsd" />
+    <None Include="ContentSignifSettings.xsd" />
+    <None Include="DistressMessages.xsd" />
+    <None Include="Dna.Services\thread.xsd" />
+    <None Include="Dna.Services\threadlist.xsd" />
+    <None Include="Dna.Services\filterBy.xsd" />
+    <None Include="ExLinkModerationList.xsd" />
+    <None Include="flickrlink.xsd" />
+    <None Include="H2G2ForumFlat.xsd" />
+    <None Include="H2G2ForumFlat606Site.xsd" />
+    <None Include="H2G2ModerateExlinksPage.xsd" />
+    <None Include="H2G2ModeratePosts.xsd" />
+    <None Include="H2G2ModeratorManagementPage.xsd" />
+    <None Include="H2G2UITemplateFlat.xsd" />
+    <None Include="Journal.xsd" />
+    <None Include="Links-List.xsd" />
+    <None Include="Message.xsd" />
+    <None Include="MessageBoardStatistics.xsd" />
+    <None Include="Mod-Reasons.xsd" />
+    <None Include="Moderation-Classes.xsd" />
+    <None Include="Moderator-List.xsd" />
+    <None Include="MoreLinks.xsd" />
+    <None Include="MoreLinkSubscriptions.xsd" />
+    <None Include="MoreSubscribingUsers.xsd" />
+    <None Include="OpenCloseTimeEvent.xsd" />
+    <None Include="H2G2ArticleFlat.xsd" />
+    <None Include="Links.xsd" />
+    <None Include="MediaAssetInfo.xsd" />
+    <None Include="OnlineUsers.xsd" />
+    <None Include="PostSummary.xsd" />
+    <None Include="PostType.xsd" />
+    <None Include="ProfanityData.xsd" />
+    <None Include="ProfanityData.xsx">
+      <DependentUpon>ProfanityData.xsd</DependentUpon>
+    </None>
+    <None Include="Referee-List.xsd" />
+    <None Include="ReviewForumArticle.xsd" />
+    <None Include="SiteSummary.xsd" />
+    <None Include="Statistics.xsd" />
+    <None Include="subnotificationemail.xsd" />
+    <None Include="SubscribeResult.xsd" />
+    <None Include="ForumSource.xsd" />
+    <None Include="CrumbTrails.xsd" />
+    <None Include="Dna.Services\commentForum.xsd" />
+    <None Include="Dna.Services\commentForumList.xsd" />
+    <None Include="Dna.Services\commentsSummary.xsd" />
+    <None Include="Dna.Services\commentsList.xsd" />
+    <None Include="Dna.Services\comment.xsd" />
+    <None Include="Dna.Services\rating.xsd" />
+    <None Include="Dna.Services\ratingForum.xsd" />
+    <None Include="Dna.Services\ratingsList.xsd" />
+    <None Include="Dna.Services\ratingsSummary.xsd" />
+    <None Include="Dna.Services\sortDirection.xsd" />
+    <None Include="Dna.Services\sortBy.xsd" />
+    <None Include="Dna.Services\error.xsd" />
+    <None Include="Dna.Services\moderationServiceGroup.xsd" />
+    <None Include="Dna.Services\poststyle.xsd" />
+    <None Include="Dna.Services\pagingOptions.xsd" />
+    <None Include="Dna.Services\user.xsd" />
+    <None Include="Dna.Services\dateTimeHelper.xsd" />
+    <None Include="ForumThreads.xsd" />
+    <None Include="H2G2ProcessRecommendationFlat.xsd" />
+    <None Include="H2G2UserComplaintFlat.xsd" />
+    <None Include="H2G2UserPageFlat.xsd" />
+    <None Include="H2G2UsersCategoryListsFlat.xsd" />
+    <None Include="H2G2UserStatisticsFlat.xsd" />
+    <None Include="MemberDetailsList.xsd" />
+    <None Include="NewUsers-List.xsd" />
+    <None Include="Date.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DNADayOfWeek.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DNAHour.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DNAMinute.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DNAResponseCookie.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DNARichTextElements.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DynamicListforArticle.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DynamicListForCampaignDiaries.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DynamicListForCategories.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DynamicListForClubs.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DynamicListForForums.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DynamicListForThreads.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DynamicListForTopics.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="DynamicListForUsers.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Error.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ExtraElementXml.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ExtraInfo.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ForumThreadPosts.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Group.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="GroupName.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Groups.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="GuideML.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="H2G2ArticleSearchFlat.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="H2G2BlockedUserSubscriptionsFlat.xsd" />
+    <None Include="H2G2BlogSummaryFlat.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="H2G2CategoryListFlat.xsd" />
+    <None Include="H2G2ComingUpFlat.xsd" />
+    <None Include="H2G2CommentBoxFlat.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="H2G2ContentSignifAdminFlat.xsd" />
+    <None Include="H2G2MemberDetailsAdmin.xsd" />
+    <None Include="H2G2MessageBoardStatisticsFlat.xsd" />
+    <None Include="H2G2MonthSummaryFlat.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="H2G2MoreCommentsFlat.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="H2G2MoreJournalFlat.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="H2G2MoreLinksFlat.xsd" />
+    <None Include="H2G2MoreLinkSubscriptionsFlat.xsd" />
+    <None Include="H2G2MoreSubscribingUsersFlat.xsd" />
+    <None Include="H2G2MoreUserSubscriptionsFlat.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="H2G2ReviewForumFlat.xsd" />
+    <None Include="H2G2SiteSummaryFlat.xsd" />
+    <None Include="H2G2StatisticsReportFlat.xsd" />
+    <None Include="H2G2SystemMessageMailboxFlat.xsd" />
+    <None Include="H2G2UITDTFlat.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="httpURI.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="info_conv.xsd" />
+    <None Include="info_editedentries.xsd" />
+    <None Include="info_freshest.xsd" />
+    <None Include="info_uneditedentries.xsd" />
+    <None Include="Link.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="MediaAsset.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="MemberList.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="MonthSummary.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="MoreComments.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="MoreJournal.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="MoreUserSubscriptions.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="OpenCloseTime.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="OpenCloseTimes.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="OptionList.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="PageAuthor.xsd" />
+    <None Include="PageUI.xsd" />
+    <None Include="Params.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Phrase.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Phrases.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Poll.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="PollList.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Post.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="PostPreModerated.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ProcessRecommendationForm.xsd" />
+    <None Include="RecentComments.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="RecentSearch.xsd" />
+    <None Include="Recommendations.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="RefereeList.xsd" />
+    <None Include="RelatedArticles.xsd" />
+    <None Include="RelatedClubs.xsd" />
+    <None Include="ReviewForum.xsd" />
+    <None Include="ServiceBrokerConversations.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ServiceBrokerServices.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ServiceBrokerTranmissionQueue.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Site-List.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="Site.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="SiteConfig.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="SiteOption.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="SiteOptions.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="StatisticsReport.xsd" />
+    <None Include="Status.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="SubscribingUsers-List.xsd" />
+    <None Include="SystemMessageMailbox.xsd" />
+    <None Include="Thread.xsd" />
+    <None Include="Threads.xsd" />
+    <None Include="threadsearchphrase.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="ThreadSummary.xsd" />
+    <None Include="TopicList.xsd" />
+    <None Include="TrackedParameters.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UIField.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UIFieldErrors.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UIFields.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UISupportedBuilders.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UITemplate.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UITemplateDefinition.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="User-Statuses.xsd" />
+    <None Include="user.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UserComplaint.xsd" />
+    <None Include="userdetails.xsd" />
+    <None Include="UserModStatuses.xsd" />
+    <None Include="Users-List.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UsersCategoryLists.xsd" />
+    <None Include="UserStatistics.xsd" />
+    <None Include="UserStatus.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UserSubscription-List.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="UsersubscriptionLinksList.xsd" />
+    <None Include="ViewingUser.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="SubscribeState.xsd" />
+    <None Include="Zeitgeist.xsd">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="zeitgeistevent.xsd">
+      <SubType>
+      </SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ProfanityData.xml" />
+    <Content Include="TestXmlTransformer-output.xsl" />
+  </ItemGroup>
+</Project>

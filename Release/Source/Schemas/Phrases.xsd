@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="Phrase.xsd" />
+  <xs:element name="PHRASES">
+    <xs:annotation>
+      <xs:documentation>List of phrases.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="PHRASE" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="COUNT" type="xs:int" use="required">
+        <xs:annotation>
+          <xs:documentation>Number of phrases.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="DELIMITER" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>The token that was used to delimit the submitted phrase list.</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

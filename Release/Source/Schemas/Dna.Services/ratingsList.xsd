@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BBC.Dna.Api" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="BBC.Dna.Api">
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="rating.xsd"/>
+	<xs:include schemaLocation="pagingOptions.xsd"/>
+	<xs:element name="ratingsList" nillable="true">
+		<xs:complexType >
+			<xs:sequence>
+				<xs:group ref="pagingOptions" minOccurs="0"/>
+				<xs:element name="ratings" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="rating" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
