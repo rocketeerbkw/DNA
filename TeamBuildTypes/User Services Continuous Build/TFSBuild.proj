@@ -308,7 +308,7 @@
     <!-- Message Text="Skins: @(Skins)"></Message -->
 
     <!-- stop website to copy ripley -->
-    <Exec Command="iisweb /stop &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03" Timeout="1000"></Exec>
+    <Exec Command="iisweb /stop &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03" Timeout="10000"></Exec>
 
     
     <!-- Copy ripley dlls over existing-->
