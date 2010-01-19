@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestRunConfiguration name="TestRunConfig1" id="3c9ad070-58c8-4a63-971a-ce53f36ed50b" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
   <Description>This is a default test run configuration for a local test run.</Description>
-  <CodeCoverage enabled="true" keyFile="BBC.Dna.snk">
+  <CodeCoverage enabled="true" keyFile="BBC.Dna.snk" instrumentInPlace="false" >
     <Regular>
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Utils\bin\Debug\BBC.Dna.Utils.dll" pdbFile="Source\Shared\BBC.Dna.Utils\bin\Debug\BBC.Dna.Utils.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Api\bin\Debug\BBC.Dna.Api.dll" pdbFile="Source\Shared\BBC.Dna.Api\bin\Debug\BBC.Dna.Api.pdb" instrumentInPlace="true" />
