@@ -190,7 +190,15 @@ namespace BBC.Dna.Component
                             //AddTextTag(thread, "ForumTitle", dataReader.GetStringNullAsEmpty("ForumTitle"));
                             string forumTitle = dataReader.GetStringNullAsEmpty("ForumTitle");
                             XmlElement forumTitleElement = AddTextElement(thread, "ForumTitle", "");
-                            forumTitleElement.InnerXml = forumTitle;
+                            try
+                            {
+                                forumTitleElement.InnerXml = forumTitle;
+                            }
+                            catch (System.Xml.XmlException ex)
+                            {
+                                AppContext.TheAppContext.Diagnostics.WriteWarningToLog("PostList", "Escaping character in Forum Title" + ex.Message);
+                                forumTitleElement.InnerXml = StringUtils.EscapeAllXml(forumTitle);
+                            }
 
                             if (yourLastPost > 0)
 				            {
