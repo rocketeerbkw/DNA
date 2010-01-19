@@ -191,10 +191,13 @@
 	</ItemGroup>
 
     <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
-    <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi" >
+      <!-- MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi" >
       <TestList>BBC.Dna.Objects.Tests;BBC.Dna.Utils.Tests</TestList>
-    </MetaDataFile>
-    <!--  TEST ARGUMENTS
+    </MetaDataFile -->
+      <TestContainer Include="$(OutDir)\%2a%2a\%2a.Tests.dll" />
+
+
+      <!--  TEST ARGUMENTS
      If the RunTest property is set to true then the following test arguments will be used to run 
      tests. Tests can be run by specifying one or more test lists and/or one or more test containers.
      
