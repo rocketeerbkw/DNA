@@ -256,9 +256,9 @@
   <ItemGroup>
     <Schemas Include="$(SolutionRoot)\Main\Source\schemas\**\*.*"></Schemas>
     <Skins Include="$(SolutionRoot)\Main\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
-    <DnaPages Include="$(BinariesRoot)$(Platfom)$(Configuration)\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
-    <CommentsApi Include="$(BinariesRoot)$(Platfom)$(Configuration)\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
-    <ModerationApi Include="$(BinariesRoot)$(Platfom)$(Configuration)\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
+    <DnaPages Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
+    <CommentsApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
+    <ModerationApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
     <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
     <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.*"></Ripley>
   </ItemGroup>
@@ -304,16 +304,16 @@
 
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2 DNADev\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Message Text="@(Skins)"></Message>
+    <Message Text="Skins: @(Skins)"></Message>
 
     <!-- stop website to copy ripley -->
-    <Exec Command="iisweb /stop h2g2 /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
+    <Exec Command="iisweb /stop &quote;DNA Dev&quote; /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
 
     <!-- Copy ripley dlls over existing-->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2 DNADev\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- start website to copy ripley -->
-    <Exec Command="iisweb /start h2g2UnitTesting /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
+    <Exec Command="iisweb /start &quote;DNA Dev&quote; /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
     
     <!-- Close Access to ops-dna1 -->
     <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
