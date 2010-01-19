@@ -192,7 +192,7 @@
 
   <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
     <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi" >
-      <TestList>Unit Tests</TestList>
+      <TestList>BBC.Dna.*.Tests</TestList>
     </MetaDataFile>
     <!--  TEST ARGUMENTS
      If the RunTest property is set to true then the following test arguments will be used to run 
@@ -290,34 +290,7 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
-    <!-- Exec IPC$ command - get access to ops-dna1-->
-    <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
-
-    <!-- Copy DnaPages to int drop location -->
-    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <!-- Copy CommentsApi to int drop location -->
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2 DNADev\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <!-- Message Text="Skins: @(Skins)"></Message -->
-
-    <!-- stop website to copy ripley -->
-    <Exec Command="iisweb /stop &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03" Timeout="10000"></Exec>
-
-
-    <!-- Copy ripley dlls over existing-->
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2 DNADev\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <!-- start website to copy ripley -->
-    <Exec Command="iisweb /start &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
-
-    <!-- Close Access to ops-dna1 -->
-    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
+    
 
 
 
