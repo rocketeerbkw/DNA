@@ -190,9 +190,13 @@
 		
 	</ItemGroup>
 
-  <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
+  <!-- ItemGroup>
+    <Schemas Include="$(SolutionRoot)\Main\Source\schemas\**\*.*"></Schemas>
+  </ItemGroup -->
+
+    <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
     <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi" >
-      <TestList>BBC.Dna.*.Tests</TestList>
+      <TestList>Unit Tests/*.*</TestList>
     </MetaDataFile>
     <!--  TEST ARGUMENTS
      If the RunTest property is set to true then the following test arguments will be used to run 
