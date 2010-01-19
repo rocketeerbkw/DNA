@@ -255,8 +255,12 @@
 
   <ItemGroup>
     <Schemas Include="$(SolutionRoot)\Main\Source\schemas\**\*.*"></Schemas>
-      <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
-    
+    <Skins Include="$(SolutionRoot)\Main\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
+    <DnaPages Include="$(BinariesRoot)$(Platfom)$(Configuration)\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
+    <CommentsApi Include="$(BinariesRoot)$(Platfom)$(Configuration)\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
+    <ModerationApi Include="$(BinariesRoot)$(Platfom)$(Configuration)\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
+    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
+    <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.*"></Ripley>
   </ItemGroup>
 
   <!-- Fail the build if the tests fail... -->
@@ -289,12 +293,28 @@
     <!-- Exec IPC$ command - get access to ops-dna1-->
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
     
-    <!-- Copy binaries to int drop location -->
-    <Copy SourceFiles="@(Binaries)" DestinationFolder="\\ops-dna1\TFSBuilds\int\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    
-    <!-- Copy schema directory -->
-    <Copy SourceFiles="@(Schemas)" DestinationFolder="\\ops-dna1\TFSBuilds\int\schemas\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Copy DnaPages to int drop location -->
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
+    <!-- Copy CommentsApi to int drop location -->
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <!-- Copy ModerationApi to int drop location -->
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <!-- Copy ModerationApi to int drop location -->
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2 DNADev\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Message Text="@(Skins)"></Message>
+
+    <!-- stop website to copy ripley -->
+    <Exec Command="iisweb /stop h2g2 /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
+
+    <!-- Copy ripley dlls over existing-->
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2 DNADev\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <!-- start website to copy ripley -->
+    <Exec Command="iisweb /start h2g2UnitTesting /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
+    
     <!-- Close Access to ops-dna1 -->
     <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
 
