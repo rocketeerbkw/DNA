@@ -190,7 +190,7 @@
 		
 	</ItemGroup>
 
-  <ItemGroup Condition=" '$(ConfigurationToBuild)' == 'Debug|Any CPU' ">
+  <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
     <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi" >
       <TestList>Unit Tests</TestList>
     </MetaDataFile>
