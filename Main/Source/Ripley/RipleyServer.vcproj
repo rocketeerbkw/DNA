@@ -169,7 +169,6 @@
 				AssemblerListingLocation="$(OutDir)/"
 				ObjectFile="$(OutDir)/"
 				ProgramDataBaseFileName="$(OutDir)/ripleyserver.pdb"
-				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -188,8 +187,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="&#x0D;&#x0A;"
-				AdditionalDependencies="odbc32.lib odbccp32.lib mysqlclient.lib profileapi\profileapi\debug\profileapi_d.lib $(OutDir)\ripleycored.lib version.lib"
-				ShowProgress="1"
+				AdditionalDependencies="odbc32.lib odbccp32.lib mysqlclient.lib profileapi\profileapi\debug\profileapi_d.lib &quot;$(OutDir)&quot;\ripleycored.lib version.lib"
 				OutputFile="$(OutDir)\RipleyServer.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -197,13 +195,13 @@
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile=".\RipleyServer.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)\RipleyServer.pdb"
+				ProgramDatabaseFile="&quot;$(OutDir)&quot;\RipleyServer.pdb"
 				SubSystem="2"
 				EntryPointSymbol=""
 				ResourceOnlyDLL="false"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)\RipleyServer.lib"
+				ImportLibrary="&quot;$(OutDir)&quot;\RipleyServer.lib"
 				TargetMachine="1"
 			/>
 			<Tool
