@@ -181,12 +181,12 @@
         <PlatformToBuild>Any CPU</PlatformToBuild>
     </ConfigurationToBuild>
 
-		<!--
+		
     <ConfigurationToBuild Include="Debug|Win32">
         <FlavorToBuild>Debug</FlavorToBuild>
         <PlatformToBuild>Win32</PlatformToBuild>
     </ConfigurationToBuild>
--->
+
 		
 	</ItemGroup>
 
