@@ -152,7 +152,7 @@
              <Properties>Property1=Value1;Property2=Value2</Properties>
          </SolutionToBuild>
     -->
-    <SolutionToBuild Include="$(BuildProjectFolderPath)/Source/Ripley/RipleyServer.sln">
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Release/Source/Ripley/RipleyServer.sln">
         <Targets></Targets>
         <Properties></Properties>
     </SolutionToBuild>
