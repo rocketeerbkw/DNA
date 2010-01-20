@@ -35,8 +35,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="net stop w3svc&#x0D;&#x0A;Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;&#x0D;&#x0A;Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;\AdminRipleyServer.dll&#x0D;&#x0A;net start w3svc&#x0D;&#x0A;"
-				Outputs="$(RipleyServerPath)\RipleyServer.dll;$(RipleyServerPath)\AdminRipleyServer.dll"
+				CommandLine="rem net stop w3svc&#x0D;&#x0A;rem Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;&#x0D;&#x0A;rem Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;\AdminRipleyServer.dll&#x0D;&#x0A;rem net start w3svc&#x0D;&#x0A;"
+				Outputs="$(TargetDir)CustomBuildOutput.txt"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -57,7 +57,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="C:\profileapi\profileapi\include;C:\profileapi\bbcdbc\include;C:\profileapi\bbcutil\include;C:\profileapi\Crypt\include;c:\mysql\include"
+				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include;mysql\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_ADMIN_VERSION"
 				StringPooling="true"
 				ExceptionHandling="2"
@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mfcs80.lib msvcrt.lib Wininet.lib odbc32.lib odbccp32.lib ws2_32.lib mysqlclient.lib libcrypt.lib rpcrt4.lib profileapi_r.lib ripleycore.lib version.lib"
+				AdditionalDependencies="mfcs90.lib Wininet.lib odbc32.lib odbccp32.lib ws2_32.lib mysqlclient.lib rpcrt4.lib profileapi_r.lib ripleycore.lib version.lib msvcrt.lib"
 				OutputFile=".\Release/RipleyServer.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -171,7 +171,7 @@
 				ProgramDataBaseFileName="$(OutDir)/ripleyserver.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
