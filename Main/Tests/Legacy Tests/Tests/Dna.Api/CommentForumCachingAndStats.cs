@@ -362,6 +362,7 @@ namespace Tests
             //get forum again
             result = _comments.CommentForumReadByUID(result.Id, site);
             Assert.IsTrue(result != null);
+            Assert.IsTrue(result.commentList.comments.Count != 0);
             Assert.IsTrue(result.commentList.comments[0].hidden ==  CommentStatus.Hidden.Hidden_AwaitingPreModeration);
             Assert.IsTrue(result.commentSummary.Total == 1);
 
