@@ -312,20 +312,14 @@
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2 DNADev\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Message Text="Skins: @(Skins)"></Message -->
 
-    <!-- stop website to copy ripley -->
-    <Exec Command="iisweb /stop &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03" Timeout="10000"></Exec>
+    <!-- stop iis on ops-dna1 -->
+    <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
     
-    <!-- Delete the old version -->
-    <Exec Command="del &quot;\\ops-dna1\h2g2 DNADev\ripleyserver.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
-
-    <!-- rename the current version -->
-    <Exec Command="rename &quot;\\ops-dna1\h2g2 DNADev\ripleyserver.dll&quot; ripleyserver.old" Timeout="10000"></Exec>
-
     <!-- Copy ripley dlls over existing-->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2 DNADev\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- start website to copy ripley -->
-    <Exec Command="iisweb /start &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03"></Exec>
+    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
 
     <!-- Close Access to ops-dna1 -->
     <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
