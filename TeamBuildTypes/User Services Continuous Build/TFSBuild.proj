@@ -316,7 +316,7 @@
     <Exec Command="iisweb /stop &quot;DNA Dev&quot; /s ops-dna1 /u nmadmin /p sotzed03" Timeout="10000"></Exec>
     
     <!-- Delete the old version -->
-    <Exec Command="del \\ops-dna1\h2g2 DNADev\ripleyserver.old" Timeout="10000"></Exec>
+    <Exec Command="del \\ops-dna1\h2g2 DNADev\ripleyserver.old" Timeout="10000" ContinueOnError="true"></Exec>
 
     <!-- rename the current version -->
     <Exec Command="del \\ops-dna1\h2g2 DNADev\ripleyserver.dll ripleyserver.old" Timeout="10000"></Exec>
