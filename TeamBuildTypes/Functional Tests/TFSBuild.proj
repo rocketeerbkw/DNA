@@ -208,9 +208,9 @@
 
      Use %2a instead of * and %3f instead of ? to prevent expansion before test assemblies are built
     -->
-    <!-- MetaDataFile Include="$(BuildProjectFolderPath)/../../Main/UserServices.vsmdi">
+    <MetaDataFile Include="$(BuildProjectFolderPath)/../../Main/UserServices.vsmdi">
       <TestList>Functional Tests;Legacy Test;Ripley Tests</TestList>
-    </MetaDataFile -->
+    </MetaDataFile>
 
   </ItemGroup>
 
