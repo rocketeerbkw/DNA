@@ -15,9 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnesActivityProcessorTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data", "..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj", "{F79CF818-D597-4C2F-A61D-87773951E234}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Utils", "..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj", "{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
+		SccNumberOfProjects = 9
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/
 		SccProjectUniqueName0 = DnaEventProcessorService\\DnaEventProcessorService.csproj
@@ -42,6 +44,9 @@ Global
 		SccProjectUniqueName7 = ..\\..\\Shared\\BBC.Dna.Data\\BBC.Dna.Data.csproj
 		SccProjectName7 = ../../Shared/BBC.Dna.Data
 		SccLocalPath7 = ..\\..\\Shared\\BBC.Dna.Data
+		SccProjectUniqueName8 = ..\\..\\Shared\\BBC.Dna.Utils\\BBC.Dna.Utils.csproj
+		SccProjectName8 = ../../Shared/BBC.Dna.Utils
+		SccLocalPath8 = ..\\..\\Shared\\BBC.Dna.Utils
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +96,12 @@ Global
 		{F79CF818-D597-4C2F-A61D-87773951E234}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
