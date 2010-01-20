@@ -35,8 +35,8 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="net stop w3svc&#x0D;&#x0A;Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;&#x0D;&#x0A;Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;\AdminRipleyServer.dll&#x0D;&#x0A;net start w3svc&#x0D;&#x0A;"
-				Outputs="$(RipleyServerPath)\RipleyServer.dll;$(RipleyServerPath)\AdminRipleyServer.dll"
+				CommandLine="rem net stop w3svc&#x0D;&#x0A;rem Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;&#x0D;&#x0A;rem Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;\AdminRipleyServer.dll&#x0D;&#x0A;rem net start w3svc&#x0D;&#x0A;"
+				Outputs="$(TargetDir)CustomBuildOutput.txt"
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="msvcrt.lib Wininet.lib odbc32.lib odbccp32.lib ws2_32.lib mysqlclient.lib libcrypt.lib rpcrt4.lib profileapi_r.lib ripleycore.lib version.lib"
+				AdditionalDependencies="mfcs90.lib Wininet.lib odbc32.lib odbccp32.lib ws2_32.lib mysqlclient.lib rpcrt4.lib profileapi_r.lib ripleycore.lib version.lib msvcrt.lib"
 				OutputFile=".\Release/RipleyServer.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
