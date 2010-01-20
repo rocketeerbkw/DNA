@@ -255,6 +255,9 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
+    <!-- stop website to copy ripley -->
+    <Exec Command="iisweb /stop h2g2UnitTesting"></Exec>
+
     <!-- Copy Websites to location -->
     <Copy SourceFiles="@(WebSites)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     
@@ -265,8 +268,7 @@
     <Copy SourceFiles="@(Skins)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
 
-    <!-- stop website to copy ripley -->
-    <Exec Command="iisweb /stop h2g2UnitTesting"></Exec>
+    
 
     <!-- Copy ripley dlls over existing-->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
