@@ -152,7 +152,6 @@
              <Properties>Property1=Value1;Property2=Value2</Properties>
          </SolutionToBuild>
     -->
-		<Message Text="BuildProjectFolderPath = $(BuildProjectFolderPath)"></Message>
     <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Source/Ripley/RipleyServer.sln">
         <Targets></Targets>
         <Properties></Properties>
