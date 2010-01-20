@@ -23,7 +23,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
+			OutputDirectory=".\lib"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
@@ -50,7 +50,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include"
+				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include;C:\profileapi\Crypt\include;c:\mysql\include;D:\CruiseControl\BBC.DNA.root\BBC.DNA\DnaIdentityWebServiceProxy\bin\Release"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_ADMIN_VERSION;_LIB;__LCC__"
 				StringPooling="true"
 				ExceptionHandling="2"
@@ -58,10 +58,10 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="&quot;$(OutDir)&quot;ripleycore.pch"
+				PrecompiledHeaderFile=".\Release/ripleycore.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/ripleycore.pdb"
+				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="0"
@@ -79,7 +79,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="&quot;$(OutDir)&quot;\ripleycore.lib"
+				OutputFile=".\lib\ripleycore.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -133,14 +133,14 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="&quot;$(OutDir)&quot;/ripleycore.pch"
+				PrecompiledHeaderFile=".\Debug/ripleycore.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/ripleycore.pdb"
 				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="3"
+				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -155,7 +155,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="&quot;$(OutDir)&quot;\ripleycored.lib"
+				OutputFile="$(OutDir)\ripleycored.lib"
 				AdditionalLibraryDirectories=""
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="msvcrtd.lib"
