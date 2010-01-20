@@ -83,7 +83,7 @@
      on the installed language. For example, "System.Reason" is the reference name for the "Reason" 
      field.
      -->
-    <WorkItemFieldValues>System.Description=Start the build using Team Build</WorkItemFieldValues>
+    <WorkItemFieldValues>System.Reason=Build Failure;System.Description=Start the build using Team Build</WorkItemFieldValues>
 
     <!--  WorkItemTitle
      Title of the work item created on build failure.
@@ -171,17 +171,11 @@
 
      The Include attribute value should be unique for each ConfigurationToBuild node.
     -->
-
-		<ConfigurationToBuild Include="Debug|Win32">
+    <ConfigurationToBuild Include="Debug|Win32">
         <FlavorToBuild>Debug</FlavorToBuild>
         <PlatformToBuild>Win32</PlatformToBuild>
     </ConfigurationToBuild>
-<!--
-		<ConfigurationToBuild Include="Release|Win32">
-        <FlavorToBuild>Release</FlavorToBuild>
-        <PlatformToBuild>Win32</PlatformToBuild>
-    </ConfigurationToBuild>
--->		
+
   </ItemGroup>
 
   <ItemGroup>
@@ -210,7 +204,7 @@
 
 	<!-- Make it an incremental build -->
   <PropertyGroup>
-		<!--<IncrementalBuild>true</IncrementalBuild>-->
+     <IncrementalBuild>true</IncrementalBuild>
   </PropertyGroup>
 
   <PropertyGroup>
