@@ -83,7 +83,7 @@
      on the installed language. For example, "System.Reason" is the reference name for the "Reason" 
      field.
      -->
-    <WorkItemFieldValues>System.Reason=Build Failure;System.Description=Start the build using Team Build</WorkItemFieldValues>
+    <WorkItemFieldValues>System.Description=Start the build using Team Build</WorkItemFieldValues>
 
     <!--  WorkItemTitle
      Title of the work item created on build failure.
@@ -152,7 +152,7 @@
              <Properties>Property1=Value1;Property2=Value2</Properties>
          </SolutionToBuild>
     -->
-    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/Source/Ripley/RipleyServer.sln">
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/Source/Ripley/RipleyServer.sln">
         <Targets></Targets>
         <Properties></Properties>
     </SolutionToBuild>
@@ -171,8 +171,8 @@
 
      The Include attribute value should be unique for each ConfigurationToBuild node.
     -->
-    <ConfigurationToBuild Include="Debug|Win32">
-        <FlavorToBuild>Debug</FlavorToBuild>
+    <ConfigurationToBuild Include="Release|Win32">
+        <FlavorToBuild>Release</FlavorToBuild>
         <PlatformToBuild>Win32</PlatformToBuild>
     </ConfigurationToBuild>
 
