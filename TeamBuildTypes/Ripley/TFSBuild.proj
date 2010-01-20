@@ -152,7 +152,8 @@
              <Properties>Property1=Value1;Property2=Value2</Properties>
          </SolutionToBuild>
     -->
-    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Release/Source/Ripley/RipleyServer.sln">
+		<Message Text="BuildProjectFolderPath = $(BuildProjectFolderPath)"></Message>
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Source/Ripley/RipleyServer.sln">
         <Targets></Targets>
         <Properties></Properties>
     </SolutionToBuild>
@@ -171,11 +172,17 @@
 
      The Include attribute value should be unique for each ConfigurationToBuild node.
     -->
-    <ConfigurationToBuild Include="Release|Win32">
+
+		<ConfigurationToBuild Include="Debug|Win32">
+        <FlavorToBuild>Debug</FlavorToBuild>
+        <PlatformToBuild>Win32</PlatformToBuild>
+    </ConfigurationToBuild>
+<!--
+		<ConfigurationToBuild Include="Release|Win32">
         <FlavorToBuild>Release</FlavorToBuild>
         <PlatformToBuild>Win32</PlatformToBuild>
     </ConfigurationToBuild>
-
+-->		
   </ItemGroup>
 
   <ItemGroup>
