@@ -57,7 +57,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="C:\profileapi\profileapi\include;C:\profileapi\bbcdbc\include;C:\profileapi\bbcutil\include;C:\profileapi\Crypt\include;c:\mysql\include"
+				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include;mysql\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;_ADMIN_VERSION"
 				StringPooling="true"
 				ExceptionHandling="2"
@@ -85,7 +85,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="mfcs80.lib msvcrt.lib Wininet.lib odbc32.lib odbccp32.lib ws2_32.lib mysqlclient.lib libcrypt.lib rpcrt4.lib profileapi_r.lib ripleycore.lib version.lib"
+				AdditionalDependencies="msvcrt.lib Wininet.lib odbc32.lib odbccp32.lib ws2_32.lib mysqlclient.lib libcrypt.lib rpcrt4.lib profileapi_r.lib ripleycore.lib version.lib"
 				OutputFile=".\Release/RipleyServer.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

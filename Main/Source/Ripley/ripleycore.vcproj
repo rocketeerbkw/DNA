@@ -50,7 +50,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include;C:\profileapi\Crypt\include;c:\mysql\include;D:\CruiseControl\BBC.DNA.root\BBC.DNA\DnaIdentityWebServiceProxy\bin\Release"
+				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_ADMIN_VERSION;_LIB;__LCC__"
 				StringPooling="true"
 				ExceptionHandling="2"
@@ -58,10 +58,10 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\Release/ripleycore.pch"
-				AssemblerListingLocation=".\Release/"
-				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				PrecompiledHeaderFile="&quot;$(OutDir)&quot;/ripleycore.pch"
+				AssemblerListingLocation="&quot;$(OutDir)&quot;/"
+				ObjectFile="&quot;$(OutDir)&quot;/"
+				ProgramDataBaseFileName="&quot;$(OutDir)&quot;/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="0"
@@ -79,7 +79,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\lib\ripleycore.lib"
+				OutputFile="&quot;$(OutDir)&quot;\ripleycore.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -133,7 +133,7 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\Debug/ripleycore.pch"
+				PrecompiledHeaderFile="&quot;$(OutDir)&quot;/ripleycore.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/ripleycore.pdb"
@@ -155,7 +155,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)\ripleycored.lib"
+				OutputFile="&quot;$(OutDir)&quot;\ripleycored.lib"
 				AdditionalLibraryDirectories=""
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="msvcrtd.lib"
