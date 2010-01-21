@@ -23,7 +23,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\lib"
+			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
@@ -50,7 +50,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include;C:\profileapi\Crypt\include;c:\mysql\include;D:\CruiseControl\BBC.DNA.root\BBC.DNA\DnaIdentityWebServiceProxy\bin\Release"
+				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include"
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_ADMIN_VERSION;_LIB;__LCC__"
 				StringPooling="true"
 				ExceptionHandling="2"
@@ -61,7 +61,7 @@
 				PrecompiledHeaderFile=".\Release/ripleycore.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
-				ProgramDataBaseFileName=".\Release/"
+				ProgramDataBaseFileName=".\Release/ripleycore.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="0"
