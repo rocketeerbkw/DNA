@@ -65,7 +65,7 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="ripleyserverstdafx.h"
-				PrecompiledHeaderFile="&quot;$(OutDir)&quot;/RipleyServer.pch"
+				PrecompiledHeaderFile="$(OutDir)/RipleyServer.pch"
 				AssemblerListingLocation="$(OutDir)/"
 				ObjectFile="$(OutDir)/"
 				ProgramDataBaseFileName="$(OutDir)/ripleyserver.pdb"
