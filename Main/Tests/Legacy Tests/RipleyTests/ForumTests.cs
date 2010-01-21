@@ -21,7 +21,13 @@ namespace RipleyTests
         [TestInitialize]
         public void SetUp()
         {
-            //SnapshotInitialisation.RestoreFromSnapshot();
+            try
+            {
+                SnapshotInitialisation.RestoreFromSnapshot();
+            }
+            catch
+            {}
+
         }
 
         [TestMethod]
