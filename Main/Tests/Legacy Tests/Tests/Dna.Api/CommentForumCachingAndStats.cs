@@ -44,13 +44,7 @@ namespace Tests
             SnapshotInitialisation.RestoreFromSnapshot();
             Statistics.InitialiseIfEmpty();
             Statistics.ResetCounters();
-        }
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public CommentForumCachingAndStats()
-        {
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
                 _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
@@ -59,6 +53,14 @@ namespace Tests
                 _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
                 _comments.siteList = _siteList;
             }
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public CommentForumCachingAndStats()
+        {
+            
             
         }
 		
