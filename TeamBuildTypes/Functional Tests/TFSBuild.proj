@@ -210,7 +210,7 @@
     -->
     <MetaDataFile Include="$(BuildProjectFolderPath)/../../Main/UserServices.vsmdi">
       <!-- TestList>Functional Tests;Legacy Test;Ripley Tests</TestList -->
-      <TestList>Legacy Test</TestList>
+      <TestList>Ripley Tests</TestList>
     </MetaDataFile>
 
   </ItemGroup>
