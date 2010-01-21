@@ -23,8 +23,8 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory=".\Release"
-			IntermediateDirectory=".\Release"
+			OutputDirectory=".\Release\"
+			IntermediateDirectory=".\Release\"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			UseOfMFC="2"
@@ -58,10 +58,10 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="&quot;$(OutDir)&quot;/ripleycore.pch"
-				AssemblerListingLocation="&quot;$(OutDir)&quot;/"
-				ObjectFile="&quot;$(OutDir)&quot;/"
-				ProgramDataBaseFileName="&quot;$(OutDir)&quot;/"
+				PrecompiledHeaderFile="&quot;$(OutDir)/ripleycore.pch&quot;"
+				AssemblerListingLocation="&quot;$(OutDir)&quot;"
+				ObjectFile="&quot;$(OutDir)&quot;"
+				ProgramDataBaseFileName="&quot;$(OutDir)ripleycore.pdb&quot;"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="0"
@@ -79,7 +79,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="&quot;$(OutDir)&quot;\ripleycore.lib"
+				OutputFile=".\lib\ripleycore.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -133,14 +133,14 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile="&quot;$(OutDir)&quot;/ripleycore.pch"
+				PrecompiledHeaderFile=".\Debug/ripleycore.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/ripleycore.pdb"
 				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="3"
+				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -155,7 +155,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="&quot;$(OutDir)&quot;\ripleycored.lib"
+				OutputFile="$(OutDir)\ripleycored.lib"
 				AdditionalLibraryDirectories=""
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="msvcrtd.lib"
