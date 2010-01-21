@@ -66,9 +66,9 @@
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderThrough="ripleyserverstdafx.h"
 				PrecompiledHeaderFile="&quot;$(OutDir)&quot;/RipleyServer.pch"
-				AssemblerListingLocation="&quot;$(OutDir)&quot;/"
-				ObjectFile="&quot;$(OutDir)&quot;/"
-				ProgramDataBaseFileName="&quot;$(OutDir)&quot;/"
+				AssemblerListingLocation="$(OutDir)/"
+				ObjectFile="$(OutDir)/"
+				ProgramDataBaseFileName="$(OutDir)/ripleyserver.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
