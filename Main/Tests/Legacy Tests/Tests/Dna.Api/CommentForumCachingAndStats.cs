@@ -49,7 +49,7 @@ namespace Tests
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {//force processpremod out...
-                    reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='ProcessPreMod'");
+                    reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=1 and Name='ProcessPreMod'");
                 }
                 _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
                 site = _siteList.GetSite("h2g2");
