@@ -107,6 +107,9 @@ namespace RipleyTests
         [TestMethod]
         public void TestTypedArticleEditWithDateRangeUsingFreeTextDates()
         {
+            //create article first...
+            TestTypedArticleCreateWithDateRange();
+
             Console.WriteLine("Before TestTypedArticleEditWithDateRangeUsingFreeTextDates");
             DnaTestURLRequest request = new DnaTestURLRequest("actionnetwork");
             request.SetCurrentUserNormal();
