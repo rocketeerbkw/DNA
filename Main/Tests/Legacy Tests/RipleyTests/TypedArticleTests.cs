@@ -61,47 +61,49 @@ namespace RipleyTests
             DnaTestURLRequest request = new DnaTestURLRequest("actionnetwork");
             request.SetCurrentUserNormal();
             IInputContext inputContext = DnaMockery.CreateDatabaseInputContext();
-            IDnaDataReader dataReader = inputContext.CreateDnaDataReader("");
-            DateRangeInfo origDrInfo = new DateRangeInfo();
-            ReadTopDateRangeRecord(dataReader, ref origDrInfo);
+            using (IDnaDataReader dataReader = inputContext.CreateDnaDataReader(""))
+            {
+                DateRangeInfo origDrInfo = new DateRangeInfo();
+                ReadTopDateRangeRecord(dataReader, ref origDrInfo);
 
-            DateRangeInfo newDrInfo = new DateRangeInfo();
+                DateRangeInfo newDrInfo = new DateRangeInfo();
 
-            // Update without a time interval
-            XmlDocument xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 16, 11, 1993, 17, 12, 2003, 0);
-            ReadTopDateRangeRecord(dataReader, ref newDrInfo);
-            Assert.IsTrue(newDrInfo.startDate.CompareTo(new DateTime(1993, 11, 16)) == 0, "StartDate incorrect");
-            Assert.IsTrue(newDrInfo.endDate.CompareTo(new DateTime(2003, 12, 18)) == 0, "EndDate incorrect");
-            Assert.IsTrue(newDrInfo.timeIntervalNull, "TimeInterval should be a null value");
-            Assert.IsTrue(GetEntryIDFromXml(xml) == newDrInfo.entryId, "Entry ID doesn't match");
-            Assert.IsTrue(newDrInfo.entryId == origDrInfo.entryId, "Entry ID should be same as original");
+                // Update without a time interval
+                XmlDocument xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 16, 11, 1993, 17, 12, 2003, 0);
+                ReadTopDateRangeRecord(dataReader, ref newDrInfo);
+                Assert.IsTrue(newDrInfo.startDate.CompareTo(new DateTime(1993, 11, 16)) == 0, "StartDate incorrect");
+                Assert.IsTrue(newDrInfo.endDate.CompareTo(new DateTime(2003, 12, 18)) == 0, "EndDate incorrect");
+                Assert.IsTrue(newDrInfo.timeIntervalNull, "TimeInterval should be a null value");
+                Assert.IsTrue(GetEntryIDFromXml(xml) == newDrInfo.entryId, "Entry ID doesn't match");
+                Assert.IsTrue(newDrInfo.entryId == origDrInfo.entryId, "Entry ID should be same as original");
 
-            // Update with a time interval
-            xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 17, 12, 1994, 18, 1, 2004, 27);
-            ReadTopDateRangeRecord(dataReader, ref newDrInfo);
-            Assert.IsTrue(newDrInfo.startDate.CompareTo(new DateTime(1994, 12, 17)) == 0, "StartDate incorrect");
-            Assert.IsTrue(newDrInfo.endDate.CompareTo(new DateTime(2004, 1, 19)) == 0, "EndDate incorrect");
-            Assert.IsFalse(newDrInfo.timeIntervalNull, "TimeInterval should not be a null value");
-            Assert.IsTrue(newDrInfo.timeInterval == 27, "TimeInterval should be 27");
-            Assert.IsTrue(GetEntryIDFromXml(xml) == newDrInfo.entryId, "Entry ID doesn't match");
-            Assert.IsTrue(newDrInfo.entryId == origDrInfo.entryId, "Entry ID should be same as original");
+                // Update with a time interval
+                xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 17, 12, 1994, 18, 1, 2004, 27);
+                ReadTopDateRangeRecord(dataReader, ref newDrInfo);
+                Assert.IsTrue(newDrInfo.startDate.CompareTo(new DateTime(1994, 12, 17)) == 0, "StartDate incorrect");
+                Assert.IsTrue(newDrInfo.endDate.CompareTo(new DateTime(2004, 1, 19)) == 0, "EndDate incorrect");
+                Assert.IsFalse(newDrInfo.timeIntervalNull, "TimeInterval should not be a null value");
+                Assert.IsTrue(newDrInfo.timeInterval == 27, "TimeInterval should be 27");
+                Assert.IsTrue(GetEntryIDFromXml(xml) == newDrInfo.entryId, "Entry ID doesn't match");
+                Assert.IsTrue(newDrInfo.entryId == origDrInfo.entryId, "Entry ID should be same as original");
 
-            // Test error codes
-            xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 30, 2, 1968, 5, 8, 1968, 10);
-            Assert.IsTrue(ReadDateRangeErrorCode(xml) == "StartDateInvalid");
-            xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 6, 8, 1968, 31, 4, 1968, 10);
-            Assert.IsTrue(ReadDateRangeErrorCode(xml) == "EndDateInvalid");
-            //xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 28, 2, 2068, 5, 8, 1968, 10);
-            //Assert.IsTrue(ReadDateRangeErrorCode(xml) == "StartDateInTheFuture");
-            //xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 28, 2, 1968, 5, 8, 2068, 10);
-            //Assert.IsTrue(ReadDateRangeErrorCode(xml) == "EndDateInTheFuture");
-            //xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 6, 8, 1968, 6, 8, 1968, 10);
-            //Assert.IsTrue(ReadDateRangeErrorCode(xml) == "StartDateEqualsEndDate");
-            xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 6, 8, 1968, 5, 8, 1968, 10);
-            Assert.IsTrue(ReadDateRangeErrorCode(xml) == "StartDateGreaterThanEndDate");
-            xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 6, 8, 1968, 7, 8, 1968, 3);
-            Assert.IsTrue(ReadDateRangeErrorCode(xml) == "TimeIntervalInvalid");
-            Console.WriteLine("After TestTypedArticleEditWithDateRange");
+                // Test error codes
+                xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 30, 2, 1968, 5, 8, 1968, 10);
+                Assert.IsTrue(ReadDateRangeErrorCode(xml) == "StartDateInvalid");
+                xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 6, 8, 1968, 31, 4, 1968, 10);
+                Assert.IsTrue(ReadDateRangeErrorCode(xml) == "EndDateInvalid");
+                //xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 28, 2, 2068, 5, 8, 1968, 10);
+                //Assert.IsTrue(ReadDateRangeErrorCode(xml) == "StartDateInTheFuture");
+                //xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 28, 2, 1968, 5, 8, 2068, 10);
+                //Assert.IsTrue(ReadDateRangeErrorCode(xml) == "EndDateInTheFuture");
+                //xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 6, 8, 1968, 6, 8, 1968, 10);
+                //Assert.IsTrue(ReadDateRangeErrorCode(xml) == "StartDateEqualsEndDate");
+                xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 6, 8, 1968, 5, 8, 1968, 10);
+                Assert.IsTrue(ReadDateRangeErrorCode(xml) == "StartDateGreaterThanEndDate");
+                xml = UpdateTypedArticleWithDateRange(request, origDrInfo.entryId, 6, 8, 1968, 7, 8, 1968, 3);
+                Assert.IsTrue(ReadDateRangeErrorCode(xml) == "TimeIntervalInvalid");
+                Console.WriteLine("After TestTypedArticleEditWithDateRange");
+            }
         }
 
         [TestMethod]
