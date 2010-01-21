@@ -341,7 +341,7 @@ namespace Tests
             {
                 Id = Guid.NewGuid().ToString(),
                 ParentUri = "http://www.bbc.co.uk/dna/h2g2/",
-                Title = "testCommentForum",
+                Title = "CommentForum_PreMod_Pass",
                 ModerationServiceGroup = ModerationStatus.ForumStatus.PreMod
             };
 
@@ -389,7 +389,7 @@ namespace Tests
             {
                 Id = Guid.NewGuid().ToString(),
                 ParentUri = "http://www.bbc.co.uk/dna/h2g2/",
-                Title = "testCommentForum",
+                Title = "CommentForum_PreMod_Fail",
                 ModerationServiceGroup = ModerationStatus.ForumStatus.PreMod
             };
 
