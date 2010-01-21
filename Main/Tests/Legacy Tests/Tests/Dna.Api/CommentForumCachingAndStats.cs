@@ -357,7 +357,9 @@ namespace Tests
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
-            _comments.CommentCreate(result, comment);
+            CommentInfo returnComment = _comments.CommentCreate(result, comment);
+            Assert.IsTrue(returnComment.ID != 0);//not processpremod'ed
+
 
             //get forum again
             result = _comments.CommentForumReadByUID(result.Id, site);
@@ -366,7 +368,7 @@ namespace Tests
             Assert.IsTrue(result.commentList.comments[0].hidden ==  CommentStatus.Hidden.Hidden_AwaitingPreModeration);
             Assert.IsTrue(result.commentSummary.Total == 1);
 
-            // Now ste the closing date of the forum to something in the past.
+            // Pass the comment...
             ModerateComment(result.commentList.comments[0].ID, result.ForumID, BBC.Dna.Component.ModeratePosts.Status.Passed,"");
             
             result = _comments.CommentForumReadByUID(result.Id, site);
