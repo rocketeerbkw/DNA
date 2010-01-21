@@ -159,7 +159,7 @@ namespace RipleyTests
             Console.WriteLine("After ddArchiveTopic");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void eeNormalUserPermissions()
         {
             Console.WriteLine("Before eeNormalUserPermissions");
@@ -192,11 +192,6 @@ namespace RipleyTests
             doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2/ERROR[@CODE='UserNotLoggedInOrAuthorised']"), "Check Normal User Permissions - Error On Page");
             Console.WriteLine("After eeNormalUserPermissions");
-
-            //Restart site to release smallguide...
-            DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC/2");
-            entry.Invoke("stop");
-            entry.Invoke("start");
         }
 
         public void EmergencyCloseBoard()
