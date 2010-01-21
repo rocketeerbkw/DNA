@@ -59,6 +59,14 @@ namespace Tests
         }
 
         /// <summary>
+        /// Set property for the identity switch
+        /// </summary>
+        public bool SetUseIdentity
+        {
+            set { _useIdentity = value; }
+        }
+
+        /// <summary>
         /// The dispose method
         /// </summary>
         public void Dispose()

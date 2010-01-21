@@ -46,6 +46,7 @@ namespace Tests
 
         private void ReadSiteOptionListFromDatabase()
         {
+            _testXSLTFilename = base.DnaConfig.CachePath + "DnaHtmlCacheTestFile.xsl";
             _siteOptionList = new SiteOptionList(this.dnaDiagnostics,  DnaMockery.DnaConfig.ConnectionString);
             _siteOptionList.CreateFromDatabase();
         }
@@ -94,6 +95,7 @@ namespace Tests
         [TestInitialize]
         public void SetUpHtmlCachingTests()
         {
+            base.SetUseIdentity = false;
             _siteId = SiteList.GetSite(_siteUrlName).SiteID;
             SaveHtmlCachingSiteOptions();
         }
@@ -165,7 +167,7 @@ namespace Tests
         public void TestHtmlCachingOnNotLoggedIn()
         {
             Console.WriteLine("TestHtmlCachingOnNotLoggedIn");
-            int expiryTime = 10;
+            int expiryTime = 30;
 
             SetHtmlCaching(true);
             SetHtmlCachingExpiryTime(expiryTime);
@@ -195,6 +197,43 @@ namespace Tests
             s = RequestPage(request);
             Assert.IsFalse(s.Contains("HTML caching is ON"),"Request still has initial string - it should be the new on now");
             Assert.IsTrue(s.Contains("HTML caching is STILL ON"),"The new string is not there yet");
+        }
+
+        /// <summary>
+        /// Tests behavour when HTML caching is on
+        /// </summary>
+        [TestMethod]
+        public void TestHtmlCachingOnLoggedInUsingIdentity()
+        {
+            Console.WriteLine("TestHtmlCachingOnNotLoggedInUsingIdentity");
+            int expiryTime = 30;
+            _siteId = SiteList.GetSite("identity606").SiteID;
+
+            base.SetUseIdentity = true;
+            SetHtmlCaching(true);
+            SetHtmlCachingExpiryTime(expiryTime);
+            RefreshSiteOptions();
+
+            CreateXSLTFile("First call");
+
+            DateTime start = DateTime.Now;
+
+            DnaTestURLRequest request = new DnaTestURLRequest("identity606");
+            request.SetCurrentUserAsIdentityTestUser();
+            request.UseIdentitySignIn = true;
+            string s = RequestPage(request);
+            Assert.IsTrue(s.Contains("First call"), "Initial request doesn't contain correct string");
+
+            CreateXSLTFile("Second call");
+
+            s = RequestPage(request);
+            Assert.IsTrue(s.Contains("Second call"), "Second request doesn't contain new string");
+
+            DateTime end = DateTime.Now;
+
+            // This test has to complete within a time limit
+            TimeSpan ts = end.Subtract(start);
+            Assert.IsTrue(ts.Seconds < expiryTime, "Test didn't complete in time");
         }
 
         private void CreateXSLTFile(string body)
