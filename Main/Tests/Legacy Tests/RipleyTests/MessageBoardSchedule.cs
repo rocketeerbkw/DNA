@@ -159,7 +159,7 @@ namespace RipleyTests
             Console.WriteLine("After ddArchiveTopic");
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void eeNormalUserPermissions()
         {
             Console.WriteLine("Before eeNormalUserPermissions");
