@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using System.Threading;
 
 
 
@@ -190,6 +191,9 @@ namespace RipleyTests
             doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2/ERROR[@CODE='UserNotLoggedInOrAuthorised']"), "Check Normal User Permissions - Error On Page");
             Console.WriteLine("After eeNormalUserPermissions");
+
+            //sleep to allow for site signals to go through...
+            Thread.Sleep(10000);
         }
 
         public void EmergencyCloseBoard()
