@@ -6,6 +6,7 @@ using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using System.Threading;
+using System.DirectoryServices;
 
 
 
@@ -192,8 +193,10 @@ namespace RipleyTests
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2/ERROR[@CODE='UserNotLoggedInOrAuthorised']"), "Check Normal User Permissions - Error On Page");
             Console.WriteLine("After eeNormalUserPermissions");
 
-            //sleep to allow for site signals to go through...
-            Thread.Sleep(10000);
+            //Restart site to release smallguide...
+            DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC/2");
+            entry.Invoke("stop");
+            entry.Invoke("start");
         }
 
         public void EmergencyCloseBoard()
