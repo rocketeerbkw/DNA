@@ -100,7 +100,7 @@ namespace RipleyTests
             //Check Editor Can Unhide Thread.
             DnaTestURLRequest urlRequest = new DnaTestURLRequest("haveyoursay");
             urlRequest.SetCurrentUserEditor();
-            string url = "F" + forumId + "&UnHideThread=" + threadId + "&skin=purexml";
+            string url = "F" + forumId + "?UnHideThread=" + threadId + "&skin=purexml";
             urlRequest.RequestPage(url);
             XmlDocument doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2[UNHIDETHREAD='UnHideThreadOK']"), "Check Thread UnHidden");
@@ -108,7 +108,7 @@ namespace RipleyTests
             System.Threading.Thread.Sleep(100);
 
             //Check Normal User Can See Thread.
-            url = "F" + forumId + "&skin=purexml";
+            url = "F" + forumId + "?skin=purexml";
             urlRequest.SetCurrentUserNormal();
             urlRequest.RequestPage(url);
             doc = urlRequest.GetLastResponseAsXML();

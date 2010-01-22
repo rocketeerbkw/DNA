@@ -169,13 +169,13 @@ namespace RipleyTests
             DnaTestURLRequest request = new DnaTestURLRequest("actionnetwork");
             request.SetCurrentUserNormal();
             IInputContext inputContext = DnaMockery.CreateDatabaseInputContext();
-            using (IDnaDataReader dataReader2 = inputContext.CreateDnaDataReader(""))
+            using (IDnaDataReader dataReader = inputContext.CreateDnaDataReader(""))
             {
                 DateRangeInfo drInfo2 = new DateRangeInfo();
 
                 // Create without a time interval
                 XmlDocument xml = CreateTypedArticleWithDateRange(request, "06/08/2005", "17/09/2005", 0);
-                ReadTopDateRangeRecord(dataReader2, ref drInfo2);
+                ReadTopDateRangeRecord(dataReader, ref drInfo2);
                 Assert.IsTrue(drInfo2.startDate.CompareTo(new DateTime(2005, 8, 6)) == 0, "StartDate incorrect");
                 Assert.IsTrue(drInfo2.endDate.CompareTo(new DateTime(2005, 9, 18)) == 0, "EndDate incorrect");
                 Assert.IsTrue(drInfo2.timeIntervalNull, "TimeInterval should be a null value");
@@ -184,7 +184,7 @@ namespace RipleyTests
 
                 // Create with a time interval
                 xml = CreateTypedArticleWithDateRange(request, "10/11/1970", "20/12/1970", 5);
-                ReadTopDateRangeRecord(dataReader2, ref drInfo2);
+                ReadTopDateRangeRecord(dataReader, ref drInfo2);
                 Assert.IsTrue(drInfo2.startDate.CompareTo(new DateTime(1970, 11, 10)) == 0, "StartDate incorrect");
                 Assert.IsTrue(drInfo2.endDate.CompareTo(new DateTime(1970, 12, 21)) == 0, "EndDate incorrect");
                 Assert.IsFalse(drInfo2.timeIntervalNull, "TimeInterval should NOT be a null value");
@@ -208,7 +208,7 @@ namespace RipleyTests
                 xml = CreateTypedArticleWithDateRange(request, "06/08/1968", "07/08/1968", 3);
                 Assert.IsTrue(ReadDateRangeErrorCode(xml) == "TimeIntervalInvalid");
 
-                ReadTopDateRangeRecord(dataReader2, ref drInfo2);
+                ReadTopDateRangeRecord(dataReader, ref drInfo2);
                 Assert.IsTrue(drInfo2.startDate.CompareTo(new DateTime(1970, 11, 10)) == 0, "StartDate should be same as last one");
                 Assert.IsTrue(drInfo2.endDate.CompareTo(new DateTime(1970, 12, 21)) == 0, "EndDate should be same as last one");
                 Assert.IsFalse(drInfo2.timeIntervalNull, "TimeInterval should NOT be a null value");
@@ -217,7 +217,7 @@ namespace RipleyTests
 
                 // Try just the single start date (no end date)
                 xml = CreateTypedArticleWithSingleStartDateRange(request, "01/01/2007", 0);
-                ReadTopDateRangeRecord(dataReader2, ref drInfo2);
+                ReadTopDateRangeRecord(dataReader, ref drInfo2);
                 Assert.IsTrue(drInfo2.startDate.CompareTo(new DateTime(2007, 1, 1)) == 0, "StartDate incorrect");
                 Assert.IsTrue(drInfo2.endDate.CompareTo(new DateTime(2007, 1, 2)) == 0, "EndDate incorrect");
                 Console.WriteLine("After TestTypedArticleCreateWithDateRangeUsingFreeTextDates");
