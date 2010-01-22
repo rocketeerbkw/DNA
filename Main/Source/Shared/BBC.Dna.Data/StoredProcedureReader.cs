@@ -341,7 +341,21 @@ namespace BBC.Dna.Data
 
             return this;
         }
+#else
+        /// <summary>
+        /// Calls the database with an adhoc query.
+        /// Only ever used in unit tests
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public IDnaDataReader ExecuteDEBUGONLY(string sql)
+        {
+            throw new NotImplementedException();
+        }
+
 #endif
+
+
 
         /// <summary>
         /// <see cref="IDnaDataReader"/>
