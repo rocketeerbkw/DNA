@@ -147,7 +147,6 @@
     <Compile Include="ScoutRecommendationsPageTests.cs" />
     <Compile Include="SubbedArticleStatusTest.cs" />
     <Compile Include="UserComplaintPageTests.cs" />
-    <Compile Include="UserMigrationTests.cs" />
     <Compile Include="MediaAssetPageTests.cs" />
     <Compile Include="MemberDetailsAdminPageTests.cs" />
     <Compile Include="MemberListPageTests.cs" />
