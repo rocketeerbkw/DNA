@@ -3337,6 +3337,16 @@ N'exec dbu_createsiteoption 0, ''CommentForum'', ''MinCommentCharacterLength'', 
 N'Creating SiteOption MinCommentCharacterLength', @curerror OUTPUT
 IF (@curerror <> 0) RETURN
 
+EXEC dbu_dosql N'Markn: A8F98011-B3A3-48CB-B1F7-FC76A5ED0660',
+N'
+IF dbo.udf_viewexists(''VGuideEntryText_collective'') = 1
+BEGIN
+	DROP VIEW VGuideEntryText_collective
+END
+',
+N'Dropping view VGuideEntryText_collective as that site is no longer', @curerror OUTPUT
+IF (@curerror <> 0) RETURN
+
 ------------------------------------------------------------------------------------------------
 -- INSERT NEW CODE BEFORE HERE!!!
 

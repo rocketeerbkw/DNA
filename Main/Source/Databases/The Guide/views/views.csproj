@@ -63,7 +63,6 @@
     <None Include="VVisibleArticleKeyPhrasesWithLastUpdated.sql" />
     <None Include="VVisibleArticleKeyPhrasesWithLastUpdatedAndAverageRating.sql" />
     <None Include="VVisibleGuideEntries.sql" />
-    <None Include="VGuideEntryText_Collective.sql" />
     <None Include="VGuideEntryText_MemoryShare.sql" />
   </ItemGroup>
   <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
