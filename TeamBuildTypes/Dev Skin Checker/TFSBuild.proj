@@ -216,7 +216,13 @@
   <!-- Fail the build if the compile fail... -->
   <Target Name="AfterCompile"> <!-- Condition=" '$(BuildBreak)'=='false' and '$(IsDesktopBuild)'!='true' " -->
 
-    <Exec Command="&quot;$(BinariesRoot)\Debug\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Main\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Main\Source\Skins\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="false"></Exec>
+      <Exec Command="&quot;$(BinariesRoot)\Debug\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Main\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Main\Source\Skins\output.xsl&quot;  /commandline /recursivescan">
+        <Output TaskParameter="ExitCode" PropertyName="SkinsCheckerResult"></Output>
+      </Exec>
+
+    <BuildStep Condition="'$(SkinsCheckerResult)'=='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Succeeded" />
+    <BuildStep Condition="'$(SkinsCheckerResult)'!='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Failed" />
+
 
     <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
     <OnError ExecuteTargets="AfterCompileStepFailed" />
