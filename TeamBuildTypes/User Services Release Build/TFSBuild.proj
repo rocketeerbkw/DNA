@@ -152,14 +152,14 @@
              <Properties>Property1=Value1;Property2=Value2</Properties>
          </SolutionToBuild>
     -->
-    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Release/UserServices.sln">
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Release/UserServices.sln"  ContinueOnError="false">
         <Targets></Targets>
         <Properties></Properties>
     </SolutionToBuild>
 
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup  ContinueOnError="false">
     <!--  CONFIGURATIONS
      The list of configurations to build. To add/delete configurations, edit this value. For example, 
      to add a new configuration, add the following lines:
