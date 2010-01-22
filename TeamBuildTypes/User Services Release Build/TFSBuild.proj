@@ -240,11 +240,11 @@
   <ItemGroup>
     <Schemas Include="$(SolutionRoot)\Source\schemas\**\*.*"></Schemas>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
-    <DnaPages Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
-    <CommentsApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
-    <ModerationApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
+    <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
+    <CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
+    <ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
     <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
-    <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.dll"></Ripley>
+    <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
   </ItemGroup>
 
   <!-- Fail the build if the tests fail... -->
