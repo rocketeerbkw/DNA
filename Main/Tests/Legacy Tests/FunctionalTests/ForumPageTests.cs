@@ -496,6 +496,7 @@ namespace FunctionalTests
             Assert.AreEqual("1", forumThreadPosts.Attributes["CANREAD"].Value);
             Assert.AreEqual("1", forumThreadPosts.Attributes["CANWRITE"].Value);
 
+            CleanRiplyCache();
             //reset
             request.RequestPage("F7325075?cmd=forumperm&thread=34&skin=purexml&read=1&write=1");
             ValidateForumThreadSchema(request);
