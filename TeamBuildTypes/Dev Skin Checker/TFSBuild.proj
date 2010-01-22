@@ -214,18 +214,8 @@
   </PropertyGroup>
 
   <!-- Fail the build if the compile fail... -->
-  <Target Name="AfterCompile" Condition=" '$(BuildBreak)'=='true' and '$(IsDesktopBuild)'!='true' " >
+  <Target Name="AfterCompile"> <!-- Condition=" '$(BuildBreak)'=='false' and '$(IsDesktopBuild)'!='true' " -->
 
-    <!-- Set CompilationStatus to Failed if TestSuccess is false. -->
-    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
-                        BuildUri="$(BuildUri)"
-                        CompilationStatus="Failed"
-                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(BuildBreak)' != 'true' " />
-  </Target>
-
-  <!-- Fail the build if the compile fail... -->
-  <Target Name="AfterCompile" Condition=" '$(BuildBreak)'=='false' and '$(IsDesktopBuild)'!='true' " >
-    
     <Exec Command="$(BinariesRoot)\debug\skinchecker.exe /xmlfile:&quot;$(SolutionRoot)\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Source\Skins\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="false"></Exec>
   </Target>
 
