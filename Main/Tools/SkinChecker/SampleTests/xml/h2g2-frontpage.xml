@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="ISO8859-1"?><!DOCTYPE H2G2 [
+<!ENTITY AElig "<ENTITY type='AElig'>&#198;</ENTITY>">
+<!ENTITY Aacute "<ENTITY type='Aacute'>&#193;</ENTITY>">   
+<!ENTITY Acirc "<ENTITY type='Acirc'>&#194;</ENTITY>">
+<!ENTITY Agrave "<ENTITY type='Agrave'>&#192;</ENTITY>">   
+<!ENTITY Alpha "<ENTITY type='Alpha'>&#913;</ENTITY>">
+<!ENTITY Aring "<ENTITY type='Aring'>&#197;</ENTITY>">
+<!ENTITY Atilde "<ENTITY type='Atilde'>&#195;</ENTITY>">   
+<!ENTITY Auml "<ENTITY type='Auml'>&#196;</ENTITY>"> 
+<!ENTITY Beta "<ENTITY type='Beta'>&#914;</ENTITY>"> 
+<!ENTITY COPY "<ENTITY type='COPY'>&#169;</ENTITY>"> 
+<!ENTITY Ccedil "<ENTITY type='Ccedil'>&#199;</ENTITY>">   
+<!ENTITY Chi "<ENTITY type='Chi'>&#935;</ENTITY>">  
+<!ENTITY Dagger "<ENTITY type='Dagger'>&#8225;</ENTITY>">  
+<!ENTITY Delta "<ENTITY type='Delta'>&#916;</ENTITY>">
+<!ENTITY ETH "<ENTITY type='ETH'>&#208;</ENTITY>">  
+<!ENTITY Eacute "<ENTITY type='Eacute'>&#201;</ENTITY>">   
+<!ENTITY Ecirc "<ENTITY type='Ecirc'>&#202;</ENTITY>">
+<!ENTITY Egrave "<ENTITY type='Egrave'>&#200;</ENTITY>">   
+<!ENTITY Epsilon "<ENTITY type='Epsilon'>&#917;</ENTITY>">  
+<!ENTITY Eta "<ENTITY type='Eta'>&#919;</ENTITY>">  
+<!ENTITY Euml "<ENTITY type='Euml'>&#203;</ENTITY>"> 
+<!ENTITY GT "<ENTITY type='GT'>&#62;</ENTITY>">
+<!ENTITY Gamma "<ENTITY type='Gamma'>&#915;</ENTITY>">
+<!ENTITY Iacute "<ENTITY type='Iacute'>&#205;</ENTITY>">   
+<!ENTITY Icirc "<ENTITY type='Icirc'>&#206;</ENTITY>">
+<!ENTITY Igrave "<ENTITY type='Igrave'>&#204;</ENTITY>">   
+<!ENTITY Iota "<ENTITY type='Iota'>&#921;</ENTITY>"> 
+<!ENTITY Iuml "<ENTITY type='Iuml'>&#207;</ENTITY>"> 
+<!ENTITY Kappa "<ENTITY type='Kappa'>&#922;</ENTITY>">
+<!ENTITY LT "&amp;#60;">
+<!ENTITY Lambda "<ENTITY type='Lambda'>&#923;</ENTITY>">   
+<!ENTITY Mu "<ENTITY type='Mu'>&#924;</ENTITY>">   
+<!ENTITY Ntilde "<ENTITY type='Ntilde'>&#209;</ENTITY>">   
+<!ENTITY Nu "<ENTITY type='Nu'>&#925;</ENTITY>">   
+<!ENTITY OElig "<ENTITY type='OElig'>&#338;</ENTITY>">
+<!ENTITY Oacute "<ENTITY type='Oacute'>&#211;</ENTITY>">   
+<!ENTITY Ocirc "<ENTITY type='Ocirc'>&#212;</ENTITY>">
+<!ENTITY Ograve "<ENTITY type='Ograve'>&#210;</ENTITY>">   
+<!ENTITY Omega "<ENTITY type='Omega'>&#937;</ENTITY>">
+<!ENTITY Omicron "<ENTITY type='Omicron'>&#927;</ENTITY>">  
+<!ENTITY Oslash "<ENTITY type='Oslash'>&#216;</ENTITY>">   
+<!ENTITY Otilde "<ENTITY type='Otilde'>&#213;</ENTITY>">   
+<!ENTITY Ouml "<ENTITY type='Ouml'>&#214;</ENTITY>"> 
+<!ENTITY Phi "<ENTITY type='Phi'>&#934;</ENTITY>">  
+<!ENTITY Pi "<ENTITY type='Pi'>&#928;</ENTITY>">   
+<!ENTITY Prime "<ENTITY type='Prime'>&#8243;</ENTITY>">   
+<!ENTITY Psi "<ENTITY type='Psi'>&#936;</ENTITY>">  
+<!ENTITY QUOT "<ENTITY type='QUOT'>&#34;</ENTITY>">  
+<!ENTITY REG "<ENTITY type='REG'>&#174;</ENTITY>">  
+<!ENTITY Rho "<ENTITY type='Rho'>&#929;</ENTITY>">  
+<!ENTITY Scaron "<ENTITY type='Scaron'>&#352;</ENTITY>">   
+<!ENTITY Sigma "<ENTITY type='Sigma'>&#931;</ENTITY>">
+<!ENTITY THORN "<ENTITY type='THORN'>&#222;</ENTITY>">
+<!ENTITY TRADE "<ENTITY type='TRADE'>&#8482;</ENTITY>">   
+<!ENTITY Tau "<ENTITY type='Tau'>&#932;</ENTITY>">  
+<!ENTITY Theta "<ENTITY type='Theta'>&#920;</ENTITY>">
+<!ENTITY Uacute "<ENTITY type='Uacute'>&#218;</ENTITY>">   
+<!ENTITY Ucirc "<ENTITY type='Ucirc'>&#219;</ENTITY>">
+<!ENTITY Ugrave "<ENTITY type='Ugrave'>&#217;</ENTITY>">   
+<!ENTITY Upsilon "<ENTITY type='Upsilon'>&#933;</ENTITY>">  
+<!ENTITY Uuml "<ENTITY type='Uuml'>&#220;</ENTITY>"> 
+<!ENTITY Xi "<ENTITY type='Xi'>&#926;</ENTITY>">   
+<!ENTITY Yacute "<ENTITY type='Yacute'>&#221;</ENTITY>">   
+<!ENTITY Yuml "<ENTITY type='Yuml'>&#376;</ENTITY>"> 
+<!ENTITY Zeta "<ENTITY type='Zeta'>&#918;</ENTITY>"> 
+<!ENTITY aacute "<ENTITY type='aacute'>&#225;</ENTITY>">   
+<!ENTITY aafs "<ENTITY type='aafs'>&#8301;</ENTITY>">
+<!ENTITY acirc "<ENTITY type='acirc'>&#226;</ENTITY>">
+<!ENTITY acute "<ENTITY type='acute'>&#180;</ENTITY>">
+<!ENTITY aelig "<ENTITY type='aelig'>&#230;</ENTITY>">
+<!ENTITY agrave "<ENTITY type='agrave'>&#224;</ENTITY>">   
+<!ENTITY alefsym "<ENTITY type='alefsym'>&#8501;</ENTITY>"> 
+<!ENTITY alpha "<ENTITY type='alpha'>&#945;</ENTITY>">
+<!ENTITY and "<ENTITY type='and'>&#8743;</ENTITY>"> 
+<!ENTITY ang "<ENTITY type='ang'>&#8736;</ENTITY>"> 
+<!ENTITY aring "<ENTITY type='aring'>&#229;</ENTITY>">
+<!ENTITY ass "<ENTITY type='ass'>&#8299;</ENTITY>">
+<!ENTITY asymp "<ENTITY type='asymp'>&#8776;</ENTITY>">   
+<!ENTITY atilde "<ENTITY type='atilde'>&#227;</ENTITY>">   
+<!ENTITY auml "<ENTITY type='auml'>&#228;</ENTITY>"> 
+<!ENTITY bdquo "<ENTITY type='bdquo'>&#8222;</ENTITY>">   
+<!ENTITY beta "<ENTITY type='beta'>&#946;</ENTITY>"> 
+<!ENTITY brvbar "<ENTITY type='brvbar'>&#166;</ENTITY>">   
+<!ENTITY bull "<ENTITY type='bull'>&#8226;</ENTITY>">
+<!ENTITY cap "<ENTITY type='cap'>&#8745;</ENTITY>"> 
+<!ENTITY ccedil "<ENTITY type='ccedil'>&#231;</ENTITY>">   
+<!ENTITY cedil "<ENTITY type='cedil'>&#184;</ENTITY>">
+<!ENTITY cent "<ENTITY type='cent'>&#162;</ENTITY>"> 
+<!ENTITY chi "<ENTITY type='chi'>&#967;</ENTITY>">  
+<!ENTITY circ "<ENTITY type='circ'>&#710;</ENTITY>"> 
+<!ENTITY clubs "<ENTITY type='clubs'>&#9827;</ENTITY>">   
+<!ENTITY cong "<ENTITY type='cong'>&#8773;</ENTITY>">
+<!ENTITY copy "<ENTITY type='copy'>&#169;</ENTITY>"> 
+<!ENTITY crarr "<ENTITY type='crarr'>&#8629;</ENTITY>">   
+<!ENTITY cup "<ENTITY type='cup'>&#8746;</ENTITY>"> 
+<!ENTITY curren "<ENTITY type='curren'>&#164;</ENTITY>">   
+<!ENTITY dArr "<ENTITY type='dArr'>&#8659;</ENTITY>">
+<!ENTITY dagger "<ENTITY type='dagger'>&#8224;</ENTITY>">  
+<!ENTITY darr "<ENTITY type='darr'>&#8595;</ENTITY>">
+<!ENTITY deg "<ENTITY type='deg'>&#176;</ENTITY>">  
+<!ENTITY delta "<ENTITY type='delta'>&#948;</ENTITY>">
+<!ENTITY diams "<ENTITY type='diams'>&#9830;</ENTITY>">   
+<!ENTITY divide "<ENTITY type='divide'>&#247;</ENTITY>">   
+<!ENTITY eacute "<ENTITY type='eacute'>&#233;</ENTITY>">   
+<!ENTITY ecirc "<ENTITY type='ecirc'>&#234;</ENTITY>">
+<!ENTITY egrave "<ENTITY type='egrave'>&#232;</ENTITY>">   
+<!ENTITY empty "<ENTITY type='empty'>&#8709;</ENTITY>">   
+<!ENTITY emsp "<ENTITY type='emsp'>&#8195;</ENTITY>">
+<!ENTITY ensp "<ENTITY type='ensp'>&#8194;</ENTITY>">
+<!ENTITY epsilon "<ENTITY type='epsilon'>&#949;</ENTITY>">  
+<!ENTITY equiv "<ENTITY type='equiv'>&#8801;</ENTITY>">   
+<!ENTITY eta "<ENTITY type='eta'>&#951;</ENTITY>">  
+<!ENTITY eth "<ENTITY type='eth'>&#240;</ENTITY>">  
+<!ENTITY euml "<ENTITY type='euml'>&#235;</ENTITY>"> 
+<!ENTITY euro "<ENTITY type='euro'>&#8364;</ENTITY>"> 
+<!ENTITY exist "<ENTITY type='exist'>&#8707;</ENTITY>">   
+<!ENTITY fnof "<ENTITY type='fnof'>&#402;</ENTITY>"> 
+<!ENTITY forall "<ENTITY type='forall'>&#8704;</ENTITY>">  
+<!ENTITY frac12 "<ENTITY type='frac12'>&#189;</ENTITY>">   
+<!ENTITY frac14 "<ENTITY type='frac14'>&#188;</ENTITY>">   
+<!ENTITY frac34 "<ENTITY type='frac34'>&#190;</ENTITY>">   
+<!ENTITY frasl "<ENTITY type='frasl'>&#8260;</ENTITY>">   
+<!ENTITY gamma "<ENTITY type='gamma'>&#947;</ENTITY>">
+<!ENTITY ge "<ENTITY type='ge'>&#8805;</ENTITY>">  
+<!ENTITY hArr "<ENTITY type='hArr'>&#8660;</ENTITY>">
+<!ENTITY harr "<ENTITY type='harr'>&#8596;</ENTITY>">
+<!ENTITY hearts "<ENTITY type='hearts'>&#9829;</ENTITY>">  
+<!ENTITY hellip "<ENTITY type='hellip'>&#8230;</ENTITY>">  
+<!ENTITY iacute "<ENTITY type='iacute'>&#237;</ENTITY>">   
+<!ENTITY iafs "<ENTITY type='iafs'>&#8300;</ENTITY>">
+<!ENTITY icirc "<ENTITY type='icirc'>&#238;</ENTITY>">
+<!ENTITY iexcl "<ENTITY type='iexcl'>&#161;</ENTITY>">
+<!ENTITY igrave "<ENTITY type='igrave'>&#236;</ENTITY>">   
+<!ENTITY image "<ENTITY type='image'>&#8465;</ENTITY>">   
+<!ENTITY infin "<ENTITY type='infin'>&#8734;</ENTITY>">   
+<!ENTITY int "<ENTITY type='int'>&#8747;</ENTITY>"> 
+<!ENTITY iota "<ENTITY type='iota'>&#953;</ENTITY>"> 
+<!ENTITY iquest "<ENTITY type='iquest'>&#191;</ENTITY>">   
+<!ENTITY isin "<ENTITY type='isin'>&#8712;</ENTITY>">
+<!ENTITY iss "<ENTITY type='iss'>&#8298;</ENTITY>">
+<!ENTITY iuml "<ENTITY type='iuml'>&#239;</ENTITY>"> 
+<!ENTITY kappa "<ENTITY type='kappa'>&#954;</ENTITY>">
+<!ENTITY lArr "<ENTITY type='lArr'>&#8656;</ENTITY>">
+<!ENTITY lambda "<ENTITY type='lambda'>&#955;</ENTITY>">   
+<!ENTITY lang "<ENTITY type='lang'>&#9001;</ENTITY>">
+<!ENTITY laquo "<ENTITY type='laquo'>&#171;</ENTITY>">
+<!ENTITY larr "<ENTITY type='larr'>&#8592;</ENTITY>">
+<!ENTITY lceil "<ENTITY type='lceil'>&#8968;</ENTITY>">   
+<!ENTITY ldquo "<ENTITY type='ldquo'>&#8220;</ENTITY>">   
+<!ENTITY le "<ENTITY type='le'>&#8804;</ENTITY>">  
+<!ENTITY lfloor "<ENTITY type='lfloor'>&#8970;</ENTITY>">  
+<!ENTITY lowast "<ENTITY type='lowast'>&#8727;</ENTITY>">  
+<!ENTITY loz "<ENTITY type='loz'>&#9674;</ENTITY>"> 
+<!ENTITY lre "<ENTITY type='lre'>&#8234;</ENTITY>">
+<!ENTITY lrm "<ENTITY type='lrm'>&#8206;</ENTITY>"> 
+<!ENTITY lro "<ENTITY type='lro'>&#8237;</ENTITY>">
+<!ENTITY lsaquo "<ENTITY type='lsaquo'>&#8249;</ENTITY>">  
+<!ENTITY lsquo "<ENTITY type='lsquo'>&#8216;</ENTITY>">   
+<!ENTITY macr "<ENTITY type='macr'>&#175;</ENTITY>"> 
+<!ENTITY mdash "<ENTITY type='mdash'>&#8212;</ENTITY>">   
+<!ENTITY micro "<ENTITY type='micro'>&#181;</ENTITY>">
+<!ENTITY middot "<ENTITY type='middot'>&#183;</ENTITY>">   
+<!ENTITY minus "<ENTITY type='minus'>&#8722;</ENTITY>">   
+<!ENTITY mu "<ENTITY type='mu'>&#956;</ENTITY>">   
+<!ENTITY nabla "<ENTITY type='nabla'>&#8711;</ENTITY>">   
+<!ENTITY nads "<ENTITY type='nads'>&#8302;</ENTITY>">
+<!ENTITY nbsp "<ENTITY type='nbsp'>&#160;</ENTITY>"> 
+<!ENTITY ndash "<ENTITY type='ndash'>&#8211;</ENTITY>">   
+<!ENTITY ne "<ENTITY type='ne'>&#8800;</ENTITY>">  
+<!ENTITY ni "<ENTITY type='ni'>&#8715;</ENTITY>">  
+<!ENTITY nods "<ENTITY type='nods'>&#8303;</ENTITY>">
+<!ENTITY not "<ENTITY type='not'>&#172;</ENTITY>">  
+<!ENTITY notin "<ENTITY type='notin'>&#8713;</ENTITY>">   
+<!ENTITY nsub "<ENTITY type='nsub'>&#8836;</ENTITY>">
+<!ENTITY ntilde "<ENTITY type='ntilde'>&#241;</ENTITY>">   
+<!ENTITY nu "<ENTITY type='nu'>&#957;</ENTITY>">   
+<!ENTITY oacute "<ENTITY type='oacute'>&#243;</ENTITY>">   
+<!ENTITY ocirc "<ENTITY type='ocirc'>&#244;</ENTITY>">
+<!ENTITY oelig "<ENTITY type='oelig'>&#339;</ENTITY>">
+<!ENTITY ograve "<ENTITY type='ograve'>&#242;</ENTITY>">   
+<!ENTITY oline "<ENTITY type='oline'>&#8254;</ENTITY>">   
+<!ENTITY omega "<ENTITY type='omega'>&#969;</ENTITY>">
+<!ENTITY omicron "<ENTITY type='omicron'>&#959;</ENTITY>">  
+<!ENTITY oplus "<ENTITY type='oplus'>&#8853;</ENTITY>">   
+<!ENTITY or "<ENTITY type='or'>&#8744;</ENTITY>">  
+<!ENTITY ordf "<ENTITY type='ordf'>&#170;</ENTITY>"> 
+<!ENTITY ordm "<ENTITY type='ordm'>&#186;</ENTITY>"> 
+<!ENTITY oslash "<ENTITY type='oslash'>&#248;</ENTITY>">   
+<!ENTITY otilde "<ENTITY type='otilde'>&#245;</ENTITY>">   
+<!ENTITY otimes "<ENTITY type='otimes'>&#8855;</ENTITY>">  
+<!ENTITY ouml "<ENTITY type='ouml'>&#246;</ENTITY>"> 
+<!ENTITY para "<ENTITY type='para'>&#182;</ENTITY>"> 
+<!ENTITY part "<ENTITY type='part'>&#8706;</ENTITY>">
+<!ENTITY pdf "<ENTITY type='pdf'>&#8236;</ENTITY>">
+<!ENTITY permil "<ENTITY type='permil'>&#8240;</ENTITY>">  
+<!ENTITY perp "<ENTITY type='perp'>&#8869;</ENTITY>">
+<!ENTITY phi "<ENTITY type='phi'>&#966;</ENTITY>">  
+<!ENTITY pi "<ENTITY type='pi'>&#960;</ENTITY>">   
+<!ENTITY piv "<ENTITY type='piv'>&#982;</ENTITY>">  
+<!ENTITY plusmn "<ENTITY type='plusmn'>&#177;</ENTITY>">   
+<!ENTITY pound "<ENTITY type='pound'>&#163;</ENTITY>">
+<!ENTITY prime "<ENTITY type='prime'>&#8242;</ENTITY>">   
+<!ENTITY prod "<ENTITY type='prod'>&#8719;</ENTITY>">
+<!ENTITY prop "<ENTITY type='prop'>&#8733;</ENTITY>">
+<!ENTITY psi "<ENTITY type='psi'>&#968;</ENTITY>">  
+<!ENTITY rArr "<ENTITY type='rArr'>&#8658;</ENTITY>">
+<!ENTITY radic "<ENTITY type='radic'>&#8730;</ENTITY>">   
+<!ENTITY rang "<ENTITY type='rang'>&#9002;</ENTITY>">
+<!ENTITY raquo "<ENTITY type='raquo'>&#187;</ENTITY>">
+<!ENTITY rarr "<ENTITY type='rarr'>&#8594;</ENTITY>">
+<!ENTITY rceil "<ENTITY type='rceil'>&#8969;</ENTITY>">   
+<!ENTITY rdquo "<ENTITY type='rdquo'>&#8221;</ENTITY>">   
+<!ENTITY real "<ENTITY type='real'>&#8476;</ENTITY>">
+<!ENTITY reg "<ENTITY type='reg'>&#174;</ENTITY>">  
+<!ENTITY rfloor "<ENTITY type='rfloor'>&#8971;</ENTITY>">  
+<!ENTITY rho "<ENTITY type='rho'>&#961;</ENTITY>">  
+<!ENTITY rle "<ENTITY type='rle'>&#8235;</ENTITY>">
+<!ENTITY rlm "<ENTITY type='rlm'>&#8207;</ENTITY>"> 
+<!ENTITY rlo "<ENTITY type='rlo'>&#8238;</ENTITY>">
+<!ENTITY rsaquo "<ENTITY type='rsaquo'>&#8250;</ENTITY>">  
+<!ENTITY rsquo "<ENTITY type='rsquo'>&#8217;</ENTITY>">   
+<!ENTITY sbquo "<ENTITY type='sbquo'>&#8218;</ENTITY>">   
+<!ENTITY scaron "<ENTITY type='scaron'>&#353;</ENTITY>">   
+<!ENTITY sdot "<ENTITY type='sdot'>&#8901;</ENTITY>">
+<!ENTITY sect "<ENTITY type='sect'>&#167;</ENTITY>"> 
+<!ENTITY shy "<ENTITY type='shy'>&#173;</ENTITY>">  
+<!ENTITY sigma "<ENTITY type='sigma'>&#963;</ENTITY>">
+<!ENTITY sigmaf "<ENTITY type='sigmaf'>&#962;</ENTITY>">   
+<!ENTITY sim "<ENTITY type='sim'>&#8764;</ENTITY>"> 
+<!ENTITY spades "<ENTITY type='spades'>&#9824;</ENTITY>">  
+<!ENTITY sub "<ENTITY type='sub'>&#8834;</ENTITY>"> 
+<!ENTITY sube "<ENTITY type='sube'>&#8838;</ENTITY>">
+<!ENTITY sum "<ENTITY type='sum'>&#8721;</ENTITY>"> 
+<!ENTITY sup "<ENTITY type='sup'>&#8835;</ENTITY>"> 
+<!ENTITY sup1 "<ENTITY type='sup1'>&#185;</ENTITY>"> 
+<!ENTITY sup2 "<ENTITY type='sup2'>&#178;</ENTITY>"> 
+<!ENTITY sup3 "<ENTITY type='sup3'>&#179;</ENTITY>"> 
+<!ENTITY supe "<ENTITY type='supe'>&#8839;</ENTITY>">
+<!ENTITY szlig "<ENTITY type='szlig'>&#223;</ENTITY>">
+<!ENTITY tau "<ENTITY type='tau'>&#964;</ENTITY>">  
+<!ENTITY there4 "<ENTITY type='there4'>&#8756;</ENTITY>">  
+<!ENTITY theta "<ENTITY type='theta'>&#952;</ENTITY>">
+<!ENTITY thetasym "<ENTITY type='thetasym'>&#977;</ENTITY>"> 
+<!ENTITY thinsp "<ENTITY type='thinsp'>&#8201;</ENTITY>">  
+<!ENTITY thorn "<ENTITY type='thorn'>&#254;</ENTITY>">
+<!ENTITY tilde "<ENTITY type='tilde'>&#732;</ENTITY>">
+<!ENTITY times "<ENTITY type='times'>&#215;</ENTITY>">
+<!ENTITY trade "<ENTITY type='trade'>&#8482;</ENTITY>">   
+<!ENTITY uArr "<ENTITY type='uArr'>&#8657;</ENTITY>">
+<!ENTITY uacute "<ENTITY type='uacute'>&#250;</ENTITY>">   
+<!ENTITY uarr "<ENTITY type='uarr'>&#8593;</ENTITY>">
+<!ENTITY ucirc "<ENTITY type='ucirc'>&#251;</ENTITY>">
+<!ENTITY ugrave "<ENTITY type='ugrave'>&#249;</ENTITY>">   
+<!ENTITY uml "<ENTITY type='uml'>&#168;</ENTITY>">  
+<!ENTITY upsih "<ENTITY type='upsih'>&#978;</ENTITY>">
+<!ENTITY upsilon "<ENTITY type='upsilon'>&#965;</ENTITY>">  
+<!ENTITY uuml "<ENTITY type='uuml'>&#252;</ENTITY>"> 
+<!ENTITY weierp "<ENTITY type='weierp'>&#8472;</ENTITY>">  
+<!ENTITY xi "<ENTITY type='xi'>&#958;</ENTITY>">   
+<!ENTITY yacute "<ENTITY type='yacute'>&#253;</ENTITY>">   
+<!ENTITY yen "<ENTITY type='yen'>&#165;</ENTITY>">  
+<!ENTITY yuml "<ENTITY type='yuml'>&#255;</ENTITY>"> 
+<!ENTITY zeta "<ENTITY type='zeta'>&#950;</ENTITY>"> 
+<!ENTITY zwj "<ENTITY type='zwj'>&#8205;</ENTITY>"> 
+<!ENTITY zwnj "<ENTITY type='zwnj'>&#8204;</ENTITY>">
+<!ENTITY zwsp "<ENTITY type='zwsp'>&#0203;</ENTITY>">
+]>
+<H2G2 TYPE="FRONTPAGE"><VIEWING-USER><USER><USERID>8616139</USERID><USERNAME>richardhodgson</USERNAME><REGION>London</REGION><USER-MODE>0</USER-MODE><STATUS>2</STATUS><TEAMID>2100871</TEAMID><UNREADPUBLICMESSAGECOUNT>0</UNREADPUBLICMESSAGECOUNT><UNREADPRIVATEMESSAGECOUNT>0</UNREADPRIVATEMESSAGECOUNT><HIDELOCATION>0</HIDELOCATION><HIDEUSERNAME>0</HIDEUSERNAME><GROUPS /><SITEPREFERENCES /><EMAIL-ADDRESS>richard.hodgson@bbc.co.uk</EMAIL-ADDRESS></USER><SSO><SSOLOGINNAME>richardhodgson</SSOLOGINNAME></SSO></VIEWING-USER><DATE DAYNAME="Thursday" SECONDS="49" MINUTES="11" HOURS="14" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918141149"><LOCAL DAYNAME="Thursday" SECONDS="49" MINUTES="11" HOURS="15" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918151149" /></DATE><SITECONFIG /><PAGEUI><SITEHOME VISIBLE="1" LINKHINT="/" /><SEARCH VISIBLE="1" LINKHINT="/search" /><DONTPANIC VISIBLE="1" LINKHINT="/dontpanic" /><MYHOME VISIBLE="1" LINKHINT="/U8616139" />
+<REGISTER VISIBLE="0" />
+<MYDETAILS VISIBLE="1" LINKHINT="/UserDetails" />
+<LOGOUT VISIBLE="1" LINKHINT="/Logout" /><EDITPAGE VISIBLE="0" LINKHINT="" /><RECOMMEND-ENTRY VISIBLE="0" LINKHINT="" /><ENTRY-SUBBED VISIBLE="0" LINKHINT="" /><DISCUSS VISIBLE="0" LINKHINT="" /><BANNER NAME="main" SEED="12452" SECTION="frontpage" /><BANNER NAME="small" SEED="12452" SECTION="frontpage" /></PAGEUI><ARTICLE>
+<ARTICLEINFO><H2G2ID>41074337</H2G2ID><EDIT-KEY>C33E93B0-3C36-46AA-AD02-6CE5E326DDBE</EDIT-KEY></ARTICLEINFO>
+<SUBJECT>frontpage</SUBJECT>
+<FRONTPAGE>
+<BRUNEL>
+<LITE>#CCFFFF</LITE>
+<NORM>#336699</NORM>
+<DARK>#000066</DARK>
+<WORD>blue</WORD>
+</BRUNEL>
+
+<MAIN-SECTIONS> 
+<EDITORIAL> 
+<!--
+************************************************************************ --> 
+<!-- ****************************** Registered
+****************************** --> 
+<!--
+************************************************************************ --> 
+<!--
+*********************************************************************** -->
+<EDITORIAL-ITEM COLUMN="1"> 
+<PRIORITY>100</PRIORITY> 
+<SUBJECT ALIGN="CENTER">h2g2 - Creative Content Written By You</SUBJECT> 
+<BODY> 
+<TABLE CELLPADDING="5" BORDER="0"> 
+<TR>  
+<TD WIDTH="65%" VALIGN="TOP">
+
+<B><LINK H2G2="A40335987">How To Find A New Flat In A Hurry</LINK></B> - Sometimes you don't get much notice when you need to move home. This Entry is here to help you.<BR /><BR />
+
+<B><LINK H2G2="A40572038">Indus</LINK></B> - This constellation was named after the four tribes of people who originally lived in the Americas.<BR /><BR />
+
+<B><LINK H2G2="A476877">Columbus, Ohio</LINK></B> - This US city, known as 'cow town' by residents, was named after Christopher Columbus and founded in 1797.<BR /><BR />
+
+<SMALL><P><LINK H2G2="A3386928">On this day:</LINK> 18 September, 1709 - Father of the English <LINK H2G2="A538012">dictionary</LINK>, Dr Samuel Johnson, is born.</P></SMALL>
+
+<!--<SMALL><P>Vote now for the h2g2 article you feel deserves to be considered <LINK H2G2="EntryOfTheMonth">Edited Entry of the Month!
+
+</LINK></P></SMALL>-->
+
+<!--<SMALL><P>It's a bit like a podcast, but in h2g2's unique style: watch the <LINK H2G2="A33205222">h2g2 Beeblecast!</LINK></P></SMALL>-->
+
+<!--<SMALL><P>Have your say on the next <LINK H2G2="A38860987">ten new h2g2 smileys</LINK>. Suggestions will be collated and considered from 2 
+
+September!</P></SMALL>-->
+</TD>
+
+<TD WIDTH="40%" VALIGN="TOP"> 
+<LINK H2G2="A40335987"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="classifiedads_promo.jpg" ALT="A man and a woman search for accommodation." /> </LINK> 
+
+
+</TD>
+</TR> 
+</TABLE> 
+</BODY> 
+</EDITORIAL-ITEM> 
+
+<EDITORIAL-ITEM COLUMN="1">
+<PRIORITY>200</PRIORITY> 
+<SUBJECT ALIGN="CENTER">Talk to the h2g2 community now</SUBJECT> 
+<BODY> 
+<TABLE CELLPADDING="5" BORDER="0"> 
+<TR> 
+<TD WIDTH="50%" VALIGN="TOP">
+<TABLE>
+<TR>
+<TD>   
+
+<LINK H2G2="A33105494"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="giant_panda_sm.jpg" ALT="A giant panda." />
+</LINK><B>Disappearing World</B> <BR />
+
+- <LINK H2G2="A33105494">Giant Pandas</LINK><BR />
+- <LINK H2G2="A272657">Privet Hawk Moth</LINK><BR />
+- <LINK H2G2="A13900042">Whaling and Whale Protection</LINK><BR />
+- <LINK H2G2="A3784845"><I>Last Chance to See</I></LINK><BR />
+
+<!--<LINK H2G2="EntryOfTheMonth"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="Edited-Entry-Month_sm.jpg" ALT="The coveted Edited Entry of the 
+
+Month badge." /> 
+</LINK> 
+<B>Entry of the Month</B><BR />
+April's badge has been awarded: which piece of h2g2 content deserves to be May's <LINK H2G2="EntryOfTheMonth">Edited Entry of the Month</LINK>?
+-->
+
+<!--<LINK H2G2="A600526"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="lansing_boji_tower_sm.jpg" ALT="The Lansing Boji Tower, 
+
+Michigan."/></LINK>
+
+<B>Recently Updated</B><BR />
+
+<LINK H2G2="A600526">Lansing, Michigan</LINK> is a city in the Great Lakes region of the USA with roughly 120,000 inhabitants.<BR /> 
+ - <LINK H2G2="A26108886">How to Update an Entry</LINK><BR />-->
+ 
+ 
+<!--<LINK H2G2="A848658"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="officegames_score_sm.jpg" ALT="Keeping tabs on the score during the 
+
+Office Games Olympics." /> 
+</LINK><B>Video Entries!</B> <BR />
+More exceptional stuff from the <LINK H2G2="A13264670">h2g2 AViators</LINK>, this time enhancing <LINK H2G2="A848658">Games You Can Play In The 
+
+Office</LINK> and <LINK H2G2="A310906">Bacon Sandwich</LINK>.<BR /><BR />-->
+
+</TD></TR>
+</TABLE>
+</TD>
+<TD WIDTH="50%" VALIGN="TOP">
+<LINK HREF="A40144871"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="kayak_sm.jpg" ALT="Kayaking in Antarctica." /> 
+
+</LINK>
+
+<B>Talking Point: Life's Too Short<BR /></B>How should you make the very most of your miniscule allotted time as a carbon-based 
+
+life-form? It's this week's <LINK H2G2="A40144871">Talking Point</LINK>.<BR />
+
+
+
+</TD>
+</TR>
+</TABLE>
+</BODY> 
+</EDITORIAL-ITEM>
+<EDITORIAL-ITEM COLUMN="1">
+<PRIORITY>200</PRIORITY> 
+<SUBJECT ALIGN="CENTER">h2g2 Newspaper + Creative writing + Talking Points + Community groups</SUBJECT> 
+<BODY> 
+<TABLE CELLPADDING="5" BORDER="0"> 
+<TR> 
+<TD WIDTH="50%" VALIGN="TOP">
+<TABLE>
+<TR>
+<TD>
+<LINK HREF="thepost"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="post_50.jpg" ALT="New issues of The Post, h2g2's Community newspaper, rolling 
+
+off the presses." /> </LINK>
+
+- <LINK H2G2="A40708190">Entry of the Month</LINK> <BR />
+- <LINK H2G2="A40640014">Starry Starry Sight</LINK> <BR /> 
+- <LINK H2G2="A40744280">Dear Josie</LINK><BR /> <BR />
+
+<LINK HREF="http://www.bbc.co.uk/dna/h2g2/brunel/underguide"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="underguide_50.jpg" ALT="Embedded in a 
+
+rockface, a pink gem shines." /> </LINK>
+ 
+- From the <LINK H2G2="UnderGuide">UnderGuide</LINK>:<BR />
+ - <LINK H2G2="A39489556">'Undies, God and Condoms'</LINK><BR />
+- <LINK H2G2="A20280214">'Paranoia'</LINK> <BR /><BR />
+
+
+</TD></TR>
+</TABLE>
+</TD>
+
+
+<TD WIDTH="50%" VALIGN="TOP">
+<LINK HREF="A31103768"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="chicken_tiny.jpg" ALT="A chicken." /></LINK>
+- <LINK H2G2="A31103768">Chicken</LINK><BR />
+- <LINK H2G2="A22949337">Organic Food</LINK><BR /> 
+- <LINK H2G2="A23973447">Allotments</LINK>
+<BR /><BR />
+
+
+  
+  
+  
+
+
+
+<LINK HREF="A39401877"><PICTURE EMBED="Left" SHADOW="None" H2G2IMG="living_room_tiny.jpg" ALT="A living room." /></LINK>
+- <LINK H2G2="A39401877">The Living Room</LINK> <BR />
+- <LINK H2G2="A3542186">The Clique Federation</LINK> <BR />
+- <LINK H2G2="A192791">Your Club Here!</LINK> <BR /><BR /><BR />
+
+ 
+
+  
+
+ 
+
+
+ 
+ 
+</TD>
+</TR>
+</TABLE>
+ <CENTER>
+<B><LINK H2G2="mobile-info">h2g2 Mobile Guide</LINK></B> - Access h2g2 on your mobile phone or compatible hand-held device. <BR /><BR /> 
+<B><LINK H2G2="A710100">RSS Feeds</LINK></B> - With RSS feeds you can get all the latest h2g2 stuff delivered straight to you.<BR /><BR /><BR />
+
+<FONT SIZE="1"> <LINK H2G2="F19585?thread=5896498#pi2">QUOTE OF THE DAY:&nbsp;</LINK>'Seems a little odd since the Earth and all the characters were destroyed in every possible reality. How do you follow that up?'</FONT>
+
+
+
+
+
+
+</CENTER>
+</BODY> 
+</EDITORIAL-ITEM>
+ 
+ 
+<!--
+************************************************************************ --> 
+<!-- ***************************** Unregistered 
+***************************** --> 
+<!--
+************************************************************************ --> 
+<EDITORIAL-ITEM TYPE="UNREGISTERED" COLUMN="1"> <PRIORITY>50</PRIORITY>  <SUBJECT ALIGN="CENTER">Write an entry for our online Encyclopedia - 
+and read what others have written...</SUBJECT> 
+<BODY> <LINK H2G2="DontPanic-Tour"><PICTURE EMBED="Center" SHADOW="None" H2G2IMG="dontpanic_banner.gif" ALT="The words Don't Panic, written in 
+large, friendly letters." /></LINK> 
+<BR />
+Don't panic - the most reassuring words you're likely to read all day. There really is no reason to panic, because h2g2 is your guide to Life, 
+the Universe and, well, Everything. We have thousands of entries on all manner of subjects, all written by people like you. If we don't have 
+the one you want, you can even write it yourself.<BR /><BR /> 
+If you'd like to join in, simply <LINK H2G2="A387317">create a free h2g2 account</LINK> to get started. <BR /><BR /></BODY> </EDITORIAL-ITEM>
+<!--
+************************************************************************ --> 
+<!-- ******************************* Column 2
+******************************* --> 
+<!--
+************************************************************************ --> 
+<!--EDITORIAL-ITEM TYPE="UNREGISTERED" COLUMN="2"> 
+<PRIORITY>1000</PRIORITY> 
+<SUBJECT ALIGN="CENTER">What is h2g2?</SUBJECT> 
+<BODY> 
+Take the <LINK H2G2="DontPanic-Tour">h2g2 Tour</LINK> to discover what h2g2 is all about. </BODY> </EDITORIAL-ITEM--> 
+</EDITORIAL> 
+<!--
+************************************************************************ --> 
+<!-- **************************** Categorisation
+**************************** --> 
+<!-- 
+************************************************************************ --> 
+<CATEGORISATION> 
+<CATBLOCK> 
+<TITLE>The Guide</TITLE> 
+<CATEGORY><NAME>Life</NAME> <CATID>72</CATID> 
+<SUBCATEGORY><NAME>Biology</NAME> <CATID>78</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Families</NAME> <CATID>21</CATID></SUBCATEGORY> <SUBCATEGORY><NAME>Food &amp; Drink</NAME> 
+<CATID>69</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Health</NAME> <CATID>540</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Human Behaviour</NAME> 
+<CATID>122</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>The Natural World</NAME>
+<CATID>218</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Sex</NAME> <CATID>31</CATID></SUBCATEGORY> 
+</CATEGORY>
+<CATEGORY> 
+<NAME>The Universe</NAME> <CATID>73</CATID> 
+<SUBCATEGORY> <NAME>The Earth</NAME> <CATID>42</CATID></SUBCATEGORY> <SUBCATEGORY><NAME>Astronomy</NAME> <CATID>834</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>The Solar System</NAME>
+<CATID>831</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Stars &amp; Galaxies</NAME>
+<CATID>730</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Travel &amp; Transport</NAME>
+<CATID>83</CATID></SUBCATEGORY> </CATEGORY> 
+<CATEGORY> 
+<NAME>Everything</NAME> <CATID>74</CATID> 
+<SUBCATEGORY><NAME>Archaeology</NAME> <CATID>893</CATID></SUBCATEGORY> <SUBCATEGORY><NAME>Architecture</NAME> <CATID>267</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Arts &amp; Entertainment
+</NAME><CATID>54825</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Business &amp; Economics</NAME>
+<CATID>16</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Communications</NAME>
+<CATID>231</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Current Affairs</NAME>
+<CATID>182</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Deep Thought</NAME><CATID>54826</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Events and Celebrations</NAME>
+<CATID>70</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>History &amp;
+Politics</NAME><CATID>4</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME> Holidays &amp; Observances</NAME>
+<CATID>23</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Languages &amp; Linguistics</NAME>
+<CATID>37</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Law &amp; Crime</NAME>
+<CATID>25</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Leisure &amp;
+Lifestyle</NAME><CATID>142</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Mythology &amp; Folklore</NAME>
+<CATID>26</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Science &amp; Technology
+</NAME><CATID>6</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>Society and Cultures</NAME>
+<CATID>17</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Sports</NAME><CATID>71</CATID></SUBCATEGORY> 
+<SUBCATEGORY><NAME>Work</NAME> <CATID>139</CATID></SUBCATEGORY> 
+</CATEGORY> 
+<CATEGORY>
+<NAME>All About h2g2</NAME> <CATID>54822</CATID> 
+<SUBCATEGORY><NAME>h2g2 Information</NAME>
+<CATID>550</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>h2g2 Mobile</NAME> <CATID>54933</CATID></SUBCATEGORY> <SUBCATEGORY><NAME>h2g2 Post Back Issues</NAME> 
+<CATID>54932</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>The UnderGuide</NAME>
+<CATID>1233</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>The World of h2g2</NAME> 
+<CATID>572</CATID></SUBCATEGORY>
+<SUBCATEGORY><NAME>The h2g2 Calendar</NAME>
+<CATID>55436</CATID></SUBCATEGORY>
+</CATEGORY> <P><LINK HREF="http://www.bbc.co.uk/dna/h2g2/RandomEditedEntry">The Infinite Improbability Drive - Read a Random Entry from the 
+Edited Guide</LINK></P> </CATBLOCK> 
+</CATEGORISATION> 
+</MAIN-SECTIONS></FRONTPAGE></ARTICLE><TOP-FIVES><TOP-FIVE NAME="Edited Guide Bookmarks"><TITLE>Edited Guide Bookmarks</TITLE><TOP-FIVE-ARTICLE><H2G2ID>53209</H2G2ID><SUBJECT>Writing for the Edited Guide</SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="09" MINUTES="42" HOURS="09" DAY="02" MONTH="04" MONTHNAME="April" YEAR="2007" SORT="20070402094209"><LOCAL DAYNAME="Monday" SECONDS="09" MINUTES="42" HOURS="10" DAY="02" MONTH="04" MONTHNAME="April" YEAR="2007" SORT="20070402104209" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>1293365</H2G2ID><SUBJECT>Challenge h2g2 </SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="08" MINUTES="39" HOURS="16" DAY="15" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070515163908"><LOCAL DAYNAME="Tuesday" SECONDS="08" MINUTES="39" HOURS="17" DAY="15" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070515173908" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>464195</H2G2ID><SUBJECT>Edited Guide Writing Workshop</SUBJECT><EXTRAINFO><TYPE ID="2001" NAME="reviewforum" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="57" MINUTES="37" HOURS="16" DAY="28" MONTH="11" MONTHNAME="November" YEAR="2005" SORT="20051128163757"><LOCAL DAYNAME="Monday" SECONDS="57" MINUTES="37" HOURS="16" DAY="28" MONTH="11" MONTHNAME="November" YEAR="2005" SORT="20051128163757" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>1286985</H2G2ID><SUBJECT>How To Update An Entry</SUBJECT><EXTRAINFO><TYPE ID="2001" NAME="reviewforum" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Friday" SECONDS="18" MINUTES="41" HOURS="10" DAY="16" MONTH="11" MONTHNAME="November" YEAR="2007" SORT="20071116104118"><LOCAL DAYNAME="Friday" SECONDS="18" MINUTES="41" HOURS="10" DAY="16" MONTH="11" MONTHNAME="November" YEAR="2007" SORT="20071116104118" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>608762</H2G2ID><SUBJECT>The Flea Market</SUBJECT><EXTRAINFO><TYPE ID="2001" NAME="reviewforum" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="02" MINUTES="40" HOURS="16" DAY="28" MONTH="11" MONTHNAME="November" YEAR="2005" SORT="20051128164002"><LOCAL DAYNAME="Monday" SECONDS="02" MINUTES="40" HOURS="16" DAY="28" MONTH="11" MONTHNAME="November" YEAR="2005" SORT="20051128164002" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>3332233</H2G2ID><SUBJECT>The h2g2 Calendar</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Thursday" SECONDS="37" MINUTES="35" HOURS="16" DAY="22" MONTH="12" MONTHNAME="December" YEAR="2005" SORT="20051222163537"><LOCAL DAYNAME="Thursday" SECONDS="37" MINUTES="35" HOURS="16" DAY="22" MONTH="12" MONTHNAME="December" YEAR="2005" SORT="20051222163537" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>292</USERID><USERNAME>Smij</USERNAME><FIRSTNAMES>Jim</FIRSTNAMES><AREA>Hammersmith and Fulham</AREA><TAXONOMYNODE>36105</TAXONOMYNODE></USER></TOP-FIVE-ARTICLE></TOP-FIVE><TOP-FIVE NAME="h2g2 Community Bookmarks"><TITLE>h2g2 Community Bookmarks</TITLE><TOP-FIVE-ARTICLE><H2G2ID>148907</H2G2ID><SUBJECT>Ask the h2g2 Community</SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="10" MINUTES="56" HOURS="15" DAY="14" MONTH="06" MONTHNAME="June" YEAR="2005" SORT="20050614155610"><LOCAL DAYNAME="Tuesday" SECONDS="10" MINUTES="56" HOURS="16" DAY="14" MONTH="06" MONTHNAME="June" YEAR="2005" SORT="20050614165610" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>4108330</H2G2ID><SUBJECT>SEx - Science Explained Forum</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="09" MINUTES="40" HOURS="20" DAY="01" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070501204009"><LOCAL DAYNAME="Tuesday" SECONDS="09" MINUTES="40" HOURS="21" DAY="01" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070501214009" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>228046</USERID><USERNAME>&nbsp; Traveller in Time &gt;42 _ _ perpetual dawning </USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>4167605</H2G2ID><SUBJECT>Games Room</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Friday" SECONDS="23" MINUTES="32" HOURS="14" DAY="28" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051028143223"><LOCAL DAYNAME="Friday" SECONDS="23" MINUTES="32" HOURS="15" DAY="28" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051028153223" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>121096</H2G2ID><SUBJECT>Miscellaneous Chat</SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="26" MINUTES="57" HOURS="15" DAY="14" MONTH="06" MONTHNAME="June" YEAR="2005" SORT="20050614155726"><LOCAL DAYNAME="Tuesday" SECONDS="26" MINUTES="57" HOURS="16" DAY="14" MONTH="06" MONTHNAME="June" YEAR="2005" SORT="20050614165726" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>568721</H2G2ID><SUBJECT>Previous Talking Points</SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Friday" SECONDS="30" MINUTES="31" HOURS="13" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912133130"><LOCAL DAYNAME="Friday" SECONDS="30" MINUTES="31" HOURS="14" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912143130" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>541027</H2G2ID><SUBJECT>The h2g2 Volunteers</SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="56" MINUTES="08" HOURS="11" DAY="27" MONTH="02" MONTHNAME="February" YEAR="2008" SORT="20080227110856"><LOCAL DAYNAME="Wednesday" SECONDS="56" MINUTES="08" HOURS="11" DAY="27" MONTH="02" MONTHNAME="February" YEAR="2008" SORT="20080227110856" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE></TOP-FIVE><TOP-FIVE NAME="LeastViewed"><TITLE>5 Most Neglected</TITLE><TOP-FIVE-ARTICLE><H2G2ID>39426186</H2G2ID><SUBJECT>How To Use A Speed Peeler</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Thursday" SECONDS="44" MINUTES="21" HOURS="09" DAY="04" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080904092144"><LOCAL DAYNAME="Thursday" SECONDS="44" MINUTES="21" HOURS="10" DAY="04" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080904102144" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>151503</USERID><USERNAME>Gnomon [Back from Stratford/Warwick/Knutsford]</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40336184</H2G2ID><SUBJECT>Noses - Drying the Sniffles</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Saturday" SECONDS="46" MINUTES="27" HOURS="23" DAY="06" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080906232746"><LOCAL DAYNAME="Sunday" SECONDS="46" MINUTES="27" HOURS="00" DAY="07" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080907002746" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>39787131</H2G2ID><SUBJECT>The Art of Making Devilled Eggs </SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="55" MINUTES="54" HOURS="08" DAY="08" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080908085455"><LOCAL DAYNAME="Monday" SECONDS="55" MINUTES="54" HOURS="09" DAY="08" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080908095455" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>230913</USERID><USERNAME>B'Elana [©]  ACE-  Minister of Abbr. </USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40466270</H2G2ID><SUBJECT>Die Front Deutscher Apfel  - The German Apple Front</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="09" MINUTES="00" HOURS="17" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915170009"><LOCAL DAYNAME="Monday" SECONDS="09" MINUTES="00" HOURS="18" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915180009" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE></TOP-FIVE><TOP-FIVE NAME="MostRecent"><TITLE>Most Recent Articles</TITLE><TOP-FIVE-ARTICLE><H2G2ID>38208053</H2G2ID><SUBJECT>James Madison - Fourth President of the United States</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="25" MINUTES="13" HOURS="09" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917091325"><LOCAL DAYNAME="Wednesday" SECONDS="25" MINUTES="13" HOURS="10" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917101325" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>151503</USERID><USERNAME>Gnomon [Back from Stratford/Warwick/Knutsford]</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40087361</H2G2ID><SUBJECT>Winnie the Pooh</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="26" MINUTES="17" HOURS="11" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917111726"><LOCAL DAYNAME="Wednesday" SECONDS="26" MINUTES="17" HOURS="12" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917121726" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>225620</USERID><USERNAME>Icy North</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40336643</H2G2ID><SUBJECT>Edith Pargeter (aka Ellis Peters) - Author</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="00" MINUTES="48" HOURS="10" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916104800"><LOCAL DAYNAME="Tuesday" SECONDS="00" MINUTES="48" HOURS="11" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916114800" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>168592</USERID><USERNAME>Uncle Travelling Matt (the Hoopy) Esq.</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>39805879</H2G2ID><SUBJECT>English Chartered Markets: The South Midlands, East Anglia and Wales</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="10" MINUTES="47" HOURS="10" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916104710"><LOCAL DAYNAME="Tuesday" SECONDS="10" MINUTES="47" HOURS="11" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916114710" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>225620</USERID><USERNAME>Icy North</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>39787339</H2G2ID><SUBJECT>Gregory Lemarchal - Singer</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="57" MINUTES="30" HOURS="08" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915083057"><LOCAL DAYNAME="Monday" SECONDS="57" MINUTES="30" HOURS="09" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915093057" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>15459</USERID><USERNAME>Bernadette Lynn </USERNAME><FIRSTNAMES>Bernadette</FIRSTNAMES><LASTNAME>Lynn</LASTNAME><AREA>Dacorum</AREA><TAXONOMYNODE>34031</TAXONOMYNODE></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40098008</H2G2ID><SUBJECT>The Columbia Shuttle Disaster </SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="04" MINUTES="30" HOURS="08" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915083004"><LOCAL DAYNAME="Monday" SECONDS="04" MINUTES="30" HOURS="09" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915093004" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>230913</USERID><USERNAME>B'Elana [©]  ACE-  Minister of Abbr. </USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40140244</H2G2ID><SUBJECT>Tips for Backpackers: Avoiding Pitfalls</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Friday" SECONDS="59" MINUTES="21" HOURS="09" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912092159"><LOCAL DAYNAME="Friday" SECONDS="59" MINUTES="21" HOURS="10" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912102159" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40756025</H2G2ID><SUBJECT>Brown Sauce</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Friday" SECONDS="49" MINUTES="26" HOURS="09" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912092649"><LOCAL DAYNAME="Friday" SECONDS="49" MINUTES="26" HOURS="10" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912102649" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40086777</H2G2ID><SUBJECT>Quick Cinnamon Nut Buns</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Friday" SECONDS="34" MINUTES="27" HOURS="09" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912092734"><LOCAL DAYNAME="Friday" SECONDS="34" MINUTES="27" HOURS="10" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912102734" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>151503</USERID><USERNAME>Gnomon [Back from Stratford/Warwick/Knutsford]</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40128635</H2G2ID><SUBJECT>The Headington Shark, Oxfordshire, England</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Friday" SECONDS="55" MINUTES="22" HOURS="09" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912092255"><LOCAL DAYNAME="Friday" SECONDS="55" MINUTES="22" HOURS="10" DAY="12" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080912102255" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>230913</USERID><USERNAME>B'Elana [©]  ACE-  Minister of Abbr. </USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40128716</H2G2ID><SUBJECT>Constellations: Telescopium 'the Telescope'</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Thursday" SECONDS="23" MINUTES="22" HOURS="09" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918092223"><LOCAL DAYNAME="Thursday" SECONDS="23" MINUTES="22" HOURS="10" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918102223" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>128652</USERID><USERNAME>Galaxy Babe - Hull meet 22/3 Nov A39695818</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40513312</H2G2ID><SUBJECT>Cleethorpes Coast Light Railway, NE Lincolnshire, UK</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="19" MINUTES="22" HOURS="19" DAY="10" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080910192219"><LOCAL DAYNAME="Wednesday" SECONDS="19" MINUTES="22" HOURS="20" DAY="10" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080910202219" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>38582319</H2G2ID><SUBJECT>The Gay Bomb Proposal - Make Love, Lose War</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="34" MINUTES="14" HOURS="09" DAY="09" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080909091434"><LOCAL DAYNAME="Tuesday" SECONDS="34" MINUTES="14" HOURS="10" DAY="09" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080909101434" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>151503</USERID><USERNAME>Gnomon [Back from Stratford/Warwick/Knutsford]</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40466270</H2G2ID><SUBJECT>Die Front Deutscher Apfel  - The German Apple Front</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="09" MINUTES="00" HOURS="17" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915170009"><LOCAL DAYNAME="Monday" SECONDS="09" MINUTES="00" HOURS="18" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915180009" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>39427491</H2G2ID><SUBJECT>Constellations: Sagitta 'the Arrow'</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Thursday" SECONDS="09" MINUTES="18" HOURS="11" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918111809"><LOCAL DAYNAME="Thursday" SECONDS="09" MINUTES="18" HOURS="12" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918121809" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>151503</USERID><USERNAME>Gnomon [Back from Stratford/Warwick/Knutsford]</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>39787131</H2G2ID><SUBJECT>The Art of Making Devilled Eggs </SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="55" MINUTES="54" HOURS="08" DAY="08" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080908085455"><LOCAL DAYNAME="Monday" SECONDS="55" MINUTES="54" HOURS="09" DAY="08" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080908095455" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>230913</USERID><USERNAME>B'Elana [©]  ACE-  Minister of Abbr. </USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>37616880</H2G2ID><SUBJECT>Constellations: Serpens 'the Serpent'</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Thursday" SECONDS="00" MINUTES="23" HOURS="09" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918092300"><LOCAL DAYNAME="Thursday" SECONDS="00" MINUTES="23" HOURS="10" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918102300" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>152404</USERID><USERNAME>Bagpuss</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40336184</H2G2ID><SUBJECT>Noses - Drying the Sniffles</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Saturday" SECONDS="46" MINUTES="27" HOURS="23" DAY="06" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080906232746"><LOCAL DAYNAME="Sunday" SECONDS="46" MINUTES="27" HOURS="00" DAY="07" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080907002746" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>39426410</H2G2ID><SUBJECT>Constellations: Dorado 'the Dorado Fish'</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Thursday" SECONDS="51" MINUTES="52" HOURS="10" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918105251"><LOCAL DAYNAME="Thursday" SECONDS="51" MINUTES="52" HOURS="11" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918115251" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>128652</USERID><USERNAME>Galaxy Babe - Hull meet 22/3 Nov A39695818</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>39426186</H2G2ID><SUBJECT>How To Use A Speed Peeler</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Thursday" SECONDS="44" MINUTES="21" HOURS="09" DAY="04" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080904092144"><LOCAL DAYNAME="Thursday" SECONDS="44" MINUTES="21" HOURS="10" DAY="04" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080904102144" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>151503</USERID><USERNAME>Gnomon [Back from Stratford/Warwick/Knutsford]</USERNAME></USER></TOP-FIVE-ARTICLE></TOP-FIVE><TOP-FIVE NAME="MostRecentUser"><TITLE>Most Recent Contributions</TITLE><TOP-FIVE-ARTICLE><H2G2ID>41094632</H2G2ID><SUBJECT>Categorised Mnemonics</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="17" MINUTES="47" HOURS="23" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917234717"><LOCAL DAYNAME="Thursday" SECONDS="17" MINUTES="47" HOURS="00" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918004717" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>723247</USERID><USERNAME>Big Al -  Keeper of Mnemonics, Keeper of the Glowing Pickle. Patron Saint of Left Handers.</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41094227</H2G2ID><SUBJECT>Chicken Fried Chicken</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="42" MINUTES="23" HOURS="22" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917222342"><LOCAL DAYNAME="Wednesday" SECONDS="42" MINUTES="23" HOURS="23" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917232342" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>1695010</USERID><USERNAME>Evad the Angry and Slightly Benevolent Viking King</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41073446</H2G2ID><SUBJECT>Golden Syrup aka Goldie</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="32" MINUTES="41" HOURS="21" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917214132"><LOCAL DAYNAME="Wednesday" SECONDS="32" MINUTES="41" HOURS="22" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917224132" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>231227</USERID><USERNAME>Opticalillusion - media mynx life would be boring without hiccups</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41072951</H2G2ID><SUBJECT>h2g2 error messages.</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="12" MINUTES="50" HOURS="14" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917145012"><LOCAL DAYNAME="Wednesday" SECONDS="12" MINUTES="50" HOURS="15" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917155012" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>13363171</USERID><USERNAME>Groinhammer</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41068587</H2G2ID><SUBJECT>Mercury Fillings</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="15" MINUTES="25" HOURS="13" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917132515"><LOCAL DAYNAME="Wednesday" SECONDS="15" MINUTES="25" HOURS="14" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917142515" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>13362731</USERID><USERNAME>midnightemmarob</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41065689</H2G2ID><SUBJECT>Basic Clarinet Maintainance</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="07" MINUTES="58" HOURS="12" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917125807"><LOCAL DAYNAME="Wednesday" SECONDS="07" MINUTES="58" HOURS="13" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917135807" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>188069</USERID><USERNAME>Vip</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41059118</H2G2ID><SUBJECT>brother</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="46" MINUTES="29" HOURS="10" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917102946"><LOCAL DAYNAME="Wednesday" SECONDS="46" MINUTES="29" HOURS="11" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917112946" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>13361631</USERID><USERNAME>electronicamanda</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41036672</H2G2ID><SUBJECT>walmart*</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="49" MINUTES="02" HOURS="17" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916170249"><LOCAL DAYNAME="Tuesday" SECONDS="49" MINUTES="02" HOURS="18" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916180249" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>11519888</USERID><USERNAME>thatotherguysfriend</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41012821</H2G2ID><SUBJECT>Take it to the Max </SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="23" MINUTES="07" HOURS="10" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916100723"><LOCAL DAYNAME="Tuesday" SECONDS="23" MINUTES="07" HOURS="11" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916110723" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>54963</USERID><USERNAME>Post Team</USERNAME><FIRSTNAMES>Sharon</FIRSTNAMES><LASTNAME>Clarke</LASTNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41003173</H2G2ID><SUBJECT>We French speakers, we ask permission for:</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="51" MINUTES="13" HOURS="23" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916231351"><LOCAL DAYNAME="Wednesday" SECONDS="51" MINUTES="13" HOURS="00" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917001351" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>7702075</USERID><USERNAME>4me-2me (Please don't 8me)</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>41000969</H2G2ID><SUBJECT>Wptl Bot. Gdns</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="06" MINUTES="01" HOURS="20" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916200106"><LOCAL DAYNAME="Tuesday" SECONDS="06" MINUTES="01" HOURS="21" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916210106" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>891566</USERID><USERNAME>King Bomba </USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40990584</H2G2ID><SUBJECT>Scarborough Tier 1 CAP Group</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="52" MINUTES="24" HOURS="18" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915182452"><LOCAL DAYNAME="Monday" SECONDS="52" MINUTES="24" HOURS="19" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915192452" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>13351827</USERID><USERNAME>tricia10b</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40984563</H2G2ID><SUBJECT>Danger (What is it?)</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Tuesday" SECONDS="14" MINUTES="50" HOURS="17" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916175014"><LOCAL DAYNAME="Tuesday" SECONDS="14" MINUTES="50" HOURS="18" DAY="16" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080916185014" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>13280372</USERID><USERNAME>Megamaff</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40977264</H2G2ID><SUBJECT>Mr jones, evs teacher extrordinaire!</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="30" MINUTES="11" HOURS="14" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915141130"><LOCAL DAYNAME="Monday" SECONDS="30" MINUTES="11" HOURS="15" DAY="15" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080915151130" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>6104131</USERID><USERNAME>parsnipstew</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40957888</H2G2ID><SUBJECT>The truth is out there or is it?</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="59" MINUTES="43" HOURS="23" DAY="17" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080917234359"><LOCAL DAYNAME="Thursday" SECONDS="59" MINUTES="43" HOURS="00" DAY="18" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080918004359" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>10628589</USERID><USERNAME>xander811</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40948095</H2G2ID><SUBJECT>Hanny's Voorwerp</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Sunday" SECONDS="54" MINUTES="29" HOURS="18" DAY="14" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080914182954"><LOCAL DAYNAME="Sunday" SECONDS="54" MINUTES="29" HOURS="19" DAY="14" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080914192954" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>128652</USERID><USERNAME>Galaxy Babe - Hull meet 22/3 Nov A39695818</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40934694</H2G2ID><SUBJECT>The Writer's Party (Smallville fanfic)</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Sunday" SECONDS="53" MINUTES="52" HOURS="11" DAY="14" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080914115253"><LOCAL DAYNAME="Sunday" SECONDS="53" MINUTES="52" HOURS="12" DAY="14" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080914125253" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>6246282</USERID><USERNAME>nnucpower</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40924695</H2G2ID><SUBJECT>Marvel at the Glutinous Death Ball! (UG)</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Saturday" SECONDS="35" MINUTES="54" HOURS="19" DAY="13" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080913195435"><LOCAL DAYNAME="Saturday" SECONDS="35" MINUTES="54" HOURS="20" DAY="13" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080913205435" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>244483</USERID><USERNAME>Trin Tragula</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40924217</H2G2ID><SUBJECT>Mother's Boy (UG)</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Saturday" SECONDS="22" MINUTES="49" HOURS="19" DAY="13" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080913194922"><LOCAL DAYNAME="Saturday" SECONDS="22" MINUTES="49" HOURS="20" DAY="13" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080913204922" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>244483</USERID><USERNAME>Trin Tragula</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>40915352</H2G2ID><SUBJECT>We Come!</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Saturday" SECONDS="20" MINUTES="33" HOURS="16" DAY="13" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080913163320"><LOCAL DAYNAME="Saturday" SECONDS="20" MINUTES="33" HOURS="17" DAY="13" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080913173320" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>170471</USERID><USERNAME>Tibley Bobley</USERNAME></USER></TOP-FIVE-ARTICLE></TOP-FIVE><TOP-FIVE NAME="Updated"><TITLE>Recently Updated</TITLE><TOP-FIVE-ARTICLE><H2G2ID>600526</H2G2ID><SUBJECT>Lansing, Michigan, USA</SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Wednesday" SECONDS="00" MINUTES="42" HOURS="09" DAY="04" MONTH="06" MONTHNAME="June" YEAR="2008" SORT="20080604094200"><LOCAL DAYNAME="Wednesday" SECONDS="00" MINUTES="42" HOURS="10" DAY="04" MONTH="06" MONTHNAME="June" YEAR="2008" SORT="20080604104200" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>109478</USERID><USERNAME>Engels42 (Thingite Minister of Leaky Ethics and Spiffyness)</USERNAME><FIRSTNAMES>Jeffery</FIRSTNAMES><LASTNAME>White</LASTNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>30081737</H2G2ID><SUBJECT>The Ark of the Covenant</SUBJECT><EXTRAINFO><TYPE ID="1" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Sunday" SECONDS="17" MINUTES="17" HOURS="21" DAY="07" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080907211717"><LOCAL DAYNAME="Sunday" SECONDS="17" MINUTES="17" HOURS="22" DAY="07" MONTH="09" MONTHNAME="September" YEAR="2008" SORT="20080907221717" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>128652</USERID><USERNAME>Galaxy Babe - Hull meet 22/3 Nov A39695818</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>311158</H2G2ID><SUBJECT>Candyfloss </SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Friday" SECONDS="27" MINUTES="21" HOURS="10" DAY="16" MONTH="05" MONTHNAME="May" YEAR="2008" SORT="20080516102127"><LOCAL DAYNAME="Friday" SECONDS="27" MINUTES="21" HOURS="11" DAY="16" MONTH="05" MONTHNAME="May" YEAR="2008" SORT="20080516112127" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>307900</H2G2ID><SUBJECT>Harry Potter</SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Monday" SECONDS="04" MINUTES="51" HOURS="09" DAY="25" MONTH="08" MONTHNAME="August" YEAR="2008" SORT="20080825095104"><LOCAL DAYNAME="Monday" SECONDS="04" MINUTES="51" HOURS="10" DAY="25" MONTH="08" MONTHNAME="August" YEAR="2008" SORT="20080825105104" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>53353</USERID><USERNAME>Jimi X</USERNAME></USER></TOP-FIVE-ARTICLE><TOP-FIVE-ARTICLE><H2G2ID>721108</H2G2ID><SUBJECT>The Films of the Coen Brothers</SUBJECT><EXTRAINFO><TYPE ID="1" NAME="article" /></EXTRAINFO><LINKITEMTYPE /><LINKITEMID /><LINKITEMNAME /><DATEUPDATED><DATE DAYNAME="Thursday" SECONDS="15" MINUTES="37" HOURS="20" DAY="20" MONTH="03" MONTHNAME="March" YEAR="2008" SORT="20080320203715"><LOCAL DAYNAME="Thursday" SECONDS="15" MINUTES="37" HOURS="20" DAY="20" MONTH="03" MONTHNAME="March" YEAR="2008" SORT="20080320203715" /></DATE></DATEUPDATED><EVENTDATE><DATE DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown"><LOCAL DAYNAME="Monday" SECONDS="0" MINUTES="0" HOURS="0" DAY="31" MONTH="12" MONTHNAME="December" YEAR="1899" SORT="18991231000000" RELATIVE="Unknown" /></DATE></EVENTDATE><USER><USERID>284</USERID><USERNAME>The h2g2 Editors</USERNAME></USER></TOP-FIVE-ARTICLE></TOP-FIVE><TOP-FIVE NAME="MostRecentConversations"><TITLE>Most Recent Conversations</TITLE><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5900100</THREADID><SUBJECT>Knife crime</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>44771</FORUMID><THREADID>5900030</THREADID><SUBJECT>sun</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5899720</THREADID><SUBJECT>cerebral aneurysms</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>48874</FORUMID><THREADID>5899660</THREADID><SUBJECT>A39707120 - Constellations: Sculptor 'the Sculptor'</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>104104</FORUMID><THREADID>5899629</THREADID><SUBJECT>2008 Predictions Game - Week 3</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5899561</THREADID><SUBJECT>Any songs you ration yourself with?</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>11154479</FORUMID><THREADID>5899532</THREADID><SUBJECT>Wow!</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>11023821</FORUMID><THREADID>5899252</THREADID><SUBJECT>Tiddley-pom</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>48874</FORUMID><THREADID>5899230</THREADID><SUBJECT>A41073446 - Golden Syrup aka Goldie</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>43882</FORUMID><THREADID>5899192</THREADID><SUBJECT>Old Scout asking for his Badge back</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>11035035</FORUMID><THREADID>5899148</THREADID><SUBJECT>Bucket Lists and the rest</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>2137311</FORUMID><THREADID>5899118</THREADID><SUBJECT>where on earth have i been?b</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>11035035</FORUMID><THREADID>5898452</THREADID><SUBJECT>Ugh</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5898324</THREADID><SUBJECT>From where are you posting?</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>47997</FORUMID><THREADID>5898279</THREADID><SUBJECT> EF: Update Notification - A30649223 - Getting the Best out of Windows XP</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5897619</THREADID><SUBJECT>Racoons</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5897604</THREADID><SUBJECT>And Another Thing...</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>3719964</FORUMID><THREADID>5897219</THREADID><SUBJECT>Windows XP Entry Update</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>42742</FORUMID><THREADID>5897011</THREADID><SUBJECT>Favourite REM song?</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>84019</FORUMID><THREADID>5896929</THREADID><SUBJECT>20 Best Man Jokes</SUBJECT></TOP-FIVE-FORUM></TOP-FIVE><TOP-FIVE NAME="PopularThreads"><TITLE>Most Popular Conversations</TITLE><TOP-FIVE-FORUM><FORUMID>38024</FORUMID><THREADID>5643905</THREADID><SUBJECT>93Xth Conversation at Lil's</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>127730</FORUMID><THREADID>5853418</THREADID><SUBJECT>Trying a new browser</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>7180006</FORUMID><THREADID>5891189</THREADID><SUBJECT>QI - Ireland</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>7180006</FORUMID><THREADID>5878542</THREADID><SUBJECT>QI - flight of the navigator</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>2122521</FORUMID><THREADID>5433562</THREADID><SUBJECT>Another try...</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>2606954</FORUMID><THREADID>5876706</THREADID><SUBJECT>CERN</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>2423303</FORUMID><THREADID>5887562</THREADID><SUBJECT>The trouble with Internet Service Providers .......</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>127730</FORUMID><THREADID>5889988</THREADID><SUBJECT>I've got a new job</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>127730</FORUMID><THREADID>5837104</THREADID><SUBJECT>Hand-over of keys tomorrow (Bel)</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>127730</FORUMID><THREADID>5877925</THREADID><SUBJECT>Bonzo Dog Doo Dah Band Day</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>7180006</FORUMID><THREADID>5887832</THREADID><SUBJECT>QI - Lists</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>43348</FORUMID><THREADID>5832641</THREADID><SUBJECT>The tension is *almost* unbearable!</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5889333</THREADID><SUBJECT>Collapse of Lehman - the death of capitalism?</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>2606954</FORUMID><THREADID>5718865</THREADID><SUBJECT>BAD POETRY</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5880479</THREADID><SUBJECT>When was marching invented?</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>2019698</FORUMID><THREADID>5789184</THREADID><SUBJECT>hi</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>54793</FORUMID><THREADID>5883855</THREADID><SUBJECT>a glimpse of all and everything</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>19585</FORUMID><THREADID>5886508</THREADID><SUBJECT>No Subject</SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>90234</FORUMID><THREADID>5878908</THREADID><SUBJECT>Take me away!  </SUBJECT></TOP-FIVE-FORUM><TOP-FIVE-FORUM><FORUMID>135418</FORUMID><THREADID>5893615</THREADID><SUBJECT>Offense</SUBJECT></TOP-FIVE-FORUM></TOP-FIVE></TOP-FIVES><RECENTSEARCHES><SEARCHTERM><NAME>Weather</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:08:01.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>douglas adams</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:07:35.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>laser</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:06:28.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>bergen</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:06:23.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>b movies vampire alien</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:06:18.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>Wink</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:05:38.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>uno</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:05:04.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>iron </NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:04:40.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>norwegians</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:02:23.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM><SEARCHTERM><NAME>call signs</NAME><TYPE>ARTICLE</TYPE><TIMESTAMP>2008-09-18 14:01:55.000</TIMESTAMP><COUNT>1</COUNT></SEARCHTERM></RECENTSEARCHES><TEXTBOXLIST STATUS="ACTIVE" /><TOPICELEMENTLIST STATUS="ACTIVE" /><DYNAMIC-LISTS /><SERVERNAME>NARTHUR10</SERVERNAME><TIMEFORPAGE>47</TIMEFORPAGE><USERAGENT>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.8) Gecko/20071008 Firefox/2.0.0.8</USERAGENT><PARAMS /><CURRENTSITE>1</CURRENTSITE><CURRENTSITEURLNAME>h2g2</CURRENTSITEURLNAME><CURRENTSITESSOSERVICE>h2g2</CURRENTSITESSOSERVICE><CURRENTSITEMINAGE>0</CURRENTSITEMINAGE><CURRENTSITEMAXAGE>255</CURRENTSITEMAXAGE><SITE-CLOSED>0</SITE-CLOSED></H2G2>
