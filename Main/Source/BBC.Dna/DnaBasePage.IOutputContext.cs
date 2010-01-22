@@ -69,12 +69,13 @@ namespace BBC.Dna.Page
 #endif
 
         /// <summary>
-        /// Base implementation always returns false
+        /// Checks to see if the current site and page is using html caching. It also depends on the user being logged in or not.
+        /// Caching only works for logged out users
         /// </summary>
-        /// <returns>false</returns>
+        /// <returns>True if caching is enaqbled and the user is logged out, false if caching is disabled or the user is logged in</returns>
         public virtual bool IsHtmlCachingEnabled()
         {
-            return _dnapage.IsHtmlCachingEnabled() && GetCookie("SSO2-UID") == null;
+            return _dnapage.IsHtmlCachingEnabled() && GetCookie("SSO2-UID") == null && GetCookie("IDENTITY") == null;
         }
 
         /// <summary>
