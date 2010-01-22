@@ -217,6 +217,13 @@
 
   </PropertyGroup>
 
+  <!-- Make it an incremental build -->
+  <PropertyGroup>
+    <SkipClean>true</SkipClean>
+    <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
+    <ForceGet>false</ForceGet>
+  </PropertyGroup>
+
   <ItemGroup>
     <!--  ADDITIONAL REFERENCE PATH
      The list of additional reference paths to use while resolving references. For example:
@@ -225,4 +232,93 @@
          <AdditionalReferencePath Include="C:\MyFolder2\" />
     -->
   </ItemGroup>
+
+  <Target Name="AfterDropBuild">
+    <CallTarget Targets="PostBuildStep" />
+  </Target>
+
+  <ItemGroup>
+    <Schemas Include="$(SolutionRoot)\Source\schemas\**\*.*"></Schemas>
+    <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
+    <DnaPages Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
+    <CommentsApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
+    <ModerationApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
+    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
+    <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.dll"></Ripley>
+  </ItemGroup>
+
+  <!-- Fail the build if the tests fail... -->
+  <Target Name="AfterTest">
+
+    <!-- Refresh the build properties. -->
+    <GetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <Output TaskParameter="TestSuccess" PropertyName="TestSuccess" />
+    </GetBuildProperties>
+
+
+    <!-- Set CompilationStatus to Failed if TestSuccess is false. -->
+    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        CompilationStatus="Failed"
+                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(TestSuccess)' != 'true' " />
+  </Target>
+
+  <!-- do post build step stuff -->
+
+  <Target Name="PostBuildStep">
+    <!-- Create the build steps which start in mode "Running" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to release server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+    </BuildStep>
+
+
+    <!-- Exec IPC$ command - get access to ops-dna1-->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
+
+    <!-- stop iis on ops-dna1 -->
+    <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
+
+
+    <!-- Copy DnaPages to int drop location -->
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2release\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <!-- Copy CommentsApi to int drop location -->
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <!-- Copy ModerationApi to int drop location -->
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <!-- Copy ModerationApi to int drop location -->
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2release\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Message Text="Skins: @(Skins)"></Message -->
+
+    
+    <!-- Copy ripley dlls over existing-->
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2release\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <!-- start website to copy ripley -->
+    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
+
+    <!-- Close Access to ops-dna1 -->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
+
+
+
+
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+    <OnError ExecuteTargets="PostBuildStepFailed" />
+  </Target>
+
+
+  <Target Name="PostBuildStepFailed">
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  </Target>
+  
 </Project>
