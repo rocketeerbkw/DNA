@@ -138,6 +138,7 @@ namespace FunctionalTests
             Assert.AreNotEqual(null, forumThreads);
             Assert.AreEqual("0", forumThreads.Attributes["CANWRITE"].Value);
 
+            CleanRiplyCache();
             //Reopen Thread
             //request as logged out user
             request.SetCurrentUserEditor();
@@ -566,6 +567,7 @@ namespace FunctionalTests
             Assert.AreEqual("0", forumThreadPosts.Attributes["THREADCANREAD"].Value);
             Assert.AreEqual("0", forumThreadPosts.Attributes["THREADCANWRITE"].Value);
 
+            CleanRiplyCache();
             //reset
             request.RequestPage("F7325075?cmd=forumperm&thread=34&skin=purexml&threadread=1&threadwrite=1");
             ValidateForumThreadSchema(request);
