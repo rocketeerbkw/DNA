@@ -130,6 +130,10 @@
      -->
     <CustomPropertiesForBuild></CustomPropertiesForBuild>
 
+    <!-- Test failed as build fail... -->
+    <TreatTestFailureAsBuildFailure>false</TreatTestFailureAsBuildFailure>
+
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -191,7 +195,7 @@
 	</ItemGroup>
 
     <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
-      <MetaDataFile Include="$(SolutionRoot)/Main/userservices.vsmdi" >
+      <MetaDataFile Include="$(SolutionRoot)/userservices.vsmdi" >
       <TestList>Unit Tests</TestList>
     </MetaDataFile>
       <!-- TestContainer Include="$(OutDir)\%2a%2a\%2a.Tests.dll" / -->
