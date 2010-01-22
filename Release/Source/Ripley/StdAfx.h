@@ -14,6 +14,11 @@
 #include <afxext.h>
 #include <wininet.h>
 //#include <afxisapi.h>
+
+#include "TdvString.h"
+#include "CGI.h"
+#include "StoredProcedure.h"
+
 #include "assert.h"
 
 #pragma warning ( disable: 4786 4503 )
