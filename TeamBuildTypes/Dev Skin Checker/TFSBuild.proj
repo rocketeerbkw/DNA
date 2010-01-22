@@ -221,7 +221,7 @@
     </BuildStep>
 
 
-    <Exec Command="&quot;$(BinariesRoot)\Debug\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Mainfail\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Main\Source\Skins\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="true">
+    <Exec Command="&quot;$(BinariesRoot)\Debug\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Main\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Main\Source\Skins\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="true">
         <Output TaskParameter="ExitCode" PropertyName="SkinsCheckerResult"></Output>
       </Exec>
 
