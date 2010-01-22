@@ -25,7 +25,16 @@ namespace Tests
         {
             SnapshotInitialisation.ForceRestore();
         }
-        
+
+        /// <summary>
+        /// teardown method
+        /// </summary>
+        [TestCleanup]
+        public void TearDown()
+        {
+            SnapshotInitialisation.ForceRestore();
+        }
+
         /// <summary>
         /// Test to make sure that the correct details are retrieved for a threadmod id
         /// </summary>
