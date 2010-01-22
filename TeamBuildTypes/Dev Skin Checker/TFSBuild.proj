@@ -216,12 +216,17 @@
   <!-- Fail the build if the compile fail... -->
   <Target Name="AfterCompile"> <!-- Condition=" '$(BuildBreak)'=='false' and '$(IsDesktopBuild)'!='true' " -->
 
-      <Exec Command="&quot;$(BinariesRoot)\Debug\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Main\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Main\Source\Skins\output.xsl&quot;  /commandline /recursivescan">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Name="SkinCheckerStep" Message="Running Skin Checker...">
+      <Output TaskParameter="Id" PropertyName="SkinCheckerStepId" />
+    </BuildStep>
+
+
+    <Exec Command="&quot;$(BinariesRoot)\Debug\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Main\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Main\Source\Skins\output.xsl&quot;  /commandline /recursivescan">
         <Output TaskParameter="ExitCode" PropertyName="SkinsCheckerResult"></Output>
       </Exec>
 
-    <BuildStep Condition="'$(SkinsCheckerResult)'=='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Succeeded" />
-    <BuildStep Condition="'$(SkinsCheckerResult)'!='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Failed" />
+    <BuildStep Condition="'$(SkinsCheckerResult)'=='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Succeeded" Id="$(SkinCheckerStepId)" />
+    <BuildStep Condition="'$(SkinsCheckerResult)'!='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Failed"  Id="$(SkinCheckerStepId)"/>
 
 
     <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
@@ -234,11 +239,11 @@
   </Target>
 
   <!-- Make it an incremental build -->
-  <!-- PropertyGroup>
+  <PropertyGroup>
     <SkipClean>true</SkipClean>
     <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
     <ForceGet>false</ForceGet>
-  </PropertyGroup -->
+  </PropertyGroup>
 
 
   <ItemGroup>
