@@ -531,6 +531,17 @@ namespace BBC.Dna.Api
             }
             catch (SiteOptionNotFoundException) { }
 
+            try
+            {//check for option - if not set then it throws exception
+                int minCharCount = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "MinCommentCharacterLength");
+                string tmpText = StringUtils.StripFormattingFromText(comment.text);
+                if (minCharCount != 0 && tmpText.Length < minCharCount)
+                {
+                    throw ApiException.GetError(ErrorType.MinCharLimitNotReached);
+                }
+            }
+            catch (SiteOptionNotFoundException) { }
+
             //strip out invalid chars
             comment.text = StringUtils.StripInvalidXmlChars(comment.text);
 

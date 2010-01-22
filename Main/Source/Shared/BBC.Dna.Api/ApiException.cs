@@ -79,6 +79,7 @@ namespace BBC.Dna.Api
                 case ErrorType.InvalidThreadID: _error = new ApiException("The threadID must be of valid type.", innerException); break;
                 case ErrorType.InvalidPostStyle: _error = new ApiException("The postStyle must be of valid type.", innerException); break;
                 case ErrorType.CommentNotFound: _error = new ApiException("The comment with the given id could not be found.", innerException); break;
+                case ErrorType.MinCharLimitNotReached: _error = new ApiException("Text is below the minimum character limit.", innerException); break;
                 default: _error = new ApiException("Unknow error has occurred.", innerException); break; 
             }
             _error.type = type;
@@ -116,7 +117,8 @@ namespace BBC.Dna.Api
         InvalidRatingValue,
         InvalidPostStyle,
         InvalidThreadID,
-        CommentNotFound
+        CommentNotFound,
+        MinCharLimitNotReached
 
     }
 
