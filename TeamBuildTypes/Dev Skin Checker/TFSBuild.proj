@@ -216,7 +216,15 @@
   <!-- Fail the build if the compile fail... -->
   <Target Name="AfterCompile"> <!-- Condition=" '$(BuildBreak)'=='false' and '$(IsDesktopBuild)'!='true' " -->
 
-    <Exec Command="$(BinariesRoot)\debug\skinchecker.exe /xmlfile:&quot;$(SolutionRoot)\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Source\Skins\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="false"></Exec>
+    <Exec Command="&quot;$(BinariesRoot)\debug\skinchecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Mainbroken\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Main\Source\Skins\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="false"></Exec>
+
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+    <OnError ExecuteTargets="AfterCompileStepFailed" />
+  </Target>
+
+  <Target Name="AfterCompileStepFailed">
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 
   <!-- Make it an incremental build -->
