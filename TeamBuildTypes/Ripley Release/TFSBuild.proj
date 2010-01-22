@@ -201,6 +201,10 @@
     -->
 
   </ItemGroup>
+<!-- Make it an incremental build -->
+  <PropertyGroup>
+	<IncrementalBuild>true</IncrementalBuild>
+  </PropertyGroup>
 
   <PropertyGroup>
     <!-- TEST ARGUMENTS
