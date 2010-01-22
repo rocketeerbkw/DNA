@@ -337,7 +337,7 @@ namespace BBC.Dna.Data
             }
 
             _dataReader = cmd.ExecuteReader();
-            WriteTimedEventToLog("Executed " + _name);
+            WriteTimedEventToLog("Executed " + sql);
 
             return this;
         }
