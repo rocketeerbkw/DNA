@@ -25,7 +25,7 @@ namespace RipleyTests
         }
 
         [TestMethod]
-        public void aaPost()
+        public void ThreadPermissions()
         {
             Console.WriteLine("Before aaPost");
             DnaTestURLRequest urlRequest = new DnaTestURLRequest("haveyoursay");
@@ -47,21 +47,13 @@ namespace RipleyTests
             doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2/FORUMTHREADPOSTS/POST[TEXT='" + post + "']"), "Check existence of post");
             Console.WriteLine("After aaPost");
-        }
-
-        [TestMethod]
-        public void bbHideThread()
-        {
-            aaPost();
-
+        
             Console.WriteLine("Before bbHideThread");
-            string url = "F" + forumId + "?skin=purexml";
-            DnaTestURLRequest urlRequest = new DnaTestURLRequest("haveyoursay");
             urlRequest.SetCurrentUserEditor();
             urlRequest.RequestPage(url);
-            XmlDocument doc = urlRequest.GetLastResponseAsXML();
+            doc = urlRequest.GetLastResponseAsXML();
 
-            XmlNode node = doc.SelectSingleNode("/H2G2/FORUMTHREADS/THREAD/@THREADID");
+            node = doc.SelectSingleNode("/H2G2/FORUMTHREADS/THREAD/@THREADID");
             Assert.IsNotNull(node, "Get ThreadId from Forum");
 
             threadId = node.InnerText;
@@ -90,25 +82,20 @@ namespace RipleyTests
             doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNull(doc.SelectSingleNode("/H2G2/FORUMTHREADS/THREAD[@THREADID=" + threadId + "]"), "Check Normal User Cannot See Hidden Thread");
             Console.WriteLine("After bbHideThread");
-        }
-
-        [TestMethod]
-        public void ccUnHideThread()
-        {
-            bbHideThread();
+       
             Console.WriteLine("Before ccHideThread");
             //Check Editor Can Unhide Thread.
-            DnaTestURLRequest urlRequest = new DnaTestURLRequest("haveyoursay");
+            urlRequest = new DnaTestURLRequest("haveyoursay");
             urlRequest.SetCurrentUserEditor();
-            string url = "F" + forumId + "&UnHideThread=" + threadId + "&skin=purexml";
+            url = "F" + forumId + "?UnHideThread=" + threadId + "&skin=purexml";
             urlRequest.RequestPage(url);
-            XmlDocument doc = urlRequest.GetLastResponseAsXML();
+            doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2[UNHIDETHREAD='UnHideThreadOK']"), "Check Thread UnHidden");
 
             System.Threading.Thread.Sleep(100);
 
             //Check Normal User Can See Thread.
-            url = "F" + forumId + "&skin=purexml";
+            url = "F" + forumId + "?skin=purexml";
             urlRequest.SetCurrentUserNormal();
             urlRequest.RequestPage(url);
             doc = urlRequest.GetLastResponseAsXML();

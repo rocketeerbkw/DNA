@@ -5,6 +5,7 @@
 			<DBNAME>TheGuide</DBNAME>
 			<UID>sa</UID>
 			<PASSWORD></PASSWORD>
+      <POOLING>false</POOLING>
 		</SQLSERVER>
 	</DBSERVER>
 	<SITEROOT>local.bbc.co.uk/dna/</SITEROOT>

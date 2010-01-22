@@ -44,6 +44,19 @@ namespace Tests
             SnapshotInitialisation.RestoreFromSnapshot();
             Statistics.InitialiseIfEmpty();
             Statistics.ResetCounters();
+
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {//force processpremod out...
+                    reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=1 and Name='ProcessPreMod'");
+                }
+                _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                site = _siteList.GetSite("h2g2");
+
+                _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                _comments.siteList = _siteList;
+            }
         }
 
         /// <summary>
@@ -51,14 +64,7 @@ namespace Tests
         /// </summary>
         public CommentForumCachingAndStats()
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
-            {
-                _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                site = _siteList.GetSite("h2g2");
-
-                _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                _comments.siteList = _siteList;
-            }
+            
             
         }
 		
@@ -341,7 +347,7 @@ namespace Tests
             {
                 Id = Guid.NewGuid().ToString(),
                 ParentUri = "http://www.bbc.co.uk/dna/h2g2/",
-                Title = "testCommentForum",
+                Title = "CommentForum_PreMod_Pass",
                 ModerationServiceGroup = ModerationStatus.ForumStatus.PreMod
             };
 
@@ -357,15 +363,18 @@ namespace Tests
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
-            _comments.CommentCreate(result, comment);
+            CommentInfo returnComment = _comments.CommentCreate(result, comment);
+            Assert.IsTrue(returnComment.ID != 0);//not processpremod'ed
+
 
             //get forum again
             result = _comments.CommentForumReadByUID(result.Id, site);
             Assert.IsTrue(result != null);
+            Assert.IsTrue(result.commentList.comments.Count != 0);
             Assert.IsTrue(result.commentList.comments[0].hidden ==  CommentStatus.Hidden.Hidden_AwaitingPreModeration);
             Assert.IsTrue(result.commentSummary.Total == 1);
 
-            // Now ste the closing date of the forum to something in the past.
+            // Pass the comment...
             ModerateComment(result.commentList.comments[0].ID, result.ForumID, BBC.Dna.Component.ModeratePosts.Status.Passed,"");
             
             result = _comments.CommentForumReadByUID(result.Id, site);
@@ -386,7 +395,7 @@ namespace Tests
             {
                 Id = Guid.NewGuid().ToString(),
                 ParentUri = "http://www.bbc.co.uk/dna/h2g2/",
-                Title = "testCommentForum",
+                Title = "CommentForum_PreMod_Fail",
                 ModerationServiceGroup = ModerationStatus.ForumStatus.PreMod
             };
 

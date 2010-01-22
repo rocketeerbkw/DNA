@@ -37,24 +37,26 @@ namespace RipleyTests
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.SetCurrentUserNormal();
             IInputContext inputContext = DnaMockery.CreateDatabaseInputContext();
-            IDnaDataReader dataReader = inputContext.CreateDnaDataReader("");
-            SetSiteID(dataReader,"h2g2");
+            using (IDnaDataReader dataReader = inputContext.CreateDnaDataReader(""))
+            {
+                SetSiteID(dataReader, "h2g2");
 
-            _includeContentFromOtherSites = _siteOptionList.GetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites");
+                _includeContentFromOtherSites = _siteOptionList.GetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites");
 
-            //Create a post on h2g2
-            SetForumID(dataReader);
-            request = new DnaTestURLRequest("h2g2");
-            request.SetCurrentUserNormal();
-            int id = request.CurrentUserID;
-            request.RequestPage("AddThread?subject=test&body=blahblah&post=1&skin=purexml&forum=" + Convert.ToString(_forumId));
+                //Create a post on h2g2
+                SetForumID(dataReader);
+                request = new DnaTestURLRequest("h2g2");
+                request.SetCurrentUserNormal();
+                int id = request.CurrentUserID;
+                request.RequestPage("AddThread?subject=test&body=blahblah&post=1&skin=purexml&forum=" + Convert.ToString(_forumId));
 
-            //Create a post on have your say.
-            SetSiteID(dataReader, "haveyoursay");
-            SetForumID(dataReader);
-            request = new DnaTestURLRequest("haveyoursay");
-            request.SetCurrentUserNormal();
-            request.RequestPage("AddThread?subject=test&body=blahblah&post=1&skin=purexml&forum=" + Convert.ToString(_forumId));
+                //Create a post on have your say.
+                SetSiteID(dataReader, "haveyoursay");
+                SetForumID(dataReader);
+                request = new DnaTestURLRequest("haveyoursay");
+                request.SetCurrentUserNormal();
+                request.RequestPage("AddThread?subject=test&body=blahblah&post=1&skin=purexml&forum=" + Convert.ToString(_forumId));
+            }
         }
 
         /// <summary>

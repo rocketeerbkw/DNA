@@ -666,6 +666,7 @@ namespace FunctionalTests
             Assert.AreEqual("1", moderationStatus.InnerText);
 
             //reset
+            CleanRiplyCache();
             request.SetCurrentUserSuperUser();
             request.RequestPage("F7325075?cmd=updateforummoderationstatus&thread=34&skin=purexml&status=0");
 

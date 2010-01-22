@@ -18,8 +18,15 @@ namespace Tests
     public class XSLTCachingTests
     {
         private string _testXSLTFilename = Environment.CurrentDirectory + "DnaXsltCacheTestFile.xsl";
+        HtmlCachingTests _htmlCachingTests = null;
 
-        HtmlCachingTests _htmlCachingTests = new HtmlCachingTests(false);
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public XSLTCachingTests()
+        {
+            _htmlCachingTests = new HtmlCachingTests(false);
+        }
 
         /// <summary>
         /// Setup function that creates the XSLT file that we will test the xslt transform caching with

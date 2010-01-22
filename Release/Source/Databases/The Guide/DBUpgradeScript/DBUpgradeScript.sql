@@ -3332,6 +3332,20 @@ EXEC dbu_dosql N'MarcusP: 397ED2DE-1EA2-4d99-8F54-D494E81735FB',
 	IF (@curerror <> 0) RETURN
 END
 
+EXEC dbu_dosql N'SPF: {F15C9295-241E-4EAF-A18A-26DF70BD96E0}',
+N'exec dbu_createsiteoption 0, ''CommentForum'', ''MinCommentCharacterLength'', ''0'' ,0,''Sets the minimum character length for a comment post - 0 denotes no limit''',
+N'Creating SiteOption MinCommentCharacterLength', @curerror OUTPUT
+IF (@curerror <> 0) RETURN
+
+EXEC dbu_dosql N'Markn: A8F98011-B3A3-48CB-B1F7-FC76A5ED0660',
+N'
+IF dbo.udf_viewexists(''VGuideEntryText_collective'') = 1
+BEGIN
+	DROP VIEW VGuideEntryText_collective
+END
+',
+N'Dropping view VGuideEntryText_collective as that site is no longer', @curerror OUTPUT
+IF (@curerror <> 0) RETURN
 
 ------------------------------------------------------------------------------------------------
 -- INSERT NEW CODE BEFORE HERE!!!
