@@ -66,7 +66,7 @@ namespace BBC.Dna.Data
         /// <returns>Current instance of the class implementing the IDnaDataReader interface.</returns>
         IDnaDataReader Execute();
 		
-        #if DEBUG
+        
         /// <summary>
         /// Calls the database with an adhoc query.
         /// Only ever used in unit tests
@@ -74,7 +74,7 @@ namespace BBC.Dna.Data
         /// <param name="sql"></param>
         /// <returns></returns>
         IDnaDataReader ExecuteDEBUGONLY(string sql);
-        #endif
+        
 
         /// <summary>
         /// Get the value of the specified column as Boolean.
