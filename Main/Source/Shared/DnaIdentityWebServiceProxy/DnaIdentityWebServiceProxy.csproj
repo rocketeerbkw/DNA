@@ -112,7 +112,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)$(TargetName).dll"  "$(TargetDir)..\..\..\..\Reference DLLs" /R /Y
-xcopy "$(TargetDir)$(TargetName).tlb" "$(TargetDir)..\..\..\..\Reference DLLs" /R /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)$(TargetName).dll"  "$(TargetDir)..\..\..\..\Reference DLLs\" /R /Y
+xcopy "$(TargetDir)$(TargetName).tlb" "$(TargetDir)..\..\..\..\Reference DLLs\" /R /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
