@@ -214,11 +214,29 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--  ADDITIONAL REFERENCE PATH
-     The list of additional reference paths to use while resolving references. For example:
-     
-         <AdditionalReferencePath Include="C:\MyFolder\" />
-         <AdditionalReferencePath Include="C:\MyFolder2\" />
-    -->
+    <Dll Include="$(BinariesRoot)\debug\*.dll"></Dll>
+    <Tlb Include="$(BinariesRoot)\debug\*.tlb"></Tlb>
   </ItemGroup>
+
+
+  <Target Name="PostBuildStep">
+    <!-- Create the build steps which start in mode "Running" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Checking into Reference Dlls" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+    </BuildStep>
+    <!-- Check out reference dlls -->
+    <Exec Command="tf checkout &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot;"></Exec>
+    <Exec Command="tf checkout &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot;"></Exec>
+
+    <!-- Copy over the new dlls... -->
+    <Copy SourceFiles="@(Dll)" DestinationFolder="$(SolutionRoot)\Source\Reference DLLs\"></Copy>
+    <Copy SourceFiles="@(Tlb)" DestinationFolder="$(SolutionRoot)\Source\Reference DLLs\"></Copy>
+
+    <!-- Check in new versions -->
+    <Exec Command="tf checkin &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
+    <Exec Command="tf checkin &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
+
+
+  </Target>
 </Project>
