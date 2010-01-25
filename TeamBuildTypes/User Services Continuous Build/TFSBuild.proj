@@ -196,7 +196,7 @@
 
     <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
       <TestContainer Include="$(OutDir)\%2a%2a\%2a.Tests.dll" />
-
+    </ItemGroup>
       <PropertyGroup>
         <RunConfigFile>$(SolutionRoot)\bbc.dna.tests.testrunconfig</RunConfigFile>
       </PropertyGroup>
@@ -223,7 +223,7 @@
      Use %2a instead of * and %3f instead of ? to prevent expansion before test assemblies are built
     -->
 
-  </ItemGroup>
+  
 
   <PropertyGroup>
     <!-- TEST ARGUMENTS
