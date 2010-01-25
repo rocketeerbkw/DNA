@@ -81,7 +81,7 @@ namespace BBC.Dna.Services
                 switch (outputFormat)
                 {
                     case format.XML: outputContentType = "text/xml"; break;
-                    case format.JSON: outputContentType = "text/javascript"; break;
+                    case format.JSON: outputContentType = "application/json"; break;
                     case format.HTML: outputContentType = "text/HTML"; break;
                     case format.RSS: outputContentType = "application/rss xml"; break;
                     case format.ATOM: outputContentType = "application/atom xml"; break;
