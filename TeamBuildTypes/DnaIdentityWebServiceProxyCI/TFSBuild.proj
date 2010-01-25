@@ -172,7 +172,7 @@
      The Include attribute value should be unique for each ConfigurationToBuild node.
     -->
     <ConfigurationToBuild Include="Release|Any CPU">
-        <FlavorToBuild>Release</FlavorToBuild>
+        <FlavorToBuild>Debug</FlavorToBuild>
         <PlatformToBuild>Any CPU</PlatformToBuild>
     </ConfigurationToBuild>
 
@@ -214,8 +214,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Dll Include="$(BinariesRoot)\debug\*.dll"></Dll>
-    <Tlb Include="$(BinariesRoot)\debug\*.tlb"></Tlb>
+    <Dll Include="$(BinariesRoot)\debug\DnaIdentityWebServiceProxy.dll"></Dll>
+    <Tlb Include="$(BinariesRoot)\debug\DnaIdentityWebServiceProxy.tlb"></Tlb>
   </ItemGroup>
 
 
