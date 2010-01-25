@@ -19,5 +19,6 @@ Select @iitemtype = CASE
 	WHEN (@itemtype = 'IT_PRIVATEFORUM')	THEN 11
 	WHEN (@itemtype = 'IT_CLUB_MEMBERS')	THEN 12
 	WHEN (@itemtype = 'IT_MODID')			THEN 13
+	WHEN (@itemtype = 'IT_ENTRYID')			THEN 14
 	ELSE 2
 END

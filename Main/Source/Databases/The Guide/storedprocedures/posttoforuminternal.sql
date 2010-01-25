@@ -602,11 +602,13 @@ BEGIN
 	BEGIN
 		-- New thread created
 		EXEC addtoeventqueueinternal 'ET_POSTNEWTHREAD', @forumid, 'IT_FORUM', @threadid, 'IT_THREAD', @userid
+		EXEC addtoeventqueueinternal 'ET_POSTTOFORUM', @forumid, 'IT_FORUM', @entryid, 'IT_ENTRYID', @userid
 	END
 	ELSE
 	BEGIN
 		-- Thread has reply
 		EXEC addtoeventqueueinternal 'ET_POSTREPLIEDTO', @threadid, 'IT_THREAD', @inreplyto, 'IT_POST', @userid
+		EXEC addtoeventqueueinternal 'ET_POSTTOFORUM', @forumid, 'IT_FORUM', @entryid, 'IT_ENTRYID', @userid
 	END
 END
 
