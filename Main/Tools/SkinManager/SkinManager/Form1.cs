@@ -225,7 +225,7 @@ namespace SkinManager
             {
                 friendlyName = "Staging Server";
             }
-            else if (hostName == "dnastaging.bbc.co.uk")
+            else if (hostName == "dna-staging.bbc.co.uk")
             {
                 friendlyName = "Staging Server";
             }
@@ -454,6 +454,7 @@ namespace SkinManager
             XmlDocument doc = new XmlDocument();
             doc = null;
             doc = LoadXMLDocFromURL("http://" + _hostName + "/dna/-/skins/base/sitemap.xml");
+            //doc = LoadXMLDocFromURL("http://www.bbc.co.uk/h2g2/servers/narthur8/-/skins/base/sitemap.xml");
             chServerlist.Items.Clear();
 
             if (doc != null)
@@ -735,14 +736,16 @@ namespace SkinManager
 
         private XmlDocument LoadXMLDocFromURL(string sURL)
         {
-            HttpWebRequest wr = GetWebRequest(sURL, true);
+            HttpWebRequest wr = GetWebRequestBasic(sURL);
             WebResponse wResp;
             try
             {
                 wResp = wr.GetResponse();
             }
-            catch
+            catch(Exception ex)
             {
+                richTextBox1.AppendText("LoadXmlDoc failed (ok on staging): " + ex.Message);
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return null;
             }
 
@@ -1305,6 +1308,19 @@ namespace SkinManager
             }
 
             MessageBox.Show("All templates cleared", "Message from Skin Manager");
+        }
+
+        private HttpWebRequest GetWebRequestBasic(string sURL)
+        {
+            Uri URL = new Uri(sURL);
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(URL);
+            if (_useProxy)
+            {
+                WebProxy myProxy = new WebProxy("http://" + _proxy + ":" + _port);
+                wr.Proxy = myProxy;
+            }
+            wr.CookieContainer = _cookieContainer;
+            return wr;
         }
 
         private HttpWebRequest GetWebRequest(string sURL, bool bAuthenticate)
