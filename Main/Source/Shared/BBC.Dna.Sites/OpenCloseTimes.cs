@@ -10,10 +10,6 @@ namespace BBC.Dna.Sites
     /// </summary>
     public class OpenCloseTime
     {
-        private	int _dayOfWeek;
-        private	int _hour;
-        private	int _minute;
-        private	int _closed;
 
         /// <summary>
         /// Default Constructor for the OpenCloseTime object
@@ -31,10 +27,10 @@ namespace BBC.Dna.Sites
         /// <param name="closed">If closed</param>
 	    public OpenCloseTime(int dayOfWeek, int hour, int minute, int closed)
         {
-            _dayOfWeek = dayOfWeek;
-            _hour = hour;
-            _minute = minute;
-            _closed = closed;
+            DayOfWeek = dayOfWeek;
+            Hour = hour;
+            Minute = minute;
+            Closed = closed;
         }
 
         /// <summary>
@@ -43,10 +39,10 @@ namespace BBC.Dna.Sites
         /// <param name="other">The other Open Close Time to create the new Open Close Time from</param>
         public OpenCloseTime(OpenCloseTime other)
         {
-            _dayOfWeek = other.DayOfWeek;
-            _hour = other.Hour;
-            _minute = other.Minute;
-            _closed = other.Closed;
+            DayOfWeek = other.DayOfWeek;
+            Hour = other.Hour;
+            Minute = other.Minute;
+            Closed = other.Closed;
         }
 
         /// <summary>
@@ -63,9 +59,9 @@ namespace BBC.Dna.Sites
             int hour = date.Hour;
             int minute = date.Minute;
 
-            if ((dayOfWeek > _dayOfWeek) ||
-                (dayOfWeek == _dayOfWeek && hour > _hour) ||
-                (dayOfWeek == _dayOfWeek && hour == _hour && minute >= _minute)
+            if ((dayOfWeek > DayOfWeek) ||
+                (dayOfWeek == DayOfWeek && hour > Hour) ||
+                (dayOfWeek == DayOfWeek && hour == Hour && minute >= Minute)
                 )
             {
                 hasAlreadyHappened = true;
@@ -81,58 +77,18 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// Public accessor for Day Of Week field
         /// </summary>
-        public int DayOfWeek
-        {
-          get 
-          { 
-              return _dayOfWeek; 
-          }
-          set 
-          { 
-              _dayOfWeek = value; 
-          }
-        }
+        public int DayOfWeek { get; set; }
         /// <summary>
         /// Public accessor for Hour field
         /// </summary>
-        public int Hour
-        {
-          get 
-          { 
-              return _hour; 
-          }
-          set 
-          { 
-              _hour = value; 
-          }
-        }
+        public int Hour{get;set;}
         /// <summary>
         /// Public accessor for minute field
         /// </summary>
-        public int Minute
-        {
-          get 
-          { 
-              return _minute;
-          }
-          set 
-          { 
-              _minute = value; 
-          }
-        }
+        public int Minute { get; set; }
         /// <summary>
         /// Public accessor for closed field
         /// </summary>
-        public int Closed
-        {
-          get 
-          { 
-              return _closed; 
-          }
-          set 
-          { 
-              _closed = value; 
-          }
-        }
+        public int Closed { get; set; }
     }
 }
