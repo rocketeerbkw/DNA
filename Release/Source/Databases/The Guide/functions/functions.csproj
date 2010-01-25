@@ -29,7 +29,7 @@
   </PropertyGroup>
   <UsingTask TaskName="UpdateSpTask" AssemblyFile="..\updatesp.exe" />
   <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
-    <UpdateSpTask BuildFiles="@(None)" BuildTargetFile="$(OutputTarget)" UpdateSpBuildConfigFile="" BuildConfig="$(Configuration)" />
+    <UpdateSpTask BuildFiles="@(None)" OutputScriptFile="$(OutputPath)$(MSBuildProjectName)-Script.sql" BuildTargetFile="$(OutputTarget)" UpdateSpBuildConfigFile="" BuildConfig="$(Configuration)" />
   </Target>
   <Target Name="Clean">
     <Delete Files="$(OutputTarget)" TreatErrorsAsWarnings="true" />
