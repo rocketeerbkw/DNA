@@ -221,23 +221,19 @@
     </BuildStep>
 
 
-    <Exec Command="&quot;$(BinariesRoot)\Debug\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Main\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Main\Source\Skins\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="true">
+    <Exec Command="&quot;$(BinariesRoot)\Debug\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Main\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="true">
         <Output TaskParameter="ExitCode" PropertyName="SkinsCheckerResult"></Output>
       </Exec>
 
-    <BuildStep Condition="'$(SkinsCheckerResult)'=='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Succeeded" Id="$(SkinCheckerStepId)" />
-    <BuildStep Condition="'$(SkinsCheckerResult)'!='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Failed"  Id="$(SkinCheckerStepId)"/>
+    <!-- BuildStep Condition="'$(SkinsCheckerResult)'=='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Succeeded" Id="$(SkinCheckerStepId)" />
+    <BuildStep Condition="'$(SkinsCheckerResult)'!='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Failed"  Id="$(SkinCheckerStepId)"/ -->
 
-
-    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
-    <OnError ExecuteTargets="AfterCompileStepFailed" />
+    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        CompilationStatus="Failed"
+                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(SkinsCheckerResult)'!='1'">
+    </SetBuildProperties>
   </Target>
-
-  <Target Name="AfterCompileStepFailed">
-    <!-- Change the status of the task to "Failed" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
-  </Target>
-
   <!-- Make it an incremental build -->
   <PropertyGroup>
     <SkipClean>true</SkipClean>
