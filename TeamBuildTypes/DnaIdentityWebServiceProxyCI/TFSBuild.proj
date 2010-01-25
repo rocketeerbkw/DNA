@@ -240,7 +240,7 @@
     <Exec Command="tf checkin &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
 
     <!-- register all ok -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" CompilationStatus="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
     <OnError ExecuteTargets="PostBuildStepFailed" />
   </Target>
@@ -248,6 +248,6 @@
 
   <Target Name="PostBuildStepFailed">
     <!-- Change the status of the task to "Failed" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" CompilationStatus="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 </Project>
