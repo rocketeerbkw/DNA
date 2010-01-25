@@ -233,6 +233,12 @@
                         CompilationStatus="Failed"
                         Condition=" '$(IsDesktopBuild)' != 'true' and '$(SkinsCheckerResult)'!='1'">
     </SetBuildProperties>
+
+    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        CompilationStatus="Succeeded"
+                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(SkinsCheckerResult)'=='1'">
+    </SetBuildProperties>
   </Target>
   <!-- Make it an incremental build -->
   <PropertyGroup>
