@@ -219,7 +219,7 @@
   </ItemGroup>
 
 
-  <Target Name="PostBuildStep">
+  <Target Name="AfterEndToEndIteration">
     <!-- Create the build steps which start in mode "Running" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Checking into Reference Dlls" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
