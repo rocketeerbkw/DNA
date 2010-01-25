@@ -228,16 +228,16 @@
     
     
     <!-- Check out reference dlls -->
-    <Exec Command="tf checkout &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot;"></Exec>
-    <Exec Command="tf checkout &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot;"></Exec>
+    <Exec Command="tf checkout &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot;"></Exec>
+    <Exec Command="tf checkout &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot;"></Exec>
 
     <!-- Copy over the new dlls... -->
-    <Copy SourceFiles="@(Dll)" DestinationFolder="$(SolutionRoot)\Source\Reference DLLs\"></Copy>
-    <Copy SourceFiles="@(Tlb)" DestinationFolder="$(SolutionRoot)\Source\Reference DLLs\"></Copy>
+    <Copy SourceFiles="@(Dll)" DestinationFolder="$(SolutionRoot)\Main\Source\Reference DLLs\"></Copy>
+    <Copy SourceFiles="@(Tlb)" DestinationFolder="$(SolutionRoot)\Main\Source\Reference DLLs\"></Copy>
 
     <!-- Check in new versions -->
-    <Exec Command="tf checkin &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
-    <Exec Command="tf checkin &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
+    <Exec Command="tf checkin &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
+    <Exec Command="tf checkin &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
 
     <!-- register all ok -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
