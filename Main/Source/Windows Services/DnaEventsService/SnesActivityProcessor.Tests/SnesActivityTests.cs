@@ -67,13 +67,13 @@ namespace SnesActivityTests
 
             using (mocks.Record())
             {
-                currentRow.Stub(x => x.GetInt32("ActivityType")).Return(5);
+                currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
             }
 
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSNeSActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
             }
 
             //Related assertions
@@ -100,7 +100,7 @@ namespace SnesActivityTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSNeSActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
             }
 
             //Assert.AreEqual("mooks", activity.DisplayName);
@@ -122,7 +122,7 @@ namespace SnesActivityTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSNeSActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
             }
 
             //Assert.AreEqual("moo'ks", activity.DisplayName);
@@ -144,7 +144,7 @@ namespace SnesActivityTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSNeSActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
             }
             
             string expected = @"posted a <a href= ""http://www.bbc.co.uk/blogs/test#P1"" > new comment </a> on the <a href = ""http://www.bbc.co.uk/blogs/test"" > iPlayer </a>";
@@ -167,7 +167,7 @@ namespace SnesActivityTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSNeSActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
             }
 
             //string expected = @"here is some text";
@@ -182,11 +182,11 @@ namespace SnesActivityTests
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
 
             reader.Stub(x => x.GetString("Body")).Return("some text' with apostrophe");
-            reader.Stub(x => x.GetInt32("ActivityType")).Return(5);
+            reader.Stub(x => x.GetInt32("ActivityType")).Return(19);
 
             mocks.ReplayAll();
 
-            ISnesActivity activity = SnesActivityFactory.CreateSNeSActivity(reader);
+            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(reader);
 
             Assert.IsTrue(activity.GetActivityJson().Contains("\"objectDescription\":\"some text&#39 with apostrophe\""));
         }
@@ -197,12 +197,12 @@ namespace SnesActivityTests
             MockRepository mocks = new MockRepository();
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
 
-            reader.Stub(x => x.GetInt32("ActivityType")).Return(5);
+            reader.Stub(x => x.GetInt32("ActivityType")).Return(19);
             reader.Stub(x => x.IsDBNull("BlogUrl")).Return(true);
 
             mocks.ReplayAll();
 
-            ISnesActivity activity = SnesActivityFactory.CreateSNeSActivity(reader);
+            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(reader);
 
             Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"/dna//F0?thread=0#p0\""));
         }
@@ -214,11 +214,11 @@ namespace SnesActivityTests
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
 
             reader.Stub(x => x.GetInt32("IdentityUserId")).Return(12345);
-            reader.Stub(x => x.GetInt32("ActivityType")).Return(5);
+            reader.Stub(x => x.GetInt32("ActivityType")).Return(19);
 
             mocks.ReplayAll();
 
-            ISnesActivity activity = SnesActivityFactory.CreateSNeSActivity(reader);
+            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(reader);
 
             Assert.IsTrue(activity.GetActivityJson().Contains("\"username\":\"12345\""));
         }
@@ -232,7 +232,7 @@ namespace SnesActivityTests
             currentRow.Stub(x => x.GetString("DnaUrl")).Return("http://www.bbc.co.uk/dna/");
             currentRow.Stub(x => x.GetInt32NullAsZero("ForumId")).Return(1234);
             currentRow.Stub(x => x.GetInt32NullAsZero("ThreadId")).Return(54321);
-            currentRow.Stub(x => x.GetInt32("ActivityType")).Return(5);
+            currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
             currentRow.Stub(x => x.GetInt32("EventId")).Return(1234);
             string appId = Guid.NewGuid().ToString();
             currentRow.Stub(x => x.GetString("AppId")).Return(appId);
@@ -255,7 +255,7 @@ namespace SnesActivityTests
             currentRow.Expect(x => x.GetStringNullAsEmpty("DnaUrl")).Return("http://www.bbc.co.uk/dna/");
             currentRow.Expect(x => x.GetInt32NullAsZero("ForumId")).Return(1234);
             currentRow.Expect(x => x.GetInt32NullAsZero("ThreadId")).Return(54321);
-            currentRow.Expect(x => x.GetInt32("ActivityType")).Return(5);
+            currentRow.Expect(x => x.GetInt32("ActivityType")).Return(19);
             currentRow.Expect(x => x.GetInt32("EventId")).Return(1234);
             string appId = Guid.NewGuid().ToString();
             currentRow.Expect(x => x.GetStringNullAsEmpty("AppId")).Return(appId);

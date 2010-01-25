@@ -103,7 +103,7 @@ namespace SnesActivityTests
             MockRepository mocks = new MockRepository();
 
             IDnaDataReader getSnesEvents = mocks.DynamicMock<IDnaDataReader>();
-            getSnesEvents.Stub(x => x.GetInt32("ActivityType")).Return(5);
+            getSnesEvents.Stub(x => x.GetInt32("ActivityType")).Return(19);
             IDnaDataReader removeHandledSnesEvents = mocks.DynamicMock<IDnaDataReader>();
             removeHandledSnesEvents
                 .Stub(x => x.AddParameter("eventids", ""))

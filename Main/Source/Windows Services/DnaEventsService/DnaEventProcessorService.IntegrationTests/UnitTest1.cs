@@ -1,48 +1,28 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Rhino.Mocks;
+using System.Net;
+using System.Transactions;
 using BBC.Dna.Data;
+using Dna.SnesIntegration.ActivityProcessor;
 using DnaEventService.Common;
 using Microsoft.Http;
-using System.Net;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
-using Dna.SnesIntegration.ActivityProcessor;
 
 namespace DnaEventProcessorService.IntegrationTests
 {
     /// <summary>
-    /// Summary description for UnitTest1
+    /// Summary description for LogFileSeperationTests
     /// </summary>
     [TestClass]
     public class LogFileSeperationTests
     {
-        public LogFileSeperationTests()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
-        private TestContext testContextInstance;
-
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        public TestContext TestContext { get; set; }
 
         #region Additional test attributes
         //
@@ -69,37 +49,29 @@ namespace DnaEventProcessorService.IntegrationTests
         [TestMethod]
         public void TestMethod1()
         {
-            MockRepository mocks = new MockRepository();
+            var mocks = new MockRepository();
 
-            IDnaDataReader getSnesEvents = mocks.DynamicMock<IDnaDataReader>();
-            getSnesEvents.Stub(x => x.GetInt32("ActivityType")).Return(5);
-            IDnaDataReader removeHandledSnesEvents = mocks.DynamicMock<IDnaDataReader>();
+            var getSnesEvents = mocks.DynamicMock<IDnaDataReader>();
+            getSnesEvents.Stub(x => x.GetInt32("ActivityType")).Return(19);
+            var removeHandledSnesEvents = mocks.DynamicMock<IDnaDataReader>();
             removeHandledSnesEvents
                 .Stub(x => x.AddParameter("eventids", ""))
                 .Constraints(Is.Equal("eventids"), Is.Anything())
                 .Return(removeHandledSnesEvents);
 
             Expect.Call(removeHandledSnesEvents.Execute()).Return(removeHandledSnesEvents);
-            Expect.Call(() => removeHandledSnesEvents.Dispose());
+            Expect.Call(removeHandledSnesEvents.Dispose);
             
-            IDnaDataReaderCreator dataReaderCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var dataReaderCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
 
             IDnaLogger logger = new DnaLogger();          
 
-            IDnaHttpClientCreator httpClientCreator = MockRepository.GenerateStub<IDnaHttpClientCreator>();
+            var httpClientCreator = MockRepository.GenerateStub<IDnaHttpClientCreator>();
             
-            IDnaHttpClient httpClient = MockRepository.GenerateStub<IDnaHttpClient>();
+            var httpClient = MockRepository.GenerateStub<IDnaHttpClient>();
             httpClientCreator.Stub(x => x.CreateHttpClient()).Return(httpClient);
 
-            HttpWebRequestTransportSettings settings = new HttpWebRequestTransportSettings();
-            httpClient.Stub(x => x.TransportSettings).Return(settings);
-            HttpContent content = HttpContent.Create("");
-            HttpResponseMessage newHttpResponseMessage = new HttpResponseMessage();
-            newHttpResponseMessage.StatusCode = HttpStatusCode.OK;
-            newHttpResponseMessage.Uri = new Uri("http://www.bbc.co.uk/");
-            newHttpResponseMessage.Content = content;
-            httpClient.Stub(x => x.Post("", content)).Constraints(Is.Anything(),Is.Anything()).Return(newHttpResponseMessage);
-            
+            StubHttpClientPostMethod(httpClient);
 
             using (mocks.Record())
             {
@@ -110,12 +82,133 @@ namespace DnaEventProcessorService.IntegrationTests
 
             using (mocks.Playback())
             {
-                SnesActivityProcessor processor = CreateSNeSActivityProcessor(dataReaderCreator, logger, httpClientCreator);
+                var processor = CreateSnesActivityProcessor(dataReaderCreator, logger, httpClientCreator);
                 processor.ProcessEvents(null);
             }
         }
 
-        private SnesActivityProcessor CreateSNeSActivityProcessor(IDnaDataReaderCreator dataReaderCreator, 
+        [TestMethod]
+        public void Integration_CommentActivityEndToEnd()
+        {
+            using (new TransactionScope())
+            {
+                //Setup up a comment forum for test using createcommentforum sp
+                string connectionString = Properties.Settings.Default.guideConnectionString;
+                IDnaDataReaderCreator creator = new DnaDataReaderCreator(connectionString);
+
+                var uid = Guid.NewGuid().ToString();
+                var url = "http://www.bbc.co.uk/";
+                var title = "Test comment forum title";
+                var siteId = "h2g2";
+
+                CreateCommentForum(creator, uid, url, title, siteId);
+
+                //Add comment to comment forum
+                var hash = Guid.NewGuid().ToString();
+                var content = "content";
+                var userId = 123456;
+
+                CreateComment(creator, uid, userId, content, hash);
+
+                SetupTestData(creator);
+                
+                ProcessEvents(creator);
+
+                var mocks = new MockRepository();
+                var httpClientCreator = mocks.Stub<IDnaHttpClientCreator>();
+                var httpClient = MockRepository.GenerateStub<IDnaHttpClient>();
+                SetupResult.For(httpClientCreator.CreateHttpClient()).Return(httpClient);
+                
+                StubHttpClientPostMethod(httpClient);
+
+                var logger = MockRepository.GenerateStub<IDnaLogger>();
+
+                mocks.ReplayAll();
+
+                var processor = CreateSnesActivityProcessor(creator, logger, httpClientCreator);
+                processor.ProcessEvents(null);
+
+                httpClient.AssertWasCalled(client => client.Post("", HttpContent.Create("")),
+                                           op => op.Constraints(Is.Anything(),Is.Anything()));
+            }
+        }
+
+        private static void ProcessEvents(IDnaDataReaderCreator creator)
+        {
+            using (var reader = creator.CreateDnaDataReader("processeventqueue"))
+            {
+                reader.Execute();
+            }
+        }
+
+        private static void SetupTestData(IDnaDataReaderCreator creator)
+        {
+            using (var adhoc = creator.CreateDnaDataReader(""))
+            {
+                adhoc.ExecuteDEBUGONLY(
+                    "update signinuseridmapping set identityuserid = 123456 where dnauserid = 123456");
+                adhoc.ExecuteDEBUGONLY("delete from snesapplicationmetadata where siteid = 1");
+                adhoc.ExecuteDEBUGONLY(
+                    "insert into snesapplicationmetadata(siteid, applicationid, applicationname) values " +
+                    "(1, 'h2g2', 'Hitchhiker''s guide to the Galaxy')");
+                adhoc.ExecuteDEBUGONLY("update users set loginname = 'Test' where userid = 123456");
+            }
+        }
+
+        private static void StubHttpClientPostMethod(IDnaHttpClient httpClient)
+        {
+            var settings = new HttpWebRequestTransportSettings();
+            httpClient.Stub(x => x.TransportSettings).Return(settings);
+            var content = HttpContent.Create("");
+            var newHttpResponseMessage = new HttpResponseMessage();
+            httpClient.Stub(x => x.Post("", content))
+                .Constraints(Is.Anything(), Is.Anything())
+                .Return(newHttpResponseMessage)
+                .WhenCalled(x => x.ReturnValue = GetNewHttpResponseMessage());
+        }
+
+        private static HttpResponseMessage GetNewHttpResponseMessage()
+        {
+            var content = HttpContent.Create("");
+            var newHttpResponseMessage = new HttpResponseMessage
+                                             {
+                                                 StatusCode = HttpStatusCode.OK,
+                                                 Uri = new Uri("http://www.bbc.co.uk/"),
+                                                 Content = content
+                                             };
+            return newHttpResponseMessage;
+        }
+
+        private static void CreateComment(IDnaDataReaderCreator creator, 
+            string uid, int userId, string content, string hash)
+        {
+            using (var dataReader = creator.CreateDnaDataReader("commentcreate"))
+            {
+                dataReader.AddParameter("commentforumid", uid);
+                dataReader.AddParameter("userid", userId);
+                dataReader.AddParameter("content", content);
+                dataReader.AddParameter("hash", hash);
+                dataReader.AddIntReturnValue();
+
+                dataReader.Execute();
+            }
+        }
+
+        private static void CreateCommentForum(IDnaDataReaderCreator creator, 
+            string uid, string url, string title, string siteId)
+        {
+            using (var reader = creator.CreateDnaDataReader("commentforumcreate"))
+            {
+                reader.AddParameter("uid", uid);
+                reader.AddParameter("url", url);
+                reader.AddParameter("title", title);
+                reader.AddParameter("sitename", siteId);
+
+                reader.Execute();
+            }
+        }
+
+        private static SnesActivityProcessor CreateSnesActivityProcessor(IDnaDataReaderCreator dataReaderCreator, 
             IDnaLogger logger, 
             IDnaHttpClientCreator httpClientCreator)
         {
@@ -125,15 +218,15 @@ namespace DnaEventProcessorService.IntegrationTests
                 httpClientCreator);
         }
 
-        private IDnaDataReader MockCurrentRowDataReader(IDnaDataReader reader)
+        private static void MockCurrentRowDataReader(IDnaDataReader reader)
         {
             Expect.Call(reader.Execute()).Return(reader);
             Expect.Call(reader.HasRows).Return(true);
-            Queue<bool> readReturn = new Queue<bool>();
+            var readReturn = new Queue<bool>();
             readReturn.Enqueue(true);
             readReturn.Enqueue(false);
             Expect.Call(reader.Read()).Return(true).WhenCalled( x => x.ReturnValue = readReturn.Dequeue());
-            Expect.Call(() => reader.Dispose());
+            Expect.Call(reader.Dispose);
             Expect.Call(reader.GetString("AppId")).Return("iPlayer");
 
             //Expect.Call(reader.GetInt32NullAsZero("PostId")).Repeat.Times(2).Return(1);
@@ -153,7 +246,7 @@ namespace DnaEventProcessorService.IntegrationTests
 
             //Expect.Call(reader.GetStringNullAsEmpty("BlogUrl")).Repeat.Times(2).Return("http://www.bbc.co.uk/blogs/test");
 
-            return reader;
+            return;
         }
     }
 }

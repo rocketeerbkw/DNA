@@ -1,27 +1,36 @@
 ﻿using System;
 using BBC.Dna.Api;
 using BBC.Dna.Data;
+using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
-    class CommentActivity : MarshalByRefObject, ISnesActivity
+    abstract class CommentActivity : MarshalByRefObject, ISnesActivity
     {
+        /*
         private static string addActivityTemplate =
             "{{\"title\":\"{0}\", \"body\":\"{1}\", \"url\":\"{2}\", \"postedTime\":\"{3}\", \"type\":\"{4}\", \"displayName\":\"{5}\", \"objectTitle\":\"{6}\", \"objectDescription\":\"{7}\", \"username\":\"{8}\", \"objectUri\":\"{9}\"}}";
+        */
 
         private static string titleTemplate =
             @"{0} a <a href= ""{1}"" > new comment </a> on the <a href = ""{2}"" > {3} </a>";
 
-        private static UriTemplate postUserActivityTemplate =
+        private static readonly UriTemplate postUserActivityTemplate =
             new UriTemplate("social/social/rest/activities/{userid}/@self/{applicationid}");
 
+        public OpenSocialActivity Contents
+        {
+            get;
+            set;
+        }
+        
         public int ActivityId
         {
             get;
             set;
         }
-
+        
         public string Application
         {
             get;
@@ -34,140 +43,78 @@ namespace Dna.SnesIntegration.ActivityProcessor
             set;
         }
 
-        public string Title
-        {
-            get;
-            set;
-        }
-
-        public string Body
-        {
-            get;
-            set;
-        }
-
-        public string Url
-        {
-            get;
-            set;
-        }
-
-        public DateTime PostedTime
-        {
-            get;
-            set;
-        }
-
         public int IdentityUserId
         {
             get;
             set;
         }
 
-        public string DisplayName
-        {
-            get;
-            set;
-        }
-
-        public CommentActivity()
-        {
-        }
-
         public static ISnesActivity CreateActivity(int activityType, IDnaDataReader currentRow)
         {
-            CommentActivity activity = PolicyInjection.Create<CommentActivity>();
+            CommentActivity activity;
+            
+            if (currentRow.IsDBNull("BlogUrl"))
+            {
+                activity = PolicyInjection.Create<MessageBoardPostActivity>();
+            }
+            else
+            {
+                activity = PolicyInjection.Create<CommentForumActivity>();
+            }
 
-            string activityUrl = string.Empty;
-            string activityHostNameUrl = string.Empty;
-            CreateActivityUrls(currentRow, out activityUrl, out activityHostNameUrl);
-
-            string activityVerb = CommentActivity.GetActivityTypeVerb(activityType);
+            activity.Contents = new OpenSocialActivity();
             activity.ActivityId = currentRow.GetInt32("EventID");
-            activity.ActivityType = activityVerb;
             activity.Application = currentRow.GetString("AppId") ?? "";
-            activity.Title = CommentActivity.CreateTitleString(currentRow, activityVerb, activityUrl, activityHostNameUrl);
-            activity.Body = currentRow.GetString("Body") ?? "";
-            activity.Url = activityUrl;
-            activity.PostedTime = currentRow.GetDateTime("ActivityTime");
+            activity.ActivityType = GetActivityTypeVerb(activityType);
             activity.IdentityUserId = currentRow.GetInt32("IdentityUserId");
-            activity.DisplayName = currentRow.GetString("displayName") ?? "";
 
+            activity.SetTitle(currentRow);
+            activity.SetObjectTitle(currentRow);
+            activity.SetObjectDescription(currentRow);
+            activity.SetObjectUri(currentRow);
+
+            activity.Contents.Type = "comment";
+            activity.Contents.Body = currentRow.GetString("Body") ?? "";
+            activity.Contents.PostedTime = currentRow.GetDateTime("ActivityTime").MillisecondsSinceEpoch();
+            activity.Contents.DisplayName = currentRow.GetString("displayName") ?? "";
+            activity.Contents.Username = currentRow.GetString("username") ?? "";
+         
             return activity;
         }
 
         public string GetActivityJson()
         {
-            string bodyApostropheEscaped = Body.Replace("'", "&#39");
-
-            return string.Format(addActivityTemplate, 
-                Title, 
-                bodyApostropheEscaped, 
-                Url, 
-                PostedTime.MillisecondsSinceEpoch().ToString(),
-                "comment",
-                DisplayName.Replace("'","&#39"),
-                Title,
-                bodyApostropheEscaped,
-                IdentityUserId.ToString(),
-                Url.Replace("http://www.bbc.co.uk",""));
+            return StringUtils.SerializeToJson(Contents);
         }
 
         public string GetPostUri()
         {
-            Uri relativeBase = new Uri("http://localhost");
+            var relativeBase = new Uri("http://localhost");
             return postUserActivityTemplate.BindByPosition(relativeBase,
                 IdentityUserId.ToString(),
                 Application).PathAndQuery;
         }
 
-        private static string CreateTitleString(IDnaDataReader currentRow, 
+        public abstract void SetTitle(IDnaDataReader currentRow);
+        public abstract void SetObjectTitle(IDnaDataReader currentRow);
+        public abstract void SetObjectDescription(IDnaDataReader currentRow);
+        public abstract void SetObjectUri(IDnaDataReader currentRow);
+
+        public static string CreateTitleString(IDnaDataReader currentRow, 
             string activityVerb, string activityUrl, string activityHostNameUrl)
         {
-            string activityName = currentRow.GetString("AppName") ?? "";
+            var activityName = currentRow.GetString("AppName") ?? "";
 
             return string.Format(titleTemplate,
                 activityVerb,
                 activityUrl,
                 activityHostNameUrl,
-                activityName.Replace("'", "&#39"));
-        }
-
-        private static void CreateActivityUrls(IDnaDataReader currentRow,
-            out string activityUrl, out string activityHostNameUrl)
-        {
-            activityHostNameUrl = "";
-            activityUrl = "";
-            int postId = currentRow.GetInt32NullAsZero("PostId");
-
-            string blogUrl = "";
-            if (!currentRow.IsDBNull("BlogUrl"))
-            {
-                blogUrl  = currentRow.GetString("BlogUrl") ?? "";
-                if (blogUrl.Length > 0)
-                {
-                    activityHostNameUrl = blogUrl;
-                    activityUrl = activityHostNameUrl + "#P" + postId.ToString();
-                }
-            }
-            else
-            {
-                string url = currentRow.GetString("DnaUrl") ?? "";
-                int forumId = currentRow.GetInt32NullAsZero("ForumId");
-                int threadId = currentRow.GetInt32NullAsZero("ThreadId");
-                activityHostNameUrl = "http://www.bbc.co.uk/dna/" + url;
-                activityUrl = activityHostNameUrl + "/F" + forumId.ToString() +
-                    "?thread=" + threadId.ToString() + "#p" + postId.ToString();
-            }
+                activityName);
         }
 
         public static string GetActivityTypeVerb(int item)
         {
-            if (item == 5)
-            {
-                return "posted";
-            }
-            return "";
+            return item == 19 ? "posted" : "";
         }
     }
 }

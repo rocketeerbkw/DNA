@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Microsoft.Http;
 
 namespace DnaEventService.Common
@@ -12,20 +8,6 @@ namespace DnaEventService.Common
     /// </summary>
     public class DnaHttpClient : IDnaHttpClient
     {
-        private HttpClient Client
-        {
-            get;
-            set;
-        }
-
-        public HttpWebRequestTransportSettings TransportSettings
-        {
-            get
-            {
-                return Client.TransportSettings;
-            }
-        }
-
         /// <summary>
         /// Private constructor. Use Factory method to create instance.
         /// </summary>
@@ -42,15 +24,13 @@ namespace DnaEventService.Common
             Client = httpClient;
         }
 
-        /// <summary>
-        /// Factory method to create an instance of an HttpClient
-        /// </summary>
-        /// <param name="baseAddress">The base address the HttpClient is set to.</param>
-        /// <returns>Interface to HttpClient abstraction</returns>
-        public static IDnaHttpClient CreateDnaHttpClient(Uri baseAddress)
+        private HttpClient Client { get; set; }
+
+        #region IDnaHttpClient Members
+
+        public HttpWebRequestTransportSettings TransportSettings
         {
-            HttpClient client = new HttpClient(baseAddress);
-            return new DnaHttpClient(client);
+            get { return Client.TransportSettings; }
         }
 
         /// <summary>
@@ -62,6 +42,19 @@ namespace DnaEventService.Common
         public HttpResponseMessage Post(string uri, HttpContent body)
         {
             return Client.Post(uri, body);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Factory method to create an instance of an HttpClient
+        /// </summary>
+        /// <param name="baseAddress">The base address the HttpClient is set to.</param>
+        /// <returns>Interface to HttpClient abstraction</returns>
+        public static IDnaHttpClient CreateDnaHttpClient(Uri baseAddress)
+        {
+            var client = new HttpClient(baseAddress);
+            return new DnaHttpClient(client);
         }
     }
 }

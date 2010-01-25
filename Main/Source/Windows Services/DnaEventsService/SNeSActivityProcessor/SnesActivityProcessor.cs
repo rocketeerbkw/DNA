@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using BBC.Dna.Data;
 using DnaEventService.Common;
@@ -15,11 +16,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
         private IDnaHttpClientCreator HttpClientCreator { get; set; }
         private int BatchSize { get; set; }
 
-        static private bool processing = false;
-
-        private SnesActivityProcessor()
-        {
-        }
+        private static bool _processing;
 
         public SnesActivityProcessor(IDnaDataReaderCreator dataReaderCreator,
             IDnaLogger logger,
@@ -37,24 +34,23 @@ namespace Dna.SnesIntegration.ActivityProcessor
             IDnaHttpClientCreator httpClientCreator)
             : this(dataReaderCreator, logger, httpClientCreator, 100)
         {
-
         }
 
         public void ProcessEvents(object state)
         {
-            if (processing == true)
+            if (_processing)
                 return;
 
-            processing = true;
-
-            Dictionary<int, HttpStatusCode> results;
+            _processing = true;
             try
             {
+                IEnumerable<ISnesActivity> snesEvents;
                 using (var reader = DataReaderCreator.CreateDnaDataReader("getsnesevents"))
                 {
                     reader.AddParameter("batchSize", BatchSize);
-                    results = SendSnesEvents(BuildSnesEvents(reader));
+                    snesEvents = BuildSnesEvents(reader);
                 }
+                var results = SendSnesEvents(snesEvents);
                 RemoveSentSnesEvents(results);
             }
             catch (Exception ex)
@@ -63,11 +59,11 @@ namespace Dna.SnesIntegration.ActivityProcessor
             }
             finally
             {
-                processing = false;
+                _processing = false;
             }
         }
 
-        private IEnumerable<ISnesActivity> BuildSnesEvents(IDnaDataReader reader)
+        private static IEnumerable<ISnesActivity> BuildSnesEvents(IDnaDataReader reader)
         {
             var activities = new List<ISnesActivity>();
             reader.Execute();
@@ -75,7 +71,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
             {
                 while (reader.Read())
                 {
-                    activities.Add(SnesActivityFactory.CreateSNeSActivity(reader));
+                    activities.Add(SnesActivityFactory.CreateSnesActivity(reader));
                 }
             }
             return activities;
@@ -83,12 +79,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
 
         private Dictionary<int, HttpStatusCode> SendSnesEvents(IEnumerable<ISnesActivity> activities)
         {
-            var results = new Dictionary<int, HttpStatusCode>();
-            foreach (var activity in activities)
-            {
-                results.Add(activity.ActivityId, SendEvent(activity));
-            }
-            return results;
+            return activities.ToDictionary(activity => activity.ActivityId, activity => SendEvent(activity));
         }
 
         private HttpStatusCode SendEvent(ISnesActivity activity)
@@ -112,31 +103,26 @@ namespace Dna.SnesIntegration.ActivityProcessor
 
         private void RemoveSentSnesEvents(Dictionary<int, HttpStatusCode> results)
         {
-            if (results.Keys.Count > 0)
-            {
-                var ids = BuildParameterXml(results);
+            if (results.Keys.Count <= 0) return;
+            var ids = BuildParameterXml(results);
 
-                if (ids.Length > 0)
-                {
-                    using (var reader = DataReaderCreator.CreateDnaDataReader("removehandledsnesevents"))
-                    {
-                        reader.AddParameter("eventids", ids).Execute();
-                    }
-                }
+            if (ids.Length <= 0) return;
+            using (var reader = DataReaderCreator.CreateDnaDataReader("removehandledsnesevents"))
+            {
+                reader.AddParameter("eventids", ids).Execute();
             }
         }
 
         private static string BuildParameterXml(Dictionary<int, HttpStatusCode> results)
         {
-            var ids = string.Empty;
-            foreach (var result in results)
-            {
-                if (result.Value == HttpStatusCode.OK)
-                {
-                    ids = ids + "<eventid>" + result.Key.ToString() + "</eventid>";
-                }
-            }
-            return ids;
+            return results
+                .Where(result => result.Value == HttpStatusCode.OK)
+                .Aggregate(string.Empty, (current, result) => AppendEventIdElement(result, current));
+        }
+
+        private static string AppendEventIdElement(KeyValuePair<int, HttpStatusCode> result, string ids)
+        {
+            return ids + "<eventid>" + result.Key + "</eventid>";
         }
     }
 }

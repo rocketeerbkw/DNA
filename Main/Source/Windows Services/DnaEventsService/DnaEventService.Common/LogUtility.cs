@@ -9,22 +9,15 @@ namespace DnaEventService.Common
 {
     public class LogUtility
     {
-        public static IDnaLogger Logger {get;set;}
+        public static IDnaLogger Logger { get; set; }
 
         public static void LogResponse(HttpStatusCode httpStatusCode, HttpResponseMessage httpResponse)
         {
             string assemblyName = Assembly.GetCallingAssembly().GetName().Name;
 
-            LogEntry entry = new LogEntry();
+            var entry = new LogEntry();
             entry.Categories.Add(assemblyName + ".Responses");
-            if (httpStatusCode == HttpStatusCode.OK)
-            {
-                entry.Severity = TraceEventType.Information;
-            }
-            else
-            {
-                entry.Severity = TraceEventType.Error;
-            }
+            entry.Severity = httpStatusCode == HttpStatusCode.OK ? TraceEventType.Information : TraceEventType.Error;
             entry.ExtendedProperties.Add("Result: ", httpStatusCode.ToString());
             entry.ExtendedProperties.Add("Uri: ", httpResponse.Uri.ToString());
             entry.ExtendedProperties.Add("Content: ", httpResponse.Content.ReadAsString());
@@ -34,8 +27,7 @@ namespace DnaEventService.Common
         public static void LogRequest(string postData, string requestUri)
         {
             string assemblyName = Assembly.GetCallingAssembly().GetName().Name;
-            LogEntry entry = new LogEntry();
-            entry.Severity = TraceEventType.Information;
+            var entry = new LogEntry { Severity = TraceEventType.Information };
             entry.Categories.Add(assemblyName + ".Requests");
             entry.ExtendedProperties.Add("POST Data:", postData);
             entry.ExtendedProperties.Add("Activity Uri:", requestUri);
@@ -44,9 +36,7 @@ namespace DnaEventService.Common
 
         public static void LogException(Exception ex)
         {
-            LogEntry entry = new LogEntry();
-            entry.Severity = TraceEventType.Error;
-            entry.Message = ex.Message;
+            var entry = new LogEntry { Severity = TraceEventType.Error, Message = ex.Message };
             if (ex.InnerException != null)
                 entry.ExtendedProperties.Add("Inner Exception: ", ex.InnerException.Message);
 

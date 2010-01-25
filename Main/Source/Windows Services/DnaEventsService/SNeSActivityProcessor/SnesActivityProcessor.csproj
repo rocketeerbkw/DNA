@@ -98,6 +98,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentForumActivity.cs" />
+    <Compile Include="MessageBoardPostActivity.cs" />
     <Compile Include="OpenSocialActivity.cs" />
     <Compile Include="ISnesActivity.cs" />
     <Compile Include="CommentActivity.cs" />

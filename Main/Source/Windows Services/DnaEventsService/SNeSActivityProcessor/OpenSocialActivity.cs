@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
@@ -52,7 +48,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
         }
 
         [DataMember(Name = "objectTitle")]
-        public string OjectTitle
+        public string ObjectTitle
         {
             get;
             set;
@@ -73,7 +69,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
         }
 
         [DataMember(Name = "objectUri")]
-        public string OjectUri
+        public string ObjectUri
         {
             get;
             set;

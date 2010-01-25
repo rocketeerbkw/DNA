@@ -38,7 +38,7 @@ namespace SnesActivityTests
         [TestMethod]
         public void CommentActivityDataContract_Serialize()
         {
-            OpenSocialActivity comment = new OpenSocialActivity();
+            var comment = new OpenSocialActivity();
 
             comment.Title = "A title";
             comment.Body = "A body";
@@ -47,8 +47,8 @@ namespace SnesActivityTests
             comment.Url = "http://www.bbc.co.uk/dna/h2g2/F1";
             comment.Username = "1234";
             comment.ObjectDescription = "An object description";
-            comment.OjectUri = "/dna/h2g2/F1";
-            comment.OjectTitle = "A title";
+            comment.ObjectUri = "/dna/h2g2/F1";
+            comment.ObjectTitle = "A title";
 
             string json = comment.SerializeToJson();
 
