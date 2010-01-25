@@ -237,7 +237,7 @@
 
     <!-- Check in new versions -->
     <Exec Command="tf checkin &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
-    <Exec Command="tf checkin &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
+    <Exec Command="tf checkin &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"  ContinueOnError="true"></Exec>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
