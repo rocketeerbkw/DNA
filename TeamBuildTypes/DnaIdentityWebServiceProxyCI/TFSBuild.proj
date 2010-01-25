@@ -225,6 +225,8 @@
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
+    
+    
     <!-- Check out reference dlls -->
     <Exec Command="tf checkout &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot;"></Exec>
     <Exec Command="tf checkout &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot;"></Exec>
@@ -237,6 +239,15 @@
     <Exec Command="tf checkin &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
     <Exec Command="tf checkin &quot;$(SolutionRoot)\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
 
+    <!-- register all ok -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
+    <OnError ExecuteTargets="PostBuildStepFailed" />
+  </Target>
+
+
+  <Target Name="PostBuildStepFailed">
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 </Project>
