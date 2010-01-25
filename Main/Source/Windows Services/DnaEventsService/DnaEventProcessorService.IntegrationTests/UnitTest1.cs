@@ -106,7 +106,7 @@ namespace DnaEventProcessorService.IntegrationTests
                 //Add comment to comment forum
                 var hash = Guid.NewGuid().ToString();
                 var content = "content";
-                var userId = 123456;
+                var userId = 6;
 
                 CreateComment(creator, uid, userId, content, hash);
 
@@ -146,12 +146,12 @@ namespace DnaEventProcessorService.IntegrationTests
             using (var adhoc = creator.CreateDnaDataReader(""))
             {
                 adhoc.ExecuteDEBUGONLY(
-                    "update signinuseridmapping set identityuserid = 123456 where dnauserid = 123456");
+                    "update signinuseridmapping set identityuserid = 6 where dnauserid = 6");
                 adhoc.ExecuteDEBUGONLY("delete from snesapplicationmetadata where siteid = 1");
                 adhoc.ExecuteDEBUGONLY(
                     "insert into snesapplicationmetadata(siteid, applicationid, applicationname) values " +
                     "(1, 'h2g2', 'Hitchhiker''s guide to the Galaxy')");
-                adhoc.ExecuteDEBUGONLY("update users set loginname = 'Test' where userid = 123456");
+                adhoc.ExecuteDEBUGONLY("update users set loginname = 'Test' where userid = 6");
             }
         }
 
