@@ -152,6 +152,10 @@
              <Properties>Property1=Value1;Property2=Value2</Properties>
          </SolutionToBuild>
     -->
+    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/Source/Databases/The Guide/TheGuide.sln">
+      <Targets></Targets>
+      <Properties></Properties>
+    </SolutionToBuild>
     <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/Source/Windows Services/DnaEventsService/DnaEventsService.sln">
         <Targets></Targets>
         <Properties></Properties>
