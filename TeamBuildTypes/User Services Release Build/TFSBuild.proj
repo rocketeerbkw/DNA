@@ -247,6 +247,8 @@
 
   <ItemGroup>
 
+    
+    <RipleyRC Include="$(SolutionRoot)\Source\Ripley\RipleyServer.rc" />
     <AssemblyInfoFiles Include="$(SolutionRoot)\**\AssemblyInfo.cs" />
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
@@ -269,8 +271,11 @@
       
     <!-- check out all .assembly files -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;AssemblyInfo.cs&quot;"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;@(RipleyRC)&quot;"/>
     <!-- change version -->
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)]" />
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0" />
+    <FileUpdate Files="@(RipleyRC)" Regex="FILEVERSION .*" ReplacementText="FILEVERSION $(Major),$(Minor),$(Build),0" />
+    <FileUpdate Files="@(RipleyRC)" Regex="PRODUCTVERSION .*" ReplacementText="PRODUCTVERSION $(Major),$(Minor),$(Build),0" />
 
     <!-- Check in the files again -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
@@ -281,6 +286,7 @@
   </Target>
   <Target Name="AfterGetFailed">
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe undo /recursive &quot;AssemblyInfo.cs&quot; /noprompt"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe undo /recursive &quot;@(RipleyRC)&quot; /noprompt"/>
 
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
