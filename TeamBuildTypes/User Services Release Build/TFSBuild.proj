@@ -267,7 +267,7 @@
     <Message Text="AssemblyInfoFiles: @(AssemblyInfoFiles)"></Message>
       
     <!-- check out all .assembly files -->
-    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive $(AssemblyInfoFiles)"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive @(AssemblyInfoFiles)"/>
     <!-- change version -->
     <File.Replace Path="%(AssemblyInfos.FullPath)" NewValue="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)" regularExpression="AssemblyFileVersion\(\&quot;(\d+.\d+.\d+.\d+)\&quot;\)" ignoreCase="true" />
 
