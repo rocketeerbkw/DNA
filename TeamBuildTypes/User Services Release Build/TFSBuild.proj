@@ -246,7 +246,7 @@
 
   <ItemGroup>
 
-    <AssemblyInfoFiles Include="$(SolutionRoot)\**\assemblyinfo.cs" />
+    <AssemblyInfoFiles Include="$(SolutionRoot)\**\AssemblyInfo.cs" />
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
     <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
@@ -264,13 +264,15 @@
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="VersioningStep" />
     </BuildStep>
+    <Message Text="AssemblyInfoFiles: @(AssemblyInfoFiles)"></Message>
+      
     <!-- check out all .assembly files -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive $(AssemblyInfoFiles)"/>
     <!-- change version -->
     <File.Replace Path="%(AssemblyInfos.FullPath)" NewValue="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)" regularExpression="AssemblyFileVersion\(\&quot;(\d+.\d+.\d+.\d+)\&quot;\)" ignoreCase="true" />
 
     <!-- Check in the files again -->
-    <Exec WorkingDirectory="$(SolutionRoot)" Command="$(TfCommand) checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="$tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
 
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
@@ -364,7 +366,7 @@
     <CreateItem Include="$(SolutionRoot)\Source\BBC.Dna\Properties\AssemblyInfo.cs;">
       <Output TaskParameter="Include" ItemName="AssemblyInfos"/>
     </CreateItem>
-    <Message Text="Database: @(Database)"></Message>
+    
 
     <Exec Command="del /F /Q &quot;C:\RipleyRelease\deploy\*.*&quot;"></Exec>
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
