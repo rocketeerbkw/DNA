@@ -218,11 +218,11 @@
   </PropertyGroup>
 
   <!-- Make it an incremental build -->
-  <!--PropertyGroup>
+  <PropertyGroup>
     <SkipClean>true</SkipClean>
     <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
     <ForceGet>false</ForceGet>
-  </PropertyGroup -->
+  </PropertyGroup>
 
   <ItemGroup>
     <!--  ADDITIONAL REFERENCE PATH
@@ -238,13 +238,14 @@
   </Target>
 
   <ItemGroup>
-    <Schemas Include="$(SolutionRoot)\Source\schemas\**\*.*"></Schemas>
+    <Database Include="$(SolutionRoot)\Source\Databases\**\*.-Script.sql"></Database>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
     <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
     <CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
     <ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
     <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
     <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
+    <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\DeploymentNotes.txt"></Documentation>
   </ItemGroup>
 
   <!-- Fail the build if the compile fail... -->
@@ -277,23 +278,44 @@
 
     <!-- Copy DnaPages to int drop location -->
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2release\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    
+    
 
     <!-- Copy CommentsApi to int drop location -->
     <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    
+
 
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    
+
 
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2release\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Message Text="Skins: @(Skins)"></Message -->
-
     
+
+
+
     <!-- Copy ripley dlls over existing-->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2release\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
+    
     <!-- start website to copy ripley -->
     <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
+
+    <!-- Copy to deploy publish folder -->
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Database)" DestinationFolder="C:\RipleyRelease\deploy\Database\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Documentation)" DestinationFolder="C:\RipleyRelease\deploy\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+
+
+
 
     <!-- Close Access to ops-dna1 -->
     <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
