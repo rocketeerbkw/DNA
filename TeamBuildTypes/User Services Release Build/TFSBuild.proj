@@ -16,6 +16,7 @@
     <Major Condition="'$(Major)'==''">0</Major>
     <Minor Condition="'$(Minor)'==''">0</Minor>
     <Build Condition="'$(Build)'==''">0</Build>
+    <Revision Condition="'$(Build)'==''">0</Revision>
   </PropertyGroup>
 
 
@@ -263,7 +264,7 @@
 
   <!-- Do versioning -->
   <Target Name="AfterGet" Condition="'$(IsDesktopBuild)'!='true' and '$(Major)' != '0'">
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Updating version files to version &quot;$(Major).$(Minor).$(Build).0&quot;" Condition=" '$(IsDesktopBuild)' != 'true' ">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Updating version files to version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot;" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="VersioningStep" />
     </BuildStep>
@@ -273,12 +274,12 @@
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;AssemblyInfo.cs&quot;"/>
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;@(RipleyRC)&quot;"/>
     <!-- change version -->
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0" />
-    <FileUpdate Files="@(RipleyRC)" Regex="FILEVERSION .*" ReplacementText="FILEVERSION $(Major),$(Minor),$(Build),0" />
-    <FileUpdate Files="@(RipleyRC)" Regex="PRODUCTVERSION .*" ReplacementText="PRODUCTVERSION $(Major),$(Minor),$(Build),0" />
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)" />
+    <FileUpdate Files="@(RipleyRC)" Regex="FILEVERSION .*" ReplacementText="FILEVERSION $(Major),$(Minor),$(Build),$(Revision)" />
+    <FileUpdate Files="@(RipleyRC)" Regex="PRODUCTVERSION .*" ReplacementText="PRODUCTVERSION $(Major),$(Minor),$(Build),$(Revision)" />
 
     <!-- Check in the files again -->
-    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).$(Revision)&quot; /noprompt" ContinueOnError="false"/>
 
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
