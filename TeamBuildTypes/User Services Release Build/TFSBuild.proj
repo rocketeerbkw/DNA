@@ -245,6 +245,7 @@
   </ItemGroup>
 
   <ItemGroup>
+
     <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\**\assemblyinfo.cs" />
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
@@ -264,7 +265,7 @@
       <Output TaskParameter="Id" PropertyName="VersioningStep" />
     </BuildStep>
     <!-- check out all .assembly files -->
-    <Exec WorkingDirectory="$(SolutionRoot)" Command="$(TF) checkout /recursive $(AssemblyInfoFiles)"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive $(AssemblyInfoFiles)"/>
     <!-- change version -->
     <File.Replace Path="%(AssemblyInfos.FullPath)" NewValue="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)" regularExpression="AssemblyFileVersion\(\&quot;(\d+.\d+.\d+.\d+)\&quot;\)" ignoreCase="true" />
 
