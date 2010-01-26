@@ -16,7 +16,7 @@
     <Major Condition="'$(Major)'==''">0</Major>
     <Minor Condition="'$(Minor)'==''">0</Minor>
     <Build Condition="'$(Build)'==''">0</Build>
-    <Revision Condition="'$(Build)'==''">0</Revision>
+    <Revision Condition="'$(Revision)'==''">0</Revision>
   </PropertyGroup>
 
 
@@ -274,9 +274,9 @@
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;AssemblyInfo.cs&quot;"/>
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;@(RipleyRC)&quot;"/>
     <!-- change version -->
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)" Encoding="ascii" />
-    <FileUpdate Files="@(RipleyRC)" Regex="FILEVERSION .*" ReplacementText="FILEVERSION $(Major),$(Minor),$(Build),$(Revision)" Encoding="ascii"/>
-    <FileUpdate Files="@(RipleyRC)" Regex="PRODUCTVERSION .*" ReplacementText="PRODUCTVERSION $(Major),$(Minor),$(Build),$(Revision)" Encoding="ascii"/>
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)" />
+    <FileUpdate Files="@(RipleyRC)" Regex="FILEVERSION .*" ReplacementText="FILEVERSION $(Major),$(Minor),$(Build),$(Revision)"/>
+    <FileUpdate Files="@(RipleyRC)" Regex="PRODUCTVERSION .*" ReplacementText="PRODUCTVERSION $(Major),$(Minor),$(Build),$(Revision)"/>
 
     <!-- Check in the files again -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).$(Revision)&quot; /noprompt" ContinueOnError="false"/>
