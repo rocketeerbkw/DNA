@@ -270,7 +270,7 @@
     <!-- check out all .assembly files -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;AssemblyInfo.cs&quot;"/>
     <!-- change version -->
-    <File.Replace Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)]" />
+    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)]" />
 
     <!-- Check in the files again -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="$tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
