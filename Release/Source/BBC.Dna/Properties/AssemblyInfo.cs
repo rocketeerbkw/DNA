@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BBC")]
 [assembly: AssemblyProduct("BBC.Dna")]
-[assembly: AssemblyCopyright("Copyright © BBC 2010")]
+[assembly: AssemblyCopyright("Copyright ? BBC 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
