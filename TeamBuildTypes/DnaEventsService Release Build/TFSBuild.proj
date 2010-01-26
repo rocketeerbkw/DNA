@@ -226,6 +226,13 @@
     -->
   </ItemGroup>
 
+  <!-- Make it an incremental build -->
+  <PropertyGroup>
+    <SkipClean>true</SkipClean>
+    <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
+    <ForceGet>false</ForceGet>
+  </PropertyGroup>
+
   <Target Name="AfterDropBuild">
     <CallTarget Targets="PostBuildStep" />
   </Target>
