@@ -304,14 +304,19 @@
     <!-- start website to copy ripley -->
     <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
 
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    
     <!-- Copy to deploy publish folder -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to deploy folder" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
-      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId2" />
     </BuildStep>
 
+    
+    
     <Message Text="Database: @(Database)"></Message>
-    <Exec Commmand="del /F /Q C:\RipleyRelease\deploy\*.*"></Exec>
+    <Exec Command="del /F /Q &quot;C:\RipleyRelease\deploy\*.*&quot;"></Exec>
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(CommentsApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(ModerationApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
@@ -331,7 +336,7 @@
 
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId2)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
     <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
     <OnError ExecuteTargets="PostBuildStepFailed" />
