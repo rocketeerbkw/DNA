@@ -4,8 +4,18 @@
      -->
 <Project DefaultTargets="DesktopBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
 
+
+
   <!-- Do not edit this -->
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
+
+  <!-- get version from command line -->
+  <PropertyGroup>
+    <Major Condition="'$(Major)'==''">0</Major>
+    <Minor Condition="'$(Minor)'==''">0</Minor>
+    <Build Condition="'$(Build)'==''">0</Build>
+  </PropertyGroup>
+
 
   <ProjectExtensions>
 
@@ -153,8 +163,8 @@
          </SolutionToBuild>
     -->
     <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Release/UserServices.sln">
-        <Targets></Targets>
-        <Properties></Properties>
+      <Targets></Targets>
+      <Properties></Properties>
     </SolutionToBuild>
 
   </ItemGroup>
@@ -172,12 +182,12 @@
      The Include attribute value should be unique for each ConfigurationToBuild node.
     -->
     <ConfigurationToBuild Include="Release|Any CPU">
-        <FlavorToBuild>Release</FlavorToBuild>
-        <PlatformToBuild>Any CPU</PlatformToBuild>
+      <FlavorToBuild>Release</FlavorToBuild>
+      <PlatformToBuild>Any CPU</PlatformToBuild>
     </ConfigurationToBuild>
     <ConfigurationToBuild Include="Release|Win32">
-        <FlavorToBuild>Release</FlavorToBuild>
-        <PlatformToBuild>Win32</PlatformToBuild>
+      <FlavorToBuild>Release</FlavorToBuild>
+      <PlatformToBuild>Win32</PlatformToBuild>
     </ConfigurationToBuild>
 
   </ItemGroup>
@@ -233,11 +243,8 @@
     -->
   </ItemGroup>
 
-  <Target Name="AfterDropBuild">
-    <CallTarget Targets="PostBuildStep" />
-  </Target>
-
   <ItemGroup>
+    <AssemblyInfoFiles Include="$(MSBuildProjectDirectory)\**\assemblyinfo.cs" />
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
     <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
@@ -247,6 +254,42 @@
     <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
     <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\DeploymentNotes.txt"></Documentation>
   </ItemGroup>
+
+
+
+  <Target Name="AfterGet" Condition="'$(IsDesktopBuild)'!='true' and '$(Major)' != '0'">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Updating version files to version &quot;$(Major).$(Minor).$(Build).0&quot;" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="VersioningStep" />
+    </BuildStep>
+    <!-- check out all .assembly files -->
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="$(TF) checkout /recursive $(AssemblyInfoFiles)"/>
+    <!-- change version -->
+    <File.Replace Path="%(AssemblyInfos.FullPath)" NewValue="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)" regularExpression="AssemblyFileVersion\(\&quot;(\d+.\d+.\d+.\d+)\&quot;\)" ignoreCase="true" />
+
+    <!-- Check in the files again -->
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="$(TfCommand) checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
+
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <OnError ExecuteTargets="AfterGetFailed" />
+  </Target>
+  <Target Name="AfterGetFailed">
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        CompilationStatus="Failed"
+                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(BuildBreak)' != 'true' " />
+  </Target>
+
+
+  <Target Name="AfterDropBuild">
+    <CallTarget Targets="PostBuildStep" />
+  </Target>
+
+  
 
   <!-- Fail the build if the compile fail... -->
   <Target Name="AfterCompile" Condition=" '$(BuildBreak)'=='true' and '$(IsDesktopBuild)'!='true' " >
@@ -313,16 +356,21 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId2" />
     </BuildStep>
 
-    
-    
+
+
+
+    <CreateItem Include="$(SolutionRoot)\Source\BBC.Dna\Properties\AssemblyInfo.cs;">
+      <Output TaskParameter="Include" ItemName="AssemblyInfos"/>
+    </CreateItem>
     <Message Text="Database: @(Database)"></Message>
+
     <Exec Command="del /F /Q &quot;C:\RipleyRelease\deploy\*.*&quot;"></Exec>
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(CommentsApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(ModerationApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Skins)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Database)" DestinationFolder="C:\RipleyRelease\deploy\Database\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Database)" DestinationFolder="C:\RipleyRelease\deploy\Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Documentation)" DestinationFolder="C:\RipleyRelease\deploy\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
 
