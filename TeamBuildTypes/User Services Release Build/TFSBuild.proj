@@ -10,6 +10,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
 
   <!-- get version from command line -->
+  <!-- e.g. /p:Major=3;Minor=4;Build=6 -->
   <PropertyGroup>
     <Major Condition="'$(Major)'==''">0</Major>
     <Minor Condition="'$(Minor)'==''">0</Minor>
