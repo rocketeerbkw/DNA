@@ -259,7 +259,7 @@
   </ItemGroup>
 
 
-
+  <!-- Do versioning -->
   <Target Name="AfterGet" Condition="'$(IsDesktopBuild)'!='true' and '$(Major)' != '0'">
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Updating version files to version &quot;$(Major).$(Minor).$(Build).0&quot;" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
@@ -273,7 +273,7 @@
     <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)]" />
 
     <!-- Check in the files again -->
-    <Exec WorkingDirectory="$(SolutionRoot)" Command="$tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
 
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
