@@ -156,6 +156,7 @@ namespace FunctionalTests
             Assert.AreNotEqual(null, forumThreads);
             Assert.AreEqual("1", forumThreads.Attributes["CANWRITE"].Value);
 
+            CleanRiplyCache();
             //check as not logged in user
             request.SetCurrentUserNormal();
             request.RequestPage("F7325075?thread=34&skin=purexml");
