@@ -24,5 +24,6 @@ SELECT @ieventtype = CASE
 	WHEN (@eventtype = 'ET_CLUBEDITED')						THEN 16
 	WHEN (@eventtype = 'ET_CATEGORYHIDDEN')					THEN 17
 	WHEN (@eventtype = 'ET_EXMODERATIONDECISION')			THEN 18
+	WHEN (@eventtype = 'ET_POSTTOFORUM')					THEN 19
 	ELSE NULL
 END

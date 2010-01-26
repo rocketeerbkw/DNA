@@ -11,15 +11,18 @@ SELECT TOP(@batchSize)
 	samd.ApplicationId as AppId,		-- 'radio1'
 	samd.ApplicationName as AppName,    -- 'Radio 1 Messageboard'
 	TE.DatePosted as ActivityTime,
-	BlogUrl = case cf.Url when null then '' else cf.Url end,
+	cf.Url as BlogUrl,
 	te.EntryID as PostID,
 	s.urlname as DnaUrl,
 	f.ForumID as ForumID,
-	te.ThreadId as ThreadID
+	te.ThreadId as ThreadID,
+	ObjectUri = case when cf.UID is null then '' else cf.UID end,
+	ObjectTitle = f.Title,
+	te.text as Body
 FROM SNesActivityQueue SAQ
 INNER JOIN Users U on U.UserID = SAQ.EventUserID
 INNER JOIN SignInUserIDMapping uidm on uidm.DnaUserID = U.UserID
-INNER JOIN ThreadEntries TE on TE.EntryID = SAQ.ItemID
+INNER JOIN ThreadEntries TE on TE.EntryID = SAQ.ItemID2
 INNER JOIN Forums F on F.ForumID = TE.ForumID
 INNER JOIN Sites S on S.SiteID = F.SiteID
 INNER JOIN SNeSApplicationMetadata samd on samd.SiteID = S.SiteID
