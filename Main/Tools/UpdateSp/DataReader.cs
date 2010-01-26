@@ -42,7 +42,7 @@ namespace updatesp
 
         public DataReader(string configFile)
         {
-            Initialise(Path.Combine(Environment.CurrentDirectory, configFile));
+            Initialise(configFile);
         }
 
         private void Initialise(string configfile)
@@ -357,6 +357,39 @@ namespace updatesp
 
             return alist;
         }
+
+        /*
+        /// <summary>
+        /// IsObjectInDbOutOfDate() - Not used in the end
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public bool IsObjectInDbOutOfDate(string file)
+        {
+            DateTime fileLastAccessed = File.GetLastAccessTime(file);
+            DateTime fileLastModified = File.GetLastWriteTime(file);
+
+            string objName = file.Substring(0,file.IndexOf('.'));
+
+            ArrayList al = ExecuteScalar("select create_date from sys.objects where name = '" + objName + "'");
+
+            if (al.Count < 1)
+                throw new Exception("IsObjectInDbOutOfDate() didn't get any results back from db.  There should be one result per configured db");
+
+            for (int i = 0; i < al.Count; i++)
+            {
+                if (al[i] == null)  // If it doesn't exist yet, act like it's out of date
+                    return true;
+
+                DateTime dbObjDate = (DateTime)al[i];
+
+                if (dbObjDate.CompareTo(fileLastAccessed) < 0 || dbObjDate.CompareTo(fileLastModified) < 0)
+                    return true;
+            }
+
+            return false;
+        }
+        */
 
         public class DbConnections
         {

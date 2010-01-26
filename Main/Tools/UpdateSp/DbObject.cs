@@ -64,7 +64,7 @@ namespace updatesp
 
         public abstract void RegisterObject();
 
-		public abstract bool AppendToBatchScript(StringBuilder sql, ref string error); 
+		public abstract bool AppendToBatchScript(StringBuilder sql, ref string error);
 
 		public virtual void DropObject()
 		{
@@ -73,27 +73,6 @@ namespace updatesp
 		}
 
 		public abstract string GetDropObjectSql();
-
-        public bool IsObjectInDbOutOfDate()
-        {
-            ArrayList al = DataReader.ExecuteScalar("select create_date from sys.objects where name = '"+ObjName+"'");
-
-            if (al.Count < 1)
-                throw new Exception("IsObjectInDbOutOfDate() didn't get any results back from db.  There should be one result per configured db");
-
-            for (int i = 0; i < al.Count; i++)
-            {
-                if (al[i] == null)  // If it doesn't exist yet, act like it's out of date
-                    return true;
-
-                DateTime dbObjDate = (DateTime)al[i];
-
-                if (dbObjDate.CompareTo(FileLastAccessed) < 0 || dbObjDate.CompareTo(FileLastModified) < 0)
-                    return true;
-            }
-
-            return false;
-        }
 
         protected void CheckObjectNameMatchesFileName()
         {
@@ -196,7 +175,7 @@ namespace updatesp
             string SQL = string.Empty;
             foreach (string principle in permissionPrinciples)
             {
-                SQL += "GRANT EXECUTE ON [dbo].[" + ObjName + "] TO " + principle + "\nGO\n";
+                SQL += "GRANT EXECUTE ON [dbo].[" + ObjName + "] TO " + principle + "\n";
             }
 
             return SQL;
@@ -253,9 +232,9 @@ namespace updatesp
                 return new ViewDbObject(file, fileContent, dataReader);
             }
 
-			if (TriggerDbObject.ContainsTrigger(fileContent))
+            if (TriggerDbObject.ContainsTrigger(fileContent))
 			{
-				return new TriggerDbObject(file, fileContent, dataReader);
+                return new TriggerDbObject(file, fileContent, dataReader);
 			}
 
             throw new Exception("The content of file " + file + "is not recognised");

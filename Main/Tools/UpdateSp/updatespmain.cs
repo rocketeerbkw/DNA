@@ -61,7 +61,7 @@ namespace updatesp
 			int returnCode = 1; // 1 means an error.  Only gets set to 0 if everthing worked
             try
             {
-                DataReader dataReader = new DataReader("updatesp.config");
+                DataReader dataReader = new DataReader(@"D:\vp-dev-dna-1\User Services\Main\Source\Databases\The Guide\updatesp.config");
 
                 if (restoreSnapShot)
                 {
@@ -150,13 +150,12 @@ namespace updatesp
 
         static void UpdateFile(DataReader dataReader, string spfile, string outputfile)
         {
-            DbObject dbObject = DbObject.CreateDbObject(spfile, dataReader);
-
             if (outputfile.ToLower().CompareTo("-drop") != 0)
             {
                 Console.WriteLine("Updating " + spfile + " ...");
-                if (dbObject.IsObjectInDbOutOfDate())
+                if (true)//dataReader.IsObjectInDbOutOfDate(spfile))
                 {
+                    DbObject dbObject = DbObject.CreateDbObject(spfile, dataReader);
                     dbObject.RegisterObject();
 
                     TextWriter tw = new StreamWriter(new FileStream(outputfile, FileMode.OpenOrCreate));
@@ -169,11 +168,12 @@ namespace updatesp
                 }
                 else
                 {
-                    Console.WriteLine("Object definition for {0} is up to date.  Skipping update",dbObject.ObjName);
+                    Console.WriteLine("Object definition for {0} is up to date.  Skipping update",spfile);
                 }
             }
             else
             {
+                DbObject dbObject = DbObject.CreateDbObject(spfile, dataReader);
                 Console.WriteLine("Dropping " + spfile + " ...");
                 dbObject.DropObject();
                 Console.WriteLine(dbObject.SqlCommandMsgs);
