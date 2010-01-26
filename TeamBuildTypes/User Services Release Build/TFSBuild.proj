@@ -275,8 +275,12 @@
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;@(RipleyRC)&quot;"/>
     <!-- change version -->
     <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)]" />
-    <FileUpdate Files="@(RipleyRC)" Regex="FILEVERSION .*" ReplacementText="FILEVERSION $(Major),$(Minor),$(Build),$(Revision)"/>
-    <FileUpdate Files="@(RipleyRC)" Regex="PRODUCTVERSION .*" ReplacementText="PRODUCTVERSION $(Major),$(Minor),$(Build),$(Revision)"/>
+    <FileUpdate Files="@(RipleyRC)" Regex="FILEVERSION .*" ReplacementText="FILEVERSION $(Major),$(Minor),$(Build),$(Revision)" Encoding="ascii"/>
+    <FileUpdate Files="@(RipleyRC)" Regex="PRODUCTVERSION .*" ReplacementText="PRODUCTVERSION $(Major),$(Minor),$(Build),$(Revision)" Encoding="ascii"/>
+    <FileUpdate Files="@(RipleyRC)" Regex="VALUE &quot;FileVersion&quot;, &quot;.*&quot;" ReplacementText="VALUE &quot;FileVersion&quot;, &quot;$(Major),$(Minor),$(Build),$(Revision)&quot;" Encoding="ascii"/>
+    <FileUpdate Files="@(RipleyRC)" Regex="VALUE &quot;ProductVersion&quot;, &quot;.*&quot;" ReplacementText="VALUE &quot;ProductVersion&quot;, &quot;$(Major),$(Minor),$(Build),$(Revision)&quot;" Encoding="ascii"/>
+    
+
 
     <!-- Check in the files again -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).$(Revision)&quot; /noprompt" ContinueOnError="false"/>
