@@ -269,7 +269,7 @@
     <!-- check out all .assembly files -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;AssemblyInfo.cs&quot;"/>
     <!-- change version -->
-    <FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)]" />
+    <File.Replace Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).0&quot;)]" />
 
     <!-- Check in the files again -->
     <Exec WorkingDirectory="$(SolutionRoot)" Command="$tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).0&quot; /noprompt" ContinueOnError="false"/>
@@ -279,6 +279,8 @@
     <OnError ExecuteTargets="AfterGetFailed" />
   </Target>
   <Target Name="AfterGetFailed">
+    <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe undo /recursive &quot;AssemblyInfo.cs&quot; /noprompt"/>
+
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
