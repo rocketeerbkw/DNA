@@ -231,11 +231,11 @@
   </PropertyGroup>
 
   <!-- Make it an incremental build -->
-  <PropertyGroup>
+  <!-- PropertyGroup>
     <SkipClean>true</SkipClean>
     <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
     <ForceGet>false</ForceGet>
-  </PropertyGroup>
+  </PropertyGroup -->
 
   <ItemGroup>
     <!--  ADDITIONAL REFERENCE PATH
