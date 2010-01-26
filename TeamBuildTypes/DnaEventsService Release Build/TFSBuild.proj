@@ -254,7 +254,7 @@
     <!--Stop DnaEventsService on ops-dna1 -->
     <Exec Command="sc \\ops-dna1 stop DnaEventsService"></Exec>
     
-    <Copy SourceFiles="@DnaEventsService" DestinationFolder="\\ops-dna1\DnaEventsService\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="false"/>
+    <Copy SourceFiles="@(DnaEventsService)" DestinationFolder="\\ops-dna1\DnaEventsService\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="false"/>
 
     <!--Close Access to ops-dna1-->
     <Exec Command="net use \\ops-dna1\IPC$ /d"></Exec>
