@@ -225,4 +225,37 @@
          <AdditionalReferencePath Include="C:\MyFolder2\" />
     -->
   </ItemGroup>
+
+  <Target Name="AfterDropBuild">
+    <CallTarget Targets="PostBuildStep" />
+  </Target>
+
+  <ItemGroup>
+    <DnaEventsService Include="$(BinariesRoot)\Release\**\*.*"/>
+  </ItemGroup>
+
+  <Target Name="PostBuildStep">
+
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to release server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+    </BuildStep>
+    
+    <!--Exec IPC$ command - get access to ops-dna1 -->
+    <Exec Command ="net use \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
+
+    <!--Stop DnaEventsService on ops-dna1 -->
+    <Exec Command="sc \\ops-dna1 stop DnaEventsService"></Exec>
+    
+    <Copy SourceFiles="@DnaEventsService" DestinationFolder="\\ops-dna1\DnaEventsService\$(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="false"/>
+
+    <!--Close Access to ops-dna1-->
+    <Exec Command="net use \\ops-dna1\IPC$ /d"></Exec>
+
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+    <OnError ExecuteTargets="PostBuildStepFailed" />
+  </Target>
 </Project>
