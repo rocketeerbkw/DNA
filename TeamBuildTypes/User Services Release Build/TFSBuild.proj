@@ -388,7 +388,7 @@
       <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
     <!-- Get the version of BBC.Dna.dll -->
-    <Version VersionFile="$(BinariesRoot)\Release\BBC.Dna.dll" RevisionType="None">
+    <Version VersionFile="$(BinariesRoot)\Win32\Release\RipleyServer.dll`" RevisionType="None">
       <Output TaskParameter="Major" PropertyName="DnaMajor" />
       <Output TaskParameter="Minor" PropertyName="DnaMinor" />
       <Output TaskParameter="Build" PropertyName="DnaBuild" />
