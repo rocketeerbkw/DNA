@@ -22,6 +22,7 @@
 						<link type="text/css" rel="stylesheet" href="{$asset-root}moderation/includes/moderation.css"/>
 						<link type="text/css" rel="stylesheet" href="{$asset-root}moderation/includes/moderation_only.css"/>
 						<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
+						<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
 
 					</head>
 					<body id="modHomepage">
