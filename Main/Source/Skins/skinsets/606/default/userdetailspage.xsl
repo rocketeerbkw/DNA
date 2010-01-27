@@ -71,26 +71,28 @@
 	-->
 	<xsl:template match="USER-DETAILS-FORM" mode="normal_registered">
 		
-		<p><strong>Member name</strong> -  
 		<xsl:choose>
-			<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0">
-				<xsl:value-of select="/H2G2/VIEWING-USER/SSO/SSOLOGINNAME"/>
+			<xsl:when test="/H2G2/SITE/IDENTITYSIGN = 0">
+				<p><strong>Member name</strong> - <xsl:value-of select="/H2G2/VIEWING-USER/SSO/SSOLOGINNAME"/>
+				<br />
+				<strong><xsl:value-of select="$m_nickname"/></strong> - <xsl:apply-templates select="." mode="t_inputusername"/></p>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="/H2G2/VIEWING-USER/SIGNINNAME" />
+				<xsl:if test="/H2G2/VIEWING-USER/USER">
+					<p><a href="{$id_settingslink}">Update your nickname</a></p>
+				</xsl:if>			
 			</xsl:otherwise>
-		</xsl:choose><br />
-		<strong><xsl:value-of select="$m_nickname"/></strong> - <xsl:apply-templates select="." mode="t_inputusername"/></p>
-		
+		</xsl:choose>
 		
 		<xsl:if test="$test_IsEditor">
-		<div class="editbox" style="margin-top:10px;">
-			<xsl:apply-templates select="." mode="c_usermode"/>
-		</div>
+			<div class="editbox" style="margin-top:10px;">
+				<xsl:apply-templates select="." mode="c_usermode"/>
+			</div>
 		</xsl:if>
 		
-		
-		<p><xsl:apply-templates select="." mode="t_submituserdetails"/></p>
+		<xsl:if test="/H2G2/SITE/IDENTITYSIGN = 0">
+			<p><xsl:apply-templates select="." mode="t_submituserdetails"/></p>
+		</xsl:if>
 		
 		<p><xsl:apply-templates select="." mode="c_returntouserpage"/></p>
 	</xsl:template>

@@ -1104,7 +1104,7 @@
 	<xsl:template match="@HIDDEN" mode="r_complainap">
 		<xsl:param name="attributes"/>
 		<xsl:param name="embodiment" select="$alt_complain"/>
-		<a href="{$root}comments/UserComplaintPage?PostID={../@POSTID}&amp;s_start=1" target="ComplaintPopup" onClick="popupwindow('comments/UserComplaintPage?PostID={../@POSTID}&amp;s_start=1', 'ComplaintPopup', 'status=1,resizable=1,scrollbars=1,width=640,height=480')" xsl:use-attribute-sets="maHIDDEN_r_complainap">
+		<a href="{$root}comments/UserComplaintPage?PostID={../@POSTID}&amp;s_start=1" target="ComplaintPopup" onClick="popupwindow('comments/UserComplaintPage?PostID={../@POSTID}&amp;s_start=1', 'ComplaintPopup', 'status=1,resizable=1,scrollbars=1,width=660,height=480')" xsl:use-attribute-sets="maHIDDEN_r_complainap">
 			<xsl:copy-of select="$embodiment"/>
 		</a>
 	</xsl:template>

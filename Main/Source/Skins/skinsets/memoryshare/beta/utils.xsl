@@ -2327,9 +2327,30 @@
 
 		<xsl:variable name="create_article_link">
 			<xsl:if test="/H2G2/SITE/IDENTITYSIGNIN = 1 and not(/H2G2/VIEWING-USER/USER)">
-				<xsl:text>/</xsl:text>
-			</xsl:if>			
-			<xsl:text>TypedArticle?acreate=new</xsl:text>
+				<xsl:choose>
+					<xsl:when test="$lastchar = '/'">
+						<!-- do nothing -->
+					</xsl:when>	
+					<xsl:otherwise>
+						<xsl:text>/</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>					
+			</xsl:if>		
+			<xsl:choose>
+				<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0">
+					<xsl:text>TypedArticle?acreate=new</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:choose>
+						<xsl:when test="not(/H2G2/VIEWING-USER/USER)">
+							<xsl:text>TypedArticle%3Facreate=new</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>TypedArticle?acreate=new</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:otherwise>
+			</xsl:choose>
 			<xsl:if test="$type">
 				<xsl:text>&amp;type=</xsl:text>
 				<xsl:value-of select="$type"/>
