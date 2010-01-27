@@ -387,9 +387,9 @@
       <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
     <!-- Get the version of AssemblyInfo.cs -->
-    <Regex Input="$(SolutionRoot)\Source\BBC.Dna\Properties\AssemblyInfo.cs" Expression="AssemblyFileVersion\(&quot;.*&quot;\)\]">
-      <Output TaskParameter="Output" PropertyName="DnaVersion" />
-    </Regex>
+    <RegexMatch  Input="$(SolutionRoot)\Source\BBC.Dna\Properties\AssemblyInfo.cs" Expression="AssemblyFileVersion\(&quot;.*&quot;\)\]">
+      <Output TaskParameter="Output" ItemName="DnaVersion" />
+    </RegexMatch >
     <!-- create the deploy dir variable-->
     <PropertyGroup>
       <DeployDir>C:\RipleyRelease\deploy-$(DnaVersion)\</DeployDir>
