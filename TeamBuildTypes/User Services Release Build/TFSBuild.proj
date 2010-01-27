@@ -333,7 +333,7 @@
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
 
     <!-- call targets -->
-    <CallTarget Targets="DeployToStaging" />
+    <CallTarget Targets="DeployToRelease" />
     <CallTarget Targets="DeployToPublishFolder" />
     
     <!-- Close Access to ops-dna1 -->
@@ -351,10 +351,10 @@
   </Target>
 
 
-  <Target Name="DeployToStaging">
+  <Target Name="DeployToRelease">
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to release server" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
-      <Output TaskParameter="Id" PropertyName="DeployToStagingId" />
+      <Output TaskParameter="Id" PropertyName="DeployToReleaseId" />
     </BuildStep>
     <!-- stop iis on ops-dna1 -->
     <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
@@ -371,14 +371,14 @@
     <!-- start website to copy ripley -->
     <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
     <!-- When everything is done, change the status of the task to "Succeeded" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToStagingId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
-    <OnError ExecuteTargets="DeployToStagingFailed" />
+    <OnError ExecuteTargets="DeployToReleaseFailed" />
   </Target>
-  <Target Name="DeployToStagingFailed">
+  <Target Name="DeployToReleaseFailed">
     <!-- Change the status of the task to "Failed" -->
     <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToStagingId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 
   <Target Name="DeployToPublishFolder">
@@ -387,7 +387,8 @@
       <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
     <!-- delete existing files -->
-    <Exec Command="del /F /Q &quot;C:\RipleyRelease\deploy\*.*&quot;"></Exec>
+    <Exec Command="rmdir /S /Q &quot;C:\RipleyRelease\deploy\&quot;"></Exec>
+    <Exec Command="mkdir &quot;C:\RipleyRelease\deploy\&quot;"></Exec>
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(CommentsApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(ModerationApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
