@@ -254,10 +254,9 @@
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
     <SkinsExclude Include="$(SolutionRoot)\Source\Skins\base\site.xsl;$(SolutionRoot)\Source\Skins\base\lists.xsl;$(SolutionRoot)\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Source\Skins\common\configuration.xsl;"></SkinsExclude>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
-    <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
-    <CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
-    <ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
-    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
+    <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
+    <CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.pdb"></CommentsApi>
+    <ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.pdb"></ModerationApi>
     <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
     <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\DeploymentNotes.txt"></Documentation>
   </ItemGroup>
