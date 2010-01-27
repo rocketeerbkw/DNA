@@ -324,64 +324,69 @@
 
   <Target Name="PostBuildStep">
     <!-- Create the build steps which start in mode "Running" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to release server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Post build deploy steps" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
-
     <!-- Exec IPC$ command - get access to ops-dna1-->
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
 
-    <!-- stop iis on ops-dna1 -->
-    <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
-
-
-    <!-- Copy DnaPages to int drop location -->
-    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2release\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- call targets -->
+    <CallTarget Targets="DeployToStaging" />
+    <CallTarget Targets="DeployToPublishFolder" />
     
-    
-
-    <!-- Copy CommentsApi to int drop location -->
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    
-
-
-    <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    
-
-
-    <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2release\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-
-
-
-
-    <!-- Copy ripley dlls over existing-->
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2release\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <!-- start website to copy ripley -->
-    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
-
+    <!-- Close Access to ops-dna1 -->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
-    
-    <!-- Copy to deploy publish folder -->
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+    <OnError ExecuteTargets="PostBuildStepFailed" />
+  </Target>
+
+
+  <Target Name="PostBuildStepFailed">
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  </Target>
+
+
+  <Target Name="DeployToStaging">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to release server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="DeployToStagingId" />
+    </BuildStep>
+    <!-- stop iis on ops-dna1 -->
+    <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
+    <!-- Copy DnaPages to int drop location -->
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2release\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Copy CommentsApi to int drop location -->
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Copy ModerationApi to int drop location -->
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Copy ModerationApi to int drop location -->
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2release\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Copy ripley dlls over existing-->
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2release\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- start website to copy ripley -->
+    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToStagingId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <OnError ExecuteTargets="DeployToStagingFailed" />
+  </Target>
+  <Target Name="DeployToStagingFailed">
+    <!-- Change the status of the task to "Failed" -->
+    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToStagingId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  </Target>
+
+  <Target Name="DeployToPublishFolder">
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to deploy folder" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
-      <Output TaskParameter="Id" PropertyName="PostBuildStepId2" />
+      <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
-
-
-
-
-    <CreateItem Include="$(SolutionRoot)\Source\BBC.Dna\Properties\AssemblyInfo.cs;">
-      <Output TaskParameter="Include" ItemName="AssemblyInfos"/>
-    </CreateItem>
-    
-
+    <!-- delete existing files -->
     <Exec Command="del /F /Q &quot;C:\RipleyRelease\deploy\*.*&quot;"></Exec>
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(CommentsApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
@@ -391,27 +396,12 @@
     <Copy SourceFiles="@(Database)" DestinationFolder="C:\RipleyRelease\deploy\Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Documentation)" DestinationFolder="C:\RipleyRelease\deploy\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
-
-
-
-
-    <!-- Close Access to ops-dna1 -->
-    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
-
-
-
-
     <!-- When everything is done, change the status of the task to "Succeeded" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId2)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
-
-    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
-    <OnError ExecuteTargets="PostBuildStepFailed" />
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <OnError ExecuteTargets="DeployToPublishFolderFailed" />
   </Target>
-
-
-  <Target Name="PostBuildStepFailed">
-    <!-- Change the status of the task to "Failed" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  <Target Name="DeployToPublishFolderFailed">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
   
 </Project>
