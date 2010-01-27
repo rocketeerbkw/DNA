@@ -387,14 +387,14 @@
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
-
-    <Version VersionFile="$(BinariesRoot)\Release\BBC.Dna.dll">
+    <!-- Get the version of BBC.Dna.dll -->
+    <Version VersionFile="$(BinariesRoot)\Release\BBC.Dna.dll" RevisionType="None">
       <Output TaskParameter="Major" PropertyName="DnaMajor" />
       <Output TaskParameter="Minor" PropertyName="DnaMinor" />
       <Output TaskParameter="Build" PropertyName="DnaBuild" />
       <Output TaskParameter="Revision" PropertyName="DnaRevision" />
     </Version>
-
+    <!-- create the deploy dir variable-->
     <PropertyGroup>
       <DeployDir>C:\RipleyRelease\deploy-$(DnaMajor).$(DnaMinor).$(DnaBuild).$(DnaRevision)\"</DeployDir>
     </PropertyGroup>
