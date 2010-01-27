@@ -44,6 +44,7 @@
 	<xsl:template name="global-template">	
 		
 		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
+		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
 		
 		<xsl:comment>#set var="bbcpage_bgcolor" value="<xsl:value-of select="$bbcpage_bgcolor"/>" </xsl:comment>
 		<xsl:comment>#set var="bbcpage_nav" value="<xsl:value-of select="$bbcpage_nav"/>" </xsl:comment>
