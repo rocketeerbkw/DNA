@@ -386,13 +386,16 @@
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
-    <!-- Get the version of AssemblyInfo.cs -->
-    <RegexMatch  Input="$(SolutionRoot)\Source\BBC.Dna\Properties\AssemblyInfo.cs" Expression="AssemblyFileVersion\(&quot;.*&quot;\)\]">
-      <Output TaskParameter="Output" ItemName="DnaVersion" />
-    </RegexMatch >
+    <!-- Get the version of BBC.Dna.dll -->
+    <Version VersionFile="$(BinariesRoot)\Win32\Release\RipleyServer.dll" RevisionType="None">
+      <Output TaskParameter="Major" PropertyName="Major" />
+      <Output TaskParameter="Minor" PropertyName="Minor" />
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </Version>
     <!-- create the deploy dir variable-->
     <PropertyGroup>
-      <DeployDir>C:\RipleyRelease\deploy-$(DnaVersion)\</DeployDir>
+      <DeployDir>C:\RipleyRelease\deploy-$(DMajor).$(Minor).$(Build).$(Revision)\</DeployDir>
     </PropertyGroup>
 
       <!-- delete existing files -->
