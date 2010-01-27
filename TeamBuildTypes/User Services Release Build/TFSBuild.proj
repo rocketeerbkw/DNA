@@ -388,27 +388,27 @@
       <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
 
-    <Version VersionFile="$(BinariesRoot)/BBC.Dna.dll">
+    <Version VersionFile="$(BinariesRoot)\Release\BBC.Dna.dll">
       <Output TaskParameter="Major" PropertyName="DnaMajor" />
       <Output TaskParameter="Minor" PropertyName="DnaMinor" />
       <Output TaskParameter="Build" PropertyName="DnaBuild" />
       <Output TaskParameter="Revision" PropertyName="DnaRevision" />
     </Version>
 
-    <ItemGroup>
-      <DeployDir Include="C:\RipleyRelease\deploy-$(DnaMajor).$(DnaMinor).$(DnaBuild).$(DnaRevision)\"></DeployDir>
-    </ItemGroup>
+    <PropertyGroup>
+      <DeployDir>C:\RipleyRelease\deploy-$(DnaMajor).$(DnaMinor).$(DnaBuild).$(DnaRevision)\"</DeployDir>
+    </PropertyGroup>
 
       <!-- delete existing files -->
-    <Exec Command="rmdir /S /Q &quot;@(DeployDir)&quot;"></Exec>
-    <Exec Command="mkdir &quot;@(DeployDir)&quot;"></Exec>
-    <Copy SourceFiles="@(DnaPages)" DestinationFolder="@(DeployDir)wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="@(DeployDir)wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="@(DeployDir)wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Skins)" DestinationFolder="@(DeployDir)wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="@(DeployDir)wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Database)" DestinationFolder="@(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Documentation)" DestinationFolder="@(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Exec Command="rmdir /S /Q &quot;$(DeployDir)&quot;"></Exec>
+    <Exec Command="mkdir &quot;$(DeployDir)&quot;"></Exec>
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="$(DeployDir)wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="$(DeployDir)wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="$(DeployDir)wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="$(DeployDir)wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Database)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
