@@ -334,7 +334,7 @@
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
 
     <!-- call targets -->
-    <CallTarget Targets="DeployToRelease" />
+    <!-- CallTarget Targets="DeployToRelease" / -->
     <CallTarget Targets="DeployToPublishFolder" />
     
     <!-- Close Access to ops-dna1 -->
@@ -387,16 +387,28 @@
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
-    <!-- delete existing files -->
-    <Exec Command="rmdir /S /Q &quot;C:\RipleyRelease\deploy\&quot;"></Exec>
-    <Exec Command="mkdir &quot;C:\RipleyRelease\deploy\&quot;"></Exec>
-    <Copy SourceFiles="@(DnaPages)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Skins)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\RipleyRelease\deploy\wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Database)" DestinationFolder="C:\RipleyRelease\deploy\Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Documentation)" DestinationFolder="C:\RipleyRelease\deploy\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <Version VersionFile="$(BinariesRoot)/BBC.Dna.dll">
+      <Output TaskParameter="Major" PropertyName="DnaMajor" />
+      <Output TaskParameter="Minor" PropertyName="DnaMinor" />
+      <Output TaskParameter="Build" PropertyName="DnaBuild" />
+      <Output TaskParameter="Revision" PropertyName="DnaRevision" />
+    </Version>
+
+    <ItemGroup>
+      <DeployDir Include="C:\RipleyRelease\deploy-$(DnaMajor).$(DnaMinor).$(DnaBuild).$(DnaRevision)\"></DeployDir>
+    </ItemGroup>
+
+      <!-- delete existing files -->
+    <Exec Command="rmdir /S /Q &quot;@(DeployDir)&quot;"></Exec>
+    <Exec Command="mkdir &quot;@(DeployDir)&quot;"></Exec>
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="@(DeployDir)wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="@(DeployDir)wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="@(DeployDir)wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="@(DeployDir)wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="@(DeployDir)wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Database)" DestinationFolder="@(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Documentation)" DestinationFolder="@(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
