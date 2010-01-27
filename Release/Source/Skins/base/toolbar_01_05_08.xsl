@@ -56,6 +56,7 @@
 			
 		</xsl:choose>
 		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
+		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
 	</xsl:template>
 	<xsl:template name="bbcitoolbar">
 		

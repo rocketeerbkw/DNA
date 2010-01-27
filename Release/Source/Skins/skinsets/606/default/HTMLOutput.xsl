@@ -95,6 +95,7 @@
 		<xsl:call-template name="insert-css"/>
 		
 		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
+		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
 	</xsl:variable>
 	<!--===============CSS=====================-->
 	<!--===============Attribute-sets Settings=====================-->
@@ -1119,7 +1120,7 @@
                             <xsl:call-template name="GENERATE_LEFT_HAND_NAV"/>
                         </div>
                     </td>
-                    <td valign="top" width="629" class="community">
+                    <td valign="top" width="629">
                         <!-- main content -->
                         <xsl:apply-templates select="." mode="r_bodycontent"/>
                     </td>

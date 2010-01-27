@@ -222,6 +222,7 @@
 					
 				</style>
 				<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
+				<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
 			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:call-template name="insert-css"/>
