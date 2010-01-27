@@ -1106,7 +1106,7 @@ else window.location.href=<xsl:value-of select="@NAME"/>number;
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="h2g2login">
 					<xsl:choose>
 						<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0">
 							<xsl:call-template name="sso_statusbar"/>
