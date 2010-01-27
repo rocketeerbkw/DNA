@@ -333,7 +333,7 @@
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
 
     <!-- call targets -->
-    <!-- CallTarget Targets="DeployToRelease" / -->
+    <CallTarget Targets="DeployToRelease" />
     <CallTarget Targets="DeployToPublishFolder" />
     
     <!-- Close Access to ops-dna1 -->
@@ -387,15 +387,15 @@
       <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
     </BuildStep>
     <!-- Get the version of BBC.Dna.dll -->
-    <Version VersionFile="$(BinariesRoot)\Release\BBC.Dna.Api.dll" RevisionType="None">
+    <!-- Version VersionFile="$(BinariesRoot)\Release\BBC.Dna.Api.dll" RevisionType="None">
       <Output TaskParameter="Major" PropertyName="Major" />
       <Output TaskParameter="Minor" PropertyName="Minor" />
       <Output TaskParameter="Build" PropertyName="Build" />
       <Output TaskParameter="Revision" PropertyName="Revision" />
-    </Version>
+    </Version -->
     <!-- create the deploy dir variable-->
     <PropertyGroup>
-      <DeployDir>C:\RipleyRelease\deploy-$(DMajor).$(Minor).$(Build).$(Revision)\</DeployDir>
+      <DeployDir>C:\RipleyRelease\deploy\</DeployDir>
     </PropertyGroup>
 
       <!-- delete existing files -->
