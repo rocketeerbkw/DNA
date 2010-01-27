@@ -333,8 +333,6 @@
     <!-- Exec IPC$ command - get access to ops-dna1-->
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
 
-    <!-- delete config skin files -->
-    <Delete Files="@(SkinsExclude)"></Delete>
     <!-- call targets -->
     <CallTarget Targets="DeployToRelease" />
     <CallTarget Targets="DeployToPublishFolder" />
