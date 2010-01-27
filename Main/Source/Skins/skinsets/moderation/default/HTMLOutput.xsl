@@ -90,6 +90,7 @@
 	<xsl:variable name="csslink">
 		<xsl:call-template name="insert-css"/>
 		<link rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css" type="text/css" />
+		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
 	</xsl:variable>
 	<!--===============CSS=====================-->
 	<!--===============Banner Template (Banner Area Stuff)=====================-->
