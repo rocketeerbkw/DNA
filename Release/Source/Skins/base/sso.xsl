@@ -1127,71 +1127,81 @@
 	
 	<xsl:template name="identity_statusbar">
 		<xsl:param name="h2g2class" />
-		<div id="identitylogin">
-			<xsl:if test="/H2G2/SITE/@ID = '1'">
-				<xsl:attribute name="class">
-					<xsl:value-of select="$h2g2class" />
-				</xsl:attribute>
-			</xsl:if>
-	        <xsl:choose>
-	          <xsl:when test="not(/H2G2/VIEWING-USER/USER/USERID)">
-		          <xsl:choose>
-		          	<xsl:when test="not(/H2G2/VIEWING-USER/IDENTITY)">
-		          		<a class="id-signin">
-		          			<xsl:attribute name="href">
-		          				<xsl:value-of select="$id_signinlink" />
-		          				<xsl:if test="contains(/H2G2/SITE/IDENTITYPOLICY, 'kids')">
+		<div id="identitywrap">
+			<div id="identitylogin">
+				<xsl:if test="/H2G2/SITE/@ID = '1' and $h2g2class">
+					<xsl:attribute name="class">
+						<xsl:value-of select="$h2g2class" />
+					</xsl:attribute>
+				</xsl:if>
+		        <xsl:choose>
+		          <xsl:when test="not(/H2G2/VIEWING-USER/USER/USERID)">
+			          <xsl:choose>
+			          	<xsl:when test="not(/H2G2/VIEWING-USER/IDENTITY)">
+			          		<a class="id-signin">
+			          			<xsl:attribute name="href">
+			          				<xsl:value-of select="$id_signinlink" />
+			          				<xsl:if test="contains(/H2G2/SITE/IDENTITYPOLICY, 'kids')">
+			          					<xsl:text>&amp;cbbc=true</xsl:text>
+			          				</xsl:if>
+			          			</xsl:attribute>
+			          			<span>Sign in</span>
+			          		</a>
+			           		<p>or 
+					           <a>			            		
+					           	<xsl:attribute name="href">
+			          				<xsl:value-of select="$registerlink" />
+			          			</xsl:attribute>register</a> 
+	          				to join or start a new 
+	          				<xsl:choose>
+	          					<xsl:when test="/H2G2/SITE/@ID = '1'">
+	          						<xsl:text>conversation</xsl:text>
+	          					</xsl:when>
+	          					<xsl:otherwise>
+	          						<xsl:text>discussion</xsl:text>
+	          					</xsl:otherwise>
+	          				</xsl:choose>.
+	          				</p> 		          		
+			          	</xsl:when>
+			            <!-- User has not accepted T&Cs -->
+			            <xsl:otherwise>
+			            	<img src="http://www.bbc.co.uk/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
+			            	<p class="idtransitional"><a>
+			            		<xsl:attribute name="href">
+			          				<xsl:value-of select="$signinlink" />
+			          			</xsl:attribute>
+			          			<xsl:text>Click here</xsl:text>
+			          		</a> to complete your registration.	</p>	          			
+			            </xsl:otherwise>		          	
+			          </xsl:choose> 
+		          </xsl:when>         
+		          <xsl:otherwise>
+					<img src="http://www.bbc.co.uk/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
+					<ul>
+						<li><xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/></li>  
+						<li>|</li>
+						<li><a>
+							<xsl:attribute name="href">
+								<xsl:value-of select="$id_settingslink" />
+		         				<xsl:if test="contains(/H2G2/SITE/IDENTITYPOLICY, 'kids')">
 		          					<xsl:text>&amp;cbbc=true</xsl:text>
-		          				</xsl:if>
-		          			</xsl:attribute>
-		          			<span>Sign in</span>
-		          		</a>
-		           		<p>or 
-				           <a>			            		
-				           	<xsl:attribute name="href">
-		          				<xsl:value-of select="$registerlink" />
-		          			</xsl:attribute>register</a> 
-          				to join or start a new discussion.</p> 		          		
-		          	</xsl:when>
-		            <!-- User has not accepted T&Cs -->
-		            <xsl:otherwise>
-		            	<img src="http://www.bbc.co.uk/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
-		            	<p class="idtransitional"><a>
-		            		<xsl:attribute name="href">
-		          				<xsl:value-of select="$signinlink" />
-		          			</xsl:attribute>
-		          			<xsl:text>Click here</xsl:text>
-		          		</a> to complete your registration.	</p>	          			
-		            </xsl:otherwise>		          	
-		          </xsl:choose> 
-	          </xsl:when>         
-	          <xsl:otherwise>
-				<img src="http://www.bbc.co.uk/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
-				<ul>
-					<li><xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/></li>  
-					<li>|</li>
-					<li><a>
-						<xsl:attribute name="href">
-							<xsl:value-of select="$id_settingslink" />
-	         				<xsl:if test="contains(/H2G2/SITE/IDENTITYPOLICY, 'kids')">
-	          					<xsl:text>&amp;cbbc=true</xsl:text>
-	          				</xsl:if>									
-						</xsl:attribute>
-						Settings </a></li>  
-					<li>|</li>
-					<li><a href="{$id_signoutlink}">Sign Out</a></li>
-				</ul>	
-				<xsl:if test="not(/H2G2/SITE/@ID = '67' or /H2G2/SITE/@ID = '1' or /H2G2/SITE/@ID = '66')">
-					<ul id="iddiscussions">
-						<li><a href="{$root}MP{VIEWING-USER/USER/USERID}">
-							<xsl:text>Your discussions</xsl:text>
-						</a></li>
-					</ul>        
-				</xsl:if>       
-	          </xsl:otherwise>
-	        </xsl:choose>
-        </div>
-        <div id="identityloginend"><!-- closing div --></div>	
+		          				</xsl:if>									
+							</xsl:attribute>
+							Settings </a></li>  
+						<li>|</li>
+						<li><a href="{$id_signoutlink}">Sign Out</a></li>
+					</ul>	
+					<xsl:if test="not(/H2G2/SITE/@ID = '67' or /H2G2/SITE/@ID = '1' or /H2G2/SITE/@ID = '66')">
+						<ul id="iddiscussions">
+							<li><a href="{$root}MP{VIEWING-USER/USER/USERID}">
+								<xsl:text>Your discussions</xsl:text>
+							</a></li>
+						</ul>        
+					</xsl:if>       
+		          </xsl:otherwise>
+		        </xsl:choose>
+	        </div>
+        </div>	
 	</xsl:template>
 	
 	
