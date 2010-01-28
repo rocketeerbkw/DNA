@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using BBC.Dna.Data;
 using System.Runtime.Serialization;
+using DnaEventService.Common;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
     class CommentForumActivity : CommentActivity
     {
-        public CommentForumActivity()
-        {
-        }
-
         public override void SetTitle(IDnaDataReader currentRow)
         {
             string activityHostNameUrl = "";
@@ -22,11 +20,11 @@ namespace Dna.SnesIntegration.ActivityProcessor
             if (blogUrl.Length > 0)
             {
                 activityHostNameUrl = blogUrl;
-                Contents.Url = activityHostNameUrl + "#P" + postId.ToString();
+                Contents.Url = activityHostNameUrl + "#P" + postId;
             }
 
             Contents.Title =
-                CommentActivity.CreateTitleString(currentRow, "posted", Contents.Url, activityHostNameUrl);
+                CreateTitleString(currentRow, "posted", Contents.Url, activityHostNameUrl);
         }
         
         public override void SetObjectTitle(IDnaDataReader currentRow)
@@ -36,7 +34,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
 
         public override void SetObjectDescription(IDnaDataReader currentRow)
         {
-            Contents.ObjectDescription = "";
+            Contents.ObjectDescription = currentRow.GetString("Body") ?? "";
         }
 
         public override void SetObjectUri(IDnaDataReader currentRow)
@@ -44,6 +42,10 @@ namespace Dna.SnesIntegration.ActivityProcessor
             Contents.ObjectUri = currentRow.GetString("ObjectUri") ?? "";
         }
 
+        public override HttpStatusCode Send(IDnaHttpClient client)
+        {
+            return Send(client.Post);
+        }
       
     }
 }

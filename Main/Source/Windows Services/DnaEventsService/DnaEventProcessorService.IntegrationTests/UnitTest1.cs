@@ -128,7 +128,7 @@ namespace DnaEventProcessorService.IntegrationTests
                 var processor = CreateSnesActivityProcessor(creator, logger, httpClientCreator);
                 processor.ProcessEvents(null);
 
-                httpClient.AssertWasCalled(client => client.Post("", HttpContent.Create("")),
+                httpClient.AssertWasCalled(client => client.Post(new Uri("", UriKind.Relative), HttpContent.Create("")),
                                            op => op.Constraints(Is.Anything(),Is.Anything()));
             }
         }
@@ -161,7 +161,7 @@ namespace DnaEventProcessorService.IntegrationTests
             httpClient.Stub(x => x.TransportSettings).Return(settings);
             var content = HttpContent.Create("");
             var newHttpResponseMessage = new HttpResponseMessage();
-            httpClient.Stub(x => x.Post("", content))
+            httpClient.Stub(x => x.Post(new Uri("", UriKind.Relative), content))
                 .Constraints(Is.Anything(), Is.Anything())
                 .Return(newHttpResponseMessage)
                 .WhenCalled(x => x.ReturnValue = GetNewHttpResponseMessage());

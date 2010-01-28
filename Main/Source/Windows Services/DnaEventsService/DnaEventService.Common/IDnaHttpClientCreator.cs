@@ -9,9 +9,9 @@ namespace DnaEventService.Common
     public interface IDnaHttpClientCreator
     {
         Uri BaseAddress { get; set; }
-        string ProxyAddress { get; set; }
+        Uri ProxyAddress { get; set; }
         X509Certificate Certificate { get; set; }
         IDnaHttpClient CreateHttpClient();
-        IDnaHttpClient CreateHttpClient(string uri);
+        IDnaHttpClient CreateHttpClient(Uri uri);
     }
 }

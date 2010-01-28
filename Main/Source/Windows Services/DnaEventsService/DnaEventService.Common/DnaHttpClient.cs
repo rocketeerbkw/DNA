@@ -33,15 +33,30 @@ namespace DnaEventService.Common
             get { return Client.TransportSettings; }
         }
 
+        public HttpResponseMessage Get(Uri uri)
+        {
+            return Client.Get(uri);
+        }
+
+        public HttpResponseMessage Delete(Uri uri)
+        {
+            return Client.Delete(uri);
+        }
+
         /// <summary>
         /// Post Method
         /// </summary>
         /// <param name="uri">Location to post to</param>
         /// <param name="body">Body of the post request.</param>
         /// <returns>Response from the POST request.</returns>
-        public HttpResponseMessage Post(string uri, HttpContent body)
+        public HttpResponseMessage Post(Uri uri, HttpContent body)
         {
             return Client.Post(uri, body);
+        }
+        
+        public HttpResponseMessage Put(Uri uri, HttpContent body)
+        {
+            return Client.Put(uri, body);
         }
 
         #endregion

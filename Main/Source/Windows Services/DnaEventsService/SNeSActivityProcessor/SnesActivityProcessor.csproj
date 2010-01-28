@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityBase.cs" />
     <Compile Include="CommentForumActivity.cs" />
     <Compile Include="MessageBoardPostActivity.cs" />
     <Compile Include="OpenSocialActivity.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="SnesActivityFactory.cs" />
     <Compile Include="SnesActivityProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnexpectedActivity.cs" />
     <Compile Include="X509CertificateLoader.cs" />
   </ItemGroup>
   <ItemGroup>

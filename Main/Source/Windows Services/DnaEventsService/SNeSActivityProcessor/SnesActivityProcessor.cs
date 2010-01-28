@@ -85,20 +85,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
         private HttpStatusCode SendEvent(ISnesActivity activity)
         {
             var client = HttpClientCreator.CreateHttpClient();
-
-            var activityJson = activity.GetActivityJson();
-            var activityUri = activity.GetPostUri();
-
-            LogUtility.LogRequest(activityJson, activityUri);
-
-            var content =
-                HttpContent.Create(activityJson, "application/json");
-
-            using (var response = client.Post(activityUri, content))
-            {
-                LogUtility.LogResponse(response.StatusCode, response);
-                return response.StatusCode;
-            }
+            return activity.Send(client);
         }
 
         private void RemoveSentSnesEvents(Dictionary<int, HttpStatusCode> results)

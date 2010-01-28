@@ -9,7 +9,7 @@ namespace DnaEventService.Common
     /// </summary>
     public class DnaHttpClientCreator : IDnaHttpClientCreator
     {
-        public DnaHttpClientCreator(Uri baseAddress, string proxyAddress, X509Certificate certificate)
+        public DnaHttpClientCreator(Uri baseAddress, Uri proxyAddress, X509Certificate certificate)
         {
             BaseAddress = baseAddress;
             ProxyAddress = proxyAddress;
@@ -19,7 +19,7 @@ namespace DnaEventService.Common
         #region IDnaHttpClientCreator Members
 
         public Uri BaseAddress { get; set; }
-        public string ProxyAddress { get; set; }
+        public Uri ProxyAddress { get; set; }
         public X509Certificate Certificate { get; set; }
 
         /// <summary>
@@ -34,9 +34,9 @@ namespace DnaEventService.Common
             return httpClient;
         }
 
-        public IDnaHttpClient CreateHttpClient(string uri)
+        public IDnaHttpClient CreateHttpClient(Uri uri)
         {
-            IDnaHttpClient httpClient = DnaHttpClient.CreateDnaHttpClient(new Uri(uri));
+            IDnaHttpClient httpClient = DnaHttpClient.CreateDnaHttpClient(uri);
             InitializeHttpClient(httpClient);
             return httpClient;
         }

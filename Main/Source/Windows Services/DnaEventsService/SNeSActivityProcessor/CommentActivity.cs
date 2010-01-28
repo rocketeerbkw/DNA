@@ -1,36 +1,32 @@
 ﻿using System;
+using System.Net;
 using BBC.Dna.Api;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
-    abstract class CommentActivity : MarshalByRefObject, ISnesActivity
+    abstract class CommentActivity : ActivityBase
     {
-        /*
-        private static string addActivityTemplate =
-            "{{\"title\":\"{0}\", \"body\":\"{1}\", \"url\":\"{2}\", \"postedTime\":\"{3}\", \"type\":\"{4}\", \"displayName\":\"{5}\", \"objectTitle\":\"{6}\", \"objectDescription\":\"{7}\", \"username\":\"{8}\", \"objectUri\":\"{9}\"}}";
-        */
-
         private static string titleTemplate =
             @"{0} a <a href= ""{1}"" > new comment </a> on the <a href = ""{2}"" > {3} </a>";
 
         private static readonly UriTemplate postUserActivityTemplate =
             new UriTemplate("social/social/rest/activities/{userid}/@self/{applicationid}");
 
+        public abstract void SetTitle(IDnaDataReader currentRow);
+        public abstract void SetObjectTitle(IDnaDataReader currentRow);
+        public abstract void SetObjectDescription(IDnaDataReader currentRow);
+        public abstract void SetObjectUri(IDnaDataReader currentRow);
+
         public OpenSocialActivity Contents
         {
             get;
             set;
         }
-        
-        public int ActivityId
-        {
-            get;
-            set;
-        }
-        
+
         public string Application
         {
             get;
@@ -49,10 +45,23 @@ namespace Dna.SnesIntegration.ActivityProcessor
             set;
         }
 
+        public override string GetActivityJson()
+        {
+            return StringUtils.SerializeToJson(Contents);
+        }
+
+        public override Uri GetUri()
+        {
+            var relativeBase = new Uri("http://localhost");
+            return postUserActivityTemplate.BindByPosition(relativeBase,
+                IdentityUserId.ToString(),
+                Application);
+        }
+
         public static ISnesActivity CreateActivity(int activityType, IDnaDataReader currentRow)
         {
             CommentActivity activity;
-            
+
             if (currentRow.IsDBNull("BlogUrl"))
             {
                 activity = PolicyInjection.Create<MessageBoardPostActivity>();
@@ -78,28 +87,10 @@ namespace Dna.SnesIntegration.ActivityProcessor
             activity.Contents.PostedTime = currentRow.GetDateTime("ActivityTime").MillisecondsSinceEpoch();
             activity.Contents.DisplayName = currentRow.GetString("displayName") ?? "";
             activity.Contents.Username = currentRow.GetString("username") ?? "";
-         
+
             return activity;
         }
-
-        public string GetActivityJson()
-        {
-            return StringUtils.SerializeToJson(Contents);
-        }
-
-        public string GetPostUri()
-        {
-            var relativeBase = new Uri("http://localhost");
-            return postUserActivityTemplate.BindByPosition(relativeBase,
-                IdentityUserId.ToString(),
-                Application).PathAndQuery;
-        }
-
-        public abstract void SetTitle(IDnaDataReader currentRow);
-        public abstract void SetObjectTitle(IDnaDataReader currentRow);
-        public abstract void SetObjectDescription(IDnaDataReader currentRow);
-        public abstract void SetObjectUri(IDnaDataReader currentRow);
-
+        
         public static string CreateTitleString(IDnaDataReader currentRow, 
             string activityVerb, string activityUrl, string activityHostNameUrl)
         {

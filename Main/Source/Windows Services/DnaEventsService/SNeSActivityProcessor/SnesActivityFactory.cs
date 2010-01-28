@@ -15,7 +15,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
                     activity = CommentActivity.CreateActivity(activityType, currentRow);
                     break;
                 default:
-                    activity = null;
+                    activity = new UnexpectedActivity();
                     break;
             }
             return activity;
