@@ -268,14 +268,26 @@
 					</p>
 				</xsl:if>
 
-				<p>You can change your <xsl:value-of select="/H2G2/SITE/NAME" /> nickname (as it appears to other users) at any time</p>
-				<xsl:if test="$ownerisviewer=1 and (/H2G2/SITE-CLOSED=0 or $test_IsEditor)">
-					<p class="hintlink">
-						<a><xsl:attribute name="href"><xsl:value-of select="$userdetailslink"/></xsl:attribute>Change my 
-						<!-- if site option is seected to display nickname -->
-						<xsl:value-of select="/H2G2/SITE/NAME" /> nickname</a>
-					</p>
-				</xsl:if>
+
+				<xsl:choose>
+					<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0">
+						<p>You can change your nickname (as it appears to other users) at any time</p>
+						<xsl:if test="$ownerisviewer=1 and (/H2G2/SITE-CLOSED=0 or $test_IsEditor)">
+							<p class="hintlink">
+								<a><xsl:attribute name="href"><xsl:value-of select="$userdetailslink"/></xsl:attribute>Change my 
+								<!-- if site option is seected to display nickname -->nickname</a>
+							</p>
+						</xsl:if>
+					</xsl:when>
+					<xsl:otherwise>
+						<p>You can change your name (as it appears to other users) at any time</p>
+						<xsl:if test="$ownerisviewer=1 and (/H2G2/SITE-CLOSED=0 or $test_IsEditor)">
+							<p class="hintlink">
+								<a><xsl:attribute name="href"><xsl:value-of select="$id_settingslink"/></xsl:attribute>Change my name</a>
+							</p>
+						</xsl:if>					
+					</xsl:otherwise>
+				</xsl:choose>
 			</div>  
 		</xsl:if>
 		
