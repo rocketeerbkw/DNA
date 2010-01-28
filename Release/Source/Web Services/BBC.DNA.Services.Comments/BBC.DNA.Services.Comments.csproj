@@ -49,7 +49,7 @@
     <Reference Include="saxon9api, Version=9.1.0.5, Culture=neutral, PublicKeyToken=e1fdd002d5083fe6, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BBC.DNA\ReferenceDlls\saxon\saxon9api.dll</HintPath>
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
