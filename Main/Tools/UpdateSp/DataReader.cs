@@ -20,7 +20,7 @@ namespace updatesp
 
             public string makeConnectionString(string dbName)
             {
-                return "server=" + server + ";database=" + dbName + ";User Id=" + username + ";Password=" + pw + "; Pooling=false; Connection Timeout=0";
+                return "server=" + server + ";database=" + dbName + ";User Id=" + username + ";Password=" + pw + "; Pooling=false; Connection Timeout=0; Application Name=UpdateSp";
             }
         }
 
@@ -62,7 +62,6 @@ namespace updatesp
             ReadConfigDatabases(doc);
             ReadConfigPermissionPrinciples(doc);
 
-            PrepareDbObjectDefintionStorage();
         }
 
         private void ReadConfigConnections(XmlDocument doc)
@@ -512,7 +511,7 @@ namespace updatesp
 
         private string DbObjDefTableName { get { return "_updateSpDbObjectDefs"; } }
 
-        private void PrepareDbObjectDefintionStorage()
+        public void PrepareDbObjectDefintionStorage()
         {
             string query = @"
                 IF OBJECTPROPERTY ( object_id('{0}'),'ISTABLE') IS NULL

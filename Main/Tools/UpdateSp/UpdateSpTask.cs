@@ -145,6 +145,7 @@ namespace updatesp
             LogDatabaseAndServerPairs(dataReader);
 
 			dataReader.RestoreSnapShot();
+            dataReader.PrepareDbObjectDefintionStorage();
 
 			foreach (string file in BuildFiles)
 			{

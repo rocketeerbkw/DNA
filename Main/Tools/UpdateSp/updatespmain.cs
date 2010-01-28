@@ -85,6 +85,8 @@ namespace updatesp
                     DirectoryInfo dirInfo = new DirectoryInfo(spfile);
 
                     dataReader.RestoreSnapShot();
+                    dataReader.PrepareDbObjectDefintionStorage();
+
                     try
                     {
                         if (dirInfo.Exists)
