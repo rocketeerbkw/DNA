@@ -95,12 +95,13 @@ namespace FunctionalTests
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/USER/FIRSTNAME"), "There shouldn't be a first name");
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/LASTNAME"), "There shouldn't be a last name");
-
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName);
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.FirstName, _firstName);
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.LastName, _lastName);
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.Email, _newEmail);
             Thread.Sleep(2000);
+
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName));
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.FirstName, _firstName));
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.LastName, _lastName));
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.Email, _newEmail));
+            
             request.RequestPage("status-n?skin=purexml");
 
             doc = request.GetLastResponseAsXML();
@@ -127,8 +128,10 @@ namespace FunctionalTests
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
+            Thread.Sleep(2000);
 
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName);
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName));
+            
             request.RequestPage("status-n?skin=purexml");
 
             doc = request.GetLastResponseAsXML();
@@ -159,9 +162,11 @@ namespace FunctionalTests
             Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
+            Thread.Sleep(2000);
 
             string newName = _displayName + " Updated!";
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, newName);
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, newName));
+            
             request.RequestPage("status-n?skin=purexml");
 
             doc = request.GetLastResponseAsXML();
@@ -253,8 +258,10 @@ namespace FunctionalTests
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
+            Thread.Sleep(2000);
 
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName);
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName));
+            
             request.RequestPage("?skin=purexml");
 
             doc = request.GetLastResponseAsXML();
@@ -285,9 +292,10 @@ namespace FunctionalTests
             Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
+            Thread.Sleep(2000);
 
             string newName = _displayName + " Updated!";
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, newName);
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, newName));
             request.RequestPage("?skin=purexml");
 
             doc = request.GetLastResponseAsXML();
@@ -355,12 +363,13 @@ namespace FunctionalTests
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/USER/LASTNAME"), "There shouldn't be a last name");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS"), "incorrect email");
             Assert.AreEqual(_email, doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS").InnerText, "incorrect email");
-
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName);
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.FirstName, _firstName);
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.LastName, _lastName);
-            TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.Email, _newEmail);
             Thread.Sleep(2000);
+
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName));
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.FirstName, _firstName));
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.LastName, _lastName));
+            Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.Email, _newEmail));
+            
             request.RequestPage("?skin=purexml");
 
             doc = request.GetLastResponseAsXML();
