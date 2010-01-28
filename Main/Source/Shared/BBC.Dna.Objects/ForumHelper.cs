@@ -145,6 +145,11 @@ namespace BBC.Dna.Objects
                             LastError = new Error() { Type = "UnHideThread", ErrorMessage = "Unable to open thread" };
                         }
                     }
+                    else
+                    {
+                        LastError = new Error() { Type = "UnHideThread", ErrorMessage = "Unable to open thread" };
+                    }
+
                 }
             }
             else
@@ -171,6 +176,10 @@ namespace BBC.Dna.Objects
                         {
                             LastError = new Error("HideThread", "Unable to hide thread");
                         }
+                    }
+                    else
+                    {
+                        LastError = new Error("HideThread", "Unable to hide thread");
                     }
                 }
             }
@@ -235,6 +244,10 @@ namespace BBC.Dna.Objects
                         {
                             LastError = new Error("FORUM-MOD-STATUS-UPDATE", "Failed to update the moderation status of the forum!");
                         }
+                    }
+                    else
+                    {
+                        LastError = new Error("FORUM-MOD-STATUS-UPDATE", "Failed to update the moderation status of the forum!");
                     }
                 }
                 
