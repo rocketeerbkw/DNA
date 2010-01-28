@@ -7,6 +7,8 @@ namespace updatesp
 {
     class ProcedureDbObject : DbObject
     {
+        public override string DbObjType { get { return "P"; } }
+
         public static bool ContainsProcedure(string SQL)
         {
             Match m = Regex.Match(SQL, @"create\s+procedure", RegexOptions.IgnoreCase);
@@ -85,9 +87,9 @@ namespace updatesp
 
 		public override string GetDropObjectSql()
 		{
-			return "if exists(select * from sys.objects where name = '" + ObjName + "' AND type = 'P')\r\n" +
+			return "if exists(select * from sys.objects where name = '" + DbObjName + "' AND type = 'P')\r\n" +
 					"BEGIN\r\n" +
-					"drop procedure [dbo].[" + ObjName + "]\r\n" +
+					"drop procedure [dbo].[" + DbObjName + "]\r\n" +
 					"END\r\n";
 		}
     }

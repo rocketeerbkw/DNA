@@ -7,6 +7,8 @@ namespace updatesp
 {
     class ViewDbObject : DbObject
     {
+        public override string DbObjType { get { return "V"; } }
+
         public static bool ContainsView(string SQL)
         {
             Match m = Regex.Match(SQL, @"create\s+view", RegexOptions.IgnoreCase);
@@ -75,9 +77,9 @@ namespace updatesp
 
 		public override string GetDropObjectSql()
 		{
-			return "if exists(select * from sys.objects where name = '" + ObjName + "' AND type = 'V')\r\n" +
+			return "if exists(select * from sys.objects where name = '" + DbObjName + "' AND type = 'V')\r\n" +
 					"BEGIN\r\n" +
-					"drop view [dbo].[" + ObjName + "]\r\n" +
+					"drop view [dbo].[" + DbObjName + "]\r\n" +
 					"END\r\n";
 		}
 

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace updatesp
 {
@@ -166,7 +167,7 @@ namespace updatesp
             {
                 try
                 {
-                    ExecuteNonQuery(db.name, db.conn, SQL, false);
+                    ExecuteNonQuery(db.name, db.conn, SQL, null, false);
                 }
                 catch (SqlException e)
                 {
@@ -181,7 +182,7 @@ namespace updatesp
 
         public void CheckObjectExists(string objName)
         {
-            ArrayList alist = ExecuteScalar("SELECT * FROM sysobjects WHERE name = '" + objName + "'");
+            ArrayList alist = ExecuteScalar("SELECT * FROM sysobjects WHERE name = '" + objName + "'", null);
             if (alist.Count != _configDatabases.Count)
             {
                 Console.WriteLine("WARNING! After creating '" + objName + "', can't find it in sysobjects for all databases");
@@ -214,7 +215,7 @@ namespace updatesp
                     "RESTORE DATABASE " + db.name + " FROM DATABASE_SNAPSHOT = '" + db.snapshot + "'" + NL +
                     "GO";
 
-                    ExecuteNonQuery("master", conn, sql, false);
+                    ExecuteNonQuery("master", conn, sql, null, false);
                 }
             }
         }
@@ -237,7 +238,7 @@ namespace updatesp
                     "CREATE DATABASE " + db.snapshot + " ON ( NAME = " + db.name + ", FILENAME = '" + db.snapshotfilename + "') AS SNAPSHOT OF " + db.name + NL +
                     "GO";
 
-                    ExecuteNonQuery("master",conn,sql,false);
+                    ExecuteNonQuery("master",conn,sql,null,false);
                 }
             }
         }
@@ -259,16 +260,16 @@ namespace updatesp
             }
         }
 
-        public void ExecuteNonQuery(string SQL)
+        public void ExecuteNonQuery(string SQL, List<SqlParameter> sqlParamList)
         {
-            ExecuteNonQuery(SQL, false);
+            ExecuteNonQuery(SQL, sqlParamList, false);
         }
 
-        public void ExecuteNonQuery(string SQL, bool bIgnoreNotExistForPermissions)
+        public void ExecuteNonQuery(string SQL, List<SqlParameter> sqlParamList, bool bIgnoreNotExistForPermissions)
         {
             foreach (ConfigDatabase db in _configDatabases)
             {
-                ExecuteNonQuery(db.name, db.conn, SQL, bIgnoreNotExistForPermissions);
+                ExecuteNonQuery(db.name, db.conn, SQL, sqlParamList, bIgnoreNotExistForPermissions);
             }
         }
 
@@ -279,7 +280,7 @@ namespace updatesp
             get { return _SqlCommandMsgs; }
         }
 
-        private void ExecuteNonQuery(string dbName, ConfigConnection conn, string SQL, bool bIgnoreNotExistForPermissions)
+        private void ExecuteNonQuery(string dbName, ConfigConnection conn, string SQL, List<SqlParameter> sqlParamList, bool bIgnoreNotExistForPermissions)
         {
             string connstr = conn.makeConnectionString(dbName);
             SqlConnection MySqlConn = new SqlConnection(connstr);
@@ -296,6 +297,7 @@ namespace updatesp
 					if (cmd != "\r\n")
 					{
 						SqlCommand MySqlCmd = new SqlCommand(cmd, MySqlConn);
+                        AddParamsToCmd(MySqlCmd, sqlParamList);
 						MySqlCmd.CommandTimeout = 0;
 						MySqlCmd.ExecuteNonQuery();
 					}
@@ -335,7 +337,7 @@ namespace updatesp
             }
         }
 
-        public ArrayList ExecuteScalar(string SQL)
+        public ArrayList ExecuteScalar(string SQL, List<SqlParameter> sqlParamList)
         {
             ArrayList alist = new ArrayList();
 
@@ -347,6 +349,7 @@ namespace updatesp
                 try
                 {
                     SqlCommand MySqlCmd = new SqlCommand(SQL, MySqlConn);
+                    AddParamsToCmd(MySqlCmd, sqlParamList);
                     alist.Add(MySqlCmd.ExecuteScalar());
                 }
                 finally
@@ -356,6 +359,17 @@ namespace updatesp
             }
 
             return alist;
+        }
+
+        private void AddParamsToCmd(SqlCommand MySqlCmd, List<SqlParameter> sqlParamList)
+        {
+            if (sqlParamList != null)
+            {
+                foreach (SqlParameter p in sqlParamList)
+                {
+                    MySqlCmd.Parameters.Add(p);
+                }
+            }
         }
 
         /*

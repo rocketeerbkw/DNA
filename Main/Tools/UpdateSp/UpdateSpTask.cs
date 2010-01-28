@@ -151,6 +151,9 @@ namespace updatesp
 
             ScriptFile scriptFile = PrepareOutputScriptFile(OutputScriptFile);
 
+            DbObjectDefintions dbObjDefs = new DbObjectDefintions();
+            dbObjDefs.Initialise(dataReader);
+            dbObjDefs.PrepareDbObjectDefintionStorage();
 
             LogDatabaseNames(dataReader);
             LogServerNames(dataReader);
@@ -163,44 +166,47 @@ namespace updatesp
 				DateTime thisFileTime = File.GetLastWriteTime(file);
 				if (buildAllFiles || thisFileTime > targetTime)
 				{
-                    Log.LogMessage(MessageImportance.High, "Processing: {0}", file);
-                    if (true)//dataReader.IsObjectInDbOutOfDate(file))
+                    DbObject dbobj = DbObject.CreateDbObject(file, dataReader);
+
+                    string error = string.Empty;
+                    StringBuilder sqlScript = new StringBuilder();
+                    if (!dbobj.AppendToBatchScript(sqlScript, ref error))
                     {
-                        DbObject dbobj = DbObject.CreateDbObject(file, dataReader);
+                        Log.LogError(error);
+                        return false;
+                    }
 
-                        string error = string.Empty;
-                        StringBuilder sqlScript = new StringBuilder();
-                        if (!dbobj.AppendToBatchScript(sqlScript, ref error))
+                    try
+                    {
+                        bool bIgnoreNotExistForPermissions = true;
+
+                        // Do not ignore errors 
+                        if (file.Equals("dbupgradescript.sql", StringComparison.OrdinalIgnoreCase))
+                            bIgnoreNotExistForPermissions = false;
+
+                        string sql = sqlScript.ToString();
+                        if (dbObjDefs.HasDbObjectDefinitionChanged(dbobj.DbObjName, dbobj.DbObjType, sql))
                         {
-                            Log.LogError(error);
-                            return false;
-                        }
-                        try
-                        {
-                            bool bIgnoreNotExistForPermissions = true;
+                            Log.LogMessage(MessageImportance.High, "Updating: {0}", file);
 
-                            // Do not ignore errors 
-                            if (file.Equals("dbupgradescript.sql", StringComparison.OrdinalIgnoreCase))
-                                bIgnoreNotExistForPermissions = false;
-
-                            string sql = sqlScript.ToString();
-
-                            dataReader.ExecuteNonQuery(sql, bIgnoreNotExistForPermissions);
+                            dataReader.ExecuteNonQuery(sql, null, bIgnoreNotExistForPermissions);
                             if (dataReader.SqlCommandMsgs.Length > 0)
                             {
                                 Log.LogMessage(MessageImportance.High, dataReader.SqlCommandMsgs);
                             }
-                            scriptFile.AppendSql(sql);
+                            dbObjDefs.UpdateDbObjectDefinition(dbobj.DbObjName, dbobj.DbObjType, sql);
                         }
-                        catch (Exception e)
+                        else
                         {
-                            Log.LogError("Error processing " + file + ": " + e.Message);
-                            return false;
+                            Log.LogMessage(MessageImportance.High, "Skipping: {0}. Definition in db is up to date", file);
                         }
+
+                        scriptFile.AppendSql(sql);
                     }
-                    else
+                    catch (Exception e)
                     {
-                        Log.LogMessage(MessageImportance.High, "Skipping: {0}. Definition in db is up to date (Last Accessed: {1}, Last Modified: {2})", file, File.GetLastAccessTime(file).ToLocalTime().ToString(), File.GetLastAccessTime(file).ToLocalTime().ToString());
+                        Log.LogError("Error processing " + file + ": " + e.Message);
+                        return false;
                     }
 				}
 			}

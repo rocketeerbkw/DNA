@@ -7,6 +7,7 @@ namespace updatesp
 {
 	class TriggerDbObject : DbObject
 	{
+        public override string DbObjType { get { return "TR"; } }
 
 		public TriggerDbObject(string file, string fileContent, DataReader dataReader)
 			: base(file, fileContent, dataReader)
@@ -66,9 +67,9 @@ namespace updatesp
 
 		public override string GetDropObjectSql()
 		{
-			return "if exists(select * from sys.objects where name = '" + ObjName + "' AND type = 'TR')\r\n" +
+			return "if exists(select * from sys.objects where name = '" + DbObjName + "' AND type = 'TR')\r\n" +
 					"BEGIN\r\n" +
-					"drop trigger [dbo].[" + ObjName + "]\r\n" +
+					"drop trigger [dbo].[" + DbObjName + "]\r\n" +
 					"END\r\n";
 		}
 	}

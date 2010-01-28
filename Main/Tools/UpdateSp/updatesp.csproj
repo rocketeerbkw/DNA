@@ -114,6 +114,7 @@
     <Compile Include="DataReader.cs" />
     <Compile Include="DbObject.cs" />
     <Compile Include="FunctionDbObject.cs" />
+    <Compile Include="DbObjectDefintions.cs" />
     <Compile Include="ProcedureDbObject.cs" />
     <Compile Include="DBUpgradeScriptDbObject.cs" />
     <Compile Include="ScriptFile.cs" />
@@ -123,7 +124,7 @@
     </Compile>
     <Compile Include="UpdateSpTask.cs" />
     <Compile Include="ViewDbObject.cs" />
-    <None Include="updatesp.config" />
+    <None Include="updatesp-Sample.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

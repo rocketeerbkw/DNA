@@ -7,6 +7,8 @@ namespace updatesp
 {
     class DBUpgradeScriptDbObject : DbObject
     {
+        public override string DbObjType { get { return "DU"; } }
+
         public static bool ContainsScript(string fileName)
         {
             return fileName.EndsWith("DBupgradeScript.sql",StringComparison.OrdinalIgnoreCase);
@@ -45,7 +47,7 @@ namespace updatesp
 
         public override void RegisterObject()
         {
-            DataReader.ExecuteNonQuery(FileContent);
+            DataReader.ExecuteNonQuery(FileContent,null);
         }
 
 		public override bool AppendToBatchScript(StringBuilder sql, ref string error)

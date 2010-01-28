@@ -7,6 +7,8 @@ namespace updatesp
 {
     class FunctionDbObject : DbObject
     {
+        public override string DbObjType { get { return "FN"; } }
+
         public static bool ContainsFunction(string SQL)
         {
             Match m = Regex.Match(SQL, @"create\s+function", RegexOptions.IgnoreCase);
@@ -105,9 +107,9 @@ namespace updatesp
 
 		public override string GetDropObjectSql()
 		{
-			return	"if exists(select * from sys.objects where name = '" + ObjName + "' AND type IN ('IF','FN','TF'))\r\n" +
+			return	"if exists(select * from sys.objects where name = '" + DbObjName + "' AND type IN ('IF','FN','TF'))\r\n" +
 					"BEGIN\r\n" +
-					"drop function [dbo].[" + ObjName + "]\r\n" +
+					"drop function [dbo].[" + DbObjName + "]\r\n" +
 					"END\r\n";
 		}
     }

@@ -4,6 +4,7 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace updatesp
 {
@@ -152,23 +153,39 @@ namespace updatesp
         {
             if (outputfile.ToLower().CompareTo("-drop") != 0)
             {
+                DbObjectDefintions dbObjDefs = new DbObjectDefintions();
+                dbObjDefs.Initialise(dataReader);
+                dbObjDefs.PrepareDbObjectDefintionStorage();
+
                 Console.WriteLine("Updating " + spfile + " ...");
-                if (true)//dataReader.IsObjectInDbOutOfDate(spfile))
-                {
-                    DbObject dbObject = DbObject.CreateDbObject(spfile, dataReader);
-                    dbObject.RegisterObject();
 
-                    TextWriter tw = new StreamWriter(new FileStream(outputfile, FileMode.OpenOrCreate));
-                    tw.WriteLine(DateTime.Now.ToLongDateString());
-                    tw.WriteLine(DateTime.Now.ToLongTimeString());
-                    tw.Close();
+                DbObject dbObject = DbObject.CreateDbObject(spfile, dataReader);
+                //dbObject.RegisterObject();
 
-                    Console.WriteLine(dbObject.SqlCommandMsgs);
-                    Console.WriteLine("Updated " + spfile + " OK");
-                }
-                else
+                string error = string.Empty;
+                StringBuilder sqlScript = new StringBuilder();
+                if (dbObject.AppendToBatchScript(sqlScript, ref error))
                 {
-                    Console.WriteLine("Object definition for {0} is up to date.  Skipping update",spfile);
+                    string sql = sqlScript.ToString();
+
+                    if (dbObjDefs.HasDbObjectDefinitionChanged(dbObject.DbObjName, dbObject.DbObjType, sql))
+                    {
+                        dataReader.ExecuteNonQuery(sql, null);
+
+                        dbObjDefs.UpdateDbObjectDefinition(dbObject.DbObjName, dbObject.DbObjType, sql);
+
+                        TextWriter tw = new StreamWriter(new FileStream(outputfile, FileMode.OpenOrCreate));
+                        tw.WriteLine(DateTime.Now.ToLongDateString());
+                        tw.WriteLine(DateTime.Now.ToLongTimeString());
+                        tw.Close();
+
+                        Console.WriteLine(dbObject.SqlCommandMsgs);
+                        Console.WriteLine("Updated " + spfile + " OK");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Object definition for {0} is up to date.  Skipping update", spfile);
+                    }
                 }
             }
             else

@@ -12,7 +12,7 @@ namespace updatesp
         private DataReader _dataReader;
         private string _file;
         private string _fileContent;
-        private string _objName;
+        private string _dbObjName;
         private DateTime _fileLastAccessed;
         private DateTime _fileLastModified;
 
@@ -36,10 +36,12 @@ namespace updatesp
             get { return _fileLastModified; }
         }
 
-        public string ObjName
+        public string DbObjName
         {
-            get { return _objName; }
+            get { return _dbObjName; }
         }
+
+        public abstract string DbObjType { get; }
 
         protected DataReader DataReader
         {
@@ -53,7 +55,7 @@ namespace updatesp
             _fileContent = fileContent;
             _fileLastAccessed = File.GetLastAccessTime(file);
             _fileLastModified = File.GetLastWriteTime(file);
-            _objName = GetObjectNameFromFileContent();
+            _dbObjName = GetObjectNameFromFileContent();
         }
 
         protected abstract string GetObjectNameFromFileContent();
@@ -87,9 +89,9 @@ namespace updatesp
 		{
 			string objNameFromFile = Path.GetFileNameWithoutExtension(FilePath);
 
-			if (ObjName.ToLower().CompareTo(objNameFromFile.ToLower()) != 0)
+			if (DbObjName.ToLower().CompareTo(objNameFromFile.ToLower()) != 0)
 			{
-				error = "Name inside file (" + ObjName + ") different from name of file (" + objNameFromFile + ")";
+				error = "Name inside file (" + DbObjName + ") different from name of file (" + objNameFromFile + ")";
 				return false;
 			}
 			return true;
@@ -106,9 +108,9 @@ namespace updatesp
 
 		protected bool IsObjectNameLowerCase(ref string error)
 		{
-			if (ObjName.ToLower().CompareTo(ObjName) != 0)
+			if (DbObjName.ToLower().CompareTo(DbObjName) != 0)
 			{
-				error = "Name (" + ObjName + ") has to be all lower case";
+				error = "Name (" + DbObjName + ") has to be all lower case";
 				return false;
 			}
 			return true;
@@ -148,10 +150,10 @@ namespace updatesp
 
         protected void CreateObject()
         {
-            Console.WriteLine("CreateObject - " + ObjName);
-            DataReader.ExecuteNonQuery(FileContent);
+            Console.WriteLine("CreateObject - " + DbObjName);
+            DataReader.ExecuteNonQuery(FileContent,null);
             GrantPermissions();
-            DataReader.CheckObjectExists(ObjName);
+            DataReader.CheckObjectExists(DbObjName);
         }
 
         protected void GrantExecutePermissions()
@@ -159,12 +161,12 @@ namespace updatesp
             string cmd = GetExecutePermissionSql();
             if (cmd.Length > 0)
             {
-                Console.WriteLine("GrantExecutePermissions - " + ObjName);
-                DataReader.ExecuteNonQuery(cmd, true);
+                Console.WriteLine("GrantExecutePermissions - " + DbObjName);
+                DataReader.ExecuteNonQuery(cmd, null, true);
             }
             else
             {
-                Console.WriteLine("No Principles to Grant Execute Permissions on " + ObjName);
+                Console.WriteLine("No Principles to Grant Execute Permissions on " + DbObjName);
             }
         }
 
@@ -175,7 +177,7 @@ namespace updatesp
             string SQL = string.Empty;
             foreach (string principle in permissionPrinciples)
             {
-                SQL += "GRANT EXECUTE ON [dbo].[" + ObjName + "] TO " + principle + "\n";
+                SQL += "GRANT EXECUTE ON [dbo].[" + DbObjName + "] TO " + principle + "\n";
             }
 
             return SQL;
@@ -186,12 +188,12 @@ namespace updatesp
 			string cmd = GetSelectPermissionSql();
             if (cmd.Length > 0)
             {
-                Console.WriteLine("GrantSelectPermissions - " + ObjName);
-                DataReader.ExecuteNonQuery(cmd, true);
+                Console.WriteLine("GrantSelectPermissions - " + DbObjName);
+                DataReader.ExecuteNonQuery(cmd, null, true);
             }
             else
             {
-                Console.WriteLine("No Principles to Grant Select Permissions on " + ObjName);
+                Console.WriteLine("No Principles to Grant Select Permissions on " + DbObjName);
             }
         }
 
@@ -202,7 +204,7 @@ namespace updatesp
             string SQL = string.Empty;
             foreach (string principle in permissionPrinciples)
             {
-                SQL += "GRANT SELECT ON [dbo].[" + ObjName + "] TO " + principle + ";\n";
+                SQL += "GRANT SELECT ON [dbo].[" + DbObjName + "] TO " + principle + ";\n";
             }
 
             return SQL;
