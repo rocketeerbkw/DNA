@@ -31,10 +31,10 @@ namespace BBC.Dna.Objects
             String translated;
 
             //Escape Text.
-            //translated = StringUtils.EscapeAllXml(raw);
+            translated = StringUtils.EscapeAllXml(raw);
 
             // Perform Smiley Translations
-            translated = SmileyTranslator.TranslateText(raw);
+            translated = SmileyTranslator.TranslateText(translated);
 
             // Expand Links 
             translated = LinkTranslator.TranslateText(translated);

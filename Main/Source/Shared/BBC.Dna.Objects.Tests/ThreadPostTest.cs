@@ -518,20 +518,6 @@ default comment.";
             Assert.AreEqual(expected, actual.InnerXml);
         }
 
-        /// <summary>
-        ///A test for TextElement
-        ///</summary>
-        [TestMethod()]
-        public void TextElement_PlainTextWithTags_ReturnsWithEncodedTags()
-        {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string expected = @"This is the &lt;b&gt;default&lt;/b&gt; comment.";
-            XmlElement actual;
-            target.Text = "This is the <b>default</b> comment.";
-            actual = target.TextElement;
-            Assert.AreEqual(expected, actual.InnerXml);
-        }
 
         /// <summary>
         ///A test for TextElement
@@ -541,7 +527,7 @@ default comment.";
         {
             ThreadPost target = new ThreadPost();
             target.Style = PostStyle.Style.richtext;
-            string expected = @"This is the <b>default</b> comment.";
+            string expected = @"This is the &lt;b&gt;default&lt;/b&gt; comment.";
             XmlElement actual;
             target.Text = "This is the <b>default</b> comment.";
             actual = target.TextElement;
@@ -557,7 +543,7 @@ default comment.";
         {
             ThreadPost target = new ThreadPost();
             target.Style = PostStyle.Style.richtext;
-            string expected = @"This is the <b>default</b> comment.";
+            string expected = @"This is the &lt;b&gt;default&lt;/b&gt; comment.";
             XmlElement actual;
             target.Text = "This is the <b>default</b> comment.";
             actual = target.TextElement;

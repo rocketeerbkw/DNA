@@ -93,14 +93,11 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                string _text = Text;
-                if (Style == PostStyle.Style.plaintext)
-                {//strip any tags
-                    _text = StringUtils.EscapeAllXml(_text);
-                }
+                string _text = Translator.TranslateText(Text);
+
                 _text = _text.Replace("\r\n", "<BR />").Replace("\n", "<BR />");
 
-                Translator.TranslateText(_text);
+                
                 XmlDocument doc = new XmlDocument();
                 try
                 {
