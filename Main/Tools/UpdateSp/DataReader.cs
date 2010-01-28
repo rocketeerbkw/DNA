@@ -37,16 +37,21 @@ namespace updatesp
             }
         }
 
+        public class DatabaseAndServerPairs
+        {
+            public string dbName;
+            public string serverName;
+        }
+
         Hashtable _configConnections = new Hashtable();
         ArrayList _configDatabases = new ArrayList();
         ArrayList _permissionPrinciples = new ArrayList();
 
-        public DataReader(string configFile)
+        public DataReader()
         {
-            Initialise(configFile);
         }
 
-        private void Initialise(string configfile)
+        public void Initialise(string configfile)
         {
             XmlDocument doc = new XmlDocument();
             XmlTextReader xtr = new XmlTextReader(configfile);
@@ -56,6 +61,8 @@ namespace updatesp
             ReadConfigConnections(doc);
             ReadConfigDatabases(doc);
             ReadConfigPermissionPrinciples(doc);
+
+            PrepareDbObjectDefintionStorage();
         }
 
         private void ReadConfigConnections(XmlDocument doc)
@@ -129,30 +136,20 @@ namespace updatesp
             }
         }
 
-        public string[] GetListOfDatabaseNames()
+        public List<DatabaseAndServerPairs> GetListOfDatabaseAndServerPairs()
         {
-            string[] sa = new string[_configDatabases.Count];
+            List<DatabaseAndServerPairs> dbAndServerPairsList = new List<DatabaseAndServerPairs>();
 
-            int i = 0;
             foreach (ConfigDatabase db in _configDatabases)
             {
-                sa[i++] = db.name;
+                DatabaseAndServerPairs dbsp = new DatabaseAndServerPairs();
+                dbsp.dbName = db.name;
+                dbsp.serverName = db.conn.server;
+
+                dbAndServerPairsList.Add(dbsp);
             }
 
-            return sa;
-        }
-
-        public string[] GetListOfServers()
-        {
-            string[] sa = new string[_configConnections.Count];
-
-            int i = 0;
-            foreach (DictionaryEntry de in _configConnections)
-            {
-                sa[i++] = ((ConfigConnection)de.Value).server;
-            }
-
-            return sa;
+            return dbAndServerPairsList;
         }
 
         public ArrayList PermissionPrincipleList
@@ -260,6 +257,35 @@ namespace updatesp
             }
         }
 
+        public List<string> UpdateDbObject(string dbObjName, string dbObjType, string SQL, List<SqlParameter> sqlParamList)
+        {
+            return UpdateDbObject(dbObjName, dbObjType, SQL, sqlParamList, false);
+        }
+
+        public List<string> UpdateDbObject(string dbObjName, string dbObjType, string SQL, List<SqlParameter> sqlParamList, bool bIgnoreNotExistForPermissions)
+        {
+            List<string> msgList = new List<string>();
+
+            foreach (ConfigDatabase db in _configDatabases)
+            {
+                if (HasDbObjectDefinitionChanged(db, dbObjName, dbObjType, SQL))
+                {
+                    ExecuteNonQuery(db.name, db.conn, SQL, sqlParamList, bIgnoreNotExistForPermissions);
+                    UpdateDbObjectDefinition(db, dbObjName, dbObjType, SQL);
+
+                    msgList.Add(string.Format("Updated {0} in database {1}", dbObjName, db.name));
+                }
+                else
+                {
+                    msgList.Add(string.Format("Skipping {0} in database {1}. Definition is up to date", dbObjName, db.name));
+                }
+            }
+
+            return msgList;
+        }
+
+
+
         public void ExecuteNonQuery(string SQL, List<SqlParameter> sqlParamList)
         {
             ExecuteNonQuery(SQL, sqlParamList, false);
@@ -300,7 +326,8 @@ namespace updatesp
                         AddParamsToCmd(MySqlCmd, sqlParamList);
 						MySqlCmd.CommandTimeout = 0;
 						MySqlCmd.ExecuteNonQuery();
-					}
+                        MySqlCmd.Parameters.Clear();
+                    }
                 }
             }
             catch (SqlException e)
@@ -343,22 +370,34 @@ namespace updatesp
 
             foreach (ConfigDatabase db in _configDatabases)
             {
-                string connstr = db.conn.makeConnectionString(db.name);
-                SqlConnection MySqlConn = new SqlConnection(connstr);
-                MySqlConn.Open();
-                try
-                {
-                    SqlCommand MySqlCmd = new SqlCommand(SQL, MySqlConn);
-                    AddParamsToCmd(MySqlCmd, sqlParamList);
-                    alist.Add(MySqlCmd.ExecuteScalar());
-                }
-                finally
-                {
-                    MySqlConn.Close();
-                }
+                alist.Add(ExecuteScalar(db, SQL, sqlParamList));
             }
 
             return alist;
+        }
+
+        private object ExecuteScalar(ConfigDatabase db, string SQL, List<SqlParameter> sqlParamList)
+        {
+            object result;
+
+            string connstr = db.conn.makeConnectionString(db.name);
+            SqlConnection MySqlConn = new SqlConnection(connstr);
+            MySqlConn.Open();
+            try
+            {
+                using (SqlCommand MySqlCmd = new SqlCommand(SQL, MySqlConn))
+                {
+                    AddParamsToCmd(MySqlCmd, sqlParamList);
+                    result = MySqlCmd.ExecuteScalar();
+                    MySqlCmd.Parameters.Clear();
+                }
+            }
+            finally
+            {
+                MySqlConn.Close();
+            }
+
+            return result;
         }
 
         private void AddParamsToCmd(SqlCommand MySqlCmd, List<SqlParameter> sqlParamList)
@@ -469,6 +508,91 @@ namespace updatesp
             SqlDataReader dataReader = MySqlCmd.ExecuteReader();
 
             return dataReader;
+        }
+
+        private string DbObjDefTableName { get { return "_updateSpDbObjectDefs"; } }
+
+        private void PrepareDbObjectDefintionStorage()
+        {
+            string query = @"
+                IF OBJECTPROPERTY ( object_id('{0}'),'ISTABLE') IS NULL
+                BEGIN
+	                CREATE TABLE dbo.{0}
+	                (
+		                dbObjectName nvarchar(256) NOT NULL,
+		                dbObjectType char(2) NOT NULL,
+		                dbObjectDefinition nvarchar(max) NOT NULL,
+		                lastUpdated datetime NOT NULL,
+		                lastChecked datetime NOT NULL
+	                )
+	                ALTER TABLE dbo.{0} ADD CONSTRAINT	PK_{0} PRIMARY KEY CLUSTERED 
+	                (
+		                dbObjectName,
+		                dbObjectType
+	                )
+                END
+                ";
+
+            query = string.Format(query, DbObjDefTableName);
+
+            ExecuteNonQuery(query, null);
+        }
+
+        private bool HasDbObjectDefinitionChanged(ConfigDatabase db, string dbObjName, string dbObjType, string dbObjDef)
+        {
+            List<SqlParameter> sqlParamList = new List<SqlParameter>();
+            sqlParamList.Add(new SqlParameter("dbObjName", dbObjName));
+            sqlParamList.Add(new SqlParameter("dbObjType", dbObjType));
+
+            string query = @"SELECT dbObjectDefinition FROM {0} WHERE dbObjectName=@dbObjName AND dbObjectType=@dbObjType";
+            query = string.Format(query, DbObjDefTableName);
+
+            object result = ExecuteScalar(db, query, sqlParamList);
+
+            bool hasChanged = true;
+            if (result != null)
+            {
+                string dbObjDefFromDb = (string)result;
+                hasChanged = !dbObjDefFromDb.Equals(dbObjDef);
+            }
+
+            UpdateLastCheckedForDbObjectDefinition(db, dbObjName, dbObjType);
+            return hasChanged;
+        }
+
+        private void UpdateDbObjectDefinition(ConfigDatabase db, string dbObjName, string dbObjType, string dbObjDef)
+        {
+            List<SqlParameter> sqlParamList = new List<SqlParameter>();
+            sqlParamList.Add(new SqlParameter("dbObjName", dbObjName));
+            sqlParamList.Add(new SqlParameter("dbObjType", dbObjType));
+            sqlParamList.Add(new SqlParameter("dbObjDef", dbObjDef));
+
+            string query = @"
+                IF EXISTS(SELECT * FROM {0} WHERE dbObjectName=@dbObjName AND dbObjectType=@dbObjType)
+                BEGIN
+                    UPDATE {0} SET dbObjectDefinition=@dbObjDef, lastUpdated=getdate()
+	                    WHERE dbObjectName=@dbObjName AND dbObjectType=@dbObjType
+                END
+                ELSE
+                BEGIN
+                    INSERT {0}(dbObjectName,dbObjectType,dbObjectDefinition,lastUpdated,lastChecked) values(@dbObjName,@dbObjType,@dbObjDef,getdate(),getdate())
+                END
+                ";
+            query = string.Format(query, DbObjDefTableName);
+
+            ExecuteNonQuery(db.name, db.conn, query, sqlParamList, false);
+        }
+
+        private void UpdateLastCheckedForDbObjectDefinition(ConfigDatabase db, string dbObjName, string dbObjType)
+        {
+            List<SqlParameter> sqlParamList = new List<SqlParameter>();
+            sqlParamList.Add(new SqlParameter("dbObjName", dbObjName));
+            sqlParamList.Add(new SqlParameter("dbObjType", dbObjType));
+
+            string query = @"UPDATE {0} SET lastChecked=getdate() WHERE dbObjectName=@dbObjName AND dbObjectType=@dbObjType";
+            query = string.Format(query, DbObjDefTableName);
+
+            ExecuteNonQuery(db.name, db.conn, query, sqlParamList, false);
         }
     }
 }

@@ -103,29 +103,18 @@ namespace updatesp
             return configFile;
 		}
 
-        private void LogDatabaseNames(DataReader dataReader)
+        private void LogDatabaseAndServerPairs(DataReader dataReader)
         {
-            string msg = "Databases: ";
+            List<DataReader.DatabaseAndServerPairs> dbsp = dataReader.GetListOfDatabaseAndServerPairs();
 
-            string[] dbNames = dataReader.GetListOfDatabaseNames();
-            foreach (string dbName in dbNames)
+            string msg = "Databases and Server pairs: ";
+
+            foreach (DataReader.DatabaseAndServerPairs p in  dbsp)
             {
-                msg += dbName + ", ";
+                msg += string.Format("[{0},{1}] ", p.dbName, p.serverName);
             }
 
-            Log.LogMessage(MessageImportance.High, msg.Substring(0, msg.Length - 2));
-        }
-
-        private void LogServerNames(DataReader dataReader)
-        {
-            string msg = "Servers: ";
-            string[] serverNames = dataReader.GetListOfServers();
-            foreach (string serverName in serverNames)
-            {
-                msg += serverName + ", ";
-            }
-
-            Log.LogMessage(MessageImportance.High, msg.Substring(0, msg.Length - 2));
+            Log.LogMessage(MessageImportance.High, msg);
         }
 
 		public override bool Execute()
@@ -147,16 +136,13 @@ namespace updatesp
 
             Log.LogMessage(MessageImportance.High, "Build Configuration: {0}", BuildConfig);
             string configFile = ResolveConfigFilePath(TfsBuildDefinition,BuildConfig);
-			DataReader dataReader = new DataReader(configFile);
+            
+            DataReader dataReader = new DataReader();
+            dataReader.Initialise(configFile);
 
             ScriptFile scriptFile = PrepareOutputScriptFile(OutputScriptFile);
 
-            DbObjectDefintions dbObjDefs = new DbObjectDefintions();
-            dbObjDefs.Initialise(dataReader);
-            dbObjDefs.PrepareDbObjectDefintionStorage();
-
-            LogDatabaseNames(dataReader);
-            LogServerNames(dataReader);
+            LogDatabaseAndServerPairs(dataReader);
 
 			dataReader.RestoreSnapShot();
 
@@ -185,20 +171,17 @@ namespace updatesp
                             bIgnoreNotExistForPermissions = false;
 
                         string sql = sqlScript.ToString();
-                        if (dbObjDefs.HasDbObjectDefinitionChanged(dbobj.DbObjName, dbobj.DbObjType, sql))
-                        {
-                            Log.LogMessage(MessageImportance.High, "Updating: {0}", file);
 
-                            dataReader.ExecuteNonQuery(sql, null, bIgnoreNotExistForPermissions);
-                            if (dataReader.SqlCommandMsgs.Length > 0)
-                            {
-                                Log.LogMessage(MessageImportance.High, dataReader.SqlCommandMsgs);
-                            }
-                            dbObjDefs.UpdateDbObjectDefinition(dbobj.DbObjName, dbobj.DbObjType, sql);
-                        }
-                        else
+                        List<string> msgList = dataReader.UpdateDbObject(dbobj.DbObjName, dbobj.DbObjType, sql, null, bIgnoreNotExistForPermissions);
+
+                        foreach (string msg in msgList)
                         {
-                            Log.LogMessage(MessageImportance.High, "Skipping: {0}. Definition in db is up to date", file);
+                            Log.LogMessage(MessageImportance.High, msg);
+                        }
+
+                        if (dataReader.SqlCommandMsgs.Length > 0)
+                        {
+                            Log.LogMessage(MessageImportance.High, dataReader.SqlCommandMsgs);
                         }
 
                         scriptFile.AppendSql(sql);

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using System.Collections.Generic;
 
 namespace updatesp
 {
@@ -62,7 +63,8 @@ namespace updatesp
 			int returnCode = 1; // 1 means an error.  Only gets set to 0 if everthing worked
             try
             {
-                DataReader dataReader = new DataReader(@"D:\vp-dev-dna-1\User Services\Main\Source\Databases\The Guide\updatesp.config");
+                DataReader dataReader = new DataReader();
+                dataReader.Initialise(@"D:\vp-dev-dna-1\User Services\Main\Source\Databases\The Guide\updatesp.config");
 
                 if (restoreSnapShot)
                 {
@@ -153,10 +155,6 @@ namespace updatesp
         {
             if (outputfile.ToLower().CompareTo("-drop") != 0)
             {
-                DbObjectDefintions dbObjDefs = new DbObjectDefintions();
-                dbObjDefs.Initialise(dataReader);
-                dbObjDefs.PrepareDbObjectDefintionStorage();
-
                 Console.WriteLine("Updating " + spfile + " ...");
 
                 DbObject dbObject = DbObject.CreateDbObject(spfile, dataReader);
@@ -168,24 +166,21 @@ namespace updatesp
                 {
                     string sql = sqlScript.ToString();
 
-                    if (dbObjDefs.HasDbObjectDefinitionChanged(dbObject.DbObjName, dbObject.DbObjType, sql))
+                    List<string> msgList = dataReader.UpdateDbObject(dbObject.DbObjName, dbObject.DbObjType, sql, null);
+
+                    foreach (string msg in msgList)
                     {
-                        dataReader.ExecuteNonQuery(sql, null);
-
-                        dbObjDefs.UpdateDbObjectDefinition(dbObject.DbObjName, dbObject.DbObjType, sql);
-
-                        TextWriter tw = new StreamWriter(new FileStream(outputfile, FileMode.OpenOrCreate));
-                        tw.WriteLine(DateTime.Now.ToLongDateString());
-                        tw.WriteLine(DateTime.Now.ToLongTimeString());
-                        tw.Close();
-
-                        Console.WriteLine(dbObject.SqlCommandMsgs);
-                        Console.WriteLine("Updated " + spfile + " OK");
+                        Console.WriteLine(msg);
                     }
-                    else
+                    if (dataReader.SqlCommandMsgs.Length > 0)
                     {
-                        Console.WriteLine("Object definition for {0} is up to date.  Skipping update", spfile);
+                        Console.WriteLine(dataReader.SqlCommandMsgs);
                     }
+
+                    TextWriter tw = new StreamWriter(new FileStream(outputfile, FileMode.OpenOrCreate));
+                    tw.WriteLine(DateTime.Now.ToLongDateString());
+                    tw.WriteLine(DateTime.Now.ToLongTimeString());
+                    tw.Close();
                 }
             }
             else
