@@ -341,6 +341,11 @@
 
 
   <Target Name="PostBuildStepFailed">
+    <!-- start website to copy ripley -->
+    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
+
+    <!-- Close Access to ops-dna1 -->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
