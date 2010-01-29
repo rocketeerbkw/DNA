@@ -29,7 +29,9 @@ namespace TestUtils
         public enum IdentityPolicies
         {
             Adult,
-            Kids
+            Kids,
+            over13,
+            schools
         }
 
         /// <summary>
@@ -450,13 +452,15 @@ namespace TestUtils
             }
 
             reqParams.Add(identityAttrib ,value);
-            HttpWebResponse response = CallIdentityRestAPI(string.Format("users/{0}/attributes/", loginName), reqParams, cookies, RequestVerb.PUT);
-            if (response.StatusCode == HttpStatusCode.Accepted)
+            HttpWebResponse response = CallIdentityRestAPI(string.Format("users/{0}/attributes", loginName), reqParams, cookies, RequestVerb.PUT);
+            bool ok = true;
+            if (response.StatusCode != HttpStatusCode.Accepted)
             {
-                response.Close();
+                Assert.Fail("Failed to set the users attribute : " + identityAttrib + " with value : " + value);
+                ok = false;
             }
             response.Close();
-            return false;
+            return ok;
         }
 
         /// <summary>
@@ -596,6 +600,13 @@ namespace TestUtils
                 Console.WriteLine(_error);
                 Assert.Fail("Failed calling Identity Rest Interface with '" + identityRestCall + "' request.");
             }
+
+            Console.WriteLine("Response cookies...");
+            foreach (Cookie c in response.Cookies)
+            {
+                Console.WriteLine(c.Name + " - " + c.Value);
+            }
+
             Console.WriteLine();
             return response;
         }
