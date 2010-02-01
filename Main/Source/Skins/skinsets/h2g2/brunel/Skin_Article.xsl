@@ -1304,7 +1304,7 @@ IL end-->
 				<a class="norm">
 					<xsl:attribute name="href">
 						<xsl:choose>
-							<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0">
+							<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0 or /H2G2/VIEWING-USER/USER/USERNAME">
 								<xsl:value-of select="$root"/>
 							</xsl:when>
 							<xsl:otherwise>
