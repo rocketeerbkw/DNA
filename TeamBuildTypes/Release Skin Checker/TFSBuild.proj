@@ -251,8 +251,8 @@
   </Target>
 
   <ItemGroup>
-    <SkinsExclude Include="$(SolutionRoot)\Sources\Skins\base\site.xsl;$(SolutionRoot)\Sources\Skins\base\lists.xsl;$(SolutionRoot)\Sources\Skins\base\sitemap.xml;$(SolutionRoot)\Sources\Skins\common\configuration.xsl;"></SkinsExclude>
-    <Skins Include="$(SolutionRoot)\Sources\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
+    <SkinsExclude Include="$(SolutionRoot)\Skins\base\site.xsl;$(SolutionRoot)\Skins\base\lists.xsl;$(SolutionRoot)\Skins\base\sitemap.xml;$(SolutionRoot)\Skins\common\configuration.xsl;"></SkinsExclude>
+    <Skins Include="$(SolutionRoot)\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
   </ItemGroup>
 
   <Target Name="AfterDropBuild">
