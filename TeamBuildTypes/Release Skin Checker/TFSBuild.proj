@@ -255,6 +255,10 @@
     <Skins Include="$(SolutionRoot)\Sources\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
   </ItemGroup>
 
+  <Target Name="AfterDropBuild">
+    <CallTarget Targets="PostBuildStep" />
+  </Target>
+
 
   <Target Name="PostBuildStep">
     <!-- Create the build steps which start in mode "Running" -->
