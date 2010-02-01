@@ -6,7 +6,7 @@
 
   <!-- Do not edit this -->
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
-
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
   <ProjectExtensions>
 
     <!-- Team Foundation Build Version - DO NOT CHANGE -->
@@ -299,6 +299,8 @@
     <!-- Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec -->
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2release\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Clear templates... -->
+    <WebDownload FileUri="http://dnarelease.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" />
     <!-- start website to copy ripley -->
     <!-- Exec Command="sc \\ops-dna1 start w3svc"></Exec -->
     <!-- When everything is done, change the status of the task to "Succeeded" -->
