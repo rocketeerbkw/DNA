@@ -17292,6 +17292,7 @@ Call:		<xsl:apply-templates select="." mode="Form">
 				<TR>
 					<xsl:apply-templates select="." mode="HiddenInputs"/>
 				</TR>
+				<xsl:if test="/H2G2/SITE/IDENTITYSIGNIN = 0 and /H2G2/SITE/@ID = 1">
 				<TR>
 					<TD align="RIGHT" width="18%">
 						<FONT xsl:use-attribute-sets="mainfont">
@@ -17305,9 +17306,17 @@ Call:		<xsl:apply-templates select="." mode="Form">
 					</TD>
 					<TD/>
 				</TR>
+				</xsl:if>
+				<xsl:if test="/H2G2/SITE/IDENTITYSIGNIN = 1 and /H2G2/SITE/@ID = 1 and /H2G2/VIEWING-USER/USER">
+				<TR>
+					<TD colspan="2">
+						<p><strong>Please note</strong>: if you would like to change your display name, <br />please click the <a href="{$id_settingslink}">Settings</a> link above and enter it in the Name field.</p>
+					</TD>
+				</TR>
+				</xsl:if>
 				<xsl:if test="$changeableskins">
 					<TR>
-						<TD align="RIGHT">
+						<TD align="RIGHT" width="18%">
 							<FONT xsl:use-attribute-sets="mainfont">
 								<xsl:value-of select="$m_skin"/>
 							</FONT>
