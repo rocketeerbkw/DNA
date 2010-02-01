@@ -221,4 +221,33 @@
          <AdditionalReferencePath Include="C:\MyFolder2\" />
     -->
   </ItemGroup>
+
+  <Target Name="AfterCompile">
+    <!-- Condition=" '$(BuildBreak)'=='false' and '$(IsDesktopBuild)'!='true' " -->
+
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Name="SkinCheckerStep" Message="Running Skin Checker...">
+      <Output TaskParameter="Id" PropertyName="SkinCheckerStepId" />
+    </BuildStep>
+
+
+    <Exec Command="&quot;$(BinariesRoot)\Release\SkinsChecker.exe&quot; /xmlfile:&quot;$(SolutionRoot)\Main\Tools\SkinChecker\SampleTests\xml\h2g2-frontpage.xml&quot; /xsltfile:&quot;$(SolutionRoot)\Skins\output.xsl&quot;  /commandline /recursivescan" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="SkinsCheckerResult"></Output>
+    </Exec>
+
+    <!-- BuildStep Condition="'$(SkinsCheckerResult)'=='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Succeeded" Id="$(SkinCheckerStepId)" />
+    <BuildStep Condition="'$(SkinsCheckerResult)'!='1'" TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Failed"  Id="$(SkinCheckerStepId)"/ -->
+
+    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        CompilationStatus="Failed"
+                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(SkinsCheckerResult)'!='1'">
+    </SetBuildProperties>
+
+    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+                        BuildUri="$(BuildUri)"
+                        CompilationStatus="Succeeded"
+                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(SkinsCheckerResult)'=='1'">
+    </SetBuildProperties>
+  </Target>
+
 </Project>
