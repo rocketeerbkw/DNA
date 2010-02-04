@@ -290,7 +290,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="forumId"></param>
         /// <returns></returns>
-        private bool IsUserAuthorForArticle(int forumId)
+        public bool IsUserAuthorForArticle(int forumId)
         {
             bool authorised;
             using (IDnaDataReader reader = _creator.CreateDnaDataReader("isuserinauthormembersofarticle"))

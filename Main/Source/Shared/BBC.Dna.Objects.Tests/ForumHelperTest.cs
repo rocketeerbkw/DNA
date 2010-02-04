@@ -528,7 +528,6 @@ namespace BBC.Dna.Objects.Tests
         ///A test for IsUserAuthorForArticle
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("BBC.Dna.Objects.dll")]
         public void IsUserAuthorForArticle_NoRows_ReturnsFalse()
         {
             IUser viewingUser = mocks.DynamicMock<IUser>();
@@ -540,7 +539,7 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("isuserinauthormembersofarticle")).Return(reader);
             mocks.ReplayAll();
-            ForumHelper_Accessor target = new ForumHelper_Accessor(creator, viewingUser, null); 
+            ForumHelper target = new ForumHelper(creator, viewingUser, null); 
             Assert.IsFalse(target.IsUserAuthorForArticle(0));
 
         }
@@ -549,7 +548,6 @@ namespace BBC.Dna.Objects.Tests
         ///A test for IsUserAuthorForArticle
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("BBC.Dna.Objects.dll")]
         public void IsUserAuthorForArticle_NoRead_ReturnsFalse()
         {
             IUser viewingUser = mocks.DynamicMock<IUser>();
@@ -561,7 +559,7 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("isuserinauthormembersofarticle")).Return(reader);
             mocks.ReplayAll();
-            ForumHelper_Accessor target = new ForumHelper_Accessor(creator, viewingUser, null);
+            ForumHelper target = new ForumHelper(creator, viewingUser, null);
             Assert.IsFalse(target.IsUserAuthorForArticle(0));
 
         }
@@ -571,7 +569,6 @@ namespace BBC.Dna.Objects.Tests
         ///A test for IsUserAuthorForArticle
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("BBC.Dna.Objects.dll")]
         public void IsUserAuthorForArticle_ValidResults_ReturnsTrue()
         {
             IUser viewingUser = mocks.DynamicMock<IUser>();
@@ -583,7 +580,7 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("isuserinauthormembersofarticle")).Return(reader);
             mocks.ReplayAll();
-            ForumHelper_Accessor target = new ForumHelper_Accessor(creator, viewingUser, null);
+            ForumHelper target = new ForumHelper(creator, viewingUser, null);
             Assert.IsTrue(target.IsUserAuthorForArticle(0));
 
         }
