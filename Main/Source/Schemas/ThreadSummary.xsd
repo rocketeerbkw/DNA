@@ -24,6 +24,7 @@
 			<xs:attribute name="INDEX" type="xs:unsignedByte" use="required" />
 			<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
 			<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="ISSTICKY" type="xs:boolean" use="required" />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

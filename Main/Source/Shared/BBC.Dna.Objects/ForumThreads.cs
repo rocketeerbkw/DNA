@@ -1,207 +1,142 @@
-using BBC.Dna.Data;
-using BBC.Dna.Sites;
 using System;
-using System.Xml.Serialization;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
+using BBC.Dna.Data;
+using BBC.Dna.Sites;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using ISite = BBC.Dna.Sites.ISite;
+
 namespace BBC.Dna.Objects
 {
-
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, TypeName="FORUMTHREADS")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false, ElementName="FORUMTHREADS")]
-    public partial class ForumThreads : ICloneable
+    [GeneratedCode("System.Xml", "2.0.50727.3053")]
+    [Serializable]
+    [DesignerCategory("code")]
+    [XmlType(AnonymousType = true, TypeName = "FORUMTHREADS")]
+    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "FORUMTHREADS")]
+    public class ForumThreads : ICloneable, IDnaCachable
     {
-
         #region Properties
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "MODERATIONSTATUS")]
-        public ModerationStatus ModerationStatus
-        {
-            get;
-            set;
-        }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "ORDERBY")]
-        public string OrderBy
-        {
-            get;
-            set;
-        }
+        [XmlElement(Order = 0, ElementName = "MODERATIONSTATUS")]
+        public ModerationStatus ModerationStatus { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("THREAD", Order = 2)]
-        public System.Collections.Generic.List<ThreadSummary> Thread
-        {
-            get;
-            set;
-        }
+        [XmlElement(Order = 1, ElementName = "ORDERBY")]
+        public string OrderBy { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "FORUMID")]
-        public int ForumId
-        {
-            get;
-            set;
-        }
+        [XmlElement("THREAD", Order = 2)]
+        public List<ThreadSummary> Thread { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "SKIPTO")]
-        public int SkipTo
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "FORUMID")]
+        public int ForumId { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "COUNT")]
-        public int Count
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "SKIPTO")]
+        public int SkipTo { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "TOTALTHREADS")]
-        public int TotalThreads
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "COUNT")]
+        public int Count { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "FORUMPOSTCOUNT")]
-        public int ForumPostCount
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "TOTALTHREADS")]
+        public int TotalThreads { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "FORUMPOSTLIMIT")]
-        public int ForumPostLimit
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "FORUMPOSTCOUNT")]
+        public int ForumPostCount { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "SITEID")]
-        public int SiteId
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "FORUMPOSTLIMIT")]
+        public int ForumPostLimit { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "CANREAD")]
-        public byte CanRead
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "SITEID")]
+        public int SiteId { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "CANWRITE")]
-        public byte CanWrite
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "CANREAD")]
+        public byte CanRead { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "THREADCANREAD")]
-        public byte ThreadCanRead
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "CANWRITE")]
+        public byte CanWrite { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "THREADCANWRITE")]
-        public byte ThreadCanWrite
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "THREADCANREAD")]
+        public byte ThreadCanRead { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "ALERTINSTANTLY")]
-        public byte AlertInstantly
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "THREADCANWRITE")]
+        public byte ThreadCanWrite { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "DEFAULTCANREAD")]
-        public byte DefaultCanRead
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "ALERTINSTANTLY")]
+        public byte AlertInstantly { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "DEFAULTCANWRITE")]
-        public byte DefaultCanWrite
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "DEFAULTCANREAD")]
+        public byte DefaultCanRead { get; set; }
+
+        /// <remarks/>
+        [XmlAttribute(AttributeName = "DEFAULTCANWRITE")]
+        public byte DefaultCanWrite { get; set; }
 
         /// <summary>
         /// Plumbing for journal owner which is conditional in xml
         /// </summary>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "JOURNALOWNER")]
-        protected string JournalOwnerAttribute
+        [XmlAttribute(AttributeName = "JOURNALOWNER")]
+        public string JournalOwnerAttribute
         {
             get { return (JournalOwner == 0 ? null : JournalOwner.ToString()); }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "MORE")]
-        public string More
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "MORE")]
+        public string More { get; set; }
 
 
         /// <summary>
         /// 
         /// </summary>
         [XmlIgnore]
-        public int JournalOwner
-        {
-            get;
-            set;
-        }
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        [XmlIgnore]
-        public DateTime LastThreadUpdated
-        {
-            get;
-            set;
-        }
+        public int JournalOwner { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [XmlIgnore]
-        public DateTime LastForumUpdated
+        public DateTime LastThreadUpdated { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlIgnore]
+        public DateTime LastForumUpdated { get; set; }
+
+        #endregion
+
+        #region ICloneable Members
+
+        public object Clone()
         {
-            get;
-            set;
+            var ms = new MemoryStream();
+            var bf = new BinaryFormatter();
+            bf.Serialize(ms, this);
+            ms.Position = 0;
+            object obj = bf.Deserialize(ms);
+            ms.Close();
+            return obj;
         }
+
         #endregion
 
         /// <summary>
@@ -214,7 +149,8 @@ namespace BBC.Dna.Objects
         {
             bool isEditor = false;
             if (user.IsEditor || user.IsSuperUser)
-            {//default as editor or super user
+            {
+//default as editor or super user
                 CanRead = 1;
                 CanWrite = 1;
                 //ripley doesn't grant thread permissions for some reason..
@@ -247,7 +183,6 @@ namespace BBC.Dna.Objects
         /// <returns>True if up to date</returns>
         public bool IsUpToDate(IDnaDataReaderCreator readerCreator)
         {
-            // note sure if this is a accurate or useful cache test...
             DateTime threadLastUpdate = DateTime.Now;
             DateTime forumLastUpdate = DateTime.Now;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("cachegetforumlastupdate"))
@@ -280,27 +215,32 @@ namespace BBC.Dna.Objects
         /// <param name="viewingUser"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        static public ForumThreads CreateForumThreads(ICacheManager cache, IDnaDataReaderCreator readerCreator, ISiteList siteList, 
-            int forumId, int itemsPerPage, int startIndex, int threadId, bool overFlow, ThreadOrder threadOrder, IUser viewingUser, bool ignoreCache)
+        public static ForumThreads CreateForumThreads(ICacheManager cache, IDnaDataReaderCreator readerCreator,
+                                                      ISiteList siteList,
+                                                      int forumId, int itemsPerPage, int startIndex, int threadId,
+                                                      bool overFlow, ThreadOrder threadOrder, IUser viewingUser,
+                                                      bool ignoreCache)
         {
             string key = GetCacheKey(forumId, itemsPerPage, startIndex, threadId, overFlow, threadOrder);
-            ForumThreads forumThreads = null;
+            ForumThreads forumThreads;
             if (!ignoreCache)
             {
-                forumThreads = (ForumThreads)cache.GetData(key);
-                if (forumThreads != null && forumThreads.IsUpToDate(readerCreator))
+                var forumThreadsCache = (IDnaCachable) cache.GetData(key);
+                if (forumThreadsCache != null && forumThreadsCache.IsUpToDate(readerCreator))
                 {
+                    forumThreads = (ForumThreads) forumThreadsCache;
                     forumThreads.ApplyUserSettings(viewingUser, siteList.GetSite(forumThreads.SiteId));
                     return forumThreads;
                 }
             }
             //create from db
-            forumThreads = CreateForumThreadsFromDatabase(readerCreator, siteList, forumId, itemsPerPage, startIndex, threadId,
-                overFlow, threadOrder);
+            forumThreads = CreateForumThreadsFromDatabase(readerCreator, siteList, forumId, itemsPerPage, startIndex,
+                                                          threadId,
+                                                          overFlow, threadOrder);
 
             //add to cache
             cache.Add(key, forumThreads.Clone());
-            
+
             //apply user settings
             forumThreads.ApplyUserSettings(viewingUser, siteList.GetSite(forumThreads.SiteId));
 
@@ -317,10 +257,12 @@ namespace BBC.Dna.Objects
         /// <param name="overFlow"></param>
         /// <param name="threadOrder"></param>
         /// <returns></returns>
-        static public string GetCacheKey(int forumId, int itemsPerPage, int startIndex, int threadId, bool overFlow, ThreadOrder threadOrder)
+        public static string GetCacheKey(int forumId, int itemsPerPage, int startIndex, int threadId, bool overFlow,
+                                         ThreadOrder threadOrder)
         {
-            return typeof(ForumThreads).AssemblyQualifiedName + "|" + forumId.ToString() + "|" + itemsPerPage + "|" + startIndex + "|" +
-                threadId.ToString() + "|" + overFlow.ToString() + "|" + threadOrder.ToString();
+            return typeof (ForumThreads).AssemblyQualifiedName + "|" + forumId + "|" + itemsPerPage + "|" + startIndex +
+                   "|" +
+                   threadId + "|" + overFlow + "|" + threadOrder;
         }
 
         /// <summary>
@@ -335,32 +277,33 @@ namespace BBC.Dna.Objects
         /// <param name="overFlow"></param>
         /// <param name="threadOrder"></param>
         /// <returns></returns>
-        static public ForumThreads CreateForumThreadsFromDatabase(IDnaDataReaderCreator readerCreator, ISiteList siteList, int forumId, int itemsPerPage,
-            int startIndex, int threadId, bool overFlow, ThreadOrder threadOrder)
+        public static ForumThreads CreateForumThreadsFromDatabase(IDnaDataReaderCreator readerCreator,
+                                                                  ISiteList siteList, int forumId, int itemsPerPage,
+                                                                  int startIndex, int threadId, bool overFlow,
+                                                                  ThreadOrder threadOrder)
         {
             //max return count is 200
             itemsPerPage = itemsPerPage > 200 ? 200 : itemsPerPage;
-            ISite site = ForumThreads.GetSiteForForumId(readerCreator, siteList, forumId, threadId);
+            ISite site = GetSiteForForumId(readerCreator, siteList, forumId, threadId);
             // override startIndex if we want a particular thread
             if (threadId > 0)
             {
-                startIndex = ForumThreads.GetIndexOfThreadInForum(readerCreator, threadId, forumId, itemsPerPage);
+                startIndex = GetIndexOfThreadInForum(readerCreator, threadId, forumId, itemsPerPage);
             }
             //setup object
-            ForumThreads threads = new ForumThreads()
-            {
-                ForumId = forumId,
-                SiteId = site.SiteID,
-                SkipTo = startIndex,
-                Count = itemsPerPage
-            };
+            var threads = new ForumThreads
+                              {
+                                  ForumId = forumId,
+                                  SiteId = site.SiteID,
+                                  SkipTo = startIndex,
+                                  Count = itemsPerPage
+                              };
 
             //do db call
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("forumgetthreadlist"))
             {
                 reader.AddParameter("forumid", forumId);
-                reader.AddParameter("threadorder", (int)threadOrder);
-                
+                reader.AddParameter("threadorder", (int) threadOrder);
                 if (overFlow)
                 {
                     // We want to fetch the one before the first and the one after the second
@@ -371,19 +314,20 @@ namespace BBC.Dna.Objects
                     }
                     else
                     {
-                        reader.AddParameter("firstindex", startIndex-1);
-                        reader.AddParameter("lastindex", startIndex+itemsPerPage);
+                        reader.AddParameter("firstindex", startIndex - 1);
+                        reader.AddParameter("lastindex", startIndex + itemsPerPage);
                     }
                 }
                 else
                 {
                     reader.AddParameter("firstindex", startIndex);
-                    reader.AddParameter("lastindex", startIndex + itemsPerPage-1);
+                    reader.AddParameter("lastindex", startIndex + itemsPerPage - 1);
                 }
+                reader.AddParameter("includestickythreads", siteList.GetSiteOptionValueBool(site.SiteID, "Forum", "EnableStickyThreads"));
                 reader.Execute();
                 if (reader.HasRows && reader.Read())
                 {
-                    if(reader.DoesFieldExist("JournalOwner"))
+                    if (reader.DoesFieldExist("JournalOwner"))
                     {
                         threads.JournalOwner = reader.GetInt32NullAsZero("JournalOwner");
                     }
@@ -393,13 +337,13 @@ namespace BBC.Dna.Objects
                         threads.ForumPostCount = reader.GetInt32NullAsZero("ForumPostCount");
                     }
                     threads.ForumPostLimit = siteList.GetSiteOptionValueInt(site.SiteID, "Forum", "PostLimit");
-                    threads.DefaultCanRead = (byte)(reader.GetBoolean("CanRead") ? 1 : 0);
-                    threads.DefaultCanWrite = (byte)(reader.GetBoolean("CanWrite") ? 1 : 0);
-                    threads.CanRead = (byte)(reader.GetBoolean("CanRead") ? 1 : 0);
-                    threads.CanWrite = (byte)(reader.GetBoolean("CanWrite") ? 1 : 0);
-                    threads.ThreadCanRead = (byte)(reader.GetBoolean("ThreadCanRead") ? 1 : 0);
-                    threads.ThreadCanWrite = (byte)(reader.GetBoolean("ThreadCanWrite") ? 1 : 0);
-                    threads.AlertInstantly = (byte)(reader.GetInt32NullAsZero("AlertInstantly") == 1 ? 1:0);
+                    threads.DefaultCanRead = (byte) (reader.GetBoolean("CanRead") ? 1 : 0);
+                    threads.DefaultCanWrite = (byte) (reader.GetBoolean("CanWrite") ? 1 : 0);
+                    threads.CanRead = (byte) (reader.GetBoolean("CanRead") ? 1 : 0);
+                    threads.CanWrite = (byte) (reader.GetBoolean("CanWrite") ? 1 : 0);
+                    threads.ThreadCanRead = (byte) (reader.GetBoolean("ThreadCanRead") ? 1 : 0);
+                    threads.ThreadCanWrite = (byte) (reader.GetBoolean("ThreadCanWrite") ? 1 : 0);
+                    threads.AlertInstantly = (byte) (reader.GetInt32NullAsZero("AlertInstantly") == 1 ? 1 : 0);
                     if (reader.DoesFieldExist("ThreadLastUpdated"))
                     {
                         threads.LastThreadUpdated = reader.GetDateTime("ThreadLastUpdated");
@@ -412,21 +356,23 @@ namespace BBC.Dna.Objects
                     {
                         threads.More = "1";
                     }
-                    threads.ModerationStatus = new ModerationStatus()
-                    {
-                        Id = forumId,
-                        Value = reader.GetInt32NullAsZero("ModerationStatus").ToString()
-                    };
+                    threads.ModerationStatus = new ModerationStatus
+                                                   {
+                                                       Id = forumId,
+                                                       Value = reader.GetInt32NullAsZero("ModerationStatus").ToString()
+                                                   };
                     threads.OrderBy = threadOrder.ToString().ToLower();
 
                     if (threads.ForumPostCount > 0)
-                    {//dont bother if no posts
-                        threads.Thread = new System.Collections.Generic.List<ThreadSummary>();
+                    {
+//dont bother if no posts
+                        threads.Thread = new List<ThreadSummary>();
 
                         int itemsDisplayed = 0;
                         do
                         {
-                            threads.Thread.Add(ThreadSummary.CreateThreadSummaryFromReader(reader, threads.ForumId, itemsDisplayed));
+                            threads.Thread.Add(ThreadSummary.CreateThreadSummaryFromReader(reader, threads.ForumId,
+                                                                                           itemsDisplayed));
                             itemsDisplayed++;
                         } while (reader.Read() && itemsDisplayed < itemsPerPage);
                     }
@@ -437,7 +383,7 @@ namespace BBC.Dna.Objects
             return threads;
         }
 
-        
+
         /// <summary>
         /// Gets the site for the forumid
         /// </summary>
@@ -446,10 +392,11 @@ namespace BBC.Dna.Objects
         /// <param name="forumId"></param>
         /// <param name="threadId"></param>
         /// <returns></returns>
-        static public ISite GetSiteForForumId(IDnaDataReaderCreator readerCreator, ISiteList siteList, int forumId, int threadId)
+        public static ISite GetSiteForForumId(IDnaDataReaderCreator readerCreator, ISiteList siteList, int forumId,
+                                              int threadId)
         {
             ISite site = null;
-            using(IDnaDataReader reader = readerCreator.CreateDnaDataReader("GetForumSiteID"))
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("GetForumSiteID"))
             {
                 reader.AddParameter("forumid", forumId);
                 reader.AddParameter("threadid", threadId);
@@ -475,9 +422,10 @@ namespace BBC.Dna.Objects
         /// <param name="forumId"></param>
         /// <param name="itemsPerPage"></param>
         /// <returns></returns>
-        static public int GetIndexOfThreadInForum(IDnaDataReaderCreator readerCreator, int threadId, int forumId, int itemsPerPage)
+        public static int GetIndexOfThreadInForum(IDnaDataReaderCreator readerCreator, int threadId, int forumId,
+                                                  int itemsPerPage)
         {
-            int startIndex = 0;
+            int startIndex;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getindexofthread"))
             {
                 // Add the entry id and execute
@@ -491,38 +439,19 @@ namespace BBC.Dna.Objects
                     index = reader.GetInt32NullAsZero("Index");
                 }
 
-                startIndex = index / itemsPerPage;
-                startIndex = startIndex * itemsPerPage;
+                startIndex = index/itemsPerPage;
+                startIndex = startIndex*itemsPerPage;
             }
             return startIndex;
         }
 
-
-        #region ICloneable Members
-
         // deep copy in separeate memory space
-        public object Clone()
-        {
-            MemoryStream ms = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            bf.Serialize(ms, this);
-            ms.Position = 0;
-            object obj = bf.Deserialize(ms);
-            ms.Close();
-            return obj;
-
-        }
-
-        #endregion
     }
 
 
-    public enum ThreadOrder :int
+    public enum ThreadOrder
     {
-        LatestPost =1,
+        LatestPost = 1,
         CreateDate = 2
     }
-    
-
-    
 }

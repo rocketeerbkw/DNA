@@ -50,6 +50,12 @@ namespace Tests
             return _iisTestSite;
         }
 
+        public void RestartTestSite()
+        {
+            RestoreDefaultSite();
+            StartTestSite();
+
+        }
 
         /// <summary>
         /// Enables the h2g2UnitTesting web site.

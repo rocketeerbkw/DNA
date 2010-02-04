@@ -1134,7 +1134,7 @@ namespace FunctionalTests
         /// </summary>
         /// <param name="siteName"></param>
         /// <param name="request"></param>
-        private void ValidateForumSchema(string siteName, DnaTestURLRequest request)
+        public void ValidateForumSchema(string siteName, DnaTestURLRequest request)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(request.GetLastResponseAsString());
@@ -1202,7 +1202,7 @@ namespace FunctionalTests
         /// 
         /// </summary>
         /// <param name="request"></param>
-        private void ValidateForumThreadSchema(DnaTestURLRequest request)
+        public void ValidateForumThreadSchema(DnaTestURLRequest request)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(request.GetLastResponseAsString());

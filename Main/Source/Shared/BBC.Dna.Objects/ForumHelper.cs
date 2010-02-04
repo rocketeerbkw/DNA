@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 
@@ -31,7 +28,6 @@ namespace BBC.Dna.Objects
         /// <summary>
         /// Returns forum read/write permissions for a user
         /// </summary>
-        /// <param name="creator"></param>
         /// <param name="userId"></param>
         /// <param name="forumId"></param>
         /// <param name="canRead"></param>
@@ -48,8 +44,8 @@ namespace BBC.Dna.Objects
                 reader.AddIntOutputParameter("CanWrite");
                 reader.Execute();
 
-                int canReadAsNum = 0;
-                int canWriteAsNum = 0;
+                int canReadAsNum;
+                int canWriteAsNum;
                 reader.TryGetIntOutputParameter("CanRead", out canReadAsNum);
                 reader.TryGetIntOutputParameter("CanWrite", out canWriteAsNum);
                 canRead = canReadAsNum > 0;
@@ -58,11 +54,10 @@ namespace BBC.Dna.Objects
         }
 
         /// <summary>
-        /// Returns thread read/write permissions for a user
+        /// Returns the thread permission for a given user
         /// </summary>
-        /// <param name="creator"></param>
         /// <param name="userId"></param>
-        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
         /// <param name="canRead"></param>
         /// <param name="canWrite"></param>
         public void GetThreadPermissions(int userId, int threadId, ref bool canRead, ref bool canWrite)
@@ -84,7 +79,6 @@ namespace BBC.Dna.Objects
         /// <summary>
         /// Marks the current thread as read for subscription.
         /// </summary>
-        /// <param name="creator"></param>
         /// <param name="userId"></param>
         /// <param name="threadId"></param>
         /// <param name="postId"></param>
@@ -101,11 +95,15 @@ namespace BBC.Dna.Objects
             }
         }
 
-
+        /// <summary>
+        /// Closes a thread
+        /// </summary>
+        /// <param name="currentSiteId"></param>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
         public void CloseThread(int currentSiteId, int forumId, int threadId)
         {
-            bool authorised = false;
-            authorised = (_viewingUser.IsEditor || _viewingUser.IsSuperUser);
+            bool authorised = (_viewingUser.IsEditor || _viewingUser.IsSuperUser);
 
             if (!authorised && _siteList.GetSiteOptionValueBool(currentSiteId, "Forum", "ArticleAuthorCanCloseThreads"))
             {//check if author can  modify forum thread.
@@ -122,11 +120,16 @@ namespace BBC.Dna.Objects
             }
             else
             {
-                LastError = new Error(){Type = "CloseThread", ErrorMessage="Logged in user is not authorised to close threads"};
+                LastError = new Error {Type = "CloseThread", ErrorMessage="Logged in user is not authorised to close threads"};
             }
 
         }
 
+        /// <summary>
+        /// Reopens a thread - superuser only for editoral reasons
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
         public void ReOpenThread(int forumId, int threadId)
         {
             if (_viewingUser.IsEditor || _viewingUser.IsSuperUser)
@@ -142,12 +145,12 @@ namespace BBC.Dna.Objects
                     {
                         if (reader.GetInt32NullAsZero("ThreadBelongsToForum") != 1)
                         {
-                            LastError = new Error() { Type = "UnHideThread", ErrorMessage = "Unable to open thread" };
+                            LastError = new Error { Type = "UnHideThread", ErrorMessage = "Unable to open thread" };
                         }
                     }
                     else
                     {
-                        LastError = new Error() { Type = "UnHideThread", ErrorMessage = "Unable to open thread" };
+                        LastError = new Error { Type = "UnHideThread", ErrorMessage = "Unable to open thread" };
                     }
 
                 }
@@ -159,6 +162,11 @@ namespace BBC.Dna.Objects
 
         }
 
+        /// <summary>
+        /// Hides a thread
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
         public void HideThread(int forumId, int threadId)
         {
             if (_viewingUser.IsSuperUser)
@@ -190,6 +198,11 @@ namespace BBC.Dna.Objects
 
         }
 
+        /// <summary>
+        /// Updates alertinstantly flag
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="alertInstantly"></param>
         public void UpdateAlertInstantly(int forumId, int alertInstantly)
         {
             if (_viewingUser.IsEditor || _viewingUser.IsSuperUser)
@@ -208,6 +221,14 @@ namespace BBC.Dna.Objects
 
         }
 
+        /// <summary>
+        /// Updates forum permissions
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="read"></param>
+        /// <param name="write"></param>
+        /// <param name="threadRead"></param>
+        /// <param name="threadwrite"></param>
         public void UpdateForumPermissions(int forumId, int? read, int? write, int? threadRead, int? threadwrite)
         {
             if (_viewingUser.IsEditor || _viewingUser.IsSuperUser)
@@ -228,6 +249,11 @@ namespace BBC.Dna.Objects
             }
         }
 
+        /// <summary>
+        /// Updates forum moderation status
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="status"></param>
         public void UpdateForumModerationStatus(int forumId, int status)
         {
             if (_viewingUser.IsEditor || _viewingUser.IsSuperUser)
@@ -259,6 +285,11 @@ namespace BBC.Dna.Objects
 
         }
 
+        /// <summary>
+        /// checks if viewing user is author
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <returns></returns>
         private bool IsUserAuthorForArticle(int forumId)
         {
             bool authorised;
@@ -272,5 +303,81 @@ namespace BBC.Dna.Objects
             }
             return authorised;
         }
+
+        /// <summary>
+        /// adds thread to sticky list, based on user permissions and site option
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
+        /// <param name="siteId"></param>
+        public void AddThreadToStickyList(int forumId, int threadId, int siteId)
+        {
+            //check site option
+            if(_siteList.GetSiteOptionValueBool(siteId, "Forum", "EnableStickyThreads") == false)
+            {
+                LastError = new Error("AddThreadToStickyList", "'EnableStickyThreads' site option is false.");
+                return;
+            }
+            //check viewing user permissions
+            if(_viewingUser.IsEditor == false && _viewingUser.IsSuperUser == false)
+            {
+                LastError = new Error("AddThreadToStickyList", "Viewing user unauthorised.");
+                return;
+            }
+
+            try
+            {
+                using (IDnaDataReader reader = _creator.CreateDnaDataReader("addthreadtostickylist"))
+                {
+                    reader.AddParameter("forumid", forumId);
+                    reader.AddParameter("threadid", threadId);
+                    reader.AddParameter("userid", _viewingUser.UserId);
+                    reader.Execute();
+                }
+            }
+            catch (Exception)
+            {
+                LastError = new Error("AddThreadToStickyList", "Unable to update database.");
+            }
+        }
+
+        /// <summary>
+        /// removes thread from sticky list, based on user permissions and site option
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
+        /// <param name="siteId"></param>
+        public void RemoveThreadFromStickyList(int forumId, int threadId, int siteId)
+        {
+            //check site option
+            if (_siteList.GetSiteOptionValueBool(siteId, "Forum", "EnableStickyThreads") == false)
+            {
+                LastError = new Error("RemoveThreadFromStickyList", "'EnableStickyThreads' site option is false.");
+                return;
+            }
+            //check viewing user permissions
+            if (_viewingUser.IsEditor == false && _viewingUser.IsSuperUser == false)
+            {
+                LastError = new Error("RemoveThreadFromStickyList", "Viewing user unauthorised.");
+                return;
+            }
+
+            try
+            {
+                using (IDnaDataReader reader = _creator.CreateDnaDataReader("removethreadfromstickylist"))
+                {
+                    reader.AddParameter("forumid", forumId);
+                    reader.AddParameter("threadid", threadId);
+                    reader.AddParameter("userid", _viewingUser.UserId);
+                    reader.Execute();
+                }
+            }
+            catch (Exception)
+            {
+                LastError = new Error("RemoveThreadFromStickyList", "Unable to update database.");
+            }
+        }
+
+
     }
 }

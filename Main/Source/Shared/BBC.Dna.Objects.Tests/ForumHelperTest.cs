@@ -19,24 +19,7 @@ namespace BBC.Dna.Objects.Tests
     {
 
 
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
+       
         #region Additional test attributes
         // 
         //You can use the following additional attributes as you write your tests:
@@ -925,6 +908,206 @@ namespace BBC.Dna.Objects.Tests
             target.UpdateForumModerationStatus(0, 0);
 
             Assert.IsNull(target.LastError);
+
+        }
+
+        /// <summary>
+        ///A test for AddThreadToStickyList
+        ///</summary>
+        [TestMethod()]
+        public void AddThreadToSticky_SiteOptionNotSet_ReturnsValidError()
+        {
+            var viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(0, "Forum", "EnableStickyThreads")).Return(false);
+
+            //var reader = mocks.DynamicMock<IDnaDataReader>();
+            var creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("addthreadtostickylist")).Throw(new Exception("addthreadtostickylist should not have been called"));
+            mocks.ReplayAll();
+
+            var target = new ForumHelper(creator, viewingUser, siteList);
+            target.AddThreadToStickyList(0,0,0);
+            Assert.AreEqual("AddThreadToStickyList", target.LastError.Type);
+            Assert.AreEqual("'EnableStickyThreads' site option is false.", target.LastError.ErrorMessage);
+            
+        }
+
+        /// <summary>
+        ///A test for AddThreadToStickyList
+        ///</summary>
+        [TestMethod()]
+        public void AddThreadToSticky_NotAuthorised_ReturnsValidError()
+        {
+            var viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(0, "Forum", "EnableStickyThreads")).Return(true);
+
+            //var reader = mocks.DynamicMock<IDnaDataReader>();
+            var creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("addthreadtostickylist")).Throw(new Exception("addthreadtostickylist should not have been called"));
+            mocks.ReplayAll();
+
+            var target = new ForumHelper(creator, viewingUser, siteList);
+            target.AddThreadToStickyList(0, 0, 0);
+            Assert.AreEqual("AddThreadToStickyList", target.LastError.Type);
+            Assert.AreEqual("Viewing user unauthorised.", target.LastError.ErrorMessage);
+
+        }
+
+        /// <summary>
+        ///A test for AddThreadToStickyList
+        ///</summary>
+        [TestMethod()]
+        public void AddThreadToSticky_Authorised_ReturnsNoError()
+        {
+            var viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(true);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(0, "Forum", "EnableStickyThreads")).Return(true);
+
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("addthreadtostickylist")).Return(reader).Repeat.AtLeastOnce();
+            mocks.ReplayAll();
+
+            var target = new ForumHelper(creator, viewingUser, siteList);
+            target.AddThreadToStickyList(0, 0, 0);
+            Assert.IsNull(target.LastError);
+        }
+
+        /// <summary>
+        ///A test for AddThreadToStickyList
+        ///</summary>
+        [TestMethod()]
+        public void AddThreadToSticky_DatabaseError_ReturnsValidError()
+        {
+            var viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(true);
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(0, "Forum", "EnableStickyThreads")).Return(true);
+
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.Execute()).IgnoreArguments().Throw(new Exception("Database error"));
+
+            var creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("addthreadtostickylist")).Return(reader).Repeat.AtLeastOnce();
+            mocks.ReplayAll();
+
+            var target = new ForumHelper(creator, viewingUser, siteList);
+            target.AddThreadToStickyList(0, 0, 0);
+            Assert.AreEqual("AddThreadToStickyList", target.LastError.Type);
+            Assert.AreEqual("Unable to update database.", target.LastError.ErrorMessage);
+
+        }
+
+        /// <summary>
+        ///A test for RemoveThreadFromStickyList
+        ///</summary>
+        [TestMethod()]
+        public void RemoveThreadFromSticky_SiteOptionNotSet_ReturnsValidError()
+        {
+            var viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(0, "Forum", "EnableStickyThreads")).Return(false);
+
+            //var reader = mocks.DynamicMock<IDnaDataReader>();
+            var creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("removethreadfromstickylist")).Throw(new Exception("RemoveThreadFromStickyList should not have been called"));
+            mocks.ReplayAll();
+
+            var target = new ForumHelper(creator, viewingUser, siteList);
+            target.RemoveThreadFromStickyList(0, 0, 0);
+            Assert.AreEqual("RemoveThreadFromStickyList", target.LastError.Type);
+            Assert.AreEqual("'EnableStickyThreads' site option is false.", target.LastError.ErrorMessage);
+
+        }
+
+        /// <summary>
+        ///A test for RemoveThreadFromStickyList
+        ///</summary>
+        [TestMethod()]
+        public void RemoveThreadFromSticky_NotAuthorised_ReturnsValidError()
+        {
+            var viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(0, "Forum", "EnableStickyThreads")).Return(true);
+
+            //var reader = mocks.DynamicMock<IDnaDataReader>();
+            var creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("removethreadfromstickylist")).Throw(new Exception("RemoveThreadFromStickyList should not have been called"));
+            mocks.ReplayAll();
+
+            var target = new ForumHelper(creator, viewingUser, siteList);
+            target.RemoveThreadFromStickyList(0, 0, 0);
+            Assert.AreEqual("RemoveThreadFromStickyList", target.LastError.Type);
+            Assert.AreEqual("Viewing user unauthorised.", target.LastError.ErrorMessage);
+
+        }
+
+        /// <summary>
+        ///A test for RemoveThreadFromStickyList
+        ///</summary>
+        [TestMethod()]
+        public void RemoveThreadFromSticky_Authorised_ReturnsNoError()
+        {
+            var viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(true);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(0, "Forum", "EnableStickyThreads")).Return(true);
+
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("removethreadfromstickylist")).Return(reader).Repeat.AtLeastOnce();
+            mocks.ReplayAll();
+
+            var target = new ForumHelper(creator, viewingUser, siteList);
+            target.RemoveThreadFromStickyList(0, 0, 0);
+            Assert.IsNull(target.LastError);
+        }
+
+        /// <summary>
+        ///A test for RemoveThreadFromStickyList
+        ///</summary>
+        [TestMethod()]
+        public void RemoveThreadFromSticky_DatabaseError_ReturnsValidError()
+        {
+            var viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(true);
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(0, "Forum", "EnableStickyThreads")).Return(true);
+
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.Execute()).IgnoreArguments().Throw(new Exception("Database error"));
+
+            var creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("removethreadfromstickylist")).Return(reader).Repeat.AtLeastOnce();
+            mocks.ReplayAll();
+
+            var target = new ForumHelper(creator, viewingUser, siteList);
+            target.RemoveThreadFromStickyList(0, 0, 0);
+            Assert.AreEqual("RemoveThreadFromStickyList", target.LastError.Type);
+            Assert.AreEqual("Unable to update database.", target.LastError.ErrorMessage);
 
         }
     }

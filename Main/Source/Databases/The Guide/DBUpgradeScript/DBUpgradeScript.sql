@@ -3347,6 +3347,64 @@ END
 N'Dropping view VGuideEntryText_collective as that site is no longer', @curerror OUTPUT
 IF (@curerror <> 0) RETURN
 
+
+EXEC dbu_dosql N'MAP: {F1E83579-F0FD-46ef-B66C-FB30AEFD2D51}',
+N'
+exec dbu_createsiteoption 0, ''Forum'', ''EnableStickyThreads'', ''0'' ,1,''Turns on and off sticky thread functionality''',
+N'Creating SiteOption EnableStickyThreads', @curerror OUTPUT
+IF (@curerror <> 0) RETURN
+
+EXEC dbu_dosql N'MAP: {F1E83579-F0FD-46ef-B66C-FB30AEFD2D4Z}',
+N'
+
+CREATE TABLE [dbo].[StickyThreads](
+	[forumid] [int] NOT NULL,
+	[threadid] [int] NOT NULL,
+	[userid] [int] NOT NULL,
+	[sortby] [int] NOT NULL DEFAULT (0),
+ CONSTRAINT [PK_stickythreads] PRIMARY KEY NONCLUSTERED 
+(
+	[forumid] ASC,
+	[threadid] ASC
+)
+) 
+
+CREATE CLUSTERED INDEX [IX_StickyThreads] ON [dbo].[StickyThreads]([forumid] ASC, [sortby] ASC)
+',
+N'Creating sticky thread table', @curerror OUTPUT
+IF (@curerror <> 0) RETURN
+
+
+EXEC dbu_dosql N'MAP: {F1E83579-F0FD-46ef-B66C-FB30AEFD2D4F}',
+N'
+CREATE TABLE [dbo].[AuditStickyThreadsTypeLookup](
+	[id] int NOT NULL,
+	[name] varchar(50) NOT NULL
+) 
+
+insert into AuditStickyThreadsTypeLookup (id, name) values (1, ''delete'')
+insert into AuditStickyThreadsTypeLookup (id, name) values (2, ''insert'')
+
+CREATE TABLE [dbo].[AuditStickyThreads](
+	[forumid] [int] NOT NULL,
+	[threadid] [int] NOT NULL,
+	[userid] [int] NOT NULL,
+	[type] [int] DEFAULT (0)
+) 
+
+',
+N'Creating sticky thread audit table', @curerror OUTPUT
+IF (@curerror <> 0) RETURN
+
+
+IF DB_NAME() = 'SmallGuide'
+BEGIN
+	EXEC dbu_dosql N'MAP: 6D1F287A-B14B-47A6-ADC4-DFCF5552C6EC', 
+	N'INSERT INTO dbo.SiteOptions SELECT Section = ''Forum'', SiteID = 1, Name = ''EnableStickyThreads'', Value = ''1'', Type = 1, Description = ''Enabled sticky threads''', 
+	N'Turning on sticky threads for h2g2.', @curerror OUTPUT
+	IF (@curerror <> 0) RETURN
+END
+
 ------------------------------------------------------------------------------------------------
 -- INSERT NEW CODE BEFORE HERE!!!
 
