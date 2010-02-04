@@ -157,6 +157,7 @@
 		<html>
 			<xsl:call-template name="insert-header"/>
 			<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
+			<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
 			<body>
 				<div>
 					<xsl:call-template name="sso_statusbar-admin"/>
