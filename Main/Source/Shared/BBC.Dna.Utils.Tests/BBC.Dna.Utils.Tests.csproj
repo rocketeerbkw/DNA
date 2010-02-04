@@ -57,6 +57,7 @@
     <Compile Include="DnaStringParserTest.cs" />
     <Compile Include="GuideMLTranslatorTests.cs" />
     <Compile Include="HtmlUtilsTests.cs" />
+    <Compile Include="LinkTranslatorTests.cs" />
     <Compile Include="LockingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StatisticsTests.cs" />
