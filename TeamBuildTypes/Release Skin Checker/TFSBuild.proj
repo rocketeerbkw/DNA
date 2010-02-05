@@ -300,7 +300,7 @@
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2release\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Clear templates... -->
-    <WebDownload FileUri="http://dnarelease.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" />
+    <WebDownload FileUri="http://dnarelease.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
     <!-- start website to copy ripley -->
     <!-- Exec Command="sc \\ops-dna1 start w3svc"></Exec -->
     <!-- When everything is done, change the status of the task to "Succeeded" -->
@@ -310,7 +310,7 @@
   </Target>
   <Target Name="DeployToReleaseFailed">
     <!-- Change the status of the task to "Failed" -->
-    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
+    <!--Exec Command="sc \\ops-dna1 start w3svc"></Exec -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 
