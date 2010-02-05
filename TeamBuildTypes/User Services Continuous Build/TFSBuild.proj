@@ -131,7 +131,7 @@
     <CustomPropertiesForBuild></CustomPropertiesForBuild>
 
     <!-- Test failed as build fail... -->
-    <TreatTestFailureAsBuildFailure>false</TreatTestFailureAsBuildFailure>
+    <TreatTestFailureAsBuildFailure>true</TreatTestFailureAsBuildFailure>
 
 
   </PropertyGroup>
@@ -271,23 +271,6 @@
     <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.*"></Ripley>
   </ItemGroup>
 
-  <!-- Fail the build if the tests fail... -->
-  <Target Name="AfterTest">
-
-    <!-- Refresh the build properties. -->
-    <GetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
-                        BuildUri="$(BuildUri)"
-                        Condition=" '$(IsDesktopBuild)' != 'true' ">
-      <Output TaskParameter="TestSuccess" PropertyName="TestSuccess" />
-      </GetBuildProperties>
-
-
-      <!-- Set CompilationStatus to Failed if TestSuccess is false. -->
-    <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
-                        BuildUri="$(BuildUri)"
-                        CompilationStatus="Failed"
-                        Condition=" '$(IsDesktopBuild)' != 'true' and '$(TestSuccess)' != 'true' " />
-    </Target>
 
 <!-- do post build step stuff -->
 
