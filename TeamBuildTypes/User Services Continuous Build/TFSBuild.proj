@@ -131,7 +131,7 @@
     <CustomPropertiesForBuild></CustomPropertiesForBuild>
 
     <!-- Test failed as build fail... -->
-    <TreatTestFailureAsBuildFailure>true</TreatTestFailureAsBuildFailure>
+    <TreatTestFailureAsBuildFailure>false</TreatTestFailureAsBuildFailure>
 
 
   </PropertyGroup>
