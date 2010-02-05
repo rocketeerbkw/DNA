@@ -129,6 +129,9 @@
      -->
     <CustomPropertiesForBuild></CustomPropertiesForBuild>
 
+    <!-- Test failed as build fail... -->
+    <TreatTestFailureAsBuildFailure>true</TreatTestFailureAsBuildFailure>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -244,7 +247,7 @@
 
   <ItemGroup>
     <WebSites Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\_PublishedWebsites\**\*.*"></WebSites>
-    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.*"></Binaries>
+    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.*" Exclude="$(BinariesRoot)$(Platfom)$(Configuration)\debug\*_Accessor.dll"></Binaries>
     <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer*.*"></Ripley>
     <Skins Include="$(SolutionRoot)\Main\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
   </ItemGroup>
