@@ -47,16 +47,16 @@
                 <xsl:when test="(FORUMPOSTCOUNT - 1) &lt; 1">
                     <span class="dna-invisible">There have been </span>
                     <span class="noreplies">
-                    	<xsl:text>no </xsl:text><xsl:value-of select="$replies"/>
+                        <xsl:text>no replies</xsl:text>
                     </span>
                 </xsl:when>
                 <xsl:when test="(FORUMPOSTCOUNT - 1) = 1">
                     <xsl:value-of select="FORUMPOSTCOUNT - 1" />
-                	<xsl:text> </xsl:text><xsl:value-of select="$reply"/>
+                    <xsl:text> reply</xsl:text>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:value-of select="FORUMPOSTCOUNT - 1" />
-                	<xsl:text> </xsl:text><xsl:value-of select="$replies"/>
+                    <xsl:text> replies</xsl:text>
                 </xsl:otherwise>
             </xsl:choose>
         </p>

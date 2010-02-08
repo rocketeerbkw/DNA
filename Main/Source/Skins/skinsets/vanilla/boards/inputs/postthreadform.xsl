@@ -18,7 +18,7 @@
     
     <xsl:template match="POSTTHREADFORM[@PROFANITYTRIGGERED = 1]" mode="input_postthreadform_error">
         <p class="dna-error">
-        	Your <xsl:value-of select="$message"/> contains a word, phrase or website address which is blocked from being posted on this website. Please edit your <xsl:value-of select="$message"/> before trying to post again.
+            Your message contains a word, phrase or website address which is blocked from being posted on this website. Please edit your message before trying to post again.
         </p>
     </xsl:template>
     
@@ -30,7 +30,7 @@
             </xsl:with-param>
         </xsl:call-template>
         <p class="closed">
-        	This <xsl:value-of select="$discussion"/> has been closed and is not now accepting any contributions.
+            This discussion has been closed and is not now accepting any contributions.
         </p>
 </div>      
      
@@ -41,7 +41,7 @@
     	<form action="{$root}/AddThread" method="post" class="dna-boards">
             <div>
                 <xsl:call-template name="library_header_h3">
-                	<xsl:with-param name="text">Reply to a <xsl:value-of select="$message"/></xsl:with-param>
+                    <xsl:with-param name="text">Reply to a message</xsl:with-param>
                 </xsl:call-template>
                
             	<xsl:apply-templates select="SECONDSBEFOREREPOST"/>
@@ -51,7 +51,7 @@
                   <xsl:apply-templates select="." mode="preview"/>
                 </xsl:when>
                 <xsl:otherwise>
-                	<p class="article"> Enter your <xsl:value-of select="$reply"/> in the box below.</p>
+                  <p class="article"> Enter your reply in the box below.</p>
                 </xsl:otherwise>
               </xsl:choose>
               
@@ -88,7 +88,7 @@
 						<div class="itemdetail">
 							<span class="createdby">
 								<span class="dna-inivisble">
-									In <xsl:value-of select="$message"/> to
+									In reply to
 								</span>
 								<a href="MP{USERID}" class="user linked">
 									<xsl:value-of select="USERNAME"/>
@@ -102,7 +102,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<div class="itemdetail">
-							<em>This <xsl:value-of select="$message"/> is hidden.</em>
+							<em>This post is hidden.</em>
 						</div>
 					</xsl:otherwise>
 				</xsl:choose>	
@@ -115,7 +115,7 @@
         <xsl:choose>
             <xsl:when test="$siteClosed = 'true'">
                 <p class="dna-error">
-                    Sorry, but <xsl:value-of select="/H2G2/SITECONFIG/BOARDNAME"/> messageboards are currently closed.
+                    Sorry, but <xsl:value-of select="/H2G2/SITECONFIG/BOARDNAME"/> message boards are currently closed.
                 </p>
             </xsl:when>
             <xsl:otherwise>
@@ -125,7 +125,7 @@
                         <form action="{$root}/AddThread" method="post" class="dna-boards">
                             <div>
                                 <xsl:call-template name="library_header_h3">
-                                	<xsl:with-param name="text">Start a new <xsl:value-of select="$discussion"/></xsl:with-param>
+                                    <xsl:with-param name="text">Start a new discussion</xsl:with-param>
                                     <xsl:with-param name="class">new-discussion</xsl:with-param>
                                 </xsl:call-template>
                             	
@@ -136,7 +136,7 @@
                                   <xsl:apply-templates select="." mode="preview"/>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                	<p class="article">To create a new <xsl:value-of select="$discussion"/>, fill out the form below.</p>
+                                  <p class="article">To create a new discussion, fill out the form below.</p>
                                 </xsl:otherwise>
                               </xsl:choose>
                                 
@@ -146,7 +146,7 @@
                                 <input type="hidden" name="dnapoststyle" value="1"/>
                                 
                                 <p>
-                                	<label for="dna-boards-subject">Title of your <xsl:value-of select="$discussion"/></label>
+                                    <label for="dna-boards-subject">Title of your discussion</label>
                                     <input type="text" name="subject" id="dna-boards-subject" value="{SUBJECT}" class="text"/>
                                 </p>
                                 
@@ -159,7 +159,7 @@
                                 <xsl:apply-templates select="." mode="input_postthreadform_error" />
                                 <p>
                                     <input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview"/>
-                                    <input type="submit" id="dna-boards-submit" name="post" value="Post {$message}" class="submit"/>
+                                    <input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit"/>
                                     <input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel"/>
                                 </p>
                                 
@@ -229,7 +229,7 @@
           </xsl:if>
           <div class="itemdetail">
             <span class="createdby">
-            	<span class="dna-inivisble"><xsl:value-of select="$message"/> posted soon by </span>
+              <span class="dna-inivisble">Message posted soon by </span>
               <a href="MP{/H2G2/VIEWING-USER/USER/USERID}" class="user linked">
                 <xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
               </a>

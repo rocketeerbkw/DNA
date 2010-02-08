@@ -79,7 +79,6 @@
     <xsl:include href="objects/article/incomplete.xsl" />
     <xsl:include href="objects/article/title.xsl" />
     
-	<xsl:include href="objects/about.xsl" />
     <xsl:include href="objects/ancestry.xsl" />
     <xsl:include href="objects/comments-list.xsl" />
     <xsl:include href="objects/commentforumlist.xsl" />

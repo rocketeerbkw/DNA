@@ -17,9 +17,9 @@
     
     
     <xsl:template match="/H2G2[@TYPE = 'ADDTHREAD']" mode="page">
+        
+    	<xsl:apply-templates select="POSTTHREADFORM" mode="input_postthreadform" />
     	
-        <xsl:apply-templates select="POSTTHREADFORM" mode="input_postthreadform" />
-  
     	<xsl:apply-templates select="POSTPREMODERATED" mode="input_moderated"/>
     	
     	<xsl:apply-templates select="POSTTHREADUNREG" mode="input_moderated"/>
@@ -32,7 +32,7 @@
     
     <xsl:template match="/H2G2[@TYPE = 'ADDTHREAD']" mode="breadcrumbs">
         <li>
-            <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' messageboards')"/></a>
+            <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' message boards')"/></a>
         </li>
         <li>
             <a href="{$root}/F{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
@@ -41,14 +41,14 @@
         </li>
         <li class="current">
             <a href="{$root}/AddThread?forum={FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}&amp;article={FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID}" class="startanewdiscussion">
-            	<xsl:text>Reply to a </xsl:text><xsl:value-of select="$message"/>
+                <xsl:text>Reply to a message</xsl:text>
             </a>
         </li>
     </xsl:template>
     
     <xsl:template match="/H2G2[@TYPE = 'ADDTHREAD'][POSTTHREADFORM/@INREPLYTO = 0]" mode="breadcrumbs">
         <li>
-            <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' messageboards')"/></a>
+            <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' message boards')"/></a>
         </li>
         <li>
             <a href="{$root}/F{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
@@ -57,7 +57,7 @@
         </li>
         <li class="current">
             <a href="{$root}/AddThread?forum={FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}&amp;article={FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID}" class="startanewdiscussion">
-            	<xsl:text>Start new </xsl:text><xsl:value-of select="$discussion"/>
+                <xsl:text>Start new discussion</xsl:text>
             </a>
         </li>
     </xsl:template>

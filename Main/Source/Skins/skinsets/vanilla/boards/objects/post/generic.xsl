@@ -63,19 +63,19 @@
                 <xsl:when test="@HIDDEN = 1 and USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
                     <!-- Removed post for the owner -->
                     <p class="dna-boards-failedpost">
-                        Your posting has been hidden during moderation because it broke the <a class="popup" href="{$houserulespopupurl}">House Rules</a> in some way. 
+                        Your posting has been hidden during moderation because it broke the <a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a> in some way. 
                     </p>
                 </xsl:when>
                 <xsl:when test="@HIDDEN = 1 and USER/USERID != /H2G2/VIEWING-USER/USER/USERID or @HIDDEN = 1">
                     <!-- Removed post for any user -->
                     <p class="dna-boards-failedpost">
-                        This posting has been hidden during moderation because it broke the <a class="popup" href="{$houserulespopupurl}">House Rules</a> in some way.
+                        This posting has been hidden during moderation because it broke the <a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a> in some way.
                     </p>
                 </xsl:when>
                 <xsl:when test="@HIDDEN = 2 or @HIDDEN = 6">
                     <!-- Referred post for any user -->
                     <p class="dna-boards-failedpost">
-                    	This <xsl:value-of select="$message"/> has been temporarily hidden, because a moderator has referred it to a supervisor, BBC host or the Central Communities Team for a decision as to whether it contravenes the <a href="{$houserulespopupurl}" class="popup">House Rules</a> in some way. A decision will be made as quickly as possible.
+                        This post has been temporarily hidden, because a moderator has referred it to a supervisor, BBC host or the Central Communities Team for a decision as to whether it contravenes the <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a> in some way. A decision will be made as quickly as possible..
                     </p>
                 </xsl:when>
                 <xsl:when test="@HIDDEN != 0 and @HIDDEN != 6 and @HIDDEN != 3 and @HIDDEN != 2 and @HIDDEN != 1"/>
@@ -101,7 +101,7 @@
                                         <xsl:value-of select="@POSTID"/>
                                     </xsl:with-param>
                                 </xsl:call-template>
-                            	Reply to this <xsl:value-of select="$message"/>
+                                Reply to this message
                             </a>
                         </p>
                     </xsl:otherwise>
@@ -147,7 +147,7 @@
             
             <xsl:if test="@INREPLYTO">
               <p class="dna-boards-thisreplyto">
-              	This is a <xsl:value-of select="$reply"/> to <a href="{concat($root, '/F', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}">this message</a>.
+                This is a reply to <a href="{concat($root, '/F', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}">this message</a>.
               </p>
             </xsl:if>
             
