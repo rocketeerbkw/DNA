@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start']/VALUE]" mode="input_user-complaint-form">
         <div class="content">
             <h2>Complain about a message</h2>
-            <p>This form is only to be used for serious complaints about specific content that breaks the <a href="{$houserulespopupurl}.html">House Rules</a>, such as unlawful, harassing, abusive, threatening, obscene, sexually explicit, racially offensive, or otherwise objectionable material.</p>
-        	<p>If you have a general comment or question please do not use this form, post a <xsl:value-of select="$message"/> to the <xsl:value-of select="$discussion"/>.</p>
-        	<p>The <xsl:value-of select="$message"/> you complain about will be sent to a moderator, who will decide whether it breaks the <a href="{$houserulespopupurl}">House Rules</a>. You will be informed of their decision by email. </p>
+            <p>This form is only to be used for serious complaints about specific content that breaks the <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a>, such as unlawful, harassing, abusive, threatening, obscene, sexually explicit, racially offensive, or otherwise objectionable material.</p>
+            <p>If you have a general comment or question please do not use this form, post a message to the discussion.</p>
+            <p>The message you complain about will be sent to a moderator, who will decide whether it breaks the <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a>. You will be informed of their decision by email. </p>
             <p class="action">
                 <a href="?PostId={POST-ID}">Register my Complaint</a>
             </p>
@@ -33,14 +33,14 @@
                 <input type="hidden" value="{POST-ID}" name="PostID"/>
                 
                 <h2>Complain about a message</h2>
-                <p>This form is only for serious complaints about specific content that breaks the site's <a href="{$houserulespopupurl}">House Rules</a>, such as unlawful, harassing, defamatory, abusive, threatening, harmful, obscene, profane, sexually oriented, racially offensive, or otherwise objectionable material.</p>
+                <p>This form is only for serious complaints about specific content that breaks the site's <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a>, such as unlawful, harassing, defamatory, abusive, threatening, harmful, obscene, profane, sexually oriented, racially offensive, or otherwise objectionable material.</p>
                 <p>For general comments please post to the relevant Conversation on the site.</p>
             </div>
             
             <div class="content">
                 <h2>Reason for your complaint</h2>
                 
-                <h3 style="display:none;">I believe this post may break one of the <a href="{$houserulespopupurl}">House Rules</a> because it:</h3>
+                <h3 style="display:none;">I believe this post may break one of the <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a> because it:</h3>
                 <p class="options">
                     <input type="radio" id="dnaacs-cq-1" value="Is defamatory or libellous" name="ComplaintText"/><label for="dnaacs-cq-1">Is defamatory or libellous</label>
                     <input type="radio" id="dnaacs-cq-2" value="Is in contempt of court" name="ComplaintText"/><label for="dnaacs-cq-2">Is in contempt of court</label>
@@ -103,7 +103,7 @@
     <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL']" mode="input_user-complaint-form">
         <div class="content">
             <h2>Complaint Successful</h2>
-            <p>Your complaint has successfully been collected and forwarded onto the Moderation team. They will decide whether the <a href="{$houserulespopupurl}">House Rules</a> have been broken and will update you via your email address.</p>
+            <p>Your complaint has successfully been collected and forwarded onto the Moderation team. They will decide whether the <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a> have been broken and will update you via your email address.</p>
             <p>Your Moderation Reference ID is: <strong><xsl:value-of select="MODERATION-REFERENCE"/></strong></p>
         </div>
     </xsl:template>

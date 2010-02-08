@@ -17,27 +17,12 @@
 	<xsl:template match="POSTPREMODERATED" mode="input_moderated">
 		<div>
 			<h3>Moderated user</h3>
-			<xsl:choose>
-				<xsl:when test="@AUTOSINBIN = 1">
-					<p>
-						All posts by new messageboard members are pre-moderated.  This means that your first few postings will not appear on the messageboard immediately, as they need to be checked by a moderator first.   
-					</p>
-					<p>
-						After you have used the BBC messageboards for a while, you will become a trusted user and your posts will appear on the board as soon as you post them.
-					</p>
-				</xsl:when>
-				<xsl:otherwise>
-					<p>
-						Your message will be checked before it appears on the board to make sure it doesn't break our  <a href="{$houserulespopupurl}" class="popup">House Rules.</a><br/>
-					</p>
-				</xsl:otherwise>
-			</xsl:choose>
 			<p>
-				The BBC receives thousands of messages every day so please be patient.
+				Your post has been placed in a moderation queue, and will be reviewed by a moderator before posting. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html" class="popup">Explain</a>.
 			</p>
 			<p>
 				<a href="{$root}/F{/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
-					Back to the <xsl:value-of select="$discussion"/>
+					Back to the discussion
 				</a>
 			</p>
 		</div>
@@ -51,7 +36,7 @@
 			</p>
 			<p>
 				<a href="{$root}/F{/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
-					Back to the <xsl:value-of select="$discussion"/>
+					Back to the discussion
 				</a>
 			</p>
 		</div>

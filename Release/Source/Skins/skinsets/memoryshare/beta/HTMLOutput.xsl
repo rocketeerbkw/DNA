@@ -776,7 +776,6 @@
 			</xsl:if>		
 			<script type="text/javascript" src="http://www.bbc.co.uk/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
 			<xsl:copy-of select="$csslink"/>
-s
 		</head>
 	</xsl:template>
 	

@@ -27,7 +27,7 @@
                             <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID"/>
                         </xsl:with-param>
                     </xsl:call-template>
-            		<xsl:text>Start a new </xsl:text><xsl:value-of select="$discussion"/>
+                    <xsl:text>Start a new discussion</xsl:text>
                 </a>
             </p>
         </xsl:if>
@@ -73,13 +73,13 @@
                             <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID"/>
                         </xsl:with-param>
                     </xsl:call-template>
-            		<xsl:text>Start a new </xsl:text><xsl:value-of select="$discussion"/>
+                    <xsl:text>Start a new discussion</xsl:text>
                 </a>
             </p>
         </xsl:if>
         
         <p class="forumthreads">
-        	There have been no <xsl:value-of select="$discussion"/>s started here yet.
+            There have been no discussions started here yet.
         </p>
         
         <xsl:call-template name="library_userstate_editor">

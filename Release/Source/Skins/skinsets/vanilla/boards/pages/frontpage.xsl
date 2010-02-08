@@ -17,9 +17,7 @@
     
     
     <xsl:template match="/H2G2[@TYPE = 'FRONTPAGE']" mode="page">
-    	<div id="welcome">
-    		<h2>Welcome to <xsl:value-of select="/H2G2/SITECONFIG/BOARDNAME"/> Messageboard</h2>
-    	</div>
+        
         <xsl:apply-templates select="TOPICLIST" mode="object_topiclist" />
         
     </xsl:template>

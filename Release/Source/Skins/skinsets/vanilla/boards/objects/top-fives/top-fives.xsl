@@ -18,10 +18,4 @@
     <xsl:template match="TOP-FIVES" mode="object_top-fives">
             <xsl:apply-templates select="TOP-FIVE[@NAME = /H2G2/PARAMS/PARAM[NAME = 's_item']/VALUE]" mode="object_top-fives_top-five"/>
     </xsl:template>
-	
-	<xsl:template match="TOP-FIVES" mode="object_top-fives_rhn">
-		<xsl:param name="name" select="'RecentDiscussions'"/>
-		<xsl:apply-templates select="TOP-FIVE[@NAME = $name]" mode="object_top-five_rhn"/>
-	</xsl:template>
-	
 </xsl:stylesheet>

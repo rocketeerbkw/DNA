@@ -22,7 +22,7 @@
     
     <xsl:template match="/H2G2[@TYPE = 'MOVE-THREAD']" mode="breadcrumbs">
         <li>
-            <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' messageboards')"/></a>
+            <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' message boards')"/></a>
         </li>
         <li>
             <a href="{$root}/F{MOVE-THREAD-FORM/OLD-FORUM-ID}">
@@ -31,7 +31,7 @@
         </li>
         <li class="current">
             <a href="{$root}/MoveThread?cmd=Fetch&amp;ThreadID={MOVE-THREAD-FORM/THREAD-ID}&amp;DestinationID=F0&amp;mode=" class="startanewdiscussion">
-                <xsl:value-of select="concat('Move ', $discussion, ': ', MOVE-THREAD-FORM/THREAD-SUBJECT)"/>
+                <xsl:value-of select="concat('Move discussion: ', MOVE-THREAD-FORM/THREAD-SUBJECT)"/>
             </a>
         </li>
     </xsl:template>

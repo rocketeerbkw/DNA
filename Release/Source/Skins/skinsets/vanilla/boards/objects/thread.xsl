@@ -36,7 +36,7 @@
             </p>
             <div class="itemdetail">
                 <span class="startedon">
-                	<span class="dna-invisible">This <xsl:value-of select="$discussion"/> was started on </span>
+                    <span class="dna-invisible">This discussion was started on </span>
                     <xsl:apply-templates select="FIRSTPOST/DATE | FIRSTUSERPOST/DATEPOSTED/DATE" mode="library_date_longformat"/>
                 </span>
                 <span class="dna-invisible"> by </span>
@@ -53,16 +53,16 @@
                         <xsl:when test="(TOTALPOSTS - 1) = 0">
                             <span class="dna-invisible">There have been </span>
                             <span class="noreplies">
-                            	<xsl:text>no </xsl:text><xsl:value-of select="$replies"/>
+                                <xsl:text>no replies</xsl:text>
                             </span>
                         </xsl:when>
                         <xsl:when test="(TOTALPOSTS - 1) = 1">
                             <xsl:value-of select="TOTALPOSTS - 1" />
-                        	<xsl:text> </xsl:text><xsl:value-of select="$reply"/>
+                            <xsl:text> reply</xsl:text>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:value-of select="TOTALPOSTS - 1" />
-                        	<xsl:text> </xsl:text><xsl:value-of select="$replies"/>
+                            <xsl:text> replies</xsl:text>
                         </xsl:otherwise>
                     </xsl:choose>
                     <span class="dna-invisible">.</span>
@@ -142,6 +142,24 @@
                 	(<xsl:value-of select="REPLYDATE/DATE/@RELATIVE"/>)
                 </span>
                 
+                <!--<span class="replies">
+                    <xsl:choose>
+                        <xsl:when test="(ancestor::POST/@COUNTPOSTS - 1) = 0">
+                            <span class="dna-invisible">There have been </span>
+                            <span class="noreplies">
+                                <xsl:text>no replies</xsl:text>
+                            </span>
+                        </xsl:when>
+                        <xsl:when test="(ancestor::POST/@COUNTPOSTS - 1) = 1">
+                            <xsl:value-of select="ancestor::POST/@COUNTPOSTS - 1" />
+                            <xsl:text> reply</xsl:text>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:value-of select="ancestor::POST/@COUNTPOSTS - 1" />
+                            <xsl:text> replies</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    </span>-->
             	<p class="replies">
             		<xsl:if test="ancestor::POST-LIST/USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
 			            <xsl:text>New posts: </xsl:text><xsl:value-of select="number(parent::POST/@COUNTPOSTS) - number(parent::POST/@LASTPOSTCOUNTREAD)"/>

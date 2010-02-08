@@ -20,6 +20,8 @@
         
         <div class="hpData">
             <h3><xsl:value-of select="TITLE"/></h3>
+            <!--
+             -->
             <p class="addremove"><a href="#" class="add"><span class="hide">Add a Story to this feed</span></a> <a class="remove" href="#"><span class="hide">Remove a story from this feed</span></a></p>
             <ul class="{translate( string(count(preceding-sibling::*) + 1), '1234', 'abcd')}">
                 <xsl:apply-templates select="TOP-FIVE-ARTICLE" mode="object_top-fives_top-five-article"/>
@@ -28,13 +30,4 @@
         </div>
         
     </xsl:template>
-	
-	<xsl:template match="TOP-FIVE" mode="object_top-five_rhn">
-		<h3><xsl:value-of select="TITLE"/></h3>
-		<ul class="dna-topfive {translate( string(count(preceding-sibling::*) + 1), '1234', 'abcd')}">
-			<xsl:apply-templates select="TOP-FIVE-ARTICLE" mode="object_top-fives_top-five-article"/>
-			<xsl:apply-templates select="TOP-FIVE-FORUM" mode="object_top-fives_top-five-forum"/>
-		</ul>
-	</xsl:template>
-	
 </xsl:stylesheet>

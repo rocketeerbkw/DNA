@@ -41,7 +41,7 @@
     	
     	<xsl:if test="@CANWRITE = 0">
         <div>
-        	<p class="closed">This <xsl:value-of select="$discussion"/> has been closed.</p>
+          <p class="closed">This discussion has been closed.</p>
         </div>
     	</xsl:if>
         
