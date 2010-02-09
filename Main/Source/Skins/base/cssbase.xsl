@@ -20316,15 +20316,6 @@ Call:		<xsl:apply-templates select="." mode="Form">
 			<TR>
 				<xsl:apply-templates select="." mode="HiddenInputs"/>
 			</TR>
-			<TR>
-				<TD align="RIGHT" width="18%">
-						<xsl:value-of select="$m_nickname"/>
-				</TD>
-				<TD width="80%">
-						<xsl:apply-templates select="." mode="UserName"/>
-				</TD>
-				<TD/>
-			</TR>
 
 			<xsl:if test="$changeableskins">
 				<TR>
