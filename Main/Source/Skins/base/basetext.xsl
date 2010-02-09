@@ -2826,6 +2826,10 @@ rest of DNA, and it might not be safe for everybody. Your choice.
 						</xsl:choose>
 					</xsl:when>
 				</xsl:choose>
+				<!-- Defensive coding, if 606 and typed article page with user signed out  -->
+				<xsl:if test="/H2G2/SITE/@ID = '67' and not(/H2G2/VIEWING-USER/USER/USERNAME)">
+					<xsl:text>TypedArticle%3Facreate=new</xsl:text> 
+				</xsl:if>
 			</xsl:when>
 			<xsl:when test="/H2G2/@TYPE='USER-COMPLAINT'"/>
 			<xsl:when test="/H2G2/@TYPE='USERDETAILS'">userdetails</xsl:when>
