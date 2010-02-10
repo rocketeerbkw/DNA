@@ -16,7 +16,7 @@
     <xsl:template match="THREAD" mode="moderation_cta_makethreadsticky">
         <xsl:param name="label" select="'Stick thread to front page'" />
         
-        <a href="{$root}/FN{@FORUMID}?cmd=MAKETHREADSTICKY&amp;stickythreadid={@THREADID}">
+        <a href="{$root}/NF{@FORUMID}?cmd=MAKETHREADSTICKY&amp;stickythreadid={@THREADID}">
             <xsl:value-of select="$label"/>
         </a>
     </xsl:template>
