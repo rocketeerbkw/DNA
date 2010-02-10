@@ -6,7 +6,7 @@
 
   <!-- Do not edit this -->
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
-	<!--<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" Condition="'$(Solutions.VSVersion)' == '9.0'" />-->
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
 
 	<ProjectExtensions>
 
@@ -313,6 +313,8 @@
     <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
 
 
+    <!-- Clear templates... -->
+    <WebDownload FileUri="http://dnadev.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
 
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
