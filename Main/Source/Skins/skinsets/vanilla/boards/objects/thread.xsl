@@ -96,7 +96,7 @@
             						<xsl:with-param name="label" select="'Move discussion'" />
             					</xsl:apply-templates>
 
-                      <xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and SITEID=/H2G2/CURRENTSITE]/VALUE =1" />
+                      <xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
                       <xsl:if test="$test_stickythreadson">
                         <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_removethreadsticky">
                           <xsl:with-param name="label" select="'Remove Sticky Thread'" />
