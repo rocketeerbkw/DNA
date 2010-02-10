@@ -95,12 +95,16 @@
             					<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId]" mode="moderation_cta_movethread">
             						<xsl:with-param name="label" select="'Move discussion'" />
             					</xsl:apply-templates>
-                      <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_removethreadsticky">
-                        <xsl:with-param name="label" select="'Remove Sticky Thread'" />
-                      </xsl:apply-templates>
-                      <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='false']" mode="moderation_cta_makethreadsticky">
-                        <xsl:with-param name="label" select="'Stick thread to front page'" />
-                      </xsl:apply-templates>
+
+                      <xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and SITEID=/H2G2/CURRENTSITE]/VALUE" />
+                      <xsl:if test="$test_stickythreadson">
+                        <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_removethreadsticky">
+                          <xsl:with-param name="label" select="'Remove Sticky Thread'" />
+                        </xsl:apply-templates>
+                        <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='false']" mode="moderation_cta_makethreadsticky">
+                          <xsl:with-param name="label" select="'Stick thread to front page'" />
+                        </xsl:apply-templates>
+                      </xsl:if>
             				</p>
             			</div>
             		</xsl:with-param>
