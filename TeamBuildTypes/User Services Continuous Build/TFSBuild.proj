@@ -287,6 +287,9 @@
     <!-- Exec IPC$ command - get access to ops-dna1-->
     <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
 
+    <!-- stop iis on ops-dna1 -->
+    <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
+
     <!-- Copy DnaPages to int drop location -->
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
@@ -300,8 +303,7 @@
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2 DNADev\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Message Text="Skins: @(Skins)"></Message>
 
-    <!-- stop iis on ops-dna1 -->
-    <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
+    
     
     <!-- Copy ripley dlls over existing-->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2 DNADev\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
