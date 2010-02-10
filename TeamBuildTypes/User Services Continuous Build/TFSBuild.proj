@@ -285,32 +285,32 @@
     
 
     <!-- Exec IPC$ command - get access to ops-dna1-->
-    <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /u:dna_admin sotzed03"></Exec>
+    <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
 
     <!-- Copy DnaPages to int drop location -->
-    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\vp-dev-dna-web1\h2g2\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- Copy CommentsApi to int drop location -->
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\vp-dev-dna-web1\h2g2\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web1\h2g2\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\ops-dna1\h2g2 DNADev\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web1\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2 DNADev\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Message Text="Skins: @(Skins)"></Message -->
 
     <!-- stop iis on ops-dna1 -->
-    <Exec Command="sc \\vp-dev-dna-web1 stop w3svc" Timeout="10000"></Exec>
+    <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
     
     <!-- Copy ripley dlls over existing-->
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\vp-dev-dna-web1\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2 DNADev\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- start website to copy ripley -->
-    <Exec Command="sc \\vp-dev-dna-web1 start w3svc"></Exec>
+    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
 
     <!-- Close Access to ops-dna1 -->
-    <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
 
 
 
@@ -325,10 +325,10 @@
 
   <Target Name="PostBuildStepFailed">
     <!-- start website to copy ripley -->
-    <Exec Command="sc \\vp-dev-dna-web1 start w3svc"></Exec>
+    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
 
     <!-- Close Access to ops-dna1 -->
-    <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
