@@ -256,4 +256,55 @@
          <AdditionalReferencePath Include="C:\MyFolder2\" />
     -->
   </ItemGroup>
+
+  <Target Name="AfterDropBuild">
+    <CallTarget Targets="PostBuildStep" />
+  </Target>
+
+  <ItemGroup>
+    <Skins Include="$(SolutionRoot)\**\*.*" Exclude="$(SolutionRoot)\base\site.xsl;$(SolutionRoot)\base\lists.xsl;$(SolutionRoot)\base\sitemap.xml;$(SolutionRoot)\common\configuration.xsl;$(SolutionRoot)\Main\**\*.*" ></Skins>
+
+  </ItemGroup>
+
+
+  <!-- do post build step stuff -->
+
+  <Target Name="PostBuildStep">
+    <!-- Create the build steps which start in mode "Running" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying skins to integration server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+    </BuildStep>
+
+    <!-- Exec IPC$ command - get access to ops-dna1-->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
+
+    <!-- Copy ModerationApi to int drop location -->
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2 DNADev\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Message Text="Skins: @(Skins) - solutionroot: $(SolutionRoot)"></Message>
+
+
+    <!-- Close Access to ops-dna1 -->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
+
+
+    <!-- Clear templates... -->
+    <WebDownload FileUri="http://dnadev.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
+
+
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+    <OnError ExecuteTargets="PostBuildStepFailed" />
+  </Target>
+
+
+  <Target Name="PostBuildStepFailed">
+    <!-- Close Access to ops-dna1 -->
+    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  </Target>
+
 </Project>
