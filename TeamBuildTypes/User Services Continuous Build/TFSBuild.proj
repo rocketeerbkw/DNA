@@ -301,7 +301,7 @@
 
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2 DNADev\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Message Text="Skins: @(Skins)"></Message>
+    <Message Text="Skins: @(Skins) - solutionroot: $(SolutionRoot)"></Message>
 
     
     
