@@ -38,12 +38,12 @@
             <xsl:choose>
                 <xsl:when test="ORDERBY = 'latestpost'">
                     <xsl:apply-templates select="THREAD" mode="object_thread">
-                        <xsl:sort select="DATEPOSTED/DATE/@SORT" order="descending"/>
+                        <xsl:sort select="@INDEX" order="ascending"/>
                     </xsl:apply-templates>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:apply-templates select="THREAD" mode="object_thread">
-                        <xsl:sort select="FIRSTPOST/DATE/@SORT" order="descending"/>
+                        <xsl:sort select="@INDEX" order="ascending"/>
                     </xsl:apply-templates>
                 </xsl:otherwise>
             </xsl:choose>

@@ -17,7 +17,7 @@
     <xsl:template match="TOPIC" mode="object_topic_title">
         <li>
             <xsl:call-template name="library_listitem_stripe" />
-            <a href="{$root}/F{FORUMID}">
+            <a href="{$root}/NF{FORUMID}">
                 <xsl:value-of select="TITLE" />
             </a>
         </li>
@@ -26,7 +26,7 @@
     <xsl:template match="TOPIC[FORUMID = /H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID]" mode="object_topic_title">
         <li>
             <xsl:call-template name="library_listitem_stripe" />
-            <a href="{$root}/F{FORUMID}" class="current-section">
+            <a href="{$root}/NF{FORUMID}" class="current-section">
                 <xsl:value-of select="TITLE" />
             </a>
         </li>

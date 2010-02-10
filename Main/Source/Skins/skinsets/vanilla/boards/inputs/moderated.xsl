@@ -21,7 +21,7 @@
 				Your post has been placed in a moderation queue, and will be reviewed by a moderator before posting. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html" class="popup">Explain</a>.
 			</p>
 			<p>
-				<a href="{$root}/F{/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
+				<a href="{$root}/FN{/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
 					Back to the discussion
 				</a>
 			</p>
@@ -35,7 +35,7 @@
 				Unfortunately you are currently restricted from posting to this forum. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html" class="popup">Explain</a>.
 			</p>
 			<p>
-				<a href="{$root}/F{/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
+				<a href="{$root}/FN{/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
 					Back to the discussion
 				</a>
 			</p>

@@ -20,7 +20,7 @@
             <xsl:call-template name="library_listitem_stripe"/>
             
             <p>
-                <a href="{$root}/F{@FORUMID}?thread={@THREADID}">
+                <a href="{$root}/NF{@FORUMID}?thread={@THREADID}">
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
                             <xsl:value-of select="SUBJECT"/> 
@@ -70,7 +70,7 @@
             	<div>
 	            	<span class="updatedon">
 	            		<span class="dna-invisible">Last updated </span>
-	            		<a href="{$root}/F{@FORUMID}?thread={@THREADID}&amp;latest=1#p{LASTPOST/@POSTID}">
+	            		<a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;latest=1#p{LASTPOST/@POSTID}">
 	            			<xsl:value-of select="DATEPOSTED/DATE/@RELATIVE"/>
 	            		</a>
 	            		<span class="dna-invisible"> by </span>
@@ -95,6 +95,12 @@
             					<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId]" mode="moderation_cta_movethread">
             						<xsl:with-param name="label" select="'Move discussion'" />
             					</xsl:apply-templates>
+                      <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_removethreadsticky">
+                        <xsl:with-param name="label" select="'Remove Sticky Thread'" />
+                      </xsl:apply-templates>
+                      <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='false']" mode="moderation_cta_makethreadsticky">
+                        <xsl:with-param name="label" select="'Stick thread to front page'" />
+                      </xsl:apply-templates>
             				</p>
             			</div>
             		</xsl:with-param>

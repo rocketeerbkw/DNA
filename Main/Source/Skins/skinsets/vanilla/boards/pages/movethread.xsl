@@ -25,7 +25,7 @@
             <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' message boards')"/></a>
         </li>
         <li>
-            <a href="{$root}/F{MOVE-THREAD-FORM/OLD-FORUM-ID}">
+            <a href="{$root}/NF{MOVE-THREAD-FORM/OLD-FORUM-ID}">
                 <xsl:value-of select="MOVE-THREAD-FORM/OLD-FORUM-TITLE" />
             </a>
         </li>

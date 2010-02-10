@@ -23,7 +23,7 @@
         
         <li>
             <xsl:call-template name="library_listitem_stripe"/>
-            <a href="{$root}/F{@FORUMID}?thread={@THREADID}">
+            <a href="{$root}/NF{@FORUMID}?thread={@THREADID}">
                 <xsl:apply-templates select="LASTPOST/DATE | LASTUSERPOST/DATEPOSTED/DATE" mode="library_date_longformat"/>
                 
                 <xsl:choose>

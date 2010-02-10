@@ -18,14 +18,14 @@
         
         <xsl:call-template name="library_header_h3">
             <xsl:with-param name="text">
-                <!--<a href="{$root}/F{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}" class="left">
+                <!--<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}" class="left">
                     <xsl:value-of select="TITLE" />
                 </a>
-            	<a href="{$root-rss}/F{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}" class="rsslink" title="View as RSS feed">
+            	<a href="{$root-rss}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}" class="rsslink" title="View as RSS feed">
             		<span></span>
             	</a>
             	<span class="clear"></span>-->
-            	<a href="{$root}/F{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
+            	<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
             		<xsl:value-of select="TITLE" />
             	</a>
             </xsl:with-param>
@@ -33,7 +33,7 @@
         
         <xsl:if test="IMAGENAME and IMAGENAME != ''">
           <div class="topicimage">
-          	<a href="{$root}/F{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
+          	<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
 	            <img src="{$serverPath}{IMAGENAME}" alt="{IMAGEALTTEXT}">
 	              <xsl:if test="IMAGEWIDTH != 0"><xsl:attribute name="width"><xsl:value-of select="IMAGEWIDTH"/></xsl:attribute></xsl:if>
 	              <xsl:if test="IMAGEHEIGHT != 0"><xsl:attribute name="height"><xsl:value-of select="IMAGEHEIGHT"/></xsl:attribute></xsl:if>

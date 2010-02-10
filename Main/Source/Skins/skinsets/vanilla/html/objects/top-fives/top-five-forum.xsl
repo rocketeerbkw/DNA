@@ -30,7 +30,7 @@
                 </xsl:if>
             </xsl:attribute>
             <p>
-                <a href="{$root}/F{FORUMID}?thread={THREADID}">
+                <a href="{$root}/NF{FORUMID}?thread={THREADID}">
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
                             <xsl:value-of select="SUBJECT"/>

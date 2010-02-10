@@ -35,7 +35,7 @@
             <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' message boards')"/></a>
         </li>
         <li>
-            <a href="{$root}/F{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
+            <a href="{$root}/NF{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
                 <xsl:value-of select="FORUMSOURCE/ARTICLE/SUBJECT" />
             </a>
         </li>
@@ -51,7 +51,7 @@
             <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' message boards')"/></a>
         </li>
         <li>
-            <a href="{$root}/F{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
+            <a href="{$root}/NF{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
                 <xsl:value-of select="FORUMSOURCE/ARTICLE/SUBJECT" />
             </a>
         </li>
