@@ -230,14 +230,12 @@
                         BuildUri="$(BuildUri)"
                         CompilationStatus="Failed"
                         Condition=" '$(IsDesktopBuild)' != 'true' and '$(SkinsCheckerResult)'!='1'">
-      <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Failed"  Id="$(SkinCheckerStepId)"/>
     </SetBuildProperties>
 
     <SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
                         BuildUri="$(BuildUri)"
                         CompilationStatus="Succeeded"
                         Condition=" '$(IsDesktopBuild)' != 'true' and '$(SkinsCheckerResult)'=='1'">
-      <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Status="Succeeded" Id="$(SkinCheckerStepId)" />
     </SetBuildProperties>
   </Target>
   <!-- Make it an incremental build -->
