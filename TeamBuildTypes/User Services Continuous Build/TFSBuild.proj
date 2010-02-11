@@ -300,8 +300,8 @@
     <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web1\h2g2\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web1\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Message Text="Skins: @(Skins) - solutionroot: $(SolutionRoot)"></Message>
+    <!--Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web1\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Message Text="Skins: @(Skins) - solutionroot: $(SolutionRoot)"></Message -->
 
     
     
