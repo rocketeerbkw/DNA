@@ -1043,6 +1043,107 @@ return.";
 
             }
         }
+        /// <summary>
+        /// tests ratingCreate function to create rating with character limits
+        /// </summary>
+        [TestMethod]
+        public void RatingCreate_WithEqualMinAndMaxCharLimits()
+        {
+            try
+            {
+                //set max char option
+                using (FullInputContext inputcontext = new FullInputContext(false))
+                {
+                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                    {
+                        reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','15',0,'test MaxCommentCharacterLength value')");
+                        reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MinCommentCharacterLength','15',0,'test MinCommentCharacterLength value')");
+                        _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                        _ratings.siteList = _siteList;
+                    }
+                }
+                string ratingForumID = "good" + Guid.NewGuid().ToString();
+                RatingForum ratingForum = RatingForumCreate(ratingForumID);
+                //set up test data
+                RatingInfo rating = new RatingInfo { text = Guid.NewGuid().ToString().Substring(0, 15) };
+                //normal user
+                _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+                _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
+                RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+                Assert.IsTrue(result != null);
+                Assert.IsTrue(result.ID > 0);
+                Assert.IsTrue(result.text == rating.text);
+
+                //with some markup
+                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", Guid.NewGuid().ToString().Substring(0, 15));
+                result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+                Assert.IsTrue(result != null);
+                Assert.IsTrue(result.ID > 0);
+                Assert.IsTrue(result.text == rating.text);
+
+                //string too large with html
+                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "stringtopad".PadRight(16));
+                try
+                {
+                    result = _ratings.RatingCreate(ratingForum, rating);
+                }
+                catch (ApiException ex)
+                {
+                    Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
+                }
+
+                //string too large without html
+                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+                rating.text = String.Format("{0}", "stringtopad".PadRight(16));
+                try
+                {
+                    result = _ratings.RatingCreate(ratingForum, rating);
+                }
+                catch (ApiException ex)
+                {
+                    Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
+                }
+                //string too small with html
+                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "stringtopad".PadRight(14));
+                try
+                {
+                    result = _ratings.RatingCreate(ratingForum, rating);
+                }
+                catch (ApiException ex)
+                {
+                    Assert.IsTrue(ex.type == ErrorType.MinCharLimitNotReached);
+                }
+
+                //string too small without html
+                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+                rating.text = String.Format("{0}", "stringtopad".PadRight(14));
+                try
+                {
+                    result = _ratings.RatingCreate(ratingForum, rating);
+                }
+                catch (ApiException ex)
+                {
+                    Assert.IsTrue(ex.type == ErrorType.MinCharLimitNotReached);
+                }
+            }
+            finally
+            {
+                using (FullInputContext inputcontext = new FullInputContext(false))
+                {
+                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                    {
+                        reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
+                        reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MinCommentCharacterLength'");
+                        _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                        _ratings.siteList = _siteList;
+                    }
+                }
+
+            }
+        }
         /**************************************************************************************
          * Threaded Rating Tests
          * ************************************************************************************/
