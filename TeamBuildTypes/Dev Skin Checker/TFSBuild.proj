@@ -287,7 +287,7 @@
 
 
     <!-- Clear templates... -->
-    <WebDownload FileUri="http://dnadev.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
 
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
