@@ -652,7 +652,14 @@
                 		<div id="sso"><xsl:call-template name="sso_statusbar"/></div>
                 	</xsl:when>
                 	<xsl:otherwise>
-                		<xsl:call-template name="identity_statusbar"/>
+                		<xsl:choose>
+	                		<xsl:when test="not(/H2G2/@TYPE = 'ONLINE')">
+	                			<xsl:call-template name="identity_statusbar"/>
+	                		</xsl:when>
+	                		<xsl:otherwise>
+	                			<div id="sso">&#160;</div>
+	                		</xsl:otherwise>
+                		</xsl:choose>
                 	</xsl:otherwise>
                 </xsl:choose>
                 <xsl:call-template name="insert-mainbody"/>
