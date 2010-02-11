@@ -28,7 +28,7 @@
           <li class="first">
               <xsl:choose>
                     <xsl:when test="@SKIPTO > 0">
-                        <a href="{$root}/F{@FORUMID}?thread={@THREADID}&amp;skip=0">
+                        <a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;skip=0">
                             <xsl:text>First </xsl:text>
                         </a>
                     </xsl:when>
@@ -42,7 +42,7 @@
             <li class="previous">
                 <xsl:choose>
                     <xsl:when test="@SKIPTO > 0">
-                        <a href="{$root}/F{@FORUMID}?thread={@THREADID}&amp;skip={@SKIPTO - @COUNT}">
+                        <a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;skip={@SKIPTO - @COUNT}">
                             <span class="arrow">
                                 <xsl:text disable-output-escaping="yes"><![CDATA[&laquo;]]></xsl:text>
                             </span>
@@ -63,7 +63,7 @@
             <li class="next">
                 <xsl:choose>
                     <xsl:when test="@MORE != 0">
-                        <a href="{$root}/F{@FORUMID}?thread={@THREADID}&amp;skip={(@SKIPTO + @COUNT)}">
+                        <a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;skip={(@SKIPTO + @COUNT)}">
                             <xsl:text>Next </xsl:text>
                             <span class="arrow">
                                 <xsl:text disable-output-escaping="yes"><![CDATA[&raquo;]]></xsl:text>
@@ -83,7 +83,7 @@
              <li class="last">
               <xsl:choose>
                     <xsl:when test="@MORE != 0">
-                    	<a href="{$root}/F{@FORUMID}?thread={@THREADID}&amp;skip={(floor(@TOTALPOSTCOUNT div @COUNT) * @COUNT)}">
+                    	<a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;skip={(floor(@TOTALPOSTCOUNT div @COUNT) * @COUNT)}">
                             <xsl:text> Last</xsl:text>
                         </a>
                     </xsl:when>
@@ -109,7 +109,7 @@
                 <xsl:if test="$currentPage = $counter">
                     <xsl:attribute name="class">current</xsl:attribute>
                 </xsl:if>
-                <a href="{$root}/F{@FORUMID}?thread={@THREADID}&amp;skip={@COUNT * ($counter - 1)}">
+                <a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;skip={@COUNT * ($counter - 1)}">
                     <xsl:value-of select="$counter"/>
                 </a>
             </li>
