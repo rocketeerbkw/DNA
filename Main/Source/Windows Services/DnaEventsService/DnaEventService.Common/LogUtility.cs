@@ -13,6 +13,9 @@ namespace DnaEventService.Common
 
         public static void LogResponse(HttpStatusCode httpStatusCode, HttpResponseMessage httpResponse)
         {
+            if (Logger == null)
+                return;
+
             string assemblyName = Assembly.GetCallingAssembly().GetName().Name;
 
             var entry = new LogEntry();
@@ -26,6 +29,9 @@ namespace DnaEventService.Common
 
         public static void LogRequest(string postData, string requestUri)
         {
+            if (Logger == null)
+                return;
+
             string assemblyName = Assembly.GetCallingAssembly().GetName().Name;
             var entry = new LogEntry { Severity = TraceEventType.Information };
             entry.Categories.Add(assemblyName + ".Requests");
@@ -36,6 +42,9 @@ namespace DnaEventService.Common
 
         public static void LogException(Exception ex)
         {
+            if (Logger == null)
+                return;
+
             var entry = new LogEntry { Severity = TraceEventType.Error, Message = ex.Message };
             if (ex.InnerException != null)
                 entry.ExtendedProperties.Add("Inner Exception: ", ex.InnerException.Message);

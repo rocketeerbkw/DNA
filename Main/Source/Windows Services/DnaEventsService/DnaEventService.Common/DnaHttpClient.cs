@@ -9,13 +9,6 @@ namespace DnaEventService.Common
     public class DnaHttpClient : IDnaHttpClient
     {
         /// <summary>
-        /// Private constructor. Use Factory method to create instance.
-        /// </summary>
-        private DnaHttpClient()
-        {
-        }
-
-        /// <summary>
         /// Private constructor. Create instance via CreateDnaHttpClient factory method.
         /// </summary>
         /// <param name="httpClient">The actual HttpClient instance being wrapped.</param>

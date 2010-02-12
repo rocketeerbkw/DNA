@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Transactions;
 using BBC.Dna.Data;
 using Dna.SnesIntegration.ActivityProcessor;
@@ -9,6 +11,7 @@ using Microsoft.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
+using System.IO;
 
 namespace DnaEventProcessorService.IntegrationTests
 {
@@ -47,7 +50,7 @@ namespace DnaEventProcessorService.IntegrationTests
         #endregion
 
         [TestMethod]
-        public void TestMethod1()
+        public void ProcessEvents_SeperateLogFilesGeneratedByAssemblyName()
         {
             var mocks = new MockRepository();
 
@@ -76,7 +79,8 @@ namespace DnaEventProcessorService.IntegrationTests
             using (mocks.Record())
             {
                 MockCurrentRowDataReader(getSnesEvents);
-                Expect.Call(dataReaderCreator.CreateDnaDataReader("removehandledsnesevents")).Return(removeHandledSnesEvents);
+                Expect.Call(dataReaderCreator.CreateDnaDataReader("removehandledsnesevents"))
+                    .Return(removeHandledSnesEvents);
                 Expect.Call(dataReaderCreator.CreateDnaDataReader("getsnesevents")).Return(getSnesEvents);
             }
 
@@ -85,10 +89,13 @@ namespace DnaEventProcessorService.IntegrationTests
                 var processor = CreateSnesActivityProcessor(dataReaderCreator, logger, httpClientCreator);
                 processor.ProcessEvents(null);
             }
+
+            Assert.IsTrue(File.Exists("snesactivityprocessor.responses.log"));
+            Assert.IsTrue(File.Exists("snesactivityprocessor.requests.log"));
         }
 
         [TestMethod]
-        public void Integration_CommentActivityEndToEnd()
+        public void Integration_CommentActivityEndToEnd_HttpStatusOK()
         {
             using (new TransactionScope())
             {
@@ -117,6 +124,7 @@ namespace DnaEventProcessorService.IntegrationTests
                 var mocks = new MockRepository();
                 var httpClientCreator = mocks.Stub<IDnaHttpClientCreator>();
                 var httpClient = MockRepository.GenerateStub<IDnaHttpClient>();
+
                 SetupResult.For(httpClientCreator.CreateHttpClient()).Return(httpClient);
                 
                 StubHttpClientPostMethod(httpClient);
@@ -128,9 +136,43 @@ namespace DnaEventProcessorService.IntegrationTests
                 var processor = CreateSnesActivityProcessor(creator, logger, httpClientCreator);
                 processor.ProcessEvents(null);
 
-                httpClient.AssertWasCalled(client => client.Post(new Uri("", UriKind.Relative), HttpContent.Create("")),
-                                           op => op.Constraints(Is.Anything(),Is.Anything()));
+                httpClient.AssertWasCalled(client => client.Post(new Uri("", UriKind.Relative), 
+                    HttpContent.Create("")), op => op.Constraints(Is.Anything(),Is.Anything()));
             }
+        }
+
+        [TestMethod]
+        public void ProcessEvents_HttpClientNotReturning200Ok_RemoveHandledEventsNotCalled()
+        {
+            var mocks = new MockRepository();
+            var dataReader = mocks.Stub<IDnaDataReader>();
+            var dataCreator = mocks.Stub<IDnaDataReaderCreator>();
+            dataCreator.Stub(x => x.CreateDnaDataReader("")).Constraints(Is.Anything()).Return(dataReader);
+            var logger = mocks.Stub<IDnaLogger>();
+
+            var httpCreator = mocks.Stub<IDnaHttpClientCreator>();
+            var httpClient = mocks.Stub<IDnaHttpClient>();
+            httpCreator.Stub(x => x.CreateHttpClient()).Return(httpClient);
+
+            StubHttpClientPostMethod(httpClient, HttpStatusCode.NotFound);
+
+            mocks.ReplayAll();
+
+            var processor = CreateSnesActivityProcessor(dataCreator, logger, httpCreator);
+            processor.ProcessEvents(null);
+
+            dataCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("removehandledsnesevents"));
+        }
+
+        [TestMethod]
+        [DeploymentItem("activities.js")]
+        public void OpenSocialActivities_Deserialize()
+        {
+            var sr = new StreamReader(File.Open(@"activities.js", FileMode.Open));
+            var json = sr.ReadToEnd();
+            var obj = json.ObjectFromJson<OpenSocialActivities>();
+
+            Assert.IsNotNull(obj);
         }
 
         private static void ProcessEvents(IDnaDataReaderCreator creator)
@@ -157,6 +199,11 @@ namespace DnaEventProcessorService.IntegrationTests
 
         private static void StubHttpClientPostMethod(IDnaHttpClient httpClient)
         {
+            StubHttpClientPostMethod(httpClient, HttpStatusCode.OK);
+        }
+
+        private static void StubHttpClientPostMethod(IDnaHttpClient httpClient, HttpStatusCode returnCode)
+        {
             var settings = new HttpWebRequestTransportSettings();
             httpClient.Stub(x => x.TransportSettings).Return(settings);
             var content = HttpContent.Create("");
@@ -164,15 +211,15 @@ namespace DnaEventProcessorService.IntegrationTests
             httpClient.Stub(x => x.Post(new Uri("", UriKind.Relative), content))
                 .Constraints(Is.Anything(), Is.Anything())
                 .Return(newHttpResponseMessage)
-                .WhenCalled(x => x.ReturnValue = GetNewHttpResponseMessage());
+                .WhenCalled(x => x.ReturnValue = GetNewHttpResponseMessage(returnCode));
         }
 
-        private static HttpResponseMessage GetNewHttpResponseMessage()
+        private static HttpResponseMessage GetNewHttpResponseMessage(HttpStatusCode returnCode)
         {
             var content = HttpContent.Create("");
             var newHttpResponseMessage = new HttpResponseMessage
                                              {
-                                                 StatusCode = HttpStatusCode.OK,
+                                                 StatusCode = returnCode,
                                                  Uri = new Uri("http://www.bbc.co.uk/"),
                                                  Content = content
                                              };

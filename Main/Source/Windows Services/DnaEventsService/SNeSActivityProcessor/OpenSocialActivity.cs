@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
@@ -73,6 +75,40 @@ namespace Dna.SnesIntegration.ActivityProcessor
         {
             get;
             set;
+        }
+
+        [DataMember(Name = "id", IsRequired = false, EmitDefaultValue = false)]
+        public string Id
+        {
+            get; set;
+        }
+    }
+
+    [DataContract]
+    public class OpenSocialActivities
+    {
+        [DataMember(Name = "startIndex")]
+        public long StartIndex
+        {
+            get; set;
+        }
+
+        [DataMember(Name = "totalResults")]
+        public long TotalResults
+        {
+            get; set;
+        }
+
+        [DataMember(Name = "itemsPerPage")]
+        public long ItemsPerPage
+        {
+            get; set;
+        }
+
+        [DataMember(Name = "entry")]
+        public Collection<OpenSocialActivity> Entries
+        {
+            get; set;
         }
     }
 }

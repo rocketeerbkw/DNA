@@ -32,5 +32,32 @@ namespace DnaEventProcessorService.IntegrationTests.Properties {
                 return ((string)(this["guideConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://10.152.4.15:80/")]
+        public string proxyAddress {
+            get {
+                return ((string)(this["proxyAddress"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api.stage.bbc.co.uk/")]
+        public string baseUri {
+            get {
+                return ((string)(this["baseUri"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DNA Live")]
+        public string certificateName {
+            get {
+                return ((string)(this["certificateName"]));
+            }
+        }
     }
 }

@@ -1,7 +1,10 @@
 ﻿
+using System.IO;
 using BBC.Dna.Utils;
 using Dna.SnesIntegration.ActivityProcessor;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace SnesActivityTests
 {
@@ -53,7 +56,24 @@ namespace SnesActivityTests
             string json = comment.SerializeToJson();
 
             Assert.IsTrue(json.Contains("\"title\":\"A title\""));
-           
+
+        }
+
+        [TestMethod]
+        public void OpenSocialContract_DeserializeFromJson_ReturnsOk()
+        {
+            string openSocialActivityJson = 
+                @"{"+
+                    @"""objectUri"":""b00qhs5v""," +
+                    @"""body"":""Rock and Chips""," +
+                    @"""meh"":""meh""" +
+                @"}";
+
+            string testJson = @"{""startIndex"":0, ""itemsPerPage"":1,""totalResults"":20, ""entry"":[{""id"":0}, {""id"":1}]}";
+
+            var ser = new DataContractJsonSerializer(typeof(OpenSocialActivities));
+            var ms = new MemoryStream(Encoding.Unicode.GetBytes(testJson));
+            var activity = ser.ReadObject(ms) as OpenSocialActivities;
         }
     }
 }

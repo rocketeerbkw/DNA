@@ -9,5 +9,14 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=.\sqlserver2005;Initial Catalog=smallGuide;Integrated Security=True</Value>
     </Setting>
+    <Setting Name="proxyAddress" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://10.152.4.15:80/</Value>
+    </Setting>
+    <Setting Name="baseUri" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://api.stage.bbc.co.uk/</Value>
+    </Setting>
+    <Setting Name="certificateName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DNA Live</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

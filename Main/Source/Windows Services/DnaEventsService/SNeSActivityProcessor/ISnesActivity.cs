@@ -1,6 +1,6 @@
 ﻿using System;
-using DnaEventService.Common;
 using System.Net;
+using DnaEventService.Common;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
@@ -10,5 +10,6 @@ namespace Dna.SnesIntegration.ActivityProcessor
         Uri GetUri();
         int ActivityId { get; set; }
         HttpStatusCode Send(IDnaHttpClient client);
+        string Content { get; set; }
     }
 }

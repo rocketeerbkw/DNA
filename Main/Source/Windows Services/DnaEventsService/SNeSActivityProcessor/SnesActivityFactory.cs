@@ -12,7 +12,10 @@ namespace Dna.SnesIntegration.ActivityProcessor
             switch (activityType)
             {
                 case 19:
-                    activity = CommentActivity.CreateActivity(activityType, currentRow);
+                    activity = CommentActivityBase.CreateActivity(activityType, currentRow);
+                    break;
+                case 20:
+                    activity = RevokeCommentActivity.CreateActivity(currentRow);
                     break;
                 default:
                     activity = new UnexpectedActivity();
