@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using BBC.Dna.Data;
 using DnaEventService.Common;
-using Microsoft.Http;
 using Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers;
 
 namespace Dna.SnesIntegration.ActivityProcessor
