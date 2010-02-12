@@ -1058,7 +1058,7 @@ return.";
                     {
                         reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','15',0,'test MaxCommentCharacterLength value')");
                         reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MinCommentCharacterLength','15',0,'test MinCommentCharacterLength value')");
-                        _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                        _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
                         _ratings.siteList = _siteList;
                     }
                 }
@@ -1137,7 +1137,7 @@ return.";
                     {
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MinCommentCharacterLength'");
-                        _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                        _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
                         _ratings.siteList = _siteList;
                     }
                 }
