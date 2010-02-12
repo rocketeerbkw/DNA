@@ -47,7 +47,7 @@ namespace Tests
         private void ReadSiteOptionListFromDatabase()
         {
             _testXSLTFilename = base.DnaConfig.CachePath + "DnaHtmlCacheTestFile.xsl";
-            _siteOptionList = new SiteOptionList(this.dnaDiagnostics,  DnaMockery.DnaConfig.ConnectionString);
+            _siteOptionList = new SiteOptionList(ReaderCreator,base.dnaDiagnostics);
             _siteOptionList.CreateFromDatabase();
         }
 

@@ -19,6 +19,10 @@ namespace BBC.Dna
 	{
 		private static AppContext _appContext;
         private static List<string> _bannedCoookies = new List<string>();
+        /// <summary>
+        /// The creator of all database readers...
+        /// </summary>
+        public static IDnaDataReaderCreator ReaderCreator{get;set;}
 
         /// <summary>
         /// 
@@ -46,9 +50,8 @@ namespace BBC.Dna
 			Statistics.InitialiseIfEmpty(/*TheAppContext*/);
 
             //load the smiley list
-            IDnaDataReaderCreator _creator = new DnaDataReaderCreator(_appContext.Config.ConnectionString,
-                _appContext.Diagnostics);
-            SmileyTranslator.LoadSmileys(_creator);
+            
+            SmileyTranslator.LoadSmileys(ReaderCreator);
 		}
 
 		/// <summary>
@@ -79,6 +82,7 @@ namespace BBC.Dna
 			{
 				_maximumRequestCount = Convert.ToInt32(WebConfigurationManager.AppSettings["maxrequests"]);
 			}
+            ReaderCreator = new DnaDataReaderCreator(_dnaConfig.ConnectionString, _dnaAppDiagnostics);
 		}
 
 		/// <summary>
@@ -93,7 +97,7 @@ namespace BBC.Dna
 
 		private void InitialiseSiteList(object context)
 		{
-            _siteList = SiteList.GetSiteList(_dnaAppDiagnostics, _dnaConfig.ConnectionString, true);
+            _siteList = SiteList.GetSiteList(ReaderCreator, _dnaAppDiagnostics, true);
             if (context == null)
             {
                 context = _appContext;

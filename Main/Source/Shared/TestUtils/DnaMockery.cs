@@ -6,6 +6,7 @@ using BBC.Dna;
 using DnaIdentityWebServiceProxy;
 using BBC.Dna.Utils;
 using BBC.Dna.Sites;
+using BBC.Dna.Data;
 
 namespace Tests
 {
@@ -38,6 +39,12 @@ namespace Tests
             DataReaderCreator action = new DataReaderCreator(databaseInputContext);
             Stub.On(databaseInputContext).Method("CreateDnaDataReader").WithAnyArguments().Will(action);
             return databaseInputContext;
+        }
+
+        public static IDnaDataReaderCreator CreateDatabaseReaderCreator()
+        {
+            DnaDataReaderCreator action = new DnaDataReaderCreator(_config.ConnectionString);
+            return action;
         }
 
         /// <summary>

@@ -38,7 +38,7 @@ namespace Tests
             {
                 using (FullInputContext inputcontext = new FullInputContext(false))
                 {
-                    _testSiteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                    _testSiteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                     inputcontext.SetCurrentSite("h2g2");
                     inputcontext.InitDefaultUser();
                     _siteListloaded = true;
@@ -65,7 +65,7 @@ namespace Tests
             Console.WriteLine("Test2LoadSiteListTest");
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                SiteList testSiteList = new SiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                SiteList testSiteList = new SiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 testSiteList.LoadSiteList();
                 _siteListloaded = true;
             }
@@ -108,7 +108,7 @@ namespace Tests
             Console.WriteLine("Test5AddASiteTest");
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                SiteList testSiteList = new SiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                SiteList testSiteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                 testSiteList.LoadSiteList();
                 testSiteList.AddSiteDetails(999, "MyTestSite", 0, false, "TestSiteSkin", true, "NewTestSite", "TestSite",
                             "moderator@bbc.co.uk", "editor@bbc.co.uk", "feedback@bbc.co.uk", 1090497224, false, true, true, "", "Alert", 2000, 1090497224, 0,

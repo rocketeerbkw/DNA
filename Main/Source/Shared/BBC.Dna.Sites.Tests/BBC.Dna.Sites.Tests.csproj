@@ -48,6 +48,10 @@
       <HintPath>..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference DLLs\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
@@ -74,7 +78,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextTest.cs" />
+    <Compile Include="OpenCloseTimeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SiteListTest.cs" />
+    <Compile Include="SiteOptionInvalidTypeExceptionTest.cs" />
+    <Compile Include="SiteOptionListTest.cs" />
+    <Compile Include="SiteOptionNotFoundExceptionTest.cs" />
+    <Compile Include="SiteOptionTest.cs" />
+    <Compile Include="SiteTest.cs" />
+    <Compile Include="SkinTest.cs" />
+    <Compile Include="TopicTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">

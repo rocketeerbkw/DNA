@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 
 namespace BBC.Dna.Sites
 {
@@ -10,7 +7,6 @@ namespace BBC.Dna.Sites
     /// </summary>
     public class OpenCloseTime
     {
-
         /// <summary>
         /// Default Constructor for the OpenCloseTime object
         /// </summary>
@@ -25,7 +21,7 @@ namespace BBC.Dna.Sites
         /// <param name="hour">Hour</param>
         /// <param name="minute">Minute</param>
         /// <param name="closed">If closed</param>
-	    public OpenCloseTime(int dayOfWeek, int hour, int minute, int closed)
+        public OpenCloseTime(int dayOfWeek, int hour, int minute, int closed)
         {
             DayOfWeek = dayOfWeek;
             Hour = hour;
@@ -46,16 +42,37 @@ namespace BBC.Dna.Sites
         }
 
         /// <summary>
+        /// Public accessor for Day Of Week field
+        /// </summary>
+        public int DayOfWeek { get; set; }
+
+        /// <summary>
+        /// Public accessor for Hour field
+        /// </summary>
+        public int Hour { get; set; }
+
+        /// <summary>
+        /// Public accessor for minute field
+        /// </summary>
+        public int Minute { get; set; }
+
+        /// <summary>
+        /// Public accessor for closed field
+        /// </summary>
+        public int Closed { get; set; }
+
+        /// <summary>
         /// Function to compare this Open Close time against a given date time structure to see if 
         /// The open close time has already happened or not
         /// </summary>
         /// <param name="date">Passed in dat to check against</param>
         /// <returns>If the event has already happened</returns>
-	    public bool HasAlreadyHappened(DateTime date)
+        public bool HasAlreadyHappened(DateTime date)
         {
             bool hasAlreadyHappened = false;
 
-			int dayOfWeek = 1 + (int)date.DayOfWeek;
+            //db code which contains c++ values has sunday = 1, monday =0 - c# has sunday =0, monday =1... so plus 1
+            int dayOfWeek = 1+ (int) date.DayOfWeek;
             int hour = date.Hour;
             int minute = date.Minute;
 
@@ -73,22 +90,5 @@ namespace BBC.Dna.Sites
 
             return hasAlreadyHappened;
         }
-
-        /// <summary>
-        /// Public accessor for Day Of Week field
-        /// </summary>
-        public int DayOfWeek { get; set; }
-        /// <summary>
-        /// Public accessor for Hour field
-        /// </summary>
-        public int Hour{get;set;}
-        /// <summary>
-        /// Public accessor for minute field
-        /// </summary>
-        public int Minute { get; set; }
-        /// <summary>
-        /// Public accessor for closed field
-        /// </summary>
-        public int Closed { get; set; }
     }
 }

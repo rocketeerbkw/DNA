@@ -15,12 +15,15 @@ namespace BBC.Dna.Sites
     {
         private List<SiteOption> _siteOptionList;
         private Dictionary<string, SiteOption> _siteOptionDictionary;
+
         /// <summary>
         /// Creates the SiteOptionList
         /// </summary>
-        public SiteOptionList(IDnaDiagnostics dnaDiagnostics, string connection)
-            : base(dnaDiagnostics, connection)
+        public SiteOptionList(IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag)
+            : base(ReaderCreator, DnaDiag)
         {
+            _siteOptionList = new List<SiteOption>();
+            _siteOptionDictionary = new Dictionary<string, SiteOption>();
         }
 
         /// <summary>
@@ -28,7 +31,7 @@ namespace BBC.Dna.Sites
         /// </summary>
         public void CreateFromDatabase()
         {
-            dnaDiagnostics.WriteTimedEventToLog("SiteOptionList", "Creating list from database");
+            DnaDiagnostics.WriteTimedEventToLog("SiteOptionList", "Creating list from database");
 
             _siteOptionList = new List<SiteOption>();
             _siteOptionDictionary = new Dictionary<string, SiteOption>();
@@ -40,7 +43,7 @@ namespace BBC.Dna.Sites
             int type = 0;
             string description;
 
-            using (IDnaDataReader dataReader = CreateReader("getallsiteoptions"))
+            using (IDnaDataReader dataReader = ReaderCreator.CreateDnaDataReader("getallsiteoptions"))
             {
                 dataReader.Execute();
 
@@ -71,7 +74,7 @@ namespace BBC.Dna.Sites
 
                 }
             }
-            dnaDiagnostics.WriteTimedEventToLog("SiteOptionList", "Created list from database");
+            DnaDiagnostics.WriteTimedEventToLog("SiteOptionList", "Created list from database");
         }
 
         private string GetKey( int siteId, string section, string name )
@@ -285,13 +288,17 @@ namespace BBC.Dna.Sites
             }
         }
 
+        /// <summary>
+        /// Updates the siteoption which is passed in
+        /// </summary>
+        /// <param name="so"></param>
         private void UpdateSiteOptionInDatabase(SiteOption so)
         {
-            using (IDnaDataReader dataReader = CreateReader("setsiteoption"))
+            using (IDnaDataReader dataReader = ReaderCreator.CreateDnaDataReader("setsiteoption"))
             {
                 string value = string.Empty;
 
-                switch (so.Type)
+                switch (so.OptionType)
                 {
                     case SiteOption.SiteOptionType.Int: 
                         value = so.GetValueInt().ToString();
@@ -305,11 +312,12 @@ namespace BBC.Dna.Sites
                         }
                         break;
 
-                    case SiteOption.SiteOptionType.String:
-                        value = so.GetValueString();
-                        break;
+                    //TODO: no code path allows for string options to be set...
+                    //case SiteOption.SiteOptionType.String:
+                    //    value = so.GetValueString();
+                    //    break;
 
-                    default: throw new SiteOptionInvalidTypeException("Unknown type: " + so.Type.ToString());
+                    //default: throw new SiteOptionInvalidTypeException("Unknown type: " + so.OptionType.ToString());
                 }
 
                 dataReader.AddParameter("@siteid", so.SiteId);
@@ -318,6 +326,24 @@ namespace BBC.Dna.Sites
                 dataReader.AddParameter("@value", value);
                 dataReader.Execute();
             }
+        }
+
+        /// <summary>
+        /// Returns all siteoption as list
+        /// </summary>
+        /// <returns></returns>
+        public List<SiteOption> GetAllOptions()
+        {
+            return _siteOptionList;
+        }
+
+        /// <summary>
+        /// Returns all siteoption as list
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, SiteOption> GetAllOptionsDictionary()
+        {
+            return _siteOptionDictionary;
         }
     }
 }

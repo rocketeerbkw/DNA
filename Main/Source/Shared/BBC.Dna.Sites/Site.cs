@@ -1,84 +1,48 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
-using System.Text.RegularExpressions;
-using System.Net.Sockets;
-using System.Configuration;
-using BBC.Dna.Data;
-using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Sites
 {
     /// <summary>
     /// The Site class holds all the data regarding a Site
     /// </summary>
-    public class Site : Context, ISite
+    public class Site : ISite
     {
         /// <summary>
         /// Dictionary of the skins associated with the site
         /// </summary>
-        private Dictionary<string, Skin> _skins = new Dictionary<string, Skin>();
+        private readonly Dictionary<string, Skin> _skins = new Dictionary<string, Skin>();
+
         /// <summary>
         /// Dictionary of the Review forums associated with the site
         /// </summary>
-        private Dictionary<string, int> _reviewForums = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _reviewForums = new Dictionary<string, int>();
+
         /// <summary>
         /// Dictionary of the key articles associated with the site
         /// </summary>
-        private Dictionary<string, int> _articles = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _articles = new Dictionary<string, int>();
 
         /// <summary>
         /// List for the topics associated with the site
         /// </summary>
-        private List<Topic> _topics = new List<Topic>();
+        private readonly List<Topic> _topics = new List<Topic>();
 
-        /// <summary>
-        /// List for the open close times associated with the site
-        /// </summary>
-        private List<OpenCloseTime> _openCloseTimes = new List<OpenCloseTime>();
+        private readonly bool _unmoderated;
+        private readonly bool _preModeration;
 
-        /// <summary>
-        /// The Site ID of the Site
-        /// </summary>
-        private int _id = 0;
-        /// <summary>
-        /// The Site name of the Site
-        /// </summary>
-        private string _name = String.Empty;
 
         private int _threadOrder;
         private int _allowRemoveVote;
-        private int _includeCrumbtrail;
         private int _allowPostCodesInSearch;
-        private int _threadEditTimeLimit;
-        private int _autoMessageUserID;
-        private int _eventAlertMessageUserID;
- 
-        private int _minAge;
-        private int _maxAge;
-		private int _modClassID;
-
-        private bool _preModeration;
+        private int _eventAlertMessageUserId;
         private bool _noAutoSwitch;
-        private bool _passworded;
-
-        private bool _unmoderated;
         private bool _articleGuestBookForums;
         private bool _queuePostings;
-
-        private bool _emergencyClosed;
-        private string _defaultSkin;
-
-        private string _description;
-        private string _shortName;
-        private string _ssoService;
-        private string _skinSet;
-        private string _IdentityPolicy;
-
-        private bool _useIdentitySignInSystem;
+        private string _emailAlertSubject;
 
         /// <summary>
         /// Defines Site Email Types.
@@ -99,14 +63,6 @@ namespace BBC.Dna.Sites
             Feedback
         }
 
-        private string _moderatorsEmail;
-        private string _editorsEmail;
-        private string _feedbackEmail;
-
-        private string _config;
-        private string _emailAlertSubject;
- 
-
 
         /// <summary>
         /// Constructor for a site Object
@@ -122,14 +78,14 @@ namespace BBC.Dna.Sites
         /// <param name="moderatorsEmail">Moderators email for the site where the moderation emails will report they are from</param>
         /// <param name="editorsEmail">Editors email for the site where the editors emails will report they are from</param>
         /// <param name="feedbackEmail">The email given to be displayed on the site for users feedback</param>
-        /// <param name="autoMessageUserID">ID of the user that the emails originate from</param>
+        /// <param name="autoMessageUserId">ID of the user that the emails originate from</param>
         /// <param name="passworded">Is the Site a passworded Site</param>
         /// <param name="unmoderated">Is the Site unmoderated</param>
         /// <param name="articleGuestBookForums">Default article forum style if the article forums are displayed in guestbook style</param>
         /// <param name="config">Config XML block for this site</param>
         /// <param name="emailAlertSubject">Default email subject for an alert from the site</param>
         /// <param name="threadEditTimeLimit">Time delay for editing threads for the site</param>
-        /// <param name="eventAlertMessageUserID">The user id that the Alert email will come from</param>
+        /// <param name="eventAlertMessageUserId">The user id that the Alert email will come from</param>
         /// <param name="allowRemoveVote">Allow users to remove their votes</param>
         /// <param name="includeCrumbtrail">Whether the site includes/displays a crumbtrail through the category nodes</param>
         /// <param name="allowPostCodesInSearch">Whether the site allows searches on postcodes</param>
@@ -137,278 +93,142 @@ namespace BBC.Dna.Sites
         /// <param name="emergencyClosed">Whether the Site has been emergency closed</param>
         /// <param name="minAge">The minimum age of the site (to restrict allowedable users)</param>
         /// <param name="maxAge">The maximum age of the site (to restrict allowedable users)</param>
-		/// <param name="modClassID">The moderation class of this site</param>
+        /// <param name="modClassId">The moderation class of this site</param>
         /// <param name="ssoService">The sso service</param>
         /// <param name="useIdentitySignInSystem">A flag that states whether or not to use Identity to loig the user in</param>
         /// <param name="skinSet"></param>
-        /// <param name="IdentityPolicy">The Identity Policy Uri to use</param>
-        public Site(int id, string name, int threadOrder, bool preModeration, string defaultSkin, 
-								                bool noAutoSwitch, string description, string shortName,
-								                string moderatorsEmail, string editorsEmail,
-								                string feedbackEmail, int autoMessageUserID, bool passworded,
-								                bool unmoderated, bool articleGuestBookForums,
-								                string config, string emailAlertSubject, int threadEditTimeLimit, 
-								                int eventAlertMessageUserID, int allowRemoveVote, int includeCrumbtrail,
-								                int allowPostCodesInSearch, bool queuePostings, bool emergencyClosed,
-                                                int minAge, int maxAge, int modClassID, string ssoService, bool useIdentitySignInSystem,
-                                                string skinSet, string IdentityPolicy, IDnaDiagnostics dnaDiagnostics, string connection)
-            : base(dnaDiagnostics, connection)
+        /// <param name="identityPolicy">The Identity Policy Uri to use</param>
+        /// <param name="dnaDiagnostics"></param>
+        /// <param name="connection"></param>
+        public Site(int id, string name, int threadOrder, bool preModeration, string defaultSkin,
+                    bool noAutoSwitch, string description, string shortName,
+                    string moderatorsEmail, string editorsEmail,
+                    string feedbackEmail, int autoMessageUserId, bool passworded,
+                    bool unmoderated, bool articleGuestBookForums,
+                    string config, string emailAlertSubject, int threadEditTimeLimit,
+                    int eventAlertMessageUserId, int allowRemoveVote, int includeCrumbtrail,
+                    int allowPostCodesInSearch, bool queuePostings, bool emergencyClosed,
+                    int minAge, int maxAge, int modClassId, string ssoService, bool useIdentitySignInSystem,
+                    string skinSet, string identityPolicy)
         {
-            _id = id;
-            _name = name;
+            OpenCloseTimes = new List<OpenCloseTime>();
+            SiteID = id;
+            SiteName = name;
             _threadOrder = threadOrder;
             _preModeration = preModeration;
-            _defaultSkin = defaultSkin;
+            DefaultSkin = defaultSkin;
             _noAutoSwitch = noAutoSwitch;
-            _description = description;
-            _shortName = shortName;
-            _moderatorsEmail = moderatorsEmail;
-            _editorsEmail = editorsEmail;
-            _feedbackEmail = feedbackEmail;
-            _autoMessageUserID = autoMessageUserID;
-            _passworded = passworded;
+            Description = description;
+            ShortName = shortName;
+            ModeratorsEmail = moderatorsEmail;
+            EditorsEmail = editorsEmail;
+            FeedbackEmail = feedbackEmail;
+            AutoMessageUserID = autoMessageUserId;
+            IsPassworded = passworded;
             _unmoderated = unmoderated;
             _articleGuestBookForums = articleGuestBookForums;
-            _config = config;
+            Config = config;
             _emailAlertSubject = emailAlertSubject;
-            _threadEditTimeLimit = threadEditTimeLimit;
-            _eventAlertMessageUserID = eventAlertMessageUserID;
+            ThreadEditTimeLimit = threadEditTimeLimit;
+            _eventAlertMessageUserId = eventAlertMessageUserId;
             _allowRemoveVote = allowRemoveVote;
-            _includeCrumbtrail = includeCrumbtrail;
+            IncludeCrumbtrail = includeCrumbtrail;
             _allowPostCodesInSearch = allowPostCodesInSearch;
             _queuePostings = queuePostings;
-            _emergencyClosed = emergencyClosed;
-            _minAge = minAge;
-            _maxAge = maxAge;
-			_modClassID = modClassID;
-            _ssoService = ssoService;
-            _useIdentitySignInSystem = useIdentitySignInSystem;
-            _skinSet = skinSet;
-            _IdentityPolicy = IdentityPolicy;
-
+            IsEmergencyClosed = emergencyClosed;
+            MinAge = minAge;
+            MaxAge = maxAge;
+            ModClassID = modClassId;
+            SSOService = ssoService;
+            UseIdentitySignInSystem = useIdentitySignInSystem;
+            SkinSet = skinSet;
+            this.IdentityPolicy = identityPolicy;
         }
 
         /// <summary>
         /// SiteID Property
         /// </summary>
-        public int SiteID
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                _id = value;
-            }
-        }
+        public int SiteID { get; set; }
 
-		/// <summary>
-		/// The Moderation Class of this site
-		/// </summary>
-		public int ModClassID
-		{
-			get
-			{
-				return _modClassID;
-			}
-		}
+        /// <summary>
+        /// The Moderation Class of this site
+        /// </summary>
+        public int ModClassID { get; private set; }
 
         /// <summary>
         /// SiteName Property
         /// </summary>
-        public string SiteName
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
-        }
+        public string SiteName { get; set; }
 
         /// <summary>
         /// ssoService Property
         /// </summary>
-        public string SSOService
-        {
-            get
-            {
-                return _ssoService;
-            }
-            set
-            {
-                _ssoService = value;
-            }
-        }
+        public string SSOService { get; set; }
 
         /// <summary>
         /// Get/Set property for the Identity policy Uri
         /// </summary>
-        public string IdentityPolicy
-        {
-            get { return _IdentityPolicy; }
-            set { _IdentityPolicy = value; }
-        }
+        public string IdentityPolicy { get; set; }
 
         /// <summary>
         /// MinAge property
         /// </summary>
-        public int MinAge
-        {
-            get 
-            { 
-                return _minAge; 
-            }
-            set 
-            { 
-                _minAge = value; 
-            }
-        }
+        public int MinAge { get; set; }
 
         /// <summary>
         /// MaxAge property
         /// </summary>
-        public int MaxAge
-        {
-            get 
-            { 
-                return _maxAge; 
-            }
-            set 
-            { 
-                _maxAge = value; 
-            }
-        }
+        public int MaxAge { get; set; }
 
         /// <summary>
         /// MaxAge property
         /// </summary>
-        public string SkinSet
-        {
-            get
-            {
-                return _skinSet;
-            }
-        }
+        public string SkinSet { get; private set; }
 
         /// <summary>
         /// Emergency Closed property
         /// </summary>
-        public bool IsEmergencyClosed
-        {
-            get 
-            { 
-                return _emergencyClosed; 
-            }
-            set 
-            { 
-                _emergencyClosed = value; 
-            }
-        }
+        public bool IsEmergencyClosed { get; set; }
 
         /// <summary>
         /// Default Skin property
         /// </summary>
-        public string DefaultSkin
-        {
-            get
-            {
-                return _defaultSkin;
-            }
-        }
+        public string DefaultSkin { get; private set; }
 
         /// <summary>
         /// Editors Email Property
         /// </summary>
-        public string EditorsEmail
-        {
-            get
-            {
-                return _editorsEmail;
-            }
-            set
-            {
-                _editorsEmail = value;
-            }
-        }
+        public string EditorsEmail { get; set; }
 
         /// <summary>
         /// Moderators Email Property
         /// </summary>
-        public string ModeratorsEmail
-        {
-            get
-            {
-                return _moderatorsEmail;
-            }
-            set
-            {
-                _moderatorsEmail = value;
-            }
-        }
+        public string ModeratorsEmail { get; set; }
 
         /// <summary>
         /// Feedback Email Property
         /// </summary>
-        public string FeedbackEmail
-        {
-            get
-            {
-                return _feedbackEmail;
-            }
-            set
-            {
-                _feedbackEmail = value;
-            }
-        }
+        public string FeedbackEmail { get; set; }
 
         /// <summary>
         /// Returns the list of open/close times
         /// </summary>
-        public List<OpenCloseTime> OpenCloseTimes
-        {
-            get { return _openCloseTimes; }
-        }
+        public List<OpenCloseTime> OpenCloseTimes { get; private set; }
 
-		/// <summary>
-		/// Description field
-		/// </summary>
-		public string Description
-		{
-			get
-			{
-				return _description;
-			}
-		}
+        /// <summary>
+        /// Description field
+        /// </summary>
+        public string Description { get; private set; }
 
-		/// <summary>
-		/// ShortName field
-		/// </summary>
-		public string ShortName
-		{
-			get
-			{
-				return _shortName;
-			}
-		}
+        /// <summary>
+        /// ShortName field
+        /// </summary>
+        public string ShortName { get; private set; }
 
         /// <summary>
         /// Is the site passworded
         /// </summary>
-        public bool IsPassworded
-        {
-            get 
-            { 
-                return _passworded; 
-            }
-            set 
-            { 
-                _passworded = value; 
-            }
-        }
+        public bool IsPassworded { get; set; }
 
         /// <summary>
         /// The moderation status for this site:
@@ -422,55 +242,36 @@ namespace BBC.Dna.Sites
             {
                 // Premoderation flag overrides the Unmoderated flag when set
                 if (_preModeration)
-                {
-                    return BBC.Dna.Moderation.Utils.ModerationStatus.SiteStatus.PreMod;   // Premoderated
+                {//TODO: Look at where this namespace conflict is coming from
+                    return Moderation.Utils.ModerationStatus.SiteStatus.PreMod; // Premoderated
                 }
-                else
+                if (_unmoderated)
                 {
-                    if (_unmoderated)
-                    {
-                        return BBC.Dna.Moderation.Utils.ModerationStatus.SiteStatus.UnMod;   // Unmoderated
-                    }
-                    else
-                    {
-                        return BBC.Dna.Moderation.Utils.ModerationStatus.SiteStatus.PostMod;   // Implied postmoderated
-                    }
+                    return Moderation.Utils.ModerationStatus.SiteStatus.UnMod; // Unmoderated
                 }
+                return Moderation.Utils.ModerationStatus.SiteStatus.PostMod; // Implied postmoderated
             }
         }
 
         /// <summary>
         /// Get property for the Thread Edit Time Limit
         /// </summary>
-        public int ThreadEditTimeLimit
-        {
-            get { return _threadEditTimeLimit; }
-        }
+        public int ThreadEditTimeLimit { get; private set; }
 
         /// <summary>
         /// Get property for the Include Crumbtrail
         /// </summary>
-        public int IncludeCrumbtrail
-        {
-            get { return _includeCrumbtrail; }
-        }
+        public int IncludeCrumbtrail { get; private set; }
 
         /// <summary>
         /// Get property for the id of the auto message user for the site
         /// </summary>
-        public int AutoMessageUserID
-        {
-            get { return _autoMessageUserID; }
-        }
+        public int AutoMessageUserID { get; private set; }
 
         /// <summary>
         /// Returns site config value
         /// </summary>
-        public string Config
-        {
-            get { return _config; }
-            set { _config = value; }
-        }
+        public string Config { get; set; }
 
         /// <summary>
         /// Given a type of email to return return the correct email for the site
@@ -484,13 +285,13 @@ namespace BBC.Dna.Sites
             {
                 case EmailType.Editors:
                     retval = EditorsEmail;
-                break;
+                    break;
                 case EmailType.Moderators:
                     retval = ModeratorsEmail;
-                break;
+                    break;
                 case EmailType.Feedback:
                     retval = FeedbackEmail;
-                break;
+                    break;
             }
             return retval;
         }
@@ -520,7 +321,7 @@ namespace BBC.Dna.Sites
         public bool IsSiteScheduledClosed(DateTime datetime)
         {
             OpenCloseTime openCloseTime;
-            int openCloseTimesCount = _openCloseTimes.Count;
+            int openCloseTimesCount = OpenCloseTimes.Count;
 
             if (openCloseTimesCount == 0)
             {
@@ -530,7 +331,7 @@ namespace BBC.Dna.Sites
 
             for (int i = 0; i < openCloseTimesCount; i++)
             {
-                openCloseTime = _openCloseTimes[i];
+                openCloseTime = OpenCloseTimes[i];
                 bool hasScheduledEventAlreadyHappened = openCloseTime.HasAlreadyHappened(datetime);
                 if (hasScheduledEventAlreadyHappened)
                 {
@@ -548,16 +349,13 @@ namespace BBC.Dna.Sites
             }
 
             // no opening/closing time has passed yet so get the first one in the array.
-            openCloseTime = _openCloseTimes[0];
+            openCloseTime = OpenCloseTimes[0];
 
             if (openCloseTime.Closed == 1)
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         /// <summary>
@@ -570,7 +368,7 @@ namespace BBC.Dna.Sites
             isClosed = (IsSiteScheduledClosed(DateTime.Now) || IsEmergencyClosed);
             return isClosed;
         }
- 
+
         /// <summary>
         /// Adds a new skin object to the skin list
         /// </summary>
@@ -579,9 +377,9 @@ namespace BBC.Dna.Sites
         /// <param name="useFrames">whether the skin uses frames</param>
         public void AddSkin(string skinName, string skinDescription, bool useFrames)
         {
-	        Skin newskin = new Skin(skinName, skinDescription, useFrames);
+            var newskin = new Skin(skinName, skinDescription, useFrames);
             string keyName = skinName.ToUpper();
-	        _skins.Add(keyName, newskin);
+            _skins.Add(keyName, newskin);
         }
 
         /// <summary>
@@ -604,8 +402,8 @@ namespace BBC.Dna.Sites
         /// <param name="closed">Whether close or not</param>
         public void AddOpenCloseTime(int dayOfWeek, int hour, int minute, int closed)
         {
-            OpenCloseTime openCloseTime = new OpenCloseTime(dayOfWeek, hour, minute, closed);
-            _openCloseTimes.Add(openCloseTime);
+            var openCloseTime = new OpenCloseTime(dayOfWeek, hour, minute, closed);
+            OpenCloseTimes.Add(openCloseTime);
         }
 
         /// <summary>
@@ -639,7 +437,7 @@ namespace BBC.Dna.Sites
         {
             return _topics;
         }
-        
+
         /// <summary>
         /// Returns you the topics list as an XML structure
         /// </summary>
@@ -647,7 +445,7 @@ namespace BBC.Dna.Sites
         public XmlNode GetTopicListXml()
         {
             // Create the root node
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             XmlElement listNode = doc.CreateElement("TOPICLIST");
 
             // Now go through the topics list adding them as nodes
@@ -685,25 +483,10 @@ namespace BBC.Dna.Sites
             return listNode;
         }
 
-
-#if DEBUG
         /// <summary>
         /// Get property that states whether or not the current site uses Identity to log users in.
         /// </summary>
-        public bool UseIdentitySignInSystem
-        {
-            get { return _useIdentitySignInSystem; }
-            set { _useIdentitySignInSystem = value; }
-        }
-#else
-        /// <summary>
-        /// Get property that states whether or not the current site uses Identity to log users in.
-        /// </summary>
-        public bool UseIdentitySignInSystem
-        {
-            get { return _useIdentitySignInSystem; }
-        }
-#endif
+        public bool UseIdentitySignInSystem { get; set; }
 
     }
 }

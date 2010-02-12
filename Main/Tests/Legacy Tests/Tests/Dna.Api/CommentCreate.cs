@@ -50,7 +50,7 @@ namespace Tests
         {
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 site = _siteList.GetSite("h2g2");
                 _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
                 _comments.siteList = _siteList;
@@ -511,7 +511,7 @@ return.";
 
                     
                 }
-                _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                 site = _siteList.GetSite("h2g2");
                 _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
                 _comments.siteList = _siteList;
@@ -565,7 +565,7 @@ return.";
                         reader.ExecuteDEBUGONLY("update sites set premoderation=0 where siteid=" + site.SiteID.ToString());//set premod
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='ProcessPreMod'");
                     }
-                    _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                    _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                     site = _siteList.GetSite("h2g2");
                     _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
                     _comments.siteList = _siteList;
@@ -761,7 +761,7 @@ return.";
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
                         reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','15',0,'test MaxCommentCharacterLength value')");
-                        _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                         _comments.siteList = _siteList;
                     }
                 }
@@ -813,7 +813,7 @@ return.";
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
-                        _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                         _comments.siteList = _siteList;
                     }
                 }

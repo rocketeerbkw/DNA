@@ -91,7 +91,7 @@ namespace Tests
             Console.WriteLine("TestSiteOptionListValues");
             List<SiteOptionSpec> list = ReadSiteOptionsDirectly();
 
-            SiteOptionList soList = new SiteOptionList(this.dnaDiagnostics,  DnaMockery.DnaConfig.ConnectionString);
+            SiteOptionList soList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
             soList.CreateFromDatabase();
 
             foreach (SiteOptionSpec s in list)
@@ -164,9 +164,9 @@ namespace Tests
 
                 switch (s.type)
                 {
-                    case 0:  Assert.AreEqual(SiteOption.SiteOptionType.Int, so.Type);  break;
-                    case 1: Assert.AreEqual(SiteOption.SiteOptionType.Bool, so.Type); break;
-                    case 2: Assert.AreEqual(SiteOption.SiteOptionType.String, so.Type); break;
+                    case 0:  Assert.AreEqual(SiteOption.SiteOptionType.Int, so.OptionType);  break;
+                    case 1: Assert.AreEqual(SiteOption.SiteOptionType.Bool, so.OptionType); break;
+                    case 2: Assert.AreEqual(SiteOption.SiteOptionType.String, so.OptionType); break;
                     default: Assert.Fail("Unknown site option type", s.type); break;
                 }
             }
@@ -194,7 +194,7 @@ namespace Tests
             Console.WriteLine("TestSiteOptionListGetMethods");
             List<SiteOptionSpec> list = ReadSiteOptionsDirectly();
 
-            SiteOptionList soList = new SiteOptionList(this.dnaDiagnostics,  DnaMockery.DnaConfig.ConnectionString);
+            SiteOptionList soList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
             soList.CreateFromDatabase();
 
             List<SiteOptionSpec> siteZero = new List<SiteOptionSpec>();
@@ -325,7 +325,7 @@ namespace Tests
                     {
                         bool valuesDiffer = false;
 
-                        switch (so.Type)
+                        switch (so.OptionType)
                         {
                             case SiteOption.SiteOptionType.Int:
                                 int a = soList.GetValueInt(0, so.Section, so.Name);
@@ -346,7 +346,7 @@ namespace Tests
                                 break;
 
                             default:
-                                Assert.Fail("Unknown site option type", so.Type);
+                                Assert.Fail("Unknown site option type", so.OptionType);
                                 break;
                         }
                         Assert.IsTrue(valuesDiffer, "Values should be different");
