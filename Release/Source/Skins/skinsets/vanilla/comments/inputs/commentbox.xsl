@@ -85,7 +85,7 @@
 	       		<li>
 		       		<a>
 					<xsl:attribute name="href">
-						<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_settingsurl" >
+						<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_policyurl" >
 							<xsl:with-param name="ptrt">
 								<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_ptrt" />
 							</xsl:with-param>
