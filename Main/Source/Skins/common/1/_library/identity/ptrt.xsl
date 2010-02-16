@@ -24,9 +24,28 @@
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'COMMENTBOX']" mode="library_identity_ptrt">
-		<!--<xsl:value-of select="COMMENTBOX/FORUMTHREADPOSTS/@HOSTPAGEURL"/>-->
+		<xsl:param name="urlidentification" />
+		
+		<!-- move these variables elsewhere?  -->
+		<xsl:variable name="contactdetails">
+			<xsl:if test="contains(/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'CollectExtraDetails']/VALUE, 'adult') and $urlidentification = 'registerurl'">
+            	<xsl:text>%3Fs_contact=1</xsl:text>
+            </xsl:if>		
+        </xsl:variable>
+        
+        <xsl:variable name="anchor">
+        	<xsl:choose>
+        		<xsl:when test="$urlidentification = 'settingsurl'">
+        			<xsl:text>postcomments</xsl:text>
+        		</xsl:when>
+        		<xsl:otherwise>
+        			<xsl:text>comments</xsl:text>
+        		</xsl:otherwise>
+        	</xsl:choose>
+        </xsl:variable>
+        
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat(COMMENTBOX/FORUMTHREADPOSTS/@HOSTPAGEURL, '%3Fs_sync=1%23comments')"/>
+			<xsl:with-param name="string" select="concat(COMMENTBOX/FORUMTHREADPOSTS/@HOSTPAGEURL, $contactdetails, '%23', $anchor)"/>
 		</xsl:call-template>
 	</xsl:template>
 	

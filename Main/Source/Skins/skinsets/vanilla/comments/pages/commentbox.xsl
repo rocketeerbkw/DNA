@@ -42,6 +42,9 @@
     	<xsl:variable name="ptrt" select="COMMENTBOX/FORUMTHREADPOSTS/@HOSTPAGEURL"/>
     	     
         <div id="comments" class="comments">
+
+			<link rel="stylesheet" media="screen" href="http://ops-dev14.national.core.bbc.co.uk:6666/blogs/mt-static/themes/bbc/css/dna_comments.css" type="text/css" />
+
             <h3>  
                 <xsl:choose>
                     <xsl:when test="/H2G2/SITECONFIG/DNACOMMENTTEXT/COMMENTBOXTITLE">
@@ -52,22 +55,22 @@
                     </xsl:otherwise>
                 </xsl:choose>
                     
-                  <xsl:if test="/H2G2/COMMENTBOX/FORUMTHREADPOSTS/@CANWRITE = 1 or /H2G2/SITE/SITECLOSED = 0">
-                    <xsl:call-template name="library_userstate">
-                          <xsl:with-param name="loggedin">
-                              <a accesskey="8" title="Skip to post a comment form" href="#postcomment">Post your comment</a>
-                          </xsl:with-param>
-                          <xsl:with-param name="loggedout">
-                          	<!-- removed as it doesn't fit wih Identity guidelines -->
-                          	<!--<a href="{$ptrt}" class="id-cta">
-                          		<xsl:call-template name="library_memberservice_require">
-                          		<xsl:with-param name="ptrt" select="$ptrt"/>
-                          		</xsl:call-template>
-                          		<xsl:text>Sign in</xsl:text>
-                          		</a>-->
-                          </xsl:with-param>
-                      </xsl:call-template>
-                  </xsl:if>
+				<xsl:if test="/H2G2/COMMENTBOX/FORUMTHREADPOSTS/@CANWRITE = 1 or /H2G2/SITE/SITECLOSED = 0 or /H2G2/PARAMS/PARAM[NAME = 's_contact']/VALUE != 1">
+					<xsl:call-template name="library_userstate">
+						<xsl:with-param name="loggedin">
+							<a accesskey="8" title="Skip to post a comment form" href="#postcomment">Post your comment</a>
+						</xsl:with-param>
+						<xsl:with-param name="loggedout">
+							<!-- removed as it doesn't fit wih Identity guidelines -->
+							<!--<a href="{$ptrt}" class="id-cta">
+							<xsl:call-template name="library_memberservice_require">
+							<xsl:with-param name="ptrt" select="$ptrt"/>
+							</xsl:call-template>
+							<xsl:text>Sign in</xsl:text>
+							</a>-->
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:if>
             </h3>
 
             <xsl:call-template name="library_ssi_escaped">
@@ -119,12 +122,23 @@
             <!-- Add the comments-->
             <xsl:apply-templates select="COMMENTBOX/FORUMTHREADPOSTS" mode="object_forumthreadposts" />
           
-            <!-- If the user is logged in, show the Add Comment form -->
-            <xsl:call-template name="library_userstate">
-                <xsl:with-param name="loggedin">
-                    <xsl:apply-templates select="COMMENTBOX/FORUMTHREADPOSTS" mode="input_commentbox"/>
-                </xsl:with-param>
-            </xsl:call-template>
+            <!-- If the user is logged in and if not just come from registration, show the Add Comment form -->
+            <xsl:if test="not(/H2G2/PARAMS/PARAM[NAME = 's_contact']/VALUE) or /H2G2/PARAMS/PARAM[NAME = 's_contact']/VALUE = 0">  
+	            <xsl:call-template name="library_userstate">
+	                <xsl:with-param name="loggedin">
+	                    <xsl:apply-templates select="COMMENTBOX/FORUMTHREADPOSTS" mode="input_commentbox"/>
+	                </xsl:with-param>
+	            </xsl:call-template>
+	        </xsl:if>
+	        
+	        <!-- show contact me text and options -->
+	        <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_contact']/VALUE = 1">  
+	            <xsl:call-template name="library_userstate">
+	                <xsl:with-param name="loggedin">
+	                    <xsl:apply-templates select="COMMENTBOX/FORUMTHREADPOSTS" mode="input_contactbox"/>
+	                </xsl:with-param>
+	            </xsl:call-template>
+	        </xsl:if>
 
         </div>
         

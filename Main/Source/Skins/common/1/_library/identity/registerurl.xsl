@@ -27,7 +27,9 @@
         
         <xsl:if test="$ptrt">
             <xsl:text>&amp;ptrt=</xsl:text>
-            <xsl:apply-templates select="/H2G2" mode="library_identity_ptrt" />
+         	<xsl:apply-templates select="/H2G2" mode="library_identity_ptrt">
+         		<xsl:with-param name="urlidentification">registerurl</xsl:with-param>
+         	</xsl:apply-templates>
         </xsl:if>
     </xsl:template>
     

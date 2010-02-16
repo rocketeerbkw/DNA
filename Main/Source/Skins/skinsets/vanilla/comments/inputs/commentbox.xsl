@@ -29,7 +29,6 @@
     
     <xsl:template match="FORUMTHREADPOSTS" mode="input_commentbox">
         
-        
         <form action="{$root}/acs" method="post" class="dna-commentbox" id="postcomment">
             <div id="dnaacs">
                 <h3>Post a comment</h3>
@@ -72,5 +71,31 @@
         </form>
         
     </xsl:template>
+    
+	<xsl:template match="FORUMTHREADPOSTS" mode="input_contactbox">
+	
+		<div id="dnaacs">
+			<!-- where should all this copy go? -->
+       		<h3 id="postcomment">Post a comment</h3>
+       		<p>Before you post a comment, we would like to ask you a question.<br />Occasionally the BBC might like to contact you to discuss your comments.</p>
+       		<p>If you would like us to call you, you can supply your telephone number by clicking the 'contact me' button below, your details will be stored securely and will not be passed on to other websites or companies.</p>
+       		<p>If you would rather we don't call you, continue on by clicking 'no thanks', to leave your comment on this blog.</p>
+       	
+       		<ul>
+	       		<li>
+		       		<a>
+					<xsl:attribute name="href">
+						<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_settingsurl" >
+							<xsl:with-param name="ptrt">
+								<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_ptrt" />
+							</xsl:with-param>
+						</xsl:apply-templates>
+					</xsl:attribute>
+		       		Contact me</a>
+	       		</li>
+       			<li>&#160;<a href="?dnauid={/H2G2/COMMENTBOX/FORUMTHREADPOSTS/@UID}&amp;userid={/H2G2/VIEWING-USER/USER/USERID}&amp;s_contact=0#postcomment">No thanks</a></li>
+       		</ul>
+       	</div>	
+	</xsl:template>    
     
 </xsl:stylesheet>
