@@ -22,16 +22,23 @@
         <xsl:value-of select="concat($configuration/identity/url, '/users/dash?target_resource=')"/>
         
         <xsl:call-template name="library_string_urlencode">
-        	<xsl:with-param name="string" select="/H2G2/SITE/IDENTITYPOLICY"/>
+        	<xsl:with-param name="string">
+        		<xsl:choose>
+        			<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_contact']/VALUE = 1">
+        				<xsl:value-of select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'CollectExtraDetails']/VALUE" />
+        			</xsl:when>
+        			<xsl:otherwise>
+        				<xsl:value-of select="/H2G2/SITE/IDENTITYPOLICY" />
+        			</xsl:otherwise>
+        		</xsl:choose>
+        	</xsl:with-param>
         </xsl:call-template>
 
         <xsl:if test="$ptrt">
             <xsl:text>&amp;ptrt=</xsl:text>
-        	<!-- Is this likely to happen?
-        	<xsl:if test="not(starts-with($ptrt, 'http://'))">
-        		<xsl:value-of select="$host" />
-        	</xsl:if>  -->
-            <xsl:apply-templates select="/H2G2" mode="library_identity_ptrt" />
+            <xsl:apply-templates select="/H2G2" mode="library_identity_ptrt">
+            	<xsl:with-param name="urlidentification">settingsurl</xsl:with-param>
+            </xsl:apply-templates>
         </xsl:if>        
         
     </xsl:template>
