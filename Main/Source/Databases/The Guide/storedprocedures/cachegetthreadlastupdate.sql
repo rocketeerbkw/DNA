@@ -1,6 +1,6 @@
 CREATE   PROCEDURE cachegetthreadlastupdate @threadid int
 AS
-	select lastupdated 
+	select max(lastupdated) as 'LastUpdated'
 	from threads
 	where threadid = @threadid
 	

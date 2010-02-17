@@ -13,7 +13,7 @@ create procedure forumgetthreadlist_datecreated		@forumid int,
 													@notablesgroup int
 as
 			declare @threadlastupdate datetime
-			select @threadlastupdate = lastupdated 
+			select @threadlastupdate = max(lastupdated)
 			from threads
 			where forumid = @forumid
 			
