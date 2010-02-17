@@ -35,10 +35,16 @@ begin
 	
 	-- Remove Unsuccessful Items from Event Queue after 24 hours
 	INSERT INTO  ExLinkModHistory ( ModId, Notes, ReasonID, [Timestamp] ) 
-	SELECT modId, 'Notification Failed - Removed', 3, CURRENT_TIMESTAMP from ExModEventQueue
-	WHERE DATEDIFF( hour, lastRetry, CURRENT_TIMESTAMP ) > 24
+	SELECT ex.modId, 'Notification Failed - Removed', 3, CURRENT_TIMESTAMP 
+	FROM ExModEventQueue ex
+	INNER JOIN ExLinkMod m ON m.ModId = ex.ModId
+	WHERE DATEDIFF( Hour, m.DateCompleted, ex.LastRetry ) > 24
 	
-	delete FROM ExModEventQueue
-	WHERE DATEDIFF( hour, lastRetry, CURRENT_TIMESTAMP ) > 24
+	-- Remove Items that have been in the queue for over 24 hours.
+	DELETE FROM ex
+	FROM ExModEventQueue ex
+	JOIN ExLinkMod m ON m.modid = ex.modid
+	WHERE DATEDIFF( Hour, m.DateCompleted, ex.LastRetry ) > 24
 	
 end
+
