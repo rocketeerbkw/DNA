@@ -229,11 +229,14 @@ namespace BBC.Dna.Component
                 // Check to see if nickname change needs to be queued for moderation.
                 if (oldUserName.ToUpper() != userName.ToUpper()  )
                 {
-                    if (modStatus != ModerationStatus.NicknameStatus.UnMod || nickNameProfanity == ProfanityFilter.FilterState.FailRefer || InputContext.ViewingUser.IsPreModerated )
+                    if (modStatus != ModerationStatus.NicknameStatus.UnMod || 
+                        nickNameProfanity == ProfanityFilter.FilterState.FailRefer || 
+                        InputContext.ViewingUser.IsPreModerated || InputContext.ViewingUser.IsPostModerated )
                     {
                         ModerateNickNames modNickName = new ModerateNickNames(InputContext);
                         int modId = 0;
                         modNickName.QueueNicknameForModeration(userName, InputContext.ViewingUser.UserID, InputContext.CurrentSite.SiteID, out modId);
+                        
                         if (modStatus == ModerationStatus.NicknameStatus.PreMod || InputContext.ViewingUser.IsPreModerated )
                         {
                             statusMessage = "Username is in pre-moderation.";
