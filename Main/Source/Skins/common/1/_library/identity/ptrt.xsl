@@ -26,9 +26,8 @@
 	<xsl:template match="H2G2[@TYPE = 'COMMENTBOX']" mode="library_identity_ptrt">
 		<xsl:param name="urlidentification" />
 		
-		<!-- move these variables elsewhere?  -->
 		<xsl:variable name="contactdetails">
-			<xsl:if test="contains(/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'CollectExtraDetails']/VALUE, 'adult') and $urlidentification = 'registerurl'">
+			<xsl:if test="contains(/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'CollectExtraDetails']/VALUE, 'phone') and $urlidentification = 'registerurl'">
             	<xsl:text>%3Fs_contact=1</xsl:text>
             </xsl:if>		
         </xsl:variable>
