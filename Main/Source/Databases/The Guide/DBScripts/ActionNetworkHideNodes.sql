@@ -1,0 +1,187 @@
+exec SetRedirectForNodeAndChildren 1520,55163
+exec SetRedirectForNodeAndChildren 1521,55163
+exec SetRedirectForNodeAndChildren 1523,55163
+exec SetRedirectForNodeAndChildren 1548,2494
+exec SetRedirectForNodeAndChildren 1592,2064
+exec SetRedirectForNodeAndChildren 1593,2064
+exec SetRedirectForNodeAndChildren 1597,1594
+exec SetRedirectForNodeAndChildren 1599,1594
+exec SetRedirectForNodeAndChildren 1600,2064
+exec SetRedirectForNodeAndChildren 1602,54684
+exec SetRedirectForNodeAndChildren 1603,54684
+exec SetRedirectForNodeAndChildren 1646,1812
+exec SetRedirectForNodeAndChildren 1647,2355
+exec SetRedirectForNodeAndChildren 1652,1648
+exec SetRedirectForNodeAndChildren 55147,1812
+exec SetRedirectForNodeAndChildren 1814,1812
+exec SetRedirectForNodeAndChildren 55192,1943
+exec SetRedirectForNodeAndChildren 1668,1634
+exec SetRedirectForNodeAndChildren 1726,1727
+exec SetRedirectForNodeAndChildren 1753,1745
+exec SetRedirectForNodeAndChildren 1799,55164
+exec SetRedirectForNodeAndChildren 1800,55164
+exec SetRedirectForNodeAndChildren 1816,1643
+exec SetRedirectForNodeAndChildren 1817,1645
+exec SetRedirectForNodeAndChildren 1818,1664
+exec SetRedirectForNodeAndChildren 1819,55146
+exec SetRedirectForNodeAndChildren 1842,2462
+exec SetRedirectForNodeAndChildren 1844,2462
+exec SetRedirectForNodeAndChildren 1845,2462
+exec SetRedirectForNodeAndChildren 1846,2462
+exec SetRedirectForNodeAndChildren 1854,1807
+exec SetRedirectForNodeAndChildren 1855,54684
+exec SetRedirectForNodeAndChildren 1856,1807
+exec SetRedirectForNodeAndChildren 1858,1807
+exec SetRedirectForNodeAndChildren 1859,1900
+exec SetRedirectForNodeAndChildren 1860,1839
+exec SetRedirectForNodeAndChildren 1862,1900
+exec SetRedirectForNodeAndChildren 1865,1900
+exec SetRedirectForNodeAndChildren 1866,1900
+exec SetRedirectForNodeAndChildren 1874,1869
+exec SetRedirectForNodeAndChildren 1875,1869
+exec SetRedirectForNodeAndChildren 1876,1869
+exec SetRedirectForNodeAndChildren 1877,1869
+exec SetRedirectForNodeAndChildren 1903,2337
+exec SetRedirectForNodeAndChildren 1909,55155
+exec SetRedirectForNodeAndChildren 1910,2377
+exec SetRedirectForNodeAndChildren 55160,2002
+exec SetRedirectForNodeAndChildren 1938,1812
+exec SetRedirectForNodeAndChildren 1973,1953
+exec SetRedirectForNodeAndChildren 1902,1969
+exec SetRedirectForNodeAndChildren 1988,55146
+exec SetRedirectForNodeAndChildren 1872,1953
+exec SetRedirectForNodeAndChildren 1995,54710
+exec SetRedirectForNodeAndChildren 1997,2446
+exec SetRedirectForNodeAndChildren 2000,2002
+exec SetRedirectForNodeAndChildren 2001,2002
+exec SetRedirectForNodeAndChildren 2024,55163
+exec SetRedirectForNodeAndChildren 2036,55163
+exec SetRedirectForNodeAndChildren 2037,55163
+exec SetRedirectForNodeAndChildren 2061,2060
+exec SetRedirectForNodeAndChildren 2058,2299
+exec SetRedirectForNodeAndChildren 2089,55153
+exec SetRedirectForNodeAndChildren 2125,54710
+exec SetRedirectForNodeAndChildren 2126,54710
+exec SetRedirectForNodeAndChildren 2216,2506
+exec SetRedirectForNodeAndChildren 2218,2506
+exec SetRedirectForNodeAndChildren 1706,2244
+exec SetRedirectForNodeAndChildren 2514,2244
+exec SetRedirectForNodeAndChildren 2280,1821
+exec SetRedirectForNodeAndChildren 2319,55164
+exec SetRedirectForNodeAndChildren 2324,2377
+exec SetRedirectForNodeAndChildren 2325,2377
+exec SetRedirectForNodeAndChildren 2328,2377
+exec SetRedirectForNodeAndChildren 2329,2377
+exec SetRedirectForNodeAndChildren 2651,2377
+exec SetRedirectForNodeAndChildren 2331,2352
+exec SetRedirectForNodeAndChildren 2334,55155
+exec SetRedirectForNodeAndChildren 2336,55155
+exec SetRedirectForNodeAndChildren 2358,2355
+exec SetRedirectForNodeAndChildren 2370,2323
+exec SetRedirectForNodeAndChildren 2372,2377
+exec SetRedirectForNodeAndChildren 2374,2323
+exec SetRedirectForNodeAndChildren 2408,55163
+exec SetRedirectForNodeAndChildren 2413,1650
+exec SetRedirectForNodeAndChildren 2424,2446
+exec SetRedirectForNodeAndChildren 2425,2423
+exec SetRedirectForNodeAndChildren 2426,2500
+exec SetRedirectForNodeAndChildren 2428,2446
+exec SetRedirectForNodeAndChildren 2440,2506
+exec SetRedirectForNodeAndChildren 2447,2446
+exec SetRedirectForNodeAndChildren 2451,2446
+exec SetRedirectForNodeAndChildren 2452,2446
+exec SetRedirectForNodeAndChildren 2453,2446
+exec SetRedirectForNodeAndChildren 2458,2446
+exec SetRedirectForNodeAndChildren 2459,2423
+exec SetRedirectForNodeAndChildren 1940,1839
+exec SetRedirectForNodeAndChildren 1509,1508
+exec SetRedirectForNodeAndChildren 1510,1508
+exec SetRedirectForNodeAndChildren 1511,1508
+exec SetRedirectForNodeAndChildren 1512,1508
+exec SetRedirectForNodeAndChildren 1743,2520
+exec SetRedirectForNodeAndChildren 2521,2520
+exec SetRedirectForNodeAndChildren 2523,2520
+exec SetRedirectForNodeAndChildren 2524,2520
+exec SetRedirectForNodeAndChildren 2525,2520
+exec SetRedirectForNodeAndChildren 2190,2528
+exec SetRedirectForNodeAndChildren 2193,2191
+exec SetRedirectForNodeAndChildren 2194,2191
+exec SetRedirectForNodeAndChildren 2195,2191
+exec SetRedirectForNodeAndChildren 2196,2191
+exec SetRedirectForNodeAndChildren 2198,2191
+exec SetRedirectForNodeAndChildren 2199,2191
+exec SetRedirectForNodeAndChildren 2200,2191
+exec SetRedirectForNodeAndChildren 2529,2528
+exec SetRedirectForNodeAndChildren 2531,2528
+exec SetRedirectForNodeAndChildren 2532,2528
+exec SetRedirectForNodeAndChildren 2533,2528
+exec SetRedirectForNodeAndChildren 2534,2528
+exec SetRedirectForNodeAndChildren 2535,2528
+exec SetRedirectForNodeAndChildren 2536,2528
+exec SetRedirectForNodeAndChildren 2538,2462
+exec SetRedirectForNodeAndChildren 2472,2462
+exec SetRedirectForNodeAndChildren 2476,2462
+exec SetRedirectForNodeAndChildren 2540,2462
+exec SetRedirectForNodeAndChildren 2548,2547
+exec SetRedirectForNodeAndChildren 2549,2547
+exec SetRedirectForNodeAndChildren 2550,2547
+exec SetRedirectForNodeAndChildren 2551,2547
+exec SetRedirectForNodeAndChildren 2552,2547
+exec SetRedirectForNodeAndChildren 2553,2547
+exec SetRedirectForNodeAndChildren 2109,2108
+exec SetRedirectForNodeAndChildren 2112,2108
+exec SetRedirectForNodeAndChildren 2114,2108
+exec SetRedirectForNodeAndChildren 2439,2430
+exec SetRedirectForNodeAndChildren 2555,2002
+exec SetRedirectForNodeAndChildren 2563,2562
+exec SetRedirectForNodeAndChildren 2564,2562
+exec SetRedirectForNodeAndChildren 2566,2562
+exec SetRedirectForNodeAndChildren 55161,2562
+exec SetRedirectForNodeAndChildren 2460,2443
+exec SetRedirectForNodeAndChildren 1692,2256
+exec SetRedirectForNodeAndChildren 1568,1501
+exec SetRedirectForNodeAndChildren 1591,1918
+exec SetRedirectForNodeAndChildren 1601,54684
+exec SetRedirectForNodeAndChildren 1642,1660
+exec SetRedirectForNodeAndChildren 1696,1730
+exec SetRedirectForNodeAndChildren 1833,55146
+exec SetRedirectForNodeAndChildren 1987,1969
+exec SetRedirectForNodeAndChildren 1989,1920
+exec SetRedirectForNodeAndChildren 2056,1990
+exec SetRedirectForNodeAndChildren 2063,1990
+exec SetRedirectForNodeAndChildren 2076,2077
+exec SetRedirectForNodeAndChildren 2097,54580
+exec SetRedirectForNodeAndChildren 2127,1994
+exec SetRedirectForNodeAndChildren 2252,2182
+exec SetRedirectForNodeAndChildren 2519,2655
+exec SetRedirectForNodeAndChildren 2554,2527
+exec SetRedirectForNodeAndChildren 2191,2188
+exec SetRedirectForNodeAndChildren 10222,10221
+exec SetRedirectForNodeAndChildren 20913,18471
+exec SetRedirectForNodeAndChildren 22053,18471
+exec SetRedirectForNodeAndChildren 25947,25948
+exec SetRedirectForNodeAndChildren 35475,35474
+exec SetRedirectForNodeAndChildren 39119,39377
+exec SetRedirectForNodeAndChildren 40778,40779
+exec SetRedirectForNodeAndChildren 42623,39377
+exec SetRedirectForNodeAndChildren 48442,48443
+exec SetRedirectForNodeAndChildren 50224,42990
+exec SetRedirectForNodeAndChildren 2661,2660
+exec SetRedirectForNodeAndChildren 1616,1604
+/*
+-- Finally redirect all level 3 and below to their parents
+BEGIN TRANSACTION
+-- Set the RedirectNodeIDs for all the nodes that need to be hidden
+UPDATE dbo.Hierarchy SET RedirectNodeID = hidenodes.ParentID
+FROM
+(
+	SELECT h1.NodeID, 'ParentID' = h.NodeID FROM Hierarchy h
+	INNER JOIN dbo.Ancestors a ON a.AncestorID = h.NodeID
+	INNER JOIN dbo.Hierarchy h1 ON h1.NodeID = a.NodeID
+	WHERE h.TreeLevel = 3 AND h.SiteID = 16 AND h1.RedirectNodeID IS NULL AND h.Type = 2
+)
+AS hidenodes
+WHERE hideNodes.NodeID = dbo.Hierarchy.NodeID
+IF (@@ERROR > 0) BEGIN ROLLBACK TRANSACTION; PRINT 'ROLLBACK1'; RETURN; END
+COMMIT TRANSACTION
+*/
