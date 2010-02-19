@@ -21,7 +21,7 @@ namespace BBC.Dna
         private int _show;
         private int _skip;
         private int _threadId;
-        private bool _ignoreCache;
+        private bool _ignoreCache = false;
 
 
         /// <summary>
