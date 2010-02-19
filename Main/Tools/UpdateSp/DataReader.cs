@@ -83,11 +83,6 @@ namespace updatesp
 
                 _configConnections.Add(conn.name, conn);
             }
-
-            if ((ConfigConnection)_configConnections["admin"] == null)
-            {
-                throw new Exception("You must have at least on connection called 'admin'");
-            }
         }
 
         private void ReadConfigDatabases(XmlDocument doc)
@@ -194,13 +189,11 @@ namespace updatesp
 
         public void RestoreSnapShot()
         {
-            ConfigConnection conn = (ConfigConnection)_configConnections["admin"];
-
             foreach (ConfigDatabase db in _configDatabases)
             {
                 if (db.snapshot != null)
                 {
-                    CheckSnapShotDbConnections(db.name);
+                    CheckSnapShotDbConnections(db);
 
                     Console.WriteLine("Restoring " + db.name + " from snapshot " + db.snapshot);
                     string sql = 
@@ -211,20 +204,18 @@ namespace updatesp
                     "RESTORE DATABASE " + db.name + " FROM DATABASE_SNAPSHOT = '" + db.snapshot + "'" + NL +
                     "GO";
 
-                    ExecuteNonQuery("master", conn, sql, null, false);
+                    ExecuteNonQuery("master", db.conn, sql, null, false);
                 }
             }
         }
 
         public void ReCreateSnapShot()
         {
-            ConfigConnection conn = (ConfigConnection)_configConnections["admin"];
-
             foreach (ConfigDatabase db in _configDatabases)
             {
                 if (db.snapshot != null)
                 {
-                    CheckSnapShotDbConnections(db.name);
+                    CheckSnapShotDbConnections(db);
 
                     Console.WriteLine("Recreating SnapShot " + db.snapshot + " on " + db.name);
                     string sql =
@@ -234,7 +225,7 @@ namespace updatesp
                     "CREATE DATABASE " + db.snapshot + " ON ( NAME = " + db.name + ", FILENAME = '" + db.snapshotfilename + "') AS SNAPSHOT OF " + db.name + NL +
                     "GO";
 
-                    ExecuteNonQuery("master",conn,sql,null,false);
+                    ExecuteNonQuery("master",db.conn,sql,null,false);
                 }
             }
         }
@@ -244,13 +235,13 @@ namespace updatesp
             get { return System.Environment.NewLine; }
         }
 
-        private void CheckSnapShotDbConnections(string dbName)
+        private void CheckSnapShotDbConnections(ConfigDatabase db)
         {
-            DataReader.DbConnections dbConns = GetDbConnections(dbName);
+            DataReader.DbConnections dbConns = GetDbConnections(db);
 
             if (dbConns.Count > 0)
             {
-                string msg = "Can't continue because there are connections open on database " + dbName + " that supports snapshot recreation.  Connections:";
+                string msg = "Can't continue because there are connections open on database " + db.name + " that supports snapshot recreation.  Connections:";
                 msg += System.Environment.NewLine + dbConns.OutputConnections();
                 throw new Exception(msg);
             }
@@ -474,15 +465,14 @@ namespace updatesp
             public string program_name;
         }
 
-        public DbConnections GetDbConnections(string dbName)
+        private DbConnections GetDbConnections(ConfigDatabase db)
         {
             DbConnections dbConns = new DbConnections();
-            dbConns.dbName = dbName;
-            ConfigConnection conn = (ConfigConnection)_configConnections["admin"];
+            dbConns.dbName = db.name;
 
-            string SQL = "SELECT * FROM master..sysprocesses where dbid=db_id('"+dbName+"') AND SPID >= 50";
+            string SQL = "SELECT * FROM master..sysprocesses where dbid=db_id('"+db.name+"') AND SPID >= 50";
 
-            using (SqlDataReader dataReader = Execute("master", conn, SQL, false))
+            using (SqlDataReader dataReader = Execute("master", db.conn, SQL, false))
             {
                 while (dataReader.Read())
                 {

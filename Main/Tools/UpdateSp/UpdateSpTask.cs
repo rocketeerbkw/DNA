@@ -198,12 +198,19 @@ namespace updatesp
 
 			dataReader.ReCreateSnapShot();
 
-            // Make sure the folder for the build target file exists
-            string dir = Path.GetDirectoryName(BuildTargetFile);
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            Log.LogMessage(MessageImportance.High, "BuildTargetFile = "+BuildTargetFile);
+            string buildTargetPathAndFile = Path.Combine(Environment.CurrentDirectory, BuildTargetFile);
+            Log.LogMessage(MessageImportance.High, "Full path to build target file = " + buildTargetPathAndFile);
 
-			using (StreamWriter writer = new StreamWriter(BuildTargetFile))
+            // Make sure the folder for the build target file exists
+            string dir = Path.GetDirectoryName(buildTargetPathAndFile);
+            if (!Directory.Exists(dir))
+            {
+                Log.LogMessage(MessageImportance.High, "Creating folder for target file '"+dir+"'");
+                Directory.CreateDirectory(dir);
+            }
+
+            using (StreamWriter writer = new StreamWriter(buildTargetPathAndFile))
 			{
 			    writer.WriteLine(DateTime.Now.ToString());
 			}
