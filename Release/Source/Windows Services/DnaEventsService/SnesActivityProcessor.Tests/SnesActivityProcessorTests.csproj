@@ -56,14 +56,22 @@
     <Reference Include="System.Net">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommentActivityContractTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SnesActivityFactoryTests.cs" />
     <Compile Include="SnesActivityTests.cs" />
     <Compile Include="SnesActivityProcessorTests.cs" />
+    <Compile Include="StringHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
@@ -71,19 +79,19 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
-      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+      <Name>BBC.Dna.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
-      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+      <Name>BBC.Dna.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\DnaEventService.Common\DnaEventService.Common.csproj">
       <Project>{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}</Project>
-      <Name>DnaEventService.Common %28Source\Windows Services\DnaEventsService\DnaEventService.Common\DnaEventService.Common%29</Name>
+      <Name>DnaEventService.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\SNeSActivityProcessor\SnesActivityProcessor.csproj">
       <Project>{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}</Project>
-      <Name>SnesActivityProcessor %28Source\Windows Services\DnaEventsService\SNeSActivityProcessor\SnesActivityProcessor%29</Name>
+      <Name>SnesActivityProcessor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

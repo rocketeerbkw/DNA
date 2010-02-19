@@ -50,7 +50,7 @@ namespace Tests
         {
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 site = _siteList.GetSite("h2g2");
 
                 _ratings = new Reviews(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);

@@ -40,6 +40,7 @@ namespace Tests
         private IDnaIdentityWebServiceProxy _signInComponent = null;
         private bool _useIdentity = false;
         System.Collections.SortedList _params = new System.Collections.SortedList();
+        public IDnaDataReaderCreator ReaderCreator{get;private set;}
 
         /// <summary>
         /// Constructor
@@ -209,9 +210,11 @@ namespace Tests
                 DnaDiagnostics.WriteHeader("TEST-FullInputContext");
             }
 
+            ReaderCreator = new DnaDataReaderCreator(_dnaConfig.ConnectionString, _dnaDiagnostics);
+
             if (_siteList == null)
             {
-                _siteList = new SiteList(_dnaDiagnostics, _dnaConfig.ConnectionString);
+                _siteList = new SiteList(ReaderCreator, _dnaDiagnostics);
                 _siteList.LoadSiteList();
             }
 

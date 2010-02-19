@@ -37,7 +37,6 @@
             <asp:ListItem>Email</asp:ListItem>
             <asp:ListItem>User Name</asp:ListItem>
             <asp:ListItem>IP Address</asp:ListItem>
-            <asp:ListItem>BBCUID</asp:ListItem>
         </asp:RadioButtonList>
         </td></tr>
         </table>

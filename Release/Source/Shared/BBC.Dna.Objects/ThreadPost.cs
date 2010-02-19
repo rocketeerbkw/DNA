@@ -80,23 +80,9 @@ namespace BBC.Dna.Objects
                 {
                     return "This post has been removed.";
                 }
-                //apply style
-                if (Style == PostStyle.Style.plaintext)
-                {
-                    return _text;
-                }
-                else
-                {
-                    //TODO Do we need Rich Post stuff for the post style??
-                    return _text.Replace("\r\n", "<BR />").Replace("\n", "<BR />");
-                    //Regex regex = new Regex(@"(<[^<>]+)<BR \/>");
-                    //while (regex.Match(temp).Success)
-                    //{
-                    //    temp = regex.Replace(temp,@"$1 ");
-                    //}
-                    //bodyText = temp;
-                    //return HtmlUtils.TryParseToValidHtml(temp);
-                }
+
+                return _text;
+                
 
             }
             set { _text = value; }
@@ -108,6 +94,10 @@ namespace BBC.Dna.Objects
             get
             {
                 string _text = Translator.TranslateText(Text);
+
+                _text = _text.Replace("\r\n", "<BR />").Replace("\n", "<BR />");
+
+                
                 XmlDocument doc = new XmlDocument();
                 try
                 {

@@ -254,152 +254,97 @@ namespace FunctionalTests
         }
 
         /// <summary>
-        /// Test that we can get coming up page
+        /// Test to make sure that we fail when we try to submit a sitesuffix with a block fail term
         /// </summary>
         [TestMethod]
-        public void Test07ChangeNickNameProfanityBlocked()
+        public void UserDetailsBuilder_SetSiteSuffixWithBlockFailProfanity_ExpectFail()
         {
-            Console.WriteLine("Before UserDetailsTests - Test07ChangeNickNameProfanity");
+            Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetSiteSuffixWithBlockFailProfanity_ExpectFail");
 
             SetNicknameModerationStatus(0);
 
-            string profanityUsername = "fuck";
+            string termSiteSuffix = "fuck"; // Key word in block list
 
             //change the skin
-            _request.RequestPage("UserDetails?cmd=SUBMIT&UserName=" + profanityUsername + "&skin=purexml");
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=" + termSiteSuffix + "&skin=purexml");
             XmlDocument xml = _request.GetLastResponseAsXML();
             ValidateBaseXML(xml);
 
             XmlNode xmlMessage = xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/MESSAGE");
             Assert.IsTrue(xmlMessage != null, "Incorrect return message");
             Assert.IsTrue(xmlMessage.InnerText != String.Empty, "Incorrect return message");
-            Assert.IsTrue(xmlMessage.Attributes["TYPE"].Value == "nicknamefailprofanitycheck", "Incorrect return message");
+            Assert.IsTrue(xmlMessage.Attributes["TYPE"].Value == "sitesuffixfailprofanitycheck", "Incorrect return message");
 
-
-            Console.WriteLine("After UserDetailsTests - Test07ChangeNickNameProfanity");
+            Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffixWithBlockFailProfanity_ExpectFail");
         }
 
         /// <summary>
-        /// Test that we can get coming up page
+        /// Test to make sure that we don't fail when we try to submit a sitesuffix with a refer fail term
         /// </summary>
         [TestMethod]
-        public void Test08ChangeNickNameProfanityReferred()
+        public void UserDetailsBuilder_SetSiteSuffixWithReferrFailProfanity_ExpectOk()
         {
-            Console.WriteLine("Before UserDetailsTests - Test07ChangeNickNameProfanity");
+            Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetSiteSuffixWithReferrFailProfanity_ExpectOk");
 
-            string profanityUsername = "arse";
+            string termSiteSuffix = "arse"; // key term in referal list
 
             SetNicknameModerationStatus(0);
 
-            _request.RequestPage("UserDetails?cmd=SUBMIT&UserName=" + profanityUsername + "&skin=purexml");
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=" + termSiteSuffix + "&skin=purexml");
             XmlDocument xml = _request.GetLastResponseAsXML();
             ValidateBaseXML(xml);
 
             XmlNode xmlMessage = xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/MESSAGE");
-            Assert.IsFalse(xmlMessage.Attributes["TYPE"].Value == "nicknamefailprofanitycheck", "Incorrect return message");
+            Assert.IsFalse(xmlMessage.Attributes["TYPE"].Value == "sitesuffixfailprofanitycheck", "Incorrect return message");
 
-            // Check that Nickname is in moderation queue due to referred profanity.
-            Assert.IsTrue(CheckNicknamModerationQueue(profanityUsername));
-
+            Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffixWithReferrFailProfanity_ExpectOk");
         }
 
         /// <summary>
-        /// Test that we can get coming up page
+        /// Test to make sure that we don't update the users username when they submit one
         /// </summary>
         [TestMethod]
-        public void Test09ModifyUserNamePreModerated()
+        public void UserDetailsBuilder_SetUserName_ExpectNoChange()
         {
-            Console.WriteLine("Before UserDetailsTests - Test08ModifyUserNamePreModeratedSite");
+            Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetUserName_ExpectNoChange");
 
-            //set up h2g2 site as premod
-            SetNicknameModerationStatus(2);
+            string newName = "This is my new name!";
+            string originalUserName = _request.CurrentUserName;
 
-            //request the page
-            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
-            request.SetCurrentUserNormal();
-            request.RequestPage("UserDetails?skin=purexml&_ns=1");
-            XmlDocument xml = request.GetLastResponseAsXML();
+            _request.RequestPage("UserDetails?cmd=SUBMIT&UserName=" + newName + "&skin=purexml");
+            XmlDocument xml = _request.GetLastResponseAsXML();
             ValidateBaseXML(xml);
 
-            //get the original username
-            XmlNode xmlUserName = xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/USERNAME");
-            Assert.IsTrue(xmlUserName != null, "Incorrect user mode returned");
-            string originalUsername = xmlUserName.InnerText;
-            string newUserName = originalUsername + Guid.NewGuid().ToString();
+            Assert.IsNotNull(xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/USERNAME"),"Failed to find username in xml");
+            Assert.AreEqual(originalUserName,xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/USERNAME").InnerText,"Username should not of changed!");
 
-            request.RequestPage("UserDetails?cmd=SUBMIT&UserName=" + newUserName + "&skin=purexml");
-            xml = request.GetLastResponseAsXML();
-            ValidateBaseXML(xml);
-
-            XmlNode xmlMessage = xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/MESSAGE");
-            Assert.IsTrue(xmlMessage != null, "Incorrect return message");
-            Assert.IsTrue(xmlMessage.InnerText != String.Empty, "Incorrect return message");
-            Assert.IsTrue(xmlMessage.Attributes["TYPE"].Value == "usernamepremoderated", "Incorrect return message");
-
-            // Check Username not changed.
-            xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM[USERNAME='" + originalUsername + "']");
-            Assert.IsNotNull(xmlUserName, "Username has not been updated");
-            Assert.IsTrue(CheckNicknamModerationQueue(newUserName), "Nickname change is in moderation queue");
+            Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetUserName_ExpectNoChange");
         }
 
+        /// <summary>
+        /// Test that when we submit a valid sitesuffix that it updates the current user details
+        /// </summary>
         [TestMethod]
-        public void Test10ModifyUserNamePostModerated()
+        public void UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdated()
         {
-            SetNicknameModerationStatus(1);
+            Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdated");
 
-            //request the page
-            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
-            request.SetCurrentUserNormal();
-            request.RequestPage("UserDetails?skin=purexml&_ns=1");
-            XmlDocument xml = request.GetLastResponseAsXML();
+            _request.RequestPage("UserDetails?skin=purexml");
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            Assert.IsNotNull(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX"), "The current user should have a site suffix XML Node!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX").InnerText == "", "The current user should not have a site suffix!");
+
+            string newSiteSuffix = "This is my new site suffix!";
+
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=" + newSiteSuffix + "&skin=purexml");
+            xml = _request.GetLastResponseAsXML();
             ValidateBaseXML(xml);
 
-            //get the original username
-            XmlNode xmlUserName = xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/USERNAME");
-            Assert.IsTrue(xmlUserName != null, "Incorrect user mode returned");
-            string originalUsername = xmlUserName.InnerText;
-            string newUserName = originalUsername +Guid.NewGuid().ToString();
+            Assert.IsNotNull(xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX"), "Failed to find SiteSuffix in xml");
+            Assert.AreEqual(newSiteSuffix, xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX").InnerText, "SiteSuffix should of been changed!");
 
-            request.RequestPage("UserDetails?cmd=SUBMIT&UserName=" + newUserName + "&skin=purexml");
-            xml = request.GetLastResponseAsXML();
-            ValidateBaseXML(xml);
-
-            // Check Username changed.
-            xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM[USERNAME='" + newUserName + "']");
-            Assert.IsNotNull(xmlUserName, "Username has been updated");
-            Assert.IsTrue(CheckNicknamModerationQueue(newUserName), "Nickname change is in moderation queue");
-
+            Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdated");
         }
-
-        [TestMethod]
-        public void Test11ModifyUserNameUnModerated()
-        {
-            SetNicknameModerationStatus(0);
-
-            //request the page
-            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
-            request.SetCurrentUserNormal();
-            request.RequestPage("UserDetails?skin=purexml&_ns=1");
-            XmlDocument xml = request.GetLastResponseAsXML();
-            ValidateBaseXML(xml);
-
-            //get the original username
-            XmlNode xmlUserName = xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/USERNAME");
-            Assert.IsTrue(xmlUserName != null, "Incorrect user mode returned");
-            string originalUsername = xmlUserName.InnerText;
-            string newUserName = originalUsername + Guid.NewGuid().ToString();
-
-            request.RequestPage("UserDetails?cmd=SUBMIT&UserName=" + newUserName + "&skin=purexml");
-            xml = request.GetLastResponseAsXML();
-            ValidateBaseXML(xml);
-
-            // Check Username changed.
-            xmlUserName = xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM[USERNAME='" + newUserName + "']");
-            Assert.IsNotNull(xmlUserName, "Username has been updated");
-            Assert.IsFalse(CheckNicknamModerationQueue(newUserName), "Nickname change is not in moderation queue");
-            
-        }
-        
 
         /// <summary>
         /// Sets Nickname Moderation SiteOption.

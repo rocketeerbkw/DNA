@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Http;
 
 namespace DnaEventService.Common
@@ -13,8 +10,9 @@ namespace DnaEventService.Common
     {
         HttpWebRequestTransportSettings TransportSettings { get; }
 
-        HttpResponseMessage Post(string uri, HttpContent body);
-
-        
+        HttpResponseMessage Get(Uri uri);
+        HttpResponseMessage Delete(Uri uri);
+        HttpResponseMessage Post(Uri uri, HttpContent body);
+        HttpResponseMessage Put(Uri uri, HttpContent body);
     }
 }

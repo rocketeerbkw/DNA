@@ -1,4 +1,4 @@
-Create Procedure forumgetthreadlist  @forumid int, @firstindex int, @lastindex int, @threadorder int,  @querytype int = 2
+Create Procedure forumgetthreadlist  @forumid int, @firstindex int, @lastindex int, @threadorder int,  @querytype int = 2, @includestickythreads bit =0
 As
 DECLARE @threadcount int
 DECLARE @canread int, @canwrite int, @siteid int, @threadcanread int, @threadcanwrite int, @AlertInstantly int
@@ -35,25 +35,48 @@ END
 IF (@threadcount > 0 AND @firstindex < @threadcount)
 BEGIN
 
-		if @threadorder = 2
+		IF @threadorder = 2
 		BEGIN
-			EXEC forumgetthreadlist_datecreated		@forumid, 
-													@firstindex, 
-													@lastindex, 
-													@threadcount, 
-													@forumpostcount,
-													@canread, 
-													@canwrite, 
-													@siteid, 
-													@threadcanread, 
-													@threadcanwrite, 
-													@AlertInstantly,
-													@moderationstatus,
-													@notablesgroup
+			IF @includestickythreads = 0
+			BEGIN
+				EXEC forumgetthreadlist_datecreated		@forumid, 
+														@firstindex, 
+														@lastindex, 
+														@threadcount, 
+														@forumpostcount,
+														@canread, 
+														@canwrite, 
+														@siteid, 
+														@threadcanread, 
+														@threadcanwrite, 
+														@AlertInstantly,
+														@moderationstatus,
+														@notablesgroup
+			END 
+			ELSE
+			BEGIN
+					EXEC forumgetthreadlist_datecreated_includingstickythreads
+														@forumid, 
+														@firstindex, 
+														@lastindex, 
+														@threadcount, 
+														@forumpostcount,
+														@canread, 
+														@canwrite, 
+														@siteid, 
+														@threadcanread, 
+														@threadcanwrite, 
+														@AlertInstantly,
+														@moderationstatus,
+														@notablesgroup
+			END
 		END
 		ELSE
 		BEGIN
-			EXEC forumgetthreadlist_lastposted		@forumid, 
+			IF @includestickythreads = 0
+			BEGIN
+				EXEC forumgetthreadlist_lastposted		
+													@forumid, 
 													@firstindex, 
 													@lastindex, 
 													@threadcount, 
@@ -66,6 +89,24 @@ BEGIN
 													@AlertInstantly,
 													@moderationstatus,
 													@notablesgroup
+			END 
+			ELSE
+			BEGIN
+					EXEC forumgetthreadlist_lastposted_includingstickythreads	
+													@forumid, 
+													@firstindex, 
+													@lastindex, 
+													@threadcount, 
+													@forumpostcount,
+													@canread, 
+													@canwrite, 
+													@siteid, 
+													@threadcanread, 
+													@threadcanwrite, 
+													@AlertInstantly,
+													@moderationstatus,
+													@notablesgroup
+			END
 		END
 END
 

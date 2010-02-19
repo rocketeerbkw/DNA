@@ -1,15 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.Common;
-
 using BBC.Dna.Data;
-using BBC.Dna.Api;
-using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
-using System.Runtime.Serialization.Json;
-using System.IO;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
 
 namespace Dna.SnesIntegration.ExModerationProcessor
 {

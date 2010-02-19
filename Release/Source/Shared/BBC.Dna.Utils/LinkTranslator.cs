@@ -15,23 +15,15 @@ namespace BBC.Dna.Utils
     { 
         static Regex regForumEx = new Regex(@"(\A|(?<=\s))F[1-9]\d+(\Z|(?=\s))");
         static Regex regArticleEx = new Regex(@"(\A|(?<=\s))A[0-9]+(\Z|(?=\s))");
-        static Regex regCategoryEx = new Regex(@"(\A|(?<=\s))C[1-9&&[^45]]\d+(\Z|(?=\s))");
-        static Regex regLinkEx = new Regex(@"(\A|(?<=\s))http://[a-zA-Z0-9\./:-]+(\Z|(?=\s))");
-        static Regex regInternalLinkEx = new Regex(@"(\A|(?<=\s))&lt;[.]/&gt;\w+&lt;/[.]&gt;(\Z|(?=\s))"); // Match <./>A-Z</.>
+        static Regex regCategoryEx = new Regex(@"C[0-9]+");
+        static Regex regLinkEx = new Regex(@"((http|https):[A-Za-z0-9/](([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2})+(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?)[^./?]");
+        //static Regex regInternalLinkEx = new Regex(@"(\A|(?<=\s))&lt;[.]/&gt;\w+&lt;/[.]&gt;(\Z|(?=\s))"); // Match <./>A-Z</.>
         //static Regex regGroupEx = new Regex(@"(?<=\s)G[1-9]\d*(?=\s)");
         static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(\Z|(?=\s))");
 
         /// <summary>
-        /// 
-        /// </summary>
-        public LinkTranslator()
-        {
-        }
-
-        /// <summary>
         /// Check the input string for matches.
         /// If match found then expand into LINK XML .
-        /// TODO: Match egEx expressions should be combined or optimised so that only 1 -pass is required on the input string.
         /// Consider changing the Link XML so that all Links are of the same format.
         /// </summary>
         /// <param name="raw">The string to check if it is a valid email address</param>
@@ -41,7 +33,7 @@ namespace BBC.Dna.Utils
             
             String result = raw;
 
-            if (regInternalLinkEx.IsMatch(raw))
+            /*if (regInternalLinkEx.IsMatch(raw))
             {
                 String replace = "<LINK HREF=\"***\">***</LINK>";
                 MatchCollection matches = regInternalLinkEx.Matches(raw);
@@ -61,7 +53,7 @@ namespace BBC.Dna.Utils
                     result = result.Remove(match.Index, match.Length);
                     result = result.Insert(match.Index, replace.Replace("***", s));
                 }
-            }
+            }*/
 
             if (regLinkEx.IsMatch(result))
             {

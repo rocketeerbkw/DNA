@@ -239,7 +239,7 @@ namespace BBC.Dna
                         AddTextTag(siteOptionXml, "SECTION", so.Section);
                         AddTextTag(siteOptionXml, "NAME", so.Name);
                         AddTextTag(siteOptionXml, "VALUE", so.GetRawValue());
-                        AddTextTag(siteOptionXml, "TYPE", ((int)so.Type).ToString());
+                        AddTextTag(siteOptionXml, "TYPE", ((int)so.OptionType).ToString());
                         AddTextTag(siteOptionXml, "DESCRIPTION", so.Description);
                     }
                 }
@@ -279,7 +279,7 @@ namespace BBC.Dna
                 AddTextTag(siteOptionXml, "SECTION", so.Section);
                 AddTextTag(siteOptionXml, "NAME", so.Name);
                 AddTextTag(siteOptionXml, "VALUE", so.GetRawValue());
-                AddTextTag(siteOptionXml, "TYPE", ((int)so.Type).ToString());
+                AddTextTag(siteOptionXml, "TYPE", ((int)so.OptionType).ToString());
                 AddTextTag(siteOptionXml, "DESCRIPTION", so.Description);
             }
 

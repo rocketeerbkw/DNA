@@ -46,6 +46,7 @@ namespace BBC.Dna.Services
         protected int _summaryLength = 256;
         protected Guid _BBCUidCookie = Guid.Empty;
         protected string _iPAddress = String.Empty;
+        protected int _debugDNAUserID = 0;
 
         public baseService(string connectionString, ISiteList siteList)
         {
@@ -100,6 +101,12 @@ namespace BBC.Dna.Services
             {
                 _iPAddress = QueryStringHelper.GetHeaderValueAsString("REMOTE_ADDR", "");
             }
+
+            int allowDebugUser = 0;
+            if (int.TryParse(ConfigurationManager.AppSettings["allowdebuguser"], out allowDebugUser) && allowDebugUser > 0)
+            {
+                _debugDNAUserID = QueryStringHelper.GetQueryParameterAsInt("debugdnauserid", 0);
+            }
         }
 
         ///// <summary>
@@ -130,12 +137,12 @@ namespace BBC.Dna.Services
             {
                 if (String.IsNullOrEmpty(site.IdentityPolicy))
                 {
-                    callingUser = new CallingUser(SignInSystem.SSO, _connectionString, _cacheManager);
+                    callingUser = new CallingUser(SignInSystem.SSO, _connectionString, _cacheManager, _debugDNAUserID);
                     userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "");
                 }
                 else
                 {
-                    callingUser = new CallingUser(SignInSystem.Identity, _connectionString, _cacheManager);
+                    callingUser = new CallingUser(SignInSystem.Identity, _connectionString, _cacheManager, _debugDNAUserID);
                     userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), site.IdentityPolicy, site.SiteID, QueryStringHelper.GetCookieValueAsString("IDENTITY-USERNAME", ""));
                     Statistics.AddNonSSORequest();
                 }
@@ -151,7 +158,6 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
 
             }
-            
 
             return callingUser;
         }

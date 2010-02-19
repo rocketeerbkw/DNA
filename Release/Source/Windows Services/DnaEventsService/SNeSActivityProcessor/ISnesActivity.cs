@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Net;
+using DnaEventService.Common;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
     public interface ISnesActivity
     {
         string GetActivityJson();
-        string GetPostUri();
+        Uri GetUri();
         int ActivityId { get; set; }
+        HttpStatusCode Send(IDnaHttpClient client);
+        string Content { get; set; }
     }
 }

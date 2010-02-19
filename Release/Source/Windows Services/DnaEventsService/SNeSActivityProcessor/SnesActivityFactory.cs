@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using BBC.Dna.Data;
-
+﻿using BBC.Dna.Data;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
     class SnesActivityFactory
     {
-        public static ISnesActivity CreateSNeSActivity(IDnaDataReader currentRow)
+        public static ISnesActivity CreateSnesActivity(IDnaDataReader currentRow)
         {
-            int activityType = currentRow.GetInt32("ActivityType");
+            var activityType = currentRow.GetInt32("ActivityType");
             ISnesActivity activity;
 
             switch (activityType)
             {
-                case 5:
-                    activity = CommentActivity.CreateActivity(activityType, currentRow);
+                case 19:
+                    activity = CommentActivityBase.CreateActivity(activityType, currentRow);
+                    break;
+                case 20:
+                    activity = RevokeCommentActivity.CreateActivity(currentRow);
                     break;
                 default:
-                    activity = null;
+                    activity = new UnexpectedActivity();
                     break;
             }
             return activity;

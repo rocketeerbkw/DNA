@@ -1,11 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using BBC.Dna.Page;
 using BBC.Dna.Data;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Objects;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna
 {
@@ -14,22 +10,18 @@ namespace BBC.Dna
     /// </summary>
     public class ForumPageBuilder : DnaInputComponent
     {
-        private int _forumId = 0;
-        private int _threadId = 0;
-        private int _skip = 0;
-        private int _show = 0;
-        private int _postId = 0;
-        private int _showLatest = 0;
-        private DateTime _dateFrom = DateTime.MinValue;
+        private readonly ICacheManager _cache;
+        private readonly IDnaDataReaderCreator _creator;
+        private readonly ForumHelper _forumHelper;
+        private readonly Objects.User _viewingUser;
         private string _cmd = String.Empty;
-        private string _framePart = String.Empty;
-        private IDnaDataReaderCreator _creator;
-        private ICacheManager _cache;
+        private int _forumId;
         private bool _orderByDatePostedDesc = true;
-        private ForumHelper _forumHelper;
-        private BBC.Dna.Objects.User _viewingUser;
-        
-        
+        private int _postId;
+        private int _show;
+        private int _skip;
+        private int _threadId;
+        private bool _ignoreCache;
 
 
         /// <summary>
@@ -39,8 +31,8 @@ namespace BBC.Dna
         public ForumPageBuilder(IInputContext context)
             : base(context)
         {
-            _creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, 
-                AppContext.TheAppContext.Diagnostics);
+            _creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString,
+                                                AppContext.TheAppContext.Diagnostics);
 
             _cache = CacheFactory.GetCacheManager();
             //this is a clutch until we unify user objects
@@ -54,7 +46,6 @@ namespace BBC.Dna
         /// </summary>
         public override void ProcessRequest()
         {
-            
             //get the parameters from the querystring
             GetQueryParameters();
             //Process any commands sent through querystring
@@ -63,25 +54,32 @@ namespace BBC.Dna
             //Assemble page parts.
 
             //add forumsource
-            ForumSource forumSource = ForumSource.CreateForumSource(_cache, _creator, _viewingUser, _forumId, _threadId, InputContext.CurrentSite.SiteID,
-                true, false);
+            ForumSource forumSource = ForumSource.CreateForumSource(_cache, _creator, _viewingUser, _forumId, _threadId,
+                                                                    InputContext.CurrentSite.SiteID,
+                                                                    true, _ignoreCache);
             if (forumSource.Type == ForumSourceType.Redirect)
-            {//do redirect now
-                AddDnaRedirect(((ForumSourceRedirect)forumSource).Url);
+            {
+//do redirect now
+                AddDnaRedirect(((ForumSourceRedirect) forumSource).Url);
                 return;
             }
             SerialiseAndAppend(forumSource, String.Empty);
 
             //check for article ForumStyle - if 1 then dont include threads
             if (forumSource.Article != null && forumSource.Article.ForumStyle != 1)
-            {//dont add threads for forumstyle=1
-                ForumThreads threads = ForumThreads.CreateForumThreads(_cache, _creator, InputContext.TheSiteList, _forumId,
-                    _show, _skip, _threadId, false, ThreadOrder.LatestPost, _viewingUser, false);
+            {
+//dont add threads for forumstyle=1
+                ForumThreads threads = ForumThreads.CreateForumThreads(_cache, _creator, InputContext.TheSiteList,
+                                                                       _forumId,
+                                                                       _show, _skip, _threadId, false,
+                                                                       ThreadOrder.LatestPost, _viewingUser, _ignoreCache);
                 SerialiseAndAppend(threads, String.Empty);
             }
 
             //get subscriptions
-            SubscribeState subscribeState = SubscribeState.GetSubscriptionState(_creator, InputContext.ViewingUser.UserID, _threadId, _forumId);
+            SubscribeState subscribeState = SubscribeState.GetSubscriptionState(_creator,
+                                                                                InputContext.ViewingUser.UserID,
+                                                                                _threadId, _forumId);
             if (subscribeState != null)
             {
                 SerialiseAndAppend(subscribeState, String.Empty);
@@ -89,18 +87,23 @@ namespace BBC.Dna
 
             //add threadposts if required
             if (_threadId > 0 || (forumSource.Article != null && forumSource.Article.ForumStyle == 1))
-            {//get the thread
+            {
+//get the thread
                 ProcessThreadPosts(subscribeState);
                 //add online users
-                OnlineUsers users = OnlineUsers.GetOnlineUsers(_creator, _cache, OnlineUsersOrderBy.None, InputContext.CurrentSite.SiteID, true, false);
+                OnlineUsers users = OnlineUsers.GetOnlineUsers(_creator, _cache, OnlineUsersOrderBy.None,
+                                                               InputContext.CurrentSite.SiteID, true, _ignoreCache);
                 SerialiseAndAppend(users, String.Empty);
             }
 
             //add page ui to xml
             PageUi pageUi = PageUi.GetPageUi(_creator, forumSource.Article, _viewingUser);
             SerialiseAndAppend(pageUi, String.Empty);
-            
+
+            //add topics
+            RootElement.AppendChild(ImportNode(InputContext.CurrentSite.GetTopicListXml()));
         }
+
         /*
 
         /// <summary>
@@ -163,18 +166,21 @@ namespace BBC.Dna
         /// </summary>
         private void ProcessThreadPosts(SubscribeState subscribeState)
         {
-            ForumThreadPosts thread = ForumThreadPosts.CreateThreadPosts(_creator, _cache, _viewingUser, 
-                InputContext.TheSiteList, InputContext.CurrentSite.SiteID, _forumId, _threadId, _show, _skip, _postId, 
-                _orderByDatePostedDesc, false);
+            ForumThreadPosts thread = ForumThreadPosts.CreateThreadPosts(_creator, _cache, _viewingUser,
+                                                                         InputContext.TheSiteList,
+                                                                         InputContext.CurrentSite.SiteID, _forumId,
+                                                                         _threadId, _show, _skip, _postId,
+                                                                         _orderByDatePostedDesc, _ignoreCache);
             //process subscription information
             SerialiseAndAppend(thread, String.Empty);
 
-            
+
             if (subscribeState != null && subscribeState.Thread != 0 && thread != null && thread.Post.Count > 0)
-            {//update the last read post if the user is subscribed
-                _forumHelper.MarkThreadRead(InputContext.ViewingUser.UserID, _threadId, thread.Post[thread.Post.Count - 1].PostId, true);
+            {
+//update the last read post if the user is subscribed
+                _forumHelper.MarkThreadRead(InputContext.ViewingUser.UserID, _threadId,
+                                            thread.Post[thread.Post.Count - 1].PostId, true);
             }
-            
         }
 
         /// <summary>
@@ -182,7 +188,7 @@ namespace BBC.Dna
         /// </summary>
         private void ProcessCommand()
         {
-            SubscribeResult result = null;
+            SubscribeResult result;
             switch (_cmd.ToUpper())
             {
                 case "CLOSETHREAD":
@@ -220,7 +226,9 @@ namespace BBC.Dna
                 case "UPDATEFORUMMODERATIONSTATUS":
                     if (InputContext.DoesParamExist("status", "moderationstatus"))
                     {
-                        _forumHelper.UpdateForumModerationStatus(_forumId, InputContext.GetParamIntOrZero("status", "moderationstatus"));
+                        _forumHelper.UpdateForumModerationStatus(_forumId,
+                                                                 InputContext.GetParamIntOrZero("status",
+                                                                                                "moderationstatus"));
                     }
                     break;
 
@@ -228,22 +236,42 @@ namespace BBC.Dna
                     _forumHelper.HideThread(_forumId, _threadId);
                     break;
 
+                case "MAKETHREADSTICKY":
+                    if (InputContext.DoesParamExist("stickythreadid", "stickythreadid"))
+                    {
+                        int stickyThreadId = InputContext.GetParamIntOrZero("stickythreadid", "stickythreadid");
+                        _forumHelper.AddThreadToStickyList(_forumId, stickyThreadId, InputContext.CurrentSite.SiteID);
+                        
+                    }
+                    
+                    break;
+
+                case "REMOVESTICKYTHREAD":
+                    if (InputContext.DoesParamExist("stickythreadid", "stickythreadid"))
+                    {
+                        int stickyThreadId = InputContext.GetParamIntOrZero("stickythreadid", "stickythreadid");
+                        _forumHelper.RemoveThreadFromStickyList(_forumId, stickyThreadId, InputContext.CurrentSite.SiteID);
+                    }
+                    break;
+
                 case "ALERTINSTANTLY":
                     if (InputContext.DoesParamExist("AlertInstantly", "AlertInstantly flag"))
                     {
-                        _forumHelper.UpdateAlertInstantly(_forumId, InputContext.GetParamIntOrZero("AlertInstantly", "AlertInstantly flag"));
+                        _forumHelper.UpdateAlertInstantly(_forumId,
+                                                          InputContext.GetParamIntOrZero("AlertInstantly",
+                                                                                         "AlertInstantly flag"));
                     }
                     break;
 
                 case "SUBSCRIBETHREAD":
                     result = SubscribeResult.SubscribeToThread(_creator, InputContext.ViewingUser.UserID, _threadId,
-                        _forumId, false);
+                                                               _forumId, false);
                     SerialiseAndAppend(result, String.Empty);
                     break;
 
                 case "UNSUBSCRIBETHREAD":
                     result = SubscribeResult.SubscribeToThread(_creator, InputContext.ViewingUser.UserID, _threadId,
-                        _forumId, true);
+                                                               _forumId, true);
                     SerialiseAndAppend(result, String.Empty);
                     break;
 
@@ -257,10 +285,12 @@ namespace BBC.Dna
                     SerialiseAndAppend(result, String.Empty);
                     break;
 
+
             }
 
             if (_forumHelper.LastError != null)
-            {//an error occurred so add to xml
+            {
+//an error occurred so add to xml
                 SerialiseAndAppend(_forumHelper.LastError, "");
             }
         }
@@ -270,15 +300,14 @@ namespace BBC.Dna
         /// </summary>
         private void GetQueryParameters()
         {
-
             _forumId = InputContext.GetParamIntOrZero("ID", "Forum ID");
             if (_forumId == 0)
             {
                 _forumId = InputContext.GetParamIntOrZero("forum", "Forum ID");
             }
 
-            _threadId = InputContext.GetParamIntOrZero("thread", "Forum thread ID"); 
-            _skip = InputContext.GetParamIntOrZero("skip", "Number of items to skip to") ;
+            _threadId = InputContext.GetParamIntOrZero("thread", "Forum thread ID");
+            _skip = InputContext.GetParamIntOrZero("skip", "Number of items to skip to");
             _show = InputContext.GetParamIntOrZero("show", "Number of items to show");
             if (_show == 0)
             {//default to 20
@@ -286,19 +315,20 @@ namespace BBC.Dna
             }
 
             _postId = InputContext.GetParamIntOrZero("post", "A post Id with the above forum");
-            _showLatest = InputContext.GetParamIntOrZero("thread", "Whether to show the latest");
-            
-            string _date = InputContext.GetParamStringOrEmpty("date", "To show from this date");
-            if(_date != String.Empty)
+            InputContext.GetParamIntOrZero("thread", "Whether to show the latest");
+
+            /*Not used
+             * string date = InputContext.GetParamStringOrEmpty("date", "To show from this date");
+            if (date != String.Empty)
             {
-                _dateFrom = DateTime.Parse(_date);
-            }
+                DateTime.Parse(date);
+            }*/
             _cmd = InputContext.GetParamStringOrEmpty("cmd", "Which command to execute.");
-            _framePart = InputContext.GetParamStringOrEmpty("type", "Which type of page to build.");
+            InputContext.GetParamStringOrEmpty("type", "Which type of page to build.");
             _orderByDatePostedDesc = InputContext.GetParamIntOrZero("reverseorder", "Whether to reverse the order of posts or not") == 1;
-            
+#if DEBUG
+            _ignoreCache = InputContext.GetParamIntOrZero("ignorecache", "Ignore the cache") == 1;
+#endif
         }
     }
 }
-
-

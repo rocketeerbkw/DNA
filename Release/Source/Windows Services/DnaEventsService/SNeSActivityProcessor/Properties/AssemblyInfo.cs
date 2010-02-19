@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 
 // The following declaration is to support unit testing
 [assembly: InternalsVisibleTo("SnesActivityProcessorTests")]
+[assembly: InternalsVisibleTo("DnaEventProcessorService.IntegrationTests")]
 
 // Version information for an assembly consists of the following four values:
 //

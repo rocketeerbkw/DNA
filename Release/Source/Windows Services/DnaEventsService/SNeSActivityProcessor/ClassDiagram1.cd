@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.DeleteActivity" Collapsed="true">
+    <Position X="2.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RevokeCommentActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.RevokeCommentActivity">
+    <Position X="0.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAEAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RevokeCommentActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.ActivityBase" Collapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAEAAAMAAAAAAAAAAAAIAAAAAEAAAAAA=</HashCode>
+      <FileName>ActivityBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.CommentActivity">
+    <Position X="5.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAQAEARBQAAAAAQAAAIAEAAAAIAIAAAAAEAhAAAA=</HashCode>
+      <FileName>CommentActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.CommentForumActivity" Collapsed="true">
+    <Position X="6.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAQAEAAAAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CommentForumActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.MessageBoardPostActivity" Collapsed="true">
+    <Position X="4.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAQAEAAAAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MessageBoardPostActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.OpenSocialActivity" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACEAAAAAAAAEAAAQABAABAABAAAAAACQEAAAAAAAA=</HashCode>
+      <FileName>OpenSocialActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.OpenSocialActivities" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAABAAAAAIBAAAAAAAAAAAA=</HashCode>
+      <FileName>OpenSocialActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.SnesActivitiesQuery" Collapsed="true">
+    <Position X="11" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAgAAAAAEAgAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>SnesActivitiesQuery.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.SnesActivityFactory" Collapsed="true">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>SnesActivityFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.SnesActivityProcessor" Collapsed="true">
+    <Position X="12.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAgAAAoAAAAAIABAAgABAAAAAAAAAAIAAAABEA=</HashCode>
+      <FileName>SnesActivityProcessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dna.SnesIntegration.ActivityProcessor.UnexpectedActivity" Collapsed="true">
+    <Position X="9" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>UnexpectedActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BBC.Dna.Net.Security.X509CertificateLoader" Collapsed="true">
+    <Position X="14.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>X509CertificateLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Dna.SnesIntegration.ActivityProcessor.ISnesActivity" Collapsed="true">
+    <Position X="12.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAEAAAEAAAAAAAAAAAAIAAAAAEAAAAAA=</HashCode>
+      <FileName>ISnesActivity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

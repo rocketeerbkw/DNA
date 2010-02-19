@@ -99,7 +99,7 @@ namespace Dna.SnesIntegration.ExModerationProcessor
 
         private HttpStatusCode SendEvent(ExModerationEvent activity)
         {
-            IDnaHttpClient client = HttpClientCreator.CreateHttpClient(activity.CallBackUri);
+            IDnaHttpClient client = HttpClientCreator.CreateHttpClient(new Uri(activity.CallBackUri));
             
             String  activityAsJSON = activity.ToJSON();
 
@@ -111,7 +111,8 @@ namespace Dna.SnesIntegration.ExModerationProcessor
 
             try
             {
-                using (HttpResponseMessage response = client.Post("", content))
+
+                using (HttpResponseMessage response = client.Post(new Uri("", UriKind.Relative), content))
                 {
                     LogUtility.LogResponse(response.StatusCode, response);
                     return response.StatusCode;

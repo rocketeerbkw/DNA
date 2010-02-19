@@ -27,7 +27,7 @@
             <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' message boards')"/></a>
         </li>
         <li class="current">
-            <a href="{$root}/F{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
+            <a href="{$root}/NF{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
               <xsl:choose>
                 <xsl:when test="FORUMSOURCE/ARTICLE/SUBJECT = ''">
                   <xsl:text>no subject</xsl:text>

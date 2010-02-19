@@ -31,7 +31,7 @@ namespace RipleyTests
         public void Setup()
         {
             _appContext = new AppContext(TestConfig.GetConfig().GetRipleyServerPath());
-            _siteOptionList = new SiteOptionList(_appContext.Diagnostics, _appContext.Config.ConnectionString);
+            _siteOptionList = new SiteOptionList(AppContext.ReaderCreator, null);
             _siteOptionList.CreateFromDatabase();
             
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");

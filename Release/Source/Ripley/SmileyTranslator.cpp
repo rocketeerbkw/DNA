@@ -71,7 +71,9 @@ bool CHttpUnit::DoReplace(const TDVCHAR** ppReplace, const TDVCHAR* pStart, CTDV
 		TDVCHAR pstr[1024];
 		const TDVCHAR* ptr = *ppReplace;
 		int urllen = strspn(ptr,URL_CHARS);
-		if (urllen > 0 && (ptr[urllen -1] == '.' || ptr[urllen - 1] == '?' || ptr[urllen - 1] == ')'))
+		
+		
+		if (urllen > 0 && (ptr[urllen -1] == '.' || ptr[urllen - 1] == '?'))
 		{
 			urllen--;
 		}

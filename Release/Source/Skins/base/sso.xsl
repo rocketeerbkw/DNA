@@ -198,6 +198,8 @@
 		<xsl:value-of select="concat($idURL, 'users/logout?', $id_params)" />
 	</xsl:variable>
 	
+	<xsl:variable name="id_stringlimit" select="40"/>
+	
 	<xsl:variable name="sso_nopostsigninlink">
 		<xsl:choose>
 			<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0">
@@ -1178,7 +1180,17 @@
 		          <xsl:otherwise>
 					<img src="http://www.bbc.co.uk/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
 					<ul>
-						<li><xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/></li>  
+						<li>
+							<xsl:choose>
+								<xsl:when test="string-length(normalize-space(/H2G2/VIEWING-USER/USER/USERNAME)) &lt; $id_stringlimit"> 
+									<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:variable name="truncatestring"><xsl:value-of select="substring(/H2G2/VIEWING-USER/USER/USERNAME, 1, $id_stringlimit)" /></xsl:variable>
+									<xsl:value-of select="concat($truncatestring, '...')" />
+								</xsl:otherwise>
+							</xsl:choose>
+						</li>  
 						<li>|</li>
 						<li><a>
 							<xsl:attribute name="href">

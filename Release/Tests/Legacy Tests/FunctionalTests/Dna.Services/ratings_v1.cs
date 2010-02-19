@@ -363,6 +363,7 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/?format=JSON", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
+            Assert.AreEqual("application/json", request.CurrentWebResponse.ContentType);
 
             RatingInfo returnedRating = (RatingInfo)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(RatingInfo));
             Assert.IsTrue(returnedRating.text == text);

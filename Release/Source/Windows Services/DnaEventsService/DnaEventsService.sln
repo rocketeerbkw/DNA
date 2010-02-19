@@ -25,39 +25,58 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{B78F9520-5F2C-41FA-824D-5DB93F02D1AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{D1380547-12A9-4DD5-9028-9C4F0D998768}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration Tests", "Integration Tests", "{5D5C1ADB-0418-4156-9E4C-98BBAA2E45AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments", "{E8170D91-811A-435C-9C65-B2CD5B21E535}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeExperiments", "CodeExperiments\CodeExperiments.csproj", "{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 10
+		SccNumberOfProjects = 11
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://vp-dev-dna-1:8080/
-		SccProjectUniqueName0 = DnaEventProcessorService\\DnaEventProcessorService.csproj
-		SccProjectName0 = DnaEventProcessorService
-		SccLocalPath0 = DnaEventProcessorService
-		SccProjectUniqueName1 = DnaEventProcessorService.IntegrationTests\\DnaEventProcessorService.IntegrationTests.csproj
-		SccProjectName1 = DnaEventProcessorService.IntegrationTests
-		SccLocalPath1 = DnaEventProcessorService.IntegrationTests
-		SccProjectUniqueName2 = DnaEventService.Common\\DnaEventService.Common.csproj
-		SccProjectName2 = DnaEventService.Common
-		SccLocalPath2 = DnaEventService.Common
-		SccProjectUniqueName3 = ExModerationProcessor\\ExModerationProcessor.csproj
-		SccProjectName3 = ExModerationProcessor
-		SccLocalPath3 = ExModerationProcessor
-		SccProjectUniqueName4 = SNeSActivityProcessor\\SnesActivityProcessor.csproj
-		SccProjectName4 = SNeSActivityProcessor
-		SccLocalPath4 = SNeSActivityProcessor
+		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DnaEventProcessorService\\DnaEventProcessorService.csproj
+		SccProjectName1 = DnaEventProcessorService
+		SccLocalPath1 = DnaEventProcessorService
+		SccProjectUniqueName2 = DnaEventProcessorService.IntegrationTests\\DnaEventProcessorService.IntegrationTests.csproj
+		SccProjectTopLevelParentUniqueName2 = DnaEventsService.sln
+		SccProjectName2 = DnaEventProcessorService.IntegrationTests
+		SccLocalPath2 = DnaEventProcessorService.IntegrationTests
+		SccProjectUniqueName3 = DnaEventService.Common\\DnaEventService.Common.csproj
+		SccProjectName3 = DnaEventService.Common
+		SccLocalPath3 = DnaEventService.Common
+		SccProjectUniqueName4 = ExModerationProcessor\\ExModerationProcessor.csproj
+		SccProjectName4 = ExModerationProcessor
+		SccLocalPath4 = ExModerationProcessor
 		SccProjectUniqueName5 = SnesActivityProcessor.Tests\\SnesActivityProcessorTests.csproj
+		SccProjectTopLevelParentUniqueName5 = DnaEventsService.sln
 		SccProjectName5 = SnesActivityProcessor.Tests
 		SccLocalPath5 = SnesActivityProcessor.Tests
-		SccLocalPath6 = .
-		SccProjectUniqueName7 = ..\\..\\Shared\\BBC.Dna.Data\\BBC.Dna.Data.csproj
-		SccProjectName7 = ../../Shared/BBC.Dna.Data
-		SccLocalPath7 = ..\\..\\Shared\\BBC.Dna.Data
-		SccProjectUniqueName8 = ..\\..\\Shared\\BBC.Dna.Utils\\BBC.Dna.Utils.csproj
-		SccProjectName8 = ../../Shared/BBC.Dna.Utils
-		SccLocalPath8 = ..\\..\\Shared\\BBC.Dna.Utils
-		SccProjectUniqueName9 = ..\\..\\Shared\\Memcached.ClientLibrary\\Memcached.ClientLibrary.csproj
-		SccProjectName9 = ../../Shared/Memcached.ClientLibrary
-		SccLocalPath9 = ..\\..\\Shared\\Memcached.ClientLibrary
+		SccProjectUniqueName6 = ..\\..\\Shared\\BBC.Dna.Data\\BBC.Dna.Data.csproj
+		SccProjectTopLevelParentUniqueName6 = DnaEventsService.sln
+		SccProjectName6 = ../../Shared/BBC.Dna.Data
+		SccLocalPath6 = ..\\..\\Shared\\BBC.Dna.Data
+		SccProjectUniqueName7 = ..\\..\\Shared\\BBC.Dna.Utils\\BBC.Dna.Utils.csproj
+		SccProjectTopLevelParentUniqueName7 = DnaEventsService.sln
+		SccProjectName7 = ../../Shared/BBC.Dna.Utils
+		SccLocalPath7 = ..\\..\\Shared\\BBC.Dna.Utils
+		SccProjectUniqueName8 = ..\\..\\Shared\\Memcached.ClientLibrary\\Memcached.ClientLibrary.csproj
+		SccProjectTopLevelParentUniqueName8 = DnaEventsService.sln
+		SccProjectName8 = ../../Shared/Memcached.ClientLibrary
+		SccLocalPath8 = ..\\..\\Shared\\Memcached.ClientLibrary
+		SccProjectUniqueName9 = CodeExperiments\\CodeExperiments.csproj
+		SccProjectTopLevelParentUniqueName9 = DnaEventsService.sln
+		SccProjectName9 = CodeExperiments
+		SccLocalPath9 = CodeExperiments
+		SccProjectUniqueName10 = SNeSActivityProcessor\\SnesActivityProcessor.csproj
+		SccProjectName10 = SNeSActivityProcessor
+		SccLocalPath10 = SNeSActivityProcessor
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DnaEventsService.vsmdi
@@ -79,7 +98,6 @@ Global
 		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
 		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
 		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
@@ -103,7 +121,6 @@ Global
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
@@ -122,9 +139,23 @@ Global
 		{4770D032-9B06-450D-8B00-7200D8330397}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
 		{4770D032-9B06-450D-8B00-7200D8330397}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4770D032-9B06-450D-8B00-7200D8330397}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7} = {5D5C1ADB-0418-4156-9E4C-98BBAA2E45AB}
+		{A2A07BB9-8417-4859-932A-AC92BDB599F9} = {D1380547-12A9-4DD5-9028-9C4F0D998768}
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{4770D032-9B06-450D-8B00-7200D8330397} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{F79CF818-D597-4C2F-A61D-87773951E234} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C} = {E8170D91-811A-435C-9C65-B2CD5B21E535}
 	EndGlobalSection
 	GlobalSection(SpecExplorer.ActivityCompletionStatus) = preSolution
 		SpecExplorer.ActivityCompletionStatus = 

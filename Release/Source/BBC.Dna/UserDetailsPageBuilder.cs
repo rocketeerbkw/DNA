@@ -192,27 +192,26 @@ namespace BBC.Dna.Component
             if (userPrefsXML != String.Empty)
                 InputContext.ViewingUser.SetUserData("PrefXML", userPrefsXML);
 
+            // Set the users site suffix if supplied
+            if (siteSuffix != String.Empty)
+            {
+                // Check to make sure the site suffix doesn't contain a profanity
+                string matchingProfanity;
+                ProfanityFilter.FilterState siteSuffixProfanity = ProfanityFilter.FilterState.Pass;
+                siteSuffixProfanity = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, siteSuffix, out matchingProfanity);
+                if (siteSuffixProfanity == ProfanityFilter.FilterState.FailBlock)
+                {
+                    statusMessage = "Site suffix failed profanity check.";
+                    statusType = "sitesuffixfailprofanitycheck";
+                    return false;
+                }
+
+                InputContext.ViewingUser.SetUserData("siteSuffix", siteSuffix);
+            }
+
             if (InputContext.DoesParamExist("Region", "Region parameter"))
             {
                 InputContext.ViewingUser.SetUserData("Region", InputContext.GetParamStringOrEmpty("Region", "Region parameter"));
-            }
-
-            //Can only set username if user / site not premoderated.
-            ProfanityFilter.FilterState nickNameProfanity = ProfanityFilter.FilterState.Pass;
-            if (oldUserName != userName)
-            {
-                string matchingProfanity;
-                nickNameProfanity = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, userName, out matchingProfanity);
-                if ( nickNameProfanity == ProfanityFilter.FilterState.FailBlock )
-                {
-                    statusMessage = "Nickname failed profanity check.";
-                    statusType = "nicknamefailprofanitycheck";
-                    return false;
-                }
-                else if ( modStatus != ModerationStatus.NicknameStatus.PreMod && !InputContext.ViewingUser.IsPreModerated )
-                {
-                    InputContext.ViewingUser.SetUsername(userName);
-                }
             }
 
             // only do the update if none of the methods failed and if there is no error
@@ -225,22 +224,6 @@ namespace BBC.Dna.Component
 
                 statusMessage = "Your details have been updated";
                 statusType = "detailsupdated";
-
-                // Check to see if nickname change needs to be queued for moderation.
-                if (oldUserName.ToUpper() != userName.ToUpper()  )
-                {
-                    if (modStatus != ModerationStatus.NicknameStatus.UnMod || nickNameProfanity == ProfanityFilter.FilterState.FailRefer || InputContext.ViewingUser.IsPreModerated )
-                    {
-                        ModerateNickNames modNickName = new ModerateNickNames(InputContext);
-                        int modId = 0;
-                        modNickName.QueueNicknameForModeration(userName, InputContext.ViewingUser.UserID, InputContext.CurrentSite.SiteID, out modId);
-                        if (modStatus == ModerationStatus.NicknameStatus.PreMod || InputContext.ViewingUser.IsPreModerated )
-                        {
-                            statusMessage = "Username is in pre-moderation.";
-                            statusType = "usernamepremoderated";
-                        }
-                    }
-                }
             }
             else
             {

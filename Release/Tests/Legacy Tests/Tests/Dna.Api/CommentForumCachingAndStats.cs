@@ -51,7 +51,7 @@ namespace Tests
                 {//force processpremod out...
                     reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=1 and Name='ProcessPreMod'");
                 }
-                _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 site = _siteList.GetSite("h2g2");
 
                 _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
@@ -271,7 +271,7 @@ namespace Tests
             {
                 using (FullInputContext inputcontext = new FullInputContext(false))
                 {
-                    _siteList = SiteList.GetSiteList(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString, true);
+                    _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                     site = _siteList.GetSite("h2g2");
                     _comments.siteList = _siteList;
                 }

@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using BBC.Dna;
-
 namespace BBC.Dna.Sites
 {
     /// <summary>
@@ -11,16 +5,7 @@ namespace BBC.Dna.Sites
     /// </summary>
     public class SiteOption
     {
-        private int _siteId;
-        private string _section;
-        private string _name;
-        private SiteOptionType _type;
-        private string _description;
-
-        // The different types it can holde
-        private int _valueInt;
-        private bool _valueBool;
-        private string _valueString;
+        #region SiteOptionType enum
 
         /// <summary>
         /// The types of SiteOption you can have
@@ -43,13 +28,11 @@ namespace BBC.Dna.Sites
             String = 2
         }
 
-        /// <summary>
-        /// The type of this site option 
-        /// </summary>
-        public SiteOptionType Type
-        {
-            get { return _type; }
-        }
+        #endregion
+
+        private bool _valueBool;
+        private int _valueInt;
+        private string _valueString;
 
         /// <summary>
         /// Creates a SiteOption 
@@ -62,20 +45,20 @@ namespace BBC.Dna.Sites
         /// <param name="description"></param>
         public SiteOption(int siteId, string section, string name, string value, SiteOptionType type, string description)
         {
-	        _siteId = siteId;
-	        _section = section;
-	        _name = name;
-	        _type = type;
-	        _description = description;
+            SiteId = siteId;
+            Section = section;
+            Name = name;
+            OptionType = type;
+            Description = description;
 
             // Use the Get methods to validate the type, knowing that they'll throw an exception if not
             switch (type)
             {
                 case SiteOptionType.Int:
-                    SetValueInt(int.Parse(value)); 
+                    SetValueInt(int.Parse(value));
                     break;
 
-                case SiteOptionType.Bool: 
+                case SiteOptionType.Bool:
                     int i = int.Parse(value);
                     if (i == 0)
                     {
@@ -95,45 +78,39 @@ namespace BBC.Dna.Sites
                     SetValueString(value);
                     break;
 
-                default: throw new SiteOptionInvalidTypeException("Unknown type");
+                //default:
+                    //throw new SiteOptionInvalidTypeException("Unknown type");
             }
         }
+
+        /// <summary>
+        /// The type of this site option 
+        /// </summary>
+        public SiteOptionType OptionType { get; private set; }
 
         /// <summary>
         /// Returns the site ID of this site option
         /// </summary>
         /// <returns>the site ID</returns>
-        public int SiteId
-        { 
-            get { return _siteId; } 
-        }
+        public int SiteId { get; private set; }
 
         /// <summary>
         /// Returns the section name of this site option
         /// </summary>
         /// <returns>the section name</returns>
-        public string Section
-        {
-            get { return _section; }
-        }
+        public string Section { get; private set; }
 
         /// <summary>
         /// Returns the name of this site option
         /// </summary>
         /// <returns>the name</returns>
-        public string Name
-        {
-            get { return _name; }
-        }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Returns the descriptions of this site option
         /// </summary>
         /// <returns>the description</returns>
-        public string Description
-        {
-            get { return _description; }
-        }
+        public string Description { get; private set; }
 
         /// <summary>
         /// Is this option applied to a specific site, or is it a global default?
@@ -193,9 +170,9 @@ namespace BBC.Dna.Sites
         /// Returns true if the type of this site option is an int
         /// </summary>
         /// <returns>true if it's an int type, false otherwise</returns>
-	    public bool IsTypeInt()
+        public bool IsTypeInt()
         {
-            return _type == SiteOptionType.Int;
+            return OptionType == SiteOptionType.Int;
         }
 
         /// <summary>
@@ -204,7 +181,7 @@ namespace BBC.Dna.Sites
         /// <returns>true if it's an bool type, false otherwise</returns>
         public bool IsTypeBool()
         {
-            return _type == SiteOptionType.Bool;
+            return OptionType == SiteOptionType.Bool;
         }
 
         /// <summary>
@@ -213,7 +190,7 @@ namespace BBC.Dna.Sites
         /// <returns>true if it's an string type, false otherwise</returns>
         public bool IsTypeString()
         {
-            return _type == SiteOptionType.String;
+            return OptionType == SiteOptionType.String;
         }
 
         /// <summary>
@@ -270,7 +247,7 @@ namespace BBC.Dna.Sites
         /// <returns></returns>
         public string GetRawValue()
         {
-            switch (_type)
+            switch (OptionType)
             {
                 case SiteOptionType.Int:
                     return _valueInt.ToString();
@@ -286,7 +263,8 @@ namespace BBC.Dna.Sites
                 case SiteOptionType.String:
                     return _valueString;
 
-                default: throw new SiteOptionInvalidTypeException("Unknown type");
+                default:
+                    throw new SiteOptionInvalidTypeException("Unknown type");
             }
         }
 
@@ -299,13 +277,13 @@ namespace BBC.Dna.Sites
         /// <returns></returns>
         public static SiteOption CreateFromDefault(SiteOption defaultSiteOption, int siteId)
         {
-            SiteOption newSiteOption = new SiteOption(
-                                            siteId,
-                                            defaultSiteOption._section,
-                                            defaultSiteOption._name,
-                                            defaultSiteOption.GetRawValue(),
-                                            defaultSiteOption._type,
-                                            defaultSiteOption._description);
+            var newSiteOption = new SiteOption(
+                siteId,
+                defaultSiteOption.Section,
+                defaultSiteOption.Name,
+                defaultSiteOption.GetRawValue(),
+                defaultSiteOption.OptionType,
+                defaultSiteOption.Description);
 
             return newSiteOption;
         }

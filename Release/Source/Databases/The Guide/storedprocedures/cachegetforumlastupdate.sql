@@ -6,7 +6,7 @@ AS
 	FROM dbo.ForumLastUpdated
 	where forumid = @forumid
 
-	select lastupdated as 'threadlastupdated',
+	select ISNULL(max(lastupdated),cast(convert(char(10),getdate(),121) AS datetime)) as 'threadlastupdated',
 	@forumlastupdate as 'forumlastupdated' 
 	from threads
 	where forumid = @forumid

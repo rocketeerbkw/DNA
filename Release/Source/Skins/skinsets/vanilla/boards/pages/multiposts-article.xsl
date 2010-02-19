@@ -32,12 +32,12 @@
             <a href="{$root}"><xsl:value-of select="concat(/H2G2/SITECONFIG/BOARDNAME, ' message boards')"/></a>
         </li>
         <li>
-            <a href="{$root}/F{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
+            <a href="{$root}/NF{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
                 <xsl:value-of select="FORUMSOURCE/ARTICLE/SUBJECT" />
             </a>
         </li>
         <li class="current">
-            <a href="{$root}/F{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}?thread={FORUMTHREADPOSTS/@THREADID}">
+            <a href="{$root}/NF{FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}?thread={FORUMTHREADPOSTS/@THREADID}">
                 <xsl:choose>
                 <xsl:when test="FORUMTHREADPOSTS/FIRSTPOSTSUBJECT = ''">
                   <xsl:text>no subject</xsl:text>

@@ -32,7 +32,7 @@
                 <xsl:if test="SUCCESS = 1">
                     <p class="dna-success">
                         The thread has successfully been moved.
-                        <a href="{$root}/F{NEW-FORUM-ID}">Go back to the discussion.</a>
+                        <a href="{$root}/NF{NEW-FORUM-ID}">Go back to the discussion.</a>
                     </p>
                 </xsl:if>
             	

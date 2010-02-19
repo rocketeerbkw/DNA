@@ -8,6 +8,7 @@ using System.Configuration;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Data;
 
 namespace BBC.Dna.Services
 {
@@ -16,15 +17,19 @@ namespace BBC.Dna.Services
         public static ISiteList siteList;
         public static DnaDiagnostics dnaDiagnostics;
         public static string connectionString = string.Empty;
+        public static IDnaDataReaderCreator ReaderCreator;
         private DateTime openTime;
 
         protected void Application_Start(object sender, EventArgs e)
         {
             //System.Diagnostics.Debugger.Launch();
             Statistics.InitialiseIfEmpty(/*TheAppContext*/);
-
-            siteList = SiteList.GetSiteList(dnaDiagnostics, String.Empty);
+            //TODO: refactor this to use dnadatareader fully
+            dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
             connectionString = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
+            ReaderCreator = new DnaDataReaderCreator(connectionString, dnaDiagnostics);
+            siteList = SiteList.GetSiteList(ReaderCreator, dnaDiagnostics);
+            
         }
 
         protected void Session_Start(object sender, EventArgs e)
@@ -43,7 +48,7 @@ namespace BBC.Dna.Services
             // Check to see if we're being asked to recache the site data
             if (Request.QueryString["action"] == "recache-site" || Request.QueryString["_ns"] == "1")
             {
-                siteList = SiteList.GetSiteList(dnaDiagnostics, String.Empty, true);
+                siteList = SiteList.GetSiteList(ReaderCreator, dnaDiagnostics, true);
             }
 
             // Check to see if we're being asked to do a recache of groups

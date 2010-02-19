@@ -22,6 +22,7 @@ namespace BBC.Dna.Users
         }
 
         private SigninStatus _signedInStatus = SigninStatus.NotSignedinNotLoggedIn;
+        private int _debugUserID = 0;
 
         /// <summary>
         /// Returns the last error message
@@ -44,6 +45,13 @@ namespace BBC.Dna.Users
             _signInSystem = signInSystem;
         }
 
+        public CallingUser(SignInSystem signInSystem, string databaseConnectionDetails, ICacheManager caching, int debugUserID)
+            : base(databaseConnectionDetails, caching)
+        {
+            _signInSystem = signInSystem;
+            _debugUserID = debugUserID;
+        }
+
         /// <summary>
         /// Tries to sign the user in using their cookie.
         /// </summary>
@@ -54,28 +62,39 @@ namespace BBC.Dna.Users
         /// <returns>True if they are signed in, false if not</returns>
         public bool IsUserSignedIn(string cookie, string policy, int siteID, string identityUserName)
         {
-            using (AuthenticateUser authernticatedUser = new AuthenticateUser(_signInSystem))
+            if (_debugUserID > 0)
             {
-                if (authernticatedUser.AuthenticateUserFromCookie(cookie, policy, identityUserName))
+                if (CreateUserFromDnaUserID(_debugUserID, siteID))
                 {
-                    // Check to see if the email is in the banned emails list
-                    BannedEmails.BannedEmails emails = new BannedEmails.BannedEmails(_databaseConnectionDetails, _cachingObject);
-                    string emailToCheck = authernticatedUser.Email;
-                    if (emailToCheck.Length == 0 || !emails.IsEmailInBannedFromSignInList(emailToCheck))
+                    _signedInStatus = SigninStatus.SignedInLoggedIn;
+                    return true;
+                }
+            }
+            else
+            {
+                using (AuthenticateUser authernticatedUser = new AuthenticateUser(_signInSystem))
+                {
+                    if (authernticatedUser.AuthenticateUserFromCookie(cookie, policy, identityUserName))
                     {
-                        // The users email is not in the banned list, get the rest of the details from the database
-                        if (CreateUserFromSignInUserID(authernticatedUser.SignInUserID, authernticatedUser.LegacyUserID, _signInSystem, siteID, authernticatedUser.LoginName, authernticatedUser.Email, authernticatedUser.FirstName, authernticatedUser.LastNames, authernticatedUser.UserName))
+                        // Check to see if the email is in the banned emails list
+                        BannedEmails.BannedEmails emails = new BannedEmails.BannedEmails(_databaseConnectionDetails, _cachingObject);
+                        string emailToCheck = authernticatedUser.Email;
+                        if (emailToCheck.Length == 0 || !emails.IsEmailInBannedFromSignInList(emailToCheck))
                         {
-                            _signedInStatus = SigninStatus.SignedInLoggedIn;
-                            return true;
+                            // The users email is not in the banned list, get the rest of the details from the database
+                            if (CreateUserFromSignInUserID(authernticatedUser.SignInUserID, authernticatedUser.LegacyUserID, _signInSystem, siteID, authernticatedUser.LoginName, authernticatedUser.Email, authernticatedUser.FirstName, authernticatedUser.LastNames, authernticatedUser.UserName))
+                            {
+                                _signedInStatus = SigninStatus.SignedInLoggedIn;
+                                return true;
+                            }
                         }
                     }
-                }
 
-                // Check to see if the user was signed in, but not logged in
-                if (authernticatedUser.IsSignedIn && !authernticatedUser.IsLoggedIn)
-                {
-                    _signedInStatus = SigninStatus.SignedInNotLoggedIn;
+                    // Check to see if the user was signed in, but not logged in
+                    if (authernticatedUser.IsSignedIn && !authernticatedUser.IsLoggedIn)
+                    {
+                        _signedInStatus = SigninStatus.SignedInNotLoggedIn;
+                    }
                 }
             }
 

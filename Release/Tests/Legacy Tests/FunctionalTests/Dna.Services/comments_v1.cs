@@ -390,6 +390,8 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?format=JSON", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            Assert.AreEqual("application/json", request.CurrentWebResponse.ContentType);
+
 
             CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentInfo));
             Assert.IsTrue(returnedComment.text == text);

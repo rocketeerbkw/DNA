@@ -138,6 +138,7 @@ namespace FunctionalTests
             Assert.AreNotEqual(null, forumThreads);
             Assert.AreEqual("0", forumThreads.Attributes["CANWRITE"].Value);
 
+            CleanRiplyCache();
             //Reopen Thread
             //request as logged out user
             request.SetCurrentUserEditor();
@@ -155,6 +156,7 @@ namespace FunctionalTests
             Assert.AreNotEqual(null, forumThreads);
             Assert.AreEqual("1", forumThreads.Attributes["CANWRITE"].Value);
 
+            CleanRiplyCache();
             //check as not logged in user
             request.SetCurrentUserNormal();
             request.RequestPage("F7325075?thread=34&skin=purexml");
@@ -495,6 +497,7 @@ namespace FunctionalTests
             Assert.AreEqual("1", forumThreadPosts.Attributes["CANREAD"].Value);
             Assert.AreEqual("1", forumThreadPosts.Attributes["CANWRITE"].Value);
 
+            CleanRiplyCache();
             //reset
             request.RequestPage("F7325075?cmd=forumperm&thread=34&skin=purexml&read=1&write=1");
             ValidateForumThreadSchema(request);
@@ -566,6 +569,7 @@ namespace FunctionalTests
             Assert.AreEqual("0", forumThreadPosts.Attributes["THREADCANREAD"].Value);
             Assert.AreEqual("0", forumThreadPosts.Attributes["THREADCANWRITE"].Value);
 
+            CleanRiplyCache();
             //reset
             request.RequestPage("F7325075?cmd=forumperm&thread=34&skin=purexml&threadread=1&threadwrite=1");
             ValidateForumThreadSchema(request);
@@ -1130,7 +1134,7 @@ namespace FunctionalTests
         /// </summary>
         /// <param name="siteName"></param>
         /// <param name="request"></param>
-        private void ValidateForumSchema(string siteName, DnaTestURLRequest request)
+        public void ValidateForumSchema(string siteName, DnaTestURLRequest request)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(request.GetLastResponseAsString());
@@ -1198,7 +1202,7 @@ namespace FunctionalTests
         /// 
         /// </summary>
         /// <param name="request"></param>
-        private void ValidateForumThreadSchema(DnaTestURLRequest request)
+        public void ValidateForumThreadSchema(DnaTestURLRequest request)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(request.GetLastResponseAsString());

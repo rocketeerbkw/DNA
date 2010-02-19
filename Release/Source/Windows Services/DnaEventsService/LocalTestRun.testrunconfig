@@ -9,5 +9,8 @@
       <CodeCoverageItem binaryFile="SNeSActivityProcessor\bin\Debug\SnesActivityProcessor.dll" pdbFile="SNeSActivityProcessor\bin\Debug\SnesActivityProcessor.pdb" instrumentInPlace="true" />
     </Regular>
   </CodeCoverage>
+  <Deployment>
+    <DeploymentItem filename="DnaEventProcessorService.IntegrationTests\activities.js" />
+  </Deployment>
   <TestTypeSpecific />
 </TestRunConfiguration>

@@ -371,7 +371,7 @@ namespace Tests
             Stub.On(mockedInputContext).GetProperty("CurrentSite").Will(Return.Value(site));
 
             // Create the site options for the new mocked site
-            SiteOptionList siteOptionList = new SiteOptionList(mockedInputContext.Diagnostics, DnaMockery.DnaConfig.ConnectionString);
+            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
             siteOptionList.CreateFromDatabase();
             siteOptionList.SetValueBool(1, "Forum", "EmailAddressFilter", true);
             siteOptionList.SetValueBool(1, "General", "IsURLFiltered", true);
@@ -432,7 +432,7 @@ namespace Tests
             Stub.On(mockedInputContext).GetProperty("CurrentSite").Will(Return.Value(site));
 
             // Create the site options for the new mocked site
-            SiteOptionList siteOptionList = new SiteOptionList(mockedInputContext.Diagnostics, DnaMockery.DnaConfig.ConnectionString);
+            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
             siteOptionList.CreateFromDatabase();
             siteOptionList.SetValueBool(1, "Forum", "EmailAddressFilter", true);
             siteOptionList.SetValueBool(1, "General", "IsURLFiltered", true);

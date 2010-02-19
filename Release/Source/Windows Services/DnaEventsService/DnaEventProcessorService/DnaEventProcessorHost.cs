@@ -40,7 +40,7 @@ namespace DnaEventProcessorService
         private void CreateActivityTimer()
         {
             Uri snesBaseUri = new Uri(Properties.Settings.Default.snesBaseUri);
-            string proxyAddress = Properties.Settings.Default.proxyAddress;
+            Uri proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
             X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName());
             guideConnectionString = Properties.Settings.Default.guideConnectionString;
 
@@ -55,7 +55,7 @@ namespace DnaEventProcessorService
 
         private void CreateExModerationEventTimer()
         {
-            string proxyAddress = Properties.Settings.Default.proxyAddress;
+            Uri proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
             X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName());
 
             guideConnectionString = Properties.Settings.Default.guideConnectionString;

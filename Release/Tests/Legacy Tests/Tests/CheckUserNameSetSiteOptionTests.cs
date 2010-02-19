@@ -52,7 +52,7 @@ namespace Tests
             ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", false);
 
             // Create the site options for the new mocked site
-            SiteOptionList siteOptionList = new SiteOptionList(context.Diagnostics, DnaMockery.DnaConfig.ConnectionString);
+            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
             siteOptionList.CreateFromDatabase();
             siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", false);
             siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", false);
@@ -87,7 +87,7 @@ namespace Tests
             // Create a mocked site
             ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", false);
 
-            SiteOptionList siteOptionList = new SiteOptionList(context.Diagnostics,  DnaMockery.DnaConfig.ConnectionString);
+            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
             siteOptionList.CreateFromDatabase();
             siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", true);
             siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", false);
@@ -122,7 +122,7 @@ namespace Tests
             // Create a mocked site
             ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", false);
 
-            SiteOptionList siteOptionList = new SiteOptionList(context.Diagnostics,  DnaMockery.DnaConfig.ConnectionString);
+            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
             siteOptionList.CreateFromDatabase();
             siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", false);
             siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", true);

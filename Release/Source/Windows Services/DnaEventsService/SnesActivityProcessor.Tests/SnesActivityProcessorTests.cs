@@ -103,7 +103,7 @@ namespace SnesActivityTests
             MockRepository mocks = new MockRepository();
 
             IDnaDataReader getSnesEvents = mocks.DynamicMock<IDnaDataReader>();
-            getSnesEvents.Stub(x => x.GetInt32("ActivityType")).Return(5);
+            getSnesEvents.Stub(x => x.GetInt32("ActivityType")).Return(19);
             IDnaDataReader removeHandledSnesEvents = mocks.DynamicMock<IDnaDataReader>();
             removeHandledSnesEvents
                 .Stub(x => x.AddParameter("eventids", ""))
@@ -130,7 +130,7 @@ namespace SnesActivityTests
             newHttpResponseMessage.StatusCode = HttpStatusCode.OK;
             newHttpResponseMessage.Uri = new Uri("http://www.bbc.co.uk/");
             newHttpResponseMessage.Content = content;
-            httpClient.Stub(x => x.Post("", content)).Constraints(Is.Anything(),Is.Anything()).Return(newHttpResponseMessage);
+            httpClient.Stub(x => x.Post(new Uri("", UriKind.Relative), content)).Constraints(Is.Anything(),Is.Anything()).Return(newHttpResponseMessage);
             
 
             using (mocks.Record())

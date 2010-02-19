@@ -38,16 +38,8 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// Class holds the list of Sites contains a private object which is locked when updating or retrieving data
         /// </summary>
-        public SiteList(IDnaDiagnostics dnaDiagnostics, string connection)
-            : base(dnaDiagnostics, connection)
-        {
-        }
-
-        /// <summary>
-        /// Base Constructor
-        /// </summary>
-        public SiteList()
-            : base()
+        public SiteList(IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag)
+            : base(ReaderCreator, DnaDiag)
         {
         }
 
@@ -61,9 +53,9 @@ namespace BBC.Dna.Sites
         /// <param name="dnaDiagnostics">The diagnostic object - can be null</param>
         /// <param name="connection">The connection string</param>
         /// <returns>A filled sitelist object</returns>
-        public static ISiteList GetSiteList(IDnaDiagnostics dnaDiagnostics, string connection)
+        public static ISiteList GetSiteList(IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag)
         {
-            return GetSiteList(dnaDiagnostics, connection, false);
+            return GetSiteList(ReaderCreator,DnaDiag, false);
 
         }
         /// <summary>
@@ -73,7 +65,7 @@ namespace BBC.Dna.Sites
         /// <param name="connection">The connection string</param>
         /// <param name="ignorecache">Forces a refresh of the cache</param>
         /// <returns>A filled sitelist object</returns>
-        public static ISiteList GetSiteList(IDnaDiagnostics dnaDiagnostics, string connection, bool ignorecache)
+        public static ISiteList GetSiteList(IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag, bool ignorecache)
         {
             if (!ignorecache)
             {
@@ -92,7 +84,7 @@ namespace BBC.Dna.Sites
                 }
             }
 
-            SiteList siteList = new SiteList(dnaDiagnostics, connection);
+            SiteList siteList = new SiteList(ReaderCreator, DnaDiag);
             siteList.LoadSiteList();
             _siteList = siteList;
             try
@@ -159,7 +151,7 @@ namespace BBC.Dna.Sites
 					                eventAlertMessageUserID, allowRemoveVote, includeCrumbtrail,
 					                allowPostCodesInSearch, queuePostings, emergencyClosed,
 					                minAge, maxAge, modClassID, ssoservice,  useIdentitySignInSystem,
-                                    skinSet, IdentityPolicy, dnaDiagnostics, Connection);
+                                    skinSet, IdentityPolicy);
 
             _names.Add(name, siteData);
             _ids.Add(id, siteData);
@@ -176,7 +168,7 @@ namespace BBC.Dna.Sites
             bool siteInList = _names.ContainsKey(name);
             if (!siteInList)
             {
-                dnaDiagnostics.WriteWarningToLog("SiteList","A Site doesn't exist with that site name. ");
+                DnaDiagnostics.WriteWarningToLog("SiteList","A Site doesn't exist with that site name. ");
                 return null;
             }
 
@@ -194,7 +186,7 @@ namespace BBC.Dna.Sites
             bool siteInList = _ids.ContainsKey(id);
             if (!siteInList)
             {
-                dnaDiagnostics.WriteWarningToLog("SiteList","A Site doesn't exist with that site id. ");
+                DnaDiagnostics.WriteWarningToLog("SiteList","A Site doesn't exist with that site id. ");
                 return null;
             }
 
@@ -207,15 +199,13 @@ namespace BBC.Dna.Sites
         /// </summary>
         public void LoadSiteList()
         {
-            using (new Tracer(this.GetType().Namespace))
-            {
-                Logger.Write("SiteList Loading Before", this.GetType().Namespace);
+            DnaDiagnostics.WriteTimedEventToLog("SiteList", "Creating list from database");
             LoadSiteList(0);
+            DnaDiagnostics.WriteTimedEventToLog("SiteList", "Completed creating list from database");
 
-            _siteOptionList = new SiteOptionList(dnaDiagnostics, Connection);
+            //get siteoptions
+            _siteOptionList = new SiteOptionList(ReaderCreator, DnaDiagnostics);
             _siteOptionList.CreateFromDatabase();
-                Logger.Write("SiteList Loading After", this.GetType().Namespace);
-            }
         }
 
 
@@ -228,24 +218,24 @@ namespace BBC.Dna.Sites
         {
             try
             {
-            string getSiteData = "fetchsitedata";
-            using (IDnaDataReader dataReader = CreateReader(getSiteData))
-            {
-                if (id > 0)
+                string getSiteData = "fetchsitedata";
+                using (IDnaDataReader dataReader = ReaderCreator.CreateDnaDataReader(getSiteData))
                 {
-                    dataReader.AddParameter("@siteid", id);
-                }
-                dataReader.Execute();
+                    if (id > 0)
+                    {
+                        dataReader.AddParameter("@siteid", id);
+                    }
+                    dataReader.Execute();
 
-                if (dataReader.HasRows)
-                {
-                    ProcessSiteData(dataReader);
+                    if (dataReader.HasRows)
+                    {
+                        ProcessSiteData(dataReader);
+                    }
                 }
-            }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                DnaDiagnostics.WriteExceptionToLog(ex);
             }
         }
 
@@ -369,7 +359,7 @@ namespace BBC.Dna.Sites
         private void GetSiteTopics()
         {
             // Get the topics for the given site
-            using (IDnaDataReader reader = CreateReader("GetTopicDetails"))
+            using (IDnaDataReader reader = ReaderCreator.CreateDnaDataReader("GetTopicDetails"))
             {
                 reader.AddParameter("TopicStatus", 0);
                 //reader.AddParameter("SiteID", id);
@@ -400,11 +390,10 @@ namespace BBC.Dna.Sites
         /// <param name="context">The context it's called in</param>
         private void GetReviewForums()
         {
-            string getReviewForums = "getreviewforums";
-            using (IDnaDataReader dataReader = CreateReader(getReviewForums))
+            using (IDnaDataReader dataReader = ReaderCreator.CreateDnaDataReader("getreviewforums"))
             {
-                dataReader.AddParameter("@siteID", 0)	// site zero means get all sites
-                .Execute();
+                dataReader.AddParameter("@siteID", 0);	// site zero means get all sites
+                dataReader.Execute();
 
                 if (dataReader.HasRows)
                 {
@@ -412,8 +401,8 @@ namespace BBC.Dna.Sites
                     while (dataReader.Read())
                     {
 						int id = dataReader.GetInt32NullAsZero("SiteID");
-						string urlFriendlyName = dataReader["URLFriendlyName"].ToString();
-                        int forumid = (int)dataReader["ReviewForumID"];
+						string urlFriendlyName = dataReader.GetStringNullAsEmpty("URLFriendlyName").ToString();
+                        int forumid = dataReader.GetInt32NullAsZero("ReviewForumID");
                         AddReviewForum(id, urlFriendlyName, forumid);
                     }
                 }
@@ -426,11 +415,10 @@ namespace BBC.Dna.Sites
         /// <param name="context">The context it's called in</param>
         private void GetKeyArticleList()
         {
-            string getKeyArticleList = "getkeyarticlelist";
-            using (IDnaDataReader dataReader = CreateReader(getKeyArticleList))
+            using (IDnaDataReader dataReader = ReaderCreator.CreateDnaDataReader("getkeyarticlelist"))
             {
-                dataReader.AddParameter("@siteID", 0)	// zero means get all sites data
-                .Execute();
+                dataReader.AddParameter("@siteID", 0);	// zero means get all sites data
+                dataReader.Execute();
 
                 if (dataReader.HasRows)
                 {
@@ -438,7 +426,7 @@ namespace BBC.Dna.Sites
                     while (dataReader.Read())
                     {
 						int id = dataReader.GetInt32NullAsZero("SiteID");
-                        string articleName = dataReader["ArticleName"].ToString();
+                        string articleName = dataReader.GetStringNullAsEmpty("ArticleName");
                         AddArticle(id, articleName);
                     }
                 }
@@ -451,8 +439,7 @@ namespace BBC.Dna.Sites
         /// <param name="context">The context it's called in</param>
         private void GetSiteOpenCloseTimes()
         {
-            string getOpenCloseTimes = "getsitetopicsopenclosetimes";
-            using (IDnaDataReader dataReader = CreateReader(getOpenCloseTimes))
+            using (IDnaDataReader dataReader = ReaderCreator.CreateDnaDataReader("getsitetopicsopenclosetimes"))
             {
 				//dataReader.AddParameter("@siteID", id)
 				//.Execute();
@@ -462,11 +449,11 @@ namespace BBC.Dna.Sites
                     //For each row/site in the database add it's details
                     while (dataReader.Read())
                     {
-                        byte dayofWeek = (byte)dataReader["DayWeek"];	// subtract one because C++ date code starts from Sunday = 1
+                        byte dayofWeek = dataReader.GetByte("DayWeek");	// subtract one because C++ date code starts from Sunday = 1
 						//dayofWeek -= 1;									// while .NET starts from Sunday = 0
-                        byte hour = (byte)dataReader["Hour"];
-                        byte minute = (byte)dataReader["Minute"];
-                        int closed = (int)dataReader["Closed"];
+                        byte hour = dataReader.GetByte("Hour");
+                        byte minute = dataReader.GetByte("Minute");
+                        int closed = (int)dataReader.GetByte("Closed");
 						int id = dataReader.GetInt32NullAsZero("SiteID");
                         AddSiteOpenCloseTime(id, dayofWeek, hour, minute, closed);
                     }

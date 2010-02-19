@@ -20,7 +20,7 @@
             <xsl:with-param name="text">
                 <xsl:value-of select="SUBJECT" />
                 <span>
-                    <a href="{$root}/F{ARTICLEINFO/FORUMID}">permalink</a>
+                    <a href="{$root}/NF{ARTICLEINFO/FORUMID}">permalink</a>
                 </span>
             </xsl:with-param>
         </xsl:call-template>

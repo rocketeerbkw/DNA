@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Practices.EnterpriseLibrary.Logging;
+﻿using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace DnaEventService.Common
 {
@@ -10,7 +6,7 @@ namespace DnaEventService.Common
     {
         #region IDnaLogger Members
 
-        void IDnaLogger.Write(Microsoft.Practices.EnterpriseLibrary.Logging.LogEntry log)
+        void IDnaLogger.Write(LogEntry log)
         {
             Logger.Write(log);
         }

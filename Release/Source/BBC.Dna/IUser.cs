@@ -91,6 +91,11 @@ namespace BBC.Dna
         bool IsPreModerated { get; }
 
         /// <summary>
+        /// True if the user is in Pre Moderation on the current site
+        /// </summary>
+        bool IsPostModerated { get; }
+
+        /// <summary>
         /// True if the user has been banned from the current site
         /// </summary>
         bool IsBanned { get; }
