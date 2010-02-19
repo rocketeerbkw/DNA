@@ -17,6 +17,18 @@
 	
 	<xsl:template match="VIEWING-USER" mode="library_identity_policyurl">
 		<xsl:param name="ptrt" />
+		<xsl:param name="urlidentification" />
+		
+		<xsl:variable name="urltype">
+			<xsl:choose>
+				<xsl:when test="$urlidentification != ''">
+					<xsl:value-of select="$urlidentification" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>registerurl</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		
 		<xsl:value-of select="concat($configuration/identity/url, '/users/dash/more?target_resource=')" />
 		
@@ -37,7 +49,7 @@
 			<xsl:text>&amp;ptrt=</xsl:text>
 			<!-- <xsl:value-of select="$host" /> -->
 			<xsl:apply-templates select="/H2G2" mode="library_identity_ptrt">
-         		<xsl:with-param name="urlidentification">registerurl</xsl:with-param>
+         		<xsl:with-param name="urlidentification" select="$urltype" />
          	</xsl:apply-templates>
 			</xsl:if>
 	</xsl:template>

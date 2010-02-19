@@ -23,6 +23,8 @@
 		</xsl:call-template>
 	</xsl:template>
 	
+	
+	
 	<xsl:template match="H2G2[@TYPE = 'COMMENTBOX']" mode="library_identity_ptrt">
 		<xsl:param name="urlidentification" />
 		
