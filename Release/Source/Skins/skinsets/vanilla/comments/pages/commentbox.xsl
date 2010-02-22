@@ -43,8 +43,6 @@
     	     
         <div id="comments" class="comments">
 
-			<link rel="stylesheet" media="screen" href="http://ops-dev14.national.core.bbc.co.uk:6666/blogs/mt-static/themes/bbc/css/dna_comments.css" type="text/css" />
-
             <h3>  
                 <xsl:choose>
                     <xsl:when test="/H2G2/SITECONFIG/DNACOMMENTTEXT/COMMENTBOXTITLE">
