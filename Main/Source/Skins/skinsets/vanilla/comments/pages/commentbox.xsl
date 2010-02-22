@@ -42,7 +42,7 @@
     	<xsl:variable name="ptrt" select="COMMENTBOX/FORUMTHREADPOSTS/@HOSTPAGEURL"/>
     	     
         <div id="comments" class="comments">
-
+        
             <h3>  
                 <xsl:choose>
                     <xsl:when test="/H2G2/SITECONFIG/DNACOMMENTTEXT/COMMENTBOXTITLE">
