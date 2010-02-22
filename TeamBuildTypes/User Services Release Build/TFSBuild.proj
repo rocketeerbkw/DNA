@@ -18,6 +18,7 @@
     <Build Condition="'$(Build)'==''">0</Build>
     <Revision Condition="'$(Revision)'==''">0</Revision>
   </PropertyGroup>
+  
 
 
   <ProjectExtensions>
@@ -330,7 +331,7 @@
     </BuildStep>
 
     <!-- Exec IPC$ command - get access to ops-dna1-->
-    <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
 
     <!-- call targets -->
     <CallTarget Targets="DeployToRelease" />
@@ -357,19 +358,19 @@
       <Output TaskParameter="Id" PropertyName="DeployToReleaseId" />
     </BuildStep>
     <!-- stop iis on ops-dna1 -->
-    <Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec>
+    <Exec Command="sc \\vp-dev-dna-web2 stop w3svc" Timeout="10000"></Exec>
     <!-- Copy DnaPages to int drop location -->
-    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\ops-dna1\h2g2release\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy CommentsApi to int drop location -->
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\ops-dna1\h2g2release\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2release\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy ripley dlls over existing-->
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\ops-dna1\h2g2release\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- start website to copy ripley -->
-    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
+    <Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec>
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
@@ -377,7 +378,7 @@
   </Target>
   <Target Name="DeployToReleaseFailed">
     <!-- Change the status of the task to "Failed" -->
-    <Exec Command="sc \\ops-dna1 start w3svc"></Exec>
+    <Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec>
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 
