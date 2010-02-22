@@ -338,7 +338,7 @@
     <CallTarget Targets="DeployToPublishFolder" />
     
     <!-- Close Access to ops-dna1 -->
-    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
     <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
