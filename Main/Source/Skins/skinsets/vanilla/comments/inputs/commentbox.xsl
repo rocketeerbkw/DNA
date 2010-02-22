@@ -81,7 +81,7 @@
        		<p>If you would like us to call you, you can supply your telephone number by clicking the 'contact me' button below, your details will be stored securely and will not be passed on to other websites or companies.</p>
        		<p>If you would rather we don't call you, continue on by clicking 'no thanks', to leave your comment on this blog.</p>
        	
-       		<ul>
+       		<ul id="collectdetails">
 	       		<li>
 		       		<a>
 					<xsl:attribute name="href">
