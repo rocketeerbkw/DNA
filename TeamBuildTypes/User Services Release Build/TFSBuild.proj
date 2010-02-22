@@ -362,9 +362,9 @@
     <!-- Copy DnaPages to int drop location -->
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy CommentsApi to int drop location -->
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy ripley dlls over existing-->
