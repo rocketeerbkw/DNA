@@ -19,12 +19,26 @@
         <xsl:param name="ptrt" />
         
     	<xsl:value-of select="concat($configuration/identity/url, '/users/login?target_resource=')"/>
+    	
+    	<!-- hard coded hack to allow the sign in link to show the 'contact me' details in have your say -->
+	    <xsl:variable name="policy">	
+	    	<xsl:choose>
+	    		<xsl:when test="/H2G2/SITE/NAME = 'blog477'">
+	    			<xsl:text>http://identity/policies/dna/adult</xsl:text>
+	    		</xsl:when>
+	    		<xsl:otherwise>
+	    			<xsl:value-of select="/H2G2/SITE/IDENTITYPOLICY" />
+	    		</xsl:otherwise>
+    		</xsl:choose>
+    	</xsl:variable>
+    		    	
     	<xsl:call-template name="library_string_urlencode">
-    		<xsl:with-param name="string" select="/H2G2/SITE/IDENTITYPOLICY"/>
+			<xsl:with-param name="string" select="$policy" />
     	</xsl:call-template>
+    	
          <xsl:if test="$ptrt">
          	<xsl:text>&#38;ptrt=</xsl:text>
-         	<xsl:apply-templates select="/H2G2" mode="library_identity_ptrt"/>
+         	<xsl:apply-templates select="/H2G2" mode="library_identity_ptrt" />
         </xsl:if>   
     </xsl:template>
     
