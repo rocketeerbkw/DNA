@@ -18,11 +18,12 @@
     
     <xsl:template match="NOTLOGGEDINWELCOME" mode="library_siteconfig_unauthorisedwelcome">
     	<xsl:param name="ptrt" select="''"/>
-        <xsl:text>You are currently signed in</xsl:text> 
+        <!-- <xsl:text>You are currently signed in</xsl:text> 
     	<xsl:if test="/H2G2/VIEWING-USER/SIGNINNAME and /H2G2/VIEWING-USER/SIGNINNAME/text() != ''">
     		<xsl:text> as </xsl:text><xsl:value-of select="/H2G2/VIEWING-USER/SIGNINNAME"/>
     	</xsl:if>
-        <xsl:text> but have not yet completed the registration process. </xsl:text>
+        <xsl:text> but have not yet completed the registration process. </xsl:text> -->
+        <xsl:text>You are a registered user but we need to check some details with you.</xsl:text>
         <xsl:apply-templates select="LINKTOSIGNIN" mode="library_siteconfig_inline_unauthorised">
         	<xsl:with-param name="ptrt" select="$ptrt"/>
         </xsl:apply-templates>
