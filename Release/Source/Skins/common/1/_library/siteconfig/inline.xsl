@@ -86,11 +86,10 @@
 	
 	<xsl:template match="LINKTOSIGNIN[/H2G2/SITE/IDENTITYSIGNIN = 1]" mode="library_siteconfig_inline_unauthorised">
 		<xsl:param name="ptrt"/>
-		<a class="id-cta">
+		&#160;<a class="id-cta">
 			<xsl:call-template name="library_memberservice_require">
 				<xsl:with-param name="ptrt" select="$ptrt"/>
-			</xsl:call-template>
-			Click here to complete your registration.
+			</xsl:call-template><strong>Please click here to complete your registration.</strong>
 		</a>
 	</xsl:template>
 	
