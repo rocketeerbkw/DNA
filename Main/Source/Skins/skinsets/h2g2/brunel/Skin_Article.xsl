@@ -656,7 +656,7 @@
 	<xsl:element name="a">
 		<xsl:attribute name="class">norm</xsl:attribute>
 		<xsl:attribute name="href"><xsl:value-of select="$root"/>U<xsl:value-of select="USERID"/></xsl:attribute>
-		<xsl:value-of select="USERNAME"/>
+		<xsl:apply-templates select="." mode="username" />
 	</xsl:element>
 </xsl:template>
 
@@ -669,7 +669,7 @@
 					<b>Written and Researched by:</b><br /><br />
 					<xsl:for-each select="RESEARCHERS/USER">
 						<xsl:if test="USERID!=../../EDITOR/USER/USERID">
-							<xsl:apply-templates select="."/><br />
+							 <xsl:apply-templates select="."/><br />
 						</xsl:if>
 					</xsl:for-each>
 					<br />
