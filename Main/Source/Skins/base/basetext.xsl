@@ -4,6 +4,19 @@
 		<xsl:apply-templates select="msxsl:node-set($categorydata)/CATEGORISATION"/>
 		<!--<xsl:apply-templates select="$categorydata"/>-->
 	</xsl:template>
+	
+	<!-- Site specific nickname text -->
+	<xsl:template name="ssnickname_introtext">
+		<p>You can change your h2g2 display name by entering it in the below field (255 character limit):</p>
+	</xsl:template>
+	
+	<xsl:template name="ssnickname_nb">
+		<p><strong>Please note:</strong> This is the name by which you are identified on  h2g2 only, not other BBC sites which use the iD sign-in system. <br />
+		To change your  general BBC iD display name, click the <a href="$id_settings">Settings</a> link above and enter it in the name field.<br />
+		Click <a href="http://www.bbc.co.uk/dna/h2g2/brunel/DontPanic-Prefs#2">here</a> for more information about display names on h2g2 and BBC iD.
+		</p>
+	</xsl:template>	
+	
 	<xsl:variable name="categorydata">
 		<!--		<CATEGORISATION>
 		</CATEGORISATION>
