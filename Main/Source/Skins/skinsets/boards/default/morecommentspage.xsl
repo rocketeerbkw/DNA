@@ -42,7 +42,7 @@
 								<h1>
 									<xsl:choose>
 										<xsl:when test="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER/USERNAME">
-											<xsl:value-of select="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER/USERNAME"/>'s comments</xsl:when>
+											<xsl:apply-templates select="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER" mode="username" />'s comments</xsl:when>
 										<xsl:otherwise>
 											<xsl:text>Comments</xsl:text>
 										</xsl:otherwise>
@@ -83,7 +83,7 @@
 											<xsl:choose>
 												<xsl:when test="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER/USERNAME">
 													<xsl:text>All </xsl:text>
-													<xsl:value-of select="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER/USERNAME"/>
+													<xsl:apply-templates select="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER" mode="username" />
 													<xsl:text>'s comments are listed here.</xsl:text>
 												</xsl:when>
 												<xsl:otherwise>
@@ -98,7 +98,7 @@
 										<xsl:text>view a list of </xsl:text>
 										<xsl:choose>
 											<xsl:when test="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER/USERNAME">
-												<xsl:value-of select="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER/USERNAME"/>
+												<xsl:apply-templates select="/H2G2/MORECOMMENTS/COMMENTS-LIST/USER" mode="username" />
 											</xsl:when>
 											<xsl:otherwise>
 												<xsl:text>this user</xsl:text>												
