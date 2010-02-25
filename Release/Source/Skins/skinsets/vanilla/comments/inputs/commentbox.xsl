@@ -77,24 +77,23 @@
 		<div id="dnaacs">
 			<!-- where should all this copy go? -->
        		<h3 id="postcomment">Post a comment</h3>
-       		<p>Before you post a comment, we would like to ask you a question.<br />Occasionally the BBC might like to contact you to discuss your comments.</p>
-       		<p>If you would like us to call you, you can supply your telephone number by clicking the 'contact me' button below, your details will be stored securely and will not be passed on to other websites or companies.</p>
-       		<p>If you would rather we don't call you, continue on by clicking 'no thanks', to leave your comment on this blog.</p>
+       		<p>Before you post a comment, we would like to ask you a question.<br />Occasionally, BBC News might like to contact you to discuss and follow up your comments for stories on TV, radio or our website.</p>
+       		<p>If you do not mind us calling you, you can supply your telephone number by clicking the 'contact me' button below. Your details will be stored securely and will not be passed on to other websites or companies.</p>
+       		<p>If you would rather we don't call you, click 'no thanks' to proceed and leave your comment on this blog.</p>
        	
-       		<ul id="collectdetails">
+       		<ul>
 	       		<li>
 		       		<a>
 					<xsl:attribute name="href">
 						<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_policyurl" >
-							<xsl:with-param name="urlidentification">contactmeurl</xsl:with-param>
 							<xsl:with-param name="ptrt">
-								<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_ptrt">
-								</xsl:apply-templates>
+								<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_ptrt" />
 							</xsl:with-param>
 						</xsl:apply-templates>
 					</xsl:attribute>
 		       		Contact me</a>
-	       		</li><li><a href="?dnauid={/H2G2/COMMENTBOX/FORUMTHREADPOSTS/@UID}&amp;userid={/H2G2/VIEWING-USER/USER/USERID}&amp;s_contact=0#postcomment">No thanks</a></li>
+	       		</li>
+       			<li><a href="?dnauid={/H2G2/COMMENTBOX/FORUMTHREADPOSTS/@UID}&amp;userid={/H2G2/VIEWING-USER/USER/USERID}&amp;s_contact=0#postcomment">No thanks</a></li>
        		</ul>
        	</div>	
 	</xsl:template>    
