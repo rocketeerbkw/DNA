@@ -96,7 +96,8 @@
 		       		Contact me</a>
 	       		</li><li><a href="?dnauid={/H2G2/COMMENTBOX/FORUMTHREADPOSTS/@UID}&amp;userid={/H2G2/VIEWING-USER/USER/USERID}&amp;s_contact=0#postcomment">No thanks</a></li>
        		</ul>
-       	</div>	
+       	</div>
+       		
 	</xsl:template>    
     
 </xsl:stylesheet>
