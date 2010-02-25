@@ -81,21 +81,23 @@
        		<p>If you do not mind us calling you, you can supply your telephone number by clicking the 'contact me' button below. Your details will be stored securely and will not be passed on to other websites or companies.</p>
        		<p>If you would rather we don't call you, click 'no thanks' to proceed and leave your comment on this blog.</p>
        	
-       		<ul>
+       		<ul id="collectdetails">
 	       		<li>
 		       		<a>
 					<xsl:attribute name="href">
 						<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_policyurl" >
+							<xsl:with-param name="urlidentification">contactmeurl</xsl:with-param>
 							<xsl:with-param name="ptrt">
-								<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_ptrt" />
+								<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_ptrt">
+								</xsl:apply-templates>
 							</xsl:with-param>
 						</xsl:apply-templates>
 					</xsl:attribute>
 		       		Contact me</a>
-	       		</li>
-       			<li><a href="?dnauid={/H2G2/COMMENTBOX/FORUMTHREADPOSTS/@UID}&amp;userid={/H2G2/VIEWING-USER/USER/USERID}&amp;s_contact=0#postcomment">No thanks</a></li>
+	       		</li><li><a href="?dnauid={/H2G2/COMMENTBOX/FORUMTHREADPOSTS/@UID}&amp;userid={/H2G2/VIEWING-USER/USER/USERID}&amp;s_contact=0#postcomment">No thanks</a></li>
        		</ul>
-       	</div>	
+       	</div>
+       		
 	</xsl:template>    
     
 </xsl:stylesheet>
