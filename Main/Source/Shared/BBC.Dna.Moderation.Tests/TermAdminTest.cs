@@ -64,7 +64,6 @@ namespace BBC.Dna.Moderation.Tests
 
 
             var expected = "<TERMSFILTERADMIN xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
-                "<ACTION MODCLASSID=\"1\" />" +
                 "<TERMSLIST MODCLASSID=\"1\"><TERM ID=\"0\" ACTION=\"ReEdit\">term</TERM></TERMSLIST>" +
                 "<MODERATION-CLASSES><MODERATION-CLASS CLASSID=\"0\"><NAME>test</NAME><DESCRIPTION>test</DESCRIPTION></MODERATION-CLASS></MODERATION-CLASSES>" +
                 "</TERMSFILTERADMIN>";
