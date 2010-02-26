@@ -50,7 +50,9 @@
   <xsl:include href="admin-contentsignifpage.xsl"/>
   <xsl:include href="admin-moderatormanagementpage.xsl"/>
   <xsl:include href="admin-moderationemailpage.xsl"/>
-  <xsl:include href="admin-profanityadminpage.xsl"/>
+  <!-- xsl:include href="admin-profanityadminpage.xsl"/ -->
+  <xsl:include href="admin-termsfilteradminpage.xsl"/>
+  <xsl:include href="admin-termsfilterimportpage.xsl"/>
   
   <!-- ************************************************** -->
 	<!-- Seperating out the admin pages from the ordinary primary-template -->
