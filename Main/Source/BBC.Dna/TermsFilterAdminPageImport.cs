@@ -161,7 +161,9 @@ namespace BBC.Dna
             TermsLists termsLists = TermsLists.GetAllTermsLists(AppContext.ReaderCreator, _cache,
                                                                 modClassIds, _ignoreCache);
 
-            
+
+            //this was destroying the cache for some reason
+            termsLists = (TermsLists)termsLists.Clone();
             termsLists.FilterListByTermId(_termId);
             if (termsLists.Termslist.Count != 0 && termsLists.Termslist[0].Terms.Count != 0)
             {
