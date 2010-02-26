@@ -57,11 +57,8 @@
 -->
 	<xsl:variable name="modClass">
 		<xsl:choose>
-			<xsl:when test="/H2G2/PARAMS/PARAM[NAME='s_class']/VALUE">
-				<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME='s_class']/VALUE"/>
-			</xsl:when>
-			<xsl:when test="not(/H2G2/TERMSFILTERADMIN/ACTION/@MODCLASSID = 0)">
-				<xsl:value-of select="/H2G2/TERMSFILTERADMIN/ACTION/@MODCLASSID"/>
+			<xsl:when test="not(/H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID = 0)">
+				<xsl:value-of select="/H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID"/>
 			</xsl:when>
 			<xsl:otherwise>1</xsl:otherwise>
 		</xsl:choose>
@@ -117,6 +114,7 @@
   
  
 	<xsl:template match="TERMSLIST" mode="termsList">
+
 		<table>
 			<thead>
 				<tr>
