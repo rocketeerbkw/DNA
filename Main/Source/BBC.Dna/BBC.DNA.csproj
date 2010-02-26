@@ -125,6 +125,8 @@
     <Compile Include="ContentSignifAdminBuilder.cs" />
     <Compile Include="ContentSignifSettings.cs" />
     <Compile Include="ContentSignifSettingsParameters.cs" />
+    <Compile Include="TermsFilterAdminPageImport.cs" />
+    <Compile Include="TermsFilterAdminPageBuilder.cs" />
     <Compile Include="ForumPageBuilder.cs" />
     <Compile Include="IUser.cs" />
     <Compile Include="ModerateExLinks.cs" />
@@ -188,8 +190,6 @@
     <Compile Include="NamespacePhrases.cs" />
     <Compile Include="PostJournal.cs" />
     <Compile Include="PostList.cs" />
-    <Compile Include="ProfanityAdmin.cs" />
-    <Compile Include="ProfanityList.cs" />
     <Compile Include="RecentCommentForumPostsBuilder.cs" />
     <Compile Include="RecentSearch.cs" />
     <Compile Include="RefereeList.cs" />

@@ -172,7 +172,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2244</DevelopmentServerPort>
+          <DevelopmentServerPort>39386</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:8081/comments</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

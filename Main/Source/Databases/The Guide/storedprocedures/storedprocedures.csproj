@@ -1273,6 +1273,9 @@
     <None Include="cachegetforumlastupdate.sql" />
     <None Include="cachegetthreadlastupdate.sql" />
     <None Include="addthreadtostickylist.sql" />
+    <None Include="addTermsFilterUpdate.sql" />
+    <None Include="addTermsFilterTerm.sql" />
+    <None Include="GetTermsByModClassId.sql" />
     <None Include="forumgetthreadlist_datecreated_includingstickythreads.sql" />
     <None Include="forumgetthreadlist_lastposted_includingstickythreads.sql" />
     <None Include="removethreadfromstickylist.sql" />

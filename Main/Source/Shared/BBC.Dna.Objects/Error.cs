@@ -1,20 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
+using System.Xml.Serialization;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "ERROR")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "ERROR")]
-    public partial class Error
+    [GeneratedCode("System.Xml", "2.0.50727.3053")]
+    [Serializable]
+    [DesignerCategory("code")]
+    [XmlType(AnonymousType = true, TypeName = "ERROR")]
+    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "ERROR")]
+    public class Error : BaseResult
     {
         public Error()
-        { }
+        {
+        }
 
         public Error(string type, string message)
         {
@@ -23,23 +24,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "ERRORMESSAGE")]
-        public string ErrorMessage
-        {
-            get;
-            set;
-        }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "EXTRAINFO")]
-        public string ExtraInfo { get; set; }
-
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "TYPE")]
-        public string Type
-        {
-            get;
-            set;
-        }
+        [XmlElement(Order = 0, ElementName = "ERRORMESSAGE")]
+        public string ErrorMessage { get; set; }
     }
 }

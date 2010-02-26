@@ -862,7 +862,7 @@ namespace Tests
             //add post data
             if (!String.IsNullOrEmpty(postData))
             {
-                ASCIIEncoding encoding = new ASCIIEncoding();
+                var encoding = new UTF8Encoding();
                 byte[] data = encoding.GetBytes(postData);
                 if (webRequest.Method == "GET")
                 {
@@ -918,6 +918,7 @@ namespace Tests
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
+            webRequest.Timeout = 400000;
 
             // Check to see if we require a proxy for the request
             if (_useProxyPassing)

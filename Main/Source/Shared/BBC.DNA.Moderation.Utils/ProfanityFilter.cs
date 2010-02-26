@@ -134,58 +134,69 @@ namespace BBC.Dna.Moderation.Utils
 		public static void InitialiseProfanitiesIfEmpty(string connectionString, IDnaDiagnostics dnaDiag)
 		{
             if (_profanityClasses == null)
-			{
-				if (Monitor.TryEnter(_lock))
-				{
-					try
-					{
-                        using (IDnaDataReader reader = StoredProcedureReader.Create("getallprofanities", connectionString, dnaDiag))
-                        {
-						    InitialiseProfanityClasses();
+            {
+                InitialiseProfanities(connectionString, dnaDiag);
+                return;
+            }
+		    return;
+		}
 
-						    reader.Execute();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="dnaDiag"></param>
+	    public static void InitialiseProfanities(string connectionString, IDnaDiagnostics dnaDiag)
+	    {
+	        if (Monitor.TryEnter(_lock))
+	        {
+	            try
+	            {
+	                using (IDnaDataReader reader = StoredProcedureReader.Create("getallprofanities", connectionString, dnaDiag))
+	                {
+	                    InitialiseProfanityClasses();
 
-						    while (reader.Read())
-						    {
-							    int modClassID = reader.GetInt32("ModClassID");
-							    string Profanity = reader.GetStringNullAsEmpty("Profanity").ToLower();
-							    int Refer = reader.GetByte("Refer");
+	                    reader.Execute();
 
-							    AddProfanityToList(modClassID, Profanity, Refer);
-						    }
-                        }
-						TransferLoadedProfanities();
+	                    while (reader.Read())
+	                    {
+	                        int modClassID = reader.GetInt32("ModClassID");
+	                        string Profanity = reader.GetStringNullAsEmpty("Profanity").ToLower();
+	                        int Refer = reader.GetByte("Refer");
+
+	                        AddProfanityToList(modClassID, Profanity, Refer);
+	                    }
+	                }
+	                TransferLoadedProfanities();
 
                         
 
-					}
-					finally
-					{
-						Monitor.Exit(_lock);
-					}
-				}
-				else
-				{
-					// Failed to get a lock, so something else is initialising
-					// We'll have to wait until the lock is released
-					Monitor.Enter(_lock);
-					Monitor.Exit(_lock);
-					// If _profanityClasses is still null, then something serious has gone wrong
-					// So throw an exception
-					if (_profanityClasses == null)
-					{
-						throw new Exception("InitialiseProfanitiesIfEmpty was unable to create a profanity list");
-					}
-					else
-					{
-						return;
-					}
-				}
-			}
-			return;
-		}
+	            }
+	            finally
+	            {
+	                Monitor.Exit(_lock);
+	            }
+	        }
+	        else
+	        {
+	            // Failed to get a lock, so something else is initialising
+	            // We'll have to wait until the lock is released
+	            Monitor.Enter(_lock);
+	            Monitor.Exit(_lock);
+	            // If _profanityClasses is still null, then something serious has gone wrong
+	            // So throw an exception
+	            if (_profanityClasses == null)
+	            {
+	                throw new Exception("InitialiseProfanitiesIfEmpty was unable to create a profanity list");
+	            }
+	            else
+	            {
+	                return;
+	            }
+	        }
+	    }
 
-		/// <summary>
+	    /// <summary>
 		/// Initialise the data structures with data from an XML file
 		/// </summary>
 		/// <param name="filename">name of the XML file to use</param>

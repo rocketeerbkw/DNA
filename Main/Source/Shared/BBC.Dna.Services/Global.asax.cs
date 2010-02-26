@@ -9,6 +9,7 @@ using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Data;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Services
 {
@@ -49,6 +50,8 @@ namespace BBC.Dna.Services
             if (Request.QueryString["action"] == "recache-site" || Request.QueryString["_ns"] == "1")
             {
                 siteList = SiteList.GetSiteList(ReaderCreator, dnaDiagnostics, true);
+                //refresh profanity filter
+                ProfanityFilter.InitialiseProfanities(connectionString, dnaDiagnostics);
             }
 
             // Check to see if we're being asked to do a recache of groups

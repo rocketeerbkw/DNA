@@ -72,8 +72,10 @@
     <Compile Include="ArticleInfoSubmittable.cs" />
     <Compile Include="Club.cs" />
     <Compile Include="ArticleInfoReferencesUser.cs" />
+    <Compile Include="BaseResult.cs" />
+    <Compile Include="Result.cs" />
     <Compile Include="Error.cs" />
-    <Compile Include="IDnaCachable.cs" />
+    <Compile Include="CachableBase.cs" />
     <Compile Include="SmileyTranslator.cs" />
     <Compile Include="ThreadPostSummary.cs" />
     <Compile Include="Entities.cs" />

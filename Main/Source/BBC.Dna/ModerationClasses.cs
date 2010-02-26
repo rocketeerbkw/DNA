@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using BBC.Dna.Data;
+using BBC.Dna.Moderation;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Component
 {
@@ -25,18 +27,12 @@ namespace BBC.Dna.Component
         /// </summary>
         public override void ProcessRequest()
         {
-            XmlNode userStatusesXml = AddElementTag(RootElement, "MODERATION-CLASSES");
-            using (IDnaDataReader reader = InputContext.CreateDnaDataReader("getmoderationclasslist"))
-            {
-                reader.Execute();
-                while (reader.Read())
-                {
-                    XmlNode userStatusXml = AddElementTag(userStatusesXml, "MODERATION-CLASS");
-                    AddAttribute(userStatusXml, "CLASSID", reader.GetInt32NullAsZero("modclassid"));
-                    AddTextTag(userStatusXml, "NAME", reader.GetStringNullAsEmpty("name"));
-                    AddTextTag(userStatusXml, "DESCRIPTION", reader.GetStringNullAsEmpty("description"));
-                }
-            }
+            const bool ignoreCache = false;
+            var cache = CacheFactory.GetCacheManager();
+
+            ModerationClassList moderationClassList =
+                ModerationClassList.GetAllModerationClasses(AppContext.ReaderCreator, cache, ignoreCache);
+            SerialiseAndAppend(moderationClassList, "");
         }
     }
 }
