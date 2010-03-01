@@ -93,6 +93,7 @@ bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPoo
 			{
 				USES_CONVERSION;
 				m_sLastIdentityError = W2A(m_pIdentityInteropPtr->GetLastError());
+				AddTimingsInfo(W2A(m_pIdentityInteropPtr->GetLastTimingInfo()),false);
 			}
 			AddTimingsInfo("Initialised",false);
 		}
@@ -367,7 +368,8 @@ bool CProfileConnection::SetUser(const TDVCHAR* sUsername, const TDVCHAR* sPassw
 	{
 		try
 		{
-			return _variant_t(m_pIdentityInteropPtr->TrySetUserViaUserNamePassword(_bstr_t(sUsername),_bstr_t(sPassword)));
+			bool bOK = _variant_t(m_pIdentityInteropPtr->TrySetUserViaUserNamePassword(_bstr_t(sUsername),_bstr_t(sPassword)));
+			return bOK;
 		}
 		catch(...)
 		{
@@ -392,11 +394,13 @@ bool CProfileConnection::SetUserViaCookieAndUserName(const TDVCHAR* sSsoCookie, 
 			AddTimingsInfo("Using Identity",false);
 			bool bLoggedIn = _variant_t(m_pIdentityInteropPtr->TrySetUserViaCookieAndUserName(_bstr_t(sSsoCookie),_bstr_t(sIdentityUserName)));
 			USES_CONVERSION;
+			
 			CTDVString sInfo = "(.net) ";
-			sInfo << W2A(m_pIdentityInteropPtr->GetLastTimingInfo()) << "(.net)";
 			sInfo << "Version:" << W2A(m_pIdentityInteropPtr->GetVersion()) << " ";
-			AddTimingsInfo(sInfo,false);
+			//sInfo << "Info:" << W2A(m_pIdentityInteropPtr->GetLastTimingInfo());
+			AddTimingsInfo(sInfo << "(.net)",false);
 			AddTimingsInfo("Finished Setting User",false);
+			m_sCookieValue = sSsoCookie;
 			return bLoggedIn;
 		}
 		catch(...)
@@ -562,4 +566,54 @@ bool CProfileConnection::GetServiceMinAndMaxAge(const char* pServiceName,int& nM
 	}
 
 	return false;
+}
+
+bool CProfileConnection::DoesAppNamedSpacedAttributeExist(const TDVCHAR* pAppNameSpace, const TDVCHAR* pAttributeName)
+{
+	if (m_pIdentityInteropPtr != NULL)
+	{
+		AddTimingsInfo("Using Identity",false);
+		try
+		{
+			USES_CONVERSION;
+			return _variant_t(m_pIdentityInteropPtr->DoesAppNameSpacedAttributeExist(_bstr_t(m_sCookieValue),_bstr_t(pAppNameSpace),_bstr_t(pAttributeName)));
+		}
+		catch(...)
+		{
+			m_sLastIdentityError = "Failed to get user attribute";
+		}
+	}
+	else if (m_pProfile != NULL)
+	{
+		AddTimingsInfo("Using ProfileAPI - Not supported!",false);
+	}
+	return false;
+}
+
+bool CProfileConnection::GetAppNamedSpacedAttribute(const TDVCHAR* pAppNameSpace, const TDVCHAR* pAttributeName, CTDVString& sValue)
+{
+	AddTimingsInfo("GetAppNamedSpacedAttribute",true);
+	bool bSuccess = false;
+	if (m_pIdentityInteropPtr != NULL)
+	{
+		AddTimingsInfo("Using Identity",false);
+		try
+		{
+			USES_CONVERSION;
+			sValue = W2A(m_pIdentityInteropPtr->GetAppNameSpacedAttribute(_bstr_t(m_sCookieValue),_bstr_t(pAppNameSpace),_bstr_t(pAttributeName)));
+			bSuccess = true;
+		}
+		catch(...)
+		{
+			m_sLastIdentityError = "Failed to get user attribute";
+		}
+	}
+	else if (m_pProfile != NULL)
+	{
+		AddTimingsInfo("Using ProfileAPI - Not supported!",false);
+		bSuccess = false;
+	}
+	AddTimingsInfo("Finished getting value",false);
+
+	return bSuccess;
 }

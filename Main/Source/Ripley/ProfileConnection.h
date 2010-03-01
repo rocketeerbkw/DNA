@@ -51,6 +51,9 @@ public:
 	virtual bool GetServiceMinAndMaxAge(const char* pServiceName,int& nMinAge,int& nMaxAge);
 	virtual eSignInType GetSignInType() { return SIT_PROFILEAPI; }
 
+	virtual bool DoesAppNamedSpacedAttributeExist(const TDVCHAR* pAppNameSpace, const TDVCHAR* pAttributeName);
+	virtual bool GetAppNamedSpacedAttribute(const TDVCHAR* pAppNameSpace, const TDVCHAR* pAttributeName, CTDVString& sValue);
+
 	virtual const TDVCHAR* GetLastTimings();
 
 protected:
@@ -63,6 +66,7 @@ protected:
 	CTDVString m_sUserName;
 	CTDVString m_sLastIdentityError;
 	CTDVString m_sLastTimingInfo;
+	CTDVString m_sCookieValue;
 	DWORD m_dTimerStart;
 	DWORD m_dTimerSplitTime;
 

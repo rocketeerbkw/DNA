@@ -47,6 +47,7 @@
     <RegisterForComInterop>true</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -65,12 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IdentityServiceImplService.Setup.cs">
-    </Compile>
-    <Compile Include="IdentityServicesImplService.cs" />
     <Compile Include="IDnaIdentityWebServiceProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DnaIdentityWebServiceProxy.cs" />
     <Compile Include="IdentityRestSignIn.cs" />
   </ItemGroup>
   <ItemGroup>

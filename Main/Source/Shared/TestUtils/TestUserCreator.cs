@@ -30,8 +30,39 @@ namespace TestUtils
         {
             Adult,
             Kids,
-            over13,
-            schools
+            Over13,
+            Schools,
+            Blast
+        }
+
+        /// <summary>
+        /// Gets the specified policy as a string
+        /// </summary>
+        /// <param name="policy">The policy you want as a string</param>
+        /// <returns>The policy value</returns>
+        public static string GetPolicyAsString(IdentityPolicies policy)
+        {
+            if (policy == IdentityPolicies.Adult)
+            {
+                return "http://identity/policies/dna/adult";
+            }
+            else if (policy == IdentityPolicies.Kids)
+            {
+                return "http://identity/policies/dna/kids";
+            }
+            else if (policy == IdentityPolicies.Over13)
+            {
+                return "http://identity/policies/dna/over13";
+            }
+            else if (policy == IdentityPolicies.Schools)
+            {
+                return "http://identity/policies/dna/schools";
+            }
+            else if (policy == IdentityPolicies.Blast)
+            {
+                return "http://identity/policies/dna/blast";
+            }
+            return "";
         }
 
         /// <summary>
@@ -60,7 +91,7 @@ namespace TestUtils
         }
 
         /// <summary>
-        /// The different types of attribute a user has
+        /// The different types of core attributes a user has
         /// </summary>
         public enum AttributeNames
         {
@@ -68,13 +99,38 @@ namespace TestUtils
             DisplayName,
             Email,
             AgreedIdentityTermsAndConditions,
-            AgreedTermsAndConditions,
             LegacySSOID,
             FirstName,
-            LastName
+            LastName,
+            GuardianAgreedTermsAndConditions,
+            GuardianEmail,
+            GuardianEmailConfirmed
+        }
+
+        /// <summary>
+        /// Dna specific attributes users can have
+        /// </summary>
+        public enum DnaAttributeNames
+        {
+            AgreedTermsAndConditionsAdult,
+            AgreedTermsAndConditionsKids,
+            AgreedTermsAndConditionsOver13,
+            AgreedTermsAndConditionsSchools,
+            UnderAgeRangeCheck
         }
 
         private static string _IdentityServerBaseUri = "https://api.stage.bbc.co.uk/idservices";
+
+        public static string SetBaseIdentityURL
+        {
+            set
+            {
+                _IdentityServerBaseUri = value;
+                _webServiceCertificationName = "dna";
+            }
+        }
+
+
         private static string _webServiceCertificationName = "dna live";
         private static string _proxy = "http://10.152.4.180:80";
 
@@ -82,12 +138,21 @@ namespace TestUtils
         private static string _wrPassword = "password";
         private static string _wrDateOfBirth = "date_of_birth";
         private static string _wrAgreementAcceptedFlag = "agreement_accepted_flag";
+        private static string _wrGuardianAcceptedFlag = "guardian_agreement_accepted_flag";
+        private static string _wrGuardianEmail = "guardian_email";
+        private static string _wrGuardianEmailConfirmed = "guardian_email_validation_flag";
         private static string _wrdisplayName = "displayname";
         private static string _wremail = "email";
         private static string _wremailvalidated = "email_validation_flag";
         private static string _wrLegacySSOID = "legacy_user_id";
         private static string _wrFirstName = "firstname";
         private static string _wrLastName = "lastname";
+
+        private static string _wrUnderAgeRangecheck = "server_side_age_policy_override";
+        private static string _wrHouseRulesAdults = "houserules.adults";
+        private static string _wrHouseRulesOver13 = "houserules.over13";
+        private static string _wrHouseRulesSchools = "houserules.schools";
+        private static string _wrHouseRulesKids = "houserules.kids";
 
         /// <summary>
         /// The last known error
@@ -135,6 +200,13 @@ namespace TestUtils
             postParams.Add(_wrAgreementAcceptedFlag, acceptedIdentiutyTCs ? "1" : "0");
             postParams.Add(_wremail, email);
             postParams.Add(_wremailvalidated, "1");
+            if (policy != IdentityPolicies.Adult && acceptedIdentiutyTCs)
+            {
+                postParams.Add(_wrGuardianAcceptedFlag, "1");
+                postParams.Add(_wrGuardianEmail, "parent_" + email);
+                postParams.Add(_wrGuardianEmailConfirmed, "1");
+            }
+
             if (displayName.Length > 0)
             {
                 postParams.Add(_wrdisplayName, displayName);
@@ -170,12 +242,21 @@ namespace TestUtils
                 postParams.Clear();
                 if (policy == IdentityPolicies.Adult)
                 {
-                    postParams.Add("houserules.adults", "1");
+                    postParams.Add(_wrHouseRulesAdults, "1");
+                }
+                else if (policy == IdentityPolicies.Over13)
+                {
+                    postParams.Add(_wrHouseRulesOver13, "1");
+                }
+                else if (policy == IdentityPolicies.Schools)
+                {
+                    postParams.Add(_wrHouseRulesSchools, "1");
                 }
                 else
                 {
-                    postParams.Add("houserules.kids", "1");
+                    postParams.Add(_wrHouseRulesKids, "1");
                 }
+
                 response = CallIdentityRestAPI(string.Format("/users/{0}/applications/dna/attributes", userName), postParams, cookies, RequestVerb.POST);
                 if (response == null || response.StatusCode != HttpStatusCode.Created)
                 {
@@ -404,7 +485,82 @@ namespace TestUtils
         }
 
         /// <summary>
-        /// Sets a given attribute with a given value in Identity
+        /// Sets a given DNA attribute with a given value in Identity
+        /// </summary>
+        /// <param name="loginName">The login name for the user you want to set attribute for</param>
+        /// <param name="cookie">The users cookie</param>
+        /// <param name="attributeName">The name of the attribute you want to change</param>
+        /// <param name="value">The value you want to set it to</param>
+        /// <returns>True if set ok, false if not</returns>
+        public static bool SetDnaAttribute(string loginName, string cookie, DnaAttributeNames attributeName, string value)
+        {
+            List<Cookie> cookies = new List<Cookie>();
+            cookies.Add(new Cookie("IDENTITY", cookie, "/", "api.stage.bbc.co.uk"));
+            Dictionary<string, string> reqParams = new Dictionary<string, string>();
+
+            string identityAttrib = "";
+            if (attributeName == DnaAttributeNames.AgreedTermsAndConditionsAdult)
+            {
+                identityAttrib = _wrHouseRulesAdults;
+            }
+            else if (attributeName == DnaAttributeNames.AgreedTermsAndConditionsKids)
+            {
+                identityAttrib = _wrHouseRulesKids;
+            }
+            else if (attributeName == DnaAttributeNames.AgreedTermsAndConditionsOver13)
+            {
+                identityAttrib = _wrHouseRulesOver13;
+            }
+            else if (attributeName == DnaAttributeNames.AgreedTermsAndConditionsSchools)
+            {
+                identityAttrib = _wrHouseRulesSchools;
+            }
+            else if (attributeName == DnaAttributeNames.UnderAgeRangeCheck)
+            {
+                identityAttrib = _wrUnderAgeRangecheck;
+            }
+
+            reqParams.Add(identityAttrib, value);
+            HttpWebResponse response = CallIdentityRestAPI(string.Format("/users/{0}/applications/dna/attributes", loginName), reqParams, cookies, RequestVerb.PUT);
+            bool ok = true;
+            if (response.StatusCode != HttpStatusCode.Accepted)
+            {
+                Assert.Fail("Failed to set the users attribute : " + identityAttrib + " with value : " + value);
+                ok = false;
+            }
+            response.Close();
+            return ok;
+        }
+
+        /// <summary>
+        /// Sets a users appnamespaced attrbiute
+        /// </summary>
+        /// <param name="loginName">The users login name</param>
+        /// <param name="cookie">The users cookie</param>
+        /// <param name="attributeName">The name of the attribute to set</param>
+        /// <param name="value">The value of the attribute</param>
+        /// <param name="appNameSpace">The appnamespace in which the attribute belongs</param>
+        /// <returns></returns>
+        public static bool SetAppNamedSpacedAttribute(string loginName, string cookie, string attributeName, string value, string appNameSpace)
+        {
+            List<Cookie> cookies = new List<Cookie>();
+            cookies.Add(new Cookie("IDENTITY", cookie, "/", "api.stage.bbc.co.uk"));
+            Dictionary<string, string> reqParams = new Dictionary<string, string>();
+            reqParams.Add(attributeName, value);
+
+            HttpWebResponse response = CallIdentityRestAPI(string.Format("/users/{0}/applications/{1}/attributes", loginName, appNameSpace), reqParams, cookies, RequestVerb.PUT);
+            bool ok = true;
+            if (response.StatusCode != HttpStatusCode.Accepted)
+            {
+                Assert.Fail("Failed to set the users app(" + appNameSpace + ") name spaced attribute : " + attributeName + " with value : " + value);
+                ok = false;
+            }
+            response.Close();
+            return ok;
+        }
+
+        /// <summary>
+        /// Sets a given core Identity attribute with a given value in Identity
         /// </summary>
         /// <param name="loginName">The login name for the user you want to set attribute for</param>
         /// <param name="cookie">The users cookie</param>
@@ -430,10 +586,6 @@ namespace TestUtils
             {
                 identityAttrib = _wremail;
             }
-            else if (attributeName == AttributeNames.AgreedTermsAndConditions)
-            {
-                identityAttrib = _wrAgreementAcceptedFlag;
-            }
             else if (attributeName == AttributeNames.LegacySSOID)
             {
                 identityAttrib = _wrLegacySSOID;
@@ -445,6 +597,18 @@ namespace TestUtils
             else if (attributeName == AttributeNames.LastName)
             {
                 identityAttrib = _wrLastName;
+            }
+            else if (attributeName == AttributeNames.GuardianAgreedTermsAndConditions)
+            {
+                identityAttrib = _wrGuardianAcceptedFlag;
+            }
+            else if (attributeName == AttributeNames.GuardianEmail)
+            {
+                identityAttrib = _wrGuardianEmail;
+            }
+            else if (attributeName == AttributeNames.GuardianEmailConfirmed)
+            {
+                identityAttrib = _wrGuardianEmailConfirmed;
             }
             else
             {
@@ -541,7 +705,7 @@ namespace TestUtils
                 foreach (Cookie c in cookies)
                 {
                     webRequest.CookieContainer.Add(c);
-                    webRequest.Headers.Add(c.Name,c.Value);
+                    //webRequest.Headers.Add("Cookie",c.Name + "=" + c.Value);
                     Console.WriteLine(c.Name + " - " + c.Value);
                 }
             }

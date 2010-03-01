@@ -189,8 +189,7 @@ namespace Tests
                 if (_useIdentity)
                 {
                     string identityWebServiceConnetionDetails = GetConnectionDetails["IdentityURL"].ConnectionString;
-                    _signInComponent = new DnaIdentityWebServiceProxy.DnaIdentityWebServiceProxy(identityWebServiceConnetionDetails, "");
-
+                    _signInComponent = new DnaIdentityWebServiceProxy.IdentityRestSignIn(identityWebServiceConnetionDetails, "");
                 }
                 else
                 {

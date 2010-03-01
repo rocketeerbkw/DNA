@@ -167,5 +167,23 @@ namespace DnaIdentityWebServiceProxy
         /// </summary>
         /// <returns>The version number for this Interface</returns>
         string GetVersion();
+
+        /// <summary>
+        /// Gets the value of the given attribute from the given app name space in identity
+        /// </summary>
+        /// <param name="cookie">The users IDENTITY cookie</param>
+        /// <param name="appNameSpace">The App Name Space the attribute lives in</param>
+        /// <param name="attributeName">The attribute you want to get the value of</param>
+        /// <returns>The value of the attribute</returns>
+        string GetAppNameSpacedAttribute(string cookie, string appNameSpace, string attributeName);
+
+        /// <summary>
+        /// Checks to see if the requested attribute exists
+        /// </summary>
+        /// <param name="cookie">The users IDENTITY cookie</param>
+        /// <param name="appNameSpace">The App Name space in which to check for the attribute</param>
+        /// <param name="attributeName">The name of the attribute you want to check for</param>
+        /// <returns>True if it exists, false if not</returns>
+        bool DoesAppNameSpacedAttributeExist(string cookie, string appNameSpace, string attributeName);
     }
 }
