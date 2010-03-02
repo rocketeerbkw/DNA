@@ -156,7 +156,19 @@ The BBC receives thousands of messages every day so please be patient.<br/><br/>
   <xsl:template name="m_usernamenotsetyet">
     <font size="2">
       <br/>
-Your current nickname is <b>U<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERID"/></b>. This is the name that will appear on the message boards. If you would like a different Nickname you can <a href="{$root}UserDetails">change it</a>.
+Your current nickname is <b>U<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERID"/></b>. This is the name that will appear on the message boards. If you would like a different Nickname you can 
+	<a>
+		<xsl:attribute name="href">
+			<xsl:choose>
+				<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = '1'">
+					<xsl:value-of select="$id_settingslink" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="concat($root, 'UserDetails')" />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:attribute>
+	change it</a>.
     </font>
   </xsl:template>
 </xsl:stylesheet>
