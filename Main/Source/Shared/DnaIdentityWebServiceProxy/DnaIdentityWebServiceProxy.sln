@@ -8,29 +8,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaIdentityWebServiceProxy.IntegrationTests", "..\..\..\Tests\Integration Tests\DnaIdentityWebServiceProxy.IntegrationTests\DnaIdentityWebServiceProxy.IntegrationTests.csproj", "{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtils", "..\TestUtils\TestUtils.csproj", "{E09BF891-7D4F-403E-B830-B9E2606D2C22}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA", "..\..\BBC.Dna\BBC.DNA.csproj", "{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 2
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = DnaIdentityWebServiceProxy.csproj
 		SccLocalPath1 = .
-		SccProjectUniqueName2 = ..\\..\\..\\Tests\\Integration\u0020Tests\\DnaIdentityWebServiceProxy.IntegrationTests\\DnaIdentityWebServiceProxy.IntegrationTests.csproj
-		SccProjectName2 = ../../../Tests/Integration\u0020Tests/DnaIdentityWebServiceProxy.IntegrationTests
-		SccLocalPath2 = ..\\..\\..\\Tests\\Integration\u0020Tests\\DnaIdentityWebServiceProxy.IntegrationTests
-		SccProjectUniqueName3 = ..\\TestUtils\\TestUtils.csproj
-		SccProjectName3 = ../TestUtils
-		SccLocalPath3 = ..\\TestUtils
-		SccProjectUniqueName4 = ..\\..\\BBC.Dna\\BBC.DNA.csproj
-		SccProjectName4 = ../../BBC.Dna
-		SccLocalPath4 = ..\\..\\BBC.Dna
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DnaIdentityWebServiceProxy1.vsmdi
@@ -62,51 +47,6 @@ Global
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Win32.ActiveCfg = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.DebugSmallGuide|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.DebugSmallGuide|Mixed Platforms.Build.0 = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.DebugSmallGuide|Win32.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Win32.ActiveCfg = Release|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Mixed Platforms.ActiveCfg = DebugSmallGuide|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Mixed Platforms.Build.0 = DebugSmallGuide|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Win32.ActiveCfg = DebugSmallGuide|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Win32.ActiveCfg = Release|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.DebugSmallGuide|Mixed Platforms.ActiveCfg = DebugSmallGuide|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.DebugSmallGuide|Mixed Platforms.Build.0 = DebugSmallGuide|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.DebugSmallGuide|Win32.ActiveCfg = DebugSmallGuide|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
