@@ -218,8 +218,21 @@
     <Tlb Include="$(BinariesRoot)\debug\DnaIdentityWebServiceProxy.tlb"></Tlb>
   </ItemGroup>
 
+  <target name="find.workspaces">
 
-  <Target Name="AfterEndToEndIteration">
+    <exec program="${tf}" workingdir="${dir.base}">
+
+      <arg value="Workspaces" />
+
+      <arg value="/Server:http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection" />
+
+    </exec>
+
+  </target>
+        
+
+
+      <Target Name="AfterEndToEndIteration">
     <!-- Create the build steps which start in mode "Running" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Checking into Reference Dlls" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
