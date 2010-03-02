@@ -217,18 +217,6 @@
     <Dll Include="$(BinariesRoot)\debug\DnaIdentityWebServiceProxy.dll"></Dll>
     <Tlb Include="$(BinariesRoot)\debug\DnaIdentityWebServiceProxy.tlb"></Tlb>
   </ItemGroup>
-
-  <target name="find.workspaces">
-
-    <exec program="${tf}" workingdir="${dir.base}">
-
-      <arg value="Workspaces" />
-
-      <arg value="/Server:http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection" />
-
-    </exec>
-
-  </target>
         
 
 
@@ -238,7 +226,8 @@
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
-    
+    <!-- Refresh the workspace mappings-->
+        <Exec Command="tf Workspaces /Server:http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection"></Exec>    
     
     <!-- Check out reference dlls -->
     <Exec Command="tf checkout &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot;"></Exec>
