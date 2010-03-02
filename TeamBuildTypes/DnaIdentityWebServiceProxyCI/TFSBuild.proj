@@ -227,7 +227,7 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
     <!-- Refresh the workspace mappings-->
-    <Exec Command="tf Workspaces /Server:http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection"></Exec>    
+    <Exec Command="tf Workspaces /Server:http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection /owner:TFSBUILD"></Exec>    
     
     <!-- Check out reference dlls -->
     <Exec Command="tf checkout &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot;"></Exec>
@@ -237,7 +237,7 @@
     <Copy SourceFiles="@(Dll)" DestinationFolder="$(SolutionRoot)\Main\Source\Reference DLLs\"></Copy>
     <Copy SourceFiles="@(Tlb)" DestinationFolder="$(SolutionRoot)\Main\Source\Reference DLLs\"></Copy>
 
-        <Exec Command="tf Workspaces /Server:http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection"></Exec>
+        <Exec Command="tf Workspaces /Server:http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection /owner:TFSBUILD"></Exec>
         <!-- Check in new versions -->
     <Exec Command="tf checkin &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.dll&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"></Exec>
     <Exec Command="tf checkin &quot;$(SolutionRoot)\Main\Source\Reference DLLs\DnaIdentityWebServiceProxy.tlb&quot; /comment:&quot;***NO_CI***&quot; /override:&quot;Automatic CI build checkin&quot;"  ContinueOnError="true"></Exec>
