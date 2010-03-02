@@ -267,15 +267,15 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
-    <!-- Exec IPC$ command - get access to ops-dna1-->
-    <Exec Command="NET USE \\ops-dna1\IPC$ /u:nmadmin sotzed03"></Exec>
+    <!-- Exec IPC$ command - get access to vp-dev-dna-web2-->
+    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
 
     <!-- call targets -->
     <CallTarget Targets="DeployToRelease" />
 
 
-    <!-- Close Access to ops-dna1 -->
-    <Exec Command="NET USE \\ops-dna1\IPC$ /D"></Exec>
+    <!-- Close Access to vp-dev-dna-web2 -->
+    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
     <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
@@ -295,14 +295,14 @@
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="DeployToReleaseId" />
     </BuildStep>
-    <!-- stop iis on ops-dna1 -->
-    <!-- Exec Command="sc \\ops-dna1 stop w3svc" Timeout="10000"></Exec -->
+    <!-- stop iis on vp-dev-dna-web2 -->
+    <!-- Exec Command="sc \\vp-dev-dna-web2 stop w3svc" Timeout="10000"></Exec -->
     <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\ops-dna1\h2g2release\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Clear templates... -->
     <WebDownload FileUri="http://dnarelease.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
     <!-- start website to copy ripley -->
-    <!-- Exec Command="sc \\ops-dna1 start w3svc"></Exec -->
+    <!-- Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec -->
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
@@ -310,7 +310,7 @@
   </Target>
   <Target Name="DeployToReleaseFailed">
     <!-- Change the status of the task to "Failed" -->
-    <!--Exec Command="sc \\ops-dna1 start w3svc"></Exec -->
+    <!--Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 
