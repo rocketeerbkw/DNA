@@ -244,9 +244,10 @@ namespace Tests
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
                         reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxForumRatingScore','15',0,'test MaxForumRatingScore value')");
-                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                        _ratings.siteList = _siteList;
                     }
+                    _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
+                    site = _siteList.GetSite("h2g2");
+                    _ratings.siteList = _siteList;
                 }
 
                 //set up test data
@@ -665,7 +666,7 @@ return.";
 
                     
                 }
-                _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
+                _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
                 site = _siteList.GetSite("h2g2");
                 _ratings = new Reviews(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
                 _ratings.siteList = _siteList;
@@ -708,7 +709,7 @@ return.";
                         reader.ExecuteDEBUGONLY("update sites set premoderation=0 where siteid=" + site.SiteID.ToString());//set premod
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='ProcessPreMod'");
                     }
-                    _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
+                    _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
                     site = _siteList.GetSite("h2g2");
                     _ratings = new Reviews(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
                     _ratings.siteList = _siteList;
@@ -891,6 +892,10 @@ return.";
             }
         }
 
+
+        /************************************************************************************************/
+        /* Char limit tests
+         * ***********************************************/
         /// <summary>
         /// tests ratingCreate function to create rating with a character limit
         /// </summary>
@@ -899,72 +904,19 @@ return.";
         {
             try
             {
+                Random random = new Random(DateTime.Now.Millisecond);
+                int maxCharLength = random.Next(1, 4000);
+
                 //set max char option
-                using (FullInputContext inputcontext = new FullInputContext(false))
-                {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                    {
-                        reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','15',0,'test MaxCommentCharacterLength value')");
-                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                        _ratings.siteList = _siteList;
-                    }
-                }
-                string ratingForumID = "good" + Guid.NewGuid().ToString();
-                RatingForum ratingForum = RatingForumCreate(ratingForumID);
-                //set up test data
-                RatingInfo rating = new RatingInfo{text = Guid.NewGuid().ToString().Substring(0,10)};
-                //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
-                _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
-                RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-                Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID > 0);
-                Assert.IsTrue(result.text == rating.text);
+                SetMaxCharLimit(maxCharLength);
 
-                //with some markup
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", Guid.NewGuid().ToString().Substring(0, 10));
-                result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-                Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID > 0);
-                Assert.IsTrue(result.text == rating.text);
+                GoodMaxPostCheck(maxCharLength);
 
-                //string too large with html
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "stringtopad".PadRight(20));
-                try
-                {
-                    result = _ratings.RatingCreate(ratingForum, rating);
-                }
-                catch (ApiException ex)
-                {
-                    Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
-                }
-
-                //string too large without html
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("{0}", "stringtopad".PadRight(20));
-                try
-                {
-                    result = _ratings.RatingCreate(ratingForum, rating);
-                }
-                catch (ApiException ex)
-                {
-                    Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
-                }
+                BadMaxPostCheck(maxCharLength);
             }
             finally 
             {
-                using (FullInputContext inputcontext = new FullInputContext(false))
-                {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                    {
-                        reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
-                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                        _ratings.siteList = _siteList;
-                    }
-                }
-
+                DeleteMinMaxLimitSiteOptions();
             }
         }
         /// <summary>
@@ -975,74 +927,238 @@ return.";
         {
             try
             {
-                //set max char option
-                using (FullInputContext inputcontext = new FullInputContext(false))
-                {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                    {
-                        reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MinCommentCharacterLength','15',0,'test MinCommentCharacterLength value')");
-                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                        _ratings.siteList = _siteList;
-                    }
-                }
-                string ratingForumID = "good" + Guid.NewGuid().ToString();
-                RatingForum ratingForum = RatingForumCreate(ratingForumID);
-                //set up test data
-                RatingInfo rating = new RatingInfo { text = Guid.NewGuid().ToString().Substring(0, 20) };
-                //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
-                _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
-                RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-                Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID > 0);
-                Assert.IsTrue(result.text == rating.text);
+                Random random = new Random(DateTime.Now.Millisecond);
+                int minCharLength = random.Next(1, 4000);
+                //set min char option
+                SetMinCharLimit(minCharLength);
 
-                //with some markup
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", Guid.NewGuid().ToString().Substring(0, 20));
-                result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-                Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID > 0);
-                Assert.IsTrue(result.text == rating.text);
+                GoodMinPostCheck(minCharLength);
 
-                //string too small with html
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "stringtopad".PadRight(5));
-                try
-                {
-                    result = _ratings.RatingCreate(ratingForum, rating);
-                }
-                catch (ApiException ex)
-                {
-                    Assert.IsTrue(ex.type == ErrorType.MinCharLimitNotReached);
-                }
-
-                //string too small without html
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("{0}", "stringtopad".PadRight(5));
-                try
-                {
-                    result = _ratings.RatingCreate(ratingForum, rating);
-                }
-                catch (ApiException ex)
-                {
-                    Assert.IsTrue(ex.type == ErrorType.MinCharLimitNotReached);
-                }
+                BadMinPostCheck(minCharLength);
             }
             finally
             {
-                using (FullInputContext inputcontext = new FullInputContext(false))
-                {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                    {
-                        reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MinCommentCharacterLength'");
-                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                        _ratings.siteList = _siteList;
-                    }
-                }
-
+                DeleteMinMaxLimitSiteOptions();
             }
         }
+
+        private void BadMaxPostCheck(int maxCharLength)
+        {
+            string ratingForumID = "good" + Guid.NewGuid().ToString();
+            RatingForum ratingForum = RatingForumCreate(ratingForumID);
+
+            //string too large with html
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            //set up test data
+            RatingInfo rating = new RatingInfo { text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "a".PadRight(maxCharLength + 1)) };
+            RatingInfo result;
+            bool exceptionFlagged = false;
+            try
+            {
+                result = _ratings.RatingCreate(ratingForum, rating);
+            }
+            catch (ApiException ex)
+            {
+                Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
+                exceptionFlagged = true;
+            }
+            //check an exception was raised
+            Assert.IsTrue(exceptionFlagged);
+            //reset flag to say it has raised an exception
+            exceptionFlagged = false;
+
+            //string too large without html
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            rating.text = String.Format("{0}", "a".PadRight(maxCharLength + 1));
+            try
+            {
+                result = _ratings.RatingCreate(ratingForum, rating);
+            }
+            catch (ApiException ex)
+            {
+                Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
+                exceptionFlagged = true;
+            }
+        }
+
+        private void BadMinPostCheck(int minCharLength)
+        {
+            string ratingForumID = "good" + Guid.NewGuid().ToString();
+            RatingForum ratingForum = RatingForumCreate(ratingForumID);
+
+            //string too small with html
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            //set up test data
+            RatingInfo rating = new RatingInfo { text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "".PadRight(minCharLength-1)) };
+            RatingInfo result;
+            bool exceptionFlagged = false;
+            try
+            {
+                result = _ratings.RatingCreate(ratingForum, rating);
+            }
+            catch (ApiException ex)
+            {
+                Assert.IsTrue(ex.type == ErrorType.MinCharLimitNotReached);
+                exceptionFlagged = true;
+            }
+            //check an exception was raised
+            Assert.IsTrue(exceptionFlagged);
+
+            //reset flag to say it has raised an exception
+            exceptionFlagged = false;
+
+            //string too small without html
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            rating.text = String.Format("{0}", "".PadRight(minCharLength-1));
+            try
+            {
+                result = _ratings.RatingCreate(ratingForum, rating);
+            }
+            catch (ApiException ex)
+            {
+                Assert.IsTrue(ex.type == ErrorType.MinCharLimitNotReached);
+                exceptionFlagged = true;
+            }
+            Assert.IsTrue(exceptionFlagged);
+        }
+
+        private void GoodMaxPostCheck(int maxCharLength)
+        {
+            string ratingForumID = "good" + Guid.NewGuid().ToString();
+            RatingForum ratingForum = RatingForumCreate(ratingForumID);
+
+            //set up test data
+            string randomString = EncodedRandomString();
+
+            string maxText = randomString.Substring(0, maxCharLength);
+
+            RatingInfo rating = new RatingInfo { text = maxText };
+            //normal user
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
+            RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+
+            //with some markup
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", maxText);
+            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+        }
+
+        private void GoodMinPostCheck(int minCharLength)
+        {
+            string ratingForumID = "good" + Guid.NewGuid().ToString();
+            RatingForum ratingForum = RatingForumCreate(ratingForumID);
+            string randomString = EncodedRandomString();
+
+            string minText = randomString.Substring(0, minCharLength);
+
+            //set up test data
+            RatingInfo rating = new RatingInfo { text = minText };
+
+            //normal user
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
+            RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+
+            //with some markup
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", minText);
+            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+        }
+
+        private void GoodMinMaxPostCheck(int minCharLength, int maxCharLength)
+        {
+            string ratingForumID = "good" + Guid.NewGuid().ToString();
+            RatingForum ratingForum = RatingForumCreate(ratingForumID);
+
+            string randomString = EncodedRandomString();
+
+            string goodText = randomString.Substring(0, maxCharLength);
+
+            //Test max boundary
+            RatingInfo rating = new RatingInfo();
+            rating.text = goodText;
+
+            //normal user
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
+            RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+
+            //with some markup
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", goodText);
+            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+
+            ratingForumID = "good" + Guid.NewGuid().ToString();
+            ratingForum = RatingForumCreate(ratingForumID);
+
+            goodText = randomString.Substring(0, minCharLength);
+
+            //Test max boundary
+            rating = new RatingInfo();
+            rating.text = goodText;
+
+            //normal user
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
+            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+
+            //with some markup
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", goodText);
+            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+
+            ratingForumID = "good" + Guid.NewGuid().ToString();
+            ratingForum = RatingForumCreate(ratingForumID);
+
+            goodText = randomString.Substring(0, (minCharLength + ((maxCharLength - minCharLength)/2)));
+
+            //Test max boundary
+            rating = new RatingInfo();
+            rating.text = goodText;
+
+            //normal user
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
+            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+
+            //with some markup
+            ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
+            rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", goodText);
+            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == rating.text);
+
+        }
+
         /// <summary>
         /// tests ratingCreate function to create rating with character limits
         /// </summary>
@@ -1051,97 +1167,104 @@ return.";
         {
             try
             {
-                //set max char option
-                using (FullInputContext inputcontext = new FullInputContext(false))
-                {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                    {
-                        reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','15',0,'test MaxCommentCharacterLength value')");
-                        reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MinCommentCharacterLength','15',0,'test MinCommentCharacterLength value')");
-                        _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
-                        _ratings.siteList = _siteList;
-                    }
-                }
-                string ratingForumID = "good" + Guid.NewGuid().ToString();
-                RatingForum ratingForum = RatingForumCreate(ratingForumID);
-                //set up test data
-                RatingInfo rating = new RatingInfo { text = Guid.NewGuid().ToString().Substring(0, 15) };
-                //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
-                _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
-                RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-                Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID > 0);
-                Assert.IsTrue(result.text == rating.text);
+                Random random = new Random(DateTime.Now.Millisecond);
+                int minmaxCharLength = random.Next(1, 4000);
 
-                //with some markup
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", Guid.NewGuid().ToString().Substring(0, 15));
-                result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-                Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID > 0);
-                Assert.IsTrue(result.text == rating.text);
+                SetMinCharLimit(minmaxCharLength);
+                SetMaxCharLimit(minmaxCharLength);
 
-                //string too large with html
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "stringtopad".PadRight(16));
-                try
-                {
-                    result = _ratings.RatingCreate(ratingForum, rating);
-                }
-                catch (ApiException ex)
-                {
-                    Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
-                }
+                GoodMaxPostCheck(minmaxCharLength);
 
-                //string too large without html
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("{0}", "stringtopad".PadRight(16));
-                try
-                {
-                    result = _ratings.RatingCreate(ratingForum, rating);
-                }
-                catch (ApiException ex)
-                {
-                    Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
-                }
-                //string too small with html
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "stringtopad".PadRight(14));
-                try
-                {
-                    result = _ratings.RatingCreate(ratingForum, rating);
-                }
-                catch (ApiException ex)
-                {
-                    Assert.IsTrue(ex.type == ErrorType.MinCharLimitNotReached);
-                }
+                BadMaxPostCheck(minmaxCharLength);
 
-                //string too small without html
-                ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-                rating.text = String.Format("{0}", "stringtopad".PadRight(14));
-                try
-                {
-                    result = _ratings.RatingCreate(ratingForum, rating);
-                }
-                catch (ApiException ex)
-                {
-                    Assert.IsTrue(ex.type == ErrorType.MinCharLimitNotReached);
-                }
+                GoodMinPostCheck(minmaxCharLength);
+
+                BadMinPostCheck(minmaxCharLength);
+
             }
             finally
             {
-                using (FullInputContext inputcontext = new FullInputContext(false))
+                DeleteMinMaxLimitSiteOptions();
+            }
+        }
+
+        /// <summary>
+        /// tests ratingCreate function to create rating with character limits
+        /// </summary>
+        [TestMethod]
+        public void RatingCreate_WithNormalMinAndMaxCharLimits()
+        {
+            try
+            {
+                Random random = new Random(DateTime.Now.Millisecond);
+                int minCharLength = random.Next(1, 2000);
+                int maxCharLength = minCharLength + random.Next(1, 2000);
+
+                SetMinCharLimit(minCharLength);
+                SetMaxCharLimit(maxCharLength);
+
+                GoodMinMaxPostCheck(minCharLength, maxCharLength);
+
+                BadMaxPostCheck(maxCharLength);
+                BadMinPostCheck(minCharLength);
+
+            }
+            finally
+            {
+                DeleteMinMaxLimitSiteOptions();
+            }
+        }
+
+        private void DeleteMinMaxLimitSiteOptions()
+        {
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                    try
                     {
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
+                    }
+                    catch 
+                    { 
+                    }
+                    try
+                    {
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MinCommentCharacterLength'");
-                        _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
-                        _ratings.siteList = _siteList;
+                    }
+                    catch
+                    {
                     }
                 }
+                _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
+                _ratings.siteList = _siteList;
+            }
+        }
 
+        private void SetMaxCharLimit(int maxLimit)
+        {
+            //set min and max char option
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','" + maxLimit.ToString() + "',0,'test MaxCommentCharacterLength value')");
+                    _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
+                    _ratings.siteList = _siteList;
+                }
+            }
+        }
+        private void SetMinCharLimit(int minLimit)
+        {
+            //set min and max char option
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MinCommentCharacterLength','" + minLimit.ToString() + "',0,'test MinCommentCharacterLength value')");
+                    _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
+                    _ratings.siteList = _siteList;
+                }
             }
         }
         /**************************************************************************************
@@ -1301,5 +1424,50 @@ return.";
             Assert.IsTrue(commentResult.text == comment.text);
         }
 
-	}
+        /// <summary>
+        /// Gets a list of the printable ascii codes.
+        /// </summary>
+        /// <returns></returns>
+        private string GetASCIIcodes()
+        {
+            string asciiCodes = String.Empty;
+            for (int i = 32; i < 127; i++)
+            {
+                asciiCodes += (char)i;
+            }
+            return asciiCodes;
+        }
+        /// <summary>
+        /// Gets a string contain a number of the printable ascii codes.
+        /// </summary>
+        /// <returns></returns>
+        private string RandomString()
+        {
+            int length = 4000;
+            string randomString = String.Empty;
+            string asciiCodes = GetASCIIcodes();
+            Random random = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < length; i++)
+            {
+                randomString += asciiCodes[random.Next(asciiCodes.Length)];
+            }
+            return randomString;
+        }
+        /// <summary>
+        /// Gets an encoded string contain a number of the printable ascii codes.
+        /// </summary>
+        /// <returns></returns>
+        private string EncodedRandomString()
+        {
+            int length = 4000;
+            string randomString = String.Empty;
+            string asciiCodes = GetASCIIcodes();
+            Random random = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < length; i++)
+            {
+                randomString += asciiCodes[random.Next(asciiCodes.Length)];
+            }
+            return StringUtils.EscapeAllXml(randomString);
+        }
+    }
 }

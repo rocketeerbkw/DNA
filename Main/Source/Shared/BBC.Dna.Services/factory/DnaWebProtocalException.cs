@@ -84,6 +84,7 @@ namespace BBC.Dna.Services
                 case ErrorType.SiteIsClosed: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.EmptyText: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.ExceededTextLimit: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.MinCharLimitNotReached: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.XmlFailedParse: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.ProfanityFoundInText: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.ForumUnknown: StatusCode = HttpStatusCode.NotFound; break;

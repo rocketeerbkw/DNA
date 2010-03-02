@@ -891,5 +891,136 @@ namespace FunctionalTests
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaError);
             validator.Validate();
         }
+
+        /// <summary>
+        /// Test CreateRatingForum method from service with too few characters
+        /// </summary>
+        [TestMethod]
+        public void CreateRatingHtml_TooFewCharsRating()
+        {
+            Console.WriteLine("Before CreateRatingHtml_TooFewCharsRating");
+
+            SetMinCharLimit(100);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            RatingForum ratingForum = RatingForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string ratingForumXml = String.Format("text={0}&rating={1}", text, 1);
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
+            // now get the response
+            try
+            {
+                request.RequestPageWithFullURL(url, ratingForumXml, "application/x-www-form-urlencoded");
+            }
+            catch (AssertFailedException Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+
+
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+            DeleteMinMaxLimitSiteOptions();
+
+            Console.WriteLine("After CreateRatingHtml_TooFewCharsRating");
+        }
+        /// <summary>
+        /// Test CreateRatingForum method from service with too many characters
+        /// </summary>
+        [TestMethod]
+        public void CreateRatingHtml_TooManyCharsRating()
+        {
+            Console.WriteLine("Before CreateRatingHtml_TooManyCharsRating");
+
+            SetMaxCharLimit(10);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            RatingForum ratingForum = RatingForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string ratingForumXml = String.Format("text={0}&rating={1}", text, 1);
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
+            // now get the response
+            try
+            {
+                request.RequestPageWithFullURL(url, ratingForumXml, "application/x-www-form-urlencoded");
+            }
+            catch (AssertFailedException Ex)
+            {
+                Console.WriteLine(Ex.Message);
+            }
+
+
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+            DeleteMinMaxLimitSiteOptions();
+
+            Console.WriteLine("After CreateRatingHtml_TooManyCharsRating");
+        }
+
+        private void SetMaxCharLimit(int maxLimit)
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(1,'CommentForum', 'MaxCommentCharacterLength','" + maxLimit.ToString() + "',0,'test MaxCommentCharacterLength value')");
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+
+        }
+        private void SetMinCharLimit(int minLimit)
+        {
+            //set min char option
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(1,'CommentForum', 'MinCommentCharacterLength','" + minLimit.ToString() + "',0,'test MinCommentCharacterLength value')");
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+        }
+
+        private void DeleteMinMaxLimitSiteOptions()
+        {
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    try
+                    {
+                        reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=1 and Name='MaxCommentCharacterLength'");
+                    }
+                    catch
+                    {
+                    }
+                    try
+                    {
+                        reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=1 and Name='MinCommentCharacterLength'");
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
+
+
     }
 }
