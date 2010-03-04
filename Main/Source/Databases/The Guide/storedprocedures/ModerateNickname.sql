@@ -40,7 +40,7 @@ SET @Error = @@ERROR; IF @Error <> 0 GOTO HandleError
 
 
 -- For PreMod users a nickname change will only take effect once approved by a moderator.
-IF ( @status = 3 AND @nickname != @newnickname AND @newnickname IS NOT NULL )
+IF ( @status = 3 AND @nickname != @newnickname AND @newnickname IS NOT NULL AND (CHARINDEX(@nickname+'|', @newnickname) = 0))
 BEGIN
 	UPDATE USERS SET UserName = @newnickname WHERE UserID = @userid
 	SET @Error = @@ERROR; IF @Error <> 0 GOTO HandleError
