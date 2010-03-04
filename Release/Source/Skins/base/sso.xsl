@@ -146,7 +146,7 @@
 	
 	<xsl:variable name="idURL">
 		<xsl:choose>
-			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5' or (not(contains(/H2G2/SERVERNAME, 'NARTHUR')) and not(contains(/H2G2/SERVERNAME, 'NMSDNA0')))">
+			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'or (not(contains(/H2G2/SERVERNAME, 'NARTHUR')) and not(contains(/H2G2/SERVERNAME, 'NMSDNA0')))">
 				<xsl:text>https://id.stage.bbc.co.uk/</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
@@ -171,6 +171,9 @@
 	
 	<xsl:variable name="id_ptrt">
 		<xsl:choose>
+			<xsl:when test="/H2G2/SERVERNAME = 'PC-S061416'">
+				<xsl:text>http%3A%2F%2Flocal.bbc.co.uk</xsl:text>
+			</xsl:when>		
 			<xsl:when test="/H2G2/SERVERNAME = 'PC-S052330'">
 				<xsl:text>http%3A%2F%2Fops-dev14.national.core.bbc.co.uk%3A6666</xsl:text>
 			</xsl:when>
@@ -1193,9 +1196,6 @@
 	
 	<xsl:template name="identity_statusbar">
 		<xsl:param name="h2g2class" />
-		** AUTOGEN is: <xsl:value-of select="$autogenname_required" /> **<br />
-		** SITE SUFFIX is: <xsl:value-of select="$sitesuffix_required" /> **<br />
-		** SITE SUFFIX OPTIONAL is: <xsl:value-of select="$sitesuffixoptional" />
 		<div id="identitywrap">
 			<div id="identitylogin">
 				<xsl:if test="/H2G2/SITE/@ID = '1' and $h2g2class">
