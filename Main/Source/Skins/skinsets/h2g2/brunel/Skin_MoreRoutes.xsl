@@ -15,7 +15,8 @@
 
 	<xsl:template name="MOREROUTES_TITLE">
 		<title>
-			Routes for <xsl:value-of select="/H2G2/MOREROUTES/ROUTES-LIST/USER/USERNAME"/>
+			Routes for <!-- <xsl:value-of select="/H2G2/MOREROUTES/ROUTES-LIST/USER/USERNAME"/> -->
+			<xsl:apply-templates select="/H2G2/MOREROUTES/ROUTES-LIST/USER" mode="username" />
 		</title>
 	</xsl:template>
 	
@@ -38,7 +39,8 @@
 						<td>
 							<font xsl:use-attribute-sets="subheaderfont" class="postxt">
 								<b>
-									Routes for <xsl:value-of select="/H2G2/MOREROUTES/ROUTES-LIST/USER/USERNAME"/>
+									Routes for <!-- <xsl:value-of select="/H2G2/MOREROUTES/ROUTES-LIST/USER/USERNAME"/> -->
+									<xsl:apply-templates select="/H2G2/MOREROUTES/ROUTES-LIST/USER" mode="username" />
 								</b>
 							</font>
 						</td>

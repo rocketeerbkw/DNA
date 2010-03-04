@@ -510,7 +510,8 @@
 				<xsl:value-of select="substring(USERNAME, 1, $MaxUsernameChars - 3)"/>...
 					</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="USERNAME"/>
+				<!-- <xsl:value-of select="USERNAME"/> -->
+				<xsl:apply-templates select="." mode="username"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

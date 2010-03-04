@@ -123,7 +123,7 @@
 	</xsl:template>
 	
 	<xsl:template match="USER" mode="r_assetauthor">
-		<a href="{$root}u{USERID}" xsl:use-attribute-sets="mUSER_r_assetauthor"><xsl:value-of select="USERNAME"/></a>
+		<a href="{$root}u{USERID}" xsl:use-attribute-sets="mUSER_r_assetauthor"><xsl:apply-templates select="." mode="username"/></a>
 	</xsl:template>	
 
 	<xsl:attribute-set name="mUSER_r_assetauthor"></xsl:attribute-set>

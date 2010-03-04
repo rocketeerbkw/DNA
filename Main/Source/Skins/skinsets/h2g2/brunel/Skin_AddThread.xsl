@@ -278,7 +278,7 @@
 			<xsl:choose>
 				<xsl:when test="INREPLYTO">
 					<tr>
-						<td colspan="2"><font xsl:use-attribute-sets="mainfont" class="postxt"><b><xsl:value-of select="$m_postedby"/></b><xsl:value-of select="INREPLYTO/USERNAME"/></font></td>
+						<td colspan="2"><font xsl:use-attribute-sets="mainfont" class="postxt"><b><xsl:value-of select="$m_postedby"/></b><xsl:apply-templates select="INREPLYTO" mode="username" /></font></td>
 					</tr>
 					<tr>
 						<td><font xsl:use-attribute-sets="smallfont" class="postxt"><xsl:value-of select="$m_thread_replytothismsg"/></font></td>

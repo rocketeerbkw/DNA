@@ -1074,18 +1074,6 @@
 						<div style="width:770px;">
 							<xsl:call-template name="sso_statusbar-admin"/>
 						</div>
-						<!--<xsl:if test="VIEWING-USER/USER">
-							<div class="userbar">
-								<p align="right">
-									<a href="{$root}MP{VIEWING-USER/USER/USERID}">Your page</a> | Your nickname is <strong>
-										<xsl:value-of select="VIEWING-USER/USER/USERNAME"/>
-									</strong>. 
-								<xsl:if test="not(@TYPE = 'USERDETAILS')">
-										<a href="{$root}userdetails">Change this</a>
-									</xsl:if>
-								</p>
-							</div>
-						</xsl:if>-->
 						<xsl:call-template name="insert-mainbody"/>
 					</body>
 				</html>
@@ -1668,7 +1656,8 @@
 	-->
 	<xsl:template match="FORUMSOURCE" mode="journal_forumsource">
 		<a xsl:use-attribute-sets="mFORUMSOURCEJOURNAL" href="{$root}U{JOURNAL/USER/USERID}" target="_top">
-			<xsl:value-of select="JOURNAL/USER/USERNAME"/>
+			<!-- <xsl:value-of select="JOURNAL/USER/USERNAME"/> -->
+			<xsl:apply-templates select="JOURNAL/USER" mode="username" />
 		</a>
 	</xsl:template>
 	<!--
@@ -1678,7 +1667,8 @@
 	-->
 	<xsl:template match="FORUMSOURCE" mode="userpage_forumsource">
 		<a xsl:use-attribute-sets="mFORUMSOURCEUSERPAGE" href="{$root}U{USERPAGE/USER/USERID}" target="_top">
-			<xsl:value-of select="USERPAGE/USER/USERNAME"/>
+			<!-- <xsl:value-of select="USERPAGE/USER/USERNAME"/> -->
+			<xsl:apply-templates select="USERPAGE/USER" mode="username" />
 		</a>
 	</xsl:template>
 	<!--
@@ -1708,7 +1698,8 @@
 	-->
 	<xsl:template match="FORUMSOURCE" mode="privateuser_forumsource">
 		<a xsl:use-attribute-sets="mFORUMSOURCE_privateuser_forumsource" href="{$root}U{USERPAGE/USER/USERID}" target="_top">
-			<xsl:value-of select="USERPAGE/USER/USERNAME"/>
+			<!-- <xsl:value-of select="USERPAGE/USER/USERNAME"/> -->
+			<xsl:apply-templates select="USERPAGE/USER" mode="username" />
 		</a>
 	</xsl:template>
 	<!--

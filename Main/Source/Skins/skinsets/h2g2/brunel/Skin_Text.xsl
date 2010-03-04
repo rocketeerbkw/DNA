@@ -295,7 +295,10 @@ Please be very careful if you want to post an email address or instant messaging
 
 <xsl:template name="m_welcomebackuser">
 	<xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>Researcher: <a xsl:use-attribute-sets="nm_welcomebackuser"><xsl:attribute name="href"><xsl:value-of select="$root"/><xsl:value-of select="$pageui_myhome"/></xsl:attribute>
-<xsl:value-of select="substring(VIEWING-USER/USER/USERNAME,1,14)" /><xsl:if test="string-length(VIEWING-USER/USER/USERNAME) &gt; 14">...</xsl:if></a>
+<!-- <xsl:value-of select="substring(VIEWING-USER/USER/USERNAME,1,14)" /><xsl:if test="string-length(VIEWING-USER/USER/USERNAME) &gt; 14">...</xsl:if> -->
+	<xsl:apply-templates select="VIEWING-USER/USER" mode="username">
+		<xsl:with-param name="stringlimit">14</xsl:with-param>
+	</xsl:apply-templates></a>
 </xsl:template>
 
 

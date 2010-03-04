@@ -473,7 +473,7 @@
 															<div class="userbar">
 																<p align="right">
 																	<a href="{$root}MP{/H2G2/VIEWING-USER/USER/USERID}">Your page</a> | Your nickname is <strong>
-																		<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
+																		<xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username"/>
 																	</strong>. 
 																	<xsl:if test="not(@TYPE = 'USERDETAILS' or /H2G2/CURRENTSITEURLNAME = 'mbks3bitesize' or /H2G2/CURRENTSITEURLNAME = 'mbgcsebitesize' or /H2G2/CURRENTSITEURLNAME = 'mbcbbc' or /H2G2/CURRENTSITEURLNAME = 'mbnewsround')">
 																		<a href="{$root}userdetails">Change this</a>

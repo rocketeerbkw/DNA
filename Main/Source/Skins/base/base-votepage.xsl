@@ -300,7 +300,8 @@
 	-->
 	<xsl:template match="USER" mode="r_voted">
 		<a href="{$root}U{USERID}" xsl:use-attribute-sets="mUSER_r_voted">
-			<xsl:value-of select="USERNAME"/>
+			<!-- <xsl:value-of select="USERNAME"/> -->
+			<xsl:apply-templates select="." mode="username"/>
 		</a>
 	</xsl:template>
 </xsl:stylesheet>

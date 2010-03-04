@@ -343,18 +343,6 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</div>
-						<!--<xsl:if test="VIEWING-USER/USER">
-							<div class="userbar">
-								<p align="right">
-									<a href="{$root}MP{VIEWING-USER/USER/USERID}">Your page</a> | Your nickname is <strong>
-										<xsl:value-of select="VIEWING-USER/USER/USERNAME"/>
-									</strong>. 
-								<xsl:if test="not(@TYPE = 'USERDETAILS')">
-										<a href="{$root}userdetails">Change this</a>
-									</xsl:if>
-								</p>
-							</div>
-						</xsl:if>-->
 						<xsl:call-template name="insert-mainbody"/>
 					</body>
 				</html>
@@ -456,7 +444,7 @@
 								</a>
 								<xsl:text> | Your nickname is </xsl:text>
 								<strong>
-									<xsl:value-of select="VIEWING-USER/USER/USERNAME"/>
+									<xsl:apply-templates select="VIEWING-USER/USER" mode="username"/>
 								</strong>
 								<xsl:text>.</xsl:text>
                 <!-- Sites witha  MaxAge < 16 do not display an change this nickname link.-->
@@ -771,7 +759,8 @@
 							
 							<xsl:choose>
 									<xsl:when test="@USERID = /H2G2/FORUMTHREADPOSTS/POST/USER/USERID">
-										<xsl:value-of select="/H2G2/FORUMTHREADPOSTS/POST[USER/USERID = current()/@USERID]/USER/USERNAME"/>
+										<!-- <xsl:value-of select="/H2G2/FORUMTHREADPOSTS/POST[USER/USERID = current()/@USERID]/USER/USERNAME"/> -->
+										<xsl:apply-templates select="/H2G2/FORUMTHREADPOSTS/POST[USER/USERID = current()/@USERID]/USER" mode="username"/>
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:value-of select="@USERNAME"/>

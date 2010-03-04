@@ -15,7 +15,7 @@
 	<xsl:template match="USER" mode="rss91">
 		<item>
 			<title>
-				<xsl:value-of select="USERNAME"/>
+				<xsl:apply-templates select="." mode="username"/>
 			</title>
 			<description>
 				<xsl:value-of select="DATE-JOINED/DATE/@RELATIVE"/>

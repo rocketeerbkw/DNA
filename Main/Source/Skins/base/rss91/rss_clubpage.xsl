@@ -50,7 +50,7 @@
 	<xsl:template match="MEMBER" mode="rss91">
 		<item>
 			<title>
-				<xsl:value-of select="USER/USERNAME"/>
+				<xsl:apply-templates select="USER" mode="username"/>
 				<xsl:text> </xsl:text>
 			</title>
 			<description>

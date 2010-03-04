@@ -71,7 +71,7 @@
 	<xsl:variable name="m_morepoststitle">
 		<xsl:choose>
 			<xsl:when test="/H2G2/POSTS/POST-LIST/USER/USERNAME">
-				<xsl:value-of select="/H2G2/POSTS/POST-LIST/USER/USERNAME"/>'s page</xsl:when>
+				<xsl:apply-templates select="/H2G2/POSTS/POST-LIST/USER" mode="username"/>'s page</xsl:when>
 			<xsl:otherwise> </xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>

@@ -486,7 +486,7 @@ Purpose:	Used to specify attributes for <A> tag for Return to Editors link
 												<img src="{$imagesource}online.gif" alt="Online Now"/>
 											</xsl:with-param>
 										</xsl:apply-templates>
-										<xsl:value-of select="USER/USERNAME"/>
+										<xsl:apply-templates select="USER" mode="username" />
 									</font>
 								</b>
 								<b>
@@ -2721,16 +2721,16 @@ Click to see newer posts
 			<!--<IMG border="0" src="http://www2.h2g2.com/images/threadicon.gif"/>-->
 			<xsl:choose>
 				<xsl:when test="SUBJECT[@SAME='1']">
-...
-</xsl:when>
+				...
+				</xsl:when>
 				<xsl:otherwise>
 					<b>
 						<xsl:value-of select="SUBJECT"/>
 					</b>
 				</xsl:otherwise>
 			</xsl:choose>
-(<xsl:value-of select="USER/USERNAME"/>, <xsl:apply-templates select="DATEPOSTED"/>)
-</xsl:element>
+			(<xsl:apply-templates select="USER" mode="username" />, <xsl:apply-templates select="DATEPOSTED"/>)
+		</xsl:element>
 		<br/>
 	</xsl:template>
 	<!--
@@ -4461,7 +4461,8 @@ Click to see newer posts
 							
 							<xsl:choose>
 									<xsl:when test="@USERID = /H2G2/FORUMTHREADPOSTS/POST/USER/USERID">
-										<xsl:value-of select="/H2G2/FORUMTHREADPOSTS/POST[USER/USERID = current()/@USERID]/USER/USERNAME"/>
+										<!-- <xsl:value-of select="/H2G2/FORUMTHREADPOSTS/POST[USER/USERID = current()/@USERID]/USER/USERNAME"/> -->
+										<xsl:apply-templates select="/H2G2/FORUMTHREADPOSTS/POST[USER/USERID = current()/@USERID]/USER" mode="username" />
 									</xsl:when>
 									<xsl:otherwise>
 										<xsl:value-of select="@USERNAME"/>
@@ -4570,7 +4571,7 @@ Click to see newer posts
 				</a>
 			</td>
 			<td>
-				<xsl:value-of select="USER/USERNAME"/>
+				<xsl:apply-templates select="USER" mode="username" />
 			</td>
 			<td>
 				<xsl:value-of select="ENTRY-COUNT"/>

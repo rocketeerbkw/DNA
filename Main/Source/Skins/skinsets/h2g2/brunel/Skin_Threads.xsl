@@ -302,11 +302,11 @@ Conversation - <xsl:value-of select="SUBJECT"/>
 </xsl:template>
 
 <xsl:template match="FORUMSOURCE/JOURNAL" mode="titlebar">
-Journal of <xsl:value-of select="USER/USERNAME"/>
+Journal of <xsl:apply-templates select="USER" mode="username" />
 </xsl:template>
 
 <xsl:template match="FORUMSOURCE/USERPAGE" mode="titlebar">
-<xsl:value-of select="$m_threads_msglistof"/><xsl:value-of select="USER/USERNAME"/>
+<xsl:value-of select="$m_threads_msglistof"/><xsl:apply-templates select="USER" mode="username" />
 </xsl:template>
 
 <xsl:template match="FORUMSOURCE/REVIEWFORUM" mode="titlebar">
@@ -327,7 +327,7 @@ Review Forum - <xsl:value-of select="REVIEWFORUMNAME" />
 	<A class="pos">
 		<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID" /></xsl:attribute>
 		<xsl:attribute name="TARGET">_top</xsl:attribute>
-		<xsl:value-of select="USER/USERNAME" />
+		<xsl:apply-templates select="USER" mode="username" />
 	</A>
 </xsl:template>
 
@@ -337,7 +337,7 @@ Review Forum - <xsl:value-of select="REVIEWFORUMNAME" />
 		<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID" /></xsl:attribute>
 <!--		<xsl:attribute name="CLASS">pos</xsl:attribute> -->
 		<xsl:attribute name="TARGET">_top</xsl:attribute>
-		<xsl:value-of select="USER/USERNAME" />
+		<xsl:apply-templates select="USER" mode="username" />
 	</A>
 </xsl:template>
 
