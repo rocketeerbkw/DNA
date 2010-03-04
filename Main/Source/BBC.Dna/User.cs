@@ -1071,7 +1071,7 @@ namespace BBC.Dna
             userData.Add("LastName", lastName);
 
             // Rest go in the dictionary
-            //userData.Add("SiteSuffix", siteSuffix);
+            userData.Add("SiteSuffix", siteSuffix);
             //userData.Add("Area", area);
             //userData.Add("Title", title);
             userData.Add("TaxonomyNode", taxonomyNode);

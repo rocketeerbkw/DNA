@@ -42,6 +42,7 @@ as
 		u.Status,
 		u.TaxonomyNode,
 		u.Active,
+		p.SiteSuffix,
 		cf.SiteID, 
 		f.ForumPostCount,
 		'ForumTitle' = f.Title,
@@ -54,5 +55,6 @@ as
 	inner join Users u on u.UserID = @userid
 	inner join Forums f on f.ForumID = te.ForumID
 	inner join CommentForums cf on cf.ForumID = f.ForumID
+	inner join dbo.Preferences p on p.UserId = u.UserId AND p.SiteID = f.SiteID
 	where (vc.rn BETWEEN (@firstindex+1) AND (@lastindex+1))
 	Order By vc.rn 

@@ -6121,7 +6121,7 @@ bool CStoredProcedure::CreateNewArticle(int iUserID, const TDVCHAR* pSubject, co
 	return bSuccess;
 }
 
-bool CStoredProcedure::GetPostContents(int iReplyTo, int iUserID, int *iForumID, int *iThreadID, CTDVString *sUsername, CTDVString *sBody, CTDVString* pSubject, bool* oCanRead, bool* oCanWrite, int* oPostStyle, int* oPostIndex, int* oUserID)
+bool CStoredProcedure::GetPostContents(int iReplyTo, int iUserID, int *iForumID, int *iThreadID, CTDVString *sUsername, CTDVString *pSiteSuffix, CTDVString *sBody, CTDVString* pSubject, bool* oCanRead, bool* oCanWrite, int* oPostStyle, int* oPostIndex, int* oUserID)
 {
 	StartStoredProcedure("getthreadpostcontents");
 	AddParam(iReplyTo);
@@ -6143,6 +6143,7 @@ bool CStoredProcedure::GetPostContents(int iReplyTo, int iUserID, int *iForumID,
 		*iForumID = GetIntField("ForumID");
 		*iThreadID = GetIntField("ThreadID");
 		GetField("UserName", *sUsername);
+		GetField("SiteSuffix", *pSiteSuffix);
 		*oUserID = GetIntField("UserID");
 		GetField("text", *sBody);
 		GetField("Subject", *pSubject);
