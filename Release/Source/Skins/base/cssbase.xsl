@@ -2303,7 +2303,7 @@ Click to see newer posts
 -->
 
 <xsl:template match="ONLINEUSER">
-<A TARGET="_blank"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute><xsl:apply-templates select="USER/USERNAME"/></A>
+<A TARGET="_blank"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute><xsl:apply-templates select="USER/USERNAME" mode="username" /></A>
 <xsl:if test="number(DAYSSINCEJOINED) &lt; 7"> (<xsl:value-of select="$m_newthisweek"/>)</xsl:if>
 <br/>
 </xsl:template>

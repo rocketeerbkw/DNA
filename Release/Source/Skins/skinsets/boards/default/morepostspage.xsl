@@ -85,7 +85,8 @@
 											<xsl:choose>
 												<xsl:when test="POSTS/POST-LIST/USER/USERNAME">
 													<xsl:text>All </xsl:text>
-													<xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/>
+													<xsl:apply-templates select="POSTS/POST-LIST/USER" mode="username" />
+													<!-- <xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/> -->
 													<xsl:text>'s posts are listed here.</xsl:text>
 												</xsl:when>
 												<xsl:otherwise>
@@ -100,7 +101,7 @@
 										<xsl:text>view a list of </xsl:text>
 										<xsl:choose>
 											<xsl:when test="POSTS/POST-LIST/USER/USERNAME">
-												<xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/>
+												<xsl:apply-templates select="POSTS/POST-LIST/USER" mode="username" />
 											</xsl:when>
 											<xsl:otherwise>
 												<xsl:text>this user</xsl:text>

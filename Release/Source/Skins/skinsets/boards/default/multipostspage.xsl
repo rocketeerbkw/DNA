@@ -555,7 +555,7 @@
 							<a href="{$root}MP{USER/USERID}">
 								<span class="editorName">
 									<em>
-										<xsl:value-of select="USER/USERNAME"/>
+										<xsl:apply-templates select="USER" mode="username" />
 										(U<xsl:value-of select="USER/USERID"/>)
 									</em>
 								</span>
@@ -565,7 +565,7 @@
 							<xsl:text> - posted by </xsl:text>
 							<a href="{$root}MP{USER/USERID}">
 								<span class="notableName">
-									<xsl:value-of select="USER/USERNAME"/>
+									<xsl:apply-templates select="USER" mode="username" />
 									(U<xsl:value-of select="USER/USERID"/>)
 									<xsl:if test="USER/TITLE[string()]">
 										<xsl:text>&#8722;</xsl:text>
@@ -577,7 +577,7 @@
 						<xsl:otherwise>
 							<xsl:text> - posted by </xsl:text>
 							<a href="{$root}MP{USER/USERID}">
-								<xsl:value-of select="USER/USERNAME"/>
+								<xsl:apply-templates select="USER" mode="username" />
 								(U<xsl:value-of select="USER/USERID"/>)
 							</a>
 						</xsl:otherwise>
@@ -958,7 +958,7 @@
 					<a href="{$root}MP{USER/USERID}">
 						<span class="editorName">
 							<em>
-								<xsl:value-of select="USER/USERNAME"/>
+								<xsl:apply-templates select="USER" mode="username" />
 								(U<xsl:value-of select="USER/USERID"/>)
 							</em>
 						</span>
@@ -967,7 +967,7 @@
 				<xsl:when test="USER/NOTABLE = 1">
 					<a href="{$root}MP{USER/USERID}">
 						<span class="notableName">
-							<xsl:value-of select="USER/USERNAME"/>
+							<xsl:apply-templates select="USER" mode="username" />
 							(U<xsl:value-of select="USER/USERID"/>)
 							<xsl:if test="USER/TITLE[string()]">
 								<xsl:text>&#8722;</xsl:text>
@@ -978,7 +978,7 @@
 				</xsl:when>
 				<xsl:otherwise>
 					<a href="{$root}MP{USER/USERID}">
-						<xsl:value-of select="USER/USERNAME"/>
+						<xsl:apply-templates select="USER" mode="username" />
 						(U<xsl:value-of select="USER/USERID"/>)
 					</a>
 				</xsl:otherwise>

@@ -3814,7 +3814,8 @@ Line <xsl:value-of select="LINENO"/>, line position <xsl:value-of select="LINEPO
 -->
 	<xsl:template match="USER" mode="ArticleInfo">
 		<a xsl:use-attribute-sets="pageauthorsfont" href="{$root}U{USERID}">
-			<xsl:value-of select="USERNAME"/>
+			<!--<xsl:value-of select="USERNAME"/>-->
+			<xsl:apply-templates select="." mode="username" />
 		</a>
 	</xsl:template>
 	<!--
@@ -14655,8 +14656,27 @@ Purpose:	Generates User Name input field
 Call:		<xsl:apply-templates select="." mode="UserNameInput">
 -->
 	<xsl:template match="USER-DETAILS-FORM" mode="UserNameInput">
-		<input xsl:use-attribute-sets="asiUSER-DETAILS-FORM_UserNameInput" name="Username">
-			<xsl:attribute name="value"><xsl:value-of select="USERNAME"/></xsl:attribute>
+		<input xsl:use-attribute-sets="asiUSER-DETAILS-FORM_UserNameInput">
+			<xsl:attribute name="name">
+				<xsl:choose>
+					<xsl:when test="$sitesuffix_required = 'true'"><xsl:text>sitesuffix</xsl:text></xsl:when>
+					<xsl:otherwise>Username</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+			<xsl:attribute name="value">
+				<xsl:choose>
+				<xsl:when test="$sitesuffix_required = 'true' and /H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX !=''">
+					<xsl:value-of select="PREFERENCES/SITESUFFIX"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="USERNAME"/>
+				</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+			<xsl:if test="$sitesuffix_required = 'true'">
+				<xsl:attribute name="maxlength">255</xsl:attribute>
+				<xsl:attribute name="size">60</xsl:attribute>
+			</xsl:if>
 		</input>
 	</xsl:template>
 	<!--
@@ -17287,7 +17307,7 @@ Call:		<xsl:apply-templates select="." mode="Form">
 		<xsl:if test="MESSAGE[@TYPE='']">
 			<xsl:call-template name="m_spacingaboveudetails"/>
 		</xsl:if>
-		<TABLE vspace="0" hspace="0" border="0" cellpadding="0" cellspacing="0">
+		<TABLE vspace="0" hspace="0" border="0" cellpadding="0" cellspacing="0" width="47%">
 			<FORM xsl:use-attribute-sets="asfUSER-DETAILS-FORM">
 				<TR>
 					<xsl:apply-templates select="." mode="HiddenInputs"/>
@@ -17299,7 +17319,7 @@ Call:		<xsl:apply-templates select="." mode="Form">
 							<xsl:value-of select="$m_nickname"/>
 						</FONT>
 					</TD>
-					<TD width="80%">
+					<TD>
 						<FONT xsl:use-attribute-sets="mainfont">
 							<xsl:apply-templates select="." mode="UserName"/>
 						</FONT>
@@ -17307,12 +17327,45 @@ Call:		<xsl:apply-templates select="." mode="Form">
 					<TD/>
 				</TR>
 				</xsl:if>
-				<xsl:if test="/H2G2/SITE/IDENTITYSIGNIN = 1 and /H2G2/SITE/@ID = 1 and /H2G2/VIEWING-USER/USER">
-				<TR>
-					<TD colspan="2">
-						<p><strong>Please note</strong>: if you would like to change your display name, <br />please click the <a href="{$id_settingslink}">Settings</a> link above and enter it in the Name field.</p>
-					</TD>
-				</TR>
+				<xsl:if test="$sitesuffix_required = 'true'">
+					<tr>
+						<td colspan="3">
+							<xsl:call-template name="ssnickname_introtext" />
+						</td>
+					</tr>
+					<TR>
+						<TD>
+							<BR/>
+						</TD>
+					</TR>					
+					<TR>
+						<TD align="RIGHT" width="18%">
+							<FONT xsl:use-attribute-sets="mainfont">
+								Display Name:&#160;
+							</FONT>
+						</TD>
+						<TD width="80%">
+							<FONT xsl:use-attribute-sets="mainfont">
+								<xsl:apply-templates select="." mode="UserName"/>
+							</FONT>
+						</TD>
+						<TD/>
+					</TR>
+					<TR>
+						<TD>
+							<BR/>
+						</TD>
+					</TR>					
+					<tr>
+						<td colspan="3">
+							<xsl:call-template name="ssnickname_nb" />
+						</td>
+					</tr>	
+					<TR>
+						<TD>
+							<BR/>
+						</TD>
+					</TR>
 				</xsl:if>
 				<xsl:if test="$changeableskins">
 					<TR>

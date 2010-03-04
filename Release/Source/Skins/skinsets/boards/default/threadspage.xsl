@@ -395,13 +395,13 @@
 									<xsl:choose>
 										<xsl:when test="FIRSTPOST/USER/GROUPS/EDITOR">
 											<em>
-												<xsl:apply-templates select="FIRSTPOST/USER/USERNAME" mode="c_threadspage"/>
+												<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 												<span class="notable"> &#8722; <xsl:value-of select="FIRSTPOST/USER/TITLE"/>
 												</span>
 											</em>
 										</xsl:when>
 										<xsl:otherwise>
-											<xsl:apply-templates select="FIRSTPOST/USER/USERNAME" mode="c_threadspage"/>
+											<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 											<span class="notable"> &#8722; <xsl:value-of select="FIRSTPOST/USER/TITLE"/>
 											</span>
 										</xsl:otherwise>
@@ -411,11 +411,11 @@
 									<xsl:choose>
 										<xsl:when test="FIRSTPOST/USER/GROUPS/EDITOR">
 											<em>
-												<xsl:apply-templates select="FIRSTPOST/USER/USERNAME" mode="c_threadspage"/>
+												<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />											
 											</em>
 										</xsl:when>
 										<xsl:otherwise>
-											<xsl:apply-templates select="FIRSTPOST/USER/USERNAME" mode="c_threadspage"/>
+											 <xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:otherwise>
@@ -452,27 +452,27 @@
 									<xsl:choose>
 										<xsl:when test="FIRSTPOST/USER/GROUPS/EDITOR">
 											<em>
-												<xsl:apply-templates select="FIRSTPOST/USER/USERNAME" mode="c_threadspage"/>
+												<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 												<span class="notable"> &#8722; <xsl:value-of select="FIRSTPOST/USER/TITLE"/>
 												</span>
 											</em>
 										</xsl:when>
 										<xsl:otherwise>
-											<xsl:apply-templates select="FIRSTPOST/USER/USERNAME" mode="c_threadspage"/>
+											<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 											<span class="notable"> &#8722; <xsl:value-of select="FIRSTPOST/USER/TITLE"/>
 											</span>
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:when>
-								<xsl:otherwise>
+								<xsl:otherwise>									
 									<xsl:choose>
 										<xsl:when test="FIRSTPOST/USER/GROUPS/EDITOR">
 											<em>
-												<xsl:apply-templates select="FIRSTPOST/USER/USERNAME" mode="c_threadspage"/>
+												<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 											</em>
 										</xsl:when>
 										<xsl:otherwise>
-											<xsl:apply-templates select="FIRSTPOST/USER/USERNAME" mode="c_threadspage"/>
+											<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:otherwise>

@@ -641,7 +641,7 @@
           <p>
             <a name="p{@POSTID}">
               <a href="{$root}F{../@FORUMID}?thread={../@THREADID}&amp;#p{@POSTID}">Message</a>
-            </a>  posted by <xsl:value-of select="USERNAME"/>
+            </a>  posted by <xsl:apply-templates select="." mode="username" />
             <xsl:apply-templates select="USER" mode="c_onlineflagmp"/>
           </p>
           <div class="postContentOne">
