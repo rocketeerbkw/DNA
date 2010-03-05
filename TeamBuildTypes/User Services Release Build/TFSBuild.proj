@@ -366,7 +366,7 @@
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Copy ripley dlls over existing-->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- start website to copy ripley -->
@@ -405,7 +405,7 @@
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="$(DeployDir)wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(CommentsApi)" DestinationFolder="$(DeployDir)wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(ModerationApi)" DestinationFolder="$(DeployDir)wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Ripley)" DestinationFolder="$(DeployDir)wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Database)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
