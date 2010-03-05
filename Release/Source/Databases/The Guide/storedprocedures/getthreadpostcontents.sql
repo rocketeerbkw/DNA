@@ -11,16 +11,20 @@ LEFT JOIN (SELECT u.UserID, g.TeamID FROM Users u WITH(NOLOCK) INNER JOIN TeamMe
 WHERE t.ThreadID = @threadid
 order by gm.UserID DESC, tp.Priority DESC
 
-
-SELECT ThreadID, EntryID, ForumID, 
+SELECT	t.ThreadID,
+		t.EntryID,
+		t.ForumID,
 		'Subject' = CASE WHEN t.Hidden IS NOT NULL THEN 'Hidden' ELSE Subject END, 
 		'UserID' = CASE WHEN t.Hidden IS NOT NULL THEN 0 ELSE t.UserID END, 
 		'UserName' = CASE WHEN t.Hidden IS NOT NULL THEN 'Hidden' ELSE u.UserName END, 
+		'SiteSuffix' = CASE WHEN t.Hidden IS NOT NULL THEN 'Hidden' ELSE p.SiteSuffix END,
 		'text' = CASE WHEN t.Hidden IS NOT NULL THEN 'Hidden' ELSE t.text END,
 		'CanRead' = @canread,
 		'CanWrite' = @canwrite,
 		t.PostStyle,
 		t.PostIndex
-	FROM ThreadEntries t WITH(NOLOCK), Users u WITH(NOLOCK)
-WHERE u.UserID = t.UserID
-AND t.EntryID = @postid
+FROM ThreadEntries t WITH(NOLOCK)
+INNER JOIN Users u WITH(NOLOCK) ON u.UserID = t.UserID
+INNER JOIN Forums f WITH(NOLOCK) ON f.ForumID = t.ForumID
+INNER JOIN Preferences p WITH(NOLOCK) ON p.SiteID = f.SiteID AND p.UserID = u.UserID
+WHERE t.EntryID = @postid

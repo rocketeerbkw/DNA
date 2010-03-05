@@ -1713,7 +1713,10 @@ bool CForum::GetTitle(int iForumID, int iThreadID, bool bIncludeArticle, int* pi
 		else if (type == 9)
 		{
 			//acs forum - will redirect to the associated url.
-			*psUrl = sUrl;
+			if (psUrl != NULL)
+			{
+				*psUrl = sUrl;
+			}
 		}
 		else
 		{
@@ -2336,7 +2339,7 @@ void CForum::MakeSubjectSafe(CTDVString &sText)
 
 *********************************************************************************/
 
-bool CForum::GetPostContents(CUser* pViewer, int iReplyTo, int *pForumID, int *pThreadID, CTDVString *pUserName, CTDVString *pBody, CTDVString* pSubject, int* oPostStyle, int* oPostIndex, int* oUserID)
+bool CForum::GetPostContents(CUser* pViewer, int iReplyTo, int *pForumID, int *pThreadID, CTDVString *pUserName, CTDVString *pBody, CTDVString* pSubject, int* oPostStyle, int* oPostIndex, int* oUserID, CTDVString *pSiteSuffix)
 {
 	// Setup some local variables
 	int iUserID = 0;
@@ -2357,7 +2360,7 @@ bool CForum::GetPostContents(CUser* pViewer, int iReplyTo, int *pForumID, int *p
 	m_InputContext.InitialiseStoredProcedureObject(&SP);
 
 	// Now call the procedure
-	if (!SP.GetPostContents(iReplyTo, iUserID, pForumID, pThreadID, pUserName, pBody, pSubject, &bCanRead, &bCanWrite, oPostStyle, oPostIndex, oUserID))
+	if (!SP.GetPostContents(iReplyTo, iUserID, pForumID, pThreadID, pUserName, pSiteSuffix, pBody, pSubject, &bCanRead, &bCanWrite, oPostStyle, oPostIndex, oUserID))
 	{
 		TDVASSERT(false, "StoredProcedure Failed in CForum::GetPostContents");
 		return false;
@@ -2370,6 +2373,7 @@ bool CForum::GetPostContents(CUser* pViewer, int iReplyTo, int *pForumID, int *p
 		*pSubject = "Hidden";
 		*pBody = "Hidden";
 		*pUserName = "Hidden";
+		*pSiteSuffix = "Hidden";
 		*oUserID = 0;
 	}
 

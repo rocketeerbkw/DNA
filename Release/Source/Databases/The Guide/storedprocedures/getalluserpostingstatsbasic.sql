@@ -1,6 +1,7 @@
 CREATE PROCEDURE getalluserpostingstatsbasic @userid int, @maxresults int, @siteid int
 As
 
+
 -- This is the same as getalluserpostingstats3, but with placeholders for some of the data for sites that don't need it
 
 -- @maxresults is used to limit the number of results returned for popular values
@@ -9,7 +10,7 @@ As
 --
 -- NOTE: If you change this SP, change related SP getalluserpostingstats3.sql
 
-		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED 
+		SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
 		-- Check if site includes content from other sites
 		DECLARE @IncludeContentFromOtherSites INT
@@ -17,6 +18,7 @@ As
 
 		SELECT	tpth.ThreadID, tpth.FirstSubject, tpth.ForumID, 
 				u.UserName,
+				u.UserID,
 				null as Area,
 				null as FirstNames,
 				null as LastName,
@@ -25,7 +27,7 @@ As
 				null as UserJournal,
 				null as Active,
 				null as Title,
-				null as SiteSuffix,
+				p.SiteSuffix,
 				'MostRecent' = tpth.LastUserPosting,
 				'LastReply' = tpth.LastPosting, 
 				tpth.Replies, 
@@ -73,5 +75,6 @@ As
 		INNER JOIN Users u WITH(NOLOCK) ON u.UserID = @userid
 		INNER JOIN ThreadEntries te WITH(NOLOCK) ON te.ThreadID = tpth.ThreadID AND te.PostIndex = 0
 		INNER JOIN Forums fo WITH(NOLOCK) ON fo.ForumID = tpth.ForumID
+		INNER JOIN dbo.Preferences p WITH(NOLOCK) ON p.UserID = u.UserID AND p.SiteID = fo.SiteID
 		LEFT JOIN SiteOptions so ON so.SiteID= fo.SiteID AND so.Section = 'General' AND so.Name = 'SiteIsPrivate' AND so.value='0' AND @IncludeContentFromOtherSites = 1 -- i.e. All public sites if current site includes content from other sites. 
 		ORDER BY LastReply DESC

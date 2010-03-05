@@ -167,6 +167,7 @@ bool CAddThreadBuilder::Build(CWholePage* pPage)
 	CTDVString sBody;
 	CTDVString sSubject;
 	CTDVString sReplyToUsername;
+	CTDVString sReplyToSiteSuffix;
 	CTDVString sReplyToBody;
 	CTDVString sReplyToSubject;
 	m_InputContext.GetParamString("subject", sSubject);
@@ -224,7 +225,7 @@ bool CAddThreadBuilder::Build(CWholePage* pPage)
 	{
 		int iOldPostStyle = 2;
 		int iReplyToUserID = 0;
-		Forum.GetPostContents(pViewingUser, iReplyTo, &iForumID, &iThreadID, &sReplyToUsername, &sReplyToBody, &sReplyToSubject, &iOldPostStyle, &iPostIndex, &iReplyToUserID);
+		Forum.GetPostContents(pViewingUser, iReplyTo, &iForumID, &iThreadID, &sReplyToUsername, &sReplyToBody, &sReplyToSubject, &iOldPostStyle, &iPostIndex, &iReplyToUserID, &sReplyToSiteSuffix);
 
 		// If required add the previous quote
 		if (bQuotePreviousMessage)
@@ -256,6 +257,7 @@ bool CAddThreadBuilder::Build(CWholePage* pPage)
 		XML.Initialise(&sInReplyToXML);
 		XML.OpenTag("INREPLYTO");
 		XML.AddTag("USERNAME",sReplyToUsername);
+		XML.AddTag("SITESUFFIX",sReplyToSiteSuffix);
 		XML.AddIntTag("USERID",iReplyToUserID);
 
 		// Make a copy of the body before it gets made safe, as we want to supply the raw text back to the XML
