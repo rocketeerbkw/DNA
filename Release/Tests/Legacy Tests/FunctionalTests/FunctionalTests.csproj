@@ -286,6 +286,7 @@
     <Compile Include="ModeratorManagementPageTests.cs" />
     <Compile Include="NUnitAdapter.cs" />
     <Compile Include="RadioButtonListTester.cs" />
+    <Compile Include="SiteOptionsTests.cs" />
     <Compile Include="UserSynchronisationTests.cs" />
   </ItemGroup>
   <ItemGroup>

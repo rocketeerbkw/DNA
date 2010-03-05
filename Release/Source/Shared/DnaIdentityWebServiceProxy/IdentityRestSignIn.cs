@@ -7,6 +7,7 @@ using System.Net.Security;
 using System.Diagnostics;
 using System.Xml;
 using System.Reflection;
+using System.IO;
 
 namespace DnaIdentityWebServiceProxy
 {
@@ -42,8 +43,19 @@ namespace DnaIdentityWebServiceProxy
         private string _clientIPAddress = "";
         private string _proxy = "";
         private string _certificateName = "";
-        string _identityBaseURL = "";
-        CookieContainer _cookieContainer = new CookieContainer();
+        private bool _traceOutput = false;
+        private string _identityBaseURL = "";
+        private CookieContainer _cookieContainer = new CookieContainer();
+        private StringBuilder _callInfo = new StringBuilder();
+
+        private void AddTimingInfoLine(string info)
+        {
+            if (_traceOutput)
+            {
+                _callInfo.AppendLine(info);
+            }
+            Trace.WriteLineIf(_traceOutput,info);
+        }
 
         /// <summary>
         /// Initialises the connection details for the web service
@@ -55,7 +67,6 @@ namespace DnaIdentityWebServiceProxy
         {
             // Set the connection string for the web service
             string[] details = connectionDetails.Split(';');
-            StringBuilder report = new StringBuilder();
             try
             {
                 _identityBaseURL = details[0];
@@ -74,28 +85,14 @@ namespace DnaIdentityWebServiceProxy
                 }
                 if (details.Length > 3)
                 {
-#if EVENTLOGGING
-                    _eventLogging = details[3].Length > 0;
-                    if (!EventLog.SourceExists("DnaIdentityWebService"))
-                    {
-                        EventLog.CreateEventSource("DnaIdentityWebService", "DnaIdentityWebServiceLogging");
-                        _eventLogging = false;
-                    }
-                    else
-                    {
-                        _eventLog.Source = "DnaIdentityWebService";
-                    }
-#endif
+                    _traceOutput = true;
                 }
 
-                report.AppendLine("IdentityRestSignIn - Initialising...");
-                report.AppendLine("Base URL         - " + _identityBaseURL);
-                report.AppendLine("Certificate Name - " + _certificateName);
-                report.AppendLine("Proxy server     - " + _proxy);
-#if EVENTLOGGING
-                report.AppendLine("Event Logging    - " + _eventLogging.ToString());
-#endif
-                report.AppendLine("");
+                AddTimingInfoLine( "<* IDENTITY START *>");
+                AddTimingInfoLine( "IdentityRestSignIn - Initialising...");
+                AddTimingInfoLine( "Base URL           - " + _identityBaseURL);
+                AddTimingInfoLine( "Certificate Name   - " + _certificateName);
+                AddTimingInfoLine( "Proxy server       - " + _proxy);
 
                 _clientIPAddress = clientIPAddress;
 
@@ -107,12 +104,10 @@ namespace DnaIdentityWebServiceProxy
             }
             catch (Exception e)
             {
-                report.AppendLine("ERROR!!! - " + e.Message);
+                AddTimingInfoLine( "ERROR!!! - " + e.Message);
             }
 
-            report.AppendLine("");
-            Trace.WriteLine(report);
-
+            AddTimingInfoLine( "<* IDENTITY END *>");
             return _initialised;
         }
 
@@ -126,7 +121,7 @@ namespace DnaIdentityWebServiceProxy
             HttpWebResponse response = null;
             try
             {
-                _lastTimingInfo += "(*) Calling Rest with : " + identityRestCall + ", cert=" + _certificateName + " (*) ";
+                AddTimingInfoLine("(*) Calling Rest with : " + identityRestCall + ", cert=" + _certificateName + " (*) ");
                 Uri URL = new Uri(identityRestCall);
                 HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
 
@@ -144,16 +139,24 @@ namespace DnaIdentityWebServiceProxy
                 webRequest.ClientCertificates.Add(certificate);
                 response = (HttpWebResponse)webRequest.GetResponse();
             }
-            catch (Exception ex)
+            catch (WebException ex)
             {
                 string error = ex.Message;
+
+                if (ex.Response != null)
+                {
+                    StreamReader reader = new StreamReader(ex.Response.GetResponseStream(), Encoding.UTF8);
+                    error += reader.ReadToEnd();
+                }
+
                 if (ex.InnerException != null)
                 {
                     error += " : " + ex.InnerException.Message;
                 }
 
-                _lastTimingInfo += "<ERROR>" + error + "</ERROR>";
+                AddTimingInfoLine("<ERROR>" + error + "</ERROR>");
             }
+
             return response;
         }
 
@@ -337,25 +340,28 @@ namespace DnaIdentityWebServiceProxy
         public bool TrySetUserViaCookieAndUserName(string cookie, string userName)
         {
             _userLoggedIn = false;
+            AddTimingInfoLine( "<* IDENTITY START *>");
             try
             {
                 // Make sure the cookie does not contain a ' ', so replace them with '+'
                 cookie = cookie.Replace(' ', '+');
 
                 // Check to see if the user is logged in
-                _lastTimingInfo = "Calling athorization ";
+                AddTimingInfoLine("Calling athorization ");
+
                 _cookieContainer.Add(new Cookie("IDENTITY", cookie, "/", ".bbc.co.uk"));
                 HttpWebResponse response = CallRestAPI(string.Format("{0}/idservices/authorization?target_resource={1}", _identityBaseURL, _PolicyUri));
                 if (response == null || response.StatusCode != HttpStatusCode.OK)
                 {
                     if (response == null)
                     {
-                        _lastTimingInfo += "Failed to authorize user because of no response.";
+                        AddTimingInfoLine("Failed to authorize user because of no response.");
                     }
                     else
                     {
-                        _lastTimingInfo += "Failed to authorize user because status code = " + response.StatusCode.ToString();
+                        AddTimingInfoLine("Failed to authorize user because status code = " + response.StatusCode.ToString());
                     }
+                    AddTimingInfoLine( "<* IDENTITY END *>");
                     return false;
                 }
 
@@ -369,53 +375,53 @@ namespace DnaIdentityWebServiceProxy
                 if (xDoc.SelectSingleNode("//boolean") == null || xDoc.SelectSingleNode("//boolean").InnerText != "true")
                 {
                     // Not valid or false
-                    _lastTimingInfo += "authorize result false or null : " + response;
+                    AddTimingInfoLine("authorize result false or null : " + response);
+                    AddTimingInfoLine( "<* IDENTITY END *>");
                     return false;
                 }
 
-                _lastTimingInfo += " - Getting cookies 1 (";
+                AddTimingInfoLine("Getting cookies...");
                 // NOw add all the cookies from the last response to the nextr request
                 foreach (Cookie c in response.Cookies)
                 {
-                    if (c.Name.Contains("X-Mapping"))
-                    {
-                        c.Domain = ".bbc.co.uk";
-                    }
+                    //if (c.Name.Contains("X-Mapping"))
+                    //{
+                    //    c.Domain = ".bbc.co.uk";
+                    //}
                     _cookieContainer.Add(c);
-                    _lastTimingInfo += c.Name + ":" + c.Domain + ":" + c.Value + ",";
+                    AddTimingInfoLine(c.Name + ":" + c.Domain + ":" + c.Value + ",");
                 }
-                _lastTimingInfo += ")";
 
-                string identityUserName = userName.Substring(0, userName.IndexOf("|"));
+                string identityUserName = cookie.Split('|').GetValue(1).ToString();
 
-                _lastTimingInfo += " - Getting attributes (";
+                AddTimingInfoLine("Calling Get Attrbutes...");
                 response = CallRestAPI(string.Format("{0}/idservices/users/{1}/attributes", _identityBaseURL, identityUserName));
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    _lastTimingInfo += "Get attributes failed : " + response;
+                    AddTimingInfoLine("Get attributes failed : " + response);
+                    AddTimingInfoLine( "<* IDENTITY END *>");
                     return false;
                 }
                 
-                _lastTimingInfo += " - Getting cookies 2 (";
-                // NOw add all the cookies from the last response to the nextr request
-                foreach (Cookie c in response.Cookies)
-                {
-                    if (c.Name.Contains("X-Mapping"))
-                    {
-                        c.Domain = ".bbc.co.uk";
-                    }
-                    _lastTimingInfo += c.Name + ":" + c.Domain + ":" + c.Value + ",";
-                }
-                _lastTimingInfo += ")";
+                //AddTimingInfoLine("Getting cookies 2...");
+                //// NOw add all the cookies from the last response to the nextr request
+                //foreach (Cookie c in response.Cookies)
+                //{
+                //    if (c.Name.Contains("X-Mapping"))
+                //    {
+                //        c.Domain = ".bbc.co.uk";
+                //    }
+                //    AddTimingInfoLine(c.Name + ":" + c.Domain + ":" + c.Value + ",");
+                //}
 
                 xDoc.Load(response.GetResponseStream());
                 response.Close();
                 if (xDoc.HasChildNodes)
                 {
                     _loginName = xDoc.SelectSingleNode("//attributes/username").InnerText;
-                    _lastTimingInfo += _loginName + ",";
+                    AddTimingInfoLine("Login Name      : " + _loginName);
                     _emailAddress = xDoc.SelectSingleNode("//attributes/email").InnerText;
-                    _lastTimingInfo += _emailAddress + ",";
+                    AddTimingInfoLine("Email           : " + _emailAddress);
                     if (xDoc.SelectSingleNode("//attributes/firstname") != null)
                     {
                         _firstName = xDoc.SelectSingleNode("//attributes/firstname").InnerText;
@@ -433,13 +439,13 @@ namespace DnaIdentityWebServiceProxy
                         legacyID = "0";
                     }
                     _legacySSOID = Convert.ToInt32(legacyID);
-                    _lastTimingInfo += legacyID + ",";
+                    AddTimingInfoLine("Legacy SSO ID   : " + legacyID);
 
                     _displayName = xDoc.SelectSingleNode("//attributes/displayname").InnerText;
-                    _lastTimingInfo += _displayName + ",";
+                    AddTimingInfoLine("Display Name    : " + _displayName);
 
                     DateTime.TryParse(xDoc.SelectSingleNode("//attributes/update_date").InnerText, out _lastUpdatedDate);
-                    _lastTimingInfo += _lastUpdatedDate.ToString() + ",";
+                    AddTimingInfoLine("Last Updated    : " + _lastUpdatedDate.ToString());
 
                     // The user is now setup correctly
                     _userLoggedIn = _userID > 0;
@@ -452,8 +458,9 @@ namespace DnaIdentityWebServiceProxy
                 {
                     error += " : " + ex.InnerException.Message;
                 }
-                _lastTimingInfo += "Error!!! : " + error;
+                AddTimingInfoLine("Error!!! : " + error);
             }
+            AddTimingInfoLine( "<* IDENTITY END *>");
             return _userLoggedIn;
         }
 
@@ -502,13 +509,15 @@ namespace DnaIdentityWebServiceProxy
         public string[] GetDnaPolicies()
         {
             List<string> policies = new List<string>();
+            AddTimingInfoLine( "<* IDENTITY START *>");
 
             try
             {
                 HttpWebResponse response = CallRestAPI(string.Format("{0}/idservices/policy", _identityBaseURL));
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    _lastTimingInfo = "Failed to get policies!";
+                    AddTimingInfoLine("Failed to get policies!");
+                    AddTimingInfoLine( "<* IDENTITY END *>");
                     return policies.ToArray();
                 }
 
@@ -520,16 +529,18 @@ namespace DnaIdentityWebServiceProxy
                 if (xDoc.SelectSingleNode("//policies") == null)
                 {
                     // Not valid or false
-                    _lastTimingInfo = "No policies found";
+                    AddTimingInfoLine("No policies found");
+                    AddTimingInfoLine( "<* IDENTITY END *>");
                     return policies.ToArray();
                 }
 
                 // Get the DNA policies from the results
                 foreach (XmlNode policy in xDoc.SelectNodes("//policies/policy/uri"))
                 {
-                    if (policy.InnerText.Contains("/dna/") && !policies.Contains(policy.InnerText))
+                    if (policy.InnerText.Contains("/identity/policies/dna/") && !policies.Contains(policy.InnerText))
                     {
                         policies.Add(policy.InnerText);
+                        AddTimingInfoLine( "policy.InnerText");
                     }
                 }
             }
@@ -540,10 +551,10 @@ namespace DnaIdentityWebServiceProxy
                 {
                     error += " : " + ex.InnerException.Message;
                 }
-                _lastTimingInfo = "Error!!! : " + error;
+                AddTimingInfoLine("Error!!! : " + error);
             }
 
-            //AddTimingInfo("Finished GetDnaPolicies", false);
+            AddTimingInfoLine( "<* IDENTITY END *>");
             return policies.ToArray();
         }
         
@@ -601,15 +612,13 @@ namespace DnaIdentityWebServiceProxy
             return _lastError;
         }
 
-        private string _lastTimingInfo = "IdentityRest";
-
         /// <summary>
         /// Returns the last piece of timing information
         /// </summary>
         /// <returns>The information for the last timed logging</returns>
         public string GetLastTimingInfo()
         {
-            return _lastTimingInfo;
+            return _callInfo.ToString();
         }
 
         /// <summary>
@@ -620,6 +629,97 @@ namespace DnaIdentityWebServiceProxy
         {
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
             return String.Format("{0} (RestAPI)",v.ToString());
+        }
+
+        Dictionary<string, string> _nameSpacedAttributes = null;
+
+        /// <summary>
+        /// Gets the value of the given attribute from the given app name space in identity
+        /// </summary>
+        /// <param name="cookie">The users IDENTITY cookie</param>
+        /// <param name="appNameSpace">The App Name Space the attribute lives in</param>
+        /// <param name="attributeName">The attribute you want to get the value of</param>
+        /// <returns>The value of the attribute. This will be empty if the attrbute does not exist</returns>
+        public string GetAppNameSpacedAttribute(string cookie, string appNameSpace, string attributeName)
+        {
+            AddTimingInfoLine("Calling Get App Spacename Attrbute " + attributeName + " for namespace " + appNameSpace);
+
+            // Check to see if we've cached the attrbute
+            string key = cookie.Replace(' ', '+') + appNameSpace + attributeName;
+            if (_nameSpacedAttributes != null && _nameSpacedAttributes.ContainsKey(key))
+            {
+                return _nameSpacedAttributes[key];
+            }
+
+            // Check to see if it exists
+            if (DoesAppNameSpacedAttributeExist(cookie, appNameSpace, attributeName))
+            {
+                // Check to see if we've cached the attrbute
+                if (_nameSpacedAttributes.ContainsKey(key))
+                {
+                    return _nameSpacedAttributes[key];
+                }
+            }
+
+            // Didn't find the attribute value
+            return "";
+        }
+
+        /// <summary>
+        /// Checks to see if the requested attribute exists
+        /// </summary>
+        /// <param name="cookie">The users IDENTITY cookie</param>
+        /// <param name="appNameSpace">The App Name space in which to check for the attribute</param>
+        /// <param name="attributeName">The name of the attribute you want to check for</param>
+        /// <returns>True if it exists, false if not</returns>
+        public bool DoesAppNameSpacedAttributeExist(string cookie, string appNameSpace, string attributeName)
+        {
+            string identityUserName = cookie.Split('|').GetValue(1).ToString();
+            AddTimingInfoLine("<* IDENTITY START *>");
+
+            AddTimingInfoLine("Calling Does App Spacename Attrbute Exist " + attributeName + " for namespace " + appNameSpace);
+            _cookieContainer.Add(new Cookie("IDENTITY", cookie.Replace(' ','+'), "/", ".bbc.co.uk")); 
+            HttpWebResponse response = CallRestAPI(string.Format("{0}/idservices/users/{1}/applications/{2}/attributes", _identityBaseURL, identityUserName, appNameSpace));
+            if (response == null || response.StatusCode != HttpStatusCode.OK)
+            {
+                AddTimingInfoLine("Get named spaced attribute failed!");
+                AddTimingInfoLine("<* IDENTITY END *>");
+                return false;
+            }
+
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(response.GetResponseStream());
+            response.Close();
+
+            bool exists = xDoc.SelectSingleNode("//" + appNameSpace + "/" + attributeName) != null;
+            if (!exists)
+            {
+                AddTimingInfoLine(string.Format("Failed to find {0} int the {1} namespace", attributeName, appNameSpace));
+                AddTimingInfoLine("<* IDENTITY END *>");
+                return false;
+            }
+
+            string attributeValue = xDoc.SelectSingleNode("//" + appNameSpace + "/" + attributeName).InnerText;
+
+            // Add the attribute value to the cache so we don't do extra calls
+            if (_nameSpacedAttributes == null)
+            {
+                _nameSpacedAttributes = new Dictionary<string, string>();
+            }
+
+            // Check to see if we need to add it, or update the current one
+            string key = cookie.Replace(' ', '+') + appNameSpace + attributeName;
+            if (_nameSpacedAttributes.ContainsKey(key))
+            {
+                _nameSpacedAttributes[key] = attributeValue;
+            }
+            else
+            {
+                _nameSpacedAttributes.Add(key, attributeValue);
+            }
+
+            AddTimingInfoLine("<* IDENTITY END *>");
+            return true;
         }
     }
 }
