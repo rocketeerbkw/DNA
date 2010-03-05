@@ -81,14 +81,16 @@ void CSiteOption::AppendXML(CTDVString& sXML)
 {
 	CDBXMLBuilder cXMLBuilder(&sXML);
 
-	cXMLBuilder.OpenTag("SITEOPTION");
+	cXMLBuilder.OpenTag("SITEOPTION",true);
 
 	if (m_iSiteID > 0)
 	{
+		cXMLBuilder.AddAttribute("GLOBAL","0",true);
 		cXMLBuilder.AddIntTag("SITEID",m_iSiteID);
 	}
 	else
 	{
+		cXMLBuilder.AddAttribute("GLOBAL","1",true);
 		cXMLBuilder.AddTag("DEFINITION","1");
 	}
 
