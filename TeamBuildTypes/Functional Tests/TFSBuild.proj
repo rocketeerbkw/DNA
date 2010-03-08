@@ -191,32 +191,12 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
-    <!--  TEST ARGUMENTS
-     If the RunTest property is set to true then the following test arguments will be used to run 
-     tests. Tests can be run by specifying one or more test lists and/or one or more test containers.
-     
-     To run tests using test lists, add MetaDataFile items and associated TestLists here.  Paths can 
-     be server paths or local paths, but server paths relative to the location of this file are highly 
-     recommended:
-     
-        <MetaDataFile Include="$(BuildProjectFolderPath)/HelloWorld/HelloWorld.vsmdi">
-            <TestList>BVT1;BVT2</TestList>
-        </MetaDataFile>
+      <TestContainer Include="$(OutDir)\%2a%2a\%2aTests.dll" />
+    </ItemGroup>
+      <PropertyGroup>
+        <RunConfigFile>$(SolutionRoot)\bbc.dna.tests.testrunconfig</RunConfigFile>
+      </PropertyGroup>
 
-     To run tests using test containers, add TestContainer items here:
-     
-        <TestContainer Include="$(OutDir)\HelloWorldTests.dll" />
-        <TestContainer Include="$(SolutionRoot)\TestProject\WebTest1.webtest" />
-        <TestContainer Include="$(SolutionRoot)\TestProject\LoadTest1.loadtest" />
-
-     Use %2a instead of * and %3f instead of ? to prevent expansion before test assemblies are built
-    -->
-    <MetaDataFile Include="$(BuildProjectFolderPath)/../../Main/UserServices.vsmdi">
-      <TestList>Functional Tests;Legacy Test;Ripley Tests</TestList>
-      <!-- TestList>Functional Tests</TestList -->
-    </MetaDataFile>
-
-  </ItemGroup>
 
   <PropertyGroup>
     <!-- TEST ARGUMENTS
