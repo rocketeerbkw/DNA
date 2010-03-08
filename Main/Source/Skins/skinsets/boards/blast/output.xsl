@@ -104,7 +104,14 @@
       </script>
       
       <link type="text/css" media="screen" rel="stylesheet">
-      	<xsl:attribute name="href"><xsl:value-of select="$serverpath"/><xsl:value-of select="/H2G2/SITECONFIG/CSSLOCATION"/></xsl:attribute>
+	<xsl:choose>
+		<xsl:when test="contains(/H2G2/SERVERNAME, 'OPS') or contains(/H2G2/SERVERNAME, 'VP-DEV-DNA-WEB')">
+			<xsl:attribute name="href"><xsl:value-of select="/H2G2/SITECONFIG/PATHDEV"/><xsl:value-of select="/H2G2/SITECONFIG/CSSLOCATION"/></xsl:attribute>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:attribute name="href"><xsl:value-of select="/H2G2/SITECONFIG/PATHLIVE"/><xsl:value-of select="/H2G2/SITECONFIG/CSSLOCATION"/></xsl:attribute>
+		</xsl:otherwise>
+	</xsl:choose>
       </link>
     </head>
   
