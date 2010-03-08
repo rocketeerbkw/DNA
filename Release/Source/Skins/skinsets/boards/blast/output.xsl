@@ -21,7 +21,7 @@
 	
 	<xsl:variable name="serverPath">
 		<xsl:choose>
-			<xsl:when test="contains(/H2G2/SERVERNAME, 'OPS')">
+			<xsl:when test="contains(/H2G2/SERVERNAME, 'OPS') or contains(/H2G2/SERVERNAME, 'VP-DEV-DNA-WEB')">
 				<xsl:value-of select="/H2G2/SITECONFIG/PATHDEV"/>
 			</xsl:when>
 			<xsl:otherwise>
