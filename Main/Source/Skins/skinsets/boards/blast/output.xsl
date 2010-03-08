@@ -103,7 +103,9 @@
         }
       </script>
       
-      <link type="text/css" media="screen" rel="stylesheet" href="http://www.bbc.co.uk/blast/css/blast_messageboard.css"/>
+      <link type="text/css" media="screen" rel="stylesheet">
+      	<xsl:attribute name="href"><xsl:value-of select="$serverpath"/><xsl:value-of select="/H2G2/SITECONFIG/CSSLOCATION"/></xsl:attribute>
+      </link>
     </head>
   
 <xsl:text disable-output-escaping="yes">
