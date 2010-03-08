@@ -177,9 +177,15 @@
 			<xsl:when test="/H2G2/SERVERNAME = 'PC-S052330'">
 				<xsl:text>http%3A%2F%2Fops-dev14.national.core.bbc.co.uk%3A6666</xsl:text>
 			</xsl:when>
+			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB1'">
+				<xsl:text>http%3A%2F%2Fdnaweb1.national.core.bbc.co.uk</xsl:text>
+			</xsl:when>			
 			<xsl:when test="/H2G2/SERVERNAME = 'OPS-DNA1'">
 				<xsl:text>http%3A%2F%2Fdnarelease.national.core.bbc.co.uk</xsl:text>
 			</xsl:when>
+			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB2'">
+				<xsl:text>http%3A%2F%2Fdnaweb2.national.core.bbc.co.uk</xsl:text>
+			</xsl:when>			
 			<xsl:when test="/H2G2/SERVERNAME = 'NMSDNA0'">
 				<xsl:text>http%3A%2F%2Fdna-staging.bbc.co.uk</xsl:text>
 			</xsl:when>	
