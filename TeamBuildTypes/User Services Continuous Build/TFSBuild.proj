@@ -195,10 +195,10 @@
 	</ItemGroup>
 
     <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
-      <TestContainer Include="$(OutDir)\%2a%2a\%2a.Tests.dll" />
+      <TestContainer Include="$(BinariesRoot)\%2a%2a\%2a.Tests.dll" />
     </ItemGroup>
       <PropertyGroup>
-        <RunConfigFile>$(SolutionRoot)\Main\bbc.dna.tests.testrunconfig</RunConfigFile>
+        <RunConfigFile>$(SolutionRoot)\bbc.dna.tests.testrunconfig</RunConfigFile>
       </PropertyGroup>
 
 
