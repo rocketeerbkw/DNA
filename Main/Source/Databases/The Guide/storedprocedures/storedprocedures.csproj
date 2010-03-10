@@ -1262,7 +1262,6 @@
     <None Include="getcommentforumlistbydnauids.sql" />
     <None Include="getcommentforumlistbyuidprefix.sql" />
     <None Include="getcommentforumcachedependencycheck.sql" />
-    <None Include="getrecentcomments.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cachegetarticleinfo2.sql" />
@@ -1275,6 +1274,7 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="getrecentcomments.sql" />
     <None Include="GetTermsByModClassId.sql" />
     <None Include="forumgetthreadlist_datecreated_includingstickythreads.sql" />
     <None Include="forumgetthreadlist_lastposted_includingstickythreads.sql" />

@@ -26,12 +26,46 @@ CREATE PROCEDURE commentforumsreadbysitename @siteurlname varchar(30) = null, @s
 		from dbo.commentforums cf
 		where cf.siteid = @siteid
 		and @sortBy = 'created' and @sortDirection = 'ascending'
+		
+		union all
+		
+		select * from (select row_number() over ( order by f.lastposted desc) as n, f.ForumID
+		from dbo.commentforums cf
+		inner join dbo.forums f on f.forumid = cf.forumid
+		where f.siteid = @siteid) x
+		where x.n > @startindex and x.n <= @startindex + @itemsperpage
+		and @sortBy = 'lastposted' and @sortDirection = 'descending'
+		
+		union all
+		
+		select * from (select row_number() over ( order by f.lastposted asc) as n, f.ForumID
+		from dbo.commentforums cf
+		inner join dbo.forums f on f.forumid = cf.forumid
+		where f.siteid = @siteid) x
+		where x.n > @startindex and x.n <= @startindex + @itemsperpage
+		and @sortBy = 'lastposted' and @sortDirection = 'ascending'
 	)
-	select cte.n, cte.forumID, uid as uid, sitename,title, forumpostcount, moderationstatus, datecreated,  lastupdated, url, isnull(forumclosedate, getdate()) as forumclosedate, siteid,
-	@totalresults as totalresults, @startindex as startindex, @itemsperpage as itemsperpage, vcf.canRead, vcf.canWrite, vcf.lastposted
+	select cte.n, 
+	cte.forumID, 
+	uid as uid, 
+	sitename,
+	title, 
+	forumpostcount, 
+	moderationstatus, 
+	datecreated,  
+	lastupdated, 
+	url, 
+	isnull(forumclosedate, getdate()) as forumclosedate, 
+	siteid,
+	@totalresults as totalresults, 
+	@startindex as startindex, 
+	@itemsperpage as itemsperpage, 
+	vcf.canRead, 
+	vcf.canWrite, 
+	vcf.lastposted
 	from cte_commentforum cte 
 	inner join VCommentForums vcf on vcf.forumid = cte.forumID
 	where n > @startindex and n <= @startindex + @itemsperpage
-	order by n
+	ORDER BY n
 	OPTION (OPTIMIZE FOR (@sortBy = 'created' ,@sortDirection = 'descending'))
 
