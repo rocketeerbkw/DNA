@@ -7,7 +7,7 @@
         /// </summary>
         Created,
         LastPosted,
-        //PostCount
+        PostCount
     }
 
     public enum SortDirection
