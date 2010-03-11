@@ -14,7 +14,7 @@
     </doc:documentation>
     
     <xsl:template match="THREAD" mode="moderation_cta_removethreadsticky">
-        <xsl:param name="label" select="'Unstick thread to front page'" />
+        <xsl:param name="label" select="'Unstick thread from front page'" />
         
         <a href="{$root}/NF{@FORUMID}?cmd=REMOVESTICKYTHREAD&amp;stickythreadid={@THREADID}">
             <xsl:value-of select="$label"/>
