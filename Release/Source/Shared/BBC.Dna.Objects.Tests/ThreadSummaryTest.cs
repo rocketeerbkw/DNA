@@ -86,7 +86,7 @@ namespace BBC.Dna.Objects.Tests
         ///A test for ApplyUserSettings
         ///</summary>
         [TestMethod]
-        public void ApplyUserSettings_IsEditor_ReturnsCanWrite()
+        public void ApplyUserSettings_IsEditor_ReturnsDefaultValue()
         {
             var user = Mocks.DynamicMock<IUser>();
             user.Stub(x => x.IsEditor).Return(true);
@@ -99,14 +99,14 @@ namespace BBC.Dna.Objects.Tests
 
             var target = new ThreadSummary();
             target.ApplyUserSettings(user, site);
-            Assert.AreEqual(1, target.CanWrite);
+            Assert.AreEqual(0, target.CanWrite);
         }
 
         /// <summary>
         ///A test for ApplyUserSettings
         ///</summary>
         [TestMethod]
-        public void ApplyUserSettings_IsSuperUser_ReturnsCanWrite()
+        public void ApplyUserSettings_IsSuperUser_ReturnsDefaultValue()
         {
             var user = Mocks.DynamicMock<IUser>();
             user.Stub(x => x.IsEditor).Return(false);
@@ -119,7 +119,7 @@ namespace BBC.Dna.Objects.Tests
 
             var target = new ThreadSummary();
             target.ApplyUserSettings(user, site);
-            Assert.AreEqual(1, target.CanWrite);
+            Assert.AreEqual(0, target.CanWrite);
         }
 
         /// <summary>

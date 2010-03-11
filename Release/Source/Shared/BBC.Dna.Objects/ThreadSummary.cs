@@ -89,16 +89,11 @@ namespace BBC.Dna.Objects
         /// <param name="site">The current site</param>
         public void ApplyUserSettings(IUser user, ISite site)
         {
-            var isEditor = false;
             if (user.IsEditor || user.IsSuperUser)
             {
-//default as editor or super user
-                CanRead = 1;
-                CanWrite = 1;
-                isEditor = true;
+                return;
             }
             //check site is open
-            if (isEditor || CanWrite != 1) return;
             if (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now))
             {
                 CanWrite = 0;
