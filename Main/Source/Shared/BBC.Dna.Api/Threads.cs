@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Data.Objects;
-using BBC.Dna.Utils;
+using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
-using BBC.Dna.Data;
 using BBC.Dna.Users;
+using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
-
 
 namespace BBC.Dna.Api
 {
@@ -21,26 +16,23 @@ namespace BBC.Dna.Api
         /// Constructor with dna diagnostic object
         /// </summary>
         /// <param name="dnaDiagnostics"></param>
-        public Threads(IDnaDiagnostics dnaDiagnostics, string connection)
-            : base(dnaDiagnostics, connection)
-        {}
+        /// <param name="dataReaderCreator"></param>
+        /// <param name="cacheManager"></param>
+        public Threads(IDnaDiagnostics dnaDiagnostics, IDnaDataReaderCreator dataReaderCreator, ICacheManager cacheManager, ISiteList siteList)
+            : base(dnaDiagnostics, dataReaderCreator, cacheManager,siteList)
+        {
+        }
 
-        /// <summary>
-        /// Constructor without dna diagnostic object
-        /// </summary>
-        public Threads()
-        { }
 
         /// <summary>
         /// Reads the threads by the UID
         /// </summary>
-        /// <param name="uId">The specific forum id</param>
         /// <returns>The list of threads</returns>
-        public ThreadList ThreadsReadByUID(string uid, ISite site)
+        public ThreadList ThreadsReadByUid(string uid, ISite site)
         {
             ThreadList threads = null;
 
-            if (ThreadsReadByUIDFromCache(uid, site, ref threads))
+            if (ThreadsReadByUidFromCache(uid, site, ref threads))
             {
                 Statistics.AddHTMLCacheHit();
                 return threads;
@@ -48,7 +40,7 @@ namespace BBC.Dna.Api
 
             Statistics.AddHTMLCacheMiss();
 
-            using (StoredProcedureReader reader = CreateReader("ratingthreadsreadbyuid"))
+            using (IDnaDataReader reader = CreateReader("ratingthreadsreadbyuid"))
             {
                 try
                 {
@@ -75,50 +67,47 @@ namespace BBC.Dna.Api
         /// <summary>
         /// Reads a specific thread by the ID
         /// </summary>
-        /// <param name="id">The specific thread id</param>
         /// <returns>The list of comments for a thread</returns>
-        public ThreadInfo ThreadReadByID(int threadID, ISite site)
+        public ThreadInfo ThreadReadById(int threadId, ISite site)
         {
             ThreadInfo thread = null;
 
-            if (ThreadReadByIDFromCache(threadID, site, ref thread))
+            if (ThreadReadByIDFromCache(threadId, site, ref thread))
             {
                 return thread;
             }
 
-            thread.id = threadID;
+            thread.id = threadId;
             thread.count = 0;
 
             return thread;
         }
 
-        private bool ThreadReadByIDFromCache(int threadID, ISite site, ref ThreadInfo thread)
+        private bool ThreadReadByIDFromCache(int threadId, ISite site, ref ThreadInfo thread)
         {
             return false;
-           // throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         /// <summary>
         /// Reads a specific thread by the ID
         /// </summary>
-        /// <param name="id">The specific thread id</param>
         /// <returns>The list of comments for a thread</returns>
-        public CommentsList ThreadCommentsReadByID(int threadID, ISite site)
+        public CommentsList ThreadCommentsReadById(int threadId, ISite site)
         {
             CommentsList comments = null;
 
-            if (ThreadCommentsReadByIDFromCache(threadID, site, ref comments))
+            if (ThreadCommentsReadByIdFromCache(threadId, site, ref comments))
             {
                 return comments;
             }
 
-            Comments commentsObj = new Comments();
+            var commentsObj = new Comments(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             commentsObj.CallingUser = CallingUser;
-            commentsObj.BBCUid = BBCUid;
-            commentsObj.IPAddress = IPAddress;
-            commentsObj.siteList = siteList;
+            commentsObj.BbcUid = BbcUid;
+            commentsObj.IpAddress = IpAddress;
 
-            comments = commentsObj.CommentsReadByThreadID(threadID, site);
+            comments = commentsObj.GetCommentsListByThreadId(threadId, site);
 
             return comments;
         }
@@ -126,32 +115,31 @@ namespace BBC.Dna.Api
         /// <summary>
         /// Creates a threaded comment for the given rating forum id
         /// </summary>
-        /// <param name="ratingForum">The forum to post to</param>
+        /// <param name="forum"></param>
         /// <param name="rating">The comment to add</param>
         /// <returns>The created thread object</returns>
         public ThreadInfo ThreadCreate(Forum forum, RatingInfo rating)
         {
-            ISite site = siteList.GetSite(forum.SiteName);
-            ThreadInfo threadInfo = new ThreadInfo();
+            ISite site = SiteList.GetSite(forum.SiteName);
+            var threadInfo = new ThreadInfo();
             threadInfo.rating = rating;
 
-            Comments commentsObj = new Comments();
+            var commentsObj = new Comments(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             commentsObj.CallingUser = CallingUser;
-            commentsObj.BBCUid = BBCUid;
-            commentsObj.IPAddress = IPAddress;
-            commentsObj.siteList = siteList;
+            commentsObj.BbcUid = BbcUid;
+            commentsObj.IpAddress = IpAddress;
 
             bool ignoreModeration;
             bool forceModeration;
 
-            commentsObj.ValidateCommentCreate(forum, (CommentInfo) rating, site, out ignoreModeration, out forceModeration);
+            commentsObj.ValidateComment(forum, rating, site, out ignoreModeration, out forceModeration);
 
             //create unique comment hash
             Guid guid = DnaHasher.GenerateCommentHashValue(rating.text, forum.Id, CallingUser.UserID);
             //add comment to db
             try
             {
-                using (StoredProcedureReader reader = CreateReader("commentthreadcreate"))
+                using (IDnaDataReader reader = CreateReader("commentthreadcreate"))
                 {
                     reader.AddParameter("commentforumid", forum.Id);
                     reader.AddParameter("userid", CallingUser.UserID);
@@ -161,41 +149,45 @@ namespace BBC.Dna.Api
                     //reader.AddParameter("forcepremoderation", (commentForum.ModerationServiceGroup == ModerationStatus.ForumStatus.PreMod?1:0));
                     reader.AddParameter("ignoremoderation", ignoreModeration);
                     reader.AddParameter("isnotable", CallingUser.IsUserA(UserTypes.Notable));
-                    reader.AddParameter("ipaddress", IPAddress);
-                    if (!String.IsNullOrEmpty(BBCUid))
-                    {
-                        Guid BBCUIDGUID = new Guid();
-                        if (ApiCookies.CheckGUIDCookie(BBCUid, ref BBCUIDGUID))
-                        {
-                            reader.AddParameter("bbcuid", BBCUIDGUID);
-                        }
-                    }
+                    reader.AddParameter("ipaddress", IpAddress);
+                    reader.AddParameter("bbcuid", BbcUid);
                     reader.AddIntReturnValue();
-                    reader.AddParameter("poststyle", (int)rating.PostStyle);
+                    reader.AddParameter("poststyle", (int) rating.PostStyle);
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
-                    {//all good - create comment
+                    {
+//all good - create comment
                         threadInfo.rating.IsPreModPosting = reader.GetInt32NullAsZero("IsPreModPosting") == 1;
                         threadInfo.rating.IsPreModerated = (reader.GetInt32NullAsZero("IsPreModerated") == 1);
-                        threadInfo.rating.hidden = (threadInfo.rating.IsPreModerated ? CommentStatus.Hidden.Hidden_AwaitingPreModeration : CommentStatus.Hidden.NotHidden);
-                        threadInfo.rating.text = Comments.FormatCommentText(threadInfo.rating.text, threadInfo.rating.hidden, threadInfo.rating.PostStyle);
+                        threadInfo.rating.hidden = (threadInfo.rating.IsPreModerated
+                                                        ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
+                                                        : CommentStatus.Hidden.NotHidden);
                         threadInfo.rating.User = commentsObj.UserReadByCallingUser();
                         threadInfo.rating.Created = new DateTimeHelper(DateTime.Now);
 
                         threadInfo.count = reader.GetInt32NullAsZero("ThreadPostCount");
 
                         if (reader.GetInt32NullAsZero("postid") != 0)
-                        {// no id as it is may be pre moderated
+                        {
+// no id as it is may be pre moderated
                             threadInfo.rating.ID = reader.GetInt32NullAsZero("postid");
-                            Dictionary<string, string> replacement = new Dictionary<string, string>();
+                            var replacement = new Dictionary<string, string>();
                             replacement.Add("sitename", site.SiteName);
                             replacement.Add("postid", threadInfo.rating.ID.ToString());
-                            threadInfo.rating.ComplaintUri = URIDiscoverability.GetUriWithReplacments(BasePath, URIDiscoverability.uriType.Complaint, replacement);
+                            threadInfo.rating.ComplaintUri = UriDiscoverability.GetUriWithReplacments(BasePath,
+                                                                                                      UriDiscoverability
+                                                                                                          .UriType.
+                                                                                                          Complaint,
+                                                                                                      replacement);
 
                             replacement = new Dictionary<string, string>();
                             replacement.Add("commentforumid", forum.Id);
                             replacement.Add("sitename", site.SiteName);
-                            threadInfo.rating.ForumUri = URIDiscoverability.GetUriWithReplacments(BasePath, URIDiscoverability.uriType.CommentForumByID, replacement);
+                            threadInfo.rating.ForumUri = UriDiscoverability.GetUriWithReplacments(BasePath,
+                                                                                                  UriDiscoverability.
+                                                                                                      UriType.
+                                                                                                      CommentForumById,
+                                                                                                  replacement);
 
                             threadInfo.id = reader.GetInt32NullAsZero("ThreadID");
                         }
@@ -206,9 +198,9 @@ namespace BBC.Dna.Api
                     }
                     else
                     {
-                        int returnValue = 0;
+                        int returnValue;
                         reader.TryGetIntReturnValue(out returnValue);
-                        Comments.ParseCreateCommentSPError(returnValue);
+                        Comments.ParseCreateCommentSpError(returnValue);
                     }
                 }
             }
@@ -232,23 +224,24 @@ namespace BBC.Dna.Api
         /// Returns last update of threads for a uid
         /// </summary>
         /// <param name="uid"></param>
-        /// <param name="siteID"></param>
+        /// <param name="siteId"></param>
         /// <returns></returns>
-        public DateTime ThreadsGetLastUpdate(string uid, int siteID)
+        public DateTime ThreadsGetLastUpdate(string uid, int siteId)
         {
             DateTime lastUpdate = DateTime.MinValue;
             //Can use the comment one as it's the thread entries underneath that change
 
-            using (StoredProcedureReader reader = CreateReader("CommentforumGetLastUpdate"))
+            using (IDnaDataReader reader = CreateReader("CommentforumGetLastUpdate"))
             {
                 try
                 {
                     reader.AddParameter("uid", uid);
-                    reader.AddParameter("siteid", siteID);
+                    reader.AddParameter("siteid", siteId);
                     reader.Execute();
 
                     if (reader.HasRows && reader.Read())
-                    {//all good - read threads
+                    {
+//all good - read threads
                         lastUpdate = reader.GetDateTime("lastupdated");
                     }
                 }
@@ -264,17 +257,16 @@ namespace BBC.Dna.Api
         /// <summary>
         /// Returns last update for given forum
         /// </summary>
-        /// <param name="uid"></param>
-        /// <param name="siteID"></param>
+        /// <param name="threadid"></param>
+        /// <param name="siteId"></param>
         /// <returns></returns>
-        public DateTime ThreadGetLastUpdate(int threadid, int siteID)
+        public DateTime ThreadGetLastUpdate(int threadid, int siteId)
         {
-            Comments commentsObj = new Comments();
+            var commentsObj = new Comments(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             commentsObj.CallingUser = CallingUser;
-            commentsObj.BBCUid = BBCUid;
-            commentsObj.IPAddress = IPAddress;
-            commentsObj.siteList = siteList;
-            return commentsObj.CommentListGetLastUpdate(threadid, siteID);
+            commentsObj.BbcUid = BbcUid;
+            commentsObj.IpAddress = IpAddress;
+            return commentsObj.CommentListGetLastUpdate(threadid, siteId);
         }
 
         #region Private Functions
@@ -286,32 +278,34 @@ namespace BBC.Dna.Api
         /// <param name="site">the site of the forum</param>
         /// <param name="comments">The return forum</param>
         /// <returns>true if found in cache otherwise false</returns>
-        private bool ThreadCommentsReadByIDFromCache(int threadid, ISite site, ref CommentsList comments)
+        private bool ThreadCommentsReadByIdFromCache(int threadid, ISite site, ref CommentsList comments)
         {
             string cacheKey = ThreadCacheKey(threadid, site.SiteID);
-            object tempLastUpdated = _cacheManager.GetData(cacheKey + CACHE_LASTUPDATED);
-            
+            object tempLastUpdated = CacheManager.GetData(cacheKey + CacheLastupdated);
+
             if (tempLastUpdated == null)
-            {//not found
+            {
+//not found
                 comments = null;
                 Statistics.AddCacheMiss();
                 return false;
             }
-            DateTime lastUpdated = (DateTime)tempLastUpdated;
+            var lastUpdated = (DateTime) tempLastUpdated;
             //check if cache is up to date
-            if (DateTime.Compare(lastUpdated, ThreadGetLastUpdate(threadid, site.SiteID)) != 0 )
-            {//cache out of date so delete
+            if (DateTime.Compare(lastUpdated, ThreadGetLastUpdate(threadid, site.SiteID)) != 0)
+            {
+//cache out of date so delete
                 DeleteThreadFromCache(threadid, site);
                 comments = null;
                 Statistics.AddCacheMiss();
                 return false;
             }
             //get actual cached object
-            comments = (CommentsList)_cacheManager.GetData(cacheKey);
+            comments = (CommentsList) CacheManager.GetData(cacheKey);
             if (comments == null)
-            {//cache out of date so delete
+            {
+//cache out of date so delete
                 DeleteThreadFromCache(threadid, site);
-                comments = null;
                 Statistics.AddCacheMiss();
                 return false;
             }
@@ -327,34 +321,36 @@ namespace BBC.Dna.Api
         /// </summary>
         /// <param name="uid">The uid of the forum</param>
         /// <param name="site">the site of the forum</param>
-        /// <param name="comments">The return forum</param>
+        /// <param name="threads"></param>
         /// <returns>true if found in cache otherwise false</returns>
-        private bool ThreadsReadByUIDFromCache(string uid, ISite site, ref ThreadList threads)
+        private bool ThreadsReadByUidFromCache(string uid, ISite site, ref ThreadList threads)
         {
             string cacheKey = ThreadsCacheKey(uid, site.SiteID);
-            object tempLastUpdated = _cacheManager.GetData(cacheKey + CACHE_LASTUPDATED);
+            object tempLastUpdated = CacheManager.GetData(cacheKey + CacheLastupdated);
 
             if (tempLastUpdated == null)
-            {//not found
+            {
+//not found
                 threads = null;
                 Statistics.AddCacheMiss();
                 return false;
             }
-            DateTime lastUpdated = (DateTime)tempLastUpdated;
+            var lastUpdated = (DateTime) tempLastUpdated;
             //check if cache is up to date
             if (DateTime.Compare(lastUpdated, ThreadsGetLastUpdate(uid, site.SiteID)) != 0)
-            {//cache out of date so delete
+            {
+//cache out of date so delete
                 DeleteThreadsFromCache(uid, site);
                 threads = null;
                 Statistics.AddCacheMiss();
                 return false;
             }
             //get actual cached object
-            threads = (ThreadList)_cacheManager.GetData(cacheKey);
+            threads = (ThreadList) CacheManager.GetData(cacheKey);
             if (threads == null)
-            {//cache out of date so delete
+            {
+//cache out of date so delete
                 DeleteThreadsFromCache(uid, site);
-                threads = null;
                 Statistics.AddCacheMiss();
                 return false;
             }
@@ -368,19 +364,19 @@ namespace BBC.Dna.Api
         /// <summary>
         /// Returns the thread from cache
         /// </summary>
-        /// <param name="uid">The uid of the forum</param>
+        /// <param name="comments"></param>
         /// <param name="site">the site of the forum</param>
-        /// <param name="forum">The return forum</param>
+        /// <param name="threadid"></param>
         /// <returns>true if found in cache otherwise false</returns>
         private void ThreadAddToCache(int threadid, CommentsList comments, ISite site)
         {
             string cacheKey = ThreadCacheKey(threadid, site.SiteID);
             //ICacheItemExpiration expiry = SlidingTime.
-            _cacheManager.Add(cacheKey + CACHE_LASTUPDATED, comments.LastUpdate, CacheItemPriority.Normal,
-                null, new AbsoluteTime(new TimeSpan(0, CACHEEXPIRYMINUTES, 0)));
+            CacheManager.Add(cacheKey + CacheLastupdated, comments.LastUpdate, CacheItemPriority.Normal,
+                             null, new AbsoluteTime(new TimeSpan(0, Cacheexpiryminutes, 0)));
 
-            _cacheManager.Add(cacheKey, comments, CacheItemPriority.Normal,
-                null, new AbsoluteTime(new TimeSpan(0, CACHEEXPIRYMINUTES, 0)));
+            CacheManager.Add(cacheKey, comments, CacheItemPriority.Normal,
+                             null, new AbsoluteTime(new TimeSpan(0, Cacheexpiryminutes, 0)));
         }
 
         /// <summary>
@@ -394,33 +390,32 @@ namespace BBC.Dna.Api
         {
             string cacheKey = ThreadsCacheKey(uid, site.SiteID);
             //ICacheItemExpiration expiry = SlidingTime.
-            _cacheManager.Add(cacheKey + CACHE_LASTUPDATED, threads.LastUpdate, CacheItemPriority.Normal,
-                null, new AbsoluteTime(new TimeSpan(0, CACHEEXPIRYMINUTES, 0)));
+            CacheManager.Add(cacheKey + CacheLastupdated, threads.LastUpdate, CacheItemPriority.Normal,
+                             null, new AbsoluteTime(new TimeSpan(0, Cacheexpiryminutes, 0)));
 
-            _cacheManager.Add(cacheKey, threads, CacheItemPriority.Normal,
-                null, new AbsoluteTime(new TimeSpan(0, CACHEEXPIRYMINUTES, 0)));
+            CacheManager.Add(cacheKey, threads, CacheItemPriority.Normal,
+                             null, new AbsoluteTime(new TimeSpan(0, Cacheexpiryminutes, 0)));
         }
 
-        private ThreadInfo ThreadCreateFromReader(StoredProcedureReader reader, ISite site)
+        private ThreadInfo ThreadCreateFromReader(IDnaDataReader reader, ISite site)
         {
-            ThreadInfo thread = new ThreadInfo();
+            var thread = new ThreadInfo();
             thread.id = reader.GetInt32NullAsZero("ThreadID");
             thread.count = reader.GetInt32NullAsZero("ThreadPostCount");
 
-            Reviews reviewsObj = new Reviews();
+            var reviewsObj = new Reviews(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             reviewsObj.CallingUser = CallingUser;
-            reviewsObj.BBCUid = BBCUid;
-            reviewsObj.IPAddress = IPAddress;
-            reviewsObj.siteList = siteList;
+            reviewsObj.BbcUid = BbcUid;
+            reviewsObj.IpAddress = IpAddress;
 
             thread.rating = reviewsObj.RatingCreateFromReader(reader, site);
 
             return thread;
         }
 
-        private ThreadList ThreadsCreateFromReader(StoredProcedureReader reader, ISite site)
+        private ThreadList ThreadsCreateFromReader(IDnaDataReader reader, ISite site)
         {
-            ThreadList threads = new ThreadList();
+            var threads = new ThreadList();
             threads.threads = new List<ThreadInfo>();
             threads.TotalCount = 0;
             threads.ratingsSummary = new RatingsSummary();
@@ -428,11 +423,13 @@ namespace BBC.Dna.Api
             threads.ratingsSummary.Total = 0;
             threads.ratingsSummary.Average = 0;
 
-            Dictionary<string, string> replacements = new Dictionary<string, string>();
+            var replacements = new Dictionary<string, string>();
             replacements.Add("uid", reader.GetStringNullAsEmpty("uid"));
             replacements.Add("sitename", site.SiteName);
 
-            threads.ratingsSummary.Uri = URIDiscoverability.GetUriWithReplacments(BasePath, URIDiscoverability.uriType.Threads, replacements);
+            threads.ratingsSummary.Uri = UriDiscoverability.GetUriWithReplacments(BasePath,
+                                                                                  UriDiscoverability.UriType.Threads,
+                                                                                  replacements);
 
             do
             {
@@ -445,7 +442,7 @@ namespace BBC.Dna.Api
             } while (reader.Read());
             if (threads.TotalCount > 0)
             {
-                threads.ratingsSummary.Average = threads.ratingsSummary.Total / threads.TotalCount;
+                threads.ratingsSummary.Average = threads.ratingsSummary.Total/threads.TotalCount;
             }
 
             return threads;
@@ -455,48 +452,50 @@ namespace BBC.Dna.Api
         /// Returns cache key for comments in a thread
         /// </summary>
         /// <param name="threadid"></param>
-        /// <param name="siteID"></param>
+        /// <param name="siteId"></param>
         /// <returns></returns>
-        public string ThreadCacheKey(int threadid, int siteID)
+        public string ThreadCacheKey(int threadid, int siteId)
         {
-            return string.Format("Thread|{0}|{1}|{2}|{3}|{4}|{5}|{6}", threadid, siteID, StartIndex, ItemsPerPage, SortDirection, SortBy, FilterBy);
+            return string.Format("Thread|{0}|{1}|{2}|{3}|{4}|{5}|{6}", threadid, siteId, StartIndex, ItemsPerPage,
+                                 SortDirection, SortBy, FilterBy);
         }
 
         /// <summary>
         /// Returns cache key for threads in a forum
         /// </summary>
         /// <param name="uid"></param>
-        /// <param name="siteID"></param>
+        /// <param name="siteId"></param>
         /// <returns></returns>
-        public string ThreadsCacheKey(string uid, int siteID)
+        public string ThreadsCacheKey(string uid, int siteId)
         {
-            return string.Format("Threads|{0}|{1}|{2}|{3}|{4}|{5}|{6}", uid, siteID, StartIndex, ItemsPerPage, SortDirection, SortBy, FilterBy);
+            return string.Format("Threads|{0}|{1}|{2}|{3}|{4}|{5}|{6}", uid, siteId, StartIndex, ItemsPerPage,
+                                 SortDirection, SortBy, FilterBy);
         }
 
         /// <summary>
         /// Removes thread from cache
         /// </summary>
-        /// <param name="forum"></param>
+        /// <param name="threadid"></param>
         /// <param name="site"></param>
         private void DeleteThreadFromCache(int threadid, ISite site)
         {
             string cacheKey = ThreadCacheKey(threadid, site.SiteID);
-            _cacheManager.Remove(cacheKey + CACHE_LASTUPDATED);
-            _cacheManager.Remove(cacheKey);
+            CacheManager.Remove(cacheKey + CacheLastupdated);
+            CacheManager.Remove(cacheKey);
         }
 
         /// <summary>
         /// Removes threads from cache
         /// </summary>
-        /// <param name="forum"></param>
+        /// <param name="uid"></param>
         /// <param name="site"></param>
         private void DeleteThreadsFromCache(string uid, ISite site)
         {
             string cacheKey = ThreadsCacheKey(uid, site.SiteID);
-            _cacheManager.Remove(cacheKey + CACHE_LASTUPDATED);
-            _cacheManager.Remove(cacheKey);
+            CacheManager.Remove(cacheKey + CacheLastupdated);
+            CacheManager.Remove(cacheKey);
         }
-        #endregion
 
+        #endregion
     }
 }

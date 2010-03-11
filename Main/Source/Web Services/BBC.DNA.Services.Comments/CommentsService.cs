@@ -2,22 +2,16 @@
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
+using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
-using System.ServiceModel.Syndication;
 using System.ServiceModel.Web;
-using System.Text;
-using System.Xml;
 using BBC.Dna.Api;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.ServiceModel.Web;
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
-
 
 namespace BBC.Dna.Services
 {
@@ -25,24 +19,23 @@ namespace BBC.Dna.Services
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class CommentsService : baseService
     {
-        private Comments _commentObj = null;
+        private readonly Comments _commentObj;
 
-        public CommentsService() : base(Global.connectionString, Global.siteList)
+        public CommentsService() : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
-            _commentObj = new Comments();
-            _commentObj.siteList = Global.siteList;
-            _commentObj.ItemsPerPage = _itemsPerPage;
-            _commentObj.StartIndex = _startIndex;
-            _commentObj.SignOnType = _signOnType;
-            _commentObj.SortBy = _sortBy;
-            _commentObj.SortDirection = _sortDirection;
-            _commentObj.FilterBy = _filterBy;
-            _commentObj.SummaryLength = _summaryLength;
-            if (_BBCUidCookie != Guid.Empty)
+            _commentObj = new Comments(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
+            _commentObj.ItemsPerPage = itemsPerPage;
+            _commentObj.StartIndex = startIndex;
+            _commentObj.SignOnType = signOnType;
+            _commentObj.SortBy = sortBy;
+            _commentObj.SortDirection = sortDirection;
+            _commentObj.FilterBy = filterBy;
+            _commentObj.SummaryLength = summaryLength;
+            if (bbcUidCookie != Guid.Empty)
             {
-                _commentObj.BBCUid = _BBCUidCookie.ToString();
+                _commentObj.BbcUid = bbcUidCookie;
             }
-            _commentObj.IPAddress = _iPAddress;
+            _commentObj.IpAddress = _iPAddress;
             _commentObj.BasePath = ConfigurationManager.AppSettings["ServerBasePath"];
         }
 
@@ -51,17 +44,16 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetCommentForums()
         {
-            CommentForumList commentForumList = null;
+            CommentForumList commentForumList;
             try
             {
-                commentForumList = _commentObj.CommentForumsRead(null);
+                commentForumList = _commentObj.GetCommentForumListBySite(null);
             }
             catch (ApiException ex)
             {
                 throw new DnaWebProtocolException(ex);
             }
             return GetOutputStream(commentForumList);
-
         }
 
         [WebGet(UriTemplate = "V1/site/{sitename}/")]
@@ -69,17 +61,17 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetCommentForumsBySitename(string sitename)
         {
-            CommentForumList commentForumList = null;
+            CommentForumList commentForumList;
             try
             {
                 string prefix = QueryStringHelper.GetQueryParameterAsString("prefix", "");
                 if (String.IsNullOrEmpty(prefix))
                 {
-                    commentForumList = _commentObj.CommentForumsRead(sitename);
+                    commentForumList = _commentObj.GetCommentForumListBySite(sitename);
                 }
                 else
                 {
-                    commentForumList = _commentObj.CommentForumsRead(sitename, prefix);
+                    commentForumList = _commentObj.GetCommentForumListBySite(sitename, prefix);
                 }
             }
             catch (ApiException ex)
@@ -89,30 +81,29 @@ namespace BBC.Dna.Services
             return GetOutputStream(commentForumList);
         }
 
-        [WebGet(UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumID}/")]
+        [WebGet(UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/")]
         [WebHelp(Comment = "Get the comments forum by ID")]
         [OperationContract]
-        public Stream GetCommentForum(string commentForumID, string siteName)
+        public Stream GetCommentForum(string commentForumId, string siteName)
         {
-            CommentForum commentForumData = null;
+            CommentForum commentForumData;
             Stream output = null;
             try
             {
                 ISite site = GetSite(siteName);
-                if (!GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentForumGetLastUpdate), new object[2]{commentForumID, site.SiteID}))
+                if (
+                    !GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentForumGetLastUpdate),
+                                        new object[] {commentForumId, site.SiteID}))
                 {
                     Statistics.AddHTMLCacheMiss();
-                    commentForumData = _commentObj.CommentForumReadByUID(commentForumID, site);
-                    
+                    commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
+
                     //if null then send back 404
                     if (commentForumData == null)
                     {
                         throw ApiException.GetError(ErrorType.ForumUnknown);
                     }
-                    else
-                    {
-                        output = GetOutputStream(commentForumData, commentForumData.LastUpdate);
-                    }
+                    output = GetOutputStream(commentForumData, commentForumData.LastUpdate);
                 }
             }
             catch (ApiException ex)
@@ -127,22 +118,18 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetComment(string commentid, string siteName)
         {
-            CommentInfo commentData = null;
             ISite site = GetSite(siteName);
-            Stream output = null;
+            Stream output;
             try
             {
-                commentData = _commentObj.CommentReadByPostID(commentid, site);
+                CommentInfo commentData = _commentObj.CommentReadByPostId(commentid, site);
 
                 //if null then send back 404
                 if (commentData == null)
                 {
                     throw ApiException.GetError(ErrorType.CommentNotFound);
                 }
-                else
-                {
-                    output = GetOutputStream(commentData);
-                }
+                output = GetOutputStream(commentData);
             }
             catch (ApiException ex)
             {
@@ -156,25 +143,27 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetCommentListBySiteName(string sitename)
         {
-            CommentsList commentList = null;
+            CommentsList commentList;
             Stream output = null;
             try
             {
-                ISite site = GetSite(sitename);
-                
+                var site = GetSite(sitename);
+
 
                 //_commentObj.CommentListGetLastUpdate(site.SiteID, prefix)
-                if (!GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentListGetLastUpdate), new object[2] { site.SiteID, _prefix }))
+                if (
+                    !GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentListGetLastUpdate),
+                                        new object[] {site.SiteID, prefix}))
                 {
                     Statistics.AddHTMLCacheMiss();
 
-                    if (String.IsNullOrEmpty(_prefix))
+                    if (String.IsNullOrEmpty(prefix))
                     {
-                        commentList = _commentObj.CommentsReadBySite(site);
+                        commentList = _commentObj.GetCommentsListBySite(site);
                     }
                     else
                     {
-                        commentList = _commentObj.CommentsReadBySite(site, _prefix);
+                        commentList = _commentObj.GetCommentsListBySite(site, prefix);
                     }
                     output = GetOutputStream(commentList, commentList.LastUpdate);
                 }
@@ -189,34 +178,30 @@ namespace BBC.Dna.Services
         [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumID}/")]
         [WebHelp(Comment = "Create a new comment forum for the specified site with comment")]
         [OperationContract]
-        public Stream CreateCommentForumWithComment(string sitename, CommentForum commentForum, string commentForumID)
+        public Stream CreateCommentForumWithComment(string sitename, CommentForum commentForum, string commentForumId)
         {
-            CommentForum commentForumData = null;
             try
             {
-                commentForum.Id = commentForumID;
+                commentForum.Id = commentForumId;
                 ISite site = GetSite(sitename);
                 _commentObj.CallingUser = GetCallingUser(site);
 
-                commentForumData = _commentObj.CommentForumCreate(commentForum, site);
+                CommentForum commentForumData = _commentObj.CreateCommentForum(commentForum, site);
 
-                if (commentForum.commentList != null && commentForum.commentList.comments != null && commentForum.commentList.comments.Count > 0)
-                {//check if there is a rating to add
-                    CommentInfo commentInfo = _commentObj.CommentCreate(commentForumData, commentForum.commentList.comments[0]);
+                if (commentForum.commentList != null && commentForum.commentList.comments != null &&
+                    commentForum.commentList.comments.Count > 0)
+                {
+//check if there is a rating to add
+                    CommentInfo commentInfo = _commentObj.CreateComment(commentForumData,
+                                                                        commentForum.commentList.comments[0]);
                     return GetOutputStream(commentInfo);
                 }
-                else
-                {
-                    return GetOutputStream(commentForumData);
-                }
-
+                return GetOutputStream(commentForumData);
             }
             catch (ApiException ex)
             {
                 throw new DnaWebProtocolException(ex);
             }
-
-
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{sitename}/")]
@@ -224,15 +209,15 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream CreateCommentForum(string sitename, CommentForum commentForum)
         {
-            CommentForum commentForumData = null;
+            CommentForum commentForumData;
             try
             {
-                ISite site = GetSite(sitename);
+                var site = GetSite(sitename);
                 _commentObj.CallingUser = GetCallingUser(site);
-                
+
                 if (_commentObj.CallingUser.IsUserA(UserTypes.Editor))
                 {
-                    commentForumData = _commentObj.CommentForumCreate(commentForum, site);
+                    commentForumData = _commentObj.CreateCommentForum(commentForum, site);
                 }
                 else
                 {
@@ -251,32 +236,34 @@ namespace BBC.Dna.Services
         [OperationContract]
         public void CreateCommentForumPostData(string sitename, NameValueCollection formsData)
         {
-            CommentForum commentForumData = null;
-            ErrorType error = ErrorType.Unknown;
-            DnaWebProtocolException _ex = null;
+            CommentForum commentForumData;
+            ErrorType error;
+            DnaWebProtocolException  webEx = null;
             try
             {
                 commentForumData = new CommentForum
-                {
-                    Id = formsData["id"],
-                    Title = formsData["title"],
-                    ParentUri = formsData["parentUri"]
-                };
-                if(!String.IsNullOrEmpty(formsData["moderationServiceGroup"]))
+                                       {
+                                           Id = formsData["id"],
+                                           Title = formsData["title"],
+                                           ParentUri = formsData["parentUri"]
+                                       };
+                if (!String.IsNullOrEmpty(formsData["moderationServiceGroup"]))
                 {
                     try
                     {
-                        commentForumData.ModerationServiceGroup = (ModerationStatus.ForumStatus)Enum.Parse(ModerationStatus.ForumStatus.Unknown.GetType(), formsData["moderationServiceGroup"]);
+                        commentForumData.ModerationServiceGroup =
+                            (ModerationStatus.ForumStatus)
+                            Enum.Parse(ModerationStatus.ForumStatus.Unknown.GetType(),
+                                       formsData["moderationServiceGroup"], true);
                     }
                     catch
                     {
                         throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidModerationStatus));
-
                     }
                 }
                 if (!String.IsNullOrEmpty(formsData["closeDate"]))
                 {
-                    DateTime closed = DateTime.Now;
+                    DateTime closed;
                     if (!DateTime.TryParse(formsData["closeDate"], out closed))
                     {
                         throw ApiException.GetError(ErrorType.InvalidForumClosedDate);
@@ -289,125 +276,118 @@ namespace BBC.Dna.Services
             catch (DnaWebProtocolException ex)
             {
                 error = ex.ErrorType;
-                _ex = ex;
+                webEx = ex;
             }
             string ptrt = WebFormat.GetPtrtWithResponse(error.ToString());
             if (String.IsNullOrEmpty(ptrt))
-            {//none returned...
+            {
+//none returned...
                 if (error == ErrorType.Ok)
                 {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
                     return;
                 }
-                else
-                {
-                    throw _ex;
-                }
+                throw webEx;
             }
             //do response redirect...
             WebOperationContext.Current.OutgoingResponse.Location = ptrt;
-            WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.MovedPermanently;
-
+            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.MovedPermanently;
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumID}/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/")]
         [WebHelp(Comment = "Create a new comment for the comment forum")]
         [OperationContract]
-        public Stream CreateComment(string commentForumID, string siteName, CommentInfo comment)
+        public Stream CreateComment(string commentForumId, string siteName, CommentInfo comment)
         {
-            CommentInfo commentInfo = null;
+            CommentInfo commentInfo;
             try
             {
                 ISite site = GetSite(siteName);
-                CommentForum commentForumData = null;
-                commentForumData = _commentObj.CommentForumReadByUID(commentForumID, site);
+                CommentForum commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
                 _commentObj.CallingUser = GetCallingUser(site);
                 if (commentForumData == null)
                 {
                     throw ApiException.GetError(ErrorType.ForumUnknown);
                 }
-                else
-                {
-                    commentInfo = _commentObj.CommentCreate(commentForumData, comment);
-                }
+                commentInfo = _commentObj.CreateComment(commentForumData, comment);
             }
             catch (ApiException ex)
             {
                 throw new DnaWebProtocolException(ex);
             }
             return GetOutputStream(commentInfo);
-
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumID}/create.htm")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/create.htm")]
         [WebHelp(Comment = "Create a new comment for the comment forum")]
         [OperationContract]
-        public void CreateCommentHtml(string commentForumID, string siteName, NameValueCollection formsData)
+        public void CreateCommentHtml(string commentForumId, string siteName, NameValueCollection formsData)
         {
-            ErrorType error = ErrorType.Unknown;
-            DnaWebProtocolException _ex = null;
-            CommentInfo commentInfo = null;
+            ErrorType error;
+            DnaWebProtocolException dnaWebProtocolException = null;
+            CommentInfo commentInfo;
             try
             {
-                commentInfo = new CommentInfo{text = formsData["text"]};
+                commentInfo = new CommentInfo {text = formsData["text"]};
                 if (!String.IsNullOrEmpty(formsData["PostStyle"]))
                 {
                     try
                     {
-                        commentInfo.PostStyle = (PostStyle.Style)Enum.Parse(typeof(PostStyle.Style), formsData["PostStyle"]);
+                        commentInfo.PostStyle =
+                            (PostStyle.Style) Enum.Parse(typeof (PostStyle.Style), formsData["PostStyle"]);
                     }
                     catch
                     {
                         throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidPostStyle));
                     }
                 }
-                CreateComment(commentForumID, siteName, commentInfo);
+                CreateComment(commentForumId, siteName, commentInfo);
                 error = ErrorType.Ok;
             }
             catch (DnaWebProtocolException ex)
             {
                 error = ex.ErrorType;
 
-                _ex = ex;
+                dnaWebProtocolException = ex;
             }
-            
-            
+
+
             string ptrt = WebFormat.GetPtrtWithResponse(error.ToString());
             if (String.IsNullOrEmpty(ptrt))
-            {//none returned...
+            {
+//none returned...
                 if (error == ErrorType.Ok)
                 {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
                     return;
                 }
                 else
                 {
-                    throw _ex;
+                    throw dnaWebProtocolException;
                 }
             }
             //do response redirect...
             WebOperationContext.Current.OutgoingResponse.Location = ptrt;
-            WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.MovedPermanently;
-
+            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.MovedPermanently;
         }
 
         /// <summary>
         /// Deletes a pick for the specified comment.
         /// </summary>
-        /// <param name="editorspickid"></param>
+        /// <param name="commentId"></param>
         /// <param name="siteName"></param>
         [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/comments/{commentId}/editorpicks/")]
         [WebHelp(Comment = "Remove Editor Pick from Comment.")]
         [OperationContract]
         public void RemoveEditorPick(string commentId, string siteName)
         {
-            ISite site = GetSite(siteName);
+            var site = GetSite(siteName);
             try
             {
                 _commentObj.CallingUser = GetCallingUser(site);
                 if (_commentObj.CallingUser.IsUserA(UserTypes.Editor))
                 {
-                    EditorPicks editorPicks = new EditorPicks();
+                    var editorPicks = new EditorPicks(dnaDiagnostic, readerCreator, cacheManager, siteList);
                     editorPicks.RemoveEditorPick(Convert.ToInt32(commentId));
                 }
                 else
@@ -424,7 +404,7 @@ namespace BBC.Dna.Services
         /// <summary>
         /// Deletes a pick for the specified comment.
         /// </summary>
-        /// <param name="editorspickid"></param>
+        /// <param name="commentId"></param>
         /// <param name="siteName"></param>
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/comments/{commentId}/editorpicks/delete")]
         [WebHelp(Comment = "Remove Editor Pick from Comment.")]
@@ -442,7 +422,7 @@ namespace BBC.Dna.Services
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/comments/{commentId}/editorpicks/")]
         [WebHelp(Comment = "Create a new editors pick for the specified comment")]
         [OperationContract]
-        public void CreateEditorPick(String sitename, String commentId )
+        public void CreateEditorPick(String sitename, String commentId)
         {
             try
             {
@@ -450,7 +430,7 @@ namespace BBC.Dna.Services
                 _commentObj.CallingUser = GetCallingUser(site);
                 if (_commentObj.CallingUser.IsUserA(UserTypes.Editor))
                 {
-                    EditorPicks editorPicks = new EditorPicks();
+                    var editorPicks = new EditorPicks(dnaDiagnostic, readerCreator, cacheManager, siteList);
                     editorPicks.CreateEditorPick(Convert.ToInt32(commentId));
                 }
                 else
@@ -463,6 +443,5 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
         }
-
     }
 }

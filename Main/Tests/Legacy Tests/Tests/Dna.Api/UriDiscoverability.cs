@@ -25,36 +25,36 @@ namespace Tests
             string commentForumId = "1c61beed-9702-4f68-bdc5-2074540be918";
             Dictionary<string, string> replacements = new Dictionary<string, string>();
             replacements.Add("commentforumid", commentForumId);
-            string result = URIDiscoverability.GetUriWithReplacments(basePath, URIDiscoverability.uriType.CommentsByCommentForumID, replacements);
+            string result = UriDiscoverability.GetUriWithReplacments(basePath, UriDiscoverability.UriType.CommentsByCommentForumId, replacements);
             Assert.IsTrue(result.IndexOf(commentForumId) >= 0);
 
-            result = URIDiscoverability.GetUriWithReplacments(basePath, URIDiscoverability.uriType.CommentForum, null);
+            result = UriDiscoverability.GetUriWithReplacments(basePath, UriDiscoverability.UriType.CommentForum, null);
             Assert.IsTrue(result != string.Empty);
 
             replacements = new Dictionary<string, string>();
             replacements.Add("commentforumid", commentForumId);
-            result = URIDiscoverability.GetUriWithReplacments(basePath, URIDiscoverability.uriType.CommentForumByID, replacements);
+            result = UriDiscoverability.GetUriWithReplacments(basePath, UriDiscoverability.UriType.CommentForumById, replacements);
             Assert.IsTrue(result.IndexOf(commentForumId) >= 0);
 
             string siteName = "h2g2";
             replacements = new Dictionary<string, string>();
             replacements.Add("sitename", siteName);
-            result = URIDiscoverability.GetUriWithReplacments(basePath, URIDiscoverability.uriType.CommentForumBySiteName, replacements);
+            result = UriDiscoverability.GetUriWithReplacments(basePath, UriDiscoverability.UriType.CommentForumBySiteName, replacements);
             Assert.IsTrue(result.IndexOf(siteName) >= 0);
 
-            result = URIDiscoverability.GetUriWithReplacments(basePath, URIDiscoverability.uriType.Comments, null);
+            result = UriDiscoverability.GetUriWithReplacments(basePath, UriDiscoverability.UriType.Comments, null);
             Assert.IsTrue(result != string.Empty);
 
             replacements = new Dictionary<string, string>();
             replacements.Add("commentforumid", commentForumId);
-            result = URIDiscoverability.GetUriWithReplacments(basePath, URIDiscoverability.uriType.CommentsByCommentForumID, replacements);
+            result = UriDiscoverability.GetUriWithReplacments(basePath, UriDiscoverability.UriType.CommentsByCommentForumId, replacements);
             Assert.IsTrue(result.IndexOf(commentForumId) >= 0);
 
             replacements = new Dictionary<string, string>();
             replacements.Add("sitename", "h2g2");
             replacements.Add("postid", "h2g2");
             string expectedResult = string.Format("{0}/dna/{1}/comments/UserComplaintPage?PostID={2}&s_start=1", basePath, replacements["sitename"], replacements["postid"]);
-            result = URIDiscoverability.GetUriWithReplacments(basePath, URIDiscoverability.uriType.Complaint, replacements);
+            result = UriDiscoverability.GetUriWithReplacments(basePath, UriDiscoverability.UriType.Complaint, replacements);
             Assert.IsTrue(expectedResult == result, "Expected result was:" + expectedResult+" but result was:" + result);
 		}
 

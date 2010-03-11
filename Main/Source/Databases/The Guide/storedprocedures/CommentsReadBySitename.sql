@@ -1,4 +1,4 @@
-CREATE procedure commentsreadbysitename @siteid int, @startindex int = null, @itemsperpage int = null, @sortby varchar(20) ='created', @sortdirection varchar(20) = 'descending'
+CREATE procedure commentsreadbysitename @siteid int, @startindex int = null, @itemsperpage int = null, @sortby varchar(20) ='created', @sortdirection varchar(20) = 'descending',  @prefix varchar(100) = null
 as
 		
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;

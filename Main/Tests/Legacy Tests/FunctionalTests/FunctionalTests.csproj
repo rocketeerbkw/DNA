@@ -249,6 +249,7 @@
     <Compile Include="cachingSignals\groupSignalTests.cs" />
     <Compile Include="CommentBoxTestsUsingApi.cs" />
     <Compile Include="ArticlePageTests.cs" />
+    <Compile Include="Dna.Services\CommentsList.cs" />
     <Compile Include="TermsFilterImportPageTests.cs" />
     <Compile Include="TermsFilterAdminPageTests.cs" />
     <Compile Include="ForumPageTests.cs" />

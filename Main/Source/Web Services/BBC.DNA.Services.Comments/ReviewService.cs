@@ -28,22 +28,21 @@ namespace BBC.Dna.Services
     {
         private Reviews _ratingObj=null;
         public ReviewService()
-            : base(Global.connectionString, Global.siteList)
+            : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
-            _ratingObj = new Reviews();
-            _ratingObj.siteList = Global.siteList;
-            _ratingObj.ItemsPerPage = _itemsPerPage;
-            _ratingObj.StartIndex = _startIndex;
-            _ratingObj.SignOnType = _signOnType;
-            _ratingObj.SortBy = _sortBy;
-            _ratingObj.SortDirection = _sortDirection;
-            _ratingObj.FilterBy = _filterBy;
-            _ratingObj.SummaryLength = _summaryLength;
-            if (_BBCUidCookie != Guid.Empty)
+            _ratingObj = new Reviews(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
+            _ratingObj.ItemsPerPage = itemsPerPage;
+            _ratingObj.StartIndex = startIndex;
+            _ratingObj.SignOnType = signOnType;
+            _ratingObj.SortBy = sortBy;
+            _ratingObj.SortDirection = sortDirection;
+            _ratingObj.FilterBy = filterBy;
+            _ratingObj.SummaryLength = summaryLength;
+            if (bbcUidCookie != Guid.Empty)
             {
-                _ratingObj.BBCUid = _BBCUidCookie.ToString();
+                _ratingObj.BbcUid = bbcUidCookie;
             }
-            _ratingObj.IPAddress = _iPAddress;
+            _ratingObj.IpAddress = _iPAddress;
             _ratingObj.BasePath = ConfigurationManager.AppSettings["ServerBasePath"];
 
         }
@@ -116,7 +115,7 @@ namespace BBC.Dna.Services
             }
             if (_ratingObj.FilterBy == FilterBy.UserList)
             {
-                return GetReviewForumByUserList(reviewForumId, siteName, _filterByData);
+                return GetReviewForumByUserList(reviewForumId, siteName, filterByData);
             }
             try
             {
@@ -189,7 +188,7 @@ namespace BBC.Dna.Services
             {
                 ISite site = GetSite(siteName);
 
-              Threads _threadsObj = new Threads();
+                Threads _threadsObj = new Threads(dnaDiagnostic, readerCreator, cacheManager, siteList);
 
                 ratingForumThreadData = _ratingObj.RatingForumThreadsReadByUID(reviewForumId, site);
 
@@ -517,7 +516,7 @@ namespace BBC.Dna.Services
                 _ratingObj.CallingUser = GetCallingUser(site);
                 if (_ratingObj.CallingUser.IsUserA(UserTypes.Editor))
                 {
-                    EditorPicks editorPicks = new EditorPicks();
+                    EditorPicks editorPicks = new EditorPicks(dnaDiagnostic, readerCreator, cacheManager, siteList);
                     editorPicks.RemoveEditorPick(Convert.ToInt32(commentId));
                 }
                 else
@@ -560,7 +559,7 @@ namespace BBC.Dna.Services
                 _ratingObj.CallingUser = GetCallingUser(site);
                 if (_ratingObj.CallingUser.IsUserA(UserTypes.Editor))
                 {
-                    EditorPicks editorPicks = new EditorPicks();
+                    EditorPicks editorPicks = new EditorPicks(dnaDiagnostic, readerCreator, cacheManager, siteList);
                     editorPicks.CreateEditorPick(Convert.ToInt32(commentId));
                 }
                 else
@@ -588,9 +587,9 @@ namespace BBC.Dna.Services
                 _ratingObj.CallingUser = GetCallingUser(site);
                 ratingThreadInfo = _ratingObj.RatingThreadCreate(ratingForumData, rating);
             }
-            catch (DnaException ex)
+            catch (ApiException ex)
             {
-                throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
+                throw new DnaWebProtocolException(ex);
             }
             return GetOutputStream(ratingThreadInfo);
         }
@@ -606,7 +605,15 @@ namespace BBC.Dna.Services
                 ratingInfo = new RatingInfo { text = formsData["text"] };
                 if (!String.IsNullOrEmpty(formsData["PostStyle"]))
                 {
-                    ratingInfo.PostStyle = PostStyle.GetFromString(formsData["PostStyle"]);
+                    try
+                    {
+                        ratingInfo.PostStyle =
+                            (PostStyle.Style)Enum.Parse(typeof(PostStyle.Style), formsData["PostStyle"], true);
+                    }
+                    catch
+                    {
+                        throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidPostStyle));
+                    }
                 }
                 byte rating = 0;
                 if (!byte.TryParse(formsData["rating"], out rating))
@@ -643,9 +650,9 @@ namespace BBC.Dna.Services
                 ratingThreadCommentInfo = _ratingObj.RatingCommentCreate(ratingForumData, id, comment);
 
             }
-            catch (DnaException ex)
+            catch (ApiException ex)
             {
-                throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
+                throw new DnaWebProtocolException(ex);
             }
             return GetOutputStream(ratingThreadCommentInfo);
 
@@ -661,12 +668,20 @@ namespace BBC.Dna.Services
                 ratingThreadCommentInfo = new CommentInfo { text = formsData["text"] };
                 if (!String.IsNullOrEmpty(formsData["PostStyle"]))
                 {
-                    ratingThreadCommentInfo.PostStyle = PostStyle.GetFromString(formsData["PostStyle"]);
+                    try
+                    {
+                        ratingThreadCommentInfo.PostStyle =
+                            (PostStyle.Style)Enum.Parse(typeof(PostStyle.Style), formsData["PostStyle"], true);
+                    }
+                    catch
+                    {
+                        throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidPostStyle));
+                    }
                 }
             }
-            catch (DnaException ex)
+            catch (ApiException ex)
             {
-                throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
+                throw new DnaWebProtocolException(ex);
             }
             return CreateRatingThreadComment(ratingForumID, threadid, siteName, ratingThreadCommentInfo);
         }

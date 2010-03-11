@@ -566,8 +566,8 @@ namespace FunctionalTests
             xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
-
-            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/TEXT").InnerText == "blahblahblah<a href=\"http:\">Test Link</a>", "Post was created with the comment cut off.");
+            //stripped anchor tag
+            Assert.AreEqual("blahblahblahTest Link", xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/TEXT").InnerText);
 
             Console.WriteLine("After CommentBoxTests -  TestCommentWithALinkWithCRLFInIt");
         }

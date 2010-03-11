@@ -7,6 +7,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
@@ -53,8 +54,7 @@ namespace Tests
                 _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 site = _siteList.GetSite("h2g2");
 
-                _ratings = new Reviews(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                _ratings.siteList = _siteList;
+                _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
             
         }

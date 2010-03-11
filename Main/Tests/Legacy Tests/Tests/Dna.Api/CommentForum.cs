@@ -7,6 +7,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
@@ -39,8 +40,16 @@ namespace Tests
         [TestInitialize]
         public void StartUp()
         {
-            SnapshotInitialisation.RestoreFromSnapshot();
+            SnapshotInitialisation.ForceRestore();
             Statistics.InitialiseIfEmpty();
+
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+                site = _siteList.GetSite("h2g2");
+
+                _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
+            }
         }
 
         /// <summary>
@@ -48,14 +57,7 @@ namespace Tests
         /// </summary>
         public CommentForumTests()
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
-            {
-                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
-                site = _siteList.GetSite("h2g2");
-
-                _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                _comments.siteList = _siteList;
-            }
+           
             
         }
 		
@@ -69,20 +71,20 @@ namespace Tests
             string badSiteName = "not a site name";
 
             //test good site
-            CommentForumList result = _comments.CommentForumsRead(goodSiteName);
+            CommentForumList result = _comments.GetCommentForumListBySite(goodSiteName);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.TotalCount > 0);
             //test paging
             _comments.ItemsPerPage = 50;
             _comments.StartIndex = 0;
-            result = _comments.CommentForumsRead(goodSiteName);
+            result = _comments.GetCommentForumListBySite(goodSiteName);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.TotalCount > 0);
             Assert.IsTrue(result.ItemsPerPage == _comments.ItemsPerPage);
             Assert.IsTrue(result.StartIndex == _comments.StartIndex);
 
             //test bad site name
-            result = _comments.CommentForumsRead(badSiteName);
+            result = _comments.GetCommentForumListBySite(badSiteName);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.CommentForums != null);
             Assert.IsTrue(result.CommentForums.Count == 0);
@@ -110,7 +112,7 @@ namespace Tests
             for (int i = 0; i < 3; i++)
             {
                 commentForum.Id = String.Format("{0}-{1}", prefix, Guid.NewGuid().ToString());
-                result = _comments.CommentForumCreate(commentForum, site);
+                result = _comments.CreateCommentForum(commentForum, site);
                 Assert.IsTrue(result != null);
                 Assert.IsTrue(result.Id == commentForum.Id);
                 Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -118,14 +120,14 @@ namespace Tests
             }
             //create one which doesn't have the prefix
             commentForum.Id = String.Format("{0}", Guid.NewGuid().ToString());
-            result = _comments.CommentForumCreate(commentForum, site);
+            result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
             Assert.IsTrue(result.Title == commentForum.Title);
 
             //get comment list with prefix
-            CommentForumList resultList = _comments.CommentForumsRead(site.SiteName, prefix);
+            CommentForumList resultList = _comments.GetCommentForumListBySite(site.SiteName, prefix);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.TotalCount == 3);
 
@@ -146,7 +148,7 @@ namespace Tests
             
 
             //create the forum
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -163,14 +165,14 @@ namespace Tests
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
             _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
-            CommentInfo commentInfo = _comments.CommentCreate(result, comment);
+            CommentInfo commentInfo = _comments.CreateComment(result, comment);
             Assert.IsTrue(commentInfo != null);
             Assert.IsTrue(commentInfo.ID > 0);
             Assert.IsTrue(commentInfo.text == comment.text);
 
             string badUid = "not a UID";
             //test good site
-            result = _comments.CommentForumReadByUID(commentForum.Id, site);
+            result = _comments.GetCommentForumByUid(commentForum.Id, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.commentList != null);
@@ -178,7 +180,7 @@ namespace Tests
             //test paging
             _comments.ItemsPerPage = 50;
             _comments.StartIndex = 0;
-            result = _comments.CommentForumReadByUID(commentForum.Id, site);
+            result = _comments.GetCommentForumByUid(commentForum.Id, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.commentList != null);
@@ -187,7 +189,7 @@ namespace Tests
             Assert.IsTrue(result.commentList.StartIndex == _comments.StartIndex);
 
             //test bad site name
-            result = _comments.CommentForumReadByUID(badUid, site);
+            result = _comments.GetCommentForumByUid(badUid, site);
             Assert.IsTrue(result == null);
 
 		}
@@ -205,7 +207,7 @@ namespace Tests
                 Title = "testCommentForum"
             };
             
-            CommentForum resultCommentForum = _comments.CommentForumCreate(commentForum, site);
+            CommentForum resultCommentForum = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(resultCommentForum != null);
             Assert.IsTrue(resultCommentForum.Id == commentForum.Id);
             Assert.IsTrue(resultCommentForum.ParentUri == commentForum.ParentUri);
@@ -225,7 +227,7 @@ namespace Tests
                 Title = "testCommentForum"
             };
             
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -250,7 +252,7 @@ namespace Tests
             try
             {
                 //should throw error stating uid length too long
-                CommentForum result = _comments.CommentForumCreate(commentForum, site);
+                CommentForum result = _comments.CreateCommentForum(commentForum, site);
             }
             catch (ApiException ex)
             {
@@ -271,14 +273,14 @@ namespace Tests
                 ParentUri = "http://www.bbc.co.uk/dna/h2g2/",
                 Title = "testCommentForum"
             };
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
             Assert.IsTrue(result.Title == commentForum.Title);
 
             //should return the same forum
-            result = _comments.CommentForumCreate(commentForum, site);
+            result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -300,7 +302,7 @@ namespace Tests
 
             try
             {
-                CommentForum result = _comments.CommentForumCreate(commentForum, site);
+                CommentForum result = _comments.CreateCommentForum(commentForum, site);
             }
             catch (ApiException ex)
             {
@@ -322,7 +324,7 @@ namespace Tests
 
             try
             {
-                CommentForum result = _comments.CommentForumCreate(commentForum, site);
+                CommentForum result = _comments.CreateCommentForum(commentForum, site);
             }
             catch (ApiException ex)
             {
@@ -339,7 +341,7 @@ namespace Tests
 
             try
             {
-                CommentForum result = _comments.CommentForumCreate(commentForum, site);
+                CommentForum result = _comments.CreateCommentForum(commentForum, site);
             }
             catch (ApiException ex)
             {
@@ -360,7 +362,7 @@ namespace Tests
             };
             try
             {
-                CommentForum result = _comments.CommentForumCreate(commentForum, site);
+                CommentForum result = _comments.CreateCommentForum(commentForum, site);
             }
             catch (ApiException ex)
             {
@@ -382,7 +384,7 @@ namespace Tests
             };
             try
             {
-                CommentForum result = _comments.CommentForumCreate(commentForum, null);
+                CommentForum result = _comments.CreateCommentForum(commentForum, null);
             }
             catch (ApiException ex)
             {
@@ -406,7 +408,7 @@ namespace Tests
             };
             
 
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -431,7 +433,7 @@ namespace Tests
                 ModerationServiceGroup = ModerationStatus.ForumStatus.PreMod
             };
             
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -457,7 +459,7 @@ namespace Tests
             };
             
 
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -523,7 +525,7 @@ namespace Tests
             DateTime expectedCloseDate = commentForum.CloseDate.AddDays(1);//add a day
             expectedCloseDate = new DateTime(expectedCloseDate.Year, expectedCloseDate.Month, expectedCloseDate.Day);//force to midnight
 
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -547,7 +549,7 @@ namespace Tests
             
 
             //create the forum
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -566,7 +568,7 @@ namespace Tests
                 //normal user
                 _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
                 _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
-                CommentInfo commentInfo = _comments.CommentCreate(result, comment);
+                CommentInfo commentInfo = _comments.CreateComment(result, comment);
                 Assert.IsTrue(commentInfo != null);
                 Assert.IsTrue(commentInfo.ID > 0);
                 Assert.IsTrue(commentInfo.text == comment.text);
@@ -574,13 +576,13 @@ namespace Tests
 
            
             //test good site
-            CommentsList resultList = _comments.CommentsReadBySite(site);
+            CommentsList resultList = _comments.GetCommentsListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.TotalCount != 0);
             //test paging
             _comments.ItemsPerPage = 3;
             _comments.StartIndex = 5;
-            resultList = _comments.CommentsReadBySite(site);
+            resultList = _comments.GetCommentsListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.TotalCount != 0);
             Assert.IsTrue(resultList.ItemsPerPage == _comments.ItemsPerPage);
@@ -603,7 +605,7 @@ namespace Tests
             
 
             //create the forum
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -622,7 +624,7 @@ namespace Tests
                 //normal user
                 _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
                 _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
-                CommentInfo commentInfo = _comments.CommentCreate(result, comment);
+                CommentInfo commentInfo = _comments.CreateComment(result, comment);
                 Assert.IsTrue(commentInfo != null);
                 Assert.IsTrue(commentInfo.ID > 0);
                 Assert.IsTrue(commentInfo.text == comment.text);
@@ -630,13 +632,13 @@ namespace Tests
 
 
             //test good site
-            CommentsList resultList = _comments.CommentsReadBySite(site, prefix);
+            CommentsList resultList = _comments.GetCommentsListBySite(site, prefix);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.TotalCount == 10);
             //test paging
             _comments.ItemsPerPage = 3;
             _comments.StartIndex = 5;
-            resultList = _comments.CommentsReadBySite(site, prefix);
+            resultList = _comments.GetCommentsListBySite(site, prefix);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.TotalCount == 10);
             Assert.IsTrue(resultList.ItemsPerPage == _comments.ItemsPerPage);
@@ -664,7 +666,7 @@ namespace Tests
             {
                 commentForum.Title = this.ToString();
                 commentForum.Id = String.Format("{0}-{1}", prefix, Guid.NewGuid().ToString());
-                result = _comments.CommentForumCreate(commentForum, site);
+                result = _comments.CreateCommentForum(commentForum, site);
                 Assert.IsTrue(result != null);
                 Assert.IsTrue(result.Id == commentForum.Id);
                 Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -674,7 +676,7 @@ namespace Tests
             //get comment list with ascending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Ascending;
-            CommentForumList resultList = _comments.CommentForumsRead(null);
+            CommentForumList resultList = _comments.GetCommentForumListBySite(null);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -691,7 +693,7 @@ namespace Tests
             //get comment list with descending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Descending;
-            resultList = _comments.CommentForumsRead(null);
+            resultList = _comments.GetCommentForumListBySite(null);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -725,7 +727,7 @@ namespace Tests
             {
                 commentForum.Title = this.ToString();
                 commentForum.Id = String.Format("{0}-{1}", prefix, Guid.NewGuid().ToString());
-                result = _comments.CommentForumCreate(commentForum, site);
+                result = _comments.CreateCommentForum(commentForum, site);
                 Assert.IsTrue(result != null);
                 Assert.IsTrue(result.Id == commentForum.Id);
                 Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -735,7 +737,7 @@ namespace Tests
             //get comment list with ascending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Ascending;
-            CommentForumList resultList = _comments.CommentForumsRead(site.SiteName);
+            CommentForumList resultList = _comments.GetCommentForumListBySite(site.SiteName);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -752,7 +754,7 @@ namespace Tests
             //get comment list with descending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Descending;
-            resultList = _comments.CommentForumsRead(site.SiteName);
+            resultList = _comments.GetCommentForumListBySite(site.SiteName);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -786,7 +788,7 @@ namespace Tests
             {
                 commentForum.Title = this.ToString();
                 commentForum.Id = String.Format("{0}-{1}", prefix, Guid.NewGuid().ToString());
-                result = _comments.CommentForumCreate(commentForum, site);
+                result = _comments.CreateCommentForum(commentForum, site);
                 Assert.IsTrue(result != null);
                 Assert.IsTrue(result.Id == commentForum.Id);
                 Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -796,7 +798,7 @@ namespace Tests
             //get comment list with ascending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Ascending;
-            CommentForumList resultList = _comments.CommentForumsRead(site.SiteName, prefix);
+            CommentForumList resultList = _comments.GetCommentForumListBySite(site.SiteName, prefix);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -813,7 +815,7 @@ namespace Tests
             //get comment list with descending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Descending;
-            resultList = _comments.CommentForumsRead(site.SiteName, prefix);
+            resultList = _comments.GetCommentForumListBySite(site.SiteName, prefix);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -841,7 +843,7 @@ namespace Tests
 
 
             //create the forum
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -860,7 +862,7 @@ namespace Tests
                 //normal user
                 _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
                 _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
-                CommentInfo commentInfo = _comments.CommentCreate(result, comment);
+                CommentInfo commentInfo = _comments.CreateComment(result, comment);
                 Assert.IsTrue(commentInfo != null);
                 Assert.IsTrue(commentInfo.ID > 0);
                 Assert.IsTrue(commentInfo.text == comment.text);
@@ -868,13 +870,13 @@ namespace Tests
 
 
             //test good site
-            CommentsList resultList = _comments.CommentsReadBySite(site);
+            CommentsList resultList = _comments.GetCommentsListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.comments.Count != 0);
             //test paging
             _comments.ItemsPerPage = 3;
             _comments.StartIndex = 5;
-            resultList = _comments.CommentsReadBySite(site);
+            resultList = _comments.GetCommentsListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.TotalCount != 0);
             Assert.IsTrue(resultList.ItemsPerPage == _comments.ItemsPerPage);
@@ -883,7 +885,7 @@ namespace Tests
             //get comment list with ascending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Ascending;
-            resultList = _comments.CommentsReadBySite(site);
+            resultList = _comments.GetCommentsListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -900,7 +902,7 @@ namespace Tests
             //get comment list with descending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Descending;
-            resultList = _comments.CommentsReadBySite(site);
+            resultList = _comments.GetCommentsListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -929,7 +931,7 @@ namespace Tests
 
 
             //create the forum
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -948,7 +950,7 @@ namespace Tests
                 //normal user
                 _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
                 _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
-                CommentInfo commentInfo = _comments.CommentCreate(result, comment);
+                CommentInfo commentInfo = _comments.CreateComment(result, comment);
                 Assert.IsTrue(commentInfo != null);
                 Assert.IsTrue(commentInfo.ID > 0);
                 Assert.IsTrue(commentInfo.text == comment.text);
@@ -956,13 +958,13 @@ namespace Tests
 
 
             //test good site
-            CommentForum resultList = _comments.CommentForumReadByUID(uid, site);
+            CommentForum resultList = _comments.GetCommentForumByUid(uid, site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.commentList.TotalCount != 0);
             //test paging
             _comments.ItemsPerPage = 3;
             _comments.StartIndex = 5;
-            resultList = _comments.CommentForumReadByUID(uid, site);
+            resultList = _comments.GetCommentForumByUid(uid, site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.commentList.TotalCount != 0);
             Assert.IsTrue(resultList.commentList.ItemsPerPage == _comments.ItemsPerPage);
@@ -971,7 +973,7 @@ namespace Tests
             //get comment list with ascending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Ascending;
-            resultList = _comments.CommentForumReadByUID(uid, site);
+            resultList = _comments.GetCommentForumByUid(uid, site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.commentList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.commentList.SortDirection == _comments.SortDirection);
@@ -988,7 +990,7 @@ namespace Tests
             //get comment list with descending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Descending;
-            resultList = _comments.CommentForumReadByUID(uid, site);
+            resultList = _comments.GetCommentForumByUid(uid, site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.commentList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.commentList.SortDirection == _comments.SortDirection);
@@ -1017,47 +1019,47 @@ namespace Tests
             
 
             //create the forum
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
             Assert.IsTrue(result.Title == commentForum.Title);
 
             CommentInfo comment1 = SetupComment();
-            CommentInfo createdComment1 = _comments.CommentCreate(result, comment1);
+            CommentInfo createdComment1 = _comments.CreateComment(result, comment1);
 
             Assert.IsTrue(createdComment1 != null);
             Assert.IsTrue(createdComment1.ID > 0);
             Assert.IsTrue(createdComment1.text == comment1.text);
 
             CommentInfo comment2 = SetupComment();
-            CommentInfo createdComment2 = _comments.CommentCreate(result, comment2);
+            CommentInfo createdComment2 = _comments.CreateComment(result, comment2);
 
             Assert.IsTrue(createdComment2 != null);
             Assert.IsTrue(createdComment2.ID > 0);
             Assert.IsTrue(createdComment2.text == comment2.text);
 
             CommentInfo comment3 = SetupComment();
-            CommentInfo createdComment3 = _comments.CommentCreate(result, comment3);
+            CommentInfo createdComment3 = _comments.CreateComment(result, comment3);
 
             Assert.IsTrue(createdComment3 != null);
             Assert.IsTrue(createdComment3.ID > 0);
             Assert.IsTrue(createdComment3.text == comment3.text);
 
 
-            CommentInfo returnedCommentInfo = _comments.CommentReadByPostID(createdComment1.ID.ToString(), site);
+            CommentInfo returnedCommentInfo = _comments.CommentReadByPostId(createdComment1.ID.ToString(), site);
             Assert.IsTrue(createdComment1.text == returnedCommentInfo.text);
 
-            returnedCommentInfo = _comments.CommentReadByPostID(createdComment3.ID.ToString(), site);
+            returnedCommentInfo = _comments.CommentReadByPostId(createdComment3.ID.ToString(), site);
             Assert.IsTrue(createdComment3.text == returnedCommentInfo.text);
 
-            returnedCommentInfo = _comments.CommentReadByPostID(createdComment2.ID.ToString(), site);
+            returnedCommentInfo = _comments.CommentReadByPostId(createdComment2.ID.ToString(), site);
             Assert.IsTrue(createdComment2.text == returnedCommentInfo.text);
 
             returnedCommentInfo = null;
             try
             {
-                returnedCommentInfo = _comments.CommentReadByPostID("0", site);
+                returnedCommentInfo = _comments.CommentReadByPostId("0", site);
             }
             catch (ApiException ex)
             {

@@ -10,7 +10,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Users
 {
-    public class CallingUser : User
+    public class CallingUser : User, ICallingUser
     {
         SignInSystem _signInSystem = SignInSystem.Identity;
 
@@ -108,6 +108,11 @@ namespace BBC.Dna.Users
         public bool SynchronizeUserSigninDetails()
         {
             return true;
+        }
+
+        public override int IdentityUserID
+        {
+            get { return base.IdentityUserID; }
         }
     }
 }

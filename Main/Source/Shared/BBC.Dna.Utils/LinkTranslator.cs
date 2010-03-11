@@ -16,7 +16,7 @@ namespace BBC.Dna.Utils
         static Regex regForumEx = new Regex(@"(\A|(?<=\s))F[1-9]\d+(\Z|(?=\s))");
         static Regex regArticleEx = new Regex(@"(\A|(?<=\s))A[0-9]+(\Z|(?=\s))");
         static Regex regCategoryEx = new Regex(@"C[0-9]+");
-        static Regex regLinkEx = new Regex(@"((http|https):[A-Za-z0-9/](([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2})+(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?)[^./?]");
+        static Regex regLinkEx = new Regex(@"((http|https):[A-Za-z0-9/](([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2})+(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?)[^.?\s]");
         //static Regex regInternalLinkEx = new Regex(@"(\A|(?<=\s))&lt;[.]/&gt;\w+&lt;/[.]&gt;(\Z|(?=\s))"); // Match <./>A-Z</.>
         //static Regex regGroupEx = new Regex(@"(?<=\s)G[1-9]\d*(?=\s)");
         static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(\Z|(?=\s))");
@@ -58,19 +58,7 @@ namespace BBC.Dna.Utils
             if (regLinkEx.IsMatch(result))
             {
                 String replace = "<LINK HREF=\"***\">***</LINK>";
-                MatchCollection matches = regLinkEx.Matches(result);
-                Stack stack = new Stack();
-                foreach (Match match in matches)
-                {
-                    stack.Push(match);
-                }
-
-                foreach (Match match in stack)
-                {
-                    String s = match.Value;
-                    result = result.Remove(match.Index, match.Length);
-                    result = result.Insert(match.Index, replace.Replace("***", s));
-                }
+                result = ReplaceExLinks(result, replace);
             }
 
             if (regUserEx.IsMatch(result))
@@ -166,6 +154,54 @@ namespace BBC.Dna.Utils
                 }
             }*/
             return result;
+        }
+
+        /// <summary>
+        /// Does the replacement of html ex links - if the link is in a <a></a> tags then it will be ignored
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="replace"></param>
+        /// <returns></returns>
+        private static string ReplaceExLinks(string result, string replace)
+        {
+            MatchCollection matches = regLinkEx.Matches(result);
+            Stack stack = new Stack();
+            foreach (Match match in matches)
+            {
+                stack.Push(match);
+            }
+
+            var hrefPattern = "href=\"";
+            foreach (Match match in stack)
+            {
+                if(match.Index > hrefPattern.Length)
+                {
+                    var prevsChars = result.Substring(match.Index - hrefPattern.Length, hrefPattern.Length);
+                    if(prevsChars == hrefPattern)
+                    {
+                        continue;
+                    }
+                }
+                String s = match.Value;
+                result = result.Remove(match.Index, match.Length);
+                result = result.Insert(match.Index, replace.Replace("***", s));
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Finds and replaces http based links into a href links
+        /// </summary>
+        /// <param name="raw"></param>
+        /// <returns></returns>
+        public static string TranslateExLinksToHtml(string raw)
+        {
+            if (regLinkEx.IsMatch(raw))
+            {
+                String replace = "<a href=\"***\">***</a>";
+                raw = ReplaceExLinks(raw, replace);
+            }
+            return raw;
         }
     }
 }

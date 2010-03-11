@@ -320,7 +320,7 @@ namespace BBC.Dna.Page
                     }
                     else
                     {
-                        ProfanityFilter.InitialiseProfanitiesIfEmpty(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
+                        ProfanityFilter.InitialiseProfanitiesIfEmpty(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics);
 
                         // Now call the add components
                         _dnapage.OnPageLoad();

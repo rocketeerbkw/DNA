@@ -94,6 +94,9 @@
     <Compile Include="status.aspx.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="version.aspx.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">

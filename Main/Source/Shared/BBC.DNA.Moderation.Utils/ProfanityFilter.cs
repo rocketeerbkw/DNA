@@ -115,44 +115,36 @@ namespace BBC.Dna.Moderation.Utils
 		//    return _profLoader;
 		//}
 
-        /// <summary>
-        /// Initialise the static profanity data if it hasn't already been initialised.
-        /// Safe to call on each request.
-		/// </summary>
-		/// <param name="connectionString">The connection to use</param>
-        public static void InitialiseProfanitiesIfEmpty(string connectionString)
-        {
-            InitialiseProfanitiesIfEmpty(connectionString, null);
-        }
-
-		/// <summary>
-        /// Initialise the static profanity data if it hasn't already been initialised.
-        /// Safe to call on each request.
-		/// </summary>
-		/// <param name="connectionString">The connection to use</param>
-		/// <param name="dnaDiag">For logging - can be null</param>
-		public static void InitialiseProfanitiesIfEmpty(string connectionString, IDnaDiagnostics dnaDiag)
+	    /// <summary>
+	    /// Initialise the static profanity data if it hasn't already been initialised.
+	    /// Safe to call on each request.
+	    /// </summary>
+	    /// <param name="connectionString">The connection to use</param>
+	    /// <param name="readerCreator"></param>
+	    /// <param name="dnaDiag">For logging - can be null</param>
+	    public static void InitialiseProfanitiesIfEmpty(IDnaDataReaderCreator readerCreator, IDnaDiagnostics dnaDiag)
 		{
             if (_profanityClasses == null)
             {
-                InitialiseProfanities(connectionString, dnaDiag);
+                InitialiseProfanities(readerCreator, dnaDiag);
                 return;
             }
 		    return;
 		}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <param name="dnaDiag"></param>
-	    public static void InitialiseProfanities(string connectionString, IDnaDiagnostics dnaDiag)
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="connectionString"></param>
+	    /// <param name="readerCreator"></param>
+	    /// <param name="dnaDiag"></param>
+	    public static void InitialiseProfanities(IDnaDataReaderCreator readerCreator, IDnaDiagnostics dnaDiag)
 	    {
 	        if (Monitor.TryEnter(_lock))
 	        {
 	            try
 	            {
-	                using (IDnaDataReader reader = StoredProcedureReader.Create("getallprofanities", connectionString, dnaDiag))
+                    using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getallprofanities"))
 	                {
 	                    InitialiseProfanityClasses();
 

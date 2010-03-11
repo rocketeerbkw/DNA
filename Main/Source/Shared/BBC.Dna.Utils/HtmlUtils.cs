@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -189,6 +190,28 @@ namespace BBC.Dna.Utils
 
             return Output;
         }
+
+        /// <summary>
+        /// Runs inputted text against code and only allows a selected set of tags
+        /// </summary>
+        /// <param name="textToFix">The text to run against</param>
+        /// <returns>The fixed string</returns>
+        public static string RemoveAllHtmlTags(string textToFix)
+        {
+            Regex StripHTMLExp = new Regex(@"(<\/?[^>]+>)");
+            return StripHTMLExp.Matches(textToFix).Cast<Match>().Aggregate(textToFix, (current, Tag) => current.Replace(Tag.Value, ""));
+        }
+
+        /// <summary>
+        /// Replaces new lines and carriage returns with HTML <BR /> tags. 
+        /// </summary>
+        /// <param name="text">The text to be processed.</param>
+        public static string ReplaceCRsWithBRs(string text)
+        {
+
+            return text.Replace("\r\n", "<BR />").Replace("\n", "<BR />");
+        }
+
         private static string ReplaceFirst(string haystack, string needle, string replacement)
         {
             int pos = haystack.IndexOf(needle);

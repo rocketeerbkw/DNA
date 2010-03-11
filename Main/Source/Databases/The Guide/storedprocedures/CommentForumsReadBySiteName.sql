@@ -1,4 +1,4 @@
-CREATE PROCEDURE commentforumsreadbysitename @siteurlname varchar(30) = null, @startindex int = 0, @itemsperpage int = 0, @sortby varchar(20) ='created', @sortdirection varchar(20) = 'descending'
+CREATE PROCEDURE commentforumsreadbysitename @siteurlname varchar(30) = null, @startindex int = 0, @itemsperpage int = 0, @sortby varchar(20) ='created', @sortdirection varchar(20) = 'descending', @prefix varchar(100)= null
 	AS
 	
 	declare @totalresults int

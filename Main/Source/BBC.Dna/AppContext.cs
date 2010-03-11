@@ -53,7 +53,7 @@ namespace BBC.Dna
             //load the smiley list
             
             SmileyTranslator.LoadSmileys(ReaderCreator);
-            ProfanityFilter.InitialiseProfanities(TheAppContext.Config.ConnectionString, TheAppContext._dnaAppDiagnostics);
+            ProfanityFilter.InitialiseProfanities(AppContext.ReaderCreator, TheAppContext._dnaAppDiagnostics);
 		}
 
 		/// <summary>

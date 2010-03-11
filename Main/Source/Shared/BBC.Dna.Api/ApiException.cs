@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using BBC.Dna.Utils;
 
 namespace BBC.Dna.Api
@@ -14,7 +11,6 @@ namespace BBC.Dna.Api
         /// 
         /// </summary>
         public ApiException()
-            : base()
         {
         }
 
@@ -47,43 +43,110 @@ namespace BBC.Dna.Api
         {
             return GetError(type, null);
         }
+
         public static ApiException GetError(ErrorType type, Exception innerException)
         {
-            ApiException _error = new ApiException() { type = ErrorType.Unknown };
+            ApiException error;
             switch (type)
             {
-                case ErrorType.MissingUserCredentials: _error = new ApiException("Missing user credentials.", innerException);break;
-                case ErrorType.FailedTermsAndConditions: _error = new ApiException("Failed terms and conditions.", innerException); break;
-                case ErrorType.MissingEditorCredentials: _error = new ApiException("Missing editor credentials.", innerException); break;
-                case ErrorType.UserIsBanned: _error = new ApiException("User is banned.", innerException); break;
-                case ErrorType.SiteIsClosed: _error = new ApiException("Site is closed.", innerException); break;
-                case ErrorType.EmptyText: _error = new ApiException("Text is null or blank.", innerException); break;
-                case ErrorType.ExceededTextLimit: _error = new ApiException("Text exceeds maximum character limit.", innerException); break;
-                case ErrorType.XmlFailedParse: _error = new ApiException("The xml provided failed to parse correctly.", innerException); break;
-                case ErrorType.ProfanityFoundInText: _error = new ApiException("Profanity filter triggered error.", innerException); break;
-                case ErrorType.ForumUnknown: _error = new ApiException("Forum is unknown and cannot be added to.", innerException); break;
-                case ErrorType.ForumClosed: _error = new ApiException("Forum is closed and cannot be added to.", innerException); break;
-                case ErrorType.ForumReadOnly: _error = new ApiException("Forum is readonly and cannot be added to.", innerException); break;
-                case ErrorType.InvalidForumUid: _error = new ApiException("Forum uid is empty, null or exceeds 255 characters.", innerException); break;
-                case ErrorType.InvalidForumParentUri: _error = new ApiException("Forum parent uri is empty, null or not from a bbc.co.uk domain.", innerException); break;
-                case ErrorType.InvalidForumTitle: _error = new ApiException("Forum title uri is empty or null.", innerException); break;
-                case ErrorType.UnknownSite: _error = new ApiException("Site reference is unknown.", innerException); break;
-                case ErrorType.MultipleRatingByUser: _error = new ApiException("User has already rated this content.", innerException); break;
-                case ErrorType.RatingExceedsMaximumAllowed: _error = new ApiException("Rating exceeds allowed maximum.", innerException); break;
-                case ErrorType.InvalidProcessPreModState: _error = new ApiException("Ratings not possible in pre-moderation with 'ProcessPreMod' site option set.", innerException); break;
-                case ErrorType.InvalidModerationStatus: _error = new ApiException("The ModerationServiceGroup is not valid.", innerException); break;
-                case ErrorType.InvalidForumClosedDate: _error = new ApiException("The closed date is not valid.", innerException); break;
-                case ErrorType.UnknownFormat: _error = new ApiException("The requested format is not implemented or unknown.", innerException); break;
-                case ErrorType.InvalidUserId: _error = new ApiException("User must be a integer", innerException); break;
-                case ErrorType.InvalidRatingValue: _error = new ApiException("The rating object must be between 0 and 255", innerException); break;
-                case ErrorType.InvalidThreadID: _error = new ApiException("The threadID must be of valid type.", innerException); break;
-                case ErrorType.InvalidPostStyle: _error = new ApiException("The postStyle must be of valid type.", innerException); break;
-                case ErrorType.CommentNotFound: _error = new ApiException("The comment with the given id could not be found.", innerException); break;
-                case ErrorType.MinCharLimitNotReached: _error = new ApiException("Text is below the minimum character limit.", innerException); break;
-                default: _error = new ApiException("Unknow error has occurred.", innerException); break; 
+                case ErrorType.MissingUserCredentials:
+                    error = new ApiException("Missing user credentials.", innerException);
+                    break;
+                case ErrorType.FailedTermsAndConditions:
+                    error = new ApiException("Failed terms and conditions.", innerException);
+                    break;
+                case ErrorType.MissingEditorCredentials:
+                    error = new ApiException("Missing editor credentials.", innerException);
+                    break;
+                case ErrorType.UserIsBanned:
+                    error = new ApiException("User is banned.", innerException);
+                    break;
+                case ErrorType.SiteIsClosed:
+                    error = new ApiException("Site is closed.", innerException);
+                    break;
+                case ErrorType.EmptyText:
+                    error = new ApiException("Text is null or blank.", innerException);
+                    break;
+                case ErrorType.ExceededTextLimit:
+                    error = new ApiException("Text exceeds maximum character limit.", innerException);
+                    break;
+                case ErrorType.XmlFailedParse:
+                    error = new ApiException("The xml provided failed to parse correctly.", innerException);
+                    break;
+                case ErrorType.ProfanityFoundInText:
+                    error = new ApiException("Profanity filter triggered error.", innerException);
+                    break;
+                case ErrorType.ForumUnknown:
+                    error = new ApiException("Forum is unknown and cannot be added to.", innerException);
+                    break;
+                case ErrorType.ForumClosed:
+                    error = new ApiException("Forum is closed and cannot be added to.", innerException);
+                    break;
+                case ErrorType.ForumReadOnly:
+                    error = new ApiException("Forum is readonly and cannot be added to.", innerException);
+                    break;
+                case ErrorType.InvalidForumUid:
+                    error = new ApiException("Forum uid is empty, null or exceeds 255 characters.", innerException);
+                    break;
+                case ErrorType.InvalidForumParentUri:
+                    error = new ApiException("Forum parent uri is empty, null or not from a bbc.co.uk domain.",
+                                              innerException);
+                    break;
+                case ErrorType.InvalidForumTitle:
+                    error = new ApiException("Forum title uri is empty or null.", innerException);
+                    break;
+                case ErrorType.UnknownSite:
+                    error = new ApiException("Site reference is unknown.", innerException);
+                    break;
+                case ErrorType.MultipleRatingByUser:
+                    error = new ApiException("User has already rated this content.", innerException);
+                    break;
+                case ErrorType.RatingExceedsMaximumAllowed:
+                    error = new ApiException("Rating exceeds allowed maximum.", innerException);
+                    break;
+                case ErrorType.InvalidProcessPreModState:
+                    error =
+                        new ApiException(
+                            "Ratings not possible in pre-moderation with 'ProcessPreMod' site option set.",
+                            innerException);
+                    break;
+                case ErrorType.InvalidModerationStatus:
+                    error = new ApiException("The ModerationServiceGroup is not valid.", innerException);
+                    break;
+                case ErrorType.InvalidForumClosedDate:
+                    error = new ApiException("The closed date is not valid.", innerException);
+                    break;
+                case ErrorType.UnknownFormat:
+                    error = new ApiException("The requested format is not implemented or unknown.", innerException);
+                    break;
+                case ErrorType.InvalidUserId:
+                    error = new ApiException("User must be a integer", innerException);
+                    break;
+                case ErrorType.InvalidRatingValue:
+                    error = new ApiException("The rating object must be between 0 and 255", innerException);
+                    break;
+                case ErrorType.InvalidThreadID:
+                    error = new ApiException("The threadID must be of valid type.", innerException);
+                    break;
+                case ErrorType.InvalidPostStyle:
+                    error = new ApiException("The postStyle must be of valid type.", innerException);
+                    break;
+                case ErrorType.CommentNotFound:
+                    error = new ApiException("The comment with the given id could not be found.", innerException);
+                    break;
+                case ErrorType.MinCharLimitNotReached:
+                    error = new ApiException("Text is below the minimum character limit.", innerException);
+                    break;
+
+                case ErrorType.MissingUserList:
+                    error = new ApiException("No user ids passed in.", innerException);
+                    break;
+                default:
+                    error = new ApiException("Unknown error has occurred.", innerException);
+                    break;
             }
-            _error.type = type;
-            return _error;
+            error.type = type;
+            return error;
         }
     }
 
@@ -118,9 +181,7 @@ namespace BBC.Dna.Api
         InvalidPostStyle,
         InvalidThreadID,
         CommentNotFound,
-        MinCharLimitNotReached
-
+        MinCharLimitNotReached,
+        MissingUserList
     }
-
-
 }

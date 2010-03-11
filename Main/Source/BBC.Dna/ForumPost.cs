@@ -192,46 +192,9 @@ namespace BBC.Dna
             string canWrite = (forum.CanWrite && !forum.isClosed) ?"1":"0";
             string subject = StringUtils.EscapeAllXml(forum.Title);
             string datePosted = comment.Created.At;
-            string bodyText = comment.text;
+            string bodyText = HtmlUtils.TryParseToValidHtml(comment.FormatttedText);
             string hostPageUrl = forum.ParentUri;
             string commentForumTitle = forum.Title;
-
-
-
-            if (hidden == 3) // 3 means premoderated! - hidden!
-            {
-                subject = "Hidden";
-            }
-            else if (hidden > 0)
-            {
-                subject = "Removed";
-            }
-
-
-            
-            if (hidden == 3) // 3 means premoderated! - hidden!
-            {
-                bodyText = "This post has been hidden";
-            }
-            else if (hidden > 0)
-            {
-                bodyText = "This post has been Removed";
-            }
-
-
-            if (comment.PostStyle != PostStyle.Style.plaintext)
-            {
-                //TODO Do we need Rich Post stuff for the post style??
-                string temp = "<RICHPOST>" + bodyText.Replace("\r\n", "<BR />").Replace("\n", "<BR />") + "</RICHPOST>";
-                //Regex regex = new Regex(@"(<[^<>]+)<BR \/>");
-                //while (regex.Match(temp).Success)
-                //{
-                //    temp = regex.Replace(temp,@"$1 ");
-                //}
-                //bodyText = temp;
-                bodyText = HtmlUtils.TryParseToValidHtml(temp);
-            }
-
 
             User user = new User(context);
             XmlNode userNode = component.ImportNode(user.GenerateUserXml(comment.User.UserId, comment.User.DisplayName, String.Empty, String.Empty, String.Empty

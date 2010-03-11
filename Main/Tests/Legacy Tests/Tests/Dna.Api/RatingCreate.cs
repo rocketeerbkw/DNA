@@ -8,6 +8,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
@@ -36,6 +37,13 @@ namespace Tests
         [TestInitialize]
         public void StartUp()
         {
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                ProfanityFilter.InitialiseProfanitiesIfEmpty(inputcontext.ReaderCreator, null);
+                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+                site = _siteList.GetSite("h2g2");
+                _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
+            }
             Statistics.InitialiseIfEmpty();
             SnapshotInitialisation.RestoreFromSnapshot();
         }
@@ -48,13 +56,7 @@ namespace Tests
         /// </summary>
         public RatingCreateTests()
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
-            {
-                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
-                site = _siteList.GetSite("h2g2");
-                _ratings = new Reviews(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                _ratings.siteList = _siteList;
-            }
+            
             
         }
 
@@ -247,7 +249,7 @@ namespace Tests
                     }
                     _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
                     site = _siteList.GetSite("h2g2");
-                    _ratings.siteList = _siteList;
+                    _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                 }
 
                 //set up test data
@@ -281,7 +283,7 @@ namespace Tests
                     {
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxForumRatingScore'");
                         _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                        _ratings.siteList = _siteList;
+                        _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                     }
                 }
             }
@@ -347,7 +349,7 @@ namespace Tests
             Reviews ratings = null;
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                ratings = new Reviews(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
             //set up test data
             RatingInfo rating = new RatingInfo
@@ -386,6 +388,7 @@ namespace Tests
             _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
+            var callingUser = _ratings.CallingUser;
             //set up test data
             RatingInfo rating = new RatingInfo
             {
@@ -402,12 +405,16 @@ namespace Tests
             try
             {//turn the site into emergency closed mode
                 _siteList.GetSite(site.ShortName).IsEmergencyClosed = true;
-                _ratings.siteList = _siteList;
+                using (FullInputContext inputcontext = new FullInputContext(false))
+                {
+                    _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
+                    _ratings.CallingUser = callingUser;
+                }
                 RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             }
             catch (ApiException ex)
             {
-                Assert.IsTrue(ex.type == ErrorType.SiteIsClosed);
+                Assert.AreEqual(ErrorType.SiteIsClosed, ex.type);
             }
             finally
             {//reset the site into emergency closed mode
@@ -471,7 +478,7 @@ namespace Tests
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text.IndexOf(illegalTags) < 0);//illegal char stripped
+            Assert.IsTrue(result.FormatttedText.IndexOf(illegalTags) < 0);//illegal char stripped
         }
 
         /// <summary>
@@ -501,7 +508,7 @@ namespace Tests
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == expectedOutput);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
         }
 
         /// <summary>
@@ -530,7 +537,7 @@ with a carrage return.";
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == expectedOutput);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
         }
 
         /// <summary>
@@ -604,7 +611,7 @@ return.";
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == expectedOutput);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
         }
 
         /// <summary>
@@ -633,7 +640,7 @@ return.";
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);//should be valid post ID 
-            Assert.IsTrue(result.text == "This post is awaiting moderation.");
+            Assert.AreEqual("This post is awaiting moderation.", result.FormatttedText);
 
             //check if post in mod queue table
             using (FullInputContext inputcontext = new FullInputContext(false))
@@ -668,8 +675,7 @@ return.";
                 }
                 _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
                 site = _siteList.GetSite("h2g2");
-                _ratings = new Reviews(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                _ratings.siteList = _siteList;
+                _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), inputcontext.SiteList);
             }
 
             try
@@ -711,8 +717,7 @@ return.";
                     }
                     _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
                     site = _siteList.GetSite("h2g2");
-                    _ratings = new Reviews(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                    _ratings.siteList = _siteList;
+                    _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), inputcontext.SiteList);
                 }
             }
         }
@@ -1237,7 +1242,7 @@ return.";
                     }
                 }
                 _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
-                _ratings.siteList = _siteList;
+                _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
         }
 
@@ -1250,7 +1255,7 @@ return.";
                 {
                     reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','" + maxLimit.ToString() + "',0,'test MaxCommentCharacterLength value')");
                     _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
-                    _ratings.siteList = _siteList;
+                    _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                 }
             }
         }
@@ -1263,7 +1268,7 @@ return.";
                 {
                     reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MinCommentCharacterLength','" + minLimit.ToString() + "',0,'test MinCommentCharacterLength value')");
                     _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null, true);
-                    _ratings.siteList = _siteList;
+                    _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                 }
             }
         }

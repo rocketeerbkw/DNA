@@ -40,7 +40,7 @@ namespace BBC.Dna.Component
                     // We need to reload the site data
                     ReloadSiteData();
                     //Get the profanity list as well..
-                    ProfanityFilter.InitialiseProfanities(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
+                    ProfanityFilter.InitialiseProfanities(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics);
                 }
                 else if (action.ToLower() == "recache-groups")
                 {
