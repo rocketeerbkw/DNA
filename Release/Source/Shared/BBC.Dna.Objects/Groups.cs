@@ -26,6 +26,13 @@ namespace BBC.Dna.Objects
             get;
             set;
         }
+
+        public void AddGroup(string groupName)
+        {
+            var group = new Group{Name = groupName.ToUpper()};
+            if (Group.Exists(x => x.Name == group.Name)) return;
+            Group.Add(group);
+        }
     }
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
