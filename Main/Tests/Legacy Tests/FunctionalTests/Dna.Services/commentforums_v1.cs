@@ -145,6 +145,8 @@ namespace FunctionalTests
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/html");
             Assert.IsTrue(request.GetLastResponseAsString().IndexOf("<div") >= 0);
+            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("&lt;") < 0);//should be no escaped tags
+            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("&gt;") < 0);//should be no escaped tags
 
             Console.WriteLine("After CommentForumTests_V1 - GetAllCommentForumsAsHTML");
         }

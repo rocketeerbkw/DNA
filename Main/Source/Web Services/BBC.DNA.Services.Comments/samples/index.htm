@@ -46,9 +46,10 @@
         function getCreateUrl(path, sitename) {
             return "http://" + location.host + path + "/V1/site/" + sitename + "/";
         }
-        
-        function loaddata() {
 
+        function loaddata() {
+            sortBy = document.getElementById("sortBy").value;
+            sortDirection = document.getElementById("sortDirection").value;
             document.getElementById("txtPageSize").value = pageSize;
             //document.getElementById("txtApiUrl").value = urlCommentForums;
             var url = getUrl(urlCommentForums, document.getElementById("txtSitename").value, document.getElementById("txtPrefix").value);
@@ -272,7 +273,7 @@ identity_user_under16: 	<!--#echo var="identity_user_under16" --><br>
     </div>
 </div>
 <div style="clear:both;padding:20px 5px 20px 5px" id="divForums">
-    <table id="tblForums" style="width: 700px;">
+    <table id="tblForums" style="width: 750px;">
     <thead>
         <tr>
           <th>No.</th>
@@ -280,8 +281,15 @@ identity_user_under16: 	<!--#echo var="identity_user_under16" --><br>
           <th>Name</th>
           <th>ID</th>
           <th>Comments</th>
-          <th><a href="Javascript:changeSorting('Created');">Created</a></th>
-          <th>&nbsp;</th>
+          <th colspan="2"><select id="sortBy" name="sortBy" onchange="loaddata();">
+                <option id="Created">Created</option>
+                <option id="LastPosted">LastPosted</option>
+                </select>
+                <select id="sortDirection" name="sortDirection" onchange="loaddata();">
+                <option id="Descending">Descending</option>
+                <option id="Ascending">Ascending</option>
+                </select>
+                </th>
         </tr>
     </thead>
 

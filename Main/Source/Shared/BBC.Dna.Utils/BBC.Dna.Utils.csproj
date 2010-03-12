@@ -175,7 +175,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj">
       <Project>{4770D032-9B06-450D-8B00-7200D8330397}</Project>
-      <Name>Memcached.ClientLibrary</Name>
+      <Name>Memcached.ClientLibrary %28Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

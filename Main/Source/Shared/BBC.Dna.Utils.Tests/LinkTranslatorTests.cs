@@ -102,12 +102,14 @@ namespace BBC.Dna.Utils.Tests
                 "this is a test with a ? at the end http://en.wikipedia.org/wiki/Sink_or_Swim_(song)?",
                 "this is a test with in brackets (at the end http://en.wikipedia.org/wiki/Sink_or_Swim_(song))",
                 "this is a test with a anchor tag at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>",
+                "this is a test with a tag directly after link http://en.wikipedia.org/wiki/<br/>",
                              };
             string[] expected = {"<a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</a>",
                                     "this is a test with a . at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</a>.",
                                     "this is a test with a ? at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</a>?",
                                     "this is a test with in brackets (at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song))\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song))</a>", // this is not entirely correct but unable to work out if last ) is matched
                                     "this is a test with a anchor tag at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>",
+                                    "this is a test with a tag directly after link <a href=\"http://en.wikipedia.org/wiki/\">http://en.wikipedia.org/wiki/</a><br/>",
                                 };
 
             for (int i = 0; i < input.Length; i++)
