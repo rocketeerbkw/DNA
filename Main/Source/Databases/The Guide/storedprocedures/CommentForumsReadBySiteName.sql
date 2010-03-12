@@ -49,24 +49,20 @@ CREATE PROCEDURE commentforumsreadbysitename	@siteurlname varchar(30) = null,
 		where f.siteid = @siteid) x
 		where x.n > @startindex and x.n <= @startindex + @itemsperpage
 		and @sortBy = 'lastposted' and @sortDirection = 'ascending'
-	/*	
+
 		union all
 		
-		select * from (select row_number() over ( order by f.forumpostcount desc) as n, f.ForumID
-		from dbo.commentforums cf
-		inner join dbo.forums f on f.forumid = cf.forumid
-		where f.siteid = @siteid) x
-		where x.n > @startindex and x.n <= @startindex + @itemsperpage
+		select row_number() over ( order by forumpostcount desc) as n, ForumID
+		from VCommentForums
+		where siteid = @siteid 
 		and @sortBy = 'postcount' and @sortDirection = 'descending'
 		
 		union all
 		
-		select * from (select row_number() over ( order by f.forumpostcount asc) as n, f.ForumID
-		from dbo.commentforums cf
-		inner join dbo.forums f on f.forumid = cf.forumid
-		where f.siteid = @siteid) x
-		where x.n > @startindex and x.n <= @startindex + @itemsperpage
-		and @sortBy = 'postcount' and @sortDirection = 'ascending'*/
+		select row_number() over ( order by forumpostcount asc) as n, ForumID 
+		from VCommentForums 
+		where siteid = @siteid 
+		and @sortBy = 'postcount' and @sortDirection = 'ascending'
 	)
 	select cte.n, 
 	cte.forumID, 
