@@ -10,6 +10,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
+using BBC.Dna.Groups;
 
 namespace BBC.Dna
 {
@@ -54,6 +55,8 @@ namespace BBC.Dna
             
             SmileyTranslator.LoadSmileys(ReaderCreator);
             ProfanityFilter.InitialiseProfanities(AppContext.ReaderCreator, TheAppContext._dnaAppDiagnostics);
+            Groups.UserGroups userGroups = new Groups.UserGroups(_appContext._dnaConfig.ConnectionString, null);
+		    userGroups.InitialiseAllUsersAndGroups();
 		}
 
 		/// <summary>

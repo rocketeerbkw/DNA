@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 using BBC.Dna.Data;
+using BBC.Dna.Groups;
 
 namespace BBC.Dna
 {
@@ -177,6 +178,9 @@ namespace BBC.Dna
                             TransferSiteGroupMap();
                         }
                     }
+                    //update new groups object
+                    var groups = new Groups.UserGroups(AppContext.TheAppContext.Config.ConnectionString, null);
+                    groups.InitialiseAllUsersAndGroups();
                 }
                 finally
                 {
