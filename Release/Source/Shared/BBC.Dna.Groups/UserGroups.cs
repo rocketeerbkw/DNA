@@ -143,7 +143,7 @@ namespace BBC.Dna.Groups
             List<string> userGroups = GetUsersGroupListForSite(userID, siteID);
 
             // No list found, get the information from the database
-            if (userGroups == null)
+            if (userGroups == null && !String.IsNullOrEmpty(_connectionDetails))
             {
                 try
                 {

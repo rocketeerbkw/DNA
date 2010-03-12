@@ -1,18 +1,20 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Xml.Serialization;
+using BBC.Dna.Groups;
 using System.Linq;
-using System.Text;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "GROUPS")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "GROUPS")]
-    public partial class Groups
+    [GeneratedCode("System.Xml", "2.0.50727.3053")]
+    [Serializable]
+    [DesignerCategory("code")]
+    [XmlType(AnonymousType = true, TypeName = "GROUPS")]
+    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "GROUPS")]
+    public class Groups
     {
         public Groups()
         {
@@ -20,44 +22,54 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("GROUP", Order = 0)]
-        public System.Collections.Generic.List<Group> Group
-        {
-            get;
-            set;
-        }
+        [XmlElement("GROUP", Order = 0)]
+        public List<Group> Group { get; set; }
 
         public void AddGroup(string groupName)
         {
-            var group = new Group{Name = groupName.ToUpper()};
+            var group = new Group {Name = groupName.ToUpper()};
             if (Group.Exists(x => x.Name == group.Name)) return;
             Group.Add(group);
         }
+
+        public static Groups GetGroupsForUserBySiteId(int userId, int siteId)
+        {
+            var groups = new Groups();
+            var userGroups = new UserGroups("", null);
+            try
+            {
+                var groupList = userGroups.GetUsersGroupsForSite(userId, siteId);
+                foreach (var name in groupList)
+                {
+                    groups.AddGroup(name);
+                }
+            }
+            catch (Exception)
+            {
+//do nothing
+            }
+            return groups;
+        }
     }
 
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "GROUPS")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "GROUP")]
-    public partial class Group
+    [GeneratedCode("System.Xml", "2.0.50727.3053")]
+    [Serializable]
+    [DesignerCategory("code")]
+    [XmlType(AnonymousType = true, TypeName = "GROUPS")]
+    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "GROUP")]
+    public class Group
     {
         public Group()
-        {}
+        {
+        }
 
         public Group(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElement("NAME")]
-        public string Name
-        {
-            get;
-            set;
-        }
+        [XmlElement("NAME")]
+        public string Name { get; set; }
     }
-
 }

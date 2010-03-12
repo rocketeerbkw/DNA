@@ -9,6 +9,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
+using BBC.Dna.Groups;
 
 namespace BBC.Dna
 {
@@ -52,6 +53,8 @@ namespace BBC.Dna
             //load the smiley list
             
             SmileyTranslator.LoadSmileys(ReaderCreator);
+            Groups.UserGroups userGroups = new Groups.UserGroups(_appContext._dnaConfig.ConnectionString, null);
+		    userGroups.InitialiseAllUsersAndGroups();
 		}
 
 		/// <summary>

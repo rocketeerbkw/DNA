@@ -554,20 +554,12 @@ namespace BBC.Dna.Objects
             {
                 user.ForumId = reader.GetInt32NullAsZero(prefix + "ForumID");
             }
-            user.Groups = new Groups();
-            if (reader.Exists(prefix + "Editor") && reader.GetInt32NullAsZero(prefix + "Editor") == 1)
+            var siteId = 0;
+            if (reader.Exists("SiteID"))
             {
-                user.Groups.AddGroup("EDITOR");
+                siteId = reader.GetInt32NullAsZero("SiteID");
             }
-
-            if (reader.Exists(prefix + "Notable") && reader.GetInt32NullAsZero(prefix + "Notable") == 1)
-            {
-                user.Groups.AddGroup("NOTABLE");
-            }
-            if (reader.Exists(prefix + "NotableUser") && reader.GetInt32NullAsZero(prefix + "NotableUser") == 1)
-            {
-                user.Groups.AddGroup("NOTABLE");
-            }
+            user.Groups = siteId != 0 ? Groups.GetGroupsForUserBySiteId(user.UserId, siteId) : new Groups();
 
             return (User)user;
         
