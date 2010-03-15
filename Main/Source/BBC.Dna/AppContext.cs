@@ -55,8 +55,10 @@ namespace BBC.Dna
             
             SmileyTranslator.LoadSmileys(ReaderCreator);
             ProfanityFilter.InitialiseProfanities(AppContext.ReaderCreator, TheAppContext._dnaAppDiagnostics);
+            DnaDiagnostics.Default.WriteToLog("UserGroups", "Before InitialiseAllUsersAndGroups.");
             Groups.UserGroups userGroups = new Groups.UserGroups(_appContext._dnaConfig.ConnectionString, null);
 		    userGroups.InitialiseAllUsersAndGroups();
+            DnaDiagnostics.Default.WriteToLog("UserGroups", "After InitialiseAllUsersAndGroups.");
 		}
 
 		/// <summary>
@@ -107,8 +109,6 @@ namespace BBC.Dna
             {
                 context = _appContext;
             }
-            Groups.UserGroups userGroups = new Groups.UserGroups(_appContext._dnaConfig.ConnectionString, null);
-            userGroups.InitialiseAllUsersAndGroups();
 			((IAppContext)context).Diagnostics.WriteToLog("Initialisation", "Initialised SiteList");
 		}
 
