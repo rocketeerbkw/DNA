@@ -15,6 +15,11 @@
         /// <summary>
         /// A provided user list - comma seperated
         /// </summary>
-        UserList
+        UserList,
+
+        /// <summary>
+        /// Which have posts within a certain time period
+        /// </summary>
+        PostsWithinTimePeriod
     }
 }

@@ -145,8 +145,8 @@ namespace FunctionalTests
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/html");
             Assert.IsTrue(request.GetLastResponseAsString().IndexOf("<div") >= 0);
-            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("&lt;") < 0);//should be no escaped tags
-            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("&gt;") < 0);//should be no escaped tags
+            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("&lt;") < 0); //should be no escaped tags
+            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("&gt;") < 0); //should be no escaped tags
 
             Console.WriteLine("After CommentForumTests_V1 - GetAllCommentForumsAsHTML");
         }
@@ -249,7 +249,7 @@ namespace FunctionalTests
                 StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
-                // should fail and return the default
+            // should fail and return the default
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
             prevCreate = DateTime.MinValue;
@@ -269,9 +269,9 @@ namespace FunctionalTests
                 StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
             Assert.IsTrue(returnedList.SortBy.ToString() == SortBy.Created.ToString());
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
 
             prevCreate = DateTime.MaxValue;
             for (int i = 0; i < returnedList.CommentForums.Count; i++)
@@ -351,7 +351,7 @@ namespace FunctionalTests
                 StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
-                // should fail and return the default
+            // should fail and return the default
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
             prevCreate = DateTime.MinValue;
@@ -384,7 +384,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test GetCommentForumsBySitenameXML method from service
         /// </summary>
-        [Ignore]
+        [TestMethod]
         public void GetCommentForumsBySitenameXML_WithSorting_ByPostCount()
         {
             var request = new DnaTestURLRequest(_sitename);
@@ -410,11 +410,11 @@ namespace FunctionalTests
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
-            int prevTotal=0;
+            int prevTotal = 0;
             int currentTotal;
             for (int i = 0; i < returnedList.CommentForums.Count; i++)
             {
@@ -429,7 +429,7 @@ namespace FunctionalTests
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -447,7 +447,7 @@ namespace FunctionalTests
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             // should fail and return the default
@@ -467,20 +467,12 @@ namespace FunctionalTests
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
             // should fail and return the default which is Created
-            Assert.IsTrue(returnedList.SortBy.ToString() == SortBy.PostCount.ToString());
+            Assert.AreEqual(SortBy.Created, returnedList.SortBy);
             // should fail and return the default which is Created
-
-            prevTotal = int.MaxValue;
-            for (int i = 0; i < returnedList.CommentForums.Count; i++)
-            {
-                currentTotal = returnedList.CommentForums[i].commentSummary.Total;
-                Assert.IsTrue(currentTotal <= prevTotal);
-                prevTotal = currentTotal;
-            }
         }
 
         /// <summary>
@@ -617,7 +609,7 @@ namespace FunctionalTests
                 StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
-                // should fail and return the default
+            // should fail and return the default
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
             prevCreate = DateTime.MinValue;
@@ -637,9 +629,9 @@ namespace FunctionalTests
                 StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
             Assert.IsTrue(returnedList.SortBy.ToString() == SortBy.Created.ToString());
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
 
             prevCreate = DateTime.MaxValue;
             for (int i = 0; i < returnedList.CommentForums.Count; i++)
@@ -899,9 +891,9 @@ namespace FunctionalTests
             returnedList =
                 (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() != sortDirection);
-                // should fail and return the default
+            // should fail and return the default
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() == SortDirection.Ascending.ToString());
-                // should fail and return the default
+            // should fail and return the default
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() == sortBy);
 
             prevCreate = DateTime.MinValue;
@@ -920,9 +912,9 @@ namespace FunctionalTests
                 (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() != sortBy);
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() == SortBy.Created.ToString());
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
 
             prevCreate = DateTime.MaxValue;
             for (int i = 0; i < returnedList.commentList.comments.Count; i++)
@@ -942,9 +934,9 @@ namespace FunctionalTests
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() != sortDirection);
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() != sortBy);
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() == SortBy.Created.ToString());
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
 
             prevCreate = DateTime.MinValue;
             for (int i = 0; i < returnedList.commentList.comments.Count; i++)
@@ -1723,6 +1715,48 @@ namespace FunctionalTests
                                   commentInfo2.ID);
             pick = xml.SelectSingleNode(xPath, nsmgr);
             Assert.IsNull(pick);
+        }
+
+        [TestMethod]
+        public void GetCommentForumsBySitenameXML_WithTimeFrameFilter()
+        {
+            SnapshotInitialisation.ForceRestore();//must be clean here...
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Filter forum on editors picks filter
+            var url =
+                String.Format(
+                    "http://{0}/dna/api/comments/CommentsService.svc/V1/site/{1}/?filterBy={2}", _server, _sitename, FilterBy.PostsWithinTimePeriod);
+
+
+            //create the forum
+            var commentForum = CommentForumCreateHelper();
+
+            //Create 1 Comments in the same forum.
+            var comments = new CommentsTests_V1();
+            var commentInfo = comments.CreateCommentHelper(commentForum.Id);
+
+            //get the latest list
+            request.RequestPageWithFullURL(url, "", "text/xml");
+            var returnedObj = (CommentForumList)
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
+
+            Assert.IsNotNull(returnedObj);
+            Assert.AreEqual(FilterBy.PostsWithinTimePeriod, returnedObj.FilterBy);
+            Assert.AreEqual(SortBy.PostCount, returnedObj.SortBy);
+            Assert.AreEqual(1, returnedObj.TotalCount);
+
+            url += "&timeperiod=0";
+            request.RequestPageWithFullURL(url, "", "text/xml");
+            returnedObj = (CommentForumList)
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
+
+            Assert.IsNotNull(returnedObj);
+            Assert.AreEqual(FilterBy.PostsWithinTimePeriod, returnedObj.FilterBy);
+            Assert.AreEqual(SortBy.PostCount, returnedObj.SortBy);
+            Assert.AreEqual(0, returnedObj.TotalCount);
+
         }
 
         /// <summary>

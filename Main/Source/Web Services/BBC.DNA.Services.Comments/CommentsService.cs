@@ -64,15 +64,23 @@ namespace BBC.Dna.Services
             CommentForumList commentForumList;
             try
             {
-                string prefix = QueryStringHelper.GetQueryParameterAsString("prefix", "");
-                if (String.IsNullOrEmpty(prefix))
+                switch(filterBy)
                 {
-                    commentForumList = _commentObj.GetCommentForumListBySite(sitename);
+                    case FilterBy.PostsWithinTimePeriod:
+                        int timePeriod;
+                        if(!Int32.TryParse(filterByData, out timePeriod))
+                        {
+                            timePeriod = 24;
+                        }
+                        commentForumList = _commentObj.GetCommentForumListBySiteWithinTimeFrame(sitename, prefix, timePeriod);
+                        break;
+
+                    default:
+                        commentForumList = _commentObj.GetCommentForumListBySite(sitename, prefix);
+                        break;
                 }
-                else
-                {
-                    commentForumList = _commentObj.GetCommentForumListBySite(sitename, prefix);
-                }
+                
+                
             }
             catch (ApiException ex)
             {
@@ -157,14 +165,7 @@ namespace BBC.Dna.Services
                 {
                     Statistics.AddHTMLCacheMiss();
 
-                    if (String.IsNullOrEmpty(prefix))
-                    {
-                        commentList = _commentObj.GetCommentsListBySite(site);
-                    }
-                    else
-                    {
-                        commentList = _commentObj.GetCommentsListBySite(site, prefix);
-                    }
+                    commentList = String.IsNullOrEmpty(prefix) ? _commentObj.GetCommentsListBySite(site) : _commentObj.GetCommentsListBySite(site, prefix);
                     output = GetOutputStream(commentList, commentList.LastUpdate);
                 }
             }

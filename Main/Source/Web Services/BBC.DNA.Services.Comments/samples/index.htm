@@ -19,6 +19,8 @@
         var startIndex = 0;
         var sortBy = "Created";
         var sortDirection = "Ascending";
+        var filterBy = "";
+        var filterByData = "";
         var host = location.host;
        
 
@@ -34,6 +36,10 @@
             if (sortDirection != "") {
                 querystring += "&sortDirection=" + sortDirection;
             }
+            if (filterBy == "PostsWithinTimePeriod") {
+                querystring += "&filterBy=" + filterBy + "&timeperiod=" + filterByData;
+            }
+            
 
             if (sitename == "") {
                 return "http://" + host  + path + "/V1/commentsforums/" + querystring;
@@ -50,6 +56,9 @@
         function loaddata() {
             sortBy = document.getElementById("sortBy").value;
             sortDirection = document.getElementById("sortDirection").value;
+            filterBy = document.getElementById("filterBySelect").value;
+            filterData = document.getElementById("filterData").value;
+            
             document.getElementById("txtPageSize").value = pageSize;
             //document.getElementById("txtApiUrl").value = urlCommentForums;
             var url = getUrl(urlCommentForums, document.getElementById("txtSitename").value, document.getElementById("txtPrefix").value);
@@ -269,7 +278,13 @@ identity_user_under16: 	<!--#echo var="identity_user_under16" --><br>
     <div style="border: solid 1px #C0C0C0; padding:5px; width:800px">
     Site Name: <input id="txtSitename" value=""  size="20"/>
     Prefix: <input id="txtPrefix" value=""  size="20"/>
-    <input type="button" onclick="changeSitePrefix();" value="GO" />
+    <input type="button" onclick="changeSitePrefix();" value="GO" /><br />
+    Filter by:
+        <select id="filterBySelect" name="filterBySelect">
+            <option></option>
+            <option>PostsWithinTimePeriod</option>
+        </select>
+    Filter Data: <input id="filterData" name="filterData" />
     </div>
 </div>
 <div style="clear:both;padding:20px 5px 20px 5px" id="divForums">

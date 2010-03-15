@@ -223,20 +223,46 @@
 
         
         function postcomment() {
-            var xml = "<comment xmlns=\"BBC.Dna.Api\">" +
+            var postData = "";
+            var mimeType = "";
+            var submitType = document.getElementById("submitType").value;
+            if (submitType == "Xml") {
+                mimeType = "text/xml";
+                postData = "<comment xmlns=\"BBC.Dna.Api\">" +
                 "<text>" + glow.data.escapeHTML(document.getElementById("txtComment").value) + "</text>" +
                 "<poststyle>" + document.getElementById("postStyle").value + "</poststyle>" +
                 "</comment>";
+                
+            }
+            else {
+                mimeType = "application/json";
+                var jsonComment = {
+                    "uri":null,
+                    "text": glow.data.escapeHTML(document.getElementById("txtComment").value),
+                    "id": 0,
+                    "poststyle": document.getElementById("postStyle").selectedIndex+1,
+                    "complaintUri": null,
+                    "created": null,
+                    "user": null,
+                    "forumUri":null,
+                    "status":0
 
-            addToDebug(xml);
+
+                };
+                postData = JSON.stringify(jsonComment);
+
+            }
+            addToDebug(postData);
+
+            
 
             var urlCreate = getCreateUrl();
             addToDebug(urlCreate);
             startIndex = 0;
             glow.net.post(urlCreate,
-                xml,
+                postData,
                 {
-                    headers: { "Content-Type": "text/xml" },
+                    headers: { "Content-Type": mimeType },
                     onLoad: function(response) {
                         addToDebug(response.text());
                         var objComment = glow.data.decodeJson(response.text());
@@ -244,7 +270,7 @@
 
                     },
                     onError: function(response) {
-                        alert("url:" + urlCreate + "\n\ndata:" + xml + "\n\nGot error: " + response.status + " - " + response.statusText() + "\n\ntext:" + response.text());
+                    alert("url:" + urlCreate + "\n\ndata:" + postData + "\n\nGot error: " + response.status + " - " + response.statusText() + "\n\ntext:" + response.text());
                     }
                 });
         }
@@ -380,11 +406,16 @@ Sort By: <a href="Javascript:changeSorting('Created');">Date Created</a>
     </div>
     
     <textarea cols="30" rows="5" id="txtComment" name="txtComment"  onkeyup="maxchars(this);"></textarea><br />
-    <select id="postStyle" name="postStyle">
-        <option>richtext</option>
+    Post style:<select id="postStyle" name="postStyle">
+        <!-- this must be in order of enum -->
         <option>plaintext</option>
+        <option>richtext</option>
         <option>rawtext</option>
-    </select>
+    </select><br />
+    Submit Type:<select id="submitType" name="submitType">
+        <option>Xml</option>
+        <option>JSON</option>
+    </select><br />
     <input type="button" value="Submit" onclick="postcomment();" />
 </div>
 

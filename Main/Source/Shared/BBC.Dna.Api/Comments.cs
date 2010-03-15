@@ -42,7 +42,13 @@ namespace BBC.Dna.Api
         /// <returns>A list of commentforums</returns>
         public CommentForumList GetCommentForumListBySite(string sitename, string prefix)
         {
-            var commentForumList = new CommentForumList();
+            var commentForumList = new CommentForumList
+            {
+                CommentForums = new List<CommentForum>(),
+                SortBy = SortBy,
+                SortDirection = SortDirection,
+                FilterBy = FilterBy
+            };
             var spName = "commentforumsreadbysitename";
             if(!String.IsNullOrEmpty(prefix))
             {
@@ -51,7 +57,7 @@ namespace BBC.Dna.Api
             commentForumList.CommentForums = new List<CommentForum>();
             try
             {
-                using (IDnaDataReader reader = CreateReader(spName))
+                using (var reader = CreateReader(spName))
                 {
                     reader.AddParameter("siteurlname", sitename);
                     reader.AddParameter("startindex", StartIndex);
@@ -74,6 +80,79 @@ namespace BBC.Dna.Api
                             commentForumList.SortBy = SortBy;
                             commentForumList.SortDirection = SortDirection;
                             commentForumList.FilterBy = FilterBy;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, ex.InnerException);
+                //DnaApiWebProtocalException.ThrowDnaApiWebProtocalException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
+            }
+
+            return commentForumList;
+        }
+
+        /// <summary>
+        /// Reads all comment forum by sitename which have been posted to with a certain period
+        /// </summary>
+        /// <param name="sitename">The shortname of the site</param>
+        /// <param name="timeFrame">Length of time in hours</param>
+        /// <returns>A list of commentforums</returns>
+        public CommentForumList GetCommentForumListBySiteWithinTimeFrame(string sitename, int timeFrame)
+        {
+            return GetCommentForumListBySiteWithinTimeFrame(sitename, "", timeFrame);
+        }
+
+        /// <summary>
+        /// Reads all comment forum by sitename which have been posted to with a certain period
+        /// </summary>
+        /// <param name="sitename">The shortname of the site</param>
+        /// <param name="prefix">The uid prefix</param>
+        /// <param name="timeFrame">Length of time in hours</param>
+        /// <returns>A list of commentforums</returns>
+        public CommentForumList GetCommentForumListBySiteWithinTimeFrame(string sitename, string prefix, int timeFrame)
+        {
+            //currently only post count supported
+            SortBy = SortBy.PostCount;
+            var commentForumList = new CommentForumList
+                                       {
+                                           CommentForums = new List<CommentForum>(),
+                                           SortBy = SortBy,
+                                           SortDirection = SortDirection,
+                                           FilterBy = FilterBy
+                                       };
+            var spName = "commentforumsreadbysitenamewithintimeframe";
+            if (!String.IsNullOrEmpty(prefix))
+            {
+                spName = "commentforumsreadbysitenameprefixwithintimeframe";
+            }
+            try
+            {
+                using (var reader = CreateReader(spName))
+                {
+                    reader.AddParameter("siteurlname", sitename);
+                    reader.AddParameter("startindex", StartIndex);
+                    reader.AddParameter("itemsperpage", ItemsPerPage);
+                    reader.AddParameter("prefix", prefix + "%");
+                    reader.AddParameter("SortBy", SortBy.ToString());
+                    reader.AddParameter("SortDirection", SortDirection.ToString());
+                    reader.AddParameter("hours", timeFrame);
+
+                    reader.Execute();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            var commentForum = CommentForumCreateFromReader(reader);
+                            commentForum.commentSummary.Total = reader.GetInt32NullAsZero("postsintimeframe");
+                            commentForumList.CommentForums.Add(commentForum);
+
+                            commentForumList.ItemsPerPage = reader.GetInt32NullAsZero("itemsperpage");
+                            commentForumList.StartIndex = reader.GetInt32NullAsZero("startindex");
+                            commentForumList.TotalCount = reader.GetInt32NullAsZero("totalResults");
+                            
                         }
                     }
                 }

@@ -61,6 +61,11 @@ namespace BBC.Dna.Services
             dnaDiagnostic = dnaDiag;
             cacheManager = CacheFactory.GetCacheManager();
 
+            if (WebOperationContext.Current == null)
+            {
+                throw new Exception("Error creating web operation context object.");
+            }
+
             WebFormat.getReturnFormat((WebOperationContext.Current.IncomingRequest.ContentType == null ? "" : WebOperationContext.Current.IncomingRequest.ContentType),
                 ref outputContentType, ref format);
 
@@ -95,6 +100,7 @@ namespace BBC.Dna.Services
             switch (filterBy)
             {//add parsing of filter by data here.
                 case FilterBy.UserList: filterByData = QueryStringHelper.GetQueryParameterAsString("userList", ""); break;
+                case FilterBy.PostsWithinTimePeriod: filterByData = QueryStringHelper.GetQueryParameterAsString("timeperiod", ""); break;
             }
 
             prefix = QueryStringHelper.GetQueryParameterAsString("prefix", "");
