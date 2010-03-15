@@ -35,18 +35,7 @@
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
         
         <ul class="forumthreads">
-            <xsl:choose>
-                <xsl:when test="ORDERBY = 'latestpost'">
-                    <xsl:apply-templates select="THREAD" mode="object_thread">
-                        <xsl:sort select="@INDEX" order="ascending"/>
-                    </xsl:apply-templates>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates select="THREAD" mode="object_thread">
-                        <xsl:sort select="@INDEX" order="ascending"/>
-                    </xsl:apply-templates>
-                </xsl:otherwise>
-            </xsl:choose>
+          <xsl:apply-templates select="THREAD" mode="object_thread" />
         </ul>
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
