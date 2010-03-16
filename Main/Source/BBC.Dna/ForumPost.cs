@@ -191,8 +191,18 @@ namespace BBC.Dna
             string canRead = forum.CanRead?"1":"0";
             string canWrite = (forum.CanWrite && !forum.isClosed) ?"1":"0";
             string subject = StringUtils.EscapeAllXml(forum.Title);
+            if (hidden == 3) // 3 means premoderated! - hidden!
+            {
+                subject = "Hidden";
+            }
+            else if (hidden > 0)
+            {
+                subject = "Removed";
+            }
             string datePosted = comment.Created.At;
-            string bodyText = HtmlUtils.TryParseToValidHtml(comment.FormatttedText);
+            string bodyText = comment.FormatttedText;
+            bodyText = System.Web.HttpUtility.HtmlDecode(bodyText);
+            bodyText = HtmlUtils.TryParseToValidHtml("<RICHPOST>" + bodyText + "</RICHPOST>");
             string hostPageUrl = forum.ParentUri;
             string commentForumTitle = forum.Title;
 
