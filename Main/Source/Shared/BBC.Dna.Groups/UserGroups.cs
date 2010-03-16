@@ -218,7 +218,7 @@ namespace BBC.Dna.Groups
                             lastSiteID = currentSiteID;
                         }
                         // Add the group name to the list
-                        groups.Add(reader.GetString("name"));
+                        groups.Add(reader.GetString("name").ToLower());
                     }
 
                     // Put the last group info into the cache
