@@ -1,5 +1,6 @@
 ﻿using BBC.Dna.Data;
 using Dna.SnesIntegration.ActivityProcessor;
+using Dna.SnesIntegration.ActivityProcessor.Activities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 
@@ -77,6 +78,7 @@ namespace SnesActivityProcessorTests
             var dataReader = MockRepository.GenerateStub<IDnaDataReader>();
             dataReader.Stub(x => x.GetInt32("ActivityType")).Return(19);
             dataReader.Stub(x => x.GetString("BlogUrl")).Return("http://localhost");
+            dataReader.Stub(x => x.IsDBNull("Rating")).Return(true);
 
             var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
             Assert.IsTrue(activity is CommentForumActivity);
@@ -91,6 +93,20 @@ namespace SnesActivityProcessorTests
 
             var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
             Assert.IsTrue(activity is MessageBoardPostActivity);
+        }
+
+        [TestMethod]
+        public void CreateSnesActivity_ActivityType19RatingNotNull_ReturnsReviewActivity()
+        {
+            var dataReader = MockRepository.GenerateStub<IDnaDataReader>();
+            dataReader.Stub(x => x.GetInt32("ActivityType")).Return(19);
+            dataReader.Stub(x => x.IsDBNull("BlogUrl")).Return(false);
+            dataReader.Stub(x => x.GetString("BlogUrl")).Return("http://localhost");
+            dataReader.Stub(x => x.IsDBNull("Rating")).Return(false);
+            dataReader.Stub(x => x.GetTinyIntAsInt("Rating")).Return(1);
+
+            var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
+            Assert.IsTrue(activity is ReviewActivity);
         }
     }
 }

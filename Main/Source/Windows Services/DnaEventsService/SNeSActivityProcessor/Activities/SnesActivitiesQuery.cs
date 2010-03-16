@@ -2,7 +2,7 @@
 using System.Net;
 using DnaEventService.Common;
 
-namespace Dna.SnesIntegration.ActivityProcessor
+namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
     class SnesActivitiesQuery : ActivityBase
     {
@@ -38,3 +38,5 @@ namespace Dna.SnesIntegration.ActivityProcessor
         }
     }
 }
+
+

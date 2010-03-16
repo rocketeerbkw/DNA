@@ -112,7 +112,7 @@ namespace SnesActivityTests
 
             Expect.Call(getSnesEvents.AddParameter("batchSize", 100)).IgnoreArguments();
             Expect.Call(removeHandledSnesEvents.Execute()).Return(removeHandledSnesEvents);
-            Expect.Call(() => removeHandledSnesEvents.Dispose());
+            Expect.Call(removeHandledSnesEvents.Dispose);
             
             IDnaDataReaderCreator dataReaderCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
 

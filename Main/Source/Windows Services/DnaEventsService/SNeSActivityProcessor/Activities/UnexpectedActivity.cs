@@ -1,16 +1,14 @@
 ﻿using System.Net;
 using DnaEventService.Common;
 
-namespace Dna.SnesIntegration.ActivityProcessor
+namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
     class UnexpectedActivity : ActivityBase
     {
-        
         public override HttpStatusCode Send(IDnaHttpClient client)
         {
             return HttpStatusCode.OK;
         }
-
 
         public override string GetActivityJson()
         {
@@ -18,3 +16,5 @@ namespace Dna.SnesIntegration.ActivityProcessor
         }
     }
 }
+
+

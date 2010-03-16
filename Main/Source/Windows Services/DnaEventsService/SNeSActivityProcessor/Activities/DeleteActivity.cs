@@ -2,7 +2,7 @@
 using System.Net;
 using DnaEventService.Common;
 
-namespace Dna.SnesIntegration.ActivityProcessor
+namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
     class DeleteActivity : ActivityBase
     {

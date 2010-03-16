@@ -1,9 +1,8 @@
 ﻿using System.Net;
-using BBC.Dna.Api;
-using BBC.Dna.Data;
+using Dna.SnesIntegration.ActivityProcessor.Contracts;
 using DnaEventService.Common;
 
-namespace Dna.SnesIntegration.ActivityProcessor
+namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
     class RevokeCommentActivity : ActivityBase
     {
@@ -39,23 +38,27 @@ namespace Dna.SnesIntegration.ActivityProcessor
                 
                 if (activities != null && activities.TotalResults == 1)
                 {
-                    var deleteActivity = new DeleteActivity(activities.Entries[0].Id, ApplicationId, IdentityUserId);
+                    var deleteActivity = 
+                        new DeleteActivity(activities.Entries[0].Id, ApplicationId, IdentityUserId);
                     return deleteActivity.Send(client);
                 }
             }
             return HttpStatusCode.BadRequest;
         }
 
-        public static ISnesActivity CreateActivity(IDnaDataReader currentRow)
+        public static ISnesActivity CreateActivity(OpenSocialActivity openSocialActivity, 
+            SnesActivityData activityData)
         {
             var activity = new RevokeCommentActivity
                                {
-                                   ActivityId = currentRow.GetInt32("EventID"),
-                                   PostedTime = currentRow.GetDateTime("ActivityTime").MillisecondsSinceEpoch(),
-                                   IdentityUserId = currentRow.GetInt32("IdentityUserId"),
-                                   ApplicationId = currentRow.GetString("AppId")
+                                   ActivityId = activityData.EventId,
+                                   PostedTime = openSocialActivity.PostedTime,
+                                   IdentityUserId = activityData.IdentityUserId,
+                                   ApplicationId = activityData.AppInfo.AppId
                                };
             return activity;
         }
     }
 }
+
+

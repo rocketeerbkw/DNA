@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
-namespace Dna.SnesIntegration.ActivityProcessor
+namespace Dna.SnesIntegration.ActivityProcessor.Contracts
 {
     [DataContract]
     public class OpenSocialActivity
@@ -22,7 +22,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
         }
 
         [DataMember(Name = "url")]
-        public string Url
+        public Uri Url
         {
             get;
             set;
@@ -36,7 +36,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
         }
 
         [DataMember(Name = "type")]
-        public string Type
+        public string ActivityType
         {
             get;
             set;
@@ -64,14 +64,14 @@ namespace Dna.SnesIntegration.ActivityProcessor
         }
 
         [DataMember(Name = "username")]
-        public string Username
+        public string UserName
         {
             get;
             set;
         }
 
         [DataMember(Name = "objectUri")]
-        public string ObjectUri
+        public Uri ObjectUri
         {
             get;
             set;
@@ -80,7 +80,8 @@ namespace Dna.SnesIntegration.ActivityProcessor
         [DataMember(Name = "id", IsRequired = false, EmitDefaultValue = false)]
         public string Id
         {
-            get; set;
+            get;
+            set;
         }
     }
 
@@ -90,25 +91,31 @@ namespace Dna.SnesIntegration.ActivityProcessor
         [DataMember(Name = "startIndex")]
         public long StartIndex
         {
-            get; set;
+            get;
+            set;
         }
 
         [DataMember(Name = "totalResults")]
         public long TotalResults
         {
-            get; set;
+            get;
+            set;
         }
 
         [DataMember(Name = "itemsPerPage")]
         public long ItemsPerPage
         {
-            get; set;
+            get;
+            set;
         }
 
         [DataMember(Name = "entry")]
         public Collection<OpenSocialActivity> Entries
         {
-            get; set;
+            get;
+            set;
         }
     }
 }
+
+

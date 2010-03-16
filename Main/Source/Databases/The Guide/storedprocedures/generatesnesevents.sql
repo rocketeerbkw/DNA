@@ -10,7 +10,7 @@ AS
 			EQ.EventUserID
 	from EventQueue EQ
 	inner join SignInUserIDMapping S on S.DNAUserID = EQ.EventUserID
-	where EQ.EventType in (19) 
+	where EQ.EventType in (19,20) 
 	and	S.IdentityUserID is not null
 	and EQ.EventID <= @TopEventID
 RETURN 0;

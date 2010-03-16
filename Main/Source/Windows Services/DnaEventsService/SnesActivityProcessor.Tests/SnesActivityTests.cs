@@ -1,6 +1,7 @@
 ﻿using System;
 using BBC.Dna.Data;
 using Dna.SnesIntegration.ActivityProcessor;
+using Dna.SnesIntegration.ActivityProcessor.Activities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 
@@ -49,6 +50,7 @@ namespace SnesActivityProcessorTests
             using (mocks.Record())
             {
                 currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
+                currentRow.Stub(x => x.IsDBNull("Rating")).Return(true);
             }
 
             ISnesActivity activity;

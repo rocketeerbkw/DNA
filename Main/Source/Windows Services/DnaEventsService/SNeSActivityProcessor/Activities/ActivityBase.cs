@@ -3,8 +3,14 @@ using System.Net;
 using DnaEventService.Common;
 using Microsoft.Http;
 
-namespace Dna.SnesIntegration.ActivityProcessor
+namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
+    enum ActivityType
+    {
+        PublishActivity = 19,
+        RevokeActivity = 20,    
+    }
+
     abstract class ActivityBase : MarshalByRefObject, ISnesActivity
     {
         #region ISnesActivity Members
@@ -66,3 +72,5 @@ namespace Dna.SnesIntegration.ActivityProcessor
         #endregion
     }
 }
+
+

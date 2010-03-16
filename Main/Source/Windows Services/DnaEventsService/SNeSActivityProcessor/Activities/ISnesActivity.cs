@@ -2,7 +2,7 @@
 using System.Net;
 using DnaEventService.Common;
 
-namespace Dna.SnesIntegration.ActivityProcessor
+namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
     public interface ISnesActivity
     {
@@ -13,3 +13,5 @@ namespace Dna.SnesIntegration.ActivityProcessor
         string Content { get; set; }
     }
 }
+
+
