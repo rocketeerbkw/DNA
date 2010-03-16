@@ -23,7 +23,7 @@ SELECT TOP(@batchSize)
 	ObjectTitle = f.Title,
 	te.text as Body,
 	fr.Rating as Rating,
-	case when fr.Rating is not null dbo.udf_GetSiteOptionSetting(S.SiteID, 'CommentForum', 'MaxForumRatingScore') end as MaxRating
+	case when fr.Rating is not then null dbo.udf_GetSiteOptionSetting(S.SiteID, 'CommentForum', 'MaxForumRatingScore') end as MaxRating
 FROM SNesActivityQueue SAQ
 INNER JOIN Users U on U.UserID = SAQ.EventUserID
 INNER JOIN SignInUserIDMapping uidm on uidm.DnaUserID = U.UserID
@@ -33,3 +33,4 @@ INNER JOIN Sites S on S.SiteID = F.SiteID
 INNER JOIN SNeSApplicationMetadata samd on samd.SiteID = S.SiteID
 LEFT JOIN CommentForums CF on CF.ForumID = F.ForumID
 LEFT JOIN ForumReview FR on FR.EntryId = TE.EntryId
+
