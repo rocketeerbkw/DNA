@@ -449,12 +449,12 @@ namespace BBC.Dna.Sites
                     //For each row/site in the database add it's details
                     while (dataReader.Read())
                     {
-                        byte dayofWeek = dataReader.GetByte("DayWeek");	// subtract one because C++ date code starts from Sunday = 1
+                        var dayofWeek = dataReader.GetByte("DayWeek");	// subtract one because C++ date code starts from Sunday = 1
 						//dayofWeek -= 1;									// while .NET starts from Sunday = 0
-                        byte hour = dataReader.GetByte("Hour");
-                        byte minute = dataReader.GetByte("Minute");
-                        int closed = (int)dataReader.GetByte("Closed");
-						int id = dataReader.GetInt32NullAsZero("SiteID");
+                        var hour = dataReader.GetByte("Hour");
+                        var minute = dataReader.GetByte("Minute");
+                        var closed = dataReader.GetInt32("Closed");
+						var id = dataReader.GetInt32NullAsZero("SiteID");
                         AddSiteOpenCloseTime(id, dayofWeek, hour, minute, closed);
                     }
                 }
