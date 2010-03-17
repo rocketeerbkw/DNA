@@ -231,8 +231,8 @@ namespace BBC.Dna.Groups
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                throw ex;
-            }*/
+                return false;
+            }
 
             return true;
         }
