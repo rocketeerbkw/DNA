@@ -203,7 +203,7 @@ namespace BBC.Dna.Groups
                     while (reader.Read())
                     {
                         currentSiteID = reader.GetInt32("siteid");
-                        currentUserID = reader.GetInt32("userid");
+                        currentUserID = reader.GetInt32NullAsZero("userid");
 
                         // Check to see if we need to start a new list
                         if (currentUserID != lastUserID || currentSiteID != lastSiteID)
@@ -231,8 +231,8 @@ namespace BBC.Dna.Groups
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
-            }
+                throw ex;
+            }*/
 
             return true;
         }
