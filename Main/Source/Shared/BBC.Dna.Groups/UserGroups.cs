@@ -183,8 +183,8 @@ namespace BBC.Dna.Groups
         /// <returns>True if we initialised correctly</returns>
         public bool InitialiseAllUsersAndGroups()
         {
-            //try
-            //{
+            try
+            {
                 // Get all the users and groups
                 using (IDnaDataReader reader = CreateStoreProcedureReader("fetchgroupsandmembers"))
                 {
@@ -203,7 +203,7 @@ namespace BBC.Dna.Groups
                     while (reader.Read())
                     {
                         currentSiteID = reader.GetInt32("siteid");
-                        currentUserID = reader.GetInt32("userid");
+                        currentUserID = reader.GetInt32NullAsZero("userid");
 
                         // Check to see if we need to start a new list
                         if (currentUserID != lastUserID || currentSiteID != lastSiteID)
@@ -227,12 +227,12 @@ namespace BBC.Dna.Groups
                         _cachedGroups.Add(_cacheName + lastUserID.ToString() + "-" + lastSiteID.ToString(), groups);
                     }
                 }
-            /*}
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 throw ex;
-            }*/
+            }
 
             return true;
         }
