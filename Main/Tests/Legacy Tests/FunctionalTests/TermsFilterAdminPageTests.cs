@@ -215,7 +215,7 @@ namespace FunctionalTests
             const int modClassId = 2;
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
-            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml", modClassId));
+            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml&ignorecache=1", modClassId));
             ValidateResponse(request);
 
             var doc = request.GetLastResponseAsXML();
@@ -254,13 +254,13 @@ namespace FunctionalTests
             const int modClassId = 3;
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
-            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml", modClassId));
+            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml&ignorecache=1", modClassId));
             ValidateResponse(request);
 
             var doc = request.GetLastResponseAsXML();
             var termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM");
             var termNodeCount = doc.SelectNodes("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM").Count;
-            var termText = "性交";
+            var termText = "你好";
             TermAction expectedAction = TermAction.ReEdit;
 
             var postParams = new Queue<KeyValuePair<string, string>>();
@@ -287,10 +287,6 @@ namespace FunctionalTests
             //Do siterefresh
             SendSignal(String.Format("http://{0}/dna/api/comments/status?action=recache-site",
                                      DnaTestURLRequest.CurrentServer));
-            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&action=REFRESHCACHE&skin=purexml", modClassId),
-                postParams);
-            ValidateOkResult(request, "SiteRefreshSuccess", "Terms filter refresh initiated.");
-
             //Post Via Comments Api
             var commentForumObj = new CommentForumTests_V1();
             var commentForum = commentForumObj.CommentForumCreateHelper();
@@ -326,7 +322,7 @@ namespace FunctionalTests
             const int modClassId = 3;
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
-            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml", modClassId));
+            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml&ignorecache=1", modClassId));
             ValidateResponse(request);
 
             var doc = request.GetLastResponseAsXML();
@@ -386,7 +382,7 @@ namespace FunctionalTests
             const int modClassId = 3;
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
-            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml", modClassId));
+            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml&ignorecache=1", modClassId));
             ValidateResponse(request);
 
             var doc = request.GetLastResponseAsXML();
@@ -425,7 +421,6 @@ namespace FunctionalTests
             var url = String.Format("AddThread?skin=purexml");
             request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
-            request.RequestPage(url);//create post
             postParams = new Queue<KeyValuePair<string, string>>();
             postParams.Enqueue(new KeyValuePair<string, string>("threadid", "0"));
             postParams.Enqueue(new KeyValuePair<string, string>("inreplyto", "0"));

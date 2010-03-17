@@ -28,7 +28,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void Initialise()
         {
-            SnapshotInitialisation.RestoreFromSnapshot();
+            SnapshotInitialisation.ForceRestore();
             //_ts = new TransactionScope();
         }
 
@@ -237,16 +237,18 @@ namespace FunctionalTests
         [TestMethod]
         public void TermsFilterImportPage_AddMultipleTerms_PassesValidation()
         {
+            var term1 = Guid.NewGuid().ToString();
+            var term2 = Guid.NewGuid().ToString();
             //set up data
             var reason = "this has a reason";
             var termsLists = new TermsLists();
             var termsList = new TermsList(1);
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = "bollocks" });
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = "bum" });
+            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = term1 });
+            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = term2 });
             termsLists.Termslist.Add(termsList);
             termsList = new TermsList(2);
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = "bollocks" });
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = "bum" });
+            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = term1 });
+            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = term2 });
             termsLists.Termslist.Add(termsList);
 
             string postText = termsLists.Termslist.Aggregate("", (current1, tmpTermsList) => tmpTermsList.Terms.Aggregate(current1, (current, term) => current + (term.Value + "\n")));
@@ -262,7 +264,7 @@ namespace FunctionalTests
 
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
-            request.RequestPage("termsfilterimport?action=UPDATETERMS&skin=purexml", postParams);
+            request.RequestPage("termsfilterimport?action=UPDATETERMS&skin=purexml&ignorecache=1", postParams);
             ValidateResponse(request);
 
             //check correct error message returned
@@ -276,16 +278,18 @@ namespace FunctionalTests
         [TestMethod]
         public void TermsFilterImportPage_AddMultipleTermsWithErrors_ReturnsErrors()
         {
+            var term1 = Guid.NewGuid().ToString();
+            var term2 = Guid.NewGuid().ToString();
             //set up data
             var reason = "this has a reason";
             var termsLists = new TermsLists();
             var termsList = new TermsList(1);
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = "bollocks" });
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = "bum" });
+            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = term1 });
+            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = term2 });
             termsLists.Termslist.Add(termsList);
             termsList = new TermsList(2);
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = "bollocks" });
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = "bum" });
+            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = term1 });
+            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = term2 });
             termsLists.Termslist.Add(termsList);
 
             string postText = termsLists.Termslist.Aggregate("", (current1, tmpTermsList) => tmpTermsList.Terms.Aggregate(current1, (current, term) => current + (term.Value + "\n")));
@@ -302,7 +306,7 @@ namespace FunctionalTests
 
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
-            request.RequestPage("termsfilterimport?action=UPDATETERMS&skin=purexml", postParams);
+            request.RequestPage("termsfilterimport?action=UPDATETERMS&skin=purexml&ignorecache=1", postParams);
 
             //check correct error message returned
             ValidateError(request, "UPDATETERMINVALIDACTION", "Terms action invalid.");
@@ -330,7 +334,7 @@ namespace FunctionalTests
             {
                 var termsListsClone = (TermsLists)termsLists.Clone();
                 termsListsClone.FilterListByTermId(id);
-                request.RequestPage(String.Format("termsfilterimport?s_termid={0}&skin=purexml", id));
+                request.RequestPage(String.Format("termsfilterimport?s_termid={0}&skin=purexml&ignorecache=1", id));
                 doc = request.GetLastResponseAsXML();
 
                 ValidateResponse(request);
