@@ -23,6 +23,16 @@ namespace Tests
 	public class RatingCreateTests
 	{
         /// <summary>
+        /// Class setup force a proper restore
+        /// </summary>
+        /// <param name="a"></param>
+        [ClassInitialize]      
+        public static void ClassSetup(TestContext a)
+        {
+            Console.WriteLine("Class Setup");
+            SnapshotInitialisation.ForceRestore();
+
+        }        /// <summary>
         /// 
         /// </summary>
         [TestCleanup]
@@ -37,6 +47,8 @@ namespace Tests
         [TestInitialize]
         public void StartUp()
         {
+            SnapshotInitialisation.RestoreFromSnapshot();
+            Statistics.InitialiseIfEmpty();
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
                 ProfanityFilter.InitialiseProfanitiesIfEmpty(inputcontext.ReaderCreator, null);
@@ -44,8 +56,6 @@ namespace Tests
                 site = _siteList.GetSite("h2g2");
                 _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
-            Statistics.InitialiseIfEmpty();
-            SnapshotInitialisation.RestoreFromSnapshot();
         }
 
         private ISiteList _siteList;

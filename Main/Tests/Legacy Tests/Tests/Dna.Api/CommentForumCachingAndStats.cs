@@ -278,6 +278,9 @@ namespace Tests
                     _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                     site = _siteList.GetSite("h2g2");
                     _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
+                    
+                    //reopen site
+                    _siteList.GetSite(site.ShortName).IsEmergencyClosed = false;
                 }
             }
 
