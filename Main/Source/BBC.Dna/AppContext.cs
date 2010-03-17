@@ -40,6 +40,7 @@ namespace BBC.Dna
 		/// <param name="rootPath">The folder that's the root of the application</param>
 		public static void OnDnaStartup(string rootPath)
 		{
+            //System.Diagnostics.Debugger.Launch();
 			_appContext = new AppContext(rootPath);
 
 			DnaDiagnostics.Initialise(TheAppContext.Config.InputLogFilePath, "DNALOG");
@@ -56,7 +57,7 @@ namespace BBC.Dna
             SmileyTranslator.LoadSmileys(ReaderCreator);
             ProfanityFilter.InitialiseProfanities(AppContext.ReaderCreator, TheAppContext._dnaAppDiagnostics);
             DnaDiagnostics.Default.WriteToLog("UserGroups", "Before InitialiseAllUsersAndGroups.");
-            Groups.UserGroups userGroups = new Groups.UserGroups(_appContext._dnaConfig.ConnectionString, null);
+            var userGroups = new Groups.UserGroups(_appContext._dnaConfig.ConnectionString, null);
 		    userGroups.InitialiseAllUsersAndGroups();
             DnaDiagnostics.Default.WriteToLog("UserGroups", "After InitialiseAllUsersAndGroups.");
 		}
