@@ -245,11 +245,13 @@
     <Copy SourceFiles="@(Skins)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <Message Text="Ripley files: @(Ripley)"></Message>
-    
-    <Exec Command="rename &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.dll&quot; &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RiplayServer.old&quot;" Timeout="10000"></Exec>
+
+    <Exec Command="delete &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
+
+    <Exec Command="rename &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.dll&quot; &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RiplayServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
 
     <!-- Copy ripley dlls -->
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="true"/>
 
     <Exec Command="CMD &quot;C:\TFSScripts\UnloadTestWeb.bat&quot;" Timeout="10000"></Exec>
 
