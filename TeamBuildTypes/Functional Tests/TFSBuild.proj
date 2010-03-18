@@ -245,8 +245,8 @@
     <Copy SourceFiles="@(Skins)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
 
-    
 
+    <Message Text="Ripley files: @(Ripley)"></Message>
     <!-- Copy ripley dlls over existing-->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
