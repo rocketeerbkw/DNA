@@ -198,7 +198,7 @@ namespace FunctionalTests
             //check forumThreads object
             XmlNode forumThreads = request.GetLastResponseAsXML().SelectSingleNode("//H2G2/FORUMTHREADS/THREAD[@THREADID='34']");
             Assert.AreNotEqual(null, forumThreads);
-            Assert.AreEqual("1", forumThreads.Attributes["CANWRITE"].Value);//as editor I can write
+            Assert.AreEqual("0", forumThreads.Attributes["CANWRITE"].Value);//as editor thread level permissions should remain
 
             //request as logged out user
             request.SetCurrentUserNormal();
@@ -284,12 +284,18 @@ namespace FunctionalTests
             
             DnaTestURLRequest request = new DnaTestURLRequest(siteName);
             request.SetCurrentUserNormal();
+            request.RequestPage("NF7325075?thread=34&skin=purexml");
+            ValidateForumThreadSchema(request);
+            XmlNode forumThreadPosts = request.GetLastResponseAsXML().SelectSingleNode("//H2G2/FORUMTHREADPOSTS");
+            Assert.AreNotEqual(null, forumThreadPosts);
+            var defaultCanWrite = forumThreadPosts.Attributes["DEFAULTCANWRITE"].Value;
+
             request.RequestPage("NF7325075?cmd=closethread&thread=34&skin=purexml");
             ValidateForumThreadSchema(request);
             ValidateErrorSchema(request);
-            XmlNode forumThreadPosts = request.GetLastResponseAsXML().SelectSingleNode("//H2G2/FORUMTHREADPOSTS");
+            forumThreadPosts = request.GetLastResponseAsXML().SelectSingleNode("//H2G2/FORUMTHREADPOSTS");
             Assert.AreNotEqual(null, forumThreadPosts);
-            Assert.AreEqual("1", forumThreadPosts.Attributes["DEFAULTCANWRITE"].Value);//no change
+            Assert.AreEqual(defaultCanWrite, forumThreadPosts.Attributes["DEFAULTCANWRITE"].Value);//no change
 
             request.RequestPage("NF7325075?cmd=reopenthread&thread=34&skin=purexml");
             ValidateForumThreadSchema(request);
@@ -643,12 +649,18 @@ namespace FunctionalTests
 
             DnaTestURLRequest request = new DnaTestURLRequest(siteName);
             request.SetCurrentUserNormal();
-            request.RequestPage("NF7325075?cmd=updateforummoderationstatus&thread=34&skin=purexml&status=1");
+            request.RequestPage("NF7325075?thread=34&skin=purexml");
             ValidateForumThreadSchema(request);
-            ValidateErrorSchema(request);//for some reason ripley doesn't return error- although C++ code writes one out.
             XmlNode moderationStatus = request.GetLastResponseAsXML().SelectSingleNode("//H2G2/FORUMTHREADS/MODERATIONSTATUS");
             Assert.AreNotEqual(null, moderationStatus);
-            Assert.AreEqual("0", moderationStatus.InnerText);//no change
+            var existingStatus = moderationStatus.InnerText;
+
+            request.RequestPage("NF7325075?cmd=updateforummoderationstatus&thread=34&skin=purexml&status=1");
+            ValidateForumThreadSchema(request);
+            ValidateErrorSchema(request);
+            moderationStatus = request.GetLastResponseAsXML().SelectSingleNode("//H2G2/FORUMTHREADS/MODERATIONSTATUS");
+            Assert.AreNotEqual(null, moderationStatus);
+            Assert.AreEqual(existingStatus, moderationStatus.InnerText);//no change
         }
 
         /// <summary>
