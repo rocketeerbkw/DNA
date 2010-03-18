@@ -183,10 +183,10 @@
         <PlatformToBuild>Any CPU</PlatformToBuild>
     </ConfigurationToBuild>
 
-    <!-- ConfigurationToBuild Include="Debug|Win32">
+    <ConfigurationToBuild Include="Debug|Win32">
       <FlavorToBuild>Debug</FlavorToBuild>
       <PlatformToBuild>Win32</PlatformToBuild>
-    </ConfigurationToBuild -->
+    </ConfigurationToBuild>
 
   </ItemGroup>
 
@@ -219,8 +219,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <WebSites Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\_PublishedWebsites\**\*.*"></WebSites>
-    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.*" Exclude="$(BinariesRoot)$(Platfom)$(Configuration)\debug\*_Accessor.dll,$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.instr.pdb"></Binaries>
+    <WebSites Include="$(BinariesRoot)$(Platform)$(Configuration)\debug\_PublishedWebsites\**\*.*"></WebSites>
+    <Binaries Include="$(BinariesRoot)$(Platform)$(Configuration)\debug\*.*" Exclude="$(BinariesRoot)$(Platform)$(Configuration)\debug\*_Accessor.dll,$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.instr.pdb"></Binaries>
     <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer*.*"></Ripley>
     <Skins Include="$(SolutionRoot)\Main\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
   </ItemGroup>
