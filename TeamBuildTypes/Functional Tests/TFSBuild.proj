@@ -244,15 +244,17 @@
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
-
-
     <Message Text="Ripley files: @(Ripley)"></Message>
-    <!-- Copy ripley dlls over existing-->
-    <!-- Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/ -->
+    
+    <Exec Command="rename &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.dll&quot; &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RiplayServer.old&quot;" Timeout="10000"></Exec>
+
+    <!-- Copy ripley dlls -->
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <Exec Command="CMD &quot;C:\TFSScripts\UnloadTestWeb.bat&quot;" Timeout="10000"></Exec>
 
     <!-- start website to copy ripley -->
     <Exec Command="iisweb /start h2g2UnitTesting" Timeout="10000"></Exec>
-
 
     <!-- run filter.reg -->
     <Exec Command="regedit /s &quot;$(SolutionRoot)\Main\filter.reg&quot;"></Exec>
