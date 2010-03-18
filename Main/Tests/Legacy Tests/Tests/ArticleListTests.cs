@@ -30,6 +30,10 @@ namespace Tests
             //Create the mocked inputcontext
             Mockery mock = new Mockery();
 
+            // Create the app context for the poll to run in
+            string rootPath = TestConfig.GetConfig().GetRipleyServerPath();
+            BBC.Dna.AppContext.OnDnaStartup(rootPath);
+
             // Create the stored procedure reader for the CommentList object
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
 
