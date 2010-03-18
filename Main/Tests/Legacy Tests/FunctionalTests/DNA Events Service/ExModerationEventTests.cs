@@ -62,7 +62,7 @@ namespace FunctionalTests
         /// Listens for a moderation event for the appropriate item.
         /// </summary>
         /// <returns></returns>
-        [TestMethod]
+        [Ignore]
         public void TestModerationEvent()
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
