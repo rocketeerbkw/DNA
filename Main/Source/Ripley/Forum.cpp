@@ -2496,7 +2496,7 @@ bool CForum::PostToForum(CUser* pPoster, int iForumID, int iReplyTo, int iThread
 	else if (filterState == CProfanityFilter::FailRefer)
 	{
 		bForceModerate = true;
-        sModNotes = "Profanity Found : " + sModNotes;
+        sModNotes = "Filtered Term Found : " + sModNotes;
 		if ( pbProfanityFound != NULL )
 			*pbProfanityFound = true;
 	}
