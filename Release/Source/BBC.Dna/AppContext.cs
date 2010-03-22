@@ -55,7 +55,7 @@ namespace BBC.Dna
             //load the smiley list
             
             SmileyTranslator.LoadSmileys(ReaderCreator);
-            ProfanityFilter.InitialiseProfanities(AppContext.ReaderCreator, TheAppContext._dnaAppDiagnostics);
+            ProfanityFilter.InitialiseProfanitiesIfEmpty(_appContext._dnaConfig.ConnectionString);
             DnaDiagnostics.Default.WriteToLog("UserGroups", "Before InitialiseAllUsersAndGroups.");
             var userGroups = new Groups.UserGroups(_appContext._dnaConfig.ConnectionString, null);
 		    userGroups.InitialiseAllUsersAndGroups();
