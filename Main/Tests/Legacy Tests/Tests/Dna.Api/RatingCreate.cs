@@ -54,6 +54,7 @@ namespace Tests
                 ProfanityFilter.InitialiseProfanitiesIfEmpty(inputcontext.ReaderCreator, null);
                 _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 site = _siteList.GetSite("h2g2");
+                site.IsEmergencyClosed = false;
                 _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
         }
@@ -1043,9 +1044,19 @@ return.";
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //set up test data
-            string randomString = EncodedRandomString();
+            string randomString = String.Empty;
+            //Getting a ok length of random characters for the test
+            for (int i=0;i<10;i++)
+            {
+                randomString = EncodedRandomString();
+                if (randomString.Length >  maxCharLength)
+                {
+                    break;
+                }
+            }
 
             string maxText = randomString.Substring(0, maxCharLength);
+            Console.WriteLine("maxText Length :" + maxText.Length.ToString());
 
             RatingInfo rating = new RatingInfo { text = maxText };
             //normal user
@@ -1474,7 +1485,7 @@ return.";
         /// <returns></returns>
         private string EncodedRandomString()
         {
-            int length = 4000;
+            int length = 8000;
             string randomString = String.Empty;
             string asciiCodes = GetASCIIcodes();
             Random random = new Random(DateTime.Now.Millisecond);
@@ -1482,7 +1493,9 @@ return.";
             {
                 randomString += asciiCodes[random.Next(asciiCodes.Length)];
             }
-            return StringUtils.EscapeAllXml(randomString);
+            string strippedText = StringUtils.StripFormattingFromText(randomString);
+
+            return StringUtils.EscapeAllXml(strippedText);
         }
     }
 }
