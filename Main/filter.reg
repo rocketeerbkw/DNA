@@ -87,7 +87,8 @@ REGEDIT4
 "/ModerateGeneral"="/RipleyServer.dll?ModerateGeneral?"
 "/ModerateNicknames"="/RipleyServer.dll?ModerateNicknames?"
 "/ModerateStats"="/RipleyServer.dll?ModerateStatus?"
-"/ModerationHistory"="/RipleyServer.dll?ModerationHistory?"
+--"/ModerationHistory"="/RipleyServer.dll?ModerationHistory?"
+"/ModerationHistory"="/dna/dnapages/ModerationHistorypage.aspx?"
 
 "/efp.cgi"="/efp.cgi?"
 "/FrontpageEditor"="/ripleyserver.dll?FrontpageEditor?"
