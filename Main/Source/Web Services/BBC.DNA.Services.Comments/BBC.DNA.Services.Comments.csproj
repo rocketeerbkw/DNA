@@ -101,6 +101,9 @@
     <Compile Include="CommentsService.cs" />
     <Compile Include="ReviewService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="samples\commentboxtestharness.aspx.designer.cs">
+      <DependentUpon>commentboxtestharness.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
@@ -149,6 +152,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="memcachedstatus.aspx" />
+    <Content Include="samples\commentboxtestharness.aspx" />
+    <Content Include="samples\dna_comments.css" />
     <Content Include="version.aspx" />
     <Content Include="xslt\2.0\comment.xsl" />
     <Content Include="xslt\2.0\commentinfo.xsl" />
@@ -177,7 +182,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>7734</DevelopmentServerPort>
+          <DevelopmentServerPort>43088</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:8081/comments</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

@@ -1,0 +1,89 @@
+.comments { text-align:left; padding:0 10px 0 10px; margin:20px 0 0 0; font-size:1.1em;}
+.comments a:link, .comments a:visited{text-decoration:none;color:#2775B6;}
+.comments a:hover{text-decoration:underline;}
+
+.comments h3 {font-size:1.8em; font-weight:normal; border-bottom:1px dotted #ccc; padding:0 0 5px 0;}
+.comments h3 a {font-size:0.6em; padding:0 0 0 10px}
+
+.dna-commentbox-userstate {text-align:left;margin:10px 0 0 0; padding:0 64px 0 64px;}
+
+p.dna-commentbox-nocomments {margin:20px 0 10px 0; color:#888; font-style:italic; background:#f5f5f5; padding:15px;}
+
+.comments ul, .comments li{list-style:none;}
+.comments ul {margin:20px 0 0 0;}
+#blog_entries .comments li {list-style:none;margin:5px 0 5px 0; padding:12px 32px 12px 32px; display:block;border:#eee solid 2px;}
+
+#blog_entries .comments li ul, #blog_entries .comments li li {padding:2px; margin:0; list-style:square inside; background:transparent; border:none}
+
+.comment-number {font-size:1.3em; font-weight:bold;}
+.comment-text {margin:10px 0 10px 0}
+.flag {padding:0 0 0 13px}
+
+
+.comment-text-moderation {font-size:90%; font-style:italic;}
+
+.comments cite {font-style:normal;}
+
+.comments form p {margin:20px 0 20px 0}
+.comments label {width:140px;}
+.comments textarea {height:270px; width:300px; font:1.1em verdana,arial,helvetica,sans-serif;padding:3px;}
+#dna-commentbox-preview, #dna-commentbox-submit {margin:0 5px 0 0}
+
+.comments form div {width:auto; margin:0;}
+
+#dna-commentbox-countdown {display:block;padding:10px 0 0 5px}
+
+.dna-commentbox-rss { text-align:right;	margin:10px 10px 10px 0;}
+.dna-commentbox-rss a { background:url(/dnaimages/components/shared/img/feed-icon-14x14.png) no-repeat 0 0.3em; padding:5px 5px 2px 18px; height:22px;}
+
+#dna-commentbox-loader {padding:3px 0 0 12px;}
+
+.dna-list span {padding:0 0 0 5px}
+
+
+/*========= palette ==*/
+/*.comments li { background:#eee;}*/
+#blog_entries .comments li {background:url(/blogs/tmpl/globalim/comment.gif) no-repeat 15px 15px #eee}
+#blog_entries .comments li.notables {background:url(/blogs/tmpl/globalim/comment.gif) no-repeat 15px 15px #fff}
+.flag {background:url(/blogs/tmpl/globalim/complain.gif) no-repeat 0 2px}
+.comment-text-moderation {color:#888;}
+
+/*========= special ==*/
+.dna-invisible {visibility:hidden;}
+
+/*========= bad blogs css integration ==*/
+.comments {color:#333333; font:1.2em verdana,sans-serif; line-height:1.6em; padding:0; margin:20px 10px 0 10px}
+
+#comments h3 {margin:0;}
+#comments h3 a {font-size:0.6em; padding:0 0 0 10px}
+label {float:left;padding:0.5em 0.5em 0pt 0pt;text-align:right;}
+div#content li.commentCounts {list-style:none;border-left:1px solid #000000;padding:0 0 0 8px;}
+
+#comments.comments li {list-style:none;margin:5px 0 5px 0; padding:12px 32px 12px 32px; display:block;border:#eee solid 2px;}
+#comments.comments li ul, #blog_entries .comments li li {padding:2px; margin:0; list-style:square inside; background:transparent; border:none}
+#comments.comments li {background:url(/blogs/tmpl/globalim/comment.gif) no-repeat 15px 15px #eee}
+#comments.comments li.notables {background:url(/blogs/tmpl/globalim/comment.gif) no-repeat 15px 15px #fff}
+
+/*== pagination ==*/
+#comments.comments ul.pagination { margin:0 10px 10px 0; height:20px;}
+
+#comments.comments ul.pagination li { float:left; padding:2px; background:none; border:none}
+#comments.comments ul.pagination li a { color:#2775B6;}
+#comments.comments ul.pagination li span { color:#bbb;}
+
+/*== moderation ==*/
+p.moderation {font-size: 0.9em;text-align:right;}
+p.moderation a {padding:0 0 0 14px;}
+
+/*== error ==*/
+
+.comments div.error{margin:0 10px 0 10px; background:url(/blogs/tmpl/globalim/complain.gif) no-repeat 12px 14px #eee; padding:10px 10px 10px 30px;}
+.comments div.error h4 {font-weight:normal; font-size:1.4em; border-bottom:1px dotted #fff;margin:0}
+.comments div.error p {margin:6px 0 6px 0}
+.comments div.error p.error-message {font-style:italic;}
+
+.comments p.info {margin:14px 55px 0 135px; font-size:0.9em; color:#999; text-align:right}
+ 
+
+
+

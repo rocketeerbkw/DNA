@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+<head profile="http://dublincore.org/documents/dcq-html/">
+
+<title>BBC - Who Do You Think You Are? - Fiona Bruce </title>
+
+
+<!-- COMMENTS -->
+<link type="text/css" href="/whodoyouthinkyouare/css/dna_comments.css" media="screen" rel="stylesheet"/> 
+<!--#include virtual="/dnaimages/components/commentbox/head/1.1/javascript.sssi" -->
+<!-- NOTE Example style and script tags - Please use or delete as appropriate -->
+<!-- NOTE Stylesheets MUST be included after the blq-head include due to the reset CSS technique included in Barlesque -->
+
+
+
+<!-- begin ILLUMINA styles -->
+
+
+
+<!-- end scripts for embedding iplayer -->
+
+</head>
+<body>
+<!--BLQ markup starts-->
+
+
+
+        <div id="wdytya"><!-- this wrapper is to negate inherited styles from main.css -->
+        	
+            <div id="wdytya-bgtop">
+            
+            	<div id="wdytya-bgbot">
+            
+<!--#include virtual="/whodoyouthinkyouare/includes/masthead.sssi" -->
+
+
+            <!-- NOTE Site local navigation MUST always be id="blq_local_nav" -->
+                    <div id="blq-local-nav">
+                        
+						   <ul>
+ <!--#set var="current_page" value="newstories" -->
+<!--#include virtual="/whodoyouthinkyouare/includes/nav-main.sssi" -->
+							</ul>
+						
+						
+                    </div>
+            <!-- NOTE #blq-content MUST be used on every page to contain the main page content as it is linked to by Barlesque's "Skip to content" link -->
+                    <div id="wdytya-3colwrap">
+                    	<div id="wdytya-leftcol">
+                        	<ul>
+                            	<li><a href="/whodoyouthinkyouare/new-stories/rory-bremner/index.shtml">Rory Bremner</a></li>
+                                <li><a class="selected">Fiona Bruce</a></li>
+                                <li><a href="/whodoyouthinkyouare/new-stories/rick-stein/index.shtml">Rick Stein</a></li>
+                                <li><a href="/whodoyouthinkyouare/new-stories/zoe-wanamaker/index.shtml">Zo&euml; Wanamaker</a></li>
+                                <li><a href="/whodoyouthinkyouare/new-stories/kevin-whately/index.shtml">Kevin Whately</a></li>
+                          </ul>
+                        </div>
+                        <div id="wdytya-wrapcentandrightcol">
+                            <div id="blq-content" class="wdytya-centcol">                                
+                            	<div class="wdytya-big-iplayer">
+    <!--#set var="iplayer_episode_pid" value="b00hk9p9"-->
+<!--#include virtual="/iplayer/syndication/emp/includes/emp_embed.sssi"-->
+                                </div> 
+                                <h1>Fiona Bruce</h1>
+                                <div class="wdytya-content-indent past-stories-p">
+                                	<p>Fiona's great-grandfather, Frederick Crouch, died in the First World War under mysterious circumstances. The family story is that Frederick failed to duck down when shells began falling nearby, despite the fact everyone else around him dived for cover. A letter, written by Frederick's widow to her son's school soon after the war, reveals the sad truth behind the story.</p>
+                                    <p>Another family story about Frederick is that he joined the army to escape his parents. Hoping to understand the reasons, Fiona investigates the life of Frederick's father, seemingly a highly-respected Victorian photographer. It soon becomes clear that all is not as it first appears with William Crouch, who emerges as a larger-than-life rogue and star of a celebrated court case.</p>
+                                    <p>Fiona next returns to the home of the Bruce family, the small Scottish fishing village of Hopeman, where her family eked out a living for generations. Documents she uncovers in the local library reveal that some of the hardships her family faced were at least a little self-inflicted</p>
+                                     
+                                    
+                                  <p class="wdytya-body-link"><a href="/whodoyouthinkyouare/how-we-did-it/fiona-bruce/index.shtml">Find out how we did it</a></p>
+
+                          
+		 <div><a name="commentsbox-wdytya" id="commentsbox-wdytya"></a></div> 
+     <div> 
+			<!--#set var="dna.commentbox.servicename" value="wdytya"--> 
+			<!--#set var="dna.commentbox.dnauid" value="wdytya0005"--> 
+			<!--#set var="dna.commentbox.title" value="Who+do+you+think+you+are+example1"-->
+			<!--#set var="dna.commentbox.commentProfileUrl" value="/whodoyouthinkyouare/new-stories/fiona-bruce/index_dna.shtml"-->
+			<!--#set var="dna.commentbox.amountPerPage" value="5"--> 
+			<!--#set var="dna.commentbox.staging" value="0"--> 
+			<!--#include virtual="/dnaimages/components/commentbox/commentbox.sssi"-->
+		</div>		 
+<!-- comments go here - see:commentsREADME.txt in new-stories/ -->
+						  
+						                      
+        <!-- pre-tx links -->           
+                                </div>
+                            </div>
+                            <div id="wdytya-rightcol">
+                                  <h2 class="offscreen">Related links</h2>
+                                 <h3>Stories and Memories</h3>
+                                 <ul>
+                                 	<li><a href="http://www.bbc.co.uk/whereilive/">Where I Live</a></li>
+                                    <li><a href="http://www.bbc.co.uk/tellinglives/">Telling Lives</a></li>
+                                    <li><a href="http://www.bbc.co.uk/videonation/">Video Nation</a></li>
+                                    <li><a href="http://www.bbc.co.uk/memoryshare/">Memoryshare</a></li>
+                                    <li><a href="http://www.bbc.co.uk/scotland/history/scottishroots/">BBC Scotland: Scottish Roots</a></li>
+                                    <li><a href="http://www.bbc.co.uk/wales/history/sites/familyhistory/">BBC Wales: Family History</a></li>
+                                 </ul>
+                                 <h3>Your Research</h3>
+                                 <ul>
+                                 	<!-- <li><a href="http://www.bbc.co.uk/history/familyhistory/video_howto/">Video: How to Get Started</a></li>
+                                    <li><a href="http://www.bbc.co.uk/history/familyhistory/your_region/">Explore family history in your local area:</a></li> -->
+                                    <li><a href="http://www.bbc.co.uk/history/familyhistory/bloodlines/">Research timeline</a></li>
+                                    <li><a href="http://www.bbc.co.uk/history/familyhistory/get_started/family_history_links.shtml">Family History Links</a></li>
+                                 </ul>
+                                 <h3>External resources</h3>
+                                 <ul>
+                                 	<li><a href="http://www.nationalarchives.gov.uk/default.htm">The National Archives</a></li>
+                                    <li><a href="http://www.archiveawareness.com/">Archive Awareness</a></li>
+                                    <li><a href="http://www.nationalarchives.gov.uk/nra/default.asp">National Register of Archives</a></li>
+                                    <li><a href="http://www.sog.org.uk/">Society of Genealogists</a></li>
+                                    <li><a href="http://www.ffhs.org.uk/">The Federation of Family History Societies</a></li>
+                                    <li><a href="http://www.nas.gov.uk/">The National Archives of Scotland (NAS)</a></li>
+                                    <li><a href="http://www.scan.org.uk/">The Scottish Archive Network (SCAN)</a></li>
+                                 </ul> 
+                                 <p class="disclaimer">The BBC is not responsible for the content of external web sites.</p>                           
+							</div>	
+                        </div>
+            <!-- end  pre-tx links -->                                                              
+                	</div> 
+        
+        	</div>
+        </div>
+        
+        
+        
+        <!-- end WDYTYA markup -->
+    <!--BLQ markup starts-->
+    </div><!-- end blq-main-->
+<!--#include virtual="/includes/blq/include/blq_body_last.sssi" -->    
+
+
+<!--BLQ markup ends-->
+</body>
+</html>

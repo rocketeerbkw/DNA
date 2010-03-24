@@ -1,0 +1,54 @@
+#panelActive{
+	background:#fffcf1;
+	border:1px solid #989872;
+	border-bottom:3px solid #67672e;
+	display:block;
+	width:480px;
+	font-size:80%;
+}
+* HTML #panelActive{
+	width:474px;
+}
+
+.userTable CAPTION {
+	background:#989872;
+	color:#fff;
+	margin:0;
+	text-align:left;
+	font-weight:bold;
+	padding:6px 6px 6px 15px
+}
+
+.userTable TD{
+	border:0px;
+	border-bottom:1px solid #a39f77;
+	
+}
+
+.userTable{
+	border-spacing:0;
+	border-bottom:20px solid #989872;
+	margin:0;
+	width:100%;
+}
+
+.userTable .even TD{
+	background:#fff9e9;
+	color:#989872;
+}
+.userTable .odd TD{
+	background:#f8f5e8;
+	color:#989872;
+}
+
+.userTable A{
+	color:#767643;
+	font-weight:bold;
+}
+
+
+.subject {text-align:left;width:70%;padding:10px 5px 10px 15px}
+
+.date {text-align:right;width:30%;padding:10px 15px 10px 5px;}
+
+

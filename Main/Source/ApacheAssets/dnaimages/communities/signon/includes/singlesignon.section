@@ -1,0 +1,2 @@
+<!--Change this path to match your service's sso resources location-->
+<!--#set var="bbcpage_banner"   value="dnaimages/communities/signon/includes/singlesignon" -->

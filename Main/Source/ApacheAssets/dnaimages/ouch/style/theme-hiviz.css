@@ -1,0 +1,39 @@
+#blq-main p#membership strong {color:#FFFF00;}
+#membership strong,
+#membership a { color: #00CFFF; }
+#membership a:hover { color: #00FF00; }
+#content .pagination li a {background:#333333; color:#00FFFF;}
+#content .pagination li.current a {background:#000000; color: #FFFF00;}
+.pagination li span {background:#ccc;}
+.pagination li.selected { background:#f359ff;}
+p.forumthreads {color:#112834; }
+#blq-content ul.forumthreads h3 a:hover { color: #00FF00; }
+ul.forumthreads p a.nosubject {color:#999; }
+ul.forumthreads li.stripe {background:#000000;}
+.noreplies {color:#112834}
+p.post-list {color:#ccc; }
+ul.post-list p a.nosubject {color:#999; }
+ul.post-list li.stripe {background:#000000;}
+ul.forumthreads .itemdetail {border-top:1px dotted #ccc; }
+ul.forumthreadposts .itemdetail {border-bottom:1px dotted #ccc;}
+ul.post-list .itemdetail {border-top:1px dotted #ccc;}
+#content ul.forumthreadposts li p.dna-boards-startanewdiscussion a.id-cta, p.dna-boards-inreplyto a.id-cta {color: #fff;}
+p.flag a {color:#999; background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat 1px 2px; padding-left:14px;}
+.dna-boards .text,
+.dna-boards select,
+.dna-boards .textarea { border:1px solid #FFFF00; font-size:1em;background: #000000 repeat-x scroll left bottom; color: #FFFF00; }
+.dna-boards .disabled {border:1px solid #999}
+.inreplyto .createdby {border-bottom: 1px dotted #CCCCCC;}
+#blq-content .dna-boards-moderation a {color:#999}
+ul.forumthreadposts li blockquote, div.inreplyto blockquote {border: 1px solid #00FFFF;}
+ul.forumthreadposts li { border-color: #FFFF00; }
+
+/* crazy override to customise the frontpage */
+#blq-content h3 {
+	background-color:#333333;
+	color:#FFFF00;
+}
+/* overrides for barlesque */
+#blq-content .topiclist p a { color: #000000;}
+#blq-content .topiclist p a:hover { color:#CC0000;}
+#blq-content p { line-height: 1.3em; }

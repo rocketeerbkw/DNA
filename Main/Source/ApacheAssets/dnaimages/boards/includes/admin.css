@@ -1,0 +1,304 @@
+a:active {text-decoration:underline;color:#ff0000;}
+a:link {text-decoration:none;color:#0000ff;}
+a:visited {text-decoration:none;color:#0000ff;}
+a {text-decoration:underline;color:#0000ff;}
+a:hover {text-decoration:underline;color:#ff0000;}
+
+h1, h2, h3, h4, h5, p, li, font, big, small, a {
+	font-family : verdana,arial,helvetica,sans-serif ;
+}
+
+h1 {
+	font-size: 200%;
+}
+
+h2 {
+	font-size: 150%;margin:15px 0px 10px 5px;
+}
+
+h3 {
+	font-size: 100%;margin:10px 0px 5px 10px;
+}
+
+h4 {
+	font-size:80%; margin:0px; font-weight:bold;
+}
+
+h5 {
+	font-size: 60%;
+}
+
+p {
+	font-size:80%;
+}
+
+p.intro {
+	margin:3px 3px 3px 10px;
+}
+
+input.text {width:500px;}
+
+.link {
+	font-size: 80%;
+	color: #333333;
+	background: #ffffff;	
+	margin: 0px;
+	padding: 1px;
+	border: 0px;
+	text-decoration: underline;
+}
+
+.button {
+	border: 1px solid #666666;
+	background: #cccccc;	
+	margin: 0px;
+	width: 150px;
+	padding: 4px 0px 4px 0px;
+}
+
+
+.button a:active, .button a:link, .button a:visited, .button a, .button a:hover  {
+	text-decoration:none;
+	color:#000000;
+}
+
+.divider {
+	border: 0px;
+	border-bottom: 1px dashed #333333;
+}
+
+.preview p {
+	margin: 5px;
+}
+
+p.lhn {
+	margin:3px 3px 3px 5px;
+}
+
+/*Layout Stuff*/
+body {
+	margin: 0px; padding: 0px;
+}
+
+#frontpage {
+	
+}
+
+.area {
+	
+}
+
+#datearea {
+	width: 113px;
+}
+
+#bannerarea {	
+	width: 643px;
+}
+
+#localarea {
+	width: 113px;
+}
+
+#mainarea {
+	width: 633px;
+	padding: 0px 0px 0px 10px;
+}
+
+#ssoarea {
+	width: 633px;
+	margin: 0px;
+}
+
+#userarea {
+	width: 633px;
+	margin: 0px;
+}
+
+#crumbarea {
+	width: 633px;
+	margin: 0px;
+}
+
+#topicarea {
+	width: 115px;
+}
+
+.frontpagetemplate {
+	width: 635px;
+	margin: 0px -5px 0px -5px;
+}
+
+#error {
+				border: 1px solid #cc6600;
+				background:#999999;
+				position: absolute;
+				left: 50%;
+				top: 50%; 
+				padding: 10px;
+			}
+
+/* For opening/closing page */
+#emergency {float:right;margin-right:10px;}
+#differentTime td, #differentTime th, #sameTime td {font-size:70%;}
+#differentTime th {text-align:left;height:40px;padding-left:5px;}
+#differentTime td, #differentTime th {padding-bottom:10px;}
+/* IE Hack */
+* html #differentTime {margin-left:13px;}
+
+#sameTime {margin-right:32px;float:right;}
+#differentTime {margin:0px 10px 0px 28px;}
+
+#openingWarning {font-weight:bold;}
+
+.adminTH {background:transparent;font-weight:bold;vertical-align: inherit;}
+
+/* Code for page layout */
+#adminBody {font-family:verdana, arial, helvetica, sans;font-size:80%;background:#ffffff; margin:0px;padding:0px;}
+
+#topNav {height:28px;background:#999999 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/topnav_bg.gif);width:770px;padding-top:3px;font-family:Trebuchet MS, arial, helvetica, sans;} #topNav h2 {display:inline;font-size:140%;font-weight:normal;padding-left:25px;color:#ffffff;}
+#bbcLogo {margin:10px 5px 5px 10px;display:inline;}     
+          
+#subNav {height:58px;width:770px;border-bottom:1px dotted #666666;}
+    
+#subNavText h1 {display:inline;color:#cc6600;}
+#subNavText {font-weight:bold;font-family:Trebuchet MS, arial, helvetica, sans;font-size:160%;margin-left:60px;padding:5px;border-left:1px dotted #666666;height:48px;background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/dna_logo.gif) right no-repeat;}
+ /* IE Hack */
+ * html  #subNavText {height:58px;}
+      
+#instructional {padding:10px 0px 10px 5px;color:#cc6600;width:770px;font-weight:bold;}
+#instructional p {color:#cc6600;font-size:90%;font-family:verdana, arial, helvetica, sans;}
+           
+.centralArea {padding:10px 20px 10px 20px;font-weight:normal;color:#333333;}      
+.centralArea p {font-family:verdana, arial, helvetica, sans;font-size:90%;color:#333333;margin-bottom:5px;}
+      
+.adminSubtitle {font-size:100%;color:#333333;font-weight:bold;}
+      
+.inputBG {background:#fcf3ec;}
+      
+#contentArea {width:765px;background:#ffffff url(http://www.bbc.co.uk/dnaimages/adminsystem/images/left.gif) repeat-y;border:1px solid #666666;margin-left:5px;}
+.header {background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/t_r.gif) top right no-repeat;width:765px;}
+.centralAreaRight {background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/right.gif)  top right repeat-y;width:765px;}
+.footer {background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/b_r.gif)  bottom right no-repeat;width:765px;}
+#topLine {width:630px;height:3px;border-width:0px;border-top:3px solid #d58434;}
+.scheduleTitle {font-weight:bold;padding-left:10px;color:#333333;}
+      
+ /* Buttons */
+
+.buttonLeftA {float:left;margin:5px 0px 0px 10px;}
+* html .buttonLeftA {margin-top:0px;}
+#buttonRightInput {float:right;margin-right:20px;}
+.buttonRightA {float:right;margin:5px 20px 0px 0px;}
+* html .buttonRightA {margin-top:0px;}
+
+.buttonThreeD {background:#cecece url(http://www.bbc.co.uk/dnaimages/adminsystem/images/button_bg2.gif) 0px 0px repeat-x;height:28px;border:2px solid #666666;color:#666666;display:inline;margin:0px 5px;padding:4px 10px;}
+* html .buttonThreeD {height:30px;}
+* html .buttonThreeD a {vertical-align:bottom;}
+* html input.buttonThreeD {margin-bottom:1px;}      
+input.buttonThreeD {font-weight:bold;}
+.buttonThreeD a {font-weight:bold;font-size:95%;text-decoration:none;}
+.buttonThreeD a:link, .buttonThreeD a:visited, .buttonThreeD a:active {color:#666666;text-decoration:none;}
+.buttonThreeD a:hover, .buttonThreeD a:hover  {color:#666666;text-decoration:none;}
+      
+.shadedDivider {width:740px;background: url(http://www.bbc.co.uk/dnaimages/adminsystem/images/shaded_line.gif) repeat-x center;height : 20px;margin-left:10px;border-style:none;}
+.shadedDivider hr {display:none;}
+	
+#headingHighlight {font-weight:bold;color:#cc6600;font-size:100%;font-family:verdana, arial, helvetica, sans;}
+	
+/* Gets rid of styles imposed by messageboards stylesheet */
+.adminText {font-family:verdana, arial, helvetica, sans;font-weight:inherit;font-size:100%;color:#333333;}
+.adminFormHeader {color:#000000;display:inline;font-family:verdana, arial, helvetica, sans;}
+
+/* Tables */
+.dataStriped {border-collapse: collapse;font-size:90%;font-weight:bold;color:#333333;border:1px solid #666666;border-top:none;}
+.dataStriped th {text-align:left;font-weight:bold;color:#333333;background:transparent;border-top:2px solid #cc6600;border-bottom:1px solid #666666;}
+.dataStriped td {padding:5px;}
+
+.stripeOne {background:#cdcdcd;}
+.stripeTwo {background:#eeeeee;}
+
+.dataStatus {text-align:center;border-left:1px solid #666666;border-right:1px solid #666666;}     
+.dataLeftLine {border-left:1px solid #333333;} 
+.dataCenter {text-align:center}
+      
+#dataStatusTH {padding-left:25px;}
+
+.dataFakeLink {border-style:none;background:transparent;padding:0px;font-weight:bold;text-decoration:underline;color:#333333;cursor:pointer;text-align:left;font-size:90%;}
+* html .dataFakeLink {font-size:109%;}
+
+.adminMenu {border-collapse: collapse;font-size:90%;font-weight:bold;color:#333333;}
+.adminMenu td {padding:5px;background:#f8f8f8;}
+.adminMenu th {padding:5px;text-align:left;font-weight:bold;color:#666666;background:transparent;font-size:120%;}
+.adminMenuTime {border-left:10px solid #ffffff;border-right:10px solid #ffffff;text-align:center;}
+.adminMenuStatus {border-left:10px solid #ffffff;text-align:center;}
+.adminSecondHeader td {background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/adminmenu_bg.gif) bottom repeat-x;height:41px;padding-top:17px;}
+.adminMenuBottom td {padding-bottom:10px;border-bottom:1px dotted #000000;}
+.adminMenuDone {text-align:center;}
+.siteOptDesc {border-left:10px solid #ffffff;border-right:10px solid #ffffff;border-bottom:1px dotted #000000;}
+.siteOptBott {border-bottom:1px dotted #000000;}
+.siteOptRight {border-right:1px dotted #000000;}
+/* Frontpage layout */
+#frontpage input {margin:10px;width:180px;text-align:center;}
+
+div#vanilla-instructional {
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+div#vanilla-instructional p {
+  color: #000000;
+  font-size: 1em
+}
+
+div#vanilla-instructional p strong, div#vanilla-instructional p strong.warning {
+  color: #FF0000;
+}
+
+div#vanilla-instructional p strong.ok {
+  color: #00CC00;
+}
+
+div.vanilla-admin {
+  border: 1px solid #999999;
+  width: 765px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.vanilla-admin table.vanilla-assets {
+  border: 1px dotted #333333;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.vanilla-assets tr {
+  border-bottom: 1px dotted #333333;
+}
+
+.vanilla-assets th p.info {
+  font-weight: normal;
+  font-size: 70%;
+  padding: 5px;
+}
+
+.vanilla-assets th {
+  text-align: left;
+  width: 50%
+}
+
+.vanilla-assets td {
+  vertical-align: top;
+}
+
+div.vanilla-submit {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.right {
+	text-align: right;
+}

@@ -1,0 +1,12 @@
+<!--Set these vars as per your service's Barley settings-->
+<!--#set var="bbcpage_bgcolor"      value="003366" -->
+<!--#set var="bbcpage_nav"          value="no" -->
+<!--#set var="bbcpage_navgraphic"   value="no" -->
+<!--#set var="bbcpage_navgutter"    value="no" -->
+<!--#set var="bbcpage_contentwidth" value="770" -->
+<!--#set var="bbcpage_contentalign" value="left" -->
+<!--#set var="bbcpage_charset"	value="iso-8859-1" -->
+<!--#set var="bbcpage_language"	value="english" -->
+<!--#set var="bbcpage_searchcolour" value="a3a3a3" -->
+
+

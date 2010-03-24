@@ -149,9 +149,10 @@
                 row.insertCell(4).innerHTML = objComForums.commentForums[i].commentsSummary.total;
                 row.insertCell(5).innerHTML = objComForums.commentForums[i].created.at;
                 row.insertCell(6).innerHTML = "<a href='commentforum.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">Details</a>" +
-                    "&nbsp;<a href='comedyextra.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">Comedy Extra</a>" +
-                    "&nbsp;<a href='news.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">News</a>" +
-                    "&nbsp;<a href='iplayer.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">iPlayer</a>";
+                    "<br /><a href='commentboxtestharness.aspx?uid=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "&parentUrl=" + objComForums.commentForums[i].parentUri + "&title=" + objComForums.commentForums[i].title + "' target=\"_blank\">SSI</a -->" +
+                    "<!-- &nbsp;<a href='comedyextra.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">Comedy Extra</a -->" +
+                    "<!-- &nbsp;<a href='news.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">News</a -->" +
+                    "<!-- &nbsp;<a href='iplayer.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">iPlayer</a> -->";
             }
         }
 

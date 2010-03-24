@@ -1,0 +1,162 @@
+<!--#if expr="${dna.commentbox.servicename} = ''"--><!--#set var="dna.commentbox.initError" value="1"--><!--#endif-->
+<!--#if expr="${dna.commentbox.dnauid} = ''"--><!--#set var="dna.commentbox.initError" value="1"--><!--#endif-->
+<!--#if expr="${dna.commentbox.title} = ''"--><!--#set var="dna.commentbox.initError" value="1"--><!--#endif-->
+
+<!--#if expr="${dna.commentbox.initError} = 1"-->
+	<!--Please supply a service name, a title and a dnauid to dna comments...-->
+<!--#else-->
+
+	<!--#include virtual="/dnaimages/components/commentboxstaging/maintenanceMode.sssi"-->
+
+<!--#set var="dna.commentbox.beingDiscussedNow" value="This information is temporarily unavailable."-->
+
+<!--#set var="dna.commentbox.recentComments" value="This information is temporarily unavailable."-->
+
+	<!--#if expr="${dna.commentbox.maintenanceMode} = '1'"-->
+		<div id="comments" class="comments">
+			<h3>Comments</h3>
+			<p class="dna-commentbox-userstate"> The comment service has been closed temporarily for maintenance. It will return shortly.</p>
+		</div>
+
+
+<!--#else-->
+
+<!--#config timefmt="%y%m%d%H%M" -->
+<!--#set var="timestamp" value="$DATE_GMT" -->
+
+<!--#if expr="${timestamp} >= 0805010600 && ${timestamp} < 0805012200"-->
+<div style="background:#eee; border:1px solid #ddd; width:475px; padding:3px; margin:10px; font-size:1.2em; line-height:1.6em;">
+	<h6 style="font:1.1em verdana,sans-serif; font-weight:bold; text-align:left;margin:0 0 0 10px">Rules During Polling Day</h6>
+	<p style="margin:0px; padding:0 10px 0 10px; text-align:justify; font-family:verdana">
+		Please note that in line with the political parties and other UK broadcasters, the BBC will not be reporting the election campaigns in England and Wales, or offering discussion about them, while polls are open. As such, users are asked to refrain from discussing them here during the period that polls are open. Usual BBC House Rules will resume once the polls are closed after 10pm. For more information please see the <a href="http://www.bbc.co.uk/messageboards/newguide/elections.shtml">elections guide</a>.
+	</p>
+</div>
+<!--#endif-->
+
+
+<!--#if expr="${dna.commentbox.servicename} = 'blog51'"-->
+<!--#set var="dna.commentbox.servicename" value="pmblog"-->
+<!--#set var="dna.commentbox.listNamespace" value="pmblog"-->
+<!--#endif-->
+
+
+<!--#if expr="${dna.commentbox.lsitNamespace} = 'movabletype'"-->
+<!--#set var="dna.commentbox.listNamespace" value="${dna.commentbox.servicename}[_]"-->
+<!--#else-->
+<!--#set var="dna.commentbox.listNamespace" value="${dna.commentbox.listNamespace}[_]"-->
+<!--#endif-->
+
+
+
+<!--#if expr="! ${dna.commentbox.postback}"-->
+<!--#set var="dna.commentbox.postback" value="${SCRIPT_URI}"-->
+<!--#endif-->
+
+<!--#if expr="! ${dna.commentbox.encoding}"-->
+<!--#set var="dna.commentbox.encoding" value="utf-8"-->
+<!--#endif-->
+
+<!-- For optionals build up the query string-->
+
+<!--#if expr="${dna.commentbox.baseHeadingLevel} = ''"-->
+<!--#set var="dna.commentbox.baseHeadingLevel" value="1"-->
+<!--#endif-->
+
+<!--#if expr="${dna.commentbox.listRangeStart} = ''"-->
+<!--#set var="dna.commentbox.listRangeStart" value="null"-->
+<!--#endif-->
+
+<!--#if expr="${dna.commentbox.listRangeEnd} = ''"-->
+<!--#set var="dna.commentbox.listRangeEnd" value="null"-->
+<!--#endif-->
+
+<!--#if expr="$dna.commentbox.listCount = ''"-->
+<!--#set var="dna.commentbox.listCount" value="null"-->
+<!--#endif-->
+
+<!-- use staging dna -->
+<!--#set var="dna.commentbox.staging" value="1"-->
+
+<!-- [Experimental] -->
+
+<!--#setsplitvars value="$QUERY_STRING" -->
+
+<!--#if expr="$page = ''"-->
+<!--#set var="page" value="1"-->
+<!--#endif-->
+
+<!--#if expr="$s_contact != ''"-->
+<!--#set var="dna.commentbox.s_contact" value="null"-->
+<!--#else-->
+<!--#set var="dna.commentbox.s_contact" value="${s_contact}"-->
+<!--#endif-->
+
+
+<!--#func var="dna.commentbox.internal.pageMinusOne" func="add" value="${page}" value="-1"-->
+<!--#func var="dna.commentbox.internal.listRangeEndPlusOne" func="mult" value="${page}" value="${dna.commentbox.amountPerPage}"-->
+<!--#func var="dna.commentbox.listRangeStart" func="mult" value="${dna.commentbox.internal.pageMinusOne}" value="${dna.commentbox.amountPerPage}"-->
+<!--#func var="dna.commentbox.listRangeEnd" func="add" value="${dna.commentbox.internal.listRangeEndPlusOne}" value="-1"-->
+
+<!--#if expr="$dna.commentbox.commentCount = ''"-->
+<!--#set var="dna.commentbox.commentCount" value="null"-->
+<!--#endif-->
+
+<!--#set var="dna.commentbox.sssiComponent" value="1"-->
+
+<!--#if expr="${dnato} != ''"-->
+<!--#func var="dna.commentbox.listRangeEnd" func="add" value="${dnato}" value="-1"-->
+<!--#endif-->
+
+<!--#if expr="${dnafrom} != ''"-->
+<!--#func var="dna.commentbox.listRangeStart" func="add" value="${dnafrom}" value="-1"-->
+<!--#endif-->
+
+<!--#if expr="$printenv = 1"-->
+<pre>
+	dna.commentbox.servicename=<!--#echo var="dna.commentbox.servicename"-->,
+	dna.commentbox.dnauid=<!--#echo var="dna.commentbox.dnauid"-->,
+	dna.commentbox.title=<!--#echo var="dna.commentbox.title"-->,
+
+	dna.commentbox.commentProfileUrl=<!--#echo var="dna.commentbox.commentProfileUrl"-->,
+	dna.commentbox.listNamespace=<!--#echo var="dna.commentbox.listNamespace"-->,
+
+	dna.commentbox.postback=<!--#echo var="dna.commentbox.postback"-->,
+	dna.commentbox.listRangeStart=<!--#echo var="dna.commentbox.listRangeStart"-->,
+	dna.commentbox.listRangeEnd=<!--#echo var="dna.commentbox.listRangeEnd"-->,
+
+	dna.commentbox.staging=<!--#echo var="dna.commentbox.staging"-->,
+	dna.commentbox.beingDiscussedNow=<!--#echo var="dna.commentbox.beingDiscussedNow"-->
+	dna.commentbox.recentComments=<!--#echo var="dna.commentbox.recentComments"-->,
+	dna.commentbox.maintenanceMode=<!--#echo var="dna.commentbox.maintenanceMode"-->,
+	dna.commentbox.sssiComponent=<!--#echo var="dna.commentbox.sssiComponent"-->,
+  dna.commentbox.sssiComponent=<!--#echo var="dna.commentbox.sssiComponent"-->,
+  dna.commentbox.s_contact=<!--#echo var="dna.commentbox.s_contact"-->,
+call to DNA: /dna-ssi/staging/<!--#echo var="dna.commentbox.servicename"-->/comments/acs?dnainitialtitle=<!--#echo var="dna.commentbox.title"-->&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=<!--#echo var="dna.commentbox.encoding"-->&s_sssicomponent=<!--#echo var="dna.commentbox.sssiComponent"-->&s_sssiCommentCount=<!--#echo var="dna.commentbox.commentCount"-->&dnacommentforumlistprefix=<!--#echo var="dna.commentbox.listNamespace"-->&dnarecentcommentsprefix=<!--#echo var="dna.commentbox.listNamespace"-->&s_commentprofileurl=<!--#echo var="dna.commentbox.commentProfileUrl"-->
+</pre>
+<!--echo var="dna.commentbox.staging"-->
+<!--echo var="dna.commentbox.commentProfileUrl"-->
+<!--#endif-->
+
+<!--#if expr="${dna.commentbox.staging} = '1'"-->
+<!--Using dna staging...-->
+<!--#include virtual="/dna-ssi/staging/${dna.commentbox.servicename}/comments/acs?dnainitialtitle=${dna.commentbox.title}&dnahostpageurl=${dna.commentbox.postback}&dnauid=${dna.commentbox.dnauid}&s_baseHeadingLevel=${dna.commentbox.baseHeadingLevel}&dnafrom=${dna.commentbox.listRangeStart}&dnato=${dna.commentbox.listRangeEnd}&dna_encoding=${dna.commentbox.encoding}&s_sssicomponent=${dna.commentbox.sssiComponent}&s_sssiCommentCount=${dna.commentbox.commentCount}&dnacommentforumlistprefix=${dna.commentbox.listNamespace}&dnarecentcommentsprefix=${dna.commentbox.listNamespace}&s_commentprofileurl=${dna.commentbox.commentProfileUrl}&s_mode=${s_mode}&s_contact=${dna.commentbox.s_contact}" -->
+<!--#else-->
+<!--#include virtual="/dna-ssi/${dna.commentbox.servicename}/comments/acs?dnainitialtitle=${dna.commentbox.title}&dnahostpageurl=${dna.commentbox.postback}&dnauid=${dna.commentbox.dnauid}&s_baseHeadingLevel=${dna.commentbox.baseHeadingLevel}&dnashow=${dna.commentbox.listCount}&dnafrom=${dna.commentbox.listRangeStart}&dnato=${dna.commentbox.listRangeEnd}&dna_encoding=${dna.commentbox.encoding}&s_sssicomponent=1&s_sssiCommentCount=${dna.commentbox.commentCount}&dnacommentforumlistprefix=${dna.commentbox.listNamespace}&dnarecentcommentsprefix=${dna.commentbox.listNamespace}&s_commentprofileurl=${dna.commentbox.commentProfileUrl}" -->
+<!--#endif-->
+
+
+
+<!--#if expr="${dnadebug} = '1'"-->
+<!--left over junk from debugging-->
+
+<!--include virtual="/dnassi/<!--#echo var="dna.commentbox.servicename"-->/vanilla/acs?dnainitialtitle=New+Comment+Box2&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnashow=<!--#echo var="dna.commentbox.listCount"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=iso-8859-1&s_sssicomponent=1&s_sssiCommentCount=<!--#echo var="dna.commentbox.commentCount"-->&<!--#echo var="${QUERY_STRING}"-->
+<!--include virtual="/dnassi/<!--#echo var="dna.commentbox.servicename"-->/vanilla/acs?dnainitialtitle=<!--#echo var="dna.commentbox.title"-->&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnashow=<!--#echo var="dna.commentbox.listCount"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=iso-8859-1&s_sssicomponent=1&dna_list_ns=<!--#echo var="dna.commentbox.listNamespace"-->&<!--#echo var="QUERY_STRING"-->
+
+
+
+<!--#endif-->
+
+<!--#endif-->
+
+<!--#endif-->
+<!--printenv-->

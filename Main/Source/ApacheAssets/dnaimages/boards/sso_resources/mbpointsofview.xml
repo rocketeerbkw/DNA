@@ -1,0 +1,46 @@
+<service id='mbpointsofview'>
+
+	<flags quick_tips='0' audio_help='1'/>
+
+    <!-- Please specify the path to your sso resources (absolute url path)
+        no slash at the start or the end e.g. /radio1/signon -->
+    <resource_dir>pov/signon/sso_resources</resource_dir>
+
+	<redirect>
+		<site id='cbbc'/>
+		<site id='cbeebies-board'/>
+		<site id='bigtoe'/>
+		<site id='onionstreet'/>
+		<site id='radio1-board'/>
+		<site id='1xtra-board'/>
+		<site id='totp-board'/>
+		<site id='refresh'/>
+	</redirect>
+
+	<recommend>
+		<site id='radio1'/>
+		<site id='boards'/>
+		<site id='communicate'/>
+		<site id='collective'/>
+	</recommend>
+
+	<add_details_help><![CDATA[
+<font size="-1"><strong>About you</strong></font><font size="-2"><br /><br />Under the <strong>Data Protection Act 1998</strong>, organisations such as the BBC must ensure that any of <strong>your personal information is collected fairly</strong> and <strong>kept safely</strong>.</font>
+]]></add_details_help>
+
+	<add_details_error_help><![CDATA[
+<font size="-1"><strong>Unwanted emails</strong></font><br /><br />
+<font size="-2">We will never send you <strong>junk</strong> or <strong>spam email</strong>. <br /><br />Some internet sites do though, so be wary when giving your email address - you might be asked if you mind receiving promotional emails or you might not be given a choice and could be sent them automatically.<br /><br />Read the small print!</font>
+]]></add_details_error_help>
+
+	<house_rules>
+		<rule id='1'><![CDATA[We advise that you don't give out your personal information or contact details to others]]></rule>
+		<rule id='2'><![CDATA[Keep the atmosphere friendly and be patient, people of all abilities use BBCi]]></rule>
+		<rule id='3'><![CDATA[We can't guarantee the content of links to non-BBCi websites, take care when clicking on them]]></rule>
+		<rule id='4'><![CDATA[You need to be 16+]]></rule>
+	</house_rules>
+
+	<example_names>JudgeDave</example_names>
+
+</service>
+

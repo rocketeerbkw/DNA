@@ -1,0 +1,54 @@
+
+body {background: url(http://www.bbc.co.uk/iplayer/r13879/style/img/body_bg.gif) repeat-x rgb(29, 29, 29);}
+.breadcrumbs {padding-left:254px; font-size:0.9em}
+.breadcrumbs li { color:#fff;float:left; padding:0 14px 0 0; background:url(/dnaimages/iplayer/dna_messageboard/img/breadcrumb.png) no-repeat 97% 65%; }
+.breadcrumbs li.current { background:none; }
+
+#blq-main #header { 
+    float: left;
+    height: 7em;
+    width: 100%;
+}
+
+#tagline p  {
+    font-weight: bold;
+    color: #EB1286;
+}
+
+#tagline p a {
+	text-decoration: underline;
+	color:#EB1286;
+}
+
+#tagline {
+	text-align: right;
+}
+
+#tagline h2 {
+    font-size:1.6em;
+    color:#EB1286;
+    padding-bottom:0.2em;
+    clear: left;
+}
+  
+#blq-main p#membership {display:inline;position:relative;float:right; margin:-24px 7px 0 0; font-size:0.9em; font-weight:bold;}
+#blq-main p#membership strong {color:#eaeaea;}
+#membership strong,
+#membership a 
+{margin:0 7px 0 7px;}
+
+.sidepanel a {color: #222222;}
+.sidePanel a.current-section, .sidePanel a.current-section:hover {color:#fff;background:#FF359F; border-bottom:1px solid #FF359F;}
+#nav { padding: 0; }
+
+h3 span { font-size:0.6em; padding:0 0 0 7px}
+h3 .dna-invisible {display:none;}
+
+h4 { font-size:2em; }
+
+#blq-content ul.pagination{
+float:right;
+}
+#blq-content ul.pagination li{
+float:left;
+background:#999
