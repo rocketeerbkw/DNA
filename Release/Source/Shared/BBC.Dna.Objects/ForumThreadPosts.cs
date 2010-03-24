@@ -396,8 +396,9 @@ namespace BBC.Dna.Objects
                     int firstPostOnNextPage =0;
                     bool activeRow = true;
                     if (startIndex > 0)
-                    {//move forward to start on correct index
-                        activeRow = reader.NextResult();
+                    {
+//move forward to start on correct index
+                        activeRow = reader.Read();
                     }
                     if (activeRow)
                     {//possible that moving forward a result has hit end of reader or amount to read
