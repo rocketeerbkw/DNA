@@ -326,7 +326,7 @@ namespace BBC.Dna.Objects
                     if (startIndex > 0)
                     {
 //move forward to start on correct index
-                        activeRow = reader.NextResult();
+                        activeRow = reader.Read();
                     }
                     if (activeRow)
                     {
