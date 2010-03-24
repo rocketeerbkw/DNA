@@ -1,0 +1,24 @@
+CREATE VIEW VRatingForums
+AS
+SELECT     cf.UID, s.URLName AS sitename, cf.Url, f.Title, f.ForumPostCount +
+                          (SELECT     ISNULL(SUM(PostCountDelta), 0) AS Expr1
+                            FROM          dbo.ForumPostCountAdjust WITH (NOLOCK)
+                            WHERE      (ForumID = f.ForumID)) AS ForumPostCount, f.ModerationStatus, f.DateCreated, cf.ForumCloseDate, 
+                            case when flu.lastupdated is null then f.DateCreated else flu.lastupdated end AS LastUpdated, 
+                            case when ter.average is null then 0 else ter.average end AS Average, 
+                            f.lastposted AS LastPosted, 
+                      0 AS totalResults, 0 AS startindex, 0 AS itemsperpage, cf.SiteID AS siteId, cf.ForumID AS forumId,
+                      f.canread as canRead, f.canWrite as canWrite
+					FROM         
+					dbo.CommentForums AS cf WITH (NOLOCK) 
+                      INNER JOIN dbo.Forums AS f WITH (NOLOCK) ON cf.ForumID = f.ForumID 
+                      left outer join
+                      (select max(lastupdated) as lastupdated, forumid
+						from ForumLastUpdated
+						group by forumid) flu  ON flu.forumid = f.ForumID 
+						left outer join
+                      (select avg(rating) as average, forumid
+						from dbo.ForumReview
+						group by forumid) ter  ON ter.forumid = f.ForumID 
+						INNER JOIN dbo.Sites AS s ON s.SiteID = f.SiteID
+

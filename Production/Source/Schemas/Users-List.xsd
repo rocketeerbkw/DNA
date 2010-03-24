@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="User.xsd" />
+  <xs:element name="USER-LIST">
+    <xs:annotation>
+      <xs:documentation>List of users subscribed to by a user.</xs:documentation>
+    </xs:annotation>
+   
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element ref="USER" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      
+		  <xs:attribute name="SKIP" type="xs:int" use="required" />
+		  <xs:attribute name="SHOW" type="xs:int" use="required" />
+		  <xs:attribute name="COUNT" type="xs:int" use="optional" />
+		  <xs:attribute name="MORE" type="xs:int" use="optional" />
+		  <xs:attribute name="TYPE" type="xs:string" use="optional" />
+		  <xs:attribute name="GROUP-NAME" type="xs:string" use="optional" />
+	  </xs:complexType>	  
+  </xs:element>
+</xs:schema> 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="USERSTATUS">
+		<xs:annotation>
+			<xs:documentation>Details voting counts for each user state (e.g. logged in).</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OPTION" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="INDEX" use="required" type="xs:string"/>
+						<xs:attribute name="COUNT" use="required" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="TYPE" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>User's status when voting (e.g. logged in).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>	
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

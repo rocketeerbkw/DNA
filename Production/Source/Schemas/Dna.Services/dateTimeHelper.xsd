@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BBC.Dna.Api" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="dateTimeHelper">
+		<xs:sequence>
+			<xs:element name="at" type="xs:string" />
+			<xs:element name="ago" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

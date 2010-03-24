@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="MESSAGE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="BODY" type="xs:string" />
+				<xs:element name="DATEPOSTED">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="MSGID" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

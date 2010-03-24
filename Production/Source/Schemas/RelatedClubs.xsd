@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="extrainfo.xsd"/>
+	<xs:element name="RELATEDCLUBS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" name="CLUBMEMBER" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CLUBID" type="xs:unsignedShort" />
+							<xs:element name="NAME" type="xs:string" />
+							<xs:element ref="EXTRAINFO">
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

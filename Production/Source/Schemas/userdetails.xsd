@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="USER-DETAILS-FORM">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MESSAGE">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="TYPE" type="xs:string" use="required" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="USERID" type="xs:unsignedInt" />
+				<xs:element name="USERNAME" type="xs:string" />
+				<xs:element name="EMAIL-ADDRESS" type="xs:string" />
+				<xs:element name="REGION"  type="xs:string" />
+				<xs:element name="PREFERENCES">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SKIN" type="xs:string" />
+							<xs:element name="USER-MODE" type="xs:unsignedByte" />
+							<xs:element name="FORUM-STYLE" type="xs:unsignedByte" />
+							<xs:element name="SITESUFFIX"  type="xs:string" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SITEPREFERENCES"  type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

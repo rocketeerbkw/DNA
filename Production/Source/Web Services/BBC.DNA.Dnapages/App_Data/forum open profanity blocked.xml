@@ -1,0 +1,1700 @@
+<?xml version="1.0"?>
+<H2G2 TYPE="COMMENTBOX">
+  <debugmessages/>
+  <sample-description>
+    <title>Profanity is blocked</title>
+    <description>The forum is open, but a posting has been blocked because of a profanity</description>
+  </sample-description>
+  <VIEWING-USER>
+    <USER>
+      <USERID>6</USERID>
+      <USERNAME>Jim Lynn</USERNAME>
+      <POSTCODE>B36 8EY</POSTCODE>
+      <REGION></REGION>
+      <PREFUSERMODE>0</PREFUSERMODE>
+      <STATUS>2</STATUS>
+      <AREA>Birmingham</AREA>
+      <TITLE></TITLE>
+      <FIRST-NAMES>James</FIRST-NAMES>
+      <FIRSTNAMES>James</FIRSTNAMES>
+      <LAST-NAME>Lynn</LAST-NAME>
+      <LASTNAME>Lynn</LASTNAME>
+      <SITESUFFIX></SITESUFFIX>
+      <TEAMID>399324</TEAMID>
+      <UNREADPUBLICMESSAGECOUNT>-1</UNREADPUBLICMESSAGECOUNT>
+      <UNREADPRIVATEMESSAGECOUNT>0</UNREADPRIVATEMESSAGECOUNT>
+      <TAXONOMYNODE>27887</TAXONOMYNODE>
+      <HIDELOCATION>0</HIDELOCATION>
+      <HIDEUSERNAME>0</HIDEUSERNAME>
+      <GROUPS>
+        <GROUP>
+          <NAME>EDITOR</NAME>
+        </GROUP>
+        <GROUP>
+          <NAME>MODERATOR</NAME>
+        </GROUP>
+      </GROUPS>
+    </USER>
+    <SSO>
+      <SSOLOGINNAME>JimLynnReal</SSOLOGINNAME>
+    </SSO>
+  </VIEWING-USER>
+  <SERVERNAME>PC-100104NM</SERVERNAME>
+  <USERAGENT>Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.7.12) Gecko/20050919 Firefox/1.0.7</USERAGENT>
+  <URLSKINNAME>acs</URLSKINNAME>
+  <DATE DAYNAME="Saturday" SECONDS="05" MINUTES="45" HOURS="16" DAY="17" MONTH="04" MONTHNAME="April" YEAR="2007" SORT="20070417164505" RELATIVE="" />
+  <SITECONFIG>
+    <DNACOMMENTTEXT>
+      <CLOSINGTIMESOON>
+        Please note: this debate will close in <MINUTESBEFORECLOSING /> minutes.
+      </CLOSINGTIMESOON>
+      <COMMENTBOXHEADING />
+      <COMMENTENTERHEADING>Leave your comment.</COMMENTENTERHEADING>
+      <COMMENTENTERLABEL>Click here to sign out.</COMMENTENTERLABEL>
+      <COMPLAINLINK>complain about this post </COMPLAINLINK>
+      <COUNTDOWNDISPLAY>Please click the button below to submit your comment.</COUNTDOWNDISPLAY>
+      <EMERGENCYCLOSEDMESSAGE>This debate is temporarily closed, please try again later. Our usual opening times are listed below.</EMERGENCYCLOSEDMESSAGE>
+      <FORUMCLOSEDMESSAGE>This debate is now closed.</FORUMCLOSEDMESSAGE>
+      <FORUMEXPIREDMESSAGE>This debate is now closed.</FORUMEXPIREDMESSAGE>
+      <LEAVECOMMENTHEADING>Leave your comment</LEAVECOMMENTHEADING>
+      <LOGGEDINWELCOME>You are currently signed in.</LOGGEDINWELCOME>
+      <NOTLOGGEDINWELCOME>
+        You need to <LINKTOSIGNIN>sign in</LINKTOSIGNIN> to contribute to this page. If you're new to 6 Music, <LINKTOREGISTER>creating your membership </LINKTOREGISTER> is quick and easy.
+      </NOTLOGGEDINWELCOME>
+      <NUMBEROFPOSTSMESSAGE>
+        This page has <PAGEPOSTCOUNTSHOWN SINGULAR=" comment" PLURAL=" comments" /> shown and <PAGEPOSTCOUNTHIDDEN /> hidden due to moderation.
+      </NUMBEROFPOSTSMESSAGE>
+      <OPENINGTIMESHEADING>Opening hours:</OPENINGTIMESHEADING>
+      <OPENINGTIMESMESSAGE />
+      <OPENUNTILMESSAGE>
+        This debate will be open until <FORUMEXPIRATIONDATE />.
+      </OPENUNTILMESSAGE>
+      <POSTMODLABEL>
+        All posts are post-moderated. <A HREF="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html">What does this mean?</A>
+      </POSTMODLABEL>
+      <PREMODLABEL>
+        All posts are pre-moderated. <A HREF="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html">What does this mean?</A>
+      </PREMODLABEL>
+      <PREMODMESSAGE>
+        Where's my comment?<BR />All new members are pre-moderated initially, which means that there will be a short delay between when you post your comment and when it appears while one of our moderators checks it.
+      </PREMODMESSAGE>
+      <PROFANITYMESSAGE>
+        Your posting was blocked because it contained the word '<BLOCKEDPROFANITY />'
+      </PROFANITYMESSAGE>
+      <SCHEDULEDCLOSEDMESSAGE>
+        This debate is closed for the night. It will reopen at <NEXTOPENTIME />.
+      </SCHEDULEDCLOSEDMESSAGE>
+      <SENTBYLABEL />
+      <UNMODLABEL>
+        All posts are reactively moderated. <A HREF="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html">What does this mean?</A>
+      </UNMODLABEL>
+      <WEEKDAYSMESSAGE>Weekdays</WEEKDAYSMESSAGE>
+      <WEEKENDSMESSAGE>Weekends</WEEKENDSMESSAGE>
+      <TOTALPOSTSMESSAGE>
+        <TOTALPOSTCOUNT SINGULAR=" comment" PLURAL=" comments" /> posted so far.
+      </TOTALPOSTSMESSAGE>
+    </DNACOMMENTTEXT>
+
+    <ASSETCOMPLAIN>alert_moderator_button.gif</ASSETCOMPLAIN>
+    <ASSETNEW>new.gif</ASSETNEW>
+    <BARLEYSEARCHCOLOUR>086497</BARLEYSEARCHCOLOUR>
+    <BARLEYVARIANT>radio</BARLEYVARIANT>
+    <BOARDNAME>6 Music</BOARDNAME>
+    <BOARDROOT>mb6music/</BOARDROOT>
+    <BOARDSSOLINK>mb6music</BOARDSSOLINK>
+    <CODEBANNER>
+      <A HREF="/6music/">
+        <IMG SRC="http://www.bbc.co.uk/6music/dna_messageboard/images/banner.gif" ALT="" WIDTH="635" HEIGHT="89" HSPACE="0" VSPACE="0" BORDER="0" />
+      </A>
+    </CODEBANNER>
+    <CSSLOCATION>messageboards.css</CSSLOCATION>
+    <EXTEXTBODY />
+    <EXTEXTPREVIEW />
+    <EXTEXTTITLE />
+    <FEATURESMILEYS>1</FEATURESMILEYS>
+    <IMAGEBANNER />
+    <LINKPATH>0</LINKPATH>
+    <NAVCRUMB />
+    <NAVLHN>
+      <DIV ID="navigation-wrapper">
+        <DIV>
+          <A HREF="/6music/" CLASS="nav-in-active-rm">6 Music Home</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/whatson/" CLASS="nav-in-active-rm">What's on 6?</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/shows/" CLASS="nav-in-active-rm">Shows</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/listen/" CLASS="nav-in-active-rm">Listen</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/news/" CLASS="nav-in-active-rm">Music News</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/events/" CLASS="nav-in-active-rm">Events</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/fun/" CLASS="nav-in-active-rm">Fun &amp; Games</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/have_your_say/" CLASS="nav-active-rm">Have Your Say</A>
+        </DIV>
+        <P CLASS="sub-navigation-rm">
+          <A HREF="/6music/have_your_say/chatroom.shtml">Chatroom</A>
+          <BR />
+          <A HREF="/6music/shows/music_week/debate.shtml">Great Debate</A>
+          <BR />
+          <A HREF="http://www.bbc.co.uk/dna/mb6music">Message Board</A>
+        </P>
+        <DIV>
+          <A HREF="/6music/help/" CLASS="nav-in-active-rm">Help &amp; FAQs</A>
+        </DIV>
+        <DIV>
+          <IMG SRC="/6music/dna_messageboard/images/lnav_6.gif" ALT="" WIDTH="125" HEIGHT="253" HSPACE="0" VSPACE="0" BORDER="0" />
+        </DIV>
+      </DIV>
+    </NAVLHN>
+    <PATHDEV>http://www.bbc.co.uk/6music/dna_messageboard/</PATHDEV>
+    <PATHLIVE>http://www.bbc.co.uk/6music/dna_messageboard/</PATHLIVE>
+    <BOARDBANNER>
+      <A HREF="/6music/">
+        <IMG SRC="http://www.bbc.co.uk/6music/dna_messageboard/images/banner.gif" ALT="" WIDTH="635" HEIGHT="89" HSPACE="0" VSPACE="0" BORDER="0" />
+      </A>
+    </BOARDBANNER>
+    <BOARDCRUMB />
+    <BOARDCSS>http://www.bbc.co.uk/6music/dna_messageboard/messageboards.css</BOARDCSS>
+    <BOARDLHN>
+      <DIV ID="navigation-wrapper">
+        <DIV>
+          <A HREF="/6music/" CLASS="nav-in-active-rm">6 Music Home</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/whatson/" CLASS="nav-in-active-rm">What's on 6?</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/shows/" CLASS="nav-in-active-rm">Shows</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/listen/" CLASS="nav-in-active-rm">Listen</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/news/" CLASS="nav-in-active-rm">Music News</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/events/" CLASS="nav-in-active-rm">Events</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/fun/" CLASS="nav-in-active-rm">Fun &amp; Games</A>
+        </DIV>
+        <DIV>
+          <A HREF="/6music/have_your_say/" CLASS="nav-active-rm">Have Your Say</A>
+        </DIV>
+        <P CLASS="sub-navigation-rm">
+          <A HREF="/6music/have_your_say/chatroom.shtml">Chatroom</A>
+          <A HREF="/6music/shows/music_week/debate.shtml">Great Debate</A>
+          <A HREF="http://www.bbc.co.uk/dna/mb6music">Message Board</A>
+        </P>
+        <DIV>
+          <A HREF="/6music/help/" CLASS="nav-in-active-rm">Help &amp; FAQs</A>
+        </DIV>
+        <DIV>
+          <IMG SRC="/6music/dna_messageboard/images/lnav_6.gif" ALT="" WIDTH="125" HEIGHT="253" HSPACE="0" VSPACE="0" BORDER="0" />
+        </DIV>
+      </DIV>
+    </BOARDLHN>
+    <BOARDSKIN>boards</BOARDSKIN>
+    <BOARDVARIANT>music</BOARDVARIANT>
+    <EXTEXTBODY />
+    <EXTEXTPREVIEW />
+    <EXTEXTTITLE />
+    <HELPURL>http://www.bbc.co.uk/6music/help/messageboardhelp.shtml</HELPURL>
+    <IMGSRC>http://www.bbc.co.uk/6music/dna_messageboard/images/</IMGSRC>
+    <MOVEDROPDOWN>
+      <FORUM ID="1950385" TOPICNAME="The Great Debate" />
+      <FORUM ID="1950398" TOPICNAME="Andrew Collins" />
+      <FORUM ID="1950400" TOPICNAME="Bruce Dickinson" />
+      <FORUM ID="1950406" TOPICNAME="Marc Riley" />
+      <FORUM ID="1950408" TOPICNAME="Vic McGlynn" />
+      <FORUM ID="1950413" TOPICNAME="Feedback" />
+    </MOVEDROPDOWN>
+    <PROMOBODY>
+
+      The BBC has created several special topics on a number of other messageboards for discussing the election.   Messages posted to this board discussing election campaign issues will be removed. All discussion of issues relating to the general election should take place on one of the special topics created for this purpose.   Read the <A HREF="http://www.bbc.co.uk/messageboards/elections2005.shtml">BBC Election Guidelines</A> page for links to the election debate areas, plus details of the BBC's guidelines for election discussions. Thanks!
+    </PROMOBODY>
+    <PROMOTITLE>Election 2005</PROMOTITLE>
+    <SEARCHCOLOUR>086497</SEARCHCOLOUR>
+    <SMILEYS>1</SMILEYS>
+    <SSOLINK>mb6music</SSOLINK>
+    <SSOPATH>/6music/sso_resources</SSOPATH>
+  </SITECONFIG>
+  <COMMENTBOX>
+    <ENDDATE>
+      <DATE DAYNAME="Wednesday" SECONDS="00" MINUTES="00" HOURS="00" DAY="16" MONTH="04" MONTHNAME="April" YEAR="2008" SORT="20080416000000" RELATIVE="" />
+    </ENDDATE>
+    <FORUMTHREADPOSTS GUESTBOOK="1" FORUMID="2203354" ALERTINSTANTLY="0" FROM="0" TO="1" SHOW="5" FORUMPOSTCOUNT="2" SITEID="18" CANREAD="1" CANWRITE="1" DEFAULTCANREAD="1" DEFAULTCANWRITE="1" UID="662F1F05-766D-410b-880D-F37B83D8B69D" HOSTPAGEURL="http://local.bbc.co.uk:8000/testpage.shtml" MODERATIONSTATUS="0">
+      <POST POSTID="7506678" THREAD="685399" INDEX="1" INREPLYTO="7506677" HIDDEN="0" CANREAD="1" CANWRITE="1">
+        <SUBJECT>New Comment Box2</SUBJECT>
+        <DATEPOSTED>
+          <DATE DAYNAME="Monday" SECONDS="33" MINUTES="25" HOURS="15" DAY="16" MONTH="04" MONTHNAME="April" YEAR="2007" SORT="20070416152533" RELATIVE="20 Hours Ago" />
+        </DATEPOSTED>
+        <USER>
+          <USERID>6</USERID>
+          <USERNAME>Jim Lynn</USERNAME>
+          <STATUS>2</STATUS>
+          <FIRSTNAMES>James</FIRSTNAMES>
+          <LASTNAME>Lynn</LASTNAME>
+          <TAXONOMYNODE>27887</TAXONOMYNODE>
+          <ACTIVE>True</ACTIVE>
+          <GROUPS>
+            <GROUP>
+              <NAME>EDITOR</NAME>
+            </GROUP>
+            <GROUP>
+              <NAME>MODERATOR</NAME>
+            </GROUP>
+          </GROUPS>
+        </USER>
+        <TEXT>another post</TEXT>
+      </POST>
+      <POST POSTID="7506677" THREAD="685399" INDEX="0" FIRSTCHILD="7506678" HIDDEN="0" CANREAD="1" CANWRITE="1">
+        <SUBJECT>No Subject</SUBJECT>
+        <DATEPOSTED>
+          <DATE DAYNAME="Monday" SECONDS="38" MINUTES="23" HOURS="15" DAY="16" MONTH="04" MONTHNAME="April" YEAR="2007" SORT="20070416152338" RELATIVE="20 Hours Ago" />
+        </DATEPOSTED>
+        <USER>
+          <USERID>6</USERID>
+          <USERNAME>Jim Lynn</USERNAME>
+          <STATUS>2</STATUS>
+          <FIRSTNAMES>James</FIRSTNAMES>
+          <LASTNAME>Lynn</LASTNAME>
+          <TAXONOMYNODE>27887</TAXONOMYNODE>
+          <ACTIVE>True</ACTIVE>
+          <GROUPS>
+            <GROUP>
+              <NAME>EDITOR</NAME>
+            </GROUP>
+            <GROUP>
+              <NAME>MODERATOR</NAME>
+            </GROUP>
+          </GROUPS>
+        </USER>
+        <TEXT>this</TEXT>
+      </POST>
+    </FORUMTHREADPOSTS>
+  </COMMENTBOX>
+  <ERROR TYPE="profanityblocked">
+    <ERRORMESSAGE>feck</ERRORMESSAGE>
+  </ERROR>
+  <PARAMS>
+    <PARAM>
+      <NAME>s_dnaheadinglevel</NAME>
+      <VALUE>3</VALUE>
+    </PARAM>
+  </PARAMS>
+  <SITE ID="18">
+    <NAME>mb6music</NAME>
+    <SSOSERVICE>mb6music</SSOSERVICE>
+    <MINAGE>16</MINAGE>
+    <MAXAGE>255</MAXAGE>
+    <MODERATIONSTATUS>1</MODERATIONSTATUS>
+    <OPENCLOSETIMES>
+      <OPENCLOSETIME DAYOFWEEK="7">
+        <CLOSETIME>
+          <HOUR>17</HOUR>
+          <MINUTE>0</MINUTE>
+        </CLOSETIME>
+        <OPENTIME>
+          <HOUR>16</HOUR>
+          <MINUTE>0</MINUTE>
+        </OPENTIME>
+      </OPENCLOSETIME>
+      <OPENCLOSETIME DAYOFWEEK="6">
+        <CLOSETIME>
+          <HOUR>16</HOUR>
+          <MINUTE>0</MINUTE>
+        </CLOSETIME>
+        <OPENTIME>
+          <HOUR>15</HOUR>
+          <MINUTE>0</MINUTE>
+        </OPENTIME>
+      </OPENCLOSETIME>
+      <OPENCLOSETIME DAYOFWEEK="5">
+        <CLOSETIME>
+          <HOUR>15</HOUR>
+          <MINUTE>0</MINUTE>
+        </CLOSETIME>
+        <OPENTIME>
+          <HOUR>14</HOUR>
+          <MINUTE>0</MINUTE>
+        </OPENTIME>
+      </OPENCLOSETIME>
+      <OPENCLOSETIME DAYOFWEEK="4">
+        <CLOSETIME>
+          <HOUR>14</HOUR>
+          <MINUTE>0</MINUTE>
+        </CLOSETIME>
+        <OPENTIME>
+          <HOUR>13</HOUR>
+          <MINUTE>0</MINUTE>
+        </OPENTIME>
+      </OPENCLOSETIME>
+      <OPENCLOSETIME DAYOFWEEK="3">
+        <CLOSETIME>
+          <HOUR>13</HOUR>
+          <MINUTE>0</MINUTE>
+        </CLOSETIME>
+        <OPENTIME>
+          <HOUR>12</HOUR>
+          <MINUTE>0</MINUTE>
+        </OPENTIME>
+      </OPENCLOSETIME>
+      <OPENCLOSETIME DAYOFWEEK="2">
+        <CLOSETIME>
+          <HOUR>12</HOUR>
+          <MINUTE>0</MINUTE>
+        </CLOSETIME>
+        <OPENTIME>
+          <HOUR>11</HOUR>
+          <MINUTE>0</MINUTE>
+        </OPENTIME>
+      </OPENCLOSETIME>
+      <OPENCLOSETIME DAYOFWEEK="1">
+        <CLOSETIME>
+          <HOUR>11</HOUR>
+          <MINUTE>0</MINUTE>
+        </CLOSETIME>
+        <OPENTIME>
+          <HOUR>10</HOUR>
+          <MINUTE>0</MINUTE>
+        </OPENTIME>
+      </OPENCLOSETIME>
+    </OPENCLOSETIMES>
+    <SITECLOSED EMERGENCYCLOSED="0" SCHEDULEDCLOSED="0">0</SITECLOSED>
+    <SITEOPTIONS>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>ArticleSearch</SECTION>
+        <NAME>DefaultShow</NAME>
+        <VALUE>20</VALUE>
+        <TYPE>0</TYPE>
+        <DESCRIPTION>The default number articles to show for article search</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>ArticleSearch</SECTION>
+        <NAME>GenerateHotlist</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>The flag to say whether to generate the hotlist for article search or not</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>Cache</SECTION>
+        <NAME>HTMLCaching</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Turns HTML caching on for this site</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>Cache</SECTION>
+        <NAME>HTMLCachingExpiryTime</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>0</TYPE>
+        <DESCRIPTION>HTML cache files expire after this many seconds</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>CommentForum</SECTION>
+        <NAME>DefaultDuration</NAME>
+        <VALUE>365</VALUE>
+        <TYPE>0</TYPE>
+        <DESCRIPTION>The default number of days the forum will open for, after which it automatically closes</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>CommentForum</SECTION>
+        <NAME>DefaultShow</NAME>
+        <VALUE>5</VALUE>
+        <TYPE>0</TYPE>
+        <DESCRIPTION>The default number comments to show for comment forums</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>Forum</SECTION>
+        <NAME>EmailAddressFilter</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if this site requires post email filtering</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>Forum</SECTION>
+        <NAME>PostFreq</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>0</TYPE>
+        <DESCRIPTION>Number of seconds that must elapse before a user can post again</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>General</SECTION>
+        <NAME>AllowOwnerHiding</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if this site is going to allow Owners to Hide another users comments</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="0">
+        <SECTION>General</SECTION>
+        <NAME>IsMessageboard</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if this site is a messageboard</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>General</SECTION>
+        <NAME>IsURLFiltered</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if this site is to be url filtered</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>General</SECTION>
+        <NAME>KeyPhrases</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if site supports key phrases.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="0">
+        <SECTION>General</SECTION>
+        <NAME>SiteIsPrivate</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>If true, this site's content won't get pulled out on lists in any other site</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>General</SECTION>
+        <NAME>UseSystemMessages</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if this site is going to use system messages</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>MediaAsset</SECTION>
+        <NAME>AllowExternalLinks</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if this site is going to allow media assets with external links</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>MediaAsset</SECTION>
+        <NAME>ReturnInCategoryList</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if this site is going to use system messages</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>Moderation</SECTION>
+        <NAME>DistressMsgUserId</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>0</TYPE>
+        <DESCRIPTION>Allows distress messages to be authored with the given user Id.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>Moderation</SECTION>
+        <NAME>PremoderateNicknameChanges</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Controls nickname moderation logic on a pre moderated site. If 1 then site nickname changes and new user nicknames are premoderated. If 0 then nickname changes and new user nicknames are postmoderated. NB: Nickname changes on Child sites are always premoderated, regardless of this setting.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>Moderation</SECTION>
+        <NAME>ProcessPreMod</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set this if premod posts are only to appear after they have been moderated.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeClubs</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if information on club membership and club activity is to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeJournal</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if user journals are to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeLinks</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if links (aka clippings) are to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeNoticeboard</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if noticeboard is to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludePostcoder</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if postcoder information is to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludePrivateForums</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if private forum is to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeRecentGuideEntries</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if users recently written or approved GuideEntryies are to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeRecentPosts</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if recent posts are to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeSiteOptions</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if siteoptions are to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeTaggedNodes</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if nodes the user is tagged to are to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeUploads</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if information on uploads is to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeUsersGuideEntry</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if user guide entry (homepage) is to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeUsersGuideEntryForum</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if users public message forum is to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>PersonalSpace</SECTION>
+        <NAME>IncludeWatchInfo</NAME>
+        <VALUE>1</VALUE>
+        <TYPE>1</TYPE>
+        <DESCRIPTION>Set if information on watched and watching users is to be included in personal spaces.</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>User</SECTION>
+        <NAME>PostCountThreshold</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>0</TYPE>
+        <DESCRIPTION>Set this value to specify the number of posts a user must submit before leaving the automatic premod state after joining a site</DESCRIPTION>
+      </SITEOPTION>
+      <SITEOPTION GLOBAL="1">
+        <SECTION>User</SECTION>
+        <NAME>PreModDuration</NAME>
+        <VALUE>0</VALUE>
+        <TYPE>0</TYPE>
+        <DESCRIPTION>Set this value to specify the number of minutes a user is automatically in premod after joining a site. PostCountThreshold overrides this value</DESCRIPTION>
+      </SITEOPTION>
+    </SITEOPTIONS>
+  </SITE>
+  <TIMEFORPAGE>93</TIMEFORPAGE>
+  <TRACKEDPARAMETERS>
+    <PARAMETER NAME="_ns" CALLINGMETHOD="GetParamIntOrZero" CALLEDBY="InitialiseRequest" CALLINGTYPE="DnaBasePage">
+      <DESCRIPTION>Force the framework to recache the static site list. Admin use only.</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>178</LINENO>
+          <METHOD>Int32 GetParamIntOrZero(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>338</LINENO>
+          <METHOD>Void InitialiseRequest()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>175</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="_si" CALLINGMETHOD="TryGetParamString" CALLEDBY="SetCurrentSiteName" CALLINGTYPE="DnaBasePage">
+      <DESCRIPTION>Site name as extracted from the URL. Internal use only.</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>102</LINENO>
+          <METHOD>Boolean TryGetParamString(System.String, System.String ByRef, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>66</LINENO>
+          <METHOD>Void SetCurrentSiteName()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>367</LINENO>
+          <METHOD>Void InitialiseRequest()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>175</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="skin" CALLINGMETHOD="GetParamStringOrEmpty" CALLEDBY="GetOrderedSkinNames" CALLINGTYPE="SkinSelector">
+      <DESCRIPTION>Preferred skin to use. Overrides user preference and the URL skin name. Only skins which belong to the current site are valid. An invalid skin will be ignored</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>161</LINENO>
+          <METHOD>System.String GetParamStringOrEmpty(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\SkinSelector.cs</FILENAME>
+          <LINENO>43</LINENO>
+          <METHOD>System.Collections.Generic.List`1[System.String] GetOrderedSkinNames(BBC.Dna.IUser, BBC.Dna.IRequest)</METHOD>
+          <TYPE>BBC.Dna.SkinSelector</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\SkinSelector.cs</FILENAME>
+          <LINENO>22</LINENO>
+          <METHOD>System.String GetSkinName(BBC.Dna.ISite, BBC.Dna.IUser, BBC.Dna.IRequest)</METHOD>
+          <TYPE>BBC.Dna.SkinSelector</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>516</LINENO>
+          <METHOD>System.String GetSkinNameForRequest()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>444</LINENO>
+          <METHOD>Void CreateTransformer()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>370</LINENO>
+          <METHOD>Void InitialiseRequest()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>175</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="_sk" CALLINGMETHOD="GetParamStringOrEmpty" CALLEDBY="GetOrderedSkinNames" CALLINGTYPE="SkinSelector">
+      <DESCRIPTION>Skin passed in as part of the URL. /dna/sitename/skinname/pagetype will be transformed so that the _sk parameter contains the skin specified by the URL</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>161</LINENO>
+          <METHOD>System.String GetParamStringOrEmpty(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\SkinSelector.cs</FILENAME>
+          <LINENO>44</LINENO>
+          <METHOD>System.Collections.Generic.List`1[System.String] GetOrderedSkinNames(BBC.Dna.IUser, BBC.Dna.IRequest)</METHOD>
+          <TYPE>BBC.Dna.SkinSelector</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\SkinSelector.cs</FILENAME>
+          <LINENO>22</LINENO>
+          <METHOD>System.String GetSkinName(BBC.Dna.ISite, BBC.Dna.IUser, BBC.Dna.IRequest)</METHOD>
+          <TYPE>BBC.Dna.SkinSelector</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>516</LINENO>
+          <METHOD>System.String GetSkinNameForRequest()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>444</LINENO>
+          <METHOD>Void CreateTransformer()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>370</LINENO>
+          <METHOD>Void InitialiseRequest()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>175</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="s_sync" CALLINGMETHOD="GetParamIntOrZero" CALLEDBY="CreateUser" CALLINGTYPE="User" ISCOMPONENT="1">
+      <DESCRIPTION>User's details must be synchronised with the data in SSO.</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>178</LINENO>
+          <METHOD>Int32 GetParamIntOrZero(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\User.cs</FILENAME>
+          <LINENO>386</LINENO>
+          <METHOD>Void CreateUser()</METHOD>
+          <TYPE>BBC.Dna.User</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>402</LINENO>
+          <METHOD>Void CreateViewingUser()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>379</LINENO>
+          <METHOD>Void InitialisePage()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>203</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="_sk" CALLINGMETHOD="DoesParamExist" CALLEDBY="InitialisePage" CALLINGTYPE="WholePage" ISCOMPONENT="1">
+      <DESCRIPTION>Skin name passed in via the URL</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>42</LINENO>
+          <METHOD>Void InitialisePage(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>382</LINENO>
+          <METHOD>Void InitialisePage()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>203</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="_sk" CALLINGMETHOD="GetParamStringOrEmpty" CALLEDBY="InitialisePage" CALLINGTYPE="WholePage" ISCOMPONENT="1">
+      <DESCRIPTION>Skin name passed in via the URL</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>161</LINENO>
+          <METHOD>System.String GetParamStringOrEmpty(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>44</LINENO>
+          <METHOD>Void InitialisePage(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>382</LINENO>
+          <METHOD>Void InitialisePage()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>203</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnauid" CALLINGMETHOD="TryGetParamString" CALLEDBY="GetUID" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>A unique ID for this set of comments. GUIDs are preferred but any string is acceptable as long as you can be sure it's unique for the page the comments are on</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>102</LINENO>
+          <METHOD>Boolean TryGetParamString(System.String, System.String ByRef, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>53</LINENO>
+          <METHOD>System.String GetUID()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>73</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnaaction" CALLINGMETHOD="TryGetParamString" CALLEDBY="AddComment" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>Action to take on this request. 'add' is the only action currently recognised</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>102</LINENO>
+          <METHOD>Boolean TryGetParamString(System.String, System.String ByRef, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>327</LINENO>
+          <METHOD>Void AddComment(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>76</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnaerrortype" CALLINGMETHOD="DoesParamExist" CALLEDBY="ProcessIncomingError" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>The type of error caused by the previous action. This parameter is used by the framework to pass errors back to the host page embedded comments so that a response can be displayed to the user. See also dnaerrormessage</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>873</LINENO>
+          <METHOD>Void ProcessIncomingError()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>79</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="moduserid" CALLINGMETHOD="DoesParamExist" CALLEDBY="ProcessModerationInfo" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>UserID of the user whose message has been premoderated. Passed in by the framework, internal use only.</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>889</LINENO>
+          <METHOD>Void ProcessModerationInfo()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>80</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnauid" CALLINGMETHOD="DoesParamExist" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>A unique ID for this set of comments. GUIDs are preferred but any string is acceptable as long as you can be sure it's unique for the page the comments are on</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>100</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnahostpageurl" CALLINGMETHOD="DoesParamExist" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>The URL of the page in which the comment box is embedded.</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>109</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnahostpageurl" CALLINGMETHOD="TryGetParamString" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>The URL of the page in which the comment box is embedded.</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>102</LINENO>
+          <METHOD>Boolean TryGetParamString(System.String, System.String ByRef, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>112</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnainitialtitle" CALLINGMETHOD="DoesParamExist" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>An Initial title for the comment box, which might be displayed on a list of comment boxes</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>138</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnainitialtitle" CALLINGMETHOD="TryGetParamString" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>An Initial title for the comment box, which might be displayed on a list of comment boxes</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>102</LINENO>
+          <METHOD>Boolean TryGetParamString(System.String, System.String ByRef, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>141</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnafrom" CALLINGMETHOD="GetParamIntOrZero" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>Zero-based index of the lowest numbered post in the comment list to be shown on the page</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>178</LINENO>
+          <METHOD>Int32 GetParamIntOrZero(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>158</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnato" CALLINGMETHOD="GetParamIntOrZero" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>Zero-based index of the highest-numered post in the comment list to be shown on the page</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>178</LINENO>
+          <METHOD>Int32 GetParamIntOrZero(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>164</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnashow" CALLINGMETHOD="GetParamIntOrZero" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>The number of posts to show (in the absence of dnafrom and dnato parameters).</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>178</LINENO>
+          <METHOD>Int32 GetParamIntOrZero(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>170</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnainitialmodstatus" CALLINGMETHOD="DoesParamExist" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>
+        Desired initial moderation status of this comment box.
+        Only use this parameter if you want to explicitly override the moderation status of a comment box at the point of creation.
+        This paramter will not change the status of an existing comment box.
+        Possible values are 'reactive', 'postmod' and 'premod'
+      </DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>182</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnaforumclosedate" CALLINGMETHOD="DoesParamExist" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>The date that the forum should close</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>206</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="dnaforumduration" CALLINGMETHOD="DoesParamExist" CALLEDBY="TryGetCommentForum" CALLINGTYPE="Forum" ISCOMPONENT="1">
+      <DESCRIPTION>The number of days starting from now that the forum will be open for</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>88</LINENO>
+          <METHOD>Boolean DoesParamExist(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>207</LINENO>
+          <METHOD>Boolean TryGetCommentForum(System.String)</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\Forum.cs</FILENAME>
+          <LINENO>82</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.Forum</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+    <PARAMETER NAME="s_dnaheadinglevel" CALLINGMETHOD="GetParamStringOrEmpty" CALLEDBY="ProcessRequest" CALLINGTYPE="SkinParams" ISCOMPONENT="1">
+      <DESCRIPTION>Parameters starting s_ are passed and used by the skin and generally have no effect on the server side</DESCRIPTION>
+      <STACKTRACE>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.IInputContext.cs</FILENAME>
+          <LINENO>161</LINENO>
+          <METHOD>System.String GetParamStringOrEmpty(System.String, System.String)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\SkinParams.cs</FILENAME>
+          <LINENO>40</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.SkinParams</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\WholePage.cs</FILENAME>
+          <LINENO>81</LINENO>
+          <METHOD>Void ProcessRequest()</METHOD>
+          <TYPE>BBC.Dna.Component.WholePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>222</LINENO>
+          <METHOD>Void DoPageLoad()</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>D:\Projects\BBC.DNA.ROOT\BBC.DNA\BBC.DNA\DnaBasePage.cs</FILENAME>
+          <LINENO>136</LINENO>
+          <METHOD>Void Page_Load(System.Object, System.EventArgs)</METHOD>
+          <TYPE>BBC.Dna.Page.DnaBasePage</TYPE>
+        </STACKFRAME>
+        <STACKFRAME>
+          <FILENAME>c:\WINNT\Microsoft.NET\Framework\v2.0.50727\Temporary ASP.NET Files\dnapages\52a2b8df\528c30a8\App_Web_f0g-adzd.10.cs</FILENAME>
+          <LINENO>0</LINENO>
+          <METHOD>Void ProcessRequest(System.Web.HttpContext)</METHOD>
+          <TYPE>ASP.commentbox_aspx</TYPE>
+        </STACKFRAME>
+      </STACKTRACE>
+    </PARAMETER>
+  </TRACKEDPARAMETERS>
+</H2G2>

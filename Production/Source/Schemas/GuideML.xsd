@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="DNARichTextElements.xsd"/>
+	<xs:element name="GUIDE">
+		<xs:annotation>
+			<xs:documentation>GuideML block.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType  mixed="true">
+			<xs:sequence>
+				<xs:element name="INTRO" minOccurs="0"/>
+				<xs:element name="BODY">
+					<xs:annotation>
+						<xs:documentation>Body of GuideML. N.B. is mixed content so can contain text nodes and child elements.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"></xs:any>
+							<!-- xs:group ref="DNARichTextElements" minOccurs="0" maxOccurs="unbounded"/ -->
+						</xs:sequence>
+						
+					</xs:complexType>
+				</xs:element>
+				<xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"></xs:any>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

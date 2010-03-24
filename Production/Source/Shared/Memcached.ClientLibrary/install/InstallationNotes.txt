@@ -1,0 +1,9 @@
+﻿MEMCACHED Service
+
+Downloaded from: http://code.jellycan.com/memcached/
+Version: 1.2.6
+Released: 24 Sep 2008
+
+Install Guides:
+Run install.bat
+Go to windows services and check that "memcached Server" is running and started

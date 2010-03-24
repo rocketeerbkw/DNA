@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <ProjectGuid>{93C4165F-3283-4A40-9609-C4B37A78EE6C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>obj\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>obj\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutputTarget>$(OutputPath)dbu_functions.sql</OutputTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
+    <OutputPath>bin\DebugSmallGuide\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <UsingTask TaskName="UpdateSpTask" AssemblyFile="..\updatesp.exe" />
+  <Target Name="Build" Inputs="@(None)" Outputs="$(OutputTarget)">
+    <UpdateSpTask BuildFiles="@(None)" OutputScriptFile="$(OutputPath)$(MSBuildProjectName)-Script.sql" BuildTargetFile="$(OutputTarget)" UpdateSpBuildConfigFile="" BuildConfig="$(Configuration)" />
+  </Target>
+  <Target Name="Clean">
+    <Delete Files="$(OutputTarget)" TreatErrorsAsWarnings="true" />
+  </Target>
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
+  <ItemGroup>
+    <None Include="udf_columnexists.sql" />
+    <None Include="udf_getcolumntype.sql" />
+    <None Include="udf_indexcontainsfield.sql" />
+    <None Include="udf_indexexists.sql" />
+    <None Include="udf_indexisclustered.sql" />
+    <None Include="udf_indexisunique.sql" />
+    <None Include="udf_siteoptionexists.sql" />
+    <None Include="udf_storedprocedureexists.sql" />
+    <None Include="udf_tableexists.sql" />
+    <None Include="udf_triggerexists.sql" />
+    <None Include="udf_viewexists.sql" />
+  </ItemGroup>
+  <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
+</Project>

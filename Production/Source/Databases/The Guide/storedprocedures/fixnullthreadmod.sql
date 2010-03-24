@@ -1,0 +1,3 @@
+CREATE PROCEDURE fixnullthreadmod
+As
+DELETE FROM ThreadMod WHERE PostID IS NULL OR ThreadID IS NULL

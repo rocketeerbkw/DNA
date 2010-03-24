@@ -1,0 +1,483 @@
+================ Sprint 9 ================
+
+04-03-19: Markn
+Update ripleyserver.xmlconf.  Change <SITEROOT> to read: www.bbc.co.uk/dna/
+This is used by the moderation email system to formulate the correct link to the moderated content.
+
+================ Sprint 10 ===============
+
+No Notes?
+
+================ Sprint 11 ===============
+
+04-06-23: MarkH
+Make sure that there is an Error.htm file in the base folder of skins!. This is the file that gets
+served to the user if we have any StyleSheet / XML Problems. It stops the user from getting the XML Error='' page.
+This is the global error page. Sites can have their own page which means having an Error.htm file in their skins folder.
+
+04-06-28: MarkN
+Blob migration and Search notes
+* Test max results term in sp_searchForumsAdvanced.  Test speed difference between 100, 1000 & 2000.  
+  See if times are linear.
+* Check defrag status of .ci files in Full text directories
+* Check size of DB log file after applying DBUpgradeScript
+
+Server upgrade plan:
+* pc-000900nm: 
+	* Create Full text indexes
+	* Run test script through DB, check time taken
+	* Apply DBUpgradeScriptBlobs (discrete transactions, "simply" recovery model)
+	* Create new full text indexes (needed before search SPs can be updated)
+	* Update stored procedures
+	* Populate full text indexes
+	* Run test script again, check time taken.  Faster?
+	* Run Index Tuning Wizard using test script
+* bbcdev1105
+	* theGuide db (i.e. dna dev)
+		* Minimise log file (detach db, delete, attach db)
+		* Apply 1st bits of DBUpgradeScriptBlobs (discrete transactions, "simply" recovery model)
+		* Check in SPs, and label VSS
+		* Stop IIS so no one can run DNA web sites
+		* Apply update bits of DBUpgradeScriptBlobs
+		* Create new full text indexes (needed before search SPs can be updated)
+		* Full rebuild (will update all SPs)
+		* Basic testing
+		* Recreate full text indexes (optional)
+	* Developer machines need updating before next take from VSS
+	* ReleaseGuide (i.e. dnarelease)
+		* Stop dnarelease web site
+		* Minimise log file (detach db, delete, attach db)
+		* Apply DBUpgradeScriptBlobs
+		* Check final size of log file 
+		* Migrate SPs to DNA Release VSS, and label VSS
+		* Create new full text indexes (needed before search SPs can be updated)
+		* Run Release build 
+		* Basic testing
+		* Recreate full text indexes
+	* Staging Server
+		* Stop staging server web site
+		* Minimise log file (detach db, delete, attach db)
+		* Apply DBUpgradeScriptBlobs
+		* Check final size of log file 
+		* Create new full text indexes (needed before search SPs can be updated)
+		* Update SPs 
+		* Basic testing
+		* Recreate full text indexes
+	* theGuideSkins (i.e. DNA Dev skins)
+		* Stop dna dev skins web site
+		* Get db backup from live and restore
+		* Basic testing
+		* Recreate full text indexes
+	* Live
+		* Minimise log file?
+		* Run DBResolveTextAmbiguity.sql
+		* Apply DBUpgradeScriptBlobs (discrete transactions, "simply" recovery model?)
+		* Create new full text indexes (needed before search SPs can be updated)
+		* Update stored procedures
+		* Basic testing
+		* Populate full text indexes
+	
+04-06-30: MarkH
+Make sure the Vanilla site is setup on dna dev!
+
+================ Sprint 14 ================
+
+04-09-23: Markn
+Update ripleyserver.xmlconf.  Change <SITEROOT> to read: www.bbc.co.uk/dna/
+This is used by the moderation email system to formulate the correct link to the moderated content.
+
+
+================ Sprint 17 ================
+
+05-02-01: Markn
+Ensure DBUpgradeScript contains ALL changes since the last release.
+It looks like DBUpgradeScript has been truncated in DNADev after changes have been added
+that have yet to be run against the live DB.
+This can be done using the last version of DBUpgradeScript on DNARelease to work out
+the last applied change to live.
+
+
+================ Sprint 18 ================
+
+05-03-01: Martinr
+Update ripleyserver.xmlconf.
+Added elements for contacting the server responsible for issuing BBC Postcoder cookies:  
+<POSTCODER>
+<COOKIESERVER>www.bbc.co.uk</COOKIESERVER>
+<COOKIEURL>/cgi-perl/whereilive/server/bouncer_api.pl?type=ican_cookie&amp;loc=--**placename**--</COOKIEURL>
+<COOKIEPROXY>www-cache.reith.bbc.co.uk</COOKIEPROXY>
+<COOKIENAME>BBCpostcoder</COOKIENAME>
+<COOKIEPOSTCODEKEY>PST</COOKIEPOSTCODEKEY>
+</POSTCODER>
+The <COOKIENAME> and <COOKIEPOSTCODEKEY> tags are used to parse the BBCPostcoder cookie to retrieve the POstcode part ( see CPostcodeBuilder ).
+
+05-03-16: Nicks
+Following the release a new group will be needed called 'Notables'.  Logged in as a superuser, 
+add a new group from an InspectUser page. This will create the new group for all sites
+
+05-03-30: Markn
+DO NOT DEPLOY BOARDS SKIN.  Leave the boards skin as it is on live for this release
+
+================ Sprint 19 ================
+
+05-03-17: Markn
+Run DBdropSP.sql to remove all DNA SPs that begin with sp_
+
+05-03-23: Jim L
+Make sure site.xsl contains a thisserver variable
+
+05-04-27: Jim L
+make Sure all scheduled tasks are changed when stored procedure names are changed to remove sp_
+
+05-04-28: igorl
+upgrade mysql client to version 4.0.23+
+
+================ v 2.9 ================
+
+05-09-08: james conway
+Scheduled task to call sp contentsignifbatchdecrement once per day.
+
+05-09-27
+Run CreateEnglandSite.sql to set up the db for the English And Regions messageboard
+
+05-09-30: Markh
+Make sure the new <SECRET-KEY> in the RipleyServer.xmlconf is put onto the front end servers!
+
+05-10-07: MarkH
+Upload the DNAEMailAlertService onto one of the front end servers. narthur0 ?
+- Create a new super user account for the service.
+- Update the DNAEMailAlertConfig.xml so it logins in using the new account.
+- Update the times that the Email Alerts should be sent out.
+- Correctly set all the server paths.
+- Upload the AlertEmail.xsl & PrivateAlertMessage.xsl skin files.
+- Make sure the service is running!
+
+================ v 2.9.2 ================
+
+2006-02-01: james conway
+Create england topic and map forum to it. Then run updateenglandtopic.sql.
+
+Run SiteTopicsOpenCloseTimes_I.sql
+
+Disable scheduled job "Open/Close forums". 
+
+Truncate the EventQueue Table - MarkH
+
+================ v 2.9.4 ================
+
+06-02-28: FrancS04
+Update ripleyserver.xmlconf.
+	<MEDIAASSET>
+		<FTPSERVER>ftp-gw.reith.bbc.co.uk</FTPSERVER>
+		<FTPUSER>dna_ftp@ftp.bbc.co.uk</FTPUSER>
+		<FTPPASSWORD>mylpax37</FTPPASSWORD>
+		<FTPHOMEDIRECTORY>rmhttp/dnauploads/</FTPHOMEDIRECTORY>
+		<UPLOADQUEUE>c:\mediaassetuploadqueue</UPLOADQUEUE>
+		<UPLOADQUEUETEMP>c:\mediaassetuploadqueue\temp</UPLOADQUEUETEMP>
+	</MEDIAASSET>
+Add the section below the IMAGELIBRARY xml block.
+
+06-03-16: FrancS04
+See SoupInstallation.txt for details on specific installation instructions for the servers for the media asset image processor for the comedysoup project
+
+06-03-17
+site.xsl has a new var that needs setting up.  Here's the details as given by Emile:
+	<xsl:variable name="assetlibrary">
+		<xsl:choose>
+			<xsl:when test="/H2G2/SERVERNAME='BBCDEV1105'"><!-- dnadev -->
+			http://downloads.bbc.co.uk/dnauploads/test/
+			</xsl:when>
+			<xsl:when test="/H2G2/SERVERNAME='NMSDNA0'"><!-- www0/stage -->
+			http://downloads.bbc.co.uk/dnauploads/staging/
+			</xsl:when>
+			<xsl:otherwise><!-- www/live -->
+			http://downloads.bbc.co.uk/dnauploads/
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+Only the var needs setting, but the above gives all the details needed:
+
+================ v 2.9.6 ================
+
+26-04-20: james conway
+Create rss and ssi folders in cache directory for RSS and SSI caching. 
+
+06-04-28 : FrancS04
+stop and remove existing UploadQueueProcessor service then re-install new version
+
+================ v 2.9.7.5 (vs2005) ================
+
+06-06-16: Markn
+Copy DLLs from c:\temp\dump\vs2005DLLs into the system32 folder of the target machine
+
+================ v 2.9.9.0 ================
+
+06-07-06: Markn
+Rename the auto-generated Foreign Key Constraints relating to Users table.  This has to be done before DBUpgradeScript can be run.
+- Use "exec dbu_listfkeys 'Users'" in Query Analyser to get "add" and "drop" commands
+- Search for double-underscore __ char sequences to find auto-generated FK names
+- Rename the "add" commands so that the name has the full table name and column name, separated with single underscore chars
+- E.g. rename "FK__ArticleMo__Locke__11E781AD" to "FK_ArticleModHistory_LockedBy" 
+
+07-08-06: MartinR
+Dynamic Lists – Category Filter.
+The HierarchyArticleMember table has had a column change from h2g2id to entryid.
+Any article, topic forum or thread dynamic lists with category filters will need to be regenerated.
+A script DBregeneratedynamiclists.sql has been prepared for this purpose.
+
+================ v 3.0.1.0 ================
+21-08-06: JamesC (moved from v2.9.10.0 to v3.0.1.0 by Markn)
+- Call UpdateArticleIndex once after DBUpgradeScrit has been run (changes ArticleIndex table definition and constraints) to to populate ArticleIndex table before applying triggers in DBTriggerScript.sql. 
+- Stop ArticleIndex job on all servers. 
+
+06-09-06: JamesC
+- Run DBScripts/PersonalSpaceMigration_MultiSiteUsers.sql to create personal space objects on every site a user has contributed to. 
+
+================ v 3.0.2.0 ================
+09-11-06 : Mark H
+- Add the <DOTNET-SERVERFARM> tags to the ripleyserver.xmlconf file. They should be a copy of the current <SERVERFARM> tags.
+
+================ v 3.0.3.0 ================
+23-01-07 MartinR
+Dynamic Lists have been integrated into DNA ASP.NET.
+The Dynamic List service on staging is no longer required and should be decommissioned.
+Also the config for dynamic lists on staging should no longer publish on live.
+The connection details for configuring dynamic lists are found in dnapages/web.config. The updatesp connection should be modified appropriately.
+
+19-02-07 : Mark H
+- Create new recursive 5min Database job for running the ProcessEventQueue.sql. This ensures that only a minimum set of data is processed in the event queue, and means we nolonger rely on the EMailEvent Service to ping the database.
+
+
+05-03-07 :  FrancS04
+- Changed line in the ripleyserver.xmlconf file in the MEDIAASSET section to <FTPSERVER>192.168.232.44</FTPSERVER> 
+ to point to the new server to be used for the uploader also updated soupinstallation.txt file
+
+05-04-07 : Martin R
+MemberDetailsAdmin page uses ported ModerateNickNames code to reset a users nickname.
+It uses .NET to send the appropriate failed nickname email and it expects to find the SMTP server in Web.Config which should match the SMTP server specified in RipleyConfig.xml.
+
+================ v 3.0.4.0 ================
+29-05-2007 : MarkH
+- Ensure the latest ProfileAPI_r.dll is included in the upload to both staging and live.
+- Ensure the C:\MySQL\bin\LibMySQL.dll (On OPS-DNA1) is included in the deploy.zip. This will need to be copied into the system32 folder. It is used by the new ProfileAPI_r.dll
+
+29-05-07 : Martin R
+Due to a schema change of ArticleKeyPhrases table all existing active dynamic lists which use key phrases will have to be deactivated and reactivated.
+
+
+================ v 3.0.6.0 ================
+17-07-2007 : JamesC
+- Ensure VVisibleGuideEntry is rebuilt (dropped in DBUpgradeScript)
+- Ensure GuideEntryCat, VGuideEntryText_collectiveCat and VGuideEntryText_memoryshareCat are populated and working (see Ripley/CreateFullTextIndexes2005.sql)
+
+
+09-08-2007 : FrancS04
+- Remove the virtual directory dnapages, create new virtual directory dna then in that create the virtual directory dnapages and point it to real dnapages directory.
+
+=============== v 3.0.7.0
+
+24-08-2007 : MartinR ( 96-12)
+ - New site option articlekeyphrases. Needs to be set for 606, memoryshare, britishfilm, comedysoup.
+
+=============== v 3.0.9.0
+
+08-10-2007 : Mark H
+ - Create a new database job that runs the UpdateTimedPreModUser.sql procedure every 10 mins.
+
+=============== v 3.1.0.0
+
+20-11-2007 : Mark N
+- Run "Rebuild indexes - v3.1.0.0.sql', found in "$/Ripley/DB Scripts"
+
+============== v 3.1.1.0
+
+17-12-2007 : MartinR
+Run MemoryShare-AdditionalPhrases.sql - Adds additional designated tags to memory share articles that have a corresponding 'hidden' tag.
+
+============== v 3.1.2.0
+
+13-02-2008 : MarkN
+Add <INITIALLOGFILESIZE>80</INITIALLOGFILESIZE> to all ripleyserver.xmlconf files
+
+29-02-2008 : MarkN
+All front-end web server inputlog folders should be uncompressed
+
+============== v 3.1.3.0
+
+20-03-2008 : JamesC
+Add population of ThreadModReferralsCube and ArticleModReferralsCube to daily database job on NewGuide. See DBScripts/ModeratorStatsPageSetup.sql for scripts.
+
+============== v 3.1.4.0
+
+25-04-2008 : JamesC
+Ensure database job ProcessForumPostCount is set up on all instances. Job should execute t-sql in DBScripts/ProcessForumPostCount.sql
+
+12-05-2008 : JamesC
+
+Enable service broker on all databases. 
+
+ALTER DATABASE [TheGuide] SET ENABLE_BROKER;
+ALTER DATABASE [SmallGuide] SET ENABLE_BROKER;
+
+01/08/08 : Mark H
+Add the <IDENTITYURI> to the RipleyServer.xmlconf.
+Register the DnaIdentityWebServiceProxy.dll
+
+============== v 3.3.0.0 ==============
+
+Use the RegAsm.exe to register the DnaIdentityWebServiceProxy.dll
+Use the GACUtil.exe to add the DnaIdentityWebServiceProxy.dll to the assembly cache
+Apply the dna-dev & dna-live certificates using the WinHttpCertCfg.exe
+WinHttpCertCfg.exe -i dna-live.pfx -p dnatesting -c LOCAL_MACHINE\My
+WinHttpCertCfg.exe -g -c LOCAL_MACHINE\My -s dnadevteam -a ASPNET
+
+============== v 3.3.0.11 =============
+
+Add the following connection string entry to Web.Config...
+<add name="IdentityURL" connectionString="https://api.live.bbc.co.uk/opensso/identityservices/IdentityServices;dna live;cgiproxy.bbc.co.uk:80" providerName="Identity" />
+
+Update/Add the following Identity URL connection string to RipleySever.xmlconf...
+<IDENTITYURI>https://api.live.bbc.co.uk/opensso/identityservices/IdentityServices;dna live;10.152.4.15:80</IDENTITYURI>
+
+Run the following...
+RegAsm D:\Inetpub\wwwroot\DnaPages\bin\DnaIdentityWebServiceProxy.dll /tlb:D:\Inetpub\wwwroot\DnaPages\bin\DnaIdentityWebServiceProxy.tlb
+GacUtil /i D:\Inetpub\wwwroot\DnaPages\bin\DnaIdentityWebServiceProxy.dll /f
+
+There should be a Certificates folder in the deploy folder with RegAsm.exe & GacUtil.exe. There should also be a RegisterDLL.bat file that contains both of the above.
+
+run the following to make sure the live-dna certs are installed...
+winhttpcertcfg.exe -i dna-live.pfx -p dn41d3nt1tyl1nk -c LOCAL_MACHINE\MY
+winhttpcertcfg.exe -g -c LOCAL_MACHINE\MY -s "dna live" -a ASPNET
+
+Again, there should be a InstallCerts.bat file in the certificates folder that will do this for you.
+
+Update both UpdateSiteDetails.sql and CreateNewSite.sql in the database.
+
+When we are ready to go live with the new look mbIPlayer messageboard, run the script to update all existing users preferences so that PrefSkin = 'iPlayer'.
+Use SiteManager to set the mbiplayer default skin to 'iplayer' and the skinset to 'boards'
+
+28-01-2009 : MartinR 
+UserComplaint page uses email templates to format user complaint email - Requires template named UserComplaintEmail and should exist for ModClassId = 2. The Default ( Why ! )
+
+This is the email template - use dna/moderation/moderationemailmanagement and set up for modclass 2.
+Name: UserComplaintEmail
+Subject: From: ++**nickname**++
+Complaint From: ++**nickname**++
+Moderation Reference: ++**reference_number**++ about ++**content_type**++ ++**content_subject**++
+++**inserted_text**++
+
+============== v 3.4.1.0 =============
+
+13-05-2009
+The ported smiley translator uses smileys from the database not from SmileyList.txt .
+Please replace the SmileyList.txt first ( empty lines in smiley list result in carriage returns being imported ).
+The following script should be run to import smileys into the db : DBScripts\importSmileys.sql . The path to SmileyList.txt will need to be altered as necessary accoring to the directory structure.
+
+09/06/09 : Mark H
+
+* Make sure the we install the smileylist.txt from dnarelease. Apparently this has been updated to ensure all smilies get imported correctly.
+* Install the VC2008Redist.exe on the frontend machines. This is need by RipleyServer.dll due to building with the latest compiler.
+* Update DnaImages with the one in sourcesafe.
+* Might need to grant read permissions for IWAM_##### on the folder that DnaIdentityWebService.dll lives.
+
+16/06/09 : Steve F
+
+* Run UpdateUsersProlificScribeGroups.sql in DBScripts to update the prolific scribe user groups
+  results stored in table - took around 40secs on new ReleaseGuide and NewGuide 2240ish rows
+* Make sure new rejectmail.cgi and HG/GuideEntryObject.pm are copied over
+
+============== v 3.4.2.0 =============
+
+20/07/09 : Mark H
+
+Add the following between <**  **> to the top of the Web.Config file in dnapages
+
+<**
+
+  <configSections>
+    <section name="loggingConfiguration" type="Microsoft.Practices.EnterpriseLibrary.Logging.Configuration.LoggingSettings, Microsoft.Practices.EnterpriseLibrary.Logging, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <section name="dataConfiguration" type="Microsoft.Practices.EnterpriseLibrary.Data.Configuration.DatabaseSettings, Microsoft.Practices.EnterpriseLibrary.Data, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <section name="cachingConfiguration" type="Microsoft.Practices.EnterpriseLibrary.Caching.Configuration.CacheManagerSettings, Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <sectionGroup name="system.web.extensions" type="System.Web.Configuration.SystemWebExtensionsSectionGroup, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35">
+      <sectionGroup name="scripting" type="System.Web.Configuration.ScriptingSectionGroup, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35">
+        <section name="scriptResourceHandler" type="System.Web.Configuration.ScriptingScriptResourceHandlerSection, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false" allowDefinition="MachineToApplication" />
+        <sectionGroup name="webServices" type="System.Web.Configuration.ScriptingWebServicesSectionGroup, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35">
+          <section name="jsonSerialization" type="System.Web.Configuration.ScriptingJsonSerializationSection, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false" allowDefinition="Everywhere" />
+          <section name="profileService" type="System.Web.Configuration.ScriptingProfileServiceSection, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false" allowDefinition="MachineToApplication" />
+          <section name="authenticationService" type="System.Web.Configuration.ScriptingAuthenticationServiceSection, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false" allowDefinition="MachineToApplication" />
+          <section name="roleService" type="System.Web.Configuration.ScriptingRoleServiceSection, System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false" allowDefinition="MachineToApplication" />
+        </sectionGroup>
+      </sectionGroup>
+    </sectionGroup>
+  </configSections>
+  <loggingConfiguration name="Logging Application Block" tracingEnabled="false"
+    defaultCategory="" logWarningsWhenNoCategoriesMatch="false">
+    <specialSources>
+      <allEvents switchValue="All" name="All Events" />
+      <notProcessed switchValue="All" name="Unprocessed Category" />
+      <errors switchValue="All" name="Logging Errors &amp; Warnings" />
+    </specialSources>
+  </loggingConfiguration>
+  <cachingConfiguration defaultCacheManager="Cache Manager">
+    <cacheManagers>
+      <add expirationPollFrequencyInSeconds="60" maximumElementsInCacheBeforeScavenging="1000"
+        numberToRemoveWhenScavenging="10" backingStoreName="Null Storage"
+        type="Microsoft.Practices.EnterpriseLibrary.Caching.CacheManager, Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+        name="Cache Manager" />
+    </cacheManagers>
+    <backingStores>
+      <add encryptionProviderName="" type="Microsoft.Practices.EnterpriseLibrary.Caching.BackingStoreImplementations.NullBackingStore, Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+        name="Null Storage" />
+    </backingStores>
+  </cachingConfiguration>
+
+**>
+
+17/08/09
+Comments API - Editor Picks. To remove an editor pick the DELETE method is used. Add this verb to the .svc extension so that DELETE requets to the comments service don't get 403 - Unauthorised Error.
+
+============== v 3.4.3.0 =============
+15/09/09 SteveF
+Set 'Social' Moderation Class to be LIFO Queued
+Run this SQL
+
+UPDATE ModerationClass SET LIFOQueue=1 WHERE ModClassID=18
+
+15/09/09 MartinR
+Setup the Moderation Service - Add a new virtual directory for the ModerationService entitled moderation.
+Alter the Web.config to use the correct database.
+
+============== v 3.4.4.0 =============
+06/10/09 MarcusP
+change site option to allow these sites to be spidered.
+
+exec setsiteoption 1, 'General', 'AllowRobots', 1 	--h2g2
+exec setsiteoption 9, 'General', 'AllowRobots', 1 	--collective
+exec setsiteoption 15, 'General', 'AllowRobots', 1 	--getwriting
+exec setsiteoption 20, 'General', 'AllowRobots', 1	--filmnetwork
+
+Change default siteoption to 1 when happy that servers can handle full spidering.
+
+07/10/09 Markn
+MarcusP's notes copied from DeploymentNotes_Commentservice.txt:
+	- in web.config - system.serviceModel//behaviors//serviceBehaviors//behavior - add
+		<serviceThrottling maxConcurrentCalls="200" maxConcurrentSessions="200"/>
+		with relevant maxConcurrentCalls and sessions 
+
+07/10/09 LauraP
+
+Manually edit skins/common/configuration.xsl
+
+Add the following as a *sibling* of the <sso> element:
+
+<identity>
+       <url>http://id.bbc.co.uk</url>
+</identity>
+
+============== v 3.4.6.0 =============
+13/01/10 MarcusP
+On live web.config change all public token values for Enterprise Library to PublicKeyToken=54b8fe30038faf0d
+On live web.config - within  <system.web> change
+	<pages>
+	to
+	<pages  validateRequest="false">

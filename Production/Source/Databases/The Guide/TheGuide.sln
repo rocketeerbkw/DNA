@@ -1,0 +1,119 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbu_functions", "dbu_functions\dbu_functions.csproj", "{93C4165F-3283-4A40-9609-C4B37A78EE6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbu_storedprocedures", "dbu_storedprocedures\dbu_storedprocedures.csproj", "{AFBC01F8-38CB-4B7E-8038-B663BB7B5830}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUpgradeScript", "DBUpgradeScript\DBUpgradeScript.csproj", "{FC9FCE85-B818-48F2-80A4-F8851A0D4944}"
+	ProjectSection(ProjectDependencies) = postProject
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C} = {93C4165F-3283-4A40-9609-C4B37A78EE6C}
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830} = {AFBC01F8-38CB-4B7E-8038-B663BB7B5830}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "functions", "functions\functions.csproj", "{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4} = {30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "storedprocedures", "storedprocedures\storedprocedures.csproj", "{648D0947-995E-407C-9B65-2A2BF855AA55}"
+	ProjectSection(ProjectDependencies) = postProject
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4} = {30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "triggers", "triggers\triggers.csproj", "{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "views", "views\views.csproj", "{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 8
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://vp-dev-dna-1:8080/
+		SccProjectUniqueName0 = dbu_functions\\dbu_functions.csproj
+		SccProjectName0 = dbu_functions
+		SccLocalPath0 = dbu_functions
+		SccProjectUniqueName1 = dbu_storedprocedures\\dbu_storedprocedures.csproj
+		SccProjectName1 = dbu_storedprocedures
+		SccLocalPath1 = dbu_storedprocedures
+		SccProjectUniqueName2 = DBUpgradeScript\\DBUpgradeScript.csproj
+		SccProjectName2 = DBUpgradeScript
+		SccLocalPath2 = DBUpgradeScript
+		SccProjectUniqueName3 = functions\\functions.csproj
+		SccProjectName3 = functions
+		SccLocalPath3 = functions
+		SccProjectUniqueName4 = storedprocedures\\storedprocedures.csproj
+		SccProjectName4 = storedprocedures
+		SccLocalPath4 = storedprocedures
+		SccProjectUniqueName5 = triggers\\triggers.csproj
+		SccProjectName5 = triggers
+		SccLocalPath5 = triggers
+		SccProjectUniqueName6 = views\\views.csproj
+		SccProjectName6 = views
+		SccLocalPath6 = views
+		SccLocalPath7 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugSmallGuide|Any CPU = DebugSmallGuide|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{648D0947-995E-407C-9B65-2A2BF855AA55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{648D0947-995E-407C-9B65-2A2BF855AA55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{648D0947-995E-407C-9B65-2A2BF855AA55}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{648D0947-995E-407C-9B65-2A2BF855AA55}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{648D0947-995E-407C-9B65-2A2BF855AA55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{648D0947-995E-407C-9B65-2A2BF855AA55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SpecExplorer.ActivityCompletionStatus) = preSolution
+		SpecExplorer.ActivityCompletionStatus = 
+	EndGlobalSection
+EndGlobal

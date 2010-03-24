@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BBC.Dna.Api" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="BBC.Dna.Api">
+	<xs:include schemaLocation="thread.xsd"/>
+	<xs:element name="threadList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="itemsPerPage" type="xs:unsignedByte" />
+				<xs:element name="startIndex" type="xs:unsignedByte" />
+				<xs:element name="totalCount" type="xs:unsignedByte" />
+				<xs:element name="sortBy" type="xs:string" />
+				<xs:element name="sortDirection" type="xs:string" />
+				<xs:element name="filterBy" type="xs:string" />
+				<xs:element name="ratingsSummary">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="total" type="xs:unsignedByte" />
+							<xs:element name="uri" nillable="true" />
+							<xs:element name="average" type="xs:unsignedByte" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="threads" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="thread" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

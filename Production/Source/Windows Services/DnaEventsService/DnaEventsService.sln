@@ -1,0 +1,163 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaEventProcessorService", "DnaEventProcessorService\DnaEventProcessorService.csproj", "{81BF57BE-74EA-4C73-81E3-8789B76E464D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaEventProcessorService.IntegrationTests", "DnaEventProcessorService.IntegrationTests\DnaEventProcessorService.IntegrationTests.csproj", "{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaEventService.Common", "DnaEventService.Common\DnaEventService.Common.csproj", "{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExModerationProcessor", "ExModerationProcessor\ExModerationProcessor.csproj", "{F2C46478-2092-4D90-AEB2-46FD54FF6053}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnesActivityProcessor", "SNeSActivityProcessor\SnesActivityProcessor.csproj", "{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnesActivityProcessorTests", "SnesActivityProcessor.Tests\SnesActivityProcessorTests.csproj", "{A2A07BB9-8417-4859-932A-AC92BDB599F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data", "..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj", "{F79CF818-D597-4C2F-A61D-87773951E234}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Utils", "..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj", "{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memcached.ClientLibrary", "..\..\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj", "{4770D032-9B06-450D-8B00-7200D8330397}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4DA85AC2-5EE4-43D4-98E9-19C7FC76BC8D}"
+	ProjectSection(SolutionItems) = preProject
+		DnaEventsService.vsmdi = DnaEventsService.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{B78F9520-5F2C-41FA-824D-5DB93F02D1AD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{D1380547-12A9-4DD5-9028-9C4F0D998768}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration Tests", "Integration Tests", "{5D5C1ADB-0418-4156-9E4C-98BBAA2E45AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments", "{E8170D91-811A-435C-9C65-B2CD5B21E535}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeExperiments", "CodeExperiments\CodeExperiments.csproj", "{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 11
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = DnaEventProcessorService\\DnaEventProcessorService.csproj
+		SccProjectName1 = DnaEventProcessorService
+		SccLocalPath1 = DnaEventProcessorService
+		SccProjectUniqueName2 = DnaEventProcessorService.IntegrationTests\\DnaEventProcessorService.IntegrationTests.csproj
+		SccProjectTopLevelParentUniqueName2 = DnaEventsService.sln
+		SccProjectName2 = DnaEventProcessorService.IntegrationTests
+		SccLocalPath2 = DnaEventProcessorService.IntegrationTests
+		SccProjectUniqueName3 = DnaEventService.Common\\DnaEventService.Common.csproj
+		SccProjectName3 = DnaEventService.Common
+		SccLocalPath3 = DnaEventService.Common
+		SccProjectUniqueName4 = ExModerationProcessor\\ExModerationProcessor.csproj
+		SccProjectName4 = ExModerationProcessor
+		SccLocalPath4 = ExModerationProcessor
+		SccProjectUniqueName5 = SnesActivityProcessor.Tests\\SnesActivityProcessorTests.csproj
+		SccProjectTopLevelParentUniqueName5 = DnaEventsService.sln
+		SccProjectName5 = SnesActivityProcessor.Tests
+		SccLocalPath5 = SnesActivityProcessor.Tests
+		SccProjectUniqueName6 = ..\\..\\Shared\\BBC.Dna.Data\\BBC.Dna.Data.csproj
+		SccProjectTopLevelParentUniqueName6 = DnaEventsService.sln
+		SccProjectName6 = ../../Shared/BBC.Dna.Data
+		SccLocalPath6 = ..\\..\\Shared\\BBC.Dna.Data
+		SccProjectUniqueName7 = ..\\..\\Shared\\BBC.Dna.Utils\\BBC.Dna.Utils.csproj
+		SccProjectTopLevelParentUniqueName7 = DnaEventsService.sln
+		SccProjectName7 = ../../Shared/BBC.Dna.Utils
+		SccLocalPath7 = ..\\..\\Shared\\BBC.Dna.Utils
+		SccProjectUniqueName8 = ..\\..\\Shared\\Memcached.ClientLibrary\\Memcached.ClientLibrary.csproj
+		SccProjectTopLevelParentUniqueName8 = DnaEventsService.sln
+		SccProjectName8 = ../../Shared/Memcached.ClientLibrary
+		SccLocalPath8 = ..\\..\\Shared\\Memcached.ClientLibrary
+		SccProjectUniqueName9 = CodeExperiments\\CodeExperiments.csproj
+		SccProjectTopLevelParentUniqueName9 = DnaEventsService.sln
+		SccProjectName9 = CodeExperiments
+		SccLocalPath9 = CodeExperiments
+		SccProjectUniqueName10 = SNeSActivityProcessor\\SnesActivityProcessor.csproj
+		SccProjectName10 = SNeSActivityProcessor
+		SccLocalPath10 = SNeSActivityProcessor
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = DnaEventsService.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugSmallGuide|Any CPU = DebugSmallGuide|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81BF57BE-74EA-4C73-81E3-8789B76E464D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81BF57BE-74EA-4C73-81E3-8789B76E464D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81BF57BE-74EA-4C73-81E3-8789B76E464D}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{81BF57BE-74EA-4C73-81E3-8789B76E464D}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{81BF57BE-74EA-4C73-81E3-8789B76E464D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81BF57BE-74EA-4C73-81E3-8789B76E464D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2C46478-2092-4D90-AEB2-46FD54FF6053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2C46478-2092-4D90-AEB2-46FD54FF6053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2C46478-2092-4D90-AEB2-46FD54FF6053}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2C46478-2092-4D90-AEB2-46FD54FF6053}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{F2C46478-2092-4D90-AEB2-46FD54FF6053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2C46478-2092-4D90-AEB2-46FD54FF6053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{A2A07BB9-8417-4859-932A-AC92BDB599F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4770D032-9B06-450D-8B00-7200D8330397}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4770D032-9B06-450D-8B00-7200D8330397}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4770D032-9B06-450D-8B00-7200D8330397}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{4770D032-9B06-450D-8B00-7200D8330397}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{4770D032-9B06-450D-8B00-7200D8330397}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4770D032-9B06-450D-8B00-7200D8330397}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7} = {5D5C1ADB-0418-4156-9E4C-98BBAA2E45AB}
+		{A2A07BB9-8417-4859-932A-AC92BDB599F9} = {D1380547-12A9-4DD5-9028-9C4F0D998768}
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{4770D032-9B06-450D-8B00-7200D8330397} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{F79CF818-D597-4C2F-A61D-87773951E234} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C} = {E8170D91-811A-435C-9C65-B2CD5B21E535}
+	EndGlobalSection
+	GlobalSection(SpecExplorer.ActivityCompletionStatus) = preSolution
+		SpecExplorer.ActivityCompletionStatus = 
+	EndGlobalSection
+EndGlobal

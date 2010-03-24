@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="SiteOptions.xsd" />
+	<xs:include schemaLocation="OpenCloseTimes.xsd" />
+	<xs:element name="SITE">
+		<xs:annotation>
+			<xs:documentation>Site information.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NAME" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Site name.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="URLNAME" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Url Site name. replicates Site Name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="SHORTNAME" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Site shortname description.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="DESCRIPTION" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Site description.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+
+				<xs:element name="SSOSERVICE" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>The SSO service for the site.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IDENTITYSIGNIN" type="xs:boolean" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Does the site use Identity to sign in with?</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IDENTITYPOLICY" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The policy that the site uses to call Identity with.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MINAGE" type="xs:unsignedByte" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>SSO defined minimum age for users.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MAXAGE" type="xs:unsignedByte" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>SSO defined maximum age for users.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MODERATIONSTATUS" type="xs:int" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>The moderation status of the site.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CLASSID" type="xs:int" minOccurs="0">
+				  <xs:annotation>
+					<xs:documentation>The moderation class of the site.</xs:documentation>
+				  </xs:annotation>
+				</xs:element>
+				<xs:element ref="OPENCLOSETIMES" minOccurs="0" />
+				<xs:element name="SITECLOSED" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Details site closure status in attributes. I.e. If site is scheduled closure of emergency closure. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType mixed="true">
+						<xs:attribute name="EMERGENCYCLOSED" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>1 if the site has been closed due to an emergency.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="SCHEDULEDCLOSED" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>1 if the site's open and close times dictate that the site is closed at present.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="SITEOPTIONS" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="ID" type="xs:int" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

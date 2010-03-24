@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="PostSummary.xsd" />
+	<xs:include schemaLocation="date.xsd" />
+	<xs:element name="THREAD">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="THREADID" type="xs:unsignedInt" />
+				<xs:element name="SUBJECT" type="xs:string" />
+				<xs:element name="DATEPOSTED">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TOTALPOSTS" type="xs:unsignedByte" />
+				<xs:element name="TYPE" minOccurs="0"/>
+				<xs:element name="FIRSTPOST" type="POSTSUMMARY"/>
+				<xs:element name="LASTPOST" type="POSTSUMMARY"/>
+			</xs:sequence>
+			<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="INDEX" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="ISSTICKY" type="xs:boolean" use="optional" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+
