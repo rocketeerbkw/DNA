@@ -88,6 +88,81 @@ namespace SnesActivityProcessorTests
             Assert.IsTrue(activity.GetActivityJson().Contains("\"displayName\":\"mooks\""));
         }
 
+        [TestMethod]
+        public void CreateActivity_SiteNameIsIplayerTv_ReturnsCorrectObjectUid()
+        {
+            var mocks = new MockRepository();
+            var currentRow = mocks.DynamicMock<IDnaDataReader>();
+
+            using (mocks.Record())
+            {
+                //add expectation
+                currentRow.Expect(x => x.GetString("DnaUrl")).Return("iplayerTv");
+                currentRow.Expect(x => x.GetString("ObjectUri")).Return("aaaa");
+                currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
+                
+            }
+
+            ISnesActivity activity;
+            using (mocks.Playback())
+            {
+                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+            }
+
+            //Assert.AreEqual("mooks", activity.DisplayName);
+            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"bbc:programme:aaaa:0\""));
+        }
+
+        [TestMethod]
+        public void CreateActivity_SiteNameIsNotIplayerTv_ReturnsDefaultObjectUid()
+        {
+            var mocks = new MockRepository();
+            var currentRow = mocks.DynamicMock<IDnaDataReader>();
+
+            using (mocks.Record())
+            {
+                //add expectation
+                currentRow.Expect(x => x.GetString("DnaUrl")).Return("h2g2");
+                currentRow.Expect(x => x.GetString("ObjectUri")).Return("aaaa");
+                currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
+                
+            }
+
+            ISnesActivity activity;
+            using (mocks.Playback())
+            {
+                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+            }
+
+            //Assert.AreEqual("mooks", activity.DisplayName);
+            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"bbc:dna:aaaa:0\""));
+        }
+
+        [TestMethod]
+        public void CreateActivity_AppNameWithoutObjectUri_ReturnsForumId()
+        {
+            var mocks = new MockRepository();
+            var currentRow = mocks.DynamicMock<IDnaDataReader>();
+
+            using (mocks.Record())
+            {
+                //add expectation
+                currentRow.Expect(x => x.GetString("DnaUrl")).Return("h2g2");
+                currentRow.Expect(x => x.GetInt32("ForumID")).Return(1);
+                currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
+
+            }
+
+            ISnesActivity activity;
+            using (mocks.Playback())
+            {
+                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+            }
+
+            //Assert.AreEqual("mooks", activity.DisplayName);
+            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"BBC:Dna:1:0:0\""));
+        }
+
 
         [Ignore]
         [TestMethod]
