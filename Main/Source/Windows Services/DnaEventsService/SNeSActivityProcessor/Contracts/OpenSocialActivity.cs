@@ -84,7 +84,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Contracts
             set;
         }
 
-        [DataMember(Name = "level", IsRequired = false, EmitDefaultValue = false)]
+        [DataMember(Name = "level")]
         public string Level
         {
             get{ return "PUBLIC";}

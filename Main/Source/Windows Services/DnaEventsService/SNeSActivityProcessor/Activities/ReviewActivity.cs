@@ -10,6 +10,8 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
         {
             Contents = activity;
             Contents.ActivityType = "review";
+            IdentityUserId = eventData.IdentityUserId;
+            ActivityId = eventData.EventId;
         }
 
         public override HttpStatusCode Send(IDnaHttpClient client)

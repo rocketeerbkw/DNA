@@ -162,7 +162,7 @@ namespace SnesActivityProcessorTests
             }
 
             //Assert.AreEqual("mooks", activity.DisplayName);
-            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"BBC:Dna:1:0:0\""));
+            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"bbc:dna:1:0:0\""));
         }
 
 
