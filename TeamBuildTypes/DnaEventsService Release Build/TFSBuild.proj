@@ -252,7 +252,7 @@
     <Exec Command ="net use \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
 
     <!--Stop DnaEventsService on vp-dev-dna-web2 -->
-    <Exec Command="sc \\vp-dev-dna-web2 stop DnaEventsService"></Exec>
+    <Exec Command="sc \\vp-dev-dna-web2 stop DnaEventProcessorService"></Exec>
     
     <Copy SourceFiles="@(DnaEventsService)" DestinationFolder="\\vp-dev-dna-web2\DnaEventsService\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="false"/>
 
