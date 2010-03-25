@@ -56,6 +56,7 @@ namespace Tests
                 site = _siteList.GetSite("h2g2");
 
                 _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
+                ProfanityFilter.InitialiseProfanitiesIfEmpty(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
             }
         }
 
@@ -89,7 +90,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             _comments.CreateComment(result, comment);
 
@@ -121,7 +122,7 @@ namespace Tests
             {
                 Id = Guid.NewGuid().ToString(),
                 ParentUri = "http://www.bbc.co.uk/dna/h2g2/",
-                Title = "testCommentForum"
+                Title = "CommentsBySite_BasicAddCommentWithStatsCheck"
             };
 
             CommentForum result = _comments.CreateCommentForum(commentForum, site);
@@ -141,7 +142,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             _comments.CreateComment(result, comment);
 
@@ -192,7 +193,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             _comments.CreateComment(result, comment);
 
@@ -247,7 +248,7 @@ namespace Tests
                 //add a comment 
                 CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+                _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
                 _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
                 _comments.CreateComment(result, comment);
 
@@ -276,16 +277,14 @@ namespace Tests
             }
             finally
             {
+                _siteList.GetSite(site.ShortName).IsEmergencyClosed = false;
                 using (FullInputContext inputcontext = new FullInputContext(false))
                 {
-                    _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
+                    _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                     site = _siteList.GetSite("h2g2");
                     _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                 }
             }
-
-
-
         }
 
 
@@ -312,7 +311,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             _comments.CreateComment(result, comment);
 
@@ -368,7 +367,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             CommentInfo returnComment = _comments.CreateComment(result, comment);
             Assert.IsTrue(returnComment.ID != 0);//not processpremod'ed
@@ -416,7 +415,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             _comments.CreateComment(result, comment);
 
@@ -461,7 +460,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             _comments.CreateComment(result, comment);
 

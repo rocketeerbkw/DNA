@@ -126,7 +126,7 @@ namespace Tests
                 comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -153,7 +153,7 @@ namespace Tests
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
@@ -203,7 +203,7 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetBannedUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetBannedUserAccount.IdentityUserName);
 
 
@@ -225,7 +225,7 @@ namespace Tests
         {
             //create comments objects
           
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             var callingUser = _comments.CallingUser;
             //set up test data
@@ -282,7 +282,7 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
@@ -311,7 +311,7 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
@@ -341,7 +341,7 @@ namespace Tests
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             
 
@@ -371,7 +371,7 @@ with a carrage return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -401,7 +401,7 @@ return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             bool exceptionThrown = false;
@@ -445,7 +445,7 @@ return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             CommentForum commentForum = CommentForumCreate(commentForumID);
 
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -473,7 +473,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
@@ -533,9 +533,9 @@ return.";
                 string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
 
                 CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.Unknown);//should override this with the site value
-                //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
-                _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
+            //normal user
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
+            _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
                 CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -592,7 +592,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetEditorUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetEditorUserAccount.IdentityUserName);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -620,7 +620,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -662,7 +662,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -701,7 +701,7 @@ return.";
                 }
             }
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             bool exceptionThrown = false;
@@ -732,7 +732,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             
@@ -770,7 +770,7 @@ return.";
                 //set up test data
                 CommentInfo comment = new CommentInfo{text = Guid.NewGuid().ToString().Substring(0,10)};
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+                _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
                 _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
                 CommentInfo result = _comments.CreateComment(commentForum, comment);//should pass successfully
                 Assert.IsTrue(result != null);

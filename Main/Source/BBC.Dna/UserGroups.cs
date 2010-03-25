@@ -179,7 +179,7 @@ namespace BBC.Dna
                         }
                     }
                     //update new groups object
-                    var groups = new Groups.UserGroups(AppContext.TheAppContext.Config.ConnectionString, null);
+                    var groups = new Groups.UserGroups(AppContext.ReaderCreator, context.Diagnostics, AppContext.DnaCacheManager);
                     groups.InitialiseAllUsersAndGroups();
                 }
                 finally

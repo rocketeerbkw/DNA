@@ -418,12 +418,12 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                 //set up calling user
                 if (String.IsNullOrEmpty(InputContext.CurrentSite.IdentityPolicy))
                 {
-                    comments.CallingUser = new CallingUser(SignInSystem.SSO, AppContext.TheAppContext.Config.ConnectionString, null);
+                    comments.CallingUser = new CallingUser(SignInSystem.SSO, AppContext.ReaderCreator, InputContext.Diagnostics, AppContext.DnaCacheManager, AppContext.TheAppContext.TheSiteList);
                     comments.CallingUser.IsUserSignedIn(InputContext.GetCookie("SSO2-UID").Value, InputContext.CurrentSite.SSOService, InputContext.CurrentSite.SiteID,"");
                 }
                 else
                 {
-                    comments.CallingUser = new CallingUser(SignInSystem.Identity, AppContext.TheAppContext.Config.ConnectionString, null);
+                    comments.CallingUser = new CallingUser(SignInSystem.Identity, AppContext.ReaderCreator, InputContext.Diagnostics, AppContext.DnaCacheManager, AppContext.TheAppContext.TheSiteList);
                     comments.CallingUser.IsUserSignedIn(InputContext.GetCookie("IDENTITY").Value, InputContext.CurrentSite.IdentityPolicy, InputContext.CurrentSite.SiteID, InputContext.GetCookie("IDENTITY - USERNAME").Value);
                 }
 

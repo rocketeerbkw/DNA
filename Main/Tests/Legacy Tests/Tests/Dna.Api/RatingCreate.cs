@@ -131,7 +131,7 @@ namespace Tests
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -160,7 +160,7 @@ namespace Tests
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             //repeat post
@@ -187,7 +187,7 @@ namespace Tests
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
@@ -230,7 +230,7 @@ namespace Tests
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
 
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             //repeat post
@@ -276,7 +276,7 @@ namespace Tests
                 string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
 
                 RatingForum ratingForum = RatingForumCreate(ratingForumID);
-                _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+                _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
                 _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
                 //getr the forum and check value
@@ -319,7 +319,7 @@ namespace Tests
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
 
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             
@@ -375,7 +375,7 @@ namespace Tests
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetBannedUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetBannedUserAccount.IdentityUserName);
 
             try
@@ -396,7 +396,7 @@ namespace Tests
         {
             //create ratings objects
 
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             var callingUser = _ratings.CallingUser;
@@ -453,7 +453,7 @@ namespace Tests
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
@@ -482,7 +482,7 @@ namespace Tests
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
@@ -512,7 +512,7 @@ namespace Tests
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             
 
@@ -542,7 +542,7 @@ with a carrage return.";
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -572,7 +572,7 @@ return.";
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             bool exceptionThrown = false;
@@ -616,7 +616,7 @@ return.";
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -644,7 +644,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
@@ -705,7 +705,7 @@ return.";
 
                 RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.Unknown);//should override this with the site value
                 //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+                _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
                 _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
                 try
@@ -752,7 +752,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetEditorUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetEditorUserAccount.IdentityUserName);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -780,7 +780,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -822,7 +822,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -863,7 +863,7 @@ return.";
             }
             ratingForum = _ratings.RatingForumReadByUID(ratingForumID, site);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             try
@@ -895,7 +895,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             try
@@ -1060,7 +1060,7 @@ return.";
 
             RatingInfo rating = new RatingInfo { text = maxText };
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1088,7 +1088,7 @@ return.";
             RatingInfo rating = new RatingInfo { text = minText };
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1118,7 +1118,7 @@ return.";
             rating.text = goodText;
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1143,7 +1143,7 @@ return.";
             rating.text = goodText;
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1168,7 +1168,7 @@ return.";
             rating.text = goodText;
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1319,7 +1319,7 @@ return.";
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             ThreadInfo result = _ratings.RatingThreadCreate(ratingForum, rating);
@@ -1349,7 +1349,7 @@ return.";
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //1st normal users rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             ThreadInfo result = _ratings.RatingThreadCreate(ratingForum, rating);
@@ -1359,7 +1359,7 @@ return.";
             Assert.IsTrue(result.rating.text == rating.text);
 
             //create second editors rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetEditorUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetEditorUserAccount.IdentityUserName);
 
             rating.text += "SecondOne";
@@ -1394,7 +1394,7 @@ return.";
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //1st normal users rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             ThreadInfo result = _ratings.RatingThreadCreate(ratingForum, rating);
@@ -1404,7 +1404,7 @@ return.";
             Assert.IsTrue(result.rating.text == rating.text);
 
             //create second editors rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetEditorUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetEditorUserAccount.IdentityUserName);
 
             rating.text += "SecondOne";
@@ -1419,7 +1419,7 @@ return.";
             Assert.IsTrue(threadID1 != threadID2);
 
             //1st normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             //Now the comments
@@ -1441,7 +1441,7 @@ return.";
             Assert.IsTrue(commentResult.text == comment.text);
 
             //1st comment by the editor account
-            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _ratings.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _ratings.CallingUser.IsUserSignedIn(TestUserAccounts.GetEditorUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetEditorUserAccount.IdentityUserName);
 
             comment.text = baseText + "SecondCommentOnFirstRating";

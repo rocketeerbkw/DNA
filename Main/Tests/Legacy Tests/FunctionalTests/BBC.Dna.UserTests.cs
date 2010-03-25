@@ -34,7 +34,7 @@ namespace FunctionalTests
         public void Test01CreateAUserFromDNAUserID()
         {
             FullInputContext context = new FullInputContext(false);
-            User user = new User(context.DnaConfig.ConnectionString, null);
+            User user = new User(null, null, null);
             Assert.IsTrue(user.CreateUserFromDnaUserID(TestUserAccounts.GetModeratorAccount.UserID, 1));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
             Assert.IsFalse(user.IsUserA(UserTypes.Editor));
@@ -48,7 +48,7 @@ namespace FunctionalTests
         {
             FullInputContext context = new FullInputContext(false);
             SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, context.DnaConfig.ConnectionString, null);
+            CallingUser user = new CallingUser(signInType, null, null, null, null);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
             string policy = "h2g2";
             int siteID = 1;
@@ -65,7 +65,7 @@ namespace FunctionalTests
         {
             FullInputContext context = new FullInputContext(false);
             SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, context.DnaConfig.ConnectionString, null);
+            CallingUser user = new CallingUser(signInType, null, null, null, null);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
             string policy = "h2g2";
             int siteID = 1;
@@ -84,7 +84,7 @@ namespace FunctionalTests
         {
             FullInputContext context = new FullInputContext(false);
             SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, context.DnaConfig.ConnectionString, null);
+            CallingUser user = new CallingUser(signInType, null, null, null, null);
             string cookie = TestUserAccounts.GetNormalUserAccount.Cookie;
             string policy = "h2g2";
             int siteID = 1;
@@ -104,7 +104,7 @@ namespace FunctionalTests
         {
             FullInputContext context = new FullInputContext(false);
             SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, context.DnaConfig.ConnectionString, null);
+            CallingUser user = new CallingUser(signInType, null, null, null, null);
             string cookie = TestUserAccounts.GetEditorUserAccount.Cookie;
             string policy = "h2g2";
             int siteID = 1;
@@ -124,7 +124,7 @@ namespace FunctionalTests
         {
             FullInputContext context = new FullInputContext(false);
             SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, context.DnaConfig.ConnectionString, null);
+            CallingUser user = new CallingUser(signInType, null, null, null, null);
             string cookie = TestUserAccounts.GetSuperUserAccount.Cookie;
             string policy = "h2g2";
             int siteID = 1;
@@ -144,7 +144,7 @@ namespace FunctionalTests
         {
             FullInputContext context = new FullInputContext(false);
             SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, context.DnaConfig.ConnectionString, null);
+            CallingUser user = new CallingUser(signInType, null, null, null, null);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
             string policy = "h2g2";
             int siteID = 1;
@@ -164,7 +164,7 @@ namespace FunctionalTests
         {
             FullInputContext context = new FullInputContext(false);
             SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, context.DnaConfig.ConnectionString, null);
+            CallingUser user = new CallingUser(signInType, null, null, null, null);
             string cookie = TestUserAccounts.GetNotableUserAccount.Cookie;
             string policy = "h2g2";
             int siteID = 1;

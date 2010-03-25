@@ -7,6 +7,8 @@ using BBC.Dna.BannedEmails;
 using BBC.Dna.Utils;
 using DnaIdentityWebServiceProxy;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Data;
+using BBC.Dna.Sites;
 
 namespace BBC.Dna.Users
 {
@@ -23,6 +25,7 @@ namespace BBC.Dna.Users
 
         private SigninStatus _signedInStatus = SigninStatus.NotSignedinNotLoggedIn;
         private int _debugUserID = 0;
+        private ISiteList _siteList = null;
 
         /// <summary>
         /// Returns the last error message
@@ -36,20 +39,34 @@ namespace BBC.Dna.Users
         /// Default constructor
         /// </summary>
         /// <param name="signInSystem">The sign in system to use</param>
-        /// <param name="databaseConnectionDetails">The connection details to connecting to the database. Leave this null if you want
-        /// to use the default connection strings</param>
+        /// <param name="dnaDataReaderCreator">A DnaDataReaderCreator object for creating the procedure this class needs.
+        /// If NULL, it uses the connection stringsfrom the configuration manager</param>
+        /// <param name="dnaDiagnostics">A DnaDiagnostics object for logging purposes</param>
         /// <param name="caching">The caching object that the class can use for caching</param>
-        public CallingUser(SignInSystem signInSystem, string databaseConnectionDetails, ICacheManager caching)
-            : base(databaseConnectionDetails, caching)
+        /// <param name="siteList">A SiteList object for getting siteoption values</param>
+        public CallingUser(SignInSystem signInSystem, IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, ISiteList siteList)
+            : base(dnaDataReaderCreator, dnaDiagnostics, caching)
         {
             _signInSystem = signInSystem;
+            _siteList = siteList;
         }
 
-        public CallingUser(SignInSystem signInSystem, string databaseConnectionDetails, ICacheManager caching, int debugUserID)
-            : base(databaseConnectionDetails, caching)
+        /// <summary>
+        /// Debug constructor
+        /// </summary>
+        /// <param name="signInSystem">The sign in system to use</param>
+        /// <param name="dnaDataReaderCreator">A DnaDataReaderCreator object for creating the procedure this class needs.
+        /// If NULL, it uses the connection stringsfrom the configuration manager</param>
+        /// <param name="dnaDiagnostics">A DnaDiagnostics object for logging purposes</param>
+        /// <param name="caching">The caching object that the class can use for caching</param>
+        /// <param name="debugUserID">A userid for debugging/testing purposes</param>
+        /// <param name="siteList">A SiteList object for getting siteoption values</param>
+        public CallingUser(SignInSystem signInSystem, IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, int debugUserID, ISiteList siteList)
+            : base(dnaDataReaderCreator, dnaDiagnostics, caching)
         {
             _signInSystem = signInSystem;
             _debugUserID = debugUserID;
+            _siteList = siteList;
         }
 
         /// <summary>
@@ -77,14 +94,26 @@ namespace BBC.Dna.Users
                     if (authernticatedUser.AuthenticateUserFromCookie(cookie, policy, identityUserName))
                     {
                         // Check to see if the email is in the banned emails list
-                        BannedEmails.BannedEmails emails = new BannedEmails.BannedEmails(_databaseConnectionDetails, _cachingObject);
+                        BannedEmails.BannedEmails emails = new BannedEmails.BannedEmails(_dnaDataReaderCreator, _dnaDiagnostics, _cachingObject);
                         string emailToCheck = authernticatedUser.Email;
                         if (emailToCheck.Length == 0 || !emails.IsEmailInBannedFromSignInList(emailToCheck))
                         {
                             // The users email is not in the banned list, get the rest of the details from the database
-                            if (CreateUserFromSignInUserID(authernticatedUser.SignInUserID, authernticatedUser.LegacyUserID, _signInSystem, siteID, authernticatedUser.LoginName, authernticatedUser.Email, authernticatedUser.FirstName, authernticatedUser.LastNames, authernticatedUser.UserName))
+                            if (CreateUserFromSignInUserID(authernticatedUser.SignInUserID, authernticatedUser.LegacyUserID, _signInSystem, siteID, authernticatedUser.LoginName, authernticatedUser.Email, authernticatedUser.UserName))
                             {
                                 _signedInStatus = SigninStatus.SignedInLoggedIn;
+
+                                // Check to see if we need to sync with the signin system details
+                                if (authernticatedUser.LastUpdatedDate > LastSynchronisedDate)
+                                {
+                                    SynchronizeUserSigninDetails(authernticatedUser.UserName, authernticatedUser.Email, authernticatedUser.LoginName);
+                                    if (_siteList.GetSiteOptionValueString(siteID, "User", "AutoGeneratedNames").Length > 0)
+                                    {
+                                        string siteSuffix = authernticatedUser.GetAutoGenNameFromSignInSystem(_siteList.GetSiteOptionValueBool(siteID, "General", "IsKidsSite"));
+                                        SynchroniseSiteSuffix(siteSuffix);
+                                    }
+                                }
+
                                 return true;
                             }
                         }

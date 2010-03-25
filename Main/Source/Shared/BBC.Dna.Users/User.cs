@@ -57,9 +57,13 @@ namespace BBC.Dna.Users
         private string _email = "";
         private string _firstNames = "";
         private string _lastName = "";
+        private string _siteSuffix = "";
         private int _status = -1;
         private int _siteID = 0;
+        private DateTime _lastSynchronisedDate;
         protected ICacheManager _cachingObject = null;
+        protected IDnaDataReaderCreator _dnaDataReaderCreator = null;
+        protected IDnaDiagnostics _dnaDiagnostics = null;
 
         /// <summary>
         /// Get property for the dna users id
@@ -134,23 +138,41 @@ namespace BBC.Dna.Users
         }
 
         /// <summary>
+        /// The get property for the users
+        /// </summary>
+        public DateTime LastSynchronisedDate
+        {
+            get { return _lastSynchronisedDate; }
+        }
+
+        /// <summary>
+        /// Get property for the users SiteSuffix
+        /// </summary>
+        public string SiteSuffix
+        {
+            get { return _siteSuffix; }
+        }
+
+        /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="databaseConnectionDetails">The connection details to connecting to the database.
-        /// Leave this null if you want to use the default connection strings</param>
+        /// <param name="dnaDataReaderCreator">A DnaDataReaderCreator object for creating the procedure this class needs.
+        /// If NULL, it uses the connection stringsfrom the configuration manager</param>
+        /// <param name="dnaDiagnostics">A DnaDiagnostics object for logging purposes</param>
         /// <param name="caching">The caching object that the class can use for caching</param>
         //public User(string databaseConnectionDetails, IDnaCache caching)
-        public User(string databaseConnectionDetails, ICacheManager caching)
+        public User(IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching)
         {
-            _databaseConnectionDetails = databaseConnectionDetails;
-            if (_databaseConnectionDetails == null || _databaseConnectionDetails == string.Empty)
+            _dnaDataReaderCreator = dnaDataReaderCreator;
+            _dnaDiagnostics = dnaDiagnostics;
+            if (_dnaDataReaderCreator == null)
             {
                 _databaseConnectionDetails = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
             }
 
             Trace.WriteLine("User() - connection details = " + _databaseConnectionDetails);
             _cachingObject = caching;
-            _userGroups = new Groups.UserGroups(_databaseConnectionDetails, caching);
+            _userGroups = new Groups.UserGroups(_dnaDataReaderCreator, _dnaDiagnostics, caching);
         }
 
         /// <summary>
@@ -162,11 +184,9 @@ namespace BBC.Dna.Users
         /// <param name="siteID">The site that you want to create the user in</param>
         /// <param name="loginName">The login name for the user</param>
         /// <param name="email">The users email</param>
-        /// <param name="firstName">The users first name if they have one</param>
-        /// <param name="lastNames">The users last names if they have any</param>
         /// <param name="displayName">The users display name if gievn</param>
         /// <returns>True if they we're created ok, false if not</returns>
-        public bool CreateUserFromSignInUserID(int userSignInID, int legacyUserID, SignInSystem signInType, int siteID, string loginName, string email, string firstName, string lastNames, string displayName)
+        public bool CreateUserFromSignInUserID(int userSignInID, int legacyUserID, SignInSystem signInType, int siteID, string loginName, string email, string displayName)
         {
             bool userCreated = false;
             _siteID = siteID;
@@ -174,16 +194,21 @@ namespace BBC.Dna.Users
             {
                 _IdentitySignInUserID = userSignInID;
                 Trace.WriteLine("CreateUserFromSignInUserID() - Using Identity");
-                userCreated = CreateNewUserFromId(_siteID, _IdentitySignInUserID, legacyUserID, loginName, email, firstName, lastNames, displayName);
+                userCreated = CreateNewUserFromId(_siteID, _IdentitySignInUserID, legacyUserID, loginName, email, displayName);
             }
             else
             {
                 _ssoSignInUserID = userSignInID;
-                userCreated = CreateNewUserFromId(_siteID, 0, _ssoSignInUserID, loginName, email, firstName, lastNames, displayName);
+                userCreated = CreateNewUserFromId(_siteID, 0, _ssoSignInUserID, loginName, email, displayName);
                 Trace.WriteLine("CreateUserFromSignInUserID() - Using SSO");
             }
-            
-            return CreateUserFromDnaUserID(_userID, _siteID);
+
+            if (userCreated)
+            {
+                GetUsersGroupsForSite();
+            }
+
+            return userCreated;
         }
 
         /// <summary>
@@ -193,7 +218,14 @@ namespace BBC.Dna.Users
         /// <returns>A stored procedure reader ready to execute the given stored procedure</returns>
         private IDnaDataReader CreateStoreProcedureReader(string procedureName)
         {
-            return new StoredProcedureReader(procedureName, _databaseConnectionDetails, null);
+            if (_dnaDataReaderCreator == null)
+            {
+                return new StoredProcedureReader(procedureName, _databaseConnectionDetails, _dnaDiagnostics);
+            }
+            else
+            {
+                return _dnaDataReaderCreator.CreateDnaDataReader(procedureName);
+            }
         }
 
         /// <summary>
@@ -228,78 +260,70 @@ namespace BBC.Dna.Users
         /// <summary>
         /// Gets the user data details and fills in the XML block
         /// </summary>
-        private bool CreateNewUserFromId(int siteID, int identityUserID, int ssoUserID, string ssoLoginName, string ssoEmail, string ssoFirstNames, string ssoLastName, string displayName)
+        /// <param name="siteID">The Id of the site that you want to create the user on</param>
+        /// <param name="identityUserID">The users Identity UserID if given</param>
+        /// <param name="ssoUserID">The users SSO UserID if given</pparam>
+        /// <param name="signInLoginName">The users signin system login name</param>
+        /// <param name="signInEmail">The users signin system email address</param>
+        /// <param name="displayName">The users signin system display name</param>
+        private bool CreateNewUserFromId(int siteID, int identityUserID, int ssoUserID, string signInLoginName, string signInEmail, string displayName)
         {
             if (siteID != 0)
             {
-                if (identityUserID != 0)
+                return CreateUserFromSignInUserID(siteID, identityUserID, ssoUserID, signInLoginName, signInEmail, displayName, identityUserID != 0);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Helper method for creating and getting users via signin userids
+        /// </summary>
+        /// <param name="siteID">The id of the site the user is being created on</param>
+        /// <param name="identityUserID">The users IDentity UserID</param>
+        /// <param name="ssoUserID">The users SSO UserID or Legacy SSO UserID</param>
+        /// <param name="loginName">The users Login Name</param>
+        /// <param name="email">The users Email</param>
+        /// <param name="displayName">The users displayname</param>
+        /// <param name="identitySignIn">A flag to state that we're on an Identity signin site or SSO site</param>
+        /// <returns>True if the user is created, false if not</returns>
+        private bool CreateUserFromSignInUserID(int siteID, int identityUserID, int ssoUserID, string loginName, string email, string displayName, bool identitySignIn)
+        {
+            string procedureName = "createnewuserfromidentityid";
+            if (!identitySignIn)
+            {
+                procedureName = "createnewuserfromssoid";
+            }
+
+            using (IDnaDataReader reader = CreateStoreProcedureReader(procedureName))
+            {
+                if (identitySignIn)
                 {
-                    using (IDnaDataReader reader = CreateStoreProcedureReader("createnewuserfromidentityid"))
+                    reader.AddParameter("identityuserid", identityUserID);
+                    if (ssoUserID > 0)
                     {
-                        reader.AddParameter("identityuserid", identityUserID);
-                        if (ssoUserID > 0)
-                        {
-                            reader.AddParameter("legacyssoid", ssoUserID);
-                        }
-
-                        reader.AddParameter("username", ssoLoginName);
-                        reader.AddParameter("email", ssoEmail);
-                        reader.AddParameter("siteid", siteID);
-                        if (ssoFirstNames.Length > 0)
-                        {
-                            reader.AddParameter("firstnames", ssoFirstNames);
-                        }
-
-                        if (ssoLastName.Length > 0)
-                        {
-                            reader.AddParameter("lastname", ssoLastName);
-                        }
-
-                        if (displayName.Length > 0)
-                        {
-                            reader.AddParameter("displayname", displayName);
-                        }
-
-                        reader.Execute();
-                        if (reader.Read() && reader.HasRows)
-                        {
-                            // Get the id for the user.
-                            _userID = reader.GetInt32("userid");
-                            return _userID > 0;
-                        }
+                        reader.AddParameter("legacyssoid", ssoUserID);
                     }
                 }
                 else
                 {
-                    using (IDnaDataReader reader = CreateStoreProcedureReader("createnewuserfromssoid"))
-                    {
-                        reader.AddParameter("ssouserid", ssoUserID);
-                        reader.AddParameter("username", ssoLoginName);
-                        reader.AddParameter("email", ssoEmail);
-                        reader.AddParameter("siteid", siteID);
-                        if (ssoFirstNames.Length > 0)
-                        {
-                            reader.AddParameter("firstnames", ssoFirstNames);
-                        }
+                    reader.AddParameter("ssouserid", ssoUserID);
+                }
 
-                        if (ssoLastName.Length > 0)
-                        {
-                            reader.AddParameter("lastname", ssoLastName);
-                        }
+                reader.AddParameter("username", loginName);
+                reader.AddParameter("email", email);
+                reader.AddParameter("siteid", siteID);
+                if (displayName.Length > 0)
+                {
+                    reader.AddParameter("displayname", displayName);
+                }
 
-                        if (displayName.Length > 0)
-                        {
-                            reader.AddParameter("displayname", displayName);
-                        }
-
-                        reader.Execute();
-                        if (reader.Read() && reader.HasRows)
-                        {
-                            // Get the id for the user.
-                            _userID = reader.GetInt32("userid");
-                            return _userID > 0;
-                        }
-                    }
+                reader.Execute();
+                if (reader.Read() && reader.HasRows)
+                {
+                    // Get the id for the user.
+                    _siteID = siteID;
+                    ReadUserDetails(reader);
+                    return _userID > 0;
                 }
             }
             return false;
@@ -323,19 +347,28 @@ namespace BBC.Dna.Users
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
-                        _userID = reader.GetInt32("userid");
-                        _userName = reader.GetString("username");
-                        _status = reader.GetInt32("status");
-                        _firstNames = reader.GetStringNullAsEmpty("firstnames");
-                        _lastName = reader.GetStringNullAsEmpty("lastname");
-                        _email = reader.GetString("email");
                         _siteID = siteID;
+                        ReadUserDetails(reader);
                         GetUsersGroupsForSite();
                         return true;
                     }
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Method for reading user data from user procedure calls
+        /// </summary>
+        /// <param name="reader">The StoredProcedure reader that contains the data</param>
+        private void ReadUserDetails(IDnaDataReader reader)
+        {
+            _userID = reader.GetInt32("userid");
+            _userName = reader.GetString("username");
+            _status = reader.GetInt32("status");
+            _email = reader.GetString("email");
+            _siteSuffix = reader.GetStringNullAsEmpty("SiteSuffix");
+            _lastSynchronisedDate = reader.GetDateTime("LastUpdatedDate");
         }
 
         /// <summary>
@@ -443,6 +476,58 @@ namespace BBC.Dna.Users
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Synchronizes the users signin details with the database
+        /// </summary>
+        /// <param name="signInUserName">The users current username held in the signin system</param>
+        /// <param name="signInEmail">The users current email address held in the signin system</param>
+        /// <param name="signInLoginName">The users login name for the sign in system</param>
+        /// <returns>True if it synch'd, false if not</returns>
+        public void SynchronizeUserSigninDetails(string signInUserName, string signInEmail, string signInLoginName)
+        {
+            if (_userName != signInUserName || _email != signInEmail)
+            {
+                using (IDnaDataReader reader = CreateStoreProcedureReader("synchroniseuserwithprofile"))
+                {
+                    reader.AddParameter("userid", _userID);
+                    reader.AddParameter("displayname", signInUserName);
+                    reader.AddParameter("loginname", signInLoginName);
+                    reader.AddParameter("email", signInEmail);
+                    reader.AddParameter("siteid", _siteID);
+                    reader.AddParameter("identitysite", _IdentitySignInUserID > 0 ? 1 : 0);
+                    reader.Execute();
+                    if (reader.Read())
+                    {
+                        _email = signInEmail;
+                        if (signInUserName.Length > 0)
+                        {
+                            _userName = signInUserName;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Synchronises a users sitesuffix with the given one
+        /// </summary>
+        /// <param name="siteSuffix">The sitesuffix to sync against</param>
+        public void SynchroniseSiteSuffix(string siteSuffix)
+        {
+            if (_siteSuffix != siteSuffix)
+            {
+                using (IDnaDataReader dataReader = CreateStoreProcedureReader("updateuser2"))
+                {
+                    dataReader.AddParameter("UserID", _userID);
+                    dataReader.AddParameter("SiteID", _siteID);
+                    dataReader.AddParameter("SiteSuffix", siteSuffix);
+                    dataReader.Execute();
+                }
+
+                _siteSuffix = siteSuffix;
+            }
         }
     }
 }

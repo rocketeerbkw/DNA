@@ -149,13 +149,13 @@ namespace BBC.Dna.Services
             {
                 if (String.IsNullOrEmpty(site.IdentityPolicy))
                 {
-                    callingUser = new CallingUser(SignInSystem.SSO, _connectionString, cacheManager, debugDnaUserId);
+                    callingUser = new CallingUser(SignInSystem.SSO, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
                     userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "");
                 }
                 else
                 {
-                    callingUser = new CallingUser(SignInSystem.Identity, _connectionString, cacheManager, debugDnaUserId);
-                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), site.IdentityPolicy, site.SiteID, QueryStringHelper.GetCookieValueAsString("IDENTITY-USERNAME", ""));
+                    callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
+                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), site.IdentityPolicy, site.SiteID, "");
                     Statistics.AddNonSSORequest();
                 }
                 // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs

@@ -35,7 +35,7 @@ namespace BBC.Dna.Objects
         public static Groups GetGroupsForUserBySiteId(int userId, int siteId)
         {
             var groups = new Groups();
-            var userGroups = new UserGroups("", null);
+            var userGroups = new UserGroups(null,null,null);
             try
             {
                 var groupList = userGroups.GetUsersGroupsForSite(userId, siteId);

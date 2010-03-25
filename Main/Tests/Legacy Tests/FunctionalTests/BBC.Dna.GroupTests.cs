@@ -38,7 +38,7 @@ namespace FunctionalTests
         {
             // Setup the groups object and give it a caching object
             ICacheManager groupsCache = CacheFactory.GetCacheManager();
-            UserGroups g = new UserGroups(_context.DnaConfig.ConnectionString, groupsCache);
+            UserGroups g = new UserGroups(null, null, groupsCache);
 
             // Get the groups for the given user on the given site
             List<string> details = g.GetUsersGroupsForSite(_userID, 1);
@@ -54,7 +54,7 @@ namespace FunctionalTests
         {
             // Setup the groups object and give it a caching object
             ICacheManager groupsCache = CacheFactory.GetCacheManager();
-            UserGroups g = new UserGroups(_context.DnaConfig.ConnectionString, groupsCache);
+            UserGroups g = new UserGroups(null, null, groupsCache);
 
             // Get the groups for the given user on the given site
             List<string> details = g.GetUsersGroupsForSite(_editorID, 1);
@@ -79,7 +79,7 @@ namespace FunctionalTests
         {
             // Setup the groups object and give it a caching object
             ICacheManager groupsCache = CacheFactory.GetCacheManager();
-            UserGroups g = new UserGroups(_context.DnaConfig.ConnectionString, groupsCache);
+            UserGroups g = new UserGroups(null, null, groupsCache);
 
             // Get the groups for the given user on the given site
             List<string> details = g.GetUsersGroupsForSite(_userID, 1);
@@ -104,7 +104,7 @@ namespace FunctionalTests
         {
             // Setup the groups object and give it a caching object
             ICacheManager groupsCache = CacheFactory.GetCacheManager();
-            UserGroups g = new UserGroups(_context.DnaConfig.ConnectionString, groupsCache);
+            UserGroups g = new UserGroups(null, null, groupsCache);
 
             // Get the groups for the given user on the given site
             List<string> details = g.GetUsersGroupsForSite(_userID, 1);

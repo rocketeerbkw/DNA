@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
 using System.Xml.Serialization;
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Objects
 {
@@ -16,11 +18,29 @@ namespace BBC.Dna.Objects
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
     public partial class User : IUser
     {
+        private static IDnaDataReaderCreator _dnaDataReaderCreator;
+        private static IDnaDiagnostics _dnaDiagnostics;
+        private static ICacheManager _cacheManager;
+        
+        /// <summary>
+        /// Constructs objects
+        /// </summary>
+        public User(IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager cacheManager)
+        {
+            _dnaDataReaderCreator = dnaDataReaderCreator;
+            _dnaDiagnostics = dnaDiagnostics;
+            _cacheManager = cacheManager;
+            Groups = new Groups();
+        }
+
         /// <summary>
         /// Constructs objects
         /// </summary>
         public User()
         {
+            _dnaDataReaderCreator = null;
+            _dnaDiagnostics = null;
+            _cacheManager = null;
             Groups = new Groups();
         }
 
@@ -454,7 +474,7 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         static public User CreateUserFromReader(IDnaDataReader reader, string prefix)
         {
-            IUser user = new User();
+            IUser user = new User(_dnaDataReaderCreator, _dnaDiagnostics, _cacheManager);
 
             if (reader.Exists(prefix + "userID"))
             {

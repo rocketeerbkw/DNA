@@ -1952,7 +1952,7 @@ namespace BBC.Dna
         /// <returns></returns>
         public BBC.Dna.Objects.User ConvertUser()
         {
-            BBC.Dna.Objects.User userObj = new BBC.Dna.Objects.User()
+            BBC.Dna.Objects.User userObj = new BBC.Dna.Objects.User(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics, AppContext.DnaCacheManager)
             {
                 UserId = UserID,
                 UserLoggedIn = UserLoggedIn,
