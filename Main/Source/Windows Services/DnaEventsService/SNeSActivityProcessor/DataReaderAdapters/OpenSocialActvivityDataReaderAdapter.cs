@@ -18,12 +18,22 @@ namespace Dna.SnesIntegration.ActivityProcessor.DataReaderAdapters
             ObjectDescription = dataReader.GetString("Body");
             UserName = dataReader.GetString("Username");
 
-            var uri = String.Empty;
-            if (!dataReader.IsDBNull("ObjectUri"))
-            {
-                uri = dataReader.GetString("ObjectUri");
+            var appName = dataReader.GetString("DnaUrl") ?? "";
+            var baseUriPath = "bbc:dna";
+            if (appName.ToUpper() == "IPLAYERTV")
+            {//TODO: replace this with site wide value
+                baseUriPath = "bbc:programme";
             }
-            ObjectUri = new Uri(uri ?? "", UriKind.Relative);    
+            if(!String.IsNullOrEmpty(dataReader.GetString("ObjectUri")))
+            {
+                ObjectUri = string.Format("{0}:{1}:{2}", baseUriPath, dataReader.GetString("ObjectUri"), dataReader.GetInt32("PostID"));    
+            }
+            else
+            {
+                ObjectUri = string.Format("{0}:{1}:{2}:{3}", baseUriPath, dataReader.GetInt32("ForumID"), dataReader.GetInt32("ThreadID"), dataReader.GetInt32("PostID"));    
+            }
+
+            
         }
     }
 }

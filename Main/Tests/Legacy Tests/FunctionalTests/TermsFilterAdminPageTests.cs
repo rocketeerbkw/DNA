@@ -249,7 +249,7 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void TermsFilterAdminPage_CreateChineseTermRefreshSitePostViaApi_CorrectlyBlocksContent()
+        public void TermsFilterAdminPage_CreateTermRefreshSitePostViaApi_CorrectlyBlocksContent()
         {
             const int modClassId = 3;
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };

@@ -66,7 +66,7 @@ namespace SnesActivityProcessorTests
             openSocialActivity.Id = "1234";
             openSocialActivity.ObjectDescription = "some description";
             openSocialActivity.ObjectTitle = "some title";
-            openSocialActivity.ObjectUri = new Uri("http://www.example.com/someuri", UriKind.RelativeOrAbsolute);
+            openSocialActivity.ObjectUri = "http://www.example.com/someuri";
             openSocialActivity.PostedTime = DateTime.Now.MillisecondsSinceEpoch();
             openSocialActivity.Title = "some title";
             openSocialActivity.Url = new Uri("http://www.example.com/someurl",UriKind.RelativeOrAbsolute);

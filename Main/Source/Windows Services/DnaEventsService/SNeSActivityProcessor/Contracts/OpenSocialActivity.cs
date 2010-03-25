@@ -71,7 +71,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Contracts
         }
 
         [DataMember(Name = "objectUri")]
-        public Uri ObjectUri
+        public string ObjectUri
         {
             get;
             set;

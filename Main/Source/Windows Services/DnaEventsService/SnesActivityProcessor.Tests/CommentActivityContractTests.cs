@@ -50,7 +50,7 @@ namespace SnesActivityProcessorTests
             comment.Url = new Uri("http://www.bbc.co.uk/dna/h2g2/F1",UriKind.RelativeOrAbsolute);
             comment.UserName = "1234";
             comment.ObjectDescription = "An object description";
-            comment.ObjectUri = new Uri("/dna/h2g2/F1", UriKind.Relative);
+            comment.ObjectUri = "/dna/h2g2/F1";
             comment.ObjectTitle = "A title";
 
             string json = comment.SerializeToJson();
