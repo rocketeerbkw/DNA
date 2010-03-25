@@ -238,7 +238,7 @@
   </Target>
 
   <ItemGroup>
-    <DnaEventsService Include="$(BinariesRoot)\Release\**\*.*"/>
+    <DnaEventsService Include="$(BinariesRoot)\Release\**\*.*" Exclude="$(BinariesRoot)\Release\**\*.config"/>
   </ItemGroup>
 
   <Target Name="PostBuildStep">
