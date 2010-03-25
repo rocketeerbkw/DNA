@@ -83,6 +83,13 @@ namespace Dna.SnesIntegration.ActivityProcessor.Contracts
             get;
             set;
         }
+
+        [DataMember(Name = "level")]
+        public string Level
+        {
+            get{ return "PUBLIC";}
+            set { }
+        }
     }
 
     [DataContract]
