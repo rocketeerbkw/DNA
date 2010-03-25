@@ -257,7 +257,7 @@
     <Copy SourceFiles="@(DnaEventsService)" DestinationFolder="\\vp-dev-dna-web2\DnaEventsService\%(RecursiveDir)" SkipUnchangedFiles="false" ContinueOnError="false"/>
 
     <!--Start DnaEventsService on vp-dev-dna-web2 -->
-    <Exec Command="sc \\vp-dev-dna-web2 start DnaEventsService"></Exec>
+    <Exec Command="sc \\vp-dev-dna-web2 start DnaEventProcessorService"></Exec>
 
     <!--Close Access to vp-dev-dna-web2-->
     <Exec Command="net use \\vp-dev-dna-web2\IPC$ /d"></Exec>
@@ -271,7 +271,7 @@
 
   <Target Name="PostBuildStepFailed">
     <!--Start DnaEventsService on vp-dev-dna-web2 -->
-    <Exec Command="sc \\vp-dev-dna-web2 start DnaEventsService"></Exec>
+    <Exec Command="sc \\vp-dev-dna-web2 start DnaEventProcessorService"></Exec>
     <!--Close Access to vp-dev-dna-web2-->
     <Exec Command="net use \\vp-dev-dna-web2\IPC$ /d"></Exec>
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
