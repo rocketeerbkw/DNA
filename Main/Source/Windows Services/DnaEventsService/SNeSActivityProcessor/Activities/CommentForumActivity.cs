@@ -11,6 +11,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
         {
             Contents = openSocialActivity;
             Contents.ActivityType = "comment";
+            IdentityUserId = eventData.IdentityUserId;            
         }
 
         public override void SetTitle(OpenSocialActivity openSocialActivity, SnesActivityData eventData)
