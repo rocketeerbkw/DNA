@@ -447,9 +447,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation.Utils.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api.Tests", "Source\Shared\BBC.Dna.Api.Tests\BBC.Dna.Api.Tests.csproj", "{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.LoadTest", "Tests\BBC.Dna.LoadTest\BBC.Dna.LoadTest.csproj", "{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 45
+		SccNumberOfProjects = 46
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
@@ -629,6 +631,10 @@ Global
 		SccProjectTopLevelParentUniqueName44 = UserServices.sln
 		SccProjectName44 = Source/Shared/BBC.Dna.Api.Tests
 		SccLocalPath44 = Source\\Shared\\BBC.Dna.Api.Tests
+		SccProjectUniqueName45 = Tests\\BBC.Dna.LoadTest\\BBC.Dna.LoadTest.csproj
+		SccProjectTopLevelParentUniqueName45 = UserServices.sln
+		SccProjectName45 = Tests/BBC.Dna.LoadTest
+		SccLocalPath45 = Tests\\BBC.Dna.LoadTest
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UserServices4.vsmdi
@@ -2020,6 +2026,42 @@ Global
 		{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9}.Retail|Win32.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.DebugSmallGuide|.NET.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.DebugSmallGuide|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.DebugSmallGuide|Mixed Platforms.Build.0 = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.DebugSmallGuide|Win32.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Debug|.NET.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Debug|Win32.ActiveCfg = Debug|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Release|.NET.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Release|Any CPU.Build.0 = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.MySQL Release|Win32.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Release|.NET.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Release|Win32.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|.NET.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2095,6 +2137,7 @@ Global
 		{88B566EF-02FA-4C58-A4E7-4BCC0E6C6091} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {54187AB7-0320-401A-948D-F1AE381F3D2C}
 		{EA19FCEE-4091-44A3-BD72-B0267FF2F4FE} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
 		{1FC1E57E-9EE1-4A88-8D6C-60DA89013E8A} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
 		{6049CBC4-1622-46D4-AA01-E528106493EC} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
 		{351113F5-DBA7-4AE0-A218-1FFD165D1747} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
