@@ -37,7 +37,7 @@
                     <asp:Button ID="btRemove" runat="server" Text="Remove Section" OnClick="btRemove_Click" OnClientClick="return confirm('Are you sure want to remove this section?');" />
                 </td>
                 <td align="right">
-                    <asp:Button ID="btToggleMode" runat="server" Text="Toggle" OnClick="btToggleMode_CheckedChanged" OnClientClick="return confirm('Are you sure want to switch to ?');"/>
+                    <asp:Button ID="btToggleMode" runat="server" Text="Toggle" OnClick="btToggleMode_CheckedChanged" OnClientClick="return confirm('Are you sure want to switch? All edits will be lost.');"/>
                 </td>
             </tr>
         </table>
