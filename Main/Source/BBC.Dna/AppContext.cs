@@ -52,6 +52,7 @@ namespace BBC.Dna
 			_appContext = new AppContext(rootPath);
 
             _dnaCacheManager = CacheFactory.GetCacheManager();
+		    
 
 			DnaDiagnostics.Initialise(TheAppContext.Config.InputLogFilePath, "DNALOG");
 #if DEBUG
@@ -63,11 +64,10 @@ namespace BBC.Dna
 			Statistics.InitialiseIfEmpty(/*TheAppContext*/);
 
             //load the smiley list
-            
             SmileyTranslator.LoadSmileys(ReaderCreator);
             ProfanityFilter.InitialiseProfanities(ReaderCreator, TheAppContext._dnaAppDiagnostics);
             DnaDiagnostics.Default.WriteToLog("UserGroups", "Before InitialiseAllUsersAndGroups.");
-            var userGroups = new Groups.UserGroups(ReaderCreator, TheAppContext._dnaAppDiagnostics, _dnaCacheManager);
+            var userGroups = new Groups.UserGroups(ReaderCreator, TheAppContext._dnaAppDiagnostics, null);
 		    userGroups.InitialiseAllUsersAndGroups();
             DnaDiagnostics.Default.WriteToLog("UserGroups", "After InitialiseAllUsersAndGroups.");
 		}

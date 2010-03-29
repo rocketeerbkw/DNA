@@ -11,7 +11,6 @@ namespace BBC.Dna.Groups
 {
     public class UserGroups : IUserGroups
     {
-        private string _connectionDetails = "";
         private ICacheManager _cachedGroups = null;
         private IDnaDataReaderCreator _dnaDataReaderCreator = null;
         private IDnaDiagnostics _dnaDiagnostics = null;
@@ -21,6 +20,7 @@ namespace BBC.Dna.Groups
 #else
         private static string _cacheName = "BBC.Dna.UserGroups-";
 #endif
+        private static bool IsInitialised = false;
 
         /// <summary>
         /// Default constructor
@@ -32,15 +32,11 @@ namespace BBC.Dna.Groups
             _dnaDataReaderCreator = dnaDataReaderCreator;
             _dnaDiagnostics = dnaDiagnostics;
 
-            if (dnaDataReaderCreator == null)
-            {
-                _connectionDetails = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
-            }
 
             _cachedGroups = caching;
             if (_cachedGroups == null)
             {
-                _cachedGroups = CacheFactory.GetCacheManager();
+                _cachedGroups = new StaticCacheManager();
             }
         }
 
@@ -51,14 +47,7 @@ namespace BBC.Dna.Groups
         /// <returns>A stored procedure reader ready to execute the given stored procedure</returns>
         private IDnaDataReader CreateStoreProcedureReader(string procedureName)
         {
-            if (_dnaDataReaderCreator == null)
-            {
-                return new StoredProcedureReader(procedureName, _connectionDetails, _dnaDiagnostics);
-            }
-            else
-            {
-                return _dnaDataReaderCreator.CreateDnaDataReader(procedureName);
-            }
+            return _dnaDataReaderCreator.CreateDnaDataReader(procedureName);
         }
 
         /// <summary>
@@ -155,11 +144,20 @@ namespace BBC.Dna.Groups
         /// <returns>a list of the groups the user belongs to for a given site</returns>
         public List<string> GetUsersGroupsForSite(int userID, int siteID)
         {
+            if(!IsInitialised)
+            {
+                throw new Exception("Users groups not initialised");
+            }
             // Check to see if we've got a list for this user already
-            List<string> userGroups = GetUsersGroupListForSite(userID, siteID);
+            var list = GetUsersGroupListForSite(userID, siteID);
+            if(list == null)
+            {
+                list = new List<string>();
+            }
+            return list;
 
             // No list found, get the information from the database
-            if (userGroups == null)
+            /*if (userGroups == null)
             {
                 try
                 {
@@ -188,9 +186,9 @@ namespace BBC.Dna.Groups
                     Console.WriteLine(ex.Message);
                     throw ex;
                 }
-            }
+            }*/
 
-            return userGroups;
+            //return userGroups;
         }
 
         /// <summary>
@@ -249,8 +247,8 @@ namespace BBC.Dna.Groups
                 Console.WriteLine(ex.Message);
                 throw ex;
             }
-
-            return true;
+            IsInitialised = true;
+            return IsInitialised;
         }
 
         /// <summary>

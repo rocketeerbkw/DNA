@@ -130,6 +130,7 @@
     <Compile Include="QueryStringHelper.cs" />
     <Compile Include="QuoteTranslator.cs" />
     <Compile Include="RequestIDGenerator.cs" />
+    <Compile Include="StaticCacheManager.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="StringUtils.cs" />
     <Compile Include="TimestampTextWriterListener.cs" />

@@ -183,13 +183,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseLibrary", "Enterp
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.Configuration.Design.xml = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.Configuration.Design.xml
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.dll
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.Design.dll
@@ -349,7 +347,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{4CA9
 		Source\Ripley\profileapi\bbcutil\include\Dll.h = Source\Ripley\profileapi\bbcutil\include\Dll.h
 		Source\Ripley\profileapi\bbcutil\include\FileUt.h = Source\Ripley\profileapi\bbcutil\include\FileUt.h
 		Source\Ripley\profileapi\bbcutil\include\MiscUt.h = Source\Ripley\profileapi\bbcutil\include\MiscUt.h
-		Source\Ripley\profileapi\bbcutil\include\SimpleTemplates.h = Source\Ripley\profileapi\bbcutil\include\SimpleTemplates.h
 		Source\Ripley\profileapi\bbcutil\include\Str.h = Source\Ripley\profileapi\bbcutil\include\Str.h
 		Source\Ripley\profileapi\bbcutil\include\StrUt.h = Source\Ripley\profileapi\bbcutil\include\StrUt.h
 		Source\Ripley\profileapi\bbcutil\include\TimeUt.h = Source\Ripley\profileapi\bbcutil\include\TimeUt.h
@@ -376,9 +373,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vwcl", "vwcl", "{321FDD86-C
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "strings", "strings", "{37B81E1F-D9D4-448A-B792-EF06F94A259B}"
-	ProjectSection(SolutionItems) = preProject
-		Source\Ripley\vwcl\strings\vstring.hpp = Source\Ripley\vwcl\strings\vstring.hpp
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "networking", "networking", "{41C0ED7D-DF87-4C6D-9E93-DEAC789E2904}"
 	ProjectSection(SolutionItems) = preProject
