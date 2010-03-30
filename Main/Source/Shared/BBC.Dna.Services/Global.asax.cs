@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 using System.Configuration;
+using BBC.Dna.Groups;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
@@ -26,6 +27,8 @@ namespace BBC.Dna.Services
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiagnostics);
             siteList = SiteList.GetSiteList(readerCreator, dnaDiagnostics);
             ProfanityFilter.InitialiseProfanities(readerCreator, dnaDiagnostics);
+            var userGroups = new UserGroups(readerCreator, dnaDiagnostics, null);
+            userGroups.InitialiseAllUsersAndGroups();
             
         }
 
@@ -48,6 +51,8 @@ namespace BBC.Dna.Services
                 siteList = SiteList.GetSiteList(readerCreator, dnaDiagnostics, true);
                 //refresh profanity filter
                 ProfanityFilter.InitialiseProfanities(readerCreator, dnaDiagnostics);
+                var userGroups = new UserGroups(readerCreator, dnaDiagnostics, null);
+                userGroups.InitialiseAllUsersAndGroups();
             }
 
             // Check to see if we're being asked to do a recache of groups

@@ -20,6 +20,7 @@ namespace FunctionalTests
         private FullInputContext _context = new FullInputContext(false);
         private int _userID = TestUserAccounts.GetNormalUserAccount.UserID;
         private int _editorID = TestUserAccounts.GetEditorUserAccount.UserID;
+        private UserGroups g;
 
         /// <summary>
         /// Setup fixture
@@ -27,7 +28,12 @@ namespace FunctionalTests
         [TestInitialize]
         public void Setup()
         {
+            
             SnapshotInitialisation.ForceRestore();
+
+            ICacheManager groupsCache = new StaticCacheManager();
+            g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
+            g.InitialiseAllUsersAndGroups();
         }
 
         /// <summary>
@@ -36,9 +42,6 @@ namespace FunctionalTests
         [TestMethod]
         public void Test01GetGroupsForUser()
         {
-            // Setup the groups object and give it a caching object
-            ICacheManager groupsCache = CacheFactory.GetCacheManager();
-            UserGroups g = new UserGroups(null, null, groupsCache);
 
             // Get the groups for the given user on the given site
             List<string> details = g.GetUsersGroupsForSite(_userID, 1);
@@ -52,9 +55,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test04GetGroupsForEditor()
         {
-            // Setup the groups object and give it a caching object
-            ICacheManager groupsCache = CacheFactory.GetCacheManager();
-            UserGroups g = new UserGroups(null, null, groupsCache);
+            
+            ICacheManager groupsCache = new StaticCacheManager();
+            
 
             // Get the groups for the given user on the given site
             List<string> details = g.GetUsersGroupsForSite(_editorID, 1);
@@ -77,9 +80,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test02AddUserToGroup()
         {
-            // Setup the groups object and give it a caching object
-            ICacheManager groupsCache = CacheFactory.GetCacheManager();
-            UserGroups g = new UserGroups(null, null, groupsCache);
+            
+            ICacheManager groupsCache = new StaticCacheManager();
+            
 
             // Get the groups for the given user on the given site
             List<string> details = g.GetUsersGroupsForSite(_userID, 1);
@@ -102,9 +105,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test03RemoveUserFromGroup()
         {
-            // Setup the groups object and give it a caching object
-            ICacheManager groupsCache = CacheFactory.GetCacheManager();
-            UserGroups g = new UserGroups(null, null, groupsCache);
+            
+            ICacheManager groupsCache = new StaticCacheManager();
+            
 
             // Get the groups for the given user on the given site
             List<string> details = g.GetUsersGroupsForSite(_userID, 1);

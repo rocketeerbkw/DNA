@@ -4,6 +4,7 @@ using System.Text;
 using BBC.Dna.Groups;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
@@ -25,6 +26,10 @@ namespace FunctionalTests
         public void Setup()
         {
             SnapshotInitialisation.ForceRestore();
+
+            ICacheManager groupsCache = new StaticCacheManager();
+            var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
+            g.InitialiseAllUsersAndGroups();
         }
 
         /// <summary>
