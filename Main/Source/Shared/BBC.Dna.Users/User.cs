@@ -172,7 +172,7 @@ namespace BBC.Dna.Users
 
             Trace.WriteLine("User() - connection details = " + _databaseConnectionDetails);
             _cachingObject = caching;
-            _userGroups = new Groups.UserGroups(_dnaDataReaderCreator, _dnaDiagnostics, caching);
+            _userGroups = new Groups.UserGroups(_dnaDataReaderCreator, _dnaDiagnostics, null);
         }
 
         /// <summary>
