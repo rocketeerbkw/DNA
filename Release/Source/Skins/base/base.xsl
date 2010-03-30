@@ -17327,12 +17327,17 @@ Call:		<xsl:apply-templates select="." mode="Form">
 					<TD/>
 				</TR>
 				</xsl:if>
-				<xsl:if test="/H2G2/SITE/IDENTITYSIGNIN = 1 and /H2G2/SITE/@ID = 1 and /H2G2/VIEWING-USER/USER">
+				<xsl:if test="$sitesuffix_required = 'false' and /H2G2/SITE/IDENTITYSIGNIN = 1 and /H2G2/SITE/@ID = 1 and /H2G2/VIEWING-USER/USER">
 					<TR>
 						<TD colspan="2">
 							<p>
 								<strong>Please note</strong>: if you would like to change your display name, <br />please click the <a href="{$id_settingslink}">Settings</a> link above and enter it in the Name field.
 							</p>
+						</TD>
+					</TR>
+					<TR>
+						<TD>
+							<BR/>
 						</TD>
 					</TR>
 				</xsl:if>
