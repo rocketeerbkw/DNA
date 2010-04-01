@@ -50,7 +50,7 @@ namespace Tests
             Stub.On(mockedSite).GetProperty("ModClassID").Will(Return.Value(1));
 
             // Initialise the profanities object
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.DnaConfig.ConnectionString, null);
+            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
 
             BBC.Dna.User user = new BBC.Dna.User(_InputContext);
             Stub.On(_InputContext).GetProperty("ViewingUser").Will(Return.Value(user));

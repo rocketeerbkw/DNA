@@ -6,6 +6,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl;
 using BBC.Dna.Data;
+using BBC.Dna.Moderation.Utils;
 
 //Build you bugger!!
 
@@ -38,6 +39,8 @@ namespace BBC.Dna.Component
                 {
                     // We need to reload the site data
                     ReloadSiteData();
+                    //Get the profanity list as well..
+                    ProfanityFilter.InitialiseProfanities(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics);
                 }
                 else if (action.ToLower() == "recache-groups")
                 {

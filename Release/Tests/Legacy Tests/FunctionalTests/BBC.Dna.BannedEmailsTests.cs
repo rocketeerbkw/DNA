@@ -50,7 +50,7 @@ namespace FunctionalTests
         {
             // Create a new banned emails object
 
-            BannedEmails bannedEmails = new BannedEmails(_connectionDetails, _emailCache);
+            BannedEmails bannedEmails = new BannedEmails(null, null, _emailCache);
             Dictionary<string, BannedEmailDetails> emailList = bannedEmails.GetAllBannedEmails();
             Assert.IsNotNull(emailList, "The list of emails is null!");
             Assert.IsTrue(emailList.Count > 0, "The email list contains no banned emails!");
@@ -80,7 +80,7 @@ namespace FunctionalTests
         {
             Test00CheckThatWeCanGetAllTheBannedEmailsCurrentlyInTheDatabase();
             // Create a new banned emails object
-            BannedEmails bannedEmails = new BannedEmails(_connectionDetails, _emailCache);
+            BannedEmails bannedEmails = new BannedEmails(null, null, _emailCache);
             Assert.IsTrue(bannedEmails.IsEmailInBannedFromComplaintsList(_knownBannedEmail), "The known email is not banned from complaints");
             Assert.IsTrue(bannedEmails.IsEmailInBannedFromSignInList(_knownBannedEmail), "The known email is not banned from signin");
         }
@@ -92,7 +92,7 @@ namespace FunctionalTests
         public void Test02CheckAddingBannedFromSignInEmail()
         {
             // Create a new banned emails object
-            BannedEmails bannedEmails = new BannedEmails(_connectionDetails, _emailCache);
+            BannedEmails bannedEmails = new BannedEmails(null, null, _emailCache);
             Assert.IsFalse(bannedEmails.IsEmailInBannedFromComplaintsList(_newBannedEmail), "The new email is already in the banned from complaints");
             Assert.IsFalse(bannedEmails.IsEmailInBannedFromSignInList(_newBannedEmail), "The new email is already in the banned from signin");
             Assert.IsTrue(bannedEmails.AddEmailToBannedList(_newBannedEmail, true, false, TestUserAccounts.GetEditorUserAccount.UserID), "Failed to add new email to the list");
@@ -107,7 +107,7 @@ namespace FunctionalTests
         public void Test03CheckAddingBannedFromComplaintsEmail()
         {
             // Create a new banned emails object
-            BannedEmails bannedEmails = new BannedEmails(_connectionDetails, _emailCache);
+            BannedEmails bannedEmails = new BannedEmails(null, null, _emailCache);
             Assert.IsFalse(bannedEmails.IsEmailInBannedFromComplaintsList(_newBannedEmail), "The new email is already in the banned from complaints");
             Assert.IsFalse(bannedEmails.IsEmailInBannedFromSignInList(_newBannedEmail), "The new email is already in the banned from signin");
             Assert.IsTrue(bannedEmails.AddEmailToBannedList(_newBannedEmail, false, true, TestUserAccounts.GetEditorUserAccount.UserID), "Failed to add new email to the list");
@@ -122,7 +122,7 @@ namespace FunctionalTests
         public void Test04CheckAddingBannedFromSignInAndComplaintsEmail()
         {
             // Create a new banned emails object
-            BannedEmails bannedEmails = new BannedEmails(_connectionDetails, _emailCache);
+            BannedEmails bannedEmails = new BannedEmails(null, null, _emailCache);
             Assert.IsFalse(bannedEmails.IsEmailInBannedFromComplaintsList(_newBannedEmail), "The new email is already in the banned from complaints");
             Assert.IsFalse(bannedEmails.IsEmailInBannedFromSignInList(_newBannedEmail), "The new email is already in the banned from signin");
             Assert.IsTrue(bannedEmails.AddEmailToBannedList(_newBannedEmail, true, true, TestUserAccounts.GetEditorUserAccount.UserID), "Failed to add new email to the list");
@@ -138,7 +138,7 @@ namespace FunctionalTests
         {
             Test00CheckThatWeCanGetAllTheBannedEmailsCurrentlyInTheDatabase();
             // Create a new banned emails object
-            BannedEmails bannedEmails = new BannedEmails(_connectionDetails, _emailCache);
+            BannedEmails bannedEmails = new BannedEmails(null, null, _emailCache);
             Assert.IsTrue(bannedEmails.IsEmailInBannedFromComplaintsList(_knownBannedEmail), "The known email is not banned from complaints");
             Assert.IsTrue(bannedEmails.IsEmailInBannedFromSignInList(_knownBannedEmail), "The known email is not banned from signin");
             Assert.IsTrue(bannedEmails.UpdateEmailDetails(_knownBannedEmail, false, true, TestUserAccounts.GetEditorUserAccount.UserID), "Failed to update the email details");
@@ -154,7 +154,7 @@ namespace FunctionalTests
         {
             Test00CheckThatWeCanGetAllTheBannedEmailsCurrentlyInTheDatabase();
             // Create a new banned emails object
-            BannedEmails bannedEmails = new BannedEmails(_connectionDetails, _emailCache);
+            BannedEmails bannedEmails = new BannedEmails(null, null, _emailCache);
             Assert.IsTrue(bannedEmails.IsEmailInBannedFromComplaintsList(_knownBannedEmail), "The known email is not banned from complaints");
             Assert.IsTrue(bannedEmails.IsEmailInBannedFromSignInList(_knownBannedEmail), "The known email is not banned from signin");
             Assert.IsTrue(bannedEmails.UpdateEmailDetails(_knownBannedEmail, true, false, TestUserAccounts.GetEditorUserAccount.UserID), "Failed to update the email details");
@@ -170,7 +170,7 @@ namespace FunctionalTests
         {
             Test00CheckThatWeCanGetAllTheBannedEmailsCurrentlyInTheDatabase();
             // Create a new banned emails object
-            BannedEmails bannedEmails = new BannedEmails(_connectionDetails, _emailCache);
+            BannedEmails bannedEmails = new BannedEmails(null, null, _emailCache);
             Assert.IsTrue(bannedEmails.IsEmailInBannedFromComplaintsList(_knownBannedEmail), "The known email is not banned from complaints");
             Assert.IsTrue(bannedEmails.IsEmailInBannedFromSignInList(_knownBannedEmail), "The known email is not banned from signin");
             bannedEmails.RemoveEmailFromBannedList(_knownBannedEmail);

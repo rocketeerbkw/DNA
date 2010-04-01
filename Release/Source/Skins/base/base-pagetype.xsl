@@ -1302,6 +1302,41 @@
 					</xsl:when>
 				</xsl:choose>
 			</xsl:when>
+      <xsl:when test="/H2G2/@TYPE='TERMSFILTERADMIN'">
+        <xsl:choose>
+          <xsl:when test="$content = 'HEADER'">
+            <xsl:call-template name="TERMSFILTERADMIN_HEADER"/>
+          </xsl:when>
+          <xsl:when test="$content = 'SUBJECT'">
+            <xsl:call-template name="TERMSFILTERADMIN_SUBJECT"/>
+          </xsl:when>
+          <xsl:when test="$content = 'MAINBODY'">
+            <xsl:call-template name="TERMSFILTERADMIN_MAINBODY"/>
+          </xsl:when>
+          <xsl:when test="$content = 'CSS'">
+            <xsl:call-template name="TERMSFILTERADMIN_CSS"/>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:when test="/H2G2/@TYPE='TERMSFILTERIMPORT'">
+        <xsl:choose>
+          <xsl:when test="$content = 'HEADER'">
+            <xsl:call-template name="TERMSFILTERADMIN_HEADER"/>
+          </xsl:when>
+          <xsl:when test="$content = 'SUBJECT'">
+            <xsl:call-template name="TERMSFILTERADMIN_SUBJECT"/>
+          </xsl:when>
+          <xsl:when test="$content = 'MAINBODY'">
+            <xsl:call-template name="TERMSFILTERIMPORT_MAINBODY"/>
+          </xsl:when>
+          <xsl:when test="$content = 'CSS'">
+            <xsl:call-template name="TERMSFILTERADMIN_CSS"/>
+          </xsl:when>
+          <xsl:when test="$content = 'JAVASCRIPT'">
+            <xsl:call-template name="TERMSFILTERIMPORT_JAVASCRIPT"/>
+          </xsl:when>
+        </xsl:choose>
+      </xsl:when>
 			<xsl:when test="/H2G2/@TYPE='RECOMMEND-ENTRY'">
 				<xsl:choose>
 					<xsl:when test="$content = 'HEADER'">
@@ -2596,6 +2631,13 @@
 	<xsl:template name="PROFANITYADMIN_MAINBODY"/>
 	<xsl:template name="PROFANITYADMIN_CSS"/>
 	<xsl:template name="PROFANITYADMIN_JAVASCRIPT"/>
+  <xsl:template name="TERMSFILTERADMIN_HEADER"/>
+  <xsl:template name="TERMSFILTERADMIN_SUBJECT"/>
+  <xsl:template name="TERMSFILTERADMIN_MAINBODY"/>
+  <xsl:template name="TERMSFILTERADMIN_CSS"/>
+  <xsl:template name="TERMSFILTERIMPORT_JAVASCRIPT"/>
+  <xsl:template name="TERMSFILTERIMPORT_MAINBODY"/>
+
 	<xsl:template name="RECOMMEND-ENTRY_HEADER"/>
 	<xsl:template name="RECOMMEND-ENTRY_SUBJECT"/>
 	<xsl:template name="RECOMMEND-ENTRY_MAINBODY"/>

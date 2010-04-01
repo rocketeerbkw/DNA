@@ -47,6 +47,7 @@
     <None Include="udf_getusersiteidpairs.sql" />
     <None Include="udf_HasUserAcceptedTermsAndConditionsOfSite.sql" />
     <None Include="udf_IsUserAcceptingSubscriptions.sql" />
+    <None Include="udf_isusermemberofgroup.sql" />
     <None Include="udf_IsUserSubscriptionBlocked.sql" />
     <None Include="udf_IsWithinRange.sql" />
     <None Include="udf_removegrammaticalarticlesfromtext.sql" />

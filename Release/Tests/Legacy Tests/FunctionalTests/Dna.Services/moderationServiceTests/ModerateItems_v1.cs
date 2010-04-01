@@ -35,7 +35,7 @@ namespace FunctionalTests
         /// Adds item sto the mod queue via the moderation API
         /// </summary>
         /// <returns></returns>
-        [TestMethod]
+        [Ignore]
         public void AddComplaintItemToModQueue()
         {
 

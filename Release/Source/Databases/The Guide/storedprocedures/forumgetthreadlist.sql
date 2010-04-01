@@ -27,10 +27,13 @@ SELECT @canread = CanRead,
 select @forumpostcount = @forumpostcount + isnull(sum(PostCountDelta),0) from ForumPostCountAdjust WITH(NOLOCK) WHERE ForumID = @forumid
 
 -- Bodge for 6 Music (Peta) to force some forums to have the "datecreated" thread order
+/* Removed on request from Peta and Jem on live on 23/3/10
+ * I've left the code in for now, so it's quick to re-instate when they change their minds again.
 IF @forumid=14074635 or @forumid=14107994 or @forumid=14126215
 BEGIN
 	SET @threadorder = 2
 END
+*/
 
 IF (@threadcount > 0 AND @firstindex < @threadcount)
 BEGIN

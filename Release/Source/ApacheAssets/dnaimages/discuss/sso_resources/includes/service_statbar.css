@@ -1,0 +1,25 @@
+.ssoStatuslight {font-family:arial,helvetica,sans-serif;color:#333333;}
+a.ssoStatuslight {text-decoration:underline;color:#333333;}
+a.ssoStatuslight:hover {color:#878787;}
+
+.ssoStatusdark {font-family:arial,helvetica,sans-serif;color:#fcfcfc;}
+a.ssoStatusdark {color:#ffffff;text-decoration:underline;}
+a.ssoStatusdark:hover {color:#E4E4E4;}
+
+.ssoHelp {font-family:arial,helvetica,sans-serif;text-decoration:underline;cursor:help;color:#000000;}
+.ssoHelp:hover {color:#878787;}
+.ssoHelp:visited {color:#000000;}
+
+a.ssoStatusdarkhelp {color:#ffffff;font-family:arial,helvetica,sans-serif;cursor:help;}
+a.ssoStatusdarkhelp:hover {color:#E4E4E4;}
+
+.ssoStatusform {font-family:arial,helvetica,sans-serif;font-size:smaller; width:120px; height:20px; background-color:#CBC6C2;}
+
+.ssoError {font-family:arial,helvetica,sans-serif;color:#ff0000;}
+.ssoOne {background-color : #333333;}
+.ssoTwo {background-color : #9A958C;}
+.ssoThree {background-color : #CBC6C2;}
+
+.ssoLikebody {background-color:#ffffff;}
+
+.ssoStatusshadow {background-color : #262626;}

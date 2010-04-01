@@ -35,8 +35,11 @@ namespace BBC.Dna.Api
         /// <returns>The HTML output</returns>
         public string ToHtml(string xsltFile, ref int error)
         {
+            string rawXml = StringUtils.SerializeToXml(this);
+            rawXml = rawXml.Replace("&lt;", "<");
+            rawXml = rawXml.Replace("&gt;", ">");
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(StringUtils.SerializeToXml(this));
+            xmlDoc.LoadXml(rawXml);
             
             int errorCount = 0;
             return XSLTransformer.TransformUsingXslt2(xsltFile, xmlDoc, ref errorCount);

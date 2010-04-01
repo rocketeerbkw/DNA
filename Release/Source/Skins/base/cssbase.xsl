@@ -973,7 +973,7 @@ Please wait, while your call is transferred...
 	<option value="0" selected="selected">Refer to:</option> 
 	<option value="0">Anyone</option>
 	<xsl:for-each select="REFEREE[SITEID = $SiteID]/USER">
-		<option value="{USERID}"><xsl:value-of select="USERNAME"/></option>
+		<option value="{USERID}"><xsl:apply-templates select="." mode="username"/></option>
 	</xsl:for-each>
 </xsl:template>
 
@@ -1446,15 +1446,15 @@ editcategory?nodeid=<xsl:value-of select="LINKNODEID"/><xsl:value-of select="$ac
 				<xsl:for-each select="USER">
 					<tr>
 						<td align="right">
-								<xsl:if test="number(MASTHEAD) != 0"><xsl:value-of select="$m_userhasmastheadflag"/></xsl:if>
-								<xsl:if test="number(FORUM-POSTED-TO) != 0"><xsl:value-of select="$m_usersintropostedtoflag"/></xsl:if>
+							<xsl:if test="number(MASTHEAD) != 0"><xsl:value-of select="$m_userhasmastheadflag"/></xsl:if>
+							<xsl:if test="number(FORUM-POSTED-TO) != 0"><xsl:value-of select="$m_usersintropostedtoflag"/></xsl:if>
 						</td>
 						<td>
-								<a><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USERID"/></xsl:attribute><xsl:apply-templates select="USERNAME"/></a>
+							<a><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USERID"/></xsl:attribute><xsl:apply-templates select="USERNAME"/></a>
 						</td>
 						<td>&nbsp;</td>
 						<td>
-								<xsl:text> </xsl:text><xsl:apply-templates select="DATE-JOINED/DATE"/>
+							<xsl:text> </xsl:text><xsl:apply-templates select="DATE-JOINED/DATE"/>
 						</td>
 					</tr>
 				</xsl:for-each>
@@ -1465,11 +1465,11 @@ editcategory?nodeid=<xsl:value-of select="LINKNODEID"/><xsl:value-of select="$ac
 				<xsl:for-each select="USER">
 					<tr>
 						<td>
-								<a><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USERID"/></xsl:attribute><xsl:apply-templates select="USERNAME"/></a>
+							<a><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USERID"/></xsl:attribute><xsl:apply-templates select="USERNAME"/></a>
 						</td>
 						<td>&nbsp;</td>
 						<td>
-								<xsl:value-of select="ALLOCATIONS"/>
+							<xsl:value-of select="ALLOCATIONS"/>
 						</td>
 					</tr>
 				</xsl:for-each>
@@ -2303,7 +2303,7 @@ Click to see newer posts
 -->
 
 <xsl:template match="ONLINEUSER">
-<A TARGET="_blank"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute><xsl:apply-templates select="USER/USERNAME" mode="username" /></A>
+<A TARGET="_blank"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute><xsl:apply-templates select="USER" mode="username" /></A>
 <xsl:if test="number(DAYSSINCEJOINED) &lt; 7"> (<xsl:value-of select="$m_newthisweek"/>)</xsl:if>
 <br/>
 </xsl:template>
@@ -2414,7 +2414,7 @@ Click to see newer posts
 
 <xsl:template match="PROLIFICPOSTER|ERUDITEPOSTER">
 <A><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute>
-<xsl:value-of select="USER/USERNAME"/></A> (<xsl:value-of select="COUNT"/><xsl:choose><xsl:when test="number(COUNT) = 1"><xsl:value-of select="$m_postaverage"/></xsl:when><xsl:otherwise><xsl:value-of select="$m_postsaverage"/></xsl:otherwise></xsl:choose><xsl:value-of select="AVERAGESIZE"/>)<br/>
+<xsl:apply-templates select="USER" mode="username" /></A> (<xsl:value-of select="COUNT"/><xsl:choose><xsl:when test="number(COUNT) = 1"><xsl:value-of select="$m_postaverage"/></xsl:when><xsl:otherwise><xsl:value-of select="$m_postsaverage"/></xsl:otherwise></xsl:choose><xsl:value-of select="AVERAGESIZE"/>)<br/>
 </xsl:template>
 
 <!--
@@ -3589,10 +3589,10 @@ Line <xsl:value-of select="LINENO"/>, line position <xsl:value-of select="LINEPO
 -->
 
 <xsl:template match="USER">
-<xsl:element name="A">
-<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USERID"/></xsl:attribute>
-<xsl:value-of select="USERNAME"/>
-</xsl:element>
+	<xsl:element name="A">
+		<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USERID"/></xsl:attribute>
+		<xsl:apply-templates select="." mode="username"/>
+	</xsl:element>
 </xsl:template>
 
 <!--
@@ -3604,7 +3604,7 @@ Line <xsl:value-of select="LINENO"/>, line position <xsl:value-of select="LINEPO
 
 <xsl:template match="USER" mode="ArticleInfo">
 	<a xsl:use-attribute-sets="pageauthorsfont" href="{$root}U{USERID}">
-		<xsl:value-of select="USERNAME"/>
+		<xsl:apply-templates select="." mode="username"/>
 	</a>
 </xsl:template>
 <!--
@@ -3708,122 +3708,6 @@ Line <xsl:value-of select="LINENO"/>, line position <xsl:value-of select="LINEPO
 <B><xsl:value-of select="@DESCRIPTION"/></B><BR/>
 <xsl:apply-templates/>
 </xsl:template>
-
-<!-- dodgy old code
-<xsl:template match="THREADLIST">
-<UL>
-<xsl:for-each select="FORUMLINK">
-<LI><xsl:value-of select="DATE"/> 
-<xsl:choose>
-<xsl:when test="ENTRYID[. != /H2G2/FORUMPOST/POSTID]">
-<STRONG>
-<xsl:element name="A">
-<xsl:attribute name="HREF"><xsl:value-of select="$root"/>forumh2g2.asp?postid=<xsl:value-of select="ENTRYID"/></xsl:attribute>
-<xsl:value-of select="SUBJECT"/></xsl:element>
-</STRONG>
-</xsl:when>
-<xsl:otherwise>
-<STRONG>
-<xsl:value-of select="SUBJECT"/>
-</STRONG>
-</xsl:otherwise>
-</xsl:choose> - <xsl:value-of select="POSTEDBY/USER/USERNAME"/> 
-</LI>
-</xsl:for-each>
-</UL>
-</xsl:template>
-
-<xsl:template match="PREVIOUSPOST">
-&lt;<xsl:element name="A">
-<xsl:attribute name="HREF"><xsl:value-of select="$root"/>forumh2g2.asp?postid=<xsl:value-of select="."/></xsl:attribute>
-Prev</xsl:element> 
-</xsl:template>
-
-<xsl:template match="NEXTPOST">
-<xsl:element name="A">
-<xsl:attribute name="HREF"><xsl:value-of select="$root"/>forumh2g2.asp?postid=<xsl:value-of select="."/></xsl:attribute>
-Next</xsl:element> &gt;
-</xsl:template>
--->
-
-<!--
-<xsl:template match="THREADS">
-<xsl:for-each select="THREAD">
-<xsl:element name="A">
-<xsl:attribute name="HREF"><xsl:value-of select="$root"/>forumh2g2.asp?postid=<xsl:value-of select="FIRSTPOSTID"/></xsl:attribute>
-<b><xsl:value-of select="SUBJECT"/></b></xsl:element> - <xsl:value-of select="USER/USERNAME"/> [ <B><xsl:value-of select="COUNT"/>
-<xsl:if test=".[NEWTODAY=1]">
-<EM><FONT COLOR="#800000">new!</FONT></EM>
-</xsl:if>
-</B> ]<xsl:value-of select="DATE"/><BR/><BR/>
-</xsl:for-each>
-</xsl:template>
--->
-
-<!--
-<xsl:template match="POSTBODY">
-<P>
-<xsl:apply-templates />
-</P>
-</xsl:template>
--->
-
-<!--
-<xsl:template match="FORUMPOST">
-	<TABLE WIDTH="100%">
-	<TR><TD width="100%"><HR/></TD>
-	<TD nowrap="1">
-	<xsl:choose>
-	<xsl:when test="PREVIOUSPOST">
-	<xsl:element name="A"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>forumh2g2.asp?postid=<xsl:value-of select="PREVIOUSPOST"/></xsl:attribute><IMG src="{$imagesource}f_backward.gif" border="0" alt="Previous message"/></xsl:element>
-	</xsl:when>
-	<xsl:otherwise>
-	<IMG src="{$imagesource}f_backgrey.gif" border="0" alt="There is no previous message"/>
-	</xsl:otherwise>
-	</xsl:choose>
-	<xsl:choose>
-	<xsl:when test="NEXTPOST">
-	<xsl:element name="A"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>forumh2g2.asp?postid=<xsl:value-of select="NEXTPOST"/></xsl:attribute><IMG src="{$imagesource}f_forward.gif" border="0" alt="Next message"/></xsl:element>
-	</xsl:when>
-	<xsl:otherwise>
-	<IMG src="{$imagesource}f_forwardgrey.gif" border="0" alt="There is no next message"/>
-	</xsl:otherwise>
-	</xsl:choose>
-	 </TD>
-	</TR>
-	</TABLE>
-	<FONT COLOR="#00FFFF">Posted <xsl:value-of select="DATE"/> by </FONT>
-	<A>
-	<xsl:attribute name="TARGET">_top</xsl:attribute>
-	<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="POSTEDBY/USER/USERID"/></xsl:attribute><xsl:choose><xsl:when test='POSTEDBY/USER[USERID > 9999]'><xsl:value-of select="POSTEDBY/USER/USERNAME"/></xsl:when><xsl:otherwise><B><I><xsl:value-of select="POSTEDBY/USER/USERNAME"/></I></B></xsl:otherwise></xsl:choose></A>
-	<BR/>
-	<FONT COLOR="#00FFFF">Subject:</FONT> <B><xsl:value-of select="SUBJECT"/></B>
-	<BR/>
-<xsl:apply-templates select="//POSTBODY" />
-	<TABLE WIDTH="100%">
-	<TR><TD width="100%"><HR/></TD>
-	<TD nowrap="1">
-	<xsl:choose>
-	<xsl:when test="PREVIOUSPOST">
-	<xsl:element name="A"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>forumh2g2.asp?postid=<xsl:value-of select="PREVIOUSPOST"/></xsl:attribute><IMG src="{$imagesource}f_backward.gif" border="0" alt="Previous message"/></xsl:element>
-	</xsl:when>
-	<xsl:otherwise>
-	<IMG src="{$imagesource}f_backgrey.gif" border="0" alt="There is no previous message"/>
-	</xsl:otherwise>
-	</xsl:choose>
-	<xsl:choose>
-	<xsl:when test="NEXTPOST">
-	<xsl:element name="A"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>forumh2g2.asp?postid=<xsl:value-of select="NEXTPOST"/></xsl:attribute><IMG src="{$imagesource}f_forward.gif" border="0" alt="Next message"/></xsl:element>
-	</xsl:when>
-	<xsl:otherwise>
-	<IMG src="{$imagesource}f_forwardgrey.gif" border="0" alt="There is no next message"/>
-	</xsl:otherwise>
-	</xsl:choose>
-	 </TD>
-	</TR>
-	</TABLE>
-</xsl:template>
--->
 
 <!--
 
@@ -4520,25 +4404,6 @@ blardy blardy blardy
 		 (<xsl:apply-templates select="DATEPOSTED"/>)</xsl:element></DIV></TD>
     </TR>
 
-
-<!--
-<NOBR>
-<xsl:element name="A">
-<xsl:attribute name="HREF"><xsl:value-of select="$root"/>FFM<xsl:value-of select="../@FORUMID" />?thread=<xsl:value-of select="../@THREADID" />&amp;skip=<xsl:value-of select="../@SKIPTO" />&amp;show=<xsl:value-of select="../@COUNT" />#p<xsl:value-of select="@POSTID" /></xsl:attribute>
-<xsl:attribute name="TARGET">messages</xsl:attribute>
-<IMG border="0" src="{$imagesource}threadicon.gif"/>
-<xsl:choose>
-<xsl:when test="SUBJECT[@SAME='1']">
-...
-</xsl:when>
-<xsl:otherwise>
-<b><xsl:value-of select="SUBJECT" /></b>
-</xsl:otherwise>
-</xsl:choose>
-(<xsl:apply-templates select="USER/USERNAME" />, <xsl:apply-templates select="DATEPOSTED" />)
-</xsl:element>
-</NOBR><br />
--->
 </xsl:template>
 
 <!--
@@ -4561,7 +4426,7 @@ blardy blardy blardy
 <b><xsl:value-of select="SUBJECT"/></b>
 </xsl:otherwise>
 </xsl:choose>
-(<xsl:value-of select="USER/USERNAME"/>, <xsl:apply-templates select="DATEPOSTED"/>)
+(<xsl:apply-templates select="USER" mode="username" />, <xsl:apply-templates select="DATEPOSTED"/>)
 </xsl:element>
 <br/>
 </xsl:template>
@@ -4769,7 +4634,7 @@ blardy blardy blardy
 <a xsl:use-attribute-sets="mFORUMSOURCEJOURNAL">
 <xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute>
 <xsl:attribute name="TARGET">_top</xsl:attribute>
-<span xsl:use-attribute-sets="forumsourcelink"><xsl:value-of select="USER/USERNAME"/></span>
+<span xsl:use-attribute-sets="forumsourcelink"><xsl:apply-templates select="USER" mode="username" /></span>
 </a></B></span>
 </xsl:template>
 
@@ -4787,7 +4652,7 @@ blardy blardy blardy
 <a xsl:use-attribute-sets="mFORUMSOURCEUSERPAGE">
 <xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute>
 <xsl:attribute name="TARGET">_top</xsl:attribute>
-<span xsl:use-attribute-sets="forumsourcelink"><xsl:value-of select="USER/USERNAME"/></span>
+<span xsl:use-attribute-sets="forumsourcelink"><xsl:apply-templates select="USER" mode="username" /></span>
 </a></B></span>
 </xsl:template>
 
@@ -6705,7 +6570,7 @@ Failed article:
 					<xsl:when test="ARTICLE/SUBJECT"><xsl:value-of select="$m_pagetitlestart"/><xsl:value-of select="ARTICLE/SUBJECT"/> - U<xsl:value-of select="PAGE-OWNER/USER/USERID"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
-							<xsl:when test="$ownerisviewer = 1"><xsl:value-of select="$m_pagetitlestart"/><xsl:value-of select="$m_pstitleowner"/><xsl:value-of select="PAGE-OWNER/USER/USERNAME"/>.</xsl:when>
+							<xsl:when test="$ownerisviewer = 1"><xsl:value-of select="$m_pagetitlestart"/><xsl:value-of select="$m_pstitleowner"/><xsl:apply-templates select="PAGE-OWNER/USER" mode="username" />.</xsl:when>
 							<xsl:otherwise><xsl:value-of select="$m_pagetitlestart"/><xsl:value-of select="$m_pstitleviewer"/><xsl:value-of select="PAGE-OWNER/USER/USERID"/>.</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
@@ -6728,7 +6593,7 @@ Failed article:
 					<xsl:when test="ARTICLE/SUBJECT and $test_introarticle"><xsl:value-of select="ARTICLE/SUBJECT"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:choose>
-							<xsl:when test="$ownerisviewer = 1"><xsl:value-of select="$m_pstitleowner"/><xsl:value-of select="PAGE-OWNER/USER/USERNAME"/>.</xsl:when>
+							<xsl:when test="$ownerisviewer = 1"><xsl:value-of select="$m_pstitleowner"/><xsl:apply-templates select="PAGE-OWNER/USER" mode="username" />.</xsl:when>
 							<xsl:otherwise><xsl:value-of select="$m_pstitleviewer"/><xsl:value-of select="PAGE-OWNER/USER/USERID"/>.</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
@@ -7671,7 +7536,7 @@ We're sorry, but you can't have a journal without being registered.
 	<xsl:when test="ARTICLES[@WHICHSET=2]"><xsl:value-of select="$m_guideentries"/></xsl:when>
 	<xsl:when test="ARTICLES[@WHICHSET=3]"><xsl:value-of select="$m_cancelledentries"/></xsl:when>
 	</xsl:choose>
-	<xsl:value-of select="$m_by"/><xsl:value-of select="ARTICLES/USER/USERNAME"/></xsl:with-param>
+	<xsl:value-of select="$m_by"/><xsl:apply-templates select="ARTICLES/USER" mode="username" /></xsl:with-param>
 	</xsl:call-template>
 </xsl:template>
 
@@ -8561,7 +8426,7 @@ function checkForumModerationForm()
 				<table width="100%">
 					<tr>
 						<td align="left" valign="top">
-								Logged in as <b><xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/></b>
+								Logged in as <b><xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username" /></b>
 						</td>
 						<td align="right" valign="top">
 								<a href="{$root}Moderate">Moderation Home Page</a>
@@ -8846,7 +8711,7 @@ function checkForumModerationForm()
 				<table width="100%">
 					<tr>
 						<td align="left" valign="top">
-								Logged in as <b><xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/></b>
+								Logged in as <b><xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username" /></b>
 						</td>
 						<td align="right" valign="top">
 								<a href="{$root}Moderate">Moderation Home Page</a>
@@ -9507,7 +9372,7 @@ function confirmUnlockOnOtherUser()
 							<td align="left">
 									Logged in as 
 									<b>
-									<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/> 
+									<xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username" />
 									</b>
 							</td>
 							<td align="right">
@@ -10017,7 +9882,7 @@ function confirmUnlockOnOtherUser()
 					<table border="0" cellPadding="0" cellSpacing="0" width="100%">
 						<tr valign="top">
 							<td align="left">
-									Logged in as <b><xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/></b>
+									Logged in as <b><xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username" /></b>
 							</td>
 							<td align="right">
 									<a href="{$root}Moderate">Moderation Home Page</a>
@@ -10046,9 +9911,9 @@ function confirmUnlockOnOtherUser()
 										<td align="left">
 											<xsl:choose>
 												<xsl:when test="/H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME='EDITOR'">
-													<a href="{$root}Moderate?UserID={USERID}"><xsl:value-of select="USERNAME"/></a>
+													<a href="{$root}Moderate?UserID={USERID}"><xsl:apply-templates select="." mode="username"/></a>
 												</xsl:when>
-												<xsl:otherwise><xsl:value-of select="USERNAME"/></xsl:otherwise>
+												<xsl:otherwise><xsl:apply-templates select="." mode="username"/></xsl:otherwise>
 											</xsl:choose>
 										</td>
 										<td>
@@ -10108,7 +9973,7 @@ function confirmUnlockOnOtherUser()
 					<table border="0" cellPadding="0" cellSpacing="0" width="100%">
 						<tr>
 							<td align="left">
-									Logged in as <b><xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/></b>
+									Logged in as <b><xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username" /></b>
 							</td>
 							<td align="right">
 									<a href="{$root}Moderate">Moderation Home Page</a>
@@ -10732,7 +10597,7 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 <OPTION value="0"><xsl:choose><xsl:when test="FIRSTITEM"><xsl:value-of select="FIRSTITEM"/></xsl:when><xsl:otherwise><xsl:value-of select="$m_dropdownpleasechooseone"/></xsl:otherwise></xsl:choose></OPTION>
 <OPTION value="0">-----------------</OPTION>
 <xsl:for-each select="msxsl:node-set($group)/LISTITEM">
-<OPTION value="{number(USER/USERID)}"><xsl:value-of select="substring(USER/USERNAME,1,20)"/><xsl:if test="string-length(USER/USERNAME) &gt; 20">...</xsl:if></OPTION>
+<OPTION value="{number(USER/USERID)}"><xsl:apply-templates select="USER" mode="username"><xsl:with-param name="stringlimit">17</xsl:with-param></xsl:apply-templates></OPTION>
 </xsl:for-each>
 </SELECT>&nbsp;
     <xsl:choose>
@@ -11107,15 +10972,15 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 								<xsl:for-each select="SUB-EDITORS/USER-LIST/USER">
 									<tr valign="top">
 										<td>
-												<a href="{$root}InspectUser?UserID={USERID}"><xsl:apply-templates select="USERNAME" mode="truncated"/></a>
+											<a href="{$root}InspectUser?UserID={USERID}"><xsl:apply-templates select="." mode="username">17</xsl:apply-templates></a>
 										</td>
 										<td>&nbsp;</td>
 										<td align="center">
-												<xsl:value-of select="ALLOCATIONS"/>
+											<xsl:value-of select="ALLOCATIONS"/>
 										</td>
 										<td>&nbsp;</td>
 										<td align="center">
-												<xsl:apply-templates select="DATE-LAST-NOTIFIED/DATE" mode="short"/>
+											<xsl:apply-templates select="DATE-LAST-NOTIFIED/DATE" mode="short"/>
 										</td>
 										<td>&nbsp;</td>
 										<td align="left" width="200">
@@ -11172,7 +11037,7 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 													</td>
 													<td>&nbsp;</td>
 													<td>
-															<a target="_blank" href="{$root}U{AUTHOR/USER/USERID}"><xsl:apply-templates select="AUTHOR/USER/USERNAME" mode="truncated"/></a>
+															<a target="_blank" href="{$root}U{AUTHOR/USER/USERID}"><xsl:apply-templates select="AUTHOR/USER" mode="username"><xsl:with-param name="stringlimit">17</xsl:with-param></xsl:apply-templates></a>
 													</td>
 													<td>&nbsp;</td>
 													<td>
@@ -11225,11 +11090,11 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 													</td>
 													<td>&nbsp;</td>
 													<td>
-															<a target="_blank" href="{$root}U{AUTHOR/USER/USERID}"><xsl:apply-templates select="AUTHOR/USER/USERNAME" mode="truncated"/></a>
+															<a target="_blank" href="{$root}U{AUTHOR/USER/USERID}"><xsl:apply-templates select="AUTHOR/USER" mode="username"><xsl:with-param name="stringlimit">17</xsl:with-param></xsl:apply-templates></a>
 													</td>
 													<td>&nbsp;</td>
 													<td>
-															<a target="_blank" href="{$root}InspectUser?UserID={SUBEDITOR/USER/USERID}"><xsl:apply-templates select="SUBEDITOR/USER/USERNAME" mode="truncated"/></a>
+															<a target="_blank" href="{$root}InspectUser?UserID={SUBEDITOR/USER/USERID}"><xsl:apply-templates select="SUBEDITOR/USER" mode="username"><xsl:with-param name="stringlimit">17</xsl:with-param></xsl:apply-templates></a>
 													</td>
 													<td>&nbsp;</td>
 													<td>
@@ -11335,13 +11200,13 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 					</td>
 					<td>&nbsp;</td>
 					<td>
-							<a target="_blank" href="{$root}U{EDITOR/USER/USERID}"><xsl:apply-templates select="EDITOR/USER/USERNAME" mode="truncated"/></a>
+							<a target="_blank" href="{$root}U{EDITOR/USER/USERID}"><xsl:apply-templates select="EDITOR/USER" mode="username"><xsl:with-param name="stringlimit">17</xsl:with-param></xsl:apply-templates></a>
 					</td>
 					<td>&nbsp;</td>
 					<td><xsl:apply-templates select="DATE-RECOMMENDED/DATE" mode="short"/></td>
 					<td>&nbsp;</td>
 					<td>
-							<a target="_blank" href="{$root}U{SCOUT/USER/USERID}"><xsl:apply-templates select="SCOUT/USER/USERNAME" mode="truncated"/></a>
+							<a target="_blank" href="{$root}U{SCOUT/USER/USERID}"><xsl:apply-templates select="SCOUT/USER" mode="username"><xsl:with-param name="stringlimit">17</xsl:with-param></xsl:apply-templates>></a>
 					</td>
 					<xsl:if test="/H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME='EDITOR'">
 						<td>&nbsp;</td>
@@ -11413,7 +11278,7 @@ function submitAndRefreshParent(form)
 				<xsl:if test="number(H2G2-ID) != 0">
 						<a target="_blank"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>A<xsl:value-of select="H2G2-ID"/></xsl:attribute>A<xsl:value-of select="H2G2-ID"/></a>
 						<xsl:text> : </xsl:text><b><xsl:value-of select="SUBJECT"/></b>
-						<xsl:text> by </xsl:text><a href="mailto:{EDITOR/USER/EMAIL-ADDRESS}"><xsl:apply-templates select="EDITOR/USER/USERNAME" mode="truncated"/></a>
+						<xsl:text> by </xsl:text><a href="mailto:{EDITOR/USER/EMAIL-ADDRESS}"><xsl:apply-templates select="EDITOR/USER" mode="username"><xsl:with-param name="stringlimit">17</xsl:with-param></xsl:apply-templates></a>
 					<br/><br/>
 					<xsl:text>Recommended by </xsl:text>
 					<xsl:apply-templates select="SCOUT/USER"/>
@@ -11748,7 +11613,13 @@ function submitAndRefreshParent(form)
 				</tr>
 				<tr><td colspan="5">&nbsp;</td></tr>
 				<tr valign="top">
-					<td><b>UserName:</b> <br/><input type="text" name="UserName" value="{USER/USERNAME}"/></td>
+					<td><b>UserName:</b> <br/>
+						<input type="text" name="UserName">
+							<xsl:attribute name="value">
+								<xsl:apply-templates select="USER" mode="username"/>
+							</xsl:attribute>
+						</input>
+					</td>
 					<td>&nbsp;</td>
 					<td><b>Email:</b> <br/><input type="text" name="EmailAddress" value="{USER/EMAIL-ADDRESS}"/></td>
 					<td>&nbsp;</td>
@@ -11931,7 +11802,7 @@ function submitAndRefreshParent(form)
 						<tr valign="top">
 							<td>A<xsl:value-of select="H2G2-ID"/></td>
 							<td><a href="{$root}A{H2G2-ID}"><xsl:value-of select="SUBJECT"/></a></td>
-							<td><a href="{$root}U{EDITOR/USER/USERID}"><xsl:apply-templates select="EDITOR/USER/USERNAME" mode="truncated"/></a></td>
+							<td><a href="{$root}U{EDITOR/USER/USERID}"><xsl:apply-templates select="EDITOR/USER" mode="username">17</xsl:apply-templates></a></td>
 							<td><xsl:apply-templates select="DATE-RECOMMENDED/DATE" mode="short"/></td>
 							<td>
 								<xsl:choose>
@@ -11943,7 +11814,7 @@ function submitAndRefreshParent(form)
 							<td>
 								<xsl:choose>
 									<xsl:when test="SUBBING-STATUS = 1">Unallocated</xsl:when>
-									<xsl:when test="SUBBING-STATUS = 2 or SUBBING-STATUS = 3"><a href="{$root}InspectUser?UserID={SUBEDITOR/USER/USERID}"><xsl:apply-templates select="SUBEDITOR/USER/USERNAME" mode="truncated"/></a></xsl:when>
+									<xsl:when test="SUBBING-STATUS = 2 or SUBBING-STATUS = 3"><a href="{$root}InspectUser?UserID={SUBEDITOR/USER/USERID}"><xsl:apply-templates select="SUBEDITOR/USER" mode="username">17</xsl:apply-templates></a></xsl:when>
 									<xsl:when test="SUBBING-STATUS = 3"/>
 									<xsl:otherwise>-</xsl:otherwise>
 								</xsl:choose>								
@@ -12007,9 +11878,9 @@ function submitAndRefreshParent(form)
 						<tr valign="top">
 							<td>A<xsl:value-of select="H2G2-ID"/></td>
 							<td><a href="{$root}A{H2G2-ID}"><xsl:value-of select="SUBJECT"/></a></td>
-							<td><a href="{$root}U{EDITOR/USER/USERID}"><xsl:apply-templates select="EDITOR/USER/USERNAME" mode="truncated"/></a></td>
+							<td><a href="{$root}U{EDITOR/USER/USERID}"><xsl:apply-templates select="EDITOR/USER" mode="username">17</xsl:apply-templates></a></td>
 							<td><xsl:apply-templates select="DATE-RECOMMENDED/DATE" mode="short"/></td>
-							<td><a href="{$root}U{SCOUT/USER/USERID}"><xsl:apply-templates select="SCOUT/USER/USERNAME" mode="truncated"/></a></td>
+							<td><a href="{$root}U{SCOUT/USER/USERID}"><xsl:apply-templates select="SCOUT/USER" mode="username"/>17</a></td>
 							<td>
 								<xsl:choose>
 									<xsl:when test="RECOMMENDATION-STATUS = 3"><xsl:apply-templates select="RECOMMENDATION-DECISION-DATE/DATE" mode="short"/></xsl:when>
@@ -12134,7 +12005,7 @@ function submitAndRefreshParent(form)
 									<a href="{$root}U{USERID}">U<xsl:value-of select="USERID"/></a>
 							</td>
 							<td>
-									<a href="{$root}InspectUser?UserID={USERID}"><xsl:apply-templates select="USERNAME" mode="truncated"/></a>
+									<a href="{$root}InspectUser?UserID={USERID}"><xsl:apply-templates select="." mode="username">17</xsl:apply-templates></a>
 							</td>
 							<td>
 									<a href="mailto:{EMAIL}"><xsl:value-of select="EMAIL"/></a>
@@ -13133,7 +13004,9 @@ A<xsl:value-of select="H2G2ID"/>
 <span xsl:use-attribute-sets="reviewforumlistentry">
 <A>
 <xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="AUTHOR/USER/USERID"/></xsl:attribute>
-<xsl:apply-templates select="AUTHOR/USER/USERNAME" mode="truncated"/>
+<xsl:apply-templates select="AUTHOR/USER" mode="username">
+	<xsl:with-param name="stringlimit">17</xsl:with-param>
+</xsl:apply-templates>
 </A>
 </span>
 </td>
@@ -14806,7 +14679,7 @@ The percentage figure for totals is the percentage of the total moderation items
 					<xsl:for-each select="./MODERATORLIST/MODERATOR">
 						<tr>
 							<td>
-								<xsl:value-of select="USER/USERNAME"/>
+								<xsl:apply-templates select="USER" mode="username"/>
 							</td>
 							<td>
 								<a>
@@ -14819,12 +14692,12 @@ The percentage figure for totals is the percentage of the total moderation items
 									<xsl:value-of select="//SITE-LIST/SITE/SHORTNAME[current()=../@ID]"/>
 								</xsl:variable>
 								<td>
-										<a>
-											<xsl:attribute name="href">
-												/dna/<xsl:value-of select="$site"/>/
-											</xsl:attribute>
-											<xsl:value-of select="$site"/>
-										</a>
+									<a>
+										<xsl:attribute name="href">
+											/dna/<xsl:value-of select="$site"/>/
+										</xsl:attribute>
+										<xsl:value-of select="$site"/>
+									</a>
 								</td>
 							</xsl:for-each>
 						</tr>
@@ -18160,7 +18033,7 @@ Call:		<xsl:apply-templates select="POSTS" mode="ResearcherName"/>
 <xsl:template match="POSTS" mode="ResearcherName">
 	<xsl:choose>
 		<xsl:when test="POST-LIST">
-			<xsl:value-of select="POST-LIST/USER/USERNAME"/>
+			<xsl:apply-templates select="POST-LIST/USER" mode="username"/>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:value-of select="$m_researcher"/>
@@ -19493,7 +19366,7 @@ Call:		<xsl:apply-templates select="@USERID" mode="NewerEntries"/>
 							<xsl:value-of select="$m_namecolon"/>
 						</span>
 						<span class="userdetailsname">
-							<xsl:value-of select="USER/USERNAME"/>
+							<xsl:apply-templates select="USER" mode="username"/>
 						</span>
 						<br/>
 						<xsl:if test="$test_IsEditor">
@@ -20022,7 +19895,7 @@ Call:		<xsl:apply-templates select="POSTTHREADFORM" mode="Post">
 -->
 <xsl:template match="POSTTHREADFORM" mode="Post">
 	<xsl:value-of select="$m_nicknameis"/>
-	<B><xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/></B>.
+	<B><xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username"/></B>.
 	<BR/>
 	<xsl:call-template name="postpremoderationmessage"/>
 	<FORM xsl:use-attribute-sets="fPOSTTHREADFORM">
@@ -20065,7 +19938,7 @@ Call:		<xsl:apply-templates select="POSTTHREADFORM" mode="Post">
 	<xsl:if test="INREPLYTO">
 			<span class="replyingto">
 				<xsl:value-of select="$m_messageisfrom"/>
-				<xsl:value-of select="INREPLYTO/USERNAME"/>
+				<xsl:apply-templates select="INREPLYTO" mode="username"/>
 			</span>
 		<br/> 
 		<xsl:apply-templates select="INREPLYTO/BODY"/>
@@ -21349,7 +21222,7 @@ Purpose:	Displays a thread post
 				<xsl:copy-of select="$m_friendslistofuser"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/><xsl:copy-of select="$m_hasntaddedfriends"/><br/>
+				<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username"/><xsl:copy-of select="$m_hasntaddedfriends"/><br/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:otherwise>
@@ -21431,7 +21304,7 @@ Purpose:	Displays a thread post
 <xsl:value-of select="concat($m_user,' ')"/><xsl:value-of select="USERID"/>
 </xsl:when>
 <xsl:otherwise>
-<xsl:value-of select="USERNAME"/>
+<xsl:apply-templates select="." mode="username"/>
 </xsl:otherwise>
 </xsl:choose>
 <br/>
@@ -21455,7 +21328,7 @@ Purpose:	Displays a thread post
 <xsl:value-of select="concat($m_user,' ')"/><xsl:value-of select="USERID"/>
 </xsl:when>
 <xsl:otherwise>
-<xsl:value-of select="USERNAME"/>
+<xsl:apply-templates select="." mode="username"/>
 </xsl:otherwise>
 </xsl:choose>
 <br/>
@@ -21471,7 +21344,7 @@ Purpose:	Displays a thread post
 <xsl:value-of select="concat($m_user,' ')"/><xsl:value-of select="USERID"/>
 </xsl:when>
 <xsl:otherwise>
-<xsl:value-of select="USERNAME"/>
+<xsl:apply-templates select="." mode="username"/>
 </xsl:otherwise>
 </xsl:choose>
 <br/>
@@ -21487,7 +21360,7 @@ Purpose:	Displays a thread post
 <xsl:value-of select="concat($m_user,' ')"/><xsl:value-of select="USERID"/>
 </xsl:when>
 <xsl:otherwise>
-<xsl:value-of select="USERNAME"/>
+<xsl:apply-templates select="." mode="username"/>
 </xsl:otherwise>
 </xsl:choose>
 <br/>
@@ -21495,7 +21368,7 @@ Purpose:	Displays a thread post
 
 <xsl:template name="WATCHED-USERS_SUBJECT">
 	<xsl:call-template name="SUBJECTHEADER">
-	<xsl:with-param name="text"><xsl:if test="$ownerisviewer=1"><xsl:copy-of select="$m_my"/></xsl:if><xsl:copy-of select="$m_friends"/><xsl:if test="$ownerisviewer=0"><xsl:copy-of select="$m_of"/><xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/></xsl:if></xsl:with-param>
+	<xsl:with-param name="text"><xsl:if test="$ownerisviewer=1"><xsl:copy-of select="$m_my"/></xsl:if><xsl:copy-of select="$m_friends"/><xsl:if test="$ownerisviewer=0"><xsl:copy-of select="$m_of"/><xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username"/></xsl:if></xsl:with-param>
 	</xsl:call-template>
 
 </xsl:template>
@@ -21639,7 +21512,7 @@ Purpose:	Displays the Viewers name or 'Unknown Visitor'
 <xsl:template match="VIEWER">
 	<xsl:choose>
 		<xsl:when test="/H2G2/VIEWING-USER/USER/USERNAME">
-			<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
+			<xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username"/>
 		</xsl:when>
 		<xsl:otherwise>
 			<xsl:value-of select="$m_unknownvisitor"/>
@@ -21923,7 +21796,7 @@ Direct Site Access
 <xsl:if test="position() mod 2 = 1"><xsl:attribute name="BGCOLOR">#CCCCCC</xsl:attribute></xsl:if>
 <td><INPUT TYPE="CHECKBOX" NAME="userid" VALUE="{USER/USERID}"/></td>
 <td><a href="{$root}moderatormanagement?view=user&amp;viewid={USER/USERID}">U<xsl:value-of select="USER/USERID"/></a></td>
-<td><xsl:value-of select="USER/USERNAME"/></td>
+<td><xsl:apply-templates select="USER" mode="username"/></td>
 <xsl:if test="$showclasses=1">
 <td>
 	<xsl:for-each select="CLASSES/CLASSID">
@@ -21983,9 +21856,9 @@ Direct Site Access
 
 <xsl:template match="MODERATOR-LIST/MODERATOR" mode="updateuserdetails">
 <xsl:variable name="thisid"><xsl:value-of select="USER/USERID"/></xsl:variable>
-<H2><xsl:value-of select="USER/USERNAME"/>'s Moderator details</H2>
+<H2><xsl:apply-templates select="USER" mode="username"/>'s Moderator details</H2>
 <table>
-<tr><td>Name: </td><td bgcolor="#CCCCCC"><xsl:value-of select="USER/USERNAME"/></td><td>Email: </td><td bgcolor="#CCCCCC"><xsl:value-of select="USER/EMAIL"/></td></tr>
+<tr><td>Name: </td><td bgcolor="#CCCCCC"><xsl:apply-templates select="USER" mode="username"/></td><td>Email: </td><td bgcolor="#CCCCCC"><xsl:value-of select="USER/EMAIL"/></td></tr>
 <tr><td>User ID: </td><td bgcolor="#CCCCCC"><xsl:value-of select="USER/USERID"/></td></tr>
 </table>
 <table>
@@ -22084,7 +21957,7 @@ Select the user you want to add, or type a different email address<br/>
 <input type="radio" name="userid" value="{USERID}"/>
 <a href="{$root}U{USERID}">U<xsl:value-of select="USERID"/></a>
 <xsl:text> </xsl:text>
-<xsl:value-of select="concat(USERNAME,' (',EMAIL,', ',LOGIN,')')"/>
+<xsl:apply-templates select="." mode="username"/><xsl:value-of select="concat(' (',EMAIL,', ',LOGIN,')')"/>
 <xsl:variable name="thisuserid"><xsl:value-of select="USERID"/></xsl:variable>
 <xsl:if test="/H2G2/MODERATOR-LIST/MODERATOR/USER[USERID=$thisuserid]"><b> Warning! This user already exists as a moderator</b></xsl:if>
 <br/>
@@ -22139,12 +22012,12 @@ Add the selected user to the following classes and groups<br/>
 <xsl:template match="REMOVEDUSERS">
 <xsl:choose>
 <xsl:when test="count(USER) = 1">
-Moderator <xsl:value-of select="concat(USER/USERNAME,' (',USER/USERID,')')"/> has been removed<br/>
+Moderator <xsl:apply-templates select="USER" mode="username"/><xsl:value-of select="concat(' (',USER/USERID,')')"/> has been removed<br/>
 </xsl:when>
 <xsl:otherwise>
 The following moderators have been removed:<br/>
 <xsl:for-each select="USER">
-<xsl:value-of select="concat(USERNAME,' (',USERID,')')"/><br/>
+<xsl:apply-templates select="." mode="username"/><xsl:value-of select="concat(' (',USERID,')')"/><br/>
 </xsl:for-each>
 </xsl:otherwise>
 </xsl:choose>

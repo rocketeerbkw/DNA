@@ -21,15 +21,12 @@ namespace BBC.Dna.Api
         /// Constructor with dna diagnostic object
         /// </summary>
         /// <param name="dnaDiagnostics"></param>
-        public Reviews(IDnaDiagnostics dnaDiagnostics, string connection)
-            : base(dnaDiagnostics, connection)
+        /// <param name="dataReaderCreator"></param>
+        /// <param name="cacheManager"></param>
+        public Reviews(IDnaDiagnostics dnaDiagnostics, IDnaDataReaderCreator dataReaderCreator, ICacheManager cacheManager, ISiteList siteList)
+            : base(dnaDiagnostics, dataReaderCreator, cacheManager, siteList)
         {}
 
-        /// <summary>
-        /// Constructor without dna diagnostic object
-        /// </summary>
-        public Reviews()
-        { }
 
         /// <summary>
         /// Reads a specific forum by the UID
@@ -44,7 +41,7 @@ namespace BBC.Dna.Api
             {
                 return RatingForum;
             }
-            using (StoredProcedureReader reader = CreateReader("RatingForumreadbyuid"))
+            using (var reader = CreateReader("RatingForumreadbyuid"))
             {
                 try
                 {
@@ -76,7 +73,7 @@ namespace BBC.Dna.Api
         public RatingForum RatingForumReadByUIDAndUserList(string uid, ISite site, int[] userIds)
         {
             RatingForum RatingForum = null;
-            using (StoredProcedureReader reader = CreateReader("RatingForumreadbyuid"))
+            using (var reader = CreateReader("RatingForumreadbyuid"))
             {
 
                 try
@@ -90,6 +87,10 @@ namespace BBC.Dna.Api
                         RatingForum = RatingForumCreateFromReader(reader);
                         RatingForum = RatingsReadByUserIDs(RatingForum, site, userIds);
                     }
+                }
+                catch(ApiException apiException)
+                {
+                    throw apiException;
                 }
                 catch (Exception ex)
                 {
@@ -111,7 +112,7 @@ namespace BBC.Dna.Api
         {
             if (userIds == null || userIds.Length == 0)
             {// check if the user id list is valid
-                throw new ApiException("No user ids passed in");
+                throw ApiException.GetError(ErrorType.MissingUserList);
             }
 
             //set up paging items
@@ -120,19 +121,19 @@ namespace BBC.Dna.Api
             ratingForum.ratingsList.TotalCount = 0;
             ratingForum.ratingsList.ItemsPerPage = ItemsPerPage;
             ratingForum.ratingsList.StartIndex = StartIndex;
-            ratingForum.ratingsList.SortBy = _sortBy;
-            ratingForum.ratingsList.SortDirection = _sortDirection;
-            ratingForum.ratingsList.FilterBy = _filterBy;
+            ratingForum.ratingsList.SortBy = SortBy;
+            ratingForum.ratingsList.SortDirection = SortDirection;
+            ratingForum.ratingsList.FilterBy = FilterBy;
 
             string userList = String.Join("|", Array.ConvertAll<int, string>(userIds, delegate(int s) { return s.ToString(); }));
-            using (StoredProcedureReader reader = CreateReader("RatingsReadByForumandUsers"))
+            using (var reader = CreateReader("RatingsReadByForumandUsers"))
             {
                 reader.AddParameter("forumid", ratingForum.ForumID);
                 reader.AddParameter("userlist", userList);
                 reader.AddParameter("startindex", StartIndex);
                 reader.AddParameter("itemsperpage", ItemsPerPage);
-                reader.AddParameter("sortby", _sortBy.ToString());
-                reader.AddParameter("sortdirection", _sortDirection.ToString());
+                reader.AddParameter("SortBy", SortBy.ToString());
+                reader.AddParameter("SortDirection", SortDirection.ToString());
 
                 reader.Execute();
                 if (reader.HasRows)
@@ -170,25 +171,25 @@ namespace BBC.Dna.Api
             ratingsList.TotalCount = 0;
             ratingsList.ItemsPerPage = ItemsPerPage;
             ratingsList.StartIndex = StartIndex;
-            ratingsList.SortBy = _sortBy;
-            ratingsList.SortDirection = _sortDirection;
-            ratingsList.FilterBy = _filterBy;
+            ratingsList.SortBy = SortBy;
+            ratingsList.SortDirection = SortDirection;
+            ratingsList.FilterBy = FilterBy;
 
             String spName = "ratingsreadbyforumid";
-            if (_filterBy == FilterBy.EditorPicks)
+            if (FilterBy == FilterBy.EditorPicks)
             {
                 spName = "ratingsreadbyforumideditorpicksfilter";
             }
 
-            using (StoredProcedureReader reader = CreateReader(spName))
+            using (var reader = CreateReader(spName))
             {
                 try
                 {
                     reader.AddParameter("forumid", forumid);
                     reader.AddParameter("startindex", StartIndex);
                     reader.AddParameter("itemsperpage", ItemsPerPage);
-                    reader.AddParameter("sortby", _sortBy.ToString());
-                    reader.AddParameter("sortdirection", _sortDirection.ToString());
+                    reader.AddParameter("SortBy", SortBy.ToString());
+                    reader.AddParameter("SortDirection", SortDirection.ToString());
                     
                     reader.Execute();
 
@@ -221,7 +222,7 @@ namespace BBC.Dna.Api
         {
             RatingInfo rating = null;
 
-            using (StoredProcedureReader reader = CreateReader("ratingsreadbyforumanduser"))
+            using (var reader = CreateReader("ratingsreadbyforumanduser"))
             {
                 reader.AddParameter("uid", uid);
                 reader.AddParameter("userid", dnauserid);
@@ -248,7 +249,7 @@ namespace BBC.Dna.Api
         {
             RatingInfo rating = null;
 
-            using (StoredProcedureReader reader = CreateReader("ratingsreadbyforumandidentityid"))
+            using (var reader = CreateReader("ratingsreadbyforumandidentityid"))
             {
                 reader.AddParameter("uid", uid);
                 reader.AddParameter("identityid", identityid);
@@ -273,7 +274,7 @@ namespace BBC.Dna.Api
         public RatingForum RatingForumCreate(RatingForum RatingForum, ISite site)
         {
             //create the forum...
-            ForumCreate((Forum)RatingForum, site);
+            CreateForum((Forum)RatingForum, site);
             return RatingForumReadByUID(RatingForum.Id, site);
 
         }
@@ -286,20 +287,19 @@ namespace BBC.Dna.Api
         /// <returns>The created rating object</returns>
         public RatingInfo RatingCreate(RatingForum RatingForum, RatingInfo rating)
         {
-            ISite site = siteList.GetSite(RatingForum.SiteName);
+            ISite site = SiteList.GetSite(RatingForum.SiteName);
             //check for repeat posting
             ValidateRating(RatingForum, rating, site);
 
-            Comments commentsObj = new Comments();
+            Comments commentsObj = new Comments(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             commentsObj.CallingUser = CallingUser;
-            commentsObj.BBCUid = BBCUid;
-            commentsObj.IPAddress = IPAddress;
-            commentsObj.siteList = siteList;
+            commentsObj.BbcUid = BbcUid;
+            commentsObj.IpAddress = IpAddress;
 
 
             //create the thread entry
-            RatingInfo createdRating = (RatingInfo)commentsObj.CommentCreate((Forum)RatingForum, (CommentInfo)rating);
-            using (StoredProcedureReader reader = CreateReader("ratingscreate"))
+            RatingInfo createdRating = (RatingInfo)commentsObj.CreateComment((Forum)RatingForum, (CommentInfo)rating);
+            using (var reader = CreateReader("ratingscreate"))
             {
                 reader.AddParameter("entryid", createdRating.ID);
                 reader.AddParameter("uid", RatingForum.Id);
@@ -323,11 +323,11 @@ namespace BBC.Dna.Api
                 throw ApiException.GetError(ErrorType.MultipleRatingByUser);
             }
             //check if processpremod option is set...
-            if (RatingForum.ModerationServiceGroup == ModerationStatus.ForumStatus.PreMod && siteList.GetSiteOptionValueBool(site.SiteID, "Moderation", "ProcessPreMod"))
+            if (RatingForum.ModerationServiceGroup == ModerationStatus.ForumStatus.PreMod && SiteList.GetSiteOptionValueBool(site.SiteID, "Moderation", "ProcessPreMod"))
             {
                 throw ApiException.GetError(ErrorType.InvalidProcessPreModState);
             }
-            int max_rating = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "MaxForumRatingScore");
+            int max_rating = SiteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "MaxForumRatingScore");
             if (rating.rating > max_rating)
             {
                 throw ApiException.GetError(ErrorType.RatingExceedsMaximumAllowed);
@@ -342,21 +342,20 @@ namespace BBC.Dna.Api
         /// <returns>The created rating object</returns>
         public ThreadInfo RatingThreadCreate(RatingForum ratingForum, RatingInfo rating)
         {
-            ISite site = siteList.GetSite(ratingForum.SiteName);
+            ISite site = SiteList.GetSite(ratingForum.SiteName);
 
             //check for repeat posting
             ValidateRating(ratingForum, rating, site);
 
-            Threads threadsObj = new Threads();
+            Threads threadsObj = new Threads(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             threadsObj.CallingUser = CallingUser;
-            threadsObj.BBCUid = BBCUid;
-            threadsObj.IPAddress = IPAddress;
-            threadsObj.siteList = siteList;
+            threadsObj.BbcUid = BbcUid;
+            threadsObj.IpAddress = IpAddress;
 
             //create the thread entry
             ThreadInfo createdThread = threadsObj.ThreadCreate((Forum)ratingForum, (RatingInfo)rating);
 
-            using (StoredProcedureReader reader = CreateReader("ratingscreate"))
+            using (var reader = CreateReader("ratingscreate"))
             {
                 reader.AddParameter("entryid", createdThread.rating.ID);
                 reader.AddParameter("uid", ratingForum.Id);
@@ -379,13 +378,12 @@ namespace BBC.Dna.Api
         /// <returns>The created comment object</returns>
         public CommentInfo RatingCommentCreate(RatingForum ratingForum, int threadID, CommentInfo comment)
         {
-            ISite site = siteList.GetSite(ratingForum.SiteName);
+            ISite site = SiteList.GetSite(ratingForum.SiteName);
 
-            Comments commentsObj = new Comments();
+            Comments commentsObj = new Comments(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             commentsObj.CallingUser = CallingUser;
-            commentsObj.BBCUid = BBCUid;
-            commentsObj.IPAddress = IPAddress;
-            commentsObj.siteList = siteList;
+            commentsObj.BbcUid = BbcUid;
+            commentsObj.IpAddress = IpAddress;
 
             CommentInfo createdRatingComment = commentsObj.CommentReplyCreate((Forum)ratingForum, threadID, comment);
 
@@ -413,11 +411,10 @@ namespace BBC.Dna.Api
         {
             string uid = (string)args[0];
             int siteID = (int)args[1];
-            Comments commentsObj = new Comments();
+            Comments commentsObj = new Comments(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             commentsObj.CallingUser = CallingUser;
-            commentsObj.BBCUid = BBCUid;
-            commentsObj.IPAddress = IPAddress;
-            commentsObj.siteList = siteList;
+            commentsObj.BbcUid = BbcUid;
+            commentsObj.IpAddress = IpAddress;
             return commentsObj.CommentForumGetLastUpdate(uid, siteID);
         }
 
@@ -430,7 +427,7 @@ namespace BBC.Dna.Api
         public RatingInfo RatingReadByPostID(string postid, ISite site)
         {
             RatingInfo rating = null;
-            using (StoredProcedureReader reader = CreateReader("getrating"))
+            using (var reader = CreateReader("getrating"))
             {
                 try
                 {
@@ -456,14 +453,14 @@ namespace BBC.Dna.Api
         /// </summary>
         /// <param name="reader">The database reaser</param>
         /// <returns>A Filled comment forum object</returns>
-        private RatingForum RatingForumCreateFromReader(StoredProcedureReader reader)
+        private RatingForum RatingForumCreateFromReader(IDnaDataReader reader)
         {
             DateTime closingDate = reader.GetDateTime("forumclosedate");
             //if (closingDate == null)
             //{
             //    closingDate = DateTime.MaxValue;
             //}
-            ISite site = siteList.GetSite(reader.GetStringNullAsEmpty("sitename"));
+            ISite site = SiteList.GetSite(reader.GetStringNullAsEmpty("sitename"));
             
             RatingForum RatingForum = new RatingForum();
             
@@ -495,8 +492,8 @@ namespace BBC.Dna.Api
             Dictionary<string, string> replacements = new Dictionary<string, string>();
             replacements.Add("uid", reader.GetStringNullAsEmpty("uid"));
             replacements.Add("sitename", site.SiteName);
-            RatingForum.Uri = URIDiscoverability.GetUriWithReplacments(BasePath, URIDiscoverability.uriType.RatingForumByID, replacements);
-            RatingForum.ratingsSummary.Uri = URIDiscoverability.GetUriWithReplacments(BasePath, URIDiscoverability.uriType.RatingsByRatingForumID, replacements);
+            RatingForum.Uri = UriDiscoverability.GetUriWithReplacments(BasePath, UriDiscoverability.UriType.RatingForumById, replacements);
+            RatingForum.ratingsSummary.Uri = UriDiscoverability.GetUriWithReplacments(BasePath, UriDiscoverability.UriType.RatingsByRatingForumId, replacements);
             
             //get moderation status
             RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.Unknown;
@@ -522,13 +519,13 @@ namespace BBC.Dna.Api
         /// </summary>
         /// <param name="reader">A reader with all information</param>
         /// <returns>Rating Info object</returns>
-        public RatingInfo RatingCreateFromReader(StoredProcedureReader reader, ISite site)
+        public RatingInfo RatingCreateFromReader(IDnaDataReader reader, ISite site)
         {
             RatingInfo ratingInfo = new RatingInfo
             {
                 text = reader.GetString("text"),
                 Created = new DateTimeHelper(DateTime.Parse(reader.GetDateTime("Created").ToString())),
-                User = UserReadByID(reader),
+                User = base.UserReadById(reader),
                 ID = reader.GetInt32NullAsZero("id"),
                 rating = reader.GetByte("rating")
             };
@@ -542,23 +539,22 @@ namespace BBC.Dna.Api
             {
                 ratingInfo.PostStyle = (PostStyle.Style)reader.GetTinyIntAsInt("poststyle");
             }
-            ratingInfo.text = FormatCommentText(ratingInfo.text, ratingInfo.hidden, ratingInfo.PostStyle);
             
             //get complainant
             Dictionary<string, string> replacement = new Dictionary<string, string>();
             replacement.Add("sitename", site.SiteName);
             replacement.Add("postid", ratingInfo.ID.ToString());
-            ratingInfo.ComplaintUri = URIDiscoverability.GetUriWithReplacments(BasePath, URIDiscoverability.uriType.Complaint, replacement);
+            ratingInfo.ComplaintUri = UriDiscoverability.GetUriWithReplacments(BasePath, UriDiscoverability.UriType.Complaint, replacement);
             
             replacement = new Dictionary<string, string>();
             replacement.Add("RatingForumid", reader.GetString("forumuid"));
             replacement.Add("sitename", site.SiteName);
-            ratingInfo.ForumUri = URIDiscoverability.GetUriWithReplacments(BasePath, URIDiscoverability.uriType.RatingsByRatingForumID, replacement);
+            ratingInfo.ForumUri = UriDiscoverability.GetUriWithReplacments(BasePath, UriDiscoverability.UriType.RatingsByRatingForumId, replacement);
             
             replacement = new Dictionary<string, string>();
             replacement.Add("parentUri", reader.GetString("parentUri"));
             replacement.Add("postid", ratingInfo.ID.ToString());
-            ratingInfo.Uri = URIDiscoverability.GetUriWithReplacments(BasePath, URIDiscoverability.uriType.Comment, replacement);
+            ratingInfo.Uri = UriDiscoverability.GetUriWithReplacments(BasePath, UriDiscoverability.UriType.Comment, replacement);
             
             //Get Editors Pick ( this should be expanded to include any kind of poll )
             /*EditorsPick editorsPick = new EditorsPick(_dnaDiagnostics, _connection, _caching);
@@ -575,42 +571,6 @@ namespace BBC.Dna.Api
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="reader"></param>
-        /// <returns></returns>
-        private User UserReadByID(StoredProcedureReader reader)
-        {
-            User user = new User()
-            {
-                UserId = reader.GetInt32NullAsZero("UserID"),
-                DisplayName = reader.GetStringNullAsEmpty("UserName"),
-                Editor = (reader.GetInt32NullAsZero("userIsEditor") == 1),
-                Journal = reader.GetInt32NullAsZero("userJournal"),
-                Status = reader.GetInt32NullAsZero("userstatus"),
-                
-            };
-            return user;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        private User UserReadByCallingUser()
-        {
-            User user = new User()
-            {
-                DisplayName = CallingUser.UserName,
-                UserId = CallingUser.UserID,
-                Editor = CallingUser.IsUserA(UserTypes.Editor),
-                Status = CallingUser.Status,
-                Journal = 0
-            };
-            return user;
-        }
-
-        /// <summary>
         /// Returns the comment forum uid from cache
         /// </summary>
         /// <param name="uid">The uid of the forum</param>
@@ -620,7 +580,7 @@ namespace BBC.Dna.Api
         private bool RatingForumReadByUIDFromCache(string uid, ISite site, ref RatingForum forum)
         {
             string cacheKey = RatingForumCacheKey(uid, site.SiteID);
-            object tempLastUpdated = _cacheManager.GetData(cacheKey + CACHE_LASTUPDATED);
+            object tempLastUpdated = CacheManager.GetData(cacheKey + CacheLastupdated);
             
             if (tempLastUpdated == null)
             {//not found
@@ -638,7 +598,7 @@ namespace BBC.Dna.Api
                 return false;
             }
             //get actual cached object
-            forum = (RatingForum)_cacheManager.GetData(cacheKey);
+            forum = (RatingForum)CacheManager.GetData(cacheKey);
             if (forum == null)
             {//cache out of date so delete
                 DeleteRatingForumFromCache(uid, site);
@@ -666,11 +626,11 @@ namespace BBC.Dna.Api
         {
             string cacheKey = RatingForumCacheKey(forum.Id, site.SiteID);
             //ICacheItemExpiration expiry = SlidingTime.
-            _cacheManager.Add(cacheKey + CACHE_LASTUPDATED, forum.LastUpdate, CacheItemPriority.Normal,
-                null, new SlidingTime(TimeSpan.FromMinutes(CACHEEXPIRYMINUTES)));
+            CacheManager.Add(cacheKey + CacheLastupdated, forum.LastUpdate, CacheItemPriority.Normal,
+                null, new SlidingTime(TimeSpan.FromMinutes(Cacheexpiryminutes)));
 
-            _cacheManager.Add(cacheKey, forum, CacheItemPriority.Normal,
-                null, new SlidingTime(TimeSpan.FromMinutes(CACHEEXPIRYMINUTES)));
+            CacheManager.Add(cacheKey, forum, CacheItemPriority.Normal,
+                null, new SlidingTime(TimeSpan.FromMinutes(Cacheexpiryminutes)));
         }
 
         /// <summary>
@@ -681,8 +641,8 @@ namespace BBC.Dna.Api
         private void DeleteRatingForumFromCache(string uid, ISite site)
         {
             string cacheKey = RatingForumCacheKey(uid, site.SiteID);
-            _cacheManager.Remove(cacheKey + CACHE_LASTUPDATED);
-            _cacheManager.Remove(cacheKey);
+            CacheManager.Remove(cacheKey + CacheLastupdated);
+            CacheManager.Remove(cacheKey);
         }
 
         /// <summary>
@@ -707,13 +667,12 @@ namespace BBC.Dna.Api
         /// <returns></returns>
         public ThreadList RatingForumThreadsReadByUID(string reviewForumId, ISite site)
         {
-            Threads threadsObj = new Threads();
+            Threads threadsObj = new Threads(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             threadsObj.CallingUser = CallingUser;
-            threadsObj.BBCUid = BBCUid;
-            threadsObj.IPAddress = IPAddress;
-            threadsObj.siteList = siteList;
+            threadsObj.BbcUid = BbcUid;
+            threadsObj.IpAddress = IpAddress;
 
-            return threadsObj.ThreadsReadByUID(reviewForumId, site);
+            return threadsObj.ThreadsReadByUid(reviewForumId, site);
         }
 
         /// <summary>
@@ -724,15 +683,14 @@ namespace BBC.Dna.Api
         /// <returns>List of Comments</returns>
         public CommentsList RatingForumThreadCommentReadByID(string threadID, ISite site)
         {
-            Threads threadsObj = new Threads();
+            Threads threadsObj = new Threads(DnaDiagnostics, DnaDataReaderCreator, CacheManager, SiteList);
             threadsObj.CallingUser = CallingUser;
-            threadsObj.BBCUid = BBCUid;
-            threadsObj.IPAddress = IPAddress;
-            threadsObj.siteList = siteList;
+            threadsObj.BbcUid = BbcUid;
+            threadsObj.IpAddress = IpAddress;
             int id = 0;
             Int32.TryParse(threadID, out id);
 
-            return threadsObj.ThreadCommentsReadByID(id, site);
+            return threadsObj.ThreadCommentsReadById(id, site);
         }
 
     }

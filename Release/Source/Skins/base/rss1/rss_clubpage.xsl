@@ -60,7 +60,7 @@
 		<item rdf:about="{concat($thisserver, $root, 'U', USER/USERID)}"
 			xmlns="http://purl.org/rss/1.0/">
 			<title>
-				<xsl:value-of select="USER/USERNAME"/>
+				<xsl:apply-templates select="USER" mode="username"/>
 			</title>
 			<description>
 				<xsl:choose>

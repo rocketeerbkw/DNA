@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using BBC.Dna.Data;
+using BBC.Dna.Api;
 using BBC.Dna.Net.Security;
 using Dna.SnesIntegration.ActivityProcessor;
+using Dna.SnesIntegration.ActivityProcessor.Activities;
+using Dna.SnesIntegration.ActivityProcessor.Contracts;
 using DnaEventService.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
@@ -52,20 +50,38 @@ namespace DnaEventProcessorService.IntegrationTests
         {
             LogUtility.Logger = MockRepository.GenerateStub<IDnaLogger>();
             
-            var currentRow = MockRepository.GenerateStub<IDnaDataReader>();
             DateTime now = DateTime.Now;
-            currentRow.Stub(x => x.GetDateTime("ActivityTime")).Return(now);
-            currentRow.Stub(x => x.GetString("AppId")).Return("testApplication");
-
+            
             var httpClient = GetHttpClient();
 
-            var activity = CommentActivityBase.CreateActivity(19, currentRow);
+            var openSocialActivity = new OpenSocialActivity
+                                         {
+                                             PostedTime = now.MillisecondsSinceEpoch()
+                                         };
+            var eventData = new SnesActivityData
+                                {
+                                    ActivityType = 19,
+                                    AppInfo = new DnaApplicationInfo
+                                                  {
+                                                      AppId = "testApplication"
+                                                  },
+                                    BlogUrl = "http://www.example.com/blogurl",
+                                    UrlBuilder = new DnaUrlBuilder
+                                                     {
+                                                         DnaUrl = "http://www.example.com/dna/",
+                                                         ForumId = 1,
+                                                         PostId = 1,
+                                                         ThreadId = 1
+                                                     }
+                                };
+
+            var activity = CommentActivityBase.CreateActivity(openSocialActivity, eventData);
             activity.Send(httpClient);
 
-            var revokeActivity = RevokeCommentActivity.CreateActivity(currentRow);
+            var revokeActivity = RevokeCommentActivity.CreateActivity(openSocialActivity, eventData);
             revokeActivity.Send(httpClient);
 
-            var getActivity = new SnesActivitiesQuery()
+            var getActivity = new SnesActivitiesQuery
                                   {
                                       FilterBy = "postedTime",
                                       FilterOp = "equals",

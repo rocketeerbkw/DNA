@@ -46,13 +46,6 @@ namespace RipleyTests
             urlRequest.RequestPage(redirect);
             doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2/FORUMTHREADPOSTS/POST[TEXT='" + post + "']"), "Check existence of post");
-            Console.WriteLine("After aaPost");
-        
-            Console.WriteLine("Before bbHideThread");
-            urlRequest.SetCurrentUserEditor();
-            urlRequest.RequestPage(url);
-            doc = urlRequest.GetLastResponseAsXML();
-
             node = doc.SelectSingleNode("/H2G2/FORUMTHREADS/THREAD/@THREADID");
             Assert.IsNotNull(node, "Get ThreadId from Forum");
 

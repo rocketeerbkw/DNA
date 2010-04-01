@@ -439,8 +439,11 @@ For LOCAL:    <xsl:variable name="imagesource">Q:\h2g2\dna\brunel\images\</xsl:v
 							<option value="0">-----------------</option>
 							<xsl:for-each select="msxsl:node-set($group)/LISTITEM">
 								<option value="{number(USER/USERID)}">
-									<xsl:value-of select="substring(USER/USERNAME,1,20)"/>
-									<xsl:if test="string-length(USER/USERNAME) &gt; 20">...</xsl:if>
+									<!-- <xsl:value-of select="substring(USER/USERNAME,1,20)"/>
+									<xsl:if test="string-length(USER/USERNAME) &gt; 20">...</xsl:if> -->
+									<xsl:apply-templates select="USER">
+										<xsl:with-param name="stringlimit">20</xsl:with-param>
+									</xsl:apply-templates>
 								</option>
 							</xsl:for-each>
 						</select>
@@ -1840,7 +1843,7 @@ else window.location.href=<xsl:value-of select="@NAME"/>number;
 		</table>
 	</xsl:template>
 	<xsl:template match="WATCHED-USER-POSTS">
-Here are the journal entries from the friends of <xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+Here are the journal entries from the friends of <xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 		<xsl:text> </xsl:text>
 		<br/>
 		<xsl:apply-templates select="WATCHED-USER-POST"/>

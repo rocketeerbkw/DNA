@@ -1,0 +1,459 @@
+/*
+	---GLOBAL---
+*/
+a:link,a:visited,a:active{
+	color:#6245ce;
+	font:bold 100% verdana, arial, helvetica, sans-serif;
+	text-decoration:none;
+}
+a:hover{
+	font:bold 100% verdana, arial, helvetica, sans-serif;
+	text-decoration:underline;
+}
+body{background:#fff;margin:0;padding:0;}
+body, ul{
+	color:#333;
+	font:normal 100% verdana, arial, helvetica, sans-serif;
+}
+td,th{
+	font-size:72%
+}
+li{
+	font-size:72%;
+}
+li ul{
+	font-size:150%;
+}
+h3{
+	color: #c60;
+	display: inline; /*fixes IE double margin bug*/
+	float: left;
+	font:bold 150% Trebuchet MS, arial, helvetica, sans-serif;
+	margin:20px 0 20px 20px;
+}
+.removeLink{
+	border-left:1px solid;
+	padding:0 0 0 .25em;
+}
+.addmoderatorView, .allView, .classView, .userView, .createnewemailView, .editemailView{
+	border-color:#6f9050 !important;
+}
+.allLabel,.classLabel, .userLabel{color:#6f9050;}
+.selectedStep{background:#dcdde1;}
+.siteLabel{color:#5085a0;}
+.siteView, .editinsertView, .createinsertView{
+	border-color:#5085a0 !important;
+}
+.stripeOne {
+	background:#cdcdcd;
+	color:#333;
+	font-size:72%;
+	padding:4px 0 4px 10px;
+}
+.stripeTwo {
+	background:#eee;
+	color:#333;
+	font-size:72%;
+	padding:4px 0 4px 10px;
+}
+
+/*
+	---HEAD SECTION---
+*/
+#topNav{
+	height:28px;
+	background:#999 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/topnav_bg.gif);
+	width:996px;
+	padding-top:3px;
+	font-family:Trebuchet MS, arial, helvetica, sans;
+}
+#topNav h1{
+	display:inline;
+	font-size:140%;
+	font-weight:normal;
+	padding-left:25px;
+	color:#fff;
+}
+#bbcLogo{
+	display:inline;
+	margin:10px 5px 5px 10px;
+}
+#instructional{
+	clear:both;
+	display:inline; /*fixes IE double margin bug*/
+	float:left;
+	margin:0 20px 20px;
+	width:958px;
+}
+#instructional input{
+	display:inline;
+	float:right;
+	margin:0 20px 0 45px;
+}
+#instructional p{
+	color:#333;
+	font-size:72%;
+	margin:0;
+	text-align:left;
+}
+#subNav{
+	height:58px;
+	width:996px;
+	border-bottom:1px dotted #666;
+}
+#subNavText h2{
+	display:inline;
+	color:#c60;
+}
+#subNavText{
+	background: url(http://www.bbc.co.uk/dnaimages/adminsystem/images/dna_logo2.gif) right no-repeat;
+	font:bold 160% Trebuchet MS, arial, helvetica, sans;
+	margin-left:60px;
+	padding:5px;
+	border-left:1px dotted #666666;
+	height:48px;
+}
+/* IE Hack */
+* html #subNavText{height:58px;}
+
+/*
+	---BUTTONS---
+*/
+.buttonThreeD{
+	background:#cecece url(http://www.bbc.co.uk/dnaimages/adminsystem/images/button_bg2.gif) 0 0 repeat-x;
+	height:28px;
+	border:2px solid #666;
+	color:#666;
+	display:inline;
+	margin:0 19px;
+	padding:4px 10px;
+}
+* html .buttonThreeD{height:30px;margin:0 5px;}
+* html input.buttonThreeD{margin-bottom:1px;padding:4px 0;}
+input.buttonThreeD{
+	color:#333;
+	font-size:72%;
+	font-weight:bold;
+	padding-left:10px;
+	padding-right:10px;
+	text-transform:uppercase;
+}
+a.buttonThreeD, a.buttonThreeD:link, a.buttonThreeD:hover, a.buttonThreeD:visited{
+	color:#333;
+	display:inline;
+	font-size:72%;
+	font-weight:bold;
+	height:28px;
+	padding-bottom:0;
+	padding-top:5px;
+	text-decoration:none;
+	text-transform:uppercase;
+}
+
+/*
+	---TABLES---
+*/
+caption{
+	font-weight:bold;
+	text-align:left;
+}
+.modTable{
+	border-collapse:collapse;
+	border-bottom:1px dotted #ccc;
+	border-top:2px solid;
+	font-size:100%;
+	margin:10px 0 20px;
+	width:750px;
+}
+.modTable.emailTable{margin-top:-12px}
+.modTable th,.modTable td{
+	text-align:left;
+	padding:0 0 0 10px;
+}
+.modTable td{
+	border-right:1px solid #999;
+	font-size:100%;
+}
+.modTable th{
+	background:#fff;
+	border-bottom:1px solid #999;
+	font-weight:bold;
+	padding:6px 0 4px 10px;;
+}
+.modTable td.noData{
+	border:0;
+	text-align:center;
+	vertical-align:middle;
+	height:200px;
+}
+.selectedRow{background:#f4f7c8;font-size:72%;}
+#userTable{
+	margin-top:10px;
+}
+
+/*
+	---CLASS/SITE SELECTOR---
+*/
+#activeClassText{	
+	color:#fff;
+	font-weight:bold;
+	padding-left:10px;
+}
+#activeClass2Text{	
+	font-weight:bold;
+	padding-left:10px;
+}
+
+#activeClassText2{	
+	color:#fff;
+	font-weight:bold;
+	padding-left:5px;
+}
+
+#activeClass {background:#6f9050 url('http://www.bbc.co.uk/dnaimages/adminsystem/images/open_tree.gif') no-repeat 149px .6em;
+	width:187px;
+}
+#activeClass li a,#activeClass2 li a{
+	color:#5085a0;
+	font-size:100%;
+}
+#activeClass ul, #activeClass2 ul{
+	background:#fff;
+	padding:0;
+}
+* html #activeClass ul, * html #activeClass2 ul{/*corrects weird IE bug*/
+	width:183px;
+}
+#activeClass2{
+	background:#fff url('http://www.bbc.co.uk/dnaimages/adminsystem/images/open_tree2.gif') no-repeat 149px .6em;
+	width:187px;
+}
+#activeClass ul li,#activeClass2 ul li{
+	padding-left:20px;
+}
+#activeSite{
+	background:#5085a0;
+	color:#fff;
+	font-weight:bold;
+	margin-left:0px;
+	margin-top:5px;
+}
+#selClass{color:#093;}
+#selector{
+	border:0;
+	border-right:15px solid;
+	float:left;
+	padding-bottom:20px;
+	width:187px;
+}
+#selector a{
+	color:#6f9050;
+}
+#selector ul{
+	color:#6f9050;
+	list-style-type:none;
+	margin:0;
+}
+* html #selector ul{
+	width:187px;
+}
+#modClasses {padding:5px 0 0 2px;}
+#modTypes {padding:0px;margin:0px;}
+#modTypes li {padding-left:10px;}
+li#activeClass, li#activeClass2 {padding-left:0px;margin:5px 0;}
+/*
+	---PHRASE PICKER MODAL DIALOGUE---
+*/
+#phrasePicker{
+	background-color:Menu;
+	border:2px outset ActiveBorder;
+	color:WindowText;
+	display:none;
+	left:50%;
+	margin-left:-15em;
+	position:absolute;
+	top:50px;
+	width:30em;
+}
+#phrasePicker h1{
+	background:ActiveCaption;
+	color:#fff;
+	font:caption;
+	margin:0 0 1em;
+}
+#phrasePicker ul li{
+	list-style-type:none;
+}
+
+/*
+	---MAIN STRUCTURE---
+*/
+#mainBody{
+	border:2px solid;
+	clear:both;
+	display:inline;/*fixes IE double margin bug*/
+	float:left;
+	margin:20px;
+	width:954px
+}
+#mainContent{
+	border:0;
+	border-left:15px solid;
+	background:#fff;
+	float:left;
+	font-weight:bold;
+	min-height:300px;
+	margin-left:-15px;
+	padding:10px 0 20px;
+	text-align:right;
+	width:750px;
+}
+* html #mainContent{
+	height:300px;
+}
+#modControls{min-height:400px;}
+#emailControls{min-height:400px;padding-left:20px;text-align:left;}
+* html #modControls{height:400px;}
+* html #emailControls{height:400px;}
+
+#resultsCaption {
+padding-left:10px;
+}
+
+/*
+	---MISCELLANY---
+*/
+html #mainContent .empty{
+	border:0;
+	color:#ec4e4e;
+	cursor:default;
+	font:bold 150% Georgia, serif;
+}
+#finduser, #cancelButton, #accessControls{float:left;margin-left:20px;}
+#insertSteps li{padding:10px;}
+#userClasses h4,#userSites h4{
+	background:#fff;
+	border-top:2px solid;
+	color:#333;
+	font-weight:bold;
+	margin:0;
+	padding:4px 4px 4px 10px;
+}
+#userClasses li, #userSites li, #accessControls, .clearButton{
+	padding-left:10px;
+}
+#userClasses ul, #userSites ul{
+	border-bottom:1px dotted #999;
+	border-top:1px solid #999;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+#userClasses ul ul{
+	border:0;
+	margin:0;
+}
+#userTable, #userClasses, #userSites{
+	margin-bottom:35px;
+	text-align:left;
+	width:750px;
+}
+* html .modTable,* html #userTable,* html #userClasses,* html #userSites{
+	width:746px;
+}
+.actions{width:8em;}
+.userField{
+	font-weight:bold;
+	text-align:right;
+	width:150px;
+}
+li.allClasses{padding-left:5px;}
+
+th#phraseGroup {width:100px;}
+
+#insertphrase {float:right;}
+
+#groupNavigation {
+	width: 650px;
+	clear: both;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 80%;
+}
+
+#groupNavigation li {
+	display: block;
+	float: left;
+	padding: 0;
+	margin: 0 0 2px 0;
+}
+
+#groupNavigation a {
+	display: block;
+	width: 150px;
+	padding: 4px;
+	border-top: 1px solid #edece0;
+	border-right: 1px solid #edece0;
+	border-left: 1px solid #edece0;
+}
+
+#groupNavigation .selected1 {
+	background: #3399cc;
+}
+
+#groupNavigation .selected2 {
+	background: #99cc33;
+}
+
+#groupNavigation .selected3 {
+	background: #ff0066;
+}
+
+
+#Group1 {
+	border-bottom: 5px solid #3399cc;
+}
+
+#Group1 a:hover {
+	border-top: 1px solid #3399cc;
+	border-right: 1px solid #3399cc;
+	border-left: 1px solid #3399cc;
+}
+
+#Group2 {
+	border-bottom: 5px solid #99cc33;
+}
+
+#Group2 a:hover {
+	border-top: 1px solid #99cc33;
+	border-right: 1px solid #99cc33;
+	border-left: 1px solid #99cc33;
+}
+
+#Group3 {
+	border-bottom: 5px solid #ff0066;
+}
+
+#Group3 a:hover {
+	border-top: 1px solid #ff0066;
+	border-right: 1px solid #ff0066;
+	border-left: 1px solid #ff0066;
+}
+
+.linkButton
+{
+    
+	display:inline;
+	margin:0 19px;
+	padding:4px 10px;
+}
+
+#Group
+{
+    border:1px solid #666666;
+    margin-top:0px;
+    overflow:auto;
+    display:block;
+    float:left;
+}

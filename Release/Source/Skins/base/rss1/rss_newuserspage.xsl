@@ -36,7 +36,7 @@
 	<xsl:template match="USER" mode="rss1_newuserspage">
 		<item rdf:about="{$thisserver}{$root}U{USERID}" xmlns="http://purl.org/rss/1.0/">
 		<xsl:element name="title" namespace="{$thisnamespace}">
-			<xsl:value-of select="USERNAME"/>
+			<xsl:apply-templates select="." mode="username"/>
 		</xsl:element>
 		<xsl:element name="description" namespace="{$thisnamespace}">
 			<xsl:text>Joined </xsl:text>

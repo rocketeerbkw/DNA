@@ -113,7 +113,8 @@
 	-->
 	<xsl:template match="USER" mode="t_info">
 		<a href="{$root}U{./USERID}" xsl:use-attribute-sets="mUSER_t_info">
-			<xsl:value-of select="./USERNAME"/>
+			<!-- <xsl:value-of select="./USERNAME"/> -->
+			<xsl:apply-templates select="." mode="username"/>
 		</a>
 	</xsl:template>
 	<!--

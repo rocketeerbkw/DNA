@@ -12,6 +12,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Api;
 using BBC.Dna.Users;
 using System.Web.Caching;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 
 namespace BBC.Dna.Component
@@ -228,11 +229,10 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                 return;//an error occurred
 
             //create api object
-            comments = new Comments(InputContext.Diagnostics, AppContext.TheAppContext.Config.ConnectionString)
+            comments = new Comments(InputContext.Diagnostics, AppContext.ReaderCreator, CacheFactory.GetCacheManager(), AppContext.TheAppContext.TheSiteList)
             {
-                BBCUid = InputContext.BBCUid.ToString(),
-                IPAddress = InputContext.IpAddress,
-                siteList = InputContext.TheSiteList
+                BbcUid = InputContext.BBCUid,
+                IpAddress = InputContext.IpAddress,
             };
             //try and get the forum or create
             CommentForum forum = null;
@@ -269,7 +269,7 @@ Possible values are 'reactive', 'postmod' and 'premod'";
             commentForum = null;
             try
             {
-                commentForum = comments.CommentForumReadByUID(uid, InputContext.CurrentSite);
+                commentForum = comments.GetCommentForumByUid(uid, InputContext.CurrentSite);
             }
             catch (DnaException ex)
             {
@@ -301,7 +301,7 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                     }
                     try
                     {
-                        commentForum = comments.CommentForumCreate(commentForum, InputContext.CurrentSite);
+                        commentForum = comments.CreateCommentForum(commentForum, InputContext.CurrentSite);
                     }
                     catch (DnaException ex)
                     {
@@ -366,7 +366,7 @@ Possible values are 'reactive', 'postmod' and 'premod'";
             }
             if (doUpdate)
             {//update the forum in the api.
-                comments.ForumUpdate(commentForum, InputContext.CurrentSite);
+                comments.UpdateForum(commentForum, InputContext.CurrentSite);
             }
         }
 
@@ -418,12 +418,12 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                 //set up calling user
                 if (String.IsNullOrEmpty(InputContext.CurrentSite.IdentityPolicy))
                 {
-                    comments.CallingUser = new CallingUser(SignInSystem.SSO, AppContext.TheAppContext.Config.ConnectionString, null);
+                    comments.CallingUser = new CallingUser(SignInSystem.SSO, AppContext.ReaderCreator, InputContext.Diagnostics, AppContext.DnaCacheManager, AppContext.TheAppContext.TheSiteList);
                     comments.CallingUser.IsUserSignedIn(InputContext.GetCookie("SSO2-UID").Value, InputContext.CurrentSite.SSOService, InputContext.CurrentSite.SiteID,"");
                 }
                 else
                 {
-                    comments.CallingUser = new CallingUser(SignInSystem.Identity, AppContext.TheAppContext.Config.ConnectionString, null);
+                    comments.CallingUser = new CallingUser(SignInSystem.Identity, AppContext.ReaderCreator, InputContext.Diagnostics, AppContext.DnaCacheManager, AppContext.TheAppContext.TheSiteList);
                     comments.CallingUser.IsUserSignedIn(InputContext.GetCookie("IDENTITY").Value, InputContext.CurrentSite.IdentityPolicy, InputContext.CurrentSite.SiteID, InputContext.GetCookie("IDENTITY - USERNAME").Value);
                 }
 
@@ -475,7 +475,7 @@ Possible values are 'reactive', 'postmod' and 'premod'";
 				{
                     try
                     {
-                        newComment = comments.CommentCreate(forum, newComment);
+                        newComment = comments.CreateComment(forum, newComment);
                     }
                     catch (DnaException ex)
                     {

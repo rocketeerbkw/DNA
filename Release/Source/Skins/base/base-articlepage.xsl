@@ -800,7 +800,7 @@
 	-->
 	<xsl:template match="USERLINK" mode="r_articlerefs">
 		<a href="{$root}U{USERID}" use-attribute-sets="mUSERLINK_r_articlerefs">
-			<xsl:value-of select="USERNAME"/>
+			<xsl:apply-templates select="." mode="username"/>
 		</a>
 	</xsl:template>
 	<!--
@@ -958,7 +958,7 @@
 	-->
 	<xsl:template match="USER" mode="r_researcherlist">
 		<a xsl:use-attribute-sets="mUSER_r_researcherlist" href="{$root}U{USERID}">
-			<xsl:value-of select="USERNAME"/>
+			<xsl:apply-templates select="." mode="username"/>
 		</a>
 	</xsl:template>
 	<!--
@@ -987,7 +987,7 @@
 	-->
 	<xsl:template match="USER" mode="r_articleeditor">
 		<a xsl:use-attribute-sets="mUSER_r_articleeditor" href="{$root}U{USERID}">
-			<xsl:value-of select="USERNAME"/>
+			<xsl:apply-templates select="." mode="username"/>
 		</a>
 	</xsl:template>
 	<!--

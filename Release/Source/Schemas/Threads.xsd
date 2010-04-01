@@ -38,6 +38,7 @@
 						<xs:attribute name="INDEX" type="xs:unsignedByte" use="required" />
 						<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
 						<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="ISSTICKY" type="xs:boolean" use="optional" />
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -56,6 +57,7 @@
 			<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
 			<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
 			<xs:attribute name="MORE" type="xs:unsignedByte" use="optional" />
+      
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

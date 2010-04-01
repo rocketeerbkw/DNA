@@ -1,0 +1,48 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=ISO8859-1">
+<title>
+				BBC - Messageboards - 
+			Help</title>
+<meta name="robots" content="noindex,nofollow">
+<LINK TYPE="text/css" REL="stylesheet" HREF="http://sandbox0.bu.bbc.co.uk/new_messageboards/includes/messageboards.css"><style type="text/css"> 
+				@import "http://sandbox0.bu.bbc.co.uk/new_messageboards/includes/fonts.css" ;
+				</style>
+<style type="text/css">
+			@import url('/includes/tbenh.css') ;
+		</style>
+		<style type="text/css">
+		ul {margin-left:15px;margin-top:5px;padding-left:0px;}
+		p, h4 {margin-bottom:5px;}
+		h4 {margin-top:15px;}
+		h3 {margin-top:15px;}
+		ul a {font-weight:normal;}
+</style>
+</head>
+<body marginheight="0" marginwidth="0" topmargin="0" leftmargin="0">
+<table width="615" cellpadding="0" cellspacing="0" border="0" id="main">
+<tr>
+<td width="615" id="formBg">
+<table width="615" cellpadding="0" cellspacing="0" border="0">
+<tr>
+<td valign="top" width="615"><a name="top"> </a>
+<table width="615" border="0" cellpadding="0" cellspacing="0" style="margin-top:10px;"><tr><td id="subject"><h1>Help</h1></td><td width="150" style="border-top:4px solid #7d8b96;"> </td></tr></table>
+</td>
+</tr>
+<tr>
+<td style="padding:15px;">
+<h2>Welcome to messageboard help</h2><br />
+
+
+<div style="background:#fffcf1;padding:10px 15px 2px 15px;">
+
+<!--#include virtual="/dnaimages/boards/help.ssi" -->
+
+<br /><br />
+</div>
+</td></tr></table>
+</td></tr>
+<tr><td align="right" style="padding:10px;"><a href="#" onclick="window.close()"><img src="images/close_window_button.gif" alt="Close" width="122" height="19" border="0" /></a></td>
+</tr></table>
+</body>
+</html>

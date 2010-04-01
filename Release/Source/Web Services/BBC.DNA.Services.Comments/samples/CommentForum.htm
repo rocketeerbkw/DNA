@@ -9,7 +9,7 @@
         gloader.load(["glow", "1", "glow.data", "glow.net", "glow.widgets.Slider", "glow.widgets.Overlay", "glow.widgets.Panel", "glow.widgets.Editor"]);
     </script>
     <script type="text/javascript">
-        var itemsPerPage = 5;
+        var itemsPerPage = 50;
         var startIndex = 0;
         var totalItems = 0;
         var forumId = glow.data.decodeUrl(location.search.replace("?", "")).id;
@@ -130,7 +130,7 @@
             divDetails.innerHTML = "";
             divDetails.innerHTML += "ID: " + objForum.id + "<br>";
             divDetails.innerHTML += "Title: " + objForum.title + "<br>";
-            divDetails.innerHTML += "Uri: " + objForum.uri + "<br>";
+            divDetails.innerHTML += "Uri: " + objForum.uri + "( <a href='" + objForum.uri + "?format=html'>AsHtml</a>)<br>";
             divDetails.innerHTML += "ParentUri: " + objForum.parentUri + "<br>";
             divDetails.innerHTML += "Created: " + objForum.created.at + " (" + objForum.created.ago + ")<br>";
             divDetails.innerHTML += "Updated: " + objForum.updated.at + " (" + objForum.updated.ago + ")<br>";
@@ -168,8 +168,10 @@
             var divComment = "<div id='commentHolder' style='margin-top: 5px; margin-bottom: 5px'>" +
                         "#" + (itemNo) + "&nbsp;" +
                         "Created:" + commentObj.created.at + " (" + commentObj.created.ago + ")<br>" +
-                        "<b>User:</b> " + commentObj.user.displayName +
-                        (commentObj.user.editor ? " (Editor)" : " (Non-Editor)") +
+                        "<b>User:</b> " + commentObj.user.displayName  +
+                        (commentObj.user.editor ? " (Editor)" : "") +
+                        (commentObj.user.notable ? " (Notable)" : "") + " <br/>" + 
+                        "bbc Id: " + commentObj.user.bbcId + "" + 
                         //" <a href='#'>Make editors Pick</a><br><br>" +
                         "<p>" + commentObj.text + "</P><br><br>" +
                         (editorMode ? "<a href='Javascript:removeEditorsPick(\"" + commentObj.id + "\");'>Remove Editors pick</a><br>" :"<a href='Javascript:makeEditorsPick(\"" + commentObj.id + "\");'>Make Editors pick</a><br>") +
@@ -221,19 +223,46 @@
 
         
         function postcomment() {
-            var xml = "<comment xmlns=\"BBC.Dna.Api\">" +
+            var postData = "";
+            var mimeType = "";
+            var submitType = document.getElementById("submitType").value;
+            if (submitType == "Xml") {
+                mimeType = "text/xml";
+                postData = "<comment xmlns=\"BBC.Dna.Api\">" +
                 "<text>" + glow.data.escapeHTML(document.getElementById("txtComment").value) + "</text>" +
+                "<poststyle>" + document.getElementById("postStyle").value + "</poststyle>" +
                 "</comment>";
+                
+            }
+            else {
+                mimeType = "application/json";
+                var jsonComment = {
+                    "uri":null,
+                    "text": glow.data.escapeHTML(document.getElementById("txtComment").value),
+                    "id": 0,
+                    "poststyle": document.getElementById("postStyle").selectedIndex+1,
+                    "complaintUri": null,
+                    "created": null,
+                    "user": null,
+                    "forumUri":null,
+                    "status":0
 
-            addToDebug(xml);
+
+                };
+                postData = JSON.stringify(jsonComment);
+
+            }
+            addToDebug(postData);
+
+            
 
             var urlCreate = getCreateUrl();
             addToDebug(urlCreate);
             startIndex = 0;
             glow.net.post(urlCreate,
-                xml,
+                postData,
                 {
-                    headers: { "Content-Type": "text/xml" },
+                    headers: { "Content-Type": mimeType },
                     onLoad: function(response) {
                         addToDebug(response.text());
                         var objComment = glow.data.decodeJson(response.text());
@@ -241,7 +270,7 @@
 
                     },
                     onError: function(response) {
-                        alert("url:" + urlCreate + "\n\ndata:" + xml + "\n\nGot error: " + response.status + " - " + response.statusText() + "\n\ntext:" + response.text());
+                    alert("url:" + urlCreate + "\n\ndata:" + postData + "\n\nGot error: " + response.status + " - " + response.statusText() + "\n\ntext:" + response.text());
                     }
                 });
         }
@@ -375,7 +404,18 @@ Sort By: <a href="Javascript:changeSorting('Created');">Date Created</a>
     <div id="divRemainingChars" style="display:block;">
     Remaining character count: <span id="remaining">500</span><br />
     </div>
+    
     <textarea cols="30" rows="5" id="txtComment" name="txtComment"  onkeyup="maxchars(this);"></textarea><br />
+    Post style:<select id="postStyle" name="postStyle">
+        <!-- this must be in order of enum -->
+        <option>plaintext</option>
+        <option>richtext</option>
+        <option>rawtext</option>
+    </select><br />
+    Submit Type:<select id="submitType" name="submitType">
+        <option>Xml</option>
+        <option>JSON</option>
+    </select><br />
     <input type="button" value="Submit" onclick="postcomment();" />
 </div>
 

@@ -1,0 +1,44 @@
+<!--#if expr="${dna.commentbox.servicename} = ''"--><!--#set var="dna.commentbox.initError" value="1"--><!--#endif-->
+<!--#if expr="${dna.commentbox.listNamespace} = ''"--><!--#set var="dna.commentbox.initError" value="1"--><!--#endif-->
+
+<!--#if expr="${dna.commentbox.initError} = 1"-->
+	<!--Please supply a service name a dnauid namespace to dna comments...-->
+<!--#else-->
+
+<!--#if expr="${dna.commentbox.uidList} = ''"-->
+	<!--No uid list supplied to dna.-->
+<!--#endif-->
+
+	<!--#include virtual="/dnaimages/components/commentboxstaging/maintenanceMode.sssi"-->
+	
+	<!--#set var="dna.commentbox.beingDiscussedNow" value="This information is temporarily unavailable."-->
+
+	<!--#set var="dna.commentbox.recentComments" value="This information is temporarily unavailable."-->
+
+	<div style="display:none;">
+	<!--#if expr="${dna.commentbox.maintenanceMode} != '1'"-->
+		
+
+		<!--#set var="dna.commentbox.listNamespace" value="${dna.commentbox.listNamespace}[_]"-->
+		
+		<!--#if expr="${dna.commentbox.staging} = '1'"-->
+		
+			<!--#include virtual="/dna-ssi/staging/${dna.commentbox.servicename}/comments/blogsummary?${dna.commentbox.uidList}&dnacommentforumlistprefix=${dna.commentbox.listNamespace}&dnarecentcommentsprefix=${dna.commentbox.listNamespace}&${QUERY_STRING}"-->
+			
+		<!--#else-->
+		
+			<!--#include virtual="/dna-ssi/${dna.commentbox.servicename}/comments/blogsummary?${dna.commentbox.uidList}&dnacommentforumlistprefix=${dna.commentbox.listNamespace}&dnarecentcommentsprefix=${dna.commentbox.listNamespace}&${QUERY_STRING}"-->
+		<!--#endif-->
+
+	<!--#endif-->
+	
+	
+	<!--#setsplitvars value="$QUERY_STRING" -->
+	<!--#if expr="$printenv = 1"-->
+			<!--include virtual="/dna-ssi/staging/<!--#echo var="dna.commentbox.servicename"-->/comments/blogsummary?<!--#echo encoding="none" var="dna.commentbox.uidList"-->&dnacommentforumlistprefix=<!--#echo var="dna.commentbox.listNamespace"-->&dnarecentcommentsprefix=<!--#echo var="dna.commentbox.listNamespace"-->&"-->
+		<pre style="display:none">
+			<!--#printenv-->
+		</pre>
+	<!--#endif-->
+	</div>
+<!--#endif-->

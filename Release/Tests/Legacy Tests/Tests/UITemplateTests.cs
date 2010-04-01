@@ -382,7 +382,7 @@ namespace Tests
             Stub.On(mockedInputContext).Method("GetSiteOptionValueBool").With("General", "IsURLFiltered").Will(Return.Value(true));
 
             // Initialise the profanities object
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.DnaConfig.ConnectionString, null);
+            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
 
             using (IDnaDataReader reader = mockedInputContext.CreateDnaDataReader("getuitemplate"))
             {
@@ -443,7 +443,7 @@ namespace Tests
             Stub.On(mockedInputContext).Method("GetSiteOptionValueBool").With("General", "IsURLFiltered").Will(Return.Value(true));
 
             // Initialise the profanities object
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.DnaConfig.ConnectionString, null);
+            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
 
             using (IDnaDataReader reader = mockedInputContext.CreateDnaDataReader("getuitemplate"))
             {

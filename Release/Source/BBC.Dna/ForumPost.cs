@@ -231,6 +231,10 @@ namespace BBC.Dna
                 //bodyText = temp;
                 bodyText = HtmlUtils.TryParseToValidHtml(temp);
             }
+            else
+            {
+                bodyText = StringUtils.ConvertPlainText(bodyText);
+            }
 
 
             User user = new User(context);

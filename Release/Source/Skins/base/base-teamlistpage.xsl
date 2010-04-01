@@ -94,7 +94,7 @@
 		<a href="{$root}U{USERID}" xsl:use-attribute-sets="mUSER_t_username">
 			<xsl:choose>
 				<xsl:when test="not(USERNAME = '')">
-					<xsl:value-of select="USERNAME"/>
+					<xsl:apply-templates select="." mode="username"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:copy-of select="$m_nousername"/>

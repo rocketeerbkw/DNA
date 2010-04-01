@@ -45,6 +45,8 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
     private Dictionary<string, Dictionary<string, string>> _currentSectionStrings = new Dictionary<string, Dictionary<string, string>>();
     private string _editKey;
     private int _currentSiteID = 0;
+    private bool _barlequeRedesign = false;
+    private string _v2TagName = "V2_BOARDS";
     
     /// <summary>
     /// OnPageLoad method 
@@ -81,7 +83,26 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
         // Get the edit key and current site from the viewstate
         _editKey = (string)ViewState["EditKey"];
         _currentSiteID = Convert.ToInt32((string)ViewState["CurrentSiteID"]);
+        btToggleMode.Visible = _basePage.GetSiteOptionValueBool("General", "IsMessageboard");
 
+        if (ViewState["Mode"] == null)
+        {
+            _barlequeRedesign = _basePage.GetSiteOptionValueBool("General", "BarlequeMessageboard");
+            ViewState.Add("Mode", _barlequeRedesign);
+            if (_barlequeRedesign)
+            {
+                btToggleMode.Text = "Edit New MB Style";
+            }
+            else
+            {
+                btToggleMode.Text = "Edit Old MB Style";
+            }
+        }
+        else
+        {
+            _barlequeRedesign = (bool)ViewState["Mode"];
+        }
+        
         // Get the config from the viewstate if it's valid
         if (ViewState["ConfigXmlDoc"] != null)
         {
@@ -113,9 +134,21 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
         }
 
         // Make sure the buttons are enble correctly
-        btRemove.Enabled = (_currentSectionStrings.Count > 0);
-        btUpdateSection.Enabled = (_currentSectionStrings.Count > 0);
-
+        reloadPage.Visible = true;
+        reloadPage.Enabled = false;
+        if (_barlequeRedesign)
+        {
+            btAddSection.Visible = _basePage.ViewingUser.IsSuperUser;
+            tbNewSection.Visible = _basePage.ViewingUser.IsSuperUser;
+            Lable2.Visible = _basePage.ViewingUser.IsSuperUser;
+            btRemove.Visible = _basePage.ViewingUser.IsSuperUser;
+            btUpdateSection.Enabled = _basePage.ViewingUser.IsSuperUser;
+        }
+        else
+        {
+            btRemove.Enabled = (_currentSectionStrings.Count > 0);
+            btUpdateSection.Enabled = (_currentSectionStrings.Count > 0);
+        }
     }
 
     /// <summary>
@@ -141,7 +174,14 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
                 if (siteConfig.Length == 0)
                 {
                     // Nothing in the database, setup the base tag
-                    siteConfig = "<SITECONFIG></SITECONFIG>";
+                    if (!_barlequeRedesign)
+                    {
+                        siteConfig = "<SITECONFIG></SITECONFIG>";
+                    }
+                    else
+                    {
+                        siteConfig = "<SITECONFIG><" + _v2TagName + "></" + _v2TagName + "></SITECONFIG>";
+                    }
                 }
                 try
                 {
@@ -184,9 +224,6 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
                 tbSectionXML.Text = selectedText;
             }
         }
-
-        // Hide the reload button as we've just done it
-        reloadPage.Visible = false;
     }
 
     /// <summary>
@@ -199,14 +236,36 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
         _currentSectionStrings.Clear();
         dlbConfigSections.Items.Clear();
         int index = 0;
-        foreach (XmlNode element in _currentSiteConfig.ChildNodes)
+        if (!_barlequeRedesign)
         {
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            data.Add(element.Name, element.InnerXml);
-            _currentSectionStrings.Add(element.Name + index, data);
-            //_currentSections.Add(element.Name + index, element);
-            dlbConfigSections.Items.Add(element.Name.ToString());
-            index++;
+            foreach (XmlNode element in _currentSiteConfig.ChildNodes)
+            {
+                Dictionary<string, string> data = new Dictionary<string, string>();
+                data.Add(element.Name, element.InnerXml);
+                _currentSectionStrings.Add(element.Name + index, data);
+                //_currentSections.Add(element.Name + index, element);
+                dlbConfigSections.Items.Add(element.Name.ToString());
+                index++;
+            }
+        }
+        else
+        {
+            XmlNode baseNode = _currentSiteConfig.SelectSingleNode("//" + _v2TagName);
+            if (baseNode == null)
+            {
+                XmlNode newNode = _currentSiteConfig.OwnerDocument.CreateElement(_v2TagName);
+                _currentSiteConfig.AppendChild(newNode);
+                baseNode = _currentSiteConfig.SelectSingleNode("//" + _v2TagName);
+            }
+            foreach (XmlNode element in _currentSiteConfig.SelectSingleNode("//" + _v2TagName).ChildNodes)
+            {
+                Dictionary<string, string> data = new Dictionary<string, string>();
+                data.Add(element.Name, element.InnerXml);
+                _currentSectionStrings.Add(element.Name + index, data);
+                //_currentSections.Add(element.Name + index, element);
+                dlbConfigSections.Items.Add(element.Name.ToString());
+                index++;
+            }
         }
 
         // Get the XmlDocument so we can use it to create new nodes
@@ -278,6 +337,7 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
                 message.Font.Bold = true;
                 message.ForeColor = System.Drawing.Color.Green;
                 message.Visible = true;
+                reloadPage.Enabled = true;
             }
         }
     }
@@ -338,6 +398,7 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
             // Make sure the buttons are enble correctly
             btRemove.Enabled = (_currentSectionStrings.Count > 0);
             btUpdateSection.Enabled = (_currentSectionStrings.Count > 0);
+            reloadPage.Enabled = true;
         }
     }
 
@@ -371,6 +432,7 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
         // Make sure the buttons are enble correctly
         btRemove.Enabled = (_currentSectionStrings.Count > 0);
         btUpdateSection.Enabled = (_currentSectionStrings.Count > 0);
+        reloadPage.Enabled = true;
     }
 
     /// <summary>
@@ -384,6 +446,21 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
         XmlDocument newConfig = new XmlDocument();
         XmlNode root = newConfig.AppendChild(newConfig.CreateElement("SITECONFIG"));
 
+        if (_barlequeRedesign)
+        {
+            foreach (XmlNode node in _configXmlDoc.FirstChild.NextSibling.ChildNodes)
+            {
+                if (node.Name != _v2TagName)
+                {
+                    root.AppendChild(newConfig.ImportNode(node, true));
+                }
+            }
+
+            XmlNode newNode = newConfig.CreateElement(_v2TagName);
+            root.AppendChild(newNode);
+            root = newNode;
+        }
+
         Dictionary<string, Dictionary<string, string>>.Enumerator sectionEnum2 = _currentSectionStrings.GetEnumerator();
         while (sectionEnum2.MoveNext())
         {
@@ -393,13 +470,13 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
                 XmlDocument sectionDoc = new XmlDocument();
                 sectionDoc.LoadXml(Entities.GetEntities() + "<" + dataEnum.Current.Key + ">" + dataEnum.Current.Value + "</" + dataEnum.Current.Key + ">");
                 root.AppendChild(newConfig.ImportNode(sectionDoc.FirstChild.NextSibling, true));
-                //root.AppendChild(newConfig.ImportNode(sectionEnum.Current.Value, true));
             }
         }
         
         // Now update the site config
         _configXmlDoc.RemoveAll();
         _configXmlDoc.AppendChild(_configXmlDoc.ImportNode(newConfig.FirstChild, true));
+
         using (IDnaDataReader reader = _basePage.CreateDnaDataReader("UpdatePreviewAndLiveConfig"))
         {
             reader.AddParameter("SiteID", _basePage.CurrentSite.SiteID);
@@ -432,6 +509,7 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
 
                 // Make the message visable
                 message.Visible = true;
+                reloadPage.Enabled = false;
             }
         }
     }
@@ -446,5 +524,31 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
         // Set the edit key to null and force a get of the current siteconfig and editkey from the database.
         _editKey = null;
         GetCurrentSiteConfig();
+
+        // Hide the reload button as we've just done it
+        reloadPage.Enabled = false;
+    }
+
+    protected void btToggleMode_CheckedChanged(object sender, EventArgs e)
+    {
+        if (_barlequeRedesign)
+        {
+            ViewState.Add("Mode", false);
+            btToggleMode.Text = "Edit New Style MB";
+            _barlequeRedesign = false;
+        }
+        else
+        {
+            ViewState.Add("Mode", true);
+            btToggleMode.Text = "Edit Old Style MB";
+            _barlequeRedesign = true;
+        }
+
+        // Set the edit key to null and force a get of the current siteconfig and editkey from the database.
+        _editKey = null;
+        GetCurrentSiteConfig();
+
+        // Hide the reload button as we've just done it
+        reloadPage.Enabled = false;
     }
 }

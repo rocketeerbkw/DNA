@@ -25,10 +25,10 @@ insert into ModerationClassMembers (ModClassID, UserID )
 		WHERE m.ModClassID = @basedonclass
 		
 -- Now duplicate all profanities for this class
-insert into Profanities (Profanity, ModClassID, Refer)
-	SELECT Profanity, @newclassid, Refer
-		FROM Profanities p
-			WHERE p.ModClassID = @basedonclass
+insert into termsbymodclass (termid, modclassid, actionid)
+	SELECT termid, @newclassid, actionid
+		FROM termsbymodclass
+			WHERE modClassID = @basedonclass
 			
 COMMIT TRANSACTION
 

@@ -37,7 +37,7 @@
 					</xsl:when>
 				</xsl:choose>
 				<xsl:value-of select="$m_by"/>
-				<xsl:value-of select="ARTICLES/USER/USERNAME"/>
+				<xsl:apply-templates select="ARTICLES/USER" mode="username" />
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
@@ -175,7 +175,7 @@
 	-->
 	<xsl:variable name="m_FromMAToPSText">
 		<xsl:copy-of select="$m_MABackTo"/>
-		<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+		<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 		<xsl:copy-of select="$m_MAPSpace"/>
 	</xsl:variable>
 	<!--

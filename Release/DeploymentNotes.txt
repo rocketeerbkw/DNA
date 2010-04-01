@@ -481,3 +481,7 @@ On live web.config - within  <system.web> change
 	<pages>
 	to
 	<pages  validateRequest="false">
+	
+============== v 3.5.30.0 =============
+13/01/10 MarcusP
+Run MigrateProfanitiesToTermsFilter.sql in DBScripts

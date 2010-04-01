@@ -1,0 +1,22 @@
+<script type="text/javascript" src="/dnaimages/components/commentboxstaging/gloader/commentbox.js"></script>
+<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"></script>
+<script type="text/javascript">
+    gloader.load(
+        ["glow", "1", "glow.net"],
+        {
+            async: true,
+            onLoad: function(glow) {
+				if (window.dna) {
+					glow.ready(function(){
+						
+						dna.lang.register(glow);
+					})
+				}
+            }
+        }
+    );
+</script>
+<style type="text/css">
+	#dna_commentbox_holder{display: block;}
+	#dna_commentbox_holder_error{display: none;}
+</style> 

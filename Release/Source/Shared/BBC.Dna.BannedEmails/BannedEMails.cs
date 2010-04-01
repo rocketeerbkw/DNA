@@ -18,16 +18,20 @@ namespace BBC.Dna.BannedEmails
         private string _connectionDetails = null;
         private Dictionary<string,BannedEmailDetails> _bannedEmailsList = null;
         private string _bannedEmailsListCacheName = "DnaBannedEmailsList";
+        private IDnaDataReaderCreator _dnaDataReaderCreator = null;
+        private IDnaDiagnostics _dnaDiagnostics = null;
 
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="connectionDetails">The connection details ofr the database</param>
         /// <param name="caching">The caching object that the class can use for caching</param>
-        public BannedEmails(string connectionDetails, ICacheManager caching)
+        public BannedEmails(IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching)
         {
-            _connectionDetails = connectionDetails;
-            if (_connectionDetails == null || connectionDetails == string.Empty)
+            _dnaDataReaderCreator = dnaDataReaderCreator;
+            _dnaDiagnostics = dnaDiagnostics;
+
+            if (dnaDataReaderCreator == null)
             {
                 _connectionDetails = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
             }
@@ -156,7 +160,14 @@ namespace BBC.Dna.BannedEmails
         /// <returns>A stored procedure reader ready to execute the given stored procedure</returns>
         private IDnaDataReader CreateStoreProcedureReader(string procedureName)
         {
-            return new StoredProcedureReader(procedureName, _connectionDetails, null);
+            if (_dnaDataReaderCreator == null)
+            {
+                return new StoredProcedureReader(procedureName, _connectionDetails, _dnaDiagnostics);
+            }
+            else
+            {
+                return _dnaDataReaderCreator.CreateDnaDataReader(procedureName);
+            }
         }
 
         /// <summary>

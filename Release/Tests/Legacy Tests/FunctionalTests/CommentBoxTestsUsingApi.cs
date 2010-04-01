@@ -530,7 +530,7 @@ namespace FunctionalTests
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
 
-            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/TEXT").InnerText == "Test<character", "Post was created with the comment marked up.");
+            Assert.AreEqual("Test<character", xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/TEXT").InnerText, "Post was created with the comment marked up.");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/TEXT").InnerXml == "Test&lt;character", "Post was created with the comment marked up.");
 
             Console.WriteLine("After CommentBoxTests -  TestCommentWithDodgyCharInIt");
@@ -566,8 +566,8 @@ namespace FunctionalTests
             xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
-
-            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/TEXT").InnerText == "blahblahblah<a href=\"http:\">Test Link</a>", "Post was created with the comment cut off.");
+            //stripped anchor tag
+            Assert.AreEqual("blahblahblah<a href=\"http:\">Test Link</a>", xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/TEXT").InnerText);
 
             Console.WriteLine("After CommentBoxTests -  TestCommentWithALinkWithCRLFInIt");
         }
@@ -655,27 +655,30 @@ with a carrage return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexm
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string uid = Guid.NewGuid().ToString();
-            string title = "TestingCommentBox";
-            string hosturl = "http://" + _server + "/dna/haveyoursay/acsapi";
-
-            string url = "acsapi?dnauid=" + uid + "&dnainitialtitle=" + title + "&dnahostpageurl=" + hosturl + "&dnaforumduration=0&dnainitialmodstatus=reactive&skin=purexml";
+            var uid = Guid.NewGuid().ToString();
+            var title = "TestingCommentBox";
+            var hosturl = "http://" + _server + "/dna/haveyoursay/acsapi";
+            var inputPost =
+                @"blahblahblah2<b>NormalUser</b><a href=""
+www.bbc.co.uk/dna/h2g2"">fail you bugger</a>with a carrage
+return.";
+            var expectedPost =
+                @"blahblahblah2<b>NormalUser</b><a href="" www.bbc.co.uk/dna/h2g2"">fail you bugger</a>with a carrage<BR />return.";
+            var url = string.Format("acsapi?dnauid={0}&dnainitialtitle={1}&dnahostpageurl={2}&dnaforumduration=0&dnainitialmodstatus=reactive&skin=purexml", uid, title, hosturl);
 
             // now get the response
             request.RequestPage(url);
 
             // Add a comment to the list
             // DO NOT REFORMAT THE FOLLOWING TEST AS IT CONTAINS /r/n AS INTENDED!!!
-            url = "acsapi?dnauid=" + uid + @"&dnaaction=add&dnacomment=blahblahblah2<b>NormalUser</b><a href=""
-www.bbc.co.uk/dna/h2g2"">fail you bugger</a>with a carrage
-return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml";
+            url = string.Format(@"acsapi?dnauid={0}&dnaaction=add&dnacomment={2}&dnahostpageurl={1}&dnapoststyle=1&skin=purexml", uid, hosturl, inputPost);
             request.RequestPage(url);
             XmlDocument xml = request.GetLastResponseAsXML();
 
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
 
-            Assert.AreEqual(@"blahblahblah2<b>NormalUser</b><a href="" www.bbc.co.uk/dna/h2g2"">fail you bugger</a>with a carrage<BR />return.", xml.SelectSingleNode("//RICHPOST").InnerXml, "The rich post did not come back with the expected formatting.");
+            Assert.AreEqual(expectedPost, xml.SelectSingleNode("//RICHPOST").InnerXml, "The rich post did not come back with the expected formatting.");
 
             Console.WriteLine("After CommentBoxTests - TestRichTextPostsCRLFInLink");
         }
@@ -716,10 +719,11 @@ return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml";
             xml = request.GetLastResponseAsXML();
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/COMMENTFORUMTITLE").InnerText == "TestingCommentBoxChangesTitle", "Forum Title has not been changed.");
             
-            request.RequestPage("CommentForumList?dnaskip=0&dnashow=20&skin=purexml");
+            request.RequestPage("CommentForumList?dnaskip=0&dnashow=200&skin=purexml");
             // Check to make sure that the page returned with the correct information
             xml = request.GetLastResponseAsXML();
 
+            Assert.IsNotNull(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + uid + "']"));
             Assert.IsTrue(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + uid + "']/TITLE").InnerText == "TestingCommentBoxChangesTitle", "The comment forum list page has not been generated correctly - COMMENTFORUMLISTTITLE!!!");
         }
 

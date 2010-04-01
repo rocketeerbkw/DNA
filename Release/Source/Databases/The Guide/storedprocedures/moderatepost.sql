@@ -231,6 +231,7 @@ BEGIN
 		EXEC Error @ErrorCode
 		RETURN @ErrorCode
 	END
+	
 END
 
 DECLARE @newpost int
@@ -244,6 +245,9 @@ begin
 	 
 	update Preferences set ContentFailedOrEdited = 1
 	where userid =  @userid and siteid = @siteid
+	
+	--Add an event to the queue to say that the post has been hidden
+	EXEC addtoeventqueueinternal 'ET_POSTREVOKE', @threadid, 'IT_THREAD', @postid, 'IT_POST', @userid
 end
 
 -- If it has been passed however, make sure that it is NOT hidden

@@ -9,6 +9,7 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Xml;
 using BBC.Dna.Api;
+using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
@@ -23,56 +24,66 @@ namespace BBC.Dna.Services
 {
     public class baseService
     {
-        protected ICacheManager _cacheManager = null;
-        protected const string CACHE_LASTUPDATED = "|LASTUPDATED";
-        protected const string CACHE_DELIMITER = "|";
-        protected const int CACHEEXPIRYMINUTES = 10;
-        private string _connectionString = string.Empty;
-        private ISiteList _siteList = null;
+        
+        private string _connectionString;
+
+        protected readonly ISiteList siteList = null;
+        protected readonly ICacheManager cacheManager = null;
+        protected const string CacheLastupdated = "|LASTUPDATED";
+        protected const string CacheDelimiter = "|";
+        protected const int Cacheexpiryminutes = 10;
+        protected readonly DnaDataReaderCreator readerCreator = null;
         protected delegate DateTime CheckCacheDelegate(params object[] args);
         
         //querystring variables
-        protected string _outputContentType = String.Empty;
-        protected WebFormat.format _format = WebFormat.format.UNKNOWN;
-        protected int _itemsPerPage=20;
-        protected int _startIndex=0;
-        protected string _prefix = string.Empty;
-        protected SortBy _sortBy = SortBy.Created;
-        protected SortDirection _sortDirection = SortDirection.Ascending;
-        protected FilterBy _filterBy = FilterBy.None;
-        protected string _filterByData = String.Empty;
+        protected string outputContentType = String.Empty;
+        protected WebFormat.format format = WebFormat.format.UNKNOWN;
+        protected int itemsPerPage=20;
+        protected int startIndex;
+        protected string prefix = string.Empty;
+        protected SortBy sortBy = SortBy.Created;
+        protected SortDirection sortDirection = SortDirection.Ascending;
+        protected FilterBy filterBy = FilterBy.None;
+        protected string filterByData = String.Empty;
         //user based querystring variables
-        protected string _signOnType = string.Empty;
-        protected int _summaryLength = 256;
-        protected Guid _BBCUidCookie = Guid.Empty;
+        protected string signOnType = string.Empty;
+        protected int summaryLength = 256;
+        protected Guid bbcUidCookie = Guid.Empty;
         protected string _iPAddress = String.Empty;
-        protected int _debugDNAUserID = 0;
+        protected int debugDnaUserId;
+        protected IDnaDiagnostics dnaDiagnostic;
 
-        public baseService(string connectionString, ISiteList siteList)
+        public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
         {
-            _siteList = siteList;
             _connectionString = connectionString;
+            this.siteList = siteList;
+            readerCreator = new DnaDataReaderCreator(connectionString, dnaDiag);
+            dnaDiagnostic = dnaDiag;
+            cacheManager = CacheFactory.GetCacheManager();
 
-            _cacheManager = CacheFactory.GetCacheManager();
+            if (WebOperationContext.Current == null)
+            {
+                throw new Exception("Error creating web operation context object.");
+            }
 
             WebFormat.getReturnFormat((WebOperationContext.Current.IncomingRequest.ContentType == null ? "" : WebOperationContext.Current.IncomingRequest.ContentType),
-                ref _outputContentType, ref _format);
+                ref outputContentType, ref format);
 
-            if (_format == WebFormat.format.UNKNOWN)
+            if (format == WebFormat.format.UNKNOWN)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.UnknownFormat));
             }
-            _itemsPerPage = QueryStringHelper.GetQueryParameterAsInt("itemsPerPage", 20);
-            _startIndex = QueryStringHelper.GetQueryParameterAsInt("startIndex", 0);
+            itemsPerPage = QueryStringHelper.GetQueryParameterAsInt("itemsPerPage", 20);
+            startIndex = QueryStringHelper.GetQueryParameterAsInt("startIndex", 0);
             try
             {
-                _sortBy = (SortBy)Enum.Parse(typeof(SortBy), QueryStringHelper.GetQueryParameterAsString("sortBy", ""));
+                sortBy = (SortBy)Enum.Parse(typeof(SortBy), QueryStringHelper.GetQueryParameterAsString("sortBy", ""));
             }
             catch { }
 
             try
             {
-                _sortDirection = (SortDirection)Enum.Parse(typeof(SortDirection), QueryStringHelper.GetQueryParameterAsString("sortDirection", ""));
+                sortDirection = (SortDirection)Enum.Parse(typeof(SortDirection), QueryStringHelper.GetQueryParameterAsString("sortDirection", ""));
             }
             catch { }
 
@@ -81,21 +92,22 @@ namespace BBC.Dna.Services
             {
                 try
                 {
-                    _filterBy = (FilterBy)Enum.Parse(typeof(FilterBy), filter);
+                    filterBy = (FilterBy)Enum.Parse(typeof(FilterBy), filter);
                 }
                 catch { }
             }
 
-            switch (_filterBy)
+            switch (filterBy)
             {//add parsing of filter by data here.
-                case FilterBy.UserList: _filterByData = QueryStringHelper.GetQueryParameterAsString("userList", ""); break;
+                case FilterBy.UserList: filterByData = QueryStringHelper.GetQueryParameterAsString("userList", ""); break;
+                case FilterBy.PostsWithinTimePeriod: filterByData = QueryStringHelper.GetQueryParameterAsString("timeperiod", ""); break;
             }
 
-            _prefix = QueryStringHelper.GetQueryParameterAsString("prefix", "");
-            _signOnType = QueryStringHelper.GetQueryParameterAsString("signOnType", "identity");
-            _summaryLength= QueryStringHelper.GetQueryParameterAsInt("summaryLength", 256);
+            prefix = QueryStringHelper.GetQueryParameterAsString("prefix", "");
+            signOnType = QueryStringHelper.GetQueryParameterAsString("signOnType", "identity");
+            summaryLength= QueryStringHelper.GetQueryParameterAsInt("summaryLength", 256);
             string cookie = QueryStringHelper.GetCookieValueAsString("BBC-UID", Guid.Empty.ToString());
-            ApiCookies.CheckGUIDCookie(cookie, ref _BBCUidCookie);
+            bbcUidCookie = UidCookieDecoder.Decode(cookie, ConfigurationManager.AppSettings["SecretKey"]);
             _iPAddress = QueryStringHelper.GetQueryParameterAsString("clientIP", "");
             if (string.IsNullOrEmpty(_iPAddress))
             {
@@ -105,7 +117,7 @@ namespace BBC.Dna.Services
             int allowDebugUser = 0;
             if (int.TryParse(ConfigurationManager.AppSettings["allowdebuguser"], out allowDebugUser) && allowDebugUser > 0)
             {
-                _debugDNAUserID = QueryStringHelper.GetQueryParameterAsInt("debugdnauserid", 0);
+                debugDnaUserId = QueryStringHelper.GetQueryParameterAsInt("debugdnauserid", 0);
             }
         }
 
@@ -117,7 +129,7 @@ namespace BBC.Dna.Services
         ///// <exception cref="ApiException">Thrown if the site does not exist</exception>
         protected ISite GetSite(string urlName)
         {
-            ISite site = _siteList.GetSite(urlName);
+            ISite site = siteList.GetSite(urlName);
             if (site == null)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.UnknownSite));
@@ -137,13 +149,13 @@ namespace BBC.Dna.Services
             {
                 if (String.IsNullOrEmpty(site.IdentityPolicy))
                 {
-                    callingUser = new CallingUser(SignInSystem.SSO, _connectionString, _cacheManager, _debugDNAUserID);
+                    callingUser = new CallingUser(SignInSystem.SSO, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
                     userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "");
                 }
                 else
                 {
-                    callingUser = new CallingUser(SignInSystem.Identity, _connectionString, _cacheManager, _debugDNAUserID);
-                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), site.IdentityPolicy, site.SiteID, QueryStringHelper.GetCookieValueAsString("IDENTITY-USERNAME", ""));
+                    callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
+                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), site.IdentityPolicy, site.SiteID, "");
                     Statistics.AddNonSSORequest();
                 }
                 // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs
@@ -181,7 +193,7 @@ namespace BBC.Dna.Services
         {
             
             string output = String.Empty;
-            switch (_format)
+            switch (format)
             {
                 case WebFormat.format.XML:
                     output = ((baseContract)data).ToXml();
@@ -225,7 +237,7 @@ namespace BBC.Dna.Services
 
             }
             //get output stream
-            WebOperationContext.Current.OutgoingResponse.ContentType = _outputContentType;
+            WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
             MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output));
             XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
             //add to cache
@@ -250,11 +262,11 @@ namespace BBC.Dna.Services
             if (lastUpdated != DateTime.MinValue)
             {//dont add if no update value
                 //ICacheItemExpiration expiry = SlidingTime.
-                _cacheManager.Add(cacheKey + CACHE_LASTUPDATED, lastUpdated, CacheItemPriority.Normal,
-                null, new SlidingTime(TimeSpan.FromMinutes(CACHEEXPIRYMINUTES)));
+                cacheManager.Add(cacheKey + CacheLastupdated, lastUpdated, CacheItemPriority.Normal,
+                null, new SlidingTime(TimeSpan.FromMinutes(Cacheexpiryminutes)));
 
-                _cacheManager.Add(cacheKey, output, CacheItemPriority.Normal,
-                null, new SlidingTime(TimeSpan.FromMinutes(CACHEEXPIRYMINUTES)));
+                cacheManager.Add(cacheKey, output, CacheItemPriority.Normal,
+                null, new SlidingTime(TimeSpan.FromMinutes(Cacheexpiryminutes)));
             }
 
             return true;
@@ -271,7 +283,7 @@ namespace BBC.Dna.Services
         protected bool GetOutputFromCache(ref Stream output, Delegate method, params object[]args)
         {
             string cacheKey = GetCacheKey();
-            object tempLastUpdated = _cacheManager.GetData(cacheKey + CACHE_LASTUPDATED);
+            object tempLastUpdated = cacheManager.GetData(cacheKey + CacheLastupdated);
 
             if (tempLastUpdated == null)
             {//not found
@@ -289,13 +301,13 @@ namespace BBC.Dna.Services
                 }
             }
             //get actual cached object
-            string outputStr = (string)_cacheManager.GetData(cacheKey);
+            string outputStr = (string)cacheManager.GetData(cacheKey);
             if (outputStr == null)
             {//cache out of date so delete
                 output = null;
                 return false;
             }
-            WebOperationContext.Current.OutgoingResponse.ContentType = _outputContentType;
+            WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
             MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(outputStr));
             XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
             output = xmlTextWriter.BaseStream;
@@ -313,16 +325,16 @@ namespace BBC.Dna.Services
         {
                    
 
-            return GetType().Namespace + CACHE_DELIMITER +
-                WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.PathAndQuery + CACHE_DELIMITER +
-                _itemsPerPage.ToString() + CACHE_DELIMITER +
-                _startIndex + CACHE_DELIMITER +
-                _sortBy + CACHE_DELIMITER +
-                _sortDirection + CACHE_DELIMITER +
-                _filterBy + CACHE_DELIMITER +
-                _filterByData + CACHE_DELIMITER +
-                _format + CACHE_DELIMITER +
-                _prefix + CACHE_DELIMITER;
+            return GetType().Namespace + CacheDelimiter +
+                WebOperationContext.Current.IncomingRequest.UriTemplateMatch.RequestUri.PathAndQuery + CacheDelimiter +
+                itemsPerPage.ToString() + CacheDelimiter +
+                startIndex + CacheDelimiter +
+                sortBy + CacheDelimiter +
+                sortDirection + CacheDelimiter +
+                filterBy + CacheDelimiter +
+                filterByData + CacheDelimiter +
+                format + CacheDelimiter +
+                prefix + CacheDelimiter;
         }
     }
 }

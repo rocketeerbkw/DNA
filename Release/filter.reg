@@ -87,7 +87,8 @@ REGEDIT4
 "/ModerateGeneral"="/RipleyServer.dll?ModerateGeneral?"
 "/ModerateNicknames"="/RipleyServer.dll?ModerateNicknames?"
 "/ModerateStats"="/RipleyServer.dll?ModerateStatus?"
-"/ModerationHistory"="/RipleyServer.dll?ModerationHistory?"
+--"/ModerationHistory"="/RipleyServer.dll?ModerationHistory?"
+"/ModerationHistory"="/dna/dnapages/ModerationHistorypage.aspx?"
 
 "/efp.cgi"="/efp.cgi?"
 "/FrontpageEditor"="/ripleyserver.dll?FrontpageEditor?"
@@ -150,7 +151,8 @@ REGEDIT4
 "/G"="/ripleyserver.dll?Club?id="
 "/FEI"="/ripleyserver.dll?FixExtraInfo?"
 "/NBList"="/ripleyserver.dll?NoticeBoardList?"
-"/ProfanityAdmin"="/ripleyserver.dll?ProfanityAdmin?"
+--"/ProfanityAdmin"="/ripleyserver.dll?ProfanityAdmin?"
+
 "/FCL"="/ripleyserver.dll?FAST_CATEGORYLISTBUILDER?"
 "/FailMessage"="/ripleyserver.dll?FailMessage?"
 "/fix"="/ripleyserver.dll?FixDB?"
@@ -322,3 +324,5 @@ REGEDIT4
 "/ModerateExLinks"="/dna/dnapages/ModerateExLinksPage.aspx?"
 --"/ApproveArticle"="/dna/dnapages/ApproveArticlePage.aspx?"
 
+"/TermsFilterAdmin"="/dna/dnapages/TermsFilterAdmin.aspx?"
+"/TermsFilterImport"="/dna/dnapages/TermsFilterImport.aspx?"

@@ -103,6 +103,7 @@ namespace BBC.Dna.Services
                 case ErrorType.InvalidUserId: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.InvalidRatingValue: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.InvalidPostStyle: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.MissingUserList: StatusCode = HttpStatusCode.BadRequest; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 

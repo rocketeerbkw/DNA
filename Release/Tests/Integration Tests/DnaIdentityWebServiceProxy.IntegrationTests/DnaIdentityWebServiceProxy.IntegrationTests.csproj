@@ -40,10 +40,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TestUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Source\Shared\TestUtils\bin\Debug\TestUtils.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,6 +52,11 @@
     <ProjectReference Include="..\..\..\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj">
       <Project>{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}</Project>
       <Name>DnaIdentityWebServiceProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Shared\TestUtils\TestUtils.csproj">
+      <Project>{E09BF891-7D4F-403E-B830-B9E2606D2C22}</Project>
+      <Name>TestUtils</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

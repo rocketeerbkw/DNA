@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Web;
 using BBC.Dna;
 using BBC.Dna.Component;
 using BBC.Dna.Data;
@@ -275,6 +276,7 @@ namespace FunctionalTests
             Assert.IsTrue(xmlMessage.InnerText != String.Empty, "Incorrect return message");
             Assert.IsTrue(xmlMessage.Attributes["TYPE"].Value == "sitesuffixfailprofanitycheck", "Incorrect return message");
 
+            RevertSiteSpecificDisplayNameToBlank();
             Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffixWithBlockFailProfanity_ExpectFail");
         }
 
@@ -285,6 +287,7 @@ namespace FunctionalTests
         public void UserDetailsBuilder_SetSiteSuffixWithReferrFailProfanity_ExpectOk()
         {
             Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetSiteSuffixWithReferrFailProfanity_ExpectOk");
+            RevertSiteSpecificDisplayNameToBlank();
 
             string termSiteSuffix = "arse"; // key term in referal list
 
@@ -296,6 +299,8 @@ namespace FunctionalTests
 
             XmlNode xmlMessage = xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/MESSAGE");
             Assert.IsFalse(xmlMessage.Attributes["TYPE"].Value == "sitesuffixfailprofanitycheck", "Incorrect return message");
+
+            RevertSiteSpecificDisplayNameToBlank();
 
             Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffixWithReferrFailProfanity_ExpectOk");
         }
@@ -328,6 +333,7 @@ namespace FunctionalTests
         public void UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdated()
         {
             Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdated");
+            RevertSiteSpecificDisplayNameToBlank();
 
             _request.RequestPage("UserDetails?skin=purexml");
             XmlDocument xml = _request.GetLastResponseAsXML();
@@ -343,14 +349,173 @@ namespace FunctionalTests
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX"), "Failed to find SiteSuffix in xml");
             Assert.AreEqual(newSiteSuffix, xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX").InnerText, "SiteSuffix should of been changed!");
 
+            RevertSiteSpecificDisplayNameToBlank();
+
             Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdated");
+        }
+
+
+        /// <summary>
+        /// Test that when we submit a valid sitesuffix that it updates the current user details and puts the nickname in the mod queue
+        /// </summary>
+        [TestMethod]
+        public void UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedandPutInModQueue()
+        {
+            Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedandPutInModQueue");
+            RevertSiteSpecificDisplayNameToBlank();
+
+            _request.RequestPage("UserDetails?skin=purexml");
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            Assert.IsNotNull(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX"), "The current user should have a site suffix XML Node!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX").InnerText == "", "The current user should not have a site suffix!");
+
+            string newSiteSuffix = "This is my new site suffix!" + Guid.NewGuid().ToString();
+
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=" + newSiteSuffix + "&skin=purexml");
+            xml = _request.GetLastResponseAsXML();
+            ValidateBaseXML(xml);
+
+            Assert.IsNotNull(xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX"), "Failed to find SiteSuffix in xml");
+            Assert.AreEqual(newSiteSuffix, xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX").InnerText, "SiteSuffix should of been changed!");
+
+            string userName = _request.CurrentUserName;
+            string moderationDisplayName = userName + "|" + newSiteSuffix;
+            int modID = CheckNicknameModerationQueue(moderationDisplayName);
+            Assert.IsTrue(modID != 0, "The current user should have their site suffix added to the modqueue!");
+
+            RevertSiteSpecificDisplayNameToBlank();
+            Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedandPutInModQueue");
+        }
+
+        /// <summary>
+        /// Test that when we submit a valid sitesuffix that it updates the current user details and puts the nickname in the mod queue
+        /// </summary>
+        [TestMethod]
+        public void UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedLengthTests()
+        {
+            Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedLengthTests");
+            RevertSiteSpecificDisplayNameToBlank();
+
+            _request.RequestPage("UserDetails?skin=purexml");
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            Assert.IsNotNull(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX"), "The current user should have a site suffix XML Node!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX").InnerText == "", "The current user should not have a site suffix!");
+
+            TestSiteSpecificDisplayNameWithLength(255);
+            TestSiteSpecificDisplayNameWithLength(254);
+            TestSiteSpecificDisplayNameWithLength(1);
+            TestSiteSpecificDisplayNameWithLength(127);
+
+            RevertSiteSpecificDisplayNameToBlank();
+
+            Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedLengthTests");
+        }
+
+        /// <summary>
+        /// Test that when we submit a sitesuffix that is too long the nickname is truncated at 255
+        /// </summary>
+        [TestMethod]
+        public void TestSiteSpecificDisplayNameWithExceededLength()
+        {
+            string siteSpecificDisplayName = GetSiteSpecificDisplayName(300);
+            string encodedSSDN = HttpUtility.UrlEncode(siteSpecificDisplayName);
+
+            string expectedTruncatedSSDN = siteSpecificDisplayName.Substring(0, 255);
+
+            //String should be truncated
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=" + encodedSSDN + "&skin=purexml");
+            XmlDocument xmlResponse = _request.GetLastResponseAsXML();
+            ValidateBaseXML(xmlResponse);
+
+            Assert.IsNotNull(xmlResponse.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX"), "Failed to find SiteSuffix in xml");
+            Assert.AreEqual(expectedTruncatedSSDN, xmlResponse.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX").InnerText, "SiteSuffix should of been changed!");
+        }
+
+        /// <summary>
+        /// Test that when we submit a sitesuffix that has leading and trailing whitespace is trimmed
+        /// </summary>
+        [TestMethod]
+        public void TestSiteSpecificDisplayNameWithLeadingAndTrailingWhitespace()
+        {
+            string siteSpecificDisplayName = "  Here is my Test nickname.  ";
+            string trimmedSSDN = siteSpecificDisplayName.Trim();
+
+            //String should be truncated
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=" + siteSpecificDisplayName + "&skin=purexml");
+            XmlDocument xmlResponse = _request.GetLastResponseAsXML();
+            ValidateBaseXML(xmlResponse);
+
+            Assert.IsNotNull(xmlResponse.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX"), "Failed to find SiteSuffix in xml");
+            Assert.AreEqual(trimmedSSDN, xmlResponse.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX").InnerText, "SiteSuffix should of been changed!");
+        }
+
+        private void RevertSiteSpecificDisplayNameToBlank()
+        {
+            //Set it back to blank to play nicely with other tests (and check setting to blank works too)
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=&skin=purexml");
+            _request.RequestPage("UserDetails?skin=purexml");
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            ValidateBaseXML(xml);
+
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX").InnerText == "", "The current user should have had its site suffix reset to blank!");
+        }
+
+        private void TestSiteSpecificDisplayNameWithLength(int length)
+        {
+            string siteSpecificDisplayName = GetSiteSpecificDisplayName(length);
+            string encodedSSDN = HttpUtility.UrlEncode(siteSpecificDisplayName);
+
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=" + encodedSSDN + "&skin=purexml");
+            XmlDocument xmlResponse = _request.GetLastResponseAsXML();
+            ValidateBaseXML(xmlResponse);
+
+            Assert.IsNotNull(xmlResponse.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX"), "Failed to find SiteSuffix in xml");
+            Assert.AreEqual(siteSpecificDisplayName, xmlResponse.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX").InnerText, "SiteSuffix should of been changed!");
+        }
+
+        /// <summary>
+        /// Gets a list of the printable ascii codes.
+        /// </summary>
+        /// <returns></returns>
+        private string GetASCIIcodes()
+        {
+            string asciiCodes = String.Empty;
+            for (int i=32;i < 127; i++)
+            {
+                asciiCodes += (char) i;
+            }
+            return asciiCodes;
+        }
+
+        /// <summary>
+        /// Gets a string of random printable ascii characters of given length.
+        /// </summary>
+        /// <returns>A string of random ascii chars</returns>
+        private string GetSiteSpecificDisplayName(int length)
+        {
+            string siteSpecificDisplayName = String.Empty;
+            string asciiCodes = GetASCIIcodes();
+            Random random = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < length; i++)
+            {
+                char randomChar = asciiCodes[random.Next(asciiCodes.Length)];
+                //if the character at the start or beginning is a space
+                if ((i == 0 || i == length-1) && randomChar == 32)
+                {
+                    randomChar = 'x';
+                }
+
+                siteSpecificDisplayName += randomChar;
+            }
+
+            return siteSpecificDisplayName;
         }
 
         /// <summary>
         /// Sets Nickname Moderation SiteOption.
         /// </summary>
         /// <param name="modStatus"></param>
-        private void SetNicknameModerationStatus( int modStatus )
+        private void SetNicknameModerationStatus(int modStatus)
         {
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
@@ -368,14 +533,20 @@ namespace FunctionalTests
         /// </summary>
         /// <param name="nickname"></param>
         /// <returns></returns>
-        private bool CheckNicknamModerationQueue(string nickName)
+        private int CheckNicknameModerationQueue(string nickName)
         {
+            int modId = 0;
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
                 reader.ExecuteDEBUGONLY("select * from nicknamemod where nickname='" + nickName + "' and siteid = 1 and status = 0");
-                return reader.HasRows;
+                if (reader.HasRows)
+                {
+                    reader.Read();
+                    modId = reader.GetInt32("ModID");
+                }
             }
+            return modId;
         }
 
         /// <summary>
@@ -396,9 +567,72 @@ namespace FunctionalTests
 
             DnaXmlValidator validator = new DnaXmlValidator(xmlNode.OuterXml, _schemaUri);
             validator.Validate();
-
         }
 
+        /// <summary>
+        /// Test that when we submit a valid sitesuffix that it updates 
+        /// the current user details and puts the nickname in the mod queue
+        /// passes it and redisplays it and checks the username hasn't been messed
+        /// </summary>
+        [TestMethod]
+        public void UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedModeratedPass()
+        {
+            Console.WriteLine("Before UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedandPutInModQueue");
+            RevertSiteSpecificDisplayNameToBlank();
+
+            _request.RequestPage("UserDetails?skin=purexml");
+            string userName = _request.CurrentUserName;
+
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            Assert.IsNotNull(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX"), "The current user should have a site suffix XML Node!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX").InnerText == "", "The current user should not have a site suffix!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/USERNAME").InnerText == userName, "The current user should be DotNetNormalUser!");
+
+            string newSiteSuffix = "This is my new site suffix!" + Guid.NewGuid().ToString();
+
+            _request.RequestPage("UserDetails?cmd=SUBMIT&SiteSuffix=" + newSiteSuffix + "&skin=purexml");
+            xml = _request.GetLastResponseAsXML();
+            ValidateBaseXML(xml);
+
+            Assert.IsNotNull(xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX"), "Failed to find SiteSuffix in xml");
+            Assert.AreEqual(newSiteSuffix, xml.SelectSingleNode("/H2G2/USER-DETAILS-FORM/PREFERENCES/SITESUFFIX").InnerText, "SiteSuffix should of been changed!");
+
+            string moderationDisplayName = userName + "|" + newSiteSuffix;
+
+            //Check the name is in the moderation queue
+            int modID =  CheckNicknameModerationQueue(moderationDisplayName);
+            Assert.IsTrue(modID != 0, "The current user should have their site suffix added to the modqueue!");
+
+            //Pass the nickname
+            PassModeratedNickName(modID);
+
+            //Check the name is NOT in the moderation queue
+            modID = CheckNicknameModerationQueue(moderationDisplayName);
+            Assert.IsTrue(modID == 0, "The current user should not have their site suffix in the queue now!");
+
+            //Get the user details check the new site suffix and 
+            _request.RequestPage("UserDetails?skin=purexml");
+            xml = _request.GetLastResponseAsXML();
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/SITESUFFIX").InnerText == newSiteSuffix, "The current user should have the new site suffix!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/VIEWING-USER/USER/USERNAME").InnerText == userName, "The current user should NOT have had their username updated!");
+
+            RevertSiteSpecificDisplayNameToBlank();
+            Console.WriteLine("After UserDetailsTests - UserDetailsBuilder_SetSiteSuffix_ExpectSiteSuffixUpdatedandPutInModQueue");
+        }
+
+        private void PassModeratedNickName(int modID)
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = context.CreateDnaDataReader("ModerateNickname"))
+            {
+                reader.AddParameter("modid", modID);
+                reader.AddParameter("status", 3);
+                reader.Execute();
+                if (reader.Read())
+                {
+                }
+            }            
+        }
        
     }
 }

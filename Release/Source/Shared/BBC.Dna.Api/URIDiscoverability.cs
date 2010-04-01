@@ -1,40 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BBC.Dna.Api
 {
-    public static class URIDiscoverability
+    public static class UriDiscoverability
     {
-        public enum uriType
+        #region uriType enum
+
+        public enum UriType
         {
             CommentForum,
-            CommentForumByID,
+            CommentForumById,
             CommentForumBySiteName,
             Comments,
-            CommentsByCommentForumID,
+            CommentsByCommentForumId,
             Complaint,
             Comment,
-            RatingForumByID,
-            RatingsByRatingForumID,
+            RatingForumById,
+            RatingsByRatingForumId,
             Threads
         }
-        private static Dictionary<uriType, string> _UriTypeMapping;
-        static URIDiscoverability()
-        {
-            _UriTypeMapping = new Dictionary<uriType, string>();
-            _UriTypeMapping.Add(uriType.CommentForum, "V1/commentsforums/");
-            _UriTypeMapping.Add(uriType.CommentForumByID, "V1/site/[sitename]/commentsforums/[commentforumid]/");
-            _UriTypeMapping.Add(uriType.RatingForumByID, "V1/site/[sitename]/ratingsforums/[uid]/");
-            _UriTypeMapping.Add(uriType.CommentForumBySiteName, "V1/site/[sitename]/");
-            _UriTypeMapping.Add(uriType.Comments, "V1/commentsforums/comments/");
-            _UriTypeMapping.Add(uriType.CommentsByCommentForumID, "V1/site/[sitename]/commentsforums/[commentforumid]/");
-            _UriTypeMapping.Add(uriType.RatingsByRatingForumID, "V1/site/[sitename]/ratingsforums/[RatingForumid]/");
-            _UriTypeMapping.Add(uriType.Complaint, "http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
-            _UriTypeMapping.Add(uriType.Comment, "[parentUri]?PostID=[postid]");
-            _UriTypeMapping.Add(uriType.Threads, "V1/site/[sitename]/ratingsforums/[uid]/threads");
 
+        #endregion
+
+        private static readonly Dictionary<UriType, string> UriTypeMapping;
+
+        static UriDiscoverability()
+        {
+            UriTypeMapping = new Dictionary<UriType, string>();
+            UriTypeMapping.Add(UriType.CommentForum, "V1/commentsforums/");
+            UriTypeMapping.Add(UriType.CommentForumById, "V1/site/[sitename]/commentsforums/[commentforumid]/");
+            UriTypeMapping.Add(UriType.RatingForumById, "V1/site/[sitename]/ratingsforums/[uid]/");
+            UriTypeMapping.Add(UriType.CommentForumBySiteName, "V1/site/[sitename]/");
+            UriTypeMapping.Add(UriType.Comments, "V1/commentsforums/comments/");
+            UriTypeMapping.Add(UriType.CommentsByCommentForumId, "V1/site/[sitename]/commentsforums/[commentforumid]/");
+            UriTypeMapping.Add(UriType.RatingsByRatingForumId, "V1/site/[sitename]/ratingsforums/[RatingForumid]/");
+            UriTypeMapping.Add(UriType.Complaint,
+                                "http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
+            UriTypeMapping.Add(UriType.Comment, "[parentUri]?PostID=[postid]");
+            UriTypeMapping.Add(UriType.Threads, "V1/site/[sitename]/ratingsforums/[uid]/threads");
         }
 
         /// <summary>
@@ -44,31 +48,26 @@ namespace BBC.Dna.Api
         /// <param name="type">the type to return</param>
         /// <param name="replacements">the key value replacements to use within the URI</param>
         /// <returns>The new URI</returns>
-        public static string GetUriWithReplacments(string baseUrl, uriType type, Dictionary<string, string>replacements)
+        public static string GetUriWithReplacments(string baseUrl, UriType type, Dictionary<string, string> replacements)
         {
             string uri = string.Empty;
             try
             {
-                uri = _UriTypeMapping[type];
+                uri = UriTypeMapping[type];
                 if (replacements != null)
                 {
-                    foreach (string key in replacements.Keys)
-                    {
-                        uri = uri.Replace(string.Format("[{0}]", key), replacements[key]);
-                    }
+                    uri = replacements.Keys.Aggregate(uri, (current, key) => current.Replace(string.Format("[{0}]", key), replacements[key]));
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             if (uri.IndexOf("http:") != 0)
             {
                 return baseUrl + "/" + uri;
             }
-            else
-            {
-                return uri;
-            }
+            return uri;
         }
-    
     }
 }

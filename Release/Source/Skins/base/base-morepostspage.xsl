@@ -39,7 +39,7 @@
 	<xsl:template match="POSTS" mode="ResearcherName">
 		<xsl:choose>
 			<xsl:when test="POST-LIST">
-				<xsl:value-of select="POST-LIST/USER/USERNAME"/>
+				<xsl:apply-templates select="POST-LIST/USER" mode="username" />
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$m_researcher"/>
@@ -152,7 +152,7 @@
   <xsl:template match="POSTS" mode="t_morepostsPSlink">
     <a href="{$root}U{POST-LIST/USER/USERID}" xsl:use-attribute-sets="mPOSTS_morepostsPSlink">
       <xsl:copy-of select="$m_PostsBackTo"/>
-      <xsl:value-of select="POST-LIST/USER/USERNAME"/>
+      <xsl:apply-templates select="POST-LIST/USER" mode="username" />
       <xsl:copy-of select="$m_PostsPSpace"/>
     </a>
   </xsl:template>
@@ -166,7 +166,7 @@
     <xsl:if test="$test_IsModerator or $test_IsEditor">
         <a href="{$root}MemberList?UserID={POST-LIST/USER/USERID}" xsl:use-attribute-sets="mPOSTS_moderateuserlink">
         <xsl:copy-of select="$m_ModerateUser"/>
-        <xsl:value-of select="POST-LIST/USER/USERNAME"/>
+        <xsl:apply-templates select="POST-LIST/USER" mode="username" />
       </a>
       </xsl:if>
   </xsl:template>

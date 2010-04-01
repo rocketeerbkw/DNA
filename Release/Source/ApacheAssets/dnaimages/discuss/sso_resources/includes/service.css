@@ -1,0 +1,87 @@
+body,td {font-family:arial,helvetica,sans-serif;color:#333333;}
+body {background:#000;}
+
+td.ssoPromo,
+font.bbcpageToplefttd {color:#fff;}
+.ssoStatuslight td {color:#000;}
+a{color:#333333;}
+a.bbcpageTopleftlink, 
+a.bbcpageTopleftlink:visited,
+a.bbcpageFooter,
+a.bbcpageFooter:visited {color:#fff;}
+a:hover {text-decoration:underline;color:#878787;}
+a:visited {color:#333333;}
+
+input {font-family:arial,helvetica,sans-serif;}
+
+.ssoTransparency {color:#333333;}
+
+
+a.ssoTransparency {cursor:help;color:#333333;}
+a.ssoTransparency:hover {color:#333333;
+}
+a.ssoTransparency:visited {color:#333333;}
+
+.ssoError {color:#ff0000;}
+
+.ssoStatuslight {font-family:arial,helvetica,sans-serif;color:#000000;}
+a.ssoStatuslight {text-decoration:underline;color:#333333;}
+a.ssoStatuslight:hover {color:#878787;}
+
+.ssoStatusdark {font-family:arial,helvetica,sans-serif;color:#fcfcfc;}
+a.ssoStatusdark {color:#ffffff;text-decoration:underline;}
+a.ssoStatusdark:visited {color:#ffffff;}
+a.ssoStatusdark:hover {color:#E4E4E4;}
+
+a.ssoStatusdarkhelp {color:#ffffff;cursor:help;}
+a.ssoStatusdarkhelp:hover {color:#e4e4e4;}
+a.ssoStatusdarkhelp:visited {color:#ffffff;}
+.ssoStatusform {font-size:smaller; width:120px; height:20px; background-color:#E4E4E4;}
+	
+.roundbutton{padding-right:7px;}
+
+
+.ssoBg {background:#000;} 
+	
+div.dashedFormbox {
+	border-bottom : 3px dashed #e4e4e4; 
+	font : 1px;
+	line-height : 1px;
+	margin-top: 15px ;
+	margin-bottom: 15px ;
+}
+div.dashedMain {
+	border-bottom : 3px dashed #ffffff;
+	font : 1px;
+	line-height : 1px;
+	margin-top: 15px ;
+	margin-bottom: 15px ;
+}
+
+
+body {background-color:#ffffff;}
+.ssoLikebody {background-color:#ffffff;}
+
+
+.ssoFormbox {background-color : #ffffff;}
+
+
+.ssoOne {background-color : #333333;}
+.ssoTwo {background-color : #9A958C;}
+.ssoThree {background-color : #CBC6C2;}
+
+.ssoStatusshadow {background-color : #262626;}
+
+#banner {
+	margin-left:10px;
+	width:650px;
+	background:url(/discuss/img/bg_banner_repeat.png) repeat-x #dbdbdb;
+}
+
+#banner img {
+	display:block;
+}
+
+#blq-content { background:url(/discuss/img/bg_banner_repeat.png) repeat-x #dbdbdb;}
+h1 { background:url(/discuss/img/bg_banner_detail.png) no-repeat right top;}
+h1 blockquote {color:#fff}

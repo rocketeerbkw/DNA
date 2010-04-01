@@ -11,6 +11,7 @@ using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
 using BBC.Dna.Groups;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna
 {
@@ -25,6 +26,13 @@ namespace BBC.Dna
         /// The creator of all database readers...
         /// </summary>
         public static IDnaDataReaderCreator ReaderCreator{get;set;}
+
+        /// <summary>
+        /// The DNA Cache manager get property
+        /// Used to cache objects as defined by the config cache settings
+        /// </summary>
+        public static ICacheManager DnaCacheManager { get { return _dnaCacheManager; } }
+        private static ICacheManager _dnaCacheManager;
 
         /// <summary>
         /// 
@@ -43,6 +51,9 @@ namespace BBC.Dna
             //System.Diagnostics.Debugger.Launch();
 			_appContext = new AppContext(rootPath);
 
+            _dnaCacheManager = CacheFactory.GetCacheManager();
+		    
+
 			DnaDiagnostics.Initialise(TheAppContext.Config.InputLogFilePath, "DNALOG");
 #if DEBUG
 			DnaDiagnostics.WriteHeader("OnDnaStartup - DEBUG");
@@ -53,11 +64,10 @@ namespace BBC.Dna
 			Statistics.InitialiseIfEmpty(/*TheAppContext*/);
 
             //load the smiley list
-            
             SmileyTranslator.LoadSmileys(ReaderCreator);
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(_appContext._dnaConfig.ConnectionString);
+            ProfanityFilter.InitialiseProfanities(ReaderCreator, TheAppContext._dnaAppDiagnostics);
             DnaDiagnostics.Default.WriteToLog("UserGroups", "Before InitialiseAllUsersAndGroups.");
-            var userGroups = new Groups.UserGroups(_appContext._dnaConfig.ConnectionString, null);
+            var userGroups = new Groups.UserGroups(ReaderCreator, TheAppContext._dnaAppDiagnostics, null);
 		    userGroups.InitialiseAllUsersAndGroups();
             DnaDiagnostics.Default.WriteToLog("UserGroups", "After InitialiseAllUsersAndGroups.");
 		}

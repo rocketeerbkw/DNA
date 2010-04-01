@@ -39,7 +39,7 @@ namespace BBC.Dna.Utils
 			convertedText = StringUtils.EscapeAllXml(text);
             convertedText = ReplaceHttpWithLinkTag(convertedText);
 			//ReplaceHttpWithLinkTag(text, ref convertedText);
-			convertedText = ReplaceCRsWithBRs(convertedText); 
+			convertedText = HtmlUtils.ReplaceCRsWithBRs(convertedText); 
 
             return convertedText;
         }
@@ -137,16 +137,7 @@ namespace BBC.Dna.Utils
 
             return;
         }
-
-        /// <summary>
-        /// Replaces new lines and carriage returns with HTML <BR /> tags. 
-        /// </summary>
-        /// <param name="text">The text to be processed.</param>
-        private string ReplaceCRsWithBRs(string text)
-        {
-            return text.Replace("\r\n", "<BR />").Replace("\n", "<BR />");
-        }
-        
+     
 
     }
 }

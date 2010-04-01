@@ -1,0 +1,388 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xml:lang="en-GB" xmlns="http://www.w3.org/1999/xhtml" lang="en-GB"><head profile="http://dublincore.org/documents/dcq-html/">
+
+
+
+
+<title>BBC | Test Video Article (please don’t delete yet)</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/">
+<meta name="DCTERMS.created" content="2006-09-15T12:00:00Z">
+<meta name="DCTERMS.modified" content="2006-09-15T12:35:00Z">
+[an error occurred while processing this directive] <!-- Barlesque r50-->
+<link rel="index" href="/a-z/" title="A to Z" /><link rel="help" href="/help/" title="BBC Help" /><link rel="copyright" href="/terms/" title="Terms of Use" /><link rel="icon" href="/favicon.ico" type="image/x-icon" /><meta name="viewport" content="width = 974" /><!--[if IE]><![if gte IE 6]><![endif]--><link rel="stylesheet" href="/includes/blq/releases/r50/style/main.css" type="text/css" /><!--[if IE]><![endif]><![endif]--><!--[if gte IE 6]><style type="text/css" media="screen">html {font-size:125%;}body {font-size:50%;}#blq-container {float:left}</style><![endif]--><!--[if IE 6]><style type="text/css" media="screen">#blq-footlinks{margin-right:7px;}#blq-nav-links-inner a {position:static;}.blq-js #blq-nav-links-inner {background:none;height:100%;filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/includes/blq/releases/r50/img/panel.png', sizingMethod='crop');}.blq-js #blq-nav-foot {background: none; overflow:hidden;}.blq-js #blq-nav-foot div {height:10px; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/includes/blq/releases/r50/img/panel.png', sizingMethod='image'); margin-top:-189px;}.blq-clearfix {height: 1%}</style><![endif]--><script type="text/javascript" src="/includes/blq/releases/r50/script/blq_core.js"></script><script type="text/javascript">blqOnDomReady(function(){blqMyC.updateHrefs();});</script>
+
+
+<!-- NOTE Example style and script tags - Please use or delete as appropriate -->
+<!-- NOTE Stylesheets MUST be included after the blq-head include due to the reset CSS technique included in Barlesque -->
+<style type="text/css" media="screen">@import 'http://extdev.bbc.co.uk/irish/stylesheets/site.css';</style>
+<style type="text/css" media="screen">@import 'http://extdev.bbc.co.uk/irish/stylesheets/typography.css';</style>
+
+
+
+<!--[if lte IE 7]>
+  <style type="text/css" media="screen">@import 'http://extdev.bbc.co.uk/irish/stylesheets/ie.css';</style>
+<![endif]-->
+<!--[if lte IE 6]>
+  <style type="text/css" media="screen">@import 'http://extdev.bbc.co.uk/irish/stylesheets/ie6.css';</style>
+<![endif]-->
+
+<script type="text/javascript" src="http://extdev.bbc.co.uk/irish/javascript/html_test.js"> </script>
+
+<script src="http://extdev.bbc.co.uk/irish/javascript/FancyZoom.js" type="text/javascript"></script>
+<script src="http://extdev.bbc.co.uk/irish/javascript/FancyZoomHTML.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://extdev.bbc.co.uk/irish/javascript/audiovideo.js"> </script>
+<script type="text/javascript" src="http://www.bbc.co.uk/emp/swfobject.js"></script>
+<script type="text/javascript" src="http://www.bbc.co.uk/emp/embed.js"></script>
+
+
+<!-- Trying to find the language --><!-- Inspecting:gaeilge --><!-- Setting -->
+<script type="text/javascript">
+window['lang'] = 'gaeilge';
+</script>
+
+
+	<script type="text/javascript" src="http://www.bbc.co.uk/glow/0.2.0/dist/glow/glow.js"></script>
+	<script type="text/javascript" src="/dnaimages/components/commentbox/0.1rc6/commentbox.js"></script>
+
+</head><body onload="useEnhancedPlayer();" id="articles">
+  <div id="blq-pre-mast-container"><div id="blq-pre-mast"><!-- Pre mast -->
+</div></div><div id="blq-container"><div id="blq-acc" lang="en-GB" class="blq-rst"><p class="blq-hide"><strong><a id="page-top">Accessibility links</a></strong></p><ul><li class="blq-hide"><a href="#blq-content" accesskey="2">Skip to content</a></li><li class="blq-hide"><a href="#blq-local-nav">Skip to local navigation</a></li><li class="blq-hide"><a href="#blq-nav-links">Skip to bbc.co.uk navigation</a></li><li class="blq-hide"><a href="#blq-search">Skip to bbc.co.uk search</a></li><li id="blq-displayoptions"><a href="/cgi-bin/education/betsie/parser.pl">Text only</a></li><li class="blq-hide"><a href="/go/blq/mast/acchelp/-/accessibility/">Accessibility help</a></li><li id="blq-acc-help"><a href="/go/blq/mast/help/-/help/">Help</a></li><li id="blq-acc-keys-help" class="blq-hide"><a href="/go/blq/mast/acckeys/-/accessibility/accesskeys/keys.shtml" accesskey="0">Access keys help</a></li></ul></div><div id="blq-mast" lang="en-GB" class="blq-rst"><p><a href="/go/blq/mast/home/-/home/d/" title="Go to the bbc.co.uk homepage"><img src="/includes/blq/releases/r50/img/header_blocks.gif" width="107" height="32" alt="British Broadcasting Corporation" id="blq-blocks" /></a></p><form method="get" action="/cgi-bin/search/results.pl" accept-charset="utf-8"><fieldset><input type="hidden" name="uri" value="/northernireland/sitewide/irish/comments_test_files/comments_test.shtml" /><input type="hidden" name="go" value="toolbar" /><label for="blq-search" class="blq-hide">Search term</label><input id="blq-search" type="text" name="q" accesskey="4" /><input id="blq-search-btn" type="submit" value="Search" /></fieldset></form><p id="blq-nav-btn"><a href="/go/blq/mast/explore_no_js/-/a-z/" class="blq-orange">Explore the BBC</a></p><script type="text/javascript">blq.exploreReady();</script></div><div id="blq-main" class="blq-clearfix">
+
+  
+ <div id="wrapper">
+  <div class="background">
+  <div id="blq-local-nav">
+  <h2 class="blq-hide">Local Navigation</h2>
+  <div class="main_nav">
+    <ul>
+		  <li class="itm01"><a href="http://bbc_irish.frontware.co.uk/gaeilge/"><span>
+Baile
+
+</span></a></li>
+		  <li class="itm04"><a class="active" href="http://bbc_irish.frontware.co.uk/features/all/gaeilge/"><span>
+Gné-ailt
+
+</span></a></li>
+		  <li class="itm02"><a id="audio_video_header_link" href="http://bbc_irish.frontware.co.uk/video_audio/enhanced/latest/gaeilge/"><span>
+Fís &amp; Fuaim
+
+</span></a>
+		  <a style="display: none;" href="http://bbc_irish.frontware.co.uk/video_audio/enhanced/latest/gaeilge/"><span>Enhanced Video &amp; Audio</span></a></li>
+		  <li class="itm03"><a href="http://bbc_irish.frontware.co.uk/gallery/gaeilge/"><span>
+Gailearaí
+
+</span></a></li>
+		  <li class="itm05"><a href="http://bbc_irish.frontware.co.uk/map/gaeilge/"><span>
+Léarscáil Idirghníomhach
+
+</span></a></li>
+		  <li class="itm06"><a href="http://bbc_irish.frontware.co.uk/features/8/gaeilge/"><span>Learners</span></a></li>
+    </ul>
+    <div class="lang_links">
+		  <p><span>
+Aistrigh an leathanach seo:
+
+</span> <a id="active_link" class="itm01" href="http://bbc_irish.frontware.co.uk/articles/view/88/gaeilge/"><span>gaeilge</span></a> 
+      <a class="itm02" href="http://bbc_irish.frontware.co.uk/articles/view/88/english/"><span>english</span></a></p>
+    </div>
+  </div>
+  </div>
+  
+  <!-- Main Content -->
+  <div id="blq-content">
+  <div class="maincontent">
+
+
+<div class="left_col">
+    <div class="transparent sidebar">  
+    <h3>Breathnaigh Thart...</h3>
+    <h4>Ailt &amp; Gné-Ailt</h4>
+  
+    <ul class="col1">    <li><a href="http://bbc_irish.frontware.co.uk/features/4/gaeilge/">
+Ealaíona
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/7/gaeilge/">
+Oideachas
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/11/gaeilge/">
+Siamsaíocht
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/14/gaeilge/">
+
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/6/gaeilge/">
+Irish Interest
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/8/gaeilge/">
+Learners
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/12/gaeilge/">
+Caithimh aimsire
+
+</a></li>
+    </ul><!-- /col01 -->
+    <ul class="col2">  
+        <li><a href="http://bbc_irish.frontware.co.uk/features/5/gaeilge/">
+Ceol
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/9/gaeilge/">
+Dúlra, Eolaíocht &amp; Teicneolaíocht
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/16/gaeilge/">
+Polaitíocht
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/10/gaeilge/">
+Spórt
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/13/gaeilge/">
+Taisteal
+
+</a></li>
+      
+  </ul><!-- -- /col02 ---->
+    </div><!-- /sidebar -->
+    <div class="transparent sidebar">
+    <div class="col1">
+    <h4>Cláranna</h4>
+    <ul>
+      <li><a href="http://bbc_irish.frontware.co.uk/on/tv/gaeilge/">
+Ar an Teilifís
+
+</a></li>
+      <li><a href="http://bbc_irish.frontware.co.uk/on/radio/gaeilge/">
+Ar an Raidió
+
+</a></li>
+      <li><a href="http://bbc_irish.frontware.co.uk/on/web/gaeilge/">
+Ar an Ghréasán
+
+</a></li>
+    </ul>
+    </div><!-- /col1 -->
+    <div class="col2">
+    <h4>Níos Mó</h4>
+    <ul>
+      <li><a href="http://bbc_irish.frontware.co.uk/events/gaeilge/">
+Ócáidí
+
+</a></li>
+    </ul>
+    </div><!-- /col2 -->
+    </div><!-- /sidebar -->
+
+  <div class="sidebar2">
+         </div> <!-- /sidebar2 -->
+      <div class="sidebar3">
+ <div class="related_entries">
+   <h4 class="banner"><span>Related Articles</span></h4>
+
+
+
+
+ </div><!-- /related_entries -->     
+ </div><!-- /sidebar3 -->     
+</div><!-- /leftcol -->
+ 
+ <div id="article_holder">
+<div class="crumb"><a href="http://bbc_irish.frontware.co.uk/gaeilge/">home</a> : <a href="http://bbc_irish.frontware.co.uk/features/all/gaeilge/">Features</a> : <span>
+Test Video Article (please don't delete yet)
+
+</span></div>
+
+  <h2>
+Test Video Article (please don't delete yet)
+
+</h2>
+  <h4 class="banner"><span>Feature</span> Created: 10th July 2008</h4>
+
+
+<div class="intro"><p>Test Video Article introduction in Gaeilge (please don’t delete yet)
+</p></div>
+<p>Don’t delete this please.
+</p>
+<p>
+This is a article testing the EMP embedding code. Please don’t delete.
+</p>
+<p>
+EMP should be below:
+<br>
+    <!-- Begin Media Object. ID:87 -->
+    </p><div class="center">
+    <div class="media_insert">
+
+      <div id="media_87" style="margin: 0pt auto; width: 512px; height: 323px;"><embed type="application/x-shockwave-flash" src="player.swf" style="" id="bbc_emp_embed_media_87" name="bbc_emp_embed_media_87" bgcolor="#000000" quality="high" wmode="default" allowfullscreen="true" allowscriptaccess="always" flashvars="embedReferer=&amp;embedPageUrl=http://bbc_irish.frontware.co.uk/articles/view/88/gaeilge/&amp;playlist=http://extdev.bbc.co.uk/irish/shared/mediaxml/87.xml" height="323" width="512"></div>
+      
+      <script type="text/javascript">
+        var emp = new bbc.Emp();
+        emp.setDomId("media_87"); 
+        emp.setWidth("512");
+        emp.setHeight("323");
+        emp.setPlaylist("http://extdev.bbc.co.uk/irish/shared/mediaxml/87.xml");
+        emp.write();
+      </script>
+
+      <a href="http://extdev.bbc.co.uk/irish/shared/mediaxml/87.xml"></a>
+
+
+
+    </div>
+    </div>
+    <!-- End Media Object -->
+
+
+
+
+
+<!-- BEGINETH THE COMMENT MODULE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+			
+			
+			
+			
+	
+	
+						
+						
+						
+		
+					
+		
+		
+						
+	
+		
+			
+		
+	
+		
+		
+		<!-- For optionals build up the query string-->
+		
+		
+			
+		
+		
+		
+			
+		
+		
+		
+			
+		
+		
+		
+		
+		
+		<!-- [Experimental] -->
+		
+		
+		
+		
+			
+		
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+<!--#set var="dna.commentbox.servicename" value="irish2"-->
+<!--#set var="dna.commentbox.dnauid" value="irish003"-->
+<!--#set var="dna.commentbox.title" value="irishtest4"-->
+<!--#set var="dna.commentbox.commentProfileUrl" value=""-->
+<!--#set var="dna.commentbox.amountPerPage" value="10"-->
+<!--#set var="dna.commentbox.encoding" value="UTF-8"-->
+
+<!--#set var="dna.commentbox.staging" value="1"-->
+
+
+<!--#include virtual="/dnaimages/components/commentbox/commentbox.sssi"--> 
+		
+	
+	
+	
+		
+		
+	
+
+ 
+
+
+</div><!-- /article_holder --> 
+  
+
+
+
+</div> <!-- /maincontent -->
+</div>  <!-- /blq-content -->
+ <div class="footstrap">
+  <a href="#" class="nis"><img src="nis_logo.gif" alt="Northern Ireland Screen" height="58" width="223"></a>
+  <p><span>Tacaíocht ón  Irish Language Broadcast Fund</span> <a href="http://bbc_irish.frontware.co.uk/send_to_friend/gaeilge/">Send to a friend</a></p>
+ </div><!-- /footstrap -->
+ </div> <!-- /background -->
+  </div><!-- /wrapper -->
+  </div><div id="blq-nav" lang="en-GB" class="blq-orange blq-rst"><h2>Explore the BBC</h2><div id="blq-nav-links" class="blq-clearfix"><div id="blq-nav-links-inner"><p id="blq-home"><a href="/go/blq/nav/home/-/home/d/">Home</a></p><h3 class="blq-hide">Popular links</h3><ul id="blq-pop"><li>
+	<a href="/go/blq/nav/promo/proms/-/proms/2008/">BBC Proms</a>
+</li>
+<li>
+	<a href="/go/blq/nav/promo/gardening/-/gardening/">Gardening</a>
+</li>
+<li class="blq-last">
+	<a href="/go/blq/nav/promo/topics_china/-/topics/china">Topics: China</a>
+</li></ul><h3 class="blq-hide">BBC links A to F</h3><ol class="blq-nav-sub blq-first"><li><a href="/go/blq/nav/iplayer/-/iplayer/">BBC iPlayer</a></li><li><a href="/go/blq/nav/cbbc/-/cbbc/">CBBC</a></li><li><a href="/go/blq/nav/cbeebies/-/cbeebies/">CBeebies</a></li><li><a href="/go/blq/nav/food/-/food/">Food</a></li></ol><h3 class="blq-hide">BBC links H to L</h3><ol class="blq-nav-sub"><li><a href="/go/blq/nav/health/-/health/">Health</a></li><li><a href="/go/blq/nav/history/-/history/">History</a></li><li><a href="/go/blq/nav/learning/-/learning/">Learning</a></li><li><a href="/go/blq/nav/local/-/local/">Local &amp; Nations</a></li></ol><h3 class="blq-hide">BBC links M to Sc</h3><ol class="blq-nav-sub"><li><a href="/go/blq/nav/music/-/music/">Music</a></li><li><a href="/go/blq/nav/news/-/news/">News</a></li><li><a href="/go/blq/nav/radio/-/radio/">Radio</a></li><li><a href="/go/blq/nav/sn/-/sn/">Science &amp; Nature</a></li></ol><h3 class="blq-hide">BBC links Sp to W</h3><ol class="blq-nav-sub"><li><a href="/go/blq/nav/sport/-/news/sport/">Sport</a></li><li><a href="/go/blq/nav/tv/-/tv/">TV</a></li><li><a href="/go/blq/nav/weather/-/weather/">Weather</a></li></ol><p id="blq-more"><a href="/go/blq/nav/more/-/a-z/">A whole lot more</a></p></div><div id="blq-nav-foot"><div><p class="blq-hide"><a href="#page-top">To top</a></p></div></div></div></div><div id="blq-foot" lang="en-GB" class="blq-rst"><div id="blq-footlinks"><h2 class="blq-hide">BBC links</h2><ul id="blq-bbclinks"> <li><a href="/go/blq/foot/info/-/info/">About the BBC</a></li> <li><a href="/go/blq/foot/help/-/help/">BBC Help</a></li> <li><a href="/go/blq/foot/contact/-/feedback/">Contact us</a></li> <li><a href="/go/blq/foot/accessibility/-/accessibility/">Accessibility Help</a></li> <li><a href="/go/blq/foot/terms/-/terms/">Terms of use</a></li> <li><a href="/go/blq/foot/jobs/-/jobs/">Jobs</a></li> <li><a href="/go/blq/foot/privacy/-/privacy/">Privacy &amp; cookies</a></li></ul></div><div class="blqFooterAdContainer"><!-- Ad -->
+</div><p id="blq-copy"><img src="/includes/blq/releases/r50/img/footer_blocks_grey.gif" width="68" height="21" alt="BBC" /> &copy; MMVIII</p><p id="blq-disclaim">The BBC is not responsible for the content of external internet sites.</p></div><div id="blq-obit" lang="en-GB"><strong>This page is best viewed in an up-to-date web browser with style sheets (CSS) enabled. While you will be able to view the content of this page in your current browser, you will not be able to get the full visual experience. Please consider upgrading your browser software or enabling style sheets (CSS) if you are able to do so.</strong></div></div><!--/blq-container-->
+
+</body></html>

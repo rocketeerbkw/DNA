@@ -450,7 +450,7 @@
 											</td> 
 											<td>
 												<font xsl:use-attribute-sets="xsmallfont">
-													<A class="norm"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="AUTHOR/USER/USERID"/></xsl:attribute><xsl:apply-templates select="AUTHOR/USER/USERNAME" mode="truncated"/></A>
+													<A class="norm"><xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="AUTHOR/USER/USERID"/></xsl:attribute><xsl:apply-templates select="AUTHOR/USER" mode="usermode"><xsl:with-param name="stringlimit">17</xsl:with-param></xsl:apply-templates></A>
 												</font>
 											</td>
 											<td>

@@ -14,9 +14,9 @@ CREATE UNIQUE CLUSTERED INDEX IX_VUserComments ON VUserComments
 
 GO
 
-CREATE INDEX IX_VUserComments_DatePosted ON VUserComments
+CREATE INDEX IX_VUserComments_SiteId ON VUserComments
 (
-	DatePosted DESC,
-	uid ASC
+	SiteId ASC,
+	DatePosted DESC
 )
 GO

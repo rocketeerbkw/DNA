@@ -1,0 +1,84 @@
+/*MODERATION.HTM ONLY*/
+#modHomepage .mainContent {
+	margin: 2px 0 10px 0;
+	clear: both;
+	border: 1px solid #3399cc;
+}
+
+#modHomepage .mainContent:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+
+#modHomepage .mainContent {
+	display: inline-table;
+	font-size:80%;
+}
+
+#modHomepage thead {
+	font-weight: bold;
+}
+			
+/* Hides from IE-mac \*/
+* html #modHomepage .mainContent {
+	height: 1%;
+}
+
+#modHomepage .mainContent {
+	display: block;
+}
+/* End hide from IE-mac */
+
+#modHomepage .mainContent a {
+	color:#006699;
+}
+
+.postModLink, .fastModLink {
+	background: #dfdece; 
+	padding: 10px;
+}
+
+.postModLink {
+	float: left; 
+	padding-right: 30px;
+	color:#000; 
+}
+
+.postModLink a, .fastModLink a {
+	color: #006699;
+}
+
+.postItems, .generalItems, .entryItems, .nicknameItems {
+	border: 10px solid #ffffff;
+	padding: 5px;
+	margin: 5px;
+	width: 97%;
+}
+.postItems td, .generalItems td, .entryItems td, .nicknameItems td {
+	padding: 2px;
+	width: 60%;
+	
+}
+
+.columnLeft {
+	position:relative;
+	display:inline;
+	float:left;
+	width: 50%;
+	
+}
+			
+.columnRight {
+	position:relative;
+	display:inline;
+	float:right;
+	clear:right;
+	width: 50%;
+	
+}
+.columnRight a, .columnLeft a {color:#006699;}
+
+/*END MODERATION.HTM ONLY*/

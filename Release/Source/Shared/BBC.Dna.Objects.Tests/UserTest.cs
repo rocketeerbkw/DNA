@@ -76,7 +76,7 @@ namespace BBC.Dna.Objects.Tests
 
         public static User CreateTestUser()
         {
-            IUser target = new User()
+            IUser target = new User(null, null, null)
             {
                 UserId = 1,
                 UserMode = 1,

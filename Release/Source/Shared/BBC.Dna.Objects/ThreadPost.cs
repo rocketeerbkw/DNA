@@ -95,7 +95,7 @@ namespace BBC.Dna.Objects
             {
                 string _text = Translator.TranslateText(Text);
 
-                _text = _text.Replace("\r\n", "<BR />").Replace("\n", "<BR />");
+                _text = HtmlUtils.ReplaceCRsWithBRs(_text);
 
                 
                 XmlDocument doc = new XmlDocument();

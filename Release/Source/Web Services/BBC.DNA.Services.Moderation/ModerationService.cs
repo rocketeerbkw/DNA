@@ -26,7 +26,7 @@ namespace BBC.Dna.Services
     {
 
         public ModerationService()
-            : base(Global.connectionString, Global.siteList)
+            : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
            
 

@@ -5,33 +5,38 @@ using System.Text;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System.Configuration;
 
 namespace BBC.Dna.Groups
 {
     public class UserGroups : IUserGroups
     {
-        private string _connectionDetails = "";
         private ICacheManager _cachedGroups = null;
+        private IDnaDataReaderCreator _dnaDataReaderCreator = null;
+        private IDnaDiagnostics _dnaDiagnostics = null;
         private List<string> _groupList = null;
 #if DEBUG
         public static string _cacheName = "BBC.Dna.UserGroups-";
 #else
         private static string _cacheName = "BBC.Dna.UserGroups-";
 #endif
+        private static bool IsInitialised = false;
 
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="connectionString">Connection details for accessing the database</param>
         /// <param name="caching">The caching object that the class can use for caching</param>
-        public UserGroups(string connectionString, ICacheManager caching)
+        public UserGroups(IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching)
         {
-            _connectionDetails = connectionString;
+            _dnaDataReaderCreator = dnaDataReaderCreator;
+            _dnaDiagnostics = dnaDiagnostics;
+
 
             _cachedGroups = caching;
             if (_cachedGroups == null)
             {
-                _cachedGroups = CacheFactory.GetCacheManager();
+                _cachedGroups = new StaticCacheManager();
             }
         }
 
@@ -42,7 +47,7 @@ namespace BBC.Dna.Groups
         /// <returns>A stored procedure reader ready to execute the given stored procedure</returns>
         private IDnaDataReader CreateStoreProcedureReader(string procedureName)
         {
-            return new StoredProcedureReader(procedureName, _connectionDetails, null);
+            return _dnaDataReaderCreator.CreateDnaDataReader(procedureName);
         }
 
         /// <summary>
@@ -139,11 +144,20 @@ namespace BBC.Dna.Groups
         /// <returns>a list of the groups the user belongs to for a given site</returns>
         public List<string> GetUsersGroupsForSite(int userID, int siteID)
         {
+            if(!IsInitialised)
+            {
+                throw new Exception("Users groups not initialised");
+            }
             // Check to see if we've got a list for this user already
-            List<string> userGroups = GetUsersGroupListForSite(userID, siteID);
+            var list = GetUsersGroupListForSite(userID, siteID);
+            if(list == null)
+            {
+                list = new List<string>();
+            }
+            return list;
 
             // No list found, get the information from the database
-            if (userGroups == null && !String.IsNullOrEmpty(_connectionDetails))
+            /*if (userGroups == null)
             {
                 try
                 {
@@ -172,9 +186,9 @@ namespace BBC.Dna.Groups
                     Console.WriteLine(ex.Message);
                     throw ex;
                 }
-            }
+            }*/
 
-            return userGroups;
+            //return userGroups;
         }
 
         /// <summary>
@@ -183,8 +197,8 @@ namespace BBC.Dna.Groups
         /// <returns>True if we initialised correctly</returns>
         public bool InitialiseAllUsersAndGroups()
         {
-            //try
-            //{
+            try
+            {
                 // Get all the users and groups
                 using (IDnaDataReader reader = CreateStoreProcedureReader("fetchgroupsandmembers"))
                 {
@@ -203,7 +217,7 @@ namespace BBC.Dna.Groups
                     while (reader.Read())
                     {
                         currentSiteID = reader.GetInt32("siteid");
-                        currentUserID = reader.GetInt32NullAsZero("userid");
+                        currentUserID = reader.GetInt32("userid");
 
                         // Check to see if we need to start a new list
                         if (currentUserID != lastUserID || currentSiteID != lastSiteID)
@@ -227,14 +241,14 @@ namespace BBC.Dna.Groups
                         _cachedGroups.Add(_cacheName + lastUserID.ToString() + "-" + lastSiteID.ToString(), groups);
                     }
                 }
-            /*}
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 throw ex;
-            }*/
-
-            return true;
+            }
+            IsInitialised = true;
+            return IsInitialised;
         }
 
         /// <summary>
@@ -310,6 +324,7 @@ namespace BBC.Dna.Groups
                 {
                     Console.WriteLine(ex.Message);
                     _groupList = null;
+                    throw ex;
                 }
 
                 _cachedGroups.Add("grouplists",_groupList);
@@ -351,7 +366,7 @@ namespace BBC.Dna.Groups
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return false;
+                throw ex;
             }
 
             return true;

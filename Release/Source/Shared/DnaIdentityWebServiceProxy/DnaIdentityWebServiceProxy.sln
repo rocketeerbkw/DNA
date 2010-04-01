@@ -8,19 +8,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaIdentityWebServiceProxy.IntegrationTests", "..\..\..\Tests\Integration Tests\DnaIdentityWebServiceProxy.IntegrationTests\DnaIdentityWebServiceProxy.IntegrationTests.csproj", "{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 2
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://vp-dev-dna-1:8080/
+		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = DnaIdentityWebServiceProxy.csproj
 		SccLocalPath1 = .
-		SccProjectUniqueName2 = ..\\..\\..\\Tests\\Integration\u0020Tests\\DnaIdentityWebServiceProxy.IntegrationTests\\DnaIdentityWebServiceProxy.IntegrationTests.csproj
-		SccProjectName2 = ../../../Tests/Integration\u0020Tests/DnaIdentityWebServiceProxy.IntegrationTests
-		SccLocalPath2 = ..\\..\\..\\Tests\\Integration\u0020Tests\\DnaIdentityWebServiceProxy.IntegrationTests
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DnaIdentityWebServiceProxy1.vsmdi
@@ -29,6 +24,9 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|Win32 = Debug|Win32
+		DebugSmallGuide|Any CPU = DebugSmallGuide|Any CPU
+		DebugSmallGuide|Mixed Platforms = DebugSmallGuide|Mixed Platforms
+		DebugSmallGuide|Win32 = DebugSmallGuide|Win32
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|Win32 = Release|Win32
@@ -39,21 +37,16 @@ Global
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.DebugSmallGuide|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.DebugSmallGuide|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.DebugSmallGuide|Win32.ActiveCfg = Debug|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Win32.ActiveCfg = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{0628C84E-A2C0-490F-B8F0-D8275FB55DB5}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

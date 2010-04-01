@@ -1,46 +1,40 @@
+using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Xml.Serialization;
 using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
-using System;
 using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, TypeName="ONLINEUSERS")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false, ElementName="ONLINEUSERS")]
-    public partial class OnlineUsers
+    [GeneratedCode("System.Xml", "2.0.50727.3053")]
+    [Serializable]
+    [DesignerCategory("code")]
+    [XmlType(AnonymousType = true, TypeName = "ONLINEUSERS")]
+    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "ONLINEUSERS")]
+    public class OnlineUsers : CachableBase<OnlineUsers>
     {
-
         #region Properties
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElement("WEIRD", Order = 0)]
-        public string Weird
-        {
-            get;
-            set;
-        }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("ONLINEUSER", Order = 1)]
-        public System.Collections.Generic.List<OnlineUser> OnlineUser
-        { get; set; }
+        [XmlElement("WEIRD", Order = 0)]
+        public string Weird { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "THISSITE")]
-        public int ThisSite
-        { get; set; }
+        [XmlElement("ONLINEUSER", Order = 1)]
+        public List<OnlineUser> OnlineUser { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute("ORDER-BY")]
-        public string OrderBy
-        {
-            get;
-            set;
-        } 
+        [XmlAttribute(AttributeName = "THISSITE")]
+        public int ThisSite { get; set; }
+
+        /// <remarks/>
+        [XmlAttribute("ORDER-BY")]
+        public string OrderBy { get; set; }
+
         #endregion
 
         /// <summary>
@@ -53,25 +47,27 @@ namespace BBC.Dna.Objects
         /// <param name="currentSiteOnly"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        static public OnlineUsers GetOnlineUsers(IDnaDataReaderCreator creator, ICacheManager cache,
-            OnlineUsersOrderBy orderBy, int siteId, bool currentSiteOnly, bool ignoreCache)
+        public static OnlineUsers GetOnlineUsers(IDnaDataReaderCreator creator, ICacheManager cache,
+                                                 OnlineUsersOrderBy orderBy, int siteId, bool currentSiteOnly,
+                                                 bool ignoreCache)
         {
-            OnlineUsers users = null;
-            string cacheKey = GetCacheKey(siteId, currentSiteOnly);
+            var users = new OnlineUsers();
+            string cacheKey = users.GetCacheKey(siteId, currentSiteOnly);
 
             if (!ignoreCache)
             {
-                users = (OnlineUsers)cache.GetData(cacheKey);
+                users = (OnlineUsers) cache.GetData(cacheKey);
                 if (users != null)
                 {
                     return users;
                 }
             }
 
-            users = GetOnlineUsersFromDB(creator, orderBy, siteId, currentSiteOnly, users);
+            users = GetOnlineUsersFromDB(creator, orderBy, siteId, currentSiteOnly);
 
             if (users != null && users.OnlineUser != null && users.OnlineUser.Count > 0)
-            {//add to cache if filled - 20 minutes of cache will do
+            {
+//add to cache if filled - 20 minutes of cache will do
                 cache.Add(cacheKey, users, CacheItemPriority.Normal, null, new AbsoluteTime(DateTime.Now.AddMinutes(20)));
             }
             return users;
@@ -85,10 +81,10 @@ namespace BBC.Dna.Objects
         /// <param name="orderBy"></param>
         /// <param name="siteId"></param>
         /// <param name="currentSiteOnly"></param>
-        /// <param name="users"></param>
         /// <returns></returns>
-        static public OnlineUsers GetOnlineUsersFromDB(IDnaDataReaderCreator creator, OnlineUsersOrderBy orderBy, int siteId, bool currentSiteOnly, OnlineUsers users)
+        public static OnlineUsers GetOnlineUsersFromDB(IDnaDataReaderCreator creator, OnlineUsersOrderBy orderBy, int siteId, bool currentSiteOnly)
         {
+            OnlineUsers users;
             //get from DB
             // create a stored procedure to access the database
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("currentusers"))
@@ -104,12 +100,12 @@ namespace BBC.Dna.Objects
 
                 if (dataReader.HasRows)
                 {
-                    users = new OnlineUsers()
-                    {
-                        ThisSite = currentSiteOnly ? 1 : 0,
-                        OrderBy = orderBy.ToString(),
-                        OnlineUser = new System.Collections.Generic.List<OnlineUser>()
-                    };
+                    users = new OnlineUsers
+                                {
+                                    ThisSite = currentSiteOnly ? 1 : 0,
+                                    OrderBy = orderBy.ToString(),
+                                    OnlineUser = new List<OnlineUser>()
+                                };
                     // generate XML for each online user as we go
                     while (dataReader.Read())
                     {
@@ -117,47 +113,44 @@ namespace BBC.Dna.Objects
                         // and subtract the date joined from the current time giving a date span
                         TimeSpan howLongAgo = DateTime.Now - dataReader.GetDateTime("DateJoined");
 
-                        OnlineUserInfo userInfo = new OnlineUserInfo();
+                        var userInfo = new OnlineUserInfo();
                         userInfo.Editor = dataReader.GetInt32NullAsZero("Editor");
                         userInfo.UserId = dataReader.GetInt32NullAsZero("userID");
                         userInfo.Username = dataReader.GetString("UserName") ?? String.Empty;
                         if (userInfo.Username == String.Empty)
                         {
-                            userInfo.Username = "Member " + userInfo.UserId.ToString();
+                            userInfo.Username = "Member " + userInfo.UserId;
                         }
                         //create user info
-                        OnlineUser user = new OnlineUser()
-                        {
-                            DaysSinceJoined = howLongAgo.Days,
-                            User = userInfo
-                        };
+                        var user = new OnlineUser
+                                       {
+                                           DaysSinceJoined = howLongAgo.Days,
+                                           User = userInfo
+                                       };
                         //add to users object
                         users.OnlineUser.Add(user);
                     }
                 }
                 else
                 {
-                    users = new OnlineUsers()
-                    {
-                        Weird = "Nobody is online! Nobody! Not even you!"
-                    };
+                    users = new OnlineUsers
+                                {
+                                    Weird = "Nobody is online! Nobody! Not even you!"
+                                };
                 }
             }
             return users;
         }
 
         /// <summary>
-        /// Returns the cache key
+        /// not used in this object
         /// </summary>
-        /// <param name="siteId"></param>
-        /// <param name="currentSiteOnly"></param>
+        /// <param name="readerCreator"></param>
         /// <returns></returns>
-        static public string GetCacheKey(int siteId, bool currentSiteOnly)
+        public override bool IsUpToDate(IDnaDataReaderCreator readerCreator)
         {
-            return string.Format("{0}|{1}|{2}", typeof(OnlineUser).AssemblyQualifiedName, siteId, currentSiteOnly);
-            
+            return true;
         }
-            
     }
 
     public enum OnlineUsersOrderBy
@@ -166,8 +159,4 @@ namespace BBC.Dna.Objects
         Id,
         Name
     }
-    
-    
-    
-    
 }

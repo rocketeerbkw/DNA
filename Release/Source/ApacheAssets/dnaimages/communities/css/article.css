@@ -1,0 +1,18 @@
+#panelActiveTop{
+	background:#989872;
+	margin:0 0 15px;
+	padding:3px 0;
+	text-align:right;
+}
+#print{
+	background:#989872 url(http://www.bbc.co.uk/dnaimages/communities/images/print_bullet.gif) 0 3px no-repeat;
+	color:#fff;
+	font-size:small;
+	font-weight:bold;
+	padding:3px 3px 3px 20px;
+	width:5em;
+}
+#summary{
+	padding-bottom:12px;
+	border-bottom:1px solid #989872;
+}

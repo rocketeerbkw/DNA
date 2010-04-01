@@ -18,7 +18,7 @@
 				<xsl:copy-of select="$m_friends"/>
 				<xsl:if test="$ownerisviewer=0">
 					<xsl:copy-of select="$m_of"/>
-					<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+					<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:apply-templates>
@@ -38,7 +38,7 @@
 				<xsl:copy-of select="$m_friends"/>
 				<xsl:if test="$ownerisviewer=0">
 					<xsl:copy-of select="$m_of"/>
-					<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+					<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>
@@ -75,7 +75,7 @@
 						<xsl:value-of select="USER/USERID"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="USER/USERNAME"/>
+						<xsl:apply-templates select="USER" mode="username" />
 					</xsl:otherwise>
 				</xsl:choose>
 				<br/>
@@ -121,7 +121,7 @@
 						<xsl:copy-of select="$m_friendslistofuser"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+						<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 						<xsl:copy-of select="$m_hasntaddedfriends"/>
 						<br/>
 					</xsl:otherwise>
@@ -195,7 +195,8 @@
 				<xsl:value-of select="USERID"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="USERNAME"/>
+				<!-- <xsl:value-of select="USERNAME"/> -->
+				<xsl:apply-templates select="." mode="username"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -301,7 +302,8 @@
 				<xsl:value-of select="USERID"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="USERNAME"/>
+				<!-- <xsl:value-of select="USERNAME"/> -->
+				<xsl:apply-templates select="." mode="username"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

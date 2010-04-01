@@ -177,6 +177,8 @@ namespace BBC.Dna.Component
             if (userName == String.Empty)
                 userName = oldUserName; //if not passed then default to existing name
 
+            string oldSiteSuffix = InputContext.ViewingUser.UserData["SiteSuffix"].ToString();
+
             //add user dictionary to update
             if (prefSkin != InputContext.ViewingUser.PreferredSkin && prefSkin.IndexOf("purexml") < 0)
             {//don't set purexml as the default skin
@@ -192,8 +194,8 @@ namespace BBC.Dna.Component
             if (userPrefsXML != String.Empty)
                 InputContext.ViewingUser.SetUserData("PrefXML", userPrefsXML);
 
-            // Set the users site suffix if supplied
-            if (siteSuffix != String.Empty)
+            // If the users site suffix is changed
+            if (siteSuffix != oldSiteSuffix)
             {
                 // Check to make sure the site suffix doesn't contain a profanity
                 string matchingProfanity;
@@ -205,8 +207,14 @@ namespace BBC.Dna.Component
                     statusType = "sitesuffixfailprofanitycheck";
                     return false;
                 }
+                siteSuffix = siteSuffix.Trim();
+                if (siteSuffix.Length > 255)
+                {
+                    siteSuffix = siteSuffix.Substring(0, 255);
+                }
 
-                InputContext.ViewingUser.SetUserData("siteSuffix", siteSuffix);
+                InputContext.ViewingUser.SetSiteSuffix(siteSuffix);
+                InputContext.ViewingUser.UserData["SiteSuffix"] = siteSuffix;
             }
 
             if (InputContext.DoesParamExist("Region", "Region parameter"))
@@ -224,6 +232,15 @@ namespace BBC.Dna.Component
 
                 statusMessage = "Your details have been updated";
                 statusType = "detailsupdated";
+
+                // If the users site suffix was changed and not just deleted queue it for moderation
+                if (siteSuffix != oldSiteSuffix && siteSuffix.Length != 0)
+                {
+                    ModerateNickNames modNickName = new ModerateNickNames(InputContext);
+                    int modId = 0;
+                    string combinedUserNameSiteSuffix = userName + '|' + siteSuffix;
+                    modNickName.QueueNicknameForModeration(combinedUserNameSiteSuffix, InputContext.ViewingUser.UserID, InputContext.CurrentSite.SiteID, out modId);
+                }
             }
             else
             {
