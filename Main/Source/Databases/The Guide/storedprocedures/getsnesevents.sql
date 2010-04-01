@@ -7,7 +7,6 @@ set transaction isolation level read uncommitted;
 SELECT TOP(@batchSize)
 	SAQ.EventID,
 	SAQ.EventType as ActivityType,
-	Body = case cf.ForumId when null then te.Subject else f.Title end,
 	uidm.IdentityUserId,
 	u.LoginName as Username,
 	u.Username as DisplayName,	
