@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="SITECONFIG">
+		<xs:annotation>
+			<xs:documentation>Free form XML for site's to use to control their skins.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+      <xs:sequence>
+        <xs:element name="V2_BOARDS">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="HEADER_COLOUR" type="xs:string" />
+              <xs:element name="BANNER_SSI" type="xs:string" />
+              <xs:element name="HORIZONTAL_NAV_SSI" type="xs:string" />
+              <xs:element name="LEFT_NAV_SSI" type="xs:string" />
+              <xs:element name="WELCOME_MESSAGE" type="xs:string" />
+              <xs:element name="ABOUT_MESSAGE" type="xs:string" />
+              <xs:element name="OPENCLOSETIMES_TEXT" type="xs:string" />
+              <xs:element name="FOOTER">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="COLOUR" type="xs:string" />
+                    <xs:element name="LINKS">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="LINK" type="xs:string" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="MODULES">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="LINKS">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="LINK" type="xs:string" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="RECENTDISCUSSIONS" type="xs:boolean" />
+              <xs:element name="SOCIALTOOLBAR" type="xs:boolean" />
+              <xs:element name="TOPICLAYOUT" type="xs:string" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

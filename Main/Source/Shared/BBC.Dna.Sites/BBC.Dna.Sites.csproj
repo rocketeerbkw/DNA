@@ -88,6 +88,10 @@
     <Compile Include="ISiteList.cs" />
     <Compile Include="OpenCloseTimes.cs" />
     <Compile Include="Site.cs" />
+    <Compile Include="SiteConfig.cs" />
+    <Compile Include="SiteConfigV2Boards.cs" />
+    <Compile Include="Siteconfigv2BoardsFooter.cs" />
+    <Compile Include="SiteConfigV2BoardsModules.cs" />
     <Compile Include="SiteList.cs" />
     <Compile Include="SiteOption.cs" />
     <Compile Include="SiteOptionExceptions.cs" />

@@ -132,6 +132,13 @@
     <Compile Include="ContentSignifPage.aspx.designer.cs">
       <DependentUpon>ContentSignifPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MBAdminDesign.aspx.cs">
+      <DependentUpon>MBAdminDesign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MBAdminDesign.aspx.designer.cs">
+      <DependentUpon>MBAdminDesign.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TermsFilterImport.aspx.cs">
       <DependentUpon>TermsFilterImport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -246,6 +253,7 @@
       <DependentUpon>NewUsers.aspx</DependentUpon>
     </Compile>
     <None Include="App_Code\ActionlessForm.cs" />
+    <Content Include="web.config" />
     <Compile Include="ArticleDiagnosticPage.aspx.cs">
       <DependentUpon>ArticleDiagnosticPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -808,6 +816,7 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="MBAdminDesign.aspx" />
     <Content Include="TermsFilterImport.aspx" />
     <Content Include="TermsFilterAdmin.aspx" />
   </ItemGroup>

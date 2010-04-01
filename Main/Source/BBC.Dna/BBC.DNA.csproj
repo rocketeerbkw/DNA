@@ -125,6 +125,7 @@
     <Compile Include="ContentSignifAdminBuilder.cs" />
     <Compile Include="ContentSignifSettings.cs" />
     <Compile Include="ContentSignifSettingsParameters.cs" />
+    <Compile Include="MBAdminDesignBuilder.cs" />
     <Compile Include="TermsFilterAdminPageImport.cs" />
     <Compile Include="TermsFilterAdminPageBuilder.cs" />
     <Compile Include="ForumPageBuilder.cs" />
@@ -172,7 +173,6 @@
     </Compile>
     <Compile Include="DnaXmlSourceDetails.cs" />
     <Compile Include="EmailAddressFilter.cs" />
-    <Compile Include="Entities.cs" />
     <Compile Include="ForumPost.cs" />
     <Compile Include="IAllowedURLs.cs" />
     <Compile Include="IDnaFormComponent.cs" />

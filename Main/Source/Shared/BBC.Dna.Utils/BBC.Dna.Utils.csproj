@@ -100,6 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseResult.cs" />
     <Compile Include="DnaCache.cs" />
     <Compile Include="DnaStaticCache.cs" />
     <Compile Include="DateHelper.cs" />
@@ -114,6 +115,8 @@
     <Compile Include="DnaException.cs" />
     <Compile Include="DnaHasher.cs" />
     <Compile Include="DnaStringParser.cs" />
+    <Compile Include="Entities.cs" />
+    <Compile Include="Error.cs" />
     <Compile Include="GuideMLTranslator.cs" />
     <Compile Include="HtmlUtils.cs" />
     <Compile Include="ICache.cs" />
@@ -130,6 +133,7 @@
     <Compile Include="QueryStringHelper.cs" />
     <Compile Include="QuoteTranslator.cs" />
     <Compile Include="RequestIDGenerator.cs" />
+    <Compile Include="Result.cs" />
     <Compile Include="StaticCacheManager.cs" />
     <Compile Include="Statistics.cs" />
     <Compile Include="StringUtils.cs" />

@@ -87,7 +87,7 @@
 							<xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'design'">
 								<xsl:attribute name="class">selected</xsl:attribute>
 							</xsl:if>
-							<a href="{$root}/frontpagelayout?s_mode=design">Design</a>
+							<a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
 						</li>
 					</ul>
 				</div>

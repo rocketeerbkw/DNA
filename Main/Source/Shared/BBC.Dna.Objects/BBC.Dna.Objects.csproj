@@ -73,12 +73,8 @@
     <Compile Include="CachableBase.cs" />
     <Compile Include="Club.cs" />
     <Compile Include="ArticleInfoReferencesUser.cs" />
-    <Compile Include="BaseResult.cs" />
-    <Compile Include="Result.cs" />
-    <Compile Include="Error.cs" />
     <Compile Include="SmileyTranslator.cs" />
     <Compile Include="ThreadPostSummary.cs" />
-    <Compile Include="Entities.cs" />
     <Compile Include="ForumHelper.cs" />
     <Compile Include="OnlineUser.cs" />
     <Compile Include="OnlineUserInfo.cs" />

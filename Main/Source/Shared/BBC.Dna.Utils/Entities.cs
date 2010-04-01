@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BBC.Dna
+namespace BBC.Dna.Utils
 {
 	/// <summary>
 	/// A simple static class to encapsulate the HTML entities we require

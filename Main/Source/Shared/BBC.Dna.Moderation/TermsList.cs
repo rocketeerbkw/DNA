@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using BBC.Dna.Data;
 using BBC.Dna.Objects;
+using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Data;
 using System.Collections.Generic;

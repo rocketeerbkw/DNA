@@ -71,7 +71,7 @@
 				</div>
 				<div class="left half">
 					<p class="button">
-						<a href="{$root}/frontpagelayout?s_mode=design" class="button">Change the design of your messageboard</a>
+						<a href="{$root}/messageboardadmin_design?s_mode=design" class="button">Change the design of your messageboard</a>
 					</p>
 				</div>
 			</div>

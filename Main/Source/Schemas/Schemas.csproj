@@ -126,6 +126,7 @@
     </None>
     <None Include="Club.xsd" />
     <None Include="ContentSignifSettings.xsd" />
+    <None Include="SiteConfig_V2Boards.xsd" />
     <None Include="Result.xsd" />
     <None Include="DistressMessages.xsd" />
     <None Include="Dna.Services\thread.xsd" />

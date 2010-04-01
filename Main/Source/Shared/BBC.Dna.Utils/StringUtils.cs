@@ -456,6 +456,41 @@ namespace BBC.Dna.Utils
             }
         }
 
+        /// <summary>
+        /// Takes an object, type and namespace and outputs xml
+        /// </summary>
+        /// <param name="obj">The object to serialize</param>
+        /// <returns>XML string</returns>
+        public static string SerializeToXmlUsingXmlSerialiser(object obj)
+        {
+            var memoryStream = new MemoryStream();
+            var xs = new XmlSerializer(obj.GetType());
+            var xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+            xs.Serialize(xmlTextWriter, obj);
+            memoryStream = (MemoryStream)xmlTextWriter.BaseStream;
+
+            var actualXml = UTF8ByteArrayToString(memoryStream.ToArray());
+            actualXml =actualXml.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"","");
+            actualXml =actualXml.Replace(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"","");
+            actualXml = actualXml.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
+
+            return actualXml.TrimStart();
+        }
+
+        /// <summary>
+        /// Method to reconstruct an Object from XML string
+        /// </summary>
+        /// <param name="xmlString"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static Object DeserializeObjectUsingXmlSerialiser(String xmlString, Type type)
+        {
+            var xs = new XmlSerializer(type);
+            var memoryStream = new MemoryStream(StringToUTF8ByteArray(xmlString));
+            var xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+            return xs.Deserialize(memoryStream);
+        }
+
 
         /// <summary>
         /// Takes an object, type and namespace and outputs xml

@@ -24,7 +24,8 @@
     <xsl:include href="../../../common/1/includes.xsl" />
     
     <xsl:include href="pages/messageboardadmin.xsl"/>
-	<xsl:include href="pages/frontpagelayout.xsl"/>
+  <xsl:include href="pages/messageboardadmin_design.xsl"/>
+  <!-- xsl:include href="pages/frontpagelayout.xsl"/ --> 
 	<xsl:include href="pages/lightboxes.xsl"/>
 	<xsl:include href="pages/error.xsl"/>
 	<xsl:include href="pages/messageboardschedule.xsl"/>

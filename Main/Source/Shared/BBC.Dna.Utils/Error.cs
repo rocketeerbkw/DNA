@@ -3,7 +3,7 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Xml.Serialization;
 
-namespace BBC.Dna.Objects
+namespace BBC.Dna.Utils
 {
     /// <remarks/>
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
