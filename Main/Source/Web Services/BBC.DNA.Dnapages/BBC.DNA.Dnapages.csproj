@@ -253,7 +253,6 @@
       <DependentUpon>NewUsers.aspx</DependentUpon>
     </Compile>
     <None Include="App_Code\ActionlessForm.cs" />
-    <Content Include="web.config" />
     <Compile Include="ArticleDiagnosticPage.aspx.cs">
       <DependentUpon>ArticleDiagnosticPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
