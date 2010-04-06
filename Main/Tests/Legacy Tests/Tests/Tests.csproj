@@ -103,6 +103,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
@@ -138,6 +139,7 @@
     <Compile Include="Dna.Sites\SiteTests.cs" />
     <Compile Include="EmailFilterTests.cs" />
     <Compile Include="MessageBoardStatisticsTests.cs" />
+    <Compile Include="ModerationHistoryTests.cs" />
     <Compile Include="ModerationReasonsTests.cs" />
     <Compile Include="ModeratorManagementTests.cs" />
     <Compile Include="MoveThreadTests.cs" />

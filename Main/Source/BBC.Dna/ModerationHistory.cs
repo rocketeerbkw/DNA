@@ -127,17 +127,19 @@ namespace BBC.Dna
                         user.AddPrefixedUserXMLBlock(reader, reader.GetInt32NullAsZero("referredbyuserid"), "referredby", referred);
                     }
 
-                    if ( reader.DoesFieldExist("complainantuserid") && !reader.IsDBNull("complainantuserid"))
-                    {
-                        XmlElement complaint = AddElementTag(moderation, "COMPLAINT");
-                        AddTextElement(complaint, "COMPLAINT-TEXT", reader.GetStringNullAsEmpty("complainttext"));
-                        user.AddPrefixedUserXMLBlock(reader, reader.GetInt32NullAsZero("complainantuserid"), "complainant", complaint);
+                    XmlElement complaint = AddElementTag(moderation, "COMPLAINT");
+                    AddTextElement(complaint, "COMPLAINT-TEXT", reader.GetStringNullAsEmpty("complainttext"));
 
-                        if (InputContext.ViewingUser.IsSuperUser)
-                        {
-                            AddTextElement(complaint, "IPADDRESS", reader.GetStringNullAsEmpty("ipaddress"));
-                            AddTextElement(complaint, "BBCUID", reader.GetGuidAsStringOrEmpty("bbcuid").ToString() );
-                        }
+                    if (reader.DoesFieldExist("complainantuserid") && !reader.IsDBNull("complainantuserid"))
+                    {
+                        user.AddPrefixedUserXMLBlock(reader, reader.GetInt32NullAsZero("complainantuserid"), "complainant", complaint);
+                    }
+
+                    if (InputContext.ViewingUser.IsSuperUser)
+                    {
+                        AddTextElement(complaint, "IPADDRESS", reader.GetStringNullAsEmpty("ipaddress"));
+                        AddTextElement(complaint, "BBCUID", reader.GetGuidAsStringOrEmpty("bbcuid").ToString());
+                        AddTextElement(complaint, "EMAIL-ADDRESS", reader.GetStringNullAsEmpty("correspondenceemail"));
                     }
 
                     AddTextElement(moderation, "NOTES", reader.GetStringNullAsEmpty("notes"));

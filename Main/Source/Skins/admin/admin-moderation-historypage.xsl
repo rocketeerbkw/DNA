@@ -221,6 +221,11 @@
                     <xsl:value-of select="COMPLAINANT/USER/CORRESPONDENCE-EMAIL"/>
                   </a> ]
                 </xsl:when>
+                <xsl:when test="COMPLAINT/EMAIL-ADDRESS">
+                  [ <a href="mailto:{COMPLAINT/EMAIL-ADDRESS}">
+                    <xsl:value-of select="COMPLAINT/EMAIL-ADDRESS"/>
+                  </a> ]
+                </xsl:when>
                 <xsl:otherwise>[ No Email ]</xsl:otherwise>
               </xsl:choose>
             </p>
