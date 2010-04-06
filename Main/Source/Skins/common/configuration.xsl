@@ -41,8 +41,9 @@
         <host>
             <!-- edit as appropriate -->
             <!-- live is blank <url></url> -->
-            <!-- <url>http://local.bbc.co.uk</url> -->
-            <url>http://dnarelease.national.core.bbc.co.uk</url>
+            <url>http://local.bbc.co.uk</url>
+          <!--url>http://dnarelease.national.core.bbc.co.uk</url -->
+            <sslurl>https://local.bbc.co.uk</sslurl>
             <!-- <url>http://ops-dev14.national.core.bbc.co.uk:6666</url> -->
         </host>
     </xsl:variable>
