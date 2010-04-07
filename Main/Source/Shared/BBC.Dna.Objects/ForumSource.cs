@@ -23,11 +23,11 @@ namespace BBC.Dna.Objects
         /// <summary>
         /// Must be lower case so added new element to do this.
         /// </summary>
-        [XmlAttribute(AttributeName = "TYPE")]
+        [XmlAttributeAttribute(AttributeName = "TYPE")]
         public string TypeElememt
         {
             get { return Type.ToString().ToLower(); }
-            private set { }
+            set { }
         }
 
         [XmlElement(ElementName = "ALERTINSTANTLY")]
