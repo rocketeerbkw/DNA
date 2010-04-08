@@ -15,6 +15,16 @@ namespace BBC.Dna.Sites
         {
             Footer = new SiteConfigV2BoardsFooter();
             Modules = new SiteConfigV2BoardsModules();
+            HeaderColour = String.Empty;
+            BannerSsi = String.Empty;
+            HorizontalNavSsi = String.Empty;
+            LeftNavSsi = String.Empty;
+            WelcomeMessage = String.Empty;
+            AboutMessage = String.Empty;
+            OpenclosetimesText = String.Empty;
+            TopicLayout = String.Empty;
+            CssLocation = String.Empty;
+            EmoticonLocation = String.Empty;
         }
 
         /// <remarks/>
@@ -64,5 +74,13 @@ namespace BBC.Dna.Sites
         /// <remarks/>
         [XmlElement(Order = 11, ElementName = "TOPICLAYOUT")]
         public string TopicLayout { get; set; }
+
+        /// <remarks/>
+        [XmlElement(Order = 12, ElementName = "CSS_LOCATION")]
+        public string CssLocation { get; set; }
+
+        /// <remarks/>
+        [XmlElement(Order = 13, ElementName = "EMOTICON_LOCATION")]
+        public string EmoticonLocation { get; set; }
     }
 }

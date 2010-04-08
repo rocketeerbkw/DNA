@@ -46,6 +46,8 @@
               <xs:element name="RECENTDISCUSSIONS" type="xs:boolean" />
               <xs:element name="SOCIALTOOLBAR" type="xs:boolean" />
               <xs:element name="TOPICLAYOUT" type="xs:string" />
+              <xs:element name="CSS_LOCATION" type="xs:string" />
+              <xs:element name="EMOTICON_LOCATION" type="xs:string" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

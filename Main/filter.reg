@@ -163,7 +163,7 @@ REGEDIT4
 "/TextBoxBuilder"="/ripleyserver.dll?TextBoxElementBuilder?"
 "/FrontPageLayout"="/ripleyserver.dll?FrontPageLayout?"
 "/FrontPageTopicElementBuilder"="/ripleyserver.dll?FrontPageTopicElementBuilder?"
-"/MessageBoardAdmin"="/ripleyserver.dll?MessageBoardAdmin?"
+--"/MessageBoardAdmin"="/ripleyserver.dll?MessageBoardAdmin?"
 
 "/BoardPromos"="/ripleyserver.dll?MessageBoardPromoBuilder?"
 "/TopicBuilder"="/ripleyserver.dll?TopicBuilder?"
@@ -327,4 +327,7 @@ REGEDIT4
 "/TermsFilterAdmin"="/dna/dnapages/TermsFilterAdmin.aspx?"
 "/TermsFilterImport"="/dna/dnapages/TermsFilterImport.aspx?"
 
+--MB Admin pages
 "/messageboardadmin_design"="/dna/dnapages/MBAdminDesign.aspx?"
+"/messageboardadmin_assets"="/dna/dnapages/MBAdminAssets.aspx?"
+"/messageboardadmin"="/dna/dnapages/MBAdmin.aspx?"

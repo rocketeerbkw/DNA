@@ -70,7 +70,7 @@ namespace BBC.Dna
                     
 
                 case "UPDATEPREVIEWANDLIVE":
-                    return UpdateConfig(false);
+                    return UpdateConfig(true);
             }
             return null;
         }
@@ -159,6 +159,24 @@ namespace BBC.Dna
                 }
             }
 
+            if (InputContext.DoesParamExist("CSS_LOCATION", "CSS_LOCATION"))
+            {
+                _siteConfig.V2Board.CssLocation = InputContext.GetParamStringOrEmpty("CSS_LOCATION", "CSS_LOCATION");
+                if (String.IsNullOrEmpty(_siteConfig.V2Board.CssLocation))
+                {
+                    return new Error("InvalidCssLocation", "Unable to update due to an invalid CSS location.");
+                }
+            }
+
+            if (InputContext.DoesParamExist("EMOTICON_LOCATION", "EMOTICON_LOCATION"))
+            {
+                _siteConfig.V2Board.EmoticonLocation = InputContext.GetParamStringOrEmpty("EMOTICON_LOCATION", "EMOTICON_LOCATION");
+                if (String.IsNullOrEmpty(_siteConfig.V2Board.EmoticonLocation))
+                {
+                    return new Error("InvalidEmoticonLocation", "Unable to update due to an invalid emoticon location.");
+                }
+            }
+
             if (InputContext.DoesParamExist("RECENTDISCUSSIONS_SUBMIT", "RECENTDISCUSSIONS_SUBMIT"))
             {
                 _siteConfig.V2Board.Recentdiscussions =
@@ -210,7 +228,14 @@ namespace BBC.Dna
             }
 
 
-            return _siteConfig.UpdateConfig(AppContext.ReaderCreator, updateLiveConfig);
+            var result= _siteConfig.UpdateConfig(AppContext.ReaderCreator, updateLiveConfig);
+
+            if (updateLiveConfig && result.Type == "SiteConfigUpdateSuccess")
+            {
+                InputContext.SendSignal("action=recache-site");
+            }
+
+            return result;
         }
 
         /// <summary>

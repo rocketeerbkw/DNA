@@ -18,7 +18,7 @@
 		</doc:notes>
 	</doc:documentation>
 	
-	<xsl:template match="H2G2[@TYPE = 'MESSAGEBOARDADMIN'] | H2G2[@TYPE = 'FRONTPAGE']" mode="page">
+	<xsl:template match="H2G2[@TYPE = 'MBADMIN'] | H2G2[@TYPE = 'FRONTPAGE']" mode="page">
 		<div class="left">
 			<h2>Welcome</h2>
 			<p>Welcome to the messageboard admin, from here you can create a new messageboard, or edit/update an existing one.</p>
@@ -43,7 +43,7 @@
 				<h4>EMOTICONS</h4>
 				<p>The messageboard has a default set of emoticons, but you can choose to add your own.</p>
 				<p>
-					<a href="#">Add emoticons set</a>
+					<a href="{$root}/messageboardadmin_assets">Add emoticons set</a>
 				</p>
 			</div>
 			<div class="left half">
@@ -57,21 +57,21 @@
 				<h4>ASSETS</h4>
 				<p>Choose to add your own custom CSS and images to your messageboard.</p>
 				<p>
-					<a href="#">Add/edit assets</a>
+					<a href="{$root}/messageboardadmin_assets">Add/edit assets</a>
 				</p>
 			</div>
 			<div class="clear topborder">
 				<div class="left half">
 					<p class="button">
-						<a href="#" class="button">Publish your messageboard</a>
+						<a href="{$root}/messageboardadmin?cmd=UPDATEPREVIEWANDLIVE" class="button" onclick="return confirm('Are your sure you want to publish your site?');">Publish your messageboard</a>
 					</p>
 					<p class="info">
-						Alternatively, to view your messageboard exactly as the user will view it, <a href="#">preview your messageboard</a>.
+						Alternatively, to view your messageboard exactly as the user will view it, <a href="/dna/{SITE/URLNAME}/?_previewmode=1" target="_blank">preview your messageboard</a>.
 					</p>
 				</div>
 				<div class="left half">
 					<p class="button">
-						<a href="{$root}/messageboardadmin_design?s_mode=design" class="button">Change the design of your messageboard</a>
+						<a href="{$root}/messageboardadmin_design" class="button">Change the design of your messageboard</a>
 					</p>
 				</div>
 			</div>
