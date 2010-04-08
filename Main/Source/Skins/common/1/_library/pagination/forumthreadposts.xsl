@@ -62,7 +62,7 @@
             <xsl:apply-templates select="." mode="library_pagination_pagelist" />
             <li class="next">
                 <xsl:choose>
-                    <xsl:when test="@MORE != 0">
+                    <xsl:when test="(@SKIPTO + @COUNT) &lt; @TOTALPOSTCOUNT">
                         <a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;skip={(@SKIPTO + @COUNT)}">
                             <xsl:text>Next </xsl:text>
                             <span class="arrow">

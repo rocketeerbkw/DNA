@@ -93,6 +93,7 @@ namespace BBC.Dna.Objects
         public int GuestBook { get; set; }
 
         /// <remarks/>
+        /// TODO: remove this as it is been replaced by correct logic in the skins... finally
         [XmlAttribute(AttributeName = "MORE")]
         public byte More { get; set; }
 
