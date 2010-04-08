@@ -477,7 +477,9 @@ namespace BBC.Dna
 			// If we're logged in, then get the details for the current user
 			if (_userLoggedIn)
 			{
-				bool newUser = false;
+                InputContext.Diagnostics.WriteToLog(signInMethod, "User logged in");
+
+                bool newUser = false;
                 string ssoLoginName;
                 string ssoDisplayName;
                 string ssoEmail;
@@ -509,6 +511,7 @@ namespace BBC.Dna
 
 				//Existing users may need to be synchronised.
                 bool autoLogInOrSync = (autoLogIn || InputContext.GetParamIntOrZero("s_sync", "User's details must be synchronised with the data in SSO.") == 1);
+                InputContext.Diagnostics.WriteToLog(signInMethod, "Auto login Synch check" + autoLogInOrSync.ToString());
 
                 // If the site is using identity, then we need to check the users last updated date
                 if (InputContext.GetCurrentSignInObject.SignInSystemType == SignInSystem.Identity)
@@ -517,12 +520,19 @@ namespace BBC.Dna
                     if (signInComponent.DoesAttributeExistForService(InputContext.CurrentSite.SSOService, "lastupdated"))
                     {
                         lastUpdatedDateFromSignInSystem = Convert.ToDateTime(signInComponent.GetUserAttribute("lastupdated"));
+                        InputContext.Diagnostics.WriteToLog(signInMethod, "Signin - lastUpdatedDate - " + lastUpdatedDateFromSignInSystem.ToString());
+                        InputContext.Diagnostics.WriteToLog(signInMethod, "DNA - lastUpdatedDate - " + _lastUpdated.ToString());
+
                         autoLogInOrSync |= _lastUpdated < lastUpdatedDateFromSignInSystem;
                     }
                 }
+                InputContext.Diagnostics.WriteToLog(signInMethod, "Synch check - " + autoLogInOrSync.ToString());
+                InputContext.Diagnostics.WriteToLog(signInMethod, "New user - " + newUser.ToString());
+                InputContext.Diagnostics.WriteToLog(signInMethod, "Synch check - " + migrated.ToString());
 
                 if (!isDebugUser && (!newUser || migrated) && autoLogInOrSync)
-				{
+//                if (!isDebugUser && autoLogInOrSync)
+                {
                     ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
 					SynchroniseWithProfile(ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, ssoDisplayName);
 				}
