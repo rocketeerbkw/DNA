@@ -223,6 +223,7 @@ public:
 	CUser(CInputContext& inputContext);
 	virtual ~CUser();
 	virtual bool SynchroniseWithProfile( bool bForceUpdate = false);
+	void CheckForExistingUDNGifSiteSuffixIsNull();
 	void CheckAndSyncAutoGerneratedSiteSuffix();
 	bool CUser::HasEntryLockedForModeration(int ih2g2ID);
 	bool GetMatchingUserAccounts(CTDVString& sXML);
