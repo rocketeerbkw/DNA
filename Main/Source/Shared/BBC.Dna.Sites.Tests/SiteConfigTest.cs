@@ -22,7 +22,7 @@ namespace BBC.Dna.Sites.Tests
         public void GetPreviewSiteConfig_ReturnsV2Config_ReturnsValidObject()
         {
             int siteId = 0;
-            var dbConfig = "<SITECONFIG><V2_BOARDS><HEADER_COLOUR>blue</HEADER_COLOUR><BANNER_SSI>/dna-ssi/tset.sssi</BANNER_SSI><HORIZONTAL_NAV_SSI>/dna-ssi/tset.sssi</HORIZONTAL_NAV_SSI><LEFT_NAV_SSI>/dna-ssi/tset.sssi</LEFT_NAV_SSI><WELCOME_MESSAGE>Welcome</WELCOME_MESSAGE><ABOUT_MESSAGE>Welcome</ABOUT_MESSAGE><OPENCLOSETIMES_TEXT>Welcome</OPENCLOSETIMES_TEXT><FOOTER><COLOUR>grey</COLOUR><LINKS><LINK>http://bbc.co.uk/</LINK><LINK>http://bbc.co.uk/</LINK></LINKS></FOOTER><MODULES><LINKS><LINK>http://bbc.co.uk/</LINK><LINK>http://bbc.co.uk/</LINK></LINKS></MODULES><RECENTDISCUSSIONS>true</RECENTDISCUSSIONS><SOCIALTOOLBAR>true</SOCIALTOOLBAR><TOPICLAYOUT>2COLUMN</TOPICLAYOUT></V2_BOARDS></SITECONFIG>";
+            var dbConfig = "<SITECONFIG><V2_BOARDS><HEADER_COLOUR>blue</HEADER_COLOUR><BANNER_SSI>/dna-ssi/tset.sssi</BANNER_SSI><HORIZONTAL_NAV_SSI>/dna-ssi/tset.sssi</HORIZONTAL_NAV_SSI><LEFT_NAV_SSI>/dna-ssi/tset.sssi</LEFT_NAV_SSI><WELCOME_MESSAGE>Welcome</WELCOME_MESSAGE><ABOUT_MESSAGE>Welcome</ABOUT_MESSAGE><OPENCLOSETIMES_TEXT>Welcome</OPENCLOSETIMES_TEXT><FOOTER><COLOUR>grey</COLOUR><LINKS><LINK>http://bbc.co.uk/</LINK><LINK>http://bbc.co.uk/</LINK></LINKS></FOOTER><MODULES><LINKS><LINK>http://bbc.co.uk/</LINK><LINK>http://bbc.co.uk/</LINK></LINKS></MODULES><RECENTDISCUSSIONS>true</RECENTDISCUSSIONS><SOCIALTOOLBAR>true</SOCIALTOOLBAR><TOPICLAYOUT>2COLUMN</TOPICLAYOUT><CSS_LOCATION /><EMOTICON_LOCATION /></V2_BOARDS></SITECONFIG>";
             
             
             var reader = Mocks.DynamicMock<IDnaDataReader>();
@@ -42,7 +42,7 @@ namespace BBC.Dna.Sites.Tests
 
             
             var actualXml = StringUtils.SerializeToXmlUsingXmlSerialiser(actual.V2Board);
-            var expected = "<V2_BOARDS><HEADER_COLOUR>blue</HEADER_COLOUR><BANNER_SSI>/dna-ssi/tset.sssi</BANNER_SSI><HORIZONTAL_NAV_SSI>/dna-ssi/tset.sssi</HORIZONTAL_NAV_SSI><LEFT_NAV_SSI>/dna-ssi/tset.sssi</LEFT_NAV_SSI><WELCOME_MESSAGE>Welcome</WELCOME_MESSAGE><ABOUT_MESSAGE>Welcome</ABOUT_MESSAGE><OPENCLOSETIMES_TEXT>Welcome</OPENCLOSETIMES_TEXT><FOOTER><COLOUR>grey</COLOUR><LINKS><LINK>http://bbc.co.uk/</LINK><LINK>http://bbc.co.uk/</LINK></LINKS></FOOTER><MODULES><LINKS><LINK>http://bbc.co.uk/</LINK><LINK>http://bbc.co.uk/</LINK></LINKS></MODULES><RECENTDISCUSSIONS>true</RECENTDISCUSSIONS><SOCIALTOOLBAR>true</SOCIALTOOLBAR><TOPICLAYOUT>2COLUMN</TOPICLAYOUT></V2_BOARDS>";
+            var expected = "<V2_BOARDS><HEADER_COLOUR>blue</HEADER_COLOUR><BANNER_SSI>/dna-ssi/tset.sssi</BANNER_SSI><HORIZONTAL_NAV_SSI>/dna-ssi/tset.sssi</HORIZONTAL_NAV_SSI><LEFT_NAV_SSI>/dna-ssi/tset.sssi</LEFT_NAV_SSI><WELCOME_MESSAGE>Welcome</WELCOME_MESSAGE><ABOUT_MESSAGE>Welcome</ABOUT_MESSAGE><OPENCLOSETIMES_TEXT>Welcome</OPENCLOSETIMES_TEXT><FOOTER><COLOUR>grey</COLOUR><LINKS><LINK>http://bbc.co.uk/</LINK><LINK>http://bbc.co.uk/</LINK></LINKS></FOOTER><MODULES><LINKS><LINK>http://bbc.co.uk/</LINK><LINK>http://bbc.co.uk/</LINK></LINKS></MODULES><RECENTDISCUSSIONS>true</RECENTDISCUSSIONS><SOCIALTOOLBAR>true</SOCIALTOOLBAR><TOPICLAYOUT>2COLUMN</TOPICLAYOUT><CSS_LOCATION /><EMOTICON_LOCATION /></V2_BOARDS>";
             Assert.AreEqual(expected, actualXml); //the strings are the same - but encoding different...
              
         }
