@@ -75,7 +75,7 @@ namespace BBC.Dna
 
                 case "REFRESHCACHE":
                     //run in background...
-                    var thread = new Thread(() => AppContext.TheAppContext.SendSignal("recache-site"));
+                    var thread = new Thread(() => AppContext.TheAppContext.SendSignal("action=recache-site"));
                     thread.IsBackground = true;
                     thread.Priority = ThreadPriority.Highest;
                     thread.Start();
