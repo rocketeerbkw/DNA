@@ -82,7 +82,7 @@
             </li>
              <li class="last">
               <xsl:choose>
-                    <xsl:when test="@MORE != 0">
+                    <xsl:when test="(@SKIPTO + @COUNT) &lt; @TOTALPOSTCOUNT">
                     	<a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;skip={(floor(@TOTALPOSTCOUNT div @COUNT) * @COUNT)}">
                             <xsl:text> Last</xsl:text>
                         </a>
