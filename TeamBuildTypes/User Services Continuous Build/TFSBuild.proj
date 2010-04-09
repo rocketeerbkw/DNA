@@ -274,7 +274,6 @@
     <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.*"></Ripley>
   </ItemGroup>
 
-
 <!-- do post build step stuff -->
 
   <Target Name="PostBuildStep">
@@ -284,42 +283,34 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
-
-    
-
     <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
     <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /u:dna_admin sotzed03"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /u:dna_admin sotzed03"></Exec>
 
-    <!-- stop iis on vp-dev-dna-web1 -->
-    <Exec Command="sc \\vp-dev-dna-web1 stop w3svc" Timeout="10000"></Exec>
 
-    <!-- Copy DnaPages to int drop location -->
-    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\vp-dev-dna-web1\h2g2\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Exec Command='"$(SolutionRoot)\Source\deploywebservices.bat" "$(BinariesRoot)" "\\vp-dev-dna-web1\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web1 Debug' ContinueOnError='true'>
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+    <Error Text="Error while deploying to Web1: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
 
-    <!-- Copy CommentsApi to int drop location -->
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\vp-dev-dna-web1\h2g2\dna\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web1\h2g2\dna\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <!-- Copy ModerationApi to int drop location -->
-    <!--Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web1\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Message Text="Skins: @(Skins) - solutionroot: $(SolutionRoot)"></Message -->
-
+    <Exec Command='"$(SolutionRoot)\Source\deploywebservices.bat" "$(BinariesRoot)" "\\vp-dev-dna-web3\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web3 Debug' ContinueOnError='true'>
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+    <Error Text="Error while deploying to Web3: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
     
-    
-    <!-- Copy ripley dlls over existing-->
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\vp-dev-dna-web1\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <!-- start website to copy ripley -->
-    <Exec Command="sc \\vp-dev-dna-web1 start w3svc"></Exec>
 
     <!-- Close Access to vp-dev-dna-web1 -->
     <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /D"></Exec>
 
 
-    <!-- Clear templates... -->
-    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
+    <!-- warm up servers -->
+    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2/status-n" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/api/comments/status.aspx" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/h2g2/status-n" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/api/comments/status.aspx" FileName="templates.html" ContinueOnError="true" />
 
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
@@ -333,9 +324,11 @@
   <Target Name="PostBuildStepFailed">
     <!-- start website to copy ripley -->
     <Exec Command="sc \\vp-dev-dna-web1 start w3svc"></Exec>
+    <Exec Command="sc \\vp-dev-dna-web3 start w3svc"></Exec>
 
     <!-- Close Access to vp-dev-dna-web1 -->
     <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /D"></Exec>
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
