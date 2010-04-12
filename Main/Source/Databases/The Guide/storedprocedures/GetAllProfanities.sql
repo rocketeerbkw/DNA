@@ -18,3 +18,9 @@ where
 	tm.actionid in (1,2)
 order by
 	t.term, Refer
+
+--This is the old version and uses the profanities table instead of terms filter table.
+--declare @count int
+--SELECT @count = COUNT(*) FROM Profanities
+--SELECT Count = @count, * FROM Profanities ORDER BY Profanity
+
