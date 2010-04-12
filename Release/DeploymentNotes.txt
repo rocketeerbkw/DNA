@@ -485,3 +485,5 @@ On live web.config - within  <system.web> change
 ============== v 3.5.30.0 =============
 13/01/10 MarcusP
 Run MigrateProfanitiesToTermsFilter.sql in DBScripts
+Rollback:
+	Simply uncommment the old version of the getallprofanities and it will use the old admin pages and profanity list
