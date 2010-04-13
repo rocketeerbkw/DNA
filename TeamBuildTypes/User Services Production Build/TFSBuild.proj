@@ -4,61 +4,75 @@
      -->
 <Project DefaultTargets="DesktopBuild" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
 
-  <!-- Do not edit this -->
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
 
-  <ProjectExtensions>
 
-    <!-- Team Foundation Build Version - DO NOT CHANGE -->
-    <ProjectFileVersion>2</ProjectFileVersion>
+	<!-- Do not edit this -->
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
+	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
 
-    <!--  DESCRIPTION
+	<!-- get version from command line -->
+	<!-- e.g. /p:Major=3;Minor=4;Build=6 -->
+	<PropertyGroup>
+		<Major Condition="'$(Major)'==''">0</Major>
+		<Minor Condition="'$(Minor)'==''">0</Minor>
+		<Build Condition="'$(Build)'==''">0</Build>
+		<Revision Condition="'$(Revision)'==''">0</Revision>
+	</PropertyGroup>
+
+
+
+	<ProjectExtensions>
+
+		<!-- Team Foundation Build Version - DO NOT CHANGE -->
+		<ProjectFileVersion>2</ProjectFileVersion>
+
+		<!--  DESCRIPTION
      This property is included only for backwards compatibility. The description of a build definition 
      is now stored in the database. For compatibility with V1 clients, keep this property in sync with 
      the value in the database.
     -->
-    <Description></Description>
+		<Description></Description>
 
-    <!--  BUILD MACHINE
+		<!--  BUILD MACHINE
      This property is included only for backwards compatibility. The default machine used for a build 
      definition is now stored in the database, as the MachineName property of the definition's 
      DefaultBuildAgent. For compatibility with V1 clients, keep this property in sync with the value 
      in the database.
     -->
-    <BuildMachine>vp-test-dna-1</BuildMachine>
+		<BuildMachine>vp-test-dna-1</BuildMachine>
 
-  </ProjectExtensions>
+	</ProjectExtensions>
 
-  <PropertyGroup>
+	<PropertyGroup>
 
-    <!--  TEAM PROJECT
+		<!--  TEAM PROJECT
      This property is included only for backwards compatibility. The team project for a build 
      definition is now stored in the database. For compatibility with V1 clients, keep this property in 
      sync with the value in the database.
     -->
-    <TeamProject>User Services</TeamProject>
+		<TeamProject>User Services</TeamProject>
 
-    <!--  BUILD DIRECTORY
+		<!--  BUILD DIRECTORY
      This property is included only for backwards compatibility. The build directory used for a build 
      definition is now stored in the database, as the BuildDirectory property of the definition's 
      DefaultBuildAgent. For compatibility with V1 clients, keep this property in sync with the value 
      in the database.
     -->
-    <BuildDirectoryPath></BuildDirectoryPath>
+		<BuildDirectoryPath>c:\B\User Services\User Services Production Build</BuildDirectoryPath>
 
-    <!--  DROP LOCATION
+		<!--  DROP LOCATION
      This property is included only for backwards compatibility. The drop location used for a build 
      definition is now stored in the database. For compatibility with V1 clients, keep this property 
      in sync with the value in the database.
     -->
-    <DropLocation>\\UNKNOWN\drops</DropLocation>
+		<DropLocation>\\UNKNOWN\drops</DropLocation>
 
-    <!--  TESTING
+		<!--  TESTING
      Set this flag to enable/disable running tests as a post-compilation build step.
     -->
-    <RunTest>false</RunTest>
+		<RunTest>false</RunTest>
 
-    <!--  CODE ANALYSIS
+		<!--  CODE ANALYSIS
      Set this property to enable/disable running code analysis. Valid values for this property are 
      Default, Always and Never.
 
@@ -66,16 +80,16 @@
          Always  - Always perform code analysis irrespective of project settings
          Never   - Never perform code analysis irrespective of project settings
      -->
-    <RunCodeAnalysis>Never</RunCodeAnalysis>
+		<RunCodeAnalysis>Never</RunCodeAnalysis>
 
-    <!-- Additional Properties -->
+		<!-- Additional Properties -->
 
-    <!--  WorkItemType
+		<!--  WorkItemType
      The type of the work item created on a build failure. 
      -->
-    <WorkItemType>Bug</WorkItemType>
+		<WorkItemType>Bug</WorkItemType>
 
-    <!--  WorkItemFieldValues
+		<!--  WorkItemFieldValues
      Fields and values of the work item created on a build failure.
      
      Note: Use reference names for fields if you want the build to be resistant to field name 
@@ -83,56 +97,56 @@
      on the installed language. For example, "System.Reason" is the reference name for the "Reason" 
      field.
      -->
-    <WorkItemFieldValues>System.Reason=Build Failure;System.Description=Start the build using Team Build</WorkItemFieldValues>
+		<WorkItemFieldValues>System.Reason=Build Failure;System.Description=Start the build using Team Build</WorkItemFieldValues>
 
-    <!--  WorkItemTitle
+		<!--  WorkItemTitle
      Title of the work item created on build failure.
      -->
-    <WorkItemTitle>Build failure in build:</WorkItemTitle>
+		<WorkItemTitle>Build failure in build:</WorkItemTitle>
 
-    <!--  DescriptionText
+		<!--  DescriptionText
      History comment of the work item created on a build failure. 
      -->
-    <DescriptionText>This work item was created by Team Build on a build failure.</DescriptionText>
+		<DescriptionText>This work item was created by Team Build on a build failure.</DescriptionText>
 
-    <!--  BuildLogText
+		<!--  BuildLogText
      Additional comment text for the work item created on a build failure.
      -->
-    <BuildlogText>The build log file is at:</BuildlogText>
+		<BuildlogText>The build log file is at:</BuildlogText>
 
-    <!--  ErrorWarningLogText
+		<!--  ErrorWarningLogText
      Additional comment text for the work item created on a build failure. 
      This text will only be added if there were errors or warnings.
      -->
-    <ErrorWarningLogText>The errors/warnings log file is at:</ErrorWarningLogText>
+		<ErrorWarningLogText>The errors/warnings log file is at:</ErrorWarningLogText>
 
-    <!--  UpdateAssociatedWorkItems
+		<!--  UpdateAssociatedWorkItems
      Set this flag to enable/disable updating associated workitems on a successful build.
      -->
-    <UpdateAssociatedWorkItems>true</UpdateAssociatedWorkItems>
+		<UpdateAssociatedWorkItems>true</UpdateAssociatedWorkItems>
 
-    <!--  AdditionalVCOverrides
+		<!--  AdditionalVCOverrides
      Additional text for the VCOverrides file generated for VC++ projects.
      -->
-    <AdditionalVCOverrides></AdditionalVCOverrides>
+		<AdditionalVCOverrides></AdditionalVCOverrides>
 
-    <!--  CustomPropertiesForClean
+		<!--  CustomPropertiesForClean
      Custom properties to pass to the MSBuild task while calling the "Clean" target for all solutions.
      The format should be: PropertyName1=value1;PropertyName2=value2;...
      -->
-    <CustomPropertiesForClean></CustomPropertiesForClean>
+		<CustomPropertiesForClean></CustomPropertiesForClean>
 
-    <!--  CustomPropertiesForBuild
+		<!--  CustomPropertiesForBuild
      Custom properties to pass to the MSBuild task while calling the default targets for all solutions.
      The format should be: Property1=value1;Property2=value2;...  To pass custom properties to
      individual solutions, use the Properties metadata item of the SolutionToBuild ItemGroup.
      -->
-    <CustomPropertiesForBuild></CustomPropertiesForBuild>
+		<CustomPropertiesForBuild></CustomPropertiesForBuild>
 
-  </PropertyGroup>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <!--  SOLUTIONS
+	<ItemGroup>
+		<!--  SOLUTIONS
      The paths of the solutions to build. Paths can be server paths or local paths, but server paths
      relative to the location of this file are highly recommended.  To add/delete solutions, edit this 
      ItemGroup. For example, to add a solution MySolution.sln, add the following line:
@@ -152,15 +166,15 @@
              <Properties>Property1=Value1;Property2=Value2</Properties>
          </SolutionToBuild>
     -->
-    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Production/UserServices.sln">
-        <Targets></Targets>
-        <Properties></Properties>
-    </SolutionToBuild>
+		<SolutionToBuild Include="$(BuildProjectFolderPath)/../../Production/UserServices.sln">
+			<Targets></Targets>
+			<Properties></Properties>
+		</SolutionToBuild>
 
-  </ItemGroup>
+	</ItemGroup>
 
-  <ItemGroup>
-    <!--  CONFIGURATIONS
+	<ItemGroup>
+		<!--  CONFIGURATIONS
      The list of configurations to build. To add/delete configurations, edit this value. For example, 
      to add a new configuration, add the following lines:
          
@@ -171,15 +185,19 @@
 
      The Include attribute value should be unique for each ConfigurationToBuild node.
     -->
-    <ConfigurationToBuild Include="Release|Any CPU">
-        <FlavorToBuild>Release</FlavorToBuild>
-        <PlatformToBuild>Any CPU</PlatformToBuild>
-    </ConfigurationToBuild>
+		<ConfigurationToBuild Include="Release|Any CPU">
+			<FlavorToBuild>Release</FlavorToBuild>
+			<PlatformToBuild>Any CPU</PlatformToBuild>
+		</ConfigurationToBuild>
+		<ConfigurationToBuild Include="Release|Win32">
+			<FlavorToBuild>Release</FlavorToBuild>
+			<PlatformToBuild>Win32</PlatformToBuild>
+		</ConfigurationToBuild>
 
-  </ItemGroup>
+	</ItemGroup>
 
-  <ItemGroup>
-    <!--  TEST ARGUMENTS
+	<ItemGroup>
+		<!--  TEST ARGUMENTS
      If the RunTest property is set to true then the following test arguments will be used to run 
      tests. Tests can be run by specifying one or more test lists and/or one or more test containers.
      
@@ -200,10 +218,10 @@
      Use %2a instead of * and %3f instead of ? to prevent expansion before test assemblies are built
     -->
 
-  </ItemGroup>
+	</ItemGroup>
 
-  <PropertyGroup>
-    <!-- TEST ARGUMENTS
+	<PropertyGroup>
+		<!-- TEST ARGUMENTS
      If the RunTest property is set to true, then particular tests within a
      metadata file or test container may be specified here.  This is
      equivalent to the /test switch on mstest.exe.
@@ -211,14 +229,202 @@
      <TestNames>BVT;HighPriority</TestNames>
     -->
 
-  </PropertyGroup>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <!--  ADDITIONAL REFERENCE PATH
+	<!-- Make it an incremental build -->
+	<!-- PropertyGroup>
+    <SkipClean>true</SkipClean>
+    <SkipInitializeWorkspace>true</SkipInitializeWorkspace>
+    <ForceGet>false</ForceGet>
+  </PropertyGroup -->
+
+	<ItemGroup>
+		<!--  ADDITIONAL REFERENCE PATH
      The list of additional reference paths to use while resolving references. For example:
      
          <AdditionalReferencePath Include="C:\MyFolder\" />
          <AdditionalReferencePath Include="C:\MyFolder2\" />
     -->
-  </ItemGroup>
+	</ItemGroup>
+
+	<ItemGroup>
+
+
+		<RipleyRC Include="$(SolutionRoot)\Source\Ripley\RipleyServer.rc" />
+		<AssemblyInfoFiles Include="$(SolutionRoot)\**\AssemblyInfo.cs" />
+		<Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
+		<SkinsExclude Include="$(SolutionRoot)\Source\Skins\base\site.xsl;$(SolutionRoot)\Source\Skins\base\lists.xsl;$(SolutionRoot)\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Source\Skins\common\configuration.xsl;"></SkinsExclude>
+		<Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
+		<DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
+		<CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.pdb"></CommentsApi>
+		<ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.pdb"></ModerationApi>
+		<Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
+		<Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\DeploymentNotes.txt"></Documentation>
+	</ItemGroup>
+
+
+	<!-- Do versioning -->
+	<Target Name="AfterGet" Condition="'$(IsDesktopBuild)'!='true' and '$(Major)' != '0'">
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Updating version files to version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot;" Condition=" '$(IsDesktopBuild)' != 'true' ">
+			<!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+			<Output TaskParameter="Id" PropertyName="VersioningStep" />
+		</BuildStep>
+		<Message Text="AssemblyInfoFiles: @(AssemblyInfoFiles)"></Message>
+
+		<!-- check out all .assembly files -->
+		<Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;AssemblyInfo.cs&quot;"/>
+		<Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkout /recursive &quot;@(RipleyRC)&quot;"/>
+		<!-- change version -->
+		<FileUpdate Files="@(AssemblyInfoFiles)" Regex="AssemblyFileVersion\(&quot;.*&quot;\)\]" ReplacementText="AssemblyFileVersion(&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;)]" />
+		<FileUpdate Files="@(RipleyRC)" Regex="FILEVERSION .*" ReplacementText="FILEVERSION $(Major),$(Minor),$(Build),$(Revision)" Encoding="ascii"/>
+		<FileUpdate Files="@(RipleyRC)" Regex="PRODUCTVERSION .*" ReplacementText="PRODUCTVERSION $(Major),$(Minor),$(Build),$(Revision)" Encoding="ascii"/>
+		<FileUpdate Files="@(RipleyRC)" Regex="VALUE &quot;FileVersion&quot;, &quot;.*&quot;" ReplacementText="VALUE &quot;FileVersion&quot;, &quot;$(Major),$(Minor),$(Build),$(Revision)&quot;" Encoding="ascii"/>
+		<FileUpdate Files="@(RipleyRC)" Regex="VALUE &quot;ProductVersion&quot;, &quot;.*&quot;" ReplacementText="VALUE &quot;ProductVersion&quot;, &quot;$(Major),$(Minor),$(Build),$(Revision)&quot;" Encoding="ascii"/>
+
+
+
+		<!-- Check in the files again -->
+		<Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe checkin /override:&quot;Automated&quot; /comment:&quot;Update Version number $(Major).$(Minor).$(Build).$(Revision)&quot; /notes:&quot;Code reviewer=TFSBUILD&quot; /noprompt" ContinueOnError="false"/>
+
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+		<OnError ExecuteTargets="AfterGetFailed" />
+	</Target>
+	<Target Name="AfterGetFailed">
+		<Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe undo /recursive &quot;AssemblyInfo.cs&quot; /noprompt"/>
+		<Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe undo /recursive &quot;@(RipleyRC)&quot; /noprompt"/>
+
+		<!-- Change the status of the task to "Failed" -->
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+		<SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+							BuildUri="$(BuildUri)"
+							CompilationStatus="Failed"
+							Condition=" '$(IsDesktopBuild)' != 'true' and '$(BuildBreak)' != 'true' " />
+	</Target>
+
+
+	<Target Name="AfterDropBuild">
+		<CallTarget Targets="PostBuildStep" />
+	</Target>
+
+
+
+	<!-- Fail the build if the compile fail... -->
+	<Target Name="AfterCompile" Condition=" '$(BuildBreak)'=='true' and '$(IsDesktopBuild)'!='true' " >
+
+		<!-- Set CompilationStatus to Failed if TestSuccess is false. -->
+		<SetBuildProperties TeamFoundationServerUrl="$(TeamFoundationServerUrl)"
+							BuildUri="$(BuildUri)"
+							CompilationStatus="Failed"
+							Condition=" '$(IsDesktopBuild)' != 'true' and '$(BuildBreak)' != 'true' " />
+	</Target>
+
+
+	<!-- do post build step stuff -->
+
+	<Target Name="PostBuildStep">
+		<!-- Create the build steps which start in mode "Running" -->
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Post build deploy steps" Condition=" '$(IsDesktopBuild)' != 'true' ">
+			<!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+			<Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+		</BuildStep>
+
+		<!-- Exec IPC$ command - get access to ops-dna1-->
+		<Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
+
+		<!-- call targets -->
+		<!-- <CallTarget Targets="DeployToProduction" /> -->
+		<CallTarget Targets="DeployToProductionPublishFolder" />
+
+		<!-- Close Access to ops-dna1 -->
+		<Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
+		<!-- When everything is done, change the status of the task to "Succeeded" -->
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+		<!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+		<OnError ExecuteTargets="PostBuildStepFailed" />
+	</Target>
+
+
+	<Target Name="PostBuildStepFailed">
+		<!-- Change the status of the task to "Failed" -->
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+	</Target>
+
+
+	<!--	<Target Name="DeployToProduction">
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to release server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+	-->
+		<!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+	<!--			<Output TaskParameter="Id" PropertyName="DeployToReleaseId" />
+		</BuildStep>
+	-->
+	<!-- stop iis on ops-dna1 -->
+	<!--		<Exec Command="sc \\vp-dev-dna-web2 stop w3svc" Timeout="10000"></Exec>
+	-->
+	<!-- Copy DnaPages to int drop location -->
+	<!--		<Copy SourceFiles="@(DnaPages)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+	-->
+	<!-- Copy CommentsApi to int drop location -->
+	<!--		<Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+	-->
+	<!-- Copy ModerationApi to int drop location -->
+	<!--		<Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+	-->
+	<!-- Copy ModerationApi to int drop location -->
+	<!--		<Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+	-->
+	<!-- Copy ripley dlls over existing-->
+	<!--		<Copy SourceFiles="@(Ripley)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+	-->
+	<!-- start website to copy ripley -->
+	<!--		<Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec>
+	-->
+	<!-- When everything is done, change the status of the task to "Succeeded" -->
+	<!--		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToProductionId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+		<OnError ExecuteTargets="DeployToReleaseFailed" />
+	</Target> -->
+
+	<!--<Target Name="DeployToProductionFailed"> -->
+		<!-- Change the status of the task to "Failed" -->
+	<!--	<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToProductionId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " /> -->
+	<!-- </Target> -->
+
+	<Target Name="DeployToProductionPublishFolder">
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to production deploy folder" Condition=" '$(IsDesktopBuild)' != 'true' ">
+			<!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+			<Output TaskParameter="Id" PropertyName="DeployToProductionPublishFolder" />
+		</BuildStep>
+		<!-- Get the version of BBC.Dna.dll -->
+		<!-- Version VersionFile="$(BinariesRoot)\Release\BBC.Dna.Api.dll" RevisionType="None">
+      <Output TaskParameter="Major" PropertyName="Major" />
+      <Output TaskParameter="Minor" PropertyName="Minor" />
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </Version -->
+		<!-- create the deploy dir variable-->
+		<PropertyGroup>
+			<DeployDir>C:\RipleyProduction\deploy\</DeployDir>
+		</PropertyGroup>
+
+		<!-- delete existing files -->
+		<Exec Command="rmdir /S /Q &quot;$(DeployDir)&quot;"></Exec>
+		<Exec Command="mkdir &quot;$(DeployDir)&quot;"></Exec>
+		<Copy SourceFiles="@(DnaPages)" DestinationFolder="$(DeployDir)wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+		<Copy SourceFiles="@(CommentsApi)" DestinationFolder="$(DeployDir)wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+		<Copy SourceFiles="@(ModerationApi)" DestinationFolder="$(DeployDir)wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+		<Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+		<Copy SourceFiles="@(Ripley)" DestinationFolder="$(DeployDir)wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+		<Copy SourceFiles="@(Database)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+		<Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+		<!-- When everything is done, change the status of the task to "Succeeded" -->
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToProductionPublishFolder)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+		<OnError ExecuteTargets="DeployToProductionPublishFolderFailed" />
+	</Target>
+	<Target Name="DeployToProductionPublishFolderFailed">
+		<BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToProductionPublishFolder)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+	</Target>
+
 </Project>
