@@ -7,7 +7,7 @@
 	<!--<xsl:include href="../admin/admin-moderationemailpage.xsl"/>-->
 	<!--<xsl:include href="../admin/admin-moderatormanagementpage.xsl"/>-->
 	<!--xsl:include href="admin-openingschedulepage.xsl"/-->
-	<!--<xsl:include href="../admin/admin-profanityadminpage.xsl"/>-->
+	<xsl:include href="../admin/admin-profanityadminpage.xsl"/>
 	<xsl:include href="base-attributesets.xsl"/>
 	<xsl:include href="base-guideml.xsl"/>
 	<xsl:include href="basetext.xsl"/>

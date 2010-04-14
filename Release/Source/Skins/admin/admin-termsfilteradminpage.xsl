@@ -55,7 +55,7 @@
 =================================================
 =================================================
 -->
-	<xsl:variable name="modClass">
+	<xsl:variable name="modClassTerms">
 		<xsl:choose>
 			<xsl:when test="not(/H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID = 0)">
 				<xsl:value-of select="/H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID"/>
@@ -82,7 +82,7 @@
       </div>
 			<ul id="lhn">
 				<p style="margin-bottom:10px; color:#000000; font-weight:bold;">Moderation Classes</p>
-				<xsl:apply-templates select="TERMSFILTERADMIN/MODERATION-CLASSES/MODERATION-CLASS" mode="lefthandNav"/>
+				<xsl:apply-templates select="TERMSFILTERADMIN/MODERATION-CLASSES/MODERATION-CLASS" mode="lefthandNav_terms"/>
 			</ul>
 			<div id="mainArea">
         
@@ -91,9 +91,9 @@
       
 		</div>
 	</xsl:template>
-	<xsl:template match="MODERATION-CLASS" mode="lefthandNav">
+	<xsl:template match="MODERATION-CLASS" mode="lefthandNav_terms">
 		<li>
-			<xsl:if test="($modClass = @CLASSID)">
+			<xsl:if test="($modClassTerms = @CLASSID)">
 				<xsl:attribute name="class">selected</xsl:attribute>
 			</xsl:if>
 			<a href="{$root}termsfilteradmin?modclassid={@CLASSID}">
