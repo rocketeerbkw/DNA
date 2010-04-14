@@ -11,7 +11,7 @@ from
 	inner join termslookup tl on tl.id = tm.termid
 where
 	actionid >0
-	
+ORDER BY ModClassID, Refer, Profanity ASC
 
 --SELECT P.ProfanityID, P.Profanity, P.ModClassID, P.Refer
 --FROM Profanities P
