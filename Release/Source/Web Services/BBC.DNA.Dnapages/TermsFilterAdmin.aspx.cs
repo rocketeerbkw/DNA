@@ -33,7 +33,7 @@ using BBC.Dna.Page;
         {
             get
             {
-                return DnaBasePage.UserTypes.EditorAndAbove;
+                return DnaBasePage.UserTypes.Administrator;
             }
         }
     }
