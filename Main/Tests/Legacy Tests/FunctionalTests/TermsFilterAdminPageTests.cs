@@ -76,7 +76,7 @@ namespace FunctionalTests
 
             request.RequestPage("termsfilteradmin?modclassid=2&skin=purexml");
             var doc = request.GetLastResponseAsXML();
-            Assert.IsNotNull(doc.SelectSingleNode("//H2G2/ERROR"));
+            Assert.AreEqual("ERROR",doc.SelectSingleNode("//H2G2").Attributes["TYPE"].Value);
             Assert.IsNotNull(doc.SelectSingleNode("//H2G2/ERROR/ERRORMESSAGE"));
             Assert.IsNull(doc.SelectSingleNode("//H2G2/TERMADMIN"));
         }

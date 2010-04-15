@@ -872,7 +872,7 @@ namespace BBC.Dna.Page
 			{
 				return true;
 			}
-            else if ((_dnapage.AllowedUsers & UserTypes.Administrator) != 0 && userName == "administrator")
+            else if ((_dnapage.AllowedUsers & UserTypes.Administrator) != 0 && userName == "editor")
 			{
 				return true;
 			}
