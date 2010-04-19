@@ -80,7 +80,7 @@ namespace BBC.Dna
                     //thread.Priority = ThreadPriority.Highest;
                     //thread.Start();
 
-                    AppContext.TheAppContext.SendSignal("recache-site"););
+                    AppContext.TheAppContext.SendSignal("recache-site");
                     return new Result("SiteRefreshSuccess", "Terms filter refresh initiated.");
             }
             return null;
