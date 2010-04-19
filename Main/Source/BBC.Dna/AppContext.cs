@@ -287,7 +287,7 @@ namespace BBC.Dna
             string request = "";
             if (APIsignal)
             {
-                request = "http://" + serverName + "/dna/api/comments/status.aspx?action=" + signal;
+                request = "http://" + serverName + "/dna/api/comments/status.aspx?" + signal;
             }
             else
             {
