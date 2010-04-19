@@ -74,15 +74,15 @@ namespace BBC.Dna
 
                 case "REFRESHCACHE":
                     //run in background...
-                    var thread = new Thread(() => AppContext.TheAppContext.SendSignal("recache-site"));
-                    thread.IsBackground = true;
-                    thread.Priority = ThreadPriority.Highest;
-                    thread.Start();
+                    //var thread = new Thread(() => AppContext.TheAppContext.SendSignal("recache-site"));
+                    //thread.IsBackground = true;
+                    //thread.Priority = ThreadPriority.Highest;
+                    //thread.Start();
 
 
 
 
-                    //AppContext.TheAppContext.SendSignal("recache-site"););
+                    AppContext.TheAppContext.SendSignal("recache-site");
                     return new Result("SiteRefreshSuccess", "Terms filter refresh initiated.");
             }
             return null;
