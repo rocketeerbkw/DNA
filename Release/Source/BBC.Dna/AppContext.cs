@@ -270,7 +270,7 @@ namespace BBC.Dna
 			foreach (string address in _dnaConfig.DotNetServerAddresses)
 			{
 				// Send the signal to the selected server
-                SendSignalToServer(address, "dnasignal?action=" + signal + "&skin=purexml", false);
+                SendSignalToServer(address, "dnasignal?" + signal + "&skin=purexml", false);
                 SendSignalToServer(address, signal, true);
             }
 		}
@@ -287,7 +287,7 @@ namespace BBC.Dna
             string request = "";
             if (APIsignal)
             {
-                request = "http://" + serverName + "/dna/api/comments/status.aspx?action=" + signal;
+                request = "http://" + serverName + "/dna/api/comments/status.aspx?" + signal;
             }
             else
             {
