@@ -132,7 +132,7 @@ namespace BBC.Dna.Moderation
         /// <returns></returns>
         public override bool IsUpToDate(IDnaDataReaderCreator readerCreator)
         {
-            return true;
+            return false;
         }
     }
 }

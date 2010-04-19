@@ -240,7 +240,7 @@ namespace BBC.Dna.Moderation.Tests
         public void IsUpToDate_AlwaysReturnsTrue()
         {
             var target = new TermsLists(); 
-            Assert.IsTrue(target.IsUpToDate(null));
+            Assert.IsFalse(target.IsUpToDate(null));
         }
     }
 }
