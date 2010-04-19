@@ -482,8 +482,13 @@ On live web.config - within  <system.web> change
 	to
 	<pages  validateRequest="false">
 	
-============== v 3.5.30.0 =============
+============== v 3.5.32.0 =============
 13/01/10 MarcusP
 Run MigrateProfanitiesToTermsFilter.sql in DBScripts
 Rollback:
 	Simply uncommment the old version of the getallprofanities and it will use the old admin pages and profanity list
+	
+EntLib 4.1 fix
+	Within web.config 
+	- Change maximumElementsInCacheBeforeScavenging for the "cache manager" cache element to be 100000. 
+	- Change numberToRemoveWhenScavenging to 1000
