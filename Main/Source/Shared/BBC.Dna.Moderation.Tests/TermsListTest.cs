@@ -29,8 +29,8 @@ namespace BBC.Dna.Moderation.Tests
         [TestMethod]
         public void IsUpToDate_AlwaysReturnsTrue()
         {
-            var target = new TermsList(); 
-            Assert.IsTrue(target.IsUpToDate(null));
+            var target = new TermsList();
+            Assert.IsFalse(target.IsUpToDate(null));
             
         }
 
