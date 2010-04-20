@@ -22,4 +22,15 @@
 		<p class="error">An error has occurred.</p>
 	</xsl:template>
 
+
+  <xsl:template match="/H2G2/ERROR" mode="page">
+    <p class="error">An error has occurred - <xsl:value-of select="ERRORMESSAGE"/></p>
+  </xsl:template>
+
+  <xsl:template match="/H2G2/RESULT" mode="page">
+    <p class="error">
+      <xsl:value-of select="MESSAGE"/>
+    </p>
+  </xsl:template>
+
 </xsl:stylesheet>

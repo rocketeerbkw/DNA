@@ -21,7 +21,7 @@ namespace BBC.Dna.Sites.Tests
             int forumId = 1;
             int status = 1; 
             var target = new Topic(topicId, title, h2G2Id, forumId, status);
-            Assert.AreEqual(topicId, target.TopicID);
+            Assert.AreEqual(topicId, target.TopicId);
 
         }
     }

@@ -37,23 +37,31 @@ namespace BBC.Dna.Objects
             else
             {
 
-                switch (style)
+                try
                 {
-                    case GuideEntryStyle.GuideML:
-                        doc.LoadXml(Entities.GetEntities() + text);
-                        break;
+                    switch (style)
+                    {
+                        case GuideEntryStyle.GuideML:
+                            doc.LoadXml(Entities.GetEntities() + text);
+                            break;
 
-                    case GuideEntryStyle.PlainText:
-                        doc.LoadXml("<GUIDE><BODY>" + StringUtils.PlainTextToGuideML(text) + "</BODY></GUIDE>");
-                        break;
+                        case GuideEntryStyle.PlainText:
+                            doc.LoadXml("<GUIDE><BODY>" + StringUtils.PlainTextToGuideML(text) + "</BODY></GUIDE>");
+                            break;
 
-                    case GuideEntryStyle.Html:
-                        doc.LoadXml("<GUIDE><BODY><PASSTHROUGH><![CDATA[" + text + "]]></PASSTHROUGH></BODY></GUIDE>");
-                        break;
+                        case GuideEntryStyle.Html:
+                            doc.LoadXml("<GUIDE><BODY><PASSTHROUGH><![CDATA[" + text + "]]></PASSTHROUGH></BODY></GUIDE>");
+                            break;
 
-                    default:
-                        goto case GuideEntryStyle.GuideML;//null styles are generally guideml...
-                    //throw new NotImplementedException("Don't know what type of entry we've got here!");
+                        default:
+                            goto case GuideEntryStyle.GuideML;//null styles are generally guideml...
+                        //throw new NotImplementedException("Don't know what type of entry we've got here!");
+                    }
+                }
+                catch(Exception e)
+                {
+                    DnaDiagnostics.Default.WriteExceptionToLog(e);
+                    doc.LoadXml("<GUIDE><BODY></BODY></GUIDE>");
                 }
 
 

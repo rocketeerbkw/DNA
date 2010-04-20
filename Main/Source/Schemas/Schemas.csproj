@@ -468,6 +468,7 @@
     </None>
     <None Include="ThreadSummary.xsd" />
     <None Include="TopicList.xsd" />
+    <None Include="TopicPage.xsd" />
     <None Include="TrackedParameters.xsd">
       <SubType>
       </SubType>

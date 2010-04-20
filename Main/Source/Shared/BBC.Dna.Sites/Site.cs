@@ -29,7 +29,7 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// List for the topics associated with the site
         /// </summary>
-        private readonly List<Topic> _topics = new List<Topic>();
+        private readonly TopicList _topics = new TopicList();
 
         private readonly bool _unmoderated;
         private readonly bool _preModeration;
@@ -426,7 +426,7 @@ namespace BBC.Dna.Sites
         /// <param name="status">The status of the topic. 0 - Live, 1 - Preview, 2 - Deleted, 3 - Archived Live, 4 - Archived Preview</param>
         public void AddTopic(int topicID, string title, int h2g2ID, int forumID, int status)
         {
-            _topics.Add(new Topic(topicID, title, h2g2ID, forumID, status));
+            _topics.Topics.Add(new Topic(topicID, title, h2g2ID, forumID, status));
         }
 
         /// <summary>
@@ -435,7 +435,7 @@ namespace BBC.Dna.Sites
         /// <returns>The list of live topics for this site</returns>
         public List<Topic> GetLiveTopics()
         {
-            return _topics;
+            return _topics.Topics;
         }
 
         /// <summary>
@@ -444,43 +444,10 @@ namespace BBC.Dna.Sites
         /// <returns>The root XML node for the list</returns>
         public XmlNode GetTopicListXml()
         {
-            // Create the root node
             var doc = new XmlDocument();
-            XmlElement listNode = doc.CreateElement("TOPICLIST");
-
-            // Now go through the topics list adding them as nodes
-            foreach (Topic topic in _topics)
-            {
-                // Create the container
-                XmlElement topicElement = doc.CreateElement("TOPIC");
-
-                // Add the topic id
-                XmlElement topicID = doc.CreateElement("TOPICID");
-                topicID.InnerText = topic.TopicID.ToString();
-                topicElement.AppendChild(topicID);
-
-                // Add the topic Title
-                XmlElement topicTitle = doc.CreateElement("TITLE");
-                topicTitle.AppendChild(doc.CreateTextNode(""));
-                topicTitle.InnerXml = topic.Title;
-                topicElement.AppendChild(topicTitle);
-
-                // Add the topic h2g2id
-                XmlElement topicH2G2ID = doc.CreateElement("H2G2ID");
-                topicH2G2ID.InnerText = topic.h2g2ID.ToString();
-                topicElement.AppendChild(topicH2G2ID);
-
-                // Add the topic forumid
-                XmlElement topicForumID = doc.CreateElement("FORUMID");
-                topicForumID.InnerText = topic.ForumID.ToString();
-                topicElement.AppendChild(topicForumID);
-
-                // Now add the topic to the list
-                listNode.AppendChild(topicElement);
-            }
-
-            // Return the list
-            return listNode;
+            doc.LoadXml(StringUtils.SerializeToXmlUsingXmlSerialiser(_topics));
+            // Return the list)
+            return doc.DocumentElement;
         }
 
         /// <summary>

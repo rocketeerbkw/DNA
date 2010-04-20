@@ -303,7 +303,37 @@
         <xsl:call-template name="submitbuttons"/>
       </form>
     </div>
+
+    <div id="mbpreview-edittopiclayout" class="mbpreview-box">
+      <h4>Edit Topic Layout</h4>
+      <p>Choose the layout options youw would like: </p>
+      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+        <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
+        <div>
+          <input type="radio" name="topiclayout" value="2col" id="layout-2col">
+           <xsl:if test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
+            <xsl:attribute name="checked">checked</xsl:attribute>
+          </xsl:if>
+          </input>
+          <label for="layout-2col">2 Columns</label>
+          <p>This layout consists of topic promos being displayed in 2 columns. It also allows you to add images to your topic promo.</p>
+        </div>
+        <div>
+          <input type="radio" name="topiclayout" value="1col" id="layout-1col">
+            <xsl:if test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col'">
+              <xsl:attribute name="checked">checked</xsl:attribute>
+            </xsl:if>
+          </input>
+          <label for="layout-1col">1 Column</label>
+          <p>This layout consists of topic promos displayed in 1 column.</p>
+        </div>
+        <xsl:call-template name="submitbuttons"/>
+      </form>
+    </div>
 	</div>
+  
+  
+  
 </xsl:template>
 
 <xsl:template name="submitbuttons">

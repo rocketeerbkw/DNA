@@ -18,19 +18,19 @@
     <!-- =================================================================================== Required === --> 
     <xsl:include href="../../../common/configuration.xsl"/>
     <xsl:include href="../configuration.xsl"/>
-    
-    <xsl:variable name="configuration" select="msxsl:node-set($skin)/configuration" />
-    
-    <xsl:include href="../../../common/1/includes.xsl" />
-    
-    <xsl:include href="pages/messageboardadmin.xsl"/>
+
+  <xsl:variable name="configuration" select="msxsl:node-set($skin)/configuration" />
+
+  <xsl:include href="../../../common/1/includes.xsl" />
+
+  <xsl:include href="pages/messageboardadmin.xsl"/>
   <xsl:include href="pages/messageboardadmin_design.xsl"/>
   <xsl:include href="pages/messageboardadmin_assets.xsl"/>
-  <!-- xsl:include href="pages/frontpagelayout.xsl"/ --> 
-	<xsl:include href="pages/lightboxes.xsl"/>
-	<xsl:include href="pages/error.xsl"/>
-	<xsl:include href="pages/messageboardschedule.xsl"/>
-	
-	<xsl:include href="objects/topiclist.xsl"/>
+  <!-- xsl:include href="pages/frontpagelayout.xsl"/ -->
+  <xsl:include href="pages/lightboxes.xsl"/>
+  <xsl:include href="pages/error.xsl"/>
+  <xsl:include href="pages/messageboardschedule.xsl"/>
+
+  <xsl:include href="objects/topiclist.xsl"/>
     
 </xsl:stylesheet>

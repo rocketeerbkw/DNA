@@ -1276,6 +1276,8 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="EditTopic2.sql" />
+    <None Include="gettopicsforsiteID2.sql" />
     <None Include="getrecentcomments.sql" />
     <None Include="GetTermsByModClassId.sql" />
     <None Include="forumgetthreadlist_datecreated_includingstickythreads.sql" />

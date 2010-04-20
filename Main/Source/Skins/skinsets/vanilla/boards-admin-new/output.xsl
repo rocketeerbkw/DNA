@@ -99,6 +99,8 @@
 				<div class="clear"> </div>
 				
 				<div id="blq-content">
+          <xsl:apply-templates select="/H2G2/ERROR" mode="page"/>
+          <xsl:apply-templates select="/H2G2/RESULT" mode="page"/>
 					<xsl:apply-templates select="." mode="page"/>
 				</div>
 				

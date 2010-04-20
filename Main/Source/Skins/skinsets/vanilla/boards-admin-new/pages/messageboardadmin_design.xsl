@@ -50,9 +50,9 @@
 						<div id="mbpreview-topics" class="solidborder">
 							<h4>Messageboard Topics</h4>
 							<xsl:choose>
-								<xsl:when test="SITECONFIG">
+								<xsl:when test="TOPIC_PAGE">
 								<!--<xsl:when test="SITECONFIG/SITECONFIGPREVIEW/TOPICLAYOUT">-->
-									<xsl:apply-templates select="FRONTPAGELAYOUTCOMPONENTS/TOPICLIST" mode="object_topiclist"/>
+									<xsl:apply-templates select="TOPICLIST" mode="object_topiclist"/>
 								</xsl:when>
 								<xsl:otherwise>
 									<p class="info">Topics will automatically appear when you add a new topic (right).</p>
@@ -71,16 +71,47 @@
 						<div id="mbpreview-welcome" class="solidbg">
 							<a href="#mbpreview-addwelcome" class="overlay">+ Add welcome message</a>
 						</div>
-						<xsl:choose>
-							<xsl:when test="SITECONFIG">
-							<!--<xsl:when test="SITECONFIG/SITECONFIGPREVIEW/TOPICLAYOUT)">-->
-								<xsl:apply-templates select="FRONTPAGELAYOUTCOMPONENTS/TOPICLIST" mode="object_topiclist_elements"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:apply-templates select="FRONTPAGELAYOUTCOMPONENTS/TOPICLIST" mode="object_topiclist_setup"/>
-							</xsl:otherwise>
-						</xsl:choose>
+            <form action="messageboardadmin_design?cmd=updatetopicpositions" method="post">
+              <xsl:choose>
+                <xsl:when test="/H2G2/TOPIC_PAGE">
+                  <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST" mode="object_topiclist_elements"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:apply-templates select="TOPICLIST" mode="object_topiclist_setup"/>
+                </xsl:otherwise>
+              </xsl:choose>
+              <li>
+
+                <xsl:if test="count(TOPIC) mod 2 = 1">
+                  <xsl:attribute name="class">even</xsl:attribute>
+                </xsl:if>
+                <a href="messageboardadmin_design?s_edittopic=0" class="overlay">+ Add topic</a>
+              </li>
+              <li class="noborder">
+                <div>
+                  <p>
+                    <!-- a href="#" class="overlay">Edit topic layout</a -->
+                    <input type="submit" value="Update Topic Layout"></input>
+                  </p>
+                  <p>
+                    <a href="#" class="overlay">Edit topic order</a>
+                  </p>
+                </div>
+              </li>
+            </form>
 					</div>
+          <xsl:choose>
+            <xsl:when test="PARAMS/PARAM[NAME='s_edittopic'] and (TOPIC_PAGE/TOPICLIST/TOPIC/TOPICID = PARAMS/PARAM[NAME='s_edittopic']/VALUE)">
+              <xsl:call-template name="object_topic_edit">
+                <xsl:with-param name="topicid" select="PARAMS/PARAM[NAME='s_edittopic']/VALUE" />
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:call-template name="object_topic_edit">
+                <xsl:with-param name="topicid" select="0" />
+              </xsl:call-template>
+            </xsl:otherwise>
+          </xsl:choose>
 					<div id="mbpreview-right">
 						<div id="mbpreview-about" class="noborder">
 							<h4 class="darker">About this Board</h4>

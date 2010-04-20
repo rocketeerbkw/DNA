@@ -191,7 +191,7 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod]
         public void GetTopicListXml_ValidLiveTopic_ReturnsXML()
         {
-            string expectedXml = "<TOPICLIST><TOPIC><TOPICID>0</TOPICID><TITLE></TITLE><H2G2ID>0</H2G2ID><FORUMID>0</FORUMID></TOPIC></TOPICLIST>";
+            string expectedXml = "<TOPICLIST><TOPIC><TOPICID>0</TOPICID><H2G2ID>0</H2G2ID><SITEID>0</SITEID><TOPICSTATUS>0</TOPICSTATUS><TOPICLINKID>0</TOPICLINKID><TITLE /><FORUMID>0</FORUMID><FORUMPOSTCOUNT>0</FORUMPOSTCOUNT></TOPIC></TOPICLIST>";
             Site site = CreateDefaultSiteObject();
             site.AddTopic(0, "", 0, 0, 0);
             Assert.AreEqual(expectedXml, site.GetTopicListXml().OuterXml);
