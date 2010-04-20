@@ -486,7 +486,8 @@ On live web.config - within  <system.web> change
 13/01/10 MarcusP
 Run MigrateProfanitiesToTermsFilter.sql in DBScripts
 Rollback:
-	Simply uncommment the old version of the getallprofanities and it will use the old admin pages and profanity list
+	Uncommment the old version of the "getallprofanities" and "profanitiesgetall" and it will use the old admin pages and profanity list.
+	In filter.reg uncomment the line which adds the association for the old profanityadmin page.
 	
 EntLib 4.1 fix
 	Within web.config 

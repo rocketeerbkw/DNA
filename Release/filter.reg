@@ -1,4 +1,9 @@
 REGEDIT4
+--delete all keys
+[-HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
+--create prefix key
+[HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
+--add associations
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
 @=""
@@ -151,7 +156,7 @@ REGEDIT4
 "/G"="/ripleyserver.dll?Club?id="
 "/FEI"="/ripleyserver.dll?FixExtraInfo?"
 "/NBList"="/ripleyserver.dll?NoticeBoardList?"
-"/ProfanityAdmin"="/ripleyserver.dll?ProfanityAdmin?"
+--"/ProfanityAdmin"="/ripleyserver.dll?ProfanityAdmin?"
 
 "/FCL"="/ripleyserver.dll?FAST_CATEGORYLISTBUILDER?"
 "/FailMessage"="/ripleyserver.dll?FailMessage?"
