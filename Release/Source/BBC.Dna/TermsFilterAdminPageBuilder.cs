@@ -2,6 +2,7 @@
 using System;
 using BBC.Dna.Data;
 using BBC.Dna.Objects;
+using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Moderation;
 using System.Threading;
@@ -74,15 +75,12 @@ namespace BBC.Dna
 
                 case "REFRESHCACHE":
                     //run in background...
-                    //var thread = new Thread(() => AppContext.TheAppContext.SendSignal("recache-site"));
+                    //var thread = new Thread(() => AppContext.TheAppContext.SendSignal("action=recache-site"));
                     //thread.IsBackground = true;
                     //thread.Priority = ThreadPriority.Highest;
                     //thread.Start();
 
-
-
-
-                    AppContext.TheAppContext.SendSignal("recache-site");
+                    AppContext.TheAppContext.SendSignal("action=recache-site");
                     return new Result("SiteRefreshSuccess", "Terms filter refresh initiated.");
             }
             return null;
