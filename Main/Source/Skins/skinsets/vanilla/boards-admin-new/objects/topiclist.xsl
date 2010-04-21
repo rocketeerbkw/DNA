@@ -29,8 +29,26 @@
   </xsl:template>
 
 
-  <xsl:template match="TOPICLIST" mode="object_topiclist">
-    in coverall
+  <xsl:template match="TOPIC" mode="object_topiclist">
+    <div>
+      <xsl:choose>
+        <xsl:when test="TOPICSTATUS='0'">
+          <a href="topicbuilder?cmd=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to archive this topic?');"><xsl:value-of select="TITLE"/></a>
+        </xsl:when>
+        <xsl:when test="TOPICSTATUS='1'">
+          <a href="topicbuilder?cmd=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to delete this topic?');">
+            <xsl:value-of select="TITLE"/>
+          </a>
+        </xsl:when>
+        <xsl:otherwise>
+          <a href="topicbuilder?cmd=unarchive&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to unarchive this topic?');">
+            <xsl:value-of select="TITLE"/>
+          </a>
+        </xsl:otherwise>
+      </xsl:choose>
+
+
+    </div>
   </xsl:template>
 	
 	<xsl:template match="TOPICLIST" mode="object_topiclist_setup">
