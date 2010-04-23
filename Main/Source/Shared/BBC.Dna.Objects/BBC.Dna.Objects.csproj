@@ -74,6 +74,7 @@
     <Compile Include="Club.cs" />
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="FrontPageElement.cs" />
+    <Compile Include="MessageBoardPublishError.cs" />
     <Compile Include="SmileyTranslator.cs" />
     <Compile Include="ThreadPostSummary.cs" />
     <Compile Include="ForumHelper.cs" />

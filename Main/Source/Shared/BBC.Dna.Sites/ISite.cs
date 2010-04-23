@@ -2,6 +2,8 @@
 using System.Xml;
 using System.Collections.Generic;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Utils;
+using BBC.Dna.Data;
 
 namespace BBC.Dna.Sites
 {
@@ -199,6 +201,14 @@ namespace BBC.Dna.Sites
         /// Get property for the Include Crumbtrail
         /// </summary>
         int IncludeCrumbtrail { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        BaseResult UpdateEveryMessageBoardAdminStatusForSite(IDnaDataReaderCreator readerCreator, MessageBoardAdminStatus status);
 
         }
 }

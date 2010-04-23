@@ -64,6 +64,42 @@ namespace BBC.Dna.Objects
         }
 
         /// <summary>
+        /// Makes the topics and related front page elements active/live
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="siteId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        static public BaseResult MakePreviewTopicsActiveForSiteID(IDnaDataReaderCreator readerCreator, int siteId, int userId)
+        {
+            using (var reader = readerCreator.CreateDnaDataReader("MakePreviewTopicsActiveForSiteID"))
+            {
+                reader.AddParameter("isiteid", siteId);
+                reader.AddParameter("ieditorid", userId);
+                reader.Execute();
+
+                int retVal=-1;
+                if (!reader.TryGetIntReturnValue(out retVal) || retVal != 0)
+                {
+                    return new Error("MakePreviewTopicsActiveForSiteID", "Unable to create new topic, error returned " + retVal.ToString());
+                }
+            }
+            using (var reader = readerCreator.CreateDnaDataReader("MakePreviewTopicElementsActive"))
+            {
+                reader.AddParameter("isiteid", siteId);
+                reader.AddParameter("ieditorid", userId);
+                reader.Execute();
+
+                int retVal=-1;
+                if (!reader.TryGetIntReturnValue(out retVal) || retVal != 0)
+                {
+                    return new Error("MakePreviewTopicsActiveForSiteID", "Unable to create new topic, error returned " + retVal.ToString());
+                }
+            }
+            return new Result("MakePreviewTopicsActiveForSiteID", "Successful");
+        }
+
+        /// <summary>
         /// Creates the topic from the filled in TopicElement object
         /// </summary>
         /// <param name="readerCreator"></param>

@@ -4,6 +4,8 @@ using System.Xml;
 using System.Collections.Generic;
 
 using BBC.Dna;
+using BBC.Dna.Data;
+using BBC.Dna.Utils;
 using BBC.Dna.Component;
 using BBC.Dna.Sites;
 using BBC.Dna.Moderation.Utils;
@@ -390,6 +392,11 @@ namespace Tests
         public List<OpenCloseTime> OpenCloseTimes
         {
             get { return null; }
+        }
+
+        public BaseResult UpdateEveryMessageBoardAdminStatusForSite(IDnaDataReaderCreator readerCreator, MessageBoardAdminStatus status)
+        {
+            return new Result("UpdateEveryMessageBoardAdminStatusForSite", "Successful");
         }
 
         #region IDnaComponent Members

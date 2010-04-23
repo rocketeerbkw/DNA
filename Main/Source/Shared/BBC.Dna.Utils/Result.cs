@@ -25,7 +25,6 @@
             get;
             set;
         }
-
-        
+        public override bool IsError() { return false; }
     }
 }

@@ -5,7 +5,7 @@ namespace BBC.Dna.Utils
 {
     /// <remarks/>
     [Serializable]
-    public class BaseResult
+    public abstract class BaseResult
     {
         public BaseResult()
         {
@@ -18,5 +18,7 @@ namespace BBC.Dna.Utils
         /// <remarks/>
         [XmlElement(Order = 1, ElementName = "EXTRAINFO")]
         public string ExtraInfo { get; set; }
+
+        public abstract bool IsError();
     }
 }

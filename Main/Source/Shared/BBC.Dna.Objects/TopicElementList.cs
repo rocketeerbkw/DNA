@@ -24,13 +24,15 @@ namespace BBC.Dna.Objects
         /// <param name="siteId"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        static public TopicElementList GetTopicListFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, TopicStatus status)
+        static public TopicElementList GetTopicListFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, TopicStatus status, bool includeArchived)
         {
             var topicList = new TopicElementList{Status = status};
             using (var reader = readerCreator.CreateDnaDataReader("gettopicsforsiteid2"))
             {
                 reader.AddParameter("isiteid", siteId);
                 reader.AddParameter("itopicstatus", (int)status);
+                reader.AddParameter("includearchived", includeArchived ? 1 : 0);
+                
                 reader.Execute();
                 while(reader.Read())
                 {

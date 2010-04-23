@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
+using BBC.Dna.Data;
 
 namespace BBC.Dna.Sites
 {
@@ -455,5 +456,34 @@ namespace BBC.Dna.Sites
         /// </summary>
         public bool UseIdentitySignInSystem { get; set; }
 
+        /// <summary>
+        /// Updates every message board admin status for the site
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="siteId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public BaseResult UpdateEveryMessageBoardAdminStatusForSite(IDnaDataReaderCreator readerCreator, MessageBoardAdminStatus status)
+        {
+            using (var reader = readerCreator.CreateDnaDataReader("UpdateEveryMessageBoardAdminStatusForSite"))
+            {
+                reader.AddParameter("SiteID", SiteID);
+                reader.AddParameter("Status", (int)status);
+                reader.Execute();
+
+                int retVal = -1;
+                if (!reader.TryGetIntReturnValue(out retVal) || retVal != 0)
+                {
+                    return new Error("UpdateEveryMessageBoardAdminStatusForSite", "Error returned:" + retVal.ToString());
+                }
+            }
+            return new Result("UpdateEveryMessageBoardAdminStatusForSite", "Successful");
+        }
     }
+
+    public enum MessageBoardAdminStatus
+	{
+		Unread= 0,
+		Edited= 1,
+	};
 }

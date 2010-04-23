@@ -26,5 +26,7 @@ namespace BBC.Dna.Utils
         /// <remarks/>
         [XmlElement(Order = 0, ElementName = "ERRORMESSAGE")]
         public string ErrorMessage { get; set; }
+
+        public override bool IsError() { return true; }
     }
 }

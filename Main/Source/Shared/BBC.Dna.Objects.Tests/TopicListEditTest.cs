@@ -28,7 +28,7 @@ namespace BBC.Dna.Objects.Tests
             creator.Stub(x => x.CreateDnaDataReader("gettopicsforsiteid2")).Return(reader);
             _mocks.ReplayAll();
 
-            var actual = TopicElementList.GetTopicListFromDatabase(creator, 0, TopicStatus.Preview);
+            var actual = TopicElementList.GetTopicListFromDatabase(creator, 0, TopicStatus.Preview, false);
             Assert.AreEqual(1, actual.Topics.Count);
         }
 
@@ -48,7 +48,7 @@ namespace BBC.Dna.Objects.Tests
             creator.Stub(x => x.CreateDnaDataReader("gettopicsforsiteid2")).Return(reader);
             _mocks.ReplayAll();
 
-            var actual = TopicElementList.GetTopicListFromDatabase(creator, 0, TopicStatus.Preview);
+            var actual = TopicElementList.GetTopicListFromDatabase(creator, 0, TopicStatus.Preview, true);
             Assert.AreEqual(1, actual.Topics.Count);
             Assert.AreEqual(guideXml, actual.Topics[0].Description);
             Assert.AreEqual(xmlDoc.InnerXml, actual.Topics[0].DescriptionElement.OuterXml);
@@ -67,7 +67,7 @@ namespace BBC.Dna.Objects.Tests
             creator.Stub(x => x.CreateDnaDataReader("gettopicsforsiteid2")).Return(reader);
             _mocks.ReplayAll();
 
-            var actual = TopicElementList.GetTopicListFromDatabase(creator, 0, TopicStatus.Preview);
+            var actual = TopicElementList.GetTopicListFromDatabase(creator, 0, TopicStatus.Preview, false);
             Assert.AreEqual(0, actual.Topics.Count);
         }
 
