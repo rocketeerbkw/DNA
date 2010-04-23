@@ -19,105 +19,94 @@
 	</doc:documentation>
 	
 	<xsl:template match="H2G2[@TYPE = 'MESSAGEBOARDSCHEDULE']" mode="page">
-		<div class="left">
-			<h2>Opening Hours</h2>
-			<p>Using the following options, select which times users can post to your messageboard. </p>
-			<p>
-				<strong>Please note:</strong> all times are in Greenwich Mean Time (GMT) and do not take into account British Summer Time (BST). 
-				Therefore when the clocks go backward/forward 1 hour, you will need to manually change these times accordingly.
-			</p>
-		</div>
-		<div class="main">
-			<xsl:apply-templates select="SITETOPICSSCHEDULE"/>
-		</div>
+    <div class="dna-mb-intro">
+      <h2>Opening Times</h2>
+
+      <p>Using the following options, select which times users can post to your messageboard.</p>
+
+      <p>
+        <strong>Please note:</strong> all times are in Greenwich Mean Time (GMT) and do not take into account British Summer Time (BST).
+        Therefore when the clocks go backward/forward 1 hour, you will need to manually change these times accordingly.
+      </p>
+    </div>
+
+    <div class="dna-main blq-clearfix">
+      <div class="dna-box">
+        <h3>Opening Hours</h3>
+			  <xsl:apply-templates select="SITETOPICSSCHEDULE"/>
+      </div>
+      <xsl:call-template name="saveCancel"/>
+     
+    </div>
 	</xsl:template>
 	
 	<xsl:template match="SITETOPICSSCHEDULE">
-		<form action="#" method="post">
+		<form action="#" method="post" class="dna-open-times">
 			<input type="hidden" value="update" name="action"/>
-			<div>
-				<input type="radio" id="twentyfourseven" value="twentyfourseven" name="updatetype">
-					<xsl:if test="not(SCHEDULE/EVENT)"><xsl:attribute name="checked">checked</xsl:attribute></xsl:if>
-				</input>
-				<label for="twentyfourseven">Open 24/7</label>
-			</div>
-			<div>
-				<input type="radio" name="updatetype" value="sameeveryday" id="sameeveryday">
-					<!-- TODO: I don't know what test to put here!! -->
-					<xsl:if test="false()"><xsl:attribute name="checked">checked</xsl:attribute></xsl:if>
-				</input>
-				<label for="sameeveryday">Open at the same time every day</label>
-			</div>
-			<div class="form supplemental">
-				<label for="sameeveryday-open">Opens:</label>
-				<select name="recurrenteventopenhours" id="sameeveryday-open">
-					<xsl:call-template name="hours"/>
-				</select>
-				<select name="recurrenteventopenminutes">
-					<xsl:call-template name="minutes"/>
-				</select>
-				<label for="sameeveryday-close">Closes:</label>
-				<select name="recurrenteventclosehours" id="sameeveryday-close">
-					<xsl:call-template name="hours"/>
-				</select>
-				<select name="recurrenteventcloseminutes">
-					<xsl:call-template name="minutes"/>
-				</select>
-			</div>
-			<div>
-				<input type="radio" name="updatetype" value="eachday" id="eachday">
-					<!-- TODO: I don't know what test to put here!! -->
-					<xsl:if test="false()"><xsl:attribute name="checked">checked</xsl:attribute></xsl:if>
-				</input>
-				<label for="eachday">Open different times each day</label>
-			</div>
+		
+      <table>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="1"/>
 				<xsl:with-param name="dayName" select="'MONDAY'"/>
 				<!-- TODO: what test goes here? -->
 				<xsl:with-param name="hours-selected" select="9"/>
 				<xsl:with-param name="minutes-selected" select="0"/>
+        <xsl:with-param name="bg" select="'odd'"/>
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="2"/>
 				<xsl:with-param name="dayName" select="'TUESDAY'"/>
 				<xsl:with-param name="hours-selected" select="9"/>
 				<xsl:with-param name="minutes-selected" select="0"/>
+        <xsl:with-param name="bg" select="'even'"/>
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="3"/>
 				<xsl:with-param name="dayName" select="'WEDNESDAY'"/>
 				<xsl:with-param name="hours-selected" select="9"/>
 				<xsl:with-param name="minutes-selected" select="0"/>
+        <xsl:with-param name="bg" select="'odd'"/>
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="4"/>
 				<xsl:with-param name="dayName" select="'THURSDAY'"/>
 				<xsl:with-param name="hours-selected" select="9"/>
 				<xsl:with-param name="minutes-selected" select="0"/>
+        <xsl:with-param name="bg" select="'even'"/>
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="5"/>
 				<xsl:with-param name="dayName" select="'FRIDAY'"/>
 				<xsl:with-param name="hours-selected" select="9"/>
 				<xsl:with-param name="minutes-selected" select="0"/>
+        <xsl:with-param name="bg" select="'odd'"/>
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="6"/>
 				<xsl:with-param name="dayName" select="'SATURDAY'"/>
 				<xsl:with-param name="hours-selected" select="9"/>
 				<xsl:with-param name="minutes-selected" select="0"/>
+        <xsl:with-param name="bg" select="'even'"/>
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="7"/>
 				<xsl:with-param name="dayName" select="'SUNDAY'"/>
 				<xsl:with-param name="hours-selected" select="9"/>
 				<xsl:with-param name="minutes-selected" select="0"/>
+        <xsl:with-param name="bg" select="'odd'"/>
 			</xsl:call-template>
-			<div class="buttons">
-				<input type="submit" name="submit" value="Save" class="mbpreview-button"/>
-				<input type="button" name="cancel" value="Cancel" class="mbpreview-button panel-close"/>
-			</div>
+
+        <tr>
+          <td colspan="5">
+            <input type="radio" id="twentyfourseven" value="twentyfourseven" name="updatetype">
+              <xsl:if test="not(SCHEDULE/EVENT)">
+                <xsl:attribute name="checked">checked</xsl:attribute>
+              </xsl:if>
+            </input>
+            <label for="twentyfourseven">Open 24/7</label>
+          </td>
+        </tr>
+      </table>
 		</form>
 	</xsl:template>
 	
@@ -201,7 +190,7 @@
 		<xsl:param name="selected"/>
 		<option value="0">
 			<xsl:if test="$selected = 0"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>
-			0</option>
+			00</option>
 		<option value="15">
 			<xsl:if test="$selected = 15"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>
 			15</option>
@@ -218,43 +207,75 @@
 		<xsl:param name="dayNumber"/>
 		<xsl:param name="hours-selected"/>
 		<xsl:param name="minutes-selected"/>
-		<div class="form supplemental clear">
-			<div class="inline first">
-				<label><xsl:value-of select="$dayName"/></label>
-			</div>
-			<div class="inline">
-				<input type="checkbox" name="" value="" id="closedallday-{$dayNumber}"/> 
-				<label for="closedallday-{$dayNumber}">Closed all day</label>
-			</div>
-			<div class="inline">
-				<input type="hidden" name="eventdaytype" value="{$dayNumber}"/>
-				<label for="openhours-{$dayNumber}">Opens:</label>
-				<select name="eventhours" id="openhours-{$dayNumber}">
-					<xsl:call-template name="hours">
-						<xsl:with-param name="selected" select="$hours-selected"/>
-					</xsl:call-template>
-				</select>
-				<select name="eventminutes">
-					<xsl:call-template name="minutes">
-						<xsl:with-param name="selected" select="$minutes-selected"/>
-					</xsl:call-template>
-				</select>
-			</div>
-			<div class="inline">
-				<input type="hidden" name="eventdaytype" value="{$dayNumber}"/>
-				<label for="closehours-{$dayNumber}">Closes:</label>
-				<select name="eventhours" id="closehours-{$dayNumber}">
-					<xsl:call-template name="hours">
-						<xsl:with-param name="selected" select="$hours-selected"/>
-					</xsl:call-template>
-				</select>
-				<select name="eventminutes">
-					<xsl:call-template name="minutes">
-						<xsl:with-param name="selected" select="$minutes-selected"/>
-					</xsl:call-template>
-				</select>
-			</div>
-		</div>
+    <xsl:param name="bg"/>
+		
+    
+    <tr>
+      <xsl:attribute name="class">
+        <xsl:value-of select="$bg"/>
+      </xsl:attribute>
+      <th><xsl:value-of select="$dayName"/></th>
+      <td>
+        <input type="checkbox" name="" value="" id="closedallday-{$dayNumber}"/>
+        <label for="closedallday-{$dayNumber}">Closed all day</label>
+      </td>
+      <td>
+        <input type="hidden" name="eventdaytype" value="{$dayNumber}"/>
+        <label for="openhours-{$dayNumber}">Opens <span class="off">hour</span>:</label>
+        <select name="eventhours" id="openhours-{$dayNumber}">
+          <xsl:call-template name="hours">
+            <xsl:with-param name="selected" select="$hours-selected"/>
+          </xsl:call-template>
+        </select>
+        <label for="openMinutes-{$dayNumber}" class="off">minutes:</label>
+        <select name="eventminutes" id="openMinutes-{$dayNumber}">
+          <xsl:call-template name="minutes">
+            <xsl:with-param name="selected" select="$minutes-selected"/>
+          </xsl:call-template>
+        </select>
+      </td>
+      <td>
+        <input type="hidden" name="eventdaytype" value="{$dayNumber}"/>
+        <label for="closeHours-{$dayNumber}">Closes <span class="off">hour</span>:</label>
+        <select name="eventhours" id="closeHours-{$dayNumber}">
+          <xsl:call-template name="hours">
+            <xsl:with-param name="selected" select="$hours-selected"/>
+          </xsl:call-template>
+        </select>
+        <label for="closeMinutes-{$dayNumber}" class="off">minutes:</label>
+        <select name="eventminutes" id="closeMinutes-{$dayNumber}">
+          <xsl:call-template name="minutes">
+            <xsl:with-param name="selected" select="$minutes-selected"/>
+          </xsl:call-template>
+        </select>
+      </td>
+      
+      <td>
+        <xsl:if test="$dayNumber = '1'">
+        <input type="radio" name="updatetype" value="sameeveryday" id="sameeveryday">
+          <!-- TODO: I don't know what test to put here!! -->
+          <xsl:if test="false()">
+            <xsl:attribute name="checked">checked</xsl:attribute>
+          </xsl:if>
+        </input>
+        <label for="sameeveryday" style="width:10em; vertical-align:top">Open at the same time every day</label>
+         </xsl:if>
+      </td>
+    </tr>
 	</xsl:template>
+
+
+  <xsl:template name="saveCancel">
+    <div class="dna-buttons">
+      <ul>
+        <li>
+          <input type="submit" name="submit" value="Save" class="mbpreview-button"/>
+        </li>
+        <li>
+          <input type="button" name="cancel" value="Cancel" class="mbpreview-button panel-close"/>
+        </li>
+      </ul>
+    </div>
+  </xsl:template>
 
 </xsl:stylesheet>

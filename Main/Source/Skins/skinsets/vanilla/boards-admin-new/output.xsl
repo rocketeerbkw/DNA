@@ -65,61 +65,58 @@
 				
 				<script type="text/javascript" src="/dnaimages/javascript/DNA-admin.js"><xsl:text> </xsl:text></script>
 				
-				<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/admin.css"/>
+				<link type="text/css" media="screen" rel="stylesheet" href="/dna/dna_messageboard/css/admin.css"/>
 				
 			</head>
 			
 			<body class="boardsadmin">
-				<div id="mb-container">
-				<xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
-				<h1>Messageboard Admin
-					<span> | <xsl:value-of select="SITECONFIG/BOARDNAME"/></span>
-				</h1>
-				<div id="blq-local-nav">
-					<ul class="nav">
-						<li>
-							<xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
-								<xsl:attribute name="class">selected</xsl:attribute>
-							</xsl:if>
-							<a href="{$root}/messageboardadmin?s_mode=admin">Admin</a>
-						</li>
-						<li>
-							<xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'design'">
-								<xsl:attribute name="class">selected</xsl:attribute>
-							</xsl:if>
-							<a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
-						</li>
-					</ul>
-				</div>
 				
-				<div class="clear"> </div>
+				  <xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
+				 
+          <h1>Messageboard Admin
+					  <span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span>
+				  </h1>
+          
+				  <div id="blq-local-nav" class="nav blq-clearfix">
+					  <ul>
+						  <li>
+							  <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
+								  <xsl:attribute name="class">selected</xsl:attribute>
+							  </xsl:if>
+							  <a href="{$root}/messageboardadmin?s_mode=admin">Admin</a>
+						  </li>
+						  <li>
+							  <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'design'">
+								  <xsl:attribute name="class">selected</xsl:attribute>
+							  </xsl:if>
+							  <a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
+						  </li>
+					  </ul>
+				  </div>
 				
-				<xsl:call-template name="emergency-stop"/>
+				  <xsl:call-template name="emergency-stop"/>
+
 				
-				<div class="clear"> </div>
-				
-				<div id="blq-content">
-          <xsl:apply-templates select="/H2G2/ERROR" mode="page"/>
-          <xsl:apply-templates select="/H2G2/RESULT" mode="page"/>
-					<xsl:apply-templates select="." mode="page"/>
-				</div>
-				
-				<xsl:comment>#include virtual="/includes/blq/include/blq_body_last.sssi"</xsl:comment>
-				</div>
+				  <div id="blq-content">
+            <xsl:apply-templates select="/H2G2/ERROR" mode="page"/>
+            <xsl:apply-templates select="/H2G2/RESULT" mode="page"/>
+					  <xsl:apply-templates select="." mode="page"/>
+				  </div>
+  				
+				  <xsl:comment>#include virtual="/includes/blq/include/blq_body_last.sssi"</xsl:comment>
+			
 			</body>
 				
 		</html>
 	</xsl:template>
 	
 	<xsl:template name="emergency-stop">
-		<div class="emergency-stop">
+		<div class="dna-emergency-stop">
 			<p>
 				<a href="{$root}/MessageBoardSchedule?action=setinactive">
-					<strong>Emergency Closure</strong>
-				</a>
-			</p>
-			<p>
-				<a href="{$root}/MessageBoardSchedule?action=setinactive">Stop all posts to this messageboard</a>
+					<strong>EMERGENCY CLOSURE</strong>
+          Stop all posts to this messageboard
+        </a>
 			</p>
 		</div>
 	</xsl:template>
