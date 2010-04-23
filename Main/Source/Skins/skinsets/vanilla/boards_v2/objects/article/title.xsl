@@ -16,9 +16,9 @@
     
     <xsl:template match="ARTICLE" mode="object_article_title">
         
-        <xsl:call-template name="library_header_h3">
+        <xsl:call-template name="library_header_h2">
             <xsl:with-param name="text">
-                <xsl:value-of select="SUBJECT" />
+                <xsl:value-of select="SUBJECT" />&#160;
                 <span>
                     <a href="{$root}/NF{ARTICLEINFO/FORUMID}">permalink</a>
                 </span>

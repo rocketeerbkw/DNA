@@ -40,9 +40,11 @@
       
     	<form action="{$root}/AddThread" method="post" class="dna-boards">
             <div>
-                <xsl:call-template name="library_header_h3">
-                    <xsl:with-param name="text">Reply to a message</xsl:with-param>
+                <xsl:call-template name="library_header_h2">
+                    <xsl:with-param name="text"><xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" /></xsl:with-param>
                 </xsl:call-template>
+               
+               <h4><xsl:value-of select="SUBJECT" /></h4>
                
             	<xsl:apply-templates select="SECONDSBEFOREREPOST"/>
               
@@ -51,7 +53,7 @@
                   <xsl:apply-templates select="." mode="preview"/>
                 </xsl:when>
                 <xsl:otherwise>
-                  <p class="article"> Enter your reply in the box below.</p>
+                  <p class="article">To reply to this message, type your message in the box below.</p>
                 </xsl:otherwise>
               </xsl:choose>
               
@@ -61,7 +63,7 @@
               <input type="hidden" name="dnapoststyle" value="1"/>
                 
                 <p>
-                    <label for="dna-boards-body">Your thoughts on the subject</label>
+                    <label for="dna-boards-body">Your reply</label>
                     <textarea id="dna-boards-body" name="body" class="textarea">
                        <xsl:value-of select="BODY" />     
                     </textarea>

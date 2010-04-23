@@ -16,20 +16,7 @@
     
     <xsl:template match="FORUMTHREADS[THREAD]" mode="object_forumthreads">
         <xsl:if test="$siteClosed = 'false'">
-            <p class="dna-boards-startanewdiscussion">
-            	<a href="{$root}/AddThread?forum={@FORUMID}%26article={/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID}" class="id-cta">
-                    <xsl:call-template name="library_memberservice_require">
-                        <xsl:with-param name="ptrt">
-                            <xsl:value-of select="$root"/>
-                            <xsl:text>/AddThread?forum=</xsl:text>
-                            <xsl:value-of select="@FORUMID"/>
-                        	<xsl:text>%26article=</xsl:text>
-                            <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID"/>
-                        </xsl:with-param>
-                    </xsl:call-template>
-                    <xsl:text>Start a new discussion</xsl:text>
-                </a>
-            </p>
+			<xsl:apply-templates select="." mode="library_newdiscussion_link" />
         </xsl:if>
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
@@ -51,20 +38,7 @@
     
     <xsl:template match="FORUMTHREADS" mode="object_forumthreads">
         <xsl:if test="$siteClosed = 'false'">
-            <p class="dna-boards-startanewdiscussion">
-            	<a href="{$root}/AddThread?forum={@FORUMID}%26article={/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID}" class="id-cta">
-                    <xsl:call-template name="library_memberservice_require">
-                        <xsl:with-param name="ptrt">
-                            <xsl:value-of select="$root"/>
-                            <xsl:text>/AddThread?forum=</xsl:text>
-                            <xsl:value-of select="@FORUMID"/>
-                        	<xsl:text>%26article=</xsl:text>
-                            <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID"/>
-                        </xsl:with-param>
-                    </xsl:call-template>
-                    <xsl:text>Start a new discussion</xsl:text>
-                </a>
-            </p>
+           	<xsl:apply-templates select="." mode="library_newdiscussion_link" />
         </xsl:if>
         
         <p class="forumthreads">
@@ -75,7 +49,7 @@
             <xsl:with-param name="loggedin">
               <xsl:apply-templates select="MODERATIONSTATUS" mode="moderation_cta_moderationstatus"/>
             </xsl:with-param>
-          </xsl:call-template>
+        </xsl:call-template>
         
         
     </xsl:template>

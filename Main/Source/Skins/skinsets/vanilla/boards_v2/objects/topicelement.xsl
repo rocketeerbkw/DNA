@@ -31,6 +31,11 @@
             </xsl:with-param>
         </xsl:call-template>
         
+        <div class="topicimage">
+          	<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
+	            <img src="/mb_test_images/mb_test_image.jpg" alt="{IMAGEALTTEXT}" />
+        	</a>
+        </div>
         <xsl:if test="IMAGENAME and IMAGENAME != ''">
           <div class="topicimage">
           	<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
@@ -41,6 +46,10 @@
           	</a>
           </div>
         </xsl:if>
+        
+        <p>
+            <xsl:apply-templates select="TEXT" mode="library_GuideML" />
+        </p>
         
         <p class="replies">
             <xsl:choose>
@@ -60,12 +69,6 @@
                 </xsl:otherwise>
             </xsl:choose>
         </p>
-        
-        <p>
-            <xsl:apply-templates select="TEXT" mode="library_GuideML" />
-        </p>
-        
-        
     </xsl:template>
     
 </xsl:stylesheet>

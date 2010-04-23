@@ -15,11 +15,14 @@
     
     
     <xsl:template match="TOPICLIST" mode="object_topiclist">
+    	<xsl:param name="topic-layout" />
         
-        <ul class="topiclist">
-            
+        <ul>
+            <xsl:attribute name="class">
+            	<xsl:text>topiclist</xsl:text>
+            	<xsl:value-of select="$topic-layout" />
+            </xsl:attribute>
             <xsl:apply-templates select="TOPIC" mode="object_topic"/>
-            
         </ul>
         
     </xsl:template>
