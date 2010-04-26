@@ -122,9 +122,15 @@ namespace Dna.SnesIntegration.ExModerationProcessor
             {
                 // Handle errors due to unreachable urls.
                 if (e.Message.Contains(Convert.ToString(HttpStatusCode.GatewayTimeout)))
+                {
                     return HttpStatusCode.GatewayTimeout;
+                }
                 else
-                    throw e;
+                {
+                    //Other errors need to be handled and the item marked for reprocessing
+                    LogUtility.LogException(e);
+                    return HttpStatusCode.InternalServerError;
+                }
             }
         }
 
