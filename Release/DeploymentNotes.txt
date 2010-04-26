@@ -493,3 +493,14 @@ EntLib 4.1 fix
 	Within web.config 
 	- Change maximumElementsInCacheBeforeScavenging for the "cache manager" cache element to be 100000. 
 	- Change numberToRemoveWhenScavenging to 1000
+
+BlogFix -
+	Run DBScripts\blogfix.sql. Remember to execute the 'SELECT AND RUN ALL THE CreateUserSQL STATEMENTS' after it's run
+	Remove the following...
+	
+						<!--#if expr="${dna.commentbox.servicename} = 'blog51'"-->
+							<!--#set var="dna.commentbox.servicename" value="pmblog"-->
+							<!--#set var="dna.commentbox.listNamespace" value="pmblog"-->
+						<!--#endif-->	
+						
+	from 'dnaimages/components/commentbox.sssi' file.
