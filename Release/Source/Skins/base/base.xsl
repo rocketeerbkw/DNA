@@ -12420,7 +12420,20 @@ The following specifies the attributes that MUST appear on an <input> element fo
 			<xsl:call-template name="ApplyAttributes">
 				<xsl:with-param name="attributes" select="$attributes"/>
 			</xsl:call-template>
-			<xsl:apply-templates select="."/>
+			
+			<xsl:variable name="username">
+				<xsl:choose>
+					<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSiteSuffix']/VALUE = '1' and ../SITESUFFIX != ''">	
+						<xsl:value-of select="../SITESUFFIX" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="." />
+					</xsl:otherwise>	
+				</xsl:choose>
+			</xsl:variable>
+		
+		<xsl:value-of select="$username"/> 
+		
 		</a>
 	</xsl:template>
 	<!--
