@@ -31,13 +31,6 @@
 					</p> 
 				</div>
 			<!--#endif-->
-	
-	
-						<!--#if expr="${dna.commentbox.servicename} = 'blog51'"-->
-							<!--#set var="dna.commentbox.servicename" value="pmblog"-->
-							<!--#set var="dna.commentbox.listNamespace" value="pmblog"-->
-						<!--#endif-->
-						
 						
 		<!--#if expr="${dna.commentbox.listNamespace} = 'movabletype'"-->
 			<!--#set var="dna.commentbox.listNamespace" value="${dna.commentbox.servicename}[_]"-->		
