@@ -310,7 +310,7 @@ REGEDIT4
 
 "/C"="/RipleyServer.dll?Category?catid="
 --"/MA"="/ripleyserver.dll?MorePages?userid="
-/MA"="/dna/dnapages/MorePagesPage.aspx?userid="
+"/MA"="/dna/dnapages/MorePagesPage.aspx?userid="
 
 --"/RecommendEntry"="/RipleyServer.dll?RecommendEntry?"
 "/RecommendEntry"="/dna/dnapages/RecommendEntryPage.aspx?"
