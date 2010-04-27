@@ -81,6 +81,7 @@ REGEDIT4
 "/ModerateImages"="/ripleyserver.dll?ModerateImages?"
 "/ModerateArticle"="/ripleyserver.dll?ModerateArticle?"
 "/Moderate"="/ripleyserver.dll?ModerateHome?"
+--"/Moderate"="/dna/dnapages/ModerateHomePage.aspx?"
 "/ModeratePosts"="/dna/dnapages/ModeratePostsPage.aspx?"
 "/UserComplaint"="/ripleyserver.dll?UserComplaint?"
 "/EditPost"="/ripleyserver.dll?EditPost?"
@@ -309,7 +310,7 @@ REGEDIT4
 
 "/C"="/RipleyServer.dll?Category?catid="
 --"/MA"="/ripleyserver.dll?MorePages?userid="
-/MA"="/dna/dnapages/MorePagesPage.aspx?userid="
+"/MA"="/dna/dnapages/MorePagesPage.aspx?userid="
 
 --"/RecommendEntry"="/RipleyServer.dll?RecommendEntry?"
 "/RecommendEntry"="/dna/dnapages/RecommendEntryPage.aspx?"
