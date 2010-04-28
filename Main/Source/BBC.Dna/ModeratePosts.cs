@@ -272,7 +272,7 @@ namespace BBC.Dna.Component
                             AddTextTag(alertUserXml, "USERNAME", dataReader.GetStringNullAsEmpty("complainantname"));
                             AddTextTag(alertUserXml, "FIRSTNAMES", dataReader.GetStringNullAsEmpty("complainantfirstnames"));
                             AddTextTag(alertUserXml, "LASTNAME", dataReader.GetStringNullAsEmpty("complainantlastname"));
-                            //AddIntElement(alertUserXml, "COMPLAINTIDVIAEMAIL", dataReader.GetInt32NullAsZero("ComplainantIDViaEmail"));
+                            AddIntElement(alertUserXml, "COMPLAINANTIDVIAEMAIL", dataReader.GetInt32NullAsZero("ComplainantIDViaEmail"));
                             
                             if ( !dataReader.IsDBNull("complainantprefstatus"))
                             {
