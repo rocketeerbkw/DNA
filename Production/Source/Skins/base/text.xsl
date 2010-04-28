@@ -126,12 +126,22 @@
 
 <xsl:template name="m_welcomebackuser">
 
-Welcome back, <xsl:value-of select="substring(VIEWING-USER/USER/USERNAME,1,20)" /><xsl:if test="string-length(VIEWING-USER/USER/USERNAME) &gt; 20">..</xsl:if>. <A xsl:use-attribute-sets="nm_welcomebackuser" HREF="{$root}Register">(Click here if this isn't you)</A>
+Welcome back, 
+<!-- <xsl:value-of select="substring(VIEWING-USER/USER/USERNAME,1,20)" /><xsl:if test="string-length(VIEWING-USER/USER/USERNAME) &gt; 20">..</xsl:if>. -->
+<xsl:apply-templates select="VIEWING-USER/USER" mode="username">
+	<xsl:with-param name="stringlimit">20</xsl:with-param>
+</xsl:apply-templates>. 
+<A xsl:use-attribute-sets="nm_welcomebackuser" HREF="{$root}Register">(Click here if this isn't you)</A>
 </xsl:template>
 
 <xsl:template name="m_welcomebackuser2line">
 
-Welcome back, <xsl:value-of select="substring(VIEWING-USER/USER/USERNAME,1,20)" /><xsl:if test="string-length(VIEWING-USER/USER/USERNAME) &gt; 20">...</xsl:if><BR/>
+Welcome back, 
+<!-- <xsl:value-of select="substring(VIEWING-USER/USER/USERNAME,1,20)" /><xsl:if test="string-length(VIEWING-USER/USER/USERNAME) &gt; 20">...</xsl:if> -->
+<xsl:apply-templates select="VIEWING-USER/USER" mode="username">
+	<xsl:with-param name="stringlimit">20</xsl:with-param>
+</xsl:apply-templates>
+<BR/>
 <A xsl:use-attribute-sets="nm_welcomebackuser2line" HREF="{$root}Register">(Click here if this isn't you)</A>
 </xsl:template>
 
@@ -214,7 +224,7 @@ Welcome back, <xsl:value-of select="substring(VIEWING-USER/USER/USERNAME,1,20)" 
 </xsl:template>
 
 <xsl:template name="m_psintroviewer">
-<P>This is the Personal Space of <xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>. Unfortunately <xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/> doesn't seem to have found the time to write anything by way of an introduction yet, but hopefully that will soon change.</P>
+<P>This is the Personal Space of <xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />. Unfortunately <xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" /> doesn't seem to have found the time to write anything by way of an introduction yet, but hopefully that will soon change.</P>
 <P>By the way, if you've become a member but haven't yet written an Introduction to <I>your</I> Personal Space, then this is what your Space looks like to visitors (and, in the same way that you can't leave a message here for this <xsl:value-of select="$m_user"/>, others won't be able to leave messages for you on your Space). You can change this by clicking on the 'My Space' button, going to your Space, clicking on the 'Edit Page' button, and entering your own Introduction - it's highly recommended!</P>
 </xsl:template>
 

@@ -111,7 +111,7 @@
 	<xsl:template match="ONLINEUSER" mode="r_online">
 		<a target="_blank" xsl:use-attribute-sets="mONLINEUSER_r_online">
 			<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute>
-			<xsl:value-of select="USER/USERNAME"/>
+			<xsl:apply-templates select="USER" mode="username" />
 		</a>
 		<xsl:if test="number(DAYSSINCEJOINED) &lt; 7"> (<xsl:value-of select="$m_newthisweek"/>)</xsl:if>
 	</xsl:template>

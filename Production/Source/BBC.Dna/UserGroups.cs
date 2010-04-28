@@ -6,6 +6,7 @@ using System.Threading;
 using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Groups;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna
 {
@@ -179,7 +180,7 @@ namespace BBC.Dna
                         }
                     }
                     //update new groups object
-                    var groups = new Groups.UserGroups(AppContext.TheAppContext.Config.ConnectionString, null);
+                    var groups = new Groups.UserGroups(AppContext.ReaderCreator, context.Diagnostics, null);
                     groups.InitialiseAllUsersAndGroups();
                 }
                 finally

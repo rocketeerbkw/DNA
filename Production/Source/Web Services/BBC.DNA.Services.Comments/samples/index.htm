@@ -19,6 +19,8 @@
         var startIndex = 0;
         var sortBy = "Created";
         var sortDirection = "Ascending";
+        var filterBy = "";
+        var filterByData = "";
         var host = location.host;
        
 
@@ -34,6 +36,10 @@
             if (sortDirection != "") {
                 querystring += "&sortDirection=" + sortDirection;
             }
+            if (filterBy == "PostsWithinTimePeriod") {
+                querystring += "&filterBy=" + filterBy + "&timeperiod=" + filterByData;
+            }
+            
 
             if (sitename == "") {
                 return "http://" + host  + path + "/V1/commentsforums/" + querystring;
@@ -46,9 +52,13 @@
         function getCreateUrl(path, sitename) {
             return "http://" + location.host + path + "/V1/site/" + sitename + "/";
         }
-        
-        function loaddata() {
 
+        function loaddata() {
+            sortBy = document.getElementById("sortBy").value;
+            sortDirection = document.getElementById("sortDirection").value;
+            filterBy = document.getElementById("filterBySelect").value;
+            filterData = document.getElementById("filterData").value;
+            
             document.getElementById("txtPageSize").value = pageSize;
             //document.getElementById("txtApiUrl").value = urlCommentForums;
             var url = getUrl(urlCommentForums, document.getElementById("txtSitename").value, document.getElementById("txtPrefix").value);
@@ -139,9 +149,10 @@
                 row.insertCell(4).innerHTML = objComForums.commentForums[i].commentsSummary.total;
                 row.insertCell(5).innerHTML = objComForums.commentForums[i].created.at;
                 row.insertCell(6).innerHTML = "<a href='commentforum.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">Details</a>" +
-                    "&nbsp;<a href='comedyextra.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">Comedy Extra</a>" +
-                    "&nbsp;<a href='news.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">News</a>" +
-                    "&nbsp;<a href='iplayer.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">iPlayer</a>";
+                    "<br /><a href='commentboxtestharness.aspx?uid=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "&parentUrl=" + objComForums.commentForums[i].parentUri + "&title=" + objComForums.commentForums[i].title + "' target=\"_blank\">SSI</a -->" +
+                    "<!-- &nbsp;<a href='comedyextra.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">Comedy Extra</a -->" +
+                    "<!-- &nbsp;<a href='news.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">News</a -->" +
+                    "<!-- &nbsp;<a href='iplayer.htm?id=" + objComForums.commentForums[i].id + "&sitename=" + objComForums.commentForums[i].sitename + "' target=\"_blank\">iPlayer</a> -->";
             }
         }
 
@@ -268,11 +279,17 @@ identity_user_under16: 	<!--#echo var="identity_user_under16" --><br>
     <div style="border: solid 1px #C0C0C0; padding:5px; width:800px">
     Site Name: <input id="txtSitename" value=""  size="20"/>
     Prefix: <input id="txtPrefix" value=""  size="20"/>
-    <input type="button" onclick="changeSitePrefix();" value="GO" />
+    <input type="button" onclick="changeSitePrefix();" value="GO" /><br />
+    Filter by:
+        <select id="filterBySelect" name="filterBySelect">
+            <option></option>
+            <option>PostsWithinTimePeriod</option>
+        </select>
+    Filter Data: <input id="filterData" name="filterData" />
     </div>
 </div>
 <div style="clear:both;padding:20px 5px 20px 5px" id="divForums">
-    <table id="tblForums" style="width: 700px;">
+    <table id="tblForums" style="width: 750px;">
     <thead>
         <tr>
           <th>No.</th>
@@ -280,8 +297,16 @@ identity_user_under16: 	<!--#echo var="identity_user_under16" --><br>
           <th>Name</th>
           <th>ID</th>
           <th>Comments</th>
-          <th><a href="Javascript:changeSorting('Created');">Created</a></th>
-          <th>&nbsp;</th>
+          <th colspan="2"><select id="sortBy" name="sortBy" onchange="loaddata();">
+                <option id="Created">Created</option>
+                <option id="LastPosted">LastPosted</option>
+                <option id="PostCount">PostCount</option>
+                </select>
+                <select id="sortDirection" name="sortDirection" onchange="loaddata();">
+                <option id="Descending">Descending</option>
+                <option id="Ascending">Ascending</option>
+                </select>
+                </th>
         </tr>
     </thead>
 

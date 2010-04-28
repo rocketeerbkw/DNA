@@ -2473,7 +2473,7 @@ Click to see newer posts
 	<xsl:template match="PROLIFICPOSTER|ERUDITEPOSTER">
 		<A>
 			<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute>
-			<xsl:value-of select="USER/USERNAME"/>
+			<xsl:apply-templates select="USER" mode="username" />
 		</A> (<xsl:value-of select="COUNT"/>
 		<xsl:choose>
 			<xsl:when test="number(COUNT) = 1">
@@ -3803,7 +3803,8 @@ Line <xsl:value-of select="LINENO"/>, line position <xsl:value-of select="LINEPO
 	<xsl:template match="USER">
 		<xsl:element name="A">
 			<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USERID"/></xsl:attribute>
-			<xsl:value-of select="USERNAME"/>
+			<!-- <xsl:value-of select="USERNAME"/> -->
+			<xsl:apply-templates select="." mode="username"/>
 		</xsl:element>
 	</xsl:template>
 	<!--
@@ -4691,8 +4692,8 @@ blardy blardy blardy
 					</b>
 				</xsl:otherwise>
 			</xsl:choose>
-(<xsl:value-of select="USER/USERNAME"/>, <xsl:apply-templates select="DATEPOSTED"/>)
-</xsl:element>
+			(<xsl:apply-templates select="USER" />, <xsl:apply-templates select="DATEPOSTED"/>)
+			</xsl:element>
 		<br/>
 	</xsl:template>
 	<xsl:template name="showtreegadget">
@@ -4958,7 +4959,7 @@ blardy blardy blardy
 					<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute>
 					<xsl:attribute name="TARGET">_top</xsl:attribute>
 					<font xsl:use-attribute-sets="forumsourcelink">
-						<xsl:value-of select="USER/USERNAME"/>
+						<xsl:apply-templates select="USER" mode="username" />
 					</font>
 				</a>
 			</B>
@@ -4980,7 +4981,7 @@ blardy blardy blardy
 					<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="USER/USERID"/></xsl:attribute>
 					<xsl:attribute name="TARGET">_top</xsl:attribute>
 					<font xsl:use-attribute-sets="forumsourcelink">
-						<xsl:value-of select="USER/USERNAME"/>
+						<xsl:apply-templates select="USER" mode="username" />
 					</font>
 				</a>
 			</B>
@@ -6825,7 +6826,7 @@ Created: 21/03/2000
 							<xsl:when test="$ownerisviewer = 1">
 								<xsl:value-of select="$m_pagetitlestart"/>
 								<xsl:value-of select="$m_pstitleowner"/>
-								<xsl:value-of select="PAGE-OWNER/USER/USERNAME"/>.</xsl:when>
+								<xsl:apply-templates select="PAGE-OWNER/USER" mode="username" />.</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="$m_pagetitlestart"/>
 								<xsl:value-of select="$m_pstitleviewer"/>
@@ -6852,7 +6853,7 @@ Created: 21/03/2000
 						<xsl:choose>
 							<xsl:when test="$ownerisviewer = 1">
 								<xsl:value-of select="$m_pstitleowner"/>
-								<xsl:value-of select="PAGE-OWNER/USER/USERNAME"/>.</xsl:when>
+								<xsl:apply-templates select="PAGE-OWNER/USER" mode="username" />.</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="$m_pstitleviewer"/>
 								<xsl:value-of select="PAGE-OWNER/USER/USERID"/>.</xsl:otherwise>
@@ -7988,7 +7989,7 @@ We're sorry, but you can't have a journal without being registered.
 					</xsl:when>
 				</xsl:choose>
 				<xsl:value-of select="$m_by"/>
-				<xsl:value-of select="ARTICLES/USER/USERNAME"/>
+				<xsl:apply-templates select="ARTICLES/USER" mode="username" />
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:template>
@@ -9317,15 +9318,18 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 							<OPTION value="0">-----------------</OPTION>
 							<xsl:for-each select="msxsl:node-set($group)/LISTITEM">
 								<OPTION value="{number(USER/USERID)}">
-									<xsl:value-of select="substring(USER/USERNAME,1,20)"/>
-									<xsl:if test="string-length(USER/USERNAME) &gt; 20">...</xsl:if>
+									<xsl:apply-templates select="USER">
+										<xsl:with-param name="stringlimit">20</xsl:with-param>
+									</xsl:apply-templates>
+									<!-- <xsl:value-of select="substring(USER/USERNAME,1,20)"/>
+									<xsl:if test="string-length(USER/USERNAME) &gt; 20">...</xsl:if> -->
 								</OPTION>
 							</xsl:for-each>
 						</SELECT>&nbsp;
-    <xsl:choose>
+    					<xsl:choose>
 							<xsl:when test="@TYPE='command'">
-		&nbsp;In:
-        </xsl:when>
+							&nbsp;In:
+					        </xsl:when>
 							<xsl:when test="@TYPE='new'">
 								<INPUT TYPE="button" VALUE="{$m_govolunteer}" ONCLICK="go{$groupname}(1)"/>
 							</xsl:when>
@@ -9703,7 +9707,9 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 														<td>
 															<font xsl:use-attribute-sets="mainfont">
 																<a target="_blank" href="{$root}U{AUTHOR/USER/USERID}">
-																	<xsl:apply-templates select="AUTHOR/USER/USERNAME" mode="truncated"/>
+																	<xsl:apply-templates select="AUTHOR/USER" mode="username">
+																		<xsl:with-param name="stringlimit">17</xsl:with-param>
+																	</xsl:apply-templates>
 																</a>
 															</font>
 														</td>
@@ -9801,7 +9807,9 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 														<td>
 															<font xsl:use-attribute-sets="mainfont">
 																<a target="_blank" href="{$root}U{AUTHOR/USER/USERID}">
-																	<xsl:apply-templates select="AUTHOR/USER/USERNAME" mode="truncated"/>
+																	<xsl:apply-templates select="AUTHOR/USER" mode="username">
+																		<xsl:with-param name="stringlimit">17</xsl:with-param>
+																	</xsl:apply-templates>
 																</a>
 															</font>
 														</td>
@@ -9809,7 +9817,9 @@ else window.location.href='<xsl:value-of select="$root"/>U' + <xsl:value-of sele
 														<td>
 															<font xsl:use-attribute-sets="mainfont">
 																<a target="_blank" href="{$root}InspectUser?UserID={SUBEDITOR/USER/USERID}">
-																	<xsl:apply-templates select="SUBEDITOR/USER/USERNAME" mode="truncated"/>
+																	<xsl:apply-templates select="SUBEDITOR/USER" mode="username">
+																		<xsl:with-param name="stringlimit">17</xsl:with-param>
+																	</xsl:apply-templates>																	
 																</a>
 															</font>
 														</td>
@@ -10879,7 +10889,9 @@ A<xsl:value-of select="H2G2ID"/>
 										<font xsl:use-attribute-sets="reviewforumlistentry">
 											<A>
 												<xsl:attribute name="HREF"><xsl:value-of select="$root"/>U<xsl:value-of select="AUTHOR/USER/USERID"/></xsl:attribute>
-												<xsl:apply-templates select="AUTHOR/USER/USERNAME" mode="truncated"/>
+												<xsl:apply-templates select="AUTHOR/USER" mode="username">
+													<xsl:with-param name="stringlimit">17</xsl:with-param>
+												</xsl:apply-templates>
 											</A>
 										</font>
 									</td>
@@ -11928,7 +11940,7 @@ The percentage figure for totals is the percentage of the total moderation items
 							<xsl:for-each select="./MODERATORLIST/MODERATOR">
 								<tr>
 									<td>
-										<xsl:value-of select="USER/USERNAME"/>
+										<xsl:apply-templates select="USER" mode="username" />
 									</td>
 									<td>
 										<a>
@@ -12408,7 +12420,20 @@ The following specifies the attributes that MUST appear on an <input> element fo
 			<xsl:call-template name="ApplyAttributes">
 				<xsl:with-param name="attributes" select="$attributes"/>
 			</xsl:call-template>
-			<xsl:apply-templates select="."/>
+			
+			<xsl:variable name="username">
+				<xsl:choose>
+					<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSiteSuffix']/VALUE = '1' and ../SITESUFFIX != ''">	
+						<xsl:value-of select="../SITESUFFIX" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="." />
+					</xsl:otherwise>	
+				</xsl:choose>
+			</xsl:variable>
+		
+		<xsl:value-of select="$username"/> 
+		
 		</a>
 	</xsl:template>
 	<!--
@@ -13830,7 +13855,8 @@ The following specifies the attributes that MUST appear on an <input> element fo
 					<xsl:value-of select="substring(USERNAME, 1, $MaxUsernameChars - 3)"/>...
 					</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="USERNAME"/>
+					<!-- <xsl:value-of select="USERNAME"/> -->
+					<xsl:apply-templates select="." mode="username"/>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:text> (U</xsl:text>
@@ -15190,7 +15216,7 @@ Call:		<xsl:apply-templates select="POSTS" mode="ResearcherName"/>
 	<xsl:template match="POSTS" mode="ResearcherName">
 		<xsl:choose>
 			<xsl:when test="POST-LIST">
-				<xsl:value-of select="POST-LIST/USER/USERNAME"/>
+				<xsl:apply-templates select="POST-LIST/USER" mode="username" />
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$m_researcher"/>
@@ -16476,7 +16502,7 @@ Call:		<xsl:apply-templates select="@USERID" mode="NewerEntries"/>
 						<font size="1">
 							<xsl:value-of select="$m_namecolon"/>
 							<font color="{$homepagedetailscolour}">
-								<xsl:value-of select="USER/USERNAME"/>
+								<xsl:apply-templates select="USER" mode="username" />
 							</font>
 						</font>
 						<br/>
@@ -17014,7 +17040,7 @@ Call:		<xsl:apply-templates select="POSTTHREADFORM" mode="Post">
 	<xsl:template match="POSTTHREADFORM" mode="Post">
 		<xsl:value-of select="$m_nicknameis"/>
 		<B>
-			<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
+			<xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username" />
 		</B>.
 	<BR/>
 		<xsl:call-template name="postpremoderationmessage"/>
@@ -17060,7 +17086,7 @@ Call:		<xsl:apply-templates select="POSTTHREADFORM" mode="Post">
 			<B>
 				<FONT SIZE="+1">
 					<xsl:value-of select="$m_messageisfrom"/>
-					<xsl:value-of select="INREPLYTO/USERNAME"/>
+					<xsl:apply-templates select="INREPLYTO" mode="username" />
 				</FONT>
 			</B>
 			<br/>
@@ -18425,7 +18451,7 @@ Purpose:	Displays a thread post
 										<xsl:copy-of select="$m_friendslistofuser"/>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+										<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 										<xsl:copy-of select="$m_hasntaddedfriends"/>
 										<br/>
 									</xsl:otherwise>
@@ -18526,7 +18552,8 @@ Purpose:	Displays a thread post
 				<xsl:value-of select="USERID"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="USERNAME"/>
+				<!-- <xsl:value-of select="USERNAME"/> -->
+				<xsl:apply-templates select="." mode="username"/>
 			</xsl:otherwise>
 		</xsl:choose>
 		<br/>
@@ -18553,7 +18580,8 @@ Purpose:	Displays a thread post
 				<xsl:value-of select="USERID"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="USERNAME"/>
+				<!-- <xsl:value-of select="USERNAME"/> -->
+				<xsl:apply-templates select="." mode="username"/>
 			</xsl:otherwise>
 		</xsl:choose>
 		<br/>
@@ -18569,7 +18597,8 @@ Purpose:	Displays a thread post
 				<xsl:value-of select="USERID"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="USERNAME"/>
+				<!-- <xsl:value-of select="USERNAME"/> -->
+				<xsl:apply-templates select="." mode="username"/>
 			</xsl:otherwise>
 		</xsl:choose>
 		<br/>
@@ -18585,7 +18614,8 @@ Purpose:	Displays a thread post
 				<xsl:value-of select="USERID"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="USERNAME"/>
+				<!-- <xsl:value-of select="USERNAME"/> -->
+				<xsl:apply-templates select="." mode="username"/>
 			</xsl:otherwise>
 		</xsl:choose>
 		<br/>
@@ -18599,7 +18629,7 @@ Purpose:	Displays a thread post
 				<xsl:copy-of select="$m_friends"/>
 				<xsl:if test="$ownerisviewer=0">
 					<xsl:copy-of select="$m_of"/>
-					<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+					<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>
@@ -18754,7 +18784,7 @@ Purpose:	Displays a thread post
 	<xsl:template match="VIEWER">
 		<xsl:choose>
 			<xsl:when test="/H2G2/VIEWING-USER/USER/USERNAME">
-				<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
+				<xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="username" />
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$m_unknownvisitor"/>

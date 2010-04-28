@@ -1,0 +1,208 @@
+/* Formatting for all pages */
+body {background:#ffffff;}
+
+h1, h2, h3, h4, h5, h6, p, li, font, big, small, span, .off, blockquote, .postContentOne, .postContentTwo {
+	font-family : arial,helvetica,sans-serif ;
+}
+
+h1, h2, h3, h4, h5, h6, p, li, big, small, span, .postContentOne, .postContentTwo {
+	color:#7d8b96;
+}
+
+.userbar {background:#cccccc; padding:5px;}
+
+/* Page heading */
+h1 {margin:0px;}
+
+/* Subheading text */
+h2 {margin:0px;}
+
+h3 {margin:0px;}
+
+h4 {margin:0px;}
+
+/* Crumbtrail */
+h5 {margin:0px;padding:5px;background:#f6edcd;}
+#crumbtrail {padding-top:3px;padding-bottom:8px;}
+
+/* Promo box titles */
+h6 {margin:0px;}
+
+#main {background:#cccccc;}
+
+a:link,
+a:visited,
+.inactive,
+a:active {text-decoration:underline;color:#7d8b96;}
+a:hover,a,.inactive:hover        {text-decoration:underline;font-family : arial,helvetica,sans-serif}
+
+a.ssoStatusdark,  a.ssoStatuslight {font-weight:normal;}
+
+#active,
+#active:visited {text-decoration:underline;font-weight:bold;}
+
+p {padding:0px;margin:0px;}
+
+th {font-weight:normal;padding:5px;margin:0px;background:#b3bdc1;vertical-align:top;}
+
+.intro {padding:10px 5px 10px 5px;font-weight:bold;}
+
+.instructional {font-style : italic;font-weight:normal;}
+
+.strong {font-weight:bold;}
+
+.notable {font-weight:bold;}
+
+/* Page header (this is the bit to use to change colour for each topic) */
+#subject {background:#7d8b96;border-top:4px solid #7d8b96;color:#ffffff;padding:5px;}
+#subject h1 {color:#ffffff;}
+#rulesHelp {background:#cccccc;border-top:4px solid #7d8b96;padding:5px;text-align:right;}
+
+
+/* Left-hand navigation */
+#lhTitle {font-weight:bold;}
+.lhOff {}
+.lhOn {}
+
+/*Table navigation bar*/
+.tablenavbarTop {background:#fffcf1;text-align:right;color:#666666;}
+.tablenavbarBtm {background:#fffcf1;text-align:right;color:#666666;}
+.tablenavtext a {text-decoration:none;}
+.off {color:#cccccc}
+.inactive {text-decoration:none;}
+.tablenavtext {padding:5px 10px 5px 5px;}
+
+/* Promos */
+#promoArea {padding:5px;padding-top:0px;}
+#staticPromo {background:#fffcf1;border:1px solid #7d8b96;padding:5px;}
+#dynamicPromoHeader {background:#d5d5b9;border:1px solid #7d8b96;padding:5px;}
+#dynamicPromoContent {background:#fffcf1;border:1px solid #7d8b96;border-top:0px;padding:5px;}
+
+/* Amount of discussions/messages */
+.discussions {text-align:right;}
+.discussions h4 {color:#666666;font-weight:normal;}
+
+#content {border:1px solid #e3e8e9;}
+
+/* Topic area specific code */
+#thDiscussion {text-align:left;border:1px solid #e3e8e9;border-left:0px;}
+#thReplies {border-left:0px;text-align:center;border:1px solid #e3e8e9;border-left:0px;}
+#thStarted {border-left:0px;text-align:center;border:1px solid #e3e8e9;border-left:0px;}
+#thLatest {border-left:0px;text-align:center;border-top:1px solid #e3e8e9;border-bottom:1px solid #e3e8e9;}
+
+.thText {color:#fffcf1;font-weight:bold;}
+
+.discussion {border-bottom:1px solid #e3e8e9;border-right:1px solid #e3e8e9;}
+.replies {text-align:center;border-bottom:1px solid #e3e8e9;border-right:1px solid #e3e8e9;}
+.startedby {text-align:center;border-bottom:1px solid #e3e8e9;border-right:1px solid #e3e8e9;}
+.latestreply {text-align:center;border-bottom:1px solid #e3e8e9;}
+
+.rowOne td {background:#fffcf1;padding:5px;vertical-align:top;}
+.rowTwo td {background:#ffffff;padding:5px;vertical-align:top;}
+
+#newconversation {margin-left:7px;}
+#newconversation span {vertical-align:5px;}
+
+/* Discussion specific code */
+#discussionTitle {padding-left:5px;}
+
+#complainHelp {margin-bottom:10px;}
+
+/* Presentation of posts */
+.post, .postPreview {background:#fffcf1;border-top:1px solid #e3e8e9;border-bottom:1px solid #e3e8e9;padding:5px;}
+.postContentOne {background:#faf5e5;border:1px solid #f6edcd;width:488px;padding:5px;margin-top:5px;}
+.postContentTwo {background:#f9eee4;border:1px solid #ffcc99;width:488px;padding:5px;margin-top:5px;}
+.postBottom {background:#e3e8e9;background-image : url(http://www.bbc.co.uk/dnaimages/boards/images/multiposts_line.gif);}
+.postBottom td {border-bottom:10px solid #b3bdc1;padding:3px;}
+
+/* Quotes within posts */
+.postContentOne blockquote, .postPreview blockquote {background:#fffcf1;border:1px solid #f6edcd;padding:5px;margin-top:10px;}
+.postContentTwo blockquote {background:#fffcf1;border:1px solid #ffcc99;padding:5px;margin-top:10px;}
+.quotefrom {text-align:right;}
+.extraquotes {background:#fffcf1;border-top:1px solid #ffcc99;border-bottom:1px solid #ffcc99;padding:3px;margin-top:10px;}
+.extraquotes2 {background:#fffcf1;border-top:1px solid #f6edcd;border-bottom:1px solid #f6edcd;padding:3px;margin-top:10px;}
+.hostsname {font-style:italic;}
+
+/* Form page (e.g. reply to/complain about a message) styles */
+#contentForm {border:1px solid #e3e8e9;border-bottom:1px solid #7d8b96;margin:40px 0px 40px 0px;}
+#formBg {background:#e3e8e9;border-top:10px solid #b3bdc1;border-bottom:10px solid #b3bdc1;}
+#tablenavbarForm {background:#fffcf1;text-align:left;color:#666666;padding:5px;}
+.textfield {background:#fffcf1;padding:15px;margin:20px;}
+.textfield p {margin-bottom:5px;}
+.buttons {float:right;margin:0px 10px 10px 0px;}
+#formBg h3 {margin-bottom:5px;}
+.theForm {margin:20px;}
+
+
+/* NEW styles for reply to a message/start new conversation */
+#formArea {background:#e3e8e9;border-top:10px solid #b3bdc1;padding:10px 0px 10px 10px;}
+#previewArea {border-top:1px dashed #7d8b96;background:#e3e8e9;border-bottom:10px solid #b3bdc1;}
+#previewArea th, #previewTable th, #previewTableTwo th  {background:#e3e8e9;text-align:left;padding-left:0px;font-weight:bold;}
+#previewArea #previewTable {margin:10px 10px 20px 30px;}
+#previewTableTwo {margin:5px;padding:10px;}
+#previewArea #previewTable .postContentOne, #previewArea #previewTableTwo .postContentOne {width:405px;} 
+
+.buttonsTwo {float:center;margin:10px 10px 0px 10px;}
+.buttonsThree {float:right;margin:0px 113px 3px 0px;}
+.message {margin-left:20px;}
+
+/* Moreposts page */
+
+.MPnewrow {background:#faf5e5;}
+.MPoldrow {background:#f9eee4;}
+.MPnew {border:1px solid #e6e4df;border-right:0px;padding:5px;}
+.MPdiscussion {border-top:1px solid #e6e4df;border-bottom:1px solid #e6e4df;padding:5px;}
+.MPdate {border:1px solid #e6e4df;border-left:0px;padding:5px;text-align:right;}
+
+.line {color:#7d8b96;background:#7d8b96;height:1px;border-width:0px;border-top:1px solid #7d8b96;}
+
+/* Frontpage stuff */
+
+.textbox {
+	padding: 5px;
+	background: #bbbbbb;
+}
+
+.topicbox {
+	padding: 5px;
+	background: #dddddd;
+}
+
+.lhn-container {
+	margin: 5px;
+}
+
+.lhn-topic {
+	margin: 1px;
+}
+
+/* ------------------------------------------ *
+ *	Contextual Help Blocks Styling            *
+ *	----------------------------------------- */
+
+/* Style the help block's colours and font. The background colour should be the same for both */
+
+.blockSide      { background-color:#E3E8E9}
+.promoTable .blockMain      { background-color:#E3E8E9;
+				  color: #000000;
+				  font-weight:normal;
+				  font-family: Verdana, Arial, Helvetica, sans-serif;
+				   line-height:150%;				  
+				  width:113px;
+				  padding:3px;
+				}
+
+/* Style the panel shadow, if you don't want the shadow change it to {background-color:none} */
+		
+.blockShadow     { background-color:#B3BDC1 }
+
+/* Style the links */
+
+.promoTable .blockMain a {color: #006699; text-decoration:underline; font-weight:normal; }
+.promoTable .blockMain a:hover	 {color: #006699; text-decoration:underline; cursor:help; font-weight:normal;}
+.promoTable .blockMain a:active  {color: #006699; font-weight:normal; text-decoration:underline;}
+.promoTable .blockMain a:visited {color: #006699; font-weight:normal; text-decoration:underline;}
+
+.promoTable {margin-bottom:5px;}
+
+

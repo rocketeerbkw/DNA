@@ -212,12 +212,12 @@
 	-->
 	<xsl:template match="ACTIONUSER" mode="t_inviteduser">
 		<a href="{$root}U{USER/USERID}" xsl:use-attribute-sets="mACTIONUSER_t_inviteduser">
-			<xsl:value-of select="USER/USERNAME"/>
+			<xsl:apply-templates select="USER" mode="username"/>
 		</a>
 	</xsl:template>
 	<xsl:template match="COMPLETEUSER" mode="t_invitinguser">
 		<a href="{$root}U{USER/USERID}" xsl:use-attribute-sets="mACTIONUSER_t_invitinguser">
-			<xsl:value-of select="USER/USERNAME"/>
+			<xsl:apply-templates select="USER" mode="username"/>
 		</a>
 	</xsl:template>
 	<!--
@@ -410,7 +410,7 @@
 	-->
 	<xsl:template match="COMPLETEUSER" mode="r_authoriser">
 		<a href="{$root}U{USER/USERID}" xsl:use-attribute-sets="mCOMPLETEUSER_r_authoriser">
-			<xsl:value-of select="USER/USERNAME"/>
+			<xsl:apply-templates select="USER" mode="username"/>
 		</a>
 	</xsl:template>
 	<!--
@@ -450,7 +450,7 @@
 	-->
 	<xsl:template match="USER" mode="t_membershipname">
 		<a href="{$root}U{USERID}" xsl:use-attribute-sets="mUSER_t_membershipname">
-			<xsl:value-of select="USERNAME"/>
+			<xsl:apply-templates select="." mode="username"/>
 		</a>
 	</xsl:template>
 	<!--
@@ -508,7 +508,7 @@
 		<xsl:if test="(../@TYPE='MEMBER') and (USER/@USERID=substring-after(/H2G2/PARAMS/PARAM[NAME='s_view']/VALUE, 'U'))">
 			<!-- Selecting the member tag corresponding to the the member passed in in PARAMS -->
 			<a href="{$root}U{USER/USERID}" xsl:use-attribute-sets="mMEMBER_t_editmembername">
-				<xsl:value-of select="USER/USERNAME"/>
+				<xsl:apply-templates select="USER" mode="username"/>
 			</a>
 		</xsl:if>
 	</xsl:template>
@@ -760,7 +760,7 @@
 	-->
 	<xsl:template match="MEMBER" mode="r_clubowners">
 		<a xsl:use-attribute-sets="mUSER_r_clubowners" href="{$root}U{USER/USERID}">
-			<xsl:value-of select="USER/USERNAME"/>
+			<xsl:apply-templates select="USER" mode="username"/>
 		</a>
 	</xsl:template>
 	<!--
@@ -771,7 +771,7 @@
 	-->
 	<xsl:template match="MEMBER" mode="r_clubmembers">
 		<a xsl:use-attribute-sets="mUSER_r_clubmembers" href="{$root}U{USER/USERID}">
-			<xsl:value-of select="USER/USERNAME"/>
+			<xsl:apply-templates select="USER" mode="username"/>
 		</a>
 	</xsl:template>
 	<!--
@@ -1108,7 +1108,7 @@
 	-->
 	<xsl:template match="USER" mode="t_clubcommentauthor">
 		<a href="{$root}U{USERID}" xsl:use-attribute-sets="mUSER_t_clubcommentauthor">
-			<xsl:value-of select="USERNAME"/>
+			<xsl:apply-templates select="." mode="username"/>
 		</a>
 	</xsl:template>
 	<!--

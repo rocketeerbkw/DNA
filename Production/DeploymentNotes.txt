@@ -481,3 +481,26 @@ On live web.config - within  <system.web> change
 	<pages>
 	to
 	<pages  validateRequest="false">
+	
+============== v 3.5.32.0 =============
+13/01/10 MarcusP
+Run MigrateProfanitiesToTermsFilter.sql in DBScripts
+Rollback:
+	Uncommment the old version of the "getallprofanities" and "profanitiesgetall" and it will use the old admin pages and profanity list.
+	In filter.reg uncomment the line which adds the association for the old profanityadmin page.
+	
+EntLib 4.1 fix
+	Within web.config 
+	- Change maximumElementsInCacheBeforeScavenging for the "cache manager" cache element to be 100000. 
+	- Change numberToRemoveWhenScavenging to 1000
+
+BlogFix -
+	Run DBScripts\blogfix.sql. Remember to execute the 'SELECT AND RUN ALL THE CreateUserSQL STATEMENTS' after it's run
+	Remove the following...
+	
+						<!--#if expr="${dna.commentbox.servicename} = 'blog51'"-->
+							<!--#set var="dna.commentbox.servicename" value="pmblog"-->
+							<!--#set var="dna.commentbox.listNamespace" value="pmblog"-->
+						<!--#endif-->	
+						
+	from 'dnaimages/components/commentbox.sssi' file.

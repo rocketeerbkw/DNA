@@ -15,7 +15,8 @@
 
 	<xsl:template name="MORELINKS_TITLE">
 		<title>
-			Bookmarks for <xsl:value-of select="/H2G2/MORELINKS/LINKS-LIST/USER/USERNAME"/>
+			Bookmarks for <!-- <xsl:value-of select="/H2G2/MORELINKS/LINKS-LIST/USER/USERNAME"/> -->
+			<xsl:apply-templates select="/H2G2/MORELINKS/LINKS-LIST/USER" mode="username" />
 		</title>
 	</xsl:template>
 	
@@ -38,7 +39,8 @@
 						<td>
 							<font xsl:use-attribute-sets="subheaderfont" class="postxt">
 								<b>
-									Bookmarks for <xsl:value-of select="/H2G2/MORELINKS/LINKS-LIST/USER/USERNAME"/>
+									Bookmarks for <!-- <xsl:value-of select="/H2G2/MORELINKS/LINKS-LIST/USER/USERNAME"/> -->
+									<xsl:apply-templates select="/H2G2/MORELINKS/LINKS-LIST/USER" mode="username" />
 								</b>
 							</font>
 						</td>

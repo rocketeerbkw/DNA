@@ -36,6 +36,8 @@ namespace BBC.Dna.Users
         private string _email = "";
         private string _firstName = "";
         private string _lastNames = "";
+        private string _cookie = "";
+        private DateTime _lastUpdatedDate;
 
         /// <summary>
         /// Get property for the users signin userid
@@ -120,6 +122,21 @@ namespace BBC.Dna.Users
                     return _signInComponent.IsUserLoggedIn;
                 }
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Get property for the users last updated date in the signin system
+        /// </summary>
+        public DateTime LastUpdatedDate
+        {
+            get
+            {
+                if (_signInComponent != null)
+                {
+                    return _lastUpdatedDate;
+                }
+                return DateTime.MinValue;
             }
         }
 
@@ -218,7 +235,40 @@ namespace BBC.Dna.Users
             {
                 _lastNames = _signInComponent.GetUserAttribute("lastnames");
             }
+
+            if (_signInComponent.DoesAttributeExistForService(policy, "lastupdated"))
+            {
+                DateTime.TryParse(_signInComponent.GetUserAttribute("lastupdated"), out _lastUpdatedDate);
+            }
+
+            _cookie = cookie;
+
             return true;
+        }
+
+        /// <summary>
+        /// Method for getting the auto generated username from the signin component if it exists
+        /// </summary>
+        /// <param name="isKidsSite">A flag to state that we're getting the name for a kids site</param>
+        /// <returns>The name stored in the signin system or empty if it does not exist</returns>
+        public string GetAutoGenNameFromSignInSystem(bool isKidsSite)
+        {
+            string siteSuffix = "";
+            string attribNameSpace = "";
+            string attribName = "";
+
+            if (isKidsSite)
+            {
+                attribNameSpace = "cbbc";
+                attribName = "cbbc_displayname";
+            }
+
+            if (_signInComponent.DoesAppNameSpacedAttributeExist(_cookie, attribNameSpace, attribName))
+            {
+                siteSuffix = _signInComponent.GetAppNameSpacedAttribute(_cookie, attribNameSpace, attribName);
+            }
+
+            return siteSuffix;
         }
 
         /// <summary>

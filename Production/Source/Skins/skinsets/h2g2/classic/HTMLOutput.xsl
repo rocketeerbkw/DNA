@@ -442,7 +442,7 @@ Purpose:	Used to specify attributes for <A> tag for Return to Editors link
 						</xsl:apply-templates>
 
 					<font color="yellow">
-						<xsl:value-of select="USER/USERNAME"/>
+						<xsl:apply-templates select="USER" mode="username" />
 					</font>
 					<!-- put in a link to InspectUser for editors -->
 					<xsl:if test="$test_IsEditor">
@@ -2179,7 +2179,7 @@ blardy blardy blardy
 <b><xsl:value-of select="SUBJECT" /></b>
 </xsl:otherwise>
 </xsl:choose>
-(<xsl:value-of select="USER/USERNAME" />, <xsl:apply-templates select="DATEPOSTED" />)
+(<xsl:apply-templates select="USER" mode="username" />, <xsl:apply-templates select="DATEPOSTED" />)
 </xsl:element>
 <br />
 </xsl:template>
@@ -3328,7 +3328,7 @@ onClick="di('N{$imgname}','I{$imgname}_down');{$onclickextra}return {$onclickret
 				</a>
 			</td>
 			<td>
-				<xsl:value-of select="USER/USERNAME"/>
+				<xsl:apply-templates select="USER" mode="username" />
 			</td>
 			<td>
 				<xsl:value-of select="ENTRY-COUNT"/>

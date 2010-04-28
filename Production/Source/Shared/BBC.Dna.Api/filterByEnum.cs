@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BBC.Dna.Api
+﻿namespace BBC.Dna.Api
 {
     public enum FilterBy
     {
@@ -20,8 +15,11 @@ namespace BBC.Dna.Api
         /// <summary>
         /// A provided user list - comma seperated
         /// </summary>
-        UserList
-    }
+        UserList,
 
-    
+        /// <summary>
+        /// Which have posts within a certain time period
+        /// </summary>
+        PostsWithinTimePeriod
+    }
 }

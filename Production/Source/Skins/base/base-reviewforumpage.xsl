@@ -418,7 +418,9 @@
 	<xsl:template match="THREAD" mode="t_author">
 		<a>
 			<xsl:attribute name="href"><xsl:value-of select="$root"/>U<xsl:value-of select="AUTHOR/USER/USERID"/></xsl:attribute>
-			<xsl:apply-templates select="AUTHOR/USER/USERNAME" mode="truncated"/>
+			<xsl:apply-templates select="AUTHOR/USER" mode="username">
+				<xsl:with-param name="stringlimit">17</xsl:with-param>			
+			</xsl:apply-templates>
 		</a>
 	</xsl:template>
 	<!--

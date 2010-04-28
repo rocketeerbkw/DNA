@@ -1,0 +1,143 @@
+/*Redefined HTML tags*/
+
+body,td {font-family : arial,helvetica,sans-serif;color:#000000;}
+a {color:#000000;}
+a:hover {text-decoration:underline;color:#000000;}
+a:visited {color:#000000;}
+a:active {color:#000000;}
+a:link {color:#000000;}
+input {font-family : arial,helvetica,sans-serif;}
+
+/*custom styles*/
+/*This is help text. Should not be the same colour as body text*/
+.ssoTransparency {color:#000000;}
+a.ssoTransparency {cursor:help; color:#FF0099;}
+a.ssoTransparency:hover {color:#FF0099;}
+a.ssoTransparency:visited {color:#FF0099;}
+a.ssoTransparency:link {color:#FF0099;}
+a.ssoTransparency:active{color:#FF0099;}
+
+/*ssoHelp a styles created to cope with a different colour link here*/
+.ssoHelp {cursor:help;}
+a.ssoHelp {cursor:help; color:#000000;}
+a.ssoHelp:active {cursor:help; color:#000000;}
+a.ssoHelp:hover {cursor:help; color:#000000;}
+a.ssoHelp:visited {cursor:help; color:#000000;}
+a.ssoHelp:link {cursor:help; color:#000000;}
+
+
+/*only change error colour if red shows up badly against your chosen backgrounds*/
+.ssoError {color:#ff0000;}
+
+/*"light" denotes areas of status bar that are of a ligher colour - eg the "new visitoes" section*/
+.ssoStatuslight {font-family : arial,helvetica,sans-serif;color:#ffffff;}
+a.ssoStatuslight {text-decoration:none;color:#ffffff;}
+a.ssoStatuslight:hover {color:#ffffff;}
+
+/*"dark" denotes areas of status bar that are of a darker colour - eg the "returning bbci members" section*/
+.ssoStatusdark {font-family : arial,helvetica,sans-serif;color:#ffffff;}
+a.ssoStatusdark {color:#ffffff;text-decoration:underline;}
+a.ssoStatusdark:visited {color:#ffffff;}
+a.ssoStatusdark:hover {color:#ffffff;}
+
+a.ssoStatusdarkhelp {color:#ffffff;cursor:help;}
+a.ssoStatusdarkhelp:hover {color:#ffffff;}
+a.ssoStatusdarkhelp:visited {color:#ffffff;}
+.ssoStatusform {font-size:smaller; width:120px; height:20px; background-color:#DDDDDD;} /* Make sure this is the same colour as .ssoThree or - if you're not using three shades of teh same colour for your main sso sections it should be a lighter version of the colour you are using for ssoOne*/
+	
+.roundbutton{padding-right:7px;}
+
+/*background image for whole page - if required*/
+.ssoBg {background:#000000; background-image: url(http://www.bbc.co.uk/dnaimages/iplayer/dna_messageboard/images/iplayer_bg.gif)} 
+	
+/*dividers*/
+div.dashedFormbox {
+	border-bottom : 1px dashed #DDDDDD; /* Make sure this is the same colour as .ssoThree */
+	font : 1px;
+	line-height : 1px;
+	margin-top: 15px ;
+	margin-bottom: 15px ;
+}
+div.dashedMain {
+	border-bottom : 3px dashed #ffffff;/* Make sure this is the same colour as .ssoFormbox */
+	font : 1px;
+	line-height : 1px;
+	margin-top: 15px ;
+	margin-bottom: 15px ;
+}
+
+/*background colours*/
+/* Body background colours - make sure these are both the same */
+body {background-color:#ffffff;}
+.ssoLikebody {background-color:#ffffff;}
+
+/*background of main form*/
+.ssoFormbox {background-color : #ffffff;}
+
+/*background of main SSO layers, one is "returning members" section colour and three is "new visitors" section colour*/
+.ssoOne {background-color : #A3A3A3;}
+.ssoTwo {background-color : #C5C5C5;}
+.ssoThree {background-color : #DDDDDD;}
+
+/*divider colour for use between layers*/
+.ssoStatusshadow {background-color : #000000;}
+
+/* BBC generic */
+.bbcpageFooter a {color:#ffffff}
+.bbcpageFooter a:active {color:#ffffff}
+.bbcpageFooter a:link{color:#ffffff}
+.bbcpageFooter a:hover {color:#ffffff}
+.bbcpageFooter a:visited {color:#ffffff}
+.bbcpageLocal p {color:#ffffff}
+.bbcpageLocal a {color:#ffffff}
+.bbcpageServices a {color:#ffffff}
+td.bbcpageServices {color:#ffffff}
+.bbcpageToplefttd {color:#ffffff}
+.bbcpageTopleftlink a:active, .bbcpageTopleftlink a:visited, .bbcpageTopleftlink a:link, .bbcpageTopleftlink a:hover {color:#ffffff}
+
+/* additional styles to handle banner */
+#blq-main {
+	float: left;
+	margin: 20px auto 0 auto;
+	text-align: left;
+	width: 645px;}
+
+
+
+#blq-banner img {
+	border: 1px solid black;
+	margin-left: 7px;
+	margin-bottom: 5px;}
+
+
+
+#blq-banner div a {float: left;}
+
+
+#blq-banner #bip-tagline {
+	float: right;
+	font-size: 100%;}
+
+
+#blq-banner #bip-tagline a {
+        font-family : arial,helvetica,sans-serif;
+        font-weight:normal;
+	font-size: 0.9em;
+	display: block;
+	text-align: right;
+	color: #ff359f;
+        text-decoration:none;
+        word-spacing: 0;
+	margin-top: 1px;
+}
+
+#blq-banner #bip-tagline a:hover {text-decoration:underline;}
+
+
+#blq-banner p#bip-tagline  {
+	color:#ffffff;
+	word-spacing: 0.1em;
+}
+	
+#blq-banner p#bip-homelink {clear:left;
+}

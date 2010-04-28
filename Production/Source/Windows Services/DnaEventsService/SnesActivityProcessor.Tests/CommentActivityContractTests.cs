@@ -1,12 +1,12 @@
-﻿
+﻿using System;
 using System.IO;
-using BBC.Dna.Utils;
-using Dna.SnesIntegration.ActivityProcessor;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using BBC.Dna.Utils;
+using Dna.SnesIntegration.ActivityProcessor.Contracts;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SnesActivityTests
+namespace SnesActivityProcessorTests
 {
     public static class ObjectExtensionMethods
     {
@@ -47,8 +47,8 @@ namespace SnesActivityTests
             comment.Body = "A body";
             comment.DisplayName = "mooks";
             comment.PostedTime = 1234567890;
-            comment.Url = "http://www.bbc.co.uk/dna/h2g2/F1";
-            comment.Username = "1234";
+            comment.Url = new Uri("http://www.bbc.co.uk/dna/h2g2/F1",UriKind.RelativeOrAbsolute);
+            comment.UserName = "1234";
             comment.ObjectDescription = "An object description";
             comment.ObjectUri = "/dna/h2g2/F1";
             comment.ObjectTitle = "A title";
@@ -62,12 +62,12 @@ namespace SnesActivityTests
         [TestMethod]
         public void OpenSocialContract_DeserializeFromJson_ReturnsOk()
         {
-            string openSocialActivityJson = 
-                @"{"+
-                    @"""objectUri"":""b00qhs5v""," +
-                    @"""body"":""Rock and Chips""," +
-                    @"""meh"":""meh""" +
-                @"}";
+            //string openSocialActivityJson = 
+            //    @"{"+
+            //    @"""objectUri"":""b00qhs5v""," +
+            //    @"""body"":""Rock and Chips""," +
+            //    @"""meh"":""meh""" +
+            //    @"}";
 
             string testJson = @"{""startIndex"":0, ""itemsPerPage"":1,""totalResults"":20, ""entry"":[{""id"":0}, {""id"":1}]}";
 
@@ -77,3 +77,5 @@ namespace SnesActivityTests
         }
     }
 }
+
+

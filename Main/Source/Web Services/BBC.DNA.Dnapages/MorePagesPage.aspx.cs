@@ -30,6 +30,20 @@ public partial class MorePagesPage : BBC.Dna.Page.DnaWebPage
         AddComponent(_morePages);
 
         _basePage.AddAllSitesXmlToPage();
+
+        XmlDocument doc = _basePage.WholePageBaseXmlNode.OwnerDocument;
+
+        // Create an XML declaration. 
+        XmlDeclaration xmldecl;
+        xmldecl = doc.CreateXmlDeclaration("1.0",null,null);
+        xmldecl.Encoding = "ISO8859-1";
+        xmldecl.Standalone="yes";     
+          
+        // Add the new node to the document.
+        XmlElement root = doc.DocumentElement;
+        doc.InsertBefore(xmldecl, root);
+        
+        
     }
 
     /// <summary>

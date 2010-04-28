@@ -1,0 +1,429 @@
+/* Formatting for all pages */
+body {background:#000; background-image: url(http://www.bbc.co.uk/dnaimages/iplayer/dna_messageboard/images/iplayer_bg.gif);
+}
+
+h1, h2, h3, h4, h5, h6, p, li, font, big, small, span, .off, blockquote, form, .postContentOne, .postContentTwo, #promoContent {
+	font-family : arial,helvetica,sans-serif ;
+}
+
+h1, h2, h3, h4, h5, h6, p, li, font, big, small, span, .postContentOne, .postContentTwo {
+	color:#000;
+}
+
+
+
+
+font a {
+	color:#ffffff;
+}
+
+
+
+#discussionTitle h2 {
+	color: #ffffff;
+	font-weight:bold;
+}
+
+#discussionTitle p {
+	color: #ffffff;
+}
+
+#discussionTitle a {
+	color: #ffffff;
+}
+
+/* TABLE HEADER */
+#thDiscussion {
+	text-align:left;
+	border:1px solid #ffffff;
+	border-left:0px;
+}
+
+
+
+
+.userbar {background:#CCCCCC; padding:5px;}
+
+
+
+/* Page heading */
+h1 {margin:0px;}
+
+/* Subheading text */
+h2 {margin:0px;}
+
+h3 {margin:0px;}
+
+h4 {margin:0px;}
+
+/* Crumbtrail */
+h5 {margin:0px;padding:5px 0px 5px 15px;background:#000;}
+#crumbtrail {padding-top:3px;padding-bottom:8px;color:#666666;}
+#crumbtrail a, h5 {text-decoration:none;color:#ffffff;font-weight:bold;}
+
+/* Promo box titles */
+h6 {margin:0px;}
+
+#main {background:#000;}
+
+a:link,
+a:visited,
+.inactive,
+a:active {text-decoration:underline;color:#000;font-weight:bold;}
+a:hover,a,.inactive:hover {text-decoration:underline;font-family:arial,helvetica,sans-serif;}
+
+
+#topfivetopic a:active {text-decoration:none;color:#000;font-weight:bold;}
+topfivetopic  a:hover,a,.inactive:hover {text-decoration:underline;font-family:arial,helvetica,sans-serif;}
+
+a.ssoStatusdark {font-weight:normal; color:#ffffff;}
+a.ssoStatuslight {font-weight:normal; color:#000000;}
+a:link.ssoStatuslight {font-weight:normal; color:#000000;}
+a:link.ssoStatusdark {font-weight:normal; color:#ffffff;}
+a:visited.ssoStatuslight {font-weight:normal; color:#ffffff;}
+a:visited.ssoStatusdark {font-weight:normal; color:#ffffff;}
+
+#active,
+#active:visited {text-decoration:underline;color:#ffffff;font-weight:bold;}
+
+.ssoStatusdark font {color:#ffffff}
+
+p {padding:0px;margin:0px;}
+
+th {font-weight:normal;padding:5px;margin:0px;background:#999999;vertical-align:top;}
+
+.intro {padding:10px 5px 10px 5px;font-weight:bold;color:#ffffff;}
+
+.instructional {font-style:italic;font-weight:normal;}
+
+.strong {font-weight:bold;}
+
+
+.notableName{font-weight:bold;color:#666666;}
+.editorName {font-weight:bold;color:#FF0066;}
+
+/* Page header (this is the bit to use to change colour for each topic) */
+#subject {background:#ffffff;border-top:4px solid #ffffff;color:#ffffff;padding:5px;}
+#subject h1 {color:#FF0099;}
+#rulesHelp {background:#000;border-top:4px solid #ffffff;padding:5px;text-align:right;}
+#rulesHelp p {color:#ffffff;}
+#rulesHelp a {color:#ffffff; text-decoration:underline;} 
+
+/* Left-hand navigation */
+#lhTitle {font-weight:bold;}
+.lhOff {}
+.lhOn {}
+
+/*Table navigation bar*/
+.tablenavbarTop {background:#CCCCCC;text-align:center;color:#666666;}
+.tablenavbarBtm {background:#CCCCCC;text-align:right;color:#666666;}
+.tablenavtext a {text-decoration:none;}
+.off {color:#999999}
+.inactive {text-decoration:none;}
+.tablenavtext {padding:5px 10px 5px 5px;}
+
+/* Promos */
+#promoArea {padding:5px;padding-top:0px;}
+#staticPromo {background:#e3e1cc;border:1px solid #7d8b96;padding:5px;}
+#dynamicPromoHeader {background:#999999;border:1px solid #999999;padding:5px;}
+#dynamicPromoContent {background:#CCCCCC;border:1px solid #CCCCCC;border-top:0px;padding:5px;}
+
+
+
+/* Amount of discussions/messages */
+.discussions {text-align:right;}
+.discussions h4, span {color:#ffffff;font-weight:normal;}
+.discussions .strong {color:#ffffff;}
+
+#content {border:1px solid #000;}
+
+/* Topic area specific code */
+#thDiscussion {text-align:left;border:1px solid #000;border-left:0px;}
+#thReplies {border-left:0px;text-align:center;border:1px solid #000;border-left:0px;}
+#thStarted {border-left:0px;text-align:center;border:1px solid #000;border-left:0px;}
+#thLatest {border-left:0px;text-align:center;border-top:1px solid #000;border-bottom:1px solid #000;}
+
+.thText {color:#000;font-weight:bold;}
+
+.discussion {border-bottom:1px solid #000;border-right:1px solid #000;}
+.replies {text-align:center;border-bottom:1px solid #000;border-right:1px solid #000;}
+.startedby {text-align:center;border-bottom:1px solid #000;border-right:1px solid #000;}
+.latestreply {text-align:center;border-bottom:1px solid #000;}
+
+.rowOne td {background:#CCCCCC;padding:5px;vertical-align:top;}
+.rowTwo td {background:#CCCCCC;padding:5px;vertical-align:top;}
+
+#newconversation {margin-left:7px;}
+
+/* Discussion specific code */
+#discussionTitle {padding-left:5px; color:#ffffff;}
+
+.quoteOne {border:1px solid #0000ff;}
+.quoteTwo {border:1px solid #00ff00;}
+
+#complainHelp {margin-bottom:10px;}
+
+/* Presentation of posts */
+.post, .postPreview {background:#CCCCCC;border-top:1px solid #000;border-bottom:1px solid #cccccc;padding:5px;}
+.postContentOne {background:#CCCCCC;border:1px solid #000;width:488px;padding:5px;margin-top:5px;}
+.postContentTwo {background:#CCCCCC;border:1px solid #000;width:488px;padding:5px;margin-top:5px;}
+.postBottom {background:#CCCCCC;}
+.postBottom td {border-bottom:10px solid #999999;padding:3px;}
+
+/* Quotes within posts */
+.postContentOne blockquote, .postPreview blockquote {background:#fffcf1;border:1px solid #f6edcd;padding:5px;margin-top:10px;}
+.postContentTwo blockquote {background:#fffcf1;border:1px solid #ffcc99;padding:5px;margin-top:10px;}
+.quotefrom {text-align:right;}
+
+.hostsname {text-style:italic;}
+
+/* Form page (e.g. reply to/complain about a message) styles */
+#contentForm {background-color:#CCCCCC;border:1px solid #000;border-bottom:1px solid #000;margin:40px 0px 40px 0px;}
+#formBg {background:#CCCCCC;border-top:10px solid #000;border-bottom:10px solid #000;}
+#tablenavbarForm {background:#CCCCCC;text-align:left;color:#000;padding:5px;}
+.textfield {background:#ffffff;padding:15px;margin:20 px;}
+.textfield p {margin-bottom:5px;}
+.buttons {float:right;margin:0px 10px 10px 0px;}
+#formBg h3 {margin-bottom:5px;}
+.theForm {margin:20px;}
+
+/* styles for reply to a message/start new conversation */
+#formArea {background:#CCCCCC;border-top:10px solid #999999;padding:10px 0px 10px 10px;}
+
+#previewArea {border-top:1px dashed #000000;background:#999999;border-bottom:10px solid #CCCCCC;}
+#previewArea th, #previewTable th, #previewTableTwo th  {background:#CCCCCC;text-align:left;padding-left:5px;font-weight:bold;}
+#previewTable {margin:10px 30px 20px 30px;padding:10px;}
+#previewTableTwo {margin:5px;padding:10px;}
+#previewTable .postContentOne, #previewTableTwo .postContentOne {width:445px;}
+
+.buttonsTwo {float:center;margin:10px 10px 0px 10px;}
+.message {margin-left:20px;}
+
+/* Moreposts page */
+
+.MPnewrow {background:#999999;}
+.MPoldrow {background:#CCCCCC;}
+.MPnew {border:1px solid #000;border-right:0px;padding:5px;}
+.MPdiscussion {border-top:1px solid #000;border-bottom:1px solid #000;padding:5px;}
+.MPdate {border:1px solid #000;border-left:0px;padding:5px;text-align:right;}
+.MPdiscussion span, p {color:#000;}
+
+
+.line {color:#ff0000;background:#7d8b96;height:1px;border-width:0px;border-top:1px solid #7d8b96;}
+
+.lhn-container {background: #6C6C6C; width: 125px;margin:0px;}
+.lhn-topic {padding: 2px 0px 2px 8px; font-weight: bold;margin:0px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #000;} 
+.lhn-topic a:link {	
+	color: #FFFFFF;
+	text-decoration: none;
+	background-color: #6C6C6C;
+    padding:1px;
+	display:block;
+}
+
+
+.lhn-topic a:active {	
+	color: #FFFFFF;
+	text-decoration: none;
+	background-color: #6C6C6C;
+    padding:1px;
+	display:block;
+}
+
+.lhn-topic a:visited {	
+	color: #FFFFFF;
+	text-decoration: none;
+	background-color: #6C6C6C;
+    padding:1px;
+	display:block;
+}
+
+.lhn-topic a:hover {	
+	color: #FFFFFF;
+	text-decoration: none;
+	background-color: #999999;
+    padding:1px;
+	display:block;
+}
+
+.topicbox {
+	padding: 5px;
+	background: #CCCCCC;
+}
+
+.textbox {
+	padding: 5px;
+	background: #999999;
+}
+
+/*New section of css to deal with a redesign of the discussions list in some circumstances*/
+#discussionList div.discussionEntry {margin-top: 1px; border: #999999 solid 1px; background: #CCCCCC; padding: 5px;} 
+.discussionEntry p {margin-bottom: 10px} 
+/* .discussionEntry a {text-decoration:none} */
+#discussionList a {background-color:#CCCCCC} 
+#discussionTitle {margin: 5px 0 5px 0; font-weight: bold; padding-top: 5px;} 
+#discussionNumber {margin: 5px; text-align: right; padding-top: 5px; color:#ffffff;} 
+#secondCrumbtrail {padding-left: 10px;} 
+
+/* ------------------------------------------ *
+ *	Contextual Help Blocks Styling            *
+ *	----------------------------------------- */
+
+
+.blockSide      { background-color:#CCCCCC}
+.promoTable .blockMain      { background-color:#CCCCCC;
+				  color: #303030;
+				  font-weight:normal;
+				  font-family: Verdana, Arial, Helvetica, sans-serif;
+				   line-height:150%;				  
+				  width:113px;
+				  padding:3px;
+				}
+
+/* Style the panel shadow, if you don't want the shadow change it to {background-color:none} */
+		
+.blockShadow     {background-color:#767676}
+
+/* Style the links */
+/* Right hand promos */
+.promoTable .blockMain a {color: #303030; text-decoration:underline; font-weight:normal; }
+.promoTable .blockMain a:hover	 {color: #303030; text-decoration:underline; cursor:help; font-weight:normal;}
+.promoTable .blockMain a:active  {color: #303030; font-weight:normal; text-decoration:underline;}
+.promoTable .blockMain a:visited {color: #303030; font-weight:normal; text-decoration:underline;}
+
+.promoTable {margin-bottom:5px;}
+
+/* Forum mod status */
+.modstatus {color:#ffffff}
+
+/* U number page */
+.postmain, .postside {background-color:#ECE9E9; color:#000;}
+td.postmain font, td.postmain p, b {color:#000;}
+td.postside font, td.postmain p, b {color:#000;}
+
+/*.postmain a {color:#ffffff}*/
+/*.postside a {color:#ffffff}*/
+
+/* RSS Link */
+#rss-link a {color:#ffffff}
+
+/* BBC generic */
+.bbcpageFooter a {color:#ffffff}
+.bbcpageFooter a:active {color:#ffffff}
+.bbcpageFooter a:visited {color:#ffffff}
+.bbcpageLocal p {color:#ffffff}
+.bbcpageLocal a {color:#ffffff}
+.bbcpageServices a {color:#ffffff}
+.bbcpageServices a:active {color:#ffffff}
+.bbcpageServices a:visited {color:#ffffff}
+td.bbcpageServices {color:#ffffff}
+td.bbcpageServices font {color:#ffffff}
+.bbcpageToplefttd a {color:#ffffff}
+.bbcpageToplefttd a:active {color:#ffffff}
+.bbcpageToplefttd a:visited {color:#ffffff}
+
+
+/*left-han nav*/
+
+.leftNav {
+    text-align: left;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #6C6C6C;
+	text-decoration: none;
+        padding: 2px;
+        margin: 0;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #000;
+}
+
+.leftNav p {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.leftNav a:link {
+	color: #FFFFFF;
+	text-decoration: none;
+	display:block;
+    padding:1px;
+}
+
+.leftNav a:visited {
+	color: #FFFFFF;
+	text-decoration: none;
+	display:block;
+    padding:1px;
+}
+
+.leftNav a:active {
+	color: #FFFFFF;
+	text-decoration: none;
+	display:block;
+    padding:1px;
+}
+
+.leftNav a:hover {
+	color: #FFFFFF;
+	text-decoration: none;
+	background-color: #999999;
+    padding:1px;
+}
+
+/* we were unable to signin you in*/
+/* .ssoPromo font {color:#ffffff}*/
+
+/* to show times*/
+#differentTime span {margin:0px 10px 0px 28px; color:#000000;}
+
+/* additional styles to handle banner */
+#blq-main {
+	float: left;
+	margin: 20px auto 0 auto;
+	text-align: left;
+	width: 645px;}
+
+
+
+#blq-banner img {
+	border: 1px solid black;
+	margin-left: 7px;
+	margin-bottom: 5px;}
+
+
+
+#blq-banner div a {float: left;}
+
+
+#blq-banner #bip-tagline {
+	float: right;
+	font-size: 100%;}
+
+
+#blq-banner #bip-tagline a {
+        font-family : arial,helvetica,sans-serif;
+        font-weight:normal;
+	font-size: 0.9em;
+	display: block;
+	text-align: right;
+	color: #ff359f;
+        text-decoration:none;
+        word-spacing: 0;
+	margin-top: 1px;
+}
+
+#blq-banner #bip-tagline a:hover {text-decoration:underline;}
+
+
+#blq-banner p#bip-tagline  {
+	color:#ffffff;
+	word-spacing: 0.1em;
+}
+	
+#blq-banner p#bip-homelink {clear:left;
+}
+
+/*Defect 3162*/
+#promoContent a, #promoContent h2 { color: #7D8B96;}
+#promoContent { color:#fff; }

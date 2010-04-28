@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
-using System.Runtime.Serialization.Json;
-using System.Text;
 using System.Transactions;
 using BBC.Dna.Data;
 using Dna.SnesIntegration.ActivityProcessor;
+using Dna.SnesIntegration.ActivityProcessor.Contracts;
 using DnaEventService.Common;
 using Microsoft.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
-using System.IO;
 
 namespace DnaEventProcessorService.IntegrationTests
 {

@@ -1,4 +1,9 @@
 REGEDIT4
+--delete all keys
+[-HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
+--create prefix key
+[HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
+--add associations
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
 @=""
@@ -87,7 +92,8 @@ REGEDIT4
 "/ModerateGeneral"="/RipleyServer.dll?ModerateGeneral?"
 "/ModerateNicknames"="/RipleyServer.dll?ModerateNicknames?"
 "/ModerateStats"="/RipleyServer.dll?ModerateStatus?"
-"/ModerationHistory"="/RipleyServer.dll?ModerationHistory?"
+--"/ModerationHistory"="/RipleyServer.dll?ModerationHistory?"
+"/ModerationHistory"="/dna/dnapages/ModerationHistorypage.aspx?"
 
 "/efp.cgi"="/efp.cgi?"
 "/FrontpageEditor"="/ripleyserver.dll?FrontpageEditor?"
@@ -150,7 +156,8 @@ REGEDIT4
 "/G"="/ripleyserver.dll?Club?id="
 "/FEI"="/ripleyserver.dll?FixExtraInfo?"
 "/NBList"="/ripleyserver.dll?NoticeBoardList?"
-"/ProfanityAdmin"="/ripleyserver.dll?ProfanityAdmin?"
+--"/ProfanityAdmin"="/ripleyserver.dll?ProfanityAdmin?"
+
 "/FCL"="/ripleyserver.dll?FAST_CATEGORYLISTBUILDER?"
 "/FailMessage"="/ripleyserver.dll?FailMessage?"
 "/fix"="/ripleyserver.dll?FixDB?"
@@ -181,6 +188,7 @@ REGEDIT4
 "/AlertGroups"="/ripleyserver.dll?AlertGroups?"
 "/Members"="/ripleyserver.dll?Members?"
 "/MemberDetails"="/dna/dnapages/MemberDetails.aspx?"
+"/MemberDetailsAdmin"="/dna/dnapages/MemberDetails.aspx?"
 
 "/DynamicListAdmin"="/dna/dnapages/DynamicListAdmin.aspx?"
 "/EditDynamicListDefinition"="/dna/dnapages/EditDynamicListDefinition.aspx?"
@@ -302,7 +310,7 @@ REGEDIT4
 
 "/C"="/RipleyServer.dll?Category?catid="
 --"/MA"="/ripleyserver.dll?MorePages?userid="
-/MA"="/dna/dnapages/MorePagesPage.aspx?userid="
+"/MA"="/dna/dnapages/MorePagesPage.aspx?userid="
 
 --"/RecommendEntry"="/RipleyServer.dll?RecommendEntry?"
 "/RecommendEntry"="/dna/dnapages/RecommendEntryPage.aspx?"
@@ -322,3 +330,5 @@ REGEDIT4
 "/ModerateExLinks"="/dna/dnapages/ModerateExLinksPage.aspx?"
 --"/ApproveArticle"="/dna/dnapages/ApproveArticlePage.aspx?"
 
+"/TermsFilterAdmin"="/dna/dnapages/TermsFilterAdmin.aspx?"
+"/TermsFilterImport"="/dna/dnapages/TermsFilterImport.aspx?"

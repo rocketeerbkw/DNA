@@ -52,7 +52,7 @@ namespace BBC.Dna.Objects
                     return "This post has been removed.";
                 }
                 //apply style
-                return _text.Replace("\r\n", "<BR />").Replace("\n", "<BR />");
+                return HtmlUtils.ReplaceCRsWithBRs(_text);
             }
             set { _text = value; }
         }

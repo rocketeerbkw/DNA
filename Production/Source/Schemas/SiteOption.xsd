@@ -26,7 +26,7 @@
             <xs:documentation>Name of the site option.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="VALUE" type="xs:string">
+        <xs:element name="VALUE" type="xs:string" minOccurs="0">
           <xs:annotation>
             <xs:documentation>Value of the option as a string.</xs:documentation>
           </xs:annotation>

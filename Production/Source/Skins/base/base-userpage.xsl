@@ -31,7 +31,7 @@
 							<xsl:when test="$ownerisviewer = 1">
 								<xsl:value-of select="$m_pagetitlestart"/>
 								<xsl:value-of select="$m_pstitleowner"/>
-								<xsl:value-of select="PAGE-OWNER/USER/USERNAME"/>.</xsl:when>
+								<xsl:apply-templates select="PAGE-OWNER/USER" mode="username" />.</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="$m_pagetitlestart"/>
 								<xsl:value-of select="$m_pstitleviewer"/>
@@ -62,7 +62,7 @@
 						<xsl:choose>
 							<xsl:when test="$ownerisviewer = 1">
 								<xsl:value-of select="$m_pstitleowner"/>
-								<xsl:value-of select="PAGE-OWNER/USER/USERNAME"/>.</xsl:when>
+								<xsl:apply-templates select="PAGE-OWNER/USER" mode="username" />.</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="$m_pstitleviewer"/>
 								<xsl:value-of select="PAGE-OWNER/USER/USERID"/>.</xsl:otherwise>
@@ -1373,7 +1373,7 @@
 						<xsl:copy-of select="$m_friendslistofuser"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+						<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 						<xsl:copy-of select="$m_hasntaddedfriends"/>
 						<br/>
 					</xsl:otherwise>
@@ -1447,7 +1447,8 @@
 				<xsl:value-of select="USERID"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="USERNAME"/>
+				<!-- <xsl:value-of select="USERNAME"/> -->
+				<xsl:apply-templates select="." mode="username"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+<head profile="http://dublincore.org/documents/dcq-html/">
+<meta name="robots" content="noindex, nofollow" />
+<title>BBC - Discuss - <!--#echo var="page.title"--></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<meta name="DCTERMS.created" content="2006-09-15T12:00:00Z" />
+<meta name="DCTERMS.modified" content="2006-09-15T12:35:00Z" />
+
+
+<!--#set var="blq_css_framework" value="v01" -->
+
+<!--#include virtual="/includes/blq/include/blq_head.sssi" -->
+
+<script type="text/javascript" src="//www.bbc.co.uk/glow/0.4.2/dist/glow/glow.debug.js"></script>
+<script type="text/javascript" src="//www.bbc.co.uk/glow/0.4.2/dist/effects/effects.js"></script>
+<script type="text/javascript" src="//www.bbc.co.uk/glow/0.4.2/dist/widgets/widgets.js"></script>
+
+<script type="text/javascript" src="/dnaimages/discuss/script/discuss.js"></script>
+
+<link rel="stylesheet" href="/dnaimages/discuss/style/discuss.css" />
+<!--[if gte IE 6]>
+<link rel="stylesheet" href="/dnaimages/discuss/style/discuss-ie.css" />
+<![endif]-->
+
+
+</head>
+<body>
+<!--#include virtual="/includes/blq/include/blq_body_first.sssi" -->
+<div id="blq-local-nav"></div>
+<div id="blq-content" class="blq-typ">
+	
+	<h1>
+		<a href="/dna/discuss">
+			<img src="/dnaimages/discuss/img/banner_logo.png" alt="BBC Discuss"/>
+		</a>
+		<blockquote><p>bring discussion to your product or site with <span>BBC Discuss</span></p></blockquote>
+	</h1>
+	
+	<div id="page">
+		<ul id="navigation">
+			<li>
+				<a href="/dna/discuss/About">About</a>
+			</li>
+			<li>
+				<a href="/dna/discuss/Example">Example</a>
+			</li>
+			<li>
+				<a href="/dna/discuss/Documentation">Documentation</a>
+			</li>
+			<!--
+			<li>
+				<a href="/discuss/Status">Status</a>
+			</li>
+			-->
+			<li>
+				<a href="/dna/discuss/Contact">Contact</a>
+			</li>
+			<li>
+				<a href="/dna/discuss/commentforumlist">Dashboard</a>
+			</li>
+		</ul>
+		
+		<div id="content">
+			
+			
+		
+	

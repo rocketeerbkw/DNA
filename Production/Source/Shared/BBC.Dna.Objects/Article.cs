@@ -1,75 +1,62 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.CodeDom.Compiler;
+using System.ComponentModel;
 using System.Xml;
+using System.Xml.Serialization;
 using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
-using System.Xml.Serialization;
-using BBC.Dna.Utils;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "ARTICLE")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "ARTICLE")]
-    public partial class Article
+    [GeneratedCode("System.Xml", "2.0.50727.3053")]
+    [Serializable()]
+    [DesignerCategory("code")]
+    [XmlType(AnonymousType = true, TypeName = "ARTICLE")]
+    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "ARTICLE")]
+    public partial class Article : CachableBase<Article>
     {
-        public Article()
-        {
-
-        }
-
         #region Properties
-        /// <summary>
-        /// 
-        /// </summary>
-        [XmlIgnore]
-        public int H2g2Id 
-        { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [XmlIgnore]
-        public int EntryId 
-        { get; set; }
-
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        [XmlIgnore]
-        public int HiddenStatus
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        [XmlIgnore]
-        public GuideEntryStyle Style
-        {
-            get;
-            set;
-        }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "ARTICLEINFO")]
-        public ArticleInfo ArticleInfo
-        {
-            get;
-            set;
-        }
+        private string _extraInfo = string.Empty;
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "SUBJECT")]
+        private string _guide = String.Empty;
+
+        private string _subject = String.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlIgnore]
+        public int H2g2Id { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlIgnore]
+        public int EntryId { get; set; }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlIgnore]
+        public int HiddenStatus { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [XmlIgnore]
+        public GuideEntryStyle Style { get; set; }
+
+        /// <remarks/>
+        [XmlElement(Order = 0, ElementName = "ARTICLEINFO")]
+        public ArticleInfo ArticleInfo { get; set; }
+
+        /// <remarks/>
+        [XmlElement(Order = 1, ElementName = "SUBJECT")]
         public string Subject
         {
             get
@@ -83,126 +70,87 @@ namespace BBC.Dna.Objects
             }
             set { _subject = value; }
         }
-        private string _subject = String.Empty;
 
-        /// <remarks/>
-        private string _guide = String.Empty;
         [XmlIgnore]
         public string Guide
         {
             get { return _guide; }
             set { _guide = value; }
-        } 
+        }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAnyElement(Order = 2)]
+        [XmlAnyElement(Order = 2)]
         public XmlElement GuideElement
         {
-            get
-            {
-                return GuideEntry.CreateGuideEntry(Guide, HiddenStatus, Style);
-            }
+            get { return GuideEntry.CreateGuideEntry(Guide, HiddenStatus, Style); }
             set { Guide = value.OuterXml; }
         }
 
 
-        /// <remarks/>
-        private string _extraInfo = string.Empty;
         [XmlIgnore]
         public string ExtraInfo
         {
             get { return _extraInfo; }
-            set{_extraInfo = value;}
+            set { _extraInfo = value; }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAnyElement(Order = 3)]
+        [XmlAnyElement(Order = 3)]
         public XmlElement ExtraInfoElement
         {
-            get
-            {
-                return ExtraInfoCreator.CreateExtraInfo(ExtraInfo);
-            }
-            set {
-                ExtraInfo = value.OuterXml;
-            }
+            get { return ExtraInfoCreator.CreateExtraInfo(ExtraInfo); }
+            set { ExtraInfo = value.OuterXml; }
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 4, ElementName = "BOOKMARKCOUNT")]
-        public int BookmarkCount
-        {
-            get;
-            set;
-        }
+        [XmlElement(Order = 4, ElementName = "BOOKMARKCOUNT")]
+        public int BookmarkCount { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "CANREAD")]
-        public int CanRead
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "CANREAD")]
+        public int CanRead { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "CANWRITE")]
-        public int CanWrite
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "CANWRITE")]
+        public int CanWrite { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "CANCHANGEPERMISSIONS")]
-        public int CanChangePermissions
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "CANCHANGEPERMISSIONS")]
+        public int CanChangePermissions { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "DEFAULTCANREAD")]
-        public int DefaultCanRead
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "DEFAULTCANREAD")]
+        public int DefaultCanRead { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "DEFAULTCANWRITE")]
-        public int DefaultCanWrite
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "DEFAULTCANWRITE")]
+        public int DefaultCanWrite { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "DEFAULTCANCHANGEPERMISSIONS")]
-        public int DefaultCanChangePermissions
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "DEFAULTCANCHANGEPERMISSIONS")]
+        public int DefaultCanChangePermissions { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "PROFANITYTRIGGERED")]
-        public int ProfanityTriggered
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "PROFANITYTRIGGERED")]
+        public int ProfanityTriggered { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "NONALLOWEDURLSTRIGGERED")]
-        public int NonAllowedUrlsTriggered
-        {
-            get;
-            set;
-        }
+        [XmlAttribute(AttributeName = "NONALLOWEDURLSTRIGGERED")]
+        public int NonAllowedUrlsTriggered { get; set; }
 
         [XmlIgnore]
         public int ForumStyle { get; set; }
+
         #endregion
+
+        /// <summary>
+        /// Status 7 = deleted
+        /// </summary>
+        [XmlIgnore]
+        public bool IsDeleted
+        {
+            get { return ArticleInfo.Status.Type == 7; }
+        }
 
         /// <summary>
         /// Updates the article based on the viewing user
@@ -243,14 +191,12 @@ namespace BBC.Dna.Objects
                     _canRead = reader.GetInt32("CanRead") > 0;
                     _canWrite = reader.GetInt32("CanWrite") > 0;
                     _canChangePermissions = reader.GetInt32("CanChangePermissions") > 0;
-
                 }
             }
             // Now update the articles can read / write and change permissions
             CanRead = _canRead ? 1 : 0;
             CanWrite = _canWrite ? 1 : 0;
             CanChangePermissions = _canChangePermissions ? 1 : 0;
-           
         }
 
         /// <summary>
@@ -278,8 +224,8 @@ namespace BBC.Dna.Objects
         /// <param name="nonAllowedURLsTriggered"></param>
         public void UpdateProfanityUrlTriggerCount(bool profanityTriggered, bool nonAllowedURLsTriggered)
         {
-            this.ProfanityTriggered = (profanityTriggered ? 1 : 0);
-            this.NonAllowedUrlsTriggered = (nonAllowedURLsTriggered ? 1 : 0);
+            ProfanityTriggered = (profanityTriggered ? 1 : 0);
+            NonAllowedUrlsTriggered = (nonAllowedURLsTriggered ? 1 : 0);
         }
 
         /// <summary>
@@ -299,7 +245,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <returns>True if up to date and ok to use</returns>
-        public bool IsUpToDate(IDnaDataReaderCreator readerCreator)
+        public override bool IsUpToDate(IDnaDataReaderCreator readerCreator)
         {
             DateTime lastUpdate = DateTime.Now;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("cachegetarticleinfo2"))
@@ -314,7 +260,7 @@ namespace BBC.Dna.Objects
                 }
             }
             return (ArticleInfo != null && ArticleInfo.LastUpdated != null &&
-                ArticleInfo.LastUpdated.Date.DateTime >= lastUpdate);
+                    ArticleInfo.LastUpdated.Date.DateTime >= lastUpdate);
         }
 
         /// <summary>
@@ -328,7 +274,7 @@ namespace BBC.Dna.Objects
             bool editable = user.HasSpecialEditPermissions(H2g2Id);
 
             // Make sure the h2g2id is valid
-            if (!editable && Article.ValidateH2G2ID(H2g2Id))
+            if (!editable && ValidateH2G2ID(H2g2Id))
             {
                 // Guide Entry is editable if it is a valid article, the user is the same as the
                 // editor, and the status of the entry is either 2, 3, 4, or 7 => i.e. it is a
@@ -353,15 +299,6 @@ namespace BBC.Dna.Objects
             }
 
             return editable;
-        }
-
-        /// <summary>
-        /// Status 7 = deleted
-        /// </summary>
-        [XmlIgnore]
-        public bool IsDeleted
-        {
-            get { return ArticleInfo.Status.Type == 7; }
         }
 
         /// <summary>
@@ -403,7 +340,7 @@ namespace BBC.Dna.Objects
                 reader.Execute();
                 if (reader.HasRows && reader.Read())
                 {
-                    ForumStyle =  reader.GetByte("ForumStyle");
+                    ForumStyle = reader.GetByte("ForumStyle");
                 }
             }
         }
@@ -414,7 +351,7 @@ namespace BBC.Dna.Objects
         /// <param name="readerCreator"></param>
         /// <param name="entryId"></param>
         /// <returns></returns>
-        static public Article CreateArticleFromDatabase(IDnaDataReaderCreator readerCreator, int entryId)
+        public static Article CreateArticleFromDatabase(IDnaDataReaderCreator readerCreator, int entryId)
         {
             Article article = null;
             // fetch all the lovely intellectual property from the database
@@ -445,12 +382,13 @@ namespace BBC.Dna.Objects
                             if (article.H2g2Id > 0)
                             {
                                 // check if this is a valid h2g2ID
-                                if (!Article.ValidateH2G2ID(article.H2g2Id))
+                                if (!ValidateH2G2ID(article.H2g2Id))
                                 {
                                     throw new NotImplementedException("Invalid ID we've got here!");
                                 }
                             }
-                            article.ArticleInfo = ArticleInfo.GetEntryFromDataBase(article.EntryId, reader, readerCreator);
+                            article.ArticleInfo = ArticleInfo.GetEntryFromDataBase(article.EntryId, reader,
+                                                                                   readerCreator);
 
                             if (article.ArticleInfo == null)
                             {
@@ -462,7 +400,7 @@ namespace BBC.Dna.Objects
                             //int type = reader.GetInt32("Type");
 
                             article.Subject = reader.GetString("subject");
-                            article.Style = (GuideEntryStyle)reader.GetInt32NullAsZero("style");
+                            article.Style = (GuideEntryStyle) reader.GetInt32NullAsZero("style");
                             article.ExtraInfo = reader.GetString("extrainfo");
 
                             if (!reader.IsDBNull("HIdden"))
@@ -480,18 +418,20 @@ namespace BBC.Dna.Objects
                             article.GetBookmarkCount(readerCreator);
                             article.Guide = reader.GetString("text");
 
-                            if (article.Guide != null && article.GuideElement.ParentNode.SelectSingleNode("//GUIDE") != null)
+                            if (article.Guide != null &&
+                                article.GuideElement.ParentNode.SelectSingleNode("//GUIDE") != null)
                             {
-                                article.ArticleInfo.GetReferences(readerCreator, article.GuideElement.ParentNode.SelectSingleNode("//GUIDE"));
+                                article.ArticleInfo.GetReferences(readerCreator,
+                                                                  article.GuideElement.ParentNode.SelectSingleNode(
+                                                                      "//GUIDE"));
                             }
 
                             //get forum style
                             article.GetForumStyle(readerCreator);
 
-                            break;//got the info so run
+                            break; //got the info so run
                         }
-                    }
-                    while (reader.Read());
+                    } while (reader.Read());
 
                     //not created so scream
                     if (article == null)
@@ -512,22 +452,26 @@ namespace BBC.Dna.Objects
         /// <param name="entryId"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        static public Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser, int entryId, bool ignoreCache)
+        public static Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+                                            int entryId, bool ignoreCache)
         {
-            Article article = null;
+            var article = new Article();
             //convert entryId
             entryId = Convert.ToInt32(entryId.ToString().Substring(0, entryId.ToString().Length - 1));
 
-            string key = GetCacheKey(entryId);
+            string key = article.GetCacheKey(entryId);
             //check for item in the cache first
             if (!ignoreCache)
-            {//not ignoring cache
+            {
+//not ignoring cache
 
-                article = (Article)cache.GetData(key);
+                article = (Article) cache.GetData(key);
                 if (article != null)
-                {//check if still valid with db...
+                {
+//check if still valid with db...
                     if (article.IsUpToDate(readerCreator))
-                    {//all good - apply viewing user attributes and return
+                    {
+//all good - apply viewing user attributes and return
                         article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
                         return article;
                     }
@@ -535,24 +479,12 @@ namespace BBC.Dna.Objects
             }
 
             //create from db
-            article = Article.CreateArticleFromDatabase(readerCreator, entryId);
+            article = CreateArticleFromDatabase(readerCreator, entryId);
             //add to cache
             cache.Add(key, article);
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
             return article;
-        }
-
-        /// <summary>
-        /// Generates the cache key for this object
-        /// </summary>
-        /// <param name="entryId"></param>
-        /// <returns></returns>
-        public static string GetCacheKey(int entryId)
-        {
-            string key = string.Format("{0}|A{1}", typeof(Article).AssemblyQualifiedName,
-                entryId);
-            return key;
         }
 
         /// <summary>
@@ -563,7 +495,8 @@ namespace BBC.Dna.Objects
         /// <param name="viewingUser"></param>
         /// <param name="entryId"></param>
         /// <returns></returns>
-        static public Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser, int entryId)
+        public static Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+                                            int entryId)
         {
             return CreateArticle(cache, readerCreator, viewingUser, entryId, false);
         }
@@ -573,7 +506,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <remarks>This is the C# version of the C++ IsValidChecksum(...) function.</remarks>
         /// <returns>True if valid, false if not</returns>
-        static public bool ValidateH2G2ID(int h2g2ID)
+        public static bool ValidateH2G2ID(int h2g2ID)
         {
             // Check to make sure we've got at least a two digit number
             if (h2g2ID < 10)
@@ -593,10 +526,10 @@ namespace BBC.Dna.Objects
             int calculatedCheck = 0;
             while (testID > 0)
             {
-                calculatedCheck += testID % 10;
+                calculatedCheck += testID%10;
                 testID /= 10;
             }
-            calculatedCheck = calculatedCheck % 10;
+            calculatedCheck = calculatedCheck%10;
             calculatedCheck = 9 - calculatedCheck;
 
             // Now return the comparision of the calculated check sum with the one passed in.

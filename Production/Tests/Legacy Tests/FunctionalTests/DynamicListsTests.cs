@@ -65,7 +65,7 @@ namespace FunctionalTests
         /// <summary>
         /// Create Dynamic List.
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestDynamicListDefinitionForArticles()
         {
             Console.WriteLine("TestDynamicListDefinitionForArticles");
@@ -117,7 +117,7 @@ namespace FunctionalTests
         /// <summary>
         /// Creates Dynamic List for Threads
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestDynamicListDefinitionForThreads()
         {
             Console.WriteLine("TestDynamicListDefinitionForThreads");
@@ -177,7 +177,7 @@ namespace FunctionalTests
         /// <summary>
         /// Creates a Dynamic List Defintion or a list of forum type.
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestDynamicListDefinitionForForums()
         {
             Console.WriteLine("TestDynamicListDefinitionForForums");
@@ -228,7 +228,7 @@ namespace FunctionalTests
         /// <summary>
         /// Creates a Dynamic List of Club Type.
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestDynamicListDefinitionForClubs()
         {
             Console.WriteLine("TestDynamicListDefinitionForClubs");
@@ -285,7 +285,7 @@ namespace FunctionalTests
         /// <summary>
         /// Creates a dynamic list of user type.
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestDynamicListDefinitionForUsers()
         {
             Console.WriteLine("TestDynamicListDefinitionForUsers");
@@ -339,7 +339,7 @@ namespace FunctionalTests
         /// <summary>
         /// Creates a Dynamic List of Category type.
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestDynamicListDefinitionForCategories()
         {
             Console.WriteLine("TestDynamicListDefinitionForCategories");
@@ -390,7 +390,7 @@ namespace FunctionalTests
         /// <summary>
         /// Creates a Dynamic List Definition for Topics
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestDynamicListDefinitionForTopics()
         {
             Console.WriteLine("TestDynamicListDefinitionForTopics");
@@ -441,7 +441,7 @@ namespace FunctionalTests
         /// <summary>
         /// Creates a Dyanmic List Definition for Campaign Diary Entries
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestDynamicListDefinitionForCampaignDiaryEntries()
         {
             Console.WriteLine("TestDynamicListDefinitionForCampaignDiaryEntries");

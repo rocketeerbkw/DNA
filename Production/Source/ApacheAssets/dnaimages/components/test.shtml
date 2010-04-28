@@ -1,0 +1,13 @@
+
+<!--#set var="dna.commentbox.servicename" value="blog133"-->
+<!--#set var="dna.commentbox.uidList" encoding="none" value="u=movabletype133_86261&u=movabletype133_85457&u=movabletype133_65154&u=movabletype133_28856&u=movabletype133_28845&u=movabletype133_28780&u=movabletype133_28697&u=movabletype133_28613&u=movabletype133_28527&u=movabletype133_28480"-->
+<!--#set var="dna.commentbox.listNamespace" value="movabletype133"-->
+
+
+
+<!--#include virtual="/dnaimages/components/commentbox/blogsummary.sssi?${QUERY_STRING}"-->
+
+<pre>
+	<!--#echo var="${QUERY_STRING}"-->
+	<!--#printenv-->
+</pre>

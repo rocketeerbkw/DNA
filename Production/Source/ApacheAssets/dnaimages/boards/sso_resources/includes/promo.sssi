@@ -1,0 +1,31 @@
+<style>
+
+.mbpromoMain {line-height: 150%; padding: 10px;}
+.mbpromoLeft {padding-left: 10px;}
+.mbpromoMain img { margin: 2px;}
+</style>
+<br />
+
+<!-- Start Email Box -->
+<table cellspacing="0" cellpadding="0" border="0" width="620">
+<tr><td class="rtn mbpromoLeft" width="53"><img src="/signon/sso/images/DNA_MB/sso_email.gif" width="42" height="42" alt="email icon" border="0" /></td><td class="rtn mbpromoMain" width="580"><font size="-1">Before you start, make sure you have a current, active email address.<br />You will need to reply to an email from us to complete the registration process.</font></td></tr>
+</table>
+
+<!-- End Email Box -->
+<br />
+
+<!-- Start Help Box -->
+<table cellspacing="0" cellpadding="0" border="0" width="620">
+<tr><td class="rtn mbpromoLeft" width="53"><img src="/signon/sso/images/DNA_MB/sso_helpicon.gif" width="42" height="42" alt="help icon" border="0" /></td><td class="rtn mbpromoMain" width="580"><font size="-1">If you have problems using our messageboards, help is always at hand. Everything from how we check the boards to how to write the perfect message is in our guide to the messageboards.</font></td></tr>
+</table>
+
+<!-- End Help Box -->
+<br />
+
+<!-- Start 1 Registration Box -->
+<table cellspacing="0" cellpadding="0" border="0" width="620">
+<tr><td class="rtn mbpromoLeft" width="53"><img src="/signon/sso/images/DNA_MB/sso_1login.gif" width="42" height="42" alt="one login icon" border="0" /></td><td class="rtn mbpromoMain" width="580"><font size="-1">Register once for all our interactive services. Your bbc.co.uk membership gives you access to our messageboards and a great range of other community-based services.</font></td></tr>
+<tr><td class="rtn mbpromoMain" align="center" colspan="2"><a href="http://www.bbc.co.uk/ican/"><img src="/signon/sso/images/DNA_MB/sso_ican.gif" width="116" height="44" alt="visit iCan" border="0" /></a><a href="http://www.bbc.co.uk/celebdaq/"><img src="/signon/sso/images/DNA_MB/sso_celebdaq.gif" width="116" height="44" alt="visit celebdaq" border="0" /></a><a href="http://www.bbc.co.uk/h2g2/"><img src="/signon/sso/images/DNA_MB/sso_h2g2.gif" width="116" height="44" alt="visit h2g2" border="0" /></a><a href="http://www.bbc.co.uk/collective/"><img src="/signon/sso/images/DNA_MB/sso_collective.gif" width="116" height="44" alt="visit collective" border="0" /></a><a href="http://www.bbc.co.uk/shoeboxzoo/"><img src="/signon/sso/images/DNA_MB/sso_shoebox_zoo.gif" width="116" height="44" alt="visit shoebox zoo" border="0" /></a></td></tr>
+</table>
+
+<!-- End 1 Registration Box -->

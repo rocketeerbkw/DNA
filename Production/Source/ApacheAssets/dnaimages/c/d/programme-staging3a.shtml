@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+<head profile="http://dublincore.org/documents/dcq-html/">
+
+<title>BBC - White Season - Programme</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<meta name="dcterms.created" content="2008-02-12T12:00:00Z" />
+<meta name="dcterms.modified" content="2008-02-12T12:35:00Z" />
+
+<!--#include virtual="/includes/blq/include/blq_head.sssi" -->
+<!--#include virtual="/white/includes/1/head.sssi" -->
+</head>
+<body class="programme">
+<!--#include virtual="/includes/blq/include/blq_body_first.sssi" -->
+<!--#include virtual="/white/includes/1/banner.sssi" -->
+<div id="content">
+	<div id="content-main">
+		<div id="programmeTop">
+			<h1>White Girl</h1>
+	    	<p>Monday 10 March 9pm</p>
+			<div id="emp"></div>
+			<img src="/white/images/emp2.jpg" width="401" height="340" alt="" />
+	    </div>
+		
+		<div id="details">
+			<img src="/white/images/306/whitegirl1.jpg" width="306" height="172" alt="" />
+			
+			<p>This provocative and emotive drama from the Bafta Award-winning writer of Sex Traffic tells the story 
+			of the clashing of cultures that occurs when a white family relocates from Leeds to a wholly Asian 
+			community in Bradford.</p>
+			
+			<p>Abi Morgan's compelling film is told from the per- spective of 11-year-old Leah, played by newcomer 
+			Holly Kenny, whose world is turned upside down when her mum Debbie (Bleak House's Anna Max- well Martin) 
+			moves the family to Bradford to escape the fallout from her recent break-up.</p>
+			
+			<p>Tensions arise when Leah befriends her young Asian neighbour Yasmin and discovers that her new friend's
+			culture isn't so alien after all. Leah is soon seeking sanctuary in the Muslim world away from the pain
+			and strife at home. But this innocent fascination soon turns sour for Debbie when her daughter comes home
+			wearing a hijab, and the family's violent reaction has explosive conse- quences for everyone.</p>
+			
+			<h2>CREDITS:</h2>
+			
+			<h3>Cast</h3>
+			<ul>
+				<li>Anna Maxwell Martin... Debbie</li>
+				<li>Holly Kenny... Leah</li>
+				<li>Holly Kenny... Yasmin</li>
+				<li>Daniel Mays... Stevie</li>
+				<li>Melanie Hill... Sonia</li>
+			</ul>
+		
+		
+			<h3>Crew</h3> <!-- uise a list if more than one -->
+			<p>Writer... Abi Morgan</p>
+		</div>
+		
+		<div id="commentsWrap">
+			<div id="comments">
+				<h2>Comments</h2>
+				<!--#include virtual="/dna-ssi/staging/white/acs/acs?dnauid=jw8&amp;dnahostpageurl=http://www.bbc.co.uk/dnaimages/c/programme-staging3a.shtml&amp;dnainitialtitle=JW8&amp;s_dnaheadinglevel=3&amp;dna_encoding=utf-8&amp;dnashow=10&amp;$QUERY_STRING"-->
+			</div>
+		</div>
+		
+		<div id="related-links">
+			<h2>RELATED LINKS</h2>
+			<ul>
+				<li><a href="#insert_url">Working class heroes on YouTube</a></li>
+				<li><a href="#insert_url">Independent Working Class Association</a></li>
+				<li><a href="#insert_url">In defence of the white working class on Telegraph</a></li>
+				<li><a href="#insert_url">Have your say</a></li>
+				<li><a href="#insert_url">Newsnight</a></li>
+			</ul>
+			
+			<div class="promo">
+				<h3><a href="#insert_url"><img src="/white/images/bbc_news.gif" width="302" height="33" alt="News" /></a></h3>
+				<p>Line of text</p>
+			</div>
+			
+			<div class="promo">
+				<h3><a href="#insert_url"><img src="/white/images/newsnight.gif" width="302" height="33" alt="Newsnight" /></a></h3>
+				<p>Line of text</p>
+			</div>
+			
+			<div class="promo">
+				<h3><a href="#insert_url"><img src="/white/images/video_nation.gif" width="302" height="33" alt="Video Nation" /></a></h3>
+				<p>Line of text</p>
+			</div>
+			
+			<div class="promo">
+				<h3><a href="#insert_url"><img src="/white/images/bbc_archive.gif" width="302" height="33" alt="Archive" /></a></h3>
+				<p>Line of text</p>
+			</div>
+			
+			<div class="promo" id="heatmap">
+				<h3><a href="#insert_url">Heat map</a></h3>
+				<p>Find out how people feel about the issues explored in the White season</p>
+			</div>
+		</div>
+		
+	</div>
+	<!--#include virtual="/white/includes/1/nav.sssi" -->
+</div>
+<!--#include virtual="/includes/blq/include/blq_body_last.sssi" -->
+<!--#include virtual="/white/includes/1/bottom.sssi" -->
+<!-- page specific EMP script -->
+
+</body>
+</html>

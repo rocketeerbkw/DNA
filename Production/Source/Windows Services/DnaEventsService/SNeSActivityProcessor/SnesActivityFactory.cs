@@ -1,4 +1,6 @@
 ﻿using BBC.Dna.Data;
+using Dna.SnesIntegration.ActivityProcessor.Activities;
+using Dna.SnesIntegration.ActivityProcessor.DataReaderAdapters;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
@@ -6,16 +8,18 @@ namespace Dna.SnesIntegration.ActivityProcessor
     {
         public static ISnesActivity CreateSnesActivity(IDnaDataReader currentRow)
         {
-            var activityType = currentRow.GetInt32("ActivityType");
+            var openSocialActivity = new OpenSocialActvivityDataReaderAdapter(currentRow);
+            var eventData = new SnesEventDataReaderAdapter(currentRow);
+
             ISnesActivity activity;
 
-            switch (activityType)
+            switch (eventData.ActivityType)
             {
                 case 19:
-                    activity = CommentActivityBase.CreateActivity(activityType, currentRow);
+                    activity = CommentActivityBase.CreateActivity(openSocialActivity, eventData);
                     break;
                 case 20:
-                    activity = RevokeCommentActivity.CreateActivity(currentRow);
+                    activity = RevokeCommentActivity.CreateActivity(openSocialActivity, eventData);
                     break;
                 default:
                     activity = new UnexpectedActivity();

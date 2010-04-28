@@ -127,7 +127,7 @@ xmlns:content="http://purl.org/rss/1.0/modules/content/">
 			<xsl:when test="/H2G2[@TYPE='THREADS'] or /H2G2[@TYPE='MULTIPOSTS']">
 				<xsl:choose>
 					<xsl:when test="/H2G2/FORUMSOURCE/@TYPE='userpage'">
-						<xsl:value-of select="/H2G2/FORUMSOURCE/USERPAGE/USER/USERNAME"/>
+						<xsl:apply-templates select="/H2G2/FORUMSOURCE/USERPAGE/USER" mode="username"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT"/>
@@ -204,10 +204,10 @@ xmlns:content="http://purl.org/rss/1.0/modules/content/">
 				</xsl:choose>
 			</xsl:when>
 			<xsl:when test="key('pagetype', 'JOURNAL')">
-				<xsl:value-of select="concat($sitedisplayname, ' - ', 'Journal - ', /H2G2/FORUMSOURCE/JOURNAL/USER/USERNAME)"/>
+				<xsl:value-of select="concat($sitedisplayname, ' - ', 'Journal - ')"/><xsl:apply-templates select="/H2G2/FORUMSOURCE/JOURNAL/USER" mode="username"/>
 			</xsl:when>
 			<xsl:when test="key('pagetype', 'MOREPOSTS')">
-				<xsl:value-of select="concat($sitedisplayname, ' - Conversations - ', /H2G2/POSTS/POST-LIST/USER/USERNAME)"/>
+				<xsl:value-of select="concat($sitedisplayname, ' - Conversations - ')"/><xsl:apply-templates select="/H2G2/POSTS/POST-LIST/USER" mode="username"/>
 			</xsl:when>
 			<xsl:when test="key('pagetype', 'INDEX')">
 				<xsl:value-of select="$sitedisplayname"/>
@@ -225,7 +225,7 @@ xmlns:content="http://purl.org/rss/1.0/modules/content/">
 				<xsl:value-of select="concat($sitedisplayname, ' - Forum - ', $rss_subject)"/>
 			</xsl:when>
 			<xsl:when test="/H2G2[@TYPE='USERPAGE']">
-				<xsl:value-of select="concat($sitedisplayname, ' - ', /H2G2/PAGE-OWNER/USER/USERNAME, ' - Messages')"/>
+				<xsl:value-of select="concat($sitedisplayname, ' - ')"/><xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username"/><xsl:text> - Messages</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="msxsl:node-set($html_header)/head/title"/>
@@ -315,10 +315,10 @@ xmlns:content="http://purl.org/rss/1.0/modules/content/">
 				</xsl:choose>
 			</xsl:when>
 			<xsl:when test="key('pagetype', 'JOURNAL')">
-				<xsl:value-of select="concat($sitedisplayname, ' - ', 'Journal - ', /H2G2/FORUMSOURCE/JOURNAL/USER/USERNAME)"/>
+				<xsl:value-of select="concat($sitedisplayname, ' - ', 'Journal - ')"/><xsl:apply-templates select="/H2G2/FORUMSOURCE/JOURNAL/USER" mode="username"/>
 			</xsl:when>
 			<xsl:when test="key('pagetype', 'MOREPOSTS')">
-				<xsl:value-of select="concat($sitedisplayname, ' - Conversations - ', /H2G2/POSTS/POST-LIST/USER/USERNAME)"/>
+				<xsl:value-of select="concat($sitedisplayname, ' - Conversations - ')"/><xsl:apply-templates select="/H2G2/POSTS/POST-LIST/USER" mode="username"/>
 			</xsl:when>
 			<xsl:when test="/H2G2[@TYPE='MULTIPOSTS']">
 				<xsl:value-of select="concat($sitedisplayname, ' - Conversation - ', $rss_subject)"/>
@@ -340,7 +340,8 @@ xmlns:content="http://purl.org/rss/1.0/modules/content/">
 				<xsl:value-of select="concat($sitedisplayname, ' - Forum - ', $rss_subject)"/>
 			</xsl:when>
 			<xsl:when test="/H2G2[@TYPE='USERPAGE']">
-				<xsl:value-of select="concat($sitedisplayname, ' - ', /H2G2/PAGE-OWNER/USER/USERNAME, ' - Messages')"/>
+				<xsl:value-of select="concat($sitedisplayname, ' - ')"/><xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username"/>
+				<xsl:text> - Messages</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2[@TYPE='REVIEWFORUM']">
 				<xsl:value-of select="concat($sitedisplayname, ' - Review Forum - ', /H2G2/REVIEWFORUM/FORUMNAME)"/>

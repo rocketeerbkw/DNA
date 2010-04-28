@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
 
@@ -91,14 +92,7 @@ namespace BBC.Dna
             if (_allowedURLsList.ContainsKey(siteID))
             {
                 string trimmedCheck = stringToCheck.Replace("http://", "").TrimStart(' ').ToLower();
-                foreach (string url in _allowedURLsList[siteID])
-                {
-                    if (trimmedCheck.StartsWith(url))
-                    {
-                        isAllowed = true;
-                        break;
-                    }
-                }
+                isAllowed = _allowedURLsList[siteID].Any(trimmedCheck.StartsWith);
             }
             return isAllowed;
         }

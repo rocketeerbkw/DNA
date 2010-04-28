@@ -126,7 +126,7 @@
 				</a>
 			</td>
 			<td>
-				<xsl:value-of select="USER/USERNAME"/>
+				<xsl:apply-templates select="USER" mode="username" />
 			</td>
 			<td>
 				<xsl:value-of select="ENTRY-COUNT"/>

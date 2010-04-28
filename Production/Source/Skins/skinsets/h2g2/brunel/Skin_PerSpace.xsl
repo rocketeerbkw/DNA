@@ -20,7 +20,8 @@
 				<xsl:choose>
 					<xsl:when test="$ownerisviewer = 1">
 						<xsl:value-of select="$m_pstitleowner"/>
-						<xsl:value-of select="PAGE-OWNER/USER/USERNAME"/>.
+						<!-- <xsl:value-of select="PAGE-OWNER/USER/USERNAME"/> -->
+						<xsl:apply-templates select="PAGE-OWNER/USER" mode="username" />.
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$m_pstitleviewer"/>
@@ -40,7 +41,11 @@
 				<b><xsl:value-of select="$m_userdatano"/></b><xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERID"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<b><xsl:value-of select="$m_userdata"/></b><xsl:value-of select="substring(/H2G2/PAGE-OWNER/USER/USERNAME,1,25)"/><xsl:if test="string-length(/H2G2/PAGE-OWNER/USER/USERNAME) &gt; 25">...</xsl:if><b> [<xsl:value-of select="$m_userdatano"/></b><xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERID"/><b>]</b>
+				<b><xsl:value-of select="$m_userdata"/></b>
+				<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER">
+					<xsl:with-param name="stringlimit">25</xsl:with-param>
+				</xsl:apply-templates>
+				<!-- <xsl:value-of select="substring(/H2G2/PAGE-OWNER/USER/USERNAME,1,25)"/><xsl:if test="string-length(/H2G2/PAGE-OWNER/USER/USERNAME) &gt; 25">...</xsl:if> --><b> [<xsl:value-of select="$m_userdatano"/></b><xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERID"/><b>]</b>
 			</xsl:otherwise>
 		</xsl:choose>
 	</font>
@@ -302,12 +307,12 @@
 			<xsl:if test="not($ownerisviewer=1)">
 				<div class="morepages">
 					<a href="{$root}MAS{/H2G2/PAGE-OWNER/USER/USERID}">
-						<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>'s more subscribed articles</a>
+						<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />'s more subscribed articles</a>
 					<xsl:text> | </xsl:text>
 					<a href="{$root}MUS{/H2G2/PAGE-OWNER/USER/USERID}">
-						<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>'s subscriptions</a>
+						<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />'s subscriptions</a>
 					<xsl:text> | </xsl:text>
-					<a href="{$root}MSU{/H2G2/PAGE-OWNER/USER/USERID}">Researchers who are subscribed to <xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/></a>
+					<a href="{$root}MSU{/H2G2/PAGE-OWNER/USER/USERID}">Researchers who are subscribed to <xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" /></a>
 				</div>
 			</xsl:if>
         </td>
@@ -339,7 +344,8 @@
       </td>
       <td>
         <a href="{$root}U{EDITOR/USER/USERID}">
-          <xsl:value-of select="EDITOR/USER/USERNAME"/>
+          <!-- <xsl:value-of select="EDITOR/USER/USERNAME"/> -->
+          <xsl:apply-templates select="EDITOR/USER" mode="username" />
         </a>
       </td>
       <td>
@@ -1285,8 +1291,8 @@
 							<xsl:when test="$test_introarticle"><xsl:value-of select="/H2G2/ARTICLE/SUBJECT"/></xsl:when>
 							<xsl:when test="/H2G2/PAGE-OWNER/USER/USERNAME">
 								<xsl:choose>
-									<xsl:when test="$ownerisviewer = 1"><xsl:value-of select="$m_psabme_uwelcome"/><xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>.</xsl:when>
-									<xsl:otherwise><xsl:value-of select="$m_psabme_welcome"/><xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>.</xsl:otherwise>
+									<xsl:when test="$ownerisviewer = 1"><xsl:value-of select="$m_psabme_uwelcome"/><xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />.</xsl:when>
+									<xsl:otherwise><xsl:value-of select="$m_psabme_welcome"/><xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />.</xsl:otherwise>
 								</xsl:choose>
 							</xsl:when>
 							<xsl:otherwise>
@@ -1545,7 +1551,8 @@
 											<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="showonline">
 												<xsl:with-param name="symbol"><img src="{$imagesource}online_brunel.jpg" alt="Online Now" width="21" height="11"/></xsl:with-param>
 											</xsl:apply-templates>
-<xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/>
+											<!-- <xsl:value-of select="/H2G2/PAGE-OWNER/USER/USERNAME"/> -->
+											<xsl:apply-templates select="/H2G2/PAGE-OWNER/USER" mode="username" />
 											<br />
 											<xsl:if test="$test_IsEditor">
 											<a href="{$root}InspectUser?userid={/H2G2/PAGE-OWNER/USER/USERID}">Inspect This User</a><br/>

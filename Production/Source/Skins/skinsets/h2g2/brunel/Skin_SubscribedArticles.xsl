@@ -26,7 +26,7 @@
 			  Your Subscribed Users
 		  </xsl:if>
 		  <xsl:if test="not($ownerisviewer=1)">
-			  <xsl:value-of select="/H2G2/MOREUSERSUBSCRIPTIONS/USERSUBSCRIPTION-LIST/USER/USERNAME"/>'s Subscribed Users
+			  <xsl:apply-templates select="/H2G2/MOREUSERSUBSCRIPTIONS/USERSUBSCRIPTION-LIST/USER" mode="username" />'s Subscribed Users
 		  </xsl:if>		  
 	  </xsl:with-param>
     </xsl:call-template>
@@ -48,7 +48,7 @@
 			 Users Subscribed to You
 		  </xsl:if>
 		  <xsl:if test="not($ownerisviewer=1)">
-				  Users Subscribed to <xsl:value-of select="/H2G2/MORESUBSCRIBINGUSERS/SUBSCRIBINGUSERS-LIST/USER/USERNAME"/>
+				  Users Subscribed to <xsl:apply-templates select="/H2G2/MORESUBSCRIBINGUSERS/SUBSCRIBINGUSERS-LIST/USER" mode="username" />
 		  </xsl:if>
 	  </xsl:with-param>
     </xsl:call-template>
@@ -61,7 +61,7 @@
 			  Your Subscribed to Users Bookmarks
 		  </xsl:if>
 		  <xsl:if test="not($ownerisviewer=1)">
-			  <xsl:value-of select="/H2G2/MORELINKSUBSCRIPTIONS/USERSUBSCRIPTIONLINKS-LIST/USER/USERNAME"/>'s Subscribed to Users Bookmarks
+			  <xsl:apply-templates select="/H2G2/MORELINKSUBSCRIPTIONS/USERSUBSCRIPTIONLINKS-LIST/USER" mode="username" />'s Subscribed to Users Bookmarks
 		  </xsl:if>		  
 	  </xsl:with-param>
     </xsl:call-template>

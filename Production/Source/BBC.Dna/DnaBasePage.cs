@@ -320,7 +320,7 @@ namespace BBC.Dna.Page
                     }
                     else
                     {
-                        ProfanityFilter.InitialiseProfanitiesIfEmpty(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
+                        ProfanityFilter.InitialiseProfanitiesIfEmpty(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics);
 
                         // Now call the add components
                         _dnapage.OnPageLoad();
@@ -872,7 +872,7 @@ namespace BBC.Dna.Page
 			{
 				return true;
 			}
-            else if ((_dnapage.AllowedUsers & UserTypes.Administrator) != 0 && userName == "administrator")
+            else if ((_dnapage.AllowedUsers & UserTypes.Administrator) != 0 && userName == "editor")
 			{
 				return true;
 			}

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BBC.Dna.Api
+﻿namespace BBC.Dna.Api
 {
     public enum SortBy
     {
         /// <summary>
         /// The creation date of the item
         /// </summary>
-        Created
+        Created,
+        LastPosted,
+        PostCount
     }
 
     public enum SortDirection

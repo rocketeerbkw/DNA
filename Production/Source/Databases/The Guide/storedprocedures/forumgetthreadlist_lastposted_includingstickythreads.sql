@@ -13,7 +13,7 @@ create procedure forumgetthreadlist_lastposted_includingstickythreads		@forumid 
 													@notablesgroup int
 as
 			declare @threadlastupdate datetime
-			select @threadlastupdate = lastupdated 
+			select @threadlastupdate = max(lastupdated)
 			from threads
 			where forumid = @forumid
 			
@@ -93,7 +93,7 @@ as
 				INNER JOIN Users u WITH(NOLOCK) ON u.UserID = te.UserID
 				LEFT JOIN Preferences p WITH(NOLOCK) ON u.UserID = p.UserID AND f.SiteID = p.SiteID
 
-				INNER JOIN ThreadEntries te1 WITH(NOLOCK) ON te1.ThreadID = t.ThreadID AND te1.PostIndex IN (SELECT MAX(PostIndex) FROM ThreadEntries tex WITH(NOLOCK) WHERE tex.ThreadID = t.ThreadID) 
+				INNER JOIN ThreadEntries te1 WITH(NOLOCK) ON te1.ThreadID = t.ThreadID AND te1.PostIndex = (SELECT top 1 PostIndex FROM ThreadEntries tex WITH(NOLOCK) WHERE tex.ThreadID = t.ThreadID ORDER BY PostIndex DESC) 
 				INNER JOIN Users u1 WITH(NOLOCK) ON u1.UserID = te1.UserID
 				LEFT JOIN Preferences p1 WITH(NOLOCK) ON u1.UserID = p1.UserID AND f.SiteID = p1.SiteID
 				LEFT JOIN GroupMembers gm WITH(NOLOCK) ON gm.UserID = te.UserID AND gm.SiteID = f.SiteID AND gm.GroupID = @notablesgroup

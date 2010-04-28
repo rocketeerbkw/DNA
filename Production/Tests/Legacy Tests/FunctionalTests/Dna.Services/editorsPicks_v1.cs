@@ -33,7 +33,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void StartUp()
         {
-            
+            SnapshotInitialisation.RestoreFromSnapshot();
         }
 
         /// <summary>

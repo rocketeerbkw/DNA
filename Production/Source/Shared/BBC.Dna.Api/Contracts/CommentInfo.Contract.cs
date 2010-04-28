@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 
 using System.Runtime.Serialization;
+using System.Xml;
 using BBC.Dna.Moderation.Utils;
 using System.Xml.Serialization;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Api
 {
@@ -23,12 +26,59 @@ namespace BBC.Dna.Api
             set;
         }
 
-        [DataMember(Name = ("text"), Order = 2)]
-        [System.Xml.Serialization.XmlText]
         public string text
         {
-            get;
-            set;
+            get; set;
+        }
+
+        [DataMember(Name = "text", Order = 2)]
+        public string FormatttedText
+        {
+            get
+            {
+                
+                if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration ||
+                    hidden == CommentStatus.Hidden.Hidden_AwaitingReferral)
+                {
+                    return "This post is awaiting moderation.";
+                }
+                if (hidden != CommentStatus.Hidden.NotHidden)
+                {
+                    return "This post has been removed.";
+                }
+                string _text = text;
+                switch (PostStyle)
+                {
+                    case Api.PostStyle.Style.plaintext:
+                        _text = HtmlUtils.RemoveAllHtmlTags(_text);
+                        _text = HtmlUtils.ReplaceCRsWithBRs(_text);
+                        _text = LinkTranslator.TranslateExLinksToHtml(_text);
+                        break;
+
+                    case Api.PostStyle.Style.richtext:
+                        _text = HtmlUtils.RemoveBadHtmlTags(_text);
+                        _text = HtmlUtils.ReplaceCRsWithBRs(_text);
+                        //<dodgey>
+                        var temp = "<RICHPOST>" + _text + "</RICHPOST>";
+                        temp = HtmlUtils.TryParseToValidHtml(temp);
+                        _text = temp.Replace("<RICHPOST>", "").Replace("</RICHPOST>", "");
+                        //</dodgey>
+
+                        _text = LinkTranslator.TranslateExLinksToHtml(_text);
+                        break;
+
+                    case Api.PostStyle.Style.rawtext:
+                        //do nothing
+                        break;
+
+                    case Api.PostStyle.Style.unknown:
+                        //do nothing
+                        break;
+                }
+
+                return _text;
+            }
+            set { text = value; }
         }
 
         [DataMember(Name = ("created"), Order = 3)]

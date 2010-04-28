@@ -1,0 +1,254 @@
+BODY{
+	background:#ffdca7;
+	margin:0;
+	padding:0;
+}
+H1{
+	color:#f60;
+	font-size:large;
+	font-weight:bold;
+}
+H2{
+	font-size:medium;
+	font-weight:bold;
+	margin-bottom:0;
+}
+H2 A{
+	color:#989872;
+}
+H3{
+	color:#989872;
+	font-size:small;
+	font-weight:bold;
+	margin-bottom:0;
+}
+IMG{
+	border:0;
+}
+.boxout{
+	border:1px solid #c60;
+	list-style-type:none;
+	margin:1em 15px 0;
+	padding:0;
+	width:115px;
+}
+* HTML .boxout{
+	margin-right:10px;
+}
+.actionLink{
+	font-size:x-small;
+	font-weight:normal;
+	text-decoration:underline;
+}
+.boxout A:link, .boxout A:visited{
+	color:#989872;
+	font-size:small;
+	text-decoration:underline;
+}
+.boxout LI{
+	background:#fff url(http://www.bbc.co.uk/dnaimages/communities/images/downright_bullet.gif) 15px .7em no-repeat;
+	font-size:small;
+	padding:.3em 0 .3em 30px;
+}
+.boxout .first-child{
+	background:#fff url(http://www.bbc.co.uk/dnaimages/communities/images/boxout_title_bullet.gif) 15px .6em no-repeat;
+	border-bottom:1px solid #c60;
+	color:#f60;
+	font-size:small;
+	font-weight:bold;
+}
+.button{
+	background:#fffcf1 url(http://www.bbc.co.uk/dnaimages/communities/images/3dot_right_button.gif) 100% .6em no-repeat;
+	border-style:outset;
+	border-width:2px;
+	color:#989872;
+	font-size:x-small;
+	font-weight:bold;
+	padding:2px 20px 2px 4px;
+	text-align:left;
+	text-decoration:none;
+}
+.tabInactive{
+	background:#ffdca7 url(http://www.bbc.co.uk/dnaimages/communities/images/tab_corner.gif) right top no-repeat;
+	border:1px solid #fff;
+	border-left:1px solid #ffdca7;
+	display:inline;
+	padding:0 20px 0 10px;
+	width:5em;
+}
+.tabInactive A{
+	color:#c60;
+	font-size:x-small;
+	font-weight:bold;
+	text-decoration:none;
+}
+#banner{
+	background:#fff url(http://www.bbc.co.uk/dnaimages/communities/images/dna.gif) 195px 5px no-repeat;
+	font:x-small normal Arial,sans-serif;
+	padding:6px;
+	width:758px;
+}
+#bbctoolbar{
+	background:#660;
+	padding:10px 0 6px 23px;
+}
+#content{
+	padding:0 22px 35px;
+}
+#footer{
+	background:#ffdca7 url(http://www.bbc.co.uk/dnaimages/communities/images/background2.gif) -130px 0 repeat-y;
+	border-left:1px solid #ffad64;
+	border-top:6px solid #ffad64;
+	color:#5b5b2c;
+	font-family:Verdana, sans-serif;
+	min-height:40px;
+	margin-left:50px;
+	padding:10px 85px 0 425px;
+	width:210px;
+}
+#footer A:link, #footer A:visited{
+	color:#000;
+	font-size:xx-small;
+}
+#help .last-child{
+	background:#f9eee3;
+}
+#localNav{
+	background:#fff;
+	float:left;
+	list-style-type:none;
+	margin:0 10px 0 52px;
+	padding:31px 0 0;
+	width:55px;
+}
+* HTML #localNav{
+	margin:0 -200px 0 27px;
+}
+#localNav LI{
+	background:#fff url(http://www.bbc.co.uk/dnaimages/communities/images/closed_bullet.gif) 15px .8em no-repeat;
+	border:1px solid #c60;
+	margin:0 0 -1px 0;
+	left:-50px;
+	padding:.3em 0 .3em 30px;
+	position:relative;
+	width:80px;
+}
+#localNav LI.last-child{
+	background:#fff url(http://www.bbc.co.uk/dnaimages/communities/images/email_bullet.gif) 4px .7em no-repeat;
+	border-color:#5d5d5d;
+	margin:50px 0 0;
+}
+#localNav A{
+	color:#c60;
+	font-family:Verdana, sans-serif;
+	font-size:small;
+}
+#localNav .last-child A{
+	color:#5d5d5d;
+}
+#mainStage{
+	background:#fff;
+	border-left:2px solid #ffad64;
+	color:#989872;
+	font-family:Arial, sans-serif;
+	margin-left:50px;
+	padding:0 0 3px 80px;
+	width:640px;
+}
+#panelActive{
+	background:#fffcf1;
+	border:1px solid #67672e;
+	border-bottom:3px solid #67672e;
+	border-top:3px solid #67672e;
+	display:block;
+	width:480px;
+}
+* HTML #panelActive{
+
+	
+}
+#related{
+	border-color:#989872;
+}
+#related LI{
+	background-color:#f4f4f0;
+}
+#related .first-child{
+	background-color:#fff;
+	border-bottom:1px solid #989872;	
+}
+#ssobar{
+	width:770px;
+}
+#ssobar .ssoOne, #ssobar .ssoTwo, #ssobar .ssoStatusdark, #ssobar .ssoStatusshadow, #ssobar A:link, #ssobar A:visited{
+	background:#ffad64 url(/f/t.gif);
+	color:#b06924;
+}
+#ssobar .ssoThree{
+	background:#ffdca7;
+}
+#subscribe .last-child{
+	background:#f9eee3;
+}
+#tabActive{
+	background:#989872 url(http://www.bbc.co.uk/dnaimages/communities/images/tab_corner.gif) right top no-repeat;
+	border:1px solid #fff;
+	border-bottom:1px solid #989872;
+	border-left:1px solid #989872;
+	color:#fff;
+	display:inline;
+	font-size:x-small;
+	margin-top:1px;
+	padding:3px 20px 0 10px;
+	width:5em;
+}
+#tabActive A{
+	color:#fff;
+	font-weight:bold;
+	text-decoration:none;
+}
+#tabs{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+#tasks{
+	border-bottom:1px dashed #ffad64;
+	border-left:1px solid #ffad64;
+	border-top:4px solid #ffdca7;
+	float:right;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+#tasks LI{
+	border-right:1px solid #ffad64;
+	display:inline;
+	margin:0;
+	padding:0 10px;
+}
+#tasks A{
+	color:#c60;
+	font-family:Arial, sans-serif;
+	font-size:x-small;
+	text-decoration:none;
+}
+#toolbox{
+	clear:right;
+	float:right;
+	
+}
+#topTrim{
+	background:url(http://www.bbc.co.uk/dnaimages/communities/images/background1.gif) repeat-y;
+	font-size:0;
+	height:8px;
+}
+#utility{
+	float:right;
+}
+#utility A{
+	border-right:1px solid #989872;
+	color:#989872;
+	font-size:x-small;
+	padding-right:4px;
+}

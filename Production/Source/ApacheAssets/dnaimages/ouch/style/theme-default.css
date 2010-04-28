@@ -1,0 +1,54 @@
+
+#blq-main p#membership strong {color:#000000; }
+#content .pagination li.current a { background:#FFFFFF; color: #4D6D7F; }
+.pagination li span {display:none;background:#ccc; }
+#content .pagination li a { color:#fff; text-decoration: none; font-weight: bold;background:#4D6D7F; }
+.pagination li.selected { 
+  background:#FFFFFF;
+  border: 1px solid #4D6D7F;
+}
+ul.forumthreadposts li.stripe { background:#D7E3EA; }
+ul.forumthreads p a.nosubject { color:#999; }
+#blq-content ul.forumthreads p {margin:0;}
+ul.forumthreads li.stripe {background:#D7E3EA;}
+.noreplies { color:#112834; }
+p.post-list { color:#ccc; text-align:center; }
+ul.post-list p a.nosubject { color:#999; }
+ul.post-list li.stripe {background:#D7E3EA;}
+ul.forumthreads .itemdetail { border-top:1px dotted #ccc; }
+ul.forumthreadposts .itemdetail { border-bottom:1px dotted #ccc; }
+ul.post-list .itemdetail { border-top:1px dotted #ccc; }
+#content .dna-boards-startanewdiscussion a, #content .dna-boards-inreplyto a { background:#4D6D7F; color:#fff; }
+#content ul.forumthreadposts li p.dna-boards-startanewdiscussion a.id-cta, p.dna-boards-inreplyto a.id-cta { color: #fff; }
+.dna-boards legend {padding:1em 0 1em 0;font-size:1.2em;color:#444}
+.dna-boards .text,
+.dna-boards select,
+.dna-boards .textarea { border:1px solid #CCCCCC; background: #FFFFFF repeat-x scroll left bottom; }
+.dna-boards .disabled { border:1px solid #999; }
+.inreplyto .createdby { border-bottom: 1px dotted #CCCCCC; }
+#blq-content .dna-boards-moderation a {padding-left:14px; color:#999}
+ul.forumthreadposts li blockquote, div.inreplyto blockquote {border: 1px solid #4D6D7F;}
+ul.forumthreadposts li { border-color: #000000; }
+
+/* crazy override to customise the frontpage */
+#blq-content h3 {
+  background-color: #4D6D7F;
+  color: #FFFFFF;
+  }
+#blq-content h3 span a {
+	color: #ffffff;
+}
+#blq-content h3 span a:hover {
+	color: #ffffff;
+	text-decoration: underline;
+}
+#blq-content .topiclist a {
+  color: #FFFFFF;
+  }
+#blq-content .topiclist li {
+	background: #D7E3EA url(/ouch/css/f/theme-default/rhn_panel_bg.gif) repeat-x bottom;
+}
+
+/* overrides for barlesque */
+#blq-content .topiclist p a { color: #000000; }
+#blq-content .topiclist p a:hover { color:#CC0000; }

@@ -13,7 +13,7 @@
 			<xsl:when test="ARTICLES[@WHICHSET=2]"><xsl:value-of select="$m_guideentries"/></xsl:when>
 			<xsl:when test="ARTICLES[@WHICHSET=3]"><xsl:value-of select="$m_cancelledentries"/></xsl:when>
 		</xsl:choose>
-		<xsl:value-of select="$m_by"/><xsl:value-of select="ARTICLES/USER/USERNAME"/>
+		<xsl:value-of select="$m_by"/><xsl:apply-templates select="ARTICLES/USER" mode="username" />
 	</title>
 </xsl:template>
 
@@ -46,7 +46,7 @@
 								<xsl:when test="ARTICLES[@WHICHSET=2]"><xsl:value-of select="$m_guideentries"/></xsl:when>
 								<xsl:when test="ARTICLES[@WHICHSET=3]"><xsl:value-of select="$m_cancelledentries"/></xsl:when>
 							</xsl:choose>
-							<xsl:value-of select="$m_by"/><xsl:value-of select="ARTICLES/USER/USERNAME"/>
+							<xsl:value-of select="$m_by"/><xsl:apply-templates select="ARTICLES/USER" mode="username" />
 						</b></font>
 					</td>
 				</tr>

@@ -253,7 +253,7 @@
 				</xsl:apply-templates>
 			</td>
 			<td>
-				<xsl:value-of select="EDITOR/USER/USERNAME"/>
+				<xsl:apply-templates select="EDITOR/USER" mode="username" />
 			</td>
 			<xsl:apply-templates select="ZEITGEIST"/>
 			<xsl:apply-templates select="NUMBEROFPOSTS"/>

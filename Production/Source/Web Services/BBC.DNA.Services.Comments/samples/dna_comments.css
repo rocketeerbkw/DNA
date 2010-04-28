@@ -1,0 +1,229 @@
+﻿#dna-commentbox-countdown {
+display:block;
+padding:10px 0 0 5px;
+}
+.dna-commentbox-rss {
+display:none;
+margin:10px 10px 10px 0;
+text-align:right;
+}
+.dna-commentbox-rss a {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(/dnaimages/components/shared/img/feed-icon-14x14.png) no-repeat scroll 0 0.3em;
+height:22px;
+padding:5px 5px 2px 18px;
+}
+.dna-list span {
+padding:0 0 0 5px;
+}
+.comment-text-moderation {
+color:#888888;
+}
+.dna-invisible {
+visibility:hidden;
+}
+div#content li.commentCounts {
+border-left:1px solid #000000;
+list-style-image:none;
+list-style-position:outside;
+list-style-type:none;
+padding:0 0 0 8px;
+}
+#comments {
+margin:2em 0 0;
+}
+#comments h3 {
+color:#000;
+font-size:0.9em;
+height:21px;
+line-height:19px;
+margin:0 0 14px;
+padding:0 0 0 10px;
+}
+#comments h3 a {
+color:#000;
+font-size:0.8em;
+margin:0;
+padding:0 20px 0 10px;
+}
+#comments .collections li {
+background-color:#FFFFFF;
+border-bottom:2px solid #D5D5D5;
+margin:0;
+padding:10px;
+}
+#comments .flag {
+text-align:right;
+text-transform:lowercase;
+}
+#comments cite {
+font-style:normal;
+}
+#comments .comment_item p {
+margin:1em 0 0;
+}
+#comments .comment-text {
+margin:0.5em 0;
+}
+#comments li .fn a, #comments li .fn a:link, #comments li .fn a:visited {
+font-weight:bold;
+}
+#comments .comment-number {
+font-weight:bold;
+}
+#comments a.screenname {
+font-size:0.9em;
+font-weight:bold;
+}
+#comments .flag a, #comments .flag a:link {
+font-size:0.9em;
+}
+#comments li ul, #comments li li {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent none repeat scroll 0 0;
+border:medium none;
+list-style-image:none;
+list-style-position:inside;
+list-style-type:square;
+margin:0;
+padding:2px;
+}
+#comments .pagination li {
+font-size:0.9em;
+}
+#comments ul.pagination {
+height:20px;
+margin:0 10px 10px 0;
+}
+#comments ul.pagination li span {
+display:none;
+}
+#comments ul.pagination li {
+display:inline;
+float:left;
+padding-right:3px;
+}
+#comments ul.pagination li span {
+color:#BBBBBB;
+}
+#dna-commentbox-text {
+height:150px;
+width:100%;
+}
+#dna-commentbox-submit {
+margin:0 0 0 10px;
+}
+#comments .collections li.notables, #comments .collections li.editor {
+background-color:#EEEEEE;
+}
+#comments .moderation {
+font-size:0.9em;
+text-align:right;
+}
+#comments .moderation a {
+padding:0 0 0 14px;
+}
+#comments .comment-text-moderation {
+font-size:0.9em;
+font-style:italic;
+padding:0.5em 0;
+}
+#comments div.error {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:#EEEEEE url(/blogs/tmpl/globalim/complain.gif) no-repeat scroll 12px 14px;
+margin:0 10px;
+padding:10px 10px 10px 30px;
+}
+#comments div.error h4 {
+border-bottom:1px dotted #FFFFFF;
+font-size:1.4em;
+font-weight:normal;
+margin:0;
+}
+#comments div.error p {
+margin:6px 0;
+}
+#comments div.error p.error-message {
+font-style:italic;
+}
+#comments p.info {
+color:#999999;
+font-size:0.9em;
+margin:14px 55px 0 135px;
+text-align:right;
+}
+#comments ol.comments li {
+background-color:#FFFFFF;
+border-bottom:2px solid #D5D5D5;
+margin:0;
+padding:10px;
+}
+#comments li .authorship_details .author em, #comments li .authorship_details .author a, #comments li .authorship_details .author a:link, #comments li .authorship_details .author a:visited {
+font-weight:bold;
+}
+#comments li .authorship_details .author em {
+font-style:normal;
+}
+.authorship_details {
+display:block;
+padding:0 0 1em;
+}
+div.post_content ol {
+list-style-type:decimal;
+margin:0.5em 0 0 2em;
+}
+p.dna-commentbox-userstate a.identity-login {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(../images/identity/blue_100x20.png) no-repeat scroll 0 50%;
+color:#FFFFFF !important;
+display:block;
+float:left;
+font-weight:bold;
+padding-bottom:2px;
+text-indent:30px;
+width:105px;
+}
+p.dna-commentbox-userstate a.identity-login:hover {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(../images/identity/blue_100x20_mouseover.png) no-repeat scroll 0 50%;
+text-decoration:none;
+}
+#comments #dnaacs ul#collectdetails {
+margin:0 0 3.6em;
+padding:0;
+}
+#comments #dnaacs ul#collectdetails li {
+float:left;
+list-style-type:none;
+}
+#comments #dnaacs ul#collectdetails li a {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(../images/contact.png) no-repeat scroll 0 50%;
+color:#FFFFFF !important;
+display:block;
+float:left;
+font-weight:bold;
+margin-right:30px;
+padding-bottom:2px;
+text-align:center;
+width:100px;
+}
+#comments #dnaacs ul#collectdetails li a:hover {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(../images/contact_hover.png) no-repeat scroll 0 50%;
+text-decoration:none;
+}

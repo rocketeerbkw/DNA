@@ -15,7 +15,7 @@ namespace BBC.Dna.Data
     /// <summary>
     /// Class providing an IDnaDataReader interface for a stored procedure.
     /// </summary>
-    public class StoredProcedureReader : IDnaDataReader
+    sealed public class StoredProcedureReader : IDnaDataReader
     {
         #region Private Fields
         private SqlDataReader _dataReader = null;

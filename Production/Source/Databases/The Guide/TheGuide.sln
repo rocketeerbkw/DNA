@@ -13,7 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBUpgradeScript", "DBUpgrad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "functions", "functions\functions.csproj", "{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}"
 	ProjectSection(ProjectDependencies) = postProject
-		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4} = {30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}
 		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
 	EndProjectSection
 EndProject
@@ -31,35 +30,36 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "views", "views\views.csproj", "{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+		{69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF} = {69A0F7C3-D7EA-4BBD-BCCF-3680E3B062CF}
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://vp-dev-dna-1:8080/
-		SccProjectUniqueName0 = dbu_functions\\dbu_functions.csproj
-		SccProjectName0 = dbu_functions
-		SccLocalPath0 = dbu_functions
-		SccProjectUniqueName1 = dbu_storedprocedures\\dbu_storedprocedures.csproj
-		SccProjectName1 = dbu_storedprocedures
-		SccLocalPath1 = dbu_storedprocedures
-		SccProjectUniqueName2 = DBUpgradeScript\\DBUpgradeScript.csproj
-		SccProjectName2 = DBUpgradeScript
-		SccLocalPath2 = DBUpgradeScript
-		SccProjectUniqueName3 = functions\\functions.csproj
-		SccProjectName3 = functions
-		SccLocalPath3 = functions
-		SccProjectUniqueName4 = storedprocedures\\storedprocedures.csproj
-		SccProjectName4 = storedprocedures
-		SccLocalPath4 = storedprocedures
-		SccProjectUniqueName5 = triggers\\triggers.csproj
-		SccProjectName5 = triggers
-		SccLocalPath5 = triggers
-		SccProjectUniqueName6 = views\\views.csproj
-		SccProjectName6 = views
-		SccLocalPath6 = views
-		SccLocalPath7 = .
+		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = dbu_functions\\dbu_functions.csproj
+		SccProjectName1 = dbu_functions
+		SccLocalPath1 = dbu_functions
+		SccProjectUniqueName2 = dbu_storedprocedures\\dbu_storedprocedures.csproj
+		SccProjectName2 = dbu_storedprocedures
+		SccLocalPath2 = dbu_storedprocedures
+		SccProjectUniqueName3 = DBUpgradeScript\\DBUpgradeScript.csproj
+		SccProjectName3 = DBUpgradeScript
+		SccLocalPath3 = DBUpgradeScript
+		SccProjectUniqueName4 = functions\\functions.csproj
+		SccProjectName4 = functions
+		SccLocalPath4 = functions
+		SccProjectUniqueName5 = storedprocedures\\storedprocedures.csproj
+		SccProjectName5 = storedprocedures
+		SccLocalPath5 = storedprocedures
+		SccProjectUniqueName6 = triggers\\triggers.csproj
+		SccProjectName6 = triggers
+		SccLocalPath6 = triggers
+		SccProjectUniqueName7 = views\\views.csproj
+		SccProjectName7 = views
+		SccLocalPath7 = views
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -13,5 +13,6 @@ namespace BBC.Dna.Users
         /// <param name="type">The type you want to check against</param>
         /// <returns>True if they are of the given type, false if not</returns>
         bool IsUserA(UserTypes type);
+
     }
 }

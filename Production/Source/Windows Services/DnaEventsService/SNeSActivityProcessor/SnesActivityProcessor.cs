@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using BBC.Dna.Data;
+using Dna.SnesIntegration.ActivityProcessor.Activities;
 using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers;
 

@@ -275,6 +275,38 @@ namespace FunctionalTests
         /// Test CreateRatingForum method from service
         /// </summary>
         [TestMethod]
+        public void CreateRating_AsNotable()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNotableUser();
+            //create the forum
+            RatingForum ratingForum = RatingForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string ratingForumXml = String.Format("<rating xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text><rating>{1}</rating>" +
+                "</rating>", text, 5);
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaRatingForum);
+            validator.Validate();
+
+            RatingInfo returnedRating = (RatingInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(RatingInfo));
+            Assert.IsTrue(returnedRating.text == text);
+            Assert.IsNotNull(returnedRating.User);
+            Assert.IsTrue(returnedRating.User.UserId == request.CurrentUserID);
+            Assert.AreEqual(true, returnedRating.User.Notable);
+        }
+
+        /// <summary>
+        /// Test CreateRatingForum method from service
+        /// </summary>
+        [TestMethod]
         public void CreateRatingForumWithRating()
         {
             Console.WriteLine("Before CreateRating");
@@ -891,5 +923,135 @@ namespace FunctionalTests
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaError);
             validator.Validate();
         }
+
+        /// <summary>
+        /// Test CreateRatingForum method from service with too few characters
+        /// </summary>
+        [TestMethod]
+        public void CreateRatingHtml_TooFewCharsRating()
+        {
+            Console.WriteLine("Before CreateRatingHtml_TooFewCharsRating");
+
+            try
+            {
+                SetMinCharLimit(100);
+
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+                //create the forum
+                RatingForum ratingForum = RatingForumCreate("tests", Guid.NewGuid().ToString());
+
+                string text = "Functiontest Title" + Guid.NewGuid().ToString();
+                string ratingForumXml = String.Format("text={0}&rating={1}", text, 1);
+
+                // Setup the request url
+                string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
+                // now get the response
+                try
+                {
+                    request.RequestPageWithFullURL(url, ratingForumXml, "application/x-www-form-urlencoded");
+                }
+                catch (AssertFailedException Ex)
+                {
+                    Console.WriteLine(Ex.Message);
+                }
+
+
+                Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
+                CheckErrorSchema(request.GetLastResponseAsXML());
+
+            }
+            finally 
+            {
+                DeleteMinMaxLimitSiteOptions();
+            }
+            
+
+            Console.WriteLine("After CreateRatingHtml_TooFewCharsRating");
+        }
+        /// <summary>
+        /// Test CreateRatingForum method from service with too many characters
+        /// </summary>
+        [TestMethod]
+        public void CreateRatingHtml_TooManyCharsRating()
+        {
+            Console.WriteLine("Before CreateRatingHtml_TooManyCharsRating");
+
+            try
+            {
+
+            
+                SetMaxCharLimit(10);
+
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+                //create the forum
+                RatingForum ratingForum = RatingForumCreate("tests", Guid.NewGuid().ToString());
+
+                string text = "Functiontest Title" + Guid.NewGuid().ToString();
+                string ratingForumXml = String.Format("text={0}&rating={1}", text, 1);
+
+                // Setup the request url
+                string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
+                // now get the response
+                try
+                {
+                    request.RequestPageWithFullURL(url, ratingForumXml, "application/x-www-form-urlencoded");
+                }
+                catch (AssertFailedException Ex)
+                {
+                    Console.WriteLine(Ex.Message);
+                }
+
+
+                Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
+                CheckErrorSchema(request.GetLastResponseAsXML());
+            }
+            finally
+            {
+
+                DeleteMinMaxLimitSiteOptions();
+            }
+            
+
+            Console.WriteLine("After CreateRatingHtml_TooManyCharsRating");
+        }
+
+        private void SetMaxCharLimit(int maxLimit)
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(1,'CommentForum', 'MaxCommentCharacterLength','" + maxLimit.ToString() + "',0,'test MaxCommentCharacterLength value')");
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+
+        }
+        private void SetMinCharLimit(int minLimit)
+        {
+            //set min char option
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(1,'CommentForum', 'MinCommentCharacterLength','" + minLimit.ToString() + "',0,'test MinCommentCharacterLength value')");
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+        }
+
+        private void DeleteMinMaxLimitSiteOptions()
+        {
+            SnapshotInitialisation.ForceRestore();
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+        }
+
+
     }
 }

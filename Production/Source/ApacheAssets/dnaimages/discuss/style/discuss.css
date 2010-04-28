@@ -1,0 +1,138 @@
+.blq-typ h1 {padding:0; margin:0;}
+h1 {height:179px}
+h1 a {position:relative; top:21px; left:14px}
+h1 blockquote p{ float:left; font-size:0.7em; font-weight:normal; position:relative; top:-40px; left:400px;}
+
+
+ul#navigation {margin:0; position:relative; top:-40px; clear:left}
+ul#navigation, ul#navigation li {list-style:none;}
+ul#navigation li {float:left; }
+ul#navigation li a {display:block; margin:0 14px 0 14px; text-decoration:none; font-size:1.2em;}
+
+#content {clear:both;position:relative; top:-40px;overflow:auto; width:974px;}
+
+.column {float:left; margin:14px 0 0 14px; display:inline;}
+/*adding a 1px margin at the bottom means box respects bottom margins of children*/
+.module {margin:0 0 14px 0;padding:0 0 1px 0}
+#detail {padding:0;}
+
+.large-panel { width: 626px;}
+.small-panel { width: 306px;}
+
+.module h2 {margin:0; padding:6px 0 0 10px; font-weight:normal; height:34px;}
+/*.module p {margin:0 10px 0 10px; padding:10px 0 10px 0; line-height:1.5;}*/
+.module p {padding:10px; line-height:1.5; margin:0;}
+.module p.outline {background:#eaeaea; padding:10px; font-size:1.3em;}
+
+.module h3 {margin:0; padding:7px 0 7px 10px; font-weight:normal;}
+.module h4 {margin:0; padding:7px 0 7px 10px; font-weight:bold; font-size:1em; margin:0 0 0 10px}
+.module h4 span { border:1px solid #fff; background:#888; color:#fff;  font-weight:bold; display:none;}
+.module h4 span { margin:0 4px 0 0; padding:4px; font-size:0.8em; float:right; position:relative; top:-1.8em;}
+.module ul {margin:0; padding:7px 0 7px 20px; list-style:square inside;}
+.module pre {margin:0; padding:7px 0 7px 20px; font-size:1em;}
+
+.module p a, .module ul a, .module .itemdetail a {text-decoration:none; font-weight:bold;}
+
+#detail ul { list-style:none; margin:0; padding:0;}
+#detail li { margin:0;padding:5px 0 14px 10px;}
+#detail ul li a {width:290px; display:block; text-decoration:none; font-size:2em; font-weight:normal;}
+#detail ul li span { display:block; font-size:0.6em;}
+
+#detail {}
+#detail {}
+
+.module p.hint {padding:0 10px 10px 10px; line-height:1.5; margin:0;font-size:0.9em; text-align:right;font-style:italic}
+.module p.hint span {color:#999;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#blq-content { background:url(../img/bg_banner_repeat.png) repeat-x #dbdbdb;}
+h1 { background:url(../img/bg_banner_detail.png) no-repeat right top;}
+h1 blockquote {color:#fff}
+
+ul#navigation li a {color:#d9d9e7;border-bottom:1px dotted #999}
+ul#navigation li a:hover {color:#fff;}
+.module {}
+.module pre {background:#eee;color:#666;}
+
+.module h2 {color:#6e6e72;}
+.small-panel h2 {border-bottom:1px solid #dbdbdb}
+
+.large-panel h2 { background: url(../img/corners_new.gif) repeat-x -3422px top}
+.small-panel h2 { background: url(../img/corners_new.gif) repeat-x -918px top}
+
+.large-panel { background: url(../img/corners_new.gif) repeat-x -4184px bottom #fff;}
+.small-panel { background: url(../img/corners_new.gif) repeat-x 0 bottom #fff;}
+
+#detail.small-panel h2 { background: url(../img/corners_new.gif) repeat-x -918px top; color:#fff;}
+#detail.small-panel { background: url(../img/bg_panel_dark.png) repeat-x bottom #727276;}
+#detail .endcorners { background: url(../img/corners_new.gif) repeat-x 0 bottom ;}
+#detail .itemdetail { background: url(../img/corners_new.gif) repeat-x 0 bottom ;}
+
+#detail h2 { border-bottom:1px solid #9a9a9d;}
+
+#detail, #detail a { color:#fff; border:none;}
+#detail span { color:#d9d9e7;}
+#detail .outline {background:url(../img/bg_panel_dark_outline.png);}
+
+.module p a, .module ul a, .module .itemdetail a {text-decoration:none;color:#727276; border-bottom:1px dotted #bbb;}
+
+
+/* ============================================================================================== */
+
+.commentforumlist {}
+.commentforumlist div {padding:6px; margin:10px; background:url(http://www.bbc.co.uk/topics/img/topics_featured_topics_bg.png) repeat-x bottom left; border-bottom:#bbb solid 1px;}
+
+
+.commentforumlist h3 {font-size:2em; font-weight:bold; color:#666}
+.commentforumlist h3 .postcount {font-size:0.7em; padding:0 0 0 6px; font-weight:normal; color:#bbb;}
+.commentforumlist .date {margin:0 0 0 6px;}
+.commentforumlist .uid, .commentforumlist .uid-xml { margin:0 4px 0 0; border:1px solid #fff; background:#888; color:#fff; padding:4px;}
+
+.blq-typ .commentforumlist form { padding:0; text-align:right;}
+.commentforumlist form label { padding:0 6px 0 0; }
+.commentforumlist .radio {margin:0 6px 0 0;}
+.commentforumlist {}
+.commentforumlist {}
+
+/* reset annoying blq typeface styles*/
+.blq-typ #detail form, .blq-typ #detail fieldset { padding:0; text-align:right;}
+
+
+.module fieldset legend {padding:0 10px 0 10px;}
+#detail label {display:none; color:#fff}
+
+
+.large-panel .text, .large-panel select { padding:3px; font:1em verdana,helvetica,arial,sans-serif;margin:0 6px 0 0;}
+.small-panel .text, .small-panel select { padding:3px; font:1em verdana,helvetica,arial,sans-serif;margin:0;}
+.large-panel .text {width:306px;}
+.small-panel .text {width:276px;}
+.large-panel select {width:306px;}
+.small-panel select {width:282px;}
+
+.clickToEdit {font-size: 0.8em; color: #bbb; padding:0 0 0 3px}
+
+.module ul.pagination {list-style:none; height:1em;}
+.module ul.pagination li {float:left; display:block; margin:0; line-height:1em; padding:0 6px 0 0}
+.module ul.pagination li span {color:#ddd}
+/* ============================================================================================== */
+
+.module h2 a { text-decoration:none;font-size:0.5em; padding:0 0 0 6px; color:#bbb}
+
+.itemdetail {font-size:0.8em; padding:10px 0 10px 10px; color:#999;}
+.itemdetail .date {padding:0 0 0 6px}
+.itemdetail .updated {display:block; padding:0; margin:6px 0 0 0}
+.itemdetail .user{}
+.itemdetail {}

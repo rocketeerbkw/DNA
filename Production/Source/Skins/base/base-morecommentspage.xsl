@@ -56,7 +56,7 @@
 	<xsl:template match="MORECOMMENTS" mode="ResearcherName">
 		<xsl:choose>
 			<xsl:when test="COMMENTS-LIST">
-				<xsl:value-of select="COMMENTS-LIST/USER/USERNAME"/>
+				<xsl:apply-templates select="COMMENTS-LIST/USER" mode="username" />
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$m_researcher"/>
@@ -169,7 +169,7 @@
 	<xsl:template match="MORECOMMENTS" mode="t_morecommentsPSlink">
 		<a href="{$root}U{COMMENTS-LIST/USER/USERID}">
 			<xsl:copy-of select="$m_PostsBackTo"/>
-			<xsl:value-of select="COMMENTS-LIST/USER/USERNAME"/>
+			<xsl:apply-templates select="COMMENTS-LIST/USER" mode="username" />
 			<xsl:copy-of select="$m_PostsPSpace"/>
 		</a>
 	</xsl:template>
@@ -182,7 +182,7 @@
 	<xsl:template match="MORECOMMENTS" mode="t_morecommentsPSlink">
 		<a href="{$root}MP{COMMENTS-LIST/USER/USERID}">
 			<xsl:text>View </xsl:text>
-			<xsl:value-of select="COMMENTS-LIST/USER/USERNAME"/>
+			<xsl:apply-templates select="COMMENTS-LIST/USER" mode="username" />
 			<xsl:text> Forum Postings</xsl:text>
 		</a>
 	</xsl:template>

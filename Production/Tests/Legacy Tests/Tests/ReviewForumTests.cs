@@ -57,7 +57,7 @@ namespace Tests
                 Stub.On(_context).Method("FileCachePutItem").Will(Return.Value(false));
 
                 // Initialise the profanities object
-                ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.DnaConfig.ConnectionString, null);
+                ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
 
                 BBC.Dna.User user = new BBC.Dna.User(_context);
                 Stub.On(_context).GetProperty("ViewingUser").Will(Return.Value(user));

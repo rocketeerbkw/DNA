@@ -113,6 +113,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -248,6 +249,9 @@
     <Compile Include="cachingSignals\groupSignalTests.cs" />
     <Compile Include="CommentBoxTestsUsingApi.cs" />
     <Compile Include="ArticlePageTests.cs" />
+    <Compile Include="Dna.Services\CommentsList.cs" />
+    <Compile Include="TermsFilterImportPageTests.cs" />
+    <Compile Include="TermsFilterAdminPageTests.cs" />
     <Compile Include="ForumPageTests.cs" />
     <Compile Include="DNA Events Service\ExModerationEventTests.cs" />
     <Compile Include="Dna.Services\CommentForumCachingAndStats.cs" />
@@ -276,6 +280,7 @@
     <Compile Include="Dna.Services\commentsForumTests\createCommentForumTests\userTypeTest_v1.cs" />
     <Compile Include="Dna.Services\editorsPicks_v1.cs" />
     <Compile Include="Dna.Services\commentsForumTests\TestUtils_commentsAPI.cs" />
+    <Compile Include="ForumsStickyThreads.cs" />
     <Compile Include="IDentityRestAPITests.cs" />
     <Compile Include="Memcached.ClientLibrary\memcached.cs" />
     <Compile Include="Dna.Services\commentforums_v1.cs" />

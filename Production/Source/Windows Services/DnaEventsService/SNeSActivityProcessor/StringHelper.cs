@@ -11,14 +11,14 @@ namespace Dna.SnesIntegration.ActivityProcessor
         /// Takes a string of json and deserializes it to an object of type T. (T must be a DataContract).
         /// </summary>
         /// <typeparam name="T">Class definition to deserialize to.</typeparam>
-        /// <param name="s">json string</param>
+        /// <param name="json">json string</param>
         /// <returns>Returns an object of class T on success, else null object</returns>
-        public static T ObjectFromJson<T>(this string s) where T : class
+        public static T ObjectFromJson<T>(this string json) where T : class
         {
             try
             {
                 var ser = new DataContractJsonSerializer(typeof(T));
-                var ms = new MemoryStream(Encoding.Unicode.GetBytes(s));
+                var ms = new MemoryStream(Encoding.Unicode.GetBytes(json));
                 return ser.ReadObject(ms) as T;
             }
             catch (Exception)
@@ -26,6 +26,14 @@ namespace Dna.SnesIntegration.ActivityProcessor
                 return null;
             }
             
-        }      
+        }   
+   
+        public static string JsonFromObject<T>(this object obj)
+        {
+            var ser = new DataContractJsonSerializer(typeof (T));
+            var ms = new MemoryStream();
+            ser.WriteObject(ms, obj);
+            return Encoding.UTF8.GetString(ms.ToArray());
+        }
     }
 }

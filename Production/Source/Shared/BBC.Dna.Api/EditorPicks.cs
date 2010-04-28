@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Data.Objects;
-using BBC.Dna.Utils;
-using BBC.Dna.Moderation.Utils;
+﻿using BBC.Dna.Data;
 using BBC.Dna.Sites;
-using BBC.Dna.Data;
-using BBC.Dna.Users;
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Api
 {
@@ -17,23 +11,19 @@ namespace BBC.Dna.Api
         /// Constructor with dna diagnostic object
         /// </summary>
         /// <param name="dnaDiagnostics"></param>
-        public EditorPicks(IDnaDiagnostics dnaDiagnostics, string connection)
-            : base(dnaDiagnostics, connection)
-        { }
-
-        /// <summary>
-        /// Constructor without dna diagnostic object
-        /// </summary>
-        public EditorPicks()
-        { }
+        /// <param name="dataReaderCreator"></param>
+        public EditorPicks(IDnaDiagnostics dnaDiagnostics, IDnaDataReaderCreator dataReaderCreator, ICacheManager cacheManager, ISiteList siteList)
+            : base(dnaDiagnostics, dataReaderCreator, cacheManager, siteList)
+        {
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="site"></param>
-        public void CreateEditorPick(int commentId )
+        /// <param name="commentId"></param>
+        public void CreateEditorPick(int commentId)
         {
-            using (StoredProcedureReader reader = CreateReader("createcommenteditorpick"))
+            using (IDnaDataReader reader = CreateReader("createcommenteditorpick"))
             {
                 reader.AddParameter("entryid", commentId);
                 reader.Execute();
@@ -43,16 +33,14 @@ namespace BBC.Dna.Api
         /// <summary>
         /// Reads a specific forum by the UID
         /// </summary>
-        /// <param name="uid">The specific form uid</param>
         /// <returns>The specified forum including comment data</returns>
-        public void RemoveEditorPick(int commentId )
+        public void RemoveEditorPick(int commentId)
         {
-            using (StoredProcedureReader reader = CreateReader("removecommenteditorpick"))
+            using (IDnaDataReader reader = CreateReader("removecommenteditorpick"))
             {
                 reader.AddParameter("entryid", commentId);
                 reader.Execute();
             }
-
         }
     }
 }

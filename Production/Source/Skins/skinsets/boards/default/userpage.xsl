@@ -591,7 +591,7 @@
 			<xsl:value-of select="USER/USERID"/>
 			<br/>
 			<xsl:value-of select="$m_namecolon"/>
-			<xsl:value-of select="USER/USERNAME"/>
+			<xsl:apply-templates select="USER" mode="username"/>
 			<br/>
 			<xsl:apply-templates select="USER/USERID" mode="c_inspectuser"/>
 			<xsl:apply-templates select="." mode="c_editmasthead"/>

@@ -209,7 +209,8 @@
 	</xsl:template>
 	<xsl:template match="USER" mode="r_previewauthor">
 		<a href="{$root}u{USERID}" xsl:use-attribute-sets="mUSER_r_previewauthor">
-			<xsl:value-of select="USERNAME"/>
+			<!-- <xsl:value-of select="USERNAME"/> -->
+			<xsl:apply-templates select="." mode="username"/>
 		</a>
 	</xsl:template>
 	<xsl:attribute-set name="mUSER_r_previewauthor"/>

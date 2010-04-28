@@ -18,7 +18,7 @@ namespace BBC.Dna.Objects
     [DesignerCategory("code")]
     [XmlType(AnonymousType = true, TypeName = "FORUMTHREADS")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "FORUMTHREADS")]
-    public class ForumThreads : ICloneable, IDnaCachable
+    public class ForumThreads : CachableBase<ForumThreads>
     {
         #region Properties
 
@@ -124,21 +124,7 @@ namespace BBC.Dna.Objects
 
         #endregion
 
-        #region ICloneable Members
-
-        public object Clone()
-        {
-            var ms = new MemoryStream();
-            var bf = new BinaryFormatter();
-            bf.Serialize(ms, this);
-            ms.Position = 0;
-            object obj = bf.Deserialize(ms);
-            ms.Close();
-            return obj;
-        }
-
-        #endregion
-
+        
         /// <summary>
         /// Apply any user settings required. 
         /// This should be called after object is filled with factory or retrieved from cache
@@ -181,7 +167,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <returns>True if up to date</returns>
-        public bool IsUpToDate(IDnaDataReaderCreator readerCreator)
+        public override bool IsUpToDate(IDnaDataReaderCreator readerCreator)
         {
             DateTime threadLastUpdate = DateTime.Now;
             DateTime forumLastUpdate = DateTime.Now;
@@ -221,11 +207,12 @@ namespace BBC.Dna.Objects
                                                       bool overFlow, ThreadOrder threadOrder, IUser viewingUser,
                                                       bool ignoreCache)
         {
-            string key = GetCacheKey(forumId, itemsPerPage, startIndex, threadId, overFlow, threadOrder);
-            ForumThreads forumThreads;
+            var forumThreads = new ForumThreads();
+            string key = forumThreads.GetCacheKey(forumId,itemsPerPage,startIndex,threadId,overFlow,threadOrder);
+           
             if (!ignoreCache)
             {
-                var forumThreadsCache = (IDnaCachable) cache.GetData(key);
+                var forumThreadsCache = (CachableBase<ForumThreads>)cache.GetData(key);
                 if (forumThreadsCache != null && forumThreadsCache.IsUpToDate(readerCreator))
                 {
                     forumThreads = (ForumThreads) forumThreadsCache;
@@ -245,24 +232,6 @@ namespace BBC.Dna.Objects
             forumThreads.ApplyUserSettings(viewingUser, siteList.GetSite(forumThreads.SiteId));
 
             return forumThreads;
-        }
-
-        /// <summary>
-        /// Creates the cache key for the given elements
-        /// </summary>
-        /// <param name="forumId"></param>
-        /// <param name="itemsPerPage"></param>
-        /// <param name="startIndex"></param>
-        /// <param name="threadId"></param>
-        /// <param name="overFlow"></param>
-        /// <param name="threadOrder"></param>
-        /// <returns></returns>
-        public static string GetCacheKey(int forumId, int itemsPerPage, int startIndex, int threadId, bool overFlow,
-                                         ThreadOrder threadOrder)
-        {
-            return typeof (ForumThreads).AssemblyQualifiedName + "|" + forumId + "|" + itemsPerPage + "|" + startIndex +
-                   "|" +
-                   threadId + "|" + overFlow + "|" + threadOrder;
         }
 
         /// <summary>

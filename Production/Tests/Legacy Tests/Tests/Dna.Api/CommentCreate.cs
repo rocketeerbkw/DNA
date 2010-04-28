@@ -8,6 +8,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
@@ -36,6 +37,10 @@ namespace Tests
         [TestInitialize]
         public void StartUp()
         {
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                ProfanityFilter.InitialiseProfanitiesIfEmpty(inputcontext.ReaderCreator, null);
+            }
             Statistics.InitialiseIfEmpty();
             SnapshotInitialisation.RestoreFromSnapshot();
         }
@@ -52,8 +57,7 @@ namespace Tests
             {
                 _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 site = _siteList.GetSite("h2g2");
-                _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                _comments.siteList = _siteList;
+                _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
             
         }
@@ -89,14 +93,7 @@ namespace Tests
                 ModerationServiceGroup = moderationStatus,
                 CloseDate = closingDate
             };
-
-            Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(false))
-            {
-                comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-
-            }
-            CommentForum result = _comments.CommentForumCreate(commentForum, site);
+            CommentForum result = _comments.CreateCommentForum(commentForum, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.Id == commentForum.Id);
             Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
@@ -126,13 +123,13 @@ namespace Tests
             Comments comments = null;
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
             Assert.IsTrue(result.text == comment.text);
@@ -156,25 +153,25 @@ namespace Tests
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
             Assert.IsTrue(result.text == comment.text);
 
-            CommentForum commentForumData = _comments.CommentForumReadByUID(commentForumID,site);
+            CommentForum commentForumData = _comments.GetCommentForumByUid(commentForumID,site);
             int total = commentForumData.commentList.TotalCount;
 
             //repeat post
-            result = _comments.CommentCreate(commentForumData, comment);
+            result = _comments.CreateComment(commentForumData, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
             Assert.IsTrue(result.text == comment.text);
-            commentForumData = _comments.CommentForumReadByUID(commentForumID, site);
+            commentForumData = _comments.GetCommentForumByUid(commentForumID, site);
             //should not increment
             Assert.IsTrue(total == commentForumData.commentList.TotalCount);
 
@@ -191,7 +188,7 @@ namespace Tests
             Comments comments = null;
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
+                comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
             //set up test data
             CommentInfo comment = new CommentInfo
@@ -206,13 +203,13 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetBannedUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetBannedUserAccount.IdentityUserName);
 
 
             try
             {
-                CommentInfo result = _comments.CommentCreate(commentForum, comment);
+                CommentInfo result = _comments.CreateComment(commentForum, comment);
             }
             catch(ApiException ex)
             {
@@ -228,9 +225,9 @@ namespace Tests
         {
             //create comments objects
           
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
-
+            var callingUser = _comments.CallingUser;
             //set up test data
             CommentInfo comment = new CommentInfo
             {
@@ -247,12 +244,17 @@ namespace Tests
             try
             {//turn the site into emergency closed mode
                 _siteList.GetSite(site.ShortName).IsEmergencyClosed = true;
-                _comments.siteList = _siteList;
-                CommentInfo result = _comments.CommentCreate(commentForum, comment);
+                using (var inputcontext = new FullInputContext(false))
+                {
+                    _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator,
+                                             CacheFactory.GetCacheManager(), _siteList);
+                    _comments.CallingUser = callingUser;
+                }
+                CommentInfo result = _comments.CreateComment(commentForum, comment);
             }
             catch (ApiException ex)
             {
-                Assert.IsTrue(ex.type == ErrorType.SiteIsClosed);
+                Assert.AreEqual(ErrorType.SiteIsClosed, ex.type);
             }
             finally
             {//reset the site into emergency closed mode
@@ -280,11 +282,11 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
             Assert.IsTrue(result.text.IndexOf(illegalChar) < 0);//illegal char stripped
@@ -309,14 +311,14 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text.IndexOf(illegalTags) < 0);//illegal char stripped
+            Assert.IsTrue(result.FormatttedText.IndexOf(illegalTags) < 0);//illegal char stripped
         }
 
         /// <summary>
@@ -339,14 +341,14 @@ namespace Tests
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
             
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == expectedOutput);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
         }
 
         /// <summary>
@@ -369,13 +371,13 @@ with a carrage return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == expectedOutput);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.FormatttedText); //illegal char stripped
         }
 
         /// <summary>
@@ -399,13 +401,13 @@ return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             bool exceptionThrown = false;
             try
             {
-                CommentInfo result = _comments.CommentCreate(commentForum, comment);
+                CommentInfo result = _comments.CreateComment(commentForum, comment);
             }
             catch { exceptionThrown = true; }
             Assert.IsTrue(exceptionThrown);
@@ -414,7 +416,7 @@ return.";
             exceptionThrown = false;
             try
             {
-                CommentInfo result = _comments.CommentCreate(commentForum, comment);
+                CommentInfo result = _comments.CreateComment(commentForum, comment);
             }
             catch { exceptionThrown = true; }
             Assert.IsTrue(exceptionThrown);
@@ -443,13 +445,13 @@ return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             CommentForum commentForum = CommentForumCreate(commentForumID);
 
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == expectedOutput);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
         }
 
         /// <summary>
@@ -471,14 +473,14 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);//should be valid post ID 
-            Assert.IsTrue(result.text == "This post is awaiting moderation.");
+            Assert.AreEqual("This post is awaiting moderation.", result.FormatttedText);
 
             //check if post in mod queue table
             using (FullInputContext inputcontext = new FullInputContext(false))
@@ -511,10 +513,9 @@ return.";
 
                     
                 }
-                _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
+                _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                 site = _siteList.GetSite("h2g2");
-                _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                _comments.siteList = _siteList;
+                _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), inputcontext.SiteList);
             }
 
             try
@@ -533,14 +534,14 @@ return.";
 
                 CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.Unknown);//should override this with the site value
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
-            Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID == 0);//should be have no post ID
-            Assert.IsTrue(result.text == "This post is awaiting moderation.");
+                CommentInfo result = _comments.CreateComment(commentForum, comment);
+                Assert.IsTrue(result != null);
+                    Assert.IsTrue(result.ID == 0);//should be have no post ID
+                Assert.IsTrue(result.FormatttedText == "This post is awaiting moderation.");
 
                 //check if post in PreModPostings queue table
                 using (FullInputContext inputcontext = new FullInputContext(false))
@@ -567,8 +568,7 @@ return.";
                     }
                     _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
                     site = _siteList.GetSite("h2g2");
-                    _comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
-                    _comments.siteList = _siteList;
+                    _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                 }
             }
         }
@@ -592,10 +592,10 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetEditorUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetEditorUserAccount.IdentityUserName);
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
             Assert.IsTrue(result.text == comment.text);//moderation should be ignored for editors
@@ -620,10 +620,10 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
             Assert.IsTrue(result.text == comment.text);
@@ -662,10 +662,10 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
-            CommentInfo result = _comments.CommentCreate(commentForum, comment);
+            CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
             Assert.IsTrue(result.text == comment.text);
@@ -701,13 +701,13 @@ return.";
                 }
             }
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             bool exceptionThrown = false;
             try
             {
-                CommentInfo result = _comments.CommentCreate(commentForum, comment);
+                CommentInfo result = _comments.CreateComment(commentForum, comment);
             }
             catch { exceptionThrown = true; }
             Assert.IsTrue(exceptionThrown);
@@ -732,13 +732,13 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
             _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             
             try
             {
-                CommentInfo result = _comments.CommentCreate(commentForum, comment);
+                CommentInfo result = _comments.CreateComment(commentForum, comment);
             }
             catch (ApiException ex)
             {
@@ -761,8 +761,8 @@ return.";
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
                         reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','15',0,'test MaxCommentCharacterLength value')");
-                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                        _comments.siteList = _siteList;
+                        _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
+                        _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                     }
                 }
                 string commentForumID = "good" + Guid.NewGuid().ToString();
@@ -770,16 +770,16 @@ return.";
                 //set up test data
                 CommentInfo comment = new CommentInfo{text = Guid.NewGuid().ToString().Substring(0,10)};
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.SSO, DnaMockery.DnaConfig.ConnectionString, null);
+                _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
                 _comments.CallingUser.IsUserSignedIn(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, site.SSOService, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
-                CommentInfo result = _comments.CommentCreate(commentForum, comment);//should pass successfully
+                CommentInfo result = _comments.CreateComment(commentForum, comment);//should pass successfully
                 Assert.IsTrue(result != null);
                 Assert.IsTrue(result.ID > 0);
                 Assert.IsTrue(result.text == comment.text);
 
                 //with some markup
                 comment.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", Guid.NewGuid().ToString().Substring(0, 10));
-                result = _comments.CommentCreate(commentForum, comment);//should pass successfully
+                result = _comments.CreateComment(commentForum, comment);//should pass successfully
                 Assert.IsTrue(result != null);
                 Assert.IsTrue(result.ID > 0);
                 Assert.IsTrue(result.text == comment.text);
@@ -788,7 +788,7 @@ return.";
                 comment.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "stringtopad".PadRight(20));
                 try
                 {
-                    result = _comments.CommentCreate(commentForum, comment);
+                    result = _comments.CreateComment(commentForum, comment);
                 }
                 catch (ApiException ex)
                 {
@@ -799,7 +799,7 @@ return.";
                 comment.text = String.Format("{0}", "stringtopad".PadRight(20));
                 try
                 {
-                    result = _comments.CommentCreate(commentForum, comment);
+                    result = _comments.CreateComment(commentForum, comment);
                 }
                 catch (ApiException ex)
                 {
@@ -814,7 +814,7 @@ return.";
                     {
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
                         _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                        _comments.siteList = _siteList;
+                        _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                     }
                 }
 

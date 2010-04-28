@@ -1,0 +1,15 @@
+Processor(_Total)\% Processor Time
+ASP.NET\Requests Queued
+ASP.NET\Request Wait Time
+ASP.NET\Requests Current
+ASP.NET\Request Execution Time
+Memory\Committed Bytes
+Memory\Pages/sec
+ASP.NET Applications(__Total__)\Requests In Application Queue
+ASP.NET Applications(__Total__)\Pipeline Instance Count
+ASP.NET Applications(__Total__)\Requests Executing
+ASP.NET Applications(__Total__)\Requests/Sec
+Web Service(_Total)\Current ISAPI Extension Requests
+.NET CLR Loading(_Global_)\Current Assemblies
+.NET CLR LocksAndThreads(_Global_)\Contention Rate / sec
+.NET CLR LocksAndThreads(_Global_)\Current Queue Length

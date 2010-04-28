@@ -522,8 +522,9 @@ namespace BBC.Dna.Objects.Tests
         [TestMethod]
         public void GetCacheKeyTest()
         {
-            string expected = typeof (ForumThreads).AssemblyQualifiedName + "|0|0|0|0|True|0";
-            string actual = ForumThreads.GetCacheKey(0, 0, 0, 0, true, 0);
+            var forumThread = new ForumThreads();
+            string expected = string.Format("{0}|0|0|0|0|True|0|", typeof (ForumThreads).AssemblyQualifiedName);
+            string actual = forumThread.GetCacheKey(0, 0, 0, 0, true, 0);
             Assert.AreEqual(expected, actual);
         }
 
@@ -617,7 +618,7 @@ namespace BBC.Dna.Objects.Tests
             viewingUser.Stub(x => x.IsEditor).Return(false);
             viewingUser.Stub(x => x.IsSuperUser).Return(false);
 
-            var forumThreads = Mocks.DynamicMock<IDnaCachable>();
+            var forumThreads = Mocks.DynamicMock<CachableBase<ForumThreads>>();
             forumThreads.Stub(x => x.IsUpToDate(null)).Constraints(Is.Anything()).Return(false);
 
             var cache = Mocks.DynamicMock<ICacheManager>();

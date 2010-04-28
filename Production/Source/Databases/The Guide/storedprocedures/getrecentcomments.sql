@@ -50,7 +50,7 @@ if charindex(',',@prefix) > 0
 	inner join dbo.Forums F on F.ForumID = CF.ForumID
 	inner join dbo.ThreadEntries T on T.EntryID = uc.EntryID
 	inner join dbo.Users U on U.UserID = T.UserID
-	where F.SiteId = @siteid AND uc.UID like @prefix
+	where uc.SiteId = @siteid AND uc.UID like @prefix
 	order by uc.DatePosted desc
 	OPTION (OPTIMIZE FOR (@prefix='%',@siteid=1))
 end
