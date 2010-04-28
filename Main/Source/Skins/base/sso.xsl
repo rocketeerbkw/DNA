@@ -1251,7 +1251,7 @@
 				          					</xsl:otherwise>
 				          				</xsl:choose>
 				          			</xsl:attribute>
-				          			<xsl:text>choose a nickname</xsl:text>
+				          			<xsl:text>choose a Screen Name</xsl:text>
 			          			</a>
 			          			<xsl:text> before you can use the messageboards.</xsl:text>
 			          		</p>
