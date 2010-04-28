@@ -38,8 +38,49 @@
             <p>
               <strong>Set the opening/closing times, controlling when someone can post a message.</strong>
             </p>
+            
             <p class="dna-fnote">You have yet to set any opening times  - click the Edit button to set them.</p>
-          
+
+            <div class="dna-open-time">
+              <table>
+                <tr>
+                  <th>DAY</th>
+                  <th>OPEN</th>
+                  <th>CLOSE</th>
+                </tr>
+
+                <xsl:for-each select="//OPENCLOSETIME">
+                  <xsl:sort select="@DAYOFWEEK"/>
+                  <tr>
+                    <xsl:attribute name="class">
+                      <xsl:choose>
+                        <xsl:when test="position() mod 2 = 1">odd</xsl:when>
+                        <xsl:otherwise>even</xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:attribute>
+
+                    <td>
+                      <xsl:choose>
+                        <xsl:when test="@DAYOFWEEK = 1">Monday</xsl:when>
+                        <xsl:when test="@DAYOFWEEK = 2">Tuesay</xsl:when>
+                        <xsl:when test="@DAYOFWEEK = 3">Wednesday</xsl:when>
+                        <xsl:when test="@DAYOFWEEK = 4">Thursday</xsl:when>
+                        <xsl:when test="@DAYOFWEEK = 5">Friday</xsl:when>
+                        <xsl:when test="@DAYOFWEEK = 6">Saturday</xsl:when>
+                        <xsl:when test="@DAYOFWEEK = 7">Sunday</xsl:when>
+                      </xsl:choose>
+                    </td>
+                    <td>
+                      <xsl:value-of select="OPENTIME/HOUR"/>:<xsl:value-of select="OPENTIME/MINUTE"/>
+                    </td>
+                    <td>
+                      <xsl:value-of select="CLOSETIME/HOUR"/>:<xsl:value-of select="CLOSETIME/MINUTE"/>
+                    </td>
+                  </tr>
+                </xsl:for-each>
+              </table>
+            </div>
+            
             <p class="dna-link-edit"><a href="{$root}/MessageBoardSchedule">Edit<span class="off"> opening times</span></a></p>
           </div>
         </div>
@@ -52,11 +93,38 @@
             </p>
 
             <h4>Emoticons</h4>
-            <p class="dna-fnote">You have not added any emoticons - click the Edit button to add some. </p>
-
+           
+            <xsl:choose>
+              <xsl:when test="string(//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION)">
+                <p>Emoticons currently being used:</p>
+                <p>
+                  <img src="{//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION}" alt=""/>
+                </p>
+                <p class="dna-fnote">
+                  <strong>File: </strong>
+                  <xsl:value-of select="//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION" />
+                </p>
+              </xsl:when>
+              <xsl:otherwise>
+                <p class="dna-fnote">You have not added any emoticons - click the Edit button to add some. </p>
+              </xsl:otherwise>
+            </xsl:choose>
+           
+            
             <h4>Stylesheet</h4>
-            <p class="dna-fnote">You have not added a custom stylesheet - click the Edit button to add one.</p>
 
+            <xsl:choose>
+              <xsl:when test="string(//SITECONFIG/V2_BOARDS/CSS_LOCATION)">
+                <p>Stylesheet currently being used:d</p>
+                <p class="dna-fnote"><strong>File: </strong>
+                  <xsl:value-of select="//SITECONFIG/V2_BOARDS/CSS_LOCATION" />
+                </p>
+              </xsl:when>
+              <xsl:otherwise>
+                <p class="dna-fnote">You have not added a custom stylesheet - click the Edit button to add one.</p>
+              </xsl:otherwise>
+            </xsl:choose>
+            
             <p class="dna-link-edit"><a href="{$root}/messageboardadmin_assets">Edit<span class="off"> assets</span></a></p>
           </div>
         </div>
@@ -82,18 +150,17 @@
         </div>
         
         <div class="dna-box">
-          <h3>Archive</h3>
+          <h3>Topics ?</h3>
           <p>
-            <strong>Below are the topics which you have archived. To archive a live topic - click the Edit button.</strong>
+            <strong>To archive a live topic - click the Edit button.</strong>
           </p>
           <p>
             <strong>
               If you would like to create a new topic, please use the <a href="{$root}/messageboardadmin_design?s_mode=design">Design</a> section.
             </strong>
           </p>
-          <p class="dna-fnote">You do not have any archived topics - click the Edit button to archive a live topic.</p>
-
-          <p class="dna-link-edit"><a href="{$root}/topicbuilder">Edit<span class="off"> archived topics</span></a></p>
+          
+          <p class="dna-link-edit"><a href="{$root}/topicbuilder">Edit<span class="off"> topics</span></a></p>
         </div>
       </div>
     </div>  

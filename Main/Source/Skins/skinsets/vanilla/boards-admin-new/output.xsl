@@ -65,7 +65,7 @@
 				
 				<script type="text/javascript" src="/dnaimages/javascript/DNA-admin.js"><xsl:text> </xsl:text></script>
 				
-				<link type="text/css" media="screen" rel="stylesheet" href="/dna/dna_messageboard/css/admin.css"/>
+				<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/admin.css"/>
 				
 			</head>
 			

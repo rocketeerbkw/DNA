@@ -3,10 +3,31 @@
 /* generic classes */
 .dna-fl     {float:left}
 .dna-fr     {float:right}
+.dna-clear  {clear:both}
 .dna-center {text-align:center}
 
 .dna-half {width:49%}
-.dna-box    {position:relative; background:#fff; height:1%}
+.dna-box    {position:relative; margin-bottom:10px; background:#fff; height:1%; border:1px solid #666}
+.dna-box-border {padding:3px; margin-bottom:10px; background:#fff; border:1px dashed #666}
+.dna-list-links {margin:10px}
+.dna-list-links li{margin-bottom:5px; list-style-type:square; color:#666; margin-left:15px}
+
+.dna-preview-box {position:relative; margin-bottom:10px; background:#fff; height:1%; border:1px solid #666}
+.dna-preview-box label {display:inline-block!important; vertical-align:top}
+.dna-preview-box  li {padding:3px 10px}
+.dna-preview-box .dna-buttons {margin:20px 10px 0 10px}
+
+.dna-edit-topic-1 li,.dna-edit-topic-2 li {position:relative; padding:10px}
+.dna-edit-topic-1 li p,.dna-edit-topic-2 li p {margin:10px 0 !important}
+.dna-replies {text-align:right}
+.dna-edit-topic-1 .dna-link-edit,.dna-edit-topic-2 .dna-link-edit {right:10px; top:0}
+
+.dna-edit-topic-2 li {width:19.3em; min-height:32.5em}
+.dna-topic-pos{width:25px!important}
+
+
+.dna-topic-step{color:#666; font-size:.8em}
+
 .dna-main p,.dna-main h4  {margin:10px}
 
 .dna-fnote  {font-size:.8em; color:#666}
@@ -14,10 +35,12 @@ span.dna-fnote {display:block; margin-top:2px}
 
 .off        {position:absolute; left:-9000px; top:0; z-index:20}
 
-
-
 /* default styles */
 p, ul, h1, h2, h3, h4, h5 {line-height:130%}
+
+.dna-main a {color:#666; padding:1px; border-bottom:1px solid #666}
+.dna-main a:hover{border-bottom:none}
+.dna-main a:focus,.dna-main a:active {border-bottom:none; background:#666; color:#fff}
 
 
 .dna-main {background-color:#ebebd6; clear:both; height:1%; padding:10px; margin:30px 0 0 0}
@@ -31,8 +54,9 @@ p, ul, h1, h2, h3, h4, h5 {line-height:130%}
 .dna-main h4 {border-bottom:1px solid #56a4ce; line-height:140%}
 .dna-main h3 a {float:right; margin-top:-2px}
 
-.dna-link-edit {position:absolute; top:-6px; right:0}
-.dna-link-edit a {padding:1px 3px; text-transform:uppercase; height:1%; background-color:#fff; color:#666; border:1px solid #666; font-size:.8em}
+.dna-link-edit {position:absolute; top:-6px; right:0; line-height:150%}
+.dna-link-edit a {padding:1px 3px; height:1%; text-transform:uppercase;  background-color:#fff; color:#666; border:1px solid #666; font-size:.8em}
+.dna-link-edit a:hover {border-bottom:1px solid #666; background-color:#666; color:#fff}
 
 .dna-main a,#blq-local-nav a {text-decoration:none}
 
@@ -66,20 +90,51 @@ h1 span {border-left:1px solid #fff; padding-left:6px; margin-left:7px}
 .dna-publish .dna-fnote {color:#000}
 
 /* form */
-.dna-main form  {margin:5px 10px}
+.dna-main form  {}
 .dna-main form label {margin-bottom:3px; font-weight:bold; display:block}
 .dna-main form input[type=text]{width:100%}
 
-.dna-buttons {clear:both; height:1%; padding:10px 0; margin-top:15px; border-top:1px solid #56a4ce}
-.dna-buttons li {float:left; height:1%; margin-right:10px}
-.mbpreview-button {display:block; padding:2px; text-transform:uppercase; cursor:pointer; background-color:#fff; font-weight:bold; color:#666; border:1px solid #666; font-size:.8em}
+.dna-buttons {clear:both; height:1%; padding:10px 0; margin-top:15px; border-top:1px solid #56a4ce!important}
+.dna-buttons li {display:inline-block; float:left;  padding:0; height:1%; margin-right:10px}
+.dna-buttons input {display:block; padding:2px; text-transform:uppercase; cursor:pointer; background-color:#fff; font-weight:bold; color:#666; border:1px solid #666; font-size:.8em}
+.dna-btn-link {display:block; padding:2px 5px!important; text-transform:uppercase; cursor:pointer; background-color:#fff; font-weight:bold; color:#666; border:1px solid #666; font-size:.8em}
 
 
+
+.dna-open-times {margin:5px 10px}
 .dna-open-times label {display:inline-block !important; font-weight:normal !important}
 .dna-open-times table   {width:100%}
-.dna-open-times table td,.dna-open-times table th {padding:4px}
-.dna-open-times table tr.odd {background-color:#ebebd6}
+.dna-open-times td,.dna-open-times table th {padding:4px}
+.dna-open-times tr.odd {background-color:#ebebd6}
+
+.dna-open-time {margin:0 10px 10px 10px}
+.dna-open-time table {width:100%}
+.dna-open-time td,.dna-open-time th {padding:4px}
+.dna-open-time tr.odd {background-color:#ebebd6}
+
+
+
+#dna-preview-content {clear:both; margin-bottom:10px}
+#dna-preview-left {width:15em; margin-right:10px}
+#dna-preview-middle {width:42.8em; margin-right:10px}
+#dna-preview-right {width:20em}
+
+.blue{background:}
+.sky{background:}
+.teal{background:}
+.lime{background:}
+.green{background:}
+.aqua{background:}
+.khaki{background:}
+.magenta{background:}
+.rose{background:}
+.purple{background:}
+.red{background:}
+.orange {background:}
+
+
+
 
 
 /* clear hacks */
-.dna-main:after,.dna-half:after,.dna-box:after,.dna-buttons:after {content:".";  display:block; height:0; clear:both; visibility:hidden}
+.dna-main:after,.dna-half:after,.dna-box:after,.dna-buttons:after,#mbpreview-content:after,.dna-box-border:after {content:".";  display:block; height:0; clear:both; visibility:hidden}

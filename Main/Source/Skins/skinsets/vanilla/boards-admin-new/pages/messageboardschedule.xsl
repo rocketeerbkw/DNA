@@ -31,18 +31,20 @@
     </div>
 
     <div class="dna-main blq-clearfix">
-      <div class="dna-box">
-        <h3>Opening Hours</h3>
-			  <xsl:apply-templates select="SITETOPICSSCHEDULE"/>
-      </div>
-      <xsl:call-template name="saveCancel"/>
-     
+      <form action="MessageBoardSchedule" method="post" class="dna-open-times">
+        <input type="hidden" value="update" name="action"/>
+          <div class="dna-box">
+            <h3>Opening Hours</h3>
+        
+			      <xsl:apply-templates select="SITETOPICSSCHEDULE"/>
+          </div>
+          <xsl:call-template name="saveCancel"/>
+      </form>
     </div>
 	</xsl:template>
 	
 	<xsl:template match="SITETOPICSSCHEDULE">
-		<form action="#" method="post" class="dna-open-times">
-			<input type="hidden" value="update" name="action"/>
+   
 		
       <table>
 			<xsl:call-template name="writeDay">
@@ -107,7 +109,7 @@
           </td>
         </tr>
       </table>
-		</form>
+
 	</xsl:template>
 	
 	<xsl:template name="hours">

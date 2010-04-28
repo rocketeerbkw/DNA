@@ -19,87 +19,296 @@
 	</doc:documentation>
 	
 	<xsl:template match="H2G2[@TYPE = 'MBADMINDESIGN']" mode="page">
-		<div class="full">
-			<h2>Messageboard Design</h2>
-			<p>Below is a preview of your messageboard, indicating which areas you can edit. Once you are finished click the <strong>Save</strong> button. To cancel any changes you have made, click the <strong>Cancel</strong> button.</p>
-			<h3>Your message board</h3>
-			<div class="mbpreview">
-				<div id="mbpreview-header">
-					<p>
-						<xsl:choose>
-							<xsl:when test="SITECONFIG/SITECONFIGPREVIEW/HEADER_COLOUR">Header colour is <xsl:value-of select="SITECONFIG/SITECONFIGPREVIEW/HEADER_COLOUR"/>.</xsl:when>
-							<xsl:otherwise>Header colour is default blue.</xsl:otherwise>
-						</xsl:choose>
-						<a href="#mbpreview-editheader" class="overlay button">Edit header colour</a>
-					</p>
-					<p>
-						<a href="http://www.bbc.co.uk/includes/blq/resources/help/img/explore_colours.jpg" target="_blank">Click here to see Barlesque header colour options.</a>
-					</p>
-				</div>
-				<div id="mbpreview-banner" class="solidbg">
-					<a href="#mbpreview-insertbanner" class="overlay">Insert your own banner (SSSI)</a>
-				</div>
-				<div id="mbpreview-topnav" class="dashborder">
-					<a href="#mbpreview-addtopnav" class="overlay">+ Add top navigation (SSSI)</a>
-				</div>
-				<div>
-					<div id="mbpreview-left">
-						<div id="mbpreview-leftnav" class="dashborder">
-							<a href="#mbpreview-addnav" class="overlay">+ Add navigation (SSSI)</a>
-						</div>
-						<div id="mbpreview-topics" class="solidborder">
-							<h4>Messageboard Topics</h4>
-							<xsl:choose>
-								<xsl:when test="TOPIC_PAGE">
-								<!--<xsl:when test="SITECONFIG/SITECONFIGPREVIEW/TOPICLAYOUT">-->
-									<xsl:apply-templates select="TOPICLIST" mode="object_topiclist"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<p class="info">Topics will automatically appear when you add a new topic (right).</p>
-								</xsl:otherwise>
-							</xsl:choose>
-						</div>
-						<div id="mbpreview-defaultlinks" class="solidborder">
-							<ul>
-								<li>My Discussions</li>
-								<li>House Rules</li>
-								<li>FAQs</li>
-							</ul>
-						</div>
-					</div>
-					<div id="mbpreview-middle">
-						<div id="mbpreview-welcome" class="solidbg">
-							<a href="#mbpreview-addwelcome" class="overlay">+ Add welcome message</a>
-						</div>
-            <form action="messageboardadmin_design?cmd=updatetopicpositions" method="post">
-              <xsl:choose>
-                <xsl:when test="/H2G2/TOPIC_PAGE">
-                  <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST" mode="object_topiclist_elements"/>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:apply-templates select="TOPICLIST" mode="object_topiclist_setup"/>
-                </xsl:otherwise>
-              </xsl:choose>
-              <li>
 
-                <xsl:if test="count(TOPIC) mod 2 = 1">
-                  <xsl:attribute name="class">even</xsl:attribute>
+    <div class="dna-mb-intro">
+      <h2>Messageboard Design</h2>
+      <p>
+        Below is a preview of your messageboard, indicating which areas you can edit. Once you are finished click the <strong>Save</strong> button. To cancel any changes you have made, click the <strong>Cancel</strong> button.
+      </p>
+    </div>
+
+    <div class="dna-main blq-clearfix">
+
+      <div class="dna-fl dna-main-full">
+        
+         <h3>Your messageboard</h3>
+
+          <div class="dna-box-border">
+            <h4 class="off">Header</h4>
+            <p>
+              <xsl:choose>
+                <xsl:when test="SITECONFIG/V2_BOARDS/HEADER_COLOUR">
+                  <strong>Header colour chosen: </strong>
+                  <xsl:value-of select="SITECONFIG/V2_BOARDS/HEADER_COLOUR"/>
+                </xsl:when>
+                <xsl:otherwise>Header colour by default is blue.</xsl:otherwise>
+              </xsl:choose>
+            </p>
+            
+            <p><a href="?s_mode=header#dna-preview-editheader" class="dna-link-overlay">+ Edit header colour</a></p>
+          </div>
+
+          <div class="dna-box-border">
+            <h4 class="off">Banner</h4>
+            <xsl:choose>
+              <xsl:when test="SITECONFIG/V2_BOARDS/BANNER_SSI">
+                <p>
+                  <strong>Banner included: </strong>
+                  <xsl:value-of select="SITECONFIG/V2_BOARDS/BANNER_SSI"/>
+                </p>
+                <p>
+                  <a href="?s_mode=banner#dna-preview-insertbanner" class="dna-link-overlay">+ Update banner</a>
+                </p>
+              </xsl:when>
+              <xsl:otherwise>
+                <p>
+                  <a href="?s_mode=banner#dna-preview-insertbanner" class="dna-link-overlay">+ Insert your own banner (SSI)</a>
+                </p>
+              </xsl:otherwise>
+            </xsl:choose>
+          </div>
+
+          <div class="dna-box-border">
+            <h4 class="off">Horizontal navigation</h4>
+            <xsl:choose>
+              <xsl:when test="SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI">
+                <p>
+                  <strong>Horizontal navigation included: </strong>
+                  <xsl:value-of select="SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI"/>
+                </p>
+                <p>
+                  <a href="?s_mode=topnav#dna-preview-addtopnav" class="dna-link-overlay">+ Update horizontal navigation</a>
+                </p>
+              </xsl:when>
+              <xsl:otherwise>
+                <p>
+                  <a href="?s_mode=topnav#dna-preview-addtopnav" class="dna-link-overlay">+ Add top navigation (SSI)</a>
+                </p>
+              </xsl:otherwise>
+            </xsl:choose>
+          </div>
+
+
+          <div id="dna-preview-content">
+            <div id="dna-preview-left" class="dna-fl">
+              
+              <div class="dna-box-border">
+                <h4 class="off">Left navigation</h4>
+                <xsl:choose>
+                  <xsl:when test="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI">
+                    <p><strong>Left navigation included: </strong></p>
+                    <ul class="dna-list-links"> 
+                      <li><xsl:value-of select="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI"/></li>
+                    </ul>
+                    
+                    <p>
+                      <a href="?s_mode=lnav#dna-preview-addnav" class="dna-link-overlay">+ Update navigation</a>
+                    </p>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <p>
+                      <a href="?s_mode=lnav#dna-preview-addnav" class="dna-link-overlay">+ Add navigation (SSI)</a>
+                    </p>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </div>
+              
+              <div class="dna-box">
+                <h4 class="off">Topic's list</h4>
+                <xsl:if test="/H2G2/TOPIC_PAGE">
+                  <ul class="dna-list-links">
+                    <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Live']" mode="object_topiclist"/>
+                  </ul>
                 </xsl:if>
-                <a href="messageboardadmin_design?s_edittopic=0" class="overlay">+ Add topic</a>
-              </li>
-              <li class="noborder">
-                <div>
-                  <p>
-                    <!-- a href="#" class="overlay">Edit topic layout</a -->
-                    <input type="submit" value="Update Topic Layout"></input>
+                
+                <p class="dna-fnote">
+                  <strong>Note:</strong><br/>Topics will automatically appear when you add a new topic (right).
+                </p>
+              </div>
+              
+              <div class="dna-box">
+                <h4 class="off">Internal links</h4>
+                <ul class="dna-list-links">
+                  <li><a href="#">My Discussions</a></li>
+                  <li><a href="#">House Rules</a></li>
+                  <li><a href="#">FAQs</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div id="dna-preview-middle" class="dna-fl">
+              <div class="dna-box-border">
+                <h4 class="off">Welcome message</h4>
+                <xsl:choose>
+                   <xsl:when test="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE">
+                     <p>
+                       <strong>Welcome message: </strong>
+                       <br/>
+                       <xsl:value-of select="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE"/>
+                     </p>
+                     <p>
+                       <a href="?s_mode=welcome#dna-preview-addwelcome" class="dna-link-overlay">+ Modify your welcome message</a>
+                     </p>
+                   </xsl:when>
+                   <xsl:otherwise>
+                     <p>
+                       <a href="?s_mode=welcome#dna-preview-addwelcome" class="dna-link-overlay">+ Add welcome message</a>
+                     </p>
+                   </xsl:otherwise>
+                 </xsl:choose>
+               </div>
+
+              <div>
+                <h4 class="off">Topics</h4>
+                
+                <form action="messageboardadmin_design?cmd=updatetopicpositions" method="post">
+                  <xsl:choose>
+                    <xsl:when test="/H2G2/TOPIC_PAGE">
+                      <ul>
+                        <xsl:attribute name="class">
+                          <xsl:choose>
+                            <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col'">dna-edit-topic-1</xsl:when>
+                            <xsl:otherwise>dna-edit-topic-2</xsl:otherwise>
+                          </xsl:choose>
+                        </xsl:attribute>
+                        
+                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Live']" mode="object_topiclist_elements" />
+                      </ul>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:apply-templates select="TOPICLIST" mode="object_topiclist_setup"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+
+
+                  <p class="off">
+                    <input type="submit" value="Update Topic Layout"/>
                   </p>
-                  <p>
-                    <a href="#" class="overlay">Edit topic order</a>
+                </form>
+
+                <div class="dna-box-border dna-clear">
+                  <p >
+                    <a href="?s_mode=topic#dna-preview-edittopic" class="dna-link-overlay">+ Add a new topic</a>
                   </p>
                 </div>
-              </li>
-            </form>
-					</div>
+
+                <div class="dna-box-border">
+                  <p>
+                    <a href="?s_mode=layout#dna-preview-edittopiclayout" class="dna-link-overlay">+ Choose topic layout</a>
+                  </p>
+                  <p class="dna-fnote">Choose between a 1 and 2 column layout tp display the topics.</p>
+                </div>
+              </div>
+            </div>
+            
+
+            <div id="dna-preview-right" class="dna-fl">
+              <div class="dna-box-border">
+                <h4 class="off">About message</h4>
+                <xsl:choose>
+                  <xsl:when test="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE">
+                    <p>
+                      <strong>About message: </strong>
+                      <br/>
+                      <xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE"/>
+                    </p>
+                    <p>
+                      <a href="?s_mode=about#dna-preview-addtext" class="dna-link-overlay">+ Modify about message</a>
+                    </p>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <p>
+                      <a href="?s_mode=about#dna-preview-addtext" class="dna-link-overlay">+ Add about message</a>
+                    </p>
+                  </xsl:otherwise>
+                </xsl:choose>
+               
+                <h4 class="off">Opening hours</h4>
+                <xsl:choose>
+                  <xsl:when test="SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT">
+                    <p>
+                      <strong>Opening hours: </strong>
+                      <br/>
+                      <xsl:value-of select="SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT"/>
+                    </p>
+                    <p>
+                      <a href="?s_mode=about#dna-preview-addtext" class="dna-link-overlay">+ Modify opening hours text</a>
+                    </p>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <p>
+                      <a href="?s_mode=about#dna-preview-addtext" class="dna-link-overlay">+ Add opening hours text</a>
+                    </p>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </div>
+
+              <div id="dna-preview-recent" class="dna-box">
+                <h4 class="off">Recent Discussions</h4>
+                <p class="dna-fnote">
+                  <strong>Note:</strong><br/>
+                  Recent discussions will be automatically generated when your messageboard is live.
+                </p>
+              </div>
+
+
+              <div class="dna-box-border">
+                <h4 class="off">Extras modules</h4>
+                <xsl:if test="SITECONFIG/V2_BOARDS/MODULES/LINKS">
+                  <p><strong>Modules inserted:</strong></p>
+                  <ul class="dna-list-links">
+                    <xsl:for-each select="SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
+                      <li>
+                        <xsl:value-of select="."/>
+                      </li>
+                      </xsl:for-each>
+                  </ul>
+                </xsl:if>
+
+                <p>
+                  <a href="?s_mode=modules#dna-preview-addmodules" class="dna-link-overlay">+ Add more modules</a>
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+
+         <div class="dna-box-border dna-clear">
+          <xsl:choose>
+            <xsl:when test="SITECONFIG/V2_BOARDS/SOCIALTOOLBAR">
+              <p>
+                <strong>Social media added: </strong> yes
+              </p>
+              <p>
+                <a href="?s_mode=toolbar#dna-preview-addtoolbar" class="dna-link-overlay">+ Remove Social Media toolbar</a>
+              </p>
+            </xsl:when>
+            <xsl:otherwise>
+              <p>
+                <a href="?s_mode=toolbar#dna-preview-addtoolbar" class="dna-link-overlay">+ Add Social Media toolbar (e.g. Facebook, Digg, Delicious etc.)</a>
+              </p>
+            </xsl:otherwise>
+          </xsl:choose>
+          </div>
+
+
+          <div class="dna-box-border">
+            <p>
+              <xsl:choose>
+                <xsl:when test="SITECONFIG/V2_BOARDS/FOOTER/COLOUR">
+                  <strong>Footer colour chosen: </strong>
+                  <xsl:value-of select="SITECONFIG/V2_BOARDS/FOOTER/COLOUR"/>
+                </xsl:when>
+                <xsl:otherwise>Footer colour by default is dark grey.</xsl:otherwise>
+              </xsl:choose>
+            </p>
+
+            <p>
+              <a href="?s_mode=footer#dna-preview-editfooter" class="dna-link-overlay">+ Edit footer colour</a>
+            </p>
+          </div>
+ 
           <xsl:choose>
             <xsl:when test="PARAMS/PARAM[NAME='s_edittopic'] and (TOPIC_PAGE/TOPICLIST/TOPIC/TOPICID = PARAMS/PARAM[NAME='s_edittopic']/VALUE)">
               <xsl:call-template name="object_topic_edit">
@@ -112,42 +321,18 @@
               </xsl:call-template>
             </xsl:otherwise>
           </xsl:choose>
-					<div id="mbpreview-right">
-						<div id="mbpreview-about" class="noborder">
-							<h4 class="darker">About this Board</h4>
-							<a href="#mbpreview-addtext" class="overlay">+ Add introductory/about text</a>
-						</div>
-						<div id="mbpreview-recent" class="noborder">
-							<h4 class="lighter">Recent Discussions</h4>
-							<p class="info">
-								Recent discussions will be automatically generated when your messageboard is live.
-							</p>
-						</div>
-						<div id="mbpreview-more" class="dashborder">
-							<a href="#mbpreview-addmodules" class="overlay">+ Add more modules to this column</a>
-						</div>
-					</div>
-				</div>
-				<div class="clear">
-					<div class="dashborder" id="mbpreview-socialtoolbar">
-						<a href="#mbpreview-addtoolbar" class="overlay">+ Add Social Media toolbar (e.g. Facebook, Digg, Delicious etc.)</a>
-					</div>
-				</div>
-				<div id="mbpreview-footer">
-					<p>
-						<xsl:choose>
-							<xsl:when test="SITECONFIG/SITECONFIGPREVIEW/FOOTER/COLOUR">Footer colour is <xsl:value-of select="SITECONFIG/SITECONFIGPREVIEW/FOOTER/COLOUR"/>.</xsl:when>
-							<xsl:otherwise>Footer colour is default dark grey.</xsl:otherwise>
-						</xsl:choose>
-						<a href="#mbpreview-editfooter" class="overlay button wide">Edit footer</a>
-					</p>
-					<p>
-						<a href="http://www.bbc.co.uk/includes/blq/include/help/display_customisation/test_footer_colour.shtml" target="_blank">Click here to see Barlesque footer colour options.</a>
-					</p>
-				</div>
-			</div>
-			<xsl:call-template name="lightboxes"/>
-		</div>
+
+          <xsl:call-template name="lightboxes"/>
+       </div>
+    </div>
+    
+    
+    
+    
+   
+			
+			
+
 	</xsl:template>
 
 </xsl:stylesheet>

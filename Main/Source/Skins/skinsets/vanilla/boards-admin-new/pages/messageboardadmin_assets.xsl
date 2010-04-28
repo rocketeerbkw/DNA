@@ -48,6 +48,9 @@
                  <strong>Example:</strong> /emoticons/happy.gif
                 </span>
                </p>
+              <p>
+                <img src="{//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION}" alt=""/>
+              </p>
             </div>
           </div>
 
