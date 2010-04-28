@@ -135,12 +135,9 @@ namespace BBC.Dna
                         user.AddPrefixedUserXMLBlock(reader, reader.GetInt32NullAsZero("complainantuserid"), "complainant", complaint);
                     }
 
-                    if (InputContext.ViewingUser.IsSuperUser)
-                    {
-                        AddTextElement(complaint, "IPADDRESS", reader.GetStringNullAsEmpty("ipaddress"));
-                        AddTextElement(complaint, "BBCUID", reader.GetGuidAsStringOrEmpty("bbcuid").ToString());
-                        AddTextElement(complaint, "EMAIL-ADDRESS", reader.GetStringNullAsEmpty("correspondenceemail"));
-                    }
+                    AddTextElement(complaint, "IPADDRESS", reader.GetStringNullAsEmpty("ipaddress"));
+                    AddTextElement(complaint, "BBCUID", reader.GetGuidAsStringOrEmpty("bbcuid").ToString());
+                    AddTextElement(complaint, "EMAIL-ADDRESS", reader.GetStringNullAsEmpty("correspondenceemail"));
 
                     AddTextElement(moderation, "NOTES", reader.GetStringNullAsEmpty("notes"));
 
