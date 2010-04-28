@@ -144,7 +144,7 @@
           <h3>Publish</h3>
 
           <p class="dna-center">
-            <a href="{$root}/messageboardadmin?cmd=UPDATEPREVIEWANDLIVE" class="button" onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
+            <a href="{$root}/messageboardadmin?cmd=PUBLISHMESSAGEBOARD" class="button" onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
           </p>
           <p class="dna-fnote">Publish your messageboard live to the web.</p>
         </div>

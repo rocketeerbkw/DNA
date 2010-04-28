@@ -194,7 +194,7 @@
 
         <p>
 					<label for="mbwelcome">Welcome message:</label>
-					<input type="text" name="WELCOME_MESSAGE" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE}" size="50"/>
+					<input type="text" name="WELCOME_MESSAGE"  id="mbwelcome" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE}"/>
           <span class="dna-fnote"><strong>Example:</strong> Welcome to the Strictly Messageboard</span>
         </p>
         
@@ -220,7 +220,7 @@
                 <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
             </input>
-            <label for="mbfootercolour-default" class="grey">Default (grey)</label>
+            <label for="mbfootercolor-default" class="grey">Default (grey)</label>
           </li>
           <li>
             <input type="radio" name="FOOTER_COLOUR" value="black" id="mbfootercolor-black">
@@ -228,7 +228,7 @@
                 <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
             </input>
-            <label for="mbfootercolour-black" class="black">Black</label>
+            <label for="mbfootercolor-black" class="black">Black</label>
           </li>
           <li>
             <input type="radio" name="FOOTER_COLOUR" value="white" id="mbfootercolor-white">
@@ -236,7 +236,7 @@
                 <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
             </input>
-            <label for="mbfootercolour-white" class="white">White</label>
+            <label for="mbfootercolor-white" class="white">White</label>
         </li>
         </ul>
 
@@ -260,9 +260,13 @@
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
       <ul>
           <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/LINKS/LINK">
+            <xsl:variable name="id">
+              <xsl:value-of select="." />
+            </xsl:variable>
+
             <li>
-              <label for="mb-url1">Link URL:</label>
-              <input type="text" name="FOOTER_LINK" value="{.}" id="mb-url1" class="right"/>
+              <label for="mb-url-{$id}">Link URL:</label>
+              <input type="text" name="FOOTER_LINK" value="{.}" id="mb-url-{$id}" class="right"/>
             </li>
           </xsl:for-each>
        </ul>
@@ -310,6 +314,7 @@
         dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'modules' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
       </xsl:attribute>
       
+      
 			<h4>Add more modules</h4>
 			<p>To add more modules to the right hand column of your messageboard, add the URL to a Server Side Include (SSI) which contains the module.</p>
       
@@ -318,9 +323,12 @@
         
         <ul>
         <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
+          <xsl:variable name="id">
+            <xsl:value-of select="." />
+          </xsl:variable>
           <li>
-            <label for="mb-url1">Link URL:</label>
-            <input type="text" name="MODULE_LINK" value="{.}" id="mb-url1" class="right"/>
+            <label for="mb-url-{$id}">Link URL:</label>
+            <input type="text" name="MODULE_LINK" value="{.}" id="mb-url-{$id}" class="right"/>
           </li>
         </xsl:for-each>
         </ul>
@@ -400,7 +408,7 @@
         <input type="submit" name="submit" value="Save" />
       </li>
       <li>
-        <input type="button" name="cancel" value="Cancel" />
+        <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>
       </li>
     </ul>
   </div>

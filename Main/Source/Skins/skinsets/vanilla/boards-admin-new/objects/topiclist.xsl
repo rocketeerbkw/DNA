@@ -12,12 +12,17 @@
       <li>
         <xsl:attribute name="class">
           dna-box-border
-          <xsl:choose>
-            <xsl:when test="(count(preceding-sibling::*) + 1) mod 2 = 1">dna-fl</xsl:when>
-            <xsl:otherwise>dna-fr</xsl:otherwise>
-          </xsl:choose>
-        </xsl:attribute
->
+
+          <xsl:if test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col'">
+            <xsl:choose>
+              <xsl:when test="(count(preceding-sibling::*) + 1) mod 2 = 1">dna-fl</xsl:when>
+              <xsl:otherwise>dna-fr</xsl:otherwise>
+            </xsl:choose>
+          </xsl:if>
+        </xsl:attribute>
+
+        <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT "/>
+        
         <xsl:apply-templates select="." mode="object_topic_admin"/>
       </li>
     </xsl:for-each>
@@ -120,13 +125,13 @@
             <p>Add the text which shall appear on the topic promo, found on the messageboard homepage.</p>
             <p>
               <label for="fp_title">Title of topic promo:</label>
-              <input type="text" name="fp_title" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/TITLE}"/>
+              <input type="text" name="fp_title" id="fp_title" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/TITLE}"/>
               <span class="dna-fnote"><strong>Example:</strong> Our Couples for 2009</span>
             </p>
             
             <p>
               <label for="fp_text">Enter the text to explain what this topic is about:</label><br />
-              <textarea name="fp_text" cols="50" rows="2">
+              <textarea name="fp_text" id="fp_text" cols="50" rows="2">
                  <xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT"/>
               </textarea>
               <span class="dna-fnote">
@@ -140,7 +145,7 @@
                   <a href="?s_mode=topic2#dna-preview-edittopic-step2" class="dna-btn-link">Next</a>
                 </li>
                 <li>
-                  <input type="button" name="cancel" value="Cancel"/>
+                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>
                 </li>
               </ul>
             </div>
@@ -165,26 +170,25 @@
             <p>You can choose to add an image to your topic promo. If uou do not wish to add an image, simply click Next.</p>
             <p>
                <label for="fp_imagename">Image Address (image size: 206 X 116 pixels):</label>
-               <input type="text" name="fp_imagename" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME}" size="50"/>
+               <input type="text" name="fp_imagename" id="fp_imagename" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME}"/>
                <span class="dna-fnote">
                  <strong>Example:</strong> ricky_erin.jpg
                </span>
             </p>
             <p>
                <label for="fp_imagealttext">Enter the alt text for this image:</label>
-               <input type="text" name="fp_imagealttext" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGEALTTEXT}" size="50"/>
+               <input type="text" name="fp_imagealttext" id="fp_imagealttext" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGEALTTEXT}" />
                <span class="dna-fnote">
                 <strong>Example:</strong> Erin and Rick
               </span>
             </p>
             <p>
-                <label for="fp_imagealttext">Turn Off Image</label>
-                <input type="checkbox" name="fp_templatetype" value="turnimageoff">
+                <input type="checkbox" name="fp_templatetype" id="fp_templatetype" value="turnimageoff">
                   <xsl:if test="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEMPLATETYPE != 2">
                     <xsl:attribute name="checked">checked</xsl:attribute>
                   </xsl:if>
                 </input>
-                <span class="dna-fnote">To turn off the image for this topic promo, please select this box</span>
+               <label for="fp_templatetype">To turn off the image for this topic promo, please select this box</label>
             </p>
 
             <div class="dna-buttons">
@@ -193,7 +197,7 @@
                   <a href="?s_mode=topic3#dna-preview-edittopic-step3" class="dna-btn-link">Next</a>
                 </li>
                 <li>
-                  <input type="button" name="cancel" value="Cancel" />
+                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>
                 </li>
               </ul>
             </div>
@@ -219,14 +223,14 @@
             <p>Add the text which shall appear on the topic page itself.</p>
             <p>
                 <label for="topictitle">Title of topic page:</label>
-                <input type="text" name="topictitle" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/TITLE}" size="50"/>
+                <input type="text" name="topictitle" id="topictitle" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/TITLE}" />
                 <span class="dna-fnote">
                   <strong>Example:</strong> Our Couples for 2009
                 </span>
             </p>
             <p>
                 <label for="topictext">Enter the text to explain what this topic page is about:</label><br />
-                <textarea name="topictext" cols="50" rows="2">
+                <textarea name="topictext" id="topictext" ols="50" rows="2">
                   <xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY"/>
                 </textarea>
                 <span class="dna-fnote">

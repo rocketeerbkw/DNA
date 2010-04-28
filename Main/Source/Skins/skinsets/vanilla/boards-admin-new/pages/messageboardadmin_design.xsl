@@ -325,14 +325,7 @@
           <xsl:call-template name="lightboxes"/>
        </div>
     </div>
-    
-    
-    
-    
    
-			
-			
-
 	</xsl:template>
 
 </xsl:stylesheet>
