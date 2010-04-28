@@ -259,7 +259,7 @@
     <CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.pdb"></CommentsApi>
     <ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.pdb"></ModerationApi>
     <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
-    <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\DeploymentNotes.txt"></Documentation>
+    <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\cleanfilter.reg;$(SolutionRoot)\DeploymentNotes.txt"></Documentation>
   </ItemGroup>
 
 
