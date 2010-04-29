@@ -521,7 +521,14 @@
 						<xsl:value-of select="concat($sso_rootlogin, 'SSO%3Fpa=postforum%26pt=forum%26forum=', ../@FORUMID, '%26pt=thread%26thread=', ../@THREADID, '%26pt=post%26post=', @POSTID)"/>	
 					</xsl:when>
 					<xsl:otherwise>
-		          		<xsl:value-of select="concat($idURL, $id_loginpath,'target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, 'AddThread%3Finreplyto=', @POSTID, $id_kids)" />
+						<xsl:choose>
+							<xsl:when test="$autogenname_required = 'true'">
+								<xsl:value-of select="concat($idURL, $id_loginpath,'target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, 'F', ../@FORUMID, '%3Fthread=', ../@THREADID, $id_kids)" />
+							</xsl:when>	
+							<xsl:otherwise>						
+		          				<xsl:value-of select="concat($idURL, $id_loginpath,'target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, 'AddThread%3Finreplyto=', @POSTID, $id_kids)" />
+		          			</xsl:otherwise>
+		          		</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
