@@ -30,13 +30,13 @@
       </p>
     </div>
 
-    <div class="dna-main blq-clearfix">
-      <form action="MessageBoardSchedule" method="post" class="dna-open-times">
+    <div class="dna-main dna-main-bg blq-clearfix">
+      <form action="MessageBoardSchedule" method="post" class="dna-mb-opentime">
         <input type="hidden" value="update" name="action"/>
           <div class="dna-box">
             <h3>Opening Hours</h3>
         
-			      <xsl:apply-templates select="SITETOPICSSCHEDULE"/>
+			      <div><xsl:apply-templates select="SITETOPICSSCHEDULE"/></div>
           </div>
           <xsl:call-template name="saveCancel"/>
       </form>
@@ -112,7 +112,7 @@
 
         <tr>
           <td colspan="5">
-            <input type="radio" id="twentyfourseven" value="twentyfourseven" name="updatetype">
+            <input type="checkbox" id="twentyfourseven" value="twentyfourseven" name="updatetype">
               <xsl:if test="not(SCHEDULE/EVENT)">
                 <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
@@ -237,13 +237,13 @@
       </td>
       <td>
         <input type="hidden" name="eventdaytype" value="{$dayNumber}"/>
-        <label for="openhours-{$dayNumber}">Opens <span class="dna-off">hour</span>:</label>
+        <label for="openhours-{$dayNumber}">Opens <span class="dna-off">hour</span></label>
         <select name="eventhours" id="openhours-{$dayNumber}">
           <xsl:call-template name="hours">
             <xsl:with-param name="selected" select="$open-hours"/>
           </xsl:call-template>
         </select>
-        <label for="openMinutes-{$dayNumber}" class="dna-off">minutes:</label>
+        <label for="openMinutes-{$dayNumber}" class="dna-off">Opens minutes</label>
         <select name="eventminutes" id="openMinutes-{$dayNumber}">
           <xsl:call-template name="minutes">
             <xsl:with-param name="selected" select="$open-min"/>
@@ -252,13 +252,13 @@
       </td>
       <td>
         <input type="hidden" name="eventdaytype" value="{$dayNumber}"/>
-        <label for="closeHours-{$dayNumber}">Closes <span class="dna-off">hour</span>:</label>
+        <label for="closeHours-{$dayNumber}">Closes <span class="dna-off">hour</span></label>
         <select name="eventhours" id="closeHours-{$dayNumber}">
           <xsl:call-template name="hours">
             <xsl:with-param name="selected" select="$close-hours"/>
           </xsl:call-template>
         </select>
-        <label for="closeMinutes-{$dayNumber}" class="dna-off">minutes:</label>
+        <label for="closeMinutes-{$dayNumber}" class="dna-off">Closes minutes</label>
         <select name="eventminutes" id="closeMinutes-{$dayNumber}">
           <xsl:call-template name="minutes">
             <xsl:with-param name="selected" select="$close-min"/>
@@ -268,13 +268,13 @@
       
       <td>
         <xsl:if test="$dayNumber = '1'">
-        <input type="radio" name="updatetype" value="sameeveryday" id="sameeveryday">
+        <input type="checkbox" name="updatetype" value="sameeveryday" id="sameeveryday">
           <!-- TODO: I don't know what test to put here!! -->
           <xsl:if test="false()">
             <xsl:attribute name="checked">checked</xsl:attribute>
           </xsl:if>
         </input>
-        <label for="sameeveryday" style="width:10em; vertical-align:top">Open at the same time every day</label>
+        <label for="sameeveryday" class="dna-radio-stime">Open at the same time every day</label>
          </xsl:if>
       </td>
     </tr>

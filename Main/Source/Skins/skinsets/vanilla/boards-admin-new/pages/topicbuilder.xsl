@@ -19,11 +19,11 @@
 	</doc:documentation>
 	
 	<xsl:template match="H2G2[@TYPE = 'TOPICBUILDER']" mode="page">
-		<div class="full">
-			<h2>Archive</h2>
-			<p>The lists on the right show which topics are currently live on your messagebaord, and which have been archived. From here you can choose to add or remove topics from the archive.</p>
-      <p><B>Please note:</B> To add a new topic, or change the content or ordering of an existing toic, please use the <a href="messageboardadmin_design">Design</a> section.
-    </p>
+    <div class="dna-mb-intro">
+      <h2>Topic Archive list</h2>
+    </div>
+
+    <div class="dna-main blq-clearfix">
 
       <div id="mbtopics-live">
         <h3>Live Topics</h3>
@@ -36,6 +36,7 @@
         <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='3']" mode="object_topiclist"/>
       </div>
     </div>
+   
 	</xsl:template>
 
 </xsl:stylesheet>

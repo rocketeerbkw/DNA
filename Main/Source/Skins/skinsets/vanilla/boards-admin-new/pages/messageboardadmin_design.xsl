@@ -27,7 +27,7 @@
       </p>
     </div>
 
-    <div class="dna-main blq-clearfix">
+    <div class="dna-main dna-main-bg blq-clearfix">
 
       <div class="dna-fl dna-main-full">
         

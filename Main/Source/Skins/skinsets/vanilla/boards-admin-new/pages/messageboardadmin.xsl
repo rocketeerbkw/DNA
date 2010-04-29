@@ -30,7 +30,7 @@
       </p>
     </div>
     
-    <div class="dna-main blq-clearfix">
+    <div class="dna-main dna-main-bg blq-clearfix">
       <div class="dna-fl dna-main-left">
         <div class="dna-fl dna-half">
           <div class="dna-box">
