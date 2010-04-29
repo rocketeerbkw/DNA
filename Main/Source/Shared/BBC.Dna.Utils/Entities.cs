@@ -38,13 +38,15 @@ namespace BBC.Dna.Utils
 <!ENTITY Eta '&#919;'>  
 <!ENTITY Euml '&#203;'> 
 <!ENTITY Gamma '&#915;'>
+<!ENTITY GT '&#62;'>
 <!ENTITY Iacute '&#205;'>   
 <!ENTITY Icirc '&#206;'>
 <!ENTITY Igrave '&#204;'>   
 <!ENTITY Iota '&#921;'> 
 <!ENTITY Iuml '&#207;'> 
 <!ENTITY Kappa '&#922;'>
-<!ENTITY Lambda '&#923;'>   
+<!ENTITY Lambda '&#923;'>
+<!ENTITY LT '&amp;#60;'>   
 <!ENTITY Mu '&#924;'>   
 <!ENTITY Ntilde '&#209;'>   
 <!ENTITY Nu '&#925;'>   
@@ -57,6 +59,7 @@ namespace BBC.Dna.Utils
 <!ENTITY Oslash '&#216;'>   
 <!ENTITY Otilde '&#213;'>   
 <!ENTITY Ouml '&#214;'> 
+<!ENTITY QUOT '&#34;'>  
 <!ENTITY Phi '&#934;'>  
 <!ENTITY Pi '&#928;'>   
 <!ENTITY Prime '&#8243;'>   
