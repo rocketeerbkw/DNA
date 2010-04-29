@@ -12,16 +12,11 @@
       <li>
         <xsl:attribute name="class">
           dna-box-border
-
-          <xsl:if test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col'">
-            <xsl:choose>
-              <xsl:when test="(count(preceding-sibling::*) + 1) mod 2 = 1">dna-fl</xsl:when>
-              <xsl:otherwise>dna-fr</xsl:otherwise>
-            </xsl:choose>
-          </xsl:if>
+          <xsl:choose>
+            <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col' or (count(preceding-sibling::*) + 1) mod 2 = 1">dna-fl</xsl:when>
+            <xsl:otherwise>dna-fr</xsl:otherwise>
+          </xsl:choose>
         </xsl:attribute>
-
-        <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT "/>
         
         <xsl:apply-templates select="." mode="object_topic_admin"/>
       </li>
@@ -88,7 +83,7 @@
       xxx replies
     </p>
     
-    <p class="off">
+    <p class="dna-off">
       <label for="topic_{TOPICID}_position">Position:</label> <input id="topic_{TOPICID}_position" name="topic_{TOPICID}_position" value="{FRONTPAGEELEMENT/POSITION}" class="dna-topic-pos"/>
     </p>
   </xsl:template>
@@ -109,7 +104,7 @@
 
         <div id="dna-preview-edittopic">
           <xsl:attribute name="class">
-            dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+            dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
           </xsl:attribute>
 
           <div id="dna-preview-edittopic-step1">
@@ -154,7 +149,7 @@
 
         <div>
           <xsl:attribute name="class">
-            dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic2' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+            dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic2' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
           </xsl:attribute>
           
           <div id="dna-preview-edittopic-step2">
@@ -206,7 +201,7 @@
 
         <div>
           <xsl:attribute name="class">
-            dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic3' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+            dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic3' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
           </xsl:attribute>
           
           <div id="dna-preview-edittopic-step3">

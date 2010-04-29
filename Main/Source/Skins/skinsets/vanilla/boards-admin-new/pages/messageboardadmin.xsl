@@ -81,7 +81,7 @@
               </table>
             </div>
             
-            <p class="dna-link-edit"><a href="{$root}/MessageBoardSchedule">Edit<span class="off"> opening times</span></a></p>
+            <p class="dna-link-edit"><a href="{$root}/MessageBoardSchedule">Edit<span class="dna-off"> opening times</span></a></p>
           </div>
         </div>
 
@@ -115,7 +115,7 @@
 
             <xsl:choose>
               <xsl:when test="string(//SITECONFIG/V2_BOARDS/CSS_LOCATION)">
-                <p>Stylesheet currently being used:d</p>
+                <p>Stylesheet currently being used:</p>
                 <p class="dna-fnote"><strong>File: </strong>
                   <xsl:value-of select="//SITECONFIG/V2_BOARDS/CSS_LOCATION" />
                 </p>
@@ -125,7 +125,7 @@
               </xsl:otherwise>
             </xsl:choose>
             
-            <p class="dna-link-edit"><a href="{$root}/messageboardadmin_assets">Edit<span class="off"> assets</span></a></p>
+            <p class="dna-link-edit"><a href="{$root}/messageboardadmin_assets">Edit<span class="dna-off"> assets</span></a></p>
           </div>
         </div>
       </div>
@@ -150,7 +150,7 @@
         </div>
         
         <div class="dna-box">
-          <h3>Topics ?</h3>
+          <h3>Topics</h3>
           <p>
             <strong>To archive a live topic - click the Edit button.</strong>
           </p>
@@ -160,7 +160,7 @@
             </strong>
           </p>
           
-          <p class="dna-link-edit"><a href="{$root}/topicbuilder">Edit<span class="off"> topics</span></a></p>
+          <p class="dna-link-edit"><a href="{$root}/topicbuilder">Edit<span class="dna-off"> topics</span></a></p>
         </div>
       </div>
     </div>  

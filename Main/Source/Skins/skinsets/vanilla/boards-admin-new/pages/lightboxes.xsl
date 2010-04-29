@@ -11,7 +11,7 @@
 	<div id="dna-lightboxes">
 		<div id="dna-preview-editheader">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'header' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'header' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
       
 			<h4>Edit header colour</h4>
@@ -124,7 +124,7 @@
     
 		<div id="dna-preview-insertbanner">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'banner' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'banner' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
       
 			<h4>Insert your own banner</h4>
@@ -144,7 +144,7 @@
     
 		<div id="dna-preview-addtopnav">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topnav' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topnav' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
       
 			<h4>Add horizontal navigation</h4>
@@ -164,7 +164,7 @@
     
 		<div id="dna-preview-addnav">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'lnav' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'lnav' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
 
       <h4>Add left hand navigation</h4>
@@ -184,7 +184,7 @@
     
 		<div id="dna-preview-addwelcome">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'welcome' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'welcome' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
 
       <h4>Add welcome message</h4>
@@ -205,7 +205,7 @@
     
 		<div id="dna-preview-editfooter">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'footer' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'footer' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
 
       <h4>Edit footer</h4>
@@ -248,7 +248,7 @@
     
     <div id="dna-preview-editfooterlink">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'footerLink' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'footerLink' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
 
 
@@ -285,7 +285,7 @@
     
 		<div id="dna-preview-addtext">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'about' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'about' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
 
       <h4>Add introductory / about text</h4>
@@ -311,7 +311,7 @@
     
 		<div id="dna-preview-addmodules">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'modules' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'modules' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
       
       
@@ -342,7 +342,7 @@
     
 		<div id="dna-preview-addtoolbar">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'toolbar' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'toolbar' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
 
       <h4>Add Social Media toolbar</h4>
@@ -367,7 +367,7 @@
     
     <div id="dna-preview-edittopiclayout">
       <xsl:attribute name="class">
-        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'layout' or not(PARAMS/PARAM[NAME = 's_mode'])">off</xsl:if>
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'layout' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
       
       <h4>Edit topic Layout</h4>
