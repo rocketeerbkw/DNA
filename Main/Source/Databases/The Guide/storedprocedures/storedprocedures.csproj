@@ -1285,6 +1285,7 @@
     <None Include="removethreadfromstickylist.sql" />
     <None Include="FetchExLinkModerationEventHistory.sql" />
     <None Include="FetchExLinkModerationHistory.sql" />
+    <None Include="searchforuservialoginname.sql" />
     <None Include="setforumhosturl.sql" />
     <None Include="generateemailevents.sql" />
     <None Include="generateexmodevents.sql" />

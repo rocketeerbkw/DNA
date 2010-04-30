@@ -98,7 +98,7 @@ namespace Tests
 
                 // Create a new MemberList object and get the list of member accounts
                 MemberList testMemberList = new MemberList(mockedInputContext);
-                testMemberList.GetMemberListXml(0, 1090558354, "", "", "", "", true);
+                testMemberList.GetMemberListXml(0, 1090558354, "", "", "", "", "", true);
 
                 XmlElement xml = testMemberList.RootElement;
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST") != null, "The xml is not generated correctly!!!");
@@ -145,7 +145,7 @@ namespace Tests
 
                 // Create a new MemberList object and get the list of member accounts
                 MemberList testMemberList = new MemberList(mockedInputContext);
-                testMemberList.GetMemberListXml(1, 0, "mark.howitt@bbc.co.uk", "", "", "", true);
+                testMemberList.GetMemberListXml(1, 0, "mark.howitt@bbc.co.uk", "", "", "", "", true);
 
                 XmlElement xml = testMemberList.RootElement;
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST") != null, "The xml is not generated correctly!!!");
@@ -192,7 +192,7 @@ namespace Tests
 
                 // Create a new MemberList object and get the list of member accounts
                 MemberList testMemberList = new MemberList(mockedInputContext);
-                testMemberList.GetMemberListXml(2, 0, "", "DotNetSuperUser", "", "", true);
+                testMemberList.GetMemberListXml(2, 0, "", "DotNetSuperUser", "", "", "", true);
 
                 XmlElement xml = testMemberList.RootElement;
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST") != null, "The xml is not generated correctly!!!");
@@ -238,7 +238,7 @@ namespace Tests
 
                 // Create a new MemberList object and get the list of member accounts
                 MemberList testMemberList = new MemberList(mockedInputContext);
-                testMemberList.GetMemberListXml(3, 0, "", "", "12.34.56.78", "", true);
+                testMemberList.GetMemberListXml(3, 0, "", "", "12.34.56.78", "", "", true);
 
                 XmlElement xml = testMemberList.RootElement;
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST") != null, "The xml is not generated correctly!!!");
@@ -285,13 +285,59 @@ namespace Tests
 
                 // Create a new MemberList object and get the list of member accounts
                 MemberList testMemberList = new MemberList(mockedInputContext);
-                testMemberList.GetMemberListXml(4, 0, "", "", "", "47BEB336-3409-00CF-CAD0-080020C4C7DD", true);
+                testMemberList.GetMemberListXml(4, 0, "", "", "", "47BEB336-3409-00CF-CAD0-080020C4C7DD", "", true);
 
                 XmlElement xml = testMemberList.RootElement;
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST") != null, "The xml is not generated correctly!!!");
 
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST[@USERSEARCHTYPE='4']") != null, "The xml is not generated correctly (UserSearchType)!!!");
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST[@USERSEARCHBBCUID='47BEB336-3409-00CF-CAD0-080020C4C7DD']") != null, "The xml is not generated correctly (UserSearchBBCUID)!!!");
+                Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST/@COUNT") != null, "The xml is not generated correctly (Count)!!!");
+                Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST/USERACCOUNTS/USERACCOUNT/SSOUSERID") != null, "Could not find the users sso userid!!!");
+                Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST/USERACCOUNTS/USERACCOUNT/IDENTITYUSERID") != null, "Could not find the users identity userid!!!");
+
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
+                validator.Validate();
+            }
+        }
+        /// <summary>
+        /// Test that we get a list of accounts for a given member via login name
+        /// </summary>
+        [TestMethod]
+        public void TestGetMemberListForUserByLoginName()
+        {
+            //Create the mocked inputcontext
+            Mockery mock = new Mockery();
+            IInputContext mockedInputContext = mock.NewMock<IInputContext>();
+            //XmlDocument siteconfig = new XmlDocument();
+            //siteconfig.LoadXml("<SITECONFIG />");
+
+            ISite mockedSite = mock.NewMock<ISite>();
+            //Stub.On(mockedSite).GetProperty("SiteConfig").Will(Return.Value(siteconfig.FirstChild));
+            Stub.On(mockedSite).GetProperty("SiteID").Will(Return.Value(1));
+
+            IUser mockedUser = mock.NewMock<IUser>();
+            Stub.On(mockedUser).GetProperty("UserID").Will(Return.Value(1090558354));
+
+            Stub.On(mockedInputContext).GetProperty("ViewingUser").Will(Return.Value(mockedUser));
+            Stub.On(mockedInputContext).GetProperty("CurrentSite").Will(Return.Value(mockedSite));
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+
+            // Create the stored procedure reader for the MemberList object
+            using (IDnaDataReader reader = context.CreateDnaDataReader("SearchForUserViaLoginName"))
+            {
+                Stub.On(mockedInputContext).Method("CreateDnaDataReader").With("SearchForUserViaLoginName").Will(Return.Value(reader));
+
+                // Create a new MemberList object and get the list of member accounts
+                MemberList testMemberList = new MemberList(mockedInputContext);
+                testMemberList.GetMemberListXml(5, 0, "", "", "", "", "DotNetSuperUser", true);
+
+                XmlElement xml = testMemberList.RootElement;
+                Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST") != null, "The xml is not generated correctly!!!");
+
+                Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST[@USERSEARCHTYPE='5']") != null, "The xml is not generated correctly (UserSearchType)!!!");
+                Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST[@USERSEARCHLOGINNAME='DotNetSuperUser']") != null, "The xml is not generated correctly (UserSearchLoginName)!!!");
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST/@COUNT") != null, "The xml is not generated correctly (Count)!!!");
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST/USERACCOUNTS/USERACCOUNT/SSOUSERID") != null, "Could not find the users sso userid!!!");
                 Assert.IsTrue(xml.SelectSingleNode("MEMBERLIST/USERACCOUNTS/USERACCOUNT/IDENTITYUSERID") != null, "Could not find the users identity userid!!!");

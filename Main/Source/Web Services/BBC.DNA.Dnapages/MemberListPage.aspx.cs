@@ -173,7 +173,16 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
             txtEntry.Visible = true;
             rdSearchType.Visible = true;
             lblSearchParams.Visible = true;
-            Count.Visible = true;
+            if (ViewingUser.IsSuperUser)
+            {
+                ListItem bbcuid = rdSearchType.Items.FindByText("BBCUID");
+                bbcuid.Enabled = true;
+            }
+            else
+            {
+                ListItem bbcuid = rdSearchType.Items.FindByText("BBCUID");
+                bbcuid.Enabled = false;
+            }
 
             if (tblResults.Rows.Count > 0)
             {
@@ -183,6 +192,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
                 ApplyAction.Visible = true;
                 ApplyNickNameReset.Visible = true;
                 ShowDuration();
+                Count.Visible = true;
             }
             else
             {
@@ -192,6 +202,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
                 Duration.Visible = false;
                 ApplyAction.Visible = false;
                 ApplyNickNameReset.Visible = false;
+                Count.Visible = false;
             }
         }
         else
@@ -226,6 +237,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
             string userName = String.Empty;
             string userIPAddress = String.Empty;
             string userBBCUID = String.Empty;
+            string loginName = String.Empty;
 
             if (userSearchType == 0)
             {
@@ -252,7 +264,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
             {
                 userIPAddress = txtEntry.Text;
             }
-            else //if (userSearchType == 4)
+            else if (userSearchType == 4)
             {
                 userBBCUID = txtEntry.Text;
 
@@ -267,6 +279,10 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
                     return;
                 }
             }
+            else if (userSearchType == 5)
+            {
+                loginName = txtEntry.Text;
+            }
 
             bool checkAllSites = false;
             //Sets the get across all sites for the stored procedures
@@ -280,7 +296,14 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
             }
 
             MemberList memberList = new MemberList(_basePage);
-            memberList.GetMemberListXml(userSearchType, userID, userEmail, userName, userIPAddress, userBBCUID, checkAllSites);
+            memberList.GetMemberListXml(userSearchType, 
+                                        userID, 
+                                        userEmail, 
+                                        userName, 
+                                        userIPAddress, 
+                                        userBBCUID, 
+                                        loginName,
+                                        checkAllSites);
 
             int count = 0;
             TableHeaderRow headerRow = new TableHeaderRow();
