@@ -246,10 +246,28 @@
     </xsl:template>
     
     <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
-        <div class="content">
-            <h2>Information</h2>
-            <p><xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/></p>
-        </div>
+      <div class="content">
+        <h2>Information</h2>
+        <xsl:choose>
+          <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
+            <p>
+              You have been blocked from using the online complaints system, please write to:<br />
+              BBC Central Communities Team<br />
+              Broadcast Centre<br />
+              201 Wood Lane<br />
+              White City<br />
+              London<br />
+              W12 7TP
+            </p>
+          </xsl:when>
+          <xsl:otherwise>
+            <p>
+              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+            </p>
+          </xsl:otherwise>
+        </xsl:choose>
+
+      </div>
     </xsl:template>
 
   <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL'] | USERCOMPLAINT[@MODID]" mode="input_user-complaint-form">
