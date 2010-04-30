@@ -16,7 +16,7 @@
     
     <xsl:template match="FORUMTHREADS[THREAD]" mode="object_forumthreads">
         <xsl:if test="$siteClosed = 'false'">
-			<xsl:apply-templates select="." mode="library_newdiscussion_link" />
+			<xsl:apply-templates select="." mode="library_startnewdiscussion_link" />
         </xsl:if>
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
@@ -38,7 +38,7 @@
     
     <xsl:template match="FORUMTHREADS" mode="object_forumthreads">
         <xsl:if test="$siteClosed = 'false'">
-           	<xsl:apply-templates select="." mode="library_newdiscussion_link" />
+           	<xsl:apply-templates select="." mode="library_startnewdiscussion_link" />
         </xsl:if>
         
         <p class="forumthreads">

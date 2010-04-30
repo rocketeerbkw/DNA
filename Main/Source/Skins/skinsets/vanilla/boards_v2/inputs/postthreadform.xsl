@@ -64,16 +64,16 @@
                 
                 <p>
                     <label for="dna-boards-body">Your reply</label>
-                    <textarea id="dna-boards-body" name="body" class="textarea">
+                    <textarea id="dna-boards-body" name="body" class="textarea" rows="10" cols="10">
                        <xsl:value-of select="BODY" />     
                     </textarea>
                 </p>
                 <xsl:apply-templates select="." mode="input_postthreadform_error" />
-                <p>
-                    <input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview"/>
-                    <input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit"/>
-                    <input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel"/>
-                </p>
+                <ul>
+                    <li><input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview dna-button"/></li>
+                    <li><input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button"/></li>
+                    <li><input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit dna-button"/></li>
+                </ul>
                 
                 <xsl:apply-templates select="/H2G2/ERROR" mode="object_error" />
             	
@@ -89,9 +89,7 @@
 					<xsl:when test="USERID != '0'">
 						<div class="itemdetail">
 							<span class="createdby">
-								<span class="dna-inivisble">
 									In reply to
-								</span>
 								<a href="MP{USERID}" class="user linked">
 									<xsl:value-of select="USERNAME"/>
 								</a>
@@ -126,7 +124,7 @@
                     	
                         <form action="{$root}/AddThread" method="post" class="dna-boards">
                             <div>
-                                <xsl:call-template name="library_header_h3">
+                                <xsl:call-template name="library_header_h2">
                                     <xsl:with-param name="text">Start a new discussion</xsl:with-param>
                                     <xsl:with-param name="class">new-discussion</xsl:with-param>
                                 </xsl:call-template>
@@ -138,7 +136,7 @@
                                   <xsl:apply-templates select="." mode="preview"/>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                  <p class="article">To create a new discussion, fill out the form below.</p>
+                                  <p class="article">To create a new discussion in the , fill out the form below.</p>
                                 </xsl:otherwise>
                               </xsl:choose>
                                 
@@ -153,17 +151,17 @@
                                 </p>
                                 
                                 <p>
-                                    <label for="dna-boards-body">Your thoughts on the subject</label>
-                                    <textarea id="dna-boards-body" name="body" class="textarea">
+                                    <label for="dna-boards-body">Your thoughts on the topic</label>
+                                    <textarea id="dna-boards-body" name="body" class="textarea" rows="10" cols="10">
                                         <xsl:value-of select="BODY" />     
                                     </textarea>
                                 </p>
                                 <xsl:apply-templates select="." mode="input_postthreadform_error" />
-                                <p>
-                                    <input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview"/>
-                                    <input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit"/>
-                                    <input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel"/>
-                                </p>
+                                <ul>
+                                    <li><input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview dna-button"/></li>
+                                    <li><input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button"/></li>
+                                    <li><input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit dna-button"/></li>
+                                </ul>
                                 
                                 <xsl:apply-templates select="/H2G2/ERROR" mode="object_error" />
                             </div>

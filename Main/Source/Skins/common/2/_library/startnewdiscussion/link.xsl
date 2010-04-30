@@ -14,21 +14,11 @@
     </doc:documentation>
     
     
-    <xsl:template match="FORUMTHREADS" mode="library_newdiscussion_link">
+    <xsl:template match="FORUMTHREADS" mode="library_startnewdiscussion_link">
     
     	<xsl:choose>
 	    	<xsl:when test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
-		    	
-		    	<div class="id-wrap blq-clearfix" xmlns="http://www.w3.org/1999/xhtml">
-			    	<a class="id-signin">
-			    	<xsl:attribute name="href">
-	                    <xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_loginurl">
-	                        <xsl:with-param name="ptrt" select="concat($root,'/AddThread?forum=', @FORUMID, '%26article=', /H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID)" />
-	                    </xsl:apply-templates>			    	
-			    	</xsl:attribute>
-			    	Sign in</a>
-			    	<p> or <a href="#">register</a> to start a new discussion.</p>
-		    	</div>    	
+	    		<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta"/>
 	    	</xsl:when>
 	    	
 	    	<xsl:otherwise>

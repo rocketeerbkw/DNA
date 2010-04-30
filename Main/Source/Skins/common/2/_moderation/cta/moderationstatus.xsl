@@ -15,48 +15,49 @@
     </doc:documentation>
     
     <xsl:template match="MODERATIONSTATUS" mode="moderation_cta_moderationstatus">
-     		<form method="get" action="{$root}/F{@ID}">
-          <input type="hidden" name="cmd" value="UpdateForumModerationStatus"/>
-
-          <xsl:apply-templates select="." mode="radiobuttons">
-            <xsl:with-param name="title">Forum moderation status:</xsl:with-param>
-          </xsl:apply-templates>
-
-          <input type="submit" name="UpdateForumModerationStatus" value="Update"/>
-        </form>
+		<div style="clear:both;"> <xsl:comment> leave this </xsl:comment> </div>
+		<form method="get" action="{$root}/F{@ID}">
+			<input type="hidden" name="cmd" value="UpdateForumModerationStatus"/>
+			<div class="forummodstatus">
+				<xsl:apply-templates select="." mode="radiobuttons">
+					<xsl:with-param name="title">Forum moderation status:</xsl:with-param>
+				</xsl:apply-templates>
+				<input type="submit" name="UpdateForumModerationStatus" value="Update"/>
+			</div>
+		</form>
     </xsl:template>
     
     <xsl:template match="MODERATIONSTATUS" mode="radiobuttons">
 		<xsl:param name="title"/>
-		<p class="dna-boards-moderation">
-			<xsl:value-of select="$title"/>
-		</p>
-		<div>
-			<input type="radio" name="status" value="0">
-	          <xsl:if test=". = 0">
-	            <xsl:attribute name="checked">checked</xsl:attribute>
-	          </xsl:if>
-	        </input>
-	        <xsl:text> Undefined </xsl:text>
-	        <input type="radio" name="status" value="1">
-	          <xsl:if test=". = 1">
-	            <xsl:attribute name="checked">checked</xsl:attribute>
-	          </xsl:if>
-	        </input>
-	        <xsl:text> Unmoderated </xsl:text>
-	        <input type="radio" name="status" value="2">
-				<xsl:if test=". = 2">
-					<xsl:attribute name="checked">checked</xsl:attribute>
-				</xsl:if>
-			</input>
-			<xsl:text> Postmoderated </xsl:text>
-			<input type="radio" name="status" value="3">
-				<xsl:if test=". = 3">
-					<xsl:attribute name="checked">checked</xsl:attribute>
-				</xsl:if>
-			</input>
-			<xsl:text> Premoderated </xsl:text>
-		</div>
+			<p>
+				<xsl:value-of select="$title"/>
+			</p>
+			<div>
+				<input type="radio" name="status" value="0">
+		          <xsl:if test=". = 0">
+		            <xsl:attribute name="checked">checked</xsl:attribute>
+		          </xsl:if>
+		        </input>
+		        <xsl:text> Undefined </xsl:text>
+		        <input type="radio" name="status" value="1">
+		          <xsl:if test=". = 1">
+		            <xsl:attribute name="checked">checked</xsl:attribute>
+		          </xsl:if>
+		        </input>
+		        <xsl:text> Unmoderated </xsl:text>
+		        <input type="radio" name="status" value="2">
+					<xsl:if test=". = 2">
+						<xsl:attribute name="checked">checked</xsl:attribute>
+					</xsl:if>
+				</input>
+				<xsl:text> Postmoderated </xsl:text>
+				<input type="radio" name="status" value="3">
+					<xsl:if test=". = 3">
+						<xsl:attribute name="checked">checked</xsl:attribute>
+					</xsl:if>
+				</input>
+				<xsl:text> Premoderated </xsl:text>
+			</div>
 	</xsl:template>
     
 </xsl:stylesheet>

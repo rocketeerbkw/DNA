@@ -20,6 +20,12 @@
             <xsl:call-template name="library_listitem_stripe"/>
             
             <h4>
+            	
+       			<xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
+				<xsl:if test="$test_stickythreadson">
+					<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_addthreadstickypin" />
+				</xsl:if>
+				
                 <a href="{$root}/NF{@FORUMID}?thread={@THREADID}">
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">

@@ -115,7 +115,7 @@
     
             <xsl:include href="_library/listitem/stripe.xsl" />
             
-            <xsl:include href="_library/startnewdiscussion/newdiscussionlink.xsl" />
+            <xsl:include href="_library/startnewdiscussion/link.xsl" />
     
             <xsl:include href="_library/pagination/commentbox.xsl" />
             <xsl:include href="_library/pagination/comments-list.xsl" />
@@ -137,6 +137,7 @@
             <xsl:include href="_library/identity/ptrt.xsl" />
             <xsl:include href="_library/identity/settingsurl.xsl" />
             <xsl:include href="_library/identity/registerurl.xsl" />
+            <xsl:include href="_library/identity/cta.xsl" />
         
             <xsl:include href="_library/memberservice/loginurl.xsl" />
             <xsl:include href="_library/memberservice/logouturl.xsl" />
@@ -175,7 +176,7 @@
             <xsl:include href="_library/string/searchandreplace.xsl" />
 			<xsl:include href="_library/string/stringtolower.xsl" />
 			<xsl:include href="_library/string/urlencode.xsl" />
-    
+			
             <xsl:include href="_library/userstate/userstate.xsl" />
             <xsl:include href="_library/userstate/editor.xsl" />
             <xsl:include href="_library/userstate/superuser.xsl" />
@@ -192,6 +193,7 @@
             <xsl:include href="_moderation/cta/viewalluserposts.xsl" />
             <xsl:include href="_moderation/cta/makethreadsticky.xsl" />
             <xsl:include href="_moderation/cta/removethreadsticky.xsl" />
+            <xsl:include href="_moderation/cta/addthreadstickypin.xsl" />
         
             <xsl:include href="_moderation/cta/boardsadmin/editpost.xsl" />
             <xsl:include href="_moderation/cta/boardsadmin/moderationhistory.xsl" />

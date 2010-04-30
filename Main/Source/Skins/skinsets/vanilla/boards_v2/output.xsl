@@ -110,31 +110,20 @@
       			}
       		</script>
       		
-      		<link type="text/css" media="screen" rel="stylesheet" href="/dna/dna_messageboard/css/generic_messageboard_v2.css"/>
-      		<!-- <xsl:if test="SITECONFIG/CSSLOCATION and SITECONFIG/CSSLOCATION != ''">
+      		<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_v2.css"/>
+      		<xsl:if test="SITECONFIG/V2_BOARDS/CSS_LOCATION and SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
       			<xsl:choose>
-      				<xsl:when test="starts-with(SITECONFIG/CSSLOCATION, '/dnaimages/')">
-      					 LPorter: this is a mini-hack. Basically, if the CSSLOCATION starts with '/dnaimages/', it means that we've put in a full path to a location we (at DNA) have access to. ie. we've developed the CSS ourselves.
-      						If it doesn't, then assume the messageboard owners are hosting the CSS file on their own dev/live spaces
-      					<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/CSSLOCATION}"/>
+      				<xsl:when test="starts-with(SITECONFIG/V2_BOARDS/CSS_LOCATION, '/dnaimages/')">
+      					<!--  LPorter: this is a mini-hack. Basically, if the CSSLOCATION starts with '/dnaimages/', it means that we've put in a full path to a location we (at DNA) have access to. ie. we've developed the CSS ourselves.
+      						If it doesn't, then assume the messageboard owners are hosting the CSS file on their own dev/live spaces -->
+      					<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
       				</xsl:when>
       				<xsl:otherwise>
-      					<link type="text/css" media="screen" rel="stylesheet" href="{$serverPath}{SITECONFIG/CSSLOCATION}"/>
+      					<link type="text/css" media="screen" rel="stylesheet" href="{$serverPath}{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
       				</xsl:otherwise>
       			</xsl:choose>
-      		</xsl:if> -->
-      		
-      		<style type="text/css">    
-      			div#blqx-bookmark {        
-      				background-color:#fff; margin:0; border-top:1px solid #ccc    
-      			}    
-      			div#blqx-bookmark a, div#blqx-bookmark p {        
-      				font-weight:normal; color: #000   
-      			}    
-      			div#blqx-bookmark a:hover {        
-      				font-weight:normal; color: #666    
-      			}</style>
-      		
+      		</xsl:if> 
+
       	</head>
       	<xsl:text disable-output-escaping="yes">
       		<![CDATA[    
@@ -211,8 +200,9 @@
       				<ul class="navigation topics">
       					<li class="topic-parent"><a href="/dna/mbiplayer">Messageboard</a></li>
       					<xsl:apply-templates select="TOPICLIST/TOPIC" mode="object_topic_title"/>
-      					
+      					<li><hr /></li>
 	      				<xsl:if test="/H2G2/VIEWING-USER/USER">
+	      					
 	      					<li id="mydiscussions">
 	      						<a href="{$root}/MP{/H2G2/VIEWING-USER/USER/USERID}">My Discussions</a>
 	      					</li>
@@ -221,7 +211,7 @@
 	      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a>
 	      				</li>
 	      				<li>
-	      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html" class="popup">Message Board FAQs</a>
+	      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html" class="popup">FAQs</a>
 	      				</li>
 	      				<xsl:variable name="currentSite" select="CURRENTSITE"/>
 	      				<xsl:if test="SITE[@ID='$currentSite']/SITEOPTIONS/SITEOPTION[NAME='IsKidsSite']/VALUE='1'">
@@ -273,7 +263,7 @@
       				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" /></p>
       				
       				<xsl:if test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
-      					<xsl:call-template name="id-signin" />
+      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta"/>
       				</xsl:if>
       				<hr />
       				<xsl:call-template name="boardtimes"/>
@@ -321,13 +311,6 @@
       	</body>
       </html>
       
-    </xsl:template>
-    
-    <xsl:template name="id-signin">
-    	<div class="id-wrap blq-clearfix">
-	    	<a href="#" class="id-signin">Sign in</a>
-	    	<p> or <a href="#">register</a> to take part in discussions.</p>
-    	</div>
     </xsl:template>
     
     <xsl:template name="boardtimes">
