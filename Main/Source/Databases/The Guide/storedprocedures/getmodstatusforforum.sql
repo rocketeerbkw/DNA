@@ -65,7 +65,8 @@ if (@prefstatus = 1)
 begin
 	select @premoderation = 1, @unmoderated = 0
 end
-if (@prefstatus = 2)
+-- only use user preference if the thread and forum not premod already
+if (@prefstatus = 2 AND @threadmodstatus <> 1 AND @forummodstatus <> 1)
 begin
 	select @premoderation = 0, @unmoderated = 0
 end
