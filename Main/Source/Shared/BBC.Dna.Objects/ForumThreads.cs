@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System.Linq;
 using ISite = BBC.Dna.Sites.ISite;
 
 namespace BBC.Dna.Objects
@@ -20,6 +21,12 @@ namespace BBC.Dna.Objects
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "FORUMTHREADS")]
     public class ForumThreads : CachableBase<ForumThreads>
     {
+
+        public ForumThreads()
+        {
+            Thread = new List<ThreadSummary>();
+        }
+
         #region Properties
 
         /// <remarks/>
@@ -414,7 +421,32 @@ namespace BBC.Dna.Objects
             return startIndex;
         }
 
-        // deep copy in separeate memory space
+        /// <summary>
+        /// Works out the skip value for the given thread
+        /// </summary>
+        /// <param name="threadId"></param>
+        public int GetLatestSkipValue(int threadId, int show)
+        {
+            var threadFound = from t in Thread
+                              where t.ThreadId == threadId
+                              select t;
+
+            if (threadFound.Count() == 0)
+            {
+                return 0;
+            }
+
+            var thread = threadFound.First();
+
+            int pages = thread.TotalPosts / show;
+            int mod = thread.TotalPosts % show;
+            if (pages > 0 && mod ==0)
+            {
+                pages--;
+            }
+            return pages * show;
+
+        }
     }
 
 

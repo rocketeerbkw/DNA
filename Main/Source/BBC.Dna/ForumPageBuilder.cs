@@ -2,6 +2,7 @@ using System;
 using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System.Linq;
 
 namespace BBC.Dna
 {
@@ -22,6 +23,7 @@ namespace BBC.Dna
         private int _skip;
         private int _threadId;
         private bool _ignoreCache = false;
+        private bool _latest = false;
 
 
         /// <summary>
@@ -65,11 +67,12 @@ namespace BBC.Dna
             }
             SerialiseAndAppend(forumSource, String.Empty);
 
+            ForumThreads threads = new ForumThreads();
             //check for article ForumStyle - if 1 then dont include threads
             if (forumSource.Article != null && forumSource.Article.ForumStyle != 1)
             {
 //dont add threads for forumstyle=1
-                ForumThreads threads = ForumThreads.CreateForumThreads(_cache, _creator, InputContext.TheSiteList,
+                threads = ForumThreads.CreateForumThreads(_cache, _creator, InputContext.TheSiteList,
                                                                        _forumId,
                                                                        _show, _skip, _threadId, false,
                                                                        ThreadOrder.LatestPost, _viewingUser, _ignoreCache);
@@ -83,6 +86,11 @@ namespace BBC.Dna
             if (subscribeState != null)
             {
                 SerialiseAndAppend(subscribeState, String.Empty);
+            }
+
+            if (_latest)
+            {
+                _skip = threads.GetLatestSkipValue(_threadId, _show);
             }
 
             //add threadposts if required
@@ -323,6 +331,8 @@ namespace BBC.Dna
             {
                 DateTime.Parse(date);
             }*/
+            _latest = (InputContext.GetParamIntOrZero("latest", "shows the latest page") == 1)
+                        && _threadId > 0;
             _cmd = InputContext.GetParamStringOrEmpty("cmd", "Which command to execute.");
             InputContext.GetParamStringOrEmpty("type", "Which type of page to build.");
             _orderByDatePostedDesc = InputContext.GetParamIntOrZero("reverseorder", "Whether to reverse the order of posts or not") == 1;
