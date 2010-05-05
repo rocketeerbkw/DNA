@@ -29,7 +29,7 @@
     </div>
     
     
-    <div class="dna-main dna-main-bg blq-clearfix">
+    <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
       <form action="messageboardadmin_assets?cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 

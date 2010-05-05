@@ -80,7 +80,7 @@
     <xsl:apply-templates select="FRONTPAGEELEMENT/TEXT" mode="frontpage_element-text" />
 
     <p class="dna-replies">
-      xxx replies
+      <xsl:value-of select="FORUMPOSTCOUNT"/> replies
     </p>
     
     <p class="dna-off">
@@ -97,7 +97,7 @@
   <xsl:template name="object_topic_edit">
     <xsl:param name="topicid"></xsl:param>
     
-      <form action="messageboardadmin_design?cmd=updatetopic" method="post">
+      <form action="messageboardadmin_design?cmd=updatetopic" method="post" id="dna-add-topic">
         <input type="hidden" name="topiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/EDITKEY}"></input>
         <input type="hidden" name="fptopiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/EDITKEY}"></input>
         <input type="hidden" name="topicid" value="{$topicid}"></input>
@@ -137,7 +137,7 @@
             <div class="dna-buttons">
               <ul>
                 <li>
-                  <a href="?s_mode=topic2#dna-preview-edittopic-step2" class="dna-btn-link">Next</a>
+                  <a href="?s_mode=topic2#dna-preview-edittopic-step2" class="dna-btn-link" id="dna-btn-next-1">Next</a>
                 </li>
                 <li>
                   <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>
@@ -189,7 +189,7 @@
             <div class="dna-buttons">
               <ul>
                 <li>
-                  <a href="?s_mode=topic3#dna-preview-edittopic-step3" class="dna-btn-link">Next</a>
+                  <a href="?s_mode=topic3#dna-preview-edittopic-step3" class="dna-btn-link" id="dna-btn-next-2">Next</a>
                 </li>
                 <li>
                   <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>

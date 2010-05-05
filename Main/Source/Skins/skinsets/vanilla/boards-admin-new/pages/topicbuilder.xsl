@@ -20,20 +20,35 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'TOPICBUILDER']" mode="page">
     <div class="dna-mb-intro">
-      <h2>Topic Archive list</h2>
+      <h2>Topics Archive List</h2>
     </div>
 
     <div class="dna-main blq-clearfix">
+      <div class="dna-fl dna-main-full">
+        <div class="dna-fl dna-half dna-main-bg">
+          <p>The list below shows topics that are currently LIVE. You can drag and drop it into the archive list. This will remove it from the live site.</p>
+          
+          <div class="dna-box dna-mall">
+            <h3>Live Topics</h3>
+            
+            <ul class="dna-list-topic-live">
+              <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='1']" mode="object_topiclist"/>
+              <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='0']" mode="object_topiclist"/>
+            </ul>
+           </div>
+        </div>
+        <div class="dna-fr dna-half dna-main-bg-g">
+          <p>The list below shows topics that are currently ARCHIVED. You can drag and drop it into the live list. This will publish the topic to the live site.</p>
 
-      <div id="mbtopics-live">
-        <h3>Live Topics</h3>
-        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='1']" mode="object_topiclist"/>
-        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='0']" mode="object_topiclist"/>
-      </div>
-      <div id="mbtopics-archived">
-        <h3>Archived Topics</h3>
-        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='4']" mode="object_topiclist"/>
-        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='3']" mode="object_topiclist"/>
+          <div class="dna-box dna-mall">
+            <h3>Archived Topics</h3>
+
+            <ul class="dna-list-topic-archive">
+              <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='4']" mode="object_topiclist"/>
+              <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='3']" mode="object_topiclist"/>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
    

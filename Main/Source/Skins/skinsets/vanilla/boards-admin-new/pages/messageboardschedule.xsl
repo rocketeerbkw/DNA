@@ -30,7 +30,7 @@
       </p>
     </div>
 
-    <div class="dna-main dna-main-bg blq-clearfix">
+    <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
       <form action="MessageBoardSchedule" method="post" class="dna-mb-opentime">
         <input type="hidden" value="update" name="action"/>
           <div class="dna-box">
@@ -38,7 +38,7 @@
         
 			      <div><xsl:apply-templates select="SITETOPICSSCHEDULE"/></div>
           </div>
-          <xsl:call-template name="saveCancel"/>
+          <xsl:call-template name="submitbuttons"/>
       </form>
     </div>
 	</xsl:template>
@@ -279,19 +279,5 @@
       </td>
     </tr>
 	</xsl:template>
-
-
-  <xsl:template name="saveCancel">
-    <div class="dna-buttons">
-      <ul>
-        <li>
-          <input type="submit" name="submit" value="Save" class="mbpreview-button"/>
-        </li>
-        <li>
-          <input type="button" name="cancel" value="Cancel" class="mbpreview-button panel-close"/>
-        </li>
-      </ul>
-    </div>
-  </xsl:template>
 
 </xsl:stylesheet>

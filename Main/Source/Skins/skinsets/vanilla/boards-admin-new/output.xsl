@@ -63,7 +63,7 @@
 				
 				<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
 				
-				<script type="text/javascript" src="/dnaimages/javascript/DNA-admin.js"><xsl:text> </xsl:text></script>
+				<script type="text/javascript" src="/dnaimages/dna_messageboard/javascript/admin.js"><xsl:text> </xsl:text></script>
 				
 				<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/admin.css"/>
 				
@@ -71,37 +71,41 @@
 			
 			<body class="boardsadmin">
 				
-				  <xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
-				 
-          <h1>Messageboard Admin
-					  <span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span>
-				  </h1>
-          
-				  <div id="blq-local-nav" class="nav blq-clearfix">
-					  <ul>
-						  <li>
-							  <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
-								  <xsl:attribute name="class">selected</xsl:attribute>
-							  </xsl:if>
-							  <a href="{$root}/messageboardadmin?s_mode=admin">Admin</a>
-						  </li>
-						  <li>
-							  <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'design'">
-								  <xsl:attribute name="class">selected</xsl:attribute>
-							  </xsl:if>
-							  <a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
-						  </li>
-					  </ul>
-				  </div>
-				
-				  <xsl:call-template name="emergency-stop"/>
+			  <xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
+          <div id="blq-local-nav" class="nav blq-clearfix">
+      
+            <h1>Messageboard Admin<span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span></h1>
 
-				
+            <ul>
+              <li>
+                <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
+                  <xsl:attribute name="class">selected</xsl:attribute>
+                </xsl:if>
+                <a href="{$root}/messageboardadmin?s_mode=admin">Admin</a>
+              </li>
+              <li>
+                <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'design'">
+                  <xsl:attribute name="class">selected</xsl:attribute>
+                </xsl:if>
+                <a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
+              </li>
+            </ul>
+          </div>
+
+         
 				  <div id="blq-content">
+           
+
             <xsl:apply-templates select="/H2G2/ERROR" mode="page"/>
             <xsl:apply-templates select="/H2G2/RESULT" mode="page"/>
-					  <xsl:apply-templates select="." mode="page"/>
-				  </div>
+
+            <xsl:if test="not(/H2G2[@TYPE='ERROR'])">
+              <xsl:call-template name="emergency-stop"/>
+            </xsl:if>
+            
+            <xsl:apply-templates select="." mode="page"/>
+
+          </div>
   				
 				  <xsl:comment>#include virtual="/includes/blq/include/blq_body_last.sssi"</xsl:comment>
 			

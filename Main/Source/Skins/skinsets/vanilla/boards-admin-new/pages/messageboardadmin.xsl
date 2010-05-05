@@ -30,7 +30,7 @@
       </p>
     </div>
     
-    <div class="dna-main dna-main-bg blq-clearfix">
+    <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
       <div class="dna-fl dna-main-left">
         <div class="dna-fl dna-half">
           <div class="dna-box">
@@ -135,7 +135,7 @@
           <h3>Preview</h3>
 
           <p class="dna-center">
-            <a href="/dna/{SITE/URLNAME}/?_previewmode=1" class="button" target="_blank">Preview this messageboard</a>
+            <a href="/dna/{SITE/URLNAME}/?_previewmode=1" target="_blank">Preview this messageboard</a>
           </p>
           <p class="dna-fnote">View your messageboard exactly as the user will view it.</p>
         </div>
@@ -144,7 +144,7 @@
           <h3>Publish</h3>
 
           <p class="dna-center">
-            <a href="{$root}/messageboardadmin?cmd=PUBLISHMESSAGEBOARD" class="button" onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
+            <a href="{$root}/messageboardadmin?cmd=PUBLISHMESSAGEBOARD"  onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
           </p>
           <p class="dna-fnote">Publish your messageboard live to the web.</p>
         </div>
