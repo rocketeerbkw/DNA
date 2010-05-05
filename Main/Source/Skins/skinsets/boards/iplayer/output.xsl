@@ -15,7 +15,7 @@
     omit-xml-declaration="yes"
     standalone="yes"
     indent="yes"
-    encoding="ISO8859-1"
+ 
     doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
 	
@@ -82,7 +82,7 @@
           <xsl:apply-templates select="." mode="head_title_page" />
         </title>
         <meta name="description" content="Search and browse frequently asked questions"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
         <link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
         <meta name="dcterms.created" content="2008-06-15" />
         
