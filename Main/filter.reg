@@ -202,7 +202,7 @@ REGEDIT4
 "/SiteSchedule"="/ripleyserver.dll?MessageBoardSchedule?"
 
 
-"/acs"="/dna/dnapages/CommentBox.aspx?"
+"/acs"="/dna/dnapages/CommentBoxUsingApi.aspx?"
 "/acswithoutapi"="/dna/dnapages/CommentBox.aspx?"
 "/acsapi"="/dna/dnapages/CommentBoxUsingApi.aspx?"
 
