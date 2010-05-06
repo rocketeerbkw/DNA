@@ -155,6 +155,14 @@ namespace BBC.Dna.Page
         }
 
         /// <summary>
+        /// Defaultly includes the topfives in the current page. Override this to stop the inclusion.
+        /// </summary>
+        public virtual bool IncludeTopFives
+        {
+            get { return true; }
+        }
+
+        /// <summary>
         /// Adds a component to base page
         /// </summary>
         /// <param name="component">The component that you want to add to the base page</param>

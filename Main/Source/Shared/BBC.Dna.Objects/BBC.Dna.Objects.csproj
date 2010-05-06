@@ -108,6 +108,7 @@
     <Compile Include="ThreadPost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadSummary.cs" />
+    <Compile Include="TopFive.cs" />
     <Compile Include="TopicCreatedDate.cs" />
     <Compile Include="TopicLastUpdated.cs" />
     <Compile Include="TopicElementList.cs" />

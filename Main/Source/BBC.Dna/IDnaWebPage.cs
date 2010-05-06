@@ -46,6 +46,11 @@ namespace BBC.Dna
         /// The Allowed Users property
         /// </summary>
         DnaBasePage.UserTypes AllowedUsers { get; }
+        
+        /// <summary>
+        /// Defaultly includes the topfives in the current page. Override this to stop the inclusion.
+        /// </summary>
+        bool IncludeTopFives { get; }
 
         /// <summary>
         /// The IsHtmlCachingEnabled mthod

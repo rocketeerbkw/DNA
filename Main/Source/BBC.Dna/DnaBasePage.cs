@@ -15,6 +15,7 @@ using BBC.Dna.Component;
 using DnaIdentityWebServiceProxy;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Objects;
 
 
 namespace BBC.Dna.Page
@@ -518,6 +519,13 @@ namespace BBC.Dna.Page
             CreateViewingUser();
 			_page = new WholePage(this);
 			_page.InitialisePage(PageType);
+
+            if (_dnapage.IncludeTopFives)
+            {
+                TopFives topFives = new TopFives();
+                topFives.GetTopFivesForSite(CurrentSite.SiteID, AppContext.ReaderCreator);
+                _page.SerialiseAndAppend(topFives, "//H2G2");
+            }
 
             //Ultimate Choice of skin may include users preferences.
             _skinSelector.Initialise(this, this);
