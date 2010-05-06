@@ -240,7 +240,7 @@
             	<xsl:text> wrote:</xsl:text>
             </cite>
             <p class="comment-text-moderation">
-                This comment has been referred to the moderators. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html" class="popup">Explain</a>.
+              This comment has been referred for further consideration. <a href="http://www.bbc.co.uk/blogs/moderation.shtml#queue" target="_blank">Explain</a>
             </p>
             <xsl:apply-templates select="." mode="object_post_comment_moderation" />
         </li>
