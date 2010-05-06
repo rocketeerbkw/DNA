@@ -378,7 +378,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(entryId, actual.EntryId);
 
             actual.MakeEdittable();
-            Assert.AreEqual("this is an\r\n article", actual.GuideElement.InnerText);
+            Assert.AreEqual("<GUIDE><BODY>this is an\r\n article</BODY></GUIDE>", actual.Guide);
 
 
         }

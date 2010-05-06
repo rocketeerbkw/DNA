@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Sites
 {
@@ -55,9 +56,14 @@ namespace BBC.Dna.Sites
         [XmlElement(Order = 4, ElementName = "TOPICLINKID")]
         public int TopicLinkId { get; set; }
 
+        [XmlIgnore]
+        private string _title;
         /// <remarks/>
         [XmlElement(Order = 5, ElementName = "TITLE")]
-        public string Title { get; set; }
+        public string Title{
+            get { return HtmlUtils.HtmlDecode(_title); }
+            set { _title = value; }
+        }
 
         /// <remarks/>
         [XmlElement(Order = 6, ElementName = "FORUMID")]

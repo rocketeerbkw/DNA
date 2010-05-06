@@ -42,7 +42,10 @@ namespace BBC.Dna.Objects
                     switch (style)
                     {
                         case GuideEntryStyle.GuideML:
-                            doc.LoadXml(Entities.GetEntities() + text);
+                            var tempText = text.Replace("<GUIDE><BODY>","").Replace("</BODY></GUIDE>","");
+                            tempText = Translator.TranslateText(tempText);
+                            tempText = HtmlUtils.ReplaceCRsWithBRs(tempText);
+                            doc.LoadXml(Entities.GetEntities() + "<GUIDE><BODY>" + tempText + "</BODY></GUIDE>");
                             break;
 
                         case GuideEntryStyle.PlainText:
