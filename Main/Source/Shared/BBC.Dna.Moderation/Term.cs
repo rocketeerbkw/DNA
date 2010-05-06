@@ -71,6 +71,10 @@ namespace BBC.Dna.Moderation
         /// <returns></returns>
         private string CleanString(string text)
         {
+            if (text == null)
+            {
+                return text;
+            }
             text = text.Replace("\r", "");
             text = text.Replace("\n", "");
             text = text.Replace("\t", "");
