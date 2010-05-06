@@ -24,9 +24,14 @@ namespace BBC.Dna.Moderation
         [XmlAttributeAttribute(AttributeName = "ACTION")]
         public TermAction Action { get; set; }
 
+        [XmlIgnore]
+        private string _value;
         /// <remarks/>
         [XmlTextAttribute()]
-        public string Value { get; set; }
+        public string Value {
+            get { return CleanString(_value); }
+            set { _value = CleanString(value); }
+        }
 
         /// <summary>
         /// Calls the db and updates the term and action for a given modclassid
@@ -58,6 +63,22 @@ namespace BBC.Dna.Moderation
                 reader.Execute();
             }
         }
+
+        /// <summary>
+        /// cleans up the term string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private string CleanString(string text)
+        {
+            text = text.Replace("\r", "");
+            text = text.Replace("\n", "");
+            text = text.Replace("\t", "");
+            text = text.ToLower();
+            text = text.Trim();
+            return text;
+        }
+
     }
 
     public enum TermAction
