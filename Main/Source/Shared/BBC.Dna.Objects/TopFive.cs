@@ -61,31 +61,31 @@ namespace BBC.Dna.Objects
             TopFiveArticles topFiveArticles = new TopFiveArticles();
             TopFiveList.Add(topFiveArticles);
 
-            topFiveArticles.Name = reader.GetStringNullAsEmpty("GroupName");
-            topFiveArticles.Title = reader.GetStringNullAsEmpty("GroupDescription");
+            topFiveArticles.Name = reader.GetStringNullAsEmpty("groupname");
+            topFiveArticles.Title = reader.GetStringNullAsEmpty("groupdescription");
 
             TopFiveArticle topFiveArticle = null;
             bool moreRows = true;
 
-            while (moreRows && topFiveArticles.Name == reader.GetStringNullAsEmpty("GroupName"))
+            while (moreRows && topFiveArticles.Name == reader.GetStringNullAsEmpty("groupname"))
             {
                 topFiveArticle = new TopFiveArticle();
                 topFiveArticles.topFiveArticleList.Add(topFiveArticle);
 
-                topFiveArticle.DateUpdated.Date = new Date(reader.GetDateTime("DateUpdated"));
-                if (!reader.IsDBNull("EventDate"))
+                topFiveArticle.DateUpdated.Date = new Date(reader.GetDateTime("dateupdated"));
+                if (!reader.IsDBNull("eventdate"))
                 {
-                    topFiveArticle.EventDate.Date = new Date(reader.GetDateTime("EventDate"));
+                    topFiveArticle.EventDate.Date = new Date(reader.GetDateTime("eventdate"));
                 }
-                topFiveArticle.ExtraInfo = reader.GetStringNullAsEmpty("ExtraInfo");
+                topFiveArticle.ExtraInfo = reader.GetStringNullAsEmpty("extrainfo");
                 topFiveArticle.H2G2ID = reader.GetInt32NullAsZero("h2g2id");
-                topFiveArticle.LinkItemID = reader.GetInt32NullAsZero("LinkItemID");
-                topFiveArticle.LinkItemName = reader.GetStringNullAsEmpty("LinkItemName");
-                topFiveArticle.LinkItemType = reader.GetInt32NullAsZero("LinkItemType");
-                topFiveArticle.Subject = reader.GetStringNullAsEmpty("Subject");
-                topFiveArticle.User.UserID = reader.GetInt32NullAsZero("ItemAuthorID");
-                topFiveArticle.User.UserName = reader.GetStringNullAsEmpty("UserName");
-                topFiveArticle.User.SiteSuffix = reader.GetStringNullAsEmpty("SiteSuffix");
+                topFiveArticle.LinkItemID = reader.GetInt32NullAsZero("linkitemid");
+                topFiveArticle.LinkItemName = reader.GetStringNullAsEmpty("linkitemname");
+                topFiveArticle.LinkItemType = reader.GetInt32NullAsZero("linkitemtype");
+                topFiveArticle.Subject = reader.GetStringNullAsEmpty("subject");
+                topFiveArticle.User.UserID = reader.GetInt32NullAsZero("itemauthorid");
+                topFiveArticle.User.UserName = reader.GetStringNullAsEmpty("username");
+                topFiveArticle.User.SiteSuffix = reader.GetStringNullAsEmpty("sitesuffix");
 
                 moreRows = reader.Read();
             }
@@ -101,20 +101,20 @@ namespace BBC.Dna.Objects
         {
             TopFiveForums topFiveForums = new TopFiveForums();
             TopFiveList.Add(topFiveForums);
-            topFiveForums.Name = reader.GetStringNullAsEmpty("GroupName");
-            topFiveForums.Title = reader.GetStringNullAsEmpty("GroupDescription");
+            topFiveForums.Name = reader.GetStringNullAsEmpty("groupname");
+            topFiveForums.Title = reader.GetStringNullAsEmpty("groupdescription");
 
             TopFiveForum topFiveForum = null;
             bool moreRows = true;
 
-            while (moreRows && topFiveForums.Name == reader.GetStringNullAsEmpty("GroupName"))
+            while (moreRows && topFiveForums.Name == reader.GetStringNullAsEmpty("groupname"))
             {
                 topFiveForum = new TopFiveForum();
                 topFiveForums.topFiveForumList.Add(topFiveForum);
 
-                topFiveForum.ForumID = reader.GetInt32NullAsZero("ForumID");
-                topFiveForum.Subject = reader.GetStringNullAsEmpty("Subject");
-                topFiveForum.ThreadID = reader.GetInt32NullAsZero("ThreadID");
+                topFiveForum.ForumID = reader.GetInt32NullAsZero("forumid");
+                topFiveForum.Subject = reader.GetStringNullAsEmpty("title");
+                topFiveForum.ThreadID = reader.GetInt32NullAsZero("threadid");
 
                 moreRows = reader.Read();
             }
