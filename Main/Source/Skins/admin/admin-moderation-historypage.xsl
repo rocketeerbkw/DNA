@@ -195,10 +195,10 @@
             </xsl:choose>
           </p>
           <p>
-            Date Queued: <xsl:apply-templates select="DATE-QUEUED/DATE" mode="short"/>
+            Date Queued: <xsl:apply-templates select="DATE-QUEUED/DATE" mode="absolute"/>
           </p>
           <p>
-            Date Completed: <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="short"/>
+            Date Completed: <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="absolute"/>
           </p>
           <xsl:if test ="COMPLAINT">
             <p class="alertUserBar">
@@ -259,7 +259,7 @@
               LockedBy: <xsl:apply-templates select="LOCKED-BY/USER"/>
             </p>
             <p>
-              Date Locked: <xsl:apply-templates select="DATE-LOCKED/DATE" mode="short"/>
+              Date Locked: <xsl:apply-templates select="DATE-LOCKED/DATE" mode="absolute"/>
             </p>
           </div>
           <div class="toolBox">
@@ -267,7 +267,7 @@
               Referred By: <xsl:apply-templates select="REFERRED-BY/USER"/>
             </p>
             <p>
-              Referred Date: <xsl:apply-templates select="DATE-REFERRED/DATE" mode="short"/>
+              Referred Date: <xsl:apply-templates select="DATE-REFERRED/DATE" mode="absolute"/>
             </p>
           </div>
           <xsl:apply-templates select="/H2G2/EXLINKMODEVENTHISTORY/EXLINKMODEVENT-LIST[@MODID=current()/@MODID]/EXLINKMODEVENT"/>

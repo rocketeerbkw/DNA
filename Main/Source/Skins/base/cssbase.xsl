@@ -12304,7 +12304,7 @@ function loadURLInDisplayFrame()
                         <td>
                           <xsl:choose>
                             <xsl:when test="DATE-QUEUED/DATE">
-                              <xsl:apply-templates select="DATE-QUEUED/DATE" mode="short"/>
+                              <xsl:apply-templates select="DATE-QUEUED/DATE" mode="absolute"/>
                             </xsl:when>
                             <xsl:otherwise>-</xsl:otherwise>
                           </xsl:choose>
@@ -12312,7 +12312,7 @@ function loadURLInDisplayFrame()
                         <td>
                           <xsl:choose>
                             <xsl:when test="DATE-LOCKED/DATE">
-                              <xsl:apply-templates select="DATE-LOCKED/DATE" mode="short"/>
+                              <xsl:apply-templates select="DATE-LOCKED/DATE" mode="absolute"/>
                             </xsl:when>
                             <xsl:otherwise>-</xsl:otherwise>
                           </xsl:choose>
@@ -12320,7 +12320,7 @@ function loadURLInDisplayFrame()
                         <td>
                           <xsl:choose>
                             <xsl:when test="DATE-REFERRED/DATE">
-                              <xsl:apply-templates select="DATE-REFERRED/DATE" mode="short"/>
+                              <xsl:apply-templates select="DATE-REFERRED/DATE" mode="absolute"/>
                             </xsl:when>
                             <xsl:otherwise>-</xsl:otherwise>
                           </xsl:choose>
@@ -12328,7 +12328,7 @@ function loadURLInDisplayFrame()
                         <td>
                           <xsl:choose>
                             <xsl:when test="DATE-COMPLETED/DATE">
-                              <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="short"/>
+                              <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="absolute"/>
                             </xsl:when>
                             <xsl:otherwise>-</xsl:otherwise>
                           </xsl:choose>
