@@ -29,12 +29,13 @@
               <xsl:with-param name="loggedin"> 
               	<div class="dna-moderation-wrapup"> 
                 <p class="dna-boards-moderation">
-                  <xsl:apply-templates select="USER" mode="moderation_cta_moderateuser">
-                    <xsl:with-param name="label">Moderate this user</xsl:with-param>
-                  </xsl:apply-templates>
-                  <xsl:apply-templates select="USER" mode="moderation_cta_viewalluserposts">
-                   <xsl:with-param name="label">View all posts for this user</xsl:with-param>
-                  </xsl:apply-templates>
+                	<xsl:text>Moderation:</xsl:text>
+					<xsl:apply-templates select="USER" mode="moderation_cta_moderateuser">
+						<xsl:with-param name="label">Moderate this user</xsl:with-param>
+					</xsl:apply-templates>
+					<xsl:apply-templates select="USER" mode="moderation_cta_viewalluserposts">
+						<xsl:with-param name="label">View all posts for this user</xsl:with-param>
+					</xsl:apply-templates>
                 </p>
                 </div>
               </xsl:with-param>
@@ -89,42 +90,38 @@
                 <xsl:otherwise></xsl:otherwise>
             </xsl:choose>
                         
-                <xsl:choose>
-                    <xsl:when test="$siteClosed = 'true'">
-                        <!-- Nowt -->
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <p class="dna-boards-inreplyto">
-                            <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
-                                <xsl:call-template name="library_memberservice_require">
-                                    <xsl:with-param name="ptrt">
-                                        <xsl:value-of select="$root"/>
-                                        <xsl:text>/AddThread?inreplyto=</xsl:text>
-                                        <xsl:value-of select="@POSTID"/>
-                                    </xsl:with-param>
-                                </xsl:call-template>
-                                Reply to this message
-                            </a>
-                        </p>
-                    </xsl:otherwise>
-                </xsl:choose>
+            <xsl:choose>
+                <xsl:when test="$siteClosed = 'true'">
+                    <!-- Nowt -->
+                </xsl:when>
+                <xsl:otherwise>
+                    <p class="dna-boards-inreplyto">
+                        <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
+                            <xsl:call-template name="library_memberservice_require">
+                                <xsl:with-param name="ptrt">
+                                    <xsl:value-of select="$root"/>
+                                    <xsl:text>/AddThread?inreplyto=</xsl:text>
+                                    <xsl:value-of select="@POSTID"/>
+                                </xsl:with-param>
+                            </xsl:call-template>
+                            Reply to this message
+                        </a>
+                    </p>
+                </xsl:otherwise>
+            </xsl:choose>
             
-        	<xsl:call-template name="library_userstate_superuser">
-        		<xsl:with-param name="loggedin">
-        			<div class="dna-moderation-wrapup">
-        			<p class="dna-boards-moderation">
-        				<xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_editpost" >
-        					<xsl:with-param name="label" select="'Edit Post'"/>
-        				</xsl:apply-templates>
-        			</p>
-        			</div>
-        		</xsl:with-param>
-        	</xsl:call-template>
-        	
             <xsl:call-template name="library_userstate_editor">
                 <xsl:with-param name="loggedin">
                	<div class="dna-moderation-wrapup">
                     <p class="dna-boards-moderation">
+                    	<xsl:text>Moderation:</xsl:text>
+			        	<xsl:call-template name="library_userstate_superuser">
+			        		<xsl:with-param name="loggedin">
+		        				<xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_editpost" >
+		        					<xsl:with-param name="label" select="'Edit Post'"/>
+		        				</xsl:apply-templates>
+			        		</xsl:with-param>
+			        	</xsl:call-template>                    
                         <span class="dna-invisible">View the </span>
                         <xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_moderationhistory" />
                         <span class="dna-invisible">.</span>

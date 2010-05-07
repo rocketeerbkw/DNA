@@ -61,7 +61,7 @@
       			<xsl:value-of select="$socialbookmark_title" />
       		</title>
       		
-      		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
       		<meta name="description" content="" />
       		<meta name="keywords" content="" />
       		<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
@@ -123,7 +123,7 @@
       				</xsl:otherwise>
       			</xsl:choose>
       		</xsl:if> 
-
+			<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/layout_messageboard_v2.css"/>
       	</head>
       	<xsl:text disable-output-escaping="yes">
       		<![CDATA[    
@@ -200,7 +200,7 @@
       				<ul class="navigation topics">
       					<li class="topic-parent"><a href="/dna/mbiplayer">Messageboard</a></li>
       					<xsl:apply-templates select="TOPICLIST/TOPIC" mode="object_topic_title"/>
-      					<li><hr /></li>
+      					<li class="hr"><hr /></li>
 	      				<xsl:if test="/H2G2/VIEWING-USER/USER">
 	      					
 	      					<li id="mydiscussions">
@@ -283,17 +283,12 @@
       			</div>
       			
       			<!-- Recent Discussions -->
-      			<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'true'"> 
+      			<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'true' and /H2G2/TOP-FIVES/TOP-FIVE"> 
       				<h3>Recent Discussions</h3>
       				<div>
-      					<xsl:choose>
-      						<xsl:when test="H2G2/TOP-FIVES/TOP-FIVE[@NAME = 'MostRecentConversations']/TOP-FIVE-FORUM != ''"> 
-      							<!-- <xsl:apply-templates></xsl:apply-templates> -->
-      						</xsl:when>
-      						<xsl:otherwise>
-      							<p>This top 5 will be empty until the board is launched.</p>
-      						</xsl:otherwise>
-      					</xsl:choose>
+      					<ul class="topfives">
+      						<xsl:apply-templates select="/H2G2/TOP-FIVES/TOP-FIVE[@NAME = 'MostRecentConversations']/TOP-FIVE-FORUM" mode="object_top-fives_top-five-forum"/>
+      					</ul>
       				</div>
       			</xsl:if>
       			

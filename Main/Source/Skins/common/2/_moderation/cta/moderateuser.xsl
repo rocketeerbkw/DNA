@@ -17,10 +17,10 @@
       <xsl:param name="label" select="'Moderate this user'"/>
       <xsl:choose>
         <xsl:when test="self::USER">
-          <a class="popup" target="_blank" href="{$root}/MemberList?UserID={USERID}"><xsl:value-of select="$label"/></a>
+          <a class="popup" href="{$root}/MemberList?UserID={USERID}"><xsl:value-of select="$label"/></a>
         </xsl:when>
         <xsl:otherwise>
-          <a class="popup" target="_blank" href="{$root}/MemberList?UserID={.}"><xsl:value-of select="$label"/></a>
+          <a class="popup" href="{$root}/MemberList?UserID={.}"><xsl:value-of select="$label"/></a>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:template>

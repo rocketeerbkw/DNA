@@ -33,19 +33,19 @@
         
         <div class="topicimage">
           	<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
-	            <img src="/mb_test_images/mb_test_image.jpg" alt="{IMAGEALTTEXT}" />
+	            <img src="d/mb_test_images/mb_test_image.jpg" alt="{IMAGEALTTEXT}" />
         	</a>
         </div>
-        <xsl:if test="IMAGENAME and IMAGENAME != ''">
-          <div class="topicimage">
-          	<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
+       <!--  <xsl:if test="IMAGENAME and IMAGENAME != ''">
+         <div class="topicimage">
+          	 <a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
 	            <img src="{$serverPath}{IMAGENAME}" alt="{IMAGEALTTEXT}">
 	              <xsl:if test="IMAGEWIDTH != 0"><xsl:attribute name="width"><xsl:value-of select="IMAGEWIDTH"/></xsl:attribute></xsl:if>
 	              <xsl:if test="IMAGEHEIGHT != 0"><xsl:attribute name="height"><xsl:value-of select="IMAGEHEIGHT"/></xsl:attribute></xsl:if>
 	            </img>
           	</a>
           </div>
-        </xsl:if>
+        </xsl:if> -->
         
         <p>
             <xsl:apply-templates select="TEXT" mode="library_GuideML" />

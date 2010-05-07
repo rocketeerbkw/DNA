@@ -24,7 +24,7 @@
     
     <xsl:template match="POSTTHREADFORM[@CANWRITE = 0]" mode="input_postthreadform">
       <div>
-          <xsl:call-template name="library_header_h3">
+          <xsl:call-template name="library_header_h2">
             <xsl:with-param name="text">
                 <xsl:text>Sorry...</xsl:text>
             </xsl:with-param>
@@ -222,14 +222,14 @@
   <xsl:template match="POSTTHREADFORM[PREVIEWBODY]" mode="preview">
   	<p class="preview">Previewing your post:</p>
       <div>
-      <ul class="forumthreadposts">
-        <li class="firstpost">
+      <ul>
+        <li>
           <xsl:if test="@INREPLYTO = 0">
             <h4><xsl:value-of select="SUBJECT"/></h4>
           </xsl:if>
           <div class="itemdetail">
             <span class="createdby">
-              <span class="dna-inivisble">Message posted soon by </span>
+              <span>Message posted by </span>
               <a href="MP{/H2G2/VIEWING-USER/USER/USERID}" class="user linked">
                 <xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
               </a>

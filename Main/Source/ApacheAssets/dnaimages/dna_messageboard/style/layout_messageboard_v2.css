@@ -1,0 +1,27 @@
+ /* header */
+#blq-main #header {
+	width: 100%;
+}
+/* main navigation if included */
+#blq-main #global-nav ul li {
+	display: inline;
+}
+#blq-local-nav {
+	float: left;
+	margin-left: 14px;
+	margin-bottom: 14px;
+	width: 146px;
+}
+#blq-content.frontpage  {
+	float:left; 
+	width: 479px;
+}
+#blq-content .topiclist li {
+	float: left;
+	width: 223px;
+	position: relative;
+}
+#blq-content .single-col-topics li {
+	/*width: 100%; how to make this relative size? */
+	width: 463px;
+}

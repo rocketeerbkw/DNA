@@ -12,6 +12,9 @@ h3 span {
 	font-size:0.6em; 
 	padding:0 0 0 7px; 
 }
+span.dna-invisible {
+	display: none;	
+}
 h3 .dna-invisible {
 	display:none;
 }
@@ -24,7 +27,7 @@ ul li h4 {
 }
  /* header */
 #blq-main #header {
-	width: 100%;
+	/*width: 100%;*/
 	padding: 20px 0 20px 0;
 	margin-bottom: 30px;
 	background: url(/dnaimages/dna_messageboard/img/bg_banner.jpg) top left no-repeat #71aef1;
@@ -119,10 +122,12 @@ ul.navigation li a {
 	color: white;
 }
 #blq-local-nav ul.topics li {
-	padding-left: 10px;	
+	padding-left: 5px;	
+	line-height: 1.2em;
 }
 #blq-local-nav ul.topics li.topic-parent {
 	padding-left: 0;
+	line-height: 1.8em;
 }
 #blq-local-nav ul.topics li a:hover {
 	/*font-weight: bold;*/	
@@ -133,9 +138,15 @@ ul.admin {
 #blq-main #blq-local-nav ul.admin li a {
   color: #666;
 }
-#blq-main ul.navigation li hr {
-	margin-right: 10px;
-	color:#71AEF1;
+#blq-main ul.navigation li.hr {
+	padding: 2px 0;
+}
+#blq-main ul.navigation li.hr hr {
+	line-height: 1px;
+	border: none;
+	border-top: 1px solid #ccc;
+	margin: 5px;
+	color:#ccc;
 }
 /* end navigation */
 
@@ -145,7 +156,7 @@ ul.admin {
 	margin: 0 0 14px 14px;
 }
 #blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments  {
-	width: 462px;
+	width: 463px;
 	margin-right: 14px;
 	padding-bottom: 10px;
 	border-right: 1px solid #CCCCCC;
@@ -167,8 +178,22 @@ ul.admin {
 	margin-bottom: 13px;
 }
 #blq-main #blq-content h2 span a {
-	font-size: 0.8em;
+	/*font-size: 0.8em;*/
 	color: #fff;
+}
+#blq-main ul.topfives {
+	margin: 10px 10px 10px 25px;
+	color: #0066cc;
+	list-style-type: disc;	
+}
+#blq-main ul.topfives li p {
+	padding: 5px 5px 5px 0;	
+}
+#blq-main ul.topfives li.blocked {
+	display: none;	
+}
+#blq-main p.closed {
+	padding: 10px;	
 }
 /* pagination */
 .pagination { 
@@ -236,8 +261,8 @@ ul.admin {
 /* topiclist, forumthreads, post-list */
 #blq-content.frontpage  { 
 	background:none; 
-	float:left; 
-	width: 479px;
+	/*float:left; 
+	width: 479px;*/
 	margin-left:14px;
 	padding:0;
 }
@@ -263,9 +288,9 @@ ul.admin {
 	text-decoration: underline;	
 }
 #blq-content .topiclist li {
-	float: left;
+	/*float: left;
 	width: 223px;
-	position: relative;
+	position: relative;*/
 	margin-bottom: 14px;
 	margin-right: 14px;
 	padding-bottom:10px;
@@ -273,10 +298,9 @@ ul.admin {
 	background: #FFFFFF;
 	min-height: 160px;
 }
-#blq-content .single-col-topics li {
-	/*width: 100%; how to make this relative size? */
+/*#blq-content .single-col-topics li {
 	width: 463px;
-}
+}*/
 #blq-content .topiclist li p {
 	font-size: 1.1em; 
 	margin-top: 5px;
@@ -311,6 +335,9 @@ ul.forumthreadposts li p {
 #blq-main .addthread .article {
 	margin-top: 0.8em;	
 }
+.addthread ul.forumthreadposts li {
+	/*border: 1px solid red;*/
+}
 .addthread ul.forumthreadposts li.firstpost {
 	padding: 10px 15px;
   	margin-left: 25px;
@@ -318,8 +345,11 @@ ul.forumthreadposts li p {
   	background: #e8eced;
   	line-height: 1.3em;
 }
-#blq-main .addthread li.firstpost .itemdetail {
+#blq-main .addthread li.firstpost .itemdetail, #blq-main .addthread li .itemdetail {
 	margin-bottom: 10px;
+}
+#blq-content .addthread ul.forumthreadposts li {
+	padding: 0;	
 }
 ul.forumthreadposts li.stripe {
 	background:#edf0f1;
@@ -425,6 +455,7 @@ ul.forumthreadposts li blockquote, div.inreplyto blockquote {
   	font-style: italic; 
   	margin-left: 7px; 
   	margin-right: 7px;
+  	margin-bottom: 10px;
 }
 .dna-boards-startanewdiscussion, .dna-boards-inreplyto {
  	/* text-align:right;*/
@@ -490,7 +521,7 @@ a.editor, a.notable {
 	font-size: 0.9em;
 }
 #blq-content .dna-boards-moderation {
-  	padding: 10px 48px 32px 0px;
+  	padding: 10px 48px 32px 10px;
   	margin: 10px 48px 0 0;
   	background: url(/dnaimages/dna_messageboard/img/dna-mod.png) top left no-repeat;
   	font-size: 100%;
@@ -564,7 +595,9 @@ div#dna-boardpromo #dna-about-board .id-wrap p, #blq-content .id-wrap p {
 }
 #blq-main #dna-boardpromo hr {
 	margin: 10px 10px 0 10px;
-	color: #71aef1;
+	line-height: 1px;
+	border: none;
+	border-top: 1px solid #ccc;
 }
 /* end dna-boardpromo: about this board */
 
@@ -680,7 +713,7 @@ p.flag a {
   width:403px;
   padding:4px; 
   font-family:arial,helevtica,sans-serif;
-  border:1px solid #CCCCC C; 
+  border:1px solid #CCCCCC; 
   font-size:1em;
  }
 .dna-boards .textarea{height:242px; overflow: auto;}
@@ -711,14 +744,14 @@ p.flag a {
 	margin-right: 158px;
 	background: #71aef1;
 }
-/*.dna-boards .preview {
-  margin:10px 0 10px 24px; 
-  padding: 4px;
+.dna-boards p.preview {
+  margin:10px 0 0 24px; 
+  padding: 0 10px;
 }
 .dna-boards .submit, .dna-boards .cancel {
   margin:0 0 10px 10px; 
   padding:4px;
-}*/
+}
 
 .dna-boards-membername {display:none}
 

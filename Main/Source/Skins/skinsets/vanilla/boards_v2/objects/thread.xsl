@@ -87,6 +87,7 @@
             			<div>
             				<div class="dna-moderation-wrapup">
 	            				<p class="dna-boards-moderation">
+	            					<xsl:text>Moderation:</xsl:text>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = 1]" mode="moderation_cta_closethread">
 										<xsl:with-param name="label" select="'Close discussion'" />
 									</xsl:apply-templates>
