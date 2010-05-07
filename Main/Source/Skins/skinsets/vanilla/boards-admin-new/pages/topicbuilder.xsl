@@ -26,7 +26,7 @@
     <div class="dna-main blq-clearfix">
       <div class="dna-fl dna-main-full">
         <div class="dna-fl dna-half dna-main-bg">
-          <p>The list below shows topics that are currently LIVE. You can drag and drop it into the archive list. This will remove it from the live site.</p>
+          <p>The list below shows topics that are currently LIVE. Just click on it to archive it. This will remove it from the live site.</p>
           
           <div class="dna-box dna-mall">
             <h3>Live Topics</h3>
@@ -38,7 +38,7 @@
            </div>
         </div>
         <div class="dna-fr dna-half dna-main-bg-g">
-          <p>The list below shows topics that are currently ARCHIVED. You can drag and drop it into the live list. This will publish the topic to the live site.</p>
+          <p>The list below shows topics that are currently ARCHIVED. Just click on it to make it live. This will publish the topic to the live site.</p>
 
           <div class="dna-box dna-mall">
             <h3>Archived Topics</h3>
@@ -50,6 +50,9 @@
           </div>
         </div>
       </div>
+
+
+      <xsl:call-template name="lightboxes"/>
     </div>
    
 	</xsl:template>

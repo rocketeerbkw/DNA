@@ -9,15 +9,7 @@
   <xsl:template match="TOPIC" mode="object_topiclist_elements">
 
     <xsl:for-each select=".">
-      <li>
-        <xsl:attribute name="class">
-          dna-box-border
-          <xsl:choose>
-            <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col' or (count(preceding-sibling::*) + 1) mod 2 = 1">dna-fl</xsl:when>
-            <xsl:otherwise>dna-fr</xsl:otherwise>
-          </xsl:choose>
-        </xsl:attribute>
-        
+      <li class="dna-box-border">
         <xsl:apply-templates select="." mode="object_topic_admin"/>
       </li>
     </xsl:for-each>
@@ -29,7 +21,9 @@
     <li>
       <xsl:choose>
         <xsl:when test="TOPICSTATUS='0'">
-          <a href="topicbuilder?cmd=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to archive this topic?');"><xsl:value-of select="TITLE"/></a>
+          <a href="topicbuilder?cmd=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to archive this topic?');">
+            <xsl:value-of select="TITLE"/>
+          </a>
         </xsl:when>
         <xsl:when test="TOPICSTATUS='1'">
           <a href="topicbuilder?cmd=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to delete this topic?');">

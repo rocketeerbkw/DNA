@@ -26,7 +26,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-blue" class="blue">Blue</label>
+					<label for="mbnav-blue" class="dna-blue">Blue</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="sky" id="mbnav-sky">
@@ -34,7 +34,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-sky" class="sky">Sky</label>
+					<label for="mbnav-sky" class="dna-sky">Sky</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="teal" id="mbnav-teal">
@@ -42,7 +42,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-teal" class="teal">Teal</label>
+					<label for="mbnav-teal" class="dna-teal">Teal</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="lime" id="mbnav-lime">
@@ -50,7 +50,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-lime" class="lime">Lime</label>
+					<label for="mbnav-lime" class="dna-lime">Lime</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="green" id="mbnav-green">
@@ -58,7 +58,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-green" class="green">Green</label>
+					<label for="mbnav-green" class="dna-green">Green</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="aqua" id="mbnav-aqua">
@@ -66,7 +66,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-aqua" class="aqua">Aqua</label>
+					<label for="mbnav-aqua" class="dna-aqua">Aqua</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="khaki" id="mbnav-khaki">
@@ -74,7 +74,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-khaki" class="khaki">Khaki</label>
+					<label for="mbnav-khaki" class="dna-khaki">Khaki</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="magenta" id="mbnav-magenta">
@@ -82,7 +82,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-magenta" class="magenta">Magenta</label>
+					<label for="mbnav-magenta" class="dna-magenta">Magenta</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="rose" id="mbnav-rose">
@@ -90,7 +90,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-rose" class="rose">Rose</label>
+					<label for="mbnav-rose" class="dna-rose">Rose</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="purple" id="mbnav-purple">
@@ -98,7 +98,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-          <label for="mbnav-purple" class="purple">Purple</label>
+          <label for="mbnav-purple" class="dna-purple">Purple</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="red" id="mbnav-red">
@@ -106,7 +106,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-red" class="red">Red</label>
+					<label for="mbnav-red" class="dna-red">Red</label>
 				</li>
 				<li>
 					<input type="radio" name="HEADER_COLOUR" value="orange" id="mbnav-orange">
@@ -114,7 +114,7 @@
 							<xsl:attribute name="checked">checked</xsl:attribute>
 						</xsl:if>
 					</input>
-					<label for="mbnav-orange" class="orange">Orange</label>
+					<label for="mbnav-orange" class="dna-orange">Orange</label>
 				</li>
         </ul>
 				
@@ -220,7 +220,7 @@
                 <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
             </input>
-            <label for="mbfootercolor-default" class="grey">Default (grey)</label>
+            <label for="mbfootercolor-default" class="dna-grey">Default (grey)</label>
           </li>
           <li>
             <input type="radio" name="FOOTER_COLOUR" value="black" id="mbfootercolor-black">
@@ -228,7 +228,7 @@
                 <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
             </input>
-            <label for="mbfootercolor-black" class="black">Black</label>
+            <label for="mbfootercolor-black" class="dna-black">Black</label>
           </li>
           <li>
             <input type="radio" name="FOOTER_COLOUR" value="white" id="mbfootercolor-white">
@@ -236,7 +236,7 @@
                 <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
             </input>
-            <label for="mbfootercolor-white" class="white">White</label>
+            <label for="mbfootercolor-white" class="dna-white">White</label>
         </li>
         </ul>
 
@@ -383,7 +383,7 @@
             <xsl:attribute name="checked">checked</xsl:attribute>
           </xsl:if>
           </input>
-          <label for="layout-2col">2 Columns<br/>This layout consists of topic promo's being displayed in 2 columns.</label>
+          <label for="layout-2col" class="dna-tl-2c">2 Columns<br/>This layout consists of topic promo's being displayed in 2 columns.</label>
         </li>
         <li>
           <input type="radio" name="topiclayout" value="1col" id="layout-1col">
@@ -391,7 +391,7 @@
               <xsl:attribute name="checked">checked</xsl:attribute>
             </xsl:if>
           </input>
-          <label for="layout-1col">1 Column<br />This layout consists of topic promo's being displayed in 1 column.</label>
+          <label for="layout-1col" class="dna-tl-1c">1 Column<br />This layout consists of topic promo's being displayed in 1 column.</label>
         </li>
         </ul>
         
