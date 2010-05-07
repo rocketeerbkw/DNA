@@ -159,7 +159,8 @@
             <xsl:if test="EDITOR/USER">
               <b>
                 Author
-              </b>: <xsl:apply-templates select="EDITOR/USER"/>
+              </b>: 
+              <xsl:apply-templates select="EDITOR/USER" mode="profile_withusername"/>
               <xsl:apply-templates select="EDITOR/USER/STATUS" mode="user_status"/>
               <xsl:apply-templates select="EDITOR/USER/GROUPS" mode="user_groups"/>
             </xsl:if>
