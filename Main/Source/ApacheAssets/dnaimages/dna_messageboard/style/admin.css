@@ -153,13 +153,13 @@ span.dna-fnote {display:block; margin-top:2px}
 * html .dna-list-topic-col1  li,* html .dna-list-topic-col2  li {height:32.5em}
 .dna-list-topic-col1 li p,.dna-list-topic-col2 li p,.dna-list-topic-col li p {margin:10px 0 !important}
 .dna-replies {text-align:right}
-.dna-list-topic-col1 .dna-link-edit,.dna-list-topic-col2 .dna-link-edit {right:10px; top:0}
+.dna-list-topic-col1 .dna-link-edit,.dna-list-topic-col2 .dna-link-edit, .dna-list-topic-col .dna-link-edit {right:10px; top:0}
 
 .dna-list-topic-col1 {width:21em; float:left}
 .dna-list-topic-col2 {width:21em; float:right}
 .dna-topic-pos {width:25px!important}
 
-.dna-list-topic-col li {padding:10px; width:41em}
+.dna-list-topic-col li {position:relative; padding:10px; width:41em}
 
 .dna-tl-2c  {padding:0 0 45px 60px; background: url(/dnaimages/dna_messageboard/img/icon-lay-2.gif) no-repeat 0 0}
 .dna-tl-1c  {padding:0 0 45px 60px; background: url(/dnaimages/dna_messageboard/img/icon-lay-1.gif) no-repeat 0 0}

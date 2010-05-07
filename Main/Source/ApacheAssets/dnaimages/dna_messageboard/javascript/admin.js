@@ -6,13 +6,13 @@ gloader.load(
         onLoad: function(glow) {
 
 
-            /* design tab - sort topic order */
-            new glow.widgets.Sortable(
+        /* design tab - sort topic order */
+        new glow.widgets.Sortable(
             '.dna-list-topic-col1,.dna-list-topic-col2'
         );
 
-            new glow.widgets.Sortable(
-            '.dna-list-topic-col'
+        new glow.widgets.Sortable(
+         '.dna-list-topic-col'
         );
 
     }
