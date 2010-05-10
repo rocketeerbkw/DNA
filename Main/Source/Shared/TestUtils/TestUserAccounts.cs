@@ -16,13 +16,15 @@ namespace TestUtils
         /// <param name="userName">The username for the account</param>
         /// <param name="password">The password for the account</param>
         /// <param name="cookie">The cookie used for this account</param>
+        /// <param name="secureCookie">The secure cookie used for this account</param>
         /// <param name="userID">The dna userid for this account</param>
         /// <param name="usesIdentity">A flag that states whether this account uses sso or identity login</param>
-        public UserAccount(string userName, string password, string cookie, int userID, bool usesIdentity)
+        public UserAccount(string userName, string password, string cookie, string secureCookie, int userID, bool usesIdentity)
         {
             UserName = userName;
             Password = password;
             Cookie = cookie;
+            SecureCookie = secureCookie;
             UserID = userID;
             UsesIdentity = usesIdentity;
             IdentityUserName = userName;
@@ -41,6 +43,15 @@ namespace TestUtils
         /// The get/set property for the password
         /// </summary>
         public string Password
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// The get/set property for the secure cookie
+        /// </summary>
+        public string SecureCookie
         {
             get;
             set;
@@ -94,7 +105,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetProfileAPITestUserAccount
         {
-            get { return new UserAccount("ProfileAPITest", "APITest", "44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00", 1090498911, false); }
+            get { return new UserAccount("ProfileAPITest", "APITest", "6041996|ProfileAPITest|ProfileAPITest|1273497769580|0|35006c522418c48a9a3470cea341b5cd9c9c8a9d28c1", "22f58fef9cd74c0f515b94bfaaa6adf60e395c6f", 1090498911, false); }
         }
 
         /// <summary>
@@ -103,7 +114,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetNormalUserAccount
         {
-            get { return new UserAccount("DotNetNormalUser", "789456123", "0465e40bc638441a2e9b6381816653cf1a1348ec78c360cba1871e0d8345ef4800", 1090501859, false); }
+            get { return new UserAccount("DotNetNormalUser", "789456123", "6042002|DotNetNormalUser|DotNetNormalUser|1273497514775|0|bf78fdd57a1f70faee630c07ba31674eab181a3f6c6f", "1eda650cb28e56156217427336049d0b8e164765", 1090501859, false); }
         }
 
         /// <summary>
@@ -112,7 +123,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetBannedUserAccount
         {
-            get { return new UserAccount("DotNetUserBanned", "asdfasdf", "542926f3b88d86c2b085062a01251fbbcfe1206a58b330fba197aeed9672415b00", 1166868343, false); }
+            get { return new UserAccount("DotNetUserBanned", "asdfasdf", "6042004|DotNetUserBanned|DotNetUserBanned|1273497847257|0|9d9ee980c4b831e419915b452b050f327862bba748ff", "a684c1a5736f052c4acc1b35908f8dbad2e2ea0b", 1166868343, false); }
         }
 
         /// <summary>
@@ -121,7 +132,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetEditorUserAccount
         {
-            get { return new UserAccount("DotNetEditor", "789456123", "c4f5f57424cad2a942aa372761895fdae360410098c3e0ab31a71e7dd7d10e5b00", 1090558353, false); }
+            get { return new UserAccount("DotNetEditor", "789456123", "6042008|DotNetEditor|DotNetEditor|1273497906539|0|15a03d81d14abc2192aa62781a933f9a5a610fdd8ed2", "911ebe989e3856bfa15fea9198db182c742edb56", 1090558353, false); }
         }
 
         /// <summary>
@@ -130,7 +141,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetSuperUserAccount
         {
-            get { return new UserAccount("DotNetSuperUser", "789456123", "44f575d494ab0bb18384c0f961240c09fe4043606893d04b6107fe6df7411e2a00", 1090558354, false); }
+            get { return new UserAccount("DotNetSuperUser", "789456123", "6042010|DotNetSuperUser|DotNetSuperUser|1273498316242|0|794f88d288072423ec646e60e4fc85934f843d84c60a", "e791eb7e4f6df35d9401ccdc9401aaaea939fecd", 1090558354, false); }
         }
 
         /// <summary>
@@ -139,7 +150,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetModeratorAccount
         {
-            get { return new UserAccount("DotNetModerator", "789456123", "5455c5ac05fd028981f5da2891c1d4567f73249c384310eb11c79e8d540142ca00", 1090564231, false); }
+            get { return new UserAccount("DotNetModerator", "789456123", "6042012|DotNetModerator|DotNetModerator|1273498400655|0|5285c1191c687edd59454e53aae1853b32f959d0b0ef", "7c665ae2f596ea3966fc3aff9a237f038e6e262e", 1090564231, false); }
         }
 
         /// <summary>
@@ -148,7 +159,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetPreModeratedUserAccount
         {
-            get { return new UserAccount("DotNetPreModUser", "789456123", "0495f53dda7c633e7a527c2751ae8aab77a953cde823f0bb01a77e7d533fbd8c00", 1090565871, false); }
+            get { return new UserAccount("DotNetPreModUser", "789456123", "6042014|DotNetPreModUser|DotNetPreModUser|1273498451514|0|c3fc0e4160f8e9d4d06225bcd7bbabbc9d105319ed37", "8dddf64ebe1ee4ff8c6f2b328a145c66dcc3ccf1", 1090565871, false); }
         }
 
         /// <summary>
@@ -157,7 +168,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetNotableUserAccount
         {
-            get { return new UserAccount("DotNetNotableUser", "789456123", "147587fd39a67dca6c0b23ffb18e2925bf1d0bd60813506be1076e7d155b4f9700", 1165233424, false); }
+            get { return new UserAccount("DotNetNotableUser", "789456123", "6042020|DotNetNotableUser|DotNetNotableUser|1273498519048|0|efb2184843a54e628b6e08dd6144fa450809f38df204", "f20234251c89cf2d686b954050092857a7d6b59d", 1165233424, false); }
         }
 
         /// <summary>
@@ -166,7 +177,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetNonLoggedInUserAccount
         {
-            get { return new UserAccount("", "", "", 0, false); }
+            get { return new UserAccount("", "", "", "", 0, false); }
         }
 
         /// <summary>
@@ -175,7 +186,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetNormalIdentityUserAccount
         {
-            get { return new UserAccount("tester633518075951276859", "123456789", HttpUtility.UrlEncode("AQICySfvBLGfchTj5H8n4BV3oMunIzG4/bvFsiq+zOzU1eTUptTbH0/zNgT1hWeoHvv3JZEdZdNGXqzObiMiDaDFHIb7/pOIBKMc5qk8NxiW6yBUY/Zh/wenRhBhHB+8jK/z4X+uyoNDwSE="), 3405375, true); }
+            get { return new UserAccount("tester633518075951276859", "123456789", "6042026|tester633518075951276859|tester633518075951276859|1273498567629|0|07d3831992314f01d1a5909de1d922dcf5bba5f91ce8", "d6736d7457cc61bc2a18726fb6028fe69338ca6e", 3405375, true); }
         }
     }
 }

@@ -415,6 +415,8 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                 errortype = "siteclosed";
                 errormessage = @"site is currently closed.";
             }
+            if (noError)
+            {
                 //set up calling user
                 if (String.IsNullOrEmpty(InputContext.CurrentSite.IdentityPolicy))
                 {
@@ -424,9 +426,15 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                 else
                 {
                     comments.CallingUser = new CallingUser(SignInSystem.Identity, AppContext.ReaderCreator, InputContext.Diagnostics, AppContext.DnaCacheManager, AppContext.TheAppContext.TheSiteList);
-                    comments.CallingUser.IsUserSignedIn(InputContext.GetCookie("IDENTITY").Value, InputContext.CurrentSite.IdentityPolicy, InputContext.CurrentSite.SiteID, InputContext.GetCookie("IDENTITY - USERNAME").Value);
+                    //comments.CallingUser.IsUserSignedIn(InputContext.GetCookie("IDENTITY").Value, InputContext.CurrentSite.IdentityPolicy, InputContext.CurrentSite.SiteID, "");
+                    string secureCookie = String.Empty;
+                    if (InputContext.GetCookie("IDENTITY-HTTPS") != null)
+                    {
+                        secureCookie = InputContext.GetCookie("IDENTITY-HTTPS").Value;
+                    }
+                    comments.CallingUser.IsUserSignedInSecure(InputContext.GetCookie("IDENTITY").Value, secureCookie, InputContext.CurrentSite.IdentityPolicy, InputContext.CurrentSite.SiteID);
                 }
-
+            }
                 string comment = String.Empty;
                 if (!InputContext.TryGetParamString("dnacomment", ref comment, "Text of the submitted comment.") || comment == String.Empty)
                 {

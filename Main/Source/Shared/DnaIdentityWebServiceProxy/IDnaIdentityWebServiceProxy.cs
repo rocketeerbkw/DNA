@@ -89,9 +89,9 @@ namespace DnaIdentityWebServiceProxy
         /// <param name="password">The password for the user</param>
         /// <returns>True if user was set correctly, false if not</returns>
         bool TrySetUserViaUserNamePassword(string userName, string password);
-
+        
         /// <summary>
-        /// Tries to set the user using their username and password
+        /// Tries to set the user using their username and cookie
         /// </summary>
         /// <param name="cookie">The cookie value for the user</param>
         /// <param name="userName">The name of the user you are trying to set</param>
@@ -99,6 +99,14 @@ namespace DnaIdentityWebServiceProxy
         bool TrySetUserViaCookieAndUserName(string cookie, string userName);
 
         /// <summary>
+        /// Tries to set the user using their cookies (normal and secure)
+        /// </summary>
+        /// <param name="cookie">The cookie value for the user</param>
+        /// <param name="secureCookie">The secure cookie value for the user</param>
+        /// <returns>True if user was set correctly, false if not</returns>
+        bool TrySecureSetUserViaCookies(string cookie, string secureCookie);
+
+            /// <summary>
         /// Tries to log the user in with the details already set
         /// </summary>
         /// <returns>True if they were logged in, false if not</returns>
@@ -136,6 +144,11 @@ namespace DnaIdentityWebServiceProxy
         /// Gets the current users Identity cookie value
         /// </summary>
         string GetCookieValue { get; }
+
+        /// <summary>
+        /// Gets the current users secure Identity cookie value
+        /// </summary>
+        string GetSecureCookieValue { get; }
 
 #if DEBUG
         /// <summary>
@@ -185,5 +198,10 @@ namespace DnaIdentityWebServiceProxy
         /// <param name="attributeName">The name of the attribute you want to check for</param>
         /// <returns>True if it exists, false if not</returns>
         bool DoesAppNameSpacedAttributeExist(string cookie, string appNameSpace, string attributeName);
+        
+        /// <summary>
+        /// Get property that states whether or not the request is secure or not
+        /// </summary>
+        bool IsSecureRequest{ get; }
     }
 }

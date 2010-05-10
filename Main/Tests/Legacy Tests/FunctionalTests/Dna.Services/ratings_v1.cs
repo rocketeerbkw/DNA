@@ -446,7 +446,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateRating");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
-            request.CurrentSSO2Cookie = "";
+            request.CurrentCookie = "";
             //create the forum
             RatingForum ratingForum = RatingForumCreate("tests", Guid.NewGuid().ToString());
 

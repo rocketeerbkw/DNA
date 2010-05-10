@@ -37,6 +37,7 @@ namespace BBC.Dna.Users
         private string _firstName = "";
         private string _lastNames = "";
         private string _cookie = "";
+        private string _secureCookie = "";
         private DateTime _lastUpdatedDate;
 
         /// <summary>
@@ -167,11 +168,26 @@ namespace BBC.Dna.Users
         /// Authenticates a user via the cookie
         /// </summary>
         /// <param name="cookie">The cookie you wnat to authenticate against</param>
+        /// <param name="secureCookie">The secure cookie you want to authenticate against</param>
         /// <param name="policy">The policy to authenticate against. This is the site urlName for SSO but as this is being phased out, we're using
         /// <param name="identityUserName">The identity username. This is found in the IDENTITY-USER cookie</param>
         /// the Identity terms</param>
         /// <returns>True if they are authenticated, false if not</returns>
         public bool AuthenticateUserFromCookie(string cookie, string policy, string identityUserName)
+        {
+            return AuthenticateUserFromCookies(cookie, "", policy);
+        }
+
+
+        /// <summary>
+        /// Authenticates a user via the cookies (normal and secure)
+        /// </summary>
+        /// <param name="cookie">The cookie you wnat to authenticate against</param>
+        /// <param name="secureCookie">The secure cookie you want to authenticate against</param>
+        /// <param name="policy">The policy to authenticate against. This is the site urlName for SSO but as this is being phased out, we're using
+        /// the Identity terms</param>
+        /// <returns>True if they are authenticated, false if not</returns>
+        public bool AuthenticateUserFromCookies(string cookie, string secureCookie, string policy)
         {
             // Check to make sure we got a cookie
             if (cookie == "")
@@ -181,20 +197,30 @@ namespace BBC.Dna.Users
             }
 
             string decodedCookie = cookie;
+            string decodedSecureCookie = secureCookie;
             if (_signInSystem == SignInSystem.Identity)
             {
                 // BODGE!!! Make sure that the cookie is fully decoded.
                 // Currently the cookie can come in from Forge double encoded.
                 // Our tests are correct in encoding only the once.
+                /*
                 int i = 0;
                 while (decodedCookie.IndexOfAny(new char[] { ' ', '/', '+' }) < 0 && i < 3)
                 {
                     decodedCookie = HttpUtility.UrlDecode(decodedCookie);
                     i++;
                 }
+
+                i = 0;
+                while (decodedSecureCookie.IndexOfAny(new char[] { ' ', '/', '+' }) < 0 && i < 3)
+                {
+                    decodedSecureCookie = HttpUtility.UrlDecode(decodedSecureCookie);
+                    i++;
+                }*/
             }
             Trace.WriteLine("AuthenticateUserFromCookie() - policy = " + policy);
             Trace.WriteLine("AuthenticateUserFromCookie() - cookie = " + decodedCookie);
+            Trace.WriteLine("AuthenticateUserFromCookie() - secure cookie = " + decodedSecureCookie);
             _signInComponent.SetService(policy);
 
             bool userSet = false;
@@ -204,7 +230,8 @@ namespace BBC.Dna.Users
             }
             else
             {
-                userSet = _signInComponent.TrySetUserViaCookieAndUserName(decodedCookie, identityUserName);
+                //userSet = _signInComponent.TrySetUserViaCookieAndUserName(decodedCookie, identityUserName);
+                userSet = _signInComponent.TrySecureSetUserViaCookies(decodedCookie, decodedSecureCookie);
             }
 
             if (!userSet)
@@ -242,6 +269,7 @@ namespace BBC.Dna.Users
             }
 
             _cookie = cookie;
+            _secureCookie = secureCookie;
 
             return true;
         }
@@ -290,6 +318,15 @@ namespace BBC.Dna.Users
             _signInUserID = _signInComponent.UserID;
             _userName = _signInComponent.LoginName;
             return true;
+        }
+
+        /// <summary>
+        /// This method is used to check if the current call was made securely, called with the IDENTITY-HTTPS cookie.
+        /// </summary>
+        /// <returns>True if it is, false if not</returns>
+        public bool IsSecureRequest
+        {
+            get { return _signInComponent.IsSecureRequest; }
         }
     }
 }

@@ -187,6 +187,8 @@ class CInputContext
 		bool IsRequestForRssFeed();
 		bool IsRequestForSsiFeed();
 
+		bool IsRequestSecure( );
+
 		CSiteOptions* GetSiteOptions();
 
 		CTDVString GetServerName(CTDVString* oServerName);

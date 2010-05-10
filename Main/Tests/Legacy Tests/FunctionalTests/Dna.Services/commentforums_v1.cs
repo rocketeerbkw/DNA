@@ -1772,13 +1772,16 @@ namespace FunctionalTests
             string userName = "CommentForumCreateUser" + DateTime.Now.Ticks;
             string userEmail = userName + "@bbc.co.uk";
             Cookie cookie;
+            Cookie secureCookie;
             int userID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(userName, "password", "1989-12-31", userEmail,
                                                              "Comment User", true,
                                                              TestUserCreator.IdentityPolicies.Adult, false, 0,
-                                                             out cookie, out userID));
+                                                             out cookie,
+                                                             out secureCookie,
+                                                             out userID));
             request.UseIdentitySignIn = true;
-            request.CurrentSSO2Cookie = cookie.Value;
+            request.CurrentCookie = cookie.Value;
 
             string id = "FunctiontestCommentForum-" + Guid.NewGuid(); //have to randomize the string to post
             string title = "Functiontest Title";
@@ -1867,13 +1870,16 @@ namespace FunctionalTests
             //Assert.IsTrue(request.SetCurrentUserAsNewIdentityUser(userName, "password", "Comment User", userEmail, "1989-12-31", TestUserCreator.IdentityPolicies.Adult, true, false, 1, false), "Failed to create a test identity user");
 
             Cookie cookie;
+            Cookie secureCookie;
             int userID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(userName, "password", "1989-12-31", userEmail,
                                                              "Comment User", true,
                                                              TestUserCreator.IdentityPolicies.Adult, false, 0,
-                                                             out cookie, out userID));
+                                                             out cookie,
+                                                             out secureCookie,
+                                                             out userID));
             request.UseIdentitySignIn = true;
-            request.CurrentSSO2Cookie = cookie.Value;
+            request.CurrentCookie = cookie.Value;
 
             string text = "Functiontest Title" + Guid.NewGuid();
             commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +

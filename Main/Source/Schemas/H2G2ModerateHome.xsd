@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="ViewingUser.xsd"/>
+  <xs:include schemaLocation="Site.xsd"/>
+  <xs:include schemaLocation="Date.xsd"/>
+  <xs:include schemaLocation="SiteConfig.xsd"/>
+  <xs:include schemaLocation="TrackedParameters.xsd"/>
+  <xs:include schemaLocation="Site-List.xsd"/>
+  <xs:include schemaLocation="Params.xsd"/>
+  <xs:include schemaLocation="ModerationHome.xsd"/>
+  <xs:include schemaLocation="Moderation-Classes.xsd"/>
+  <xs:include schemaLocation="PageUI.xsd"/>
+  <xs:include schemaLocation="User.xsd"/>
+  <xs:element name="H2G2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="VIEWING-USER"/>
+        <xs:element name="SERVERNAME" type="xs:string"/>
+        <xs:element name="USERAGENT" type="xs:string"/>
+        <xs:element ref="DATE"/>
+        <xs:element ref="SITECONFIG"/>
+		<xs:element ref="PAGEUI"/>
+        <xs:element ref="SITE-LIST"/>
+		<xs:element name="PAGE-OWNER">
+		  <xs:complexType>
+			<xs:sequence>
+				<xs:element ref="USER" />
+				<xs:element name="IDENTITY" minOccurs="0">
+				  <xs:complexType>
+					  <xs:sequence>
+						  <xs:element name="COOKIE">
+							  <xs:complexType>
+								  <xs:attribute name="PLAIN" type="xs:string" use="required" />
+								  <xs:attribute name="URLENCODED" type="xs:string" use="required" />
+							  </xs:complexType>
+						  </xs:element>
+					  </xs:sequence>
+				  </xs:complexType>
+				</xs:element>
+				<xs:element name="SIGNINNAME" type="xs:string" />
+			</xs:sequence>
+		  </xs:complexType>
+		</xs:element>
+		<xs:element ref="MODERATOR-HOME"/>
+        <xs:element ref="MODERATION-CLASSES"/>
+        <xs:element ref="PARAMS"/>
+        <xs:element ref="SITE"/>
+        <xs:element name="TIMEFORPAGE" type="xs:int"/>
+        <xs:element ref="TRACKEDPARAMETERS"/>
+      </xs:sequence>
+      <xs:attribute name="TYPE" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

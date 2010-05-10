@@ -154,6 +154,14 @@ namespace BBC.Dna.Page
             get { return DnaBasePage.UserTypes.Any; }
         }
 
+        /// <summary>Gets whether the page must be accessed securely. Can be overriden by derived pages
+        /// The default is to allow all requests (ie not secure).
+        /// </summary>
+        public virtual bool MustBeSecure
+        {
+            get { return false; }
+        }
+
         /// <summary>
         /// Defaultly includes the topfives in the current page. Override this to stop the inclusion.
         /// </summary>

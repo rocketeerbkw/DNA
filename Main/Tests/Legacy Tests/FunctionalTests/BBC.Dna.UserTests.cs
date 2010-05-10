@@ -38,7 +38,7 @@ namespace FunctionalTests
         [TestMethod]
         public void Test01CreateAUserFromDNAUserID()
         {
-            FullInputContext context = new FullInputContext(false);
+            FullInputContext context = new FullInputContext(true);
             User user = new User(null, null, null);
             Assert.IsTrue(user.CreateUserFromDnaUserID(TestUserAccounts.GetModeratorAccount.UserID, 1));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
@@ -49,13 +49,13 @@ namespace FunctionalTests
         /// Test to see if we can create a user with the new users service
         /// </summary>
         [TestMethod]
-        public void Test02SignUserInViaSSOCookie()
+        public void Test02SignUserInViaIdentityCookie()
         {
-            FullInputContext context = new FullInputContext(false);
-            SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, null, null, null, null);
+            FullInputContext context = new FullInputContext(true);
+            SignInSystem signInType = SignInSystem.Identity;
+            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
-            string policy = "h2g2";
+            string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
@@ -66,13 +66,13 @@ namespace FunctionalTests
         /// Check to make sure we can sign a user in and then add them to a group
         /// </summary>
         [TestMethod]
-        public void Test03SIgnUserInAndAddThemToAcesGroup()
+        public void Test03SignUserInAndAddThemToAcesGroup()
         {
-            FullInputContext context = new FullInputContext(false);
-            SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, null, null, null, null);
+            FullInputContext context = new FullInputContext(true);
+            SignInSystem signInType = SignInSystem.Identity;
+            CallingUser user = new CallingUser(signInType, context.ReaderCreator, null, null, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
-            string policy = "h2g2";
+            string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
@@ -87,11 +87,11 @@ namespace FunctionalTests
         [TestMethod]
         public void Test04CheckSignedInNormalUserBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(false);
-            SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, null, null, null, null);
+            FullInputContext context = new FullInputContext(true);
+            SignInSystem signInType = SignInSystem.Identity;
+            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
             string cookie = TestUserAccounts.GetNormalUserAccount.Cookie;
-            string policy = "h2g2";
+            string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsTrue(user.IsUserA(UserTypes.NormalUser), "User should be a normal user");
@@ -107,11 +107,11 @@ namespace FunctionalTests
         [TestMethod]
         public void Test05CheckSignedInEditorBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(false);
-            SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, null, null, null, null);
+            FullInputContext context = new FullInputContext(true);
+            SignInSystem signInType = SignInSystem.Identity;
+            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
             string cookie = TestUserAccounts.GetEditorUserAccount.Cookie;
-            string policy = "h2g2";
+            string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsTrue(user.IsUserA(UserTypes.NormalUser), "User should be a normal user");
@@ -127,11 +127,11 @@ namespace FunctionalTests
         [TestMethod]
         public void Test06CheckSignedInSuperUserBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(false);
-            SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, null, null, null, null);
+            FullInputContext context = new FullInputContext(true);
+            SignInSystem signInType = SignInSystem.Identity;
+            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
             string cookie = TestUserAccounts.GetSuperUserAccount.Cookie;
-            string policy = "h2g2";
+            string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsFalse(user.IsUserA(UserTypes.NormalUser), "User should not be a normal user");
@@ -147,11 +147,11 @@ namespace FunctionalTests
         [TestMethod]
         public void Test07CheckSignedInModeratorBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(false);
-            SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, null, null, null, null);
+            FullInputContext context = new FullInputContext(true);
+            SignInSystem signInType = SignInSystem.Identity;
+            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
-            string policy = "h2g2";
+            string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsTrue(user.IsUserA(UserTypes.NormalUser), "User should be a normal user");
@@ -167,11 +167,11 @@ namespace FunctionalTests
         [TestMethod]
         public void Test08CheckSignedInNotableBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(false);
-            SignInSystem signInType = SignInSystem.SSO;
-            CallingUser user = new CallingUser(signInType, null, null, null, null);
+            FullInputContext context = new FullInputContext(true);
+            SignInSystem signInType = SignInSystem.Identity;
+            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
             string cookie = TestUserAccounts.GetNotableUserAccount.Cookie;
-            string policy = "h2g2";
+            string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsTrue(user.IsUserA(UserTypes.NormalUser), "User should be a normal user");

@@ -56,6 +56,10 @@ public:
 
 	virtual const TDVCHAR* GetLastTimings();
 
+	virtual bool GetSecureCookieValue(CTDVString& sSecureCookieValue);
+	virtual bool SecureSetUserViaCookies(const TDVCHAR* sCookie, const TDVCHAR* sSecureCookie);
+	virtual bool IsSecureRequest(bool& bSecureRequest);
+
 protected:
 
 	CProfileApi* m_pProfile;
@@ -67,6 +71,7 @@ protected:
 	CTDVString m_sLastIdentityError;
 	CTDVString m_sLastTimingInfo;
 	CTDVString m_sCookieValue;
+	CTDVString m_sSecureCookieValue;
 	DWORD m_dTimerStart;
 	DWORD m_dTimerSplitTime;
 

@@ -118,7 +118,7 @@ namespace Tests
             {
                 IDnaIdentityWebServiceProxy testProfile = fullinputcontext.GetCurrentSignInObject;
                 testProfile.SetService(request.Currentservice);
-                testProfile.TrySetUserViaCookie(request.CurrentSSO2Cookie);
+                testProfile.TrySetUserViaCookie(request.CurrentCookie);
                 Assert.IsTrue(testProfile.IsUserLoggedIn, "User is not logged in and they should be.");
 
                 string ssofirstnames = string.Empty;

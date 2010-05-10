@@ -275,6 +275,8 @@ protected:
 
 	CTDVString ExtractFileExceptionInfo(CFileException* theException);
 
+	bool m_bIsSecureRequest;
+
 #ifdef __MYSQL__
 	CMySQLConnection m_Connection;
 #else
@@ -287,6 +289,8 @@ public:
     bool IsRequestForCachedFeed();
 	bool IsRequestForRssFeed(); 
 	bool IsRequestForSsiFeed();
+
+	bool IsRequestSecure(){ return m_bIsSecureRequest; };
 
 	bool MakeURLRequest(const TDVCHAR* pHost, const TDVCHAR* pReqType, const TDVCHAR* pProxy, const TDVCHAR* pRequest, const TDVCHAR* pPostData, CTDVString& oResult, CTDVString& oHeader, bool bFastTimeout = false);
 	bool PostcoderPlaceRequest(const TDVCHAR* pPlaceName, CTDVString& oResult);

@@ -12,6 +12,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using TestUtils;
 
 
 
@@ -36,8 +37,7 @@ namespace FunctionalTests
 
         [TestCleanup]
         public void ShutDown()
-        {
-            
+        {            
             Console.WriteLine("After CommentBoxTests");
         }
 
@@ -805,5 +805,90 @@ return.";
 
             Assert.AreEqual(expectedResult, text);
         }
+
+
+        /// <summary>
+        /// Test that we can create a forum and post to it for a normal non moderated site via identity
+        /// </summary>
+        [TestMethod]
+        public void TestCreateNewCommentForumAndCommentViaIdentity()
+        {
+            Console.WriteLine("Before CommentBoxTests - TestCreateNewCommentForumAndCommentViaIdentity");
+            DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
+
+            int siteID = 1;
+            string urlstatus = "status-n?skin=purexml";
+            request.RequestPage(urlstatus);
+            XmlDocument xml = request.GetLastResponseAsXML();
+            XmlNode xmlNode = xml.SelectSingleNode("/H2G2/SITE/@ID");
+
+            siteID = Convert.ToInt32(xmlNode.Value);
+
+            using (IDnaDataReader reader = DnaMockery.CreateDatabaseInputContext().CreateDnaDataReader(""))
+            {
+                StringBuilder sql = new StringBuilder("exec setsiteoption " + siteID.ToString() + ", 'SignIn','UseIdentitySignIn','1'");
+                sql.AppendLine("UPDATE Sites SET IdentityPolicy='http://identity/policies/dna/adult' WHERE SiteID=" + siteID.ToString());
+                reader.ExecuteDEBUGONLY(sql.ToString());
+            }
+
+            urlstatus = "dnasignal?action=recache-site&skin=purexml";
+            request.RequestPage(urlstatus);
+            xml = request.GetLastResponseAsXML(); 
+
+
+            string userName = "dnatester";
+            string password = "123456789";
+            string dob = "1972-09-07";
+            //string displayName = "DNA Identity Tester";
+            string email = "a@b.com";
+            Cookie cookie;
+
+            string testUserName = String.Empty;
+
+            // Create a unique name and email for the test
+            testUserName = userName + DateTime.Now.Ticks.ToString();
+            email = testUserName + "@bbc.co.uk";
+
+            request.SetCurrentUserAsNewIdentityUser(testUserName, password, "", email, dob, TestUserCreator.IdentityPolicies.Adult, "haveyoursay", TestUserCreator.UserType.IdentityOnly);
+            string returnedCookie = request.CurrentCookie;
+            cookie = new Cookie("IDENTITY", returnedCookie, "/", ".bbc.co.uk");
+            
+            // Setup the request url
+            string uid = Guid.NewGuid().ToString();
+            string title = "TestingCommentBox";
+            string hosturl = "http://" + _server + "/dna/haveyoursay/acsapi";
+            string url = "acsapi?dnauid=" + uid + "&dnainitialtitle=" + title + "&dnahostpageurl=" + hosturl + "&dnaforumduration=0&skin=purexml";
+
+            // now get the response
+            request.RequestPage(url);
+
+            // Check to make sure that the page returned with the correct information
+            xml = request.GetLastResponseAsXML();
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX") != null, "Comment box tag does not exist!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/ENDDATE") != null, "End date missing when specified!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@UID='" + uid + "']") != null, "Forums uid does not matched the one used to create!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@HOSTPAGEURL='" + hosturl + "']") != null, "Host url does not match the one used to create!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@CANWRITE='1']") != null, "The forums can write flag should be set 1");
+
+            // Now try to post 'INSECURELY'
+            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
+            xml = request.GetLastResponseAsXML();
+
+            //Should get an error about not secure posting
+            Assert.IsNotNull(xml.SelectSingleNode("//ERROR[@TYPE='commentfailed']"), "Failed to find the XMLError Not secure posting error");
+            Assert.AreEqual("Not a secure posting.", xml.SelectSingleNode("//ERRORMESSAGE").InnerXml, "Incorrect error message given.");
+
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml", true);
+            xml = request.GetLastResponseAsXML();
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX") != null, "Comment box tag does not exist!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS").Attributes["FORUMPOSTCOUNT"].Value == "1", "The forum should have 1 post!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST") != null, "Failed to post a comment!!!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST[TEXT='blahblahblah']") != null, "Posted comment did not appear!!!");
+
+            TestUserCreator.DeleteIdentityUser(cookie, testUserName);
+
+            request.Dispose();
+            Console.WriteLine("After CommentBoxTests - TestCreateNewCommentForumAndCommentViaIdentity");
+        }   
     }
 }

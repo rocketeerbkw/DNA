@@ -153,6 +153,13 @@
     <Compile Include="MBAdminDesign.aspx.designer.cs">
       <DependentUpon>MBAdminDesign.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ModerateHomePage.aspx.cs">
+      <DependentUpon>ModerateHomePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModerateHomePage.aspx.designer.cs">
+      <DependentUpon>ModerateHomePage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TermsFilterImport.aspx.cs">
       <DependentUpon>TermsFilterImport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -833,6 +840,7 @@
     <Content Include="MBAdmin.aspx" />
     <Content Include="MBAdminAssets.aspx" />
     <Content Include="MBAdminDesign.aspx" />
+    <Content Include="ModerateHomePage.aspx" />
     <Content Include="TermsFilterImport.aspx" />
     <Content Include="TermsFilterAdmin.aspx" />
   </ItemGroup>

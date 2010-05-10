@@ -84,5 +84,10 @@ namespace BBC.Dna
         /// Used to add the controls that require the final whlepage xml to be their data source
         /// </summary>
         List<DnaXmlSourceDetails> DnaXmlDataSourceContolIDs { get; }
-	}
+
+        /// <summary>
+        /// The Must Be Secure property
+        /// </summary>
+        bool MustBeSecure { get; }
+    }
 }

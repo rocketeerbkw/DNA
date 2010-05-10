@@ -554,5 +554,14 @@ namespace BBC.Dna
         {
             get { throw new NotImplementedException(); }
         }
+
+        /// <summary>
+        /// Gets whether the request is secure
+        /// </summary>
+        public bool IsSecureRequest
+        {
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
+        }
     }
 }

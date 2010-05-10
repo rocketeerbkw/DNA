@@ -319,6 +319,12 @@ namespace BBC.Dna.Page
                         _page.InitialisePage("ERROR");
                         _page.AddErrorXml("Authorization", "You are not authorised to view this page.", _page.RootElement.FirstChild);
                     }
+                    else if (!IsSecureAccessAllowed())
+                    {
+                        _page = new WholePage(this);
+                        _page.InitialisePage("ERROR");
+                        _page.AddErrorXml("NotSecure", "You must access this page be secure methods.", _page.RootElement.FirstChild);
+                    }
                     else
                     {
                         ProfanityFilter.InitialiseProfanitiesIfEmpty(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics);
@@ -889,7 +895,23 @@ namespace BBC.Dna.Page
 				return false;
 			}
 		}
+		/// <summary>
+		/// Checks whether if the page must be accessed by secure means that it is
+		/// </summary>
+        /// <returns>true if the page must be accessed securely.</returns>
+        public bool IsSecureAccessAllowed()
+        {
+            if (!this.IsSecureRequest)
+            {
+                if (_dnapage.MustBeSecure)
+                {
+                    return false;
+                }
+            }
+            return true;
 
+        }
+        
 		/// <summary>
 		/// Checks whether the page is accessible by types of logged on user
 		/// </summary>

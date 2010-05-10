@@ -124,6 +124,8 @@
   <ItemGroup>
     <Content Include="configurations\Web.config" />
     <Content Include="Global.asax" />
+    <Content Include="status.aspx" />
+    <Content Include="version.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

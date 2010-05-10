@@ -382,7 +382,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateComment");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
-            request.CurrentSSO2Cookie = "";
+            request.CurrentCookie = "";
             //create the forum
             CommentForum commentForum = GetCommentsTests().CommentForumCreate("tests", Guid.NewGuid().ToString());
 

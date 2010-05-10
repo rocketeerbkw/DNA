@@ -29,6 +29,7 @@ namespace FunctionalTests
         private string _displayName = "Good old tester";
         private string _email = "a@b.com";
         private Cookie _cookie;
+        private Cookie _secureCookie;
 
         private string _firstName = "Donald";
         private string _lastName = "Duck";
@@ -87,7 +88,7 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _dob, TestUserCreator.IdentityPolicies.Adult, "identity606", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("status-n?skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
@@ -118,7 +119,7 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, "", _email, _dob, TestUserCreator.IdentityPolicies.Adult, "identity606", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("status-n?skin=purexml");
 
             XmlDocument doc = request.GetLastResponseAsXML();
@@ -152,7 +153,7 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _dob, TestUserCreator.IdentityPolicies.Adult, "identity606", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("status-n?skin=purexml");
 
             XmlDocument doc = request.GetLastResponseAsXML();
@@ -194,7 +195,7 @@ namespace FunctionalTests
             }
 
             int identityUserID;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, TestUserAccounts.GetNormalUserAccount.UserID, out _cookie, out identityUserID), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, TestUserAccounts.GetNormalUserAccount.UserID, out _cookie, out _secureCookie, out identityUserID), "Failed to create test identity user");
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAs(_userName, _password, TestUserAccounts.GetNormalUserAccount.UserID, _cookie.Value, true);
             request.RequestPage("status-n?skin=purexml");
@@ -248,7 +249,7 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, "", _email, _dob, TestUserCreator.IdentityPolicies.Adult, "identity606", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("?skin=purexml");
 
             XmlDocument doc = request.GetLastResponseAsXML();
@@ -282,7 +283,7 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _dob, TestUserCreator.IdentityPolicies.Adult, "identity606", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("?skin=purexml");
 
             XmlDocument doc = request.GetLastResponseAsXML();
@@ -323,7 +324,7 @@ namespace FunctionalTests
             }
 
             int identityUserID;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, TestUserAccounts.GetNormalUserAccount.UserID, out _cookie, out identityUserID), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, TestUserAccounts.GetNormalUserAccount.UserID, out _cookie, out _secureCookie, out identityUserID), "Failed to create test identity user");
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAs(_userName, _password, TestUserAccounts.GetNormalUserAccount.UserID, _cookie.Value, true);
             request.RequestPage("?skin=purexml");
@@ -349,7 +350,7 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _dob, TestUserCreator.IdentityPolicies.Adult, "identity606", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("?skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
@@ -419,7 +420,7 @@ namespace FunctionalTests
             
             DnaTestURLRequest request = new DnaTestURLRequest("mbcbbc");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _14YearsOld, TestUserCreator.IdentityPolicies.Kids, "mbcbbc", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("?_ns=1&skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
@@ -461,7 +462,7 @@ namespace FunctionalTests
             
             DnaTestURLRequest request = new DnaTestURLRequest("mbcbbc");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _14YearsOld, TestUserCreator.IdentityPolicies.Kids, "mbcbbc", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("status-n?_ns=1&skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
@@ -499,7 +500,7 @@ namespace FunctionalTests
 
             DnaTestURLRequest request = new DnaTestURLRequest("mbcbbc");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _14YearsOld, TestUserCreator.IdentityPolicies.Kids, "mbcbbc", TestUserCreator.UserType.IdentityOnly);
-            string cookie = request.CurrentSSO2Cookie;
+            string cookie = request.CurrentCookie;
             request.RequestPage("status-n?_ns=1&skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
