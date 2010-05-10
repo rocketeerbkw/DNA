@@ -141,6 +141,9 @@
                <h1 id="logo">
                 
                </h1>
+            <div id="blq-global-nav">
+              <xsl:comment>#include virtual="/blast/msgbd_v2/inc/global_nav.sssi"</xsl:comment>
+            </div>
             <div id="tagline">
               <p>This message board is  <a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" target="_blank">pre-moderated</a> - that means your messages get looked at by moderators before posting.</p>
             </div>
