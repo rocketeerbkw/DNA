@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
 using TestUtils;
+using BBC.Dna.Groups;
 
 namespace Tests
 {
@@ -49,6 +50,10 @@ namespace Tests
                 site = _siteList.GetSite("h2g2");
 
                 _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
+                
+                ICacheManager groupsCache = new StaticCacheManager();
+                var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
+                g.InitialiseAllUsersAndGroups();
             }
         }
 
@@ -69,6 +74,8 @@ namespace Tests
 		{
             string goodSiteName = "h2g2";
             string badSiteName = "not a site name";
+            
+            SetupACommentForum();
 
             //test good site
             CommentForumList result = _comments.GetCommentForumListBySite(goodSiteName);
@@ -92,13 +99,31 @@ namespace Tests
 
 		}
 
+        private void SetupACommentForum()
+        {
+            string prefix = "prefixtestsbycomments" + Guid.NewGuid().ToString();
+            CommentForum commentForum = new CommentForum
+            {
+                Id = prefix,
+                ParentUri = "http://www.bbc.co.uk/dna/h2g2/",
+                Title = "testCommentForum"
+            };
+            CommentForum result = null;
+
+            commentForum.Id = String.Format("{0}-{1}", prefix, Guid.NewGuid().ToString());
+            result = _comments.CreateCommentForum(commentForum, site);
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.Id == commentForum.Id);
+            Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
+            Assert.IsTrue(result.Title == commentForum.Title);
+        }
+
         /// <summary>
         /// Tests of the read of comment forums by sitename and prefix
         /// </summary>
         [TestMethod]
         public void CommentForumsReadBySiteNameAndPrefix()
-        {
-     
+        {    
             //create 3 with the same prefix
             string prefix = "prefixtestsbycomments" + Guid.NewGuid().ToString();
             CommentForum commentForum = new CommentForum
