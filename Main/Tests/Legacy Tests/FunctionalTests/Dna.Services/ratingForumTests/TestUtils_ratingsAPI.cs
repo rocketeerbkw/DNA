@@ -397,7 +397,7 @@ namespace FunctionalTests
         /// <param name="forumCeiling">new value to be used by this forum</param>
         internal static void setCeiling(string testForumId, string forumCeiling)
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 string sqlStr;
 

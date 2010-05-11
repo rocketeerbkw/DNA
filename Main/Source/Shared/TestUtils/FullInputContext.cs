@@ -36,11 +36,12 @@ namespace Tests
         private BBC.Dna.User _viewingUser = null;
         private static DnaConfig _dnaConfig = null;
         private DnaDiagnostics _dnaDiagnostics = new DnaDiagnostics(1, DateTime.Now);
-        private DnaCookie _ssocookie = null;
+        //private DnaCookie _ssocookie = null;
         private DnaCookie _identityCookie = null;
         private DnaCookie _identitySecureCookie = null;
         private IDnaIdentityWebServiceProxy _signInComponent = null;
         private bool _useIdentity = false;
+        private bool _isSecure = false;
         System.Collections.SortedList _params = new System.Collections.SortedList();
         public IDnaDataReaderCreator ReaderCreator{get;private set;}
 
@@ -328,7 +329,15 @@ namespace Tests
         /// </summary>
         public virtual DnaCookie GetCookie(string cookieName)
         {
-            return _ssocookie;
+            //return _ssocookie;
+            if (cookieName == "IDENTITY-HTTPS")
+            {
+                return _identitySecureCookie;
+            }
+            else
+            {
+                return _identityCookie;
+            }
         }
 
 
@@ -874,8 +883,8 @@ namespace Tests
         /// </summary>
         public bool IsSecureRequest
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return _isSecure; }
+            set { _isSecure = value; }
         }
     }
 }

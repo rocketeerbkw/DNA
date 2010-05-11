@@ -29,6 +29,7 @@ namespace Tests
         {
             // Create the stored procedure reader for the setup
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
+            request.UseIdentitySignIn = true;
             request.SetCurrentUserNormal();
 
             // Setup the request url
@@ -40,7 +41,7 @@ namespace Tests
             // Request the page and then post a comment
             request.RequestPage(url);
             XmlDocument xml = request.GetLastResponseAsXML();
-            request.RequestPage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             XmlDocument xDoc = request.GetLastResponseAsXML();
             _entryID = Convert.ToInt32(xDoc.SelectSingleNode("//POST/@POSTID").InnerText);
 

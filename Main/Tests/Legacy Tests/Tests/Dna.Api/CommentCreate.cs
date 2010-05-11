@@ -268,7 +268,7 @@ namespace Tests
             //create comments objects
 
             _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.SSOService, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             var callingUser = _comments.CallingUser;
             //set up test data
             CommentInfo comment = new CommentInfo
@@ -934,7 +934,7 @@ return.";
                 sql.AppendLine("UPDATE Sites SET IdentityPolicy='http://identity/policies/dna/adult' WHERE SiteID=1");
                 reader.ExecuteDEBUGONLY(sql.ToString());
             }
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(true))
             {//send signal
                 inputContext.SendSignal("action=recache-site");
                 _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null);

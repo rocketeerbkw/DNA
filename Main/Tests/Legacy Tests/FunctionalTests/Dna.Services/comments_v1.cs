@@ -967,7 +967,7 @@ namespace FunctionalTests
             //create the forum
             CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
 
-            using (FullInputContext _context = new FullInputContext(false))
+            using (FullInputContext _context = new FullInputContext(true))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {
@@ -1036,7 +1036,7 @@ namespace FunctionalTests
             Assert.IsTrue(ago.InnerText == expectedResponse); 
 
             //set the comment time back 5 minutes
-            using (FullInputContext _context = new FullInputContext(false))
+            using (FullInputContext _context = new FullInputContext(true))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {

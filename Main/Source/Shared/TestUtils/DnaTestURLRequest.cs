@@ -133,6 +133,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -146,6 +147,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -159,6 +161,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -172,6 +175,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -185,6 +189,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -198,6 +203,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -211,6 +217,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -224,6 +231,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -237,6 +245,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -882,7 +891,7 @@ namespace Tests
                 {
                     cookie = new Cookie("IDENTITY", _cookie, "/", _server);
                     webRequest.CookieContainer.Add(cookie);
-                    cookie = new Cookie("IDENTITY-USERNAME", _cookie, "/", _server);
+                    cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server);
                     webRequest.CookieContainer.Add(cookie);
                 }
                 else

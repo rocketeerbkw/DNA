@@ -365,7 +365,7 @@ namespace FunctionalTests
                 return false;
             }
 
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(true))
             {
                 inputContext.SendSignal("action=recache-site");
             }

@@ -49,7 +49,7 @@ namespace Tests
         {
             SnapshotInitialisation.RestoreFromSnapshot();
             Statistics.InitialiseIfEmpty();
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 ProfanityFilter.InitialiseProfanitiesIfEmpty(inputcontext.ReaderCreator, null);
                 _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
@@ -252,7 +252,7 @@ namespace Tests
         {
             try
             {
-                using (FullInputContext inputcontext = new FullInputContext(false))
+                using (FullInputContext inputcontext = new FullInputContext(true))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -288,7 +288,7 @@ namespace Tests
             }
             finally
             {
-                using (FullInputContext inputcontext = new FullInputContext(false))
+                using (FullInputContext inputcontext = new FullInputContext(true))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -358,7 +358,7 @@ namespace Tests
         public void RatingCreate_BannedUser()
         {
             Reviews ratings = null;
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
@@ -416,7 +416,7 @@ namespace Tests
             try
             {//turn the site into emergency closed mode
                 _siteList.GetSite(site.ShortName).IsEmergencyClosed = true;
-                using (FullInputContext inputcontext = new FullInputContext(false))
+                using (FullInputContext inputcontext = new FullInputContext(true))
                 {
                     _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                     _ratings.CallingUser = callingUser;
@@ -654,7 +654,7 @@ return.";
             Assert.AreEqual("This post is awaiting moderation.", result.FormatttedText);
 
             //check if post in mod queue table
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -675,7 +675,7 @@ return.";
         public void RatingCreate_PreModSiteWithProcessPreMod()
         {
 
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -719,7 +719,7 @@ return.";
             }
             finally 
             { //reset h2g2 site
-                using (FullInputContext inputcontext = new FullInputContext(false))
+                using (FullInputContext inputcontext = new FullInputContext(true))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -789,7 +789,7 @@ return.";
             Assert.IsTrue(result.text == rating.text);
 
             //check if post in mod queue table
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -852,7 +852,7 @@ return.";
 
 
             //change the closing date for this forum
-            using (FullInputContext _context = new FullInputContext(false))
+            using (FullInputContext _context = new FullInputContext(true))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {
@@ -1243,7 +1243,7 @@ return.";
 
         private void DeleteMinMaxLimitSiteOptions()
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -1270,7 +1270,7 @@ return.";
         private void SetMaxCharLimit(int maxLimit)
         {
             //set min and max char option
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -1283,7 +1283,7 @@ return.";
         private void SetMinCharLimit(int minLimit)
         {
             //set min and max char option
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {

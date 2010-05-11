@@ -1294,7 +1294,7 @@ namespace FunctionalTests
                 reader.Execute();
             }
 
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(true))
             {//send signal
                 inputContext.SendSignal("action=recache-site");
             }
@@ -1313,7 +1313,7 @@ namespace FunctionalTests
         private void CleanRiplyCache()
         {
             string cachePath = string.Empty;
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(true))
             {//send signal
                 cachePath = inputContext.DnaConfig.CachePath;
             }

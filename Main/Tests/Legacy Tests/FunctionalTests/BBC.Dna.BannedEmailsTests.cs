@@ -28,7 +28,7 @@ namespace FunctionalTests
         public void TestsSetup()
         {
             SnapshotInitialisation.ForceRestore();
-            using (FullInputContext _context = new FullInputContext(false))
+            using (FullInputContext _context = new FullInputContext(true))
             {
                 _connectionDetails = _context.DnaConfig.ConnectionString;
             }
