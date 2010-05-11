@@ -17,8 +17,14 @@
 			
 		</doc:notes>
 	</doc:documentation>
-	
-	<xsl:template match="H2G2[@TYPE = 'MBADMIN'] | H2G2[@TYPE = 'FRONTPAGE']" mode="page">
+
+  <xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="page">
+    <div>
+      <a href="http://{host}{root}/messageboardadmin?s_mode=admin">Redirecting...</a>
+    </div>
+  </xsl:template>
+
+    <xsl:template match="H2G2[@TYPE = 'MBADMIN']" mode="page">
 
     <div class="dna-mb-intro">
       <p>

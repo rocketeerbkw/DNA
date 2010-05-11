@@ -42,15 +42,24 @@
 				</title>
 				
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-				<meta name="description" content="" />
-				<meta name="keywords" content="" />
-				<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
-				<link type="image/x-icon" href="/favicon.ico" rel="icon"/>
-				<meta name="DCTERMS.created" content="2006-09-15T12:00:00Z" />
-				<meta name="DCTERMS.modified" content="2006-09-15T12:35:00Z" />
-				<meta name="Author"><xsl:attribute name="content"><xsl:value-of select="$configuration/general/skinAuthor"/></xsl:attribute></meta>
-				
-				<xsl:choose>
+        <xsl:if test="/H2G2/@TYPE = 'FRONTPAGE'">
+          <meta http-equiv="refresh" content="0;url=http://{$host}{$root}/messageboardadmin?s_mode=admin" />
+          
+        </xsl:if>
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+        <link type="image/x-icon" href="/favicon.ico" rel="icon"/>
+        <meta name="DCTERMS.created" content="2006-09-15T12:00:00Z" />
+        <meta name="DCTERMS.modified" content="2006-09-15T12:35:00Z" />
+        <meta name="Author">
+          <xsl:attribute name="content">
+            <xsl:value-of select="$configuration/general/skinAuthor"/>
+          </xsl:attribute>
+        </meta>
+
+
+        <xsl:choose>
 					<xsl:when test="SITE/IDENTITYSIGNIN = 1">
 						<xsl:comment>#set var="blq_identity" value="on"</xsl:comment>
 					</xsl:when>
