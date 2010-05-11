@@ -34,7 +34,7 @@ namespace BBC.Dna.Objects
         public List<String> AdminErrors{ get; set; }
 
         /// <remarks/>
-        [XmlArrayAttribute(Order = 1, ElementName = "DESIGN")]
+        [XmlArrayAttribute(Order = 2, ElementName = "DESIGN")]
         [XmlArrayItemAttribute("ERROR", IsNullable = false)]
         public List<String> DesignErrors{ get; set; }
 
