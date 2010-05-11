@@ -5,13 +5,15 @@ using System.Runtime.Serialization;
 using System;
 using BBC.Dna.Data;
 using System.Collections.Generic;
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute(AnonymousType=true, TypeName="TOP-FIVES")]
+    [XmlTypeAttribute(AnonymousType=false, TypeName="TOP-FIVES")]
     [XmlRootAttribute("TOP-FIVES", Namespace="", IsNullable=false)]
     public class TopFives : CachableBase<TopFives>
     {
@@ -19,10 +21,41 @@ namespace BBC.Dna.Objects
         {
             TopFiveList = new List<TopFiveBase>();
         }
+        
+        /// <summary>
+        /// Gets the TopFive for the current site. If a valid cached version is available, that is returned instead of getting it from the database
+        /// </summary>
+        /// <param name="siteID">The site you want to get the top fives for</param>
+        /// <param name="readerCreator">DateReaderCreator to create database readers</param>
+        /// <param name="diagnostics">The diagnostics object for writing to the logs</param>
+        /// <param name="cache">The current cache manager for the application</param>
+        /// <returns>The TopFives object for the given site</returns>
+        static public TopFives GetSiteTopFives(int siteID, IDnaDataReaderCreator readerCreator, IDnaDiagnostics diagnostics, ICacheManager cache)
+        {
+            TopFives topFive = new TopFives();
+            string cacheKey = topFive.GetCacheKey("topfives-site-", siteID);
+            var cachedTopFives = (CachableBase<TopFives>)cache.GetData(cacheKey);
+            if (cachedTopFives == null || !cachedTopFives.IsUpToDate(null))
+            {
+                topFive.GetTopFivesForSite(siteID, readerCreator, diagnostics);
+                cache.Add(cacheKey, topFive.Clone());
+            }
+            else
+            {
+                topFive = (TopFives)cachedTopFives;
+            }
 
+            return topFive;
+        }
+
+        /// <summary>
+        /// Checks the current object to see if it's still valid to use
+        /// </summary>
+        /// <param name="readerCreator">A data reader creator to perform database requests</param>
+        /// <returns>True if it is, false if not</returns>
         public override bool IsUpToDate(IDnaDataReaderCreator readerCreator)
         {
-            return true;
+            return CacheExpireryDate > DateTime.Now;
         }
 
         /// <summary>
@@ -30,32 +63,46 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="siteID">Id of the site you want to get the top fives for</param>
         /// <param name="readerCreator">Data reader creator</param>
-        public void GetTopFivesForSite(int siteID, IDnaDataReaderCreator readerCreator)
+        /// <param name="diagnostics">The Diagnostics object for writing to the output logs</param>
+        public void GetTopFivesForSite(int siteID, IDnaDataReaderCreator readerCreator, IDnaDiagnostics diagnostics)
         {
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettopfives2"))
             {
-                reader.AddParameter("siteid", siteID);
-                reader.Execute();
-                bool moreRows = reader.Read();
-
-                while (moreRows)
+                try
                 {
-                    if (!reader.IsDBNull("h2g2id"))
+                    reader.AddParameter("siteid", siteID);
+                    reader.Execute();
+                    bool moreRows = reader.Read();
+
+                    while (moreRows)
                     {
-                        moreRows = AddArticlesToTopFive(reader);
-                    }
-                    else if (!reader.IsDBNull("forumid"))
-                    {
-                        moreRows = AddForumsToTopFive(reader);
-                    }
-                    else
-                    {
-                        moreRows = reader.Read();
+                        if (!reader.IsDBNull("h2g2id"))
+                        {
+                            moreRows = AddArticlesToTopFive(reader);
+                        }
+                        else if (!reader.IsDBNull("forumid"))
+                        {
+                            moreRows = AddForumsToTopFive(reader);
+                        }
+                        else
+                        {
+                            moreRows = reader.Read();
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    diagnostics.WriteExceptionToLog(ex);
+                    TopFiveList.Clear();
+                }
+                CacheExpireryDate = DateTime.Now.AddMinutes(5);
             }
         }
 
+        /// <summary>
+        /// Creates and adds the current top five article to the topfives
+        /// </summary>
+        /// <param name="reader">The data reader that holds the information</param>
         private bool AddArticlesToTopFive(IDnaDataReader reader)
         {
             TopFiveArticles topFiveArticles = new TopFiveArticles();
@@ -129,13 +176,29 @@ namespace BBC.Dna.Objects
             get;
             set;
         }
+
+#if DEBUG
+        [XmlIgnore]
+        public DateTime CacheExpireryDate
+        {
+            get;
+            set;
+        }
+#else
+        [XmlIgnore]
+        private DateTime CacheExpireryDate
+        {
+            get;
+            set;
+        }
+#endif
     }
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute(AnonymousType = true)]
+    [XmlTypeAttribute("TOP-FIVE")]
     [XmlInclude(typeof(TopFiveArticles)), XmlInclude(typeof(TopFiveForums))]
     public class TopFiveBase
     {
@@ -160,7 +223,6 @@ namespace BBC.Dna.Objects
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    //[XmlTypeAttribute(AnonymousType = true)]
     public class TopFiveForums : TopFiveBase
     {
         public TopFiveForums()
@@ -181,7 +243,6 @@ namespace BBC.Dna.Objects
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    //[XmlTypeAttribute(AnonymousType = true)]
     public class TopFiveArticles : TopFiveBase
     {
         public TopFiveArticles()
@@ -284,7 +345,7 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("LINKITEMTYPE", Order = 3)]
-        public object LinkItemType
+        public int LinkItemType
         {
             get;
             set;
@@ -292,7 +353,7 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("LINKITEMID", Order = 4)]
-        public object LinkItemID
+        public int LinkItemID
         {
             get;
             set;
@@ -300,7 +361,7 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("LINKITEMNAME", Order = 5)]
-        public object LinkItemName
+        public string LinkItemName
         {
             get;
             set;
