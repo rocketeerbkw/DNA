@@ -24,7 +24,8 @@ namespace Tests
             using (FullInputContext fullinputcontext = new FullInputContext(false))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
+                fullinputcontext.InitDefaultUser();
+                //fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 _testUser = (User)fullinputcontext.ViewingUser;
             }
        }
@@ -216,7 +217,8 @@ namespace Tests
             using (FullInputContext fullinputcontext = new FullInputContext(false))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
+                fullinputcontext.InitDefaultUser();
+//                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 User tempUser = new User(fullinputcontext);
                 tempUser.CreateUser(_testUser.UserID);
                 Assert.AreEqual(tempUser.UserName, newUserName);
@@ -230,7 +232,8 @@ namespace Tests
             using (FullInputContext fullinputcontext = new FullInputContext(false))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
+                fullinputcontext.InitDefaultUser();
+//                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 User tempUser = new User(fullinputcontext);
                 tempUser.CreateUser(_testUser.UserID);
                 Assert.AreEqual(tempUser.UserName, originalUserName);

@@ -164,6 +164,18 @@ namespace BBC.Dna.Users
             return true;
         }
 
+        /// <summary>
+        /// Creates a user using their DNA User ID
+        /// </summary>
+        /// <param name="userID">The users DNA ID</param>
+        /// <param name="siteID">The site that you want to create the user in</param>
+        /// <returns>True if they we're created ok, false if not</returns>
+        public new bool CreateUserFromDnaUserID(int userID, int siteID)
+        {
+            _isSecureRequest = true;
+            return base.CreateUserFromDnaUserID(userID, siteID);
+        }
+
         public override int IdentityUserID
         {
             get { return base.IdentityUserID; }

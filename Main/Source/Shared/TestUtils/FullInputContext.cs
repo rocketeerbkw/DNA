@@ -37,6 +37,8 @@ namespace Tests
         private static DnaConfig _dnaConfig = null;
         private DnaDiagnostics _dnaDiagnostics = new DnaDiagnostics(1, DateTime.Now);
         private DnaCookie _ssocookie = null;
+        private DnaCookie _identityCookie = null;
+        private DnaCookie _identitySecureCookie = null;
         private IDnaIdentityWebServiceProxy _signInComponent = null;
         private bool _useIdentity = false;
         System.Collections.SortedList _params = new System.Collections.SortedList();
@@ -230,19 +232,29 @@ namespace Tests
         /// </summary>
         public void InitDefaultUser()
         {
-            InitUserFromCookie("3420578cf0c5a180d2de517ce172cf15a1d75962e850da37b546589db499466a00");
+            //InitUserFromCookie("3420578cf0c5a180d2de517ce172cf15a1d75962e850da37b546589db499466a00");
+            InitUserFromCookie("6042002|DotNetNormalUser|DotNetNormalUser|1273497514775|0|bf78fdd57a1f70faee630c07ba31674eab181a3f6c6f",
+            "1eda650cb28e56156217427336049d0b8e164765");
         }
 
         /// <summary>
         /// Initialises a new default user from a sso uid
         /// </summary>
-        public void InitUserFromCookie(string ssouid2)
+        public void InitUserFromCookie(string identity, string identityHttps)
         {
-            if (_ssocookie == null)
+            /*if (_ssocookie == null)
             {
                 _ssocookie = new DnaCookie(new System.Web.HttpCookie("SS02-UID"));
             }
-            _ssocookie.Value = ssouid2;
+            _ssocookie.Value = ssouid2;*/
+
+            if (_identityCookie == null)
+            {
+                _identityCookie = new DnaCookie(new System.Web.HttpCookie("IDENTITY"));
+                _identitySecureCookie = new DnaCookie(new System.Web.HttpCookie("IDENTITY-HTTPS"));
+            }
+            _identityCookie.Value = identity;
+            _identitySecureCookie.Value = identityHttps;
 
             _viewingUser = new BBC.Dna.User(this);
             _viewingUser.CreateUser();

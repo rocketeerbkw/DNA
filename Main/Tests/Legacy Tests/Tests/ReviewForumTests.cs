@@ -49,7 +49,7 @@ namespace Tests
                 _context = DnaMockery.CreateDatabaseInputContext();
 
                 // Create a mocked site for the context
-                ISite mockedSite = DnaMockery.CreateMockedSite(_context, 1, "h2g2", "h2g2", false);
+                ISite mockedSite = DnaMockery.CreateMockedSite(_context, 1, "h2g2", "h2g2", true);
                 Stub.On(_context).GetProperty("CurrentSite").Will(Return.Value(mockedSite));
                 Stub.On(mockedSite).GetProperty("ModClassID").Will(Return.Value(1));
 

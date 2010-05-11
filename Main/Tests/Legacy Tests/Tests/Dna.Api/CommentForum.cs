@@ -43,7 +43,7 @@ namespace Tests
             SnapshotInitialisation.ForceRestore();
             Statistics.InitialiseIfEmpty();
 
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 site = _siteList.GetSite("h2g2");
@@ -163,7 +163,7 @@ namespace Tests
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
             _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
             CommentInfo commentInfo = _comments.CreateComment(result, comment);
             Assert.IsTrue(commentInfo != null);

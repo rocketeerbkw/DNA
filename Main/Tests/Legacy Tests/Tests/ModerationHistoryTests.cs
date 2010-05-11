@@ -94,7 +94,7 @@ namespace Tests
                 Stub.On(context).Method("GetParamIntOrZero").With("h2g2id", "h2g2id").Will(Return.Value(0));
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", false);
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true);
 
                 IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
                 AppContext.ReaderCreator = creator;
@@ -154,7 +154,7 @@ namespace Tests
                 Stub.On(context).Method("GetParamIntOrZero").With("h2g2id", "h2g2id").Will(Return.Value(0));
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", false);
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true);
 
                 IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
                 AppContext.ReaderCreator = creator;
@@ -217,7 +217,7 @@ namespace Tests
                 Stub.On(context).Method("GetParamIntOrZero").With("h2g2id", "h2g2id").Will(Return.Value(0));
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", false);
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true);
 
                 IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
                 AppContext.ReaderCreator = creator;
@@ -274,7 +274,7 @@ namespace Tests
                 Stub.On(context).Method("GetParamIntOrZero").With("h2g2id", "h2g2id").Will(Return.Value(0));
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", false);
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true);
 
                 IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
                 AppContext.ReaderCreator = creator;

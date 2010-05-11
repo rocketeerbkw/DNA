@@ -31,7 +31,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("StartUp()");
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
-            ISite siteContext = DnaMockery.CreateMockedSite(context, 1, "", "h2g2", false);
+            ISite siteContext = DnaMockery.CreateMockedSite(context, 1, "", "h2g2", true);
             TestDataCreator testData = new TestDataCreator(context);
 
             int[] userIDs = new int[10];
