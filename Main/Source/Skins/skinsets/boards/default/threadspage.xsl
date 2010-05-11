@@ -760,13 +760,13 @@
 						<xsl:choose>
 							<xsl:when test="LASTPOST/USER/GROUPS/EDITOR">
 								<em>
-									<xsl:apply-templates select="LASTPOST/USER/USERNAME" mode="c_threadspage"/>
+									<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 									<span class="notable"> &#8722; <xsl:value-of select="LAstPOST/USER/TITLE"/>
 									</span>
 								</em>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:apply-templates select="LASTPOST/USER/USERNAME" mode="c_threadspage"/>
+								<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 								<span class="notable"> &#8722; <xsl:value-of select="LASTPOST/USER/TITLE"/>
 								</span>
 							</xsl:otherwise>
@@ -776,11 +776,11 @@
 						<xsl:choose>
 							<xsl:when test="LASTPOST/USER/GROUPS/EDITOR">
 								<em>
-									<xsl:apply-templates select="LASTPOST/USER/USERNAME" mode="c_threadspage"/>
+									<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 								</em>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:apply-templates select="LASTPOST/USER/USERNAME" mode="c_threadspage"/>
+								<xsl:apply-templates select="FIRSTPOST/USER" mode="username" />
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
