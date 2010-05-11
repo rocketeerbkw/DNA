@@ -670,6 +670,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
