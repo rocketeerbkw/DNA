@@ -50,9 +50,15 @@
 		</xsl:call-template>
 	</xsl:template>
 	
+	<xsl:template match="H2G2[@TYPE = 'ADDTHREAD']" mode="library_identity_ptrt">
+		<xsl:call-template name="library_string_urlencode">
+			<xsl:with-param name="string" select="concat($host, $root, '/AddThread?inreplyto=', POSTTHREADUNREG/@POSTID)"/>
+		</xsl:call-template>
+	</xsl:template>
+	
 	<xsl:template match="H2G2[@TYPE = 'ARTICLE']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/A', ARTICLE/H2G2ID, '%3Fs_sync=1')"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/A', ARTICLE/H2G2ID)"/>
 		</xsl:call-template>
 	</xsl:template>
 	

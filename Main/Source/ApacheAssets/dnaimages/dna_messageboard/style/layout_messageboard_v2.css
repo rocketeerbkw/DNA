@@ -25,3 +25,7 @@
 	/*width: 100%; how to make this relative size? */
 	width: 463px;
 }
+/* IE 6 layout 
+body.ie6 #dna-boardpromo {
+	width: 125px;
+}*/

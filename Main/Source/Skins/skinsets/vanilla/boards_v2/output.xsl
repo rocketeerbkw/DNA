@@ -127,8 +127,8 @@
       	</head>
       	<xsl:text disable-output-escaping="yes">
       		<![CDATA[    
-				<!--[if IE]>
-					<body class="ie">
+				<!--[if IE 6]>
+					<body class="ie6">
 				<![endif]-->    
 				<!--[if !IE]>-->
 			]]>
@@ -154,18 +154,21 @@
       			</div>
       		</xsl:if> -->
       		
-      		<div id="header">
-      			<div id="banner">
-      				<xsl:choose>
-      					<xsl:when test="SITECONFIG/V2_BOARDS/BANNER_SSI and SITECONFIG/V2_BOARDS/BANNER_SSI != ''"> 
-      						<xsl:comment>#include virtual="<xsl:value-of select="SITECONFIG/V2_BOARDS/BANNER_SSI"/>"</xsl:comment>
-      					</xsl:when>
-      					<xsl:otherwise>
-			      			<h1>Messageboards</h1>   					
-      					</xsl:otherwise>
-      				</xsl:choose>
-      			</div>
-      		</div>
+      		<!-- horrible hack for error pages -->
+      		<xsl:if test="/H2G2/SITECONFIG">
+	      		<div id="header">
+	      			<div id="banner">
+	      				<xsl:choose>
+	      					<xsl:when test="SITECONFIG/V2_BOARDS/BANNER_SSI and SITECONFIG/V2_BOARDS/BANNER_SSI != ''"> 
+	      						<xsl:comment>#include virtual="<xsl:value-of select="SITECONFIG/V2_BOARDS/BANNER_SSI"/>"</xsl:comment>
+	      					</xsl:when>
+	      					<xsl:otherwise>
+				      			<h1>Messageboards</h1>   					
+	      					</xsl:otherwise>
+	      				</xsl:choose>
+	      			</div>
+	      		</div>
+      		</xsl:if>
       		
 			<xsl:if test="SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI and SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI != ''">
 				<div id="global-nav">
@@ -181,128 +184,141 @@
       		
       		<div style="clear:both;"> <xsl:comment> leave this </xsl:comment> </div>
       		 
-      		<div id="blq-local-nav">
-      			
-      			<xsl:if test="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI">
-      				<xsl:comment>#include virtual="<xsl:value-of select="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI"/>"</xsl:comment>
-      			</xsl:if>
-				
-				<!-- what is this used for? -->
-      			<xsl:if test="SITECONFIG/SITEHOME and SITECONFIG/SITEHOME != ''">
-      				<ul class="navigation sitehome">
-      					<li>
-      						<a href="{SITECONFIG/SITEHOME}"><xsl:value-of select="SITECONFIG/BOARDNAME"/> Home</a>
-      					</li>
-      				</ul>
-      			</xsl:if>
-      			
-      			<xsl:if test="TOPICLIST/TOPIC">
-      				<ul class="navigation topics">
-      					<li class="topic-parent"><a href="/dna/mbiplayer">Messageboard</a></li>
-      					<xsl:apply-templates select="TOPICLIST/TOPIC" mode="object_topic_title"/>
-      					<li class="hr"><hr /></li>
-	      				<xsl:if test="/H2G2/VIEWING-USER/USER">
-	      					
-	      					<li id="mydiscussions">
-	      						<a href="{$root}/MP{/H2G2/VIEWING-USER/USER/USERID}">My Discussions</a>
-	      					</li>
-	      				</xsl:if>
-	      				<li>
-	      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a>
-	      				</li>
-	      				<li>
-	      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html" class="popup">FAQs</a>
-	      				</li>
-	      				<xsl:variable name="currentSite" select="CURRENTSITE"/>
-	      				<xsl:if test="SITE[@ID='$currentSite']/SITEOPTIONS/SITEOPTION[NAME='IsKidsSite']/VALUE='1'">
+      		<!-- hack for error pages - this needs to be revisited  --> 
+      		<xsl:if test="/H2G2/SITECONFIG">
+	      		<div id="blq-local-nav">
+	      			
+	      			<xsl:if test="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI">
+	      				<xsl:comment>#include virtual="<xsl:value-of select="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI"/>"</xsl:comment>
+	      			</xsl:if>
+					
+					<!-- what is this used for? -->
+	      			<xsl:if test="SITECONFIG/SITEHOME and SITECONFIG/SITEHOME != ''">
+	      				<ul class="navigation sitehome">
 	      					<li>
-	      						<a href="http://www.bbc.co.uk/messageboards/newguide/popup_online_safety.html" class="popup">Are you being safe online?</a>
+	      						<a href="{SITECONFIG/SITEHOME}"><xsl:value-of select="SITECONFIG/BOARDNAME"/> Home</a>
 	      					</li>
-	      				</xsl:if>      					
-      				</ul>
-      			</xsl:if>
-      			
-      			<xsl:call-template name="library_userstate_editor">
-      				<xsl:with-param name="loggedin">
-      					<ul class="navigation admin">
-      						<li>
-      							<xsl:choose>
-      								<xsl:when test="contains(/H2G2/SERVERNAME, 'NARTHUR5')">
-      									<a href="http://dna-extdev.bbc.co.uk/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>
-      								</xsl:when>
-      								<xsl:otherwise>
-      									<a href="/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>
-      								</xsl:otherwise>
-      							</xsl:choose>
-      						</li>
-      						<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2" >
-      							<li>
-      								<a href="/dna/{SITECONFIG/BOARDROOT}boards-admin/siteoptions">Site Options</a>
-      							</li>
-      						</xsl:if>
-      					</ul>
-      				</xsl:with-param>
-      			</xsl:call-template>
-      		</div>
+	      				</ul>
+	      			</xsl:if>
+	      			
+	      			<xsl:if test="TOPICLIST/TOPIC">
+	      				<ul class="navigation topics">
+	      					<li class="topic-parent"><a href="/dna/mbiplayer">Messageboard</a></li>
+	      					<xsl:apply-templates select="TOPICLIST/TOPIC" mode="object_topic_title"/>
+	      					<li class="hr"><hr /></li>
+		      				<xsl:if test="/H2G2/VIEWING-USER/USER">
+		      					
+		      					<li id="mydiscussions">
+		      						<a href="{$root}/MP{/H2G2/VIEWING-USER/USER/USERID}">My Discussions</a>
+		      					</li>
+		      				</xsl:if>
+		      				<li>
+		      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a>
+		      				</li>
+		      				<li>
+		      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html" class="popup">FAQs</a>
+		      				</li>
+		      				<xsl:variable name="currentSite" select="CURRENTSITE"/>
+		      				<xsl:if test="SITE[@ID='$currentSite']/SITEOPTIONS/SITEOPTION[NAME='IsKidsSite']/VALUE='1'">
+		      					<li>
+		      						<a href="http://www.bbc.co.uk/messageboards/newguide/popup_online_safety.html" class="popup">Are you being safe online?</a>
+		      					</li>
+		      				</xsl:if>      					
+	      				</ul>
+	      			</xsl:if>
+	      			
+	      			<xsl:call-template name="library_userstate_editor">
+	      				<xsl:with-param name="loggedin">
+	      					<ul class="navigation admin">
+	      						<li>
+	      							<xsl:choose>
+	      								<xsl:when test="contains(/H2G2/SERVERNAME, 'NARTHUR5')">
+	      									<a href="http://dna-extdev.bbc.co.uk/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>
+	      								</xsl:when>
+	      								<xsl:otherwise>
+	      									<a href="/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>
+	      								</xsl:otherwise>
+	      							</xsl:choose>
+	      						</li>
+	      						<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2" >
+	      							<li>
+	      								<a href="/dna/{SITECONFIG/BOARDROOT}boards-admin/siteoptions">Site Options</a>
+	      							</li>
+	      						</xsl:if>
+	      					</ul>
+	      				</xsl:with-param>
+	      			</xsl:call-template>
+	      		</div>
+      		</xsl:if>
       		
       		<div id="blq-content">
       			<xsl:attribute name="class">
-      				<xsl:apply-templates select="/H2G2/@TYPE" mode="library_string_stringtolower"/>
+      				<xsl:choose>
+	      				<xsl:when test="/H2G2/SITECONFIG">
+	      					<xsl:apply-templates select="/H2G2/@TYPE" mode="library_string_stringtolower"/>
+	      				</xsl:when>
+	      				<xsl:otherwise>
+	      					<xsl:text>problem</xsl:text>
+	      				</xsl:otherwise>
+      				</xsl:choose>
       			</xsl:attribute>
    				
-   				<xsl:if test="/H2G2/@TYPE = 'FRONTPAGE'">
+   				<!--  is it the front page or an error page (siteconfig hack for error page) -->
+   				<xsl:if test="/H2G2/@TYPE = 'FRONTPAGE' and /H2G2/SITECONFIG">
    					<h2><xsl:value-of select="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE" /></h2>
    				</xsl:if>
    				
       			<xsl:apply-templates select="." mode="page"/>
       		</div>  
       		
-      		<div id="dna-boardpromo"> 
-      			<h3>About this Board</h3>
-      			<div id="dna-about-board">
-      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" /></p>
-      				
-      				<xsl:if test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
-      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta"/>
-      				</xsl:if>
-      				<hr />
-      				<xsl:call-template name="boardtimes"/>
-      				<xsl:choose>
-      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 1">
-      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">post-moderated</a>.</p>
-      					</xsl:when>
-      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 2">
-      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">pre-moderated</a>.</p>
-      					</xsl:when>
-      					<xsl:otherwise>
-      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">reactively moderated</a>.</p>
-      					</xsl:otherwise>
-      				</xsl:choose>
-      				
-      				<p>Find out more about this board <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a></p>
-      			</div>
-      			
-      			<!-- Recent Discussions -->
-      			<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'true' and /H2G2/TOP-FIVES/TOP-FIVE"> 
-      				<h3>Recent Discussions</h3>
-      				<div>
-      					<ul class="topfives">
-      						<xsl:apply-templates select="/H2G2/TOP-FIVES/TOP-FIVE[@NAME = 'MostRecentConversations']/TOP-FIVE-FORUM" mode="object_top-fives_top-five-forum"/>
-      					</ul>
-      				</div>
-      			</xsl:if>
-      			
-      			<xsl:apply-templates select="SITECONFIG/V2_BOARDS/MODULES/LINKS" mode="modules" />
-      		</div>
+      		<xsl:if test="/H2G2/SITECONFIG">
+	      		<div id="dna-boardpromo"> 
+	      			<h3>About this Board</h3>
+	      			<div id="dna-about-board">
+	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" /></p>
+	      				
+	      				<xsl:if test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
+	      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta"/>
+	      				</xsl:if>
+	      				<hr />
+	      				<xsl:call-template name="boardtimes"/>
+	      				<xsl:choose>
+	      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 1">
+	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">post-moderated</a>.</p>
+	      					</xsl:when>
+	      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 2">
+	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">pre-moderated</a>.</p>
+	      					</xsl:when>
+	      					<xsl:otherwise>
+	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">reactively moderated</a>.</p>
+	      					</xsl:otherwise>
+	      				</xsl:choose>
+	      				
+	      				<p>Find out more about this board <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a></p>
+	      			</div>
+	      			
+	      			<!-- Recent Discussions -->
+	      			<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'true' and /H2G2/TOP-FIVES/TOP-FIVE"> 
+	      				<h3>Recent Discussions</h3>
+	      				<div>
+	      					<ul class="topfives">
+	      						<xsl:apply-templates select="/H2G2/TOP-FIVES/TOP-FIVE[@NAME = 'MostRecentConversations']/TOP-FIVE-FORUM" mode="object_top-fives_top-five-forum"/>
+	      					</ul>
+	      				</div>
+	      			</xsl:if>
+	      			
+	      			<xsl:apply-templates select="SITECONFIG/V2_BOARDS/MODULES/LINKS" mode="modules" />
+	      		</div>
+      		</xsl:if>
       		
       		<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR = 'true'">
 	      		<xsl:call-template name="library_socialbookmarks">
 	      			<xsl:with-param name="title" select="$socialbookmark_title"/>
 	      		</xsl:call-template>
       		</xsl:if>
-      		
+
       		<xsl:comment>#include virtual="/includes/blq/include/blq_body_last.sssi"</xsl:comment>
-      		
+
       	</body>
       </html>
       

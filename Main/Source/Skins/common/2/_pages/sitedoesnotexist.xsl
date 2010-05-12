@@ -15,27 +15,7 @@
     </doc:documentation>
     
     <xsl:template match="/H2G2[CURRENTSITE = 0]" mode="page" priority="1">        
-        <style tyle="text/css">
-          .servertoobusy p {
-            margin: 10px 0 10px 0;
-          }
-          .servertoobusy ul {
-            margin-top: 20px;
-            margin-bottom: 20px;
-          }
-          .servertoobusy li.sitelink {
-            float: left;
-            margin-right: 10px;
-            width: 15%;
-          }
-          #blq-content .servertoobusy li.sitelink a {
-            border-bottom: 0;
-          }
-          .servertoobusy li.sitelink img {
-            border: 0;
-          }
-        </style>
-        <div class="servertoobusy blq-typ" style="margin-top: 20px; margin-bottom: 20px;">           
+        <div class="servertoobusy blq-typ">           
             <xsl:call-template name="library_header_h1">
                 <xsl:with-param name="text">There has been a problem</xsl:with-param>
             </xsl:call-template>
@@ -46,12 +26,12 @@
             <ul>
               <li class="sitelink">
                 <a href="/dna/h2g2">
-                  <img src="/h2g2/skins/brunel/images/h2g2_logo.gif" alt="H2G2" title="H2G2" width="107" height="39"/>
+                  <img src="/dnaimages/h2g2/images/h2g2_logo.gif" alt="H2G2" title="H2G2" width="107" height="39"/>
                 </a>
               </li>
               <li class="sitelink">
                 <a href="/dna/memoryshare">
-                  <img src="/memoryshare/images/logos/logo1_memoryshare.gif" title="BBC Memoryshare" alt="BBC Memoryshare" width="126" height="23"/>
+                  <img src="/dnaimages/memoryshare/images/logo1_memoryshare.gif" title="BBC Memoryshare" alt="BBC Memoryshare" width="126" height="23"/>
                 </a>
               </li>
               <li class="sitelink">
@@ -76,7 +56,5 @@
         </div>
         
     </xsl:template>
-    
-    
 
 </xsl:stylesheet>

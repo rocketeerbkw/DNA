@@ -39,11 +39,10 @@
                 
                 
                 <!-- naughty, but helps with proper environment -->
-                <!--
-                <xsl:if test="/H2G2/SERVERNAME = 'PC-S039222'">
-                    <xsl:text>http://ops-dev14.national.core.bbc.co.uk:8584</xsl:text>
-                </xsl:if>
-                -->
+                <!-- <xsl:if test="/H2G2/SERVERNAME = 'PC-S061416'">
+                    <xsl:text>http://pc-s061416-dnadev.national.core.bbc.co.uk</xsl:text>
+                </xsl:if> -->
+               
                 
                 <xsl:text>/dna/</xsl:text>
                 <!--cater for staging instance-->
