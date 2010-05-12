@@ -35,6 +35,7 @@ namespace FunctionalTests
         public const int _implementedFloor = 0;
 
         public static string server = DnaTestURLRequest.CurrentServer;
+        public static string secureserver = DnaTestURLRequest.SecureServerAddress;
         public static string sitename = "h2g2";
         //public static string sitename = "Weather";
         //public static string _readByFidUrlStub = "http://" + server + _resourceLocation + sitename + "/reviewforum/" ;
