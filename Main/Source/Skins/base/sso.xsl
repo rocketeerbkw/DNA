@@ -265,7 +265,7 @@
 	
 	<xsl:variable name="idstringlimit">
 		<xsl:choose>
-			<xsl:when test="/H2G2/SITE/@ID = '1'">255</xsl:when>
+			<xsl:when test="/H2G2/SITE/@ID = '1'">64</xsl:when>
 			<xsl:otherwise>32</xsl:otherwise>
 		</xsl:choose>	
 	</xsl:variable>
