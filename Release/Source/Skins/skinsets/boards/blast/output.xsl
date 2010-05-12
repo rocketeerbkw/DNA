@@ -164,9 +164,6 @@
             <li class="sidePanel">
               <ul class="globalNav">
                 <li>
-                  <a href="http://www.bbc.co.uk/blast/">Home</a>
-                </li>
-                <li>
                   <a href="{$root}">
                     <xsl:if test="/H2G2/@TYPE = 'FRONTPAGE' or /H2G2/@TYPE = 'USERDETAILS' or /H2G2/@TYPE = 'MOREPOSTS'">
                       <xsl:attribute name="class"><xsl:text>current-section</xsl:text></xsl:attribute>
