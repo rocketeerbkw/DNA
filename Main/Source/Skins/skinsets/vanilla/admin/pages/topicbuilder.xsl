@@ -50,9 +50,6 @@
           </div>
         </div>
       </div>
-
-
-      <xsl:call-template name="lightboxes"/>
     </div>
    
 	</xsl:template>

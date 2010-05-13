@@ -50,10 +50,10 @@ gloader.load(
 
                 //display overlay when show link is clicked
                 glow.events.addListener(this, "click", function() {
-                   
                     var myOverlay = new glow.widgets.Overlay("#" + whichDiv, {
                         modal: true
                     });
+
                     myOverlay.show();
                     return false;
                 });
@@ -118,7 +118,7 @@ gloader.load(
             var closedallday = glow.dom.get("#dna-mb-openDiff table input");
 
 
-            var iftwentyforseven = function() {
+            function iftwentyforseven() {
                 sametimeselect.attr("disabled", "disabled");
                 difftimeselect.attr("disabled", "disabled");
                 closedallday.attr("disabled", "disabled");
@@ -126,7 +126,7 @@ gloader.load(
                 altrows.addClass("off");
             }
 
-            var ifsametime = function() {
+            function ifsametime() {
                 sametimeselect.removeAttr("disabled");
                 difftimeselect.attr("disabled", "disabled");
                 closedallday.attr("disabled", "disabled");
@@ -134,7 +134,7 @@ gloader.load(
                 altrows.addClass("off");
             }
 
-            var ifdifftime = function() {
+            function ifdifftime() {
                 sametimeselect.attr("disabled", "disabled");
                 difftimeselect.removeAttr("disabled");
                 closedallday.removeAttr("disabled");
@@ -143,11 +143,7 @@ gloader.load(
 
             //if open 24/7 is already checked
             if (twentyfourseven.checked = true) {
-                sametimeselect.attr("disabled", "disabled");
-                difftimeselect.attr("disabled", "disabled");
-                closedallday.attr("disabled", "disabled");
-                altrows.removeClass("even");
-                altrows.addClass("off");
+                iftwentyforseven();
             }
 
             //if open 24/7 is clicked on
