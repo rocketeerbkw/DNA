@@ -43,7 +43,7 @@
 				
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <xsl:if test="/H2G2/@TYPE = 'FRONTPAGE'">
-          <meta http-equiv="refresh" content="0;url=http://{$host}{$root}/messageboardadmin?s_mode=admin" />
+          <meta http-equiv="refresh" content="0;url={$host}{$root}/messageboardadmin?s_mode=admin" />
           
         </xsl:if>
         <meta name="description" content="" />
