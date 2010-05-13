@@ -44,9 +44,77 @@
 	</xsl:template>
 	
 	<xsl:template match="SITETOPICSSCHEDULE">
-    
-      <table>
-			<xsl:call-template name="writeDay">
+      <div id="dna-mb-openallday">
+        <p>
+            <input type="radio" id="twentyfourseven" value="twentyfourseven" name="updatetype">
+              <xsl:if test="not(SCHEDULE/EVENT)">
+                <xsl:attribute name="checked">checked</xsl:attribute>
+              </xsl:if>
+            </input>
+            <label for="twentyfourseven">Open 24/7</label>
+        </p>
+      </div>
+
+      <div id="dna-mb-openSame">
+        <p>
+          <input type="radio" name="updatetype" value="sameeveryday" id="sameeveryday">
+            
+            <xsl:if test="false()">
+              <xsl:attribute name="checked">checked</xsl:attribute>
+            </xsl:if>
+          </input>
+          <label for="sameeveryday">Open at the same time every day</label>
+        </p>
+
+        <p>
+          <input type="hidden" id="7ClosedAllDay"/>
+          <label for="openhours-eday">
+            Opens <span class="dna-off">hour</span>
+          </label>
+          <select name="eventhours" id="openhours-eday">
+            <xsl:call-template name="hours">
+              <xsl:with-param name="selected" select="'9'"/>
+            </xsl:call-template>
+          </select>
+          <label for="openMinutes-eday" class="dna-off">Opens minutes</label>
+          <select name="eventminutes" id="openMinutes-eday">
+            <xsl:call-template name="minutes">
+              <xsl:with-param name="selected" select="'0'"/>
+            </xsl:call-template>
+          </select>
+        </p>
+        
+        <p>
+          <label for="closeHours-eday">
+            Closes <span class="dna-off">hour</span>
+          </label>
+          <select name="eventhours" id="closeHours-eday">
+            <xsl:call-template name="hours">
+              <xsl:with-param name="selected" select="'17'"/>
+            </xsl:call-template>
+          </select>
+          <label for="closeMinutes-eday" class="dna-off">Closes minutes</label>
+          <select name="eventminutes" id="closeMinutes-eday">
+            <xsl:call-template name="minutes">
+              <xsl:with-param name="selected" select="'0'"/>
+            </xsl:call-template>
+          </select>
+        </p>
+      </div>
+
+
+      <div id="dna-mb-openDiff">
+        <p>
+          <input type="radio" name="updatetype" value="eachday" id="eachday">
+            <xsl:if test="SCHEDULE/EVENT">
+              <xsl:attribute name="checked">checked</xsl:attribute>
+            </xsl:if>
+          </input>
+          <label for="eachday">Open at different times each day</label>
+        </p>
+      
+        <table>
+        <xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="1"/>
 				<xsl:with-param name="dayName" select="'MONDAY'"/>
         <xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '1']/@HOURS"/></xsl:with-param>
@@ -109,19 +177,8 @@
 				<xsl:with-param name="close-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '7']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="bg" select="'odd'"/>
 			</xsl:call-template>
-
-        <tr>
-          <td colspan="5">
-            <input type="checkbox" id="twentyfourseven" value="twentyfourseven" name="updatetype">
-              <xsl:if test="not(SCHEDULE/EVENT)">
-                <xsl:attribute name="checked">checked</xsl:attribute>
-              </xsl:if>
-            </input>
-            <label for="twentyfourseven">Open 24/7</label>
-          </td>
-        </tr>
       </table>
-
+      </div>
 	</xsl:template>
 	
 	<xsl:template name="hours">
@@ -264,18 +321,6 @@
             <xsl:with-param name="selected" select="$close-min"/>
           </xsl:call-template>
         </select>
-      </td>
-      
-      <td>
-        <xsl:if test="$dayNumber = '1'">
-        <input type="checkbox" name="updatetype" value="sameeveryday" id="sameeveryday">
-          <!-- TODO: I don't know what test to put here!! -->
-          <xsl:if test="false()">
-            <xsl:attribute name="checked">checked</xsl:attribute>
-          </xsl:if>
-        </input>
-        <label for="sameeveryday" class="dna-radio-stime">Open at the same time every day</label>
-         </xsl:if>
       </td>
     </tr>
 	</xsl:template>

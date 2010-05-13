@@ -41,9 +41,9 @@
         <host>
             <!-- edit as appropriate -->
             <!-- live is blank <url></url> -->
-            <url>pc-s064416-dnadev.national.core.bbc.co.uk</url>
+            <url>pc-s060792-dnadev.national.core.bbc.co.uk</url>
           <!--url>http://dnarelease.national.core.bbc.co.uk</url -->
-            <sslurl>pc-s064416-dnadev.national.core.bbc.co.uk</sslurl>
+            <sslurl>pc-s060792-dnadev.national.core.bbc.co.uk</sslurl>
             <!-- <url>http://ops-dev14.national.core.bbc.co.uk:6666</url> -->
         </host>
     </xsl:variable>
