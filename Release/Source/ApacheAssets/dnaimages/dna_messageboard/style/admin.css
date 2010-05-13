@@ -3,12 +3,12 @@
 /* DEFAULT STYLES */
 p, ul, h1, h2, h3, h4, h5 {line-height:130%}
 
-#blq-content {color:#666}
+#blq-content,.glow110-overlay {color:#666}
 
 /* link */
-.dna-main a {color:#666; padding:1px; border-bottom:1px solid #666}
-.dna-main a:hover{border-bottom:none}
-.dna-main a:focus,.dna-main a:active {border-bottom:none; background:#666; color:#fff}
+.dna-main a,.glow110-overlay a {color:#666; padding:1px; border-bottom:1px solid #666}
+.dna-main a:hover,.glow110-overlay a:hover{border-bottom:none}
+.dna-main a:focus,.glow110-overlay a:focus,.dna-main a:active,.glow110-overlay a:active {border-bottom:none; background:#666; color:#fff}
 
 .dna-link-edit {position:absolute; top:-6px; right:0; line-height:150%}
 .dna-link-edit a {padding:1px 3px; height:1%; text-transform:uppercase;  background-color:#fff; color:#666; border:1px solid #666; font-size:.8em}
@@ -26,17 +26,19 @@ p, ul, h1, h2, h3, h4, h5 {line-height:130%}
 .dna-main-right div {margin-bottom:20px}
 .dna-main-full  {width:100%; margin:0}
 .dna-half {width:49.4%}
-.dna-main p{margin:10px}
+.dna-main p,.glow110-overlay p{margin:10px}
 
 /* headings  */
 #blq-main h1 {line-height:100%; font-size:1.85em; font-weight:normal; padding:25px 10px 15px 10px; color:#fff}
 #blq-main h1 span {border-left:1px solid #fff; margin-left:10px; padding-left:10px}
 #blq-main h2 {font-size:1.167em}
-.dna-main h3,.dna-main h4 {margin-bottom:10px; text-transform:uppercase}
+.dna-main h3,.dna-main h4,.glow110-overlay h4 {margin-bottom:10px; text-transform:uppercase}
 .dna-main h3 {padding:5px; color:#fff; background-color:#56a4ce}
 .dna-main h4 {border-bottom:1px solid #56a4ce; line-height:140%; margin:10px}
+.dna-main h5  {margin:0 10px}
+.dna-main h5 + p {margin:0 10px 10px 10px}
 .dna-main h3 a {float:right; margin-top:-2px}
-
+.glow110-overlay h4 {padding:10px; line-height:140%; color:#fff; background-color:#56a4ce}
 
 /* COMMON CLASSES */
 .dna-fl {float:left}
@@ -51,11 +53,18 @@ p, ul, h1, h2, h3, h4, h5 {line-height:130%}
 
 .dna-fnote  {font-size:.8em}
 span.dna-fnote {display:block; margin-top:2px}
+.glow110-overlay .dna-fnote  {font-size:1em}
 
 .dna-off {position:absolute; left:-9000px; top:0; z-index:20}
 
 .dna-error  {padding:10px; margin:15px 10px; border:3px double red; font-weight:bold}
 .dna-no-error {padding:10px; margin:15px 10px; border:3px double green; font-weight:bold}
+
+.dna-error-text {color:#cc3333; display:block}
+.dna-error-input {background:#feecec; border-color:#ba0c0c}
+
+
+.glow110-overlay .dna-preview-box {width:350px}
 
 /* default form */
 .dna-main form label {margin-bottom:3px; font-weight:bold; display:block}
@@ -69,6 +78,7 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-buttons a {display:block; padding:2px 7px!important; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff!important; border:1px solid #3988b2 !important; font-size:.95em}
 .dna-buttons a:hover {border-bottom:1px solid #666}
 
+.glow110-overlay a.dna-btn-link {text-decoration:none; font-size:1em; padding:3px 7px!important;}
 
 /* HEADER - banner*/
 #blq-local-nav {background:#97c8e3 url(/dnaimages/dna_messageboard/img/bg-header.gif) repeat-x 0 100%}
@@ -113,6 +123,7 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-open-time table {width:100%}
 .dna-open-time td,.dna-open-time th {padding:4px}
 .dna-open-time tr.odd {background-color:#ebebd6}
+.dna-open-time tr.off {background-color:#eee}
 
 /* SCHEDULE page */
 .dna-mb-opentime {}
@@ -120,11 +131,15 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-mb-opentime label {display:inline-block !important; font-weight:normal !important}
 .dna-mb-opentime table   {width:100%}
 .dna-mb-opentime td,.dna-mb-opentime table th {padding:4px}
-.dna-mb-opentime tr.odd {background-color:#ebebd6}
+.dna-mb-opentime tr.odd td,.dna-mb-opentime tr.odd th {background-color:#ebebd6}
+.dna-mb-opentime tr.off td,.dna-mb-opentime tr.off th {background-color:#eee}
 .dna-mb-opentime input[type=checkbox] {margin-top:3px}
 
 .dna-radio-stime {width:10em; vertical-align:middle; margin:0!important; padding-left:5px}
 
+
+#dna-mb-openallday,#dna-mb-openSame {padding:0; border-bottom:1px dashed #ccc}
+#dna-mb-openDiff {padding:0}
 
 /* TOPIC page */
 .dna-list-topic-live {margin:20px}
@@ -166,14 +181,17 @@ span.dna-fnote {display:block; margin-top:2px}
 
 /* overlay */
 .dna-preview-box {margin-bottom:10px; background:#fff; height:1%; border:1px solid #ccc}
-.dna-preview-box label {display:inline-block!important; vertical-align:top}
+.dna-preview-box label {display:block; vertical-align:top; font-weight:bold}
 .dna-preview-box li {padding:3px 10px}
 .dna-preview-box .dna-buttons {margin:20px 10px 0 10px}
 .dna-topic-step {color:#ccc; font-size:.8em}
 .dna-preview-box .dna-buttons {border-top:1px solid #56a4ce; padding:10px 0}
 .dna-preview-box .dna-buttons li {padding:0}
 
+#dna-preview-editheader ul li label,#dna-preview-edittopiclayout ul li label,#dna-preview-editfooter ul li label,.dna-turn-img-off label,#dna-preview-addtoolbar label,#dna-preview-addrecentdiscussions label{display:inline-block!important; width:220px}
 
+.glow110-overlay input,.glow110-overlay textarea{width:100%}
+.glow110-overlay #dna-preview-editheader ul li input,.glow110-overlay #dna-preview-edittopiclayout ul li input,#dna-preview-editfooter ul li input,.dna-turn-img-off input,#dna-preview-addtoolbar input,#dna-preview-addrecentdiscussions input{width:auto}
 
 /* color scheme */
 .dna-blue {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-blue.gif) no-repeat 0 3px}
@@ -198,7 +216,7 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-emergency-stop,.dna-box,.dna-preview,.dna-preview a,.dna-publish,.dna-publish a,.dna-buttons input,.dna-buttons a,.dna-preview-box {-moz-border-radius:5px; -webkit-border-radius:5px}
 .dna-link-edit a {-moz-border-radius:3px; -webkit-border-radius:3px}
 
-#blq-local-nav a,.dna-main h3 {-moz-border-radius-topleft:5px; -webkit-border-top-left-radius:5px; -moz-border-radius-topRight:5px; -webkit-border-top-right-radius:5px}
+#blq-local-nav a,.dna-main h3,.glow110-overlay h4  {-moz-border-radius-topleft:5px; -webkit-border-top-left-radius:5px; -moz-border-radius-topRight:5px; -webkit-border-top-right-radius:5px}
 
 
 /* CLEAR HACKS */
