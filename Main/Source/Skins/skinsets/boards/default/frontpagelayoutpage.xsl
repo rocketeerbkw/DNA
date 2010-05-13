@@ -5,7 +5,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:local="#local-functions" xmlns:s="urn:schemas-	microsoft-com:xml-data" xmlns:dt="urn:schemas-microsoft-com:datatypes" exclude-result-prefixes="msxsl local s dt">
 	
 	<!-- LPorter: This include is for Vanilla skins -->
-	<xsl:include href="../../vanilla/boards-admin-new/pages/frontpage-layout.xsl"/>
+  <xsl:include href="../../vanilla/admin/pages/frontpage-layout.xsl"/>
 	
 	<!--
 	*******************************************************************************************
