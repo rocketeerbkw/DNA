@@ -509,6 +509,12 @@ namespace BBC.Dna.Api
                 throw ApiException.GetError(ErrorType.MissingUserCredentials);
             }
 
+            //check if the posting is secure
+            if (!CallingUser.IsSecureRequest)
+            {
+                throw ApiException.GetError(ErrorType.NotSecure);
+            }
+
             ignoreModeration = CallingUser.IsUserA(UserTypes.Editor) || CallingUser.IsUserA(UserTypes.SuperUser);
             if (CallingUser.IsUserA(UserTypes.BannedUser))
             {

@@ -220,6 +220,8 @@ public:
 	virtual void SetUserNotLoggedIn();
 	virtual bool IsUserSignedIn();
 	virtual bool IsUserLoggedIn();
+	virtual void SetUserIsSecure(bool bIsSecure);
+	virtual bool IsSecureRequest();
 	CUser(CInputContext& inputContext);
 	virtual ~CUser();
 	virtual bool SynchroniseWithProfile( bool bForceUpdate = false);
@@ -269,6 +271,8 @@ protected:
 	CTDVString		m_Email;
 	CTDVString		m_Cookie;
 	CTDVString		m_IdentityCookie;
+	CTDVString		m_SecureCookie;
+	bool			m_IsSecure;
 	CTDVString		m_BBCUID;
 	CTDVString		m_Password;
 	CTDVString		m_Postcode;
@@ -361,6 +365,16 @@ inline void CUser::SetUserNotSignedIn(const char* sErrMsg)
 	{
 		m_ProfileErrorMsg = sErrMsg;
 	}
+}
+
+inline void CUser::SetUserIsSecure(bool bIsSecure)
+{
+	m_IsSecure = bIsSecure;
+}
+
+inline bool CUser::IsSecureRequest()
+{
+	return m_IsSecure;
 }
 
 inline void CUser::SetUserLoggedIn()

@@ -4,6 +4,7 @@ using System.Text;
 using System.Xml;
 using BBC.Dna.Component;
 using BBC.Dna.Sites;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna
 {

@@ -47,6 +47,7 @@ namespace DnaIdentityWebServiceProxy
         private string _identityBaseURL = "";
         private CookieContainer _cookieContainer = new CookieContainer();
         private StringBuilder _callInfo = new StringBuilder();
+        private bool _secureCookieCall = false;
 
         private void AddTimingInfoLine(string info)
         {
@@ -332,24 +333,44 @@ namespace DnaIdentityWebServiceProxy
         }
 
         /// <summary>
-        /// Tries to set the user using their username and password
+        /// Tries to set the user using their username and cookie
         /// </summary>
         /// <param name="cookie">The cookie value for the user</param>
         /// <param name="userName">The name of the user you are trying to set</param>
         /// <returns>True if user was set correctly, false if not</returns>
         public bool TrySetUserViaCookieAndUserName(string cookie, string userName)
         {
+            return TrySecureSetUserViaCookies(cookie, "");
+        }
+
+        /// <summary>
+        /// Tries to set the user using their username, normal cookie and secure cookie
+        /// </summary>
+        /// <param name="cookie">The cookie value for the user</param>
+        /// <param name="secureCookie">The secure cookie value for the user</param>
+        /// <returns>True if user was set correctly, false if not</returns>
+        public bool TrySecureSetUserViaCookies(string cookie, string secureCookie)
+        {
             _userLoggedIn = false;
-            AddTimingInfoLine( "<* IDENTITY START *>");
+            _secureCookieCall = false;
+            AddTimingInfoLine("<* IDENTITY START *>");
             try
             {
                 // Make sure the cookie does not contain a ' ', so replace them with '+'
                 cookie = cookie.Replace(' ', '+');
 
+                // Strip the :0 or encoded %3A0 from the end of the secure cookie as it won't validate with it added.
+                secureCookie = secureCookie.Replace(":0", "").Replace("%3A0", "");
+
                 // Check to see if the user is logged in
-                AddTimingInfoLine("Calling athorization ");
+                AddTimingInfoLine("Calling authorization ");
 
                 _cookieContainer.Add(new Cookie("IDENTITY", cookie, "/", ".bbc.co.uk"));
+                if (secureCookie.Length > 0)
+                {
+                    _cookieContainer.Add(new Cookie("IDENTITY-HTTPS", secureCookie, "/", ".bbc.co.uk"));
+                    _secureCookieCall = true;
+                }
                 HttpWebResponse response = CallRestAPI(string.Format("{0}/idservices/authorization?target_resource={1}", _identityBaseURL, _PolicyUri));
                 if (response == null || response.StatusCode != HttpStatusCode.OK)
                 {
@@ -370,6 +391,10 @@ namespace DnaIdentityWebServiceProxy
                 response.Close();
                 _userSignedIn = true;
                 _cookieValue = cookie;
+                if (secureCookie.Length > 0)
+                {
+                    _secureCookieValue = secureCookie;
+                }
 
                 // Check to make sure that we get a valid response and it's value is true
                 if (xDoc.SelectSingleNode("//boolean") == null || xDoc.SelectSingleNode("//boolean").InnerText != "true")
@@ -379,19 +404,6 @@ namespace DnaIdentityWebServiceProxy
                     AddTimingInfoLine( "<* IDENTITY END *>");
                     return false;
                 }
-
-                AddTimingInfoLine("Getting cookies...");
-                // NOw add all the cookies from the last response to the nextr request
-                foreach (Cookie c in response.Cookies)
-                {
-                    //if (c.Name.Contains("X-Mapping"))
-                    //{
-                    //    c.Domain = ".bbc.co.uk";
-                    //}
-                    _cookieContainer.Add(c);
-                    AddTimingInfoLine(c.Name + ":" + c.Domain + ":" + c.Value + ",");
-                }
-
                 string identityUserName = cookie.Split('|').GetValue(1).ToString();
 
                 AddTimingInfoLine("Calling Get Attrbutes...");
@@ -402,17 +414,6 @@ namespace DnaIdentityWebServiceProxy
                     AddTimingInfoLine( "<* IDENTITY END *>");
                     return false;
                 }
-                
-                //AddTimingInfoLine("Getting cookies 2...");
-                //// NOw add all the cookies from the last response to the nextr request
-                //foreach (Cookie c in response.Cookies)
-                //{
-                //    if (c.Name.Contains("X-Mapping"))
-                //    {
-                //        c.Domain = ".bbc.co.uk";
-                //    }
-                //    AddTimingInfoLine(c.Name + ":" + c.Domain + ":" + c.Value + ",");
-                //}
 
                 xDoc.Load(response.GetResponseStream());
                 response.Close();
@@ -592,6 +593,16 @@ namespace DnaIdentityWebServiceProxy
             get { return _cookieValue; }
         }
 
+        private string _secureCookieValue = "";
+
+        /// <summary>
+        /// Gets the current users Identity secure cookie value
+        /// </summary>
+        public string GetSecureCookieValue
+        {
+            get { return _secureCookieValue; }
+        }
+
 #if DEBUG
         /// <summary>
         /// Debugging feature for logging out users
@@ -629,6 +640,15 @@ namespace DnaIdentityWebServiceProxy
         {
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
             return String.Format("{0} (RestAPI)",v.ToString());
+        }
+
+        /// <summary>
+        /// This method is used to check if the current call was made securely, called with the IDENTITY-HTTPS cookie.
+        /// </summary>
+        /// <returns>True if it is, false if not</returns>
+        public bool IsSecureRequest
+        {
+            get { return _secureCookieCall; }
         }
 
         Dictionary<string, string> _nameSpacedAttributes = null;

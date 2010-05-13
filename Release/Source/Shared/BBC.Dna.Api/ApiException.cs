@@ -141,6 +141,9 @@ namespace BBC.Dna.Api
                 case ErrorType.MissingUserList:
                     error = new ApiException("No user ids passed in.", innerException);
                     break;
+                case ErrorType.NotSecure:
+                    error = new ApiException("Not a secure posting.", innerException);
+                    break;
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
                     break;
@@ -182,6 +185,7 @@ namespace BBC.Dna.Api
         InvalidThreadID,
         CommentNotFound,
         MinCharLimitNotReached,
-        MissingUserList
+        MissingUserList,
+        NotSecure
     }
 }

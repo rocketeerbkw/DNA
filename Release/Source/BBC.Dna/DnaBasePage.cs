@@ -15,6 +15,7 @@ using BBC.Dna.Component;
 using DnaIdentityWebServiceProxy;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Objects;
 
 
 namespace BBC.Dna.Page
@@ -318,6 +319,12 @@ namespace BBC.Dna.Page
                         _page.InitialisePage("ERROR");
                         _page.AddErrorXml("Authorization", "You are not authorised to view this page.", _page.RootElement.FirstChild);
                     }
+                    else if (!IsSecureAccessAllowed())
+                    {
+                        _page = new WholePage(this);
+                        _page.InitialisePage("ERROR");
+                        _page.AddErrorXml("NotSecure", "You must access this page be secure methods.", _page.RootElement.FirstChild);
+                    }
                     else
                     {
                         ProfanityFilter.InitialiseProfanitiesIfEmpty(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics);
@@ -518,6 +525,12 @@ namespace BBC.Dna.Page
             CreateViewingUser();
 			_page = new WholePage(this);
 			_page.InitialisePage(PageType);
+
+            if (_dnapage.IncludeTopFives)
+            {
+                TopFives topFives = TopFives.GetSiteTopFives(CurrentSite.SiteID, AppContext.ReaderCreator, Diagnostics, AppContext.DnaCacheManager);
+                _page.SerialiseAndAppend(topFives, "//H2G2");
+            }
 
             //Ultimate Choice of skin may include users preferences.
             _skinSelector.Initialise(this, this);
@@ -881,7 +894,23 @@ namespace BBC.Dna.Page
 				return false;
 			}
 		}
+		/// <summary>
+		/// Checks whether if the page must be accessed by secure means that it is
+		/// </summary>
+        /// <returns>true if the page must be accessed securely.</returns>
+        public bool IsSecureAccessAllowed()
+        {
+            if (!this.IsSecureRequest)
+            {
+                if (_dnapage.MustBeSecure)
+                {
+                    return false;
+                }
+            }
+            return true;
 
+        }
+        
 		/// <summary>
 		/// Checks whether the page is accessible by types of logged on user
 		/// </summary>

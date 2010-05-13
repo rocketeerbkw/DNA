@@ -149,10 +149,16 @@
 		Purpose:	Creates a link to the USERs profile page
 	-->
 	<xsl:template match="USER" mode="profile">
-		<a href="memberdetailsadmin?userid={USERID}" class="profile" target="_blank">
+		<a href="memberdetails?userid={USERID}" class="profile" target="_blank">
 			<xsl:text>member profile</xsl:text>
 		</a>
 	</xsl:template>
+
+  <xsl:template match="USER" mode="profile_withusername">
+    <a href="memberdetails?userid={USERID}" class="profile" target="_blank">
+      <xsl:apply-templates select="USERNAME"/>
+    </a>
+  </xsl:template>
 	<!-- 
 		<xsl:template match="NICKNAME" mode="alt_ids">
 		Author:	Andy Harris

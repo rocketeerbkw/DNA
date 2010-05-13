@@ -35,6 +35,7 @@ namespace FunctionalTests
         public const int _implementedFloor = 0;
 
         public static string server = DnaTestURLRequest.CurrentServer;
+        public static string secureserver = DnaTestURLRequest.SecureServerAddress;
         public static string sitename = "h2g2";
         //public static string sitename = "Weather";
         //public static string _readByFidUrlStub = "http://" + server + _resourceLocation + sitename + "/reviewforum/" ;
@@ -397,7 +398,7 @@ namespace FunctionalTests
         /// <param name="forumCeiling">new value to be used by this forum</param>
         internal static void setCeiling(string testForumId, string forumCeiling)
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 string sqlStr;
 

@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Xml;
 using System.Xml.Serialization;
 using BBC.Dna.Data;
+using BBC.Dna.Utils;
+using System.Web;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Objects
@@ -66,7 +68,7 @@ namespace BBC.Dna.Objects
                     // Hidden! Tell the user
                     return "Article Pending Moderation";
                 }
-                return _subject;
+                return HtmlUtils.HtmlDecode(_subject);
             }
             set { _subject = value; }
         }

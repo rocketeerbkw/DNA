@@ -111,18 +111,18 @@
 			<div class="headingbox">
 				<h3>Sort by</h3>
 				<xsl:variable name="filterby">
-							<xsl:choose>
-								<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_filter']/VALUE = 'articles'">
-									articles
-								</xsl:when>
-								<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_filter']/VALUE = 'reports'">
-									reports
-								</xsl:when>
-								<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_filter']/VALUE = 'profiles'">
-									profiles
-								</xsl:when>
-							</xsl:choose>
-						</xsl:variable>
+					<xsl:choose>
+						<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_filter']/VALUE = 'articles'">
+							articles
+						</xsl:when>
+						<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_filter']/VALUE = 'reports'">
+							reports
+						</xsl:when>
+						<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_filter']/VALUE = 'profiles'">
+							profiles
+						</xsl:when>
+					</xsl:choose>
+				</xsl:variable>
 				<p class="links">
                 <!--[FIXME: remove]
 				<a href="{$root}MA{/H2G2/PAGE-OWNER/USER/USERID}?type=2&amp;s_filter={$filterby}&amp;show={$morearticlesshow}&amp;s_sort=title">a-z title</a> |
@@ -133,11 +133,19 @@
 			</div> 			
 	
 			<div class="bodytext">	
+			
+				<xsl:apply-templates select="ARTICLES" mode="r_previouspages" />
+				<xsl:text> | </xsl:text>
+				<xsl:apply-templates select="ARTICLES" mode="r_morepages" />			
 	
 				<xsl:apply-templates select="ARTICLES/ARTICLE-LIST" mode="c_morearticlespage"/>
+			
+				<xsl:apply-templates select="ARTICLES" mode="r_previouspages" />
+				<xsl:text> | </xsl:text>
+				<xsl:apply-templates select="ARTICLES" mode="r_morepages" />				
 				
 			</div>
-			
+
 			<xsl:apply-templates select="ARTICLES" mode="t_backtouserpage"/>
 		
 	</div><!-- / bodysec -->	

@@ -5,6 +5,7 @@ using System.Threading;
 using BBC.Dna.Moderation;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
+using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna

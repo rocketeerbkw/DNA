@@ -418,6 +418,32 @@ bool CProfileConnection::SetUserViaCookieAndUserName(const TDVCHAR* sSsoCookie, 
 	return false;
 }
 
+bool CProfileConnection::SecureSetUserViaCookies(const TDVCHAR* sCookie, const TDVCHAR* sSecureCookie)
+{
+	AddTimingsInfo("SecureSetUserViaCookies",true);
+	if (m_pIdentityInteropPtr != NULL)
+	{
+		try
+		{
+			AddTimingsInfo("Using Identity",false);
+			bool bLoggedIn = _variant_t(m_pIdentityInteropPtr->TrySecureSetUserViaCookies(_bstr_t(sCookie),_bstr_t(sSecureCookie)));
+			USES_CONVERSION;
+			
+			CTDVString sInfo = "(.net) ";
+			sInfo << "Version:" << W2A(m_pIdentityInteropPtr->GetVersion()) << " ";
+			AddTimingsInfo(sInfo << "(.net)",false);
+			AddTimingsInfo("Finished Secure Setting User",false);
+			m_sCookieValue = sCookie;
+			m_sSecureCookieValue = sSecureCookie;
+			return bLoggedIn;
+		}
+		catch(...)
+		{
+			m_sLastIdentityError = "Failed to securely set the user via the cookies";
+		}
+	}
+	return false;
+}
 bool CProfileConnection::GetCookieValue(bool bRemember, CTDVString& sCookieValue)
 {
 	if (m_pIdentityInteropPtr != NULL)
@@ -446,6 +472,41 @@ bool CProfileConnection::GetCookieValue(bool bRemember, CTDVString& sCookieValue
 	return false;
 }
 
+bool CProfileConnection::GetSecureCookieValue(CTDVString& sSecureCookieValue)
+{
+	if (m_pIdentityInteropPtr != NULL)
+	{
+		try
+		{
+			USES_CONVERSION;
+			sSecureCookieValue = W2A(m_pIdentityInteropPtr->GetSecureCookieValue);
+			return true;
+		}
+		catch(...)
+		{
+			m_sLastIdentityError = "Failed to get secure user cookie value";
+		}
+	}
+	return false;
+}
+
+bool CProfileConnection::IsSecureRequest(bool& bSecureRequest)
+{
+	bool bSuccess = false;
+	if (m_pIdentityInteropPtr != NULL)
+	{
+		try
+		{
+			bSecureRequest = _variant_t(m_pIdentityInteropPtr->IsSecureRequest);
+			bSuccess = true;
+		}
+		catch(...)
+		{
+			m_sLastIdentityError = "Failed checking if the request is a Secure request";
+		}
+	}
+	return bSuccess;
+}
 bool CProfileConnection::AttributeExistsForService(const TDVCHAR* sAttributeName, bool* pbIsMandatory)
 {
 	if (m_pIdentityInteropPtr != NULL)

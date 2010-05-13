@@ -12304,7 +12304,7 @@ function loadURLInDisplayFrame()
                         <td>
                           <xsl:choose>
                             <xsl:when test="DATE-QUEUED/DATE">
-                              <xsl:apply-templates select="DATE-QUEUED/DATE" mode="short"/>
+                              <xsl:apply-templates select="DATE-QUEUED/DATE" mode="absolute"/>
                             </xsl:when>
                             <xsl:otherwise>-</xsl:otherwise>
                           </xsl:choose>
@@ -12312,7 +12312,7 @@ function loadURLInDisplayFrame()
                         <td>
                           <xsl:choose>
                             <xsl:when test="DATE-LOCKED/DATE">
-                              <xsl:apply-templates select="DATE-LOCKED/DATE" mode="short"/>
+                              <xsl:apply-templates select="DATE-LOCKED/DATE" mode="absolute"/>
                             </xsl:when>
                             <xsl:otherwise>-</xsl:otherwise>
                           </xsl:choose>
@@ -12320,7 +12320,7 @@ function loadURLInDisplayFrame()
                         <td>
                           <xsl:choose>
                             <xsl:when test="DATE-REFERRED/DATE">
-                              <xsl:apply-templates select="DATE-REFERRED/DATE" mode="short"/>
+                              <xsl:apply-templates select="DATE-REFERRED/DATE" mode="absolute"/>
                             </xsl:when>
                             <xsl:otherwise>-</xsl:otherwise>
                           </xsl:choose>
@@ -12328,7 +12328,7 @@ function loadURLInDisplayFrame()
                         <td>
                           <xsl:choose>
                             <xsl:when test="DATE-COMPLETED/DATE">
-                              <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="short"/>
+                              <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="absolute"/>
                             </xsl:when>
                             <xsl:otherwise>-</xsl:otherwise>
                           </xsl:choose>
@@ -18907,7 +18907,21 @@ The following specifies the attributes that MUST appear on an <input> element fo
       <xsl:call-template name="ApplyAttributes">
         <xsl:with-param name="attributes" select="$attributes"/>
       </xsl:call-template>
-      <xsl:apply-templates select="."/>
+     <!--  <xsl:apply-templates select="."/> -->
+     
+		<xsl:variable name="username">
+			<xsl:choose>
+				<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSiteSuffix']/VALUE = '1' and ../SITESUFFIX != ''">	
+					<xsl:value-of select="../SITESUFFIX" />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="USERNAME" />
+				</xsl:otherwise>	
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:value-of select="$username"/> 
+      
     </a>
 
   </xsl:template>

@@ -21,10 +21,11 @@ namespace Tests
         /// </summary>
         public UserTests()
         {
-            using (FullInputContext fullinputcontext = new FullInputContext(false))
+            using (FullInputContext fullinputcontext = new FullInputContext(true))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
+                fullinputcontext.InitUserFromCookie("6041996|ProfileAPITest|ProfileAPITest|1273497769580|0|35006c522418c48a9a3470cea341b5cd9c9c8a9d28c1", "22f58fef9cd74c0f515b94bfaaa6adf60e395c6f");
+                //fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 _testUser = (User)fullinputcontext.ViewingUser;
             }
        }
@@ -71,7 +72,7 @@ namespace Tests
         public void Test4GetUserEmailTest()
         {
             Console.WriteLine("Before Test4GetUserEmailTest");
-            Assert.AreEqual(_testUser.Email, "james.conway@bbc.co.uk");
+            Assert.AreEqual(_testUser.Email, "damnyoureyes72+1@googlemail.com");
             Console.WriteLine("After Test4GetUserEmailTest");
         }
 
@@ -97,7 +98,8 @@ namespace Tests
         /// Create a request that indicates that a synchronisation is necessary s_sync=1.
         /// Compare the SSO details for a synchronised user against the DNA user values exposed as XML in the Inspect user page.
         /// </summary>
-        [TestMethod]
+        ///TODO DO WE NEED TO DO THIS RESYSNCH USER TEST NOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        [TestMethod, Ignore]
         public void TestUserIsSynchronised()
         {
             Console.WriteLine("Before TestUserIsSynchronised");
@@ -114,11 +116,11 @@ namespace Tests
             string siteid = node.Attributes["ID"].Value;
 
             //Check the SSO Details.
-            using (FullInputContext fullinputcontext = new FullInputContext(false))
+            using (FullInputContext fullinputcontext = new FullInputContext(true))
             {
                 IDnaIdentityWebServiceProxy testProfile = fullinputcontext.GetCurrentSignInObject;
                 testProfile.SetService(request.Currentservice);
-                testProfile.TrySetUserViaCookie(request.CurrentSSO2Cookie);
+                testProfile.TrySetUserViaCookie(request.CurrentCookie);
                 Assert.IsTrue(testProfile.IsUserLoggedIn, "User is not logged in and they should be.");
 
                 string ssofirstnames = string.Empty;
@@ -213,10 +215,11 @@ namespace Tests
             _testUser.SetUsername(newUserName);
             _testUser.UpdateDetails();
 
-            using (FullInputContext fullinputcontext = new FullInputContext(false))
+            using (FullInputContext fullinputcontext = new FullInputContext(true))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
+                fullinputcontext.InitUserFromCookie("6041996|ProfileAPITest|ProfileAPITest|1273497769580|0|35006c522418c48a9a3470cea341b5cd9c9c8a9d28c1", "22f58fef9cd74c0f515b94bfaaa6adf60e395c6f");
+                //                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 User tempUser = new User(fullinputcontext);
                 tempUser.CreateUser(_testUser.UserID);
                 Assert.AreEqual(tempUser.UserName, newUserName);
@@ -227,10 +230,11 @@ namespace Tests
             _testUser.SetUsername(originalUserName);
             _testUser.UpdateDetails();
 
-            using (FullInputContext fullinputcontext = new FullInputContext(false))
+            using (FullInputContext fullinputcontext = new FullInputContext(true))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
+                fullinputcontext.InitUserFromCookie("6041996|ProfileAPITest|ProfileAPITest|1273497769580|0|35006c522418c48a9a3470cea341b5cd9c9c8a9d28c1", "22f58fef9cd74c0f515b94bfaaa6adf60e395c6f");
+                //                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 User tempUser = new User(fullinputcontext);
                 tempUser.CreateUser(_testUser.UserID);
                 Assert.AreEqual(tempUser.UserName, originalUserName);

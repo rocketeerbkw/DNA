@@ -159,7 +159,8 @@
             <xsl:if test="EDITOR/USER">
               <b>
                 Author
-              </b>: <xsl:apply-templates select="EDITOR/USER"/>
+              </b>: 
+              <xsl:apply-templates select="EDITOR/USER" mode="profile_withusername"/>
               <xsl:apply-templates select="EDITOR/USER/STATUS" mode="user_status"/>
               <xsl:apply-templates select="EDITOR/USER/GROUPS" mode="user_groups"/>
             </xsl:if>
@@ -195,10 +196,10 @@
             </xsl:choose>
           </p>
           <p>
-            Date Queued: <xsl:apply-templates select="DATE-QUEUED/DATE" mode="short"/>
+            Date Queued: <xsl:apply-templates select="DATE-QUEUED/DATE" mode="absolute"/>
           </p>
           <p>
-            Date Completed: <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="short"/>
+            Date Completed: <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="absolute"/>
           </p>
           <xsl:if test ="COMPLAINT">
             <p class="alertUserBar">
@@ -219,6 +220,11 @@
                 <xsl:when test="COMPLAINANT/USER/CORRESPONDENCE-EMAIL">
                   [ <a href="mailto:{COMPLAINANT/USER/CORRESPONDENCE-EMAIL}">
                     <xsl:value-of select="COMPLAINANT/USER/CORRESPONDENCE-EMAIL"/>
+                  </a> ]
+                </xsl:when>
+                <xsl:when test="COMPLAINT/EMAIL-ADDRESS">
+                  [ <a href="mailto:{COMPLAINT/EMAIL-ADDRESS}">
+                    <xsl:value-of select="COMPLAINT/EMAIL-ADDRESS"/>
                   </a> ]
                 </xsl:when>
                 <xsl:otherwise>[ No Email ]</xsl:otherwise>
@@ -254,7 +260,7 @@
               LockedBy: <xsl:apply-templates select="LOCKED-BY/USER"/>
             </p>
             <p>
-              Date Locked: <xsl:apply-templates select="DATE-LOCKED/DATE" mode="short"/>
+              Date Locked: <xsl:apply-templates select="DATE-LOCKED/DATE" mode="absolute"/>
             </p>
           </div>
           <div class="toolBox">
@@ -262,7 +268,7 @@
               Referred By: <xsl:apply-templates select="REFERRED-BY/USER"/>
             </p>
             <p>
-              Referred Date: <xsl:apply-templates select="DATE-REFERRED/DATE" mode="short"/>
+              Referred Date: <xsl:apply-templates select="DATE-REFERRED/DATE" mode="absolute"/>
             </p>
           </div>
           <xsl:apply-templates select="/H2G2/EXLINKMODEVENTHISTORY/EXLINKMODEVENT-LIST[@MODID=current()/@MODID]/EXLINKMODEVENT"/>

@@ -114,7 +114,8 @@ CUser::CUser(CInputContext& inputContext) :
 	m_bInBannedEmailList(false),
 	m_bBannedFromComplaints(false),
 	m_bPromptUserName(false),
-	m_syncByDefault(false)
+	m_syncByDefault(false),
+	m_IsSecure(false)
 {
 	// no other construction
 	InitializeCriticalSection(&m_criticalsection);

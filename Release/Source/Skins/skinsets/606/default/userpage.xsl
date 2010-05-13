@@ -11,7 +11,7 @@
 	<xsl:variable name="postlimitentries" select="5"/>
 	<xsl:variable name="articlelimitentries" select="5"/>
 	<xsl:variable name="clublimitentries" select="10"/>
-	<xsl:variable name="morearticlesshow" select="1000"/>
+	<xsl:variable name="morearticlesshow" select="25"/>
 	
 	<!--
 	++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

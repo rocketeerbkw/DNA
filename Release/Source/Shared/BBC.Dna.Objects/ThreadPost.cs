@@ -205,6 +205,17 @@ namespace BBC.Dna.Objects
         public bool InReplyToSpecified { get { return this.InReplyTo != 0; } }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "INREPLYTOINDEX")]
+        public int InReplyToIndex
+        {
+            get;
+            set;
+        }
+
+        [System.Xml.Serialization.XmlIgnore]
+        public bool InReplyToIndexSpecified { get { return this.InReplyTo != 0; } }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "NEXTSIBLING")]
         public int NextSibling
         {
@@ -300,6 +311,13 @@ namespace BBC.Dna.Objects
             {
                 post.InReplyTo = reader.GetInt32NullAsZero(prefix +"parent");
             }
+
+            if (reader.DoesFieldExist(prefix +"replypostindex"))
+            {
+                post.InReplyToIndex = reader.GetInt32NullAsZero(prefix + "replypostindex");
+            }
+
+            
             if (reader.DoesFieldExist(prefix +"prevSibling"))
             {
                 post.PrevSibling = reader.GetInt32NullAsZero(prefix +"prevSibling");

@@ -1,0 +1,206 @@
+
+
+/* DEFAULT STYLES */
+p, ul, h1, h2, h3, h4, h5 {line-height:130%}
+
+#blq-content {color:#666}
+
+/* link */
+.dna-main a {color:#666; padding:1px; border-bottom:1px solid #666}
+.dna-main a:hover{border-bottom:none}
+.dna-main a:focus,.dna-main a:active {border-bottom:none; background:#666; color:#fff}
+
+.dna-link-edit {position:absolute; top:-6px; right:0; line-height:150%}
+.dna-link-edit a {padding:1px 3px; height:1%; text-transform:uppercase;  background-color:#fff; color:#666; border:1px solid #666; font-size:.8em}
+.dna-link-edit a:hover {border-bottom:1px solid #666; background-color:#666; color:#fff}
+
+.dna-main a,#blq-local-nav a {text-decoration:none}
+
+/* container divs  */
+.dna-main {margin-bottom:20px}
+.dna-main-bg{background-color:#ebebd6}
+.dna-main-pad {padding:10px}
+.dna-main-bg-g{background-color:#f4f4f4}
+.dna-main-left {width:55.15em; margin:0}
+.dna-main-right {width:23.6em; margin:0}
+.dna-main-right div {margin-bottom:20px}
+.dna-main-full  {width:100%; margin:0}
+.dna-half {width:49.4%}
+.dna-main p{margin:10px}
+
+/* headings  */
+#blq-main h1 {line-height:100%; font-size:1.85em; font-weight:normal; padding:25px 10px 15px 10px; color:#fff}
+#blq-main h1 span {border-left:1px solid #fff; margin-left:10px; padding-left:10px}
+#blq-main h2 {font-size:1.167em}
+.dna-main h3,.dna-main h4 {margin-bottom:10px; text-transform:uppercase}
+.dna-main h3 {padding:5px; color:#fff; background-color:#56a4ce}
+.dna-main h4 {border-bottom:1px solid #56a4ce; line-height:140%; margin:10px}
+.dna-main h3 a {float:right; margin-top:-2px}
+
+
+/* COMMON CLASSES */
+.dna-fl {float:left}
+.dna-fr {float:right}
+.dna-clear {clear:both}
+.dna-center {text-align:center}
+
+.dna-mall {margin:10px}
+
+.dna-box {position:relative; margin-bottom:10px; background:#fff; height:1%; border:1px solid #ccc}
+.dna-box-border {padding:3px; margin-bottom:10px; background:#fff; border:1px dashed #ccc}
+
+.dna-fnote  {font-size:.8em}
+span.dna-fnote {display:block; margin-top:2px}
+
+.dna-off {position:absolute; left:-9000px; top:0; z-index:20}
+
+.dna-error  {padding:10px; margin:15px 10px; border:3px double red; font-weight:bold}
+.dna-no-error {padding:10px; margin:15px 10px; border:3px double green; font-weight:bold}
+
+/* default form */
+.dna-main form label {margin-bottom:3px; font-weight:bold; display:block}
+.dna-main form input[type=text]{width:100%}
+
+/* save and cancel buttons */
+.dna-buttons {clear:both; height:1%; margin-top:10px}
+.dna-buttons li {display:inline-block; float:left;  padding:0; height:1%; margin-right:10px}
+.dna-buttons input {padding:3px 5px 2px 5px; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff; border:1px solid #3988b2; font-size:.9em}
+.dna-buttons input:focus {background-color:#666; color:#fff}
+.dna-buttons a {display:block; padding:2px 7px!important; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff!important; border:1px solid #3988b2 !important; font-size:.95em}
+.dna-buttons a:hover {border-bottom:1px solid #666}
+
+
+/* HEADER - banner*/
+#blq-local-nav {background:#97c8e3 url(/dnaimages/dna_messageboard/img/bg-header.gif) repeat-x 0 100%}
+#blq-local-nav ul {padding:0 10px; position:relative; z-index:10}
+#blq-local-nav li {float:left; margin-right:8px; height:1%}
+#blq-local-nav li a {display:inline-block; padding:2px 7px; color:#999; font-weight:bold; background-color:#fff;  border-top:1px solid #fff; border-bottom:1px solid #99a6ad}
+#blq-local-nav li.selected a{color:#666; border-top:1px solid #99a6ad; border-right:1px solid #99a6ad; border-bottom:1px solid #fff; border-left:1px solid #99a6ad}
+#blq-local-nav li a:hover {text-decoration:underline}
+#blq-local-nav li a:focus,#blq-local-nav li a:active {background-color:#99a6ad; color:#fff}
+
+
+/* EMERGENCY stop */
+.dna-emergency-stop {float:right; margin-right:10px; width:23.6em; background:#f6f6f6 url(/dnaimages/dna_messageboard/img/bg-stop.gif) repeat-x 0 100%; border:1px solid #bcbcbc}
+*+html .dna-emergency-stop {position:relative; top:20px}
+*html .dna-emergency-stop {position:relative; top:20px}
+.dna-emergency-stop strong {display:block; margin-bottom:3px}
+.dna-emergency-stop a {display:inline-block; padding:5px 5px 5px 45px; background:url(/dnaimages/dna_messageboard/img/icon-stop.gif) no-repeat 5px 50%; text-decoration:none; color:#666}
+.dna-emergency-stop a:hover {text-decoration:underline}
+
+
+/* INTRO text */
+.dna-mb-intro {width:45em; min-height:4em; margin:20px 10px 10px 10px}
+* html .dna-mb-intro {height:4em}
+.dna-mb-intro p {margin:10px 0}
+.dna-mb-intro a {color:#666}
+.dna-mb-intro a:focus,.dna-mb-intro a:active {background-color:#666; color:#fff}
+
+/* ADMIN TAB */
+/* box: preview */
+.dna-preview {background-color:#fff; border:1px solid #ccc}
+.dna-preview h3 {color:#666; background-color:transparent}
+.dna-preview a {padding:5px 7px; color:#fff; font-weight:bold; background:#a9d5ed url(/dnaimages/dna_messageboard/img/bg-btn-preview.gif) repeat-x 0 100%; border:1px solid #56a4ce}
+
+/* box: publish */
+.dna-publish {background-color:#56a4ce; border:1px solid #ccc}
+.dna-publish h3 {color:#fff; background-color:transparent}
+.dna-publish a {padding:5px 7px; color:#fff; font-weight:bold; background:#b9dff4 url(/dnaimages/dna_messageboard/img/bg-btn-publish.gif) repeat-x 0 100%; border:1px solid #fff}
+.dna-publish .dna-fnote {color:#fff}
+
+/* box: open times */
+.dna-open-time {margin:0 10px 10px 10px}
+.dna-open-time table {width:100%}
+.dna-open-time td,.dna-open-time th {padding:4px}
+.dna-open-time tr.odd {background-color:#ebebd6}
+
+/* SCHEDULE page */
+.dna-mb-opentime {}
+.dna-mb-opentime div div {padding:0 10px 10px 10px}
+.dna-mb-opentime label {display:inline-block !important; font-weight:normal !important}
+.dna-mb-opentime table   {width:100%}
+.dna-mb-opentime td,.dna-mb-opentime table th {padding:4px}
+.dna-mb-opentime tr.odd {background-color:#ebebd6}
+.dna-mb-opentime input[type=checkbox] {margin-top:3px}
+
+.dna-radio-stime {width:10em; vertical-align:middle; margin:0!important; padding-left:5px}
+
+
+/* TOPIC page */
+.dna-list-topic-live {margin:20px}
+.dna-list-topic-live li  {margin-bottom:20px}
+.dna-list-topic-live li a {display:block; width:20em; padding:3px; border:1px solid #999; background-color:#ebebd6}
+.dna-list-topic-live li a:hover {text-decoration:underline; border-bottom:1px solid #999}
+
+.dna-list-topic-archive {margin:20px}
+.dna-list-topic-archive li  {margin-bottom:20px; width:20em}
+.dna-list-topic-archive li a {display:block; padding:3px; border:1px solid #999; background-color:#dce3e8}
+.dna-list-topic-archive li a:hover {text-decoration:underline; border-bottom:1px solid #999}
+
+/* DESIGN TAB */
+.dna-list-links {margin:10px}
+.dna-list-links li {margin:0 0 5px 15px; list-style-type:square; color:#666; word-wrap:break-word}
+
+
+/* design landing page : 4 cols layout*/
+#dna-preview-content {clear:both; margin-bottom:10px}
+#dna-preview-left {width:15em; margin-right:10px}
+#dna-preview-middle {width:42.8em; margin-right:10px}
+#dna-preview-right {width:20em}
+
+/* display topic layout: 1 or 2 cols */
+.dna-list-topic-col1 li,.dna-list-topic-col2 li {position:relative; padding:10px; width:19.1em; min-height:34em}
+* html .dna-list-topic-col1  li,* html .dna-list-topic-col2  li {height:32.5em}
+.dna-list-topic-col1 li p,.dna-list-topic-col2 li p,.dna-list-topic-col li p {margin:10px 0 !important}
+.dna-replies {text-align:right}
+.dna-list-topic-col1 .dna-link-edit,.dna-list-topic-col2 .dna-link-edit, .dna-list-topic-col .dna-link-edit {right:10px; top:0}
+
+.dna-list-topic-col1 {width:21em; float:left}
+.dna-list-topic-col2 {width:21em; float:right}
+.dna-topic-pos {width:25px!important}
+
+.dna-list-topic-col li {position:relative; padding:10px; width:41em}
+
+.dna-tl-2c  {padding:0 0 45px 60px; background: url(/dnaimages/dna_messageboard/img/icon-lay-2.gif) no-repeat 0 0}
+.dna-tl-1c  {padding:0 0 45px 60px; background: url(/dnaimages/dna_messageboard/img/icon-lay-1.gif) no-repeat 0 0}
+
+/* overlay */
+.dna-preview-box {margin-bottom:10px; background:#fff; height:1%; border:1px solid #ccc}
+.dna-preview-box label {display:inline-block!important; vertical-align:top}
+.dna-preview-box li {padding:3px 10px}
+.dna-preview-box .dna-buttons {margin:20px 10px 0 10px}
+.dna-topic-step {color:#ccc; font-size:.8em}
+.dna-preview-box .dna-buttons {border-top:1px solid #56a4ce; padding:10px 0}
+.dna-preview-box .dna-buttons li {padding:0}
+
+
+
+/* color scheme */
+.dna-blue {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-blue.gif) no-repeat 0 3px}
+.dna-sky {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-sky.gif) no-repeat 0 3px}
+.dna-teal {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-teal.gif) no-repeat 0 3px}
+.dna-lime {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-lime.gif) no-repeat 0 3px}
+.dna-green {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-green.gif) no-repeat 0 3px}
+.dna-aqua {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-aqua.gif) no-repeat 0 3px}
+.dna-khaki {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-khaki.gif) no-repeat 0 3px}
+.dna-magenta {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-magenta.gif) no-repeat 0 3px}
+.dna-rose {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-rose.gif) no-repeat 0 3px}
+.dna-purple {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-purple.gif) no-repeat 0 3px}
+.dna-red {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-red.gif) no-repeat 0 3px}
+.dna-orange {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-orange.gif) no-repeat 0 3px}
+
+.dna-black {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-black.gif) no-repeat 0 3px}
+.dna-white {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-white.gif) no-repeat 0 3px}
+.dna-grey  {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-grey.gif) no-repeat 0 3px}
+
+
+/* ROUNDED CORNERS*/
+.dna-emergency-stop,.dna-box,.dna-preview,.dna-preview a,.dna-publish,.dna-publish a,.dna-buttons input,.dna-buttons a,.dna-preview-box {-moz-border-radius:5px; -webkit-border-radius:5px}
+.dna-link-edit a {-moz-border-radius:3px; -webkit-border-radius:3px}
+
+#blq-local-nav a,.dna-main h3 {-moz-border-radius-topleft:5px; -webkit-border-top-left-radius:5px; -moz-border-radius-topRight:5px; -webkit-border-top-right-radius:5px}
+
+
+/* CLEAR HACKS */
+.dna-main:after,.dna-half:after,.dna-box:after,.dna-buttons:after,#mbpreview-content:after,.dna-box-border:after,.dna-list-topic li:after {content:".";  display:block; height:0; clear:both; visibility:hidden}
+

@@ -17,6 +17,7 @@ namespace BBC.Dna
         private string _cmd = String.Empty;
         private SiteConfig _siteConfig;
         private TopicPage _topicPage;
+        private TopicPage _topicActivePage;
 
 
 
@@ -46,7 +47,7 @@ namespace BBC.Dna
             _topicPage = new TopicPage { Page = "PREVIEW" };
             _topicPage.TopicElementList = TopicElementList.GetTopicListFromDatabase(AppContext.ReaderCreator,
                                                                          InputContext.CurrentSite.SiteID,
-                                                                         TopicStatus.Preview);
+                                                                         TopicStatus.Preview, false);
 
 
             GetQueryParameters();
@@ -63,8 +64,14 @@ namespace BBC.Dna
             SerialiseAndAppend(_siteConfig, "/DNAROOT/SITECONFIGPREVIEW");
 
 
-            SerialiseAndAppend(_topicPage, "");                
-            
+            SerialiseAndAppend(_topicPage, "");
+
+            _topicActivePage = new TopicPage { Page = "ACTIVE" };
+            _topicActivePage.TopicElementList = TopicElementList.GetTopicListFromDatabase(AppContext.ReaderCreator,
+                                                                         InputContext.CurrentSite.SiteID,
+                                                                         TopicStatus.Live, true);
+
+            SerialiseAndAppend(_topicActivePage, "");
             
         }
 
@@ -78,10 +85,10 @@ namespace BBC.Dna
             {
                 case "UPDATEPREVIEW":
                     return UpdateConfig(false);
-                    
 
-                case "UPDATEPREVIEWANDLIVE":
-                    return UpdateConfig(true);
+
+                case "PUBLISHMESSAGEBOARD":
+                    return PublishMessageBoard();
 
                 case "UPDATETOPIC":
                     return UpdateTopic();
@@ -144,7 +151,7 @@ namespace BBC.Dna
             if (topicId == 0)
             {
                 var result = element.CreateTopic(AppContext.ReaderCreator, InputContext.CurrentSite.SiteID, InputContext.ViewingUser.UserID);
-                if (result.GetType() == typeof(Error))
+                if (result.IsError())
                 {
                     return result;
                 }
@@ -154,7 +161,7 @@ namespace BBC.Dna
             else
             {
                 var result = element.UpdateTopic(AppContext.ReaderCreator, InputContext.ViewingUser.UserID);
-                if (result.GetType().Name == typeof(Error).Name)
+                if (result.IsError())
                 {
                     return result;
                 }
@@ -339,6 +346,10 @@ namespace BBC.Dna
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private BaseResult UpdateTopicPositions()
         {
             BaseResult lastResult = null;
@@ -364,6 +375,51 @@ namespace BBC.Dna
 
             return lastResult;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private BaseResult PublishMessageBoard()
+        {
+            MessageBoardPublishError error = new MessageBoardPublishError();
+            if (String.IsNullOrEmpty(_siteConfig.V2Board.AboutMessage))
+            {
+                error.DesignErrors.Add("MissingAboutText");
+            }
+            if (String.IsNullOrEmpty(_siteConfig.V2Board.WelcomeMessage))
+            {
+                error.DesignErrors.Add("MissingWelcomeMessage");
+            }
+            if (_topicPage.TopicElementList.Topics.Count ==0)
+            {
+                error.DesignErrors.Add("MissingTopics");
+            }
+            if (error.AdminErrors.Count != 0 || error.DesignErrors.Count != 0)
+            {
+                return error;
+            }
+
+            BaseResult result = UpdateConfig(true);
+            if (result.IsError())
+            {
+                return result;
+            }
+            result = TopicElement.MakePreviewTopicsActiveForSiteID(AppContext.ReaderCreator, InputContext.CurrentSite.SiteID, InputContext.ViewingUser.UserID);
+            if (result.IsError())
+            {
+                return result;
+            }
+
+            result = InputContext.CurrentSite.UpdateEveryMessageBoardAdminStatusForSite(AppContext.ReaderCreator, MessageBoardAdminStatus.Unread);
+            if (result.IsError())
+            {
+                return result;
+            }
+
+            return new Result("PublishMessageBoard", "Message board update successful.");
+        }
+
 
         /// <summary>
         /// Fills private members with querystring variables

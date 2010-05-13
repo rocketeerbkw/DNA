@@ -30,17 +30,19 @@
             	</a>
             </xsl:with-param>
         </xsl:call-template>
+
+		<xsl:if test="(IMAGENAME and IMAGENAME != '') and /H2G2/SITECONFIG/V2_BOARDS/TOPICLAYOUT != '1col'">
+		   <div class="topicimage">
+		    	 <a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
+		       <img src="{IMAGENAME}" alt="{IMAGEALTTEXT}">
+		         <xsl:if test="IMAGEWIDTH != 0"><xsl:attribute name="width"><xsl:value-of select="IMAGEWIDTH"/></xsl:attribute></xsl:if>
+		         <xsl:if test="IMAGEHEIGHT != 0"><xsl:attribute name="height"><xsl:value-of select="IMAGEHEIGHT"/></xsl:attribute></xsl:if>
+		       </img>
+		    	</a>
+		    </div>
+		</xsl:if>
         
-        <xsl:if test="IMAGENAME and IMAGENAME != ''">
-          <div class="topicimage">
-          	<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
-	            <img src="{$serverPath}{IMAGENAME}" alt="{IMAGEALTTEXT}">
-	              <xsl:if test="IMAGEWIDTH != 0"><xsl:attribute name="width"><xsl:value-of select="IMAGEWIDTH"/></xsl:attribute></xsl:if>
-	              <xsl:if test="IMAGEHEIGHT != 0"><xsl:attribute name="height"><xsl:value-of select="IMAGEHEIGHT"/></xsl:attribute></xsl:if>
-	            </img>
-          	</a>
-          </div>
-        </xsl:if>
+        <p><xsl:apply-templates select="TEXT" mode="library_GuideML" /></p>
         
         <p class="replies">
             <xsl:choose>
@@ -60,12 +62,6 @@
                 </xsl:otherwise>
             </xsl:choose>
         </p>
-        
-        <p>
-            <xsl:apply-templates select="TEXT" mode="library_GuideML" />
-        </p>
-        
-        
     </xsl:template>
     
 </xsl:stylesheet>

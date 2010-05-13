@@ -1,6 +1,9 @@
-﻿using BBC.Dna.Utils;
+﻿using BBC.Dna.Moderation.Utils;
+using System.Xml;
+using BBC.Dna.Data;
+using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BBC.Dna.Moderation.Utils;
+using Rhino.Mocks;
 using System;
 
 namespace BBC.Dna.Sites.Tests
@@ -12,6 +15,7 @@ namespace BBC.Dna.Sites.Tests
     [TestClass]
     public class SiteTest
     {
+        private readonly MockRepository _mocks = new MockRepository();
 
         /// <summary>
         ///A test for Site Constructor
@@ -191,7 +195,7 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod]
         public void GetTopicListXml_ValidLiveTopic_ReturnsXML()
         {
-            string expectedXml = "<TOPICLIST><TOPIC><TOPICID>0</TOPICID><TITLE></TITLE><H2G2ID>0</H2G2ID><FORUMID>0</FORUMID></TOPIC></TOPICLIST>";
+            string expectedXml = "<TOPICLIST><TOPIC><TOPICID>0</TOPICID><H2G2ID>0</H2G2ID><SITEID>0</SITEID><TOPICSTATUS>0</TOPICSTATUS><TOPICLINKID>0</TOPICLINKID><TITLE /><FORUMID>0</FORUMID><FORUMPOSTCOUNT>0</FORUMPOSTCOUNT></TOPIC></TOPICLIST>";
             Site site = CreateDefaultSiteObject();
             site.AddTopic(0, "", 0, 0, 0);
             Assert.AreEqual(expectedXml, site.GetTopicListXml().OuterXml);
@@ -304,6 +308,65 @@ namespace BBC.Dna.Sites.Tests
             site.AddArticle("");
         }
 
+        [TestMethod]
+        public void UpdateEveryMessageBoardAdminStatusForSite_ValidResponse_CorrectResult()
+        {
+            var retVal = 0;
+            var reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.TryGetIntReturnValue(out retVal)).OutRef(0).Return(true);
+
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("UpdateEveryMessageBoardAdminStatusForSite")).Return(reader);
+
+
+            _mocks.ReplayAll();
+
+            var actual = CreateDefaultSiteObject();
+            var result = actual.UpdateEveryMessageBoardAdminStatusForSite(creator, MessageBoardAdminStatus.Unread);
+            Assert.AreEqual("Result", result.GetType().Name);
+            Assert.AreEqual("UpdateEveryMessageBoardAdminStatusForSite", result.Type);
+        }
+
+        [TestMethod]
+        public void UpdateEveryMessageBoardAdminStatusForSite_NoResponse_CorrectError()
+        {
+            var retVal = 0;
+            var reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.TryGetIntReturnValue(out retVal)).OutRef(0).Return(false);
+
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("UpdateEveryMessageBoardAdminStatusForSite")).Return(reader);
+
+
+            _mocks.ReplayAll();
+
+            var actual = CreateDefaultSiteObject();
+            var result = actual.UpdateEveryMessageBoardAdminStatusForSite(creator, MessageBoardAdminStatus.Unread);
+            Assert.AreEqual("Error", result.GetType().Name);
+            Assert.AreEqual("UpdateEveryMessageBoardAdminStatusForSite", result.Type);
+        }
+
+        [TestMethod]
+        public void UpdateEveryMessageBoardAdminStatusForSite_InvalidResponse_CorrectError()
+        {
+            var retVal = 0;
+            var reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.TryGetIntReturnValue(out retVal)).OutRef(3).Return(true);
+
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("UpdateEveryMessageBoardAdminStatusForSite")).Return(reader);
+
+
+            _mocks.ReplayAll();
+
+            var actual = CreateDefaultSiteObject();
+            var result = actual.UpdateEveryMessageBoardAdminStatusForSite(creator, MessageBoardAdminStatus.Unread);
+            Assert.AreEqual("Error", result.GetType().Name);
+            Assert.AreEqual("UpdateEveryMessageBoardAdminStatusForSite", result.Type);
+        }
 
         private static Site CreateDefaultSiteObject()
         {

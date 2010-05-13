@@ -76,6 +76,11 @@
 				<xs:documentation>The ID of the post this post was in reply to.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
+    <xs:attribute name="INREPLYTOINDEX" type="xs:int" use="optional">
+      <xs:annotation>
+        <xs:documentation>The INDEX of the post this post was in reply to.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
 		<xs:attribute name="PREVSIBLING" type="xs:int" use="optional">
 			<xs:annotation>
 				<xs:documentation>The POSTID of the previous sibling post i.e. the previous reply to the post this was reply to. </xs:documentation>

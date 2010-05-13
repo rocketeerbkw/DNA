@@ -110,7 +110,19 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="SIGNINNAME" type="xs:string" />
+		<xs:element name="IDENTITY" minOccurs="0">
+		  <xs:complexType>
+			  <xs:sequence>
+				  <xs:element name="COOKIE">
+					  <xs:complexType>
+						  <xs:attribute name="PLAIN" type="xs:string" use="required" />
+						  <xs:attribute name="URLENCODED" type="xs:string" use="required" />
+					  </xs:complexType>
+				  </xs:element>
+			  </xs:sequence>
+		  </xs:complexType>
+		</xs:element>
+		<xs:element name="SIGNINNAME" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

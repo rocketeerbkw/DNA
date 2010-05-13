@@ -33,6 +33,7 @@ namespace BBC.Dna.Page
         private string _currentSiteName;
         private string _skinName;
         private DnaDiagnostics _dnaInputDiagnostics;
+        private bool _isSecureRequest;
 
         /// <summary>
         /// Property to get the SkinName
@@ -488,7 +489,22 @@ namespace BBC.Dna.Page
 
             client.Send(message);
         }
-   
+
+        /// <summary>
+        /// Is secure request has IDENTITY-HTTPS cookie
+        /// </summary>
+        public bool IsSecureRequest
+        {
+            get
+            {
+
+                return _isSecureRequest;
+            }
+            set
+            {
+                _isSecureRequest = value;
+            }
+        }
     
     }
 }

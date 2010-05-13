@@ -446,7 +446,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateRating");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
-            request.CurrentSSO2Cookie = "";
+            request.CurrentCookie = "";
             //create the forum
             RatingForum ratingForum = RatingForumCreate("tests", Guid.NewGuid().ToString());
 
@@ -1020,7 +1020,7 @@ namespace FunctionalTests
         private void SetMaxCharLimit(int maxLimit)
         {
             //set max char option
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -1034,7 +1034,7 @@ namespace FunctionalTests
         private void SetMinCharLimit(int minLimit)
         {
             //set min char option
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {

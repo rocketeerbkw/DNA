@@ -75,6 +75,6 @@ As
 		INNER JOIN Users u WITH(NOLOCK) ON u.UserID = @userid
 		INNER JOIN ThreadEntries te WITH(NOLOCK) ON te.ThreadID = tpth.ThreadID AND te.PostIndex = 0
 		INNER JOIN Forums fo WITH(NOLOCK) ON fo.ForumID = tpth.ForumID
-		INNER JOIN dbo.Preferences p WITH(NOLOCK) ON p.UserID = u.UserID AND p.SiteID = fo.SiteID
+		INNER JOIN dbo.Preferences p WITH(NOLOCK) ON p.UserID = u.UserID AND p.SiteID = @siteid
 		LEFT JOIN SiteOptions so ON so.SiteID= fo.SiteID AND so.Section = 'General' AND so.Name = 'SiteIsPrivate' AND so.value='0' AND @IncludeContentFromOtherSites = 1 -- i.e. All public sites if current site includes content from other sites. 
 		ORDER BY LastReply DESC

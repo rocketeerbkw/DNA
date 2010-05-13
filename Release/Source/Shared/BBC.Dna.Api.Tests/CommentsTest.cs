@@ -670,6 +670,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -701,9 +702,7 @@ namespace BBC.Dna.Api.Tests
         ///</summary>
         [TestMethod]
         public void CommentCreate_AsPreMod_ReturnCorrectError()
-        {
-            
-
+        {            
             var siteName = "h2g2";
             var siteId = 1;
             var uid = "uid";
@@ -717,6 +716,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName, ModerationServiceGroup = ModerationStatus.ForumStatus.PreMod };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -748,9 +748,7 @@ namespace BBC.Dna.Api.Tests
         ///</summary>
         [TestMethod]
         public void CommentCreate_NoUser_ReturnCorrectError()
-        {
-            
-
+        {           
             var siteName = "h2g2";
             var uid = "uid";
             var siteList = mocks.DynamicMock<ISiteList>();
@@ -762,6 +760,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = "test" };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(0);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -801,8 +800,6 @@ namespace BBC.Dna.Api.Tests
         [TestMethod]
         public void CommentCreate_BannedUser_ReturnCorrectError()
         {
-
-
             var siteName = "h2g2";
             var uid = "uid";
             var siteList = mocks.DynamicMock<ISiteList>();
@@ -814,6 +811,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = "test" };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.BannedUser)).Return(true);
@@ -867,6 +865,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -904,6 +903,56 @@ namespace BBC.Dna.Api.Tests
         ///A test for CommentInfo Constructor
         ///</summary>
         [TestMethod]
+        public void CommentCreate_NotSecure_ReturnCorrectError()
+        {
+            var siteName = "h2g2";
+            var uid = "uid";
+            var text = "Here is my text that is not posted securely";
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var callingUser = mocks.DynamicMock<ICallingUser>();
+            var commentForum = new CommentForum { Id = uid, SiteName = siteName };
+            var commentInfo = new CommentInfo { text = text };
+
+            callingUser.Stub(x => x.UserID).Return(1);
+            callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentcreate")).Return(reader);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            comments.CallingUser = callingUser;
+            try
+            {
+                comments.CreateComment(commentForum, commentInfo);
+                throw new Exception("No exception thrown");
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.NotSecure, ex.type);
+
+            }
+
+            readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("commentcreate"));
+        }
+
+        /// <summary>
+        ///A test for CommentInfo Constructor
+        ///</summary>
+        [TestMethod]
         public void CommentCreate_SiteClosed_ReturnCorrectError()
         {
             
@@ -920,6 +969,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -974,6 +1024,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1028,6 +1079,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1086,6 +1138,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1144,6 +1197,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1199,6 +1253,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1252,6 +1307,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1307,6 +1363,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1363,6 +1420,7 @@ namespace BBC.Dna.Api.Tests
             var commentForum = new CommentForum { Id = uid, SiteName = siteName };
             var commentInfo = new CommentInfo { text = text };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());

@@ -27,6 +27,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         private string _displayName = "Good old tester";
         private string _email = "a@b.com";
         private Cookie _cookie;
+        private Cookie _secureCookie;
         private string _14YearsOld = string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddYears(-14));
         private string _21YearsOld = string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddYears(-21));
         private string _9YearsOld = string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddYears(-9));
@@ -112,7 +113,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         {
             string blankUserName = "";
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Adult));
 
@@ -123,7 +124,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignInChildWithAdultPolicy_ExpectNotAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Adult));
             Assert.IsFalse(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The kid user should not be authorized for adult policies!");
@@ -133,7 +134,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignInAdultWithKidsPolicy_ExpectNotAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Kids));
             Assert.IsFalse(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The adult user should not be authorized for kids policies!");
@@ -143,7 +144,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignInAdultWithSchoolsPolicy_ExpectNotAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Schools));
             Assert.IsFalse(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The adult user should not be authorized for Schools policies!");
@@ -153,7 +154,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignInAdultWithOver13Policy_ExpectAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             Assert.IsTrue(TestUserCreator.SetDnaAttribute(_userName, _cookie.Value, TestUserCreator.DnaAttributeNames.AgreedTermsAndConditionsOver13, "1"));
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Over13));
@@ -164,7 +165,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignInChildWithKidsPolicy_ExpectAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Kids));
             Assert.IsTrue(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The kid user should be authorized for kids policies!");
@@ -174,7 +175,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignInAdultWithAdultPolicy_ExpectAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Kids));
             Assert.IsTrue(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The kid user should be authorized for kids policies!");
@@ -184,7 +185,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignIn14YearOldWith13OverPolicy_ExpectAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Over13, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Over13, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Over13));
             Assert.IsTrue(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The Child user should be authorized for Over13 policies!");
@@ -194,7 +195,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignIn14YearOldWithSchoolsPolicy_ExpectAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Schools, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _14YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Schools, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Schools));
             Assert.IsTrue(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The Child user should be authorized for Schools policies!");
@@ -204,7 +205,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignInAdultWithAgeRangeFlagsetInToKidsPolicy_ExpectAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             Assert.IsTrue(TestUserCreator.SetDnaAttribute(_userName, _cookie.Value, TestUserCreator.DnaAttributeNames.UnderAgeRangeCheck, "1"), "Failed to set the under age range flag");
             Assert.IsTrue(TestUserCreator.SetDnaAttribute(_userName, _cookie.Value, TestUserCreator.DnaAttributeNames.AgreedTermsAndConditionsKids, "1"), "Failed to set the T&Cs for kids policy");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
@@ -216,7 +217,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignIn9YearOldWithSchoolsPolicy_ExpectNotAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _9YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Schools, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _9YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Schools, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Schools));
             Assert.IsFalse(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The 9 year old user should not be authorized for Schools policies!");
@@ -226,7 +227,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void TrySetUserViaCookieAndUserName_SignIn9YearOldWithOver13Policy_ExpectNotAuthorized()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _9YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _9YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Over13));
             Assert.IsFalse(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The 9 year old user should not be authorized for Over13 policies!");
@@ -284,7 +285,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         private IDnaIdentityWebServiceProxy CreateIdentityUserAndAuthorize()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, _legacySSOUserID, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _21YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, _legacySSOUserID, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Adult));
             Assert.IsTrue(signIn.TrySetUserViaCookieAndUserName(_cookie.Value, ""), "The Adult user should be authorized!");
@@ -295,7 +296,7 @@ namespace DnaIdentityWebServiceProxy.IntegrationTests
         public void GetUserAttribute_GetCBBCNameSpacedAutoGenNameAttribute_ExpectedAutoGenNameAttribute()
         {
             int identityUserId = 0;
-            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _9YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out identityUserId), "Failed to create test identity user");
+            Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _9YearsOld, _email, _displayName, true, TestUserCreator.IdentityPolicies.Kids, true, 0, out _cookie, out _secureCookie, out identityUserId), "Failed to create test identity user");
             IDnaIdentityWebServiceProxy signIn = new IdentityRestSignIn(_connectionDetails, "127.0.0.1");
             signIn.SetService(TestUserCreator.GetPolicyAsString(TestUserCreator.IdentityPolicies.Kids));
 
