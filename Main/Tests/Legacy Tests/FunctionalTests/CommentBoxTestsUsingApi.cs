@@ -27,6 +27,7 @@ namespace FunctionalTests
         private bool _doOpenSite = false;
         private const string _schemaUri = "H2G2CommentBoxFlat.xsd";
         private string _server = DnaTestURLRequest.CurrentServer;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
 
         [TestInitialize]
         public void Startup()
@@ -73,7 +74,7 @@ namespace FunctionalTests
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@CANWRITE='1']") != null, "The forums can write flag should be set 1");
 
             // Now check to make sure we can post to the comment box
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -108,7 +109,7 @@ namespace FunctionalTests
             request.RequestPage(url);
 
             // Check for parsing errors in guideml posts
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah2<From>NormalUser&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah2<From>NormalUser&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml", true);
             XmlDocument xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -116,7 +117,7 @@ namespace FunctionalTests
             Assert.AreEqual("blahblahblah2%3CFrom%3ENormalUser", xml.SelectSingleNode("//ORIGINALPOSTTEXT").InnerText, "The original text should be 'blahblahblah2%C3From%3ENormalUser'");
 
             // Check for correct handling for profanities
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblah1blah3NormalUser fuck&dnahostpageurl=" + hosturl + "&poststyle=1&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblah1blah3NormalUser fuck&dnahostpageurl=" + hosturl + "&poststyle=1&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -159,7 +160,7 @@ namespace FunctionalTests
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@MODERATIONSTATUS='3']") != null, "The forums moderation status should be 3 (premod)");
 
             // Now check to make sure that a normal users post gets premoderated
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromNormalUser&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromNormalUser&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -171,7 +172,7 @@ namespace FunctionalTests
 
             // Now check to make sure that a notable can post a comment without being moderated
             request.SetCurrentUserNotableUser();
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromNotableUser&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromNotableUser&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -181,7 +182,7 @@ namespace FunctionalTests
 
             // Now check to make sure that a editor can post a comment without being moderated
             request.SetCurrentUserEditor();
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromEditor&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromEditor&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -224,7 +225,7 @@ namespace FunctionalTests
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@CANWRITE='1']") != null, "The forums can write flag should be set 1");
 
             //post comment
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -433,7 +434,7 @@ namespace FunctionalTests
             Assert.IsTrue(xml.SelectSingleNode("//SITE[SITECLOSED='1']") != null, "haveyoursay site is not closed when we set the test to close it.");
 
             // Now check to make sure that a normal users post gets premoderated
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromNormalUser&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromNormalUser&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -445,7 +446,7 @@ namespace FunctionalTests
 
             // Now check to make sure that a notable can post a comment without being moderated
             request.SetCurrentUserNotableUser();
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromNotableUser&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromNotableUser&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -456,7 +457,7 @@ namespace FunctionalTests
 
             // Now check to make sure that a editor can post a comment without being moderated
             request.SetCurrentUserEditor();
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromEditor&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblahFromEditor&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -523,7 +524,7 @@ namespace FunctionalTests
             XmlDocument xml = request.GetLastResponseAsXML();
 
             // Now check to make sure we can post to the comment box
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=Test<character&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=Test<character&dnahostpageurl=" + hosturl + "&skin=purexml", true);
 
             // Check to make sure that the page returned with the correct information
             xml = request.GetLastResponseAsXML();
@@ -560,7 +561,7 @@ namespace FunctionalTests
             //string dodgyLink = @"<a href='#" + "\r\n" + @"'>Test Link</a>";
             string dodgyLink = @"<a href=""http:" + "%0D%0A" + @""">Test Link</a>";
             // Now check to make sure we can post to the comment box
-            request.RequestPage("acsapi?skin=purexml&dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah" + dodgyLink + "&dnahostpageurl=" + hosturl);
+            request.RequestSecurePage("acsapi?skin=purexml&dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah" + dodgyLink + "&dnahostpageurl=" + hosturl, true);
 
             // Check to make sure that the page returned with the correct information
             xml = request.GetLastResponseAsXML();
@@ -594,7 +595,7 @@ namespace FunctionalTests
 
             string dodgyLink = @"<a href=""#" + "\r\n" + @""">Test Link</a>";
             // Now check to make sure we can post to the comment box
-            request.RequestPage("acsapi?skin=purexml&dnapoststyle=1&dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah" + dodgyLink + "&dnahostpageurl=" + hosturl);
+            request.RequestSecurePage("acsapi?skin=purexml&dnapoststyle=1&dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah" + dodgyLink + "&dnahostpageurl=" + hosturl, true);
 
             // Check to make sure that the page returned with the correct information
             xml = request.GetLastResponseAsXML();
@@ -632,8 +633,8 @@ namespace FunctionalTests
 
             // Add a comment to the list
             // DO NOT REFORMAT THE FOLLOWING TEST AS IT CONTAINS /r/n AS INTENDED!!!
-            request.RequestPage("acsapi?dnauid=" + uid + @"&dnaaction=add&dnacomment=blahblahblah2<b>NormalUser</b>
-with a carrage return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + @"&dnaaction=add&dnacomment=blahblahblah2<b>NormalUser</b>
+with a carrage return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml", true);
             XmlDocument xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -672,7 +673,7 @@ return.";
             // Add a comment to the list
             // DO NOT REFORMAT THE FOLLOWING TEST AS IT CONTAINS /r/n AS INTENDED!!!
             url = string.Format(@"acsapi?dnauid={0}&dnaaction=add&dnacomment={2}&dnahostpageurl={1}&dnapoststyle=1&skin=purexml", uid, hosturl, inputPost);
-            request.RequestPage(url);
+            request.RequestSecurePage(url, true);
             XmlDocument xml = request.GetLastResponseAsXML();
 
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
@@ -711,7 +712,7 @@ return.";
             XmlDocument xml = request.GetLastResponseAsXML();
 
             // Now check to make sure we can post to the comment box
-            request.RequestPage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml", true);
             // Check to make sure that the page returned with the correct information
             xml = request.GetLastResponseAsXML();
 
@@ -780,7 +781,7 @@ return.";
 
             string encodedComment = HttpUtility.UrlEncode(comment);
             string url = "acsapi?dnauid=" + uid + "&dnaaction=add&dnacomment=" + encodedComment + "&dnahostpageurl=" + hosturl + "&dnapoststyle=1&dnaur=1&skin=purexml";
-            request.RequestPage(url);
+            request.RequestSecurePage(url, true);
             
             XmlDocument xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);

@@ -33,6 +33,7 @@ namespace FunctionalTests
         private const string _schemaComment = "Dna.Services\\rating.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
         private string _server = DnaTestURLRequest.CurrentServer;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -118,7 +119,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForumID);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForumID);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -255,7 +256,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -288,7 +289,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -336,7 +337,7 @@ namespace FunctionalTests
             
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, uid);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, uid);
             // now get the response
             request.RequestPageWithFullURL(url, ratingXML, "text/xml", "PUT");
             // Check to make sure that the page returned with the correct information
@@ -392,7 +393,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/?format=JSON", _sitename, ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/?format=JSON", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             Assert.AreEqual("application/json", request.CurrentWebResponse.ContentType);
@@ -424,7 +425,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             try
             {
@@ -455,7 +456,7 @@ namespace FunctionalTests
                 "<text>{0}</text><rating>{1}</rating>" +
                 "</rating>", text, 5);
 
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             try
             {
@@ -487,7 +488,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             try
             {
@@ -520,7 +521,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             try
             {
@@ -553,7 +554,7 @@ namespace FunctionalTests
                 "</rating>", text, 1000);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             try
             {
@@ -583,7 +584,7 @@ namespace FunctionalTests
             string ratingForumXml = String.Format("text={0}&rating={1}", text, 1000);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
             // now get the response
             try
             {
@@ -615,7 +616,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -651,7 +652,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -687,7 +688,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -723,7 +724,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -762,7 +763,7 @@ namespace FunctionalTests
                 "</rating>", text, postStyle, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -799,7 +800,7 @@ namespace FunctionalTests
                 "</rating>", text, "invalid style");
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/",_sitename,ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
             // now get the response
             try
             {
@@ -867,7 +868,7 @@ namespace FunctionalTests
         private void PostToRatingForumAsIdentityUser(RatingForum ratingForum, string ratingForumXml, DnaTestURLRequest request, string sitename)
         {
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", sitename, ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", sitename, ratingForum.Id);
 
             string userName = "RatingForumIdentityUserCreate" + DateTime.Now.Ticks.ToString();
             string userEmail = userName + "@bbc.co.uk";
@@ -945,7 +946,7 @@ namespace FunctionalTests
                 string ratingForumXml = String.Format("text={0}&rating={1}", text, 1);
 
                 // Setup the request url
-                string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
+                string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
                 // now get the response
                 try
                 {
@@ -992,7 +993,7 @@ namespace FunctionalTests
                 string ratingForumXml = String.Format("text={0}&rating={1}", text, 1);
 
                 // Setup the request url
-                string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
+                string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, ratingForum.Id);
                 // now get the response
                 try
                 {
