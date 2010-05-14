@@ -187,6 +187,7 @@ namespace FunctionalTests
             string postXML = testUtils_CommentsAPI.makePostXml(ref id, ref title, ref parentUri); // make some unique data for the new forum
 
             DnaTestURLRequest myRequest = new DnaTestURLRequest(sitename);
+            myRequest.UseIdentitySignIn = true;
 
             testUtils_CommentsAPI.runningForumCount = testUtils_CommentsAPI.countForums(sitename);
             myRequest.SetCurrentUserEditor();
@@ -201,7 +202,7 @@ namespace FunctionalTests
             }
 
             Assert.IsTrue(myRequest.CurrentWebResponse.StatusCode == HttpStatusCode.OK,
-                "Failed making test comments forum. Got: " + myRequest.CurrentWebResponse.StatusCode + "\n" + myRequest.CurrentWebResponse.StatusDescription
+                "Failed making test comments forum. Got: " + myRequest.CurrentWebResponse.StatusCode + "\n" + myRequest.CurrentWebResponse.StatusDescription + "\n" + url
                 );
 
             newForumcount = testUtils_CommentsAPI.countForums(sitename);

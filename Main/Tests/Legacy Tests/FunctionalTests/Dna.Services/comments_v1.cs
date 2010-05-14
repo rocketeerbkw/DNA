@@ -35,6 +35,7 @@ namespace FunctionalTests
         private const string _schemaComment = "Dna.Services\\comment.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
         private string _server = DnaTestURLRequest.CurrentServer;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -96,7 +97,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForumId);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForumId);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -164,7 +165,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -206,7 +207,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -265,7 +266,7 @@ namespace FunctionalTests
             int forumCount = testUtils_CommentsAPI.countForums(_sitename);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
             // now get the response
             request.RequestPageWithFullURL(url, commentXML, "text/xml", "PUT");
             // Check to make sure that the page returned with the correct information
@@ -307,7 +308,7 @@ namespace FunctionalTests
             request.RequestPageWithFullURL(url, "", "text/xml", "GET");
 
             CommentForum theForum = (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
-            Assert.AreEqual(2, theForum.commentSummary.Total, "Made the wong number of comments");
+            Assert.AreEqual(2, theForum.commentSummary.Total, "Made the wrong number of comments");
 
             Console.WriteLine("After Createcomment");
         }
@@ -336,7 +337,7 @@ namespace FunctionalTests
             int forumCount = testUtils_CommentsAPI.countForums(_sitename);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
             // now get the response
             request.RequestPageWithFullURL(url, commentXML, "application/json", "PUT");
 
@@ -350,7 +351,7 @@ namespace FunctionalTests
             request.RequestPageWithFullURL(url, "", "text/xml", "GET");
 
             CommentForum theForum = (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
-            Assert.AreEqual(1, theForum.commentSummary.Total, "Made the wong number of comments");
+            Assert.AreEqual(1, theForum.commentSummary.Total, "Made the wrong number of comments");
 
             Console.WriteLine("After CreateCommentForumWithCommentJson");
         }
@@ -381,7 +382,7 @@ namespace FunctionalTests
             int forumCount = testUtils_CommentsAPI.countForums(_sitename);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
             // now get the response
             try
             {
@@ -428,7 +429,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?format=JSON", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?format=JSON", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             Assert.AreEqual("application/json", request.CurrentWebResponse.ContentType);
@@ -461,7 +462,7 @@ namespace FunctionalTests
 
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, jsonComment, "application/json");
 
@@ -500,7 +501,7 @@ namespace FunctionalTests
 
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, jsonComment, "application/json");
 
@@ -514,7 +515,7 @@ namespace FunctionalTests
                "<text>{0}</text>" +
                "</comment>", text);
 
-            url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -552,7 +553,7 @@ namespace FunctionalTests
 
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, Guid.NewGuid().ToString());
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, Guid.NewGuid().ToString());
             // now get the response
             try
             {
@@ -581,7 +582,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -616,7 +617,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             try
             {
@@ -647,7 +648,7 @@ namespace FunctionalTests
                 "<text>{0}</text>" +
                 "</comment>", text);
 
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             try
             {
@@ -678,7 +679,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             try
             {
@@ -710,7 +711,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -746,7 +747,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -782,7 +783,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -818,7 +819,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -857,7 +858,7 @@ namespace FunctionalTests
                 "</comment>", text, postStyle);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -895,7 +896,7 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}&poststyle={1}", text, postStyle);
 
             // Setup the request url
-            string urlCreate = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm", _sitename, commentForum.Id);
+            string urlCreate = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm", _sitename, commentForum.Id);
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(urlCreate, commentForumXml, "application/x-www-form-urlencoded");
@@ -941,7 +942,7 @@ namespace FunctionalTests
                 "</comment>", text, "invalid style");
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             try
             {
@@ -983,7 +984,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             try
             {
@@ -1023,7 +1024,7 @@ namespace FunctionalTests
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             XmlDocument xml = request.GetLastResponseAsXML();

@@ -836,7 +836,7 @@ namespace FunctionalTests
                 // Setup the request url
                 url =
                     String.Format(
-                        "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
+                        "https://" + _secureServer + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
                         _sitename, returnedForum.Id);
                 // now get the response
                 request.RequestPageWithFullURL(url, commentXml, "text/xml");
