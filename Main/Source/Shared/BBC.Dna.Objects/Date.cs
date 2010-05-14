@@ -1,6 +1,5 @@
 using System;
 using BBC.Dna.Utils;
-using System.Runtime.Serialization;
 namespace BBC.Dna.Objects
 {
     
@@ -12,7 +11,6 @@ namespace BBC.Dna.Objects
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, TypeName="LOCALDATE")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false, ElementName="LOCALDATE")]
-    [DataContract(Name = "LocalDate")]
     public class LocalDate
     {
         protected DateTime _dateTime;
@@ -26,7 +24,6 @@ namespace BBC.Dna.Objects
         }
 
         [System.Xml.Serialization.XmlIgnore]
-        [DataMember(Name = ("DateTime"))]
         public DateTime DateTime
         {
             get { return _dateTime; }
@@ -107,7 +104,6 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "RELATIVE")]
-        [DataMember(Name = ("Ago"))]
         public string Relative
         {
             get { return DnaDateTime.TryGetRelativeValueForPastDate(_dateTime); }
@@ -145,9 +141,10 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
+    
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, TypeName="DATE")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false, ElementName="DATE")]
-    [DataContract(Name = "Date")]
     public class Date : LocalDate
     {
         public Date() { }
@@ -159,7 +156,6 @@ namespace BBC.Dna.Objects
 
     /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, Order = 0, ElementName = "LOCAL")]
-        [DataMember(Name = ("Local"))]
         public LocalDate Local
         {
             get;
@@ -170,9 +166,10 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
+    
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "DATE")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "DATE")]
-    [DataContract(Name = "DateElement")]
     public class DateElement 
     {
 
@@ -184,7 +181,6 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, Order = 0, ElementName = "DATE")]
-        [DataMember(Name = ("Date"))]
         public Date Date
         {
             get;
