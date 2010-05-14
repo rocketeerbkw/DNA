@@ -226,6 +226,7 @@
             var postData = "";
             var mimeType = "";
             var submitType = document.getElementById("submitType").value;
+            var submitHttps = document.getElementById("submitHttps").value;
             if (submitType == "Xml") {
                 mimeType = "text/xml";
                 postData = "<comment xmlns=\"BBC.Dna.Api\">" +
@@ -254,9 +255,14 @@
             }
             addToDebug(postData);
 
-            
+
 
             var urlCreate = getCreateUrl();
+
+            if (submitHttps == "true") {
+                urlCreate = urlCreate.replace("http", "https");
+            }
+            
             addToDebug(urlCreate);
             startIndex = 0;
             glow.net.post(urlCreate,
@@ -415,6 +421,10 @@ Sort By: <a href="Javascript:changeSorting('Created');">Date Created</a>
     Submit Type:<select id="submitType" name="submitType">
         <option>Xml</option>
         <option>JSON</option>
+    </select><br />
+    Use SSL:<select id="submitHttps" name="submitType">
+        <option>true</option>
+        <option>false</option>
     </select><br />
     <input type="button" value="Submit" onclick="postcomment();" />
 </div>

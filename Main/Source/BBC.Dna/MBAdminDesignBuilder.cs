@@ -207,28 +207,16 @@ namespace BBC.Dna
             if (InputContext.DoesParamExist("BANNER_SSI", "BANNER_SSI"))
             {
                 _siteConfig.V2Board.BannerSsi = InputContext.GetParamStringOrEmpty("BANNER_SSI", "BANNER_SSI");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.BannerSsi))
-                {
-                    return new Error("InvalidBannerSSi", "Unable to update due to an invalid banner SSI location.");
-                }
             }
 
             if (InputContext.DoesParamExist("HORIZONTAL_NAV_SSI", "HORIZONTAL_NAV_SSI"))
             {
                 _siteConfig.V2Board.HorizontalNavSsi = InputContext.GetParamStringOrEmpty("HORIZONTAL_NAV_SSI", "HORIZONTAL_NAV_SSI");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.HorizontalNavSsi))
-                {
-                    return new Error("InvalidHorizontalNavSSi", "Unable to update due to an invalid horizontal navigation SSI location.");
-                }
             }
 
             if (InputContext.DoesParamExist("LEFT_NAV_SSI", "LEFT_NAV_SSI"))
             {
                 _siteConfig.V2Board.LeftNavSsi = InputContext.GetParamStringOrEmpty("LEFT_NAV_SSI", "LEFT_NAV_SSI");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.LeftNavSsi))
-                {
-                    return new Error("InvalidLeftNavSSi", "Unable to update due to an invalid left navigation SSI location.");
-                }
             }
 
             if (InputContext.DoesParamExist("WELCOME_MESSAGE", "WELCOME_MESSAGE"))
@@ -270,19 +258,11 @@ namespace BBC.Dna
             if (InputContext.DoesParamExist("CSS_LOCATION", "CSS_LOCATION"))
             {
                 _siteConfig.V2Board.CssLocation = InputContext.GetParamStringOrEmpty("CSS_LOCATION", "CSS_LOCATION");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.CssLocation))
-                {
-                    return new Error("InvalidCssLocation", "Unable to update due to an invalid CSS location.");
-                }
             }
 
             if (InputContext.DoesParamExist("EMOTICON_LOCATION", "EMOTICON_LOCATION"))
             {
                 _siteConfig.V2Board.EmoticonLocation = InputContext.GetParamStringOrEmpty("EMOTICON_LOCATION", "EMOTICON_LOCATION");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.EmoticonLocation))
-                {
-                    return new Error("InvalidEmoticonLocation", "Unable to update due to an invalid emoticon location.");
-                }
             }
 
             if (InputContext.DoesParamExist("RECENTDISCUSSIONS_SUBMIT", "RECENTDISCUSSIONS_SUBMIT"))
@@ -308,10 +288,6 @@ namespace BBC.Dna
                         linkCollection.Add(link);
                     }
                 }
-                if(linkCollection.Count == 0)
-                {
-                    return new Error("InvalidFooterLinks", "Unable to update due to no valid footer links available.");
-                }
                 _siteConfig.V2Board.Footer.Links = linkCollection;
 
             }
@@ -326,10 +302,6 @@ namespace BBC.Dna
                     {
                         linkCollection.Add(link);
                     }
-                }
-                if (linkCollection.Count == 0)
-                {
-                    return new Error("InvalidModuleLinks", "Unable to update due to no valid module links available.");
                 }
                 _siteConfig.V2Board.Modules.Links = linkCollection;
 
