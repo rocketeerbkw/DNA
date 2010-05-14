@@ -127,7 +127,7 @@
                 
                </h1>
                <div id="app-content">
-                <xsl:comment>#include virtual="/apprentice/series5/includes/mblocalnav.sssi"</xsl:comment>
+                <xsl:comment>#include virtual="/apprentice/series5/includes/mb_localnav.sssi"</xsl:comment>
                </div>
                
               <div id="membership-top"></div>
