@@ -22,6 +22,7 @@ namespace FunctionalTests
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
         private readonly string _server = DnaTestURLRequest.CurrentServer;
+        private readonly string _secureServer = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -1782,6 +1783,7 @@ namespace FunctionalTests
                                                              out userID));
             request.UseIdentitySignIn = true;
             request.CurrentCookie = cookie.Value;
+            request.CurrentSecureCookie = secureCookie.Value;
 
             string id = "FunctiontestCommentForum-" + Guid.NewGuid(); //have to randomize the string to post
             string title = "Functiontest Title";
@@ -1879,17 +1881,19 @@ namespace FunctionalTests
                                                              out secureCookie,
                                                              out userID));
             request.UseIdentitySignIn = true;
+
             request.CurrentCookie = cookie.Value;
+            request.CurrentSecureCookie = secureCookie.Value;
 
             string text = "Functiontest Title" + Guid.NewGuid();
             commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
                                             "<text>{0}</text>" +
                                             "</comment>", text);
 
-            // Setup the request url
+            // Setup the comment request url - needs to be secure
             url =
                 String.Format(
-                    "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
+                    "https://" + _secureServer + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
                     "identity606", id);
 
             try

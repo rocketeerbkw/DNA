@@ -694,7 +694,10 @@ return.";
 
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.UseEditorAuthentication = true;
-            request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
+            request.SetCurrentUserEditor();
+            request.UseIdentitySignIn = true;
+
+            //request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
 
             // Setup the request url
             string uid = Guid.NewGuid().ToString();

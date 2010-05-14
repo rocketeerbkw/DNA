@@ -31,7 +31,8 @@ namespace FunctionalTests
             {
                 Console.WriteLine("setting up");
                 _request.UseEditorAuthentication = true;
-                _request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
+                _request.SetCurrentUserEditor();
+                //_request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
                 _setupRun = true;
             }
         }

@@ -621,7 +621,9 @@ return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.UseEditorAuthentication = true;
-            request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
+            request.UseIdentitySignIn = true;
+            request.SetCurrentUserEditor();
+            //request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
 
             // Setup the request url
             string uid = Guid.NewGuid().ToString();
@@ -794,9 +796,10 @@ return.";
             Console.WriteLine("Before CommentBoxTests - TestCreateCommentForumWithUnicodeTitleAndThenChangeUnicodeTitle");
 
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
+            request.UseIdentitySignIn = true;
             request.UseEditorAuthentication = true;
             request.SetCurrentUserEditor();
-            request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
+            //request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
 
             // Setup the request url
             string uid = Guid.NewGuid().ToString();

@@ -849,6 +849,11 @@ namespace Tests
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
             webRequest.AllowAutoRedirect = false;
+
+            //Trust all certificates
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                ((sender, certificate, chain, sslPolicyErrors) => true);
+
             if (!String.IsNullOrEmpty(postDataType))
             {
                 webRequest.ContentType = postDataType;

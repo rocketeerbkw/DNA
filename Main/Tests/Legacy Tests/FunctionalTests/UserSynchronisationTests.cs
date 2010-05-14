@@ -380,7 +380,8 @@ namespace FunctionalTests
             Assert.AreEqual(_newEmail, doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS").InnerText, "incorrect email");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
+        ///TODO CHECK WITH MARK H IF STILL NEEDED
         public void CheckCorrectUserDetailsViaBBCDnaWithNewSSOAccount()
         {
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
@@ -393,7 +394,8 @@ namespace FunctionalTests
             Assert.AreEqual("ultimatetester", doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
+        ///TODO CHECK WITH MARK H IF STILL NEEDED
         public void CheckCorrectUserDetailsViaRipleyWithNewSSOAccount()
         {
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");

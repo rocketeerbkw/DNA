@@ -257,6 +257,7 @@ namespace FunctionalTests
             string url = makeCreatePostUrl(forumId);
 
             DnaTestURLRequest theRequest = new DnaTestURLRequest(testUtils_CommentsAPI.sitename);
+            theRequest.UseIdentitySignIn = true;
 
             switch (index)
             {
@@ -437,8 +438,8 @@ namespace FunctionalTests
         {
             //http://dnadev.national.core.bbc.co.uk:8082/comments/ReviewService.svc/V1/site/{siteName}/reviewforum/{RatingForumID}/
             return String.Format(
-             "http://{0}/{1}/{2}/reviewforum/{3}/",
-             testUtils_ratingsAPI.server,
+             "https://{0}/{1}/{2}/reviewforum/{3}/",
+             testUtils_ratingsAPI.secureserver,
              testUtils_ratingsAPI._resourceLocation,
              testUtils_ratingsAPI.sitename,
              forumId

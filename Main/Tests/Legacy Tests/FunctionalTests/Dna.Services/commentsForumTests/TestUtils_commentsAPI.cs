@@ -27,6 +27,7 @@ namespace FunctionalTests
 
         public const string _resourceLocation = "/dna/api/comments/CommentsService.svc/v1/";
         public static string server = DnaTestURLRequest.CurrentServer;
+        public static string secureServer = DnaTestURLRequest.SecureServerAddress;
         public static string sitename = "h2g2";
 
         public static int runningForumCount = 0; // used to see our starting count, before we start adding forums.
@@ -227,11 +228,12 @@ namespace FunctionalTests
         public static string makeTestComment(string forumName)
         {
             string postData = makeCommentPostXML();
-            string url = String.Format("http://{0}/dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/",
-                testUtils_CommentsAPI.server, testUtils_CommentsAPI.sitename, forumName);
+            string url = String.Format("https://{0}/dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/",
+                testUtils_CommentsAPI.secureServer, testUtils_CommentsAPI.sitename, forumName);
             
             DnaTestURLRequest myRequest = new DnaTestURLRequest(sitename);
             myRequest.SetCurrentUserNormal();
+            myRequest.UseIdentitySignIn = true;
 
             myRequest.RequestPageWithFullURL(url, postData, "text/xml");
 
