@@ -17,8 +17,7 @@ namespace BBC.Dna
         private string _cmd = String.Empty;
         private SiteConfig _siteConfig;
         private TopicPage _topicPage;
-        private TopicPage _topicActivePage;
-
+        
 
 
         /// <summary>
@@ -66,13 +65,7 @@ namespace BBC.Dna
 
             SerialiseAndAppend(_topicPage, "");
 
-            _topicActivePage = new TopicPage { Page = "ACTIVE" };
-            _topicActivePage.TopicElementList = TopicElementList.GetTopicListFromDatabase(AppContext.ReaderCreator,
-                                                                         InputContext.CurrentSite.SiteID,
-                                                                         TopicStatus.Live, true);
-
-            SerialiseAndAppend(_topicActivePage, "");
-            
+           
         }
 
         /// <summary>
