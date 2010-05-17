@@ -179,6 +179,11 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-tl-2c  {padding:0 0 45px 60px; background: url(/dnaimages/dna_messageboard/img/icon-lay-2.gif) no-repeat 0 0}
 .dna-tl-1c  {padding:0 0 45px 60px; background: url(/dnaimages/dna_messageboard/img/icon-lay-1.gif) no-repeat 0 0}
 
+.dna-list-topic-col1 h5,.dna-list-topic-col2 h5,.dna-list-topic-col h5 {margin:0}
+
+.glow-sortable-dropindicator {border:2px dotted #ccc; margin: 10px}
+
+
 /* overlay */
 .dna-preview-box {margin-bottom:10px; background:#fff; height:1%; border:1px solid #ccc}
 .dna-preview-box label {display:block; vertical-align:top; font-weight:bold}
@@ -188,10 +193,13 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-preview-box .dna-buttons {border-top:1px solid #56a4ce; padding:10px 0}
 .dna-preview-box .dna-buttons li {padding:0}
 
-#dna-preview-editheader ul li label,#dna-preview-edittopiclayout ul li label,#dna-preview-editfooter ul li label,.dna-turn-img-off label,#dna-preview-addtoolbar label,#dna-preview-addrecentdiscussions label{display:inline-block!important; width:220px}
+#dna-preview-editheader ul li label,#dna-preview-edittopiclayout ul li label,#dna-preview-editfooter ul li label,.dna-turn-img-off label,#dna-preview-addtoolbar label,#dna-preview-addrecentdiscussions label,#dna-topic-archive label,#dna-topic-unarchive label,#dna-topic-delete label{display:inline-block!important; width:220px}
 
 .glow110-overlay input,.glow110-overlay textarea{width:100%}
-.glow110-overlay #dna-preview-editheader ul li input,.glow110-overlay #dna-preview-edittopiclayout ul li input,#dna-preview-editfooter ul li input,.dna-turn-img-off input,#dna-preview-addtoolbar input,#dna-preview-addrecentdiscussions input{width:auto}
+.glow110-overlay #dna-preview-editheader ul li input,.glow110-overlay #dna-preview-edittopiclayout ul li input,#dna-preview-editfooter ul li input,.dna-turn-img-off input,#dna-preview-addtoolbar input,#dna-preview-addrecentdiscussions input,#dna-topic-archive input,#dna-topic-unarchive input,#dna-topic-delete input{width:auto}
+.glow110-overlay .dna-topic-step {font-size:.9em}
+
+
 
 /* color scheme */
 .dna-blue {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-blue.gif) no-repeat 0 3px}

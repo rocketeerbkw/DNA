@@ -21,17 +21,17 @@
     <li>
       <xsl:choose>
         <xsl:when test="TOPICSTATUS='0'">
-          <a href="topicbuilder?cmd=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to archive this topic?');">
+          <a href="topicbuilder?cmd=delete&amp;s_mode=archive&amp;topicid={TOPICID}&amp;editkey={EDITKEY}#dna-preview-archive-topic-{TOPICID}" class="dna-link-overlay">
             <xsl:value-of select="TITLE"/>
           </a>
         </xsl:when>
         <xsl:when test="TOPICSTATUS='1'">
-          <a href="topicbuilder?cmd=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to delete this topic?');">
+          <a href="topicbuilder?cmd=delete&amp;s_mode=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}#dna-preview-delete-topic-{TOPICID}" class="dna-link-overlay">
             <xsl:value-of select="TITLE"/>
           </a>
         </xsl:when>
         <xsl:otherwise>
-          <a href="topicbuilder?cmd=unarchive&amp;topicid={TOPICID}&amp;editkey={EDITKEY}" onclick="return confirm('Are you sure you wish to unarchive this topic?');">
+          <a href="topicbuilder?cmd=unarchive&amp;s_mode=unarchive&amp;topicid={TOPICID}&amp;editkey={EDITKEY}#dna-preview-unarchive-topic-{TOPICID}" class="dna-link-overlay">
             <xsl:value-of select="TITLE"/>
           </a>
         </xsl:otherwise>
@@ -61,7 +61,7 @@
   <xsl:template match="TOPIC" mode="object_topic_admin">
     <h5><xsl:value-of select="FRONTPAGEELEMENT/TITLE" /></h5>
       
-    <p class="dna-link-edit"><a href="?s_edittopic={TOPICID}&amp;s_mode=topic#dna-preview-edittopic" class="dna-link-overlay">Edit Topic</a></p>
+    <p class="dna-link-edit"><a href="?s_edittopic={TOPICID}&amp;s_mode=topic#dna-preview-topic-edit-{TOPICID}" class="dna-link-overlay">Edit Topic</a></p>
     
     <xsl:if test="FRONTPAGEELEMENT/TEMPLATE = 2">
       <xsl:if test="FRONTPAGEELEMENT/IMAGENAME and FRONTPAGEELEMENT/IMAGENAME != ''">
@@ -89,16 +89,17 @@
 
   
   <xsl:template name="object_topic_edit">
-    <xsl:param name="topicid"></xsl:param>
+    <xsl:param name="topicid">
+    </xsl:param>
     
-      <form action="messageboardadmin_design?cmd=updatetopic" method="post" id="dna-add-topic">
+
+      <form action="messageboardadmin_design?cmd=updatetopic" method="post" id="dna-add-topic-{$topicid}">
         <input type="hidden" name="topiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/EDITKEY}"></input>
         <input type="hidden" name="fptopiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/EDITKEY}"></input>
         <input type="hidden" id="topicid" name="topicid" value="{$topicid}"></input>
 
-        
-        <div id="dna-preview-edittopic" class="dna-preview-box">
-          <div id="dna-preview-edittopic-step1" >
+
+        <div id="dna-preview-edittopic-step1-{$topicid}" >
             <xsl:choose>
               <xsl:when test="$topicid = 0">
                 <h4>
@@ -111,22 +112,19 @@
                 </h4>
               </xsl:otherwise>
             </xsl:choose>
-
-
+          
             <p>Add the text which shall appear on the topic promo, found on the messageboard homepage.</p>
             <p>
-              <label for="fp_title">Title of topic promo:</label>
-              <input type="text" name="fp_title" id="fp_title" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/TITLE}"/>
+              <label for="fp_title-{$topicid}">Title of topic promo:</label>
+              <input type="text" name="fp_title-{$topicid}" id="fp_title-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/TITLE}"/>
               <span class="dna-fnote">
                 <strong>Example:</strong> Our Couples for 2009
               </span>
             </p>
 
             <p>
-              <label for="fp_text">Enter the text to explain what this topic is about:</label>
-              <textarea name="fp_text" id="fp_text" cols="50" rows="2">
-                <xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT"/>
-              </textarea>
+              <label for="fp_text-{$topicid}">Enter the text to explain what this topic is about:</label>
+              <textarea name="fp_tex-{$topicid}t" id="fp_text-{$topicid}" cols="50" rows="2"><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's got a good chance this year? Who'll be waltzing off in the first few shows?
               </span>
@@ -135,17 +133,17 @@
             <div class="dna-buttons">
               <ul>
                 <li>
-                  <a href="?s_mode=topic2&amp;s_edittopic={$topicid}#dna-preview-edittopic-step2" class="dna-btn-link" id="dna-btn-next-1">Next</a>
+                  <a href="?s_mode=topic2&amp;s_edittopic={$topicid}#dna-preview-edittopic-step2-{$topicid}" class="dna-btn-link" id="dna-btn-next-1-{$topicid}">Next</a>
                 </li>
                 <li>
-                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>
+                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
                 </li>
               </ul>
             </div>
           </div>
 
 
-          <div id="dna-preview-edittopic-step2">
+          <div id="dna-preview-edittopic-step2-{$topicid}">
             <xsl:choose>
               <xsl:when test="$topicid = 0">
                 <h4>
@@ -162,42 +160,42 @@
 
             <p>You can choose to add an image to your topic promo. If you do not wish to add an image, simply click Next.</p>
             <p>
-              <label for="fp_imagename">Image Address (image size: 206 X 116 pixels):</label>
-              <input type="text" name="fp_imagename" id="fp_imagename" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME}"/>
+              <label for="fp_imagename-{$topicid}">Image Address (image size: 206 X 116 pixels):</label>
+              <input type="text" name="fp_imagename-{$topicid}" id="fp_imagename-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME}"/>
               <span class="dna-fnote">
                 <strong>Example:</strong> ricky_erin.jpg
               </span>
             </p>
             <p>
-              <label for="fp_imagealttext">Enter the alt text for this image:</label>
-              <input type="text" name="fp_imagealttext" id="fp_imagealttext" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGEALTTEXT}" />
+              <label for="fp_imagealttext-{$topicid}">Enter the alt text for this image:</label>
+              <input type="text" name="fp_imagealttext-{$topicid}" id="fp_imagealttext-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGEALTTEXT}" />
               <span class="dna-fnote">
                 <strong>Example:</strong> Erin and Rick
               </span>
             </p>
             <p class="dna-turn-img-off">
-              <input type="checkbox" name="fp_templatetype" id="fp_templatetype" value="turnimageoff">
+              <input type="checkbox" name="fp_templatetype-{$topicid}" id="fp_templatetype-{$topicid}" value="turnimageoff">
                 <xsl:if test="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEMPLATETYPE != 2">
                   <xsl:attribute name="checked">checked</xsl:attribute>
                 </xsl:if>
               </input>
-              <label for="fp_templatetype">To turn off the image for this topic promo, please select this box</label>
+              <label for="fp_templatetype-{$topicid}">To turn off the image for this topic promo, please select this box</label>
             </p>
 
             <div class="dna-buttons">
               <ul>
                 <li>
-                  <a href="?s_mode=topic3#dna-preview-edittopic-step3" class="dna-btn-link" id="dna-btn-next-2">Next</a>
+                  <a href="?s_mode=topic3#dna-preview-edittopic-step3-{$topicid}" class="dna-btn-link" id="dna-btn-next-2-{$topicid}">Next</a>
                 </li>
                 <li>
-                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>
+                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
                 </li>
               </ul>
             </div>
           </div>
 
 
-          <div id="dna-preview-edittopic-step3">
+          <div id="dna-preview-edittopic-step3-{$topicid}">
             <xsl:choose>
               <xsl:when test="$topicid = 0">
                 <h4>
@@ -214,17 +212,15 @@
 
             <p>Add the text which shall appear on the topic page itself.</p>
             <p>
-              <label for="topictitle">Title of topic page:</label>
-              <input type="text" name="topictitle" id="topictitle" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/TITLE}" />
+              <label for="topictitle-{$topicid}">Title of topic page:</label>
+              <input type="text" name="topictitle-{$topicid}" id="topictitle-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/TITLE}" />
               <span class="dna-fnote">
                 <strong>Example:</strong> Our Couples for 2009
               </span>
             </p>
             <p>
-              <label for="topictext">Enter the text to explain what this topic page is about:</label>
-              <textarea name="topictext" id="topictext" ols="50" rows="2">
-                <xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY"/>
-              </textarea>
+              <label for="topictext-{$topicid}">Enter the text to explain what this topic page is about:</label>
+              <textarea name="topictext-{$topicid}" id="topictext-{$topicid}" ols="50" rows="2"><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's will your favourite dancers be this year? Let the speculations begin...
               </span>
@@ -233,16 +229,135 @@
             <div class="dna-buttons">
               <ul>
                 <li>
-                  <input type="submit" name="submit" value="Save" id="dna-btn-next-3" />
+                  <input type="submit" name="submit" value="Save" id="dna-btn-next-3-{$topicid}" />
                 </li>
                 <li>
-                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>
+                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
                 </li>
               </ul>
             </div>
           </div>
-        </div>
-      </form>
+
+        </form>
+      
+
+  </xsl:template>
+
+  <xsl:template match="TOPIC" mode="object_topic_overlay">
+   
+      <div id="dna-preview-archive-topic-{TOPICID}">
+        <xsl:attribute name="class">
+          dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'archive' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+        </xsl:attribute>
+
+
+        <h4>Archive topic</h4>
+
+        <form action="topicbuilder?cmd=delete" method="post" id="dna-topic-archive">
+          <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>
+          <input type="hidden" id="topicid" name="topicid" value="{TOPICID}"></input>
+
+          <p>Are you sure you wish to archive this topic?</p>
+
+
+          <ul>
+            <li>
+              <input type="radio" name="archiveTopic-{TOPICID}" id="archiveTopic-yes-{TOPICID}" value="archive-yes-{TOPICID}" />
+              <label for="archiveTopic-yes-{TOPICID}">Yes</label>
+            </li>
+            <li>
+              <input type="radio" name="archiveTopic-{TOPICID}" id="archiveTopic-no-{TOPICID}" value="archive-no-{TOPICID}" />
+              <label for="archiveTopic-no-{TOPICID}">No</label>
+            </li>
+          </ul>
+
+          <div class="dna-buttons">
+            <ul>
+              <li>
+                <input type="submit" name="submit" value="Save" />
+              </li>
+              <li>
+                <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+
+      <div id="dna-preview-unarchive-topic-{TOPICID}">
+        <xsl:attribute name="class">
+          dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'unarchive' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+        </xsl:attribute>
+
+        <h4>Unarchive topic</h4>
+
+        <form action="topicbuilder?cmd=unarchive" method="post" id="dna-topic-unarchive">
+          <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>
+          <input type="hidden" id="topicid" name="topicid" value="{TOPICID}"></input>
+
+          <p>Are you sure you wish to unarchive this topic?</p>
+
+          <ul>
+            <li>
+              <input type="radio" name="unarchiveTopic-{TOPICID}" id="unarchiveTopic-yes-{TOPICID}" value="unarchive-yes-{TOPICID}" />
+              <label for="unarchiveTopic-yes-{TOPICID}">Yes</label>
+            </li>
+            <li>
+              <input type="radio" name="unarchiveTopic-{TOPICID}" id="unarchiveTopic-no-{TOPICID}" value="unarchive-no-{TOPICID}" />
+              <label for="unarchiveTopic-no-{TOPICID}">No</label>
+            </li>
+          </ul>
+
+          <div class="dna-buttons">
+            <ul>
+              <li>
+                <input type="submit" name="submit" value="Save" />
+              </li>
+              <li>
+                <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+
+      <div id="dna-preview-delete-topic-{TOPICID}">
+        <xsl:attribute name="class">
+          dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'delete' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+        </xsl:attribute>
+
+        <h4>Delete topic</h4>
+
+        <form action="topicbuilder?cmd=delete" method="post" id="dna-topic-delete">
+          <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>
+          <input type="hidden" id="topicid" name="topicid" value="{TOPICID}"></input>
+
+          <p>Are you sure you wish to delete this topic?</p>
+
+          <ul>
+            <li>
+              <input type="radio" name="deleteTopic-{TOPICID}" id="deleteTopic-yes-{TOPICID}" value="delete-yes-{TOPICID}" />
+              <label for="deleteTopic-yes-{TOPICID}">Yes</label>
+            </li>
+            <li>
+              <input type="radio" name="deleteTopic-{TOPICID}" id="deleteTopic-no-{TOPICID}" value="delete-no" />
+              <label for="deleteTopic-no-{TOPICID}">No</label>
+            </li>
+          </ul>
+
+          <div class="dna-buttons">
+            <ul>
+              <li>
+                <input type="submit" name="submit" value="Save" />
+              </li>
+              <li>
+                <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+              </li>
+            </ul>
+          </div>
+
+        </form>
+      </div>
 
   </xsl:template>
 </xsl:stylesheet>

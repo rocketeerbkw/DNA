@@ -8,12 +8,25 @@ gloader.load(
 
             /* design tab - sort topic order */
             new glow.widgets.Sortable(
-            '.dna-list-topic-col1,.dna-list-topic-col2'
-         );
+            '.dna-list-topic-col1,.dna-list-topic-col2',
+            {
+                draggableOptions: {
+                    handle: 'h5'
+                }
+            }
+        );
 
             new glow.widgets.Sortable(
-            '.dna-list-topic-col'
+            '.dna-list-topic-col',
+            {
+                draggableOptions: {
+                    handle: 'h5'
+                }
+            }
         );
+            glow.dom.get(".dna-list-topic-col h5").css("cursor", "move");
+            glow.dom.get(".dna-list-topic-col1 h5").css("cursor", "move");
+            glow.dom.get(".dna-list-topic-col2 h5").css("cursor", "move");
 
 
             //overlay
@@ -21,7 +34,6 @@ gloader.load(
 
             myNodeList.each(function(i) {
                 var href = glow.dom.get(this).attr("href");
-                var topicid = glow.dom.get(this).attr("href");
 
                 /* find anchor link */
                 whichAnchor = function() {
@@ -45,19 +57,73 @@ gloader.load(
                         return results[1];
                 }
 
-                var whichTopic = topic('s_edittopic');
+                var seditTopic = topic('s_edittopic');
+                var topicId = topic('topicid');
+                var editKey = topic('editkey');
 
 
                 //display overlay when show link is clicked
                 glow.events.addListener(this, "click", function() {
+
+                    glow.dom.get("#" + whichDiv).removeClass("dna-off");
+
+                    // edit topic : show/hide step 2 and 3
+                    glow.dom.get("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
+                    glow.dom.get("#dna-preview-edittopic-step3-" + seditTopic).addClass("dna-off");
+
+
+                    // edit topic : validate form
+                    glow.events.addListener("#dna-btn-next-1-" + seditTopic, "click", function() {
+                        if (glow.dom.get("#fp_title-" + seditTopic).val() == "") {
+                            glow.dom.create('<span class="dna-error-text">Please add a topic promo title</span>').insertBefore("#fp_title-" + seditTopic);
+                            glow.dom.get("input#fp_title-" + seditTopic).addClass("dna-error-input");
+                            return false;
+                        } else {
+                            glow.dom.get("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
+                            glow.dom.get("#dna-preview-edittopic-step2-" + seditTopic).removeClass("dna-off");
+                        }
+                        return false;
+                    });
+
+                    glow.events.addListener("#dna-btn-next-2-" + seditTopic, "click", function() {
+                        if (glow.dom.get("#fp_imagename-" + seditTopic).val() != "" && glow.dom.get("#fp_imagealttext-" + seditTopic).val() == "") {
+                            glow.dom.create('<span class="dna-error-text">Please add alt text for your image</span>').insertBefore("#fp_imagealttext-" + seditTopic);
+                            glow.dom.get("#fp_imagealttext-" + seditTopic).addClass("dna-error-input");
+                            return false;
+                        } else {
+                            glow.dom.get("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
+                            glow.dom.get("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
+                            glow.dom.get("#dna-preview-edittopic-step3-" + seditTopic).removeClass("dna-off");
+                        }
+                        return false;
+                    });
+
+                    glow.events.addListener("#dna-btn-next-3-" + seditTopic, "click", function() {
+                        if (glow.dom.get("#topictitle-" + seditTopic).val() == "") {
+                            glow.dom.create('<span class="dna-error-text">Please add a title topic</span>').insertBefore("#topictitle-" + seditTopic);
+                            glow.dom.get("#topictitle-" + seditTopic).addClass("dna-error-input");
+                            return false;
+                        }
+                    });
+
                     var myOverlay = new glow.widgets.Overlay("#" + whichDiv, {
                         modal: true
                     });
 
                     myOverlay.show();
+
+                    if (myOverlay.isShown) {
+                        glow.events.addListener("a.dna-btn-cancel", "click", function() {
+                            myOverlay.hide();
+                            return false;
+                        });
+                    }
+                    
                     return false;
                 });
             });
+
+
 
 
 
@@ -69,53 +135,19 @@ gloader.load(
                 return false;
             });
 
-            // edit topic : show/hide step 2 and 3
-            glow.dom.get("#dna-preview-edittopic-step2").addClass("dna-off");
-            glow.dom.get("#dna-preview-edittopic-step3").addClass("dna-off");
 
-            // edit topic : validate form
-            glow.events.addListener("#dna-btn-next-1", "click", function() {
-                if (glow.dom.get("#fp_title").val() == "") {
-                    glow.dom.create('<span class="dna-error-text">Please add a topic promo title</span>').insertBefore("#fp_title");
-                    glow.dom.get("#fp_title").addClass("dna-error-input");
-                    return false;
-                } else {
-                    glow.dom.get("#dna-preview-edittopic-step1").addClass("dna-off");
-                    glow.dom.get("#dna-preview-edittopic-step2").removeClass("dna-off");
-                }
-                return false;
-            });
-
-            glow.events.addListener("#dna-btn-next-2", "click", function() {
-                if (glow.dom.get("#fp_imagename").val() != "" && glow.dom.get("#fp_imagealttext").val() == "") {
-                    glow.dom.create('<span class="dna-error-text">Please add alt text for your image</span>').insertBefore("#fp_imagealttext");
-                    glow.dom.get("#fp_imagealttext").addClass("dna-error-input");
-                    return false;
-                } else {
-                    glow.dom.get("#dna-preview-edittopic-step1").addClass("dna-off");
-                    glow.dom.get("#dna-preview-edittopic-step2").addClass("dna-off");
-                    glow.dom.get("#dna-preview-edittopic-step3").removeClass("dna-off");
-                }
-                return false;
-            });
-
-            glow.events.addListener("#dna-btn-next-3", "click", function() {
-                if (glow.dom.get("#topictitle").val() == "") {
-                    glow.dom.create('<span class="dna-error-text">Please add a title topic</span>').insertBefore("#topictitle");
-                    glow.dom.get("#topictitle").addClass("dna-error-input");
-                    return false;
-                }
-            });
 
             // opening times
             var twentyfourseven = glow.dom.get("#twentyfourseven");
             var sametime = glow.dom.get("#sameeveryday");
             var difftime = glow.dom.get("#eachday");
-
             var sametimeselect = glow.dom.get("#dna-mb-openSame select");
             var difftimeselect = glow.dom.get("#dna-mb-openDiff select");
             var altrows = glow.dom.get("#dna-mb-openDiff tr");
             var closedallday = glow.dom.get("#dna-mb-openDiff table input");
+
+            glow.dom.get(".closed").removeClass("dna-off");
+
 
 
             function iftwentyforseven() {

@@ -50,8 +50,15 @@
           </div>
         </div>
       </div>
+
+
+      <div id="dna-lightboxes" class="dna-clear">
+        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='0']" mode="object_topic_overlay"/>
+        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='1']" mode="object_topic_overlay"/>
+        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='3']" mode="object_topic_overlay"/>
+        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='4']" mode="object_topic_overlay"/>
+      </div>
     </div>
-   
 	</xsl:template>
 
 </xsl:stylesheet>
