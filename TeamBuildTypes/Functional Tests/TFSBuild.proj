@@ -255,11 +255,13 @@
 
     <Exec Command="CMD &quot;C:\TFSScripts\UnloadTestWeb.bat&quot;" Timeout="10000"></Exec>
 
+    <!-- run filter.reg -->
+    <Exec Command="regedit /s &quot;$(SolutionRoot)\Main\filter.reg&quot;"></Exec>
+
     <!-- start website to copy ripley -->
     <Exec Command="iisweb /start h2g2UnitTesting" Timeout="10000"></Exec>
 
-    <!-- run filter.reg -->
-    <Exec Command="regedit /s &quot;$(SolutionRoot)\Main\filter.reg&quot;"></Exec>
+    
     
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
