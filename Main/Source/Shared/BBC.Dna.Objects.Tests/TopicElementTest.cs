@@ -235,28 +235,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual("MakePreviewTopicsActiveForSiteID", result.Type);
         }
 
-        [TestMethod]
-        public void MakePreviewTopicsActiveForSiteID_NoResponseForElements_CorrectError()
-        {
-            var retVal = 0;
-            var reader = _mocks.DynamicMock<IDnaDataReader>();
-            reader.Stub(x => x.TryGetIntReturnValue(out retVal)).OutRef(0).Return(true);
-            var reader2 = _mocks.DynamicMock<IDnaDataReader>();
-            reader2.Stub(x => x.TryGetIntReturnValue(out retVal)).OutRef(0).Return(false);
-
-
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("MakePreviewTopicsActiveForSiteID")).Return(reader);
-            creator.Stub(x => x.CreateDnaDataReader("MakePreviewTopicElementsActive")).Return(reader2);
-
-
-            _mocks.ReplayAll();
-
-            var result = TopicElement.MakePreviewTopicsActiveForSiteID(creator, 0, 0);
-            Assert.AreEqual("Error", result.GetType().Name);
-            Assert.AreEqual("MakePreviewTopicsActiveForSiteID", result.Type);
-        }
-
+       
         [TestMethod]
         public void MakePreviewTopicsActiveForSiteID_InvalidResponseForTopics_CorrectError()
         {
@@ -280,25 +259,6 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual("MakePreviewTopicsActiveForSiteID", result.Type);
         }
 
-        [TestMethod]
-        public void MakePreviewTopicsActiveForSiteID_InvalidResponseForElements_CorrectError()
-        {
-            var retVal = 0;
-            var reader = _mocks.DynamicMock<IDnaDataReader>();
-            reader.Stub(x => x.TryGetIntReturnValue(out retVal)).OutRef(0).Return(true);
-            var reader2 = _mocks.DynamicMock<IDnaDataReader>();
-            reader2.Stub(x => x.TryGetIntReturnValue(out retVal)).OutRef(3).Return(true);
-
-
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("MakePreviewTopicsActiveForSiteID")).Return(reader);
-            creator.Stub(x => x.CreateDnaDataReader("MakePreviewTopicElementsActive")).Return(reader2);
-
-            _mocks.ReplayAll();
-
-            var result = TopicElement.MakePreviewTopicsActiveForSiteID(creator, 0, 0);
-            Assert.AreEqual("Error", result.GetType().Name);
-            Assert.AreEqual("MakePreviewTopicsActiveForSiteID", result.Type);
-        }
+        
     }
 }
