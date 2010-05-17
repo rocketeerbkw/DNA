@@ -19,7 +19,7 @@
 				<xs:element name="USERAGENT" type="xs:string"/>
 				<xs:element ref="DATE"/>
 				<xs:element ref="SITECONFIG"/>
-				<xs:element name="TOP-FIVES" />
+				<xs:element name="TOP-FIVES" minOccurs="0"/>
 				<xs:element ref="COMMENTBOX"/>
 				<xs:element ref="COMMENTFORUMLIST" minOccurs="0"/>
 				<xs:element ref="RECENTCOMMENTS" minOccurs="0"/>

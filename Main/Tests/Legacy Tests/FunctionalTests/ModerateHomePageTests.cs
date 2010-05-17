@@ -68,7 +68,7 @@ namespace FunctionalTests
             string testUserName;
             SetupIdentityEditorUser(request, out cookie, out testUserName);
 
-            request.RequestSecurePage(@"Moderate?skin=purexml", true);
+            request.RequestSecurePage(@"Moderate?skin=purexml");
             XmlDocument xml = request.GetLastResponseAsXML();
 
             TestUserCreator.DeleteIdentityUser(cookie, testUserName);
@@ -87,7 +87,7 @@ namespace FunctionalTests
             string testUserName;
             SetupIdentityEditorUser(request, out cookie, out testUserName);
 
-            request.RequestSecurePage(@"Moderate?skin=purexml", true);
+            request.RequestSecurePage(@"Moderate?skin=purexml");
             XmlDocument xml = request.GetLastResponseAsXML();
 
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "H2G2ModerateHome.xsd");
@@ -121,17 +121,17 @@ namespace FunctionalTests
             modHomeParams.UnlockNicknames = InputContext.DoesParamExist("UnlockNicknames", _docDnaUnlockNicknames);
             modHomeParams.UnlockAll = InputContext.DoesParamExist("UnlockAll", _docDnaUnlockAll);
 */
-            request.RequestSecurePage(@"Moderate?UnlockForums=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockForumReferrals=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockUserPosts=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockSitePosts=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockAllPosts=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockArticles=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockArticleReferrals=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockGeneral=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockGeneralReferrals=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockNicknames=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockAll=1&skin=purexml", true);
+            request.RequestSecurePage(@"Moderate?UnlockForums=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockForumReferrals=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockUserPosts=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockSitePosts=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockAllPosts=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockArticles=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockArticleReferrals=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockGeneral=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockGeneralReferrals=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockNicknames=1&skin=purexml");
+            request.RequestSecurePage(@"Moderate?UnlockAll=1&skin=purexml");
 
             XmlDocument xml = request.GetLastResponseAsXML();
 

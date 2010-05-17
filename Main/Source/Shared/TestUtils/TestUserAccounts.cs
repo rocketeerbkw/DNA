@@ -123,7 +123,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetBannedUserAccount
         {
-            get { return new UserAccount("DotNetUserBanned", "asdfasdf", "6042004|DotNetUserBanned|DotNetUserBanned|1273497847257|0|9d9ee980c4b831e419915b452b050f327862bba748ff", "a684c1a5736f052c4acc1b35908f8dbad2e2ea0b", 1166868343, true); }
+            get { return new UserAccount("DotNetUserBanned", "asdfasdf", "6042004|DotNetUserBanned|DotNetUserBanned|1273497847257|0|9d9ee980c4b831e419915b452b050f327862bba748ff", "a684c1a5736f052c4acc1b35908f8dbad2e2ea0b", 1165333426, true); }
         }
 
         /// <summary>

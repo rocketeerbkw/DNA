@@ -41,7 +41,7 @@ namespace Tests
             // Request the page and then post a comment
             request.RequestPage(url);
             XmlDocument xml = request.GetLastResponseAsXML();
-            request.RequestSecurePage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml", true);
+            request.RequestSecurePage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
             XmlDocument xDoc = request.GetLastResponseAsXML();
             _entryID = Convert.ToInt32(xDoc.SelectSingleNode("//POST/@POSTID").InnerText);
 
