@@ -59,7 +59,7 @@
         <p>
           <input type="radio" name="updatetype" value="sameeveryday" id="sameeveryday">
             
-            <xsl:if test="false()">
+            <xsl:if test="false">
               <xsl:attribute name="checked">checked</xsl:attribute>
             </xsl:if>
           </input>
@@ -68,35 +68,35 @@
 
         <p>
           <input type="hidden" id="7ClosedAllDay"/>
-          <label for="openhours-eday">
+          <label for="recurrenteventopenhours">
             Opens <span class="dna-off">hour</span>
           </label>
-          <select name="eventhours" id="openhours-eday">
+          <select name="recurrenteventopenhours" id="recurrenteventopenhours">
             <xsl:call-template name="hours">
-              <xsl:with-param name="selected" select="'9'"/>
+              <xsl:with-param name="selected" select="SCHEDULE/EVENT[@ACTION = 0]/TIME[@DAYTYPE = 7]/@HOURS"/>
             </xsl:call-template>
           </select>
-          <label for="openMinutes-eday" class="dna-off">Opens minutes</label>
-          <select name="eventminutes" id="openMinutes-eday">
+          <label for="recurrenteventopenminutes" class="dna-off">Opens minutes</label>
+          <select name="recurrenteventopenminutes" id="recurrenteventopenminutes">
             <xsl:call-template name="minutes">
-              <xsl:with-param name="selected" select="'0'"/>
+              <xsl:with-param name="selected" select="SCHEDULE/EVENT[@ACTION = 0]/TIME[@DAYTYPE = 7]/@MINUTES"/>
             </xsl:call-template>
           </select>
         </p>
         
         <p>
-          <label for="closeHours-eday">
+          <label for="recurrenteventclosehours">
             Closes <span class="dna-off">hour</span>
           </label>
-          <select name="eventhours" id="closeHours-eday">
+          <select name="recurrenteventclosehours" id="recurrenteventclosehours">
             <xsl:call-template name="hours">
-              <xsl:with-param name="selected" select="'17'"/>
+              <xsl:with-param name="selected" select="SCHEDULE/EVENT[@ACTION = 1]/TIME[@DAYTYPE = 7]/@HOURS"/>
             </xsl:call-template>
           </select>
-          <label for="closeMinutes-eday" class="dna-off">Closes minutes</label>
-          <select name="eventminutes" id="closeMinutes-eday">
+          <label for="recurrenteventcloseminutes" class="dna-off">Closes minutes</label>
+          <select name="recurrenteventcloseminutes" id="recurrenteventcloseminutes">
             <xsl:call-template name="minutes">
-              <xsl:with-param name="selected" select="'0'"/>
+              <xsl:with-param name="selected" select="SCHEDULE/EVENT[@ACTION = 1]/TIME[@DAYTYPE = 7]/@MINUTES"/>
             </xsl:call-template>
           </select>
         </p>
@@ -289,10 +289,18 @@
       </xsl:attribute>
       <th><xsl:value-of select="$dayName"/></th>
       <td>
-        <input type="checkbox" name="" value="" id="closedallday-{$dayNumber}"/>
+        <div class="closed dna-off">
+        <input type="checkbox" name="" value="" id="closedallday-{$dayNumber}" >
+          <xsl:if test="$open-hours = 0 and $open-min =0 and $close-hours = 0 and $close-min = 0">
+            <xsl:attribute name="checked">checked</xsl:attribute>
+          </xsl:if>
+        </input>
         <label for="closedallday-{$dayNumber}">Closed all day</label>
+        </div>
       </td>
       <td>
+        
+        <input type="hidden" name="eventaction" value="0"/>
         <input type="hidden" name="eventdaytype" value="{$dayNumber}"/>
         <label for="openhours-{$dayNumber}">Opens <span class="dna-off">hour</span></label>
         <select name="eventhours" id="openhours-{$dayNumber}">
@@ -308,6 +316,7 @@
         </select>
       </td>
       <td>
+        <input type="hidden" name="eventaction" value="1"/>
         <input type="hidden" name="eventdaytype" value="{$dayNumber}"/>
         <label for="closeHours-{$dayNumber}">Closes <span class="dna-off">hour</span></label>
         <select name="eventhours" id="closeHours-{$dayNumber}">

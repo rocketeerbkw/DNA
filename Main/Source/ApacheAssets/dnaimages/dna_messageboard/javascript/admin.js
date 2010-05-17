@@ -177,6 +177,9 @@ gloader.load(
                 }
             });
 
+            //show closed all day check box
+            glow.dom.get(".closed").removeClass("dna-off");
+
             //if closed all day is checked
             var closeAllday = glow.dom.get("#dna-mb-openDiff table input");
             var myNodeList = glow.dom.get(closeAllday);
@@ -202,6 +205,7 @@ gloader.load(
                     var closeHours = glow.dom.get("#closeHours-" + whichDay);
                     var closeMinutes = glow.dom.get("#closeMinutes-" + whichDay);
 
+                    
 
                     if (this.checked) {
                         openHours.attr("disabled", "disabled");
