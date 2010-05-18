@@ -5,6 +5,8 @@ p, ul, h1, h2, h3, h4, h5 {line-height:130%}
 
 #blq-content,.glow110-overlay {color:#666}
 
+.dna-main input:focus,.dna-main select:focus {border:1px solid #82bdde; background:#e7f0f5}
+
 /* link */
 .dna-main a,.glow110-overlay a {color:#666; padding:1px; border-bottom:1px solid #666}
 .dna-main a:hover,.glow110-overlay a:hover{border-bottom:none}
@@ -74,9 +76,9 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-buttons {clear:both; height:1%; margin-top:10px}
 .dna-buttons li {display:inline-block; float:left;  padding:0; height:1%; margin-right:10px}
 .dna-buttons input {padding:3px 5px 2px 5px; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff; border:1px solid #3988b2; font-size:.9em}
-.dna-buttons input:focus {background-color:#666; color:#fff}
+.dna-buttons input:focus {background:#82bdde url(/dnaimages/dna_messageboard/img/bg-btn-h.gif) repeat-x 0 100%; color:#fff}
 .dna-buttons a {display:block; padding:2px 7px!important; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff!important; border:1px solid #3988b2 !important; font-size:.95em}
-.dna-buttons a:hover {border-bottom:1px solid #666}
+.dna-buttons a:hover,.dna-buttons a:focus,.dna-buttons a:active {background:#82bdde url(/dnaimages/dna_messageboard/img/bg-btn-h.gif) repeat-x 0 100%; border-bottom:1px solid #666}
 
 .glow110-overlay a.dna-btn-link {text-decoration:none; font-size:1em; padding:3px 7px!important;}
 
@@ -111,11 +113,13 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-preview {background-color:#fff; border:1px solid #ccc}
 .dna-preview h3 {color:#666; background-color:transparent}
 .dna-preview a {padding:5px 7px; color:#fff; font-weight:bold; background:#a9d5ed url(/dnaimages/dna_messageboard/img/bg-btn-preview.gif) repeat-x 0 100%; border:1px solid #56a4ce}
+.dna-preview a:hover,.dna-preview a:focus,.dna-preview a:active {background:#84bfdf url(/dnaimages/dna_messageboard/img/bg-btn-preview-h.gif) repeat-x 0 100%; border:1px solid #56a4ce}
 
 /* box: publish */
 .dna-publish {background-color:#56a4ce; border:1px solid #ccc}
 .dna-publish h3 {color:#fff; background-color:transparent}
 .dna-publish a {padding:5px 7px; color:#fff; font-weight:bold; background:#b9dff4 url(/dnaimages/dna_messageboard/img/bg-btn-publish.gif) repeat-x 0 100%; border:1px solid #fff}
+.dna-publish a:hover,.dna-publish a:focus,.dna-publish a:active {background:#84bfdf url(/dnaimages/dna_messageboard/img/bg-btn-publish-h.gif) repeat-x 0 100%; border:1px solid #fff}
 .dna-publish .dna-fnote {color:#fff}
 
 /* box: open times */

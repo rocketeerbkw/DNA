@@ -5,25 +5,25 @@ gloader.load(
         async: true,
         onLoad: function(glow) {
 
-
             /* design tab - sort topic order */
             new glow.widgets.Sortable(
-            '.dna-list-topic-col1,.dna-list-topic-col2',
-            {
-                draggableOptions: {
-                    handle: 'h5'
+                '.dna-list-topic-col1,.dna-list-topic-col2',
+                {
+                    draggableOptions: {
+                        handle: 'h5'
+                    }
                 }
-            }
-        );
+            );
 
             new glow.widgets.Sortable(
             '.dna-list-topic-col',
-            {
-                draggableOptions: {
-                    handle: 'h5'
+                {
+                    draggableOptions: {
+                        handle: 'h5'
+                    }
                 }
-            }
-        );
+            );
+
             glow.dom.get(".dna-list-topic-col h5").css("cursor", "move");
             glow.dom.get(".dna-list-topic-col1 h5").css("cursor", "move");
             glow.dom.get(".dna-list-topic-col2 h5").css("cursor", "move");
@@ -34,17 +34,6 @@ gloader.load(
 
             myNodeList.each(function(i) {
                 var href = glow.dom.get(this).attr("href");
-
-                /* find anchor link */
-                whichAnchor = function() {
-                    var regexS = "([\\#][^]*)";
-                    var regex = new RegExp(regexS);
-                    var results = regex.exec(href);
-                    if (results == null) return "";
-                    else return results[0].replace("#", "");
-                }
-
-                var whichDiv = whichAnchor();
 
                 function topic(name) {
                     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -60,10 +49,13 @@ gloader.load(
                 var seditTopic = topic('s_edittopic');
                 var topicId = topic('topicid');
                 var editKey = topic('editkey');
-
-
+ 
                 //display overlay when show link is clicked
                 glow.events.addListener(this, "click", function() {
+                    var whichAnchor = href.split("#");
+                    whichDiv = whichAnchor[1];
+
+                    alert(whichDiv);
 
                     glow.dom.get("#" + whichDiv).removeClass("dna-off");
 
@@ -106,11 +98,12 @@ gloader.load(
                         }
                     });
 
-                    var myOverlay = new glow.widgets.Overlay("#" + whichDiv, {
+                    var myOverlay = new glow.widgets.Overlay("#dna-preview-editheader", {
                         modal: true
                     });
 
                     myOverlay.show();
+                    return false;
 
                     if (myOverlay.isShown) {
                         glow.events.addListener("a.dna-btn-cancel", "click", function() {
@@ -118,13 +111,10 @@ gloader.load(
                             return false;
                         });
                     }
-                    
-                    return false;
+
+
                 });
             });
-
-
-
 
 
             // footer overlay : show/hide footer links
@@ -134,7 +124,6 @@ gloader.load(
                 glow.dom.get("#dna-footer-links").removeClass("dna-off");
                 return false;
             });
-
 
 
             // opening times
@@ -147,7 +136,6 @@ gloader.load(
             var closedallday = glow.dom.get("#dna-mb-openDiff table input");
 
             glow.dom.get(".closed").removeClass("dna-off");
-
 
 
             function iftwentyforseven() {
@@ -213,31 +201,19 @@ gloader.load(
             glow.dom.get(".closed").removeClass("dna-off");
 
             //if closed all day is checked
-            var closeAllday = glow.dom.get("#dna-mb-openDiff table input");
-            var myNodeList = glow.dom.get(closeAllday);
-            myNodeList.each(function(i) {
-                this == myNodeList[i];
+            closedallday.each(function(i) {
                 var id = glow.dom.get(this).attr("id");
 
 
-                /* find checkbox */
-                gup = function() {
-                    var regexS = "([\\-][^]*)";
-                    var regex = new RegExp(regexS);
-                    var results = regex.exec(id);
-                    if (results == null) return "";
-                    else return results[0].replace("-", "");
-                }
-
-                var whichDay = gup();
-
                 glow.events.addListener(this, "click", function() {
+                    var closeDay = id.split("-");
+                    if (closeDay.length > 1)
+                        whichDay = closeDay[1];
+
                     var openHours = glow.dom.get("#openhours-" + whichDay);
                     var openMinutes = glow.dom.get("#openMinutes-" + whichDay);
                     var closeHours = glow.dom.get("#closeHours-" + whichDay);
                     var closeMinutes = glow.dom.get("#closeMinutes-" + whichDay);
-
-                    
 
                     if (this.checked) {
                         openHours.attr("disabled", "disabled");
