@@ -721,6 +721,59 @@ void DBO::AddParam(const TDVCHAR* pName, const TDVCHAR* pValue )
 	}
 }
 
+
+/*********************************************************************************
+> void DBO::AddParam(const TDVCHAR*, const WCHAR* pValue)
+
+	Author:		Mark Howitt
+	Inputs:		TDVCHAR* Name, WCHAR* Value - NULL TERMINATED.
+	Outputs:	-
+	Returns:	-
+	Scope:		public
+	Purpose:	Adds a named unicode string parameter.
+				Sets up data > 8K as a SQL_WLONGVARCHAR - there is an 8K limit for sql varchar, char types.
+				Maximum limit for SQL_WLONGVARCHAR is 400KB
+				Data At Execution is not used as it results in subtle differences in the results when 
+				a duplicate key error occurs - SQLMoreResults returns SQLError even though a further resultset exists and
+				may be processed successfully.
+*********************************************************************************/
+void DBO::AddParam(const TDVCHAR* pName, const WCHAR* pValue )
+{
+	TDVASSERT(pValue != NULL,"Calling AddParam with NULL - Use AddNullParam");
+	
+	if ( pValue )
+	{
+		SQLPARAMETER*  pparameter = new SQLPARAMETER;
+		pparameter->m_InputOutputType = SQL_PARAM_INPUT;
+		pparameter->m_ParameterCType = SQL_C_WCHAR;
+		pparameter->m_sName << "@" << pName;
+ 
+		int buffer_len = wcslen(pValue) + 2; //Include string terminator
+		pparameter->m_DescLen = buffer_len;
+
+		pparameter->m_ParamSize = buffer_len;
+		pparameter->m_DecimalDigits = 0;
+
+		//For safety - Take a copy of the data.
+		pparameter->m_pData = new WCHAR[buffer_len];
+		memcpy(pparameter->m_pData,pValue,sizeof(WCHAR)*buffer_len);
+		pparameter->m_bOwnData = true;
+
+		if ( buffer_len >= 8000 )
+		{
+			//Handle 8K Limit
+			pparameter->m_SQLType = SQL_WLONGVARCHAR;
+			pparameter->m_DescLenOrInd = SQL_NTS; //SQL_LEN_DATA_AT_EXEC(buffer_len);
+		}
+		else
+		{
+			pparameter->m_DescLenOrInd = SQL_NTS;
+			pparameter->m_SQLType = SQL_WVARCHAR;
+		}
+		m_Parameters.push_back(pparameter);
+	}
+}
+
 /*********************************************************************************
 > void DBO::AddParam(CTDVDateTime)
 

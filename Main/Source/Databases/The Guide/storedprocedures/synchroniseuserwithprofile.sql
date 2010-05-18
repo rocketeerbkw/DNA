@@ -3,7 +3,7 @@ CREATE PROCEDURE synchroniseuserwithprofile	@userid int,
 												@lastname varchar(255) = NULL,
 												@email varchar(255),
 												@loginname varchar(255),
-												@displayname varchar(255) = NULL,
+												@displayname nvarchar(255) = NULL,
 												@identitysite int = NULL,
 												@siteid int = 1
 As
@@ -14,7 +14,7 @@ BEGIN
 	DECLARE @ErrorCode INT
 
 	-- Get the First, last, and user names from the DNA db
-	DECLARE @firstnamesInDNA varchar(255), @lastnameInDNA varchar(255), @UserNameInDNA varchar(255), @CurrentEmail varchar(255)
+	DECLARE @firstnamesInDNA varchar(255), @lastnameInDNA varchar(255), @UserNameInDNA nvarchar(255), @CurrentEmail varchar(255)
 	SELECT @firstnamesInDNA = FirstNames, @lastnameInDNA = LastName, @UserNameInDNA = UserName, @CurrentEmail = Email
 			FROM Users WHERE UserID = @UserID
 		

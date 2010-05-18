@@ -297,6 +297,25 @@ bool CProfileConnection::GetUserProfileValue(const TDVCHAR* sName, CTDVString& s
 	return bSuccess;
 }
 
+const WCHAR* CProfileConnection::GetUserDisplayNameUniCode()
+{
+	AddTimingsInfo("GetUserProfileValue",true);
+	if (m_pIdentityInteropPtr != NULL)
+	{
+		AddTimingsInfo("Using Identity",false);
+		try
+		{
+			return m_pIdentityInteropPtr->GetUserAttribute(_bstr_t("displayname"));
+		}
+		catch(...)
+		{
+			m_sLastIdentityError = "Failed to get user attribute";
+		}
+	}
+	return NULL;
+}
+
+
 /*********************************************************************************
 
 	bool CProfileConnection::IsUsersEMailValidated(bool& bValidated)
