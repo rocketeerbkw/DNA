@@ -43,7 +43,7 @@
 				
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <xsl:if test="/H2G2/@TYPE = 'FRONTPAGE'">
-          <meta http-equiv="refresh" content="0;url={$host}{$root}/messageboardadmin?s_mode=admin" />
+          <meta http-equiv="refresh" content="0;url={$host}{$root}/mbadmin?s_mode=admin" />
           
         </xsl:if>
         <meta name="description" content="" />
@@ -90,7 +90,7 @@
                 <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
                   <xsl:attribute name="class">selected</xsl:attribute>
                 </xsl:if>
-                <a href="{$root}/messageboardadmin?s_mode=admin">Admin</a>
+                <a href="{$root}/mbadmin?s_mode=admin">Admin</a>
               </li>
               <li>
                 <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'design'">

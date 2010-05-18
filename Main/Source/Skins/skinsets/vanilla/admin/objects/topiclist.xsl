@@ -136,7 +136,7 @@
                   <a href="?s_mode=topic2&amp;s_edittopic={$topicid}#dna-preview-edittopic-step2-{$topicid}" class="dna-btn-link" id="dna-btn-next-1-{$topicid}">Next</a>
                 </li>
                 <li>
-                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+                  <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
                 </li>
               </ul>
             </div>
@@ -188,7 +188,7 @@
                   <a href="?s_mode=topic3#dna-preview-edittopic-step3-{$topicid}" class="dna-btn-link" id="dna-btn-next-2-{$topicid}">Next</a>
                 </li>
                 <li>
-                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+                  <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
                 </li>
               </ul>
             </div>
@@ -232,7 +232,7 @@
                   <input type="submit" name="submit" value="Save" id="dna-btn-next-3-{$topicid}" />
                 </li>
                 <li>
-                  <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+                  <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
                 </li>
               </ul>
             </div>
@@ -277,7 +277,7 @@
                 <input type="submit" name="submit" value="Save" />
               </li>
               <li>
-                <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+                <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
               </li>
             </ul>
           </div>
@@ -314,7 +314,7 @@
                 <input type="submit" name="submit" value="Save" />
               </li>
               <li>
-                <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+                <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
               </li>
             </ul>
           </div>
@@ -351,7 +351,7 @@
                 <input type="submit" name="submit" value="Save" />
               </li>
               <li>
-                <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+                <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
               </li>
             </ul>
           </div>

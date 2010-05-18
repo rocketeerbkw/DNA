@@ -513,7 +513,7 @@
         <input type="submit" name="submit" value="Save" />
       </li>
       <li>
-        <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+        <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
       </li>
     </ul>
   </div>

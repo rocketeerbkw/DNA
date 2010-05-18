@@ -20,7 +20,7 @@
 
   <xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="page">
     <div>
-      <a href="http://{host}{root}/messageboardadmin?s_mode=admin">Redirecting...</a>
+      <a href="http://{host}{root}/mbadmin?s_mode=admin">Redirecting...</a>
     </div>
   </xsl:template>
 
@@ -150,7 +150,7 @@
           <h3>Publish</h3>
 
           <p class="dna-center">
-            <a href="{$root}/messageboardadmin?cmd=PUBLISHMESSAGEBOARD"  onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
+            <a href="{$root}/mbadmin?cmd=PUBLISHMESSAGEBOARD"  onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
           </p>
           <p class="dna-fnote">Publish your messageboard live to the web.</p>
         </div>
