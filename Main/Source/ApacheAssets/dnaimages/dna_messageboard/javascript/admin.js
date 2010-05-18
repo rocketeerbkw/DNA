@@ -55,7 +55,7 @@ gloader.load(
                     var whichAnchor = href.split("#");
                     whichDiv = whichAnchor[1];
 
-                    alert(whichDiv);
+                  
 
                     glow.dom.get("#" + whichDiv).removeClass("dna-off");
 
