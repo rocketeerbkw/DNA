@@ -16,6 +16,14 @@ namespace FunctionalTests
     [TestClass]
     public class CommentForumClosingDateTests
     {
+
+        [TestInitialize]
+        public void Setup()
+        {
+            // Make sure the database is in the starting position
+            SnapshotInitialisation.ForceRestore();
+        }
+
         private const string _schemaUri = "H2G2CommentBoxFlat.xsd";
 
         IInputContext _context = DnaMockery.CreateDatabaseInputContext();

@@ -17,8 +17,8 @@
 				<xs:element name="USERAGENT" type="xs:string"/>
 				<xs:element ref="DATE"/>
 				<xs:element ref="SITECONFIG"/>
-				<xs:element ref="SITE-LIST"/>
         <xs:element name="TOP-FIVES" minOccurs="0"/>
+				<xs:element ref="SITE-LIST"/>
 				<xs:element ref="MORECOMMENTS"/>
 				<xs:element ref="ERROR" minOccurs="0"/>
 				<xs:element ref="PARAMS" minOccurs="0"/>

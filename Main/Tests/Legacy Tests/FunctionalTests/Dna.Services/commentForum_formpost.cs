@@ -444,6 +444,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateComment");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
             //create the forum
             CommentForum commentForum = GetCommentsTests().CommentForumCreate("tests", Guid.NewGuid().ToString());
 

@@ -83,18 +83,18 @@ namespace FunctionalTests
         public void TestModerateHomePageXml()
         {
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
-            Cookie cookie;
-            string testUserName;
-            SetupIdentityEditorUser(request, out cookie, out testUserName);
-
+            //Cookie cookie;
+            //string testUserName;
+            //SetupIdentityEditorUser(request, out cookie, out testUserName);
+            request.UseEditorAuthentication = true;
+            request.SetCurrentUserEditor();            
             request.RequestSecurePage(@"Moderate?skin=purexml");
             XmlDocument xml = request.GetLastResponseAsXML();
 
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "H2G2ModerateHome.xsd");
             validator.Validate();
 
-            TestUserCreator.DeleteIdentityUser(cookie, testUserName);
-            request.Dispose();
+            //TestUserCreator.DeleteIdentityUser(cookie, testUserName);
         }
 
 
