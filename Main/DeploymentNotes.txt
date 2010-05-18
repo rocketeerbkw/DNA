@@ -504,3 +504,17 @@ BlogFix -
 						<!--#endif-->	
 						
 	from 'dnaimages/components/commentbox.sssi' file.
+
+============== v 3.5.36.0 =============
+Within \h2g2\skins\common\configuration.xsl:
+	Inside the block <xsl:variable name="globalconfiguration"> there is a <host> element.
+	Within the host element add <sslurl>https://[serverpath]</sslurl>
+	e.g:
+		<host>
+            <!-- edit as appropriate -->
+            <!-- live is blank <url></url> -->
+            <url>http://pc-s060792-dnadev.national.core.bbc.co.uk</url>
+            <sslurl>https://pc-s060792-dnadev.national.core.bbc.co.uk</sslurl>
+        </host>
+	Leave blank for live but change for staging deploy
+
