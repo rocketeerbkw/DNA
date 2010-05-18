@@ -369,8 +369,8 @@ namespace Tests
                 return false;
             }
 
-            _cookie = cookie.Value;
-            _secureCookie = secureCookie.Value;
+            _cookie = HttpUtility.UrlEncode(cookie.Value);
+            _secureCookie = HttpUtility.UrlEncode(secureCookie.Value);
             _userName = userName;
             _password = password;
             _useIdentity = true;
@@ -680,7 +680,7 @@ namespace Tests
             }
 
             // Now call the request
-            _hostRequest.ProcessRequest(page, pageParams, "SSO2-UID=" + _cookie);
+            _hostRequest.ProcessRequest(page, pageParams, "IDENTITY=" + _cookie);
 
             // State that the last request was for an aspx page
             _lastRequestWasASPX = true;
