@@ -376,7 +376,7 @@ namespace Tests
 
             string comment = "\u03CC\u03C7\u03B9 \u03C0\u03B1\u03BD\u03B9\u03BA\u03CC\u03C2 1st Comment " + uid;
             // Now check to make sure we can post to the comment box
-            request.RequestSecurePage("acswithoutapi?dnauid=" + uid + "&dnaaction=add&dnacomment=" + comment + "&dnahostpageurl=" + hosturl + "&skin=purexml",true);
+            request.RequestSecurePage("acswithoutapi?dnauid=" + uid + "&dnaaction=add&dnacomment=" + comment + "&dnahostpageurl=" + hosturl + "&skin=purexml");
             // Check to make sure that the page returned with the correct information
             xml = request.GetLastResponseAsXML();
             int forumID = 0;

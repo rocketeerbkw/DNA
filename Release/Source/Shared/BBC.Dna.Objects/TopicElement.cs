@@ -74,6 +74,7 @@ namespace BBC.Dna.Objects
         {
             using (var reader = readerCreator.CreateDnaDataReader("MakePreviewTopicsActiveForSiteID"))
             {
+                reader.AddIntReturnValue();
                 reader.AddParameter("isiteid", siteId);
                 reader.AddParameter("ieditorid", userId);
                 reader.Execute();
@@ -86,15 +87,9 @@ namespace BBC.Dna.Objects
             }
             using (var reader = readerCreator.CreateDnaDataReader("MakePreviewTopicElementsActive"))
             {
-                reader.AddParameter("isiteid", siteId);
-                reader.AddParameter("ieditorid", userId);
+                reader.AddParameter("siteid", siteId);
+                reader.AddParameter("editorid", userId);
                 reader.Execute();
-
-                int retVal=-1;
-                if (!reader.TryGetIntReturnValue(out retVal) || retVal != 0)
-                {
-                    return new Error("MakePreviewTopicsActiveForSiteID", "Unable to create new topic, error returned " + retVal.ToString());
-                }
             }
             return new Result("MakePreviewTopicsActiveForSiteID", "Successful");
         }

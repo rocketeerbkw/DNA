@@ -43,7 +43,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             int userID = request.CurrentUserID;
-            request.RequestPage("UserComplaint?postid=123456789&skin=purexml");
+            request.RequestPage("UserComplaintPage?postid=2&skin=purexml");
             XmlDocument xml = request.GetLastResponseAsXML();
 
             // Check to make sure that no errors came back
@@ -53,7 +53,7 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader("AddEMailToBannedList"))
             {
-                reader.AddParameter("Email", "mark.howitt@bbc.co.uk");
+                reader.AddParameter("Email", "damnyoureyes72+2@googlemail.com");
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
@@ -66,12 +66,12 @@ namespace FunctionalTests
             }
 
             // Now try to complain again
-            request.RequestPage("UserComplaint?postid=123456789&skin=purexml");
+            request.RequestPage("UserComplaintPage?postid=2&skin=purexml");
             xml = request.GetLastResponseAsXML();
 
             // Check to make sure that no errors came back
-            Assert.IsTrue(xml.SelectSingleNode("//USER-COMPLAINT-FORM/ERROR") != null, "There should be an error present in the XML!");
-            Assert.IsTrue(xml.SelectSingleNode("//USER-COMPLAINT-FORM/ERROR[@TYPE='EMAILNOTALLOWED']") != null, "There should be an EMAILNOTALLOWED error present in the XML!");
+            Assert.IsTrue(xml.SelectSingleNode("//ERROR") != null, "There should be an error present in the XML!");
+            Assert.IsTrue(xml.SelectSingleNode("//ERROR[@TYPE='EMAILNOTALLOWED']") != null, "There should be an EMAILNOTALLOWED error present in the XML!");
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace FunctionalTests
             // First make sure that the test user can make a complint before we put the email in the banned emails list
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNotLoggedInUser();
-            request.RequestPage("UserComplaint?postid=123456789&skin=purexml");
+            request.RequestPage("UserComplaintPage?postid=1&skin=purexml");
             XmlDocument xml = request.GetLastResponseAsXML();
 
             // Check to make sure that no errors came back
@@ -94,7 +94,7 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader("AddEMailToBannedList"))
             {
-                reader.AddParameter("Email", "mark.howitt@bbc.co.uk");
+                reader.AddParameter("Email", "damnyoureyes72+2@googlemail.com");
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
@@ -106,12 +106,12 @@ namespace FunctionalTests
             }
 
             // Now try to complain again
-            request.RequestPage("UserComplaint?postid=123456789&Submit=1&EmailAddress=mark.howitt@bbc.co.uk&skin=purexml");
+            request.RequestPage("UserComplaintPage?postid=1&Submit=1&email=damnyoureyes72%2B2@googlemail.com&skin=purexml");
             xml = request.GetLastResponseAsXML();
 
             // Check to make sure that no errors came back
-            Assert.IsTrue(xml.SelectSingleNode("//USER-COMPLAINT-FORM/ERROR") != null, "There should be an error present in the XML!");
-            Assert.IsTrue(xml.SelectSingleNode("//USER-COMPLAINT-FORM/ERROR[@TYPE='EMAILNOTALLOWED']") != null, "There should be an EMAILNOTALLOWED error present in the XML!");
+            Assert.IsTrue(xml.SelectSingleNode("//ERROR") != null, "There should be an error present in the XML!");
+            Assert.IsTrue(xml.SelectSingleNode("//ERROR[@TYPE='EMAILNOTALLOWED']") != null, "There should be an EMAILNOTALLOWED error present in the XML!");
         }
     }
 }

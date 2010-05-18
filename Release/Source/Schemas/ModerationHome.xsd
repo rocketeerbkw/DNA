@@ -9,17 +9,17 @@
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="USER"/>
-							<xs:element name="CLASSES">
-								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="CLASSID" type="xs:unsignedByte" />
-									</xs:sequence>
-								</xs:complexType>
-							</xs:element>
+              <xs:element name="CLASSES">
+                <xs:complexType>
+                  <xs:sequence minOccurs="0">
+                    <xs:element maxOccurs="unbounded" name="CLASSID" type="xs:unsignedByte" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
 							<xs:element name="SITES">
 								<xs:complexType>
-									<xs:sequence>
-										<xs:element name="SITE">
+                  <xs:sequence minOccurs="0">
+                    <xs:element maxOccurs="unbounded" name="SITE">
 											<xs:complexType>
 												<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
 												<xs:attribute name="CLASSID" type="xs:unsignedByte" use="required" />
@@ -44,7 +44,7 @@
 									</xs:sequence>
 									<xs:attribute name="FASTMOD" type="xs:unsignedByte" use="required" />
 									<xs:attribute name="CLASSID" type="xs:unsignedByte" use="required" />
-									<xs:attribute name="TIMELEFT" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="TIMELEFT" type="xs:int" use="required" />
 									<xs:attribute name="TOTAL" type="xs:unsignedByte" use="required" />
 								</xs:complexType>
 							</xs:element>

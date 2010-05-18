@@ -110,7 +110,7 @@ namespace Tests
 
         private static Host _hostRequest;
 
-        private bool _useIdentity = false;
+        private bool _useIdentity = true;
 
         List<Cookie> _cookieList = new List<Cookie>();
 
@@ -369,8 +369,8 @@ namespace Tests
                 return false;
             }
 
-            _cookie = cookie.Value;
-            _secureCookie = secureCookie.Value;
+            _cookie = HttpUtility.UrlEncode(cookie.Value);
+            _secureCookie = HttpUtility.UrlEncode(secureCookie.Value);
             _userName = userName;
             _password = password;
             _useIdentity = true;
@@ -680,7 +680,7 @@ namespace Tests
             }
 
             // Now call the request
-            _hostRequest.ProcessRequest(page, pageParams, "SSO2-UID=" + _cookie);
+            _hostRequest.ProcessRequest(page, pageParams, "IDENTITY=" + _cookie);
 
             // State that the last request was for an aspx page
             _lastRequestWasASPX = true;
@@ -693,7 +693,7 @@ namespace Tests
         /// <returns>The HTTP response object to the request</returns>
         public void RequestPage(string pageAndParams)
         {
-            RequestSecurePage(pageAndParams, false);
+            RequestPage(pageAndParams, false);
         }
 
         /// <summary>
@@ -701,7 +701,17 @@ namespace Tests
         /// </summary>
         /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
         /// <returns>The HTTP response object to the request</returns>
-        public void RequestSecurePage(string pageAndParams, bool secure)
+        public void RequestSecurePage(string pageAndParams)
+        {
+            RequestPage(pageAndParams, true);
+        }
+
+        /// <summary>
+        /// This function is used to send the request
+        /// </summary>
+        /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
+        /// <returns>The HTTP response object to the request</returns>
+        public void RequestPage(string pageAndParams, bool secure)
         {
             // Make sure that we clear the last response objects
             _responseAsString = null;
@@ -713,6 +723,10 @@ namespace Tests
             {
                 URL = new Uri("https://" + _secureServer + "/dna/" + _serviceName + "/" + pageAndParams);
                 //URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
+
+                System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                    ((sender, certificate, chain, sslPolicyErrors) => true);
+
             }
             else
             {
@@ -721,19 +735,19 @@ namespace Tests
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
 
-            Console.WriteLine("Requesting "+URL.ToString());
+            Console.WriteLine("Requesting " + URL.ToString());
 
             // Check to see if we require a proxy for the request
-			if (_useProxyPassing)
-			{
+            if (_useProxyPassing)
+            {
                 Console.WriteLine("Using proxy");
                 // Set the proxy
-				webRequest.Proxy = _proxy;
-			}
-			else
-			{
-				webRequest.Proxy = null;
-			}
+                webRequest.Proxy = _proxy;
+            }
+            else
+            {
+                webRequest.Proxy = null;
+            }
 
             // Check to see if we need to authenticate the request as an editor
             if (_useEditorAuthentication)
@@ -792,8 +806,8 @@ namespace Tests
                 {
                     // Problems!
                     Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-					_response = null;
-					return; // null;
+                    _response = null;
+                    return; // null;
                 }
                 else
                 {
@@ -801,14 +815,14 @@ namespace Tests
                 }
             }
 
-			// Capture the string response always
+            // Capture the string response always
 
             // State that the last request was not for an aspx page
             _lastRequestWasASPX = false;
 
-			GetLastResponseAsString();
+            GetLastResponseAsString();
             // Return the response object
-			return; // _response;
+            return; // _response;
         }
 
         /// <summary>
@@ -849,6 +863,11 @@ namespace Tests
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
             webRequest.AllowAutoRedirect = false;
+
+            //Trust all certificates
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                ((sender, certificate, chain, sslPolicyErrors) => true);
+
             if (!String.IsNullOrEmpty(postDataType))
             {
                 webRequest.ContentType = postDataType;

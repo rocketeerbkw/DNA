@@ -26,6 +26,7 @@ namespace FunctionalTests
 	{
         //private ISiteList _siteList;
         private string _server = DnaTestURLRequest.CurrentServer;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
 
         /// <summary>
@@ -605,7 +606,7 @@ namespace FunctionalTests
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, forum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, forum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information

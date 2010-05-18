@@ -238,9 +238,10 @@ namespace Tests
                 XmlNode modItem = modHistory.SelectSingleNode("MODERATION[@MODID='" + modId + "']");
                 Assert.IsNotNull(modItem, "Failed to find the moderation node for the complaint.");
 
-                Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/IPADDRESS"), "Non superusers shouldn't see this node");
-                Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/BBCUID"), "Non superusers shouldn't see this node");
-                Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/EMAIL-ADDRESS"), "Non superusers shouldn't see this node");
+                //change to logic all users see everything
+                //Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/IPADDRESS"), "Non superusers shouldn't see this node");
+                //Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/BBCUID"), "Non superusers shouldn't see this node");
+                //Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/EMAIL-ADDRESS"), "Non superusers shouldn't see this node");
 
                 Assert.IsNotNull(modItem.SelectSingleNode("COMPLAINT/COMPLAINT-TEXT"), "Failed to find complaint text");
                 Assert.AreEqual(complaintText, modItem.SelectSingleNode("COMPLAINT/COMPLAINT-TEXT").InnerText);
@@ -295,9 +296,10 @@ namespace Tests
                 XmlNode modItem = modHistory.SelectSingleNode("MODERATION[@MODID='" + modId + "']");
                 Assert.IsNotNull(modItem, "Failed to find the moderation node for the complaint.");
 
-                Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/IPADDRESS"), "Non superusers shouldn't see this node");
-                Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/BBCUID"), "Non superusers shouldn't see this node");
-                Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/EMAIL-ADDRESS"), "Non superusers shouldn't see this node");
+                //change to logic all users see everything
+                //Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/IPADDRESS"), "Non superusers shouldn't see this node");
+                //Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/BBCUID"), "Non superusers shouldn't see this node");
+                //Assert.IsNull(modItem.SelectSingleNode("COMPLAINT/EMAIL-ADDRESS"), "Non superusers shouldn't see this node");
 
                 Assert.IsNotNull(modItem.SelectSingleNode("COMPLAINT/COMPLAINT-TEXT"), "Failed to find complaint text");
                 Assert.AreEqual(complaintText, modItem.SelectSingleNode("COMPLAINT/COMPLAINT-TEXT").InnerText);

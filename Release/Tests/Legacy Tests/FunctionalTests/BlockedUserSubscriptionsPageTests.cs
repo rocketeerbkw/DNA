@@ -32,7 +32,8 @@ namespace FunctionalTests
             {
                 Console.WriteLine("setting up");
                 _request.SetCurrentUserNormal();
-                _request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.NORMALUSER);
+                _request.UseIdentitySignIn = true;
+                //_request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.NORMALUSER);
                 _userId = _request.CurrentUserID;
                 _setupRun = true;
             }

@@ -14,7 +14,27 @@
         title = Request["title"];
         parentUrl = Request["parentUrl"];
 
-        if (!Int32.TryParse(Request["itemsPerPage"], out itemsPerPage))
+        if (String.IsNullOrEmpty(uid) && Request.Cookies["uid"] != null)
+        {
+            uid = Request.Cookies["uid"].Value;
+        }
+
+        if (String.IsNullOrEmpty(siteName) && Request.Cookies["siteName"] != null)
+        {
+            siteName = Request.Cookies["siteName"].Value;
+        }
+
+        if (String.IsNullOrEmpty(title) && Request.Cookies["title"] != null)
+        {
+            title = Request.Cookies["title"].Value;
+        }
+
+        if (String.IsNullOrEmpty(parentUrl) && Request.Cookies["parentUrl"] != null)
+        {
+            parentUrl = Request.Cookies["parentUrl"].Value;
+        }
+
+        if (Request.Cookies["itemsPerPage"] != null && !Int32.TryParse(Request.Cookies["itemsPerPage"].Value, out itemsPerPage))
         {
             itemsPerPage = 20;
         }
@@ -38,7 +58,21 @@
             txtItemsPerPage.Text = itemsPerPage.ToString();
         }
 
+
+        AddCookie("uid", uid);
+        AddCookie("siteName", siteName);
+        AddCookie("title", title);
+        AddCookie("parentUrl", parentUrl);
+        AddCookie("itemsPerPage", itemsPerPage.ToString());
+        
         base.OnLoad(e);
+    }
+
+    private void AddCookie(string name, string value)
+    {
+        HttpCookie cookie = new HttpCookie(name, value);
+        cookie.Expires = DateTime.Now.AddHours(1);
+        Response.Cookies.Add(cookie);
     }
 
 </script>
@@ -102,8 +136,30 @@ Comment SSI:<br />
             "<!--#set var=\"dna.commentbox.title\" value=\"" + HttpUtility.UrlEncode(title) + "\" -->\r\n" +
             "<!--#set var=\"dna.commentbox.amountPerPage\" value=\"" + itemsPerPage + "\" -->\r\n" +
             "<!--#set var=\"dna.commentbox.commentProfileUrl\" value=\"http://www.bbc.co.uk/\" -->\r\n" +
-            "<!--#set var=\"printenv\" value=\"" + printEnv + "\" -->\r\n" +
+            "<!--#set var=\"printenv\" value=\"1\" -->\r\n" +
             "<!--#include virtual=\"/dnaimages/components/commentbox/commentbox.sssi\"-->");
+        
+        /*int page =0;
+        int dnafrom =0;
+        int dnato =itemsPerPage;
+        if(!String.IsNullOrEmpty(Request["page"]) && Int32.TryParse(Request["page"], out page))
+        {
+            dnafrom = page*itemsPerPage;
+            dnato = (page++)*itemsPerPage;
+            
+        }
+        if(!String.IsNullOrEmpty(Request["dnafrom"]) && Int32.TryParse(Request["dnafrom"], out dnafrom))
+        {
+        }
+
+        if (!String.IsNullOrEmpty(Request["dnato"]) && Int32.TryParse(Request["dnato"], out dnato))
+        {
+        }
+        
+        Response.Write("<!--#set var=\"dna.commentbox.listRangeStart\" value=\"" + dnafrom + "\" -->\r\n" +
+                "<!--#set var=\"dna.commentbox.listRangeEnd\" value=\"" + dnato + "\" -->\r\n");
+         * */
+        
     %>    
     </div>
     End of comment SSI<br />

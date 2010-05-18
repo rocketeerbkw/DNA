@@ -4637,7 +4637,7 @@ bool CUser::SynchroniseWithProfile( bool bForceUpdate )
 
 	// Get the users first and last name as we want to synchronise these if they are ICan users.
 	CTDVString sFirstNames, sLastName, sDisplayName;
-	CTDVString* pFirstNames = NULL, *pLastName = NULL, *pDisplayName = NULL;
+	CTDVString* pFirstNames = NULL, *pLastName = NULL;
 
 	if (pProfile->AttributeExistsForService("firstname") && !m_HideUserName)
 	{
@@ -4650,11 +4650,13 @@ bool CUser::SynchroniseWithProfile( bool bForceUpdate )
 		pProfile->GetUserProfileValue("lastname",sLastName);
 		pLastName = &sLastName;
 	}
-	
+
+	const WCHAR* pDisplayName = NULL;
 	if (pProfile->AttributeExistsForService("displayname"))
 	{
-		pProfile->GetUserProfileValue("displayname",sDisplayName);
-		pDisplayName = &sDisplayName;
+		pDisplayName = pProfile->GetUserDisplayNameUniCode();
+		USES_CONVERSION;
+		sDisplayName = W2A(pDisplayName);
 	}	
 
 	//Do a check to see if the details need synchronised - ( A LastUpdated field on SSO would be nice )
@@ -4663,7 +4665,7 @@ bool CUser::SynchroniseWithProfile( bool bForceUpdate )
 		(m_LastName != sLastName && !m_HideUserName) ||
 		m_Email != sEmail ||
 		m_LoginName != sLoginName ||
-		(sDisplayName.GetLength() > 0 && m_Username != sDisplayName))
+		(pDisplayName != NULL && m_Username != sDisplayName))
 	{
 		CStoredProcedure SP;
 		m_InputContext.InitialiseStoredProcedureObject(&SP);

@@ -39,6 +39,7 @@ public:
 	virtual bool UpdateUserProfileValue(const TDVCHAR* sName, const TDVCHAR* sValue);
 	virtual bool LoginUser(unsigned int& uiCanLogin);
 	virtual bool GetUserProfileValue(const TDVCHAR* sName, CTDVString& sValue);
+	virtual const WCHAR* GetUserDisplayNameUniCode();
 	virtual bool CheckUserIsLoggedIn(bool& bUserLoggedIn);
 	virtual bool IsUserSignedIn(bool& bUserSignedIn);
 	virtual bool SetUser(const TDVCHAR* sSsoCookie);

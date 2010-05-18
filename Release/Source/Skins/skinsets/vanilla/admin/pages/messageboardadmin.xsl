@@ -20,7 +20,7 @@
 
   <xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="page">
     <div>
-      <a href="http://{host}{root}/messageboardadmin?s_mode=admin">Redirecting...</a>
+      <a href="http://{host}{root}/mbadmin?s_mode=admin">Redirecting...</a>
     </div>
   </xsl:template>
 
@@ -44,49 +44,64 @@
             <p>
               <strong>Set the opening/closing times, controlling when someone can post a message.</strong>
             </p>
-            
-            <p class="dna-fnote">You have yet to set any opening times  - click the Edit button to set them.</p>
+           
+            <xsl:choose>
+              <xsl:when test="not(//OPENCLOSETIMES/OPENCLOSETIME)">
+                <p class="dna-fnote">Your messageboard is open 24/7. </p>
+              </xsl:when>
+              <xsl:otherwise>
+                <div class="dna-open-time">
+                  <table>
+                    <tr>
+                      <th>DAY</th>
+                      <th>OPEN</th>
+                      <th>CLOSE</th>
+                    </tr>
 
-            <div class="dna-open-time">
-              <table>
-                <tr>
-                  <th>DAY</th>
-                  <th>OPEN</th>
-                  <th>CLOSE</th>
-                </tr>
+                    <xsl:for-each select="//OPENCLOSETIME">
+                      <xsl:sort select="@DAYOFWEEK"/>
+                      <tr>
+                        <xsl:attribute name="class">
+                          <xsl:choose>
+                            <xsl:when test="position() mod 2 = 1">odd</xsl:when>
+                            <xsl:otherwise>even</xsl:otherwise>
+                          </xsl:choose>
+                        </xsl:attribute>
 
-                <xsl:for-each select="//OPENCLOSETIME">
-                  <xsl:sort select="@DAYOFWEEK"/>
-                  <tr>
-                    <xsl:attribute name="class">
-                      <xsl:choose>
-                        <xsl:when test="position() mod 2 = 1">odd</xsl:when>
-                        <xsl:otherwise>even</xsl:otherwise>
-                      </xsl:choose>
-                    </xsl:attribute>
+                        <td>
+                          <xsl:choose>
+                            <xsl:when test="@DAYOFWEEK = 1">Monday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 2">Tuesay</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 3">Wednesday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 4">Thursday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 5">Friday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 6">Saturday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 7">Sunday</xsl:when>
+                          </xsl:choose>
+                        </td>
+                        <xsl:choose>
+                          <xsl:when test="OPENTIME/HOUR != '0' and CLOSETIME/HOUR != '0'">
+                            <td>
+                              <xsl:value-of select="OPENTIME/HOUR"/>:<xsl:value-of select="OPENTIME/MINUTE"/>
+                            </td>
+                            <td>
+                              <xsl:value-of select="CLOSETIME/HOUR"/>:<xsl:value-of select="CLOSETIME/MINUTE"/>
+                            </td>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <td colspan="2">
+                              <strong>Closed all day</strong>
+                            </td>
+                          </xsl:otherwise>
+                        </xsl:choose>
 
-                    <td>
-                      <xsl:choose>
-                        <xsl:when test="@DAYOFWEEK = 1">Monday</xsl:when>
-                        <xsl:when test="@DAYOFWEEK = 2">Tuesay</xsl:when>
-                        <xsl:when test="@DAYOFWEEK = 3">Wednesday</xsl:when>
-                        <xsl:when test="@DAYOFWEEK = 4">Thursday</xsl:when>
-                        <xsl:when test="@DAYOFWEEK = 5">Friday</xsl:when>
-                        <xsl:when test="@DAYOFWEEK = 6">Saturday</xsl:when>
-                        <xsl:when test="@DAYOFWEEK = 7">Sunday</xsl:when>
-                      </xsl:choose>
-                    </td>
-                    <td>
-                      <xsl:value-of select="OPENTIME/HOUR"/>:<xsl:value-of select="OPENTIME/MINUTE"/>
-                    </td>
-                    <td>
-                      <xsl:value-of select="CLOSETIME/HOUR"/>:<xsl:value-of select="CLOSETIME/MINUTE"/>
-                    </td>
-                  </tr>
-                </xsl:for-each>
-              </table>
-            </div>
-            
+                      </tr>
+                    </xsl:for-each>
+                  </table>
+                </div>
+              </xsl:otherwise>
+            </xsl:choose>
+
             <p class="dna-link-edit"><a href="{$root}/MessageBoardSchedule">Edit<span class="dna-off"> opening times</span></a></p>
           </div>
         </div>
@@ -141,7 +156,7 @@
           <h3>Preview</h3>
 
           <p class="dna-center">
-            <a href="/dna/{SITE/URLNAME}/?_previewmode=1" target="_blank">Preview this messageboard</a>
+            <a href="/dna/{SITE/URLNAME}/boards_v2/?_previewmode=1" target="_blank">Preview this messageboard</a>
           </p>
           <p class="dna-fnote">View your messageboard exactly as the user will view it.</p>
         </div>
@@ -150,7 +165,7 @@
           <h3>Publish</h3>
 
           <p class="dna-center">
-            <a href="{$root}/messageboardadmin?cmd=PUBLISHMESSAGEBOARD"  onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
+            <a href="{$root}/mbadmin?cmd=PUBLISHMESSAGEBOARD"  onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
           </p>
           <p class="dna-fnote">Publish your messageboard live to the web.</p>
         </div>
@@ -169,8 +184,60 @@
           <p class="dna-link-edit"><a href="{$root}/topicbuilder">Edit<span class="dna-off"> topics</span></a></p>
         </div>
       </div>
-    </div>  
+
+      <div id="dna-lightboxes" class="dna-clear">
+
+        <div id="dna-publish-mb">
+          <xsl:attribute name="class">
+            dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'publish' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+          </xsl:attribute>
+
+          <xsl:choose>
+            <xsl:when test="//MESSAGEBOARDPUBLISHERROR">
+              <h4>Your board cannot be published yet...</h4>
+
+              <p> In order to publish your messageboard, the following areas need to be completed:</p>
+
+              <xsl:if test="MESSAGEBOARDPUBLISHERROR/DESIGN">
+                <p>In the Design Section</p>
+
+                <ul>
+                  <xsl:for-each select="ERROR">
+                    <li>
+                      <xsl:choose>
+                        <xsl:when test=". = 'MissingAboutText'">Add your introduction/about text</xsl:when>
+                        <xsl:when test=". = 'MissingWelcomeMessage'">Add a welcome message</xsl:when>
+                        <xsl:when test=". = 'MissingTopics'">Add some messageboard topics</xsl:when>
+                      </xsl:choose>
+                    </li>
+                  </xsl:for-each>
+                </ul>
+                <div class="dna-buttons">
+                  <ul>
+                    <li>
+                      <a href="messageboardadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Back</a>
+                    </li>
+                  </ul>
+                </div>
+              </xsl:if>
+            </xsl:when>
+            <xsl:otherwise>
+              <h4>Your messageboard is live !</h4>
+              
+              <p>Your messageboard has been published:</p>
+              <p>
+                <a href="{$root}/messageboardadmin?cmd=PUBLISHMESSAGEBOARD">View your messageboard</a>
+              </p>
+            </xsl:otherwise>
+          </xsl:choose>
+        </div>
+
+      </div>
+    </div>
+
+     
 
 	</xsl:template>
+  
 	
 </xsl:stylesheet>

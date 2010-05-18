@@ -31,7 +31,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.SetCurrentUserNormal();
             request.UseEditorAuthentication = true;
-            request.RequestPage(@"Moderate?skin=purexml");
+            request.RequestPage(@"NModerate?skin=purexml");
 
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("H2G2/ERROR"));
@@ -48,7 +48,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.SetCurrentUserEditor();
             request.UseEditorAuthentication = true;
-            request.RequestPage(@"Moderate?skin=purexml");
+            request.RequestPage(@"NModerate?skin=purexml");
 
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("H2G2/ERROR"));
@@ -68,7 +68,7 @@ namespace FunctionalTests
             string testUserName;
             SetupIdentityEditorUser(request, out cookie, out testUserName);
 
-            request.RequestSecurePage(@"Moderate?skin=purexml", true);
+            request.RequestSecurePage(@"NModerate?skin=purexml");
             XmlDocument xml = request.GetLastResponseAsXML();
 
             TestUserCreator.DeleteIdentityUser(cookie, testUserName);
@@ -83,25 +83,25 @@ namespace FunctionalTests
         public void TestModerateHomePageXml()
         {
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
-            Cookie cookie;
-            string testUserName;
-            SetupIdentityEditorUser(request, out cookie, out testUserName);
-
-            request.RequestSecurePage(@"Moderate?skin=purexml", true);
+            //Cookie cookie;
+            //string testUserName;
+            //SetupIdentityEditorUser(request, out cookie, out testUserName);
+            request.UseEditorAuthentication = true;
+            request.SetCurrentUserEditor();            
+            request.RequestSecurePage(@"NModerate?skin=purexml");
             XmlDocument xml = request.GetLastResponseAsXML();
 
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "H2G2ModerateHome.xsd");
             validator.Validate();
 
-            TestUserCreator.DeleteIdentityUser(cookie, testUserName);
-            request.Dispose();
+            //TestUserCreator.DeleteIdentityUser(cookie, testUserName);
         }
 
 
         /// <summary>
         /// Check the Xml Schema.
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestModerateHomePageUnlockAll()
         {
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
@@ -121,17 +121,17 @@ namespace FunctionalTests
             modHomeParams.UnlockNicknames = InputContext.DoesParamExist("UnlockNicknames", _docDnaUnlockNicknames);
             modHomeParams.UnlockAll = InputContext.DoesParamExist("UnlockAll", _docDnaUnlockAll);
 */
-            request.RequestSecurePage(@"Moderate?UnlockForums=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockForumReferrals=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockUserPosts=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockSitePosts=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockAllPosts=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockArticles=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockArticleReferrals=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockGeneral=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockGeneralReferrals=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockNicknames=1&skin=purexml", true);
-            request.RequestSecurePage(@"Moderate?UnlockAll=1&skin=purexml", true);
+            request.RequestSecurePage(@"NModerate?UnlockForums=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockForumReferrals=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockUserPosts=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockSitePosts=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockAllPosts=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockArticles=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockArticleReferrals=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockGeneral=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockGeneralReferrals=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockNicknames=1&skin=purexml");
+            request.RequestSecurePage(@"NModerate?UnlockAll=1&skin=purexml");
 
             XmlDocument xml = request.GetLastResponseAsXML();
 

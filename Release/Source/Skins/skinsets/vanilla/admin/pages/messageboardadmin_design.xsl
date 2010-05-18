@@ -203,7 +203,7 @@
 
                 <div class="dna-box-border dna-clear">
                   <p >
-                    <a href="?s_mode=topic#dna-preview-edittopic" class="dna-link-overlay">+ Add a new topic</a>
+                    <a href="?s_mode=topic&amp;s_edittopic=0#dna-preview-topic-add" class="dna-link-overlay">+ Add a new topic</a>
                   </p>
                 </div>
 
@@ -211,7 +211,7 @@
                   <p>
                     <a href="?s_mode=layout#dna-preview-edittopiclayout" class="dna-link-overlay">+ Choose topic layout</a>
                   </p>
-                  <p class="dna-fnote">Choose between a 1 and 2 column layout tp display the topics.</p>
+                  <p class="dna-fnote">Choose between a 1 and 2 column layout to display the topics.</p>
                 </div>
 
                 <p class="dna-buttons dna-fr">
@@ -326,18 +326,36 @@
           </p>
         </div>
 
-        <xsl:choose>
-          <xsl:when test="PARAMS/PARAM[NAME='s_edittopic'] and (TOPIC_PAGE/TOPICLIST/TOPIC/TOPICID = PARAMS/PARAM[NAME='s_edittopic']/VALUE)">
-            <xsl:call-template name="object_topic_edit">
-              <xsl:with-param name="topicid" select="PARAMS/PARAM[NAME='s_edittopic']/VALUE" />
-            </xsl:call-template>
-          </xsl:when>
-          <xsl:otherwise>
+       
+          <xsl:for-each select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC">
+            <xsl:variable name="topicId" select="TOPICID" />
+            <div id="dna-preview-topic-edit-{$topicId}">
+              <xsl:attribute name="class">
+                dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+              </xsl:attribute>
+              
+              <xsl:value-of select="PARAMS/PARAM[NAME='s_edittopic']/VALUE"/>
+              <xsl:call-template name="object_topic_edit">
+                <xsl:with-param name="topicid" select="TOPICID" />
+              </xsl:call-template>
+            </div>
+
+            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='0']" mode="object_topic_overlay"/>
+            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='1']" mode="object_topic_overlay"/>
+            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='3']" mode="object_topic_overlay"/>
+            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='4']" mode="object_topic_overlay"/>
+          </xsl:for-each>
+       
+          <div id="dna-preview-topic-add">
+            <xsl:attribute name="class">
+              dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+            </xsl:attribute>
+
             <xsl:call-template name="object_topic_edit">
               <xsl:with-param name="topicid" select="0" />
             </xsl:call-template>
-          </xsl:otherwise>
-        </xsl:choose>
+          </div>
+         
 
         <xsl:call-template name="lightboxes"/>
       </div>

@@ -291,6 +291,7 @@
 				<xs:element ref="VIEWING-USER" minOccurs="1"/>
 				<xs:element ref="DATE" minOccurs="1"/>
 				<xs:element ref="SITECONFIG" minOccurs="1"/>
+        <xs:element name="TOP-FIVES" minOccurs="0"/>
 				<xs:element ref="PAGEUI" minOccurs="1"/>
 				<xs:element ref="FORUMSOURCE" minOccurs="1"/>
 				<xs:element ref="FORUMTHREADS" minOccurs="1"/>

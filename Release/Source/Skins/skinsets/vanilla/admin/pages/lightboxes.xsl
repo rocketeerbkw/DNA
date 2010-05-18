@@ -9,7 +9,11 @@
 	
 <xsl:template name="lightboxes">
 	<div id="dna-lightboxes">
-		<div id="dna-preview-editheader" class="dna-preview-box">
+		<div id="dna-preview-editheader">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'header' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+      
       <h4>Edit header colour</h4>
 			<p>Change the colour of the <em>Explore the BBC</em> button found in your messageboard header:</p>
 			<form action="messageboardadmin_design?cmd=updatepreview" method="post">
@@ -117,8 +121,12 @@
 				<xsl:call-template name="submitbuttons"/>
 			</form>
 		</div>
-    
-		<div id="dna-preview-insertbanner" class="dna-preview-box">
+
+    <div id="dna-preview-insertbanner">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'banner' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+      
       <h4>Insert your own banner</h4>
 			<p>To insert your own banner banner you need to include theURL to a Server Side Include (SSI) which contains the banner.</p>
       <form action="messageboardadmin_design?cmd=updatepreview" method="post">
@@ -133,9 +141,13 @@
 				<xsl:call-template name="submitbuttons"/>
 			</form>
 		</div>
-    
-		<div id="dna-preview-addtopnav" class="dna-preview-box">
-			<h4>Add horizontal navigation</h4>
+
+    <div id="dna-preview-addtopnav">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topnav' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+
+      <h4>Add horizontal navigation</h4>
 			<p>To add your own navigation you need to include the URL to a Server Side Include (SSI) which contains the navigation.</p>
       <form action="messageboardadmin_design?cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
@@ -149,8 +161,12 @@
        <xsl:call-template name="submitbuttons"/>
 			</form>
 		</div>
-    
-		<div id="dna-preview-addnav" class="dna-preview-box">
+
+    <div id="dna-preview-addnav">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'lnav' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+
       <h4>Add left hand navigation</h4>
 			<p>To add your own navigation you need to include the URL to a Server Side Include (SSI) which contains the navigation.</p>
       <form action="messageboardadmin_design?cmd=updatepreview" method="post">
@@ -165,8 +181,12 @@
 				<xsl:call-template name="submitbuttons"/>
 			</form>
 		</div>
-    
-		<div id="dna-preview-addwelcome" class="dna-preview-box">
+
+    <div id="dna-preview-addwelcome">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'welcome' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+
       <h4>Add welcome message</h4>
 			<p>Add your own welcome message to greet your users.</p>
       <form action="messageboardadmin_design?cmd=updatepreview" method="post">
@@ -181,12 +201,14 @@
 				<xsl:call-template name="submitbuttons"/>
 			</form>
 		</div>
-    
-    
-		<div id="dna-preview-editfooter" class="dna-preview-box">
+
+
+    <div id="dna-preview-editfooter">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'footer' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+
       <h4>Edit footer</h4>
-
-
       <form action="messageboardadmin_design?cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
          
@@ -253,7 +275,11 @@
         </form>
     </div>
 
-		<div id="dna-preview-addtext" class="dna-preview-box">
+    <div id="dna-preview-addtext">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'about' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+
       <h4>Add introductory / about text</h4>
 		
       <form action="messageboardadmin_design?cmd=updatepreview" method="post">
@@ -274,24 +300,112 @@
         <xsl:call-template name="submitbuttons"/>
 			</form>
 		</div>
-    
-		<div id="dna-preview-addmodules" class="dna-preview-box">
+
+    <div id="dna-preview-addmodules">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'modules' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+
       <h4>Add more modules</h4>
 			<p>To add more modules to the right hand column of your messageboard, add the URL to a Server Side Include (SSI) which contains the module.</p>
       
       <form action="messageboardadmin_design?cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         
+        <xsl:variable name="nLinks" select="count(SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK)" />
+     
         <ul>
-        <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
-          <xsl:variable name="id">
-            <xsl:value-of select="." />
-          </xsl:variable>
-          <li>
-            <label for="mb-url-{$id}">Link URL:</label>
-            <input type="text" name="MODULE_LINK" value="{.}" id="mb-url-{$id}" class="right"/>
-          </li>
-        </xsl:for-each>
+          <xsl:choose>
+            <xsl:when test="$nLinks = 0 ">
+              <li>
+                <label for="mb-url-link1">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link1" />
+              </li>
+              <li>
+                <label for="mb-url-link2">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link2" />
+              </li>
+              <li>
+                <label for="mb-url-link3">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link3" />
+              </li>
+              <li>
+                <label for="mb-url-link4">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link4" />
+              </li>
+            </xsl:when>
+            
+            <xsl:when test="$nLinks = 1 ">
+              <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
+                <xsl:variable name="id">
+                  <xsl:value-of select="." />
+                </xsl:variable>
+                <li>
+                  <label for="mb-url-{$id}">Link URL:</label>
+                  <input type="text" name="MODULE_LINK" value="{.}" id="mb-url-{$id}" />
+                </li>
+              </xsl:for-each>
+              <li>
+                <label for="mb-url-link1">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link1" />
+              </li>
+              <li>
+                <label for="mb-url-link2">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link2" />
+              </li>
+              <li>
+                <label for="mb-url-link3">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link3" />
+              </li>
+            </xsl:when>
+
+            <xsl:when test="$nLinks = 2 ">
+              <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
+                <xsl:variable name="id">
+                  <xsl:value-of select="." />
+                </xsl:variable>
+                <li>
+                  <label for="mb-url-{$id}">Link URL:</label>
+                  <input type="text" name="MODULE_LINK" value="{.}" id="mb-url-{$id}" />
+                </li>
+              </xsl:for-each>
+              <li>
+                <label for="mb-url-link1">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link1" />
+              </li>
+              <li>
+                <label for="mb-url-link2">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link2" />
+              </li>
+            </xsl:when>
+            <xsl:when test="$nLinks = 3">
+              <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
+                <xsl:variable name="id">
+                  <xsl:value-of select="." />
+                </xsl:variable>
+                <li>
+                  <label for="mb-url-{$id}">Link URL:</label>
+                  <input type="text" name="MODULE_LINK" value="{.}" id="mb-url-{$id}" />
+                </li>
+              </xsl:for-each>
+              <li>
+                <label for="mb-url-link1">Link URL:</label>
+                <input type="text" name="MODULE_LINK" value="" id="mb-url-link1" />
+              </li>
+            </xsl:when>
+            <xsl:when test="$nLinks = 4">
+              <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
+                <xsl:variable name="id">
+                  <xsl:value-of select="." />
+                </xsl:variable>
+                <li>
+                  <label for="mb-url-{$id}">Link URL:</label>
+                  <input type="text" name="MODULE_LINK" value="{.}" id="mb-url-{$id}" />
+                </li>
+              </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise></xsl:otherwise>
+          </xsl:choose>         
         </ul>
         <p class="dna-fnote">
           <strong>Example:</strong> /includes/blq/include_blq_other.sssi
@@ -300,8 +414,12 @@
         <xsl:call-template name="submitbuttons"/>
       </form>
 		</div>
-    
-		<div id="dna-preview-addtoolbar" class="dna-preview-box">
+
+    <div id="dna-preview-addtoolbar">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'toolbar' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+
       <h4>Add Social Media toolbar</h4>
 			<p>To add the social media toolbar to your messagebaord, select the checkbox below:</p>
 			
@@ -321,8 +439,12 @@
 				<xsl:call-template name="submitbuttons"/>
 			</form>
 		</div>
-    
-    <div id="dna-preview-edittopiclayout" class="dna-preview-box">
+
+    <div id="dna-preview-edittopiclayout">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'layout' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+      
       <h4>Edit topic Layout</h4>
       <p>Choose the layout options you would like:</p>
       
@@ -352,7 +474,12 @@
     </div>
 	</div>
 
-  <div id="dna-preview-addrecentdiscussions" class="dna-preview-box">
+
+    <div id="dna-preview-addrecentdiscussions">
+      <xsl:attribute name="class">
+        dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'discussions' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+      </xsl:attribute>
+    
     <h4>Add Recent Discussions</h4>
     <p>
       For messageboards aimed at people under 16
@@ -386,7 +513,7 @@
         <input type="submit" name="submit" value="Save" />
       </li>
       <li>
-        <a href="messageboardadmin?s_mode=admin" class="dna-btn-link">Cancel</a>
+        <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
       </li>
     </ul>
   </div>

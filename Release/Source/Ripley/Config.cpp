@@ -324,7 +324,7 @@ bool CConfig::Init(CXMLTree& configTree,  const char* pConfigFileName, CTDVStrin
 	{
 		m_iInitialLogFileSize = 0;
 		bRet = bRet && GetIntEx(pRoot, "INITIALLOGFILESIZE", m_iInitialLogFileSize, pConfigFileName, sConfigFileError);
-		if (m_iInitialLogFileSize <= 0 || m_iInitialLogFileSize > 500)
+		if (m_iInitialLogFileSize < 0 || m_iInitialLogFileSize > 500)
 		{
 			// Initialise to a sensible value
 			#if _DEBUG

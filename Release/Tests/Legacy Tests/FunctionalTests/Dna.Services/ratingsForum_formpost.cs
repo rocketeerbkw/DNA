@@ -435,7 +435,7 @@ namespace FunctionalTests
             string commentForumXml = "notest=somethingelse&rating=5";// String.Format("text={0}", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.EmptyText.ToString());

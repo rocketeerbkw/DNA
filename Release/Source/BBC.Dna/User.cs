@@ -706,9 +706,10 @@ namespace BBC.Dna
                 secureCookie = InputContext.GetCookie("IDENTITY-HTTPS").Value;
             }
 
-            bool userSet = signInComponent.TrySecureSetUserViaCookies(decodedCookie, secureCookie) && signInComponent.IsUserSignedIn;
+            bool userSet = signInComponent.TrySecureSetUserViaCookies(decodedCookie, secureCookie) || signInComponent.IsUserSignedIn;
 
             InputContext.IsSecureRequest = signInComponent.IsSecureRequest;
+            InputContext.Diagnostics.WriteToLog("---** InputContext.IsSecureRequest **---", InputContext.IsSecureRequest.ToString());
             if (!userSet)
             {
                 InputContext.Diagnostics.WriteToLog("---** SignIn **---", "Set user with cookie failed!!! - " + decodedCookie);

@@ -77,7 +77,7 @@ REGEDIT4
 "/ModerateImages"="/ripleyserver.dll?ModerateImages?"
 "/ModerateArticle"="/ripleyserver.dll?ModerateArticle?"
 "/Moderate"="/ripleyserver.dll?ModerateHome?"
---"/Moderate"="/dna/dnapages/ModerateHomePage.aspx?"
+"/NModerate"="/dna/dnapages/ModerateHomePage.aspx?"
 "/ModeratePosts"="/dna/dnapages/ModeratePostsPage.aspx?"
 "/UserComplaint"="/ripleyserver.dll?UserComplaint?"
 "/EditPost"="/ripleyserver.dll?EditPost?"
@@ -164,7 +164,7 @@ REGEDIT4
 "/TextBoxBuilder"="/ripleyserver.dll?TextBoxElementBuilder?"
 "/FrontPageLayout"="/ripleyserver.dll?FrontPageLayout?"
 "/FrontPageTopicElementBuilder"="/ripleyserver.dll?FrontPageTopicElementBuilder?"
-"/MessageBoardAdminOld"="/ripleyserver.dll?MessageBoardAdmin?"
+"/MessageBoardAdmin"="/ripleyserver.dll?MessageBoardAdmin?"
 
 "/BoardPromos"="/ripleyserver.dll?MessageBoardPromoBuilder?"
 "/TopicBuilder"="/ripleyserver.dll?TopicBuilder?"
@@ -332,4 +332,4 @@ REGEDIT4
 --MB Admin pages
 "/messageboardadmin_design"="/dna/dnapages/MBAdminDesign.aspx?"
 "/messageboardadmin_assets"="/dna/dnapages/MBAdminAssets.aspx?"
-"/messageboardadmin"="/dna/dnapages/MBAdmin.aspx?"
+"/mbadmin"="/dna/dnapages/MBAdmin.aspx?"

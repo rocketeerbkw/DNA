@@ -16,11 +16,20 @@ namespace FunctionalTests
     [TestClass]
     public class CommentForumClosingDateTests
     {
+
+        [TestInitialize]
+        public void Setup()
+        {
+            // Make sure the database is in the starting position
+            SnapshotInitialisation.ForceRestore();
+        }
+
         private const string _schemaUri = "H2G2CommentBoxFlat.xsd";
 
         IInputContext _context = DnaMockery.CreateDatabaseInputContext();
         /// <summary>
         /// Tests to make sure that we can create new comment box forums with no closing dates
+        /// No acs using api always sets the close date based on the defaults
         /// </summary>
         [TestMethod]
         public void Test1CreateForumWithNoCloseDate()
@@ -45,7 +54,7 @@ namespace FunctionalTests
             DnaXmlValidator validator = new DnaXmlValidator(xml.OuterXml, _schemaUri);
             validator.Validate();
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX") != null,"Comment box tag doers not exist!");
-            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/ENDDATE") == null,"End date not missing when not specified!");
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/ENDDATE") != null,"End date missing when specified!");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@UID='" + uid + "']") != null, "Forums uid does not matched the one used to create!");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@HOSTPAGEURL='" + hosturl + "']") != null, "Host url does not match the one used to create!");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@CANWRITE='1']") != null, "The forums can write flag should be set 1");
@@ -255,7 +264,7 @@ namespace FunctionalTests
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS").Attributes["FORUMPOSTCOUNT"].Value == "0", "The forum not have any posts!");
 
             // Now make sure the user can't post to a closed forum
-            request.RequestPage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.OuterXml, _schemaUri);
             validator.Validate();
@@ -274,7 +283,7 @@ namespace FunctionalTests
 
             // Now make sure Editors can post to a closed forum
             request.SetCurrentUserEditor();
-            request.RequestPage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
+            request.RequestSecurePage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.OuterXml, _schemaUri);
             validator.Validate();

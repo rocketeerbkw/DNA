@@ -11939,7 +11939,7 @@ bool CStoredProcedure::SynchroniseUserWithProfile(CTDVString* pFirstNames,
 												  const TDVCHAR* sEmail, 
 												  const TDVCHAR* sLoginName,
 												  int iSiteID,
-												  CTDVString* pDisplayName,
+												  const WCHAR* pDisplayName,
 												  BOOL bIdentitySite)
 {
 	StartStoredProcedure("synchroniseuserwithprofile");
@@ -11960,9 +11960,9 @@ bool CStoredProcedure::SynchroniseUserWithProfile(CTDVString* pFirstNames,
 		AddParam("LastName",*pLastName);
 	}
 
-	if (pDisplayName != NULL && pDisplayName->GetLength() > 0)
+	if (pDisplayName != NULL && wcslen(pDisplayName) > 0)
 	{
-		AddParam("DisplayName",*pDisplayName);
+		AddParam("DisplayName", pDisplayName);
 	}
 
 	ExecuteStoredProcedure();

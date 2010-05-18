@@ -18,6 +18,7 @@ namespace FunctionalTests
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
         private readonly string _server = DnaTestURLRequest.CurrentServer;
+        private readonly string _secureserver = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -92,7 +93,7 @@ namespace FunctionalTests
                     // Setup the request url
                     url =
                         String.Format(
-                            "http://" + _server +
+                            "https://" + _secureserver +
                             "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename,
                             returnedForum.Id);
                     // now get the response
@@ -197,7 +198,7 @@ namespace FunctionalTests
                     // Setup the request url
                     url =
                         String.Format(
-                            "http://" + _server +
+                            "https://" + _secureserver +
                             "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename,
                             returnedForum.Id);
                     // now get the response
@@ -409,7 +410,7 @@ namespace FunctionalTests
                     // Setup the request url
                     url =
                         String.Format(
-                            "http://" + _server +
+                            "https://" + _secureserver +
                             "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename,
                             returnedForum.Id);
                     // now get the response
@@ -510,7 +511,7 @@ namespace FunctionalTests
                     // Setup the request url
                     url =
                         String.Format(
-                            "http://" + _server +
+                            "https://" + _secureserver +
                             "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename,
                             returnedForum.Id);
                     // now get the response

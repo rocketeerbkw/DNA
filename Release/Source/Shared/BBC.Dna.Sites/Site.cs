@@ -467,6 +467,7 @@ namespace BBC.Dna.Sites
         {
             using (var reader = readerCreator.CreateDnaDataReader("UpdateEveryMessageBoardAdminStatusForSite"))
             {
+                reader.AddIntReturnValue();
                 reader.AddParameter("SiteID", SiteID);
                 reader.AddParameter("Status", (int)status);
                 reader.Execute();

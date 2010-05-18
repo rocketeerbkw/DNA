@@ -19,7 +19,7 @@
         <xsl:apply-templates select="SITECONFIG" mode="vanilla"/>
       	<div class="right">
       		<div class="buttonThreeD" >
-	      		<a href="{$root}messageboardadmin">Back to Message Board Admin</a>
+	      		<a href="{$root}mbadmin">Back to Message Board Admin</a>
 	      	</div>
       	</div>
       </div>

@@ -33,7 +33,9 @@ namespace FunctionalTests
             {
                 Console.WriteLine("setting up");
                 _request.UseEditorAuthentication = true;
-                _request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
+                _request.SetCurrentUserEditor();
+                _request.UseIdentitySignIn = true;
+//                _request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
                 _setupRun = true;
 
                 MakeSureWeHaveACommentForum();
@@ -428,7 +430,8 @@ namespace FunctionalTests
             Console.WriteLine("Test14NonEditor401CommentForumListsTest - Exception Test");
             DnaTestURLRequest _normalUserRequest = new DnaTestURLRequest("haveyoursay");
             _normalUserRequest.UseEditorAuthentication = false;
-            _normalUserRequest.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.NORMALUSER);
+            _normalUserRequest.SetCurrentUserNormal();
+            //_normalUserRequest.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.NORMALUSER);
             _normalUserRequest.AssertWebRequestFailure = false;
             try
             {
@@ -451,7 +454,9 @@ namespace FunctionalTests
             Console.WriteLine("Test15NonEditorXmlErrorCommentForumListsTest");
             DnaTestURLRequest _normalUserRequest = new DnaTestURLRequest("haveyoursay");
             _normalUserRequest.UseEditorAuthentication = true;
-            _normalUserRequest.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.NORMALUSER);
+            _normalUserRequest.SetCurrentUserNormal();
+
+            //_normalUserRequest.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.NORMALUSER);
 
             _normalUserRequest.RequestPage("CommentForumList?skin=purexml");
 
