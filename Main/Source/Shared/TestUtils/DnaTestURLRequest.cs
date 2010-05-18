@@ -110,7 +110,7 @@ namespace Tests
 
         private static Host _hostRequest;
 
-        private bool _useIdentity = false;
+        private bool _useIdentity = true;
 
         List<Cookie> _cookieList = new List<Cookie>();
 

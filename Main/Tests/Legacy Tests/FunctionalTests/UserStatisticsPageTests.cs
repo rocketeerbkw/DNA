@@ -80,7 +80,7 @@ namespace FunctionalTests
             XmlDocument xml = _request.GetLastResponseAsXML();
 
             // Now check to make sure we can post to the comment box
-            _request.RequestPage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
+            _request.RequestSecurePage("acs?dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah&dnahostpageurl=" + hosturl + "&skin=purexml");
 
             // Check to make sure that the page returned with the correct information
             xml = _request.GetLastResponseAsXML();
