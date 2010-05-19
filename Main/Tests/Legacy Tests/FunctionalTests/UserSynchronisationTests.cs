@@ -26,7 +26,9 @@ namespace FunctionalTests
         private string _password = "123456789";
         private string _dob = "1989-12-31";
         private string _14YearsOld = string.Format("{0:yyyy-MM-dd}", DateTime.Now.AddYears(-14));
-        private string _displayName = "Good old tester";
+        private string _displayName = "Good old tester i-Ā-å-p";
+        private string _cppDisplayName = "Good old tester i-A-�-p";
+        //private string _displayName = "Good old tester!";
         private string _email = "a@b.com";
         private Cookie _cookie;
         private Cookie _secureCookie;
@@ -237,9 +239,11 @@ namespace FunctionalTests
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _dob, TestUserCreator.IdentityPolicies.Adult, "identity606", TestUserCreator.UserType.IdentityOnly);
             request.RequestPage("?skin=purexml");
 
+            int i = request.CurrentUserID;
+
             XmlDocument doc = request.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
         }
@@ -265,7 +269,7 @@ namespace FunctionalTests
 
             doc = request.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
 
@@ -274,6 +278,7 @@ namespace FunctionalTests
                 string sql = "SELECT * FROM Users WHERE LoginName = '" + _userName + "'";
                 reader.ExecuteDEBUGONLY(sql);
                 Assert.IsTrue(reader.Read());
+                string dbname = reader.GetString("username");
                 Assert.AreEqual(_displayName, reader.GetString("username"));
             }
         }
@@ -288,18 +293,19 @@ namespace FunctionalTests
 
             XmlDocument doc = request.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Thread.Sleep(2000);
 
             string newName = _displayName + " Updated!";
+            string newNameCPP = _cppDisplayName + " Updated!";
             Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, newName));
             request.RequestPage("?skin=purexml");
 
             doc = request.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(newName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(newNameCPP, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
 
@@ -331,7 +337,7 @@ namespace FunctionalTests
 
             XmlDocument doc = request.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
 
@@ -355,7 +361,7 @@ namespace FunctionalTests
             XmlDocument doc = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/USER/FIRSTNAME"), "There shouldn't be a first name");
@@ -373,7 +379,7 @@ namespace FunctionalTests
 
             doc = request.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS"), "incorrect email");
@@ -427,7 +433,7 @@ namespace FunctionalTests
             XmlDocument doc = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/USER/FIRSTNAME"), "There shouldn't be a first name");
@@ -443,7 +449,7 @@ namespace FunctionalTests
 
             doc = request.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
-            Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
+            Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/SITESUFFIX"), "Site suffix is not correct");
