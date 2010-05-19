@@ -24,7 +24,7 @@ namespace FunctionalTests
         /// <summary>
         /// Check Normal User Does not have access .
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestModerateHomePageNonModerator()
         {
             Console.WriteLine("Before ModerateHome Page Tests - TestModerateHomePageNonModerator");
@@ -41,7 +41,7 @@ namespace FunctionalTests
         /// <summary>
         /// Check the page cannot be access
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestModerateHomePageNonSecure()
         {
             Console.WriteLine("Before ModerateHome Page Tests - TestModerateHomePageNonSecure");
@@ -58,7 +58,7 @@ namespace FunctionalTests
         /// <summary>
         /// Check the page cannot be access
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestModerateHomePageSecure()
         {
             Console.WriteLine("Before ModerateHome Page Tests - TestModerateHomePageSecure");
@@ -79,7 +79,7 @@ namespace FunctionalTests
         /// <summary>
         /// Check the Xml Schema.
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void TestModerateHomePageXml()
         {
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
