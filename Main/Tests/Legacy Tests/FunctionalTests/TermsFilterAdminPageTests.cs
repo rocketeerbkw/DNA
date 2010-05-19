@@ -285,7 +285,7 @@ namespace FunctionalTests
             CheckAuditTable(modClassId, terms);
 
             //Do siterefresh
-            SendSignal(String.Format("http://{0}/dna/api/comments/status?action=recache-site",
+            SendSignal(String.Format("http://{0}/dna/api/comments/status.aspx?action=recache-site",
                                      DnaTestURLRequest.CurrentServer));
             //Post Via Comments Api
             var commentForumObj = new CommentForumTests_V1();
