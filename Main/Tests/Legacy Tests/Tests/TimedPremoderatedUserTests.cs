@@ -164,7 +164,7 @@ namespace Tests
                 Assert.AreEqual("a@b.c", reader.GetString("Email"), "The users email does not match the one entered");
 
                 // Here are the important ones for this test
-                Assert.IsTrue(reader.GetDateTime("DateJoined") > DateTime.Now.AddMinutes(-5), "The users date joined value is not with in the tolarences of this test!");
+                Assert.IsTrue(reader.GetDateTime("DateJoined") > DateTime.Now.AddMinutes(-65), "The users date joined value is not with in the tolarences of this test!");
                 Assert.AreEqual(autoSinBinExpectedValue, reader.GetTinyIntAsInt("AutoSinBin"), "The user should be in the auto sin bin!");
                 Assert.AreEqual(1, reader.GetTinyIntAsInt("Status"), "The user status is not correct");
                 Assert.AreEqual(0, reader.GetTinyIntAsInt("PrefStatus"), "The user pref status is not correct");
