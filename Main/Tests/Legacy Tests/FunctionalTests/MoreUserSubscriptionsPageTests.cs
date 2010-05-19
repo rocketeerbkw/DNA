@@ -33,6 +33,7 @@ namespace FunctionalTests
             if (!_setupRun)
             {
                 Console.WriteLine("setting up");
+                _request.SetCurrentUserProfileTest();
                //_request.UseEditorAuthentication = true;
                // _request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
                 _setupRun = true;
