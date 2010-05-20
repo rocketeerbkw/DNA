@@ -87,7 +87,7 @@
         </title>
         <meta name="description" content="The BBC&#39;s disability site: razor sharp, funny, interesting and friendly - a community you&#39;ll want to be part of." />
         <meta name="keywords" content="disabled, disability, disabilities, disability magazine, disability webzine, disabled people, people with disabilities, disabled columnists, disabled writers, equal opportunities, diversity" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
         <meta content="width = 974" name="viewport"/>
         <link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
         <link href="/ouch/rss/articles/latest/" rel="alternate" type="application/rss+xml" title="RSS feed of latest articles" />
