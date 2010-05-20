@@ -522,7 +522,3 @@ UNICODE Updates -
 	* Run "Convert NickNameMod-Username to Unicode.sql".
 		Take note to check that the constraints to be droppped from the NicknameMod and NicknameModHistory tables match the one in the file.
 	* Run "Convert Users-Username to Unicode.sql"
-Rollback plan for blogs:
-	- if there is an issue with this release around blogs - to rollback do the following:
-		1. repoint the acs to the old commentbox builder
-		2. modify the sslurl to be http://www.bbc.co.uk and not https://

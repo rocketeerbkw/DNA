@@ -29,7 +29,7 @@
     
     <xsl:template match="FORUMTHREADPOSTS" mode="input_commentbox">
         
-        <form action="{$sslhost}{$root}/acs" method="post" class="dna-commentbox" id="postcomment">
+        <form action="{$root}/acs" method="post" class="dna-commentbox" id="postcomment">
             <div id="dnaacs">
                 <h3>Post a comment</h3>
                 
