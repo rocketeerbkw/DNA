@@ -222,21 +222,13 @@ namespace BBC.Dna.Objects
             set;
         }
 
-#if DEBUG
         [XmlIgnore]
         public DateTime CacheExpireryDate
         {
             get;
             set;
         }
-#else
-        [XmlIgnore]
-        private DateTime CacheExpireryDate
-        {
-            get;
-            set;
-        }
-#endif
+
     }
 
     /// <remarks/>
