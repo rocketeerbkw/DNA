@@ -57,7 +57,7 @@ namespace BBC.Dna.Sites
                     if(!string.IsNullOrEmpty(siteConfigStr))
                     {
                         var xmlSiteConfig = new XmlDocument();
-                        xmlSiteConfig.LoadXml(siteConfigStr);
+                        xmlSiteConfig.LoadXml(Entities.GetEntities() + siteConfigStr);
 
                         /*var xmlV2Node = xmlSiteConfig.SelectSingleNode("//SITECONFIG/V2_BOARDS");
                         if(xmlV2Node != null)
@@ -66,7 +66,7 @@ namespace BBC.Dna.Sites
                         }*/
 
                         var elements = new List<XmlElement>();
-                        foreach (XmlElement childNode in xmlSiteConfig.ChildNodes[0].ChildNodes)
+                        foreach (XmlElement childNode in xmlSiteConfig.ChildNodes[1].ChildNodes)
                         {
                             if(childNode.Name == "V2_BOARDS")
                             {
