@@ -9,9 +9,14 @@ CREATE PROCEDURE getmodstatusforforum
 AS
 declare @forummodstatus int
 declare @threadmodstatus int
+declare @sitemodstatus int
 
 -- get moderation details from the Site, Forum and Thread ( if specified)  tables
-SELECT @premoderation = ISNULL(s.PreModeration,0), @unmoderated = ISNULL(s.Unmoderated,1),
+SELECT @premoderation = ISNULL(s.PreModeration,0), 
+		@unmoderated = ISNULL(s.Unmoderated,1),
+		@sitemodstatus = case when ISNULL(s.Unmoderated,1) =1 and ISNULL(s.PreModeration,0)=0 then 1--unmoderated
+							when ISNULL(s.Unmoderated,1) =0 and ISNULL(s.PreModeration,0)=0 then 2-- post mod
+							else 3 end,
 	   @forummodstatus  = ISNULL(f.ModerationStatus,0),
 	   @threadmodstatus = ISNULL(th.ModerationStatus,0)
 		FROM dbo.Forums f
@@ -25,6 +30,8 @@ SELECT @premoderation = ISNULL(s.PreModeration,0), @unmoderated = ISNULL(s.Unmod
 --					 1    = unmoderated
 --	                 2    = postmoderated
 --	                 3    = premoderated
+
+
 
 if (@forummodstatus = 1)
 BEGIN
@@ -65,8 +72,8 @@ if (@prefstatus = 1)
 begin
 	select @premoderation = 1, @unmoderated = 0
 end
--- only use user preference if the thread and forum not premod already
-if (@prefstatus = 2 AND @threadmodstatus <> 1 AND @forummodstatus <> 1)
+-- only use user preference if the thread, site or forum not premod already
+if (@prefstatus = 2 AND @threadmodstatus <> 3 AND @forummodstatus <> 3 AND @sitemodstatus <> 3)
 begin
 	select @premoderation = 0, @unmoderated = 0
 end
@@ -80,3 +87,5 @@ begin
 	END
 
 end
+
+
