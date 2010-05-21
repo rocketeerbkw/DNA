@@ -4,7 +4,7 @@ CREATE PROCEDURE createnewuserfromssoid	@ssouserid int,
 										@siteid int = 1,
 										@firstnames varchar(255) = null,
 										@lastname varchar(255) = null,
-										@displayname varchar(255) = null
+										@displayname nvarchar(255) = null
 AS
 -- Try to get the dnauserid from the sign in mapping table
 DECLARE @DnaUserID int

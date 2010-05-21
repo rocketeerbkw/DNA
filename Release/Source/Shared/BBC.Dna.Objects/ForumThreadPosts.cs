@@ -7,6 +7,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System.Runtime.Serialization;
 using ISite = BBC.Dna.Sites.ISite;
 
 namespace BBC.Dna.Objects
@@ -14,9 +15,9 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable]
-    [DesignerCategory("code")]
     [XmlType(AnonymousType = true, TypeName = "FORUMTHREADPOSTS")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "FORUMTHREADPOSTS")]
+    [DataContract(Name="forumThreadPosts")]
     public class ForumThreadPosts : CachableBase<ForumThreadPosts>
     {
         #region Properties
@@ -28,14 +29,17 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElement(Order = 0, ElementName = "FIRSTPOSTSUBJECT")]
+        [DataMember(Name="firstPostSubject")]
         public string FirstPostSubject { get; set; }
 
         /// <remarks/>
         [XmlElement("POST", Order = 1)]
+        [DataMember(Name = "posts")]
         public List<ThreadPost> Post { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "FORUMID")]
+        [DataMember(Name = "forumId")]
         public int ForumId { get; set; }
 
         /// <remarks/>
@@ -44,38 +48,62 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "THREADID")]
+        [DataMember(Name = "threadId")]
         public int ThreadId { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "SKIPTO")]
+        [DataMember(Name="startIndex")]
         public int SkipTo { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "COUNT")]
+        [DataMember(Name = "itemsPerPage")]
         public int Count { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANREAD")]
         public byte CanRead { get; set; }
 
+        [XmlIgnore]
+        [DataMember(Name = ("canRead"))]
+        public bool CanReadBool
+        {
+            get { return CanRead == 1; }
+            set { }
+        }
+
+
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANWRITE")]
         public byte CanWrite { get; set; }
 
+        [XmlIgnore]
+        [DataMember(Name = ("canWrite"))]
+        public bool CanWriteBool
+        {
+            get { return CanWrite == 1; }
+            set { }
+        }
+
         /// <remarks/>
         [XmlAttribute(AttributeName = "FORUMPOSTCOUNT")]
+        [DataMember(Name = "forumPostCount")]
         public int ForumPostCount { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "FORUMPOSTLIMIT")]
+        [DataMember(Name = "forumPostLimit")]
         public int ForumPostLimit { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "TOTALPOSTCOUNT")]
+        [DataMember(Name="totalCount")]
         public int TotalPostCount { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "SITEID")]
+        [DataMember(Name = "siteId")]
         public int SiteId { get; set; }
 
         /// <remarks/>
@@ -115,6 +143,10 @@ namespace BBC.Dna.Objects
         /// </summary>
         public void ApplySiteOptions(IUser user, ISiteList siteList)
         {
+            if (user == null)
+            {
+                return;
+            }
             bool isEditor = false;
             if (user.IsEditor || user.IsSuperUser)
             {

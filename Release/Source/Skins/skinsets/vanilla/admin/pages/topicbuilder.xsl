@@ -53,6 +53,7 @@
 
 
       <div id="dna-lightboxes" class="dna-clear">
+        <h2 class="dna-off">Edit your topic's list</h2>
         <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='0']" mode="object_topic_overlay"/>
         <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='1']" mode="object_topic_overlay"/>
         <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='3']" mode="object_topic_overlay"/>

@@ -13,13 +13,17 @@ namespace BBC.Dna.Objects
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute(AnonymousType=false, TypeName="TOP-FIVES")]
-    [XmlRootAttribute("TOP-FIVES", Namespace="", IsNullable=false)]
-    public class TopFives : CachableBase<TopFives>
+    [XmlTypeAttribute(AnonymousType = false, TypeName = "RECENTACTIVITY")]
+    [XmlRootAttribute("RECENTACTIVITY", Namespace="", IsNullable=false)]
+    [DataContract(Name="recentAcivity")]
+    public class RecentActivity : CachableBase<RecentActivity>
     {
-        public TopFives()
+        public RecentActivity()
         {
-            TopFiveList = new List<TopFiveBase>();
+            MostRecentConversations = new TopFiveForums();
+            MostRecentArticles = new TopFiveArticles();
+            MostRecentUserArticles = new TopFiveArticles();
+            MostRecentUpdatedArticles = new TopFiveArticles();
         }
         
         /// <summary>
@@ -30,22 +34,22 @@ namespace BBC.Dna.Objects
         /// <param name="diagnostics">The diagnostics object for writing to the logs</param>
         /// <param name="cache">The current cache manager for the application</param>
         /// <returns>The TopFives object for the given site</returns>
-        static public TopFives GetSiteTopFives(int siteID, IDnaDataReaderCreator readerCreator, IDnaDiagnostics diagnostics, ICacheManager cache)
+        static public RecentActivity GetSiteRecentActivity(int siteID, IDnaDataReaderCreator readerCreator, IDnaDiagnostics diagnostics, ICacheManager cache)
         {
-            TopFives topFive = new TopFives();
-            string cacheKey = topFive.GetCacheKey("topfives-site-", siteID);
-            var cachedTopFives = (CachableBase<TopFives>)cache.GetData(cacheKey);
-            if (cachedTopFives == null || !cachedTopFives.IsUpToDate(null))
+            RecentActivity recentAcivity = new RecentActivity();
+            string cacheKey = recentAcivity.GetCacheKey(siteID);
+            var cachedRecentActivity = (CachableBase<RecentActivity>)cache.GetData(cacheKey);
+            if (cachedRecentActivity == null || !cachedRecentActivity.IsUpToDate(null))
             {
-                topFive.GetTopFivesForSite(siteID, readerCreator, diagnostics);
-                cache.Add(cacheKey, topFive.Clone());
+                recentAcivity.GetRecentActivityForSite(siteID, readerCreator, diagnostics);
+                cache.Add(cacheKey, recentAcivity.Clone());
             }
             else
             {
-                topFive = (TopFives)cachedTopFives;
+                recentAcivity = (RecentActivity)cachedRecentActivity;
             }
 
-            return topFive;
+            return recentAcivity;
         }
 
         /// <summary>
@@ -64,7 +68,7 @@ namespace BBC.Dna.Objects
         /// <param name="siteID">Id of the site you want to get the top fives for</param>
         /// <param name="readerCreator">Data reader creator</param>
         /// <param name="diagnostics">The Diagnostics object for writing to the output logs</param>
-        public void GetTopFivesForSite(int siteID, IDnaDataReaderCreator readerCreator, IDnaDiagnostics diagnostics)
+        public void GetRecentActivityForSite(int siteID, IDnaDataReaderCreator readerCreator, IDnaDiagnostics diagnostics)
         {
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettopfives2"))
             {
@@ -78,11 +82,11 @@ namespace BBC.Dna.Objects
                     {
                         if (!reader.IsDBNull("h2g2id"))
                         {
-                            moreRows = AddArticlesToTopFive(reader);
+                            moreRows = AddArticles(reader);
                         }
                         else if (!reader.IsDBNull("forumid"))
                         {
-                            moreRows = AddForumsToTopFive(reader);
+                            moreRows = AddForums(reader);
                         }
                         else
                         {
@@ -93,7 +97,6 @@ namespace BBC.Dna.Objects
                 catch (Exception ex)
                 {
                     diagnostics.WriteExceptionToLog(ex);
-                    TopFiveList.Clear();
                 }
                 CacheExpireryDate = DateTime.Now.AddMinutes(5);
             }
@@ -103,21 +106,33 @@ namespace BBC.Dna.Objects
         /// Creates and adds the current top five article to the topfives
         /// </summary>
         /// <param name="reader">The data reader that holds the information</param>
-        private bool AddArticlesToTopFive(IDnaDataReader reader)
+        private bool AddArticles(IDnaDataReader reader)
         {
-            TopFiveArticles topFiveArticles = new TopFiveArticles();
-            TopFiveList.Add(topFiveArticles);
+            TopFiveArticles tempList = new TopFiveArticles();
+            var groupName = reader.GetStringNullAsEmpty("groupname");
+            switch (groupName.ToUpper())
+            {
+                case "MOSTRECENT":
+                    tempList = MostRecentArticles; break;
 
-            topFiveArticles.Name = reader.GetStringNullAsEmpty("groupname");
-            topFiveArticles.Title = reader.GetStringNullAsEmpty("groupdescription");
+                case "MOSTRECENTUSER":
+                    tempList = MostRecentUserArticles; break;
+
+                case "UPDATED":
+                    tempList = MostRecentUpdatedArticles; break;
+            }
+
+            tempList.Name = groupName;
+            tempList.Title = reader.GetStringNullAsEmpty("groupdescription");
+
 
             TopFiveArticle topFiveArticle = null;
             bool moreRows = true;
 
-            while (moreRows && topFiveArticles.Name == reader.GetStringNullAsEmpty("groupname"))
+            while (moreRows && tempList.Name == reader.GetStringNullAsEmpty("groupname"))
             {
                 topFiveArticle = new TopFiveArticle();
-                topFiveArticles.topFiveArticleList.Add(topFiveArticle);
+                
 
                 topFiveArticle.DateUpdated.Date = new Date(reader.GetDateTime("dateupdated"));
                 if (!reader.IsDBNull("eventdate"))
@@ -130,12 +145,15 @@ namespace BBC.Dna.Objects
                 topFiveArticle.LinkItemName = reader.GetStringNullAsEmpty("linkitemname");
                 topFiveArticle.LinkItemType = reader.GetInt32NullAsZero("linkitemtype");
                 topFiveArticle.Subject = reader.GetStringNullAsEmpty("subject");
-                topFiveArticle.User.UserID = reader.GetInt32NullAsZero("itemauthorid");
+                topFiveArticle.User.UserId = reader.GetInt32NullAsZero("itemauthorid");
                 topFiveArticle.User.UserName = reader.GetStringNullAsEmpty("username");
                 topFiveArticle.User.SiteSuffix = reader.GetStringNullAsEmpty("sitesuffix");
 
+                tempList.topFiveArticleList.Add(topFiveArticle);
                 moreRows = reader.Read();
             }
+
+            
 
             return moreRows;
         }
@@ -144,25 +162,24 @@ namespace BBC.Dna.Objects
         /// Creates and adds the current top five forum to the topfives
         /// </summary>
         /// <param name="reader">The data reader that holds the information</param>
-        private bool AddForumsToTopFive(IDnaDataReader reader)
+        private bool AddForums(IDnaDataReader reader)
         {
-            TopFiveForums topFiveForums = new TopFiveForums();
-            TopFiveList.Add(topFiveForums);
-            topFiveForums.Name = reader.GetStringNullAsEmpty("groupname");
-            topFiveForums.Title = reader.GetStringNullAsEmpty("groupdescription");
+            MostRecentConversations.Name = reader.GetStringNullAsEmpty("groupname");
+            MostRecentConversations.Title = reader.GetStringNullAsEmpty("groupdescription");
 
             TopFiveForum topFiveForum = null;
             bool moreRows = true;
 
-            while (moreRows && topFiveForums.Name == reader.GetStringNullAsEmpty("groupname"))
+            while (moreRows && MostRecentConversations.Name == reader.GetStringNullAsEmpty("groupname"))
             {
                 topFiveForum = new TopFiveForum();
-                topFiveForums.topFiveForumList.Add(topFiveForum);
+                
 
                 topFiveForum.ForumID = reader.GetInt32NullAsZero("forumid");
                 topFiveForum.Subject = reader.GetStringNullAsEmpty("title");
                 topFiveForum.ThreadID = reader.GetInt32NullAsZero("threadid");
 
+                MostRecentConversations.topFiveForumList.Add(topFiveForum);
                 moreRows = reader.Read();
             }
 
@@ -170,32 +187,68 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [XmlElementAttribute("TOP-FIVE", Order = 0)]
-        public List<TopFiveBase> TopFiveList
+        [XmlElementAttribute("MOSTRECENTARTICLES", Order = 0)]
+        [DataMember(Name="mostRecentArticles")]
+        public TopFiveArticles MostRecentArticles
         {
             get;
             set;
         }
 
+        /// <remarks/>
+        [XmlElementAttribute("MOSTRECENTUSERARTICLES", Order = 1)]
+        [DataMember(Name = "mostRecentUserArticles")]
+        public TopFiveArticles MostRecentUserArticles
+        {
+            get;
+            set;
+        }
 
+        /// <remarks/>
+        [XmlElementAttribute("MOSTRECENTUPDATEDARTICLES", Order = 2)]
+        [DataMember(Name = "mostRecentUpdatedArticles")]
+        public TopFiveArticles MostRecentUpdatedArticles
+        {
+            get;
+            set;
+        }
+
+        /// <remarks/>
+        [XmlElementAttribute("MOSTRECENTCONVERSATIONS", Order = 3)]
+        [DataMember(Name = "mostRecentConversations")]
+        public TopFiveForums MostRecentConversations
+        {
+            get;
+            set;
+        }
+
+#if DEBUG
         [XmlIgnore]
         public DateTime CacheExpireryDate
         {
             get;
             set;
         }
+#else
+        [XmlIgnore]
+        private DateTime CacheExpireryDate
+        {
+            get;
+            set;
+        }
+#endif
     }
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute("TOP-FIVE")]
-    [XmlInclude(typeof(TopFiveArticles)), XmlInclude(typeof(TopFiveForums))]
+    [DataContract]
     public class TopFiveBase
     {
         /// <remarks/>
         [XmlElementAttribute("TITLE", Order = 0)]
+        [DataMember(Name = "title")]
         public string Title
         {
             get;
@@ -204,6 +257,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAttributeAttribute("NAME")]
+        [DataMember(Name = "name")]
         public string Name
         {
             get;
@@ -215,6 +269,7 @@ namespace BBC.Dna.Objects
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [DataContract(Name="forumList")]
     public class TopFiveForums : TopFiveBase
     {
         public TopFiveForums()
@@ -223,7 +278,8 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [XmlElementAttribute("TOP-FIVE-FORUM", Order = 1)]
+        [XmlElementAttribute("FORUM", Order = 1)]
+        [DataMember(Name="forums")]
         public System.Collections.Generic.List<TopFiveForum> topFiveForumList
         {
             get;
@@ -235,6 +291,7 @@ namespace BBC.Dna.Objects
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [DataContract(Name = "articles")]
     public class TopFiveArticles : TopFiveBase
     {
         public TopFiveArticles()
@@ -243,7 +300,8 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [XmlElementAttribute("TOP-FIVE-ARTICLE", Order = 1)]
+        [XmlElementAttribute("ARTICLE", Order = 1)]
+        [DataMember(Name = "articles")]
         public System.Collections.Generic.List<TopFiveArticle> topFiveArticleList
         {
             get;
@@ -256,10 +314,12 @@ namespace BBC.Dna.Objects
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [XmlTypeAttribute(AnonymousType = true)]
+    [DataContract(Name="forum")]
     public class TopFiveForum
     {
         /// <remarks/>
         [XmlElementAttribute("FORUMID", Order = 0)]
+        [DataMember(Name="forumId")]
         public int ForumID
         {
             get;
@@ -268,18 +328,24 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("THREADID", Order = 1)]
+        [DataMember(Name = "threadID")]
         public int ThreadID
         {
             get;
             set;
         }
-        
+
         /// <remarks/>
-        [XmlElementAttribute("SUBJECT", Order = 2)]
+        private string _subject = String.Empty;
+        [System.Xml.Serialization.XmlElementAttribute(Order = 2, ElementName = "SUBJECT")]
+        [DataMember(Name = "subject")]
         public string Subject
         {
-            get;
-            set;
+            get
+            {
+                return StringUtils.EscapeAllXml(_subject);
+            }
+            set { _subject = value; }
         }
     }
     
@@ -288,32 +354,39 @@ namespace BBC.Dna.Objects
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [XmlTypeAttribute(AnonymousType = true)]
+    [DataContract(Name = "article")]
     public class TopFiveArticle
     {
         public TopFiveArticle()
         {
-            _user = new TopFiveArticleUser();
-            DateUpdated = new TopFiveDateUpdated();
-            EventDate = new TopFiveEventDate();
+            _user = new User();
+            DateUpdated = new DateElement();
+            EventDate = new DateElement();
         }
 
         [XmlIgnore]
-        private TopFiveArticleUser _user;
+        private User _user;
         
         /// <remarks/>
         [XmlElementAttribute(Order = 0)]
+        [DataMember(Name="h2g2Id")]
         public int H2G2ID
         {
             get;
             set;
         }
-        
+
         /// <remarks/>
-        [XmlElementAttribute("SUBJECT", Order = 1)]
+        private string _subject = String.Empty;
+        [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "SUBJECT")]
+        [DataMember(Name = "subject")]
         public string Subject
         {
-            get;
-            set;
+            get
+            {
+                return StringUtils.EscapeAllXml(_subject);
+            }
+            set { _subject = value; }
         }
 
         /// <remarks/>
@@ -329,6 +402,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAnyElement(Order = 2)]
+        [DataMember(Name = "extraInfo")]
         public XmlElement ExtrainfoElement
         {
             get { return ExtraInfoCreator.CreateExtraInfo(ExtraInfo); }
@@ -337,6 +411,7 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("LINKITEMTYPE", Order = 3)]
+        [DataMember(Name = "linkItemType")]
         public int LinkItemType
         {
             get;
@@ -345,6 +420,7 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("LINKITEMID", Order = 4)]
+        [DataMember(Name = "linkItemID")]
         public int LinkItemID
         {
             get;
@@ -353,6 +429,7 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("LINKITEMNAME", Order = 5)]
+        [DataMember(Name = "linkItemName")]
         public string LinkItemName
         {
             get;
@@ -361,7 +438,8 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("DATEUPDATED", Order = 6)]
-        public TopFiveDateUpdated DateUpdated
+        [DataMember(Name = "dateUpdated")]
+        public DateElement DateUpdated
         {
             get;
             set;
@@ -369,7 +447,8 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("EVENTDATEDATE", Order = 7)]
-        public TopFiveEventDate EventDate
+        [DataMember(Name = "eventDate")]
+        public DateElement EventDate
         {
             get;
             set;
@@ -377,7 +456,8 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElementAttribute("USER", Order=8)]
-        public TopFiveArticleUser User
+        [DataMember(Name = "user")]
+        public User User
         {
             get
             {
@@ -387,70 +467,6 @@ namespace BBC.Dna.Objects
             {
                 _user = value;
             }
-        }
-    }
-
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute(AnonymousType = true)]
-    public class TopFiveDateUpdated
-    {
-        /// <remarks/>
-        [XmlElementAttribute("DATE", Order = 0)]
-        public Dna.Objects.Date Date
-        {
-            get;
-            set;
-        }
-    }
-
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute(AnonymousType = true)]
-    public class TopFiveEventDate
-    {
-        /// <remarks/>
-        [XmlElementAttribute("DATE", Order = 0)]
-        public Dna.Objects.Date Date
-        {
-            get;
-            set;
-        }
-    }
-
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute(AnonymousType=true)]
-    public class TopFiveArticleUser
-    {
-        /// <remarks/>
-        [XmlElementAttribute("USERID", Order = 0)]
-        public int UserID
-        {
-            get;
-            set;
-        }
-
-        /// <remarks/>
-        [XmlElementAttribute("USERNAME", Order = 1)]
-        public string UserName
-        {
-            get;
-            set;
-        }
-
-        /// <remarks/>
-        [XmlElementAttribute("SITESUFFIX", Order = 2)]
-        public string SiteSuffix
-        {
-            get;
-            set;
         }
     }
 }

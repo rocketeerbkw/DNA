@@ -46,7 +46,10 @@ namespace Tests
             Statistics.InitialiseIfEmpty();
             SnapshotInitialisation.RestoreFromSnapshot();
 
-            SetupSiteForIdentityLogin();
+
+            ICacheManager groupsCache = new StaticCacheManager();
+            var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
+            g.InitialiseAllUsersAndGroups();
         }
 
         private ISiteList _siteList;
@@ -863,47 +866,6 @@ return.";
         }
 
 
-        /// <summary>
-        /// Tests CommentCreate function to create commentvia Identity login
-        /// </summary>
-        [TestMethod]
-        public void CommentCreateViaIdentity_Good()
-        {
-            SetupSiteForIdentityLogin();
-
-            Cookie cookie;
-            Cookie secureCookie;
-            GetNewIdentityUser(out cookie, out secureCookie);
-
-            //set up test data
-            CommentInfo comment = new CommentInfo
-            {
-                text = "this is a nunit generated comment."
-            };
-            comment.text += Guid.NewGuid().ToString();//have to randomize the string to post
-
-            string IPAddress = String.Empty;
-            Guid BBCUid = Guid.NewGuid();
-            string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
-
-            CommentForum commentForum = CommentForumCreate(commentForumID);
-
-            Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(true))
-            {
-                _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
-                
-                //normal user
-                comments.CallingUser = new CallingUser(SignInSystem.Identity, inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, CacheFactory.GetCacheManager(), _siteList);
-                comments.CallingUser.IsUserSignedInSecure(cookie.Value, secureCookie.Value, site.IdentityPolicy, site.SiteID);
-
-                CommentInfo result = comments.CreateComment(commentForum, comment);
-                Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID > 0);
-                Assert.IsTrue(result.text == comment.text);
-            }
-        }
 
         private static void GetNewIdentityUser(out Cookie cookie, out Cookie secureCookie)
         {

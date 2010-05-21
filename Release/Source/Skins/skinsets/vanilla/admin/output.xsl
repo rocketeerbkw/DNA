@@ -83,7 +83,7 @@
 			  <xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
           <div id="blq-local-nav" class="nav blq-clearfix">
       
-            <h1>Messageboard Admin<span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span></h1>
+            <h1>Messageboard Admin <span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span></h1>
 
             <ul>
               <li>
@@ -103,8 +103,7 @@
 
          
 				  <div id="blq-content">
-           
-
+          
             <xsl:apply-templates select="/H2G2/ERROR" mode="page"/>
             <xsl:apply-templates select="/H2G2/RESULT" mode="page"/>
 

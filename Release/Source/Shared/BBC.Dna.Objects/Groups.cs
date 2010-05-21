@@ -5,15 +5,17 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using BBC.Dna.Groups;
 using System.Linq;
+using System.Runtime.Serialization;
+
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable]
-    [DesignerCategory("code")]
     [XmlType(AnonymousType = true, TypeName = "GROUPS")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "GROUPS")]
+    [DataContract]
     public class Groups
     {
         public Groups()
@@ -23,6 +25,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElement("GROUP", Order = 0)]
+        [DataMember(Name = ("group"))]
         public List<Group> Group { get; set; }
 
         public void AddGroup(string groupName)
@@ -54,9 +57,9 @@ namespace BBC.Dna.Objects
 
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable]
-    [DesignerCategory("code")]
     [XmlType(AnonymousType = true, TypeName = "GROUPS")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "GROUP")]
+    [DataContract]
     public class Group
     {
         public Group()
@@ -70,6 +73,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElement("NAME")]
+        [DataMember]
         public string Name { get; set; }
     }
 }

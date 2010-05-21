@@ -528,7 +528,7 @@ namespace BBC.Dna.Page
 
             if (_dnapage.IncludeTopFives)
             {
-                TopFives topFives = TopFives.GetSiteTopFives(CurrentSite.SiteID, AppContext.ReaderCreator, Diagnostics, AppContext.DnaCacheManager);
+                RecentActivity topFives = RecentActivity.GetSiteRecentActivity(CurrentSite.SiteID, AppContext.ReaderCreator, Diagnostics, AppContext.DnaCacheManager);
                 _page.SerialiseAndAppend(topFives, "//H2G2");
             }
 

@@ -444,9 +444,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api.Tests", "Source
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.LoadTest", "Tests\BBC.Dna.LoadTest\BBC.Dna.LoadTest.csproj", "{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Forums", "BBC.DNA.Services.Forums", "{6C3A9796-633A-4738-B003-BDBA5ABE3FD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Services.Forums", "Source\Web Services\BBC.Dna.Services.Forums\BBC.Dna.Services.Forums.csproj", "{0F8243FA-0769-4A58-AC3F-12D51B6479DD}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 46
+		SccNumberOfProjects = 47
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
@@ -630,6 +634,10 @@ Global
 		SccProjectTopLevelParentUniqueName45 = UserServices.sln
 		SccProjectName45 = Tests/BBC.Dna.LoadTest
 		SccLocalPath45 = Tests\\BBC.Dna.LoadTest
+		SccProjectUniqueName46 = Source\\Web\u0020Services\\BBC.Dna.Services.Forums\\BBC.Dna.Services.Forums.csproj
+		SccProjectTopLevelParentUniqueName46 = UserServices.sln
+		SccProjectName46 = Source/Web\u0020Services/BBC.Dna.Services.Forums
+		SccLocalPath46 = Source\\Web\u0020Services\\BBC.Dna.Services.Forums
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UserServices4.vsmdi
@@ -2057,6 +2065,42 @@ Global
 		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}.Retail|Win32.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.DebugSmallGuide|.NET.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.DebugSmallGuide|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.DebugSmallGuide|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.DebugSmallGuide|Win32.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Debug|.NET.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Debug|Win32.ActiveCfg = Debug|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Release|.NET.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Release|Any CPU.Build.0 = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.MySQL Release|Win32.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Release|.NET.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Release|Win32.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Retail|.NET.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD}.Retail|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2122,6 +2166,7 @@ Global
 		{FF6B0888-50F6-4B13-B804-3E010866916E} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{06315016-E046-45CD-B63F-B68A10D3A8C8} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{F89247D0-E5BB-4959-98D1-BDA98CA127D9} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
+		{6C3A9796-633A-4738-B003-BDBA5ABE3FD8} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{E4C34C5F-5F3B-4A43-A2BF-E593E1884786} = {FF6B0888-50F6-4B13-B804-3E010866916E}
 		{BF321555-30BC-45A3-BF5F-0E381DE31FAE} = {06315016-E046-45CD-B63F-B68A10D3A8C8}
 		{A135E839-C263-4171-A2B3-E1D41355B6BB} = {444038EE-D867-45BE-87CA-062461221E5F}
@@ -2155,6 +2200,7 @@ Global
 		{C54DD6AC-BC30-4ADF-A47D-18CCB8709CDE} = {480B30AF-4FF9-4188-B706-5A05D8447F6D}
 		{B16FA7C0-26CA-401B-BCE5-7D676F652D53} = {480B30AF-4FF9-4188-B706-5A05D8447F6D}
 		{E60F9F07-594B-4FD3-BC01-6F3C4D109D86} = {B16FA7C0-26CA-401B-BCE5-7D676F652D53}
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD} = {6C3A9796-633A-4738-B003-BDBA5ABE3FD8}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 35

@@ -750,10 +750,10 @@ namespace TestUtils
             // Now setup the correct method depending on the post flag
             if (verb != RequestVerb.GET)
             {
-                webRequest.ContentType = "application/x-www-form-urlencoded";
+                webRequest.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
 
                 // Write the params to the body of the request
-                ASCIIEncoding encoding = new ASCIIEncoding();
+                UTF8Encoding encoding = new UTF8Encoding();
                 byte[] bytes = encoding.GetBytes(urlParams);
                 webRequest.ContentLength = bytes.Length;
                 

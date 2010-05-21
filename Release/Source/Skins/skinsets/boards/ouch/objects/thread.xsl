@@ -35,19 +35,21 @@
 				</a>
 			</p>
 			<div class="itemdetail">
-				<span class="startedon">
-					<span class="dna-invisible">This discussion was started on </span>
-					<xsl:apply-templates select="FIRSTPOST/DATE | FIRSTUSERPOST/DATEPOSTED/DATE" mode="library_date_longformat"/>
-				</span>
-				<span class="dna-invisible"> by </span>
+			<p class="begun">
+				<span class="dna-invisible">Discussion started by</span> 
 				<span class="vcard">
 					<span class="fn">
 						<xsl:apply-templates select="FIRSTPOST/USER" mode="object_user_linked" />
 					</span>
 				</span>
-				
+				<span class="startedon">
+					<span class="dna-invisible">on</span>
+					<xsl:apply-templates select="FIRSTPOST/DATE | FIRSTUSERPOST/DATEPOSTED/DATE" mode="library_date_shortformat"/>
+				</span>
 				<span class="dna-invisible">. </span>
-				
+			</p>
+			<p class="latest">
+			
 				<span class="replies">
 					<xsl:choose>
 						<xsl:when test="(TOTALPOSTS - 1) = 0">
@@ -67,9 +69,8 @@
 					</xsl:choose>
 					<span class="dna-invisible">.</span>
 				</span>
-				<div>
-					<span class="updatedon">
-						<span class="dna-invisible">Last updated </span>
+				<span class="updatedon">
+						<span class="dna-invisible">Updated </span>
 						<a href="F{@FORUMID}?thread={@THREADID}&amp;latest=1#p{LASTPOST/@POSTID}">
 							<xsl:value-of select="DATEPOSTED/DATE/@RELATIVE"/>
 						</a>
@@ -80,8 +81,8 @@
 							</span>
 						</span>
 						
-					</span>
-				</div>
+				</span>
+			</p>
 				<xsl:call-template name="library_userstate_editor">
 					<xsl:with-param name="loggedin">
 						<div>

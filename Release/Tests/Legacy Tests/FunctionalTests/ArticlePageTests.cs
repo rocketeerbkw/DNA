@@ -75,6 +75,7 @@ namespace FunctionalTests
         private void GetAndValidateArticleXml(string siteName, int article, bool useRipley)
         {
             DnaTestURLRequest request = new DnaTestURLRequest(siteName);
+            request.SetCurrentUserNormal();
             if (useRipley)
             {
                 request.RequestPage("A" + article.ToString() + "?skin=purexml");

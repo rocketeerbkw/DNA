@@ -4,7 +4,7 @@
 	is not already in the queue.
 */
 
-CREATE PROCEDURE queuenicknameformoderation @userid int, @siteid int, @nickname VARCHAR(255)
+CREATE PROCEDURE queuenicknameformoderation @userid int, @siteid int, @nickname NVARCHAR(255)
 AS
 DECLARE @ModID int, @Error int
 

@@ -59,6 +59,8 @@
 	</xsl:template>
 
   <xsl:template match="TOPIC" mode="object_topic_admin">
+    <xsl:variable name="topicPosition" select="count(preceding-sibling::*) + 1"/>
+     
     <h5><xsl:value-of select="FRONTPAGEELEMENT/TITLE" /></h5>
       
     <p class="dna-link-edit"><a href="?s_edittopic={TOPICID}&amp;s_mode=topic#dna-preview-topic-edit-{TOPICID}" class="dna-link-overlay">Edit Topic</a></p>
@@ -77,7 +79,7 @@
       <xsl:value-of select="FORUMPOSTCOUNT"/> replies
     </p>
     
-    <p class="dna-off">
+    <p class="dna-topic-position" value="{$topicPosition}" >
       <label for="topic_{TOPICID}_position">Position:</label> <input id="topic_{TOPICID}_position" name="topic_{TOPICID}_position" value="{FRONTPAGEELEMENT/POSITION}" class="dna-topic-pos"/>
     </p>
   </xsl:template>
@@ -93,13 +95,15 @@
     </xsl:param>
     
 
-      <form action="messageboardadmin_design?cmd=updatetopic" method="post" id="dna-add-topic-{$topicid}">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatetopic" method="post" id="dna-add-topic-{$topicid}">
         <input type="hidden" name="topiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/EDITKEY}"></input>
         <input type="hidden" name="fptopiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/EDITKEY}"></input>
         <input type="hidden" id="topicid" name="topicid" value="{$topicid}"></input>
 
 
         <div id="dna-preview-edittopic-step1-{$topicid}" >
+          <xsl:attribute name="class"><xsl:if test="PARAMS/PARAM[NAME = 's_step']">dna-off</xsl:if></xsl:attribute> 
+          
             <xsl:choose>
               <xsl:when test="$topicid = 0">
                 <h4>
@@ -108,7 +112,7 @@
               </xsl:when>
               <xsl:otherwise>
                 <h4>
-                  Edit Topic <span class="dna-topic-step">Step 1 of 3</span>
+                  Edit <span class="dna-off"><xsl:value-of select="TITLE"/></span> Topic <span class="dna-topic-step">Step 1 of 3</span>
                 </h4>
               </xsl:otherwise>
             </xsl:choose>
@@ -133,7 +137,7 @@
             <div class="dna-buttons">
               <ul>
                 <li>
-                  <a href="?s_mode=topic2&amp;s_edittopic={$topicid}#dna-preview-edittopic-step2-{$topicid}" class="dna-btn-link" id="dna-btn-next-1-{$topicid}">Next</a>
+                  <a href="?s_mode=topic&amp;s_step=2&amp;s_edittopic={$topicid}#dna-preview-edittopic-step2-{$topicid}" class="dna-btn-link" id="dna-btn-next-1-{$topicid}">Next</a>
                 </li>
                 <li>
                   <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
@@ -144,6 +148,8 @@
 
 
           <div id="dna-preview-edittopic-step2-{$topicid}">
+            <xsl:attribute name="class"><xsl:if test="PARAMS/PARAM[NAME = 's_step']/VALUE != '2' or not(PARAMS/PARAM[NAME = 's_step'])">dna-off</xsl:if></xsl:attribute>
+
             <xsl:choose>
               <xsl:when test="$topicid = 0">
                 <h4>
@@ -152,7 +158,7 @@
               </xsl:when>
               <xsl:otherwise>
                 <h4>
-                  Edit Topic <span class="dna-topic-step">Step 2 of 3</span>
+                  Edit <span class="dna-off"><xsl:value-of select="TITLE"/></span> Topic <span class="dna-topic-step">Step 2 of 3</span>
                 </h4>
               </xsl:otherwise>
             </xsl:choose>
@@ -185,7 +191,7 @@
             <div class="dna-buttons">
               <ul>
                 <li>
-                  <a href="?s_mode=topic3#dna-preview-edittopic-step3-{$topicid}" class="dna-btn-link" id="dna-btn-next-2-{$topicid}">Next</a>
+                  <a href="?s_mode=topic&amp;s_step=3&amp;s_edittopic={$topicid}#dna-preview-edittopic-step3-{$topicid}" class="dna-btn-link" id="dna-btn-next-2-{$topicid}">Next</a>
                 </li>
                 <li>
                   <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
@@ -196,6 +202,8 @@
 
 
           <div id="dna-preview-edittopic-step3-{$topicid}">
+            <xsl:attribute name="class"><xsl:if test="PARAMS/PARAM[NAME = 's_step']/VALUE != '3' or not(PARAMS/PARAM[NAME = 's_step'])">dna-off</xsl:if></xsl:attribute>
+
             <xsl:choose>
               <xsl:when test="$topicid = 0">
                 <h4>
@@ -204,7 +212,7 @@
               </xsl:when>
               <xsl:otherwise>
                 <h4>
-                  Edit Topic <span class="dna-topic-step">Step 3 of 3</span>
+                  Edit <span class="dna-off"><xsl:value-of select="TITLE"/></span> Topic  <span class="dna-topic-step">Step 3 of 3</span>
                 </h4>
               </xsl:otherwise>
             </xsl:choose>
@@ -251,7 +259,7 @@
         </xsl:attribute>
 
 
-        <h4>Archive topic</h4>
+        <h4>Archive <span class="dna-off"><xsl:value-of select="TITLE"/></span> Topic</h4>
 
         <form action="topicbuilder?cmd=delete" method="post" id="dna-topic-archive">
           <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>
@@ -289,7 +297,7 @@
           dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'unarchive' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
         </xsl:attribute>
 
-        <h4>Unarchive topic</h4>
+        <h4>Unarchive <span class="dna-off"><xsl:value-of select="TITLE"/></span> Topic</h4>
 
         <form action="topicbuilder?cmd=unarchive" method="post" id="dna-topic-unarchive">
           <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>
@@ -326,7 +334,7 @@
           dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'delete' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
         </xsl:attribute>
 
-        <h4>Delete topic</h4>
+        <h4>Delete <span class="dna-off"><xsl:value-of select="TITLE"/></span> Topic</h4>
 
         <form action="topicbuilder?cmd=delete" method="post" id="dna-topic-delete">
           <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>

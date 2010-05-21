@@ -4,6 +4,8 @@ using System;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Data;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
+
 namespace BBC.Dna.Objects
 {
     
@@ -11,16 +13,16 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "POST")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "POST")]
+    [DataContract(Name = "threadPostSummary")]
     public partial class ThreadPostSummary
     {
         #region Properties
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "DATE")]
+        [DataMember(Name = ("date"))]
         public Date Date
         {
             get;
@@ -29,6 +31,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "USER")]
+        [DataMember(Name = ("user"))]
         public User User
         {
             get;
@@ -37,6 +40,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         private string _text = String.Empty;
+
         [XmlIgnore]
         public string Text
         {
@@ -52,7 +56,7 @@ namespace BBC.Dna.Objects
                     return "This post has been removed.";
                 }
                 //apply style
-                return HtmlUtils.ReplaceCRsWithBRs(_text);
+                return _text;
             }
             set { _text = value; }
         }
@@ -62,6 +66,8 @@ namespace BBC.Dna.Objects
         {
             get
             {
+                _text = Translator.TranslateText(Text);
+                _text = HtmlUtils.ReplaceCRsWithBRs(_text);
 
                 XmlDocument doc = new XmlDocument();
                 try
@@ -77,9 +83,26 @@ namespace BBC.Dna.Objects
             }
             set { _text = value.InnerXml; }
         }
+
+        [XmlIgnore]
+        [DataMember(Name = ("text"))]
+        public string TextContract
+        {
+            get
+            {
+                var textElement = TextElement;
+                if (textElement != null)
+                {
+                    return textElement.InnerXml;
+                }
+                return string.Empty;
+            }
+            set { }
+        }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "POSTID")]
+        [DataMember(Name = ("postId"))]
         public int PostId
         {
             get;
@@ -90,6 +113,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         private CommentStatus.Hidden _hidden = CommentStatus.Hidden.NotHidden;
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "HIDDEN")]
+        [DataMember(Name = ("status"))]
         public byte Hidden
         {
             get {return (byte)_hidden; }
