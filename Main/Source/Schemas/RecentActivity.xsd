@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:include schemaLocation="Date.xsd"/>
+  <xs:include schemaLocation="recentactivityarticle.xsd"/>
+    <xs:element name="RECENTACTIVITY">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="MOSTRECENTARTICLES">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TITLE" type="xs:string" minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" ref="ARTICLE" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="NAME" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="MOSTRECENTUSERARTICLES">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TITLE" type="xs:string"  minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" ref="ARTICLE" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="NAME" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="MOSTRECENTUPDATEDARTICLES">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TITLE" type="xs:string"  minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" ref="ARTICLE" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="NAME" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="MOSTRECENTCONVERSATIONS">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TITLE" type="xs:string"  minOccurs="0"/>
+                <xs:element maxOccurs="unbounded" name="FORUM" minOccurs="0">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="FORUMID" type="xs:unsignedInt" />
+                      <xs:element name="THREADID" type="xs:unsignedInt" />
+                      <xs:element name="SUBJECT" type="xs:string" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="NAME" type="xs:string" use="optional" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:element>
+  </xsd:schema>

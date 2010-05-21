@@ -93,7 +93,7 @@
     <Compile Include="ThreadPostTest.cs" />
     <Compile Include="ThreadSummaryTest.cs" />
     <Compile Include="ThreadTest.cs" />
-    <Compile Include="TopFivesTests.cs" />
+    <Compile Include="RecentActivityTests.cs" />
     <Compile Include="TopicElementTest.cs" />
     <Compile Include="TopicListEditTest.cs" />
     <Compile Include="UserTest.cs" />

@@ -129,6 +129,7 @@
     <None Include="H2G2ModerateHome.xsd" />
     <None Include="H2G2ModeratePosts.xsd" />
     <None Include="ModerationHome.xsd" />
+    <None Include="RecentActivityArticle.xsd" />
     <None Include="SiteConfig_V2Boards.xsd" />
     <None Include="Result.xsd" />
     <None Include="DistressMessages.xsd" />
@@ -469,7 +470,7 @@
       </SubType>
     </None>
     <None Include="ThreadSummary.xsd" />
-    <None Include="TopFives.xsd" />
+    <None Include="RecentActivity.xsd" />
     <None Include="TopicList.xsd" />
     <None Include="TopicPage.xsd" />
     <None Include="TrackedParameters.xsd">

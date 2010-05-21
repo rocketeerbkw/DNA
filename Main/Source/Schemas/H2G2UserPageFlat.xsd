@@ -13,7 +13,7 @@
 				<xs:element ref="VIEWING-USER"/>
 				<xs:element ref="DATE" />
 				<xs:element ref="SITECONFIG" />
-        <xs:element name="TOP-FIVES" minOccurs="0"/>
+        <xs:element name="RECENTACTIVITY" minOccurs="0"/>
 				<xs:element name="TOPICLIST">
 					<xs:complexType>
 						<xs:sequence>
