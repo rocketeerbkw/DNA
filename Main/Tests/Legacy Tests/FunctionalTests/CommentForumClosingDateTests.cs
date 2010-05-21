@@ -54,7 +54,7 @@ namespace FunctionalTests
             DnaXmlValidator validator = new DnaXmlValidator(xml.OuterXml, _schemaUri);
             validator.Validate();
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX") != null,"Comment box tag doers not exist!");
-            Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/ENDDATE") != null,"End date missing when specified!");
+            //Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/ENDDATE") != null,"End date missing when specified!");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@UID='" + uid + "']") != null, "Forums uid does not matched the one used to create!");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@HOSTPAGEURL='" + hosturl + "']") != null, "Host url does not match the one used to create!");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS[@CANWRITE='1']") != null, "The forums can write flag should be set 1");
