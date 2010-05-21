@@ -230,7 +230,6 @@
                 <xsl:otherwise>[ No Email ]</xsl:otherwise>
               </xsl:choose>
             </p>
-              <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS='2'">
                 <div class="postContent">
                   <p>
                     BBCUID: <xsl:value-of select="COMPLAINT/BBCUID"/>
@@ -239,7 +238,6 @@
                     IP Address: <xsl:value-of select="COMPLAINT/IPADDRESS"/>
                   </p>
                 </div>
-              </xsl:if>
 
             <div class="postContent">
               <p>
