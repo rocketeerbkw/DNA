@@ -111,6 +111,7 @@
         
         <link type="text/css" media="screen" rel="stylesheet" href="http://www.bbc.co.uk/ouch/css/generic.css"></link>
         <link type="text/css" media="screen" rel="stylesheet" href="http://www.bbc.co.uk/ouch/css/home.css"></link>
+        <link href="/dnaimages/ouch/style/theme.css" rel="stylesheet" type="text/css"></link>
 
       	<xsl:text disable-output-escaping="yes">
         <!-- themes placed here so they can be switched using access widget -->
@@ -136,7 +137,6 @@
           <link href="http://www.bbc.co.uk/ouch/css/themes/theme-soft.css" title="Soft theme" rel="alternate stylesheet" type="text/css" />
         </noscript>
 
-        <link href="/dnaimages/ouch/style/theme.css" rel="stylesheet" type="text/css"></link>
         
         <script type="text/javascript">if (document.documentElement){bbcjs.dom.addClassName(document.documentElement,"js");}</script> 
 
@@ -161,80 +161,29 @@
   <xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
   <div id="banner">
     <div id="logo">
-      <a href="/ouch"><img src="http://www.bbc.co.uk/f/t.gif" width="230" height="117" alt="Ouch!" /></a>
-      <div id="strapline"><p>It's a disability thing!</p></div>
+		<a href="/ouch">Ouch!<span></span></a>
+		<span id="strapline">It's a disability thing</span>
     </div>
     <xsl:comment>#include virtual="/ouch/includes/access_widget.ssi"</xsl:comment>
-    <p id="membership">
-      <xsl:apply-templates select="VIEWING-USER" mode="library_memberservice_status" />
-    </p>
-  </div>
+   </div>
 
 <div id="content">
   
-	<div id="float-layout">
+	<div id="float-layout">	
+		<div id="float-top"><xsl:comment><xsl:text> </xsl:text></xsl:comment></div>
 		<div id="blq-local-nav">
-			<h3 class="nav-top">Sections</h3>
-			<ul>
 				<xsl:comment>#include virtual="/ouch/includes/nav.sssi"</xsl:comment>
-			</ul>	
-			<h3>Community</h3>
-			<ul>
-				<li>
+				<li class="messageboards">
 				  <a href="/ouch/messageboards/">Message boards</a>
 				  <ul class="topics">
             <xsl:apply-templates select="TOPICLIST/TOPIC" mode="object_topic_title">
                 <xsl:sort data-type="number" select="TOPICID" order="ascending"/>
               </xsl:apply-templates>
-				  </ul>
-				</li>
-				<li><a href="/ouch/blogs.shtml">Blogs</a></li>
-			</ul> 
-			
-			<ul class="navigation general">
-        <xsl:if test="/H2G2/VIEWING-USER/USER">
-          <li>
-            <a href="MP{/H2G2/VIEWING-USER/USER/USERID}">My Discussions</a>
-          </li>
-        </xsl:if>
-        <li>
-          <a href="{$houserulespopupurl}" class="popup" target="_blank">House Rules</a>
-        </li>
-        <li>
-          <a href="{$faqpopupurl}" class="popup" target="_blank">Message Board FAQs</a>
-        </li>
-		<li>
-			<a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html" target="_blank">Smiley Guide</a>
-		</li>
-        <xsl:variable name="currentSite" select="CURRENTSITE"/>
-        <xsl:if test="SITE[@ID='$currentSite']/SITEOPTIONS/SITEOPTION[NAME='IsKidsSite']/VALUE='1'">
-          <li>
-            <a href="http://www.bbc.co.uk/messageboards/newguide/popup_online_safety.html" class="popup" target="_blank">Are you being safe online?</a>
-          </li>
-        </xsl:if>
-      </ul>
-      
-      <xsl:call-template name="library_userstate_editor">
-        <xsl:with-param name="loggedin">
-          <ul class="navigation admin">
-            <li>
-              <a href="{$root}/boards-admin/messageboardadmin">Messageboard Admin</a>
-            </li>
-            <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2" >
-              <li>
-                <a href="{$root}/boards-admin/siteoptions">Site Options</a>
-              </li>
-            </xsl:if>
-          </ul>
-        </xsl:with-param>
-      </xsl:call-template>
-			
-			<p><a href="/ouch/about.shtml">About Ouch!</a></p>
-			<p><a href="/go/blq/foot/contact/-/feedback/">Contact Us</a></p>
-			
-			<div id="promo">
-        <xsl:comment>#include virtual="/ouch/includes/cps/lh-promos.ssi"</xsl:comment>
-      </div>
+                                  </ul>
+                       		</li>			
+
+	<xsl:comment>#include virtual="/ouch/includes/nav_end.sssi"</xsl:comment>
+
       
     </div>	
     
@@ -249,12 +198,80 @@
             <xsl:text>Ouch! Messageboards</xsl:text>
           </p>
         </xsl:if>
+   <p id="membership">
+      <xsl:apply-templates select="VIEWING-USER" mode="library_memberservice_status" />
+    </p>
           <xsl:apply-templates select="." mode="page"/>
+
+<div id="mb-help">
+	<h2>Information and Tips on using Message Boards</h2>
+	<div class="mbbar">
+		<ul>
+<xsl:choose>
+<xsl:when test="/H2G2/VIEWING-USER/USER">
+
+			<li class="mb-mydiscussion col1">
+				<a href="MP{/H2G2/VIEWING-USER/USER/USERID}">My Discussions<span></span></a><br />
+				View a list of all your posts and comments.
+			</li>
+
+			<li class="mb-houserules">
+				<a href="{$houserulespopupurl}" class="popup" target="_blank">House Rules<span></span></a><br />
+				BBC message board Dos and Don'ts.
+			</li>
+
+			<li class="mb-faq col1">
+				<a href="{$faqpopupurl}" class="popup" target="_blank">Message Board FAQs<span></span></a><br />
+				Frequently asked questions about BBC message boards.
+			</li>
+			
+			<li class="mb-smileyguide">
+				<a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html" target="_blank">Smiley Guide<span></span></a><br />
+				Learn how to add smiley graphic emotions in your messages.
+			</li>
+<xsl:call-template name="library_userstate_editor">
+        <xsl:with-param name="loggedin">
+            <li class="col1">
+              <a href="{$root}/boards-admin/messageboardadmin">Messageboard Admin</a>
+            </li>
+            <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2" >
+              <li>
+                <a href="{$root}/boards-admin/siteoptions">Site Options</a>
+              </li>
+            </xsl:if>
+        </xsl:with-param>
+      </xsl:call-template>
+
+</xsl:when>
+<xsl:otherwise>
+
+			<li class="mb-houserules col1">
+				<a href="{$houserulespopupurl}" class="popup" target="_blank">House Rules<span></span></a><br />
+				BBC message board Dos and Don'ts.
+			</li>
+
+			<li class="mb-faq">
+				<a href="{$faqpopupurl}" class="popup" target="_blank">Message Board FAQs<span></span></a><br />
+				Frequently asked questions about BBC message boards.
+			</li>
+			
+			<li class="mb-smileyguide col1">
+				<a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html" target="_blank">Smiley Guide<span></span></a><br />
+				Learn how to add smiley graphic emotions in your messages.
+			</li>
+</xsl:otherwise>
+</xsl:choose>
+		</ul>
+	</div>
+</div>
         </div>  
         
       </div>
     </div>
     <xsl:comment>#include virtual="/ouch/includes/community_panel_content.sssi"</xsl:comment>
+
+		<div id="float-end"><xsl:comment><xsl:text> </xsl:text></xsl:comment></div>
+
     </div>
     
     </div>
