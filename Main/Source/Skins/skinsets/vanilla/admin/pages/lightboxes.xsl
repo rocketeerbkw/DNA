@@ -16,7 +16,7 @@
       
       <h4>Edit header colour</h4>
 			<p>Change the colour of the <em>Explore the BBC</em> button found in your messageboard header:</p>
-			<form action="messageboardadmin_design?cmd=updatepreview" method="post">
+			<form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 				<ul>
 
@@ -129,7 +129,7 @@
       
       <h4>Insert your own banner</h4>
 			<p>To insert your own banner banner you need to include theURL to a Server Side Include (SSI) which contains the banner.</p>
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
@@ -149,7 +149,7 @@
 
       <h4>Add horizontal navigation</h4>
 			<p>To add your own navigation you need to include the URL to a Server Side Include (SSI) which contains the navigation.</p>
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
@@ -169,7 +169,7 @@
 
       <h4>Add left hand navigation</h4>
 			<p>To add your own navigation you need to include the URL to a Server Side Include (SSI) which contains the navigation.</p>
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
@@ -189,7 +189,7 @@
 
       <h4>Add welcome message</h4>
 			<p>Add your own welcome message to greet your users.</p>
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
@@ -209,7 +209,7 @@
       </xsl:attribute>
 
       <h4>Edit footer</h4>
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
          
           <div id="dna-footer-color">
@@ -267,7 +267,7 @@
             </p>
 
             <p class="dna-fnote">
-              <strong>Note:</strong> Additional information on adding footer links can be found in this guide to <a href="http://www.bbc.co.uk/includes/blq/include/help/display_customisation/test_footer_links.shtml" target="_blank">custom footer links</a> (external link).
+              <strong>Note:</strong> Additional information on adding footer links can be found in this guide to <a href="http://www.bbc.co.uk/includes/blq/include/help/display_customisation/test_footer_links.shtml">custom footer links</a> (external link).
             </p>
           </div>
         
@@ -282,7 +282,7 @@
 
       <h4>Add introductory / about text</h4>
 		
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 				
         <p>
@@ -309,7 +309,7 @@
       <h4>Add more modules</h4>
 			<p>To add more modules to the right hand column of your messageboard, add the URL to a Server Side Include (SSI) which contains the module.</p>
       
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         
         <xsl:variable name="nLinks" select="count(SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK)" />
@@ -423,7 +423,7 @@
       <h4>Add Social Media toolbar</h4>
 			<p>To add the social media toolbar to your messagebaord, select the checkbox below:</p>
 			
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         <input type="hidden" name="SOCIALTOOLBAR_SUBMIT" value="1"></input>
 				
@@ -448,7 +448,7 @@
       <h4>Edit topic Layout</h4>
       <p>Choose the layout options you would like:</p>
       
-      <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         <ul>
         <li>
@@ -488,7 +488,7 @@
       messageboards only</strong> - the module is
       compulsory for all others.
     </p>
-    <form action="messageboardadmin_design?cmd=updatepreview" method="post">
+    <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
       <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
       <input type="hidden" name="RECENTDISCUSSIONS_SUBMIT" value="1"></input>
      

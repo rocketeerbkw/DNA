@@ -27,6 +27,8 @@
     <xsl:template match="H2G2[@TYPE = 'MBADMIN']" mode="page">
 
     <div class="dna-mb-intro">
+      <h2>Your messageboard controls</h2>
+      
       <p>
        The controls below, allow you to set the various admin-based options for your messageboard. Click the <em>Edit</em> button to change any of these details.
       </p>
@@ -53,9 +55,9 @@
                 <div class="dna-open-time">
                   <table>
                     <tr>
-                      <th>DAY</th>
-                      <th>OPEN</th>
-                      <th>CLOSE</th>
+                      <th><span>DAY</span></th>
+                      <th><span>OPEN</span></th>
+                      <th><span>CLOSE</span></th>
                     </tr>
 
                     <xsl:for-each select="//OPENCLOSETIME">
@@ -158,16 +160,16 @@
           <p class="dna-center">
             <a href="/dna/{SITE/URLNAME}/boards_v2/?_previewmode=1" target="_blank">Preview this messageboard</a>
           </p>
-          <p class="dna-fnote">View your messageboard exactly as the user will view it.</p>
+          <p class="dna-fnote"><strong>View your messageboard exactly as the user will view it.</strong></p>
         </div>
 
         <div class="dna-publish">
           <h3>Publish</h3>
 
           <p class="dna-center">
-            <a href="{$root}/mbadmin?cmd=PUBLISHMESSAGEBOARD"  onclick="return confirm('Are your sure you want to publish this site?');">Publish this messageboard</a>
+            <a href="{$root}/mbadmin?cmd=PUBLISHMESSAGEBOARD#dna-publish-mb"  class="dna-link-overlay">Publish this messageboard</a>
           </p>
-          <p class="dna-fnote">Publish your messageboard live to the web.</p>
+          <p class="dna-fnote"><strong>Publish your messageboard live to the web.</strong></p>
         </div>
         
         <div class="dna-box">

@@ -175,7 +175,7 @@
             <div>
               <h4 class="dna-off">Topics</h4>
 
-              <form action="messageboardadmin_design?cmd=updatetopicpositions" method="post">
+              <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatetopicpositions" method="post">
                 <xsl:choose>
                   <xsl:when test="/H2G2/TOPIC_PAGE">
 
@@ -326,8 +326,9 @@
           </p>
         </div>
 
-       
-          <xsl:for-each select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC">
+        <h3 class="dna-off">Edit your messageboard</h3>
+
+        <xsl:for-each select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC">
             <xsl:variable name="topicId" select="TOPICID" />
             <div id="dna-preview-topic-edit-{$topicId}">
               <xsl:attribute name="class">

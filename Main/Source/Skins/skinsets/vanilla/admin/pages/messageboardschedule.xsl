@@ -57,12 +57,7 @@
 
       <div id="dna-mb-openSame">
         <p>
-          <input type="radio" name="updatetype" value="sameeveryday" id="sameeveryday">
-            
-            <xsl:if test="false">
-              <xsl:attribute name="checked">checked</xsl:attribute>
-            </xsl:if>
-          </input>
+          <input type="radio" name="updatetype" value="sameeveryday" id="sameeveryday"></input>
           <label for="sameeveryday">Open at the same time every day</label>
         </p>
 
