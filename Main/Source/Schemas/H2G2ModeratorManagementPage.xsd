@@ -8,6 +8,7 @@
   <xs:include schemaLocation="Moderation-Classes.xsd"/>
   <xs:include schemaLocation="TrackedParameters.xsd"/>
   <xs:include schemaLocation="Moderator-List.xsd"/>
+  <xs:include schemaLocation="RecentActivity.xsd"/>
   <xs:element name="H2G2">
     <xs:complexType>
       <xs:sequence>
@@ -16,7 +17,7 @@
         <xs:element name="USERAGENT" type="xs:string"/>
         <xs:element ref="DATE"/>
         <xs:element ref="SITECONFIG" />
-        <xs:element name="RECENTACTIVITY" minOccurs="0"/>
+        <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
         <xs:element ref="MODERATOR-LIST"/>
         <xs:element ref="SITE-LIST"/>
         <xs:element ref="MODERATION-CLASSES"/>

@@ -9,6 +9,7 @@
 	<xs:include schemaLocation="SiteConfig.xsd"/>
 	<xs:include schemaLocation="Site-List.xsd"/>
 	<xs:include schemaLocation="MoreLinks.xsd"/>
+  <xs:include schemaLocation="RecentActivity.xsd"/>
 	<xs:element name="H2G2">
 		<xs:complexType>
 			<xs:sequence>
@@ -17,7 +18,7 @@
 				<xs:element name="USERAGENT" type="xs:string"/>
 				<xs:element ref="DATE"/>
 				<xs:element ref="SITECONFIG"/>
-        <xs:element name="RECENTACTIVITY" minOccurs="0"/>
+        <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
 				<xs:element ref="ERROR" minOccurs="0"/>
 				<xs:element ref="MORELINKS"/>
 				<xs:element ref="PARAMS" minOccurs="0"/>

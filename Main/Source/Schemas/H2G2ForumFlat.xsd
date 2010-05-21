@@ -284,6 +284,7 @@
 	<xs:include schemaLocation="LINKS.xsd"/>
 	<xs:include schemaLocation="subscribestate.xsd"/>
 	<xs:include schemaLocation="MediaAssetInfo.xsd"/>
+  <xs:include schemaLocation="RecentActivity.xsd"/>
 	<xs:element name="H2G2">
 		<xs:complexType>
 			<xs:all>
@@ -291,7 +292,7 @@
 				<xs:element ref="VIEWING-USER" minOccurs="1"/>
 				<xs:element ref="DATE" minOccurs="1"/>
 				<xs:element ref="SITECONFIG" minOccurs="1"/>
-        <xs:element name="RECENTACTIVITY" minOccurs="0"/>
+        <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
 				<xs:element ref="PAGEUI" minOccurs="1"/>
 				<xs:element ref="FORUMSOURCE" minOccurs="1"/>
 				<xs:element ref="FORUMTHREADS" minOccurs="1"/>

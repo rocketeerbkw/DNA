@@ -7,13 +7,14 @@
 	<xs:include schemaLocation="Site.xsd" />
 	<xs:include schemaLocation="SiteConfig.xsd" />
 	<xs:include schemaLocation="Site-List.xsd" />
+  <xs:include schemaLocation="RecentActivity.xsd"/>
 	<xs:element name="H2G2">
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="VIEWING-USER"/>
 				<xs:element ref="DATE" />
 				<xs:element ref="SITECONFIG" />
-        <xs:element name="RECENTACTIVITY" minOccurs="0"/>
+        <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
 				<xs:element name="TOPICLIST">
 					<xs:complexType>
 						<xs:sequence>
