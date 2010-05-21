@@ -6,16 +6,16 @@ using BBC.Dna.Data;
 using System.Xml.Serialization;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "USER")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
+    [DataContract(Name = "User")]
     public partial class User : IUser
     {
         private static IDnaDataReaderCreator _dnaDataReaderCreator;
@@ -47,6 +47,7 @@ namespace BBC.Dna.Objects
         #region Properties
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "USERID")]
+        [DataMember(Name = ("userId"))]
         public int UserId
         {
             get;
@@ -57,6 +58,7 @@ namespace BBC.Dna.Objects
         private string _userName = string.Empty;
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "USERNAME")]
+        [DataMember(Name = ("userName"))]
         public string UserName
         {
             get
@@ -115,6 +117,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 7, ElementName = "STATUS")]
+        [DataMember(Name = ("status"))]
         public int Status
         {
             get;
@@ -355,6 +358,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute("DATE-JOINED", Order = 30)]
+        [DataMember (Name="dateJoined")]
         public DateElement DateJoined
         {
             get;
@@ -363,6 +367,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 31, ElementName = "GROUPS")]
+        [DataMember(Name = ("groups"))]
         public Groups Groups
         {
             get;

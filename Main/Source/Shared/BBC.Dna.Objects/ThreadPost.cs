@@ -4,6 +4,9 @@ using System;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Data;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
+
+
 namespace BBC.Dna.Objects
 {
     
@@ -11,16 +14,17 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "POST")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "POST")]
+    [DataContract(Name="threadPost")]
     public partial class ThreadPost
     {
         #region Properties
         /// <remarks/>
         private string _subject = String.Empty;
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "SUBJECT")]
+        [DataMember(Name = "subject")]
         public string Subject
         {
             get {
@@ -42,6 +46,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "DATEPOSTED")]
+        [DataMember(Name = "datePosted")]
         public DateElement DatePosted
         {
             get;
@@ -58,6 +63,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "USER")]
+        [DataMember(Name = "user")]
         public User User
         {
             get;
@@ -113,6 +119,22 @@ namespace BBC.Dna.Objects
             set { _text = value.InnerXml; }
         }
 
+        [XmlIgnore]
+        [DataMember(Name = ("text"))]
+        public string TextContract
+        {
+            get
+            {
+                var textElement = TextElement;
+                if (textElement != null)
+                {
+                    return textElement.InnerXml;
+                }
+                return string.Empty;
+            }
+            set { }
+        }
+
         [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "HOSTPAGEURL")]
         public string HostPageUrl
         {
@@ -129,6 +151,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "POSTID")]
+        [DataMember(Name = "postId")]
         public int PostId
         {
             get;
@@ -137,6 +160,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "THREAD")]
+        [DataMember(Name = "threadId")]
         public int ThreadId
         {
             get;
@@ -148,6 +172,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "INDEX")]
+        [DataMember(Name = "index")]
         public byte Index
         {
             get;
@@ -156,6 +181,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "FIRSTCHILD")]
+        [DataMember(Name = "firstChild")]
         public int FirstChild
         {
             get;
@@ -168,6 +194,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         private CommentStatus.Hidden _hidden = CommentStatus.Hidden.NotHidden;
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "HIDDEN")]
+        [DataMember(Name = "status")]
         public byte Hidden
         {
             get {return (byte)_hidden; }
@@ -184,6 +211,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "NEXTINDEX")]
+        [DataMember(Name = "nextIndex")]
         public int NextIndex
         {
             get;
@@ -195,6 +223,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "INREPLYTO")]
+        [DataMember(Name = "inReplyTo")]
         public int InReplyTo
         {
             get;
@@ -206,6 +235,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "INREPLYTOINDEX")]
+        [DataMember(Name = "inReplyToIndex")]
         public int InReplyToIndex
         {
             get;
@@ -217,6 +247,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "NEXTSIBLING")]
+        [DataMember(Name = "nextSibling")]
         public int NextSibling
         {
             get;
@@ -229,6 +260,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "PREVINDEX")]
+        [DataMember(Name = "prevIndex")]
         public int PrevIndex
         {
             get;
@@ -240,6 +272,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "PREVSIBLING")]
+        [DataMember(Name = "prevSibling")]
         public int PrevSibling
         {
             get;
@@ -257,6 +290,7 @@ namespace BBC.Dna.Objects
         ///     plaintext = 2,
         /// </summary>
         [System.Xml.Serialization.XmlIgnore]
+        [DataMember(Name = "style")]
         public PostStyle.Style Style
         {
             get;

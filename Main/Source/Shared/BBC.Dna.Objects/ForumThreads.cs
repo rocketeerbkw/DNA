@@ -9,6 +9,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Linq;
+using System.Runtime.Serialization;
 using ISite = BBC.Dna.Sites.ISite;
 
 namespace BBC.Dna.Objects
@@ -16,9 +17,9 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable]
-    [DesignerCategory("code")]
     [XmlType(AnonymousType = true, TypeName = "FORUMTHREADS")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "FORUMTHREADS")]
+    [DataContract]
     public class ForumThreads : CachableBase<ForumThreads>
     {
 
@@ -33,24 +34,37 @@ namespace BBC.Dna.Objects
         [XmlElement(Order = 0, ElementName = "MODERATIONSTATUS")]
         public ModerationStatus ModerationStatus { get; set; }
 
+        [XmlIgnore]
+        [DataMember(Name = ("moderationStatus"))]
+        public string ModerationStatusValue
+        {
+            get{ return this.ModerationStatus.Value.ToString();}
+            set { }
+        }
+
         /// <remarks/>
         [XmlElement(Order = 1, ElementName = "ORDERBY")]
+        [DataMember(Name = ("sortBy"))]
         public string OrderBy { get; set; }
 
         /// <remarks/>
         [XmlElement("THREAD", Order = 2)]
+        [DataMember(Name = ("threads"))]
         public List<ThreadSummary> Thread { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "FORUMID")]
+        [DataMember(Name = ("forumId"))]
         public int ForumId { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "SKIPTO")]
+        [DataMember(Name = ("startIndex"))]
         public int SkipTo { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "COUNT")]
+        [DataMember(Name = ("totalCount"))]
         public int Count { get; set; }
 
         /// <remarks/>
@@ -59,6 +73,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "FORUMPOSTCOUNT")]
+        [DataMember(Name = ("forumPostCount"))]
         public int ForumPostCount { get; set; }
 
         /// <remarks/>
@@ -67,15 +82,33 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "SITEID")]
+        [DataMember(Name = ("siteId"))]
         public int SiteId { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANREAD")]
         public byte CanRead { get; set; }
 
+        [XmlIgnore]
+        [DataMember(Name = ("canRead"))]
+        public bool CanReadBool
+        {
+            get { return CanRead == 1; }
+            set { }
+        }
+
+
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANWRITE")]
         public byte CanWrite { get; set; }
+
+        [XmlIgnore]
+        [DataMember(Name = ("canWrite"))]
+        public bool CanWriteBool
+        {
+            get { return CanWrite == 1; }
+            set { }
+        }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "THREADCANREAD")]
@@ -121,12 +154,14 @@ namespace BBC.Dna.Objects
         /// 
         /// </summary>
         [XmlIgnore]
+        [DataMember(Name="lastThreadUpdated")]
         public DateTime LastThreadUpdated { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [XmlIgnore]
+        [DataMember(Name = "lastForumUpdated")]
         public DateTime LastForumUpdated { get; set; }
 
         #endregion
@@ -140,6 +175,10 @@ namespace BBC.Dna.Objects
         /// <param name="site">The current site</param>
         public void ApplyUserSettings(IUser user, ISite site)
         {
+            if (user == null)
+            {
+                return;
+            }
             bool isEditor = false;
             if (user.IsEditor || user.IsSuperUser)
             {
@@ -236,7 +275,10 @@ namespace BBC.Dna.Objects
             cache.Add(key, forumThreads.Clone());
 
             //apply user settings
-            forumThreads.ApplyUserSettings(viewingUser, siteList.GetSite(forumThreads.SiteId));
+            if (viewingUser != null)
+            {
+                forumThreads.ApplyUserSettings(viewingUser, siteList.GetSite(forumThreads.SiteId));
+            }
 
             return forumThreads;
         }
@@ -271,8 +313,7 @@ namespace BBC.Dna.Objects
                               {
                                   ForumId = forumId,
                                   SiteId = site.SiteID,
-                                  SkipTo = startIndex,
-                                  Count = itemsPerPage
+                                  SkipTo = startIndex
                               };
 
             //do db call
@@ -355,7 +396,10 @@ namespace BBC.Dna.Objects
                 }
             }
 
-
+            if(threads.Thread != null)
+            {
+                threads.Count = threads.Thread.Count;
+            }
             return threads;
         }
 
