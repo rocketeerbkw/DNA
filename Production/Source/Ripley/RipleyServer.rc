@@ -67,7 +67,7 @@ END
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION 3,5,32,3
- PRODUCTVERSION 3,5,32,2
+ PRODUCTVERSION 3,5,32,3
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -89,7 +89,7 @@ BEGIN
             VALUE "LegalCopyright", "Copyright (C) 2010 BBC"
             VALUE "OriginalFilename", "RIPLEYSERVER.DLL"
             VALUE "ProductName", "RipleyServer Internet Server Extension"
-            VALUE "ProductVersion", "3,5,32,2"
+            VALUE "ProductVersion", "3,5,32,3"
         END
     END
     BLOCK "VarFileInfo"
