@@ -42,8 +42,8 @@ CProfanityFilter::FilterState CProfanityFilter::CheckForProfanities(const TDVCHA
 	CTDVString sCheck(pCheckString);
 	sCheck.MakeLower();
 
-	CTDVString sCheckNoLinks;
-	RemoveLinksFromText(sCheck, sCheckNoLinks);
+	//CTDVString sCheckNoLinks;
+	//RemoveLinksFromText(sCheck, sCheckNoLinks);
 
 	// Now get the profanity list from the cache and call the contains function
 	CTDVString sProfanityList;
@@ -58,12 +58,12 @@ CProfanityFilter::FilterState CProfanityFilter::CheckForProfanities(const TDVCHA
 
     //CTDVString sNoPunctuation = TrimPunctuation(sCheckNoLinks);
 	
-	if (sCheckNoLinks.DoesTextContain(sProfanityList, "¶", false, false, psMatch))
+	if (sCheck.DoesTextContain(sProfanityList, "¶", false, false, psMatch))
 	{
 		return FailBlock;
 	}
 	
-    if (sCheckNoLinks.DoesTextContain(sReferList, "¶", false, false, psMatch))
+    if (sCheck.DoesTextContain(sReferList, "¶", false, false, psMatch))
 	{
 		return FailRefer;
 	}
