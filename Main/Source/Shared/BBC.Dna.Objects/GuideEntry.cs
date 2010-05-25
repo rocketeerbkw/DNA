@@ -44,7 +44,7 @@ namespace BBC.Dna.Objects
                         case GuideEntryStyle.GuideML:
                             //var tempText = text.Replace("<GUIDE>", "").Replace("<BODY>", "").Replace("</GUIDE>", "").Replace("</BODY>", "");
                             //tempText = Translator.TranslateText(tempText);
-                            //tempText = HtmlUtils.ReplaceCRsWithBRs(tempText);
+                            text = HtmlUtils.ReplaceCRsWithBRs(text);
                             doc.LoadXml(Entities.GetEntities() +  text );
                             break;
 
