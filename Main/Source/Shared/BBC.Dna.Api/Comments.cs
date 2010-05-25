@@ -510,9 +510,18 @@ namespace BBC.Dna.Api
             }
 
             //check if the posting is secure
-            if (!CallingUser.IsSecureRequest)
+            try
             {
-                throw ApiException.GetError(ErrorType.NotSecure);
+                int requireSecurePost = SiteList.GetSiteOptionValueInt(site.SiteID, "CommentForum",
+                                                                  "EnforceSecurePosting");
+                if (!CallingUser.IsSecureRequest && requireSecurePost == 1)
+                {
+                    throw ApiException.GetError(ErrorType.NotSecure);
+                }
+            }
+            catch (SiteOptionNotFoundException e)
+            {
+                DnaDiagnostics.WriteExceptionToLog(e);
             }
 
             ignoreModeration = CallingUser.IsUserA(UserTypes.Editor) || CallingUser.IsUserA(UserTypes.SuperUser);

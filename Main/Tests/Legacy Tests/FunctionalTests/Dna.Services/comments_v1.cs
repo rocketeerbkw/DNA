@@ -1060,6 +1060,85 @@ namespace FunctionalTests
         }
 
         /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsInsecureWithoutOption_ReturnsError()
+        {
+            Console.WriteLine("Before CreateComment");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "</comment>", text);
+
+            // Setup the request url
+            string url = String.Format("http://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+
+            try
+            {
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            }
+            catch{}
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+
+            Console.WriteLine("After CreateComment");
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsInsecureWithOptionSet_ReturnsComment()
+        {
+            try
+            {
+
+                Console.WriteLine("Before CreateComment");
+
+                SetSecureSiteOption(0);
+
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+                //create the forum
+                CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+                string text = "Functiontest Title" + Guid.NewGuid().ToString();
+                string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                    "<text>{0}</text>" +
+                    "</comment>", text);
+
+                // Setup the request url
+                string url = String.Format("http://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+                // now get the response
+
+                try
+                {
+                    request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+                }
+                catch { }
+                Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
+                CheckErrorSchema(request.GetLastResponseAsXML());
+            }
+            finally
+            {
+                RemoveSecureSiteOption();
+            }
+
+
+            Console.WriteLine("After CreateComment");
+        }
+
+
+        /// <summary>
         /// Checks the xml against the error schema
         /// </summary>
         /// <param name="xml">Returned XML</param>
@@ -1067,6 +1146,44 @@ namespace FunctionalTests
         {
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaError);
             validator.Validate();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        private void SetSecureSiteOption(int value)
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(true))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(1,'CommentForum', 'EnforceSecurePosting','" + value.ToString() + "',0,'test EnforceSecurePosting value')");
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        private void RemoveSecureSiteOption()
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(true))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("delete from siteoptions where name='EnforceSecurePosting' and siteid=1");
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+
         }
     }
 }

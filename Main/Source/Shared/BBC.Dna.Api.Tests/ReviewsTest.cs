@@ -607,7 +607,7 @@ namespace BBC.Dna.Api.Tests
         ///A test for CommentInfo Constructor
         ///</summary>
         [TestMethod]
-        public void RatingCreate_NotSecure_ReturnCorrectError()
+        public void RatingCreate_NotSecureWithOption_ReturnCorrectError()
         {
             string siteName = "h2g2";
             string uid = "uid";
@@ -638,6 +638,7 @@ namespace BBC.Dna.Api.Tests
             readerUserRating.Stub(x => x.Read()).Return(false);
             readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumanduser")).Return(readerUserRating);
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            siteList.Stub(x => x.GetSiteOptionValueInt(0, "CommentForum", "EnforceSecurePosting")).Return(1);
             mocks.ReplayAll();
 
             var reviews = new Reviews(null, readerCreator, cacheManager, siteList);
