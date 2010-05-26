@@ -79,7 +79,7 @@
       <xsl:value-of select="FORUMPOSTCOUNT"/> replies
     </p>
     
-    <p class="dna-topic-position" value="{$topicPosition}" >
+    <p class="dna-topic-position">
       <label for="topic_{TOPICID}_position">Position:</label> <input id="topic_{TOPICID}_position" name="topic_{TOPICID}_position" value="{FRONTPAGEELEMENT/POSITION}" class="dna-topic-pos"/>
     </p>
   </xsl:template>

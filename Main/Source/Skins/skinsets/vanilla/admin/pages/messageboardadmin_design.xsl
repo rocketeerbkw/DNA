@@ -182,15 +182,15 @@
                       <xsl:choose>
                         <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
                           <ul class="dna-list-topic-col1">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[position() mod 2 = 1]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION = starts-with(POSITION,'1')] " mode="object_topiclist_elements" />
                           </ul>
                           <ul class="dna-list-topic-col2">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[position() mod 2 = 0]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION = starts-with(POSITION,'2')]" mode="object_topiclist_elements" />
                           </ul>
                         </xsl:when>
                         <xsl:otherwise>
                           <ul class="dna-list-topic-col">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC" mode="object_topiclist_elements" />
                           </ul>
                         </xsl:otherwise>
                       </xsl:choose>
