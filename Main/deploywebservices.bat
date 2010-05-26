@@ -26,7 +26,7 @@ echo Copying DNA.Services.Moderation
 robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Moderation\ %varServerLocation%\dna\api\moderation %varRobocopyParams%
 
 echo Copying Ripley
-robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\dna\ %varRobocopyParams%
+robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\ %varRobocopyParams%
 
 echo Starting IIS
 sc \\%varServerName% start w3svc
