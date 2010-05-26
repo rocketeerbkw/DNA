@@ -942,7 +942,7 @@ namespace FunctionalTests
                 "</comment>", text, "invalid style");
 
             // Setup the request url
-            string url = String.Format("https://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             try
             {
@@ -1086,7 +1086,7 @@ namespace FunctionalTests
                 request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             }
             catch{}
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.Unauthorized);
             CheckErrorSchema(request.GetLastResponseAsXML());
 
 
@@ -1117,7 +1117,7 @@ namespace FunctionalTests
                     "</comment>", text);
 
                 // Setup the request url
-                string url = String.Format("http://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+                string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
                 // now get the response
 
                 try
@@ -1125,8 +1125,8 @@ namespace FunctionalTests
                     request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
                 }
                 catch { }
-                Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
-                CheckErrorSchema(request.GetLastResponseAsXML());
+                Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.OK);
+                
             }
             finally
             {
