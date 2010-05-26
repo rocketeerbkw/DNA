@@ -25,7 +25,7 @@ BEGIN
 	BEGIN
 		UPDATE ExLinkMod
 		SET LockedBy = @userid, DateLocked = getdate()
-		FROM (	SELECT TOP 1 g.* FROM ExLinkMod g 
+		FROM (	SELECT TOP 10 g.* FROM ExLinkMod g 
 				LEFT JOIN GroupMembers m ON m.UserID = @UserID AND g.SiteID = m.SiteID AND m.GroupID = @modgroupid
 				WHERE	
 				(m.GroupID is not null or @issuperuser = 1) 
@@ -38,7 +38,7 @@ BEGIN
 	BEGIN
 		UPDATE ExLinkMod
 		SET LockedBy = @userid, DateLocked = getdate()
-		FROM (	SELECT TOP 1 g.* FROM ExLinkMod g 
+		FROM (	SELECT TOP 10 g.* FROM ExLinkMod g 
 				LEFT JOIN GroupMembers m ON m.UserID = @UserID AND g.SiteID = m.SiteID AND m.GroupID = @refgroupid
 				WHERE	
 				(m.GroupID is not null or @issuperuser = 1) 
