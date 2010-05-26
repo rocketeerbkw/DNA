@@ -18,42 +18,45 @@
 	
 	<xsl:template match="LINKMODERATION-LIST">
 		<div class="linksmoderation">
-			<xsl:apply-templates select="LINKMODERATION"/>
-		</div>
+      <div class="link">
+        <form action="{$root}moderateexlinks" method="post" name="LinksModerationForm">
+          <table width="100%">
+          <xsl:apply-templates select="LINKMODERATION"/>
+          </table>
+          <div id="processButtons">
+            <input type="submit" value="Process &amp; Continue" name="next" title="Process these posts and then fetch the next batch" alt="Process these posts and then fetch the next batch" id="continueButton"/>
+            <input type="submit" value="Process &amp; Return to Main" name="done" title="Process these posts and go to Moderation Home" alt="Process these posts and then go to Moderation Home" id="returnButton"/>
+          </div>
+          <input type="hidden" name="redirect" value="{$root}Moderate?newstyle=1"/>
+        </form>
+      </div>
+    </div>
 	</xsl:template>
 	
 	<xsl:template match="LINKMODERATION">
-		<div class="link">
-			<form action="{$root}moderateexlinks" method="post" name="LinksModerationForm">
-				<input type="hidden" name="URI" value="{URI}"/>
-				<input type="hidden" name="ModID" value="{@MODID}"/>
-        <input type="hidden" name="ModClassId" value="{/H2G2/LINKMODERATION-LIST/@MODCLASSID}"/>
-        <input type="hidden" name="alerts" value="{/H2G2/LINKMODERATION-LIST/@ALERTS}"/>
-        <input type="hidden" name="referrals" value="{/H2G2/LINKMODERATION-LIST/@REFERRALS}"/>
-			 <iframe src="{URI}" width="100%" height="300">
-			  <p>If you cannot see the content, please <a href="{URI}" target="_blank">click here</a>.</p>
-				</iframe>
-        <div class="postInfo">
-          <p>
-            URI: <a href="{URI}" target="_blank">
-              <xsl:value-of select="URI"/>
-            </a>
-          </p>
-          <xsl:apply-templates select="ALERTS" mode="complaint_info"/>
-        </div>
-        <div class="tools">
-          <xsl:apply-templates select="." mode="mod_form"/>
-        </div>
-
-        <div id="processButtons">
-          <input type="submit" value="Process &amp; Continue" name="next" title="Process these posts and then fetch the next batch" alt="Process these posts and then fetch the next batch" id="continueButton"/>
-          <input type="submit" value="Process &amp; Return to Main" name="done" title="Process these posts and go to Moderation Home" alt="Process these posts and then go to Moderation Home" id="returnButton"/>
-        </div>
-        <input type="hidden" name="redirect" value="{$root}Moderate?newstyle=1"/>
-              
-			</form>
-		</div>
-	</xsl:template>
+    <tr>
+		  <input type="hidden" name="URI" value="{URI}"/>
+		  <input type="hidden" name="ModID" value="{@MODID}"/>
+      <input type="hidden" name="ModClassId" value="{/H2G2/LINKMODERATION-LIST/@MODCLASSID}"/>
+      <input type="hidden" name="alerts" value="{/H2G2/LINKMODERATION-LIST/@ALERTS}"/>
+      <input type="hidden" name="referrals" value="{/H2G2/LINKMODERATION-LIST/@REFERRALS}"/>
+	    <iframe src="{URI}" width="100%" height="300">
+	      <p>If you cannot see the content, please <a href="{URI}" target="_blank">click here</a>.</p>
+		  </iframe>
+      <div class="postInfo">
+        <p>
+          URI: <a href="{URI}" target="_blank">
+            <xsl:value-of select="URI"/>
+          </a>
+        </p>
+        <xsl:apply-templates select="ALERTS" mode="complaint_info"/>
+      </div>
+      <div class="tools">
+        <xsl:apply-templates select="." mode="mod_form"/>
+      </div>
+    </tr>
+    <br/>
+  </xsl:template>
 	
 	<xsl:template match="MOD-REASON">
 		<option value="{@EMAILNAME}"><xsl:value-of select="@DISPLAYNAME"/></option>
