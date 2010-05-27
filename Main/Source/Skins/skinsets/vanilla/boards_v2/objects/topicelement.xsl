@@ -18,13 +18,6 @@
         
         <xsl:call-template name="library_header_h3">
             <xsl:with-param name="text">
-                <!--<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}" class="left">
-                    <xsl:value-of select="TITLE" />
-                </a>
-            	<a href="{$root-rss}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}" class="rsslink" title="View as RSS feed">
-            		<span></span>
-            	</a>
-            	<span class="clear"></span>-->
             	<a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
             		<xsl:value-of select="TITLE" />
             	</a>
@@ -33,16 +26,16 @@
 
 		<xsl:if test="(IMAGENAME and IMAGENAME != '') and /H2G2/SITECONFIG/V2_BOARDS/TOPICLAYOUT != '1col'">
 		   <div class="topicimage">
-		    	 <a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
-		       <img src="{IMAGENAME}" alt="{IMAGEALTTEXT}">
-		         <xsl:if test="IMAGEWIDTH != 0"><xsl:attribute name="width"><xsl:value-of select="IMAGEWIDTH"/></xsl:attribute></xsl:if>
-		         <xsl:if test="IMAGEHEIGHT != 0"><xsl:attribute name="height"><xsl:value-of select="IMAGEHEIGHT"/></xsl:attribute></xsl:if>
-		       </img>
-		    	</a>
-		    </div>
+			   <a href="{$root}/NF{/H2G2/TOPICLIST/TOPIC[TOPICID = current()/TOPICID]/FORUMID}">
+					<img src="{IMAGENAME}" alt="{IMAGEALTTEXT}">
+			   			<xsl:attribute name="width"><xsl:value-of select="$imagewidth"/></xsl:attribute>
+			   			<xsl:attribute name="height"><xsl:value-of select="$imageheight"/></xsl:attribute>
+			   		</img>		
+			   </a>
+		   </div>
 		</xsl:if>
         
-        <p><xsl:apply-templates select="TEXT" mode="library_GuideML" /></p>
+        <p><xsl:apply-templates select="TEXT" /></p>
         
         <p class="replies">
             <xsl:choose>

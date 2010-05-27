@@ -104,7 +104,7 @@
 										<xsl:with-param name="label" select="'Unpin Thread'" />
 									</xsl:apply-templates>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='false']" mode="moderation_cta_makethreadsticky">
-										<xsl:with-param name="label" select="'Pin thread to front page'" />
+										<xsl:with-param name="label" select="'Pin to front page'" />
 									</xsl:apply-templates>
 									</xsl:if>
 	            				</p>

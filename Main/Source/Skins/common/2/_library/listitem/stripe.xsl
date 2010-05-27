@@ -86,7 +86,7 @@
                         <xsl:text> </xsl:text>
                     </xsl:if>
                     
-                    <xsl:if test="(count(ancestor-or-self::*/preceding-sibling::*)) mod 2 = 0">
+                    <xsl:if test="(count(ancestor-or-self::*/preceding-sibling::*)) mod 2 = 1">
                         <xsl:text>stripe</xsl:text>
                     </xsl:if>
                 </xsl:attribute>

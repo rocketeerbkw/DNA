@@ -32,7 +32,7 @@
         <p class="closed">
             This discussion has been closed and is not now accepting any contributions.
         </p>
-</div>      
+	</div>      
      
     </xsl:template>
     
