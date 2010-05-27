@@ -158,7 +158,7 @@
           <h3>Preview</h3>
 
           <p class="dna-center">
-            <a href="/dna/{SITE/URLNAME}/boards_v2/?_previewmode=1" target="_blank">Preview this messageboard</a>
+            <a href="/dna/{SITE/URLNAME}/boards_v2/?_previewmode=1" class="dna-openNewWindow">Preview this messageboard</a>
           </p>
           <p class="dna-fnote"><strong>View your messageboard exactly as the user will view it.</strong></p>
         </div>

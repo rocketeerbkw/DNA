@@ -433,7 +433,7 @@
 						<xsl:attribute name="checked">checked</xsl:attribute>
 					</xsl:if>
 				</input>
-				<label for="mbsocialtoolbar">Show social media toolbar</label>
+				<label for="mbsocialtoolbar">Show social media toolbar - <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR"/></label>
         </p>
         
 				<xsl:call-template name="submitbuttons"/>
@@ -480,7 +480,7 @@
         dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'discussions' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
     
-    <h4>Add Recent Discussions</h4>
+    <h4>Recent Discussions</h4>
     <p>
       For messageboards aimed at people under 16
       years old, you may turn off the Recent
@@ -498,7 +498,7 @@
             <xsl:attribute name="checked">checked</xsl:attribute>
           </xsl:if>
         </input>
-        <label for="mbRECENTDISCUSSIONS">Add recent discussions?</label>
+        <label for="mbRECENTDISCUSSIONS">Include recent discussions?</label>
        </p>
       
       <xsl:call-template name="submitbuttons"/>

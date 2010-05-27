@@ -26,17 +26,21 @@
           </a>
         </xsl:when>
         <xsl:when test="TOPICSTATUS='1'">
-          <a href="topicbuilder?cmd=delete&amp;s_mode=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}#dna-preview-delete-topic-{TOPICID}" class="dna-link-overlay">
+          <a href="topicbuilder?cmd=unarchive&amp;s_mode=unarchive&amp;topicid={TOPICID}&amp;editkey={EDITKEY}#dna-preview-unarchive-topic-{TOPICID}" class="dna-link-overlay">
             <xsl:value-of select="TITLE"/>
           </a>
         </xsl:when>
         <xsl:otherwise>
-          <a href="topicbuilder?cmd=unarchive&amp;s_mode=unarchive&amp;topicid={TOPICID}&amp;editkey={EDITKEY}#dna-preview-unarchive-topic-{TOPICID}" class="dna-link-overlay">
+          <a href="topicbuilder?cmd=delete&amp;s_mode=delete&amp;topicid={TOPICID}&amp;editkey={EDITKEY}#dna-preview-delete-topic-{TOPICID}" class="dna-link-overlay">
             <xsl:value-of select="TITLE"/>
           </a>
         </xsl:otherwise>
       </xsl:choose>
     </li>
+  </xsl:template>
+
+  <xsl:template match="TOPIC" mode="object_topiclist_design">
+    <li><a href="topicbuilder"><xsl:value-of select="TITLE"/></a></li>
   </xsl:template>
 	
 	<xsl:template match="TOPICLIST" mode="object_topiclist_setup">
@@ -128,7 +132,7 @@
 
             <p>
               <label for="fp_text-{$topicid}">Enter the text to explain what this topic is about:</label>
-              <textarea name="fp_text" id="fp_text-{$topicid}" cols="50" rows="2"><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT"/></textarea>
+              <textarea name="fp_text" id="fp_text-{$topicid}" cols="50" rows="5"><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's got a good chance this year? Who'll be waltzing off in the first few shows?
               </span>
@@ -191,6 +195,9 @@
             <div class="dna-buttons">
               <ul>
                 <li>
+                  <a href="?s_mode=topic&amp;s_step=1&amp;s_edittopic={$topicid}#dna-preview-edittopic-step1-{$topicid}" class="dna-btn-link" id="dna-btn-back-2-{$topicid}">Back</a>
+                </li>
+                <li>
                   <a href="?s_mode=topic&amp;s_step=3&amp;s_edittopic={$topicid}#dna-preview-edittopic-step3-{$topicid}" class="dna-btn-link" id="dna-btn-next-2-{$topicid}">Next</a>
                 </li>
                 <li>
@@ -228,7 +235,7 @@
             </p>
             <p>
               <label for="topictext-{$topicid}">Enter the text to explain what this topic page is about:</label>
-              <textarea name="topictext" id="topictext-{$topicid}" cols="50" rows="2"><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY"/></textarea>
+              <textarea name="topictext" id="topictext-{$topicid}" cols="50" rows="5"><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's will your favourite dancers be this year? Let the speculations begin...
               </span>
@@ -236,6 +243,9 @@
 
             <div class="dna-buttons">
               <ul>
+                <li>
+                  <a href="?s_mode=topic&amp;s_step=2&amp;s_edittopic={$topicid}#dna-preview-edittopic-step2-{$topicid}" class="dna-btn-link" id="dna-btn-back-3-{$topicid}">Back</a>
+                </li>
                 <li>
                   <input type="submit" name="submit" value="Save" id="dna-btn-next-3-{$topicid}" />
                 </li>
@@ -265,7 +275,7 @@
           <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>
           <input type="hidden" id="topicid" name="topicid" value="{TOPICID}"></input>
 
-          <p>Are you sure you wish to archive this topic?</p>
+          <p>Are you sure you wish to archive '<xsl:value-of select="TITLE"/>'?</p>
 
 
           <ul>
@@ -303,7 +313,7 @@
           <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>
           <input type="hidden" id="topicid" name="topicid" value="{TOPICID}"></input>
 
-          <p>Are you sure you wish to unarchive this topic?</p>
+          <p>Are you sure you wish to unarchive '<xsl:value-of select="TITLE"/>'?</p>
 
           <ul>
             <li>
@@ -340,7 +350,7 @@
           <input type="hidden" name="topiceditkey" value="{EDITKEY}"></input>
           <input type="hidden" id="topicid" name="topicid" value="{TOPICID}"></input>
 
-          <p>Are you sure you wish to delete this topic?</p>
+          <p>Are you sure you wish to delete '<xsl:value-of select="TITLE"/>'?</p>
 
           <ul>
             <li>

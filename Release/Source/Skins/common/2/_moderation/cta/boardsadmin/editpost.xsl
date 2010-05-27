@@ -16,7 +16,7 @@
     <xsl:template match="@POSTID" mode="moderation_cta_boardsadmin_editpost">
         <xsl:param name="label" select="'Show'" />
         
-    	<a href="{$root-base}/boards-admin/EditPost?PostId={.}" class="popup" target="_blank">
+    	<a href="{$root-base}/boards-admin/EditPost?PostId={.}" class="popup">
             <xsl:value-of select="$label"/>
         </a>
     </xsl:template>

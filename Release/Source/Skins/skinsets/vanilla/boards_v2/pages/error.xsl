@@ -19,8 +19,9 @@
   <xsl:template match="/H2G2[@TYPE = 'ERROR']" mode="page">
    
     <h2>There has been a problem...</h2>
-    
-    <p>An error has occurred with your request. The service may be temporarily broken.</p>
+    <div class="servertoobusy"> 
+   		<p>An error has occurred with your request. The service may be temporarily broken.</p>
+    </div>
     
      <xsl:value-of select="ERROR"/>  
     

@@ -19,9 +19,22 @@
 	</doc:documentation>
 	
   
-	<xsl:template match="H2G2[@TYPE = 'ERROR']" mode="page"></xsl:template>
+	<xsl:template match="H2G2[@TYPE = 'ERROR']" mode="page">
+    <div class="dna-error-box dna-main dna-main-bg dna-main-pad blq-clearfix">
+      <h2>Welcome to the Messageboard Admin Tool</h2>
 
-  <xsl:template match="/H2G2/ERROR" mode="page">
+      <div class="dna-box">
+        <p>
+          Please <a href="" class="id-signin">sign-in</a> or <a href="#">register</a> to BBC iD to use this service
+        </p>
+        <p>
+          You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please refer to our <a href="">user guide</a> or contact your <a href="">social media representative</a>.
+        </p>
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="/H2G2[@TYPE != 'ERROR']/ERROR" mode="page">
     <p class="dna-error">An error has occurred - <xsl:value-of select="ERRORMESSAGE"/></p>
   </xsl:template>
 

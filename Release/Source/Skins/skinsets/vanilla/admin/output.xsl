@@ -103,8 +103,8 @@
 
          
 				  <div id="blq-content">
-          
-            <xsl:apply-templates select="/H2G2/ERROR" mode="page"/>
+            <xsl:apply-templates select="/H2G2[@TYPE != 'ERROR']/ERROR" mode="page"/>
+            
             <xsl:apply-templates select="/H2G2/RESULT" mode="page"/>
 
             <xsl:if test="not(/H2G2[@TYPE='ERROR'])">

@@ -25,7 +25,7 @@
     	
         <form method="post" class="dna-boards" action="{$root}/MoveThread" name="MoveThreadForm{@THREAD-ID}">
             <div id="dnaacs">
-                <xsl:call-template name="library_header_h3">
+                <xsl:call-template name="library_header_h2">
                     <xsl:with-param name="text">Move A Thread</xsl:with-param>
                 </xsl:call-template>
                 

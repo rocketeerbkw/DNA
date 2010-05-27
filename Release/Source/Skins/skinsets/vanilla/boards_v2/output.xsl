@@ -80,7 +80,7 @@
       		</xsl:choose>
       		
       		<xsl:choose>
-      			<xsl:when test="SITECONFIG/V2_BOARDS/HEADER_COLOUR">
+      			<xsl:when test="SITECONFIG/V2_BOARDS/HEADER_COLOUR != ''">
       				<xsl:comment>#set var="blq_nav_color" value="<xsl:value-of select="SITECONFIG/V2_BOARDS/HEADER_COLOUR"/>"</xsl:comment>
       			</xsl:when>
       			<xsl:otherwise>
@@ -113,9 +113,10 @@
       		<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_v2.css"/>
       		<xsl:if test="SITECONFIG/V2_BOARDS/CSS_LOCATION and SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
       			<xsl:choose>
-      				<xsl:when test="starts-with(SITECONFIG/V2_BOARDS/CSS_LOCATION, '/dnaimages/')">
-      					<!--  LPorter: this is a mini-hack. Basically, if the CSSLOCATION starts with '/dnaimages/', it means that we've put in a full path to a location we (at DNA) have access to. ie. we've developed the CSS ourselves.
-      						If it doesn't, then assume the messageboard owners are hosting the CSS file on their own dev/live spaces -->
+      				<!-- <xsl:when test="starts-with(SITECONFIG/V2_BOARDS/CSS_LOCATION, '/dnaimages/')">
+      					 LPorter: this is a mini-hack. Basically, if the CSSLOCATION starts with '/dnaimages/', it means that we've put in a full path to a location we (at DNA) have access to. ie. we've developed the CSS ourselves.
+      					If it doesn't, then assume the messageboard owners are hosting the CSS file on their own dev/live spaces -->
+      				<xsl:when test="starts-with(SITECONFIG/V2_BOARDS/CSS_LOCATION, 'http')">
       					<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
       				</xsl:when>
       				<xsl:otherwise>
@@ -148,12 +149,6 @@
       		
       		<xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
       		
-      		<!-- <xsl:if test="SERVERNAME = 'NARTHUR5' or not(contains(SERVERNAME, 'NARTHUR'))">
-      			<div id="logintrouble">
-      				Having trouble logging in? <a href="{$root}/MP0?s_mode=login">Log in here</a>.
-      			</div>
-      		</xsl:if> -->
-      		
       		<!-- horrible hack for error pages -->
       		<xsl:if test="/H2G2/SITECONFIG">
 	      		<div id="header">
@@ -176,19 +171,13 @@
 				</div> 
 			</xsl:if>      		
       		
-      		<!-- <div class="breadcrumbs">
-      			<ul class="breadcrumbs">
-      				<xsl:apply-templates select="." mode="breadcrumbs"/>
-      			</ul>
-      		</div> -->
-      		
       		<div style="clear:both;"> <xsl:comment> leave this </xsl:comment> </div>
       		 
       		<!-- hack for error pages - this needs to be revisited  --> 
       		<xsl:if test="/H2G2/SITECONFIG">
 	      		<div id="blq-local-nav">
 	      			
-	      			<xsl:if test="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI">
+	      			<xsl:if test="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI != ''">
 	      				<xsl:comment>#include virtual="<xsl:value-of select="SITECONFIG/V2_BOARDS/LEFT_NAV_SSI"/>"</xsl:comment>
 	      			</xsl:if>
 					
@@ -203,7 +192,7 @@
 	      			
 	      			<xsl:if test="TOPICLIST/TOPIC">
 	      				<ul class="navigation topics">
-	      					<li class="topic-parent"><a href="/dna/mbiplayer">Messageboard</a></li>
+	      					<li class="topic-parent"><a href="{$root}/">Messageboard</a></li>
 	      					<xsl:apply-templates select="TOPICLIST/TOPIC" mode="object_topic_title"/>
 	      					<li class="hr"><hr /></li>
 		      				<xsl:if test="/H2G2/VIEWING-USER/USER">
@@ -233,10 +222,10 @@
 	      						<li>
 	      							<xsl:choose>
 	      								<xsl:when test="contains(/H2G2/SERVERNAME, 'NARTHUR5')">
-	      									<a href="http://dna-extdev.bbc.co.uk/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>
+	      									<a href="http://dna-extdev.bbc.co.uk/dna/{SITECONFIG/BOARDROOT}admin/messageboardadmin">Messageboard Admin</a>
 	      								</xsl:when>
 	      								<xsl:otherwise>
-	      									<a href="/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>
+	      									<a href="/dna/{SITECONFIG/BOARDROOT}admin/mbadmin">Messageboard Admin</a>
 	      								</xsl:otherwise>
 	      							</xsl:choose>
 	      						</li>
@@ -265,7 +254,12 @@
    				
    				<!--  is it the front page or an error page (siteconfig hack for error page) -->
    				<xsl:if test="/H2G2/@TYPE = 'FRONTPAGE' and /H2G2/SITECONFIG">
-   					<h2><xsl:value-of select="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE" /></h2>
+   					<xsl:choose>
+   						<xsl:when test="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE != ''">
+   							<h2><xsl:value-of select="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE" /></h2>
+   						</xsl:when>
+   						<xsl:otherwise><h2>Welcome</h2></xsl:otherwise>
+   					</xsl:choose>
    				</xsl:if>
    				
       			<xsl:apply-templates select="." mode="page"/>

@@ -71,7 +71,6 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("templatetype", TemplateElement);
                 reader.AddParameter("frontpageposition", Position);
                 reader.AddParameter("elementstatus", StatusElement);
-                reader.AddParameter("elementlinkid", Elementid);
                 reader.AddParameter("title", Title);
                 reader.AddParameter("text", Text);
                 reader.AddParameter("imagename", ImageName);
