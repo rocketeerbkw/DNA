@@ -59,6 +59,9 @@ span.dna-fnote {display:block; margin-top:2px}
 
 .dna-off {position:absolute; left:-9000px; top:0; z-index:20}
 
+.dna-error-box  {margin-top:10px}
+.dna-error-box h2 {margin:20px 0}
+.dna-error-box p {margin:30px}
 .dna-error  {padding:10px; margin:15px 10px; border:3px double red; font-weight:bold}
 .dna-no-error {padding:10px; margin:15px 10px; border:3px double green; font-weight:bold}
 
@@ -67,6 +70,13 @@ span.dna-fnote {display:block; margin-top:2px}
 
 
 .glow110-overlay {width:350px}
+
+.dna-error-box a.id-signin {display:inline-block; width: 75px; height: 22px; margin:0 5px; padding: 4px 5px 4px 45px; background:url(/dnaimages/dna_messageboard/img/id-signin-hover.gif) no-repeat top left; 	color:#fff; font-weight: bold; text-decoration:none; border:none}
+.dna-error-box a.id-signin:hover  {background:url(/dnaimages/dna_messageboard/img/id-signin.gif) no-repeat top left; color:#000; border:none}
+.dna-error-box a {font-weight:bold; color:#56a4ce; border:none}
+.dna-error-box a:hover {border-bottom:1px solid #56a4ce}
+.dna-error-box a:focus,.dna-error-box a:active {background:#56a4ce; color:#fff}
+
 
 /* default form */
 .dna-main form label {margin-bottom:3px; font-weight:bold; display:block}
@@ -80,8 +90,11 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-buttons input[type=submit]{width:auto}
 .dna-buttons a {display:block; padding:2px 7px!important; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff!important; border:1px solid #3988b2 !important; font-size:.95em}
 .dna-buttons a:hover,.dna-buttons a:focus,.dna-buttons a:active {background:#82bdde url(/dnaimages/dna_messageboard/img/bg-btn-h.gif) repeat-x 0 100%; border-bottom:1px solid #666}
+*+html .dna-buttons a {padding:3px 7px!important;}
 
-.glow110-overlay a.dna-btn-link {text-decoration:none; font-size:1em; padding:3px 7px!important;}
+.glow110-overlay a.dna-btn-link {text-decoration:none; font-size:1em; padding:3px 7px!important}
+*+html .glow110-overlay a.dna-btn-link {padding:4px 7px!important}}
+*+html .glow110-overlay .dna-buttons input {font-size:1.05em}
 
 /* HEADER - banner*/
 #blq-local-nav {background:#97c8e3 url(/dnaimages/dna_messageboard/img/bg-header.gif) repeat-x 0 100%}
@@ -205,7 +218,7 @@ span.dna-fnote {display:block; margin-top:2px}
 .glow110-overlay #dna-preview-editheader ul li input,.glow110-overlay #dna-preview-edittopiclayout ul li input,#dna-footer-color ul li input,.dna-turn-img-off input,#dna-preview-addtoolbar input,#dna-preview-addrecentdiscussions input,#dna-topic-archive input,#dna-topic-unarchive input,#dna-topic-delete input{width:auto}
 .glow110-overlay .dna-topic-step {font-size:.9em}
 
-.dna-turn-img-off {padding:5px; background:#dce3e8; border:1px solid #ccc}
+.dna-turn-img-off {margin:30px 10px 10px 10px!important; padding:5px; background:#dce3e8; border:1px solid #ccc}
 
 /* color scheme */
 .dna-blue {padding:0 0 5px 13px; background: url(/dnaimages/dna_messageboard/img/icon-blue.gif) no-repeat 0 3px}
