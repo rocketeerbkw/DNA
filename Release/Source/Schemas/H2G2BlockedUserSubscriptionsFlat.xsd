@@ -9,6 +9,7 @@
 	<xs:include schemaLocation="TrackedParameters.xsd"/>
 	<xs:include schemaLocation="SiteConfig.xsd"/>
 	<xs:include schemaLocation="Site-List.xsd"/>
+  <xs:include schemaLocation="RecentActivity.xsd"/>
 	<xs:element name="H2G2">
 		<xs:complexType>
 			<xs:sequence>

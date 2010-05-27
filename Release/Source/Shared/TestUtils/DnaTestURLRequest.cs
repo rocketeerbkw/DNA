@@ -910,8 +910,11 @@ namespace Tests
                 {
                     cookie = new Cookie("IDENTITY", _cookie, "/", _server);
                     webRequest.CookieContainer.Add(cookie);
-                    cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server);
-                    webRequest.CookieContainer.Add(cookie);
+                    if (fullUrl.IndexOf("https://") == 0)
+                    {//only add secure cookie if secure
+                        cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server);
+                        webRequest.CookieContainer.Add(cookie);
+                    }
                 }
                 else
                 {

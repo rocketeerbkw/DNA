@@ -125,11 +125,29 @@ namespace BBC.Dna
             }
 
             element.FrontPageElement.Title = InputContext.GetParamStringOrEmpty("fp_title", "fp_title");
+            if (element.FrontPageElement.Title.Length == 0)
+            {
+                return new Error("TopicElementTitleMissing", "No topic element title given.");
+            }
+
             element.FrontPageElement.Text = InputContext.GetParamStringOrEmpty("fp_text", "fp_text");
+            if (element.FrontPageElement.Text.Length == 0)
+            {
+                return new Error("TopicElementTextMissing", "No topic element text given.");
+            }
+
             if (InputContext.GetParamStringOrEmpty("fp_templatetype", "fp_templatetype") == string.Empty)
             {
                 element.FrontPageElement.ImageName = InputContext.GetParamStringOrEmpty("fp_imagename", "fp_imagename");
+                if (element.FrontPageElement.ImageName.Length == 0)
+                {
+                    return new Error("ImageNameMissing", "No image name given.");
+                }
                 element.FrontPageElement.ImageAltText = InputContext.GetParamStringOrEmpty("fp_imagealttext", "fp_imagealttext");
+                if (element.FrontPageElement.ImageAltText.Length == 0)
+                {
+                    return new Error("AltTextMissing", "No alt text given.");
+                }
                 element.FrontPageElement.Template = FrontPageTemplate.ImageAboveText;
             }
             else
@@ -139,7 +157,15 @@ namespace BBC.Dna
                 element.FrontPageElement.Template = FrontPageTemplate.TextOnly;
             }
             element.Title = InputContext.GetParamStringOrEmpty("topictitle","topictitle");
-            element.Description = "<GUIDE><BODY>" + InputContext.GetParamStringOrEmpty("topictext","topictext") + "</BODY></GUIDE>";
+            if (element.Title.Length == 0)
+            {
+                return new Error("TopicTitleMissing", "No topic title given.");
+            }
+            element.Description = "<GUIDE><BODY>" + InputContext.GetParamStringOrEmpty("topictext", "topictext") + "</BODY></GUIDE>";
+            if (element.Description.Length == 0)
+            {
+                return new Error("TopicDescriptionMissing", "No topic description given.");
+            }
 
             if (topicId == 0)
             {
@@ -362,6 +388,14 @@ namespace BBC.Dna
             }
             if (error.AdminErrors.Count != 0 || error.DesignErrors.Count != 0)
             {
+                foreach (string adminError in error.AdminErrors)
+                {
+                    InputContext.Diagnostics.WriteToLog("MBAdmin-AdminError", adminError);
+                }
+                foreach (string adminError in error.DesignErrors)
+                {
+                    InputContext.Diagnostics.WriteToLog("MBAdmin-DesignError", adminError);
+                }
                 return error;
             }
 

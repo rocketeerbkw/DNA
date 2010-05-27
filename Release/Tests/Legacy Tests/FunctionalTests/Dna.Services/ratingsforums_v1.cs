@@ -32,6 +32,7 @@ namespace FunctionalTests
         private const string _schemaRating = "Dna.Services\\rating.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
         private string _server = DnaTestURLRequest.CurrentServer;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -97,7 +98,7 @@ namespace FunctionalTests
                     "</comment>", text, 5);
 
                 // Setup the request url
-                url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, returnedForum.Id);
+                url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, returnedForum.Id);
                 
                 //change the user for a review...
                 switch(i)
@@ -269,7 +270,7 @@ namespace FunctionalTests
                 "</rating>", text, 5);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", sitename, ratingForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", sitename, ratingForum.Id);
 
             string userName = "RatingForumIdentityUserCreate" + DateTime.Now.Ticks.ToString();
             string userEmail = userName + "@bbc.co.uk";

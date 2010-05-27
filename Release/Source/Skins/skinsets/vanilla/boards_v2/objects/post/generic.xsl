@@ -150,7 +150,7 @@
             
             <xsl:if test="@INREPLYTO">
               <p class="dna-boards-thisreplyto">
-                This is a reply to <a href="{concat($root, '/F', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}">this message</a>.
+                This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}"> message <xsl:value-of select="@INREPLYTOINDEX+1" /></a>.
               </p>
             </xsl:if>
             

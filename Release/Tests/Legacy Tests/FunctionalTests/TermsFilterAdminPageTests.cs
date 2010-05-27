@@ -295,7 +295,7 @@ namespace FunctionalTests
                 "</comment>", termText);
 
             // Setup the request url
-            var url = String.Format("http://{0}/dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/", DnaTestURLRequest.CurrentServer, commentForum.SiteName, commentForum.Id);
+            var url = String.Format("https://{0}/dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/", DnaTestURLRequest.SecureServerAddress, commentForum.SiteName, commentForum.Id);
             // now get the response
             request = new DnaTestURLRequest(commentForum.SiteName);
             request.SetCurrentUserNormal();

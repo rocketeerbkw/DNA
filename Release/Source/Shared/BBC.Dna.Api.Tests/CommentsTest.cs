@@ -903,7 +903,7 @@ namespace BBC.Dna.Api.Tests
         ///A test for CommentInfo Constructor
         ///</summary>
         [TestMethod]
-        public void CommentCreate_NotSecure_ReturnCorrectError()
+        public void CommentCreate_NotSecureWithSiteOption_ReturnCorrectError()
         {
             var siteName = "h2g2";
             var uid = "uid";
@@ -931,6 +931,7 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("commentcreate")).Return(reader);
 
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            siteList.Stub(x => x.GetSiteOptionValueInt(0, "CommentForum","EnforceSecurePosting")).Return(1);
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
@@ -947,6 +948,48 @@ namespace BBC.Dna.Api.Tests
             }
 
             readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("commentcreate"));
+        }
+
+        /// <summary>
+        ///A test for CommentInfo Constructor
+        ///</summary>
+        [TestMethod]
+        public void CommentCreate_NotSecureWithoutSiteOption_ReturnCorrectComment()
+        {
+            var siteName = "h2g2";
+            var uid = "uid";
+            var text = "Here is my text that is not posted securely";
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var callingUser = mocks.DynamicMock<ICallingUser>();
+            var commentForum = new CommentForum { Id = uid, SiteName = siteName };
+            var commentInfo = new CommentInfo { text = text };
+
+            callingUser.Stub(x => x.UserID).Return(1);
+            callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentcreate")).Return(reader);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            siteList.Stub(x => x.GetSiteOptionValueInt(0, "CommentForum", "EnforceSecurePosting")).Return(0);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            comments.CallingUser = callingUser;
+            comments.CreateComment(commentForum, commentInfo);
+            
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentcreate"));
         }
 
         /// <summary>

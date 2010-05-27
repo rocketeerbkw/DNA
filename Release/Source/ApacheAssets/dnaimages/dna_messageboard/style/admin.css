@@ -75,7 +75,7 @@ span.dna-fnote {display:block; margin-top:2px}
 /* save and cancel buttons */
 .dna-buttons {clear:both; height:1%; margin-top:10px}
 .dna-buttons li {display:inline-block; float:left;  padding:0; height:1%; margin-right:10px}
-.dna-buttons input {padding:3px 5px 2px 5px; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff; border:1px solid #3988b2; font-size:.9em}
+.dna-buttons input {padding:3px 5px 2px 5px; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff; border:1px solid #3988b2; font-size:.9em; overflow:visible}
 .dna-buttons input:focus {background:#82bdde url(/dnaimages/dna_messageboard/img/bg-btn-h.gif) repeat-x 0 100%; color:#fff}
 .dna-buttons input[type=submit]{width:auto}
 .dna-buttons a {display:block; padding:2px 7px!important; text-transform:uppercase; cursor:pointer; background:#91c2dc url(/dnaimages/dna_messageboard/img/bg-btn.gif) repeat-x 0 100%; font-weight:bold; color:#fff!important; border:1px solid #3988b2 !important; font-size:.95em}
@@ -142,9 +142,9 @@ span.dna-fnote {display:block; margin-top:2px}
 
 .dna-radio-stime {width:10em; vertical-align:middle; margin:0!important; padding-left:5px}
 
-
 #dna-mb-openallday,#dna-mb-openSame {padding:0; border-bottom:1px dashed #ccc}
 #dna-mb-openDiff {padding:0}
+
 
 /* TOPIC page */
 .dna-list-topic-live {margin:20px}
@@ -157,10 +157,10 @@ span.dna-fnote {display:block; margin-top:2px}
 .dna-list-topic-archive li a {display:block; padding:3px; border:1px solid #999; background-color:#dce3e8}
 .dna-list-topic-archive li a:hover {text-decoration:underline; border-bottom:1px solid #999}
 
+
 /* DESIGN TAB */
 .dna-list-links {margin:10px}
 .dna-list-links li {margin:0 0 5px 15px; list-style-type:square; color:#666; word-wrap:break-word}
-
 
 /* design landing page : 4 cols layout*/
 #dna-preview-content {clear:both; margin-bottom:10px}
