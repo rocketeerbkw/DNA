@@ -7,4 +7,4 @@ AS
 	SELECT DISTINCT eq.itemid as modid
 	FROM eventqueue eq 
 	WHERE eq.eventtype = @type and eq.eventid <= @topeventid
-	
+		AND NOT EXISTS(SELECT * FROM ExModEventQueue em WHERE em.modid=eq.itemid)
