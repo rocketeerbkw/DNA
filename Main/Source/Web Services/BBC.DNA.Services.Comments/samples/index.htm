@@ -54,6 +54,23 @@
         }
 
         function loaddata() {
+
+            mySlider = new glow.widgets.Slider("#pagingSliderContainer",
+            {
+                min: 0,
+                max: 100 / pageSize - 1,
+                id: "pagingSlider",
+                tickMajor: 20,
+                tickMinor: 10,
+                labels: 20,
+                size: 700,
+                snapOnDrag: true,
+                val: 0 / pageSize,
+                bindTo: "#pInput",
+                onChange: changePaging
+
+            });
+        
             sortBy = document.getElementById("sortBy").value;
             sortDirection = document.getElementById("sortDirection").value;
             filterBy = document.getElementById("filterBySelect").value;
@@ -176,13 +193,14 @@
 
         function changeSitePrefix() {
             //change page size so reformat slider
-            mySlider.val(0);
+            
             newPage = Number(0);
             pageSize = Number(document.getElementById("txtPageSize").value);
             startIndex = 0;
 
             addToDebug(newPage);
             loaddata();
+            
 
         }
 

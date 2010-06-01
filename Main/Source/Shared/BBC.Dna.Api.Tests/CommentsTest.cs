@@ -43,6 +43,7 @@ namespace BBC.Dna.Api.Tests
 
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
@@ -52,7 +53,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forums = comments.GetCommentForumListBySite(siteName);
+            var forums = comments.GetCommentForumListBySite(site);
 
             Assert.AreEqual(1, forums.CommentForums.Count);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumsreadbysitename"));
@@ -75,6 +76,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
             reader.Stub(x => x.HasRows).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentforumsreadbysitename")).Return(reader);
@@ -82,7 +84,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forums = comments.GetCommentForumListBySite(siteName);
+            var forums = comments.GetCommentForumListBySite(site);
 
             Assert.AreEqual(0, forums.CommentForums.Count);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumsreadbysitename"));
@@ -104,6 +106,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(false).Repeat.Once();
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
@@ -112,7 +115,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forums = comments.GetCommentForumListBySite(siteName);
+            var forums = comments.GetCommentForumListBySite(site);
 
             Assert.AreEqual(0, forums.CommentForums.Count);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumsreadbysitename"));
@@ -134,6 +137,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             reader.Stub(x => x.Execute()).Throw(new Exception("DB Error"));
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentforumsreadbysitename")).Return(reader);
@@ -143,7 +147,7 @@ namespace BBC.Dna.Api.Tests
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
             try
             {
-                comments.GetCommentForumListBySite(siteName);
+                comments.GetCommentForumListBySite(site);
                 throw new Exception("No expection thrown)");
             }
             catch (ApiException ex)
@@ -172,6 +176,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
@@ -180,7 +185,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forums = comments.GetCommentForumListBySite(siteName, "prefix");
+            var forums = comments.GetCommentForumListBySite(site, "prefix");
 
             Assert.AreEqual(1, forums.CommentForums.Count);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumsreadbysitenameprefix"));

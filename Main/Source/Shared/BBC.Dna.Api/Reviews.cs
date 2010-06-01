@@ -52,6 +52,7 @@ namespace BBC.Dna.Api
                     if (reader.HasRows && reader.Read())
                     {
                         RatingForum = RatingForumCreateFromReader(reader);
+                        RatingForum.identityPolicy = site.IdentityPolicy;
                         RatingForum.ratingsList = RatingsReadByForumID(RatingForum.ForumID, site);
                         RatingForumAddToCache(RatingForum, site);
                     }
@@ -85,6 +86,7 @@ namespace BBC.Dna.Api
                     if (reader.HasRows && reader.Read())
                     {
                         RatingForum = RatingForumCreateFromReader(reader);
+                        RatingForum.identityPolicy = site.IdentityPolicy;
                         RatingForum = RatingsReadByUserIDs(RatingForum, site, userIds);
                     }
                 }
