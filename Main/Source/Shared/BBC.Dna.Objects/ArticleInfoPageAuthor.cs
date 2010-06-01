@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "ARTICLEINFOPAGEAUTHOR")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "PAGEAUTHOR")]
+    [XmlTypeAttribute(AnonymousType = true, TypeName = "ARTICLEINFOPAGEAUTHOR")]
+    [XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "PAGEAUTHOR")]
+    [DataContract (Name="pageAuthors")]
     public partial class ArticleInfoPageAuthor
     {
         public ArticleInfoPageAuthor()
@@ -24,6 +25,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 0, ElementName = "RESEARCHERS")]
         [System.Xml.Serialization.XmlArrayItemAttribute("USER", IsNullable = false)]
+        [DataMember(Name = "researchers")]
         public System.Collections.Generic.List<User> Researchers
         {
             get;
@@ -32,11 +34,12 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "EDITOR")]
+        [DataMember(Name = "editor")]
         public UserElement Editor
         {
             get;
             set;
-        } 
+        }
         #endregion
 
         static public ArticleInfoPageAuthor CreateListForArticle(int h2g2Id, int editorId, IDnaDataReaderCreator readerCreator)

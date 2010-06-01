@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
@@ -12,6 +14,7 @@ namespace BBC.Dna.Objects
     
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "ARTICLEINFORELATEDMEMBERS")]
+    [DataContract (Name="relatedMembers")]
     public partial class ArticleInfoRelatedMembers
     {
         #region Properties
@@ -26,6 +29,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 1, ElementName = "RELATEDARTICLES")]
         [System.Xml.Serialization.XmlArrayItemAttribute("ARTICLEMEMBER", IsNullable = false)]
+        [DataMember(Name="relatedArticles")]
         public System.Collections.Generic.List<RelatedArticle> RelatedArticles
         {
             get;

@@ -3,6 +3,7 @@ using System.Linq;
 using BBC.Dna.Data;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {

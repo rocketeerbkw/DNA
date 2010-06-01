@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
@@ -10,14 +12,15 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "ARTICLEINFOREFERENCESENTRYLINK")]
+    [DataContract(Name = "entryLink")]
     public partial class ArticleInfoReferencesEntryLink
     {
         #region Properties
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "H2G2ID")]
+        [DataMember(Name = "entryId")]
         public int H2g2Id
         {
             get;
@@ -26,6 +29,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "SUBJECT")]
+        [DataMember(Name = "subject")]
         public string Subject
         {
             get;

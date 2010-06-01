@@ -19,7 +19,7 @@ namespace BBC.Dna.Objects
     [Serializable]
     [XmlType(AnonymousType = true, TypeName = "FORUMTHREADS")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "FORUMTHREADS")]
-    [DataContract]
+    [DataContract (Name="forumThreads")]
     public class ForumThreads : CachableBase<ForumThreads>
     {
 

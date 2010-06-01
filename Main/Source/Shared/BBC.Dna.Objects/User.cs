@@ -15,7 +15,7 @@ namespace BBC.Dna.Objects
     [System.SerializableAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "USER")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
-    [DataContract(Name = "User")]
+    [DataContract(Name = "user")]
     public partial class User : IUser
     {
         private static IDnaDataReaderCreator _dnaDataReaderCreator;
@@ -933,10 +933,12 @@ namespace BBC.Dna.Objects
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "USER")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
+    [DataContract (Name="user")]
     public partial class UserElement
     {
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "USER")]
+        [DataMember(Name = "user")]
         public User user
         {
             get;

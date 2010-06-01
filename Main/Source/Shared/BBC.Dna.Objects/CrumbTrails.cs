@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
@@ -13,6 +15,7 @@ namespace BBC.Dna.Objects
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "CRUMBTRAILS")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "CRUMBTRAILS")]
+    [DataContract (Name="crumbTrails")]
     public partial class CrumbTrails
     {
         public CrumbTrails()
@@ -22,12 +25,13 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElement(Order = 0, ElementName = "CRUMBTRAIL")]
-        //[System.Xml.Serialization.XmlArrayItemAttribute("CRUMBTRAIL", IsNullable = false)]
         public List<CrumbTrail> CrumbTrail
         {
             get;
             set;
         }
+
+
 
         /// <summary>
         /// This method creates the Crumbtrail xml for a given article id

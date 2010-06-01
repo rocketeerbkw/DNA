@@ -249,6 +249,9 @@
     <Compile Include="cachingSignals\groupSignalTests.cs" />
     <Compile Include="CommentBoxTestsUsingApi.cs" />
     <Compile Include="ArticlePageTests.cs" />
+    <Compile Include="Dna.Services.Articles\articles.cs" />
+    <Compile Include="Dna.Services.Forums\forumThreadPosts.cs" />
+    <Compile Include="Dna.Services.Forums\forumThreads.cs" />
     <Compile Include="Dna.Services\CommentsList.cs" />
     <Compile Include="ModerateHomePageTests.cs" />
     <Compile Include="MorePagesPageTests.cs" />
