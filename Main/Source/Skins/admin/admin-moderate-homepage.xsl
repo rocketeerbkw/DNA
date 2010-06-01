@@ -1034,14 +1034,14 @@
 											<xsl:if test="(/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlinkcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'locked'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD] and not(/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlinkcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'locked'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/@TOTAL = 0)) or (/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlink'][@CLASSID = current()/@CLASSID][STATE = 'locked'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD] and not(/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlink'][@CLASSID = current()/@CLASSID][STATE = 'locked'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/@TOTAL = 0)) or (/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlinkcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'lockedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD] and not(/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlinkcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'lockedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/@TOTAL = 0)) or (/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlink'][@CLASSID = current()/@CLASSID][STATE = 'lockedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD] and not(/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlink'][@CLASSID = current()/@CLASSID][STATE = 'lockedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/@TOTAL = 0))">
 												<tr>
 													<td colspan="2">
-														<!--<form action="moderate" method="post">
+														<form action="moderate" method="post">
 															<input type="hidden" name="UserID" value="{/H2G2/VIEWING-USER/USER/USERID}"/>
 															<input type="hidden" name="newstyle" value="1"/>
 															<input type="hidden" name="fastmod" value="{/H2G2/MODERATOR-HOME/@FASTMOD}"/>
 															<input type="hidden" name="modclassid" value="{@CLASSID}"/>
-															<input type="hidden" name="unlockuserposts" value="1"/>
+															<input type="hidden" name="unlockuserexlinks" value="1"/>
 															<input type="submit" class="unlock-button" value="Unlock"/>
-															</form>-->
+															</form>
 														<!--<xsl:if test="$superuser = 1">
 															<form action="moderate" method="post">
 															<input type="hidden" name="UserID" value="{/H2G2/VIEWING-USER/USER/USERID}"/>

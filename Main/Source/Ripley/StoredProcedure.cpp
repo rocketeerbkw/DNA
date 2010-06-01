@@ -10781,6 +10781,36 @@ bool CStoredProcedure::UnlockAllNicknameModerations(int iUserID, int iClassModID
 
 /*********************************************************************************
 
+	bool CStoredProcedure::UnlockUsersExLinkModerations(int iUserID, int iClassModID)
+
+	Author:		Mark Howitt
+	Created:	28/05/2010
+	Inputs:		iUserID
+				iClassModID - The id of the class that the nicknames belong to.
+					If set to 0, then all nicknames form all classes are unlocked
+	Outputs:	-
+	Returns:	true if successful
+	Purpose:	Unlocks all external link items locked by this user for moderation.
+
+*********************************************************************************/
+
+bool CStoredProcedure::UnlockUsersExLinkModerations(int iUserID, int iClassModID)
+{
+	StartStoredProcedure("unlockexternallinks");
+	AddParam("UserID", iUserID);
+	if (iClassModID > 0)
+	{
+		AddParam("ModClassID", iClassModID);
+	}
+	ExecuteStoredProcedure();
+	// check there is no error
+	CTDVString sTemp;
+	int iErrorCode;
+	return !GetLastError(&sTemp, iErrorCode);
+}
+
+/*********************************************************************************
+
 	bool CStoredProcedure::UnlockAllGeneralModerations(int iUserID)
 
 	Author:		Kim Harries

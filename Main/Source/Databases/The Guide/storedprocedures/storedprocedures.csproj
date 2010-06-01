@@ -1301,6 +1301,7 @@
     <None Include="ratingthreadsreadbyuid.sql" />
     <None Include="removeaccess.sql" />
     <None Include="removehandledsnesevents.sql" />
+    <None Include="unlockexternallinks.sql" />
     <None Include="updateexmoderationevents.sql" />
   </ItemGroup>
   <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
