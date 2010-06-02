@@ -235,12 +235,7 @@
     <!-- stop website to copy ripley -->
     <Exec Command="iisweb /stop h2g2UnitTesting" Timeout="10000"></Exec>
     
-    <!-- Copy Websites to location -->
-    <Copy SourceFiles="@(WebSites)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    
-    <!-- Copy Dlls into dnapages for tests... -->
-    <Copy SourceFiles="@(Binaries)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\BBC.DNA.Dnapages\bin\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
+   
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
