@@ -219,7 +219,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <WebSites Include="$(BinariesRoot)$(Platform)$(Configuration)\debug\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></WebSites>
+    <WebSites Include="$(BinariesRoot)$(Platform)$(Configuration)\debug\_PublishedWebsites\**\*.*"></WebSites>
     <Binaries Include="$(BinariesRoot)$(Platform)$(Configuration)\debug\*.*" Exclude="$(BinariesRoot)$(Platform)$(Configuration)\debug\*_Accessor.dll,$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.instr.pdb"></Binaries>
     <Ripley Include="$(BinariesRoot)\Win32\Debug\*.*"></Ripley>
     <Skins Include="$(SolutionRoot)\Main\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
