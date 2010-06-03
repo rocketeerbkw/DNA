@@ -262,7 +262,7 @@ namespace BBC.Dna.Objects
                 }
             }
             return (ArticleInfo != null && ArticleInfo.LastUpdated != null &&
-                    ArticleInfo.LastUpdated.Date.DateTime >= lastUpdate);
+                    ArticleInfo.LastUpdated.Date.Local.DateTime >= lastUpdate);
         }
 
         /// <summary>
