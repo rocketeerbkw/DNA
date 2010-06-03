@@ -933,7 +933,7 @@ namespace BBC.Dna.Objects
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "USER")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
-    [DataContract (Name="user")]
+    [DataContract (Name="userElement")]
     public partial class UserElement
     {
         /// <remarks/>
