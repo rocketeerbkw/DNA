@@ -156,12 +156,12 @@
          </SolutionToBuild>
     -->
     <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/UserServices.sln">
-        <Targets></Targets>
-        <Properties></Properties>
+      <Targets></Targets>
+      <Properties></Properties>
     </SolutionToBuild>
     <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/Source/Databases/The Guide/TheGuide.sln">
-        <Targets></Targets>
-        <Properties></Properties>
+      <Targets></Targets>
+      <Properties></Properties>
     </SolutionToBuild>
 
   </ItemGroup>
@@ -179,8 +179,8 @@
      The Include attribute value should be unique for each ConfigurationToBuild node.
     -->
     <ConfigurationToBuild Include="Debug|Any CPU">
-        <FlavorToBuild>Debug</FlavorToBuild>
-        <PlatformToBuild>Any CPU</PlatformToBuild>
+      <FlavorToBuild>Debug</FlavorToBuild>
+      <PlatformToBuild>Any CPU</PlatformToBuild>
     </ConfigurationToBuild>
 
     <ConfigurationToBuild Include="Debug|Win32">
@@ -191,11 +191,11 @@
   </ItemGroup>
 
   <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
-      <TestContainer Include="$(OutDir)\%2a%2a\%2aTests.dll" />
-    </ItemGroup>
-    <PropertyGroup>
-      <RunConfigFile>$(SolutionRoot)\Main\bbc.dna.tests.testrunconfig</RunConfigFile>
-    </PropertyGroup>
+    <TestContainer Include="$(OutDir)\%2a%2a\%2aTests.dll" />
+  </ItemGroup>
+  <PropertyGroup>
+    <RunConfigFile>$(SolutionRoot)\Main\bbc.dna.tests.testrunconfig</RunConfigFile>
+  </PropertyGroup>
 
 
   <PropertyGroup>
@@ -219,12 +219,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <WebSites Include="$(BinariesRoot)$(Platform)$(Configuration)\debug\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></WebSites>
+    <WebSites Include="$(BinariesRoot)$(Platform)$(Configuration)\debug\_PublishedWebsites\**\*.*"></WebSites>
     <Binaries Include="$(BinariesRoot)$(Platform)$(Configuration)\debug\*.*" Exclude="$(BinariesRoot)$(Platform)$(Configuration)\debug\*_Accessor.dll,$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.instr.pdb"></Binaries>
     <Ripley Include="$(BinariesRoot)\Win32\Debug\*.*"></Ripley>
     <Skins Include="$(SolutionRoot)\Main\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
   </ItemGroup>
-  
+
   <Target Name="BeforeTest">
     <!-- Create the build steps which start in mode "Running" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to test server" Condition=" '$(IsDesktopBuild)' != 'true' ">
@@ -236,17 +236,15 @@
     <Exec Command="iisweb /stop h2g2UnitTesting" Timeout="10000"></Exec>
 
     <!-- Copy Websites to location -->
-    <Copy SourceFiles="@(WebSites)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\dnapages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(WebSites)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- Copy Dlls into dnapages for tests... -->
-    <Copy SourceFiles="@(Binaries)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\dnapages\bin\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
+    <Copy SourceFiles="@(Binaries)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\dna\BBC.DNA.Dnapages\bin\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <Message Text="Ripley files: @(Ripley)"></Message>
-    <Message Text="Ripley files: @(WebSites)"></Message>
 
     <Exec Command="delete &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
 
@@ -263,8 +261,8 @@
     <!-- start website to copy ripley -->
     <Exec Command="iisweb /start h2g2UnitTesting" Timeout="10000"></Exec>
 
-    
-    
+
+
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
