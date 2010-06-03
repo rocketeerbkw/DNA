@@ -6,7 +6,6 @@ using BBC.Dna.Utils;
 using BBC.Dna.Data;
 using System.Xml;
 using System.Xml.Serialization;
-using System.Xml.Serialization;
 using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
