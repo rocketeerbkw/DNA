@@ -167,7 +167,7 @@ namespace BBC.Dna.Page
         /// </summary>
         public virtual bool IncludeTopFives
         {
-            get { return true; }
+            get { return false; }
         }
 
         /// <summary>
