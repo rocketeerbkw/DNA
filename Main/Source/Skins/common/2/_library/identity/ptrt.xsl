@@ -19,7 +19,7 @@
 	
 	<xsl:template match="H2G2[@TYPE]" mode="library_identity_ptrt">
     <xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
@@ -76,13 +76,13 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'USERDETAILS']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
