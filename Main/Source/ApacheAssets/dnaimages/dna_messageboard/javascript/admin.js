@@ -195,7 +195,7 @@
                 });
 
 
-                //myOverlay.show();
+                myOverlay.show();
 
                 // footer overlay : show/hide footer links
                 $("#dna-footer-links").addClass("dna-off");
