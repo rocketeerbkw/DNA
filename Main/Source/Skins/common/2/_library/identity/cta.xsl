@@ -15,6 +15,8 @@
     
     
     <xsl:template match="VIEWING-USER"  mode="library_identity_cta">
+    	<xsl:param name="signin-text" />
+    	
     	<xsl:variable name="idptrt" select="concat($root,'/AddThread?forum=', @FORUMID, '%26article=', /H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID)" />
     	
     	<div class="id-wrap blq-clearfix">
@@ -35,7 +37,7 @@
 							</xsl:apply-templates>			    	
 				    	</xsl:attribute>
 				    	<xsl:text>register</xsl:text>
-			    	</a> to take part in a discussion.</p>
+			    	</a>&#160;<xsl:value-of select="$signin-text" /></p>
     			</xsl:when>
 	            <xsl:otherwise>
 	            	<xsl:choose>
