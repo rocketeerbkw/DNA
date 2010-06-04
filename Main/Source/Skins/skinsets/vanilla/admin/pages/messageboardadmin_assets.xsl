@@ -49,9 +49,9 @@
                 </span>
                </p>
              
-                <xsl:if test="//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION">
+                <xsl:if test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION != ''">
                   <p>
-                    <img src="{//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION}" alt=""/>
+                    <img src="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION}" alt=""/>
                   </p>
                </xsl:if>
             </div>
@@ -75,9 +75,11 @@
           </div>
 
         </div>
-        
-        <xsl:call-template name="submitbuttons"/>
-     
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'mbadmin?s_mode=admin'" />
+        </xsl:call-template>
+
       </form>
      
      </div>

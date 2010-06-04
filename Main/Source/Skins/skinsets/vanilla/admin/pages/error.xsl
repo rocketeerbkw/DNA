@@ -24,9 +24,11 @@
       <h2>Welcome to the Messageboard Admin Tool</h2>
 
       <div class="dna-box">
-        <p>
-          Please <a href="" class="id-signin">sign-in</a> or <a href="#">register</a> to BBC iD to use this service
-        </p>
+        <xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
+          <xsl:with-param name="signin-text">
+            <xsl:value-of select="'to BBC iD to use this service.'" />
+          </xsl:with-param>
+        </xsl:apply-templates>
         <p>
           You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please refer to our <a href="">user guide</a> or contact your <a href="">social media representative</a>.
         </p>
