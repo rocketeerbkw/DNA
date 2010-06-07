@@ -240,13 +240,13 @@ namespace BBC.Dna.Services
             }
             //get output stream
             WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
-            MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output));
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
-            //add to cache
-            AddOutputToCache(output, GetCacheKey(), lastUpdated);
-
-            return xmlTextWriter.BaseStream;
-            
+            using (MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output)))
+            {
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+                //add to cache
+                AddOutputToCache(output, GetCacheKey(), lastUpdated);
+                return xmlTextWriter.BaseStream;
+            }            
         }
 
         /// <summary>
@@ -310,12 +310,12 @@ namespace BBC.Dna.Services
                 return false;
             }
             WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
-            MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(outputStr));
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
-            output = xmlTextWriter.BaseStream;
-
-            Statistics.AddHTMLCacheHit();
-
+            using (MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(outputStr)))
+            {
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+                output = xmlTextWriter.BaseStream;
+                Statistics.AddHTMLCacheHit();
+            }
             return true;
         }
 
