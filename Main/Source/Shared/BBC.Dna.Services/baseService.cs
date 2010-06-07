@@ -240,13 +240,11 @@ namespace BBC.Dna.Services
             }
             //get output stream
             WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
-            using (MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output)))
-            {
-                XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
-                //add to cache
-                AddOutputToCache(output, GetCacheKey(), lastUpdated);
-                return xmlTextWriter.BaseStream;
-            }            
+            MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output));
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+            //add to cache
+            AddOutputToCache(output, GetCacheKey(), lastUpdated);
+            return xmlTextWriter.BaseStream;
         }
 
         /// <summary>
