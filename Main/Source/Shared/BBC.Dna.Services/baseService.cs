@@ -308,12 +308,12 @@ namespace BBC.Dna.Services
                 return false;
             }
             WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
-            using (MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(outputStr)))
-            {
-                XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
-                output = xmlTextWriter.BaseStream;
-                Statistics.AddHTMLCacheHit();
-            }
+            MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(outputStr));
+            
+            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+            output = xmlTextWriter.BaseStream;
+            Statistics.AddHTMLCacheHit();
+            
             return true;
         }
 
