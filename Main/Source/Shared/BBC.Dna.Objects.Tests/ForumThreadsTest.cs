@@ -342,6 +342,8 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetInt32NullAsZero("SiteID")).Return(siteId);
             reader.Stub(x => x.DoesFieldExist("ForumPostCount")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("AlertInstantly")).Return(1);
+            reader.Stub(x => x.GetStringNullAsEmpty("FirstPosttext")).Return("some text");
+            reader.Stub(x => x.GetStringNullAsEmpty("LastPosttext")).Return("some text");
             
 
             reader.Stub(x => x.GetInt32NullAsZero("ForumPostCount")).Return(itemsPerPage + 1);

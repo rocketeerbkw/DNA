@@ -28,20 +28,23 @@ namespace BBC.Dna.Objects
         public string Subject
         {
             get {
-                    if (_hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || _hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
-                    {
-                        return "Hidden";
-                    }
-                    else if (_hidden != CommentStatus.Hidden.NotHidden)
-                    {
-                        return "Removed";
-                    }
-                    else
-                    {
-                        return StringUtils.EscapeAllXml(_subject);
-                    }
+                return _subject;
+                    
                 }
-            set { _subject = value; }
+            set {
+                if (_hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || _hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
+                {
+                    _subject =  "Hidden";
+                }
+                else if (_hidden != CommentStatus.Hidden.NotHidden)
+                {
+                    _subject =  "Removed";
+                }
+                else
+                {
+                    _subject =  StringUtils.EscapeAllXml(value);
+                }
+            }
         }
 
         /// <remarks/>
@@ -71,27 +74,20 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        private string _text = String.Empty;
+        private bool _formattedText = false;
+        private string _text="";
         [XmlIgnore]
+        [DataMember(Name = ("text"))]
         public string Text
         {
             get
             {
-                //check hidden status
-                if (_hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || _hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
-                {
-                    return "This post has been hidden.";
-                }
-                else if (_hidden != CommentStatus.Hidden.NotHidden)
-                {
-                    return "This post has been removed.";
-                }
-
                 return _text;
-                
-
             }
-            set { _text = value; }
+            set
+            {
+                _text = value;
+            }
         }
 
         [System.Xml.Serialization.XmlAnyElement(Order = 4)]
@@ -99,11 +95,6 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                string _text = Translator.TranslateText(Text);
-
-                _text = HtmlUtils.ReplaceCRsWithBRs(_text);
-
-                
                 XmlDocument doc = new XmlDocument();
                 try
                 {
@@ -115,22 +106,6 @@ namespace BBC.Dna.Objects
                     doc.DocumentElement.InnerText = _text;
                 }
                 return doc.DocumentElement;
-            }
-            set { _text = value.InnerXml; }
-        }
-
-        [XmlIgnore]
-        [DataMember(Name = ("text"))]
-        public string TextContract
-        {
-            get
-            {
-                var textElement = TextElement;
-                if (textElement != null)
-                {
-                    return textElement.InnerXml;
-                }
-                return string.Empty;
             }
             set { }
         }
@@ -299,6 +274,37 @@ namespace BBC.Dna.Objects
         
         #endregion
 
+        /// <summary>
+        /// Formats the post
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <returns></returns>
+        static public string FormatPost(string inputText, CommentStatus.Hidden hidden)
+        {
+            if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
+            {
+                return "This post has been hidden.";
+            }
+            else if (hidden != CommentStatus.Hidden.NotHidden)
+            {
+                return "This post has been removed.";
+            }
+
+            inputText = Translator.TranslateText(inputText);
+            inputText = HtmlUtils.ReplaceCRsWithBRs(inputText);
+
+            return inputText;
+
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="postId"></param>
+        /// <returns></returns>
         static public ThreadPost CreateThreadPostFromDatabase(IDnaDataReaderCreator readerCreator, int postId)
         {
             using(IDnaDataReader reader = readerCreator.CreateDnaDataReader("getpostsinthread"))
@@ -382,7 +388,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
-                post.Text = reader.GetStringNullAsEmpty(prefix + "text");
+                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden);
             }
             if (reader.DoesFieldExist(prefix +"hostpageurl"))
             {
