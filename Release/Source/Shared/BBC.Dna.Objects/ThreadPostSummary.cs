@@ -46,16 +46,6 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                //check hidden status
-                if (_hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || _hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
-                {
-                    return "This post has been hidden.";
-                }
-                else if (_hidden != CommentStatus.Hidden.NotHidden)
-                {
-                    return "This post has been removed.";
-                }
-                //apply style
                 return _text;
             }
             set { _text = value; }
@@ -66,8 +56,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                _text = Translator.TranslateText(Text);
-                _text = HtmlUtils.ReplaceCRsWithBRs(_text);
+               
 
                 XmlDocument doc = new XmlDocument();
                 try
@@ -145,7 +134,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
-                post.Text = reader.GetStringNullAsEmpty(prefix + "text");
+                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden);
             }
 
             post.User = BBC.Dna.Objects.User.CreateUserFromReader(reader, prefix);

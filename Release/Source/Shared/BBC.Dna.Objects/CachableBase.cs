@@ -3,6 +3,7 @@ using System.Linq;
 using BBC.Dna.Data;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {
@@ -23,13 +24,13 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         public object Clone()
         {
-            var ms = new MemoryStream();
-            var bf = new BinaryFormatter();
-            bf.Serialize(ms, this);
-            ms.Position = 0;
-            object obj = bf.Deserialize(ms);
-            ms.Close();
-            return obj;
+            using (var ms = new MemoryStream())
+            {
+                var bf = new BinaryFormatter();
+                bf.Serialize(ms, this);
+                ms.Position = 0;
+                return bf.Deserialize(ms);
+            }
         }
 
         #endregion

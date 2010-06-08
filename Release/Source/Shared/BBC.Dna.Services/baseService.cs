@@ -197,11 +197,12 @@ namespace BBC.Dna.Services
             switch (format)
             {
                 case WebFormat.format.XML:
-                    output = ((baseContract)data).ToXml();
+                    output = StringUtils.SerializeToXml(data);
+                    //output = output.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Entities.GetEntities());
                     break;
 
                 case WebFormat.format.JSON:
-                    output = ((baseContract)data).ToJson();
+                    output = StringUtils.SerializeToJson(data);
                     break;
 
                 case WebFormat.format.HTML:
@@ -243,9 +244,7 @@ namespace BBC.Dna.Services
             XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
             //add to cache
             AddOutputToCache(output, GetCacheKey(), lastUpdated);
-
             return xmlTextWriter.BaseStream;
-            
         }
 
         /// <summary>
@@ -310,11 +309,11 @@ namespace BBC.Dna.Services
             }
             WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
             MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(outputStr));
+            
             XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
             output = xmlTextWriter.BaseStream;
-
             Statistics.AddHTMLCacheHit();
-
+            
             return true;
         }
 
