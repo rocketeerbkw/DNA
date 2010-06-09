@@ -19,7 +19,7 @@
     <xsl:template match="/H2G2[@TYPE = 'FRONTPAGE']" mode="page">
         <xsl:variable name="topiccols">
         	<xsl:choose>
-		        <xsl:when test="/H2G2/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col'">
+		        <xsl:when test="/H2G2/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col' or /H2G2/SITECONFIG/V2_BOARDS/TOPICLAYOUT = ''">
 		        	<xsl:text> single-col-topics</xsl:text>
 		        </xsl:when>
 		        <xsl:otherwise>
