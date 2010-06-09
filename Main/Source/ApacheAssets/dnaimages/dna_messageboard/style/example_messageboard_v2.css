@@ -2,41 +2,41 @@
 	color: cadetblue;
 }
 #blq-main #header {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-main #header #banner {
   	color: #fff;
 }
 #blq-main #global-nav {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-local-nav ul.local-site-nav  {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-local-nav ul.local-site-nav a:hover {
 	background: #fff;
 }
 #blq-main #blq-local-nav ul li.topic-parent a {
-	background: LightSlateGray;
+	background-color: LightSlateGray;
 }
 #blq-main #blq-content h2, #blq-main #dna-boardpromo h3 {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-main ul.topfives {
 	color: cadetblue;
 }
 #blq-main .pagination li.dna-button {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-main .pagination li.dna-button a {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-main .pagination li a {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-main .pagination li.current a {
-  	background:LightSlateGray;
+  	background-color: LightSlateGray;
 }
 #blq-main .pagination li span {
-	background: cadetblue;
+	background-color: cadetblue;
 }

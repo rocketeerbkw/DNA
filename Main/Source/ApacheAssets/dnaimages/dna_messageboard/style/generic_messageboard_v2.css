@@ -27,14 +27,15 @@ h4 {
 	margin-left: 10px;
 }
 ul li h4 {
-  margin-left: 0;
+  	margin-left: 0;
 }
  /* header */
 #blq-main #header {
-	/*width: 100%;*/
+	width: 100%;
 	padding: 20px 0 20px 0;
 	margin-bottom: 30px;
-	background: url(/dnaimages/dna_messageboard/img/bg_banner.jpg) top left no-repeat #71aef1;
+	background: url(/dnaimages/dna_messageboard/img/bg_banner.jpg) top left no-repeat;
+	background-color: #376dad;
 }
 #blq-main #header #banner {
   	padding-left: 13px;
@@ -173,6 +174,19 @@ ul.admin {
 #blq-content {
 	float: left;
 	margin: 0 0 14px 14px;
+}
+#blq-content.frontpage  {
+	float:left; 
+	width: 479px;
+}
+#blq-content .topiclist li {
+	float: left;
+	width: 223px;
+	position: relative;
+}
+#blq-content .single-col-topics li {
+	/*width: 100%; how to make this relative size? */
+	width: 463px;
 }
 #blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {
 	width: 463px;
@@ -569,6 +583,10 @@ a.editor, a.notable {
 	padding: 10px;
 	background-color: #e2e2e2;
 }
+.forummodstatus ul li {
+	float:left; 
+	margin:5px 10px 5px 0;
+}
 .dna-invisible { display: none; }
 #blq-content .dna-boards-moderation .dna-invisible {display:none}
 #blq-main #blq-content .dna-boards-moderation a {
@@ -807,7 +825,8 @@ p.flag a {
 
 /* crazy override to customise the frontpage */
 a.rsslink {
-	background: transparent url('/dnaimages/dna_messageboard/img/rss.gif') no-repeat scroll 0 0;
+	background: url('/dnaimages/dna_messageboard/img/rss.gif') no-repeat scroll 0 0;
+	background-color: transparent;
 	float: right;
 	width: 16px;
 	height: 16px;
