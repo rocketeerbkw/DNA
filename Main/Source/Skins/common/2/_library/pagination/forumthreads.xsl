@@ -105,7 +105,7 @@
         <xsl:param name="counter" select="1" />
         <xsl:param name="currentPage" select="floor(@SKIPTO div @COUNT) + 1" />
         
-        <xsl:if test="($totalPages > 1) and ($counter > ($currentPage - 6) ) and ($counter &lt; ($currentPage + 6) )">
+        <xsl:if test="($totalPages > 1) and ($counter > ($currentPage - 5) ) and ($counter &lt; ($currentPage + 5) )">
             <li>
                 <xsl:if test="$currentPage = $counter">
                     <xsl:attribute name="class">current</xsl:attribute>
