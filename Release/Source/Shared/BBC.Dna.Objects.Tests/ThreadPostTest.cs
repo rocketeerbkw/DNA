@@ -381,6 +381,8 @@ namespace BBC.Dna.Objects.Tests
             MockRepository mocks = new MockRepository();
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.DoesFieldExist("threadid")).Return(true);
+            reader.Stub(x => x.DoesFieldExist("hidden")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("hidden")).Return((int)CommentStatus.Hidden.Removed_EditorComplaintTakedown);
             reader.Stub(x => x.GetInt32NullAsZero("threadid")).Return(1);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(1);
@@ -392,7 +394,9 @@ namespace BBC.Dna.Objects.Tests
             ThreadPost actual;
             actual = ThreadPost.CreateThreadPostFromDatabase(creator, 1);
             Assert.AreEqual(actual.ThreadId, 1);
+            Assert.AreEqual(actual.Hidden, (byte)CommentStatus.Hidden.Removed_EditorComplaintTakedown);
         }
+
 
         [TestMethod()]
         public void CreateThreadPostFromDatabaseTest_EmptyDataSet_ReturnsException()
