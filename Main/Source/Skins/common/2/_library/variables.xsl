@@ -171,7 +171,7 @@
         </xsl:choose>
     </xsl:variable>
     
-    <xsl:variable name="imagewidth"><xsl:text>224</xsl:text></xsl:variable>
+    <xsl:variable name="imagewidth"><xsl:text>223</xsl:text></xsl:variable>
     <xsl:variable name="imageheight"><xsl:text>125</xsl:text></xsl:variable>
     
     <xsl:variable name="signin-discussion-text">to take part in a discussion.</xsl:variable>
