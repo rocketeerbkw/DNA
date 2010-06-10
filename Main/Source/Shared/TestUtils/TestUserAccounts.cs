@@ -105,7 +105,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetProfileAPITestUserAccount
         {
-            get { return new UserAccount("ProfileAPITest", "APITest", "6041996|ProfileAPITest|ProfileAPITest|1273497769580|0|35006c522418c48a9a3470cea341b5cd9c9c8a9d28c1", "22f58fef9cd74c0f515b94bfaaa6adf60e395c6f", 1090498911, true); }
+            get { return new UserAccount("ProfileAPITest", "APITest", "6041996|ProfileAPITest|ProfileAPITest|1276186657787|0|4874e6862efdcc88ade91895c12f8ead2d15bdc25ed9", "8ec1e6210c1392e7a05dfdc6907e31abcfe11bad", 1090498911, true); }
         }
 
         /// <summary>
