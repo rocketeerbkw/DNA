@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{D183A3D8-5FD8-494B-B014-37F57B35E655}") = "LogFileIntegration", "LogFileIntegration.dtproj", "{7957D21E-74B3-4E11-A3EF-85D93A382AA5}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = LogFileIntegration.dtproj
+		SccProjectName0 = \u0022$/BBC.DNA.root/DNAIISLogParser/LogFileIntegration.root/LogFileIntegration\u0022,\u0020UGTBAAAA
+		SccLocalPath0 = ..
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+		SccProjectFilePathRelativizedFromConnection0 = LogFileIntegration\\
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7957D21E-74B3-4E11-A3EF-85D93A382AA5}.Development|Default.ActiveCfg = Development
+		{7957D21E-74B3-4E11-A3EF-85D93A382AA5}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
