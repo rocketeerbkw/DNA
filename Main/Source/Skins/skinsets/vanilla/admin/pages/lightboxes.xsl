@@ -198,26 +198,11 @@
       <h4>Add welcome message</h4>
 			<p>Add your own welcome message to greet your users.</p>
 
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;#dna-preview-addwelcome" method="post" name="frm-addwelcome">
-        <xsl:attribute name="action">
-          <xsl:choose>
-            <xsl:when test="/H2G2[@TYPE != 'ERROR']/ERROR[@TYPE='InvalidWelcomeMessage']">
-                messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;#dna-preview-addwelcome
-            </xsl:when>
-            <xsl:otherwise>
-              messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_message=true#dna-s-message
-          </xsl:otherwise>
-          </xsl:choose>
-        </xsl:attribute>
-      
- 
+      <form  action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_message=true#dna-s-message" method="post" name="frm-addwelcome">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
 					<label for="mbwelcome">Welcome message:</label>
-					<xsl:if test="/H2G2[@TYPE != 'ERROR']/ERROR[@TYPE='InvalidWelcomeMessage']">
-            <span class="dna-error-text">Please add your welcome message</span>
-          </xsl:if>
           <input type="text" name="WELCOME_MESSAGE"  id="mbwelcome" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE}"/>
           <span class="dna-fnote"><strong>Example:</strong> Welcome to the Strictly Messageboard</span>
         </p>

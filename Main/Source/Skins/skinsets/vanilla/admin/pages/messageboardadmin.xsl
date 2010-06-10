@@ -20,7 +20,7 @@
 
   <xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="page">
     <div>
-      <a href="http://{host}{root}/mbadmin?s_mode=admin">Redirecting...</a>
+      <p class="dna-error"><a href="{$host}{$root}/mbadmin?s_mode=admin">Redirecting...</a></p>
     </div>
   </xsl:template>
 
@@ -83,7 +83,7 @@
                           </xsl:choose>
                         </td>
                         <xsl:choose>
-                          <xsl:when test="OPENTIME/HOUR != '0' and CLOSETIME/HOUR != '0'">
+                          <xsl:when test="OPENTIME/HOUR != '0' or CLOSETIME/HOUR != '0'">
                             <td>
                               <xsl:value-of select="OPENTIME/HOUR"/>
                               <xsl:text>:</xsl:text>
@@ -95,7 +95,12 @@
                               </xsl:choose>
                             </td>
                             <td>
-                              <xsl:value-of select="CLOSETIME/HOUR"/>
+                              <xsl:choose>
+                                <xsl:when test="CLOSETIME/HOUR = '0'">24</xsl:when>
+                                <xsl:otherwise>
+                                  <xsl:value-of select="CLOSETIME/HOUR"/>
+                                </xsl:otherwise>
+                              </xsl:choose>
                               <xsl:text>:</xsl:text>
                               <xsl:choose>
                                 <xsl:when test="CLOSETIME/MINUTE = '0'">00</xsl:when>
@@ -130,25 +135,7 @@
               <strong>Below are the assets you have defined for your messageboard.</strong>
             </p>
 
-            <h4>Emoticons</h4>
-           
-            <xsl:choose>
-              <xsl:when test="string(//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION)">
-                <p>Emoticons currently being used:</p>
-                <p>
-                  <img src="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION}" alt=""/>
-                </p>
-                <p class="dna-fnote">
-                  <strong>File: </strong>
-                  <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION" />
-                </p>
-              </xsl:when>
-              <xsl:otherwise>
-                <p class="dna-fnote">You have not added any emoticons - click the Edit button to add some. </p>
-              </xsl:otherwise>
-            </xsl:choose>
-           
-            
+   
             <h4>Stylesheet</h4>
 
             <xsl:choose>

@@ -74,7 +74,7 @@
 				
 				<script type="text/javascript" src="/dnaimages/dna_messageboard/javascript/admin.js"><xsl:text> </xsl:text></script>
 				
-				<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/admin.css"/>
+				<link type="text/css" rel="stylesheet" href="/dnaimages/dna_messageboard/style/admin.css"/>
 				
 			</head>
 			
@@ -103,9 +103,8 @@
 
          
 				  <div id="blq-content">
-            
 
-            <xsl:if test="not(/H2G2[@TYPE='ERROR'])">
+            <xsl:if test="not(/H2G2[@TYPE='ERROR' or @TYPE = 'FRONTPAGE'])">
               <xsl:call-template name="emergency-stop"/>
             </xsl:if>
 

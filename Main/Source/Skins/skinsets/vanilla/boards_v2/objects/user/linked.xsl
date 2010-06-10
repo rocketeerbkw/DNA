@@ -14,7 +14,6 @@
     </doc:documentation>
     
     <xsl:template match="USER" mode="object_user_linked">
-        
         <xsl:choose>
         	<xsl:when test="GROUPS/EDITOR or GROUPS/GROUP/NAME = 'EDITOR' or STATUS = 2">
         		<a href="MP{USERID}" class="user linked editor" title="This user has Editor status">

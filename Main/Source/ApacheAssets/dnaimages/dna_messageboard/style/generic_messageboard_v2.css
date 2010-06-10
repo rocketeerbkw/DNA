@@ -361,9 +361,10 @@ body.ie6 #blq-main #blq-content .pagination li {
   	border: 0;
   	
 }
-#blq-main .multiposts h5 {
+#blq-main .multiposts h3 {
 	padding-left: 10px;
 	font-size: 1.1em;	
+	color: #000;
 }
 ul.forumthreadposts, p.forumthreadposts {
   	clear:both;
@@ -401,10 +402,11 @@ ul.forumthreadposts li.stripe {
 	font-size: 1.2em;
 	color: #000000;
 }
-#blq-content .forumthreads h4 {
+#blq-content .forumthreads h3 {
 	margin-left: 10px;
 	margin-right: 10px;
 	font-size: 1em;
+	padding:0
 }
 #blq-content .post-list h4 {
 	margin-left: 10px;
@@ -752,6 +754,7 @@ p.flag a {
 .dna-boards .collections {margin-left:216px;}
 /*.dna-boards .collections li {display:block; float:left; width:160px;}*/
 
+.dna-boards h3 {color:#000 !important}
 .dna-boards p label {
   display:block; 
   float:left;

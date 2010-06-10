@@ -14,10 +14,10 @@
     </doc:documentation>
     
     <xsl:template match="THREAD" mode="moderation_cta_makethreadsticky">
-        <xsl:param name="label" select="'Stick thread to front page'" />
+        <xsl:param name="subject" />
         
         <a href="{$root}/NF{@FORUMID}?cmd=MAKETHREADSTICKY&amp;stickythreadid={@THREADID}">
-            <xsl:value-of select="$label"/>
+          Pin <span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$subject"/></span> to front page
         </a>
     </xsl:template>
     

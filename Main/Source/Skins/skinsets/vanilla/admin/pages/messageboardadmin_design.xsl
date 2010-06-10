@@ -34,25 +34,6 @@
 
         <h3>Your messageboard</h3>
 
-        <div id="dna-s-header" class="dna-box-border">
-          <h4>Header <xsl:if test="//PARAMS/PARAM[NAME = 's_success_header']/VALUE = 'true'"><span><xsl:value-of select="$success"/></span></xsl:if></h4>
-          <p>
-            <xsl:choose>
-              <xsl:when test="//SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HEADER_COLOUR">
-                <strong>Colour chosen: </strong>
-                <xsl:value-of select="//SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HEADER_COLOUR"/>
-              </xsl:when>
-              <xsl:otherwise>
-                <strong>Header colour by default is:</strong> blue.
-              </xsl:otherwise>
-            </xsl:choose>
-          </p>
-
-          <p>
-            <a href="?s_mode=header#dna-preview-editheader" class="dna-link-overlay">+ Edit header colour</a>
-          </p>
-        </div>
-
         <div id="dna-s-banner" class="dna-box-border">
           <h4>Banner <xsl:if test="//PARAMS/PARAM[NAME = 's_success_banner']/VALUE = 'true'"><span><xsl:value-of select="$success"/></span></xsl:if></h4>
           <xsl:choose>
@@ -128,7 +109,18 @@
               <h4>Topics list</h4>
               <xsl:if test="/H2G2/TOPIC_PAGE">
                 <ul class="dna-list-links">
-                  <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']" mode="object_topiclist_design"/>
+                  <xsl:choose>
+                    <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
+                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'1') and position() mod 2 = 1]" mode="object_topiclist_design" />
+                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'2') and position() mod 2 = 1]" mode="object_topiclist_design" />
+                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'1') and position() mod 2 = 0]" mode="object_topiclist_design" />
+                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'2') and position() mod 2 = 0]" mode="object_topiclist_design" />
+                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2')]" mode="object_topiclist_design" />
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC" mode="object_topiclist_design" />
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </ul>
               </xsl:if>
 
@@ -184,12 +176,12 @@
                       <xsl:choose>
                         <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
                           <ul class="dna-list-topic-col1">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION = starts-with(POSITION,'1')]" mode="object_topiclist_elements" />
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2') and position() mod 2 = 1]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'1')]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2') and position() mod 2 = 1]" mode="object_topiclist_elements" />
                           </ul>
                           <ul class="dna-list-topic-col2">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION = starts-with(POSITION,'2')]" mode="object_topiclist_elements" />
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2') and position() mod 2 = 0]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'2')]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2') and position() mod 2 = 0]" mode="object_topiclist_elements" />
                           </ul>
                         </xsl:when>
                         <xsl:otherwise>

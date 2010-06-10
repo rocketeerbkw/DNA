@@ -44,7 +44,7 @@
                     <xsl:with-param name="text"><xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" /></xsl:with-param>
                 </xsl:call-template>
                
-               <h4><xsl:value-of select="SUBJECT" /></h4>
+               <h3><xsl:value-of select="SUBJECT" /></h3>
                
             	<xsl:apply-templates select="SECONDSBEFOREREPOST"/>
               

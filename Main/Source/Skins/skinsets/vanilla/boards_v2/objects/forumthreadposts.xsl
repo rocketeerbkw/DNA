@@ -16,9 +16,9 @@
     
     <xsl:template match="FORUMTHREADPOSTS" mode="object_forumthreadposts">
         <xsl:variable name="threadId" select="@THREADID"/>
-        <xsl:call-template name="library_header_h5">
+        <xsl:call-template name="library_header_h3">
             <xsl:with-param name="text">
-            	<xsl:value-of select="FIRSTPOSTSUBJECT"/>  
+            <xsl:value-of select="FIRSTPOSTSUBJECT"/>  
             </xsl:with-param>
         </xsl:call-template>
         
@@ -27,14 +27,17 @@
             	<div class="dna-moderation-wrap">
 	                <p class="dna-boards-moderation">
 	                	<xsl:text>Moderation:</xsl:text>
-	                    <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = 1]" mode="moderation_cta_closethread">
-	            			<xsl:with-param name="label" select="'Close discussion'" />
+	                    <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']" mode="moderation_cta_closethread">
+	            			    <xsl:with-param name="label" select="'Close discussion'" />
+                        <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
 	            		</xsl:apply-templates>
-	            		<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = 0]" mode="moderation_cta_closethread">
+	            		<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '0']" mode="moderation_cta_closethread">
 	            			<xsl:with-param name="label" select="'Open discussion'" />
+                    <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '0']/SUBJECT"/>
 	            		</xsl:apply-templates>
 	                    <xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId]" mode="moderation_cta_movethread">
 	                    	<xsl:with-param name="label" select="'Move discussion'" />
+                        <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId]/SUBJECT"/>
 	                    </xsl:apply-templates>
 	                </p>
                 </div>

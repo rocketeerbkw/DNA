@@ -28,7 +28,7 @@
 	        </xsl:choose>
         </xsl:variable>
         <xsl:apply-templates select="TOPICLIST" mode="object_topiclist">
-			<xsl:with-param name="topic-layout" select="$topiccols" />
+			      <xsl:with-param name="topic-layout" select="$topiccols" />
         </xsl:apply-templates>
         
     </xsl:template>
