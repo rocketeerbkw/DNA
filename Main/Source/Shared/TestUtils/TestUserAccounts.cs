@@ -114,7 +114,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetNormalUserAccount
         {
-            get { return new UserAccount("DotNetNormalUser", "789456123", "	6042002|DotNetNormalUser|DotNetNormalUser|1276178977695|0|a3fcc9fb3f250cb4d89005823c5594c2d5e2569aafb5", "528df52cdc33cf1db82cfd19f76319a48585db40", 1090501859, true); }
+            get { return new UserAccount("DotNetNormalUser", "789456123", "6042002|DotNetNormalUser|DotNetNormalUser|1276178977695|0|a3fcc9fb3f250cb4d89005823c5594c2d5e2569aafb5", "528df52cdc33cf1db82cfd19f76319a48585db40", 1090501859, true); }
         }
 
         /// <summary>
