@@ -126,6 +126,8 @@
     </None>
     <None Include="Club.xsd" />
     <None Include="ContentSignifSettings.xsd" />
+    <None Include="UserComplaintArticle.xsd" />
+    <None Include="UserComplaintUrl.xsd" />
     <None Include="Dna.Services.Articles\article.xsd" />
     <None Include="Dna.Services.Common\DNARichTextElements.xsd" />
     <None Include="Dna.Services.Common\guideml.xsd" />
