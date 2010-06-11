@@ -91,7 +91,10 @@ namespace BBC.Dna.Page
             if (_currentSiteName == null || _currentSiteName.Length == 0 || CurrentSite == null)
             {
                 // Default back to h2g2
-                _currentSiteName = "h2g2";
+                //_currentSiteName = "h2g2";
+                Diagnostics.WriteToLog("Error", "Site not known." + _currentSiteName);
+
+                throw new DnaException("Site not known.");
             }
         }
 
