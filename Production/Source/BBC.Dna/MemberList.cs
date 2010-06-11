@@ -20,6 +20,7 @@ namespace BBC.Dna.Component
         private const string _docDnaUserID = @"User ID to search for.";
         private const string _docDnaUserEmail = @"User email to search for.";
         private const string _docDnaUserName = @"User name to look for.";
+        private const string _docDnaLoginName = @"User name to look for.";
         private const string _docDnaUserIPAddress = @"User ip address to search for.";
         private const string _docDnaUserBBCUID = @"User BBCUID to look for.";
 
@@ -72,6 +73,7 @@ namespace BBC.Dna.Component
             int userID = 0;
             string userEmail = String.Empty;
             string userName = String.Empty;
+            string loginName = String.Empty;
             string userIPAddress = String.Empty;
             string userBBCUID = String.Empty;
 
@@ -81,6 +83,7 @@ namespace BBC.Dna.Component
                                                     ref userName,
                                                     ref userIPAddress,
                                                     ref userBBCUID,
+                                                    ref loginName,
                                                     ref checkAllSites);
 
             if (!pageParamsOK)
@@ -94,6 +97,7 @@ namespace BBC.Dna.Component
                                 userName, 
                                 userIPAddress,
                                 userBBCUID, 
+                                loginName,
                                 checkAllSites);
 
             return true;
@@ -126,9 +130,16 @@ namespace BBC.Dna.Component
         /// <param name="userName">User name to look for.</param>
         /// <param name="userIPAddress">User ip address to search for.</param>
         /// <param name="userBBCUID">User bbcuid to look for.</param>
+        /// <param name="loginName">Login name to look for.</param>
         /// <param name="checkAllSites">Whether to bring back results for all sites</param>
-        public void GetMemberListXml(int userSearchType, int userID, string userEmail, string userName, string userIPAddress,
-                                                    string userBBCUID, bool checkAllSites)
+         public void GetMemberListXml(int userSearchType, 
+                                         int userID, 
+                                         string userEmail, 
+                                         string userName, 
+                                         string userIPAddress,
+                                         string userBBCUID, 
+                                         string loginName, 
+                                         bool checkAllSites)
         {
             //bool cached = GetMemberListCachedXml(userSearchType, userID, userEmail, userName, checkAllSites);
 
@@ -140,6 +151,7 @@ namespace BBC.Dna.Component
                                         userName,
                                         userIPAddress,
                                         userBBCUID,
+                                        loginName,
                                         checkAllSites);
             //}
         }
@@ -245,6 +257,7 @@ namespace BBC.Dna.Component
         /// <param name="userName">User name to look for.</param>
         /// <param name="userIPAddress">User ip address to search for.</param>
         /// <param name="userBBCUID">User bbcuid to look for.</param>
+        /// <param name="loginName">Login name to look for.</param>
         /// <param name="checkAllSites">Whether to bring back results for all sites</param>
         /// <returns>Whether the Params were retrieved without error</returns>
         private bool TryGetPageParams(
@@ -254,6 +267,7 @@ namespace BBC.Dna.Component
             ref string userName, 
             ref string userIPAddress,
             ref string userBBCUID,
+            ref string loginName,
             ref bool checkAllSites)
         {
             userSearchType = InputContext.GetParamIntOrZero("usersearchtype", _docDnaUserSearchType);
@@ -263,6 +277,7 @@ namespace BBC.Dna.Component
             userName = InputContext.GetParamStringOrEmpty("username", _docDnaUserName);
             userIPAddress = InputContext.GetParamStringOrEmpty("useripaddress", _docDnaUserIPAddress);
             userBBCUID = InputContext.GetParamStringOrEmpty("userbbcuid", _docDnaUserBBCUID);
+            loginName = InputContext.GetParamStringOrEmpty("loginname", _docDnaLoginName);
 
             checkAllSites = false;
 
@@ -314,6 +329,7 @@ namespace BBC.Dna.Component
         /// <param name="userName">User name to look for.</param>
         /// <param name="userIPAddress">User ip address to search for.</param>
         /// <param name="userBBCUID">User bbcuid to look for.</param>
+        /// <param name="loginName">Login name to look for.</param>
         /// <param name="checkAllSites">Whether to bring back results for all sites</param>
         private void GenerateMemberListPageXml(
             int userSearchType,
@@ -322,6 +338,7 @@ namespace BBC.Dna.Component
             string userName,
             string userIPAddress,
             string userBBCUID,
+            string loginName,
             bool checkAllSites)
         {
             string storedProcedureName = GetMemberListStoredProcedureName(userSearchType);
@@ -346,9 +363,13 @@ namespace BBC.Dna.Component
                 {
                     dataReader.AddParameter("ipaddress", userIPAddress);
                 }
-                else //if (userSearchType == 4)
+                else if (userSearchType == 4)
                 {
                     dataReader.AddParameter("BBCUID", userBBCUID);
+                }
+                else if (userSearchType == 5)
+                {
+                    dataReader.AddParameter("LoginName", loginName);
                 }
                 if (checkAllSites)
                 {
@@ -361,7 +382,15 @@ namespace BBC.Dna.Component
 
                 dataReader.Execute();
 
-                GenerateMemberListXml(dataReader, userSearchType, userID, userEmail, userName, userIPAddress, userBBCUID, checkAllSites);
+                GenerateMemberListXml(dataReader, 
+                                        userSearchType, 
+                                        userID, 
+                                        userEmail, 
+                                        userName, 
+                                        userIPAddress, 
+                                        userBBCUID, 
+                                        loginName,
+                                        checkAllSites);
             }
         }
 
@@ -375,6 +404,7 @@ namespace BBC.Dna.Component
         /// <param name="userName">User name to look for.</param>
         /// <param name="userIPAddress">User ip address to search for.</param>
         /// <param name="userBBCUID">User bbcuid to look for.</param>
+        /// <param name="loginName">Login name to look for.</param>
         /// <param name="checkAllSites">Whether to bring back results for all sites</param>
         private void GenerateMemberListXml(
             IDnaDataReader dataReader,
@@ -384,6 +414,7 @@ namespace BBC.Dna.Component
             string userName,
             string userIPAddress,
             string userBBCUID,
+            string loginName,
             bool checkAllSites)
         {
             int count = 0;
@@ -397,6 +428,7 @@ namespace BBC.Dna.Component
             AddAttribute(memberList, "USERSEARCHNAME", StringUtils.EscapeAllXmlForAttribute(userName));
             AddAttribute(memberList, "USERSEARCHIPADDRESS", StringUtils.EscapeAllXmlForAttribute(userIPAddress));
             AddAttribute(memberList, "USERSEARCHBBCUID", StringUtils.EscapeAllXmlForAttribute(userBBCUID));
+            AddAttribute(memberList, "USERSEARCHLOGINNAME", StringUtils.EscapeAllXmlForAttribute(loginName));
 
             AddAttribute(memberList, "CHECKALLSITES", checkAllSites.ToString());
 
@@ -500,11 +532,15 @@ namespace BBC.Dna.Component
             {
                 storedProcedureName = "SearchForUserViaIPAddress";
             }
-             else //if (userSearchType == 4)
+            else if (userSearchType == 4)
             {
                 storedProcedureName = "SearchForUserViaBBCUID";
             }
-           return storedProcedureName;
+            else if (userSearchType == 5)
+            {
+                storedProcedureName = "SearchForUserViaLoginName";
+            }
+            return storedProcedureName;
         }
 
         /// <summary>
@@ -516,6 +552,7 @@ namespace BBC.Dna.Component
         /// <param name="userName">User name to look for.</param>
         /// <param name="userIPAddress">User ip address to search for.</param>
         /// <param name="userBBCUID">User bbcuid to look for.</param>
+        /// <param name="loginName">Login name to look for.</param>
         /// <param name="checkAllSites">Whether to bring back results for all sites</param>
         /// <returns>Whether we have got the XML from the File Cache</returns>
         private bool GetMemberListCachedXml(
@@ -525,6 +562,7 @@ namespace BBC.Dna.Component
             string userName,
             string userIPAddress,
             string userBBCUID,
+            string loginName,
             bool checkAllSites)
         {
             bool gotFromCache = false;

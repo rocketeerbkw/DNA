@@ -4,7 +4,7 @@ CREATE PROCEDURE createnewuserfromuserid	@userid int,
 											@siteid int = 1,
 											@firstnames varchar(255) = null,
 											@lastname varchar(255) = null,
-											@displayname varchar(255) = null
+											@displayname nvarchar(255) = null
 As
 
 -- create the new account
@@ -21,7 +21,7 @@ BEGIN
 	DECLARE @Err INT
 	
 	--  Nickname to be used when creating user.
-	DECLARE @nickname VARCHAR(255)
+	DECLARE @nickname NVARCHAR(255)
 
 	DECLARE @premoderatenicknames bit
 	SELECT @premoderatenicknames = CASE WHEN dbo.udf_getsiteoptionsetting (@siteid, 'Moderation', 'NicknameModerationStatus') = 2 THEN 1 ELSE 0 END
@@ -76,40 +76,60 @@ END
 -- See if we need to check the preferences table to see if the user has an entry for this site?
 IF NOT EXISTS ( SELECT SiteID FROM Preferences WHERE UserID = @UserID AND SiteID = @SiteID )
 BEGIN
+	DECLARE @DateJoined DATETIME, @AutoSinBin BIT
+	SELECT  @DateJoined = MIN (DateJoined),
+			@AutoSinBin = CASE WHEN MIN(CAST(ISNULL(AutoSinBin,0) AS INT)) > 0 THEN 1 ELSE 0 END
+		FROM dbo.Preferences p
+	INNER JOIN dbo.Sites s ON s.SiteID = p.siteid
+	WHERE s.ModClassID IN
+	(
+		SELECT ModClassID FROM Sites WHERE SiteID = @SiteID
+	)
+	AND p.UserID = @UserID
+
 	EXEC @Err = SetDefaultPreferencesForUser @UserID, @SiteID
 	SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
 
-	UPDATE dbo.Preferences SET datejoined = GETDATE()
-	WHERE userid = @userid AND siteid = @siteid
-	SET @Err = @@ERROR; IF @Err <> 0 GOTO HandleError
-
-	DECLARE @premodduration int
-	EXEC checkpremodduration @siteid, @premodduration OUTPUT
-
-	DECLARE @postcountthreshold int
-	EXEC checkpostcountthreshold @siteid, @postcountthreshold OUTPUT
-
-	IF (@premodduration IS NULL)
+	IF @DateJoined IS NOT NULL
 	BEGIN
-		SET @premodduration = 0
-	END
-
-	IF (@postcountthreshold IS NULL)
-	BEGIN
-		SET @postcountthreshold = 0
-	END
-
-	IF (@premodduration <> 0 OR @postcountthreshold <> 0)
-	BEGIN
-		UPDATE dbo.Preferences SET AutoSinBin = 1
+		UPDATE dbo.Preferences SET datejoined = GETDATE(), AutoSinBin = @AutoSinBin
 		WHERE userid = @userid AND siteid = @siteid
 		SET @Err = @@ERROR; IF @Err <> 0 GOTO HandleError
 	END
 	ELSE
 	BEGIN
-		UPDATE dbo.Preferences SET AutoSinBin = 0
+		UPDATE dbo.Preferences SET datejoined = GETDATE()
 		WHERE userid = @userid AND siteid = @siteid
 		SET @Err = @@ERROR; IF @Err <> 0 GOTO HandleError
+
+		DECLARE @premodduration int
+		EXEC checkpremodduration @siteid, @premodduration OUTPUT
+
+		DECLARE @postcountthreshold int
+		EXEC checkpostcountthreshold @siteid, @postcountthreshold OUTPUT
+
+		IF (@premodduration IS NULL)
+		BEGIN
+			SET @premodduration = 0
+		END
+
+		IF (@postcountthreshold IS NULL)
+		BEGIN
+			SET @postcountthreshold = 0
+		END
+		
+		IF (@premodduration <> 0 OR @postcountthreshold <> 0)
+		BEGIN
+			UPDATE dbo.Preferences SET AutoSinBin = 1
+			WHERE userid = @userid AND siteid = @siteid
+			SET @Err = @@ERROR; IF @Err <> 0 GOTO HandleError
+		END
+		ELSE
+		BEGIN
+			UPDATE dbo.Preferences SET AutoSinBin = 0
+			WHERE userid = @userid AND siteid = @siteid
+			SET @Err = @@ERROR; IF @Err <> 0 GOTO HandleError
+		END
 	END
 END
 

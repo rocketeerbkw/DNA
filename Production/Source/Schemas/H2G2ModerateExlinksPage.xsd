@@ -14,6 +14,7 @@
   <xs:include schemaLocation="Mod-Reasons.xsd"/>
   <xs:include schemaLocation="ExLinkModerationList.xsd"/>
   <xs:include schemaLocation="Referee-List.xsd"/>
+  <xs:include schemaLocation="RecentActivity.xsd"/>
   <xs:element name="H2G2">
     <xs:complexType>
       <xs:sequence>
@@ -22,6 +23,7 @@
         <xs:element name="USERAGENT" type="xs:string"/>
         <xs:element ref="DATE"/>
         <xs:element ref="SITECONFIG" />
+        <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
         <xs:element ref="LINKMODERATION-LIST" />
         <xs:element ref="REFEREE-LIST"/>
         <xs:element ref="MODERATION-CLASSES"/>

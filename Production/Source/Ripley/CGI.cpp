@@ -110,7 +110,8 @@ CGI::CGI() :					m_pSiteList(NULL),
 								m_IncludeCrumbtrail(0),
 								m_AllowPostCodesInSearch(0),
 								m_bQueuePostings(false),
-								m_bSiteEmergencyClosed(false)
+								m_bSiteEmergencyClosed(false),
+								m_bIsSecureRequest(false)
 {
 	m_TickStart = GetTickCount();
 	m_LastEventTime = m_TickStart;
@@ -162,7 +163,8 @@ CGI::CGI(const CGI& other) :	m_pSiteList(other.m_pSiteList),
 								m_IPAddress(other.m_IPAddress),
 								m_bQueuePostings(other.m_bQueuePostings),
 								m_bSiteEmergencyClosed(other.m_bSiteEmergencyClosed),
-								m_SSOService(other.m_SSOService)
+								m_SSOService(other.m_SSOService),
+								m_bIsSecureRequest(other.m_bIsSecureRequest)
 {
 	m_TickStart = GetTickCount();
 	m_LastEventTime = m_TickStart;
@@ -1195,6 +1197,9 @@ bool CGI::CreateCurrentUser()
 
 		CTDVString sIdentityUserName;
 		GetCookieByName("IDENTITY-USERNAME", sIdentityUserName);
+		
+		CTDVString sSecureCookie;
+		GetCookieByName("IDENTITY-HTTPS", sSecureCookie);
 
 		m_pCurrentUser = new CUser(GetInputContext());
 		if (m_pCurrentUser != NULL)
@@ -1202,7 +1207,8 @@ bool CGI::CreateCurrentUser()
 			m_pCurrentUser->SetSyncByDefault(true);
 		}
 
-		bool bUserSet = m_ProfileConnection.SetUserViaCookieAndUserName(sSsoCookie, sIdentityUserName);
+		//bool bUserSet = m_ProfileConnection.SetUserViaCookieAndUserName(sSsoCookie, sIdentityUserName);
+		bool bUserSet = m_ProfileConnection.SecureSetUserViaCookies(sSsoCookie, sSecureCookie);
 		if (ParamExists("logsignin") || theConfig.UseExtraSigninlogging())
 		{
 			WriteInputLog(CTDVString("SIGNIN ") + m_ProfileConnection.GetLastTimings());
@@ -1213,7 +1219,16 @@ bool CGI::CreateCurrentUser()
 		{
 			m_ProfileConnection.IsUserSignedIn(bUserSignedIn);
 		}
-		
+
+		//Check if it is a secure call
+		bool bIsSecureRequest = false;
+		m_ProfileConnection.IsSecureRequest(bIsSecureRequest);
+		if (m_pCurrentUser != NULL)
+		{
+			m_pCurrentUser->SetUserIsSecure(bIsSecureRequest);
+		}
+		m_bIsSecureRequest = bIsSecureRequest;
+
 		// If the user is not set, but is signed in, then we want to carry on, but only return the sso name.
 		if (bUserSet || bUserSignedIn)
 		{
@@ -2079,14 +2094,17 @@ bool CGI::GetCookie(CTDVString& sResult)
         // BODGE!!! Make sure that the cookie is fully decoded.
         // Currently the cookie can come in from Forge double encoded.
         // Our tests are correct in encoding only the once.
+			
 		if (GetCookieByName( "IDENTITY", sResult))
 		{
+			/*
 			int i = 0;
 			while (sResult.Find(' ') < 0 && sResult.Find('/') < 0 && sResult.Find('+') < 0 && i < 3)
 			{
 				UnEscapeString(&sResult);
 				i++;
 			}
+			*/
 			return true;
 		}
 		return false;

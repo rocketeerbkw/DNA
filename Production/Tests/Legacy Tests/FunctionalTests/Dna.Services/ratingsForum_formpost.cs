@@ -21,6 +21,7 @@ namespace FunctionalTests
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
         private string _server = DnaTestURLRequest.CurrentServer;
+        private string _secureServer = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
         private static CommentsTests_V1 GetCommentsTests()
         {
@@ -319,7 +320,7 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}&rating=1", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureServer + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.Ok.ToString());
@@ -342,7 +343,7 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}&rating=1000", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureServer + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
@@ -366,7 +367,7 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureServer + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
@@ -382,7 +383,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateComment");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
-            request.CurrentSSO2Cookie = "";
+            request.CurrentCookie = "";
             //create the forum
             CommentForum commentForum = GetCommentsTests().CommentForumCreate("tests", Guid.NewGuid().ToString());
 
@@ -390,7 +391,7 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}&rating=1", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureServer + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.MissingUserCredentials.ToString());
@@ -413,7 +414,7 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}&rating=1", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureServer + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.MissingUserCredentials.ToString());
@@ -428,14 +429,15 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateComment");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
             //create the forum
             CommentForum commentForum = GetCommentsTests().CommentForumCreate("tests", Guid.NewGuid().ToString());
 
             string text = "Functiontest Title" + Guid.NewGuid().ToString();
-            string commentForumXml = "notest=somethingelse&rating=5";// String.Format("text={0}", text);
+            string commentForumXml = String.Format("notext={0}&rating=1", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureServer + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.EmptyText.ToString());
@@ -457,7 +459,7 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}&postStyle=invalidpoststyle", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureServer + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.InvalidPostStyle.ToString());

@@ -104,7 +104,7 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader("AddEMailToBannedList"))
             {
-                reader.AddParameter("Email", "mark.howitt@bbc.co.uk");
+                reader.AddParameter("Email", "damnyoureyes72+2@googlemail.com");
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
@@ -119,7 +119,7 @@ namespace FunctionalTests
              // Now try to complain again
             request = new DnaTestURLRequest("haveyoursay");
             request.SetCurrentUserNormal();
-            request.RequestPage("UserComplaintPage?postid=" + Convert.ToString(_postId) + "&action=submit&complaintreason=libellous&complainttext=Complaint&email=mark.howitt@bbc.co.uk&skin=purexml");
+            request.RequestPage("UserComplaintPage?postid=" + Convert.ToString(_postId) + "&action=submit&complaintreason=libellous&complainttext=Complaint&email=damnyoureyes72%2B2@googlemail.com&skin=purexml");
             xml = request.GetLastResponseAsXML();
 
             // Check to make sure that complaint was not made.

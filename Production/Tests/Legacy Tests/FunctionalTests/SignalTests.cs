@@ -172,7 +172,8 @@ namespace FunctionalTests
             // Create the request for the test. Make sure we sign in as an editor
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.UseEditorAuthentication = true;
-            request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
+            request.SetCurrentUserEditor();
+            //request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
 
             // Get the current open and close times for the h2g2 site
             request.RequestPage("?skin=purexml");

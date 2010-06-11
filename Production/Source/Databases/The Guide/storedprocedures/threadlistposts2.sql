@@ -23,17 +23,17 @@ select @notablesgroup = GroupID FROM Groups WITH(NOLOCK) WHERE Name = 'Notables'
 			u.Area,
 			P.Title,
 			p.SiteSuffix,
-			u.Status, u.TaxonomyNode, 'Journal' = j.ForumID, u.Active,
+			u.Status, u.TaxonomyNode, 'Journal' = j.forumid, u.Active,
 			'UserName' = CASE WHEN LTRIM(u.UserName) = '' THEN 'Researcher ' + CAST(u.UserID AS varchar) ELSE u.UserName END, 
-			'Subject' = CASE Subject WHEN '' THEN 'No Subject' ELSE Subject END, 
-			NextSibling, 
-			PrevSibling, 
-			Parent, 
-			FirstChild, 
-			EntryID, 
-			DatePosted, 
+			'Subject' = CASE t.Subject WHEN '' THEN 'No Subject' ELSE t.Subject END, 
+			t.NextSibling, 
+			t.PrevSibling, 
+			t.Parent, 
+			t.FirstChild, 
+			t.EntryID, 
+			t.DatePosted, 
 			t.LastUpdated,
-			Hidden,
+			t.Hidden,
 			f.SiteID,
 			'Interesting' = NULL,
 			'Total' = @numposts,
@@ -45,12 +45,14 @@ select @notablesgroup = GroupID FROM Groups WITH(NOLOCK) WHERE Name = 'Notables'
 			gm.*,
 			t.text,
 			'FirstPostSubject' = th.FirstSubject,
-			f.ForumPostCount + (select SUM(PostCountDelta) FROM ForumPostCountAdjust WITH(NOLOCK) WHERE ForumID = f.ForumID),
+			f.ForumPostCount,
 			f.AlertInstantly,
 			th.Type,
 			th.eventdate,
-			'threadlastupdate' = th.lastupdated
+			'threadlastupdate' = th.lastupdated,
+			te.postindex as 'replypostindex'
 	FROM ThreadEntries t WITH(NOLOCK)
+		left join ThreadEntries te on te.entryid=t.parent
 		INNER JOIN Users u WITH(NOLOCK) ON t.UserID = u.UserID
 		INNER JOIN Threads th WITH(NOLOCK) ON t.ThreadID = th.ThreadID
 		INNER JOIN Forums f WITH(NOLOCK) on f.ForumID = t.ForumID
@@ -59,6 +61,6 @@ select @notablesgroup = GroupID FROM Groups WITH(NOLOCK) WHERE Name = 'Notables'
 		LEFT JOIN GroupMembers gm2 WITH(NOLOCK) ON gm2.UserID = t.UserID AND gm2.SiteID = f.SiteID AND gm2.GroupID = @notablesgroup
 		INNER JOIN Journals J with(nolock) on J.UserID = U.UserID and J.SiteID = f.SiteID
 	WHERE t.ThreadID = @threadid AND t.PostIndex >= @start AND t.PostIndex <= @end AND th.VisibleTo IS NULL -- AND (t.Hidden IS NULL) 
-	ORDER BY PostIndex
+	ORDER BY t.PostIndex
 	OPTION (OPTIMIZE FOR(@threadid=0)) -- Protect against dodgy execution plans after a recompile
 	

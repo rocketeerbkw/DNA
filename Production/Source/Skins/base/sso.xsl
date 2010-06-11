@@ -160,13 +160,13 @@
 				<xsl:text>http%3A%2F%2Fops-dev14.national.core.bbc.co.uk%3A6666</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB1'">
-				<xsl:text>http%3A%2F%2Fdnaweb1.national.core.bbc.co.uk</xsl:text>
+				<xsl:text>http%3A%2F%2Fdnaint.national.core.bbc.co.uk</xsl:text>
 			</xsl:when>			
 			<xsl:when test="/H2G2/SERVERNAME = 'OPS-DNA1'">
 				<xsl:text>http%3A%2F%2Fdnarelease.national.core.bbc.co.uk</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB2'">
-				<xsl:text>http%3A%2F%2Fdnaweb2.national.core.bbc.co.uk</xsl:text>
+				<xsl:text>http%3A%2F%2Fdnatest.national.core.bbc.co.uk</xsl:text>
 			</xsl:when>			
 			<xsl:when test="/H2G2/SERVERNAME = 'NMSDNA0'">
 				<xsl:text>http%3A%2F%2Fdna-staging.bbc.co.uk</xsl:text>
@@ -265,7 +265,7 @@
 	
 	<xsl:variable name="idstringlimit">
 		<xsl:choose>
-			<xsl:when test="/H2G2/SITE/@ID = '1'">255</xsl:when>
+			<xsl:when test="/H2G2/SITE/@ID = '1'">64</xsl:when>
 			<xsl:otherwise>32</xsl:otherwise>
 		</xsl:choose>	
 	</xsl:variable>
@@ -521,7 +521,14 @@
 						<xsl:value-of select="concat($sso_rootlogin, 'SSO%3Fpa=postforum%26pt=forum%26forum=', ../@FORUMID, '%26pt=thread%26thread=', ../@THREADID, '%26pt=post%26post=', @POSTID)"/>	
 					</xsl:when>
 					<xsl:otherwise>
-		          		<xsl:value-of select="concat($idURL, $id_loginpath,'target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, 'AddThread%3Finreplyto=', @POSTID, $id_kids)" />
+						<xsl:choose>
+							<xsl:when test="$autogenname_required = 'true'">
+								<xsl:value-of select="concat($idURL, $id_loginpath,'target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, 'F', ../@FORUMID, '%3Fthread=', ../@THREADID, $id_kids)" />
+							</xsl:when>	
+							<xsl:otherwise>						
+		          				<xsl:value-of select="concat($idURL, $id_loginpath,'target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, 'AddThread%3Finreplyto=', @POSTID, $id_kids)" />
+		          			</xsl:otherwise>
+		          		</xsl:choose>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
@@ -1251,7 +1258,7 @@
 				          					</xsl:otherwise>
 				          				</xsl:choose>
 				          			</xsl:attribute>
-				          			<xsl:text>choose a nickname</xsl:text>
+				          			<xsl:text>choose a Screen Name</xsl:text>
 			          			</a>
 			          			<xsl:text> before you can use the messageboards.</xsl:text>
 			          		</p>

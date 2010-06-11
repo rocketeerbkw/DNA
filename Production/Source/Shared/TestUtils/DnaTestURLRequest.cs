@@ -37,6 +37,8 @@ namespace Tests
             _serviceName = serviceName.ToLower();
             
             _server = CurrentServer;
+            
+            _secureServer = SecureServerAddress;
 
             //SnapshotInitialisation.RestoreFromSnapshot();
         }
@@ -98,6 +100,7 @@ namespace Tests
         private int _userid = 1090498911;
         private int _identityuserid = 0;
         private string _server = "";
+        private string _secureServer = "";
         private HttpWebResponse _response = null;
         private string _responseAsString = null;
         private XmlDocument _responseAsXML = null;
@@ -107,9 +110,11 @@ namespace Tests
 
         private static Host _hostRequest;
 
-        private bool _useIdentity = false;
+        private bool _useIdentity = true;
 
         List<Cookie> _cookieList = new List<Cookie>();
+
+        private string _secureCookie = "44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00";
 
         /// <summary>
         /// The dispose method for cleaning up after ourselves
@@ -128,6 +133,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -141,6 +147,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -154,6 +161,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -167,6 +175,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -180,6 +189,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -193,6 +203,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -206,6 +217,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -219,6 +231,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -232,6 +245,7 @@ namespace Tests
             _userName = user.UserName;
             _password = user.Password;
             _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
         }
@@ -307,44 +321,45 @@ namespace Tests
             _useIdentity = true;
 
             Cookie cookie;
+            Cookie secureCookie;
             if (userType == TestUserCreator.UserType.Normal)
             {
-                if (!TestUserCreator.CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayname, true, policy, true, out cookie, out _identityuserid, out _userid))
+                if (!TestUserCreator.CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayname, true, policy, true, out cookie, out secureCookie, out _identityuserid, out _userid))
                 {
                     return false;
                 }
             }
             else if (userType == TestUserCreator.UserType.Editor)
             {
-                if (!TestUserCreator.CreateNewIdentityEditorUser(userName, password, dateOfBirth, email, displayname, siteid, policy, out cookie, out _identityuserid, out _userid))
+                if (!TestUserCreator.CreateNewIdentityEditorUser(userName, password, dateOfBirth, email, displayname, siteid, policy, out cookie, out secureCookie, out _identityuserid, out _userid))
                 {
                     return false;
                 }
             }
             else if (userType == TestUserCreator.UserType.SuperUser)
             {
-                if (!TestUserCreator.CreateNewIdentitySuperUser(userName, password, dateOfBirth, email, displayname, policy, out cookie, out _identityuserid, out _userid))
+                if (!TestUserCreator.CreateNewIdentitySuperUser(userName, password, dateOfBirth, email, displayname, policy, out cookie, out secureCookie, out _identityuserid, out _userid))
                 {
                     return false;
                 }
             }
             else if (userType == TestUserCreator.UserType.Moderator)
             {
-                if (!TestUserCreator.CreateNewIdentityModeratorUser(userName, password, dateOfBirth, email, displayname, siteid, policy, out cookie, out _identityuserid, out _userid))
+                if (!TestUserCreator.CreateNewIdentityModeratorUser(userName, password, dateOfBirth, email, displayname, siteid, policy, out cookie, out secureCookie, out _identityuserid, out _userid))
                 {
                     return false;
                 }
             }
             else if (userType == TestUserCreator.UserType.Notable)
             {
-                if (!TestUserCreator.CreateNewIdentityNotableUser(userName, password, dateOfBirth, email, displayname, siteid, policy, out cookie, out _identityuserid, out _userid))
+                if (!TestUserCreator.CreateNewIdentityNotableUser(userName, password, dateOfBirth, email, displayname, siteid, policy, out cookie, out secureCookie, out _identityuserid, out _userid))
                 {
                     return false;
                 }
             }
             else if (userType == TestUserCreator.UserType.IdentityOnly)
             {
-                if (!TestUserCreator.CreateIdentityUser(userName, password, dateOfBirth, email, displayname, true, policy, true, 0, out cookie, out _identityuserid))
+                if (!TestUserCreator.CreateIdentityUser(userName, password, dateOfBirth, email, displayname, true, policy, true, 0, out cookie, out secureCookie, out _identityuserid))
                 {
                     return false;
                 }
@@ -354,7 +369,8 @@ namespace Tests
                 return false;
             }
 
-            _cookie = cookie.Value;
+            _cookie = HttpUtility.UrlEncode(cookie.Value);
+            _secureCookie = HttpUtility.UrlEncode(secureCookie.Value);
             _userName = userName;
             _password = password;
             _useIdentity = true;
@@ -437,12 +453,21 @@ namespace Tests
         }
 
         /// <summary>
-        /// Current SSO2 cookie property
+        /// Current cookie property
         /// </summary>
-        public string CurrentSSO2Cookie
+        public string CurrentCookie
         {
             get { return _cookie; }
             set { _cookie = HttpUtility.UrlEncode(value); }
+        }
+
+        /// <summary>
+        /// Current secure cookie property
+        /// </summary>
+        public string CurrentSecureCookie
+        {
+            get { return _secureCookie; }
+            set { _secureCookie = HttpUtility.UrlEncode(value); }
         }
 
         /// <summary>
@@ -522,6 +547,29 @@ namespace Tests
                 {
                     // Just make the server the machine name plus the rest
                     return "local.bbc.co.uk:8081";
+                }
+            }
+        }
+        /// <summary>
+        /// Current SecureServerAddress
+        /// </summary>
+        public static string SecureServerAddress
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]))
+                {//overridden in app.config
+                    return ConfigurationManager.AppSettings["testServer"];
+                }
+                if (Environment.MachineName.ToLower() == "ops-dna1")
+                {
+                    // We've on ops-dev1! make the server name dnadev!
+                    return "dnadev.national.core.bbc.co.uk";
+                }
+                else
+                {
+                    // Just make the server the machine name plus the rest
+                    return "local.bbc.co.uk:443";
                 }
             }
         }
@@ -632,10 +680,20 @@ namespace Tests
             }
 
             // Now call the request
-            _hostRequest.ProcessRequest(page, pageParams, "SSO2-UID=" + _cookie);
+            _hostRequest.ProcessRequest(page, pageParams, "IDENTITY=" + _cookie);
 
             // State that the last request was for an aspx page
             _lastRequestWasASPX = true;
+        }
+
+       /// <summary>
+        /// This function is used to send the request
+        /// </summary>
+        /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
+        /// <returns>The HTTP response object to the request</returns>
+        public void RequestPage(string pageAndParams)
+        {
+            RequestPage(pageAndParams, false);
         }
 
         /// <summary>
@@ -643,30 +701,53 @@ namespace Tests
         /// </summary>
         /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
         /// <returns>The HTTP response object to the request</returns>
-        public void RequestPage(string pageAndParams)
+        public void RequestSecurePage(string pageAndParams)
+        {
+            RequestPage(pageAndParams, true);
+        }
+
+        /// <summary>
+        /// This function is used to send the request
+        /// </summary>
+        /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
+        /// <returns>The HTTP response object to the request</returns>
+        public void RequestPage(string pageAndParams, bool secure)
         {
             // Make sure that we clear the last response objects
             _responseAsString = null;
             _responseAsXML = null;
 
             // Create the URL and the Request object
-            Uri URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
+            Uri URL;
+            if (secure)
+            {
+                URL = new Uri("https://" + _secureServer + "/dna/" + _serviceName + "/" + pageAndParams);
+                //URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
+
+                System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                    ((sender, certificate, chain, sslPolicyErrors) => true);
+
+            }
+            else
+            {
+                URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
+            }
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
 
-            Console.WriteLine("Requesting "+URL.ToString());
+            Console.WriteLine("Requesting " + URL.ToString());
 
             // Check to see if we require a proxy for the request
-			if (_useProxyPassing)
-			{
+            if (_useProxyPassing)
+            {
                 Console.WriteLine("Using proxy");
                 // Set the proxy
-				webRequest.Proxy = _proxy;
-			}
-			else
-			{
-				webRequest.Proxy = null;
-			}
+                webRequest.Proxy = _proxy;
+            }
+            else
+            {
+                webRequest.Proxy = null;
+            }
 
             // Check to see if we need to authenticate the request as an editor
             if (_useEditorAuthentication)
@@ -690,8 +771,11 @@ namespace Tests
                 {
                     cookie = new Cookie("IDENTITY", _cookie, "/", _server);
                     webRequest.CookieContainer.Add(cookie);
-                    cookie = new Cookie("IDENTITY-USERNAME", _cookie, "/", _server);
-                    webRequest.CookieContainer.Add(cookie);
+                    if (secure)
+                    {
+                        cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server);
+                        webRequest.CookieContainer.Add(cookie);
+                    }
                 }
                 else
                 {
@@ -722,8 +806,8 @@ namespace Tests
                 {
                     // Problems!
                     Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-					_response = null;
-					return; // null;
+                    _response = null;
+                    return; // null;
                 }
                 else
                 {
@@ -731,15 +815,14 @@ namespace Tests
                 }
             }
 
-			// Capture the string response always
+            // Capture the string response always
 
             // State that the last request was not for an aspx page
             _lastRequestWasASPX = false;
 
-			GetLastResponseAsString();
-
+            GetLastResponseAsString();
             // Return the response object
-			return; // _response;
+            return; // _response;
         }
 
         /// <summary>
@@ -780,6 +863,11 @@ namespace Tests
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
             webRequest.AllowAutoRedirect = false;
+
+            //Trust all certificates
+            System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                ((sender, certificate, chain, sslPolicyErrors) => true);
+
             if (!String.IsNullOrEmpty(postDataType))
             {
                 webRequest.ContentType = postDataType;
@@ -822,8 +910,11 @@ namespace Tests
                 {
                     cookie = new Cookie("IDENTITY", _cookie, "/", _server);
                     webRequest.CookieContainer.Add(cookie);
-                    cookie = new Cookie("IDENTITY-USERNAME", _cookie, "/", _server);
-                    webRequest.CookieContainer.Add(cookie);
+                    if (fullUrl.IndexOf("https://") == 0)
+                    {//only add secure cookie if secure
+                        cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server);
+                        webRequest.CookieContainer.Add(cookie);
+                    }
                 }
                 else
                 {

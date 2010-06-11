@@ -509,6 +509,21 @@ namespace BBC.Dna.Api
                 throw ApiException.GetError(ErrorType.MissingUserCredentials);
             }
 
+            //check if the posting is secure
+            try
+            {
+                int requireSecurePost = SiteList.GetSiteOptionValueInt(site.SiteID, "CommentForum",
+                                                                  "EnforceSecurePosting");
+                if (!CallingUser.IsSecureRequest && requireSecurePost == 1)
+                {
+                    throw ApiException.GetError(ErrorType.NotSecure);
+                }
+            }
+            catch (SiteOptionNotFoundException e)
+            {
+                DnaDiagnostics.WriteExceptionToLog(e);
+            }
+
             ignoreModeration = CallingUser.IsUserA(UserTypes.Editor) || CallingUser.IsUserA(UserTypes.SuperUser);
             if (CallingUser.IsUserA(UserTypes.BannedUser))
             {

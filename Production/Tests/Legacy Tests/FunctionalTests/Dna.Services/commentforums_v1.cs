@@ -22,6 +22,7 @@ namespace FunctionalTests
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
         private readonly string _server = DnaTestURLRequest.CurrentServer;
+        private readonly string _secureServer = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -835,7 +836,7 @@ namespace FunctionalTests
                 // Setup the request url
                 url =
                     String.Format(
-                        "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
+                        "https://" + _secureServer + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
                         _sitename, returnedForum.Id);
                 // now get the response
                 request.RequestPageWithFullURL(url, commentXml, "text/xml");
@@ -1772,13 +1773,17 @@ namespace FunctionalTests
             string userName = "CommentForumCreateUser" + DateTime.Now.Ticks;
             string userEmail = userName + "@bbc.co.uk";
             Cookie cookie;
+            Cookie secureCookie;
             int userID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(userName, "password", "1989-12-31", userEmail,
                                                              "Comment User", true,
                                                              TestUserCreator.IdentityPolicies.Adult, false, 0,
-                                                             out cookie, out userID));
+                                                             out cookie,
+                                                             out secureCookie,
+                                                             out userID));
             request.UseIdentitySignIn = true;
-            request.CurrentSSO2Cookie = cookie.Value;
+            request.CurrentCookie = cookie.Value;
+            request.CurrentSecureCookie = secureCookie.Value;
 
             string id = "FunctiontestCommentForum-" + Guid.NewGuid(); //have to randomize the string to post
             string title = "Functiontest Title";
@@ -1867,23 +1872,28 @@ namespace FunctionalTests
             //Assert.IsTrue(request.SetCurrentUserAsNewIdentityUser(userName, "password", "Comment User", userEmail, "1989-12-31", TestUserCreator.IdentityPolicies.Adult, true, false, 1, false), "Failed to create a test identity user");
 
             Cookie cookie;
+            Cookie secureCookie;
             int userID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(userName, "password", "1989-12-31", userEmail,
                                                              "Comment User", true,
                                                              TestUserCreator.IdentityPolicies.Adult, false, 0,
-                                                             out cookie, out userID));
+                                                             out cookie,
+                                                             out secureCookie,
+                                                             out userID));
             request.UseIdentitySignIn = true;
-            request.CurrentSSO2Cookie = cookie.Value;
+
+            request.CurrentCookie = cookie.Value;
+            request.CurrentSecureCookie = secureCookie.Value;
 
             string text = "Functiontest Title" + Guid.NewGuid();
             commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
                                             "<text>{0}</text>" +
                                             "</comment>", text);
 
-            // Setup the request url
+            // Setup the comment request url - needs to be secure
             url =
                 String.Format(
-                    "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
+                    "https://" + _secureServer + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
                     "identity606", id);
 
             try

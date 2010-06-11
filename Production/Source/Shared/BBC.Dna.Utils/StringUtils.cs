@@ -415,9 +415,11 @@ namespace BBC.Dna.Utils
         public static Object DeserializeObject(String xmlString, Type type)
         {
             DataContractSerializer xs = new DataContractSerializer(type);
-            MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(xmlString));
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
-            return xs.ReadObject(memoryStream);
+            using (MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(xmlString)))
+            {
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+                return xs.ReadObject(memoryStream);
+            }
         }
 
         /// <summary>
@@ -428,9 +430,11 @@ namespace BBC.Dna.Utils
         public static Object DeserializeJSONObject(String jsonString, Type type)
         {
             DataContractJsonSerializer xs = new DataContractJsonSerializer(type);
-            MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(jsonString));
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
-            return xs.ReadObject(memoryStream);
+            using (MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(jsonString)))
+            {
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+                return xs.ReadObject(memoryStream);
+            }
         }
 
         /// <summary>
@@ -445,7 +449,6 @@ namespace BBC.Dna.Utils
                 DataContractSerializer dcSerializer = new DataContractSerializer(obj.GetType());
                 XmlWriterSettings settings = new XmlWriterSettings();
                 settings.Encoding = new UTF8Encoding(false);
-                //settings.Indent = true;
 
                 using (XmlWriter xWriter = XmlWriter.Create(writer, settings))
                 {
@@ -453,6 +456,46 @@ namespace BBC.Dna.Utils
                     xWriter.Flush();
                     return writer.ToString();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Takes an object, type and namespace and outputs xml
+        /// </summary>
+        /// <param name="obj">The object to serialize</param>
+        /// <returns>XML string</returns>
+        public static string SerializeToXmlUsingXmlSerialiser(object obj)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                var xs = new XmlSerializer(obj.GetType());
+                var xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+                xs.Serialize(xmlTextWriter, obj);
+                using (var memoryStream2 = (MemoryStream)xmlTextWriter.BaseStream)
+                {
+                    var actualXml = UTF8ByteArrayToString(memoryStream2.ToArray());
+                    actualXml = actualXml.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "");
+                    actualXml = actualXml.Replace(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
+                    actualXml = actualXml.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
+
+                    return actualXml.TrimStart();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Method to reconstruct an Object from XML string
+        /// </summary>
+        /// <param name="xmlString"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static Object DeserializeObjectUsingXmlSerialiser(String xmlString, Type type)
+        {
+            var xs = new XmlSerializer(type);
+            using (var memoryStream = new MemoryStream(StringToUTF8ByteArray(xmlString)))
+            {
+                var xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+                return xs.Deserialize(memoryStream);
             }
         }
 
@@ -465,12 +508,13 @@ namespace BBC.Dna.Utils
         public static string SerializeToJson(object obj)
         {
             DataContractJsonSerializer ser = new DataContractJsonSerializer(obj.GetType());
-            MemoryStream ms = new MemoryStream();
-            ser.WriteObject(ms, obj);
+            using (MemoryStream ms = new MemoryStream())
+            {
+                ser.WriteObject(ms, obj);
 
-            string json = Encoding.UTF8.GetString(ms.ToArray());
-            return json;
-
+                string json = Encoding.UTF8.GetString(ms.ToArray());
+                return json;
+            }
         }
 
         /// <summary>

@@ -49,6 +49,14 @@ namespace DnaIdentityWebServiceProxy
         }
 
         /// <summary>
+        /// Basic Is Secure request property
+        /// </summary>
+        public bool IsSecureRequest
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         /// Basic Is user logged in property
         /// </summary>
         public bool IsUserLoggedIn
@@ -267,6 +275,17 @@ namespace DnaIdentityWebServiceProxy
         /// <param name="userName">The name of the user you are trying to set</param>
         /// <returns>True if user was set correctly, false if not</returns>
         public bool TrySetUserViaCookieAndUserName(string cookie, string userName)
+        {
+            return TrySetUserViaCookie(cookie);
+        }
+
+        /// <summary>
+        /// Tries to set the user using their username, normal cookie and secure cookie
+        /// </summary>
+        /// <param name="cookie">The cookie value for the user</param>
+        /// <param name="secureCookie">The secure cookie value for the user</param>
+        /// <returns>True if user was set correctly, false if not</returns>
+        public bool TrySecureSetUserViaCookies(string cookie, string secureCookie)
         {
             return TrySetUserViaCookie(cookie);
         }
@@ -955,6 +974,14 @@ namespace DnaIdentityWebServiceProxy
         public string GetCookieValue
         {
             get { return _ssoUser.Usercookie; }
+        }
+
+        /// <summary>
+        /// Get the users secure cookie value
+        /// </summary>
+        public string GetSecureCookieValue
+        {
+            get { return ""; }
         }
 
         /// <summary>

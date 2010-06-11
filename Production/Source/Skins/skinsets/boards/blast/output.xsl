@@ -83,7 +83,7 @@
         </title>
         <meta content="Blast aims to inspire and motivate young people to develop their creative talents and showcase their art, dance, film, music, writing, games and fashion on a range of digital platforms." name="description"/>
         <meta content="BBC, blast, teens, art, dance, film, music, writing, games, fashion games, mobile, downloads, message boards, creative, tips, tools, ideas, inspiration, careers, workshops, interviews, free, things to do, events, tutorials, mentors, advice, help" name="keywords"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
         <link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
         <meta name="dcterms.created" content="2008-06-15" />
         
@@ -94,8 +94,12 @@
         
         <xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
       
-      <script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"></script>
-      <script type="text/javascript" src="/dnaimages/javascript/DNA.js"></script>
+      <script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js">
+        <xsl:text> </xsl:text>
+      </script>
+      <script type="text/javascript" src="/dnaimages/javascript/DNA.js">
+        <xsl:text> </xsl:text>
+      </script>
       
       <script type="text/javascript">
         if (identity.cta) {

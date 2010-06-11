@@ -1,4 +1,5 @@
 ﻿using BBC.Dna.Moderation;
+using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;

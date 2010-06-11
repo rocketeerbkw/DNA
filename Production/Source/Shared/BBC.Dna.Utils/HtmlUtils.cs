@@ -226,6 +226,16 @@ namespace BBC.Dna.Utils
             while ((pos = haystack.IndexOf(needle)) > 0)
                 haystack = haystack.Substring(0, pos) + replacement + haystack.Substring(pos + needle.Length);
             return haystack;
-        }	
+        }
+
+        public static string HtmlDecode(string text)
+        {
+            return HttpUtility.HtmlDecode(text);
+        }
+
+        public static string HtmlEncode(string text)
+        {
+            return HttpUtility.HtmlEncode(text);
+        }
     }
 }

@@ -25,26 +25,34 @@ BEGIN
 	BEGIN
 		UPDATE ExLinkMod
 		SET LockedBy = @userid, DateLocked = getdate()
-		FROM (	SELECT TOP 10 g.* FROM ExLinkMod g 
+		FROM
+		(
+			SELECT TOP 10 g.* FROM ExLinkMod g
+				INNER JOIN Sites s on s.siteid = g.siteid
 				LEFT JOIN GroupMembers m ON m.UserID = @UserID AND g.SiteID = m.SiteID AND m.GroupID = @modgroupid
-				WHERE	
-				(m.GroupID is not null or @issuperuser = 1) 
+				WHERE (m.GroupID is not null or @issuperuser = 1) 
 				AND g.Status = 0
 				AND CASE WHEN complainttext IS NULL THEN 0 ELSE 1 END = @alerts
-				ORDER BY g.ModID asc) as t1
+				AND s.ModClassID = @ModClassID
+				ORDER BY g.ModID asc
+		) as t1
 		WHERE t1.ModID = ExLinkMod.ModID
 	END
 	ELSE 
 	BEGIN
 		UPDATE ExLinkMod
 		SET LockedBy = @userid, DateLocked = getdate()
-		FROM (	SELECT TOP 10 g.* FROM ExLinkMod g 
+		FROM
+		(
+			SELECT TOP 10 g.* FROM ExLinkMod g 
+				INNER JOIN Sites s on s.siteid = g.siteid
 				LEFT JOIN GroupMembers m ON m.UserID = @UserID AND g.SiteID = m.SiteID AND m.GroupID = @refgroupid
-				WHERE	
-				(m.GroupID is not null or @issuperuser = 1) 
+				WHERE (m.GroupID is not null or @issuperuser = 1) 
 				AND g.Status = 2
 				AND CASE WHEN complainttext IS NULL THEN 0 ELSE 1 END = @alerts
-				ORDER BY g.ModID asc) as t1
+				AND s.ModClassID = @ModClassID
+				ORDER BY g.ModID asc
+		) as t1
 		WHERE t1.ModID = ExLinkMod.ModID
 	END
 END

@@ -20,10 +20,12 @@
         
         <xsl:apply-templates select="preceding-sibling::ANCESTRY" mode="object_ancestry" />
         
-        <div class="article text">
-            <!-- Format the article body text -->
-            <xsl:apply-templates select="GUIDE/BODY" mode="library_GuideML" />
-        </div>
+        <xsl:if test="GUIDE/BODY != ''">
+	        <div class="article text">
+	            <!-- Format the article body text -->
+	            <xsl:apply-templates select="GUIDE/BODY" mode="library_GuideML" />
+	        </div>
+        </xsl:if>
         
     </xsl:template>
 </xsl:stylesheet>

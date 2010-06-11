@@ -103,14 +103,16 @@ namespace Tests
         /// <param name="ssoName">The name of the sso service to use</param>
         /// <param name="siteName">The name of the site</param>
         /// <param name="useIdentitySignIn">Set this to true if the site is to use identity as it's sign in system</param>
+        /// <param name="identityPolicy">Identity policy</param>
         /// <returns>The new mocked site</returns>
-        public static ISite CreateMockedSite(IInputContext mockedInput, int siteID, string ssoName, string siteName, bool useIdentitySignIn)
+        public static ISite CreateMockedSite(IInputContext mockedInput, int siteID, string ssoName, string siteName, bool useIdentitySignIn, string identityPolicy)
         {
             ISite mockedSite = _mockery.NewMock<ISite>();
             Stub.On(mockedSite).GetProperty("SSOService").Will(Return.Value(ssoName));
             Stub.On(mockedSite).GetProperty("SiteID").Will(Return.Value(siteID));
             Stub.On(mockedSite).GetProperty("SiteName").Will(Return.Value(siteName));
             Stub.On(mockedSite).GetProperty("UseIdentitySignInSystem").Will(Return.Value(useIdentitySignIn));
+            Stub.On(mockedSite).GetProperty("IdentityPolicy").Will(Return.Value(identityPolicy));
             Stub.On(mockedInput).GetProperty("CurrentSite").Will(Return.Value(mockedSite));
             return mockedSite;
         }
@@ -133,21 +135,37 @@ namespace Tests
             IDnaIdentityWebServiceProxy mockedProfile = _mockery.NewMock<IDnaIdentityWebServiceProxy>();
             Stub.On(mockedProfile).Method("SetService").Will(Return.Value(null));
             Stub.On(mockedProfile).GetProperty("IsServiceSet").Will(Return.Value(true));
+            Stub.On(mockedProfile).GetProperty("IsSecureRequest").Will(Return.Value(true));
+
             //Stub.On(mockedProfile).Method("TrySetUserViaCookie").Will(Return.Value(true));
-            Stub.On(mockedProfile).Method("TrySetUserViaCookieAndUserName").Will(Return.Value(true));
+            //Stub.On(mockedProfile).Method("TrySetUserViaCookieAndUserName").Will(Return.Value(true));
+            Stub.On(mockedProfile).Method("TrySecureSetUserViaCookies").Will(Return.Value(true));
+
             Stub.On(mockedProfile).GetProperty("IsUserLoggedIn").Will(Return.Value(true));
+            Stub.On(mockedProfile).GetProperty("IsUserSignedIn").Will(Return.Value(true));
+            
             Stub.On(mockedProfile).GetProperty("UserID").Will(Return.Value(userID));
             Stub.On(mockedProfile).GetProperty("LoginName").Will(Return.Value(loginName));
+
             Stub.On(mockedProfile).Method("DoesAttributeExistForService").With("h2g2", "email").Will(Return.Value(serviceHasEmail));
             Stub.On(mockedProfile).Method("GetUserAttribute").With("email").Will(Return.Value(email));
+
+            Stub.On(mockedProfile).Method("DoesAttributeExistForService").With("h2g2", "legacy_user_id").Will(Return.Value(false));
+            Stub.On(mockedProfile).Method("GetUserAttribute").With("legacy_user_id").Will(Return.Value(""));
+
             Stub.On(mockedProfile).Method("DoesAttributeExistForService").With("h2g2", "firstname").Will(Return.Value(false));
             Stub.On(mockedProfile).Method("DoesAttributeExistForService").With("h2g2", "lastname").Will(Return.Value(false));
             Stub.On(mockedProfile).Method("DoesAttributeExistForService").With("h2g2", "displayname").Will(Return.Value(false));
+            Stub.On(mockedProfile).Method("DoesAttributeExistForService").With("h2g2", "lastupdated").Will(Return.Value(false));
+
+
             Stub.On(mockedProfile).Method("CloseConnections").Will(Return.Value(null));
-            Stub.On(mockedProfile).GetProperty("IsUserLoggedIn").Will(Return.Value(true));
             Stub.On(mockedProfile).GetProperty("GetCookieValue").Will(Return.Value(""));
-            Stub.On(mockedProfile).GetProperty("SignInSystemType").Will(Return.Value(SignInSystem.SSO));
-            
+            Stub.On(mockedProfile).GetProperty("SignInSystemType").Will(Return.Value(SignInSystem.Identity));
+
+            Stub.On(mockedInput).GetProperty("IsSecureRequest").Will(Return.Value(true));
+            Stub.On(mockedInput).SetProperty("IsSecureRequest").To(true);
+
             // Create the cookies
             DnaCookie cookie = new DnaCookie();
             cookie.Name = "SSO2-UID";
@@ -164,8 +182,18 @@ namespace Tests
             Stub.On(mockedInput).Method("GetCookie").With("IDENTITY-USERNAME").Will(Return.Value(new DnaCookie(new System.Web.HttpCookie("IDENTITY-USERNAME", loginName + "|huhi|7907980"))));
             Stub.On(mockedInput).Method("GetParamIntOrZero").With("s_sync", "User's details must be synchronised with the data in SSO.").Will(Return.Value(0));
 
+            Stub.On(mockedInput).Method("GetCookie").With("IDENTITY").Will(Return.Value(new DnaCookie(new System.Web.HttpCookie("IDENTITY", loginName + "|huhi|7907980"))));
+            Stub.On(mockedInput).Method("GetCookie").With("IDENTITY-HTTPS").Will(Return.Value(new DnaCookie(new System.Web.HttpCookie("IDENTITY-HTTPS", ""))));
+
             // Add the mocked profile to the first context
             Stub.On(mockedInput).GetProperty("GetCurrentSignInObject").Will(Return.Value(mockedProfile));
+
+            // Mock the siteoption call for the UseSiteSuffix and AutoGeneratedNames option
+            Stub.On(mockedInput).Method("GetSiteOptionValueBool").With("User", "UseSiteSuffix").Will(Return.Value(false));
+            Stub.On(mockedInput).Method("GetSiteOptionValueBool").With("User", "AutoGeneratedNames").Will(Return.Value(false));
+
+            Stub.On(mockedInput).Method("UrlEscape").WithAnyArguments().Will(Return.Value("Escaped Email"));
+
             return mockedProfile;
         }
 

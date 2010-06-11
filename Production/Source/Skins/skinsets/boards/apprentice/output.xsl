@@ -72,7 +72,7 @@
         </title>
         <meta content="The Apprentice and Alan Sugar return for another series in 2009 on BBC Two" name="description"/>
         <meta content="Apprentice, Alan Sugar, contestants, Comic Relief, News Alert, Mash up Clip, The Firings" name="keywords"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
         <link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
         <meta name="dcterms.created" content="2008-06-15" />
         
@@ -127,7 +127,7 @@
                 
                </h1>
                <div id="app-content">
-                <xsl:comment>#include virtual="/apprentice/includes/mb_localnav.sssi"</xsl:comment>
+                <xsl:comment>#include virtual="/apprentice/series5/includes/mb_localnav.sssi"</xsl:comment>
                </div>
                
               <div id="membership-top"></div>

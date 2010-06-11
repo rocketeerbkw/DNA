@@ -225,8 +225,8 @@ namespace FunctionalTests
             // step 2 - create the review item
             myRequest.SetCurrentUserNormal();
             url = String.Format(
-                "http://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/",
-                testUtils_ratingsAPI.server,
+                "https://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/",
+                testUtils_ratingsAPI.secureserver,
                 testUtils_ratingsAPI.sitename,
                 testForumId
                 );

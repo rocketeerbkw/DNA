@@ -74,102 +74,92 @@ namespace BBC.Dna.Objects.Tests
         ///A test for text
         ///</summary>
         [TestMethod()]
-        public void textTestWithStatus_DefaultStatus_ReturnsUnchangedText()
+        public void FormatPost_DefaultStatus_ReturnsUnchangedText()
         {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string expected = "This is the default comment.";
+            var expected = "This post is ok.";
+            var testText = "This post is ok.";
+            var hidden = CommentStatus.Hidden.NotHidden;
             string actual;
-            target.Text = expected;
-            actual = target.Text;
+
+
+            actual = ThreadPost.FormatPost(testText, hidden);
             Assert.AreEqual(expected, actual);
 
         }
 
         [TestMethod()]
-        public void textTestWithStatus_HiddenAwaitingPreModeration_ReturnsHiddenText()
+        public void FormatPost_HiddenAwaitingPreModeration_ReturnsHiddenText()
         {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string expected = "This is the default comment.";
+            var expected = "This post has been hidden.";
+            var testText = "some text";
+            var hidden = CommentStatus.Hidden.Hidden_AwaitingPreModeration;
             string actual;
 
-            //set hidden to premoderated
-            target.Hidden = (byte)CommentStatus.Hidden.Hidden_AwaitingPreModeration;
-            expected = "This post has been hidden.";
-            actual = target.Text;
-            Assert.AreEqual(expected, actual);
 
-
-        }
-
-        [TestMethod()]
-        public void textTestWithStatus_HiddenAwaitingReferral_ReturnsHiddenText()
-        {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string expected = "This post has been hidden.";
-            string actual;
-
-            target.Hidden = (byte)CommentStatus.Hidden.Hidden_AwaitingReferral;
-            actual = target.Text;
-            Assert.AreEqual(expected, actual);
-
-        }
-
-        [TestMethod()]
-        public void textTestWithStatus_RemovedEditorComplaintTakedown_ReturnsRemovedText()
-        {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string actual;
-
-            string expected = "This post has been removed.";
-            target.Hidden = (byte)CommentStatus.Hidden.Removed_EditorComplaintTakedown;
-            actual = target.Text;
+            actual = ThreadPost.FormatPost(testText, hidden);
             Assert.AreEqual(expected, actual);
 
 
         }
 
         [TestMethod()]
-        public void textTestWithStatus_RemovedEditorFailedModeration_ReturnsRemovedText()
+        public void FormatPost_HiddenAwaitingReferral_ReturnsHiddenText()
         {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string actual;
-            string expected = "This post has been removed.";
+            var expected = "This post has been hidden.";
+            var testText = "some text";
+            var hidden = CommentStatus.Hidden.Hidden_AwaitingReferral;
 
-            target.Hidden = (byte)CommentStatus.Hidden.Removed_FailedModeration;
-            actual = target.Text;
+            var actual = ThreadPost.FormatPost(testText, hidden);
             Assert.AreEqual(expected, actual);
 
         }
 
         [TestMethod()]
-        public void textTestWithStatus_RemovedForumRemoved_ReturnsRemovedText()
+        public void FormatPost_RemovedEditorComplaintTakedown_ReturnsRemovedText()
         {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string actual;
-            string expected = "This post has been removed.";
+            var expected = "This post has been removed.";
+            var testText = "some text";
+            var hidden = CommentStatus.Hidden.Removed_EditorComplaintTakedown;
 
-            target.Hidden = (byte)CommentStatus.Hidden.Removed_ForumRemoved;
-            actual = target.Text;
+            var actual = ThreadPost.FormatPost(testText, hidden);
             Assert.AreEqual(expected, actual);
+
 
         }
 
         [TestMethod()]
-        public void textTestWithStatus_RemovedUserDeleted_ReturnsRemovedText()
+        public void FormatPost_RemovedEditorFailedModeration_ReturnsRemovedText()
         {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string actual;
-            string expected = "This post has been removed.";
+            var expected = "This post has been removed.";
+            var testText = "some text";
+            var hidden = CommentStatus.Hidden.Removed_FailedModeration;
 
-            target.Hidden = (byte)CommentStatus.Hidden.Removed_UserDeleted;
-            actual = target.Text;
+            var actual = ThreadPost.FormatPost(testText, hidden);
+            Assert.AreEqual(expected, actual);
+
+
+        }
+
+        [TestMethod()]
+        public void FormatPost__RemovedForumRemoved_ReturnsRemovedText()
+        {
+
+            var expected = "This post has been removed.";
+            var testText = "some text";
+            var hidden = CommentStatus.Hidden.Removed_ForumRemoved;
+
+            var actual = ThreadPost.FormatPost(testText, hidden);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void FormatPost__RemovedUserDeleted_ReturnsRemovedText()
+        {
+            var expected = "This post has been removed.";
+            var testText = "some text";
+            var hidden = CommentStatus.Hidden.Removed_UserDeleted;
+
+            var actual = ThreadPost.FormatPost(testText, hidden);
             Assert.AreEqual(expected, actual);
 
         }
@@ -178,7 +168,7 @@ namespace BBC.Dna.Objects.Tests
         ///A test for text with style applied
         ///</summary>
         [TestMethod()]
-        public void textTestWithStyle_AsPlainText_ReturnsOriginalText()
+        public void FormatPost_AsPlainText_ReturnsOriginalText()
         {
             ThreadPost target = new ThreadPost();
             target.Style = PostStyle.Style.plaintext;
@@ -187,12 +177,14 @@ namespace BBC.Dna.Objects.Tests
             target.Text = expected;
             actual = target.Text;
             Assert.AreEqual(expected, actual);
+
+            
            
 
         }
 
         [TestMethod()]
-        public void textTestWithStyle_AsRichtext_ReturnsOriginalText()
+        public void FormatPost_AsRichtext_ReturnsOriginalText()
         {
             ThreadPost target = new ThreadPost();
             target.Style = PostStyle.Style.plaintext;
@@ -210,7 +202,7 @@ namespace BBC.Dna.Objects.Tests
         }
 
         [TestMethod()]
-        public void textTestWithStyle_AsUnknown_ReturnsOriginalText()
+        public void FormatPost_AsUnknown_ReturnsOriginalText()
         {
             ThreadPost target = new ThreadPost();
             target.Style = PostStyle.Style.plaintext;
@@ -252,9 +244,11 @@ namespace BBC.Dna.Objects.Tests
             ThreadPost target = new ThreadPost();
             string expected = "This is the default subject.";
             string actual;
+            
 
             //set hidden to premoderated
             target.Hidden = (byte)CommentStatus.Hidden.Hidden_AwaitingPreModeration;
+            target.Subject = "some subject";
             expected = "Hidden";
             actual = target.Subject;
             Assert.AreEqual(expected, actual);
@@ -273,6 +267,7 @@ namespace BBC.Dna.Objects.Tests
 
             expected = "Hidden";
             target.Hidden = (byte)CommentStatus.Hidden.Hidden_AwaitingReferral;
+            target.Subject = "some subject";
             actual = target.Subject;
             Assert.AreEqual(expected, actual);
 
@@ -291,6 +286,7 @@ namespace BBC.Dna.Objects.Tests
             //set hidden to hidden
             expected = "Removed";
             target.Hidden = (byte)CommentStatus.Hidden.Removed_EditorComplaintTakedown;
+            target.Subject = "some subject";
             actual = target.Subject;
             Assert.AreEqual(expected, actual);
         }
@@ -308,6 +304,7 @@ namespace BBC.Dna.Objects.Tests
             //set hidden to hidden
             expected = "Removed";
             target.Hidden = (byte)CommentStatus.Hidden.Removed_FailedModeration;
+            target.Subject = "some subject";
             actual = target.Subject;
             Assert.AreEqual(expected, actual);
         }
@@ -325,6 +322,7 @@ namespace BBC.Dna.Objects.Tests
             //set hidden to hidden
             expected = "Removed";
             target.Hidden = (byte)CommentStatus.Hidden.Removed_ForumRemoved;
+            target.Subject = "some subject";
             actual = target.Subject;
             Assert.AreEqual(expected, actual);
         }
@@ -342,6 +340,7 @@ namespace BBC.Dna.Objects.Tests
             //set hidden to hidden
             expected = "Removed";
             target.Hidden = (byte)CommentStatus.Hidden.Removed_UserDeleted;
+            target.Subject = "some subject";
             actual = target.Subject;
             Assert.AreEqual(expected, actual);
         }
@@ -382,6 +381,8 @@ namespace BBC.Dna.Objects.Tests
             MockRepository mocks = new MockRepository();
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.DoesFieldExist("threadid")).Return(true);
+            reader.Stub(x => x.DoesFieldExist("hidden")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("hidden")).Return((int)CommentStatus.Hidden.Removed_EditorComplaintTakedown);
             reader.Stub(x => x.GetInt32NullAsZero("threadid")).Return(1);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(1);
@@ -393,7 +394,9 @@ namespace BBC.Dna.Objects.Tests
             ThreadPost actual;
             actual = ThreadPost.CreateThreadPostFromDatabase(creator, 1);
             Assert.AreEqual(actual.ThreadId, 1);
+            Assert.AreEqual(actual.Hidden, (byte)CommentStatus.Hidden.Removed_EditorComplaintTakedown);
         }
+
 
         [TestMethod()]
         public void CreateThreadPostFromDatabaseTest_EmptyDataSet_ReturnsException()
@@ -449,6 +452,7 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.DoesFieldExist("")).Return(true).Constraints(Is.Anything());
             reader.Stub(x => x.GetInt32NullAsZero(prefix + "threadid")).Return(1);
+            reader.Stub(x => x.GetStringNullAsEmpty(prefix + "text")).Return("some text");
 
             mocks.ReplayAll();
 
@@ -512,8 +516,8 @@ namespace BBC.Dna.Objects.Tests
             target.Style = PostStyle.Style.plaintext;
             string expected = @"This is the <BR />default comment.";
             XmlElement actual;
-            target.Text = @"This is the 
-default comment.";
+            target.Text = ThreadPost.FormatPost(@"This is the 
+default comment.", CommentStatus.Hidden.NotHidden);
             actual = target.TextElement;
             Assert.AreEqual(expected, actual.InnerXml);
         }
@@ -529,29 +533,11 @@ default comment.";
             target.Style = PostStyle.Style.richtext;
             string expected = @"This is the &lt;b&gt;default&lt;/b&gt; comment.";
             XmlElement actual;
-            target.Text = "This is the <b>default</b> comment.";
+            target.Text = ThreadPost.FormatPost("This is the <b>default</b> comment.", CommentStatus.Hidden.NotHidden);
             actual = target.TextElement;
             Assert.AreEqual(expected, actual.InnerXml);
         }
 
-
-        /// <summary>
-        ///A test for TextElement
-        ///</summary>
-        [TestMethod()]
-        public void TextElement_SetTextElement_ReturnsCorrectTextValue()
-        {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.richtext;
-            string expected = @"This is the &lt;b&gt;default&lt;/b&gt; comment.";
-            XmlElement actual;
-            target.Text = "This is the <b>default</b> comment.";
-            actual = target.TextElement;
-            Assert.AreEqual(expected, actual.InnerXml);
-
-            target.TextElement = target.TextElement;
-            Assert.AreEqual(expected, target.Text);
-        }
 
         /// <summary>
         ///A test for Hidden

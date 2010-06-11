@@ -7,7 +7,7 @@ Note that currently this SP doesn't handle updating the users group membership
 Create Procedure updateuser2	@userid int,
 								@siteid int,
 								@email varchar(255) = NULL, 
-								@username varchar(255) = NULL,
+								@username nvarchar(255) = NULL,
 								@cookie varchar(255) = NULL,
 								@password varchar(255) = NULL,
 								@firstnames varchar(255) = NULL,
@@ -42,7 +42,7 @@ As
 declare @setuser nvarchar(2048)
 declare @setpref nvarchar(2048)
 declare @comma varchar(5)
-declare @EscapedUserName varchar(1200)
+declare @EscapedUserName nvarchar(1200)
 IF @username IS NOT NULL
 BEGIN
 	SELECT @EscapedUserName = REPLACE(@username, '<', '&lt;') -- N.B. User Name can get truncated here is multiple < or > chars passed in. 

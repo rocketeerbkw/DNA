@@ -5,15 +5,16 @@ using System.Xml.Serialization;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using ISite = BBC.Dna.Sites.ISite;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable]
-    [DesignerCategory("code")]
     [XmlType(AnonymousType = true, TypeName = "THREAD")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "THREAD")]
+    [DataContract(Name="threadSummary")]
     public class ThreadSummary
     {
         #region Properties
@@ -21,6 +22,7 @@ namespace BBC.Dna.Objects
         private int _threadId;
 
         [XmlElement(Order = 0, ElementName = "THREADID")]
+        [DataMember(Name = ("threadId"))]
         public int ThreadId
         {
             get { return _threadId; }
@@ -37,26 +39,32 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         /// <remarks/>
         [XmlElement(Order = 1, ElementName = "SUBJECT")]
+        [DataMember(Name = ("subject"))]
         public string Subject { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 2, ElementName = "DATEPOSTED")]
+        [DataMember(Name = ("dateLastPosted"))]
         public DateElement DateLastPosted { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 3, ElementName = "TOTALPOSTS")]
+        [DataMember(Name = ("totalPosts"))]
         public int TotalPosts { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 4, ElementName = "TYPE")]
+        [DataMember(Name = ("type"))]
         public string Type { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 5, ElementName = "FIRSTPOST")]
+        [DataMember(Name = ("firstPost"))]
         public ThreadPostSummary FirstPost { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 6, ElementName = "LASTPOST")]
+        [DataMember(Name = ("lastPost"))]
         public ThreadPostSummary LastPost { get; set; }
 
         /// <remarks/>
@@ -71,12 +79,29 @@ namespace BBC.Dna.Objects
         [XmlAttribute(AttributeName = "CANREAD")]
         public byte CanRead { get; set; }
 
+        [XmlIgnore]
+        [DataMember(Name = ("canRead"))]
+        public bool CanReadBool
+        {
+            get { return CanRead == 1; }
+            set { }
+        }
+
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANWRITE")]
         public byte CanWrite { get; set; }
 
+        [XmlIgnore]
+        [DataMember(Name = ("canWrite"))]
+        public bool CanWriteBool
+        {
+            get { return CanWrite == 1; }
+            set { }
+        }
+
         /// <remarks/>
         [XmlAttribute(AttributeName = "ISSTICKY")]
+        [DataMember(Name = ("isSticky"))]
         public bool IsSticky { get; set; }
 
         #endregion

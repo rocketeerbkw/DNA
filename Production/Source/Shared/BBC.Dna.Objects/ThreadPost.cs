@@ -4,6 +4,9 @@ using System;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Data;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
+
+
 namespace BBC.Dna.Objects
 {
     
@@ -11,37 +14,42 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "POST")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "POST")]
+    [DataContract(Name="threadPost")]
     public partial class ThreadPost
     {
         #region Properties
         /// <remarks/>
         private string _subject = String.Empty;
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "SUBJECT")]
+        [DataMember(Name = "subject")]
         public string Subject
         {
             get {
-                    if (_hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || _hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
-                    {
-                        return "Hidden";
-                    }
-                    else if (_hidden != CommentStatus.Hidden.NotHidden)
-                    {
-                        return "Removed";
-                    }
-                    else
-                    {
-                        return StringUtils.EscapeAllXml(_subject);
-                    }
+                return _subject;
+                    
                 }
-            set { _subject = value; }
+            set {
+                if (_hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || _hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
+                {
+                    _subject =  "Hidden";
+                }
+                else if (_hidden != CommentStatus.Hidden.NotHidden)
+                {
+                    _subject =  "Removed";
+                }
+                else
+                {
+                    _subject =  StringUtils.EscapeAllXml(value);
+                }
+            }
         }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "DATEPOSTED")]
+        [DataMember(Name = "datePosted")]
         public DateElement DatePosted
         {
             get;
@@ -58,6 +66,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "USER")]
+        [DataMember(Name = "user")]
         public User User
         {
             get;
@@ -65,27 +74,20 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        private string _text = String.Empty;
+        private bool _formattedText = false;
+        private string _text="";
         [XmlIgnore]
+        [DataMember(Name = ("text"))]
         public string Text
         {
             get
             {
-                //check hidden status
-                if (_hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || _hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
-                {
-                    return "This post has been hidden.";
-                }
-                else if (_hidden != CommentStatus.Hidden.NotHidden)
-                {
-                    return "This post has been removed.";
-                }
-
                 return _text;
-                
-
             }
-            set { _text = value; }
+            set
+            {
+                _text = value;
+            }
         }
 
         [System.Xml.Serialization.XmlAnyElement(Order = 4)]
@@ -93,11 +95,6 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                string _text = Translator.TranslateText(Text);
-
-                _text = HtmlUtils.ReplaceCRsWithBRs(_text);
-
-                
                 XmlDocument doc = new XmlDocument();
                 try
                 {
@@ -110,7 +107,7 @@ namespace BBC.Dna.Objects
                 }
                 return doc.DocumentElement;
             }
-            set { _text = value.InnerXml; }
+            set { }
         }
 
         [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "HOSTPAGEURL")]
@@ -129,6 +126,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "POSTID")]
+        [DataMember(Name = "postId")]
         public int PostId
         {
             get;
@@ -137,6 +135,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "THREAD")]
+        [DataMember(Name = "threadId")]
         public int ThreadId
         {
             get;
@@ -148,6 +147,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "INDEX")]
+        [DataMember(Name = "index")]
         public byte Index
         {
             get;
@@ -156,6 +156,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "FIRSTCHILD")]
+        [DataMember(Name = "firstChild")]
         public int FirstChild
         {
             get;
@@ -168,6 +169,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         private CommentStatus.Hidden _hidden = CommentStatus.Hidden.NotHidden;
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "HIDDEN")]
+        [DataMember(Name = "status")]
         public byte Hidden
         {
             get {return (byte)_hidden; }
@@ -184,6 +186,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "NEXTINDEX")]
+        [DataMember(Name = "nextIndex")]
         public int NextIndex
         {
             get;
@@ -195,6 +198,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "INREPLYTO")]
+        [DataMember(Name = "inReplyTo")]
         public int InReplyTo
         {
             get;
@@ -205,7 +209,20 @@ namespace BBC.Dna.Objects
         public bool InReplyToSpecified { get { return this.InReplyTo != 0; } }
 
         /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "INREPLYTOINDEX")]
+        [DataMember(Name = "inReplyToIndex")]
+        public int InReplyToIndex
+        {
+            get;
+            set;
+        }
+
+        [System.Xml.Serialization.XmlIgnore]
+        public bool InReplyToIndexSpecified { get { return this.InReplyTo != 0; } }
+
+        /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "NEXTSIBLING")]
+        [DataMember(Name = "nextSibling")]
         public int NextSibling
         {
             get;
@@ -218,6 +235,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "PREVINDEX")]
+        [DataMember(Name = "prevIndex")]
         public int PrevIndex
         {
             get;
@@ -229,6 +247,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "PREVSIBLING")]
+        [DataMember(Name = "prevSibling")]
         public int PrevSibling
         {
             get;
@@ -246,6 +265,7 @@ namespace BBC.Dna.Objects
         ///     plaintext = 2,
         /// </summary>
         [System.Xml.Serialization.XmlIgnore]
+        [DataMember(Name = "style")]
         public PostStyle.Style Style
         {
             get;
@@ -254,6 +274,37 @@ namespace BBC.Dna.Objects
         
         #endregion
 
+        /// <summary>
+        /// Formats the post
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <returns></returns>
+        static public string FormatPost(string inputText, CommentStatus.Hidden hidden)
+        {
+            if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
+            {
+                return "This post has been hidden.";
+            }
+            else if (hidden != CommentStatus.Hidden.NotHidden)
+            {
+                return "This post has been removed.";
+            }
+
+            inputText = Translator.TranslateText(inputText);
+            inputText = HtmlUtils.ReplaceCRsWithBRs(inputText);
+
+            return inputText;
+
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="postId"></param>
+        /// <returns></returns>
         static public ThreadPost CreateThreadPostFromDatabase(IDnaDataReaderCreator readerCreator, int postId)
         {
             using(IDnaDataReader reader = readerCreator.CreateDnaDataReader("getpostsinthread"))
@@ -300,6 +351,13 @@ namespace BBC.Dna.Objects
             {
                 post.InReplyTo = reader.GetInt32NullAsZero(prefix +"parent");
             }
+
+            if (reader.DoesFieldExist(prefix +"replypostindex"))
+            {
+                post.InReplyToIndex = reader.GetInt32NullAsZero(prefix + "replypostindex");
+            }
+
+            
             if (reader.DoesFieldExist(prefix +"prevSibling"))
             {
                 post.PrevSibling = reader.GetInt32NullAsZero(prefix +"prevSibling");
@@ -314,7 +372,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"hidden"))
             {
-                post.Hidden = (byte)(reader.GetInt32NullAsZero(prefix +"hidden") == 1?1:0);
+                post.Hidden = (byte)reader.GetInt32NullAsZero(prefix +"hidden");
             }
             if (reader.DoesFieldExist(prefix +"subject"))
             {
@@ -330,7 +388,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
-                post.Text = reader.GetStringNullAsEmpty(prefix + "text");
+                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden);
             }
             if (reader.DoesFieldExist(prefix +"hostpageurl"))
             {

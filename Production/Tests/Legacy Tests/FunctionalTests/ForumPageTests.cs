@@ -1107,6 +1107,32 @@ namespace FunctionalTests
             Assert.IsTrue(textNode.InnerXml.IndexOf("<SMILEY TYPE=\"kiss\" H2G2=\"Smiley#kiss\" />") >= 0);
         }
 
+        /// <summary>
+
+        /// </summary>
+        [TestMethod]
+        public void Test37GetSameForumManyTimes()
+        {
+            var siteName = "mbiplayer";
+            var testPost = @"this post contains newlines
+links: http://www.bbc.co.uk and other stuff";
+            var expectedString = "this post contains newlines<BR />links: <LINK HREF=\"http://www.bbc.co.uk\">http://www.bbc.co.uk</LINK> and other stuff";
+
+
+            PostToForum(34, 61, 7325075, testPost, siteName);
+
+            var request = new DnaTestURLRequest(siteName);
+            for (int i = 0; i < 10; i++)
+            {
+                request.RequestPage("NF7325075" + "?skin=purexml");
+                XmlDocument doc = request.GetLastResponseAsXML();
+
+                var lastPost = doc.SelectSingleNode("//H2G2/FORUMTHREADS/THREAD/LASTPOST/TEXT");
+                Assert.IsNotNull(lastPost);
+                Assert.AreEqual(expectedString, lastPost.InnerXml);
+            }
+
+        }
 
         #region Private helper functions
 
@@ -1294,7 +1320,7 @@ namespace FunctionalTests
                 reader.Execute();
             }
 
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(true))
             {//send signal
                 inputContext.SendSignal("action=recache-site");
             }
@@ -1313,7 +1339,7 @@ namespace FunctionalTests
         private void CleanRiplyCache()
         {
             string cachePath = string.Empty;
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(true))
             {//send signal
                 cachePath = inputContext.DnaConfig.CachePath;
             }
@@ -1331,6 +1357,25 @@ namespace FunctionalTests
                 }
             }
 
+        }
+
+        private XmlDocument PostToForum(int _threadId, int _inReplyTo, int _forumId, string body, string _siteName)
+        {
+            var url = String.Format("AddThread?skin=purexml");
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserNormal();
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("threadid", _threadId.ToString()));
+            postParams.Enqueue(new KeyValuePair<string, string>("inreplyto", _inReplyTo.ToString()));
+            postParams.Enqueue(new KeyValuePair<string, string>("dnapoststyle", "1"));
+            postParams.Enqueue(new KeyValuePair<string, string>("forum", _forumId.ToString()));
+            postParams.Enqueue(new KeyValuePair<string, string>("subject", "test post"));
+            postParams.Enqueue(new KeyValuePair<string, string>("body", body));
+            postParams.Enqueue(new KeyValuePair<string, string>("post", "Post message"));
+            request.RequestPage(url, postParams);
+            return request.GetLastResponseAsXML();
         }
         #endregion
     }

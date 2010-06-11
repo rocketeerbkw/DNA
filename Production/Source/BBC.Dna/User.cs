@@ -677,12 +677,14 @@ namespace BBC.Dna
                 // BODGE!!! Make sure that the cookie is fully decoded.
                 // Currently the cookie can come in from Forge double encoded.
                 // Our tests are correct in encoding only the once.
+                /*
                 int i = 0;
                 while (decodedCookie.IndexOfAny(new char[] { ' ', '/', '+' }) < 0 && i < 3)
                 {
                     decodedCookie = HttpUtility.UrlDecode(decodedCookie);
                     i++;
                 }
+                */
             }
             else
             {
@@ -698,16 +700,23 @@ namespace BBC.Dna
                 return false;
             }
 
-            string cookieUserName = "";
-            if (InputContext.GetCookie("IDENTITY-USERNAME") != null)
+            string secureCookie = "";
+            if (InputContext.GetCookie("IDENTITY-HTTPS") != null)
             {
-                cookieUserName = InputContext.GetCookie("IDENTITY-USERNAME").Value;
+                secureCookie = InputContext.GetCookie("IDENTITY-HTTPS").Value;
             }
 
-            if (!signInComponent.TrySetUserViaCookieAndUserName(decodedCookie,cookieUserName) && !signInComponent.IsUserSignedIn)
-            //if (!signInComponent.TrySetUserViaCookie(decodedCookie) && !signInComponent.IsUserSignedIn)
+            bool userSet = signInComponent.TrySecureSetUserViaCookies(decodedCookie, secureCookie) || signInComponent.IsUserSignedIn;
+
+            InputContext.IsSecureRequest = signInComponent.IsSecureRequest;
+            InputContext.Diagnostics.WriteToLog("---** InputContext.IsSecureRequest **---", InputContext.IsSecureRequest.ToString());
+            if (!userSet)
             {
                 InputContext.Diagnostics.WriteToLog("---** SignIn **---", "Set user with cookie failed!!! - " + decodedCookie);
+                if (secureCookie.Length > 0)
+                {
+                    InputContext.Diagnostics.WriteToLog("---** SignIn **---", "Set user with secure cookie failed!!! - " + secureCookie);
+                }
                 return false;
             }
 

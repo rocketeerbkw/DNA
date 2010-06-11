@@ -342,6 +342,8 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetInt32NullAsZero("SiteID")).Return(siteId);
             reader.Stub(x => x.DoesFieldExist("ForumPostCount")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("AlertInstantly")).Return(1);
+            reader.Stub(x => x.GetStringNullAsEmpty("FirstPosttext")).Return("some text");
+            reader.Stub(x => x.GetStringNullAsEmpty("LastPosttext")).Return("some text");
             
 
             reader.Stub(x => x.GetInt32NullAsZero("ForumPostCount")).Return(itemsPerPage + 1);
@@ -412,7 +414,7 @@ namespace BBC.Dna.Objects.Tests
             ForumThreads actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                               threadId,
                                                                               overFlow, threadOrder);
-            Assert.IsNull(actual.Thread);
+            Assert.AreEqual(0, actual.Thread.Count);
             Assert.IsNull(actual.More);
 
         }
@@ -789,6 +791,41 @@ namespace BBC.Dna.Objects.Tests
         {
             var target = new ForumThreads();
             Assert.IsNull(target.JournalOwnerAttribute);
+        }
+
+        [TestMethod()]
+        public void GetLatestSkipValue_NoThreadFound_Returns0()
+        {
+            var threads = new ForumThreads();
+            Assert.AreEqual(0, threads.GetLatestSkipValue(0,1));
+
+        }
+
+        [TestMethod()]
+        public void GetLatestSkipValue_ThreadFoundWith10PostsAndShow10_Returns0()
+        {
+            var threads = new ForumThreads();
+            threads.Thread.Add(new ThreadSummary {ThreadId = 1,  TotalPosts = 10 });
+            Assert.AreEqual(0, threads.GetLatestSkipValue(1, 10));
+
+        }
+
+        [TestMethod()]
+        public void GetLatestSkipValue_ThreadFoundWith10PostsAndShow5_Returns5()
+        {
+            var threads = new ForumThreads();
+            threads.Thread.Add(new ThreadSummary { ThreadId = 1, TotalPosts = 10 });
+            Assert.AreEqual(5, threads.GetLatestSkipValue(1, 5));
+
+        }
+
+        [TestMethod()]
+        public void GetLatestSkipValue_ThreadFoundWith11PostsAndShow5_Returns10()
+        {
+            var threads = new ForumThreads();
+            threads.Thread.Add(new ThreadSummary { ThreadId = 1, TotalPosts = 11 });
+            Assert.AreEqual(10, threads.GetLatestSkipValue(1, 5));
+
         }
 
         #region Helper methods

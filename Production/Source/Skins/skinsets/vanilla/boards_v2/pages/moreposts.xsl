@@ -15,7 +15,7 @@
     </doc:documentation>
     
 	<xsl:template match="/H2G2[@TYPE = 'MOREPOSTS'][/H2G2/PARAMS/PARAM[NAME = 's_mode']/VALUE = 'login'][/H2G2/POSTS[@USERID = '0']]" mode="page" priority="1.0"> 
-		<xsl:call-template name="library_header_h3">
+		<xsl:call-template name="library_header_h2">
 			<xsl:with-param name="text">Login to Identity</xsl:with-param>
 		</xsl:call-template>
 		<p>
@@ -38,7 +38,7 @@
     			<xsl:otherwise><xsl:value-of select="POSTS/@USERID"/></xsl:otherwise>
     		</xsl:choose>
     	</xsl:variable>
-        <xsl:call-template name="library_header_h3">
+        <xsl:call-template name="library_header_h2">
             <xsl:with-param name="text">
             		<span class="dna-invisible">
 	                    <xsl:text>Profile for </xsl:text>
@@ -57,7 +57,7 @@
             </xsl:with-param>
         </xsl:call-template>    
         
-        <p>
+        <p class="morepostsintro">
           <xsl:choose>
             <xsl:when test="POSTS/POST-LIST/POST">
                <xsl:text>Listed below are posts made by </xsl:text>
@@ -84,7 +84,7 @@
           
         </p>
         
-        <p>
+        <!-- <p>
           <xsl:text>You can also view a </xsl:text>
         	<a href="{$root}/MC{$userId}">
         	<xsl:choose>
@@ -100,7 +100,7 @@
         	</xsl:choose>
         	</a>
           <xsl:text>.</xsl:text>
-        </p>
+        </p> -->
         
         <xsl:call-template name="library_userstate_editor">
           <xsl:with-param name="loggedin">

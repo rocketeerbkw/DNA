@@ -24,7 +24,7 @@
                 </xsl:attribute>
             </xsl:if>
             <p>
-                <a href="/dna/h2g2/NF{FORUMID}?thread={THREADID}">
+                <a href="{$root}/NF{FORUMID}?thread={THREADID}">
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
                             <xsl:value-of select="SUBJECT"/>

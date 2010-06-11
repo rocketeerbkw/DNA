@@ -42,7 +42,7 @@ public partial class MoveThreadPage : BBC.Dna.Page.DnaWebPage
             MoveToForumID.Items.Add(new ListItem("Choose Destination", "0"));
             foreach (Topic topic in _basePage.CurrentSite.GetLiveTopics())
             {
-                MoveToForumID.Items.Add(new ListItem(topic.Title, topic.ForumID.ToString()));
+                MoveToForumID.Items.Add(new ListItem(topic.Title, topic.ForumId.ToString()));
             }
         }
     }

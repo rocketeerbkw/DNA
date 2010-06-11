@@ -1461,3 +1461,18 @@ bool CInputContext::GetSiteUsesIdentitySignIn(int iSiteID)
 {
 	return m_pCGI->GetSiteUsesIdentitySignIn(iSiteID);
 }
+
+/*********************************************************************************
+
+		Author:		Steve Francis
+		Created:	20/04/2010
+		Inputs:		
+		Returns:	True if the request is secure
+		Purpose:	Checks to see if the request is secure
+
+*********************************************************************************/
+bool CInputContext::IsRequestSecure()
+{
+	return m_pCGI->IsRequestSecure();
+}
+

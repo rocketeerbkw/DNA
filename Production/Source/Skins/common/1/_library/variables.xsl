@@ -28,6 +28,21 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
+
+  <xsl:variable name="sslhost">
+    <xsl:choose>
+      <xsl:when test="$configuration/host/sslurl and not($configuration/host/sslurl = '')">
+        <xsl:value-of select="$configuration/host/sslurl"/>
+      </xsl:when>
+      <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_sslhost']/VALUE != ''">
+        <!-- not implemented -->
+        <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_sslhost']/VALUE" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>https://www.bbc.co.uk</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
     
     <xsl:variable name="root">
         <xsl:choose>

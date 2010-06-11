@@ -52,6 +52,7 @@ class CStoredProcedureBase
 		void AddParam(const TDVCHAR* pName, int iValue);
 		void AddParam(const TDVCHAR* pName, double dValue);
 		void AddParam(const TDVCHAR* pName, const TDVCHAR* pValue);
+		void AddParam(const TDVCHAR* pName, const WCHAR* pValue);
 		void AddParam(const TDVCHAR* pName, const CTDVDateTime& dDate);
 
 

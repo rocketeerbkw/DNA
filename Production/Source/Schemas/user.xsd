@@ -55,6 +55,12 @@
 				  </xs:sequence>
 			  </xs:complexType>
 			</xs:element>
+			<xs:element name="MODERATIONSTATUS" minOccurs="0">
+				<xs:complexType>
+				  <xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+				  <xs:attribute name="NAME" type="xs:string" use="required" />
+				</xs:complexType>
+			</xs:element>
 			<xs:element ref="GROUPS" minOccurs="0" />
 			<xs:element name="ACCEPTSUBSCRIPTIONS" type="xs:unsignedByte" minOccurs="0" />
 			<xs:element name="PROMPTSETUSERNAME" type="xs:boolean" minOccurs="0" />

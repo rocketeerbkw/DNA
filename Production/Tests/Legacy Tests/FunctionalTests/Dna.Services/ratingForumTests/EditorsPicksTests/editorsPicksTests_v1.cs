@@ -368,6 +368,7 @@ namespace FunctionalTests
         {
             BBC.Dna.Api.RatingForum returnedForum = null;
             DnaTestURLRequest myRequest = new DnaTestURLRequest(testUtils_ratingsAPI.sitename);
+            myRequest.UseIdentitySignIn = true;
 
             string forumId   = testUtils_ratingsAPI.makeTestForum();
             string ratingId = testUtils_ratingsAPI.makeTestItem(forumId);

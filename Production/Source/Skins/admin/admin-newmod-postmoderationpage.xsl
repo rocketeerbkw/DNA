@@ -321,7 +321,7 @@
 					<!--<xsl:apply-templates select="STATUS" mode="user_status"/>-->
 					<xsl:value-of select="USER/USERNAME"/>
 					<xsl:text> </xsl:text>
-					<a href="memberdetailsadmin?userid={USER/USERID}" target="_blank">[member profile]</a>
+					<a href="memberdetails?userid={USER/USERID}" target="_blank">[member profile]</a>
 				</xsl:when>
 				<xsl:otherwise>member</xsl:otherwise>
 			</xsl:choose>
@@ -412,10 +412,10 @@
 						<xsl:text>[No member info]</xsl:text>
 					</xsl:when>
 					<xsl:when test="USER/USERID = 0 and not(USER/COMPLAINANTIDVIAEMAIL = -1)">
-						<a href="memberdetailsadmin?userid={USER/COMPLAINANTIDVIAEMAIL}" target="_blank">[member profile from email]</a>
+						<a href="memberdetails?userid={USER/COMPLAINANTIDVIAEMAIL}" target="_blank">[member profile from email]</a>
 					</xsl:when>
 					<xsl:otherwise>
-						<a href="memberdetailsadmin?userid={USER/USERID}" target="_blank">[member profile]</a>
+						<a href="memberdetails?userid={USER/USERID}" target="_blank">[member profile]</a>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>			

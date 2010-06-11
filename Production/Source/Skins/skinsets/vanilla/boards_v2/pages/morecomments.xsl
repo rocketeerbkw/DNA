@@ -20,7 +20,7 @@
 	
 	<xsl:template match="MORECOMMENTS" mode="page">
 		<xsl:variable name="loggedInUser" select="/H2G2/VIEWING-USER/USER/USERID"/>
-		<xsl:call-template name="library_header_h3">
+		<xsl:call-template name="library_header_h2">
 			<xsl:with-param name="text">
 				<xsl:choose>
 					<xsl:when test="COMMENTS-LIST/COMMENTS">

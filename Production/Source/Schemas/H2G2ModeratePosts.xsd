@@ -12,6 +12,7 @@
   <xs:include schemaLocation="Referee-List.xsd"/>
   <xs:include schemaLocation="User-Statuses.xsd"/>
   <xs:include schemaLocation="Mod-Reasons.xsd"/>
+  <xs:include schemaLocation="RecentActivity.xsd"/>
   <xs:element name="H2G2">
     <xs:complexType>
       <xs:sequence>
@@ -20,6 +21,7 @@
         <xs:element name="USERAGENT" type="xs:string"/>
         <xs:element ref="DATE"/>
         <xs:element ref="SITECONFIG" />
+        <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
         <xs:element name="POSTMODERATION">
           <xs:complexType>
             <xs:sequence>
@@ -56,6 +58,7 @@
                                 <xs:element name="USERNAME" type="xs:string" />
                                 <xs:element name="FIRSTNAMES" type="xs:string" />
                                 <xs:element name="LASTNAME" type="xs:string" />
+                                <xs:element name="COMPLAINANTIDVIAEMAIL" type="xs:unsignedInt" />
                               </xs:sequence>
                             </xs:complexType>
                           </xs:element>

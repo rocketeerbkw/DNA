@@ -209,8 +209,10 @@ public:
 	//void AddParam(const TDVCHAR* pName, long param );
 	//void AddParam(long param );
 
-	void AddParam(const TDVCHAR* pName, const TDVCHAR* pparam  );
+	void AddParam(const TDVCHAR* pName, const TDVCHAR* pValue  );
 	void AddParam( const TDVCHAR*  pparam  );
+
+	void AddParam(const TDVCHAR* pName, const WCHAR* pValue );
 
 	void AddParam( const CTDVDateTime& datetime );
 	void AddParam( const TDVCHAR* pName, const CTDVDateTime& datetime );

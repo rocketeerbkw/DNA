@@ -17,7 +17,7 @@ namespace BBC.Dna
         private string _cmd = String.Empty;
         private SiteConfig _siteConfig;
         private TopicPage _topicPage;
-
+        
 
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace BBC.Dna
             _topicPage = new TopicPage { Page = "PREVIEW" };
             _topicPage.TopicElementList = TopicElementList.GetTopicListFromDatabase(AppContext.ReaderCreator,
                                                                          InputContext.CurrentSite.SiteID,
-                                                                         TopicStatus.Preview);
+                                                                         TopicStatus.Preview, false);
 
 
             GetQueryParameters();
@@ -63,9 +63,9 @@ namespace BBC.Dna
             SerialiseAndAppend(_siteConfig, "/DNAROOT/SITECONFIGPREVIEW");
 
 
-            SerialiseAndAppend(_topicPage, "");                
-            
-            
+            SerialiseAndAppend(_topicPage, "");
+
+           
         }
 
         /// <summary>
@@ -78,10 +78,10 @@ namespace BBC.Dna
             {
                 case "UPDATEPREVIEW":
                     return UpdateConfig(false);
-                    
 
-                case "UPDATEPREVIEWANDLIVE":
-                    return UpdateConfig(true);
+
+                case "PUBLISHMESSAGEBOARD":
+                    return PublishMessageBoard();
 
                 case "UPDATETOPIC":
                     return UpdateTopic();
@@ -125,11 +125,29 @@ namespace BBC.Dna
             }
 
             element.FrontPageElement.Title = InputContext.GetParamStringOrEmpty("fp_title", "fp_title");
+            if (element.FrontPageElement.Title.Length == 0)
+            {
+                return new Error("TopicElementTitleMissing", "No topic element title given.");
+            }
+
             element.FrontPageElement.Text = InputContext.GetParamStringOrEmpty("fp_text", "fp_text");
+            if (element.FrontPageElement.Text.Length == 0)
+            {
+                return new Error("TopicElementTextMissing", "No topic element text given.");
+            }
+
             if (InputContext.GetParamStringOrEmpty("fp_templatetype", "fp_templatetype") == string.Empty)
             {
                 element.FrontPageElement.ImageName = InputContext.GetParamStringOrEmpty("fp_imagename", "fp_imagename");
+                if (element.FrontPageElement.ImageName.Length == 0)
+                {
+                    return new Error("ImageNameMissing", "No image name given.");
+                }
                 element.FrontPageElement.ImageAltText = InputContext.GetParamStringOrEmpty("fp_imagealttext", "fp_imagealttext");
+                if (element.FrontPageElement.ImageAltText.Length == 0)
+                {
+                    return new Error("AltTextMissing", "No alt text given.");
+                }
                 element.FrontPageElement.Template = FrontPageTemplate.ImageAboveText;
             }
             else
@@ -139,12 +157,20 @@ namespace BBC.Dna
                 element.FrontPageElement.Template = FrontPageTemplate.TextOnly;
             }
             element.Title = InputContext.GetParamStringOrEmpty("topictitle","topictitle");
-            element.Description = "<GUIDE><BODY>" + InputContext.GetParamStringOrEmpty("topictext","topictext") + "</BODY></GUIDE>";
+            if (element.Title.Length == 0)
+            {
+                return new Error("TopicTitleMissing", "No topic title given.");
+            }
+            element.Description = "<GUIDE><BODY>" + InputContext.GetParamStringOrEmpty("topictext", "topictext") + "</BODY></GUIDE>";
+            if (element.Description.Length == 0)
+            {
+                return new Error("TopicDescriptionMissing", "No topic description given.");
+            }
 
             if (topicId == 0)
             {
                 var result = element.CreateTopic(AppContext.ReaderCreator, InputContext.CurrentSite.SiteID, InputContext.ViewingUser.UserID);
-                if (result.GetType() == typeof(Error))
+                if (result.IsError())
                 {
                     return result;
                 }
@@ -154,7 +180,7 @@ namespace BBC.Dna
             else
             {
                 var result = element.UpdateTopic(AppContext.ReaderCreator, InputContext.ViewingUser.UserID);
-                if (result.GetType().Name == typeof(Error).Name)
+                if (result.IsError())
                 {
                     return result;
                 }
@@ -200,28 +226,16 @@ namespace BBC.Dna
             if (InputContext.DoesParamExist("BANNER_SSI", "BANNER_SSI"))
             {
                 _siteConfig.V2Board.BannerSsi = InputContext.GetParamStringOrEmpty("BANNER_SSI", "BANNER_SSI");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.BannerSsi))
-                {
-                    return new Error("InvalidBannerSSi", "Unable to update due to an invalid banner SSI location.");
-                }
             }
 
             if (InputContext.DoesParamExist("HORIZONTAL_NAV_SSI", "HORIZONTAL_NAV_SSI"))
             {
                 _siteConfig.V2Board.HorizontalNavSsi = InputContext.GetParamStringOrEmpty("HORIZONTAL_NAV_SSI", "HORIZONTAL_NAV_SSI");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.HorizontalNavSsi))
-                {
-                    return new Error("InvalidHorizontalNavSSi", "Unable to update due to an invalid horizontal navigation SSI location.");
-                }
             }
 
             if (InputContext.DoesParamExist("LEFT_NAV_SSI", "LEFT_NAV_SSI"))
             {
                 _siteConfig.V2Board.LeftNavSsi = InputContext.GetParamStringOrEmpty("LEFT_NAV_SSI", "LEFT_NAV_SSI");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.LeftNavSsi))
-                {
-                    return new Error("InvalidLeftNavSSi", "Unable to update due to an invalid left navigation SSI location.");
-                }
             }
 
             if (InputContext.DoesParamExist("WELCOME_MESSAGE", "WELCOME_MESSAGE"))
@@ -263,19 +277,11 @@ namespace BBC.Dna
             if (InputContext.DoesParamExist("CSS_LOCATION", "CSS_LOCATION"))
             {
                 _siteConfig.V2Board.CssLocation = InputContext.GetParamStringOrEmpty("CSS_LOCATION", "CSS_LOCATION");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.CssLocation))
-                {
-                    return new Error("InvalidCssLocation", "Unable to update due to an invalid CSS location.");
-                }
             }
 
             if (InputContext.DoesParamExist("EMOTICON_LOCATION", "EMOTICON_LOCATION"))
             {
                 _siteConfig.V2Board.EmoticonLocation = InputContext.GetParamStringOrEmpty("EMOTICON_LOCATION", "EMOTICON_LOCATION");
-                if (String.IsNullOrEmpty(_siteConfig.V2Board.EmoticonLocation))
-                {
-                    return new Error("InvalidEmoticonLocation", "Unable to update due to an invalid emoticon location.");
-                }
             }
 
             if (InputContext.DoesParamExist("RECENTDISCUSSIONS_SUBMIT", "RECENTDISCUSSIONS_SUBMIT"))
@@ -301,10 +307,6 @@ namespace BBC.Dna
                         linkCollection.Add(link);
                     }
                 }
-                if(linkCollection.Count == 0)
-                {
-                    return new Error("InvalidFooterLinks", "Unable to update due to no valid footer links available.");
-                }
                 _siteConfig.V2Board.Footer.Links = linkCollection;
 
             }
@@ -319,10 +321,6 @@ namespace BBC.Dna
                     {
                         linkCollection.Add(link);
                     }
-                }
-                if (linkCollection.Count == 0)
-                {
-                    return new Error("InvalidModuleLinks", "Unable to update due to no valid module links available.");
                 }
                 _siteConfig.V2Board.Modules.Links = linkCollection;
 
@@ -339,6 +337,10 @@ namespace BBC.Dna
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private BaseResult UpdateTopicPositions()
         {
             BaseResult lastResult = null;
@@ -364,6 +366,59 @@ namespace BBC.Dna
 
             return lastResult;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private BaseResult PublishMessageBoard()
+        {
+            MessageBoardPublishError error = new MessageBoardPublishError();
+            if (String.IsNullOrEmpty(_siteConfig.V2Board.AboutMessage))
+            {
+                error.DesignErrors.Add("MissingAboutText");
+            }
+            if (String.IsNullOrEmpty(_siteConfig.V2Board.WelcomeMessage))
+            {
+                error.DesignErrors.Add("MissingWelcomeMessage");
+            }
+            if (_topicPage.TopicElementList.Topics.Count ==0)
+            {
+                error.DesignErrors.Add("MissingTopics");
+            }
+            if (error.AdminErrors.Count != 0 || error.DesignErrors.Count != 0)
+            {
+                foreach (string adminError in error.AdminErrors)
+                {
+                    InputContext.Diagnostics.WriteToLog("MBAdmin-AdminError", adminError);
+                }
+                foreach (string adminError in error.DesignErrors)
+                {
+                    InputContext.Diagnostics.WriteToLog("MBAdmin-DesignError", adminError);
+                }
+                return error;
+            }
+
+            BaseResult result = UpdateConfig(true);
+            if (result.IsError())
+            {
+                return result;
+            }
+            result = TopicElement.MakePreviewTopicsActiveForSiteID(AppContext.ReaderCreator, InputContext.CurrentSite.SiteID, InputContext.ViewingUser.UserID);
+            if (result.IsError())
+            {
+                return result;
+            }
+
+            result = InputContext.CurrentSite.UpdateEveryMessageBoardAdminStatusForSite(AppContext.ReaderCreator, MessageBoardAdminStatus.Unread);
+            if (result.IsError())
+            {
+                return result;
+            }
+
+            return new Result("PublishMessageBoard", "Message board update successful.");
+        }
+
 
         /// <summary>
         /// Fills private members with querystring variables

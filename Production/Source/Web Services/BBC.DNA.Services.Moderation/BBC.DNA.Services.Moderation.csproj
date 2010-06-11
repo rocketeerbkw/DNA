@@ -124,6 +124,8 @@
   <ItemGroup>
     <Content Include="configurations\Web.config" />
     <Content Include="Global.asax" />
+    <Content Include="status.aspx" />
+    <Content Include="version.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -143,7 +145,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>7737</DevelopmentServerPort>
+          <DevelopmentServerPort>41724</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

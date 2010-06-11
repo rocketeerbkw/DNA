@@ -11,6 +11,7 @@
   <xs:include schemaLocation="SiteConfig.xsd" />
 	<xs:include schemaLocation="CommentForumListBase.xsd"/>
 	<xs:include schemaLocation="RecentComments.xsd"/>
+  <xs:include schemaLocation="RecentActivity.xsd"/>
 	<xs:element name="H2G2">
     <xs:complexType>
       <xs:sequence>
@@ -19,6 +20,7 @@
         <xs:element name="USERAGENT" type="xs:string" />
         <xs:element ref="DATE" />
         <xs:element ref="SITECONFIG" />
+        <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
         <xs:element ref="BLOGSUMMARY" minOccurs="0" />
 		  <xs:element ref="COMMENTFORUMLIST" minOccurs="0"/>
 		  <xs:element ref="RECENTCOMMENTS" minOccurs="0"/>

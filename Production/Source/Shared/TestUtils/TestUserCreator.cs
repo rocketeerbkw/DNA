@@ -181,26 +181,42 @@ namespace TestUtils
         /// <param name="dateOfBirth">The date of birth for the new user</param>
         /// <param name="email">The email address for the new user</param>
         /// <param name="displayName">Optional display name for the user. Leave blank if not needed</param>
-        /// <param name="acceptedIdentiutyTCs">A flag to state whether or not the user has excepted the Identity T&Cs</param>
+        /// <param name="acceptedIdentityTCs">A flag to state whether or not the user has excepted the Identity T&Cs</param>
         /// <param name="policy">The policy that the user is being created for</param>
         /// <param name="acceptedPolicyTCs">A flag to state whether or no the user has accepted the policy T&Cs</param>
+        /// <param name="legacySSOID"></param>
+        /// <param name="cookie">Output value for the users cookie</param>
+        /// <param name="secureCookie">Output value for the users secure cookie</param>
+        /// <param name="userIdentityID"></param>
         /// <returns>True if created, false if not</returns>
-        static public bool CreateIdentityUser(string userName, string password, string dateOfBirth, string email, string displayName, bool acceptedIdentiutyTCs, IdentityPolicies policy, bool acceptedPolicyTCs, int legacySSOID, out Cookie cookie, out int userIdentityID)
+        static public bool CreateIdentityUser(string userName, 
+                                                string password, 
+                                                string dateOfBirth, 
+                                                string email, 
+                                                string displayName, 
+                                                bool acceptedIdentityTCs, 
+                                                IdentityPolicies policy, 
+                                                bool acceptedPolicyTCs, 
+                                                int legacySSOID, 
+                                                out Cookie cookie, 
+                                                out Cookie secureCookie,
+                                                out int userIdentityID)
         {
             ServicePointManager.ServerCertificateValidationCallback += AcceptAllCertificatePolicy;
 
             userIdentityID = 0;
             cookie = null;
+            secureCookie = null;
 
             // Create a new user to do the tests with
             Dictionary<string, string> postParams = new Dictionary<string, string>();
             postParams.Add(_wrUserName, userName);
             postParams.Add(_wrPassword, password);
             postParams.Add(_wrDateOfBirth, dateOfBirth);
-            postParams.Add(_wrAgreementAcceptedFlag, acceptedIdentiutyTCs ? "1" : "0");
+            postParams.Add(_wrAgreementAcceptedFlag, acceptedIdentityTCs ? "1" : "0");
             postParams.Add(_wremail, email);
             postParams.Add(_wremailvalidated, "1");
-            if (policy != IdentityPolicies.Adult && acceptedIdentiutyTCs)
+            if (policy != IdentityPolicies.Adult && acceptedIdentityTCs)
             {
                 postParams.Add(_wrGuardianAcceptedFlag, "1");
                 postParams.Add(_wrGuardianEmail, "parent_" + email);
@@ -221,6 +237,8 @@ namespace TestUtils
             if (response != null && response.StatusCode == HttpStatusCode.Created)
             {
                 cookie = response.Cookies["IDENTITY"];
+                secureCookie = response.Cookies["IDENTITY-HTTPS"];
+
                 string[] cookieParams = cookie.Value.Split('|');
                 userIdentityID = Convert.ToInt32(cookieParams[0]);
                 response.Close();
@@ -235,6 +253,7 @@ namespace TestUtils
             // Now update a few of the core attributes
             List<Cookie> cookies = new List<Cookie>();
             cookies.Add(cookie);
+            cookies.Add(secureCookie);
            
             // Now update the personal attribute for the policy T&Cs
             if (acceptedPolicyTCs)
@@ -278,17 +297,18 @@ namespace TestUtils
         /// <param name="dateOfBirth">The date of birth for the account. Format - "1989-12-31"</param>
         /// <param name="email">The email for the account</param>
         /// <param name="displayName">The display name for the account</param>
-        /// <param name="acceptedIdentiutyTCs">A flag to whether or not the user has agreed the identity terms and conditions</param>
+        /// <param name="acceptedIdentityTCs">A flag to whether or not the user has agreed the identity terms and conditions</param>
         /// <param name="policy">The policy the user is to be validated against</param>
         /// <param name="acceptedPolicyTCs">A flag stating whether or not the user has accepted the policy</param>
         /// <param name="cookie">Output value for the users cookie</param>
+        /// <param name="secureCookie">Output value for the users secure cookie</param>
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentityNormalUser(string userName, string password, string dateOfBirth, string email, string displayName, bool acceptedIdentiutyTCs, IdentityPolicies policy, bool acceptedPolicyTCs, out Cookie cookie, out int userIdentityID, out int dnaUserID)
+        public static bool CreateNewIdentityNormalUser(string userName, string password, string dateOfBirth, string email, string displayName, bool acceptedIdentiutyTCs, IdentityPolicies policy, bool acceptedPolicyTCs, out Cookie cookie, out Cookie secureCookie, out int userIdentityID, out int dnaUserID)
         {
             dnaUserID = 0;
-            if (CreateIdentityUser(userName, password, dateOfBirth, email, displayName, true, policy, true, 0, out cookie, out userIdentityID))
+            if (CreateIdentityUser(userName, password, dateOfBirth, email, displayName, true, policy, true, 0, out cookie, out secureCookie, out userIdentityID))
             {
                 dnaUserID = CreateUserInDatabase(userName, email, displayName, userIdentityID);
             }
@@ -305,13 +325,14 @@ namespace TestUtils
         /// <param name="displayName">The display name for the account</param>
         /// <param name="policy">The policy the user is to be validated against</param>
         /// <param name="cookie">Output value for the users cookie</param>
+        /// <param name="secureCookie">Output value for the users secure cookie</param>
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentitySuperUser(string userName, string password, string dateOfBirth, string email, string displayName, IdentityPolicies policy, out Cookie cookie, out int userIdentityID, out int dnaUserID)
+        public static bool CreateNewIdentitySuperUser(string userName, string password, string dateOfBirth, string email, string displayName, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out int userIdentityID, out int dnaUserID)
         {
             dnaUserID = 0;
-            if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out userIdentityID, out dnaUserID))
+            if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out secureCookie, out userIdentityID, out dnaUserID))
             {
                 SetUserAsSuperUserInDataBase(dnaUserID);
             }
@@ -329,13 +350,14 @@ namespace TestUtils
         /// <param name="siteid">The site that you want to add the user as a notable</param>
         /// <param name="policy">The policy the user is to be validated against</param>
         /// <param name="cookie">Output value for the users cookie</param>
+        /// <param name="secureCookie">Output value for the users secure cookie</param>
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentityEditorUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out int identityUserID, out int dnaUserID)
+        public static bool CreateNewIdentityEditorUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out int identityUserID, out int dnaUserID)
         {
             dnaUserID = 0;
-            if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out identityUserID, out dnaUserID))
+            if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out secureCookie, out identityUserID, out dnaUserID))
             {
                 if (dnaUserID > 0)
                 {
@@ -356,13 +378,14 @@ namespace TestUtils
         /// <param name="siteid">The site that you want to add the user as a notable</param>
         /// <param name="policy">The policy the user is to be validated against</param>
         /// <param name="cookie">Output value for the users cookie</param>
+        /// <param name="secureCookie">Output value for the users secure cookie</param>
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentityModeratorUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out int identityUserID, out int dnaUserID)
+        public static bool CreateNewIdentityModeratorUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out int identityUserID, out int dnaUserID)
         {
             dnaUserID = 0;
-            if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out identityUserID, out dnaUserID))
+            if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out secureCookie, out identityUserID, out dnaUserID))
             {
                 if (dnaUserID > 0)
                 {
@@ -383,17 +406,18 @@ namespace TestUtils
         /// <param name="siteid">The site that you want to add the user as a notable</param>
         /// <param name="policy">The policy the user is to be validated against</param>
         /// <param name="cookie">Output value for the users cookie</param>
+        /// <param name="secureCookie">Output value for the users secure cookie</param>
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentityNotableUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out int identityUserID, out int dnaUserID)
+        public static bool CreateNewIdentityNotableUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out int identityUserID, out int dnaUserID)
         {
             dnaUserID = 0;
-            if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out identityUserID, out dnaUserID))
+            if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out secureCookie, out identityUserID, out dnaUserID))
             {
                 if (dnaUserID > 0)
                 {
-                    return AddUserToGroupInDatabase(dnaUserID, "otables", siteid);
+                    return AddUserToGroupInDatabase(dnaUserID, "Notables", siteid);
                 }
             }
             return false;
@@ -445,7 +469,7 @@ namespace TestUtils
         {
             using (IDnaDataReader reader = DnaMockery.CreateDatabaseInputContext().CreateDnaDataReader(""))
             {
-                string sql = "SELECT GroupID FROM dbo.Groups WHERE GroupName = '" + groupname + "'";
+                string sql = "SELECT GroupID FROM dbo.Groups WHERE Name = '" + groupname + "'";
                 reader.ExecuteDEBUGONLY(sql);
                 if (reader.Read())
                 {
@@ -704,9 +728,16 @@ namespace TestUtils
                 Console.WriteLine("Cookies...");
                 foreach (Cookie c in cookies)
                 {
-                    webRequest.CookieContainer.Add(c);
-                    //webRequest.Headers.Add("Cookie",c.Name + "=" + c.Value);
-                    Console.WriteLine(c.Name + " - " + c.Value);
+                    try
+                    {
+                        webRequest.CookieContainer.Add(c);
+                        //webRequest.Headers.Add("Cookie",c.Name + "=" + c.Value);
+                        Console.WriteLine(c.Name + " - " + c.Value);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
             }
 
@@ -719,10 +750,10 @@ namespace TestUtils
             // Now setup the correct method depending on the post flag
             if (verb != RequestVerb.GET)
             {
-                webRequest.ContentType = "application/x-www-form-urlencoded";
+                webRequest.ContentType = "application/x-www-form-urlencoded;charset=UTF-8";
 
                 // Write the params to the body of the request
-                ASCIIEncoding encoding = new ASCIIEncoding();
+                UTF8Encoding encoding = new UTF8Encoding();
                 byte[] bytes = encoding.GetBytes(urlParams);
                 webRequest.ContentLength = bytes.Length;
                 
@@ -750,7 +781,7 @@ namespace TestUtils
                 }
                 else
                 {
-                    Console.WriteLine("No Reposnse object");
+                    Console.WriteLine("No Response object");
                 }
             }
             catch (WebException ex)

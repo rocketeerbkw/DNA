@@ -22,6 +22,7 @@ namespace FunctionalTests
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
         private string _server = DnaTestURLRequest.CurrentServer;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
         private static CommentsTests_V1 GetCommentsTests()
         {
@@ -78,7 +79,7 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.Ok.ToString());
 
         }
@@ -110,7 +111,7 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, localHeaders);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == expectedResponse);
 
         }
@@ -147,7 +148,7 @@ namespace FunctionalTests
             localHeaders.Add("referer", "http://news.bbc.co.uk/weather/");
 
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, localHeaders);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == expectedResponse);
 
         }
@@ -178,10 +179,10 @@ namespace FunctionalTests
             string expectedResponse = "http://www.bbc.co.uk/dna/h2g2/?test=1&resultCode=" + ErrorType.Ok.ToString() + "#acs";
             
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, localHeaders);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == expectedResponse);
 
         }
@@ -214,7 +215,7 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.Ok.ToString());
         }
 
@@ -246,7 +247,7 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.Ok.ToString());
         }
 
@@ -278,7 +279,7 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.Ok.ToString());
         }
 
@@ -311,7 +312,7 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.InvalidModerationStatus.ToString());
         }
 
@@ -337,7 +338,7 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
 
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.MissingEditorCredentials.ToString());
         }
 
@@ -358,9 +359,9 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.Ok.ToString());
         }
 
@@ -381,10 +382,10 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.Ok.ToString());
         }
 
@@ -397,7 +398,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateComment");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
-            request.CurrentSSO2Cookie = "";
+            request.CurrentCookie = "";
             //create the forum
             CommentForum commentForum = GetCommentsTests().CommentForumCreate("tests", Guid.NewGuid().ToString());
 
@@ -405,9 +406,9 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.MissingUserCredentials.ToString());
         }
 
@@ -428,9 +429,9 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.MissingUserCredentials.ToString());
         }
 
@@ -443,6 +444,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateComment");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
             //create the forum
             CommentForum commentForum = GetCommentsTests().CommentForumCreate("tests", Guid.NewGuid().ToString());
 
@@ -450,9 +452,9 @@ namespace FunctionalTests
             string commentForumXml = "notest=somethingelse";// String.Format("text={0}", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.EmptyText.ToString());
         }
 
@@ -472,9 +474,9 @@ namespace FunctionalTests
             string commentForumXml = String.Format("text={0}&postStyle=invalidpoststyle", text);
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently, "Not Moved - Status Code = " + request.CurrentWebResponse.StatusCode.ToString());
             Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.InvalidPostStyle.ToString());
         }
 

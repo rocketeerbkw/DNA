@@ -253,7 +253,8 @@ namespace FunctionalTests
             string url = "";
 
             DnaTestURLRequest myRequest = new DnaTestURLRequest(testUtils_ratingsAPI.sitename);
-            
+            myRequest.UseIdentitySignIn = true;
+
             // Step 1. make the forum on which the test review-posting can be hung.
             testForumId = testUtils_ratingsAPI.makeTestForum();
 
@@ -265,8 +266,8 @@ namespace FunctionalTests
             postData = testUtils_ratingsAPI.makeEntryPostXml_minimal(ref theText, ref theRating);
 
             url = String.Format(
-                "http://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}?format={4}",
-                testUtils_ratingsAPI.server,
+                "https://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}?format={4}",
+                testUtils_ratingsAPI.secureserver,
                 testUtils_ratingsAPI.sitename,
                 testForumId,
                 fileName,

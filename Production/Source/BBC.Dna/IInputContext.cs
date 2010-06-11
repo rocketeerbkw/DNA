@@ -293,5 +293,14 @@ namespace BBC.Dna
         /// <param name="userID">User ID involved</param>
         /// <param name="siteID">For which Site</param>
         void SendMailOrSystemMessage(string email, string subject, string body, string fromAddress, string fromName, bool insertLineBreaks, int userID, int siteID);
+ 
+        /// <summary>
+        /// Is secure request i.e has IDENTITY-HTTPS cookie
+        /// </summary>
+        bool IsSecureRequest
+        {
+            get;
+            set;
+        }
     }
 }

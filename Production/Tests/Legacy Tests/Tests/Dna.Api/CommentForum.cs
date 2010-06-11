@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
 using TestUtils;
+using BBC.Dna.Groups;
 
 namespace Tests
 {
@@ -43,12 +44,16 @@ namespace Tests
             SnapshotInitialisation.ForceRestore();
             Statistics.InitialiseIfEmpty();
 
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
                 site = _siteList.GetSite("h2g2");
 
                 _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
+                
+                ICacheManager groupsCache = new StaticCacheManager();
+                var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
+                g.InitialiseAllUsersAndGroups();
             }
         }
 
@@ -69,6 +74,8 @@ namespace Tests
 		{
             string goodSiteName = "h2g2";
             string badSiteName = "not a site name";
+            
+            SetupACommentForum();
 
             //test good site
             CommentForumList result = _comments.GetCommentForumListBySite(goodSiteName);
@@ -92,13 +99,31 @@ namespace Tests
 
 		}
 
+        private void SetupACommentForum()
+        {
+            string prefix = "prefixtestsbycomments" + Guid.NewGuid().ToString();
+            CommentForum commentForum = new CommentForum
+            {
+                Id = prefix,
+                ParentUri = "http://www.bbc.co.uk/dna/h2g2/",
+                Title = "testCommentForum"
+            };
+            CommentForum result = null;
+
+            commentForum.Id = String.Format("{0}-{1}", prefix, Guid.NewGuid().ToString());
+            result = _comments.CreateCommentForum(commentForum, site);
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.Id == commentForum.Id);
+            Assert.IsTrue(result.ParentUri == commentForum.ParentUri);
+            Assert.IsTrue(result.Title == commentForum.Title);
+        }
+
         /// <summary>
         /// Tests of the read of comment forums by sitename and prefix
         /// </summary>
         [TestMethod]
         public void CommentForumsReadBySiteNameAndPrefix()
-        {
-     
+        {    
             //create 3 with the same prefix
             string prefix = "prefixtestsbycomments" + Guid.NewGuid().ToString();
             CommentForum commentForum = new CommentForum
@@ -163,7 +188,7 @@ namespace Tests
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
             _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
             CommentInfo commentInfo = _comments.CreateComment(result, comment);
             Assert.IsTrue(commentInfo != null);
@@ -487,7 +512,7 @@ namespace Tests
             
 
             Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(true))
             {
                 comments = new Comments(inputcontext.dnaDiagnostics, DnaMockery.DnaConfig.ConnectionString);
 
@@ -566,7 +591,7 @@ namespace Tests
                 string IPAddress = String.Empty;
                 Guid BBCUid = Guid.NewGuid();
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
+                _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
                 _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
                 CommentInfo commentInfo = _comments.CreateComment(result, comment);
                 Assert.IsTrue(commentInfo != null);
@@ -622,7 +647,7 @@ namespace Tests
                 string IPAddress = String.Empty;
                 Guid BBCUid = Guid.NewGuid();
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
+                _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
                 _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
                 CommentInfo commentInfo = _comments.CreateComment(result, comment);
                 Assert.IsTrue(commentInfo != null);
@@ -860,7 +885,7 @@ namespace Tests
                 string IPAddress = String.Empty;
                 Guid BBCUid = Guid.NewGuid();
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
+                _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
                 _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
                 CommentInfo commentInfo = _comments.CreateComment(result, comment);
                 Assert.IsTrue(commentInfo != null);
@@ -948,7 +973,7 @@ namespace Tests
                 string IPAddress = String.Empty;
                 Guid BBCUid = Guid.NewGuid();
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
+                _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
                 _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
                 CommentInfo commentInfo = _comments.CreateComment(result, comment);
                 Assert.IsTrue(commentInfo != null);
@@ -1079,7 +1104,7 @@ namespace Tests
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.SSO, null, null, null, null);
+            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
             _comments.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
             return comment;
         }

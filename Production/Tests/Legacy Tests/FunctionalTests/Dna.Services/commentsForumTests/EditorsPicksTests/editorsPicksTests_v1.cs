@@ -385,6 +385,7 @@ namespace FunctionalTests
         {
             BBC.Dna.Api.CommentForum returnedForum = null;
             DnaTestURLRequest myRequest = new DnaTestURLRequest(testUtils_CommentsAPI.sitename);
+            myRequest.UseIdentitySignIn = true;
 
             string forumId   = testUtils_CommentsAPI.makeTestCommentForum();
             string commentID = testUtils_CommentsAPI.makeTestComment(forumId);

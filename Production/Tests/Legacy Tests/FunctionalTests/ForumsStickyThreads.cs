@@ -61,6 +61,8 @@ namespace FunctionalTests
         public void AddStickyThread_AsNormalUser_ReturnsError()
         {
             var siteName = "h2g2";
+            CheckEnableStickyThreadSiteOptionIsSet(1);
+
             var request = new DnaTestURLRequest(siteName);
             request.SetCurrentUserNormal();
             request.RequestPage("NF150?cmd=MAKETHREADSTICKY&stickythreadid=32&skin=purexml");
@@ -155,6 +157,34 @@ namespace FunctionalTests
             //Check audit table...
             CheckAuditTable(150, threadId, request.CurrentUserID, 1); //check for an delete
 
+        }
+        private static void CheckEnableStickyThreadSiteOptionIsSet(int siteID)
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                var sql = String.Format("select * from siteoptions where siteid={0} and name='EnableStickyThreads' and Value=1", siteID);
+                dataReader.ExecuteDEBUGONLY(sql);
+                if (dataReader.HasRows)
+                {
+                    return;
+                }
+                else
+                {
+                    sql = String.Format("select * from siteoptions where siteid={0} and name='EnableStickyThreads' and Value=0", siteID);
+                    dataReader.ExecuteDEBUGONLY(sql);
+                    if (dataReader.HasRows)
+                    {
+                        sql = String.Format("update siteoptions set Value=1 where siteid={0} and name='EnableStickyThreads'", siteID);
+                        dataReader.ExecuteDEBUGONLY(sql);
+                    }
+                    else
+                    {
+                        sql = String.Format("insert into siteoptions values ('Forum', {0},  'EnableStickyThreads', 1, 1, 'Turns on and off sticky thread functionality'", siteID);
+                        dataReader.ExecuteDEBUGONLY(sql);
+                    }
+                }
+            }
         }
 
         private static void CheckAuditTable(int forumId, int threadId, int userId, int type)

@@ -351,6 +351,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -406,6 +407,7 @@ namespace BBC.Dna.Api.Tests
                                   };
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -455,6 +457,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = "test", rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(0);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -508,6 +511,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = "test", rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.BannedUser)).Return(true);
@@ -563,6 +567,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -602,6 +607,59 @@ namespace BBC.Dna.Api.Tests
         ///A test for CommentInfo Constructor
         ///</summary>
         [TestMethod]
+        public void RatingCreate_NotSecureWithOption_ReturnCorrectError()
+        {
+            string siteName = "h2g2";
+            string uid = "uid";
+            var text = "Here is my rating that is not posted securely";
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var callingUser = mocks.DynamicMock<ICallingUser>();
+            var ratingForum = new RatingForum { Id = uid, SiteName = siteName };
+            var ratingInfo = new RatingInfo { text = text, rating = 0 };
+
+            callingUser.Stub(x => x.UserID).Return(1);
+            callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("ratingscreate")).Return(reader);
+            var readerUserRating = mocks.DynamicMock<IDnaDataReader>();
+            readerUserRating.Stub(x => x.HasRows).Return(false);
+            readerUserRating.Stub(x => x.Read()).Return(false);
+            readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumanduser")).Return(readerUserRating);
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            siteList.Stub(x => x.GetSiteOptionValueInt(0, "CommentForum", "EnforceSecurePosting")).Return(1);
+            mocks.ReplayAll();
+
+            var reviews = new Reviews(null, readerCreator, cacheManager, siteList);
+            reviews.CallingUser = callingUser;
+            try
+            {
+                reviews.RatingCreate(ratingForum, ratingInfo);
+                throw new Exception("No exception thrown");
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.NotSecure, ex.type);
+            }
+
+            readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("ratingscreate"));
+        }
+
+        /// <summary>
+        ///A test for CommentInfo Constructor
+        ///</summary>
+        [TestMethod]
         public void RatingCreate_SiteClosed_ReturnCorrectError()
         {
             string siteName = "h2g2";
@@ -617,6 +675,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -673,6 +732,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -727,6 +787,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -785,6 +846,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum { Id = uid, SiteName = siteName };
             var ratingInfo = new RatingInfo { text = text, rating = 100 };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -844,6 +906,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum { Id = uid, SiteName = siteName, ModerationServiceGroup= ModerationStatus.ForumStatus.PreMod };
             var ratingInfo = new RatingInfo { text = text, rating = 0 };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -903,6 +966,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum { Id = uid, SiteName = siteName };
             var ratingInfo = new RatingInfo { text = text, rating = 0 };
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -959,6 +1023,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1017,6 +1082,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1073,6 +1139,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1129,6 +1196,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1188,6 +1256,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
@@ -1249,6 +1318,7 @@ namespace BBC.Dna.Api.Tests
             var ratingForum = new RatingForum {Id = uid, SiteName = siteName};
             var ratingInfo = new RatingInfo {text = text, rating = 0};
 
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());

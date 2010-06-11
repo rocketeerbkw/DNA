@@ -26,6 +26,7 @@ namespace FunctionalTests
 	{
         //private ISiteList _siteList;
         private string _server = DnaTestURLRequest.CurrentServer;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
 
         /// <summary>
@@ -198,7 +199,7 @@ namespace FunctionalTests
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            using (FullInputContext _context = new FullInputContext(false))
+            using (FullInputContext _context = new FullInputContext(true))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {
@@ -252,7 +253,7 @@ namespace FunctionalTests
             Assert.IsFalse(result.isClosed);
 
             // Now ste the closing date of the forum to something in the past.
-            using (FullInputContext _context = new FullInputContext(false))
+            using (FullInputContext _context = new FullInputContext(true))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {
@@ -310,7 +311,7 @@ namespace FunctionalTests
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            using (FullInputContext _context = new FullInputContext(false))
+            using (FullInputContext _context = new FullInputContext(true))
             {
 
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("hidepost"))
@@ -477,7 +478,7 @@ namespace FunctionalTests
         /// <param name="edittedText"></param>
         private void ModerateComment(int postid, int forumid, BBC.Dna.Component.ModeratePosts.Status status, string edittedText)
         {
-            using (FullInputContext _context = new FullInputContext(false))
+            using (FullInputContext _context = new FullInputContext(true))
             {
                 int threadId = 0, modId = 0, threadModStatus = 0;
 
@@ -605,7 +606,7 @@ namespace FunctionalTests
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, forum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, forum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -735,7 +736,7 @@ namespace FunctionalTests
                 return false;
             }
 
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(true))
             {
                 inputContext.SendSignal("action=recache-site");
             }

@@ -159,7 +159,8 @@
             <xsl:if test="EDITOR/USER">
               <b>
                 Author
-              </b>: <xsl:apply-templates select="EDITOR/USER"/>
+              </b>: 
+              <xsl:apply-templates select="EDITOR/USER" mode="profile_withusername"/>
               <xsl:apply-templates select="EDITOR/USER/STATUS" mode="user_status"/>
               <xsl:apply-templates select="EDITOR/USER/GROUPS" mode="user_groups"/>
             </xsl:if>
@@ -195,10 +196,10 @@
             </xsl:choose>
           </p>
           <p>
-            Date Queued: <xsl:apply-templates select="DATE-QUEUED/DATE" mode="short"/>
+            Date Queued: <xsl:apply-templates select="DATE-QUEUED/DATE" mode="absolute"/>
           </p>
           <p>
-            Date Completed: <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="short"/>
+            Date Completed: <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="absolute"/>
           </p>
           <xsl:if test ="COMPLAINT">
             <p class="alertUserBar">
@@ -206,7 +207,7 @@
               <xsl:apply-templates select="COMPLAINT/USER/GROUPS" mode="user_groups"/>
               <xsl:choose>
                 <xsl:when test="COMPLAINT/USER/USERNAME">
-                  <xsl:apply-templates select="COMPLAINT/USER"/>
+                  <xsl:apply-templates select="COMPLAINT/USER"  mode="profile_withusername" />
                 </xsl:when>
                 <xsl:otherwise>
                   Anonymous
@@ -221,10 +222,14 @@
                     <xsl:value-of select="COMPLAINANT/USER/CORRESPONDENCE-EMAIL"/>
                   </a> ]
                 </xsl:when>
+                <xsl:when test="COMPLAINT/EMAIL-ADDRESS">
+                  [ <a href="mailto:{COMPLAINT/EMAIL-ADDRESS}">
+                    <xsl:value-of select="COMPLAINT/EMAIL-ADDRESS"/>
+                  </a> ]
+                </xsl:when>
                 <xsl:otherwise>[ No Email ]</xsl:otherwise>
               </xsl:choose>
             </p>
-              <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS='2'">
                 <div class="postContent">
                   <p>
                     BBCUID: <xsl:value-of select="COMPLAINT/BBCUID"/>
@@ -233,7 +238,6 @@
                     IP Address: <xsl:value-of select="COMPLAINT/IPADDRESS"/>
                   </p>
                 </div>
-              </xsl:if>
 
             <div class="postContent">
               <p>
@@ -251,18 +255,18 @@
         <div class="tools">
           <div class="toolBox">
             <p>
-              LockedBy: <xsl:apply-templates select="LOCKED-BY/USER"/>
+              LockedBy: <xsl:apply-templates select="LOCKED-BY/USER" mode="profile_withusername"/>
             </p>
             <p>
-              Date Locked: <xsl:apply-templates select="DATE-LOCKED/DATE" mode="short"/>
+              Date Locked: <xsl:apply-templates select="DATE-LOCKED/DATE" mode="absolute"/>
             </p>
           </div>
           <div class="toolBox">
             <p>
-              Referred By: <xsl:apply-templates select="REFERRED-BY/USER"/>
+              Referred By: <xsl:apply-templates select="REFERRED-BY/USER" mode="profile_withusername"/>
             </p>
             <p>
-              Referred Date: <xsl:apply-templates select="DATE-REFERRED/DATE" mode="short"/>
+              Referred Date: <xsl:apply-templates select="DATE-REFERRED/DATE" mode="absolute"/>
             </p>
           </div>
           <xsl:apply-templates select="/H2G2/EXLINKMODEVENTHISTORY/EXLINKMODEVENT-LIST[@MODID=current()/@MODID]/EXLINKMODEVENT"/>

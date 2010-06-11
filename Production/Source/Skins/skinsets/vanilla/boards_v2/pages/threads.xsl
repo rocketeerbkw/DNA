@@ -18,7 +18,6 @@
       
       <xsl:apply-templates select="FORUMSOURCE/ARTICLE" mode="object_article_generic" />
       <xsl:apply-templates select="FORUMTHREADS" mode="object_forumthreads" />
-      
         
     </xsl:template>
     

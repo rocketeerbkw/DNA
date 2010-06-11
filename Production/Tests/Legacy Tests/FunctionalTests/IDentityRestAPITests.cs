@@ -22,6 +22,7 @@ namespace FunctionalTests
         private string _dob = "1989-12-31";
         private string _displayName = "Good old tester";
         private Cookie _identityUserCookie = null;
+        private Cookie _secureidentityUserCookie = null;
         private int _userIdentityID = 0;
         string _responseString = "";
         private Dictionary<string, string> _postParams = new Dictionary<string, string>();
@@ -33,7 +34,7 @@ namespace FunctionalTests
             // Create a user to play with
             _cookies.Clear();
             _userName = "testers" + DateTime.Now.Ticks.ToString();
-            if (!TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _userName + "@bbc.co.uk", _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _identityUserCookie, out _userIdentityID))
+            if (!TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _userName + "@bbc.co.uk", _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, 0, out _identityUserCookie, out _secureidentityUserCookie, out _userIdentityID))
             {
                 Assert.Fail(TestUserCreator.GetLastError);
             }

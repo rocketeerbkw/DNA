@@ -58,9 +58,9 @@
     <div id="memberDetails">
       <div align="right">
         <p>
-          <a href="MemberDetailsAdmin?userid={$userid}">Find Alternate Identities using Email</a>
+          <a href="MemberDetails?userid={$userid}">Find Alternate Identities using Email</a>
           <BR/>
-          <a href="MemberDetailsAdmin?userid={$userid}&amp;findbbcuidaltidentities=1">Find Alternate Identities using BBCUID</a>
+          <a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find Alternate Identities using BBCUID</a>
         </p>
       </div>
       <div align="left">

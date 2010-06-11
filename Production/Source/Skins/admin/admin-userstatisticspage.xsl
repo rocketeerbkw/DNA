@@ -137,7 +137,7 @@
 			</TD>
 			<TD>
 				<FONT SIZE="1">
-					<xsl:apply-templates select="BODY" mode="library_Richtext" />
+					<xsl:apply-templates select="BODY" mode="library_GuideML" />
 				</FONT><BR/>
 			</TD>
 			<TD>

@@ -126,6 +126,10 @@
     </None>
     <None Include="Club.xsd" />
     <None Include="ContentSignifSettings.xsd" />
+    <None Include="H2G2ModerateHome.xsd" />
+    <None Include="H2G2ModeratePosts.xsd" />
+    <None Include="ModerationHome.xsd" />
+    <None Include="SiteConfig_V2Boards.xsd" />
     <None Include="Result.xsd" />
     <None Include="DistressMessages.xsd" />
     <None Include="Dna.Services\thread.xsd" />
@@ -136,7 +140,6 @@
     <None Include="H2G2ForumFlat.xsd" />
     <None Include="H2G2ForumFlat606Site.xsd" />
     <None Include="H2G2ModerateExlinksPage.xsd" />
-    <None Include="H2G2ModeratePosts.xsd" />
     <None Include="H2G2ModeratorManagementPage.xsd" />
     <None Include="H2G2UITemplateFlat.xsd" />
     <None Include="Journal.xsd" />
@@ -466,7 +469,9 @@
       </SubType>
     </None>
     <None Include="ThreadSummary.xsd" />
+    <None Include="RecentActivity.xsd" />
     <None Include="TopicList.xsd" />
+    <None Include="TopicPage.xsd" />
     <None Include="TrackedParameters.xsd">
       <SubType>
       </SubType>

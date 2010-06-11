@@ -339,6 +339,30 @@ void CStoredProcedureBase::AddParam(const TDVCHAR* pName, const TDVCHAR* pValue)
 
 /*********************************************************************************
 
+	void CStoredProcedureBase::AddParam(const TDVCHAR* pName, const WCHAR* pValue)
+
+	Author:		Mark Howitt
+	Created:	13/05/2010
+	Inputs:		pName - naem of the parameter to add
+				pValue - value to give the new parameter in the SP
+	Outputs:	-
+	Returns:	-
+	Purpose:	appends the UNICODE string parameter with the given name and value to the
+				stored procedure
+
+*********************************************************************************/
+
+void CStoredProcedureBase::AddParam(const TDVCHAR* pName, const WCHAR* pValue)
+{
+	//sql performance optimization
+	CTDVString sName (pName);
+	sName.MakeLower( );
+
+	m_pDBO->AddParam(sName, pValue);
+}
+
+/*********************************************************************************
+
 	void CStoredProcedureBase::AddParam(const TDVCHAR* pName, const CTDVDateTime &dDate)
 
 		Author:		Mark Howitt
