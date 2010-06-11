@@ -16,8 +16,7 @@ IF NOT EXISTS (
 	SELECT *
 	FROM ExLinkMod
 	WHERE	
-	@locked = 0 AND datecompleted IS NULL
-	AND LockedBy = @userid 
+	((@locked = 0 AND datecompleted IS NULL) OR LockedBy = @userid )
 	AND CASE WHEN complainttext IS NULL THEN 0 ELSE 1 END = @alerts 
 	AND CASE WHEN status = 2 THEN 1 ELSE 0 END = @referrals ) 
 BEGIN
