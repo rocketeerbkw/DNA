@@ -5,6 +5,7 @@ using BBC.Dna;
 using BBC.Dna.Data;
 using DnaIdentityWebServiceProxy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestUtils;
 
 namespace Tests
 {
@@ -24,7 +25,7 @@ namespace Tests
             using (FullInputContext fullinputcontext = new FullInputContext(true))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("6041996|ProfileAPITest|ProfileAPITest|1273497769580|0|35006c522418c48a9a3470cea341b5cd9c9c8a9d28c1", "22f58fef9cd74c0f515b94bfaaa6adf60e395c6f");
+                fullinputcontext.InitUserFromCookie(TestUserAccounts.GetProfileAPITestUserAccount.Cookie, TestUserAccounts.GetProfileAPITestUserAccount.SecureCookie);
                 //fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 _testUser = (User)fullinputcontext.ViewingUser;
             }
@@ -218,7 +219,7 @@ namespace Tests
             using (FullInputContext fullinputcontext = new FullInputContext(true))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("6041996|ProfileAPITest|ProfileAPITest|1273497769580|0|35006c522418c48a9a3470cea341b5cd9c9c8a9d28c1", "22f58fef9cd74c0f515b94bfaaa6adf60e395c6f");
+                fullinputcontext.InitUserFromCookie(TestUserAccounts.GetProfileAPITestUserAccount.Cookie, TestUserAccounts.GetProfileAPITestUserAccount.SecureCookie);
                 //                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 User tempUser = new User(fullinputcontext);
                 tempUser.CreateUser(_testUser.UserID);
@@ -233,7 +234,7 @@ namespace Tests
             using (FullInputContext fullinputcontext = new FullInputContext(true))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
-                fullinputcontext.InitUserFromCookie("6041996|ProfileAPITest|ProfileAPITest|1273497769580|0|35006c522418c48a9a3470cea341b5cd9c9c8a9d28c1", "22f58fef9cd74c0f515b94bfaaa6adf60e395c6f");
+                fullinputcontext.InitUserFromCookie(TestUserAccounts.GetProfileAPITestUserAccount.Cookie, TestUserAccounts.GetProfileAPITestUserAccount.SecureCookie);
                 //                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 User tempUser = new User(fullinputcontext);
                 tempUser.CreateUser(_testUser.UserID);
