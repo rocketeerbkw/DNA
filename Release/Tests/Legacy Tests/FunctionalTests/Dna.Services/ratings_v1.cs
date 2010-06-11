@@ -1029,7 +1029,7 @@ namespace FunctionalTests
                 }
             }
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
-            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?_ns=1", "", "text/xml");
 
         }
         private void SetMinCharLimit(int minLimit)
@@ -1043,14 +1043,14 @@ namespace FunctionalTests
                 }
             }
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
-            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?_ns=1", "", "text/xml");
         }
 
         private void DeleteMinMaxLimitSiteOptions()
         {
             SnapshotInitialisation.ForceRestore();
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
-            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?_ns=1", "", "text/xml");
         }
 
 

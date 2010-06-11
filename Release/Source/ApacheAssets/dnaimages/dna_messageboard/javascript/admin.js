@@ -20,7 +20,7 @@
     function init() {
 
         // RE-ORDER TOPIC
-        glow.dom.get(".dna-topic-position").addClass("dna-off");
+        $(".dna-topic-position").addClass("dna-off");
 
         // find index of each 'li' element
         Array.prototype.find = function(searchStr) {
@@ -46,11 +46,11 @@
             draggableOptions: { handle: "h5" },
             onSort: function() {
                 var order = [];
-                glow.dom.get(".dna-list-topic-col > *").sort().each(function() {
-                    order.push(glow.dom.get(this).text());
-                    var index = order.find(glow.dom.get(this).text());
+                $(".dna-list-topic-col > *").sort().each(function() {
+                    order.push($(this).text());
+                    var index = order.find($(this).text());
                     index = 1 + index;
-                    glow.dom.get(this).get(".dna-topic-pos").attr("value", index)
+                    $(this).get(".dna-topic-pos").attr("value", index)
                 });
             }
         });
@@ -60,30 +60,31 @@
             draggableOptions: { handle: "h5" },
             onSort: function() {
                 var order = [];
-                glow.dom.get(".dna-list-topic-col1 > *").sort().each(function() {
-                    order.push(glow.dom.get(this).text());
-                    var index = order.find(glow.dom.get(this).text());
+                $(".dna-list-topic-col1 > *").sort().each(function() {
+                    order.push($(this).text());
+                    var index = order.find($(this).text());
                     index = 1 + index;
-                    glow.dom.get(this).get(".dna-topic-pos").attr("value", index)
+                    $(this).get(".dna-topic-pos").attr("value", index)
                 });
-                glow.dom.get(".dna-list-topic-col2 > *").sort().each(function() {
-                    order.push(glow.dom.get(this).text());
-                    var index = order.find(glow.dom.get(this).text());
+                $(".dna-list-topic-col2 > *").sort().each(function() {
+                    order.push($(this).text());
+                    var index = order.find($(this).text());
                     index = 2 + index;
-                    glow.dom.get(this).get(".dna-topic-pos").attr("value", index)
+                    $(this).get(".dna-topic-pos").attr("value", index)
                 });
             }
         });
 
-        glow.dom.get(".dna-list-topic-col h5").css("cursor", "move");
-        glow.dom.get(".dna-list-topic-col1 h5").css("cursor", "move");
-        glow.dom.get(".dna-list-topic-col2 h5").css("cursor", "move");
+        $(".dna-list-topic-col h5").css("cursor", "move");
+        $(".dna-list-topic-col1 h5").css("cursor", "move");
+        $(".dna-list-topic-col2 h5").css("cursor", "move");
+
 
         // OVERLAY
-        var myNodeList = glow.dom.get("a.dna-link-overlay");
+        var myNodeList = $("a.dna-link-overlay");
 
         myNodeList.each(function(i) {
-            var href = glow.dom.get(this).attr("href");
+            var href = $(this).attr("href");
 
             // find value of paramaters in query string
             function topic(name) {
@@ -97,68 +98,94 @@
                     return results[1];
             }
 
-
             var seditTopic = topic('s_edittopic');
             var topicId = topic('topicid');
             var editKey = topic('editkey');
 
-
             // display overlay when show link with class of 'dna-link-overlay' is clicked on
-            glow.events.addListener(this, "mousedown", function() {
+            addListener(this, "mousedown", function() {
 
                 var whichAnchor = href.split("#");
                 if (whichAnchor.length > 1)
                     whichDiv = whichAnchor[1];
 
                 // overlay divs are hidden by default 
-                glow.dom.get("#" + whichDiv).removeClass("dna-off");
+                $("#" + whichDiv).removeClass("dna-off");
 
                 // edit topic : show/hide step 2 and 3
-                glow.dom.get("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
-                glow.dom.get("#dna-preview-edittopic-step3-" + seditTopic).addClass("dna-off");
+                $("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
+                $("#dna-preview-edittopic-step3-" + seditTopic).addClass("dna-off");
 
                 // edit topic : validate form
-                glow.events.addListener("#dna-btn-next-1-" + seditTopic, "mousedown", function() {
-                    if (glow.dom.get("#fp_title-" + seditTopic).val() == "") {
+                addListener("#dna-btn-next-1-" + seditTopic, "mousedown", function() {
+                    if ($("#fp_title-" + seditTopic).val() == "") {
                         glow.dom.create('<span class="dna-error-text">Please add a topic promo title</span>').insertBefore("#fp_title-" + seditTopic);
-                        glow.dom.get("input#fp_title-" + seditTopic).addClass("dna-error-input");
+                        $("input#fp_title-" + seditTopic).addClass("dna-error-input");
                         return false;
                     } else {
-                        glow.dom.get("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
-                        glow.dom.get("#dna-preview-edittopic-step2-" + seditTopic).removeClass("dna-off");
+                        $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
+                        $("#dna-preview-edittopic-step2-" + seditTopic).removeClass("dna-off");
                     }
                     return false;
                 });
 
-                glow.events.addListener("#dna-btn-next-2-" + seditTopic, "mousedown", function() {
-                    if (glow.dom.get("#fp_imagename-" + seditTopic).val() != "" && glow.dom.get("#fp_imagealttext-" + seditTopic).val() == "") {
+                addListener("#dna-btn-next-2-" + seditTopic, "mousedown", function() {
+                    if ($("#fp_imagename-" + seditTopic).val() != "" && $("#fp_imagealttext-" + seditTopic).val() == "") {
                         glow.dom.create('<span class="dna-error-text">Please add alt text for your image</span>').insertBefore("#fp_imagealttext-" + seditTopic);
-                        glow.dom.get("#fp_imagealttext-" + seditTopic).addClass("dna-error-input");
+                        $("#fp_imagealttext-" + seditTopic).addClass("dna-error-input");
                         return false;
                     } else {
-                        glow.dom.get("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
-                        glow.dom.get("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
-                        glow.dom.get("#dna-preview-edittopic-step3-" + seditTopic).removeClass("dna-off");
+                        $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
+                        $("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
+                        $("#dna-preview-edittopic-step3-" + seditTopic).removeClass("dna-off");
                     }
                     return false;
                 });
 
-                glow.events.addListener("#dna-btn-next-3-" + seditTopic, "mousedown", function() {
-                    if (glow.dom.get("#topictitle-" + seditTopic).val() == "") {
+                addListener("#dna-btn-next-3-" + seditTopic, "mousedown", function() {
+                    if ($("#topictitle-" + seditTopic).val() == "") {
                         glow.dom.create('<span class="dna-error-text">Please add a title topic</span>').insertBefore("#topictitle-" + seditTopic);
-                        glow.dom.get("#topictitle-" + seditTopic).addClass("dna-error-input");
+                        $("#topictitle-" + seditTopic).addClass("dna-error-input");
                         return false;
                     }
                 });
 
-                glow.events.addListener("#dna-btn-back-2-" + seditTopic, "mousedown", function() {
-                    glow.dom.get("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
-                    glow.dom.get("#dna-preview-edittopic-step1-" + seditTopic).removeClass("dna-off");
+                addListener("#dna-btn-back-2-" + seditTopic, "mousedown", function() {
+                    $("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
+                    $("#dna-preview-edittopic-step1-" + seditTopic).removeClass("dna-off");
                 });
 
-                glow.events.addListener("#dna-btn-back-3-" + seditTopic, "mousedown", function() {
-                    glow.dom.get("#dna-preview-edittopic-step3-" + seditTopic).addClass("dna-off");
-                    glow.dom.get("#dna-preview-edittopic-step2-" + seditTopic).removeClass("dna-off");
+                addListener("#dna-btn-back-3-" + seditTopic, "mousedown", function() {
+                    $("#dna-preview-edittopic-step3-" + seditTopic).addClass("dna-off");
+                    $("#dna-preview-edittopic-step2-" + seditTopic).removeClass("dna-off");
+                });
+
+
+                // validate fields
+                addListener(".dna-buttons input", "mousedown", function() {
+                    // about messageboard - introductory text
+                    if ($("#mbabouttext").val() == "") {
+                        glow.dom.create('<span class="dna-error-text">Please add an introductory text</span>').insertBefore("#mbabouttext");
+                        $("#mbabouttext").addClass("dna-error-input");
+                        return false;
+                    }
+                });
+                addListener(".dna-buttons input", "mousedown", function() {
+                    // about messageboard - opening times text
+                    if ($("#mbopeningtimes").val() == "") {
+                        glow.dom.create('<span class="dna-error-text">Please add opening/closing times</span>').insertBefore("#mbopeningtimes");
+                        $("#mbopeningtimes").addClass("dna-error-input");
+                        return false;
+                    }
+
+                });
+                addListener(".dna-buttons input", "mousedown", function() {
+                    // welcome message
+                    if ($("#mbwelcome").val() == "") {
+                        glow.dom.create('<span class="dna-error-text">Please add your welcome message</span>').insertBefore("#mbwelcome");
+                        $("#mbwelcome").addClass("dna-error-input");
+                        return false;
+                    }
                 });
 
 
@@ -167,19 +194,34 @@
                     modal: true
                 });
 
+
                 myOverlay.show();
 
                 // footer overlay : show/hide footer links
-                glow.dom.get("#dna-footer-links").addClass("dna-off");
-                glow.events.addListener("a.dna-add-footer-links", "click", function() {
-                    glow.dom.get("#dna-footer-color").addClass("dna-off");
-                    glow.dom.get("#dna-footer-links").removeClass("dna-off");
+                $("#dna-footer-links").addClass("dna-off");
+                addListener("a.dna-add-footer-links", "click", function() {
+                    $("#dna-footer-color").addClass("dna-off");
+                    $("#dna-footer-links").removeClass("dna-off");
                     return false;
+                });
+
+
+                function resetForm() {
+                    var whichForm = $("#" + whichDiv + " form").attr("name");
+                    document.forms[whichForm].reset();
+                    $("textarea, input").removeClass("dna-error-input");
+                    $(".dna-error-text").addClass("dna-off");
+                }
+
+                // reset the form when the overlay is closed by clicking the mask
+                addListener(myOverlay, "hide", function(event) {
+                    resetForm();
                 });
 
                 // hide the overlay when 'cancel' is clicked on
                 if (myOverlay.isShown) {
-                    glow.events.addListener("a.dna-btn-cancel", "mousedown", function() {
+                    addListener("a.dna-btn-cancel", "mousedown", function() {
+                        resetForm;
                         myOverlay.hide();
                         return false;
                     });
@@ -189,17 +231,18 @@
             });
         });
 
+
         // OPENING TIMES
-        var twentyfourseven = glow.dom.get("#twentyfourseven");
-        var sametime = glow.dom.get("#sameeveryday");
-        var difftime = glow.dom.get("#eachday");
-        var sametimeselect = glow.dom.get("#dna-mb-openSame select");
-        var difftimeselect = glow.dom.get("#dna-mb-openDiff select");
-        var altrows = glow.dom.get("#dna-mb-openDiff tr");
-        var closedallday = glow.dom.get("#dna-mb-openDiff table input");
+        var twentyfourseven = $("#twentyfourseven");
+        var sametime = $("#sameeveryday");
+        var difftime = $("#eachday");
+        var sametimeselect = $("#dna-mb-openSame select");
+        var difftimeselect = $("#dna-mb-openDiff select");
+        var altrows = $("#dna-mb-openDiff tr");
+        var closedallday = $("#dna-mb-openDiff table input");
 
         // closed all day checkboxes are available only when JS is enabled
-        glow.dom.get(".closed").removeClass("dna-off");
+        $(".closed").removeClass("dna-off");
 
         function iftwentyforseven() {
             sametimeselect.attr("disabled", "disabled");
@@ -224,36 +267,35 @@
             altrows.removeClass("off");
         }
 
-
         // if open 24/7 is clicked on
-        glow.events.addListener(twentyfourseven, "click", function() {
+        addListener(twentyfourseven, "click", function() {
             if (this.checked) {
                 iftwentyforseven();
             }
         });
 
         // if open same time every day is cliked on
-        glow.events.addListener(sametime, "click", function() {
+        addListener(sametime, "click", function() {
             if (this.checked) {
                 ifsametime();
             }
         });
 
         // if open different time every day is clicked on
-        glow.events.addListener(difftime, "click", function() {
+        addListener(difftime, "click", function() {
             if (this.checked) {
                 ifdifftime();
             }
         });
 
         // show closed all day check box
-        glow.dom.get(".closed").removeClass("dna-off");
+        $(".closed").removeClass("dna-off");
 
         // if closed all day is checked
         closedallday.each(function(i) {
-            var id = glow.dom.get(this).attr("id");
+            var id = $(this).attr("id");
 
-            glow.events.addListener(this, "click", function() {
+            addListener(this, "click", function() {
                 var closeDay = id.split("-");
                 if (closeDay.length > 1)
                     whichDay = closeDay[1];
@@ -275,22 +317,20 @@
 
         });
 
-
         // replace target=blank for links that open in new window
-        var openNewWindow = glow.dom.get(".dna-openNewWindow");
-        var href = glow.dom.get(openNewWindow).attr("href");
+        var openNewWindow = $(".dna-openNewWindow");
+        var href = $(openNewWindow).attr("href");
 
-        glow.events.addListener(openNewWindow, "click", function() {
+        addListener(openNewWindow, "click", function() {
             window.open(href);
             return false;
         });
 
-
         // mbadmin : click on opening times link to message board schedule page
-        var openTable = $(".dna-open-time");
-        $(openTable).css("cursor", "pointer");
+        var openTimeTable = $(".dna-open-time");
+        $(openTimeTable).css("cursor", "pointer");
 
-        glow.events.addListener(openTable, "click", function() {
+        addListener(openTimeTable, "mousedown", function() {
             window.location = "/dna/mbarchers/admin/MessageBoardSchedule";
             return false;
         });

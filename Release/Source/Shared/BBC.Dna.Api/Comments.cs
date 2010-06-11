@@ -29,9 +29,9 @@ namespace BBC.Dna.Api
         /// </summary>
         /// <param name="sitename">The shortname of the site</param>
         /// <returns>A list of commentforums</returns>
-        public CommentForumList GetCommentForumListBySite(string sitename)
+        public CommentForumList GetCommentForumListBySite(ISite site)
         {
-            return GetCommentForumListBySite(sitename, "");
+            return GetCommentForumListBySite(site, "");
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace BBC.Dna.Api
         /// <param name="sitename">The shortname of the site</param>
         /// <param name="prefix">The prefix of the site to return</param>
         /// <returns>A list of commentforums</returns>
-        public CommentForumList GetCommentForumListBySite(string sitename, string prefix)
+        public CommentForumList GetCommentForumListBySite(ISite site, string prefix)
         {
             var commentForumList = new CommentForumList
             {
@@ -49,6 +49,10 @@ namespace BBC.Dna.Api
                 SortDirection = SortDirection,
                 FilterBy = FilterBy
             };
+            if (site == null)
+            {
+                return null;
+            }
             var spName = "commentforumsreadbysitename";
             if(!String.IsNullOrEmpty(prefix))
             {
@@ -59,7 +63,7 @@ namespace BBC.Dna.Api
             {
                 using (var reader = CreateReader(spName))
                 {
-                    reader.AddParameter("siteurlname", sitename);
+                    reader.AddParameter("siteurlname", site.SiteName);
                     reader.AddParameter("startindex", StartIndex);
                     reader.AddParameter("itemsperpage", ItemsPerPage);
                     reader.AddParameter("prefix", prefix + "%");
@@ -72,6 +76,7 @@ namespace BBC.Dna.Api
                         while (reader.Read())
                         {
                             CommentForum commentForum = CommentForumCreateFromReader(reader);
+                            commentForum.identityPolicy = site.IdentityPolicy;
                             commentForumList.CommentForums.Add(commentForum);
 
                             commentForumList.ItemsPerPage = reader.GetInt32NullAsZero("itemsperpage");
@@ -99,9 +104,9 @@ namespace BBC.Dna.Api
         /// <param name="sitename">The shortname of the site</param>
         /// <param name="timeFrame">Length of time in hours</param>
         /// <returns>A list of commentforums</returns>
-        public CommentForumList GetCommentForumListBySiteWithinTimeFrame(string sitename, int timeFrame)
+        public CommentForumList GetCommentForumListBySiteWithinTimeFrame(ISite site, int timeFrame)
         {
-            return GetCommentForumListBySiteWithinTimeFrame(sitename, "", timeFrame);
+            return GetCommentForumListBySiteWithinTimeFrame(site, "", timeFrame);
         }
 
         /// <summary>
@@ -111,8 +116,12 @@ namespace BBC.Dna.Api
         /// <param name="prefix">The uid prefix</param>
         /// <param name="timeFrame">Length of time in hours</param>
         /// <returns>A list of commentforums</returns>
-        public CommentForumList GetCommentForumListBySiteWithinTimeFrame(string sitename, string prefix, int timeFrame)
+        public CommentForumList GetCommentForumListBySiteWithinTimeFrame(ISite site, string prefix, int timeFrame)
         {
+            if (site == null)
+            {
+                return null;
+            }
             //currently only post count supported
             SortBy = SortBy.PostCount;
             var commentForumList = new CommentForumList
@@ -131,7 +140,7 @@ namespace BBC.Dna.Api
             {
                 using (var reader = CreateReader(spName))
                 {
-                    reader.AddParameter("siteurlname", sitename);
+                    reader.AddParameter("siteurlname", site.SiteName);
                     reader.AddParameter("startindex", StartIndex);
                     reader.AddParameter("itemsperpage", ItemsPerPage);
                     reader.AddParameter("prefix", prefix + "%");
@@ -146,6 +155,7 @@ namespace BBC.Dna.Api
                         while (reader.Read())
                         {
                             var commentForum = CommentForumCreateFromReader(reader);
+                            commentForum.identityPolicy = site.IdentityPolicy;
                             commentForum.commentSummary.Total = reader.GetInt32NullAsZero("postsintimeframe");
                             commentForumList.CommentForums.Add(commentForum);
 
@@ -193,6 +203,7 @@ namespace BBC.Dna.Api
                     {
                         commentForum = CommentForumCreateFromReader(reader);
                         commentForum.commentList = GetCommentsListByForumId(commentForum.ForumID, site);
+                        commentForum.identityPolicy = site.IdentityPolicy;
                         AddCommentForumToCache(commentForum, site);
                     }
                 }

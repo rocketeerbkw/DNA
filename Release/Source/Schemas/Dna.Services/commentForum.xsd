@@ -16,6 +16,7 @@
 				<xs:element name="updated" type="dateTimeHelper"/>
 				<xs:element name="created" type="dateTimeHelper"/>
 				<xs:element name="isClosed" type="xs:boolean" />
+        <xs:element name="identityPolicy" type="xs:string" />
 				<xs:element ref="commentsSummary"/>
 				<xs:element ref="commentsList"/>
 			</xs:sequence>

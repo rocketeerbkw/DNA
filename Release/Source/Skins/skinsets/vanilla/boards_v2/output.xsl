@@ -112,19 +112,8 @@
       		
       		<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_v2.css"/>
       		<xsl:if test="SITECONFIG/V2_BOARDS/CSS_LOCATION and SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
-      			<xsl:choose>
-      				<!-- <xsl:when test="starts-with(SITECONFIG/V2_BOARDS/CSS_LOCATION, '/dnaimages/')">
-      					 LPorter: this is a mini-hack. Basically, if the CSSLOCATION starts with '/dnaimages/', it means that we've put in a full path to a location we (at DNA) have access to. ie. we've developed the CSS ourselves.
-      					If it doesn't, then assume the messageboard owners are hosting the CSS file on their own dev/live spaces -->
-      				<xsl:when test="starts-with(SITECONFIG/V2_BOARDS/CSS_LOCATION, 'http')">
-      					<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
-      				</xsl:when>
-      				<xsl:otherwise>
-      					<link type="text/css" media="screen" rel="stylesheet" href="{$serverPath}{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
-      				</xsl:otherwise>
-      			</xsl:choose>
+      			<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
       		</xsl:if> 
-			<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/layout_messageboard_v2.css"/>
       	</head>
       	<xsl:text disable-output-escaping="yes">
       		<![CDATA[    
@@ -272,7 +261,9 @@
 	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" /></p>
 	      				
 	      				<xsl:if test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
-	      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta"/>
+	      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
+	      						<xsl:with-param name="signin-text"><xsl:value-of select="$signin-discussion-text" /></xsl:with-param>
+	    					</xsl:apply-templates>
 	      				</xsl:if>
 	      				<hr />
 	      				<xsl:call-template name="boardtimes"/>

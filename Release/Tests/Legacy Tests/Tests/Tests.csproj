@@ -178,7 +178,6 @@
     <Compile Include="SubNotificationEmailTests.cs" />
     <Compile Include="TestInputContextComponent.cs" />
     <Compile Include="TestOutputContext.cs" />
-    <Compile Include="TestUserExists.cs" />
     <Compile Include="TimedPremoderatedUserTests.cs" />
     <Compile Include="UITemplateTests.cs" />
     <Compile Include="URLFilterTests.cs" />

@@ -160,6 +160,25 @@ namespace Tests
         }
 
         /// <summary>
+        /// Gets any top level entry in riplyserver.xmlconf
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public string GetRipleyConfSetting(string name)
+        {
+            System.Xml.XmlDocument doc = new System.Xml.XmlDocument();
+
+            doc.Load(GetRipleyServerPath() + @"\ripleyserver.xmlconf");
+            var node = doc.SelectSingleNode("//RIPLEY/" + name.ToUpper());
+
+            if (node != null)
+            {
+                return node.InnerXml;
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
         /// Returns the value of the application setting
         /// </summary>
         /// <param name="name">The setting to return</param>

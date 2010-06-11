@@ -14,8 +14,15 @@
     </doc:documentation>
     
     <xsl:template match="USER | @USERID" mode="moderation_cta_inspectuser">
-      <xsl:param name="label" select="'Inspect this user'"/>
-      <a class="popup" target="_blank" href="{$root}/InspectUser?userid={(USERID | .)[1]}"><xsl:value-of select="$label"/></a>
+      <xsl:param name="label"/>
+      <xsl:param name="user" />
+      
+      <a class="popup" target="_blank" href="{$root}/InspectUser?userid={(USERID | .)[1]}"><xsl:value-of select="$label"/>
+        <span class="blq-hide">
+          <xsl:text>:&#32;</xsl:text>
+          <xsl:value-of select="$user"/>
+        </span>
+      </a>
     </xsl:template>
     
 </xsl:stylesheet>

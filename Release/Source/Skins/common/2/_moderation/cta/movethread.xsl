@@ -14,10 +14,12 @@
     </doc:documentation>
     
     <xsl:template match="THREAD" mode="moderation_cta_movethread">
-        <xsl:param name="label" select="'Move this thread'" />
+      <xsl:param name="label" />
+      <xsl:param name="subject" />
         
         <a class="popup" href="{$root}/MoveThread?cmd=Fetch&amp;ThreadID={@THREADID}&amp;DestinationID=F0">
-            <xsl:value-of select="$label"/>
+           <xsl:value-of select="$label"/> 
+           <span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$subject"/></span>
         </a>
     </xsl:template>
     

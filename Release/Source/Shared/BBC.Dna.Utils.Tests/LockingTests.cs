@@ -53,7 +53,11 @@ namespace BBC.Dna.Utils.Tests
                     Locking.InitialiseOrRefresh(sharedLock, ThirdThreadWork, IsStringAssigned, mydata._recache, null);
                 }
             }
-			Console.WriteLine(":Finished second thread");
+            try
+            {
+                Console.WriteLine(":Finished second thread");
+            }
+            catch { }
 		}
 
 		/// <summary>

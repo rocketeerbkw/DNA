@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using System.Web;
@@ -13,10 +14,10 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable()]
-    [DesignerCategory("code")]
     [XmlType(AnonymousType = true, TypeName = "ARTICLE")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "ARTICLE")]
-    public partial class Article : CachableBase<Article>
+    [DataContract(Name="article")]
+    public class Article : CachableBase<Article>
     {
         #region Properties
 
@@ -32,6 +33,7 @@ namespace BBC.Dna.Objects
         /// 
         /// </summary>
         [XmlIgnore]
+        [DataMember (Name="id")]
         public int H2g2Id { get; set; }
 
         /// <summary>
@@ -45,20 +47,24 @@ namespace BBC.Dna.Objects
         /// 
         /// </summary>
         [XmlIgnore]
+        [DataMember(Name = "hidden")]
         public int HiddenStatus { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         [XmlIgnore]
+        [DataMember(Name = "style")]
         public GuideEntryStyle Style { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 0, ElementName = "ARTICLEINFO")]
+        [DataMember(Name="articleInfo")]
         public ArticleInfo ArticleInfo { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 1, ElementName = "SUBJECT")]
+        [DataMember(Name="subject")]
         public string Subject
         {
             get
@@ -82,6 +88,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAnyElement(Order = 2)]
+        [DataMember(Name="text")]
         public XmlElement GuideElement
         {
             get { return GuideEntry.CreateGuideEntry(Guide, HiddenStatus, Style); }
@@ -112,9 +119,13 @@ namespace BBC.Dna.Objects
         [XmlAttribute(AttributeName = "CANREAD")]
         public int CanRead { get; set; }
 
+        
+
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANWRITE")]
         public int CanWrite { get; set; }
+
+        
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANCHANGEPERMISSIONS")]
@@ -124,9 +135,25 @@ namespace BBC.Dna.Objects
         [XmlAttribute(AttributeName = "DEFAULTCANREAD")]
         public int DefaultCanRead { get; set; }
 
+        [XmlIgnore]
+        [DataMember(Name = ("canRead"))]
+        public bool DefaultCanReadBool
+        {
+            get { return DefaultCanRead == 1; }
+            set { }
+        }
+
         /// <remarks/>
         [XmlAttribute(AttributeName = "DEFAULTCANWRITE")]
         public int DefaultCanWrite { get; set; }
+
+        [XmlIgnore]
+        [DataMember(Name = ("canWrite"))]
+        public bool DefaultCanWriteBool
+        {
+            get { return DefaultCanWrite == 1; }
+            set { }
+        }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "DEFAULTCANCHANGEPERMISSIONS")]
@@ -402,7 +429,11 @@ namespace BBC.Dna.Objects
                             //int type = reader.GetInt32("Type");
 
                             article.Subject = reader.GetString("subject");
-                            article.Style = (GuideEntryStyle) reader.GetInt32NullAsZero("style");
+                            article.Style = (GuideEntryStyle)reader.GetInt32NullAsZero("style");
+                            if(article.Style == 0)
+                            {
+                                article.Style = GuideEntryStyle.GuideML;
+                            }
                             article.ExtraInfo = reader.GetString("extrainfo");
 
                             if (!reader.IsDBNull("HIdden"))
@@ -486,6 +517,7 @@ namespace BBC.Dna.Objects
             cache.Add(key, article);
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
+
             return article;
         }
 

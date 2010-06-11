@@ -15,8 +15,8 @@ namespace FunctionalTests
     /// Test the profile api when trying to set the current user via their cookie.
     /// Uses the URL to signin and signout before setting the user
     /// </summary>
-    //[TestClass]
-    class ProfileAPITestsValidUserLoginUsingURLSignInSignOut
+    [TestClass]
+    public class ProfileAPITestsValidUserLoginUsingURLSignInSignOut
     {
         /// <summary>
         /// Start the test by setting up the test bench.
@@ -32,7 +32,7 @@ namespace FunctionalTests
         /// Test that we can set the current user via a valid cookie.
         /// Check that the user is sihned in and logged in.
         /// </summary>
-        [TestMethod]
+        [Ignore]
         private void TestValidUserIsLoggedIn()
         {
             Console.WriteLine("TestValidUserIsLoggedIn");

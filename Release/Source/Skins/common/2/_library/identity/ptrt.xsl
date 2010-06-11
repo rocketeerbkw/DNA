@@ -18,8 +18,8 @@
 	
 	
 	<xsl:template match="H2G2[@TYPE]" mode="library_identity_ptrt">
-		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root)"/>
+    <xsl:call-template name="library_string_urlencode">
+			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
@@ -76,13 +76,13 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'USERDETAILS']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
@@ -90,11 +90,18 @@
 		<xsl:call-template name="library_string_urlencode">
 			<xsl:with-param name="string" select="concat($host, $root)"/>
 		</xsl:call-template>
-		<xsl:text>%2FUserComplaintPage%3FPostId=</xsl:text>
+    <xsl:text>%2FUserComplaintPage%3FPostId=</xsl:text>
 		<xsl:value-of select="USER-COMPLAINT-FORM/POST-ID | USERCOMPLAINT/@POSTID | USERCOMPLAINT/@H2G2ID"/>
 		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_step']">
 			<xsl:value-of select="concat('&amp;s_step=', number(/H2G2/PARAMS/PARAM[NAME = 's_step']/VALUE) + 1)"/>
 		</xsl:if>
 	</xsl:template>
+
+  <xsl:template match="//H2G2[@TYPE = 'ERROR']" mode="library_identity_ptrt">
+    <xsl:call-template name="library_string_urlencode">
+      <xsl:with-param name="string" select="concat($host, $root)"/>
+    </xsl:call-template>
+    <xsl:text>%2Fmbadmin%3Fs_mode=admin</xsl:text>
+  </xsl:template>
 	
 </xsl:stylesheet>

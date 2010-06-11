@@ -173,7 +173,7 @@ namespace BBC.Dna.Component
                 return;
             }
 
-            complaintReason = complaintText.Trim();
+            complaintReason = complaintReason.Trim();
             if (complaintReason == string.Empty || complaintText.Length == 0)
             {
                 this.AddErrorXml("COMPLAINTREASON", "No complaint reason", RootElement);
@@ -369,6 +369,14 @@ namespace BBC.Dna.Component
             EmailTemplate emailTemplate = new EmailTemplate(InputContext);
             emailTemplate.FetchEmailText(siteId, "UserComplaintEmail", out emailSubject, out emailBody);
 
+            if (string.IsNullOrEmpty(emailBody) || string.IsNullOrEmpty(emailSubject))
+            {
+                InputContext.Diagnostics.WriteWarningToLog("ComplaintSendEmail", 
+                    string.Format("Missing email template: site={0}, type=UserComplaintEmail", siteId));
+                SendErrorEmailToModerator(modId, InputContext.CurrentSite.ModeratorsEmail, postId, h2g2Id, title, complaintText);
+                return;
+            }
+
             String from = email;
             if (from == String.Empty)
                 from = "Anonymous";
@@ -406,6 +414,7 @@ namespace BBC.Dna.Component
 
             try
             {
+                
                 //Actually send the email.
                 DnaMessage sendMessage = new DnaMessage(InputContext);
                 sendMessage.SendEmailOrSystemMessage(userId, email, moderatorEmail, siteId, emailSubject, emailBody);
@@ -418,17 +427,15 @@ namespace BBC.Dna.Component
         }
 
         /// <summary>
-        /// This is not expected to be used. It is a literal port.
-        /// The email template mechanism is more flexible and seems a better approach.
+        /// Sends an imformative email to the moderator with the complaint details
         /// </summary>
         /// <param name="modId"></param>
         /// <param name="email"></param>
-        /// <param name="userEmail"></param>
         /// <param name="postId"></param>
         /// <param name="h2g2Id"></param>
-        /// <param name="hidden"></param>
+        /// <param name="url"></param>
         /// <param name="complaintText"></param>
-        private void SendBasicEmail(int modId, string email, string userEmail, int postId, int h2g2Id, bool hidden, String complaintText)
+        private void SendErrorEmailToModerator(int modId, string email, int postId, int h2g2Id, string url, String complaintText)
         {
 
             // Should use the email templaing system for this task.
@@ -443,7 +450,7 @@ namespace BBC.Dna.Component
                     from += " (Editor)";
             }
 
-            String emailSubject = "Complaint from " + from;
+            String emailSubject = "Error: Unable to send complaint receipt to user - missing template";
             String emailBody = "Complaint from: " + from + "\r\n";
             emailBody += "ModerationReference: " + Convert.ToString(modId) + "\r\n";
             if (postId > 0)
@@ -454,8 +461,12 @@ namespace BBC.Dna.Component
             {
                 emailBody += " about article " + Convert.ToString(h2g2Id) + "\r\n";
             }
-            if (hidden)
-                emailBody += " (HIDDEN)";
+            else
+            {
+                emailBody += " about page " + Convert.ToString(url) + "\r\n";
+            }
+            //if (hidden)
+                //emailBody += " (HIDDEN)";
             emailBody += "\r\n\r\n";
             emailBody += complaintText;
 
@@ -470,7 +481,7 @@ namespace BBC.Dna.Component
             {
                 //Actually send the email.
                 DnaMessage sendMessage = new DnaMessage(InputContext);
-                sendMessage.SendEmailOrSystemMessage(userId, userEmail, moderatorEmail, siteId, emailSubject, emailBody);
+                sendMessage.SendEmailOrSystemMessage(userId, email, email, siteId, emailSubject, emailBody);
             }
             catch (DnaEmailException e)
             {

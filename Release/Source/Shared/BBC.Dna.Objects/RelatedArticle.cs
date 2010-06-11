@@ -6,20 +6,22 @@ using BBC.Dna.Utils;
 using BBC.Dna.Data;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "ARTICLEMEMBER")]
+    [DataContract (Name="articleMember")]
     public partial class RelatedArticle
     {
         #region Properties
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "H2G2ID")]
+        [DataMember (Name="entryId")]
         public int H2g2Id
         {
             get;
@@ -28,6 +30,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "NAME")]
+        [DataMember(Name = "name")]
         public string Name
         {
             get;
@@ -36,6 +39,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 2, ElementName = "STRIPPEDNAME")]
+        [DataMember(Name = "strippedName")]
         public string StrippedName
         {
             get;
@@ -44,6 +48,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "EDITOR")]
+        [DataMember(Name = "editor")]
         public UserElement Editor
         {
             get;
@@ -56,6 +61,14 @@ namespace BBC.Dna.Objects
         {
             get;
             set;
+        }
+
+        [XmlIgnore]
+        [DataMember(Name = "status")]
+        public string StatusValue
+        {
+            get { return Status.Value; }
+            set { }
         }
 
         /// <remarks/>
@@ -83,6 +96,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 6, ElementName = "DATECREATED")]
+        [DataMember (Name="dateCreated")]
         public DateElement DateCreated
         {
             get;
@@ -91,6 +105,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 7, ElementName = "LASTUPDATED")]
+        [DataMember (Name="lastUpdated")]
         public DateElement LastUpdated
         {
             get;

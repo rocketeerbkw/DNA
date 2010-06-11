@@ -261,6 +261,10 @@ bool CModerateHomePageBuilder::ProcessSubmission(CUser* pViewer, CUser* pOwner)
 		CModerateNickNames modNickName(m_InputContext);
 		bSuccess = bSuccess && modNickName.UnlockNickNamesForUser(pOwner->GetUserID(), iModClassId);
 	}
+	else if (m_InputContext.ParamExists("unlockuserexlinks"))
+	{
+		bSuccess = m_pSP->UnlockUsersExLinkModerations(pOwner->GetUserID(),0) && bSuccess;
+	}
 	else if (m_InputContext.ParamExists("UnlockAll"))
 	{
 		bSuccess = m_pSP->UnlockAllForumModerations(pOwner->GetUserID()) && bSuccess;

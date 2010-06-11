@@ -418,7 +418,7 @@ namespace FunctionalTests
                     // a call to any valid URL with the _ns=1 param should cause a refresh of the site cache
 
                     DnaTestURLRequest myRequest = new DnaTestURLRequest(sitename);
-                    myRequest.RequestPageWithFullURL("http://" + server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/?_ns=1", "", "text/xml");
+                    myRequest.RequestPageWithFullURL("http://" + server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?_ns=1", "", "text/xml");
                 }
             }
         }

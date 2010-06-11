@@ -32,32 +32,40 @@
 			<p>
 				<xsl:value-of select="$title"/>
 			</p>
-			<div>
-				<input type="radio" name="status" value="0">
+			<ul>
+        <li>
+				    <input type="radio" name="status" value="0" id="status1">
 		          <xsl:if test=". = 0">
 		            <xsl:attribute name="checked">checked</xsl:attribute>
 		          </xsl:if>
 		        </input>
-		        <xsl:text> Undefined </xsl:text>
-		        <input type="radio" name="status" value="1">
+		        <label for="status1">Undefined</label>
+         </li>
+         <li>
+		        <input type="radio" name="status" value="1" id="status2">
 		          <xsl:if test=". = 1">
 		            <xsl:attribute name="checked">checked</xsl:attribute>
 		          </xsl:if>
 		        </input>
-		        <xsl:text> Unmoderated </xsl:text>
-		        <input type="radio" name="status" value="2">
-					<xsl:if test=". = 2">
-						<xsl:attribute name="checked">checked</xsl:attribute>
-					</xsl:if>
-				</input>
-				<xsl:text> Postmoderated </xsl:text>
-				<input type="radio" name="status" value="3">
-					<xsl:if test=". = 3">
-						<xsl:attribute name="checked">checked</xsl:attribute>
-					</xsl:if>
-				</input>
-				<xsl:text> Premoderated </xsl:text>
-			</div>
+            <label for="status2">Unmoderated</label>
+         </li>
+         <li>
+		        <input type="radio" name="status" value="2" id="status3">
+					    <xsl:if test=". = 2">
+						    <xsl:attribute name="checked">checked</xsl:attribute>
+					    </xsl:if>
+				  </input>
+          <label for="status3">Postmoderated</label>
+         </li>
+         <li>
+          <input type="radio" name="status" value="3" id="status4">
+            <xsl:if test=". = 3">
+	            <xsl:attribute name="checked">checked</xsl:attribute>
+            </xsl:if>
+          </input>
+           <label for="status4">Premoderated</label>
+         </li>
+			</ul>
 	</xsl:template>
     
 </xsl:stylesheet>

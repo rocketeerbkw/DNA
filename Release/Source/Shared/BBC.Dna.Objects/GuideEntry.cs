@@ -45,7 +45,8 @@ namespace BBC.Dna.Objects
                             var tempText = text.Replace("<GUIDE>", "").Replace("<BODY>", "").Replace("</GUIDE>", "").Replace("</BODY>", "");
                             //tempText = Translator.TranslateText(tempText);
                             tempText = HtmlUtils.ReplaceCRsWithBRs(tempText);
-                            doc.LoadXml(Entities.GetEntities() + "<GUIDE><BODY>" + tempText + "</BODY></GUIDE>");
+                            tempText = Entities.ReplaceEntitiesWithNumericValues(tempText);
+                            doc.LoadXml("<GUIDE><BODY>" + tempText + "</BODY></GUIDE>");
                             break;
 
                         case GuideEntryStyle.PlainText:

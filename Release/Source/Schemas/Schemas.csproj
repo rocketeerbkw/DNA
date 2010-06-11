@@ -126,6 +126,15 @@
     </None>
     <None Include="Club.xsd" />
     <None Include="ContentSignifSettings.xsd" />
+    <None Include="UserComplaintArticle.xsd" />
+    <None Include="UserComplaintUrl.xsd" />
+    <None Include="Dna.Services.Articles\article.xsd" />
+    <None Include="Dna.Services.Common\DNARichTextElements.xsd" />
+    <None Include="Dna.Services.Common\guideml.xsd" />
+    <None Include="Dna.Services.Forums\forumThreadPosts.xsd" />
+    <None Include="Dna.Services.Common\user.xsd" />
+    <None Include="Dna.Services.Common\date.xsd" />
+    <None Include="Dna.Services.Forums\forumThreads.xsd" />
     <None Include="H2G2ModerateHome.xsd" />
     <None Include="H2G2ModeratePosts.xsd" />
     <None Include="ModerationHome.xsd" />

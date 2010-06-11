@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:doc="http://www.bbc.co.uk/dna/documentation" exclude-result-prefixes="doc">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:doc="http://www.bbc.co.uk/dna/documentation" exclude-result-prefixes="doc">
     
     <doc:documentation>
         <doc:purpose>
@@ -18,7 +18,9 @@
     
     	<xsl:choose>
 	    	<xsl:when test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
-	    		<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta"/>
+	    		<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
+	    			<xsl:with-param name="signin-text"><xsl:value-of select="$signin-discussion-text" /></xsl:with-param>
+	    		</xsl:apply-templates>
 	    	</xsl:when>
 	    	
 	    	<xsl:otherwise>

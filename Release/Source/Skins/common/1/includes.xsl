@@ -36,15 +36,15 @@
             <xsl:include href="_library/GuideML/a.xsl" />
             <xsl:include href="_library/GuideML/br.xsl" />
             <xsl:include href="_library/GuideML/code.xsl" />
-			<xsl:include href="_library/GuideML/img.xsl" />
+			      <xsl:include href="_library/GuideML/img.xsl" />
             <xsl:include href="_library/GuideML/link.xsl" />
             <xsl:include href="_library/GuideML/smiley.xsl" />
             <xsl:include href="_library/GuideML/header.xsl" />
             <xsl:include href="_library/GuideML/subheader.xsl" />
             <xsl:include href="_library/GuideML/h4.xsl" />
             <xsl:include href="_library/GuideML/h3.xsl" />
-			<xsl:include href="_library/GuideML/hr.xsl" />
-			<xsl:include href="_library/GuideML/ol.xsl" />
+			      <xsl:include href="_library/GuideML/hr.xsl" />
+			      <xsl:include href="_library/GuideML/ol.xsl" />
             <xsl:include href="_library/GuideML/p.xsl" />
             <xsl:include href="_library/GuideML/quote.xsl" />
             <xsl:include href="_library/GuideML/ul.xsl" />
@@ -55,7 +55,7 @@
             <xsl:include href="_library/GuideML/strong.xsl" />
             <xsl:include href="_library/GuideML/textelement.xsl" />
             <xsl:include href="_library/GuideML/columns.xsl" />
-			<xsl:include href="_library/GuideML/footnote.xsl"/>
+			      <xsl:include href="_library/GuideML/footnote.xsl"/>
  
             <!-- 
             <xsl:include href="_library/Sumer/Sumer.xsl" />
@@ -135,6 +135,7 @@
             <xsl:include href="_library/identity/ptrt.xsl" />
             <xsl:include href="_library/identity/settingsurl.xsl" />
             <xsl:include href="_library/identity/registerurl.xsl" />
+            <xsl:include href="_library/identity/cta.xsl" />
         
             <xsl:include href="_library/memberservice/loginurl.xsl" />
             <xsl:include href="_library/memberservice/logouturl.xsl" />
@@ -165,14 +166,14 @@
             <xsl:include href="_library/siteconfig/morecommentslabel.xsl" />
             <xsl:include href="_library/siteconfig/morepostslabel.xsl" />
     
-			<xsl:include href="_library/site/link.xsl" />
+			      <xsl:include href="_library/site/link.xsl" />
 	
-			<xsl:include href="_library/socialbookmarks/boards.xsl" />
+			      <xsl:include href="_library/socialbookmarks/boards.xsl" />
     
             <xsl:include href="_library/string/escapeapostrophe.xsl" />
             <xsl:include href="_library/string/searchandreplace.xsl" />
-			<xsl:include href="_library/string/stringtolower.xsl" />
-			<xsl:include href="_library/string/urlencode.xsl" />
+			      <xsl:include href="_library/string/stringtolower.xsl" />
+			      <xsl:include href="_library/string/urlencode.xsl" />
     
             <xsl:include href="_library/userstate/userstate.xsl" />
             <xsl:include href="_library/userstate/editor.xsl" />

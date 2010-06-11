@@ -20,7 +20,7 @@
 
   <xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="page">
     <div>
-      <a href="http://{host}{root}/mbadmin?s_mode=admin">Redirecting...</a>
+      <p class="dna-error"><a href="{$host}{$root}/mbadmin?s_mode=admin">Redirecting...</a></p>
     </div>
   </xsl:template>
 
@@ -72,22 +72,42 @@
 
                         <td>
                           <xsl:choose>
-                            <xsl:when test="@DAYOFWEEK = 1">Monday</xsl:when>
-                            <xsl:when test="@DAYOFWEEK = 2">Tuesay</xsl:when>
-                            <xsl:when test="@DAYOFWEEK = 3">Wednesday</xsl:when>
-                            <xsl:when test="@DAYOFWEEK = 4">Thursday</xsl:when>
-                            <xsl:when test="@DAYOFWEEK = 5">Friday</xsl:when>
-                            <xsl:when test="@DAYOFWEEK = 6">Saturday</xsl:when>
-                            <xsl:when test="@DAYOFWEEK = 7">Sunday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 1">Sunday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 2">Monday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 3">Tuesday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 4">Wednesday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 5">Thursday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 6">Friday</xsl:when>
+                            <xsl:when test="@DAYOFWEEK = 7">Saturday</xsl:when>
+                            
                           </xsl:choose>
                         </td>
                         <xsl:choose>
-                          <xsl:when test="OPENTIME/HOUR != '0' and CLOSETIME/HOUR != '0'">
+                          <xsl:when test="OPENTIME/HOUR != '0' or CLOSETIME/HOUR != '0'">
                             <td>
-                              <xsl:value-of select="OPENTIME/HOUR"/>:<xsl:value-of select="OPENTIME/MINUTE"/>
+                              <xsl:value-of select="OPENTIME/HOUR"/>
+                              <xsl:text>:</xsl:text>
+                              <xsl:choose>
+                                  <xsl:when test="OPENTIME/MINUTE = '0'">00</xsl:when>
+                                  <xsl:otherwise>
+                                    <xsl:value-of select="OPENTIME/MINUTE"/>
+                                  </xsl:otherwise>
+                              </xsl:choose>
                             </td>
                             <td>
-                              <xsl:value-of select="CLOSETIME/HOUR"/>:<xsl:value-of select="CLOSETIME/MINUTE"/>
+                              <xsl:choose>
+                                <xsl:when test="CLOSETIME/HOUR = '0'">24</xsl:when>
+                                <xsl:otherwise>
+                                  <xsl:value-of select="CLOSETIME/HOUR"/>
+                                </xsl:otherwise>
+                              </xsl:choose>
+                              <xsl:text>:</xsl:text>
+                              <xsl:choose>
+                                <xsl:when test="CLOSETIME/MINUTE = '0'">00</xsl:when>
+                                <xsl:otherwise>
+                                  <xsl:value-of select="CLOSETIME/MINUTE"/>
+                                </xsl:otherwise>
+                                </xsl:choose>
                             </td>
                           </xsl:when>
                           <xsl:otherwise>
@@ -115,32 +135,14 @@
               <strong>Below are the assets you have defined for your messageboard.</strong>
             </p>
 
-            <h4>Emoticons</h4>
-           
-            <xsl:choose>
-              <xsl:when test="string(//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION)">
-                <p>Emoticons currently being used:</p>
-                <p>
-                  <img src="{//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION}" alt=""/>
-                </p>
-                <p class="dna-fnote">
-                  <strong>File: </strong>
-                  <xsl:value-of select="//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION" />
-                </p>
-              </xsl:when>
-              <xsl:otherwise>
-                <p class="dna-fnote">You have not added any emoticons - click the Edit button to add some. </p>
-              </xsl:otherwise>
-            </xsl:choose>
-           
-            
+   
             <h4>Stylesheet</h4>
 
             <xsl:choose>
               <xsl:when test="string(//SITECONFIG/V2_BOARDS/CSS_LOCATION)">
                 <p>Stylesheet currently being used:</p>
                 <p class="dna-fnote"><strong>File: </strong>
-                  <xsl:value-of select="//SITECONFIG/V2_BOARDS/CSS_LOCATION" />
+                  <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/CSS_LOCATION" />
                 </p>
               </xsl:when>
               <xsl:otherwise>
@@ -207,9 +209,15 @@
                   <xsl:for-each select="ERROR">
                     <li>
                       <xsl:choose>
-                        <xsl:when test=". = 'MissingAboutText'">Add your introduction/about text</xsl:when>
-                        <xsl:when test=". = 'MissingWelcomeMessage'">Add a welcome message</xsl:when>
-                        <xsl:when test=". = 'MissingTopics'">Add some messageboard topics</xsl:when>
+                        <xsl:when test=". = 'InvalidWelcomeMessage'">Add a welcome message</xsl:when>
+                        <xsl:when test=". = 'InvalidAboutMessage'">Add your introduction/about text</xsl:when>
+                        <xsl:when test=". = 'InvalidOpenCloseMessage'">Add opening/closing times</xsl:when>
+                        <xsl:when test=". = 'TopicElementTitleMissing'">Add a topic promo title</xsl:when>
+                        <xsl:when test=". = 'TopicElementTextMissing'">Add a topic description</xsl:when>
+                        <xsl:when test=". = 'TopicTitleMissing'">Add the title of the topic page</xsl:when>
+                        <xsl:when test=". = 'TopicDescriptionMissing'">Add the topci page description</xsl:when>
+                        <xsl:when test=". = 'ImageNameMissing'">Add a topic promo image</xsl:when>
+                        <xsl:when test=". = 'AltTextMissing'">Provide an alt text</xsl:when>
                       </xsl:choose>
                     </li>
                   </xsl:for-each>

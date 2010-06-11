@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:doc="http://www.bbc.co.uk/dna/documentation" exclude-result-prefixes="doc">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:doc="http://www.bbc.co.uk/dna/documentation" exclude-result-prefixes="doc">
     
     <doc:documentation>
         <doc:purpose>
@@ -15,6 +15,8 @@
     
     
     <xsl:template match="VIEWING-USER"  mode="library_identity_cta">
+    	<xsl:param name="signin-text" />
+    	
     	<xsl:variable name="idptrt" select="concat($root,'/AddThread?forum=', @FORUMID, '%26article=', /H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID)" />
     	
     	<div class="id-wrap blq-clearfix">
@@ -35,7 +37,7 @@
 							</xsl:apply-templates>			    	
 				    	</xsl:attribute>
 				    	<xsl:text>register</xsl:text>
-			    	</a> to take part in a discussion.</p>
+			    	</a>&#160;<xsl:value-of select="$signin-text" /></p>
     			</xsl:when>
 	            <xsl:otherwise>
 	            	<xsl:choose>

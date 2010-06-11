@@ -16,7 +16,7 @@
       
       <h4>Edit header colour</h4>
 			<p>Change the colour of the <em>Explore the BBC</em> button found in your messageboard header:</p>
-			<form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+			<form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_header=true#dna-s-header" method="post" name="frm-editheader">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 				<ul>
 
@@ -117,9 +117,11 @@
 					<label for="mbnav-orange" class="dna-orange">Orange</label>
 				</li>
         </ul>
-				
-				<xsl:call-template name="submitbuttons"/>
-			</form>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
+      </form>
 		</div>
 
     <div id="dna-preview-insertbanner">
@@ -129,7 +131,7 @@
       
       <h4>Insert your own banner</h4>
 			<p>To insert your own banner banner you need to include theURL to a Server Side Include (SSI) which contains the banner.</p>
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_banner=true#dna-s-banner" method="post" name="frm-insertbanner">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
@@ -137,8 +139,10 @@
 				<input type="text" name="BANNER_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI}" id="mbbanner"/>
 				<span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_banner.ssi</span>
         </p>
-          
-				<xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
 			</form>
 		</div>
 
@@ -149,7 +153,7 @@
 
       <h4>Add horizontal navigation</h4>
 			<p>To add your own navigation you need to include the URL to a Server Side Include (SSI) which contains the navigation.</p>
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_hnav=true#dna-s-hnav" method="post" name="frm-addtopnav">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
@@ -157,8 +161,10 @@
 				  <input type="text" name="HORIZONTAL_NAV_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI}" id="mbtopnav"/>
           <span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_navigation.ssi</span>
        </p>
-        
-       <xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
 			</form>
 		</div>
 
@@ -169,7 +175,7 @@
 
       <h4>Add left hand navigation</h4>
 			<p>To add your own navigation you need to include the URL to a Server Side Include (SSI) which contains the navigation.</p>
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_lnav=true#dna-s-lnav" method="post" name="frm-addnav">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
@@ -177,8 +183,10 @@
 				  <input type="text" name="LEFT_NAV_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/LEFT_NAV_SSI}" id="mbleftnav"/>
           <span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_left-navigation.ssi</span>
         </p>
-        
-				<xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
 			</form>
 		</div>
 
@@ -189,16 +197,19 @@
 
       <h4>Add welcome message</h4>
 			<p>Add your own welcome message to greet your users.</p>
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+
+      <form  action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_message=true#dna-s-message" method="post" name="frm-addwelcome">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <p>
 					<label for="mbwelcome">Welcome message:</label>
-					<input type="text" name="WELCOME_MESSAGE"  id="mbwelcome" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE}"/>
+          <input type="text" name="WELCOME_MESSAGE"  id="mbwelcome" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE}"/>
           <span class="dna-fnote"><strong>Example:</strong> Welcome to the Strictly Messageboard</span>
         </p>
-        
-				<xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
 			</form>
 		</div>
 
@@ -209,7 +220,7 @@
       </xsl:attribute>
 
       <h4>Edit footer</h4>
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_footer=true#dna-s-footer" method="post" name="frm-editfooter">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
          
           <div id="dna-footer-color">
@@ -270,8 +281,10 @@
               <strong>Note:</strong> Additional information on adding footer links can be found in this guide to <a href="http://www.bbc.co.uk/includes/blq/include/help/display_customisation/test_footer_links.shtml">custom footer links</a> (external link).
             </p>
           </div>
-        
-        <xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
         </form>
     </div>
 
@@ -282,22 +295,24 @@
 
       <h4>Add introductory / about text</h4>
 		
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_about=true#dna-s-about" method="post" name="frm-addtext">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 				
         <p>
 					<label for="mbabouttext">Add the introductory text, which will give some brief information about the messageboard:</label>
-					<textarea name="ABOUT_MESSAGE" rows="5" cols="40" id="mbabouttext"><xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE"/></textarea>
+					<textarea name="ABOUT_MESSAGE" rows="5" cols="40" id="mbabouttext"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE"/></textarea>
           <span class="dna-fnote"><strong>Example:</strong> This messageboard is the beating heart of the Strictly community where you talk to us and each other.</span>
 				</p>
 
         <p>
 					<label for="mbopeningtimes">Add the text, which will state the messageboards opening and closing times:</label>
-					<textarea name="OPENCLOSETIMES_TEXT" rows="2" cols="40" id="mbopeningtimes"><xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT"/></textarea>
+					<textarea name="OPENCLOSETIMES_TEXT" rows="2" cols="40" id="mbopeningtimes"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT"/></textarea>
           <span class="dna-fnote"><strong>Example:</strong> Opening hours: 8am until 12pm every day</span>
         </p>
-        
-        <xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
 			</form>
 		</div>
 
@@ -309,7 +324,7 @@
       <h4>Add more modules</h4>
 			<p>To add more modules to the right hand column of your messageboard, add the URL to a Server Side Include (SSI) which contains the module.</p>
       
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_modules=true#dna-s-modules" method="post" name="frm-addmodules">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         
         <xsl:variable name="nLinks" select="count(SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK)" />
@@ -410,8 +425,10 @@
         <p class="dna-fnote">
           <strong>Example:</strong> /includes/blq/include_blq_other.sssi
           </p>
-      
-        <xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
       </form>
 		</div>
 
@@ -423,7 +440,7 @@
       <h4>Add Social Media toolbar</h4>
 			<p>To add the social media toolbar to your messagebaord, select the checkbox below:</p>
 			
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_toolbar=true#dna-s-toolbar" method="post" name="frm-addtoolbar">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         <input type="hidden" name="SOCIALTOOLBAR_SUBMIT" value="1"></input>
 				
@@ -433,10 +450,12 @@
 						<xsl:attribute name="checked">checked</xsl:attribute>
 					</xsl:if>
 				</input>
-				<label for="mbsocialtoolbar">Show social media toolbar - <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR"/></label>
+				<label for="mbsocialtoolbar">Show social media toolbar</label>
         </p>
-        
-				<xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
 			</form>
 		</div>
 
@@ -448,7 +467,7 @@
       <h4>Edit topic Layout</h4>
       <p>Choose the layout options you would like:</p>
       
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_layout=true#dna-s-layout" method="post" name="frm-edittopiclayout">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         <ul>
         <li>
@@ -461,15 +480,17 @@
         </li>
         <li>
           <input type="radio" name="topiclayout" value="1col" id="layout-1col">
-            <xsl:if test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col'">
+            <xsl:if test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '1col' or SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = ''">
               <xsl:attribute name="checked">checked</xsl:attribute>
             </xsl:if>
           </input>
           <label for="layout-1col" class="dna-tl-1c">1 Column<br />This layout consists of topic promo's being displayed in 1 column.</label>
         </li>
         </ul>
-        
-        <xsl:call-template name="submitbuttons"/>
+
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+        </xsl:call-template>
       </form>
     </div>
 	</div>
@@ -488,7 +509,7 @@
       messageboards only</strong> - the module is
       compulsory for all others.
     </p>
-    <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview" method="post">
+    <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatepreview&amp;s_success_discussion=true#dna-s-discussion" method="post" name="frm-addrecentdiscussions">
       <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
       <input type="hidden" name="RECENTDISCUSSIONS_SUBMIT" value="1"></input>
      
@@ -500,20 +521,23 @@
         </input>
         <label for="mbRECENTDISCUSSIONS">Include recent discussions?</label>
        </p>
-      
-      <xsl:call-template name="submitbuttons"/>
+
+      <xsl:call-template name="submitbuttons">
+        <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
+      </xsl:call-template>
     </form>
   </div>
 </xsl:template>
 
 <xsl:template name="submitbuttons">
+ <xsl:param name="cancelUrl" />
 	<div class="dna-buttons">
 		<ul>
       <li>
         <input type="submit" name="submit" value="Save" />
       </li>
       <li>
-        <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">Cancel</a>
+        <a href="{$cancelUrl}" class="dna-btn-link dna-btn-cancel">Cancel</a>
       </li>
     </ul>
   </div>

@@ -19,6 +19,11 @@
 	</doc:documentation>
 	
 	<xsl:template match="H2G2[@TYPE = 'MESSAGEBOARDSCHEDULE']" mode="page">
+  
+    <xsl:if test="//PARAMS/PARAM[NAME = 's_success']/VALUE = 'true'">
+      <p class="dna-no-error">The opening times have been successfully updated.</p>
+    </xsl:if> 
+      
     <div class="dna-mb-intro">
       <h2>Opening Times</h2>
 
@@ -31,14 +36,16 @@
     </div>
 
     <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
-      <form action="MessageBoardSchedule" method="post" class="dna-mb-opentime">
+      <form action="MessageBoardSchedule?s_success=true" method="post" class="dna-mb-opentime">
         <input type="hidden" value="update" name="action"/>
           <div class="dna-box">
             <h3>Opening Hours</h3>
         
 			      <div><xsl:apply-templates select="SITETOPICSSCHEDULE"/></div>
           </div>
-          <xsl:call-template name="submitbuttons"/>
+          <xsl:call-template name="submitbuttons">
+            <xsl:with-param name="cancelUrl" select="'mbadmin?s_mode=admin'" />
+          </xsl:call-template>  
       </form>
     </div>
 	</xsl:template>
@@ -110,18 +117,18 @@
       
         <table>
         <xsl:call-template name="writeDay">
-				<xsl:with-param name="dayNumber" select="1"/>
-				<xsl:with-param name="dayName" select="'MONDAY'"/>
-        <xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '1']/@HOURS"/></xsl:with-param>
+		  	<xsl:with-param name="dayNumber" select="1"/>
+				<xsl:with-param name="dayName" select="'SUNDAY'"/>
+			  <xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '1']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="open-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '1']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="close-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '1']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="close-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '1']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="bg" select="'odd'"/>
 			</xsl:call-template>
-			<xsl:call-template name="writeDay">
+        <xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="2"/>
-				<xsl:with-param name="dayName" select="'TUESDAY'"/>
-				<xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '2']/@HOURS"/></xsl:with-param>
+				<xsl:with-param name="dayName" select="'MONDAY'"/>
+        <xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '2']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="open-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '2']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="close-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '2']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="close-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '2']/@MINUTES"/></xsl:with-param>
@@ -129,7 +136,7 @@
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="3"/>
-				<xsl:with-param name="dayName" select="'WEDNESDAY'"/>
+				<xsl:with-param name="dayName" select="'TUESDAY'"/>
 				<xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '3']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="open-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '3']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="close-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '3']/@HOURS"/></xsl:with-param>
@@ -138,7 +145,7 @@
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="4"/>
-				<xsl:with-param name="dayName" select="'THURSDAY'"/>
+				<xsl:with-param name="dayName" select="'WEDNESDAY'"/>
 				<xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '4']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="open-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '4']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="close-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '4']/@HOURS"/></xsl:with-param>
@@ -147,7 +154,7 @@
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="5"/>
-				<xsl:with-param name="dayName" select="'FRIDAY'"/>
+				<xsl:with-param name="dayName" select="'THURSDAY'"/>
 				<xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '5']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="open-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '5']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="close-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '5']/@HOURS"/></xsl:with-param>
@@ -156,7 +163,7 @@
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
 				<xsl:with-param name="dayNumber" select="6"/>
-				<xsl:with-param name="dayName" select="'SATURDAY'"/>
+				<xsl:with-param name="dayName" select="'FRIDAY'"/>
 				<xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '6']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="open-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '6']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="close-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '6']/@HOURS"/></xsl:with-param>
@@ -164,9 +171,9 @@
         <xsl:with-param name="bg" select="'even'"/>
 			</xsl:call-template>
 			<xsl:call-template name="writeDay">
-		  	<xsl:with-param name="dayNumber" select="7"/>
-				<xsl:with-param name="dayName" select="'SUNDAY'"/>
-			  <xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '7']/@HOURS"/></xsl:with-param>
+				<xsl:with-param name="dayNumber" select="7"/>
+				<xsl:with-param name="dayName" select="'SATURDAY'"/>
+				<xsl:with-param name="open-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '7']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="open-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '0']/TIME[@DAYTYPE = '7']/@MINUTES"/></xsl:with-param>
         <xsl:with-param name="close-hours"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '7']/@HOURS"/></xsl:with-param>
 				<xsl:with-param name="close-min"><xsl:value-of select="SCHEDULE/EVENT[@ACTION = '1']/TIME[@DAYTYPE = '7']/@MINUTES"/></xsl:with-param>
@@ -282,7 +289,7 @@
       <xsl:attribute name="class">
         <xsl:value-of select="$bg"/>
       </xsl:attribute>
-      <th><xsl:value-of select="$dayName"/></th>
+      <th><h4><xsl:value-of select="$dayName"/></h4></th>
       <td>
         <div class="closed dna-off">
         <input type="checkbox" name="" value="" id="closedallday-{$dayNumber}" >
