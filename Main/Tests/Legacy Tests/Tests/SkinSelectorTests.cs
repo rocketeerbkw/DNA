@@ -198,7 +198,18 @@ namespace Tests
             Assert.AreEqual(SITE_DEFAULT_SKIN, _skinSelector.SkinName);
         }
 
-
+        /// <summary>
+        /// Test to make sure the sites default skin is used instead of the users if the users preference is set to 'default'
+        /// </summary>
+        [TestMethod]
+        public void SiteHasDefaultSkinAndUserPreferenceEqualsDefault_ExpectSitesDefaultSkin()
+        {
+            setUserToBeLoggedInWithAPreferredSkin("default");
+            setupRequestToHaveNoRequestedSkin();
+            setupRequestToHaveNoFilterDerivedSkin();
+            _skinSelector.Initialise(_inputContext, _outputContext);
+            Assert.AreEqual(SITE_DEFAULT_SKIN, _skinSelector.SkinName);
+        }
 
         /// <summary>
         /// Test special case for when requested skin is purexml.

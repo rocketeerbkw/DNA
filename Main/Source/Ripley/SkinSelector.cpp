@@ -55,7 +55,7 @@ bool CSkinSelector::Initialise( CInputContext& InputContext )
     CUser* pViewingUser = InputContext.GetCurrentUser();
     if ( pViewingUser ) 
     {
-        if ( pViewingUser->GetPrefSkin(&sSkin) )
+		if ( pViewingUser->GetPrefSkin(&sSkin) && !sSkin.CompareText("default"))
         {
             if ( InputContext.DoesSkinExistInSite(iSiteId, sSkin) )
             {
