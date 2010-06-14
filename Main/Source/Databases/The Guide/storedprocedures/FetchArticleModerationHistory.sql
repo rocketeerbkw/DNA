@@ -9,12 +9,12 @@ select AM.*,
 	G.Subject, 
 	ip.IPAddress, 
 	ip.BBCUID,
-	U1.UserId, 
-	U1.UserName, 
-	U1.FirstNames,
-	U1.LastName, 
-	U1.Status, 
-	U1.TaxonomyNode,
+	U1.UserId as AuthorUserid, 
+	U1.UserName as AuthorUserName, 
+	U1.FirstNames as AuthorFirstNames, 
+	U1.LastName as AuthorLastName, 
+	U1.TaxonomyNode  as AuthorTaxonomyNode,
+	P1.PrefStatus as AuthorStatus,
 	U2.UserId as LockedByUserId, 
 	U2.UserName as LockedByUserName, 
 	U2.FirstNames as LockedByFirstNames, 
@@ -32,14 +32,16 @@ select AM.*,
 	U4.FirstNames as ComplainantFirstNames, 
 	U4.Lastname as ComplainantLastName, 
 	U4.Email as ComplainantEmail, 
-	U4.Status as complainantstatus, 
+	P4.PrefStatus as ComplainantStatus, 
 	U4.TaxonomyNode as complainanttaxonomynode
 from ArticleMod AM
 right outer join GuideEntries G on G.h2g2ID = AM.h2g2ID
 left join ArticleModIPAddress ip on ip.ArticleModId = AM.ModId
 inner join Users U1 on U1.UserID = G.Editor
+inner join preferences P1 on U1.UserID = P1.UserID and AM.siteid=P1.siteid
 left outer join Users U2 on U2.UserID = AM.LockedBy
 left outer join Users U3 on U3.UserID = AM.ReferredBy
 left outer join Users U4 on U4.UserID = AM.ComplainantID
+left outer join preferences P4 on U4.UserID = P4.UserID and AM.siteid=P4.siteid
 where G.h2g2ID = @h2g2id
 order by DateQueued asc, ModID asc
