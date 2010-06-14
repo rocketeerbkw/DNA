@@ -105,6 +105,8 @@
     <xsl:include href="objects/member/article.xsl" />
     <xsl:include href="objects/member/subject.xsl" />
     
+    <xsl:include href="objects/recentactivity/most-recent-conversations.xsl" />
+    
     <xsl:include href="objects/top-fives/top-fives.xsl" />
     <xsl:include href="objects/top-fives/top-five.xsl" />
     <xsl:include href="objects/top-fives/top-five-article.xsl" />

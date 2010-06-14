@@ -283,11 +283,16 @@
 	      			</div>
 	      			
 	      			<!-- Recent Discussions -->
-	      			<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'true' and /H2G2/TOP-FIVES/TOP-FIVE"> 
+	      			<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'true' and (/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS/FORUM or /H2G2/TOP-FIVES/TOP-FIVE)"> 
 	      				<h3>Recent Discussions</h3>
 	      				<div>
 	      					<ul class="topfives">
-	      						<xsl:apply-templates select="/H2G2/TOP-FIVES/TOP-FIVE[@NAME = 'MostRecentConversations']/TOP-FIVE-FORUM" mode="object_top-fives_top-five-forum"/>
+	      						<xsl:if test="/H2G2/TOP-FIVES/TOP-FIVE">
+	      							<xsl:apply-templates select="/H2G2/TOP-FIVES/TOP-FIVE[@NAME = 'MostRecentConversations']/TOP-FIVE-FORUM" mode="object_top-fives_top-five-forum"/>
+	      						</xsl:if>
+	      						<xsl:if test="/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS">
+	      							<xsl:apply-templates select="/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS[@NAME = 'PopularThreads']/FORUM" mode="object_recentactivity_most-recent-conversations"/>
+	      						</xsl:if>
 	      					</ul>
 	      				</div>
 	      			</xsl:if>
