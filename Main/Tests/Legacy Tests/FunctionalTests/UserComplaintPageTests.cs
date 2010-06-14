@@ -28,7 +28,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void FixtureSetup()
         {
-            SnapshotInitialisation.RestoreFromSnapshot();
+            SnapshotInitialisation.ForceRestore();
             ClearAllEmails();
         }
 
@@ -424,7 +424,7 @@ namespace FunctionalTests
                 }
                 else
                 {
-                    Assert.AreNotEqual(0, dataReader.GetStringNullAsEmpty("ComplainantID"));
+                    Assert.AreNotEqual(0, dataReader.GetInt32NullAsZero("ComplainantID"));
                 }
 
             }
