@@ -106,9 +106,7 @@ namespace BBC.Dna
             }
             else
             {
-                
                 element = _topicPage.TopicElementList.GetTopicElementById(topicId);
-
                 if (element == null)
                 {
                     return new Error("InvalidTopicId", "The topic id passed was invalid.");
@@ -119,6 +117,8 @@ namespace BBC.Dna
             {
                 element.Editkey = new Guid(InputContext.GetParamStringOrEmpty("topiceditkey", "topiceditkey"));
             }
+
+            // Check to see if we're creating a new topic element for an existing topic, or have been given bad data
             if (!String.IsNullOrEmpty(InputContext.GetParamStringOrEmpty("fptopiceditkey", "fptopiceditkey")))
             {
                 element.FrontPageElement.Editkey = new Guid(InputContext.GetParamStringOrEmpty("fptopiceditkey", "fptopiceditkey"));
@@ -179,10 +179,20 @@ namespace BBC.Dna
             }
             else
             {
-                var result = element.UpdateTopic(AppContext.ReaderCreator, InputContext.ViewingUser.UserID);
-                if (result.IsError())
+                // Check to see if we need to create the element first before updating.
+                if (element.FrontPageElement.Elementid == 0)
                 {
-                    return result;
+                    var result = element.FrontPageElement.CreateFrontPageElement(AppContext.ReaderCreator, InputContext.CurrentSite.SiteID, InputContext.ViewingUser.UserID);
+                    if (result.IsError())
+                    {
+                        return result;
+                    }
+                }
+
+                var result2 = element.UpdateTopic(AppContext.ReaderCreator, InputContext.ViewingUser.UserID);
+                if (result2.IsError())
+                {
+                    return result2;
                 }
                 return new Result("TopicUpdateSuccessful", "Existing topic editted");
             }
