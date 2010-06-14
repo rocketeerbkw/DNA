@@ -7,6 +7,7 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using BBC.Dna.Objects;
 
 namespace BBC.Dna.Component
 {
@@ -197,7 +198,8 @@ namespace BBC.Dna.Component
                             }
                             if (style == 1)
                             {
-                                string temp = "<RICHPOST>" + body.Replace("\r\n", "<BR />").Replace("\n", "<BR />") + "</RICHPOST>";
+                                body = ThreadPost.FormatPost(body, BBC.Dna.Moderation.Utils.CommentStatus.Hidden.NotHidden);
+                                string temp = "<RICHPOST>" + body + "</RICHPOST>";
                                 Regex regex = new Regex(@"(<[^<>]+)<BR \/>");
                                 while (regex.Match(temp).Success)
                                 {
