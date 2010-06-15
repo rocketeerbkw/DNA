@@ -1,5 +1,16 @@
+#blq-main #header {	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+#blq-main #header #banner {
+  	padding: 0;
+}
 #blq-main #blq-local-nav a, #blq-main #blq-content a, #blq-main #dna-boardpromo a {
 	color: cadetblue;
+}
+#blq-main #blq-content a:focus, #blq-main #dna-boardpromo a:focus {
+	background-color: cadetblue;
+	color: #fff;
 }
 #blq-main #header {
 	background-color: cadetblue;
@@ -13,8 +24,9 @@
 #blq-local-nav ul.local-site-nav  {
 	background-color: cadetblue;
 }
-#blq-local-nav ul.local-site-nav a:hover {
+#blq-main #blq-local-nav ul.local-site-nav a:hover {
 	background: #fff;
+	color: cadetblue;
 }
 #blq-main #blq-local-nav ul li.topic-parent a {
 	background-color: LightSlateGray;
@@ -25,18 +37,22 @@
 #blq-main ul.topfives {
 	color: cadetblue;
 }
-#blq-main .pagination li.dna-button {
+/* pagination */
+#blq-main #blq-content .pagination li a {
 	background-color: cadetblue;
 }
-#blq-main .pagination li.dna-button a {
-	background-color: cadetblue;
-}
-#blq-main .pagination li a {
-	background-color: cadetblue;
-}
-#blq-main .pagination li.current a {
+#blq-main #blq-content .pagination li.current a {
   	background-color: LightSlateGray;
 }
-#blq-main .pagination li span {
+#blq-main #blq-content .pagination li span {
 	background-color: cadetblue;
+	background-image: none;
+}
+#blq-main #blq-content .pagination li.dna-button {
+	background-color: cadetblue;
+	background-image: none;
+}
+#blq-main #blq-content .pagination li.dna-button a {
+	background-color: cadetblue;
+	background-image: none;
 }
