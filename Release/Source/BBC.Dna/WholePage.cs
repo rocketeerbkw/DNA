@@ -50,7 +50,7 @@ namespace BBC.Dna.Component
 			//InputContext.Diagnostics.WriteTimedEventToLog("WholePage", "Finished initialise whole page");
 			if (InputContext.CurrentSite != null)
 			{
-				H2G2.AppendChild(ImportNode(SiteXmlBuilder.GenerateSiteOptions(InputContext.CurrentSite)));
+                H2G2.AppendChild(ImportNode(SiteXmlBuilder.GenerateSiteOptions(InputContext.CurrentSite, InputContext.IsPreviewMode())));
 			}
 		}
 

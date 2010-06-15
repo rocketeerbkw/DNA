@@ -302,5 +302,11 @@ namespace BBC.Dna
             get;
             set;
         }
+
+        /// <summary>
+        /// Returns if in preview mode
+        /// </summary>
+        /// <returns></returns>
+        bool IsPreviewMode();
     }
 }

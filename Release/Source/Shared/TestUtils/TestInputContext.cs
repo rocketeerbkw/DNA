@@ -563,5 +563,11 @@ namespace BBC.Dna
             get { throw new NotImplementedException(); }
             set { throw new NotImplementedException(); }
         }
+
+        public bool IsPreviewMode()
+        {
+            return false;
+        }
+
     }
 }

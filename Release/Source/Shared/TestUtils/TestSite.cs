@@ -399,6 +399,11 @@ namespace Tests
             return new Result("UpdateEveryMessageBoardAdminStatusForSite", "Successful");
         }
 
+        public XmlNode GetPreviewTopicsXml(IDnaDataReaderCreator creator)
+        {
+            throw new NotImplementedException();
+        }
+
         #region IDnaComponent Members
 
         /// <summary>
