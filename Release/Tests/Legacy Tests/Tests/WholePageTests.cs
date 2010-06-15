@@ -32,6 +32,7 @@ namespace Tests
 			Stub.On(site).GetProperty("Config").Will(Return.Value(String.Empty));
 
 			User user = new User(context);
+            Stub.On(context).Method("IsPreviewMode").Will(Return.Value(false));
 			Stub.On(context).GetProperty("ViewingUser").Will(Return.Value(user));
 			Stub.On(context).GetProperty("UserAgent").Will(Return.Value("Mozilla+blah+blah"));
 			Stub.On(context).GetProperty("CurrentSite").Will(Return.Value(site));
@@ -52,6 +53,7 @@ namespace Tests
 			Assert.AreEqual(node.InnerText, "randomskin", "Expected 'randomskin' for the skin name in the URLSKINNAME element");
 
 			context = mock.NewMock<IInputContext>();
+            Stub.On(context).Method("IsPreviewMode").Will(Return.Value(false));
 			Stub.On(context).GetProperty("ViewingUser").Will(Return.Value(user));
 			Stub.On(context).GetProperty("UserAgent").Will(Return.Value("Mozilla+blah+blah"));
 			Stub.On(context).GetProperty("CurrentSite").Will(Return.Value(site));

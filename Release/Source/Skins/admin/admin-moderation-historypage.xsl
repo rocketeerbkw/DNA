@@ -161,7 +161,7 @@
                 Author
               </b>: 
               <xsl:apply-templates select="EDITOR/USER" mode="profile_withusername"/>
-              <xsl:apply-templates select="EDITOR/USER/STATUS" mode="user_status"/>
+              <xsl:apply-templates select="EDITOR/USER/STATUS" mode="user_pref_status"/>
               <xsl:apply-templates select="EDITOR/USER/GROUPS" mode="user_groups"/>
             </xsl:if>
           </td>
@@ -203,7 +203,7 @@
           </p>
           <xsl:if test ="COMPLAINT">
             <p class="alertUserBar">
-              <xsl:apply-templates select="COMPLAINT/USER/STATUS" mode="user_status"/>
+              <xsl:apply-templates select="COMPLAINT/USER/STATUS" mode="user_pref_status"/>
               <xsl:apply-templates select="COMPLAINT/USER/GROUPS" mode="user_groups"/>
               <xsl:choose>
                 <xsl:when test="COMPLAINT/USER/USERNAME">

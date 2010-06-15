@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    <h1><asp:Label ID="lblHostName" runat="server"></asp:Label> (Comments Service)</h1>
+    <h1><asp:Label ID="lblHostName" runat="server"></asp:Label> (Moderation Service)</h1>
     </div>
     <div>
     <asp:Table ID="tblStats" runat="server"></asp:Table>
