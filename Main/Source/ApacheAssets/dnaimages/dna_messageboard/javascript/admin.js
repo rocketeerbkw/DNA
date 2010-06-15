@@ -104,7 +104,8 @@
 
             // display overlay when show link with class of 'dna-link-overlay' is clicked on
             addListener(this, "mousedown", function() {
-
+                
+               
                 var whichAnchor = href.split("#");
                 if (whichAnchor.length > 1)
                     whichDiv = whichAnchor[1];
@@ -189,13 +190,21 @@
                 });
 
 
-                // show overlay
-                var myOverlay = new glow.widgets.Overlay("#" + whichDiv, {
-                    modal: true
+                addListener(".dna-buttons input", "mousedown", function() {
+                    // welcome message
+                    if ($("#mbwelcome").val() == "") {
+                        glow.dom.create('<span class="dna-error-text">Please add your welcome message</span>').insertBefore("#mbwelcome");
+                        $("#mbwelcome").addClass("dna-error-input");
+                        return false;
+                    }
                 });
 
+                addListener(".dna-buttons input", "mousedown", function() {
 
-                myOverlay.show();
+                    var whichForm = $("#" + whichDiv + " form").attr("name");
+                    document.forms[whichForm].action = 'messageboardadmin_design?s_mode=design';
+                });
+
 
                 // footer overlay : show/hide footer links
                 $("#dna-footer-links").addClass("dna-off");
@@ -206,6 +215,14 @@
                 });
 
 
+                
+                // show overlay
+                var myOverlay = new glow.widgets.Overlay("#" + whichDiv, {
+                    modal: true
+                });
+
+                myOverlay.show();
+
                 function resetForm() {
                     var whichForm = $("#" + whichDiv + " form").attr("name");
                     document.forms[whichForm].reset();
@@ -213,10 +230,13 @@
                     $(".dna-error-text").addClass("dna-off");
                 }
 
+                
+
                 // reset the form when the overlay is closed by clicking the mask
                 addListener(myOverlay, "hide", function(event) {
                     resetForm();
                 });
+
 
                 // hide the overlay when 'cancel' is clicked on
                 if (myOverlay.isShown) {
@@ -225,8 +245,14 @@
                         myOverlay.hide();
                         return false;
                     });
-                }
 
+                    addListener("a.dna-btn-cancel", "mousedown", function() {
+                        resetForm;
+                        myOverlay.hide();
+                        return false;
+                    });
+                }
+                
                 return false;
             });
         });

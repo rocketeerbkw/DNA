@@ -97,13 +97,13 @@
   <xsl:template name="object_topic_edit">
     <xsl:param name="topicid">
     </xsl:param>
-    
 
-      <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatetopic&amp;s_success_topics=true#dna-s-topics" method="post" id="dna-add-topic-{$topicid}" name="frm-add-topic-{$topicid}">
-        <input type="hidden" name="topiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/EDITKEY}"></input>
-        <input type="hidden" name="fptopiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/EDITKEY}"></input>
-        <input type="hidden" id="topicid" name="topicid" value="{$topicid}"></input>
 
+    <form action="messageboardadmin_design?s_mode=design" method="post" id="dna-add-topic-{$topicid}" name="frm-add-topic-{$topicid}">
+      <input type="hidden" name="topiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/EDITKEY}"></input>
+      <input type="hidden" name="fptopiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/EDITKEY}"></input>
+      <input type="hidden" id="topicid" name="topicid" value="{$topicid}"></input>
+      <input type="hidden" id="cmd" name="cmd" value="updatetopic"></input>
 
         <div id="dna-preview-edittopic-step1-{$topicid}" >
           <xsl:attribute name="class"><xsl:if test="//PARAMS/PARAM[NAME = 's_step']/VALUE = '2' or //PARAMS/PARAM[NAME = 's_step']/VALUE = '3'">dna-off</xsl:if></xsl:attribute> 
@@ -172,7 +172,7 @@
 
             <p>You can choose to add an image to your topic promo. If you do not wish to add an image, simply click Next.</p>
             <p>
-              <label for="fp_imagename-{$topicid}">Image Address (image size: 206 X 116 pixels):</label>
+              <label for="fp_imagename-{$topicid}">Image Address (image size: 223 X 125 pixels):</label>
               <input type="text" name="fp_imagename" id="fp_imagename-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME}"/>
               <span class="dna-fnote">
                 <strong>Example:</strong> ricky_erin.jpg

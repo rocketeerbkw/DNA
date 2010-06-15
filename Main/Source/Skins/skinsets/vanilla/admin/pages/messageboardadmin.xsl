@@ -209,15 +209,15 @@
                   <xsl:for-each select="ERROR">
                     <li>
                       <xsl:choose>
-                        <xsl:when test=". = 'InvalidWelcomeMessage'">Add a welcome message</xsl:when>
-                        <xsl:when test=". = 'InvalidAboutMessage'">Add your introduction/about text</xsl:when>
-                        <xsl:when test=". = 'InvalidOpenCloseMessage'">Add opening/closing times</xsl:when>
-                        <xsl:when test=". = 'TopicElementTitleMissing'">Add a topic promo title</xsl:when>
-                        <xsl:when test=". = 'TopicElementTextMissing'">Add a topic description</xsl:when>
-                        <xsl:when test=". = 'TopicTitleMissing'">Add the title of the topic page</xsl:when>
-                        <xsl:when test=". = 'TopicDescriptionMissing'">Add the topci page description</xsl:when>
-                        <xsl:when test=". = 'ImageNameMissing'">Add a topic promo image</xsl:when>
-                        <xsl:when test=". = 'AltTextMissing'">Provide an alt text</xsl:when>
+                        <xsl:when test="@TYPE = 'InvalidWelcomeMessage'">Add a welcome message</xsl:when>
+                        <xsl:when test="@TYPE = 'InvalidAboutMessage'">Add your introduction/about text</xsl:when>
+                        <xsl:when test="@TYPE = 'InvalidOpenCloseMessage'">Add opening/closing times</xsl:when>
+                        <xsl:when test="@TYPE = 'TopicElementTitleMissing'">Add a topic promo title</xsl:when>
+                        <xsl:when test="@TYPE = 'TopicElementTextMissing'">Add a topic description</xsl:when>
+                        <xsl:when test="@TYPE = 'TopicTitleMissing'">Add the title of the topic page</xsl:when>
+                        <xsl:when test="@TYPE = 'TopicDescriptionMissing'">Add the topic page description</xsl:when>
+                        <xsl:when test="@TYPE = 'ImageNameMissing'">Add a topic promo image</xsl:when>
+                        <xsl:when test="@TYPE = 'AltTextMissing'">Provide an alt text</xsl:when>
                       </xsl:choose>
                     </li>
                   </xsl:for-each>
