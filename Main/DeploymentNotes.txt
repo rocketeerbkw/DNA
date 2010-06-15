@@ -522,3 +522,8 @@ UNICODE Updates -
 	* Run "Convert NickNameMod-Username to Unicode.sql".
 		Take note to check that the constraints to be droppped from the NicknameMod and NicknameModHistory tables match the one in the file.
 	* Run "Convert Users-Username to Unicode.sql"
+
+============== v 3.5.38.0 =============
+Markn:
+Run "populate BBCDividionId column in Sites.sql" from DBScripts to put some
+values in the new BBCDivision column of the Sites table.
