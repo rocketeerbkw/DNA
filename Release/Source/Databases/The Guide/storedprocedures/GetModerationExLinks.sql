@@ -12,13 +12,17 @@ SELECT @issuperuser = CASE WHEN Status = 2 THEN 1 ELSE 0 END
 FROM Users WHERE userid = @userid
 
 -- Lock Item if none already locked.
-IF NOT EXISTS (
+IF @locked =0 and NOT EXISTS (
 	SELECT *
-	FROM ExLinkMod
+	FROM ExLinkMod m
+	INNER JOIN Sites s on s.siteid = m.siteid
 	WHERE	
-	((@locked = 0 AND datecompleted IS NULL) OR LockedBy = @userid )
+	s.ModClassID = @modclassid
+	--AND @locked =0
+	AND datecompleted IS NULL AND LockedBy = @userid
 	AND CASE WHEN complainttext IS NULL THEN 0 ELSE 1 END = @alerts 
-	AND CASE WHEN status = 2 THEN 1 ELSE 0 END = @referrals ) 
+	AND CASE WHEN status = 2 THEN 1 ELSE 0 END = @referrals 
+	) 
 BEGIN
 	IF @referrals = 0
 	BEGIN
