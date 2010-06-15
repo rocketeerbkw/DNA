@@ -81,6 +81,20 @@ namespace BBC.Dna.Page
         }
 
         /// <summary>
+        /// Returns if preview flag set
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPreviewMode()
+        {
+            string value = "";
+            if(TryGetParamString("_previewmode", ref value, "Preview mode") )
+            {
+                return value == "1";
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Sets the Site name from the si input parameter or sets it to h2g2 if none found
         /// </summary>
         private void SetCurrentSiteName()

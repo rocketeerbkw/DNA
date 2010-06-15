@@ -190,20 +190,31 @@ namespace BBC.Dna
         /// Returns all the site options in XML format
         /// </summary>
         /// <param name="site">The site to read options from</param>
+        /// <param name="preview">Use preview config or not</param>
         /// <returns>The XMl list of options</returns>
-        public static XmlNode GenerateSiteOptions(ISite site)
+        public static XmlNode GenerateSiteOptions(ISite site, bool preview)
         {
             XmlDocument _siteConfigDoc = new XmlDocument();
-            if (site.Config.Length > 0)
+            if (!preview)
             {
-                //HACK: Needs to be done properly.
-                site.Config = site.Config.Replace("&nbsp;", "&#160;");
-                site.Config = site.Config.Replace("&raquo;", "&#187;");
-                _siteConfigDoc.LoadXml(Entities.GetEntities() + site.Config);
+               
+                if (site.Config.Length > 0)
+                {
+                    //HACK: Needs to be done properly.
+                    site.Config = site.Config.Replace("&nbsp;", "&#160;");
+                    site.Config = site.Config.Replace("&raquo;", "&#187;");
+                    _siteConfigDoc.LoadXml(Entities.GetEntities() + site.Config);
+                }
+                else
+                {
+                    _siteConfigDoc.LoadXml("<SITECONFIG/>");
+                }
             }
             else
             {
-                _siteConfigDoc.LoadXml("<SITECONFIG/>");
+                var config = SiteConfig.GetPreviewSiteConfig(site.SiteID, AppContext.ReaderCreator);
+                var xmlSiteConfig = StringUtils.SerializeToXmlUsingXmlSerialiser(config);
+                _siteConfigDoc.LoadXml(Entities.ReplaceEntitiesWithNumericValues(xmlSiteConfig));
             }
 
             return _siteConfigDoc.SelectSingleNode("/SITECONFIG");

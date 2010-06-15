@@ -1134,6 +1134,52 @@ links: http://www.bbc.co.uk and other stuff";
 
         }
 
+        [TestMethod]
+        public void Test38ForumPageInPreviewMode()
+        {
+
+            var siteConfig = "<SITECONFIG><TEST>OK</TEST></SITECONFIG>";
+            var siteId = 70;
+            var siteName = "mbiplayer";
+            using (IDnaDataReader dataReader = DnaMockery.CreateDatabaseInputContext().CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY(String.Format("insert into previewconfig (siteid, config, editkey) values ({0},'{1}','{2}')", siteId, siteConfig, Guid.NewGuid().ToString()));
+            }
+
+
+            var request = new DnaTestURLRequest(siteName);
+            request.RequestPage("NF7325075" + "?skin=purexml&_previewmode=1");
+
+            var xml = request.GetLastResponseAsXML();
+
+            Assert.AreEqual("OK", xml.SelectSingleNode("//H2G2/SITECONFIG/TEST").InnerText);
+            var topicXml = xml.SelectSingleNode("//H2G2/TOPICLIST");
+            Assert.IsNotNull(topicXml);
+            Assert.AreEqual("PREVIEW", topicXml.Attributes["STATUS"].Value);
+            
+            
+        }
+
+        [TestMethod]
+        public void Test39ForumPageForumNotFound()
+        {
+
+            var siteName = "mbiplayer";
+            var forumId = Int32.MaxValue - 1;
+
+            var request = new DnaTestURLRequest(siteName);
+            request.RequestPage(string.Format("NF{0}?skin=purexml", forumId));
+
+            var xml = request.GetLastResponseAsXML();
+
+            var errorXml = xml.SelectSingleNode("//H2G2/ERROR");
+            Assert.IsNotNull(errorXml);
+            Assert.AreEqual("ForumNotFound", errorXml.Attributes["TYPE"].Value);
+
+        }
+
+
+
         #region Private helper functions
 
         /// <summary>

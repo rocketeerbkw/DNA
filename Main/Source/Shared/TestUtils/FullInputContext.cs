@@ -886,5 +886,10 @@ namespace Tests
             get { return _isSecure; }
             set { _isSecure = value; }
         }
+
+        public bool IsPreviewMode()
+        {
+            return false;
+        }
     }
 }

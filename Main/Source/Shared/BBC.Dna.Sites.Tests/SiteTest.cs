@@ -4,6 +4,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
+using Rhino.Mocks.Constraints;
 using System;
 
 namespace BBC.Dna.Sites.Tests
@@ -368,6 +369,50 @@ namespace BBC.Dna.Sites.Tests
             Assert.AreEqual("UpdateEveryMessageBoardAdminStatusForSite", result.Type);
         }
 
+        [TestMethod]
+        public void GetPreviewTopicsXml_ValidRecordSet_ReturnsCorrectXml()
+        {
+            IDnaDataReaderCreator creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("GetTopicDetails")).Return(GetSiteTopicsMockReader());
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var node = site.GetPreviewTopicsXml(creator);
+            Assert.IsNotNull(node.SelectSingleNode("TOPIC"));
+        }
+
+        [TestMethod]
+        public void GetPreviewTopicsXml_NoRows_ReturnsCorrectXml()
+        {
+            IDnaDataReaderCreator creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            IDnaDataReader reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(false);
+            creator.Stub(x => x.CreateDnaDataReader("GetTopicDetails")).Return(reader);
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var node = site.GetPreviewTopicsXml(creator);
+            Assert.IsNull(node.SelectSingleNode("TOPIC"));
+        
+        }
+
+        [TestMethod]
+        public void GetPreviewTopicsXml_NoRead_ReturnsCorrectXml()
+        {
+            IDnaDataReaderCreator creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            IDnaDataReader reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.Read()).Return(false);
+            creator.Stub(x => x.CreateDnaDataReader("GetTopicDetails")).Return(reader);
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var node = site.GetPreviewTopicsXml(creator);
+            Assert.IsNull(node.SelectSingleNode("TOPIC"));
+        }
+
         private static Site CreateDefaultSiteObject()
         {
             int id = 5;
@@ -412,6 +457,18 @@ namespace BBC.Dna.Sites.Tests
             Assert.AreEqual(id, target.SiteID);
 
             return target;
+        }
+
+        private IDnaDataReader GetSiteTopicsMockReader()
+        {
+            IDnaDataReader reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetStringNullAsEmpty("")).Constraints(Is.Anything()).Return("");
+            reader.Stub(x => x.GetByte("")).Constraints(Is.Anything()).Return(1);
+            reader.Stub(x => x.GetInt32NullAsZero("SiteID")).Return(1);
+
+            return reader;
         }
     }
 }

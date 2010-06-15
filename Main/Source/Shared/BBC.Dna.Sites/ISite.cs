@@ -210,5 +210,12 @@ namespace BBC.Dna.Sites
         /// <returns></returns>
         BaseResult UpdateEveryMessageBoardAdminStatusForSite(IDnaDataReaderCreator readerCreator, MessageBoardAdminStatus status);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ReaderCreator"></param>
+        /// <returns></returns>
+        XmlNode GetPreviewTopicsXml(IDnaDataReaderCreator ReaderCreator);
+
         }
 }
