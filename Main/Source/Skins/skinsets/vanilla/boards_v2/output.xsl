@@ -101,7 +101,7 @@
       		
       		<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
       		<script type="text/javascript" src="http://www.bbc.co.uk/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
-      		<script type="text/javascript" src="http://www.bbc.co.uk/dnaimages/javascript/previewmode.js"><xsl:text> </xsl:text></script>
+      		<xsl:if test="PREVIEWMODE = 1"><script type="text/javascript" src="/dnaimages/javascript/previewmode.js"><xsl:text> </xsl:text></script></xsl:if>
       		
       		<!-- disable Identity JavaScript for now -->
       		<script type="text/javascript">
@@ -114,6 +114,7 @@
       		<xsl:if test="SITECONFIG/V2_BOARDS/CSS_LOCATION and SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
       			<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
       		</xsl:if> 
+
       	</head>
       	<xsl:text disable-output-escaping="yes">
       		<![CDATA[    
@@ -126,10 +127,6 @@
       	
       	<body>
       		<xsl:attribute name="id"><xsl:apply-templates select="/H2G2/@TYPE" mode="library_string_stringtolower"/></xsl:attribute>
-      		<xsl:if test="PREVIEWMODE = 1">
-      			<xsl:attribute name="onload">previewmode();</xsl:attribute>
-      		</xsl:if>
-      		
       		<xsl:text disable-output-escaping="yes">
       			<![CDATA[    
 					<!--<![endif]-->

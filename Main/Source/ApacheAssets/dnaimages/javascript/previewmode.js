@@ -1,5 +1,10 @@
+window.onload = function() {
+	previewmode();
+}
+
 function previewmode()
 	{
+		alert('previewmode');
 		// add a hidden preview element to all forms
 		var flen = document.forms.length;
 		for (i=0;i<flen;i++)
@@ -18,6 +23,7 @@ function previewmode()
 		{
 			var l = document.links[i];
 			var shref = l.href.toLowerCase();
+			
 			// check the link is a dna link
 			if (shref.indexOf("/dna/") >= 0)
 			{
