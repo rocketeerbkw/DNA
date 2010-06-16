@@ -34,7 +34,11 @@ namespace FunctionalTests
         [TestInitialize]
         public void Setup()
         {
-            SnapshotInitialisation.RestoreFromSnapshot();
+            try
+            {
+                SnapshotInitialisation.ForceRestore();
+            }
+            catch { }
         }
 
         [TestCleanup]
