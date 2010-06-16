@@ -245,6 +245,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Addthread.cs" />
     <Compile Include="BBC.Dna.BannedEmailsTests.cs" />
     <Compile Include="cachingSignals\groupSignalTests.cs" />
     <Compile Include="CommentBoxTestsUsingApi.cs" />
