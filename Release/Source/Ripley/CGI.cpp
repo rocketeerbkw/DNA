@@ -4369,7 +4369,7 @@ bool CGI::Signal(const TDVCHAR *pURL)
 	}
 
 	CTDVString sDotNetURL(pURL);
-	sDotNetURL = "/dna" + sDotNetURL.Mid(1) + "&skin=purexml";
+	sDotNetURL = "/dna" + sDotNetURL.Mid(1) + "&skin=purexml&_si=h2g2";
 
 	CTDVString sAPISigURL(pURL);
 	int paramsStart = sDotNetURL.Find("?");
