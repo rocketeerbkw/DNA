@@ -1870,7 +1870,7 @@ namespace FunctionalTests
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/?sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
                                        _sitename, commentForum.Id, commentInfo3.ID, sortBy, sortDirection, itemsPerPage);
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/xml");
@@ -1910,7 +1910,7 @@ namespace FunctionalTests
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/?sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
                                        _sitename, commentForum.Id, commentInfo3.ID, sortBy, sortDirection, itemsPerPage);
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/xml");
@@ -1943,7 +1943,7 @@ namespace FunctionalTests
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/?sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
                                        _sitename, commentForum.Id, Int32.MaxValue-1, sortBy, sortDirection, itemsPerPage);
             try
             {
@@ -1973,7 +1973,7 @@ namespace FunctionalTests
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/?sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
                                        _sitename, commentForum.Id, "notacomment", sortBy, sortDirection, itemsPerPage);
             try
             {
