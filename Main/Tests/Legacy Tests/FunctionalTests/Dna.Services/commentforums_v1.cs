@@ -1848,6 +1848,147 @@ namespace FunctionalTests
             Console.WriteLine("After CreateCommentAsNonAgreedTermsAndConditionsUser");
         }
 
+
+        [TestMethod]
+        public void GetCommentForumWithCommentId_CreateAndDescending_ReturnsCorrectPost()
+        {
+            var sortBy = SortBy.Created;
+            var sortDirection = SortDirection.Descending;
+            var expectedStartIndex = 0;
+            var itemsPerPage =1;
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreateHelper();
+
+            //Create 2 Comments in the same forum.
+            var comments = new CommentsTests_V1();
+            CommentInfo commentInfo = comments.CreateCommentHelper(commentForum.Id);
+            CommentInfo commentInfo2 = comments.CreateCommentHelper(commentForum.Id);
+            CommentInfo commentInfo3 = comments.CreateCommentHelper(commentForum.Id);
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/?sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+                                       _sitename, commentForum.Id, commentInfo3.ID, sortBy, sortDirection, itemsPerPage);
+            // now get the response
+            request.RequestPageWithFullURL(url, "", "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+            var returnedForum =
+                (CommentForum)
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+
+            Assert.AreEqual(expectedStartIndex, returnedForum.commentList.StartIndex);
+            Assert.AreEqual(itemsPerPage, returnedForum.commentList.ItemsPerPage);
+            Assert.AreEqual(commentInfo3.ID, returnedForum.commentList.comments[0].ID);
+
+            
+        }
+
+        [TestMethod]
+        public void GetCommentForumWithCommentId_CreateAndAscending_ReturnsCorrectPost()
+        {
+            var sortBy = SortBy.Created;
+            var sortDirection = SortDirection.Ascending;
+            var expectedStartIndex = 2;
+            var itemsPerPage = 1;
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreateHelper();
+
+            //Create 2 Comments in the same forum.
+            var comments = new CommentsTests_V1();
+            CommentInfo commentInfo = comments.CreateCommentHelper(commentForum.Id);
+            CommentInfo commentInfo2 = comments.CreateCommentHelper(commentForum.Id);
+            CommentInfo commentInfo3 = comments.CreateCommentHelper(commentForum.Id);
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/?sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+                                       _sitename, commentForum.Id, commentInfo3.ID, sortBy, sortDirection, itemsPerPage);
+            // now get the response
+            request.RequestPageWithFullURL(url, "", "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+            var returnedForum =
+                (CommentForum)
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+
+            Assert.AreEqual(expectedStartIndex, returnedForum.commentList.StartIndex);
+            Assert.AreEqual(itemsPerPage, returnedForum.commentList.ItemsPerPage);
+            Assert.AreEqual(commentInfo3.ID, returnedForum.commentList.comments[0].ID);
+
+
+        }
+
+        [TestMethod]
+        public void GetCommentForumWithCommentId_CommentIdDoesNotExist_ReturnsCorrectError()
+        {
+            var sortBy = SortBy.Created;
+            var sortDirection = SortDirection.Ascending;
+            var itemsPerPage = 1;
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreateHelper();
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/?sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+                                       _sitename, commentForum.Id, Int32.MaxValue-1, sortBy, sortDirection, itemsPerPage);
+            try
+            {
+                // now get the response
+                request.RequestPageWithFullURL(url, "", "text/xml");
+            }
+            catch 
+            {
+            }
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.NotFound);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+
+        }
+
+        [TestMethod]
+        public void GetCommentForumWithCommentId_CommentIdNotValid_ReturnsCorrectError()
+        {
+            var sortBy = SortBy.Created;
+            var sortDirection = SortDirection.Ascending;
+            var itemsPerPage = 1;
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreateHelper();
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/?sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+                                       _sitename, commentForum.Id, "notacomment", sortBy, sortDirection, itemsPerPage);
+            try
+            {
+                // now get the response
+                request.RequestPageWithFullURL(url, "", "text/xml");
+            }
+            catch 
+            {
+            }
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.NotFound);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+
+        }
+
         /// <summary>
         /// Checks the xml against the error schema
         /// </summary>
