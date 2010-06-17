@@ -179,6 +179,10 @@ ul.admin {
 	float:left; 
 	width: 479px;
 }
+#blq-content ul.dna-list-topic-col1, #blq-content ul.dna-list-topic-col2 {
+	float: left;
+	width: 223px;
+}
 #blq-content .topiclist li {
 	float: left;
 	width: 223px;
@@ -788,11 +792,9 @@ p.flag a {
 #blq-main #blq-content .dna-boards ul {
 	margin:	15px 0 10px 24px;
 }
-
 #blq-main #blq-content .dna-boards ul li {
-	display: inline;	
+	float: left;	
 }
-
 #blq-main #blq-content .dna-boards input.dna-button {
 	width:auto; 
 	overflow:visible;
