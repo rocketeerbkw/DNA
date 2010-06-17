@@ -17,7 +17,7 @@ namespace FunctionalTests
     /// <summary>
     /// Test class for the Users project
     /// </summary>
-    [TestClass]
+    //[TestClass]
     public class AddThreadTests
     {
         private int _threadId = 34;
@@ -31,7 +31,7 @@ namespace FunctionalTests
         /// <summary>
         /// Setup fixtures
         /// </summary>
-        [TestInitialize]
+        //[TestInitialize]
         public void Setup()
         {
             try
@@ -41,7 +41,7 @@ namespace FunctionalTests
             catch { }
         }
 
-        [TestCleanup]
+        //[TestCleanup]
         public void TearDown()
         {//reset the test harness to unmod
             var processPreMod = false;
@@ -59,7 +59,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_Unmoderated_CorrectPost()
         {
             var processPreMod = false;
@@ -81,7 +81,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_SiteIsPostModerated_CorrectUnmoderatedPost()
         {
             var processPreMod = false;
@@ -103,7 +103,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_SiteIsPreModerated_CorrectUnmoderatedPost()
         {
             var processPreMod = false;
@@ -125,7 +125,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_ForumIsPostModerated_CorrectUnmoderatedPost()
         {
             //thread status takes precedence over forum status
@@ -148,7 +148,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_ForumIsPreModerated_CorrectUnmoderatedPost()
         {
             var processPreMod = false;
@@ -170,7 +170,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_ThreadIsPostMode_CorrectPostModeratedPost()
         {
             var processPreMod = false;
@@ -192,7 +192,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_ThreadIsPreMode_CorrectPreModeratedPost()
         {
             var processPreMod = false;
@@ -214,7 +214,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_UserIsPostMode_CorrectPostModeratedPost()
         {
             var processPreMod = false;
@@ -236,7 +236,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_UserIsPreMod_CorrectPreModeratedPost()
         {
             var processPreMod = false;
@@ -258,7 +258,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test existing c++ code base
         /// </summary>
-        [TestMethod]
+        //[TestMethod]
         public void AddThread_AllPreModUserIsPostMod_CorrectPreModeratedPost()
         {
             var processPreMod = false;
