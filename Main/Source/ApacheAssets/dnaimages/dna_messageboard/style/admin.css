@@ -8,7 +8,7 @@
     .dna-main input:focus,.dna-main select:focus {border:1px solid #7f9db9; background:#ebebe4}
 
     /* link */
-    .dna-main a,.glow110-overlay a,.dna-main a:visited, .glow110-overlay a:visited {color:#666; padding:1px; border-bottom:1px solid #666; text-decoration:none}
+    .dna-main a,.glow110-overlay a{color:#666; padding:1px; border-bottom:1px solid #666; text-decoration:none}
     .dna-main a:hover,.glow110-overlay a:hover{border-bottom:none}
     .dna-main a:focus,.glow110-overlay a:focus,.dna-main a:active,.glow110-overlay a:active {border-bottom:none; background:#666; color:#fff}
 
@@ -66,6 +66,7 @@
     .dna-error,.dna-no-error {width:50em; padding:10px; margin:15px 10px; font-weight:bold}
     .dna-error  {border:3px double red}
     .dna-no-error {border:3px double green}
+    .dna-error-auth {background:#feecec; border-color:#ba0c0c; color:#cc3333; }
 
     .dna-error-text {color:#cc3333; display:block}
     .dna-error-input {background:#feecec; border-color:#ba0c0c}
@@ -121,8 +122,11 @@
     *+html .dna-emergency-stop {position:relative; top:20px}
     *html .dna-emergency-stop {position:relative; top:20px}
     .dna-emergency-stop strong {display:block; margin-bottom:3px}
-    .dna-emergency-stop a {display:inline-block; padding:5px 5px 5px 45px; background:url(/dnaimages/dna_messageboard/img/icon-stop.gif) no-repeat 5px 50%; text-decoration:none; color:#666}
+    .dna-emergency-stop a {display:inline-block; padding:5px 5px 5px 45px; text-decoration:none; color:#666}
     .dna-emergency-stop a:hover {text-decoration:underline}
+    
+    .dna-emergency-stop a.dna-stop {background:url(/dnaimages/dna_messageboard/img/icon-stop.gif) no-repeat 5px 50%}
+    .dna-emergency-stop a.dna-go {background:url(/dnaimages/dna_messageboard/img/icon-go.gif) no-repeat 5px 50%}
 
 
     /* INTRO text */
@@ -194,15 +198,16 @@
 
     /* display topic layout: 1 or 2 cols */
     
-    .dna-list-topic-col,.dna-list-topic-col1,.dna-list-topic-col2 {margin-top:20px}
+    .dna-list-topic-col,.dna-list-topic-col1,.dna-list-topic-col2 {margin-top:15px}
     .dna-list-topic-col1 li,.dna-list-topic-col2 li {position:relative; padding:10px; min-height:34em}
+    * html .dna-list-topic-col1,* html .dna-list-topic-col2{margin-left:5px!important}
+    * html .dna-list-topic-col2 {float:right; margin-right:5px}
     * html .dna-list-topic-col1  li,* html .dna-list-topic-col2  li {height:32.5em}
     .dna-list-topic-col1 li p,.dna-list-topic-col2 li p,.dna-list-topic-col li p {margin:10px 0 !important}
     .dna-replies {text-align:right}
     .dna-list-topic-col1 .dna-link-edit,.dna-list-topic-col2 .dna-link-edit, .dna-list-topic-col .dna-link-edit {right:10px; top:0}
 
-    .dna-list-topic-col1 {width:20.1em; float:left; margin-left:10px}}
-    .dna-list-topic-col2 {width:20.1em; float:right; margin-right:10px}
+    .dna-list-topic-col1,.dna-list-topic-col2 {width:20.1em; float:left; margin-left:10px}
     .dna-topic-pos {width:25px!important}
 
     .dna-list-topic-col li {position:relative; padding:10px; margin:0 10px 10px 10px; width:39em}
@@ -243,7 +248,7 @@
 
 
     /* ROUNDED CORNERS*/
-    .dna-emergency-stop,.dna-box,.dna-preview,.dna-preview a,.dna-publish,.dna-publish a,.dna-buttons input,.dna-buttons a,.dna-preview-box {-moz-border-radius:5px; -webkit-border-radius:5px}
+    .dna-emergency-go,.dna-emergency-stop,.dna-box,.dna-preview,.dna-preview a,.dna-publish,.dna-publish a,.dna-buttons input,.dna-buttons a,.dna-preview-box {-moz-border-radius:5px; -webkit-border-radius:5px}
     .dna-link-edit a {-moz-border-radius:3px; -webkit-border-radius:3px}
 
     #blq-local-nav a,.dna-main h3,.glow110-overlay h4  {-moz-border-radius-topleft:5px; -webkit-border-top-left-radius:5px; -moz-border-radius-topRight:5px; -webkit-border-top-right-radius:5px}
@@ -255,7 +260,7 @@
 
 @media print{
     
-    .dna-off,#dna-s-layout,#blq-foot,#blq-acc,#dna-publish-mb,.dna-emergency-stop,.dna-preview,.dna-publish,#blq-local-nav ul,.dna-link-edit,.dna-buttons,.dna-link-overlay {display:none !important}
+    .dna-off,#dna-s-layout,#blq-foot,#blq-acc,#dna-publish-mb,.dna-emergency-stop,.dna-emergency-go,.dna-preview,.dna-publish,#blq-local-nav ul,.dna-link-edit,.dna-buttons,.dna-link-overlay {display:none !important}
     
     p, ul, h1, h2, h3, h4, h5 {line-height:normal}
     

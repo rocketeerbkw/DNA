@@ -24,7 +24,7 @@
       <h2>Welcome to the Messageboard Admin Tool</h2>
 
       <div class="dna-box">
-     
+
         <xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
           <xsl:with-param name="signin-text">
             <xsl:value-of select="'to BBC iD to use this service.'" />
@@ -32,7 +32,7 @@
         </xsl:apply-templates>
 
         <p>
-          You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please refer to our <a href="">user guide</a> or contact your <a href="">social media representative</a>.
+          You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please refer to our <a href="https://confluence.dev.bbc.co.uk/display/DNA/Messageboards+Admin+Tool+-+User+Guide">user guide</a> or contact your <strong>social media representative</strong>.
         </p>
       </div>
     </div>
@@ -59,7 +59,7 @@
 
   <xsl:template match="/H2G2/RESULT" mode="page">
     <p class="dna-no-error">
-       <xsl:value-of select="MESSAGE"/>
+       Your updates have been saved.
     </p>
   </xsl:template>
 

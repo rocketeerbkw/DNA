@@ -107,18 +107,7 @@
               <h4>Topics list</h4>
               <xsl:if test="/H2G2/TOPIC_PAGE">
                 <ul class="dna-list-links">
-                  <xsl:choose>
-                    <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
-                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'1') and position() mod 2 = 1]" mode="object_topiclist_design" />
-                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'2') and position() mod 2 = 1]" mode="object_topiclist_design" />
-                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'1') and position() mod 2 = 0]" mode="object_topiclist_design" />
-                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'2') and position() mod 2 = 0]" mode="object_topiclist_design" />
-                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2')]" mode="object_topiclist_design" />
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC" mode="object_topiclist_design" />
-                    </xsl:otherwise>
-                  </xsl:choose>
+                  <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC" mode="object_topiclist_design" />
                 </ul>
               </xsl:if>
 
@@ -153,7 +142,7 @@
                     <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE"/>
                   </p>
                   <p>
-                    <a href="?s_mode=welcome#dna-preview-addwelcome" class="dna-link-overlay">+ Modify your welcome message</a>
+                    <a href="?s_mode=welcome#dna-preview-addwelcome" class="dna-link-overlay">+ Update your welcome message</a>
                   </p>
                 </xsl:when>
                 <xsl:otherwise>
@@ -165,7 +154,7 @@
             </div>
 
             <div id="dna-s-topics" class="dna-box">
-              <h4>Topic layout</h4>
+              <h4>Topic management</h4>
              
               
               <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatetopicpositions&amp;s_success_topics=true" method="post">
@@ -179,12 +168,10 @@
                       <xsl:choose>
                         <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
                           <ul class="dna-list-topic-col1">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'1')]" mode="object_topiclist_elements" />
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2') and position() mod 2 = 1]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION mod 2 = 1]" mode="object_topiclist_elements" />
                           </ul>
                           <ul class="dna-list-topic-col2">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION = starts-with(POSITION,'2')]" mode="object_topiclist_elements" />
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2') and position() mod 2 = 0]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION  mod 2 = 0]" mode="object_topiclist_elements" />
                           </ul>
                         </xsl:when>
                         <xsl:otherwise>
@@ -222,7 +209,7 @@
               <xsl:choose>
                 <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE != '' or /H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT != ''">
                   <p>
-                    <a href="?s_mode=about#dna-preview-addtext" class="dna-link-overlay">+ Modify introduction/about message</a>
+                    <a href="?s_mode=about#dna-preview-addtext" class="dna-link-overlay">+ Update introduction/about message</a>
                   </p>
                 </xsl:when>
                 <xsl:otherwise>
@@ -235,7 +222,7 @@
 
             <div class="dna-box">
               <h4>Recent Discussions</h4>
-              <p>For messageboards aimed at people under 16 years old, you may turn off the Recent Discussions module. This option is for <strong>under 16 messageboards only</strong> - the module is compulsory for all others.</p>
+              <p>The recent discussions module should only be  switched off for messageboards aimed at children.</p>
 
               <xsl:choose>
                 <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'false'">
@@ -253,7 +240,7 @@
 
 
             <div class="dna-box-border">
-              <h4>Extras modules</h4>
+              <h4>Additional modules</h4>
               <xsl:if test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS != ''">
                 <p>
                   <strong>Modules inserted:</strong>
@@ -268,7 +255,7 @@
               </xsl:if>
 
               <p>
-                <a href="?s_mode=modules#dna-preview-addmodules" class="dna-link-overlay">+ Add more modules</a>
+                <a href="?s_mode=modules#dna-preview-addmodules" class="dna-link-overlay">+ Add modules</a>
               </p>
             </div>
           </div>
@@ -310,7 +297,7 @@
                 <strong>Footer colour chosen: </strong>
                 <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/COLOUR"/>
               </xsl:when>
-              <xsl:otherwise>Footer colour by default is dark grey.</xsl:otherwise>
+              <xsl:otherwise>The default footer colour is dark grey.</xsl:otherwise>
             </xsl:choose>
           </p>
 

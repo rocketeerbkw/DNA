@@ -127,7 +127,7 @@
 			<xsl:choose>
         <xsl:when test="//H2G2/SITE/SITECLOSED[@EMERGENCYCLOSED = '0']">
           <p>
-            <a href="{$root}/MessageBoardSchedule?action=CloseSite&amp;confirm=1">
+            <a href="{$root}/MessageBoardSchedule?action=CloseSite&amp;confirm=1" class="dna-stop">
               <strong>EMERGENCY CLOSURE</strong>
               Stop all posts to this messageboard
             </a>
@@ -135,7 +135,7 @@
         </xsl:when>
         <xsl:otherwise>
           <p>
-            <a href="{$root}/MessageBoardSchedule?action=OpenSite&amp;confirm=1">
+            <a href="{$root}/MessageBoardSchedule?action=OpenSite&amp;confirm=1" class="dna-go">
               <strong>RE-OPEN BOARD</strong>
               Allow all posts to this messageboard
             </a>
