@@ -19,7 +19,7 @@
     function init() {
 
         // RE-ORDER TOPIC
-       // $(".dna-topic-position").addClass("dna-off");
+       $(".dna-topic-position").addClass("dna-off");
 
         // find index of each 'li' element
         Array.prototype.find = function(searchStr) {
