@@ -8,10 +8,10 @@
         <xs:element name="TOPICLIST">
           <xs:complexType>
             <xs:sequence>
-              <xs:element maxOccurs="unbounded" name="TOPIC">
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="TOPIC">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="TOPICID" type="xs:unsignedShort" />
+                    <xs:element name="TOPICID" type="xs:int" />
                     <xs:element name="H2G2ID" type="xs:unsignedInt" />
                     <xs:element name="SITEID" type="xs:unsignedByte" />
                     <xs:element name="TOPICSTATUS" type="xs:unsignedByte" />
@@ -28,7 +28,7 @@
                       </xs:complexType>
                     </xs:element>
                     <xs:element name="POSITION" type="xs:unsignedByte" />
-                    <xs:element name="CREATEDBY">
+                    <xs:element name="CREATEDBY" minOccurs="0">
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element name="USERNAME" type="xs:string" />
@@ -43,7 +43,7 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
-                    <xs:element name="UPDATEDBY">
+                    <xs:element name="UPDATEDBY" minOccurs="0">
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element name="USERNAME" type="xs:string" />
@@ -59,14 +59,22 @@
                       </xs:complexType>
                     </xs:element>
                     <xs:element name="STYLE" type="xs:unsignedByte" />
-                    <xs:element name="FP_ELEMENTID" type="xs:unsignedByte" />
-                    <xs:element name="FP_TEMPLATE" type="xs:unsignedByte" />
-                    <xs:element name="FP_POSITION" type="xs:unsignedByte" />
-                    <xs:element name="FP_TITLE" type="xs:string" />
-                    <xs:element name="FP_TEXT" type="xs:string" />
-                    <xs:element name="FP_IMAGENAME" type="xs:string" />
-                    <xs:element name="FP_IMAGEALTTEXT" type="xs:string" />
                     <xs:element name="EDITKEY" type="xs:string" />
+                    <xs:element name="FRONTPAGEELEMENT">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="ELEMENTID" type="xs:int" />
+                          <xs:element name="TEMPLATE" type="xs:unsignedByte" />
+                          <xs:element name="POSITION" type="xs:unsignedByte" />
+                          <xs:element name="TITLE" type="xs:string" />
+                          <xs:element name="TEXT" type="xs:string" />
+                          <xs:element name="IMAGENAME" type="xs:string" />
+                          <xs:element name="IMAGEALTTEXT" type="xs:string" />
+                          <xs:element name="EDITKEY" type="xs:string" />
+                          <xs:element name="STATUS" type="xs:int" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>

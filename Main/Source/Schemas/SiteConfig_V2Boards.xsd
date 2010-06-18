@@ -19,11 +19,11 @@
               <xs:element name="FOOTER">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element name="COLOUR" type="xs:string" />
+                    <xs:element name="COLOUR" type="xs:string" minOccurs="0" />
                     <xs:element name="LINKS">
                       <xs:complexType>
                         <xs:sequence>
-                          <xs:element maxOccurs="unbounded" name="LINK" type="xs:string" />
+                          <xs:element minOccurs="0" maxOccurs="unbounded" name="LINK" type="xs:string" />
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
@@ -36,7 +36,7 @@
                     <xs:element name="LINKS">
                       <xs:complexType>
                         <xs:sequence>
-                          <xs:element maxOccurs="unbounded" name="LINK" type="xs:string" />
+                          <xs:element minOccurs="0" maxOccurs="unbounded" name="LINK" type="xs:string" />
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
@@ -51,6 +51,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
 		</xs:complexType>
 	</xs:element>
