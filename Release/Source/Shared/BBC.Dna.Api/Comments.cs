@@ -866,6 +866,40 @@ namespace BBC.Dna.Api
             return comment;
         }
 
+        /// <summary>
+        /// Gets a comment from it's post id
+        /// </summary>
+        /// <param name="postid">Post Id of the comment</param>
+        /// <param name="site">Site Information</param>
+        /// <returns>The comment Info</returns>
+        public int GetStartIndexForPostId(int postid)
+        {
+            int startIndex=0;
+            using (IDnaDataReader reader = CreateReader("getindexofcomment"))
+            {
+                
+                reader.AddParameter("postid", postid);
+                reader.AddParameter("sortby", SortBy.ToString());
+                reader.AddParameter("sortdirection", SortDirection.ToString());
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    
+                    var index = reader.GetInt32NullAsZero("startIndex");
+                    startIndex = (index / ItemsPerPage) * ItemsPerPage;
+
+                }
+                else
+                {
+                    throw ApiException.GetError(ErrorType.CommentNotFound);
+                    
+                }
+                
+            }
+            return startIndex;
+        }
+
         #region Private Functions
 
         /// <summary>

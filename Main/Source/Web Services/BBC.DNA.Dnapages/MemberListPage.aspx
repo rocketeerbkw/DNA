@@ -43,39 +43,32 @@
         </td></tr>
         </table>
         <br/>
-        <table cellspacing="6" style="width: 636px">
-        <tr><td style="width: 77px">
-        <asp:Label ID="lblAction" runat="server" Font-Bold="True" Text="Action"/>
-        </td><td>
+        <div style="padding:10px; float:left">
+            <asp:Label ID="lblAction" runat="server" Font-Bold="True" Text="Moderation Action"/><br />
             <asp:DropDownList
-            ID="UserStatusDescription" runat="server" SelectedValue='<%# Eval("UserStatusDescription") %>' OnSelectedIndexChanged="UserStatusDescription_SelectedIndexChanged" AutoPostBack="True" CausesValidation="True">
-            <asp:ListItem Selected="True" Value="Standard">Standard</asp:ListItem>
-            <asp:ListItem Value="Premoderate">Premoderate</asp:ListItem>
-            <asp:ListItem Value="Postmoderate">Postmoderate</asp:ListItem>
-            <asp:ListItem Value="Restricted">Banned</asp:ListItem>
-        </asp:DropDownList>
-        </td>
-        <td style="width: 188px">
-        <asp:DropDownList ID="Duration" runat="server" Enabled="True" SelectedValue='<%# Bind("PrefStatusDuration") %>'>
-            <asp:ListItem Selected="True" Value="0">no limit</asp:ListItem>
-            <asp:ListItem Value="1440">1 day</asp:ListItem>
-            <asp:ListItem Value="10080">1 week</asp:ListItem>
-            <asp:ListItem Value="20160">2 weeks</asp:ListItem>
-            <asp:ListItem Value="40320">1 month</asp:ListItem>
-        </asp:DropDownList>
-        </td>
-        </tr><tr>
-        <td style="width: 77px"/>
-        <td colspan="2">
-        <asp:Button ID="ApplyAction" runat="server" OnClick="ApplyAction_Click"
-        Text="Apply action to marked accounts" Height="24px" />
-        </td></tr>
-        <tr><td style="width: 77px" /><td colspan="2">
-        <asp:Button ID="ApplyNickNameReset" runat="server" OnClick="ApplyResetUserName_Click"
-        Text="Reset Username to marked accounts" Height="24px" />
-        </td>
-        </tr>
-        </table>
+                ID="UserStatusDescription" runat="server" SelectedValue='<%# Eval("UserStatusDescription") %>' OnSelectedIndexChanged="UserStatusDescription_SelectedIndexChanged" AutoPostBack="True" CausesValidation="True">
+                <asp:ListItem Selected="True" Value="Standard">Standard</asp:ListItem>
+                <asp:ListItem Value="Premoderate">Premoderate</asp:ListItem>
+                <asp:ListItem Value="Postmoderate">Postmoderate</asp:ListItem>
+                <asp:ListItem Value="Restricted">Banned</asp:ListItem>
+            </asp:DropDownList>&nbsp;
+            <asp:DropDownList ID="Duration" runat="server" Enabled="True" SelectedValue='<%# Bind("PrefStatusDuration") %>'>
+                <asp:ListItem Selected="True" Value="0">no limit</asp:ListItem>
+                <asp:ListItem Value="1440">1 day</asp:ListItem>
+                <asp:ListItem Value="10080">1 week</asp:ListItem>
+                <asp:ListItem Value="20160">2 weeks</asp:ListItem>
+                <asp:ListItem Value="40320">1 month</asp:ListItem>
+            </asp:DropDownList>&nbsp;
+            <asp:Button ID="ApplyAction" runat="server" OnClick="ApplyAction_Click"
+                Text="Apply action to marked accounts" Height="24px" />
+        </div>
+        
+        <div style="padding:10px;float:right">
+            <p>
+            <asp:Button ID="ApplyNickNameReset" runat="server" OnClick="ApplyResetUserName_Click"
+            Text="Reset Username to marked accounts" Height="24px" />
+            </p>
+        </div>
         <br />
         <asp:Table ID="tblResults" runat="server" Height="180px" Width="640px">
         </asp:Table>

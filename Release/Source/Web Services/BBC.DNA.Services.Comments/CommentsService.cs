@@ -101,14 +101,23 @@ namespace BBC.Dna.Services
         public Stream GetCommentForum(string commentForumId, string siteName)
         {
             ISite site = GetSite(siteName);
-            if (site == null)
-            {
-                throw ApiException.GetError(ErrorType.UnknownSite);
-            }
             CommentForum commentForumData;
             Stream output = null;
             try
             {
+                //get the startindex to include the post id
+                var postValue = QueryStringHelper.GetQueryParameterAsString("includepostid", string.Empty);
+                if(postValue != string.Empty)
+                {
+                    int postId =0;
+                    if (!Int32.TryParse(postValue, out postId))
+                    {
+                        throw ApiException.GetError(ErrorType.CommentNotFound);
+                    }
+                    _commentObj.StartIndex = _commentObj.GetStartIndexForPostId(postId);
+                }
+
+
                 if (
                     !GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentForumGetLastUpdate),
                                         new object[] {commentForumId, site.SiteID}))
@@ -129,6 +138,27 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
             return output;
+        }
+
+        [WebGet(UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/comment/{commentId}/")]
+        [WebHelp(Comment = "Get the comments forum by ID")]
+        [OperationContract]
+        public Stream GetCommentForumWithCommentId(string commentForumId, string siteName, string commentId)
+        {
+            int postId = 0;
+            try
+            {
+                if (!Int32.TryParse(commentId, out postId))
+                {
+                    throw ApiException.GetError(ErrorType.CommentNotFound);
+                }
+                _commentObj.StartIndex = _commentObj.GetStartIndexForPostId(postId);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+            return GetCommentForum(commentForumId, siteName);
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/comments/{commentid}")]
