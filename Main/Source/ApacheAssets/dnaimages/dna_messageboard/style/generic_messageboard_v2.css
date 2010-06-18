@@ -392,7 +392,7 @@ ul.forumthreadposts li p {
   	background-color: #e8eced;
   	line-height: 1.3em;
 }
-#blq-main .addthread li.firstpost .itemdetail, #blq-main .addthread li .itemdetail {
+#blq-main .addthread li.firstpost .itemdetail, #blq-main .addthread p.itemdetail {
 	margin-bottom: 10px;
 }
 #blq-content .addthread ul.forumthreadposts li {
@@ -812,8 +812,8 @@ p.flag a {
 	margin-right: 158px;
 	background-color: #71aef1;
 }
-.dna-boards p.preview {
-  margin:10px 0 0 24px; 
+.dna-boards p.preview, .dna-boards #previewpost {
+  margin:10px 0 10px 24px; 
   padding: 0 10px;
 }
 .dna-boards .submit, .dna-boards .cancel {
