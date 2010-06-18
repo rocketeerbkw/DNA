@@ -1,9 +1,10 @@
-#blq-main #header {	width: 100%;
+#blq-main #header {	
 	padding: 0;
 	margin: 0;
 }
 #blq-main #header #banner {
   	padding: 0;
+  	margin: 0;
 }
 #blq-main #blq-local-nav a, #blq-main #blq-content a, #blq-main #dna-boardpromo a {
 	color: cadetblue;
@@ -31,6 +32,11 @@
 #blq-main #blq-local-nav ul li.topic-parent a {
 	background-color: LightSlateGray;
 }
+#blq-main #global-nav ul li a:hover, #blq-main #global-nav ul li.selected a, #blq-main #global-nav ul li a:focus {
+	background-color: cadetblue;
+	background-image: none;
+	color: #fff;
+}
 #blq-main #blq-content h2, #blq-main #dna-boardpromo h3 {
 	background-color: cadetblue;
 }
@@ -55,4 +61,11 @@
 #blq-main #blq-content .pagination li.dna-button a {
 	background-color: cadetblue;
 	background-image: none;
+}
+/* add thread */
+#blq-main #blq-content .dna-boards input.dna-button {
+	background-color: cadetblue;
+}
+#blq-main #blq-content .dna-boards input.cancel {
+	background-color: #778899;
 }

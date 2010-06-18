@@ -12,7 +12,6 @@
                 addListener = glow.events.addListener;
                 glow.ready(init);
             }
-
         }
     );
 
@@ -20,7 +19,7 @@
     function init() {
 
         // RE-ORDER TOPIC
-        $(".dna-topic-position").addClass("dna-off");
+       $(".dna-topic-position").addClass("dna-off");
 
         // find index of each 'li' element
         Array.prototype.find = function(searchStr) {
@@ -49,7 +48,8 @@
                 $(".dna-list-topic-col > *").sort().each(function() {
                     order.push($(this).text());
                     var index = order.find($(this).text());
-                    index = 1 + index;
+                    index = parseFloat(index);
+                    index = index + 1;
                     $(this).get(".dna-topic-pos").attr("value", index)
                 });
             }
@@ -59,18 +59,21 @@
         var mySortable = new glow.widgets.Sortable(".dna-list-topic-col1,.dna-list-topic-col2", {
             draggableOptions: { handle: "h5" },
             onSort: function() {
-                var order = [];
+                var order1 = [];
                 $(".dna-list-topic-col1 > *").sort().each(function() {
-                    order.push($(this).text());
-                    var index = order.find($(this).text());
-                    index = 1 + index;
-                    $(this).get(".dna-topic-pos").attr("value", index)
+                    order1.push($(this).text());
+                    var index1 = order1.find($(this).text());
+                    index1 = parseFloat(index1);
+                    index1 = (2 * index1) + 1;
+                    $(this).get(".dna-topic-pos").attr("value", index1)
                 });
+                var order2 = [];
                 $(".dna-list-topic-col2 > *").sort().each(function() {
-                    order.push($(this).text());
-                    var index = order.find($(this).text());
-                    index = 2 + index;
-                    $(this).get(".dna-topic-pos").attr("value", index)
+                    order2.push($(this).text());
+                    var index2 = order2.find($(this).text());
+                    index2 = parseFloat(index2);
+                    index2 = (2 * index2) + 2;
+                    $(this).get(".dna-topic-pos").attr("value", index2)
                 });
             }
         });
@@ -104,8 +107,8 @@
 
             // display overlay when show link with class of 'dna-link-overlay' is clicked on
             addListener(this, "mousedown", function() {
-                
-               
+
+
                 var whichAnchor = href.split("#");
                 if (whichAnchor.length > 1)
                     whichDiv = whichAnchor[1];
@@ -123,6 +126,10 @@
                         glow.dom.create('<span class="dna-error-text">Please add a topic promo title</span>').insertBefore("#fp_title-" + seditTopic);
                         $("input#fp_title-" + seditTopic).addClass("dna-error-input");
                         return false;
+                    } else if ($("#fp_text-" + seditTopic).val() == "") {
+                        glow.dom.create('<span class="dna-error-text">Please add a topic promo description</span>').insertBefore("#fp_text-" + seditTopic);
+                        $("textarea#fp_text-" + seditTopic).addClass("dna-error-input");
+                        return false;
                     } else {
                         $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
                         $("#dna-preview-edittopic-step2-" + seditTopic).removeClass("dna-off");
@@ -130,11 +137,17 @@
                     return false;
                 });
 
+
                 addListener("#dna-btn-next-2-" + seditTopic, "mousedown", function() {
                     if ($("#fp_imagename-" + seditTopic).val() != "" && $("#fp_imagealttext-" + seditTopic).val() == "") {
                         glow.dom.create('<span class="dna-error-text">Please add alt text for your image</span>').insertBefore("#fp_imagealttext-" + seditTopic);
                         $("#fp_imagealttext-" + seditTopic).addClass("dna-error-input");
                         return false;
+                    } else if ($("#fp_imagename-" + seditTopic).val() == "" && $("#fp_imagealttext-" + seditTopic).val() == "") {
+                        $("#fp_templatetype-" + seditTopic).attr("checked", false);
+                        $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
+                        $("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
+                        $("#dna-preview-edittopic-step3-" + seditTopic).removeClass("dna-off");
                     } else {
                         $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
                         $("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
@@ -148,7 +161,12 @@
                         glow.dom.create('<span class="dna-error-text">Please add a title topic</span>').insertBefore("#topictitle-" + seditTopic);
                         $("#topictitle-" + seditTopic).addClass("dna-error-input");
                         return false;
+                    } else if ($("#topictext-" + seditTopic).val() == "") {
+                        glow.dom.create('<span class="dna-error-text">Please add a topic description</span>').insertBefore("#topictext-" + seditTopic);
+                        $("textarea#topictext-" + seditTopic).addClass("dna-error-input");
+                        return false;
                     }
+                    return false;
                 });
 
                 addListener("#dna-btn-back-2-" + seditTopic, "mousedown", function() {
@@ -215,7 +233,6 @@
                 });
 
 
-                
                 // show overlay
                 var myOverlay = new glow.widgets.Overlay("#" + whichDiv, {
                     modal: true
@@ -230,13 +247,10 @@
                     $(".dna-error-text").addClass("dna-off");
                 }
 
-                
-
                 // reset the form when the overlay is closed by clicking the mask
                 addListener(myOverlay, "hide", function(event) {
                     resetForm();
                 });
-
 
                 // hide the overlay when 'cancel' is clicked on
                 if (myOverlay.isShown) {
@@ -252,10 +266,36 @@
                         return false;
                     });
                 }
-                
+
                 return false;
             });
         });
+
+        // OVERLAY : this overlay will be displayed when the admin page is reloaded once the 'PUBLISH THIS MBOARD' form is submitted.
+        function params(name) {
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(document.location.href);
+            if (results == null)
+                return "";
+            else
+                return results[1];
+        }
+
+        var cmd = params('cmd');
+
+        if (cmd == 'PUBLISHMESSAGEBOARD') {
+            // overlay divs are hidden by default 
+            $("#dna-publish-mb-yes").removeClass("dna-off");
+            
+            // show overlay
+            var publishOverlay= new glow.widgets.Overlay("#dna-publish-mb-yes", {
+                modal: true
+            });
+
+            publishOverlay.show();
+        }
 
 
         // OPENING TIMES
@@ -343,6 +383,7 @@
 
         });
 
+
         // replace target=blank for links that open in new window
         var openNewWindow = $(".dna-openNewWindow");
         var href = $(openNewWindow).attr("href");
@@ -352,6 +393,7 @@
             return false;
         });
 
+
         // mbadmin : click on opening times link to message board schedule page
         var openTimeTable = $(".dna-open-time");
         $(openTimeTable).css("cursor", "pointer");
@@ -360,6 +402,5 @@
             window.location = "/dna/mbarchers/admin/MessageBoardSchedule";
             return false;
         });
-
     }
 })();

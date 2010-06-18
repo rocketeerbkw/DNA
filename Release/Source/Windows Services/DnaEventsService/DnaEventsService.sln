@@ -35,9 +35,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Experiments", "Experiments"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeExperiments", "CodeExperiments\CodeExperiments.csproj", "{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIEventProcessor", "BIEventProcessor\BIEventProcessor.csproj", "{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
@@ -77,6 +79,9 @@ Global
 		SccProjectUniqueName10 = SNeSActivityProcessor\\SnesActivityProcessor.csproj
 		SccProjectName10 = SNeSActivityProcessor
 		SccLocalPath10 = SNeSActivityProcessor
+		SccProjectUniqueName11 = BIEventProcessor\\BIEventProcessor.csproj
+		SccProjectName11 = BIEventProcessor
+		SccLocalPath11 = BIEventProcessor
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DnaEventsService.vsmdi
@@ -145,6 +150,12 @@ Global
 		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
 		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

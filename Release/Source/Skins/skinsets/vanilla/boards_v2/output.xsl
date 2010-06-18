@@ -101,7 +101,7 @@
       		
       		<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
       		<script type="text/javascript" src="http://www.bbc.co.uk/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
-      		<xsl:if test="PREVIEWMODE = 1"><script type="text/javascript" src="/dnaimages/javascript/previewmode.js"><xsl:text> </xsl:text></script></xsl:if>
+      		<xsl:if test="PREVIEWMODE = 1"><script type="text/javascript" src="/dnaimages/dna_messageboard/javascript/previewmode.js"><xsl:text> </xsl:text></script></xsl:if>
       		
       		<!-- disable Identity JavaScript for now -->
       		<script type="text/javascript">

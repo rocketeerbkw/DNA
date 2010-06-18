@@ -381,7 +381,49 @@ namespace BBC.Dna.Sites
         {
             var newskin = new Skin(skinName, skinDescription, useFrames);
             string keyName = skinName.ToUpper();
-            _skins.Add(keyName, newskin);
+            if (!_skins.ContainsKey(keyName))
+            {
+                _skins.Add(keyName, newskin);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new skin object to the skin list
+        /// </summary>
+        /// <param name="skinName">Name of the skin</param>
+        /// <param name="skinDescription">Description for the skin</param>
+        /// <param name="useFrames">whether the skin uses frames</param>
+        /// <param name="readerCreator">used to commit to database</param>
+        public BaseResult AddSkinAndMakeDefault(string skinSet, string skinName, string skinDescription, bool useFrames, IDnaDataReaderCreator readerCreator)
+        {
+            using (var reader = readerCreator.CreateDnaDataReader("updatesitedefaultskin"))
+            {
+                reader.AddParameter("siteid", SiteID);
+                reader.AddParameter("defaultskin", skinName);
+                reader.AddParameter("skinset", skinSet);
+                reader.AddParameter("skindescription", skinDescription);
+                reader.AddParameter("useframes", useFrames?1:0);
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    if (reader.GetInt32NullAsZero("Result") == 1)
+                    {
+                        return new Error("AddSkinAndMakeDefault", reader.GetStringNullAsEmpty("Error"));
+                    }
+                    else
+                    {
+                        AddSkin(skinName, skinDescription, useFrames);
+                        DefaultSkin = skinName;
+                        SkinSet = skinSet;
+                    }
+                }
+                else
+                {
+                    return new Error("AddSkinAndMakeDefault", "No response from database");
+                }
+            }
+            return new Result("AddSkinAndMakeDefault", "OK");
         }
 
         /// <summary>

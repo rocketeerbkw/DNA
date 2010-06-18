@@ -132,7 +132,7 @@
       </xsl:attribute>
       
       <h4>Insert your own banner</h4>
-			<p>To insert your own banner banner you need to include theURL to a Server Side Include (SSI) which contains the banner.</p>
+			<p>To insert your own banner  you need to include the URL to a Server Side Include (SSI) which contains the banner.</p>
       <form action="messageboardadmin_design?s_mode=banner" method="post" name="frm-insertbanner">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         <input type="hidden" name="cmd" value="updatepreview"></input>
@@ -140,7 +140,7 @@
         <p>
         <label for="mbbanner">URL:</label>
 				<input type="text" name="BANNER_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI}" id="mbbanner"/>
-				<span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_banner.ssi</span>
+				<span class="dna-fnote"><strong>Example:</strong> http://www.bbc.co.uk/includes/blq/include_blq_banner.ssi</span>
         </p>
 
         <xsl:call-template name="submitbuttons">
@@ -163,7 +163,7 @@
         <p>
           <label for="mbtopnav">URL:</label>
 				  <input type="text" name="HORIZONTAL_NAV_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI}" id="mbtopnav"/>
-          <span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_navigation.ssi</span>
+          <span class="dna-fnote"><strong>Example:</strong> http://www.bbc.co.uk/includes/blq/include_blq_navigation.ssi</span>
        </p>
 
         <xsl:call-template name="submitbuttons">
@@ -186,7 +186,7 @@
         <p>
           <label for="mbleftnav">URL:</label>
           <input type="text" name="LEFT_NAV_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/LEFT_NAV_SSI}" id="mbleftnav"/>
-          <span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_left-navigation.ssi</span>
+          <span class="dna-fnote"><strong>Example:</strong> http://www.bbc.co.uk/includes/blq/include_blq_left-navigation.ssi</span>
         </p>
 
         <xsl:call-template name="submitbuttons">
@@ -228,7 +228,7 @@
         dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'footer' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
 
-      <h4>Edit footer</h4>
+      <h4>Edit footer colour</h4>
       <form action="messageboardadmin_design?s_mode=footer" method="post" name="frm-editfooter">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
         <input type="hidden" name="cmd" value="updatepreview"></input>
@@ -272,16 +272,19 @@
             <p>Please input the links you would like to add:</p>
             
             <ul>
-              <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/LINKS/LINK">
-                <xsl:variable name="id">
-                  <xsl:value-of select="." />
-                </xsl:variable>
-
                 <li>
-                  <label for="mb-url-{$id}">Link URL:</label>
-                  <input type="text" name="FOOTER_LINK" value="{.}" id="mb-url-{$id}" class="right"/>
+                  <xsl:variable name="flink-value">
+                    <xsl:choose>
+                      <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/LINKS/LINK">
+                        <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/LINKS/LINK"/>
+                      </xsl:when>
+                      <xsl:otherwise></xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:variable>
+                  
+                  <label for="mb-url-flink">Link URL:</label>
+                  <input type="text" name="FOOTER_LINK" value="{$flink-value}" id="mb-url-flink" class="right"/>   
                 </li>
-              </xsl:for-each>
             </ul>
             <p class="dna-fnote">
               <strong>Example:</strong> &lt;!--#set var="blq_footer_link_url_1" value="/site_url1/"--&gt;
@@ -431,12 +434,11 @@
                 </li>
               </xsl:for-each>
             </xsl:when>
-            <xsl:otherwise></xsl:otherwise>
           </xsl:choose>         
         </ul>
         <p class="dna-fnote">
-          <strong>Example:</strong> /includes/blq/include_blq_other.sssi
-          </p>
+          <strong>Example:</strong> http://www.bbc.co.uk/includes/blq/include_blq_other.sssi
+        </p>
 
         <xsl:call-template name="submitbuttons">
           <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
@@ -449,8 +451,8 @@
         dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'toolbar' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
       </xsl:attribute>
 
-      <h4>Add Social Media toolbar</h4>
-			<p>To add the social media toolbar to your messagebaord, select the checkbox below:</p>
+      <h4>Social Media toolbar</h4>
+			<p>To add the social media toolbar to your messageboard, select the checkbox below:</p>
 			
       <form action="messageboardadmin_design?s_mode=toolbar" method="post" name="frm-addtoolbar">
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
@@ -491,7 +493,7 @@
               <xsl:attribute name="checked">checked</xsl:attribute>
             </xsl:if>
             </input>
-            <label for="layout-2col" class="dna-tl-2c">2 Columns<br/>This layout consists of topic promo's being displayed in 2 columns.</label>
+            <label for="layout-2col" class="dna-tl-2c">2 Columns<br/>Topic promos displayed in 2 columns.</label>
           </li>
           <li>
             <input type="radio" name="topiclayout" value="1col" id="layout-1col">
@@ -499,7 +501,7 @@
                 <xsl:attribute name="checked">checked</xsl:attribute>
               </xsl:if>
             </input>
-            <label for="layout-1col" class="dna-tl-1c">1 Column<br />This layout consists of topic promo's being displayed in 1 column.</label>
+            <label for="layout-1col" class="dna-tl-1c">1 Column<br />Topic promos displayed in a single column without images.</label>
           </li>
         </ul>
 

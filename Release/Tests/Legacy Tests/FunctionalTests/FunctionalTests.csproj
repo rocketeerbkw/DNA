@@ -245,10 +245,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Addthread.cs" />
     <Compile Include="BBC.Dna.BannedEmailsTests.cs" />
     <Compile Include="cachingSignals\groupSignalTests.cs" />
     <Compile Include="CommentBoxTestsUsingApi.cs" />
     <Compile Include="ArticlePageTests.cs" />
+    <Compile Include="MBAdmin.cs" />
     <Compile Include="Dna.Services.Articles\articles.cs" />
     <Compile Include="Dna.Services.Forums\forumThreadPosts.cs" />
     <Compile Include="Dna.Services.Forums\forumThreads.cs" />

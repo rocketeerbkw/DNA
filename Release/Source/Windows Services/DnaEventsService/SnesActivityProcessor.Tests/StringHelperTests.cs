@@ -11,6 +11,13 @@ namespace SnesActivityProcessorTests
         public int A { get; set; }
     }
 
+    [DataContract]
+    class StringContract
+    {
+        [DataMember]
+        public string UnicodeString {get; set;}
+    }
+
     /// <summary>
     /// Summary description for StringHelperTests
     /// </summary>
@@ -79,6 +86,16 @@ namespace SnesActivityProcessorTests
             var obj = json.ObjectFromJson<SimpleDataContract>();
 
             Assert.IsNull(obj);
+        }
+
+        [TestMethod]
+        public void JsonFromObject_UnicodeTestString_Converts()
+        {
+            var contract = new StringContract {UnicodeString = @"Iñtërnâtiônàlizætiøn <>&!"};
+
+            string json = contract.JsonFromObject<StringContract>();
+
+            Assert.IsTrue(json.Contains(@"Iñtërnâtiônàlizætiøn <>&!"));
         }
     }
 }

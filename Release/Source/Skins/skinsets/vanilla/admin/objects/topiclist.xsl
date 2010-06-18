@@ -69,8 +69,8 @@
       
     <p class="dna-link-edit"><a href="?s_edittopic={TOPICID}&amp;s_mode=topic#dna-preview-topic-edit-{TOPICID}" class="dna-link-overlay">Edit Topic</a></p>
     
-    <xsl:if test="FRONTPAGEELEMENT/TEMPLATE = 2">
-      <xsl:if test="FRONTPAGEELEMENT/IMAGENAME and FRONTPAGEELEMENT/IMAGENAME != ''">
+    <xsl:if test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
+      <xsl:if test="FRONTPAGEELEMENT/IMAGENAME != ''">
         <p>
             <img src="{FRONTPAGEELEMENT/IMAGENAME}" alt="{FRONTPAGEELEMENT/IMAGEALTTEXT}" width="206" height="116"/>
         </p>
@@ -121,7 +121,7 @@
               </xsl:otherwise>
             </xsl:choose>
           
-            <p>Add the text which shall appear on the topic promo, found on the messageboard homepage.</p>
+            <p>Add the text for the topic promo. This will appear on the messageboard homepage.</p>
             <p>
               <label for="fp_title-{$topicid}">Title of topic promo:</label>
               <input type="text" name="fp_title" id="fp_title-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/TITLE}"/>
@@ -131,7 +131,7 @@
             </p>
 
             <p>
-              <label for="fp_text-{$topicid}">Enter the text to explain what this topic is about:</label>
+              <label for="fp_text-{$topicid}">Enter the text to describe what this topic is about:</label>
               <textarea name="fp_text" id="fp_text-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's got a good chance this year? Who'll be waltzing off in the first few shows?
@@ -170,7 +170,11 @@
             </xsl:choose>
 
 
-            <p>You can choose to add an image to your topic promo. If you do not wish to add an image, simply click Next.</p>
+            <p>You can choose to add an image to your topic promo. If you do not wish to add an image, simply click Next.<br />
+              <span class="dna-fnote">
+                <strong>Note:</strong> images will not be displayed if you have selected a single column layout for your topics.
+              </span>
+            </p>
             <p>
               <label for="fp_imagename-{$topicid}">Image Address (image size: 223 X 125 pixels):</label>
               <input type="text" name="fp_imagename" id="fp_imagename-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME}"/>
@@ -187,9 +191,7 @@
             </p>
             <p class="dna-turn-img-off">
               <input type="checkbox" name="fp_templatetype" id="fp_templatetype-{$topicid}" value="turnimageoff">
-                <xsl:if test="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEMPLATETYPE != 2">
-                  <xsl:attribute name="checked">checked</xsl:attribute>
-                </xsl:if>
+                
               </input>
               <label for="fp_templatetype-{$topicid}">To turn off the image for this topic promo, please select this box</label>
             </p>
@@ -227,16 +229,16 @@
             </xsl:choose>
 
 
-            <p>Add the text which shall appear on the topic page itself.</p>
+            <p>Add the text for the topic promo. This will appear on the topic page.</p>
             <p>
-              <label for="topictitle-{$topicid}">Title of topic page:</label>
+              <label for="topictitle-{$topicid}">Title to appear on topic page:</label>
               <input type="text" name="topictitle" id="topictitle-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/TITLE}" />
               <span class="dna-fnote">
                 <strong>Example:</strong> Our Couples for 2009
               </span>
             </p>
             <p>
-              <label for="topictext-{$topicid}">Enter the text to explain what this topic page is about:</label>
+              <label for="topictext-{$topicid}">Enter the text to describe what this topic page is about:</label>
               <textarea name="topictext" id="topictext-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's will your favourite dancers be this year? Let the speculations begin...
@@ -259,8 +261,6 @@
           </div>
 
         </form>
-      
-
   </xsl:template>
 
   <xsl:template match="TOPIC" mode="object_topic_overlay">
