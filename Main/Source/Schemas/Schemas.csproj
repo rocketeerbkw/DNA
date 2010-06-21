@@ -137,6 +137,7 @@
     <None Include="Dna.Services.Forums\forumThreads.xsd" />
     <None Include="H2G2ModerateHome.xsd" />
     <None Include="H2G2ModeratePosts.xsd" />
+    <None Include="Category.xsd" />
     <None Include="ModerationHome.xsd" />
     <None Include="SiteConfig_V2Boards.xsd" />
     <None Include="Result.xsd" />
