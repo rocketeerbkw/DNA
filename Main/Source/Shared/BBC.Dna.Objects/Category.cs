@@ -65,6 +65,7 @@ namespace BBC.Dna.Objects
         public int Type { get; set; }
 
         /// <remarks/>        
+        [System.Xml.Serialization.XmlIgnore()]
         public DateTime? LastUpdated { get; set; }
 
         public virtual bool ShouldSerializeAncestry()

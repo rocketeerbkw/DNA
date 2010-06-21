@@ -27,6 +27,7 @@ namespace BBC.Dna.Objects.Tests
         private readonly string _test_categoryCacheKey = "BBC.Dna.Objects.Category, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|99|";
         private readonly int _test_ParentID_NonRoot = 44;
         private readonly int _test_ParentID_Root = 0;
+        private readonly DateTime _test_lastUpdated = DateTime.Now;
 
         /// <summary>
         /// Helper function to set up parameters for CreateCategory call
@@ -77,6 +78,7 @@ namespace BBC.Dna.Objects.Tests
             ISite site;
             CreateCategory_SetupDefaultMocks(out mocks, out cache, out article, _test_h2g2id, out readerCreator, out viewingUser, out site);
             Category cachedCategory = CreateTestCategory();
+            cachedCategory.LastUpdated = _test_lastUpdated;
 
             // create a mocked article to be returned by mock cache so we can bypass the DB call
             cache.Stub(x => x.GetData(article.GetCacheKey(article.EntryId))).Return(article);
@@ -84,6 +86,13 @@ namespace BBC.Dna.Objects.Tests
             // simulate the category being in cache
             cache.Stub(x => x.GetData(_test_categoryCacheKey)).Return(cachedCategory);
 
+            // simulate cachegetcategory being called and returning an up to date value
+            IDnaDataReader cachegetcategoryReader = mocks.DynamicMock<IDnaDataReader>();
+            cachegetcategoryReader.Stub(x => x.HasRows).Return(true);
+            cachegetcategoryReader.Stub(x => x.Read()).Return(true).Repeat.Times(8);
+            cachegetcategoryReader.Stub(x => x.GetDateTime("LastUpdated")).Return(_test_lastUpdated).Repeat.Times(8);      
+            
+            readerCreator.Stub(x => x.CreateDnaDataReader("")).Return(cachegetcategoryReader).Constraints(Is.Anything());
 
             // EXECUTE THE TEST             
             mocks.ReplayAll();
