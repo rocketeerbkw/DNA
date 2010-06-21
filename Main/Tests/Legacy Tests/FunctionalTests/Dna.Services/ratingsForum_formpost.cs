@@ -417,7 +417,7 @@ namespace FunctionalTests
             string url = String.Format("https://" + _secureServer + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/create.htm?format=XML", _sitename, commentForum.Id);
             request.RequestPageWithFullURL(url, commentForumXml, "application/x-www-form-urlencoded", null, headers);
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.MovedPermanently);
-            Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.MissingUserCredentials.ToString());
+            Assert.IsTrue(request.CurrentWebResponse.Headers["Location"] == headers["referer"] + "?resultCode=" + ErrorType.UserIsBanned.ToString());
         }
 
         /// <summary>
