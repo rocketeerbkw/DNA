@@ -36,14 +36,14 @@ namespace BBC.Dna.Objects
             topicEdit.TopicLinkId = reader.GetInt32NullAsZero("topiclinkid");
             topicEdit.Createdby = new TopicCreatedDate
               {
-                  CreatedDate = new Date(reader.GetDateTime("createddate")),
+                  CreatedDate = new DateElement(reader.GetDateTime("createddate")),
                   Username = reader.GetStringNullAsEmpty("CreatedByUserName"),
                   Userid = reader.GetInt32NullAsZero("CreatedByUserID")
               };
 
             topicEdit.Updatedby = new TopicLastUpdated()
             {
-                LastUpdated = new Date(reader.GetDateTime("LastUpdated")),
+                LastUpdated = new DateElement(reader.GetDateTime("LastUpdated")),
                 Username = reader.GetStringNullAsEmpty("UpdatedByUserName"),
                 Userid = reader.GetInt32NullAsZero("UpdatedByUserID")
             };

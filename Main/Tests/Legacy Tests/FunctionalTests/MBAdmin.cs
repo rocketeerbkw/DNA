@@ -35,11 +35,12 @@ namespace FunctionalTests
         [TestInitialize]
         public void Setup()
         {
-            try
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                //SnapshotInitialisation.ForceRestore();
+                dataReader.ExecuteDEBUGONLY("delete from previewconfig");
+                dataReader.ExecuteDEBUGONLY("update sites set config='' where siteid=" + _siteId);
             }
-            catch { }
         }
 
         [TestCleanup]
@@ -48,7 +49,7 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("delete from previewconfig where siteid=" + _siteId);
+                dataReader.ExecuteDEBUGONLY("delete from previewconfig" );
                 dataReader.ExecuteDEBUGONLY("delete from topics where siteid=" + _siteId);
                 dataReader.ExecuteDEBUGONLY("delete from frontpageelements where siteid=" + _siteId);
             }
@@ -496,7 +497,67 @@ namespace FunctionalTests
         [TestMethod]
         public void MBAdmin_UpdateTopicNewTopic_CorrectUpdate()
         {
-            var expectedType = "TopicCreateSuccessful";
+            CreateTopic();
+
+        }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_UpdateTopic_CorrectUpdate()
+        {
+            //create topic
+            CreateTopic();
+
+            var expectedType = "TopicUpdateSuccessful";
+            var fpTitleValue = "fp title2";
+            var fpText = "fp text2";
+            var fpImagename = "fp_imagename2.jpg";
+            var fpImagealttext = "fp_imagealttext2";
+            var topicTitle = "topictitle2";
+            var topicText = "topictext2";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            request.RequestPage("mbadmin?skin=purexml");
+
+            var xml = request.GetLastResponseAsXML();
+            var topicId = Int32.Parse(xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TOPICID").InnerText);
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("topiceditkey", xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/EDITKEY").InnerText));
+            postParams.Enqueue(new KeyValuePair<string, string>("fptopiceditkey", xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/EDITKEY").InnerText));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_title", fpTitleValue));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_text", fpText));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagename", fpImagename));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagealttext", fpImagealttext));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictitle", topicTitle));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictext", topicText));
+
+
+
+            request.RequestPage("mbadmin?cmd=UPDATETOPIC&skin=purexml&topicid=" + topicId, postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+
+            xml = request.GetLastResponseAsXML();
+            Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
+            Assert.AreEqual(topicId.ToString(), xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TOPICID").InnerText);
+            Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
+            Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
+            Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
+            Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
+
+        }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_UpdateTopicIncorrectEditKeys_CorrectError()
+        {
+            //create topic
+            CreateTopic();
+
+            var expectedType = "UpdateTopic";
             var fpTitleValue = "fp title";
             var fpText = "fp text";
             var fpImagename = "fp_imagename.jpg";
@@ -507,27 +568,198 @@ namespace FunctionalTests
             var request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserEditor();
             request.UseEditorAuthentication = true;
-           
+
+            request.RequestPage("mbadmin?skin=purexml");
+
+            var xml = request.GetLastResponseAsXML();
+            var topicId = Int32.Parse(xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TOPICID").InnerText);
             var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("topiceditkey", Guid.NewGuid().ToString()));
+            postParams.Enqueue(new KeyValuePair<string, string>("fptopiceditkey", Guid.NewGuid().ToString()));
             postParams.Enqueue(new KeyValuePair<string, string>("fp_title", fpTitleValue));
             postParams.Enqueue(new KeyValuePair<string, string>("fp_text", fpText));
             postParams.Enqueue(new KeyValuePair<string, string>("fp_imagename", fpImagename));
             postParams.Enqueue(new KeyValuePair<string, string>("fp_imagealttext", fpImagealttext));
             postParams.Enqueue(new KeyValuePair<string, string>("topictitle", topicTitle));
             postParams.Enqueue(new KeyValuePair<string, string>("topictext", topicText));
-            
 
 
-            request.RequestPage("mbadmin?cmd=UPDATETOPIC&skin=purexml", postParams);
+
+            request.RequestPage("mbadmin?cmd=UPDATETOPIC&skin=purexml&topicid=" + topicId, postParams);
             CheckPageSchema(request.GetLastResponseAsXML());
-            CheckResult(request.GetLastResponseAsXML(), expectedType);
+            CheckError(request.GetLastResponseAsXML(), expectedType);
 
-            var xml = request.GetLastResponseAsXML();
+            xml = request.GetLastResponseAsXML();
             Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
+            Assert.AreEqual(topicId.ToString(), xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TOPICID").InnerText);
             Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
             Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
             Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
             Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
+
+        }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_UpdateTopicPositions_CorrectUpdate()
+        {
+            //create 2 topics
+            CreateTopic();
+            CreateTopic();
+
+            var expectedType = "UpdateFrontPageElements";
+            var position = "1";
+            
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            request.RequestPage("mbadmin?skin=purexml");
+
+            var xml = request.GetLastResponseAsXML();
+            var topics = xml.SelectNodes("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC");
+            Assert.AreEqual(2, topics.Count);
+            
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            foreach (XmlNode node in topics)
+            {
+                var key = string.Format("topic_{0}_position", node.SelectSingleNode("TOPICID").InnerText);
+                postParams.Enqueue(new KeyValuePair<string, string>(key,position));
+            }
+
+
+            request.RequestPage("mbadmin?cmd=UPDATETOPICPOSITIONS&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+
+            xml = request.GetLastResponseAsXML();
+            topics = xml.SelectNodes("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC");
+            Assert.AreEqual(2, topics.Count);
+            foreach (XmlNode node in topics)
+            {
+                Assert.AreEqual(position, node.SelectSingleNode("FRONTPAGEELEMENT/POSITION").InnerText);
+                Assert.AreEqual(position, node.SelectSingleNode("POSITION").InnerText);
+            }
+            
+
+        }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_PublishMessageBoard_CorrectUpdate()
+        {
+            MBAdmin_UpdatePreviewValidWelcomeMessage_CorrectUpdate();
+            MBAdmin_UpdatePreviewValidAboutMessage_CorrectUpdate();
+            CreateTopic();
+
+
+            var expectedType = "PublishMessageBoard";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            request.RequestPage("mbadmin?cmd=PUBLISHMESSAGEBOARD&skin=purexml");
+
+            var xml = request.GetLastResponseAsXML();
+            
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+
+            request.RequestPage("?skin=purexml");
+            xml = request.GetLastResponseAsXML();
+
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/SITECONFIG"));
+            var validator = new DnaXmlValidator(xml.SelectSingleNode("//H2G2/SITECONFIG").OuterXml, "SiteConfig_V2Boards.xsd");
+            validator.Validate();
+
+            var topics = xml.SelectNodes("//H2G2/TOPICELEMENTLIST/TOPICELEMENT");
+            Assert.IsNotNull(topics);
+            Assert.AreEqual(1, topics.Count);
+
+            CheckSkinInSite("boards_v2", "vanilla");
+
+
+        }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_PublishMessageBoardWithoutAboutMessage_CorrectError()
+        {
+            
+            MBAdmin_UpdatePreviewValidWelcomeMessage_CorrectUpdate();
+            CreateTopic();
+
+
+            var expectedType = "MissingAboutText";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            request.RequestPage("mbadmin?cmd=PUBLISHMESSAGEBOARD&skin=purexml");
+
+            var xml = request.GetLastResponseAsXML();
+
+            CheckPageSchema(request.GetLastResponseAsXML());
+
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/MESSAGEBOARDPUBLISHERROR/DESIGN/ERROR"));
+            Assert.AreEqual(expectedType, xml.SelectSingleNode("//H2G2/MESSAGEBOARDPUBLISHERROR/DESIGN/ERROR").InnerText);
+
+
+        }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_PublishMessageBoardWithoutWelcomeMessage_CorrectError()
+        {
+
+            MBAdmin_UpdatePreviewValidAboutMessage_CorrectUpdate();
+            CreateTopic();
+
+
+            var expectedType = "MissingWelcomeMessage";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            request.RequestPage("mbadmin?cmd=PUBLISHMESSAGEBOARD&skin=purexml");
+
+            var xml = request.GetLastResponseAsXML();
+
+            CheckPageSchema(request.GetLastResponseAsXML());
+
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/MESSAGEBOARDPUBLISHERROR/DESIGN/ERROR"));
+            Assert.AreEqual(expectedType, xml.SelectSingleNode("//H2G2/MESSAGEBOARDPUBLISHERROR/DESIGN/ERROR").InnerText);
+
+
+        }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_PublishMessageBoardWithoutTopic_CorrectError()
+        {
+            MBAdmin_UpdatePreviewValidAboutMessage_CorrectUpdate();
+            MBAdmin_UpdatePreviewValidWelcomeMessage_CorrectUpdate();
+
+
+
+            var expectedType = "MissingTopics";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            request.RequestPage("mbadmin?cmd=PUBLISHMESSAGEBOARD&skin=purexml");
+
+            var xml = request.GetLastResponseAsXML();
+
+            CheckPageSchema(request.GetLastResponseAsXML());
+
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/MESSAGEBOARDPUBLISHERROR/DESIGN/ERROR"));
+            Assert.AreEqual(expectedType, xml.SelectSingleNode("//H2G2/MESSAGEBOARDPUBLISHERROR/DESIGN/ERROR").InnerText);
+
 
         }
 
@@ -617,6 +849,55 @@ namespace FunctionalTests
             CheckV2Config(request.GetLastResponseAsXML(), xPath, updateValue);
         }
 
+        private void CreateTopic()
+        {
+            var expectedType = "TopicCreateSuccessful";
+            var fpTitleValue = "fp title";
+            var fpText = "fp text";
+            var fpImagename = "fp_imagename.jpg";
+            var fpImagealttext = "fp_imagealttext";
+            var topicTitle = "topictitle";
+            var topicText = "topictext";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_title", fpTitleValue));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_text", fpText));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagename", fpImagename));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagealttext", fpImagealttext));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictitle", topicTitle));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictext", topicText));
+
+
+
+            request.RequestPage("mbadmin?cmd=UPDATETOPIC&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+
+            var xml = request.GetLastResponseAsXML();
+            Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
+            Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
+            Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
+            Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
+            Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
+        }
+
+        private void CheckSkinInSite(string skinName, string skinSet)
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("select * from sites where siteid=" + _siteId);
+                Assert.IsTrue(dataReader.HasRows);
+                Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual(skinName, dataReader.GetStringNullAsEmpty("defaultskin"));
+                Assert.AreEqual(skinSet, dataReader.GetStringNullAsEmpty("Skinset"));
+                
+            }
+        }
         
     }
 }
