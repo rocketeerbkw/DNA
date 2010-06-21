@@ -383,19 +383,13 @@ namespace Tests
         /// </summary>
         public void SetCurrentUserBanned()
         {
-            _userName = "DotNetUserBanned";
-            _password = "asdfasdf";
-            _cookie = HttpUtility.UrlEncode("542926f3b88d86c2b085062a01251fbbcfe1206a58b330fba197aeed9672415b00");
-            IInputContext context = DnaMockery.CreateDatabaseInputContext();
-            using (IDnaDataReader reader = context.CreateDnaDataReader("getdnauseridfromssouserid"))
-            {
-                reader.AddParameter("@ssouserid", 1166868343);
-                reader.Execute();
-                if (reader.HasRows && reader.Read())
-                {
-                    _userid = (int)reader["DNAUserID"];
-                }
-            }
+            UserAccount user = TestUserAccounts.GetBannedUserAccount;
+            _userName = user.UserName;
+            _password = user.Password;
+            _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
+            _userid = user.UserID;
+            _useIdentity = user.UsesIdentity;
         }
 
         /// <summary>
