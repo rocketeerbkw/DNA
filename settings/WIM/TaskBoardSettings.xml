@@ -4,7 +4,7 @@
   <DefaultGroupByFieldName />
   <WorkRemainingFieldName>Work Remaining (Scrum)</WorkRemainingFieldName>
   <WorkItemTypes>
-    <SelectableStringInfo Item="Bug" IsSelected="false" />
+    <SelectableStringInfo Item="Bug" IsSelected="true" />
     <SelectableStringInfo Item="Impediment" IsSelected="false" />
     <SelectableStringInfo Item="Product Backlog Item" IsSelected="true" />
     <SelectableStringInfo Item="Sprint" IsSelected="false" />
