@@ -215,29 +215,27 @@
 		<p id="countdown"><strong>You must wait  <span id="minuteValue"><xsl:value-of select="$minutestowait"/></span> minutes  <span id="secondValue"><xsl:value-of select="$secondsstowait"/></span> secs before you can post again</strong></p>
 	</xsl:template>
 	
-  <xsl:template match="POSTTHREADFORM[PREVIEWBODY]" mode="preview">
-  	<p class="preview">Previewing your post:</p>
-      <div>
-      <ul>
-        <li>
-          <xsl:if test="@INREPLYTO = 0">
-            <h4><xsl:value-of select="SUBJECT"/></h4>
-          </xsl:if>
-          <div class="itemdetail">
-            <span class="createdby">
-              <span>Message posted by </span>
-              <a href="MP{/H2G2/VIEWING-USER/USER/USERID}" class="user linked">
-                <xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
-              </a>
-              <xsl:text>:</xsl:text>
-            </span>
-          </div>
-          <p>
-            <xsl:apply-templates select="PREVIEWBODY" mode="library_GuideML" />
-          </p>
-        </li>
-      </ul>
-    </div>
+	<xsl:template match="POSTTHREADFORM[PREVIEWBODY]" mode="preview">
+		<p class="preview">Previewing your post:</p>
+		<div>
+			<xsl:if test="@INREPLYTO = 0">
+				<h4><xsl:value-of select="SUBJECT"/></h4>
+			</xsl:if>
+			<div id="previewpost">
+				<p class="itemdetail">
+					<span class="createdby">
+						<span>Message posted by </span>
+						<a href="MP{/H2G2/VIEWING-USER/USER/USERID}" class="user linked">
+							<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
+						</a>
+						<xsl:text>:</xsl:text>
+					</span>
+				</p>
+				<p>
+					<xsl:apply-templates select="PREVIEWBODY" mode="library_GuideML" />
+				</p>
+			</div>
+		</div>
 	</xsl:template>
 
 	
