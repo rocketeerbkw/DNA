@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TaskBoardSettingsInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DefaultQueryId>00000000-0000-0000-0000-000000000000</DefaultQueryId>
+  <DefaultGroupByFieldName />
+  <WorkRemainingFieldName>Work Remaining (Scrum)</WorkRemainingFieldName>
+  <WorkItemTypes>
+    <SelectableStringInfo Item="Bug" IsSelected="false" />
+    <SelectableStringInfo Item="Impediment" IsSelected="false" />
+    <SelectableStringInfo Item="Product Backlog Item" IsSelected="true" />
+    <SelectableStringInfo Item="Sprint" IsSelected="false" />
+    <SelectableStringInfo Item="Sprint Backlog Item" IsSelected="true" />
+    <SelectableStringInfo Item="Sprint Retrospective" IsSelected="false" />
+  </WorkItemTypes>
+  <States>
+    <string>Not Done</string>
+    <string>In Progress</string>
+    <string>Ready For Test</string>
+    <string>Done</string>
+  </States>
+</TaskBoardSettingsInfo>
