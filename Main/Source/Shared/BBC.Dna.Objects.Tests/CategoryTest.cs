@@ -175,30 +175,6 @@ namespace BBC.Dna.Objects.Tests
             }
         }
 
-        /// <summary>
-        /// Test if CreateCategory throws an exception when no results are returned
-        /// </summary>
-        [TestMethod()]
-        public void CreateCategory_NoSite_ThrowsException()
-        {
-            // setup the default mocks
-            MockRepository mocks;
-            ICacheManager cache;
-            Article article;
-            IDnaDataReaderCreator readerCreator;
-            User viewingUser;
-            ISite site;
-            CreateCategory_SetupDefaultMocks(out mocks, out cache, out article, _test_h2g2id, out readerCreator, out viewingUser, out site);
-
-            try
-            {
-                Category actual = Category.CreateCategory(null, cache, readerCreator, viewingUser, _test_nodeID, false);
-            }
-            catch (ApiException e)
-            {
-                Assert.AreEqual(e.type, ErrorType.UnknownSite);
-            }
-        }
         
         /// <summary>
         /// Tests if CreateCategory correctly populates all immediate child properties of the returned instance
