@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectMetadataInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectName>User Services</ProjectName>
+  <DefaultIterationLength>14</DefaultIterationLength>
+  <ProjectStart>2010-06-23T00:00:00+01:00</ProjectStart>
+  <IterationList>
+    <IterationMetadataInfo>
+      <Id>82</Id>
+      <Name>Release 3.4.5.x</Name>
+      <Path>User Services\Release 3.4.5.x</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>95</Id>
+      <Name>Sprint 23</Name>
+      <Path>User Services\Release 3.4.5.x\Sprint 23</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>82</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>81</Id>
+      <Name>Release 3.4.6.x</Name>
+      <Path>User Services\Release 3.4.6.x</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>92</Id>
+      <Name>Sprint 24</Name>
+      <Path>User Services\Release 3.4.6.x\Sprint 24</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>81</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>94</Id>
+      <Name>Sprint 25</Name>
+      <Path>User Services\Release 3.4.6.x\Sprint 25</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>81</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>83</Id>
+      <Name>Release 3.4.7.x</Name>
+      <Path>User Services\Release 3.4.7.x</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>84</Id>
+      <Name>Sprint 26</Name>
+      <Path>User Services\Release 3.4.7.x\Sprint 26</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>83</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>88</Id>
+      <Name>Sprint 27</Name>
+      <Path>User Services\Release 3.4.7.x\Sprint 27</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>83</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>135</Id>
+      <Name>Release 3.4.8.x</Name>
+      <Path>User Services\Release 3.4.8.x</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>136</Id>
+      <Name>Sprint 28</Name>
+      <Path>User Services\Release 3.4.8.x\Sprint 28</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>135</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>137</Id>
+      <Name>Sprint 29</Name>
+      <Path>User Services\Release 3.4.8.x\Sprint 29</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>135</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>138</Id>
+      <Name>Release 3.4.9.x</Name>
+      <Path>User Services\Release 3.4.9.x</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>139</Id>
+      <Name>Sprint 30</Name>
+      <Path>User Services\Release 3.4.9.x\Sprint 30</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>138</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>140</Id>
+      <Name>Sprint 31</Name>
+      <Path>User Services\Release 3.4.9.x\Sprint 31</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>1</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>138</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>186</Id>
+      <Name>Release 3.4.10.x</Name>
+      <Path>User Services\Release 3.4.10.x</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>189</Id>
+      <Name>Release 3.4.11.x</Name>
+      <Path>User Services\Release 3.4.11.x</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>239</Id>
+      <Name>Product Backlog</Name>
+      <Path>User Services\Product Backlog</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>187</Id>
+      <Name>Sprint 32</Name>
+      <Path>User Services\Sprint 32</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>188</Id>
+      <Name>Sprint 33</Name>
+      <Path>User Services\Sprint 33</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>190</Id>
+      <Name>Sprint 34</Name>
+      <Path>User Services\Sprint 34</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>191</Id>
+      <Name>Sprint 35</Name>
+      <Path>User Services\Sprint 35</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>256</Id>
+      <Name>Sprint 36</Name>
+      <Path>User Services\Sprint 36</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>258</Id>
+      <Name>Sprint 37</Name>
+      <Path>User Services\Sprint 37</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>261</Id>
+      <Name>Sprint 38</Name>
+      <Path>User Services\Sprint 38</Path>
+      <StartDate>2010-06-09T00:00:00+01:00</StartDate>
+      <EndDate>2010-06-22T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+    <IterationMetadataInfo>
+      <Id>262</Id>
+      <Name>Sprint 39</Name>
+      <Path>User Services\Sprint 39</Path>
+      <StartDate>2010-06-23T00:00:00+01:00</StartDate>
+      <EndDate>2010-07-06T00:00:00+01:00</EndDate>
+      <Level>0</Level>
+      <PredecessorId xsi:nil="true" />
+      <ParentId>79</ParentId>
+      <DurationDays>14</DurationDays>
+    </IterationMetadataInfo>
+  </IterationList>
+</ProjectMetadataInfo>
