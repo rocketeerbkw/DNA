@@ -192,7 +192,7 @@ ul.admin {
 	/*width: 100%; how to make this relative size? */
 	width: 463px;
 }
-#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {
+#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {
 	width: 463px;
 	margin-right: 14px;
 	padding-bottom: 10px;
@@ -771,10 +771,15 @@ p.flag a {
   font-weight:bold;
 }
 
+.dna-boards fieldset {
+   border:1px solid #ccc
+}
+
 .dna-boards legend {
-  padding:1em 0 1em 0;
+  margin-left:10px;
+  padding:1em 10px;
   font-size:1.2em;
-  color:#444
+  color:#444;
 }
 .dna-boards .text,
 .dna-boards select,
@@ -817,8 +822,9 @@ p.flag a {
   padding: 0 10px;
 }
 .dna-boards .submit, .dna-boards .cancel {
-  margin:0 0 10px 10px; 
-  padding:4px;
+  margin:10px; 
+  padding:4px;;
+  float:right;
 }
 
 .dna-boards-membername {display:none}
