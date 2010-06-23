@@ -15,125 +15,126 @@
 			<team fullname="Aston Villa" phrase="Aston Villa" searchterms="Villans Villains" link="http://news.bbc.co.uk/sport1/hi/football/teams/a/aston_villa/default.stm"/>
 			<team fullname="Birmingham City" phrase="Birmingham City" searchterms="Blues" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/birmingham_city/default.stm"/>
                         <team fullname="Blackburn Rovers" phrase="Blackburn Rovers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/blackburn_rovers/default.stm"/>
-			<team fullname="Bolton Wanderers" phrase="Bolton Wanderers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bolton_wanderers/default.stm"/>
-			<team fullname="Burnley" phrase="Burnley" searchterms="Clarets" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/burnley/default.stm"/>
-                        <team fullname="Chelsea" phrase="Chelsea" searchterms="Blues" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/chelsea/default.stm"/>
+			<team fullname="Blackpool" phrase="Blackpool" searchterms="Tangerines" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/blackpool/default.stm"/>
+                        <team fullname="Bolton Wanderers" phrase="Bolton Wanderers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bolton_wanderers/default.stm"/>
+		        <team fullname="Chelsea" phrase="Chelsea" searchterms="Blues" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/chelsea/default.stm"/>
 			<team fullname="Everton" phrase="Everton" searchterms="Toffees" link="http://news.bbc.co.uk/sport1/hi/football/teams/e/everton/default.stm"/>
 			<team fullname="Fulham" phrase="Fulham" searchterms="Cottagers" link="http://news.bbc.co.uk/sport1/hi/football/teams/f/fulham/default.stm"/>
-			<team fullname="Hull City" phrase="Hull City" searchterms="Tigers" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hull_city/default.stm"/>
-                        <team fullname="Liverpool" phrase="Liverpool" searchterms="Reds" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/liverpool/default.stm"/>
+			<team fullname="Liverpool" phrase="Liverpool" searchterms="Reds" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/liverpool/default.stm"/>
 			<team fullname="Manchester City" phrase="Manchester City" searchterms="Man" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/man_city/default.stm"/>
 			<team fullname="Manchester United" phrase="Manchester United" searchterms="Man Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/man_utd/default.stm"/>
-			<team fullname="Portsmouth" phrase="Portsmouth" searchterms="Pompey" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/portsmouth/default.stm"/>
+			<team fullname="Newcastle United" phrase="Newcastle United" searchterms="Toon Geordies" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/newcastle_united/default.stm"/>
 			<team fullname="Stoke City" phrase="Stoke City" searchterms="Stoke" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stoke_city/default.stm"/>
 			<team fullname="Sunderland" phrase="Sunderland" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/sunderland/default.stm"/>
 			<team fullname="Tottenham Hotspur" phrase="Tottenham Hotspur" searchterms="Spurs" link="http://news.bbc.co.uk/sport1/hi/football/teams/t/tottenham_hotspur/default.stm"/>
-			<team fullname="West Ham United" phrase="West Ham United" searchterms="Hammers Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/west_ham_utd/default.stm"/>
+			<team fullname="West Bromwich Albion" phrase="West Bromwich Albion" searchterms="Brom" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/west_bromwich_albion/default.stm"/>
+                        <team fullname="West Ham United" phrase="West Ham United" searchterms="Hammers Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/west_ham_utd/default.stm"/>
 			<team fullname="Wigan Athletic" phrase="Wigan Athletic" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/wigan_athletic/default.stm"/>
                         <team fullname="Wolverhampton Wanderers" phrase="Wolverhampton Wanderers" searchterms="Wolves" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/wolverhampton_wanderers/default.stm"/>
 		</competition>
 		<competition sport="Football" converted="football" name="Championship" phrase="Championship" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/eng_div_1/default.stm">
 			<team fullname="Barnsley" phrase="Barnsley" searchterms="Tykes" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/barnsley/default.stm"/>
-			<team fullname="Blackpool" phrase="Blackpool" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/blackpool/default.stm"/>
 			<team fullname="Bristol City" phrase="Bristol City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bristol_city/default.stm"/>
-			<team fullname="Cardiff City" phrase="Cardiff City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/cardiff_city/default.stm"/>
+			<team fullname="Burnley" phrase="Burnley" searchterms="Clarets" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/burnley/default.stm"/>
+                        <team fullname="Cardiff City" phrase="Cardiff City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/cardiff_city/default.stm"/>
 			<team fullname="Coventry City" phrase="Coventry City" searchterms="Sky Blues" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/coventry_city/default.stm"/>
 			<team fullname="Crystal Palace" phrase="Crystal Palace" searchterms="Eagles" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/crystal_palace/default.stm"/>
 			<team fullname="Derby County" phrase="Derby County" searchterms="Rams" link="http://news.bbc.co.uk/sport1/hi/football/teams/d/derby_county/default.stm"/>
                         <team fullname="Doncaster Rovers" phrase="Doncaster Rovers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/d/doncaster/default.stm"/>
+                        <team fullname="Hull City" phrase="Hull City" searchterms="Tigers" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hull_city/default.stm"/>
                         <team fullname="Ipswich Town" phrase="Ipswich Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/i/ipswich_town/default.stm"/>
-			<team fullname="Leicester City" phrase="Leicester City" searchterms="Foxes" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/leicester_city/default.stm"/>
+			<team fullname="Leeds United" phrase="Leeds United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/leeds_united/default.stm"/>
+                        <team fullname="Leicester City" phrase="Leicester City" searchterms="Foxes" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/leicester_city/default.stm"/>
                         <team fullname="Middlesbrough" phrase="Middlesbrough" searchterms="Boro" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/middlesbrough/default.stm"/>
-                        <team fullname="Newcastle United" phrase="Newcastle United" searchterms="Toon Geordies" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/newcastle_united/default.stm"/>
+                        <team fullname="Millwall" phrase="Millwall" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/millwall/default.stm"/>
+                        <team fullname="Norwich City" phrase="Norwich City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/norwich/default.stm"/>
                         <team fullname="Nottingham Forest" phrase="Nottingham Forest" searchterms="Nottm" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/nottm_forest/default.stm"/>
-                        <team fullname="Peterborough United" phrase="Peterborough United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/peterborough_united/default.stm"/>
-                        <team fullname="Plymouth Argyle" phrase="Plymouth Argyle" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/plymouth_argyle/default.stm"/>
-			<team fullname="Preston North End" phrase="Preston North End" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/preston/default.stm"/>
+                        <team fullname="Portsmouth" phrase="Portsmouth" searchterms="Pompey" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/portsmouth/default.stm"/>
+                        <team fullname="Preston North End" phrase="Preston North End" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/preston/default.stm"/>
 			<team fullname="QPR" phrase="QPR" searchterms="Hoops Rs" link="http://news.bbc.co.uk/sport1/hi/football/teams/q/qpr/default.stm"/> <!--Queen's -->
 			<team fullname="Reading" phrase="Reading" searchterms="Royals" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/reading/default.stm"/>
                         <team fullname="Scunthorpe United" phrase="Scunthorpe United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/scunthorpe_utd/default.stm"/>
                         <team fullname="Sheffield United" phrase="Sheffield United" searchterms="Blades Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/sheff_utd/default.stm"/>
-                        <team fullname="Sheffield Wednesday" phrase="Sheffield Wednesday" searchterms="Owls Weds Sheff Wed" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/sheff_wed/default.stm"/>
-			<team fullname="Swansea City" phrase="Swansea City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/swansea_city/default.stm"/>
+                        <team fullname="Swansea City" phrase="Swansea City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/swansea_city/default.stm"/>
                         <team fullname="Watford" phrase="Watford" searchterms="Hornets" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/watford/default.stm"/>
-                        <team fullname="West Bromwich Albion" phrase="West Bromwich Albion" searchterms="Brom" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/west_bromwich_albion/default.stm"/>
+			
 		</competition>
 		<competition sport="Football" converted="football" name="League One" phrase="League One" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/eng_div_2/default.stm">
-			
+			<team fullname="Bournemouth" phrase="Bournemouth" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bournemouth/default.stm"/>
                         <team fullname="Brentford" phrase="Brentford" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/brentford/default.stm"/>
 			<team fullname="Brighton and Hove Albion" phrase="Brighton and Hove Albion" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/brighton/default.stm"/>
 			<team fullname="Bristol Rovers" phrase="Bristol Rovers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bristol_rovers/default.stm"/>
 			<team fullname="Carlisle United" phrase="Carlisle United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/carlisle_united/default.stm"/>
 			<team fullname="Charlton Athletic" phrase="Charlton Athletic" searchterms="Addicks" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/charlton_athletic/default.stm"/>
                         <team fullname="Colchester United" phrase="Colchester United" searchterms="Col Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/colchester_united/default.stm"/>
+                        <team fullname="Dagenham and Redbridge" phrase="Dagenham and Redbridge" searchterms="Dag Red" link="http://news.bbc.co.uk/sport1/hi/football/teams/d/dagenham_and_redbridge/default.stm"/>
                         <team fullname="Exeter City" phrase="Exeter City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/e/exeter_city/default.stm"/>
-                        <team fullname="Gillingham" phrase="Gillingham" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/g/gillingham/default.stm"/>
                         <team fullname="Hartlepool United" phrase="Hartlepool United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hartlepool_united/default.stm"/>
 			<team fullname="Huddersfield Town" phrase="Huddersfield Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/huddersfield_town/default.stm"/>
-			<team fullname="Leeds United" phrase="Leeds United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/leeds_united/default.stm"/>
 			<team fullname="Leyton Orient" phrase="Leyton Orient" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/leyton_orient/default.stm"/>
-			<team fullname="Millwall" phrase="Millwall" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/millwall/default.stm"/>
-			<team fullname="Milton Keynes Dons" phrase="Milton Keynes Dons" searchterms="MK" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/wimbledon/default.stm"/>                        
-			<team fullname="Norwich City" phrase="Norwich City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/norwich/default.stm"/>
+			<team fullname="Milton Keynes Dons" phrase="Milton Keynes Dons" searchterms="MK" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/wimbledon/default.stm"/>
+                        <team fullname="Notts County" phrase="Notts County" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/notts_county/default.stm"/>
                         <team fullname="Oldham Athletic" phrase="Oldham Athletic" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/o/oldham_athletic/default.stm"/>
-			<team fullname="Southampton" phrase="Southampton" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/southampton/default.stm"/>
-			<team fullname="Southend United" phrase="Southend United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/southend_utd/default.stm"/>
-			<team fullname="Stockport County" phrase="Stockport County" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stockport/default.stm"/>
+			<team fullname="Peterborough United" phrase="Peterborough United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/peterborough_united/default.stm"/>
+                        <team fullname="Plymouth Argyle" phrase="Plymouth Argyle" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/plymouth_argyle/default.stm"/>
+                        <team fullname="Rochdale" phrase="Rochdale" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/rochdale/default.stm"/>
+                        <team fullname="Sheffield Wednesday" phrase="Sheffield Wednesday" searchterms="Owls Weds Sheff Wed" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/sheff_wed/default.stm"/>
+                        <team fullname="Southampton" phrase="Southampton" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/southampton/default.stm"/>
                         <team fullname="Swindon Town" phrase="Swindon Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/swindon_town/default.stm"/>
 			<team fullname="Tranmere Rovers" phrase="Tranmere Rovers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/t/tranmere_rovers/default.stm"/>
 			<team fullname="Walsall" phrase="Walsall" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/t/torquay_united/default.stm"/>
-			<team fullname="Wycombe Wanderers" phrase="Wycombe Wanderers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/wycombe_wanderers/default.stm"/>
+			
                         <team fullname="Yeovil Town" phrase="Yeovil Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/y/yeovil/default.stm"/>
 		</competition>
 		<competition sport="Football" converted="football" name="League Two" phrase="League Two" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/eng_div_3/default.stm">
 			<team fullname="Accrington Stanley" phrase="Accrington Stanley" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/a/accrington_stanley/default.stm"/>
 			<team fullname="Aldershot Town" phrase="Aldershot Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/a/aldershot/default.stm"/>
                         <team fullname="Barnet" phrase="Barnet" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/barnet/default.stm"/>
-			<team fullname="Bournemouth" phrase="Bournemouth" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bournemouth/default.stm"/>
-                        <team fullname="Bradford City" phrase="Bradford City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bradford_city/default.stm"/>
+			<team fullname="Bradford City" phrase="Bradford City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bradford_city/default.stm"/>
 			<team fullname="Burton Albion" phrase="Burton Albion" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/burton_albion/default.stm"/>
                         <team fullname="Bury" phrase="Bury" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bury/default.stm"/>
-			<team fullname="Cheltenham Town" phrase="Cheltenham Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/cheltenham_town/default.stm"/>                        
-			<team fullname="Chesterfield" phrase="Chesterfield" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/chesterfield/default.stm"/>
+			<team fullname="Cheltenham Town" phrase="Cheltenham Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/cheltenham_town/default.stm"/>
+                        <team fullname="Chesterfield" phrase="Chesterfield" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/chesterfield/default.stm"/>
 			<team fullname="Crewe Alexandra" phrase="Crewe Alexandra" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/crewe_alexandra/default.stm"/>
-                        <team fullname="Dagenham and Redbridge" phrase="Dagenham and Redbridge" searchterms="Dag Red" link="http://news.bbc.co.uk/sport1/hi/football/teams/d/dagenham_and_redbridge/default.stm"/>
-			<team fullname="Darlington" phrase="Darlington" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/d/darlington/default.stm"/>		           
-                        <team fullname="Grimsby Town" phrase="Grimsby Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/g/grimsby_town/default.stm"/>
-			<team fullname="Hereford United" phrase="Hereford United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hereford_united/default.stm"/>
-                        <team fullname="Lincoln City" phrase="Lincoln City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/lincoln_city/default.stm"/>			
-                        <team fullname="Macclesfield Town" phrase="Macclesfield Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/macclesfield_town/default.stm"/>
+                        <team fullname="Gillingham" phrase="Gillingham" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/g/gillingham/default.stm"/>
+                        <team fullname="Hereford United" phrase="Hereford United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hereford_united/default.stm"/>
+                        <team fullname="Lincoln City" phrase="Lincoln City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/lincoln_city/default.stm"/>
+			<team fullname="Macclesfield Town" phrase="Macclesfield Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/macclesfield_town/default.stm"/>
 			<team fullname="Morecambe" phrase="Morecambe" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/morecambe/default.stm"/>
 			<team fullname="Northampton Town" phrase="Northampton Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/northampton_town/default.stm"/>
-                        <team fullname="Notts County" phrase="Notts County" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/notts_county/default.stm"/>
+                        <team fullname="Oxford United" phrase="Oxford United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/o/oxford_utd/default.stm"/>
 			<team fullname="Port Vale" phrase="Port Vale" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/p/port_vale/default.stm"/>
-                        <team fullname="Rochdale" phrase="Rochdale" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/rochdale/default.stm"/>
-			<team fullname="Rotherham United" phrase="Rotherham United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/rotherham_utd/default.stm"/>
+                        <team fullname="Rotherham United" phrase="Rotherham United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/rotherham_utd/default.stm"/>
 			<team fullname="Shrewsbury Town" phrase="Shrewsbury Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/shrewsbury/default.stm"/>
+			<team fullname="Southend United" phrase="Southend United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/southend_utd/default.stm"/>
+                        <team fullname="Stevenage" phrase="Stevenage" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stevenage/default.stm"/>
+                        <team fullname="Stockport County" phrase="Stockport County" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stockport/default.stm"/>
                         <team fullname="Torquay United" phrase="Torquay United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/t/torquay_united/default.stm"/>
-		</competition>
+			<team fullname="Wycombe Wanderers" phrase="Wycombe Wanderers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/wycombe_wanderers/default.stm"/>
+                </competition>
 		<competition sport="Football" converted="football" name="Non League" phrase="Non League" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/eng_conf/default.stm">
-                        <team fullname="AFC Wimbledon" phrase="AFC Wimbledon" searchterms="" link=""/>
-			<team fullname="Altrincham" phrase="Altrincham" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/a/altrincham/default.stm"/>
-			<team fullname="Barrow" phrase="Barrow" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/barrow/default.stm"/>                        
-			<team fullname="Cambridge United" phrase="Cambridge United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/cambridge_utd/default.stm"/>
-			<team fullname="Chester City" phrase="Chester City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/chester/default.stm"/>
-                        <team fullname="Crawley Town" phrase="Crawley Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/crawley_town/default.stm"/>
-			<team fullname="Eastbourne Borough" phrase="Eastbourne Borough" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/e/eastbourne_borough/default.stm"/>
-                        <team fullname="Ebbsfleet" phrase="Ebbsfleet" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/g/gravesend_and_northfleet/default.stm"/>
-			<team fullname="Forest Green Rovers" phrase="Forest Green Rovers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/f/forest_green_rovers/default.stm"/>
-			<team fullname="Gateshead" phrase="Gateshead" searchterms="" link=""/>
-                        <team fullname="Grays Athletic" phrase="Grays Athletic" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/g/grays_athletic/default.stm"/>
-			<team fullname="Hayes and Yeading United" phrase="Hayes and Yeading United" searchterms="" link=""/>
+			<team fullname="AFC Wimbledon" phrase="AFC Wimbledon" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/afc_wimbledon/default.stm"/>
+                        <team fullname="Altrincham" phrase="Altrincham" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/a/altrincham/default.stm"/>
+			<team fullname="Barrow" phrase="Barrow" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/barrow/default.stm"/>
+                        <team fullname="Bath City" phrase="Bath City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/b/bath_city/default.stm"/>			                   
+                        <team fullname="Cambridge United" phrase="Cambridge United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/cambridge_utd/default.stm"/>
+			<team fullname="Crawley Town" phrase="Crawley Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/crawley_town/default.stm"/>
+			<team fullname="Darlington" phrase="Darlington" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/d/darlington/default.stm"/>			                   
+                        <team fullname="Eastbourne Borough" phrase="Eastbourne Borough" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/e/eastbourne_borough/default.stm"/>
+                        <team fullname="Fleetwood Town" phrase="Fleetwood Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/f/fleetwood_town/default.stm"/>
+                        <team fullname="Forest Green Rovers" phrase="Forest Green Rovers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/f/forest_green_rovers/default.stm"/>
+			<team fullname="Gateshead" phrase="Gateshead" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/g/gateshead/default.stm"/>
+                        <team fullname="Grimsby Town" phrase="Grimsby Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/g/grimsby_town/default.stm"/>
+                        <team fullname="Hayes and Yeading United" phrase="Hayes and Yeading United" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hayes_and_yeading/default.stm"/>
                         <team fullname="Histon" phrase="Histon" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/histon/default.stm"/>
 			<team fullname="Kettering Town" phrase="Kettering Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/k/kettering_town/default.stm"/>
-                        <team fullname="Kidderminster Harriers" phrase="Kidderminster Harriers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/k/kidderminster_harriers/default.stm"/>			
-                        <team fullname="Luton Town" phrase="Luton Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/luton_town/default.stm"/>
-                        <team fullname="Mansfield Town" phrase="Mansfield Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/mansfield_town/default.stm"/>                        
-			<team fullname="Oxford United" phrase="Oxford United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/o/oxford_utd/default.stm"/>
+                        <team fullname="Kidderminster Harriers" phrase="Kidderminster Harriers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/k/kidderminster_harriers/default.stm"/>
+			<team fullname="Luton Town" phrase="Luton Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/luton_town/default.stm"/>
+                        <team fullname="Mansfield Town" phrase="Mansfield Town" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/mansfield_town/default.stm"/>
+                        <team fullname="Newport County" phrase="Newport County" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/n/newport_county/default.stm"/>
 			<team fullname="Rushden and Diamonds" phrase="Rushden and Diamonds" searchterms="Dmonds" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/rushden_and_diamonds/default.stm"/>
-			<team fullname="Salisbury City" phrase="Salisbury City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/salisbury/default.stm"/>
-			<team fullname="Stevenage Borough" phrase="Stevenage Borough" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stevenage/default.stm"/>			
-			<team fullname="Tamworth" phrase="Tamworth" searchterms="" link=""/>                        			
+			<team fullname="Southport" phrase="Southport" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/southport/default.stm"/>
+			<team fullname="Tamworth" phrase="Tamworth" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/t/tamworth/default.stm"/>
 			<team fullname="Wrexham" phrase="Wrexham" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/w/wrexham/default.stm"/>
                         <team fullname="York City" phrase="York City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/y/york_city/default.stm"/>
 		</competition>
@@ -141,15 +142,15 @@
 			<team fullname="Aberdeen" phrase="Aberdeen" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/a/aberdeen/default.stm"/>
 			<team fullname="Celtic" phrase="Celtic" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/c/celtic/default.stm"/>
 			<team fullname="Dun Utd" phrase="Dun Utd" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/d/dundee_utd/default.stm"/>
-			<team fullname="Falkirk" phrase="Falkirk" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/f/falkirk/default.stm"/>
 			<team fullname="Hamilton Academical" phrase="Hamilton Academical" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hamilton_academical/default.stm"/>
 			<team fullname="Heart of Midlothian" phrase="Heart of Midlothian" searchterms="Hearts" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/heart_of_midlothian/default.stm"/>
-			<team fullname="Hibernian" phrase="Hibernian" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hibernian/default.stm"/>			
-			<team fullname="Kilmarnock" phrase="Kilmarnock" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/k/kilmarnock/default.stm"/>
+			<team fullname="Hibernian" phrase="Hibernian" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/h/hibernian/default.stm"/>
+			<team fullname="Inverness Caledonian Thistle" phrase="Inverness Caledonian Thistle" searchterms="CT" link="http://news.bbc.co.uk/sport1/hi/football/teams/i/inverness_ct/default.stm"/>
+                        <team fullname="Kilmarnock" phrase="Kilmarnock" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/k/kilmarnock/default.stm"/>
 			<team fullname="Motherwell" phrase="Motherwell" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/motherwell/default.stm"/>
 			<team fullname="Rangers" phrase="Rangers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/rangers/default.stm"/>
-                        <team fullname="St Johnstone" phrase="St Johnstone" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/st_johnstone/default.stm"/>
-			<team fullname="St Mirren" phrase="St Mirren" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/st_mirren/default.stm"/>
+			<team fullname="St Johnstone" phrase="St Johnstone" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/st_johnstone/default.stm"/>
+                        <team fullname="St Mirren" phrase="St Mirren" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/st_mirren/default.stm"/>
 		</competition>
 		<competition sport="Football" converted="football" name="Scottish League" phrase="Scottish League" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/scot_div_1/default.stm">
 			<team fullname="Airdrie United" phrase="Airdrie United" searchterms="Utd" link="http://news.bbc.co.uk/sport1/hi/football/teams/a/airdrie_united/default.stm"/>
@@ -168,8 +169,8 @@
 			<team fullname="East Fife" phrase="East Fife" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/e/east_fife/default.stm"/>
 			<team fullname="East Stirlingshire" phrase="East Stirlingshire" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/e/east_stirlingshire/default.stm"/>
 			<team fullname="Elgin City" phrase="Elgin City" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/e/elgin_city/default.stm"/>
+                        <team fullname="Falkirk" phrase="Falkirk" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/f/falkirk/default.stm"/>
                         <team fullname="Forfar Athletic" phrase="Forfar Athletic" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/f/forfar_athletic/default.stm"/>
-                        <team fullname="Inverness Caledonian Thistle" phrase="Inverness Caledonian Thistle" searchterms="CT" link="http://news.bbc.co.uk/sport1/hi/football/teams/i/inverness_ct/default.stm"/>
                         <team fullname="Livingston" phrase="Livingston" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/l/livingston/default.stm"/>
 			<team fullname="Montrose" phrase="Montrose" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/montrose/default.stm"/>
                         <team fullname="Morton" phrase="Morton" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/m/morton/default.stm"/>
@@ -178,8 +179,8 @@
                         <team fullname="Queen of the South" phrase="Queen of the South" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/q/queen_of_the_south/default.stm"/>
                         <team fullname="Queens Park" phrase="Queens Park" searchterms="Queen%27s" link="http://news.bbc.co.uk/sport1/hi/football/teams/q/queens_park/default.stm"/>
                         <team fullname="Raith Rovers" phrase="Raith Rovers" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/raith_rovers/default.stm"/>
-                        <team fullname="Ross County" phrase="Ross County" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/ross_county/default.stm"/>			
-                        <team fullname="Stenhousemuir" phrase="Stenhousemuir" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stenhousemuir/default.stm"/>
+                        <team fullname="Ross County" phrase="Ross County" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/r/ross_county/default.stm"/>
+			<team fullname="Stenhousemuir" phrase="Stenhousemuir" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stenhousemuir/default.stm"/>
 			<team fullname="Stirling Albion" phrase="Stirling Albion" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stirling_albion/default.stm"/>
 			<team fullname="Stranraer" phrase="Stranraer" searchterms="" link="http://news.bbc.co.uk/sport1/hi/football/teams/s/stranraer/default.stm"/>
                 </competition>
@@ -192,113 +193,107 @@
 		</competition>
 		<competition sport="Football" converted="football" name="European Football" phrase="European Football" searchterms="" link="" hidefromteam="yes">
 			<team fullname="Champions League" phrase="Champions League" searchterms="" link=""/>
-			<team fullname="Uefa Cup" phrase="Uefa Cup" searchterms="" link=""/>
-                        <team fullname="Intertoto Cup" phrase="Intertoto Cup" searchterms="" link=""/>
-		</competition>
+			<team fullname="Europa League" phrase="Europa League" searchterms="" link=""/>
+                </competition>
 		<competition sport="Football" converted="football" name="Women's Football" phrase="Womens Football" searchterms="" link="" hidefromteam="yes">
 			<team fullname="Women's World Cup" phrase="Womens World Cup" searchterms="" link=""/>
 		</competition>
 		<competition name="More Non League Clubs" phrase="More Non League Clubs" sport="Football" converted="football" hide="yes">
-			<team fullname="AFC Telford" phrase="AFC Telford" searchterms="" link=""/>			
-                        <team fullname="Alfreton Town" phrase="Alfreton Town" searchterms="" link=""/>
+			<team fullname="AFC Telford" phrase="AFC Telford" searchterms="" link=""/>
+			<team fullname="Alfreton Town" phrase="Alfreton Town" searchterms="" link=""/>
 			<team fullname="Basingstoke Town" phrase="Basingstoke" searchterms="" link=""/>
-			<team fullname="Bath City" phrase="Bath City" searchterms="" link=""/>
 			<team fullname="Bishop's Stortford" phrase="Bishops Stortford" searchterms="" link=""/>
-			<team fullname="Blyth Spartans" phrase="Blyth Spartans" searchterms="" link=""/>			
-			<team fullname="Braintree Town" phrase="Braintree Town" searchterms="" link=""/>
-                        <team fullname="Bromley" phrase="Bromley" searchterms="" link=""/>                        
-			<team fullname="Chelmsford City" phrase="Chelmsford City" searchterms="" link=""/>
-                        <team fullname="Corby Town" phrase="Corby Town" searchterms="" link=""/>
-			<team fullname="Dorchester Town" phrase="Dorchester Town" searchterms="" link=""/>
-                        <team fullname="Dover Athletic" phrase="Dover Athletic" searchterms="" link=""/>
-			<team fullname="Droylsden" phrase="Droylsden" searchterms="" link=""/>
+			<team fullname="Blyth Spartans" phrase="Blyth Spartans" searchterms="" link=""/>
+			<team fullname="Boreham Wood" phrase="Boreham Wood" searchterms="" link=""/>
+                        <team fullname="Boston United" phrase="Boston United" searchterms="" link=""/>
+                        <team fullname="Braintree Town" phrase="Braintree Town" searchterms="" link=""/>
+                        <team fullname="Bromley" phrase="Bromley" searchterms="" link=""/>
+                        <team fullname="Chelmsford City" phrase="Chelmsford City" searchterms="" link=""/>
+			<team fullname="Corby Town" phrase="Corby Town" searchterms="" link=""/>
+                        <team fullname="Dartford" phrase="Dartford" searchterms="" link=""/>
+                        <team fullname="Dorchester Town" phrase="Dorchester Town" searchterms="" link=""/>
+			<team fullname="Dover Athletic" phrase="Dover Athletic" searchterms="" link=""/>
+                        <team fullname="Droylsden" phrase="Droylsden" searchterms="" link=""/>
 			<team fullname="Eastleigh" phrase="Eastleigh" searchterms="" link=""/>
-                        <team fullname="Eastwood Town" phrase="Eastwood Town" searchterms="" link=""/>
-			<team fullname="Farsley Celtic" phrase="Farsley Celtic" searchterms="" link=""/>                        
-			<team fullname="Fleetwood Town" phrase="Fleetwood Town" searchterms="" link=""/>
+			<team fullname="Eastwood Town" phrase="Eastwood Town" searchterms="" link=""/>
+                        <team fullname="Ebbsfleet United" phrase="Ebbsfleet United" searchterms="" link=""/>
+                        <team fullname="Farnborough" phrase="Farnborough" searchterms="" link=""/>
                         <team fullname="Gainsborough Trinity" phrase="Gainsborough Trinity" searchterms="" link=""/>
-                        <team fullname="Gloucester City" phrase="Gloucester City" searchterms="" link=""/>			
+			<team fullname="Gloucester City" phrase="Gloucester City" searchterms="" link=""/>
+                        <team fullname="Guiseley" phrase="Guiseley" searchterms="" link=""/>
                         <team fullname="Hampton and Richmond" phrase="Hampton and Richmond" searchterms="" link=""/>
                         <team fullname="Harrogate Town" phrase="Harrogate Town" searchterms="" link=""/>
-			<team fullname="Havant and Waterlooville" phrase="Havant and Waterlooville" searchterms="" link=""/>			
-			<team fullname="Hinckley United" phrase="Hinckley United" searchterms="" link=""/>			
+			<team fullname="Havant and Waterlooville" phrase="Havant and Waterlooville" searchterms="" link=""/>
+			<team fullname="Hinckley United" phrase="Hinckley United" searchterms="" link=""/>
 			<team fullname="Hyde United" phrase="Hyde United" searchterms="" link=""/>
-                        <team fullname="Ilkeston Town" phrase="Ilkeston Town" searchterms="" link=""/>			
+			<team fullname="Ilkeston Town" phrase="Ilkeston Town" searchterms="" link=""/>
 			<team fullname="Lewes" phrase="Lewes" searchterms="" link=""/>
                         <team fullname="Maidenhead United" phrase="Maidenhead United" searchterms="" link=""/>			
-			<team fullname="Newport County" phrase="Newport County" searchterms="" link=""/>
-                        <team fullname="Northwich Victoria" phrase="Northwich Victoria" searchterms="" link=""/>
-			<team fullname="Redditch United" phrase="Redditch United" searchterms="" link=""/>
+			<team fullname="Nuneaton Town" phrase="Nuneaton Town" searchterms="" link=""/>
+                        <team fullname="Redditch United" phrase="Redditch United" searchterms="" link=""/>
 			<team fullname="St Albans City" phrase="St Albans City" searchterms="" link=""/>
                         <team fullname="Solihull Moors" phrase="Solihull Moors" searchterms="" link=""/>
-			<team fullname="Southport" phrase="Southport" searchterms="" link=""/>
-                        <team fullname="Stafford Rangers" phrase="Stafford Rangers" searchterms="" link=""/>
+			<team fullname="Stafford Rangers" phrase="Stafford Rangers" searchterms="" link=""/>
                         <team fullname="Staines Town" phrase="Staines Town" searchterms="" link=""/>
-                        <team fullname="Stalybridge Celtic" phrase="Stalybridge Celtic" searchterms="" link=""/>	
-                        <team fullname="Thurrock" phrase="Thurrock" searchterms="" link=""/>
+                        <team fullname="Stalybridge Celtic" phrase="Stalybridge Celtic" searchterms="" link=""/>
+			<team fullname="Thurrock" phrase="Thurrock" searchterms="" link=""/>
 			<team fullname="Vauxhall Motors" phrase="Vauxhall Motors" searchterms="" link=""/>
 			<team fullname="Welling United" phrase="Welling United" searchterms="" link=""/>
 			<team fullname="Weston-Super-Mare" phrase="Weston-Super-Mare" searchterms="" link=""/>
-                        <team fullname="Weymouth" phrase="Weymouth" searchterms="" link=""/>
-                        <team fullname="Woking" phrase="Woking" searchterms="" link=""/>
-			<team fullname="Worcester City" phrase="Worcester City" searchterms="" link=""/>
+			<team fullname="Woking" phrase="Woking" searchterms="" link=""/>
+                        <team fullname="Worcester City" phrase="Worcester City" searchterms="" link=""/>
 			<team fullname="Workington" phrase="Workington" searchterms="" link=""/>
 		</competition>
 		<competition name="Welsh" phrase="Welsh" sport="Football"/>
 		<competition name="Wales" phrase="Wales" sport="Football" hide="yes">
 			<team fullname="Aberystwyth Town" phrase="Aberystwyth" searchterms="" link=""/>
 			<team fullname="Airbus UK" phrase="Airbus UK" searchterms="" link=""/>
-			<team fullname="Bangor City" phrase="Bangor City" searchterms="" link=""/>
-			<team fullname="Broughton" phrase="Broughton" searchterms="" link=""/>
-                        <team fullname="Caernarfon Town" phrase="Caernarfon" searchterms="" link=""/>
-			<team fullname="Caersws" phrase="Caersws" searchterms="" link=""/>
+			<team fullname="Bala Town" phrase="Bala Town" searchterms="" link=""/>
+                        <team fullname="Bangor City" phrase="Bangor City" searchterms="" link=""/>
 			<team fullname="Carmarthen Town" phrase="Carmarthen" searchterms="" link=""/>
-			<team fullname="Connah's Quay" phrase="Connahs Quay" searchterms="" link=""/>
-			<team fullname="CPD Porthmadog" phrase="Porthmadog" searchterms="" link=""/>
-                        <team fullname="Haverfordwest" phrase="Haverfordwest" searchterms="" link=""/>
+			<team fullname="Haverfordwest" phrase="Haverfordwest" searchterms="" link=""/>
 			<team fullname="Llanelli" phrase="Llanelli" searchterms="" link=""/>
 			<team fullname="Neath Athletic" phrase="Neath Athletic" searchterms="" link=""/>
-                        <team fullname="Newi Cefn Druids" phrase="Newi Cefn Druids" searchterms="" link=""/>
-			<team fullname="Newtown" phrase="Newtown" searchterms="" link=""/>
+                        <team fullname="Newtown" phrase="Newtown" searchterms="" link=""/>
 			<team fullname="Port Talbot Town" phrase="Port Talbot Town" searchterms="" link=""/>
 			<team fullname="Prestatyn Town" phrase="Prestatyn Town" searchterms="" link=""/>
-			<team fullname="Rhyl" phrase="Rhyl" searchterms="" link=""/>
 			<team fullname="The New Saints" phrase="The New Saints" searchterms="" link=""/>
-			<team fullname="Welshpool Town" phrase="Welshpool Town" searchterms="" link=""/>
 		</competition>
 		<competition name="Irish" phrase="Irish" sport="Football">
 			<team fullname="Bohemians" phrase="Bohemians" searchterms="" link=""/>
-			<team fullname="Bray" phrase="Bray" searchterms="" link=""/>			
-                        <team fullname="Cork" phrase="Cork" searchterms="" link=""/>
+			<team fullname="Bray Wanderers" phrase="Bray Wanderers" searchterms="" link=""/>
 			<team fullname="Derry City" phrase="Derry City" searchterms="" link=""/>
-			<team fullname="Drogheda Utd" phrase="Drogheda Utd" searchterms="" link=""/>
-                        <team fullname="Dundalk" phrase="Dundalk" searchterms="" link=""/>			
-                        <team fullname="Galway Utd" phrase="Galway Utd" searchterms="" link=""/>
-			<team fullname="Shamrock" phrase="Shamrock" searchterms="" link=""/>
-			<team fullname="Sligo" phrase="Sligo" searchterms="" link=""/>
-			<team fullname="St Patrick's" phrase="St Patrick's" searchterms="" link=""/>			
-		</competition>
+			<team fullname="Drogheda United" phrase="Drogheda United" searchterms="" link=""/>
+			<team fullname="Dundalk" phrase="Dundalk" searchterms="" link=""/>
+                        <team fullname="Galway United" phrase="Galway United" searchterms="" link=""/>
+			<team fullname="St Patrick's Athletic" phrase="St Patrick's Athletic" searchterms="" link=""/>
+                        <team fullname="Shamrock Rovers" phrase="Shamrock Rovers" searchterms="" link=""/>
+			<team fullname="Sligo Rovers" phrase="Sligo Rovers" searchterms="" link=""/>
+			<team fullname="Sporting Fingal" phrase="Sporting Fingal" searchterms="" link=""/>
+			<team fullname="UCD" phrase="UCD" searchterms="" link=""/>
+                </competition>
 		<competition name="Northern Ireland" phrase="Northern Ireland" sport="Football" hide="yes">
-			<team fullname="Ballymena" phrase="Ballymena" searchterms="" link=""/>			
-                        <team fullname="Cliftonville" phrase="Cliftonville" searchterms="" link=""/>
+			<team fullname="Ballymena" phrase="Ballymena" searchterms="" link=""/>
+			<team fullname="Cliftonville" phrase="Cliftonville" searchterms="" link=""/>
 			<team fullname="Coleraine" phrase="Coleraine" searchterms="" link=""/>
 			<team fullname="Crusaders" phrase="Crusaders" searchterms="" link=""/>
-			<team fullname="Dungannon Swifts" phrase="Dungannon Swifts" searchterms="" link=""/>
+			<team fullname="Donegal Celtic" phrase="Donegal Celtic" searchterms="" link=""/>
+                        <team fullname="Dungannon Swifts" phrase="Dungannon Swifts" searchterms="" link=""/>
 			<team fullname="Glenavon" phrase="Glenavon" searchterms="" link=""/>
 			<team fullname="Glentoran" phrase="Glentoran" searchterms="" link=""/>
-			<team fullname="Institute" phrase="Institute" searchterms="" link=""/>
 			<team fullname="Linfield" phrase="Linfield" searchterms="" link=""/>
 			<team fullname="Lisburn Distillery" phrase="Lisburn Distillery" searchterms="" link=""/>
-			<team fullname="Newry" phrase="Newry" searchterms="" link=""/>
+			<team fullname="Newry City" phrase="Newry City" searchterms="" link=""/>
                         <team fullname="Portadown" phrase="Portadown" searchterms="" link=""/>
 		</competition>
 		<competition name="Highland League" phrase="Highland League" sport="Football" hide="yes">
-			<team fullname="Brora" phrase="Brora" searchterms="" link=""/>
+			<team fullname="Brora Rangers" phrase="Brora Rangers" searchterms="" link=""/>
 			<team fullname="Buckie Thistle" phrase="Buckie Thistle" searchterms="" link=""/>
 			<team fullname="Clachnacuddin" phrase="Clachnacuddin" searchterms="" link=""/>
 			<team fullname="Cove Rangers" phrase="Cove Rangers" searchterms="" link=""/>
 			<team fullname="Deveronvale" phrase="Deveronvale" searchterms="" link=""/>
-			<team fullname="Forres Mechanics" phrase="Forres Mechanics" searchterms="" link=""/>
+			<team fullname="Formartine United" phrase="Formartine United" searchterms="" link=""/>
+                        <team fullname="Forres Mechanics" phrase="Forres Mechanics" searchterms="" link=""/>
 			<team fullname="Fort William" phrase="Fort William" searchterms="" link=""/>
 			<team fullname="Fraserburgh" phrase="Fraserburgh" searchterms="" link=""/>
 			<team fullname="Huntly" phrase="Huntly" searchterms="" link=""/>
@@ -307,171 +302,177 @@
 			<team fullname="Lossiemouth" phrase="Lossiemouth" searchterms="" link=""/>
 			<team fullname="Nairn County" phrase="Nairn County" searchterms="" link=""/>
 			<team fullname="Rothes" phrase="Rothes" searchterms="" link=""/>
-			<team fullname="Wick Academy" phrase="Wick Academy" searchterms="" link=""/>
+			<team fullname="Strathspey Thistle" phrase="Strathspey Thistle" searchterms="" link=""/>
+                        <team fullname="Turriff United" phrase="Turriff United" searchterms="" link=""/>
+                        <team fullname="Wick Academy" phrase="Wick Academy" searchterms="" link=""/>
 		</competition>
 		
 		<competition name="FA Cup" phrase="FA Cup" sport="Football"/>
 		<competition name="League Cup" phrase="League Cup" sport="Football"/>
 		<competition name="World Cup" phrase="World Cup" sport="Football"/>
-		<competition name="Euro 2008" phrase="Euro 2008" sport="Football" hidefromteam="yes"/>
 		<competition name="Euro 2012" phrase="Euro 2012" sport="Football" hidefromteam="yes"/>
+                <competition name="Euro 2016" phrase="Euro 2016" sport="Football" hidefromteam="yes"/>
                 <competition name="Women's World Cup" phrase="Womens World Cup" sport="Football"/>
 		<competition name="African" phrase="African" sport="Football"/>
+                <competition name="Africa Cup of Nations" phrase="Africa Cup of Nations" sport="Football"/>
 		<competition name="Copa America" phrase="Copa America" sport="Football"/>
 		<competition name="Confederations Cup" phrase="Confederations Cup" sport="Football"/>
 		<competition name="Champions League" phrase="Champions League" sport="Football"/>
-                <competition name="Europa League" phrase="Europa League" sport="Football"/>		
-                <competition name="Conference" phrase="Conference" sport="Football"/>
+                <competition name="Europa League" phrase="Europa League" sport="Football"/>
+		<competition name="Conference" phrase="Conference" sport="Football"/>
 		<competition name="Conference North" phrase="Conference North" sport="Football"/>
 		<competition name="Conference South" phrase="Conference South" sport="Football"/>
 		
 		<!--EUROPEAN FOOTBALL-->
 		<competition name="Austrian" phrase="Austrian" sport="Football">
-			<team fullname="Austria Karnten" phrase="Austria Karnten" searchterms="" link=""/>
-                        <team fullname="FK Austria Magna" phrase="FK Austria Magna" searchterms="" link=""/>
-			<team fullname="LASK Linz" phrase="LASK Linz" searchterms="" link=""/>
+			<team fullname="Austria Vienna" phrase="Austria Vienna" searchterms="" link=""/>
+			<team fullname="Kapfenberg" phrase="Kapfenberg" searchterms="" link=""/>
+                        <team fullname="LASK Linz" phrase="LASK Linz" searchterms="" link=""/>
+                        <team fullname="Mattersburg" phrase="Mattersburg" searchterms="" link=""/>
                         <team fullname="Rapid Vienna" phrase="Rapid Vienna" searchterms="" link=""/>
-                        <team fullname="SC Magna Neustadt" phrase="SC Magna Neustadt" searchterms="" link=""/>
-			<team fullname="SK Sturm Graz" phrase="SK Sturm Graz" searchterms="" link=""/>
-			<team fullname="SV Kapfenberg" phrase="SV Kapfenberg" searchterms="" link=""/>
-                        <team fullname="SV Mattersburg" phrase="SV Mattersburg" searchterms="" link=""/>
-			<team fullname="SV Red Bull Salzburg" phrase="SV Red Bull Salzburg" searchterms="" link=""/>
-			<team fullname="SV Ried" phrase="SV Ried" searchterms="" link=""/>
-		</competition>
+                        <team fullname="Ried" phrase="Ried" searchterms="" link=""/>
+                        <team fullname="Salzburg" phrase="Salzburg" searchterms="" link=""/>
+                        <team fullname="SK Sturm Graz" phrase="SK Sturm Graz" searchterms="" link=""/>
+			<team fullname="Wacker Innsbruck" phrase="Wacker Innsbruck" searchterms="" link=""/>
+                	<team fullname="Wiener Neustadt" phrase="Wiener Neustadt" searchterms="" link=""/>
+                </competition>
 		<competition name="Belgian" phrase="Belgian" sport="Football">
 			<team fullname="Anderlecht" phrase="Anderlecht" searchterms="" link=""/>
 			<team fullname="Cercle Brugge" phrase="Cercle Brugge" searchterms="" link=""/>
 			<team fullname="Charleroi" phrase="Charleroi" searchterms="" link=""/>
 			<team fullname="Club Brugge" phrase="Club Brugge" searchterms="" link=""/>
-			<team fullname="Excelsior Mouscron" phrase="Excelsior Mouscron" searchterms="" link=""/>
-			<team fullname="Genk" phrase="Genk" searchterms="" link=""/>
-                        <team fullname="Gent" phrase="Gent" searchterms="" link=""/>
-			<team fullname="Germinal Beerschot" phrase="Germinal Beerschot" searchterms="" link=""/>
+			<team fullname="Eupen" phrase="Eupen" searchterms="" link=""/>
+                        <team fullname="Genk" phrase="Genk" searchterms="" link=""/>
+			<team fullname="Gent" phrase="Gent" searchterms="" link=""/>
+                        <team fullname="Germinal Beerschot" phrase="Germinal Beerschot" searchterms="" link=""/>
 			<team fullname="Kortrijk" phrase="Kortrijk" searchterms="" link=""/>
-			<team fullname="Lokeren" phrase="Lokeren" searchterms="" link=""/>
+			<team fullname="Lierse" phrase="Lierse" searchterms="" link=""/>
+                        <team fullname="Lokeren" phrase="Lokeren" searchterms="" link=""/>
 			<team fullname="Mechelen" phrase="Mechelen" searchterms="" link=""/>
-			<team fullname="Sint Truidense" phrase="Sint Truidense" searchterms="" link=""/>
+			<team fullname="Sint Truiden" phrase="Sint Truiden" searchterms="" link=""/>
 			<team fullname="Standard Liege" phrase="Standard Liege" searchterms="" link=""/>
 			<team fullname="Westerlo" phrase="Westerlo" searchterms="" link=""/>
 			<team fullname="Zulte-Waregem" phrase="Zulte-Waregem" searchterms="" link=""/>
 		</competition>
 		<competition name="Danish" phrase="Danish" sport="Football">
-			<team fullname="AaB" phrase="AaB" searchterms="" link=""/>			
-			<team fullname="AGF Aarhus" phrase="AGF Aarhus" searchterms="" link=""/>
-                        <team fullname="Brondby" phrase="Brondby" searchterms="" link=""/>
+			<team fullname="AaB" phrase="AaB" searchterms="" link=""/>
+			<team fullname="Brondby" phrase="Brondby" searchterms="" link=""/>
 			<team fullname="Esbjerg" phrase="Esbjerg" searchterms="" link=""/>
 			<team fullname="FC Copenhagen" phrase="FC Copenhagen" searchterms="" link=""/>
-			<team fullname="FC Midtjylland" phrase="FC Midtjylland" searchterms="" link=""/>
-			<team fullname="FC Nordsjaelland" phrase="FC Nordsjaelland" searchterms="" link=""/>
-                        <team fullname="Herfolge" phrase="Herfolge" searchterms="" link=""/>
-			<team fullname="Odense BK" phrase="Odense BK" searchterms="" link=""/>
-			<team fullname="Randers FC" phrase="Randers FC" searchterms="" link=""/>
-                        <team fullname="Silkeborg" phrase="Silkeborg" searchterms="" link=""/>
-			<team fullname="Sonderjyske" phrase="Sonderjyske" searchterms="" link=""/>			
+			<team fullname="Horsens" phrase="AC Horsens" searchterms="" link=""/>
+                        <team fullname="Lyngby" phrase="Lyngby" searchterms="" link=""/>
+                        <team fullname="Midtjylland" phrase="FC Midtjylland" searchterms="" link=""/>
+			<team fullname="Nordsjaelland" phrase="FC Nordsjaelland" searchterms="" link=""/>
+			<team fullname="Odense" phrase="Odense BK" searchterms="" link=""/>
+			<team fullname="Randers" phrase="Randers FC" searchterms="" link=""/>
+			<team fullname="Silkeborg" phrase="Silkeborg" searchterms="" link=""/>
+                        <team fullname="Sonderjyske" phrase="Sonderjyske" searchterms="" link=""/>
 		</competition>
 		<competition name="Finnish" phrase="Finnish" sport="Football">
-			<team fullname="FC Haka" phrase="FC Haka" searchterms="" link=""/>
-			<team fullname="FC Honka" phrase="FC Honka" searchterms="" link=""/>
-			<team fullname="FC Inter" phrase="FC Inter" searchterms="" link=""/>			
-			<team fullname="FC Lahti" phrase="FC Lahti" searchterms="" link=""/>
-                        <team fullname="FF Jaro" phrase="FF Jaro" searchterms="" link=""/>
+			<team fullname="Haka" phrase="FC Haka" searchterms="" link=""/>
 			<team fullname="HJK Helsinki" phrase="HJK Helsinki" searchterms="" link=""/>
-			<team fullname="IFK Marienhamn" phrase="IFK Marienhamn" searchterms="" link=""/>
-                        <team fullname="JJK" phrase="JJK" searchterms="" link=""/>
-			<team fullname="KuPS Kuopio" phrase="KuPS Kuopio" searchterms="" link=""/>
+                        <team fullname="Honka" phrase="FC Honka" searchterms="" link=""/>
+			<team fullname="Inter Turku" phrase="FC Inter" searchterms="" link=""/>
+			<team fullname="Jaro" phrase="FF Jaro" searchterms="" link=""/>
+			<team fullname="JJK" phrase="JJK" searchterms="" link=""/>
+                        <team fullname="KuPS" phrase="KuPS Kuopio" searchterms="" link=""/>
+                        <team fullname="Lahti" phrase="FC Lahti" searchterms="" link=""/>
+                        <team fullname="Marienhamn" phrase="Marienhamn" searchterms="" link=""/>
 			<team fullname="MyPa" phrase="MyPa" searchterms="" link=""/>
-			<team fullname="RoPS" phrase="RoPS" searchterms="" link=""/>
+			<team fullname="Oulu" phrase="Oulu" searchterms="" link=""/>
                         <team fullname="Tampere United" phrase="Tampere United" searchterms="" link=""/>
 			<team fullname="TPS" phrase="TPS" searchterms="" link=""/>
-			<team fullname="VPS Vaasa" phrase="VPS Vaasa" searchterms="" link=""/>
+			<team fullname="VPS" phrase="VPS Vaasa" searchterms="" link=""/>
 		</competition>
 		<competition name="French" phrase="French" sport="Football">
-			<team fullname="AS Nancy" phrase="AS Nancy" searchterms="" link=""/>
+			<team fullname="Arles" phrase="Arles" searchterms="" link=""/>
 			<team fullname="Auxerre" phrase="Auxerre" searchterms="" link=""/>
 			<team fullname="Bordeaux" phrase="Bordeaux" searchterms="" link=""/>
-			<team fullname="Boulogne" phrase="Boulogne" searchterms="" link=""/>
-                        <team fullname="Grenoble" phrase="Grenoble" searchterms="" link=""/>                        
-                        <team fullname="Le Mans" phrase="Le Mans" searchterms="" link=""/>
-			<team fullname="Lens" phrase="Lens" searchterms="" link=""/>
-                        <team fullname="Lille" phrase="Lille" searchterms="" link=""/>
+			<team fullname="Brest" phrase="Brest" searchterms="" link=""/>
+                        <team fullname="Caen" phrase="Caen" searchterms="" link=""/>
+                        <team fullname="Lens" phrase="Le Mans" searchterms="" link=""/>
+			<team fullname="Lille" phrase="Lille" searchterms="" link=""/>
 			<team fullname="Lorient" phrase="Lorient" searchterms="" link=""/>
 			<team fullname="Lyon" phrase="Lyon" searchterms="" link=""/>
 			<team fullname="Marseille" phrase="Marseille" searchterms="" link=""/>
 			<team fullname="Monaco" phrase="Monaco" searchterms="" link=""/>
-			<team fullname="Montpellier" phrase="Montpellier" searchterms="" link=""/>
-			<team fullname="Nice" phrase="Nice" searchterms="" link=""/>
+			<team fullname="Montpellier" phrase="Nantes" searchterms="" link=""/>
+			<team fullname="Nancy" phrase="Nancy" searchterms="" link=""/>
+                        <team fullname="Nice" phrase="Nice" searchterms="" link=""/>
 			<team fullname="PSG" phrase="PSG" searchterms="" link=""/>
 			<team fullname="Rennes" phrase="Rennes" searchterms="" link=""/>
-			<team fullname="Sochaux" phrase="Sochaux" searchterms="" link=""/>
-			<team fullname="St Etienne" phrase="St Etienne" searchterms="" link=""/>
+                        <team fullname="St Etienne" phrase="St Etienne" searchterms="" link=""/>
+                        <team fullname="Sochaux" phrase="Sochaux" searchterms="" link=""/>
 			<team fullname="Toulouse" phrase="Toulouse" searchterms="" link=""/>
 			<team fullname="Valenciennes" phrase="Valenciennes" searchterms="" link=""/>
 		</competition>
-		<competition name="German" phrase="German" sport="Football">			
+		<competition name="German" phrase="German" sport="Football">
 			<team fullname="Bayer Leverkusen" phrase="Bayer Leverkusen" searchterms="" link=""/>
 			<team fullname="Bayern Munich" phrase="Bayern Munich" searchterms="" link=""/>
 			<team fullname="Borussia Dortmund" phrase="Borussia Dortmund" searchterms="" link=""/>
-			<team fullname="Borussia M'gladbach" phrase="Borussia Mgladbach" searchterms="" link=""/>
-			<team fullname="Cologne" phrase="Cologne" searchterms="" link=""/>                        
-			<team fullname="Eintracht Frankfurt" phrase="Eintracht Frankfurt" searchterms="" link=""/>
-                        <team fullname="Freiburg" phrase="Freiburg" searchterms="" link=""/>
-			<team fullname="Hamburg" phrase="Hamburg" searchterms="" link=""/>
+			<team fullname="Borussia M'gladbach" phrase="Borussia M'gladbach" searchterms="" link=""/>
+			<team fullname="Cologne" phrase="Cologne" searchterms="" link=""/>
+                        <team fullname="Eintracht Frankfurt" phrase="Eintracht Frankfurt" searchterms="" link=""/>
+			<team fullname="Freiburg" phrase="Freiburg" searchterms="" link=""/>
+                        <team fullname="Hamburg" phrase="Hamburg" searchterms="" link=""/>
 			<team fullname="Hannover 96" phrase="Hannover 96" searchterms="" link=""/>
-			<team fullname="Hertha Berlin" phrase="Hertha Berlin" searchterms="" link=""/>
+			<team fullname="Kaiserslautern" phrase="Kaiserslautern" searchterms="" link=""/>
                         <team fullname="Mainz" phrase="Mainz" searchterms="" link=""/>
-                        <team fullname="Nuremberg" phrase="Nuremberg" searchterms="" link=""/>			
-			<team fullname="Schalke 04" phrase="Schalke 04" searchterms="" link=""/>
+			<team fullname="Nuremberg" phrase="Nuremberg" searchterms="" link=""/>
+                        <team fullname="St Pauli" phrase="St Pauli" searchterms="" link=""/>
+                        <team fullname="Schalke 04" phrase="Schalke 04" searchterms="" link=""/>
                         <team fullname="TSG Hoffenheim" phrase="TSG Hoffenheim" searchterms="" link=""/>
                         <team fullname="VfB Stuttgart" phrase="VfB Stuttgart" searchterms="" link=""/>
-			<team fullname="VFL Bochum" phrase="VFL Bochum" searchterms="" link=""/>
 			<team fullname="Werder Bremen" phrase="Werder Bremen" searchterms="" link=""/>
 			<team fullname="Wolfsburg" phrase="Wolfsburg" searchterms="" link=""/>
 		</competition>
 		<competition name="Greek" phrase="Greek" sport="Football">
 			<team fullname="AEK Athens" phrase="AEK Athens" searchterms="" link=""/>
-			<team fullname="Aris Salonika" phrase="Aris Salonika" searchterms="" link=""/>
+			<team fullname="Aris" phrase="Aris Salonika" searchterms="" link=""/>
 			<team fullname="Asteras Tripoli" phrase="Asteras Tripoli" searchterms="" link=""/>
-                        <team fullname="Atromitos" phrase="Atromitos" searchterms="" link=""/>
-			<team fullname="Ergotelis" phrase="Ergotelis" searchterms="" link=""/>
-			<team fullname="FC Xanthi" phrase="FC Xanthi" searchterms="" link=""/>
+			<team fullname="Atromitos" phrase="Atromitos" searchterms="" link=""/>
+                        <team fullname="Ergotelis" phrase="Ergotelis" searchterms="" link=""/>
 			<team fullname="Iraklis" phrase="Iraklis" searchterms="" link=""/>
-			<team fullname="Larissa" phrase="Larissa" searchterms="" link=""/>
-			<team fullname="Levadiakos" phrase="Levadiakos" searchterms="" link=""/>
-                        <team fullname="Kavala" phrase="Kavala" searchterms="" link=""/>                        
+			<team fullname="Kavala" phrase="Kavala" searchterms="" link=""/>
+                        <team fullname="Kerkyra" phrase="Kerkyra" searchterms="" link=""/>
+                        <team fullname="Larissa" phrase="Larissa" searchterms="" link=""/>
 			<team fullname="Olympiakos" phrase="Olympiakos" searchterms="" link=""/>
-			<team fullname="Panathinaikos" phrase="Panathinaikos" searchterms="" link=""/>
-			<team fullname="Panionios" phrase="Panionios" searchterms="" link=""/>			
-                        <team fullname="Panthrakikos" phrase="Panthrakikos" searchterms="" link=""/>
-                        <team fullname="PAOK Salonika" phrase="PAOK Salonika" searchterms="" link=""/>
-                        <team fullname="PAS Giannina" phrase="PAS Giannina" searchterms="" link=""/>                        
+			<team fullname="Olympiakos Volou" phrase="Olympiakos Volou" searchterms="" link=""/>
+                        <team fullname="Panathinaikos" phrase="Panathinaikos" searchterms="" link=""/>
+			<team fullname="Panionios" phrase="Panionios" searchterms="" link=""/>
+			<team fullname="Panserraikos" phrase="Panserraikos" searchterms="" link=""/>
+                        <team fullname="PAOK" phrase="PAOK Salonika" searchterms="" link=""/>
+                        <team fullname="Skoda Xanthi" phrase="Skoda Xanthi" searchterms="" link=""/>
 		</competition>
 		<competition name="Netherlands" phrase="Netherlands" sport="Football">
 			<team fullname="ADO Den Haag" phrase="ADO Den Haag" searchterms="" link=""/>
 			<team fullname="Ajax" phrase="Ajax" searchterms="" link=""/>
 			<team fullname="AZ" phrase="AZ" searchterms="" link=""/>
-                        <team fullname="Feyenoord" phrase="Feyenoord" searchterms="" link=""/>			
-			<team fullname="Groningen" phrase="Groningen" searchterms="" link=""/>
-                        <team fullname="Heerenveen" phrase="Heerenveen" searchterms="" link=""/>
-                        <team fullname="Heracles" phrase="Heracles" searchterms="" link=""/>		             
-			<team fullname="NAC Breda" phrase="NAC Breda" searchterms="" link=""/>
-			<team fullname="NEC" phrase="NEC" searchterms="" link=""/>
-			<team fullname="PSV" phrase="PSV" searchterms="" link=""/>
-                        <team fullname="RKC Waalwijk" phrase="RKC Waalwijk" searchterms="" link=""/>
-			<team fullname="Roda JC" phrase="Roda JC" searchterms="" link=""/>
-			<team fullname="Sparta" phrase="Sparta" searchterms="" link=""/>
+			<team fullname="De Graafschap" phrase="De Graafschap" searchterms="" link=""/>
+			<team fullname="Excelsior" phrase="Excelsior" searchterms="" link=""/>
+                        <team fullname="Feyenoord" phrase="Feyenoord" searchterms="" link=""/>
+                        <team fullname="Groningen" phrase="FC Groningen" searchterms="" link=""/>
+			<team fullname="Heerenveen" phrase="Heerenveen" searchterms="" link=""/>
+                        <team fullname="Heracles" phrase="Heracles" searchterms="" link=""/>
+                        <team fullname="NAC Breda" phrase="NAC Breda" searchterms="" link=""/>
+                        <team fullname="NEC" phrase="NEC" searchterms="" link=""/>
+                        <team fullname="PSV Eindhoven" phrase="PSV Eindhoven" searchterms="" link=""/>
+                        <team fullname="Roda JC" phrase="Roda JC" searchterms="" link=""/>
                         <team fullname="Twente" phrase="Twente" searchterms="" link=""/>
-                        <team fullname="Utrecht" phrase="Utrecht" searchterms="" link=""/>
-			<team fullname="Vitesse" phrase="Vitesse" searchterms="" link=""/>
-                        <team fullname="VVV Venlo" phrase="VVV Venlo" searchterms="" link=""/>
+			<team fullname="Utrecht" phrase="Utrecht" searchterms="" link=""/>
+			<team fullname="VVV Venlo" phrase="VVV Venlo" searchterms="" link=""/>
+                        <team fullname="Vitesse" phrase="Vitesse" searchterms="" link=""/>
 			<team fullname="Willem II" phrase="Willem II" searchterms="" link=""/>
 		</competition>
 		<competition name="Italian" phrase="Italian" sport="Football">
 			<team fullname="AC Milan" phrase="AC Milan" searchterms="" link=""/>
-			<team fullname="Atalanta" phrase="Atalanta" searchterms="" link=""/>
+			<team fullname="Bari" phrase="Bari" searchterms="" link=""/>
 			<team fullname="Bologna" phrase="Bologna" searchterms="" link=""/>
+                        <team fullname="Brescia" phrase="Brescia" searchterms="" link=""/>
                         <team fullname="Cagliari" phrase="Cagliari" searchterms="" link=""/>
 			<team fullname="Catania" phrase="Catania" searchterms="" link=""/>
-			<team fullname="Chievo" phrase="Chievo" searchterms="" link=""/>
+			<team fullname="Cesena" phrase="Cesena" searchterms="" link=""/>
+                        <team fullname="Chievo" phrase="Chievo" searchterms="" link=""/>
 			<team fullname="Fiorentina" phrase="Fiorentina" searchterms="" link=""/>
 			<team fullname="Genoa" phrase="Genoa" searchterms="" link=""/>
                         <team fullname="Inter Milan" phrase="Inter Milan" searchterms="" link=""/>
@@ -480,65 +481,53 @@
 			<team fullname="Lecce" phrase="Lecce" searchterms="" link=""/>
 			<team fullname="Napoli" phrase="Napoli" searchterms="" link=""/>
 			<team fullname="Palermo" phrase="Palermo" searchterms="" link=""/>
-			<team fullname="Reggina" phrase="Reggina" searchterms="" link=""/>
+			<team fullname="Parma" phrase="Parma" searchterms="" link=""/>
 			<team fullname="Roma" phrase="Roma" searchterms="" link=""/>
 			<team fullname="Sampdoria" phrase="Sampdoria" searchterms="" link=""/>
-			<team fullname="Siena" phrase="Siena" searchterms="" link=""/>
-			<team fullname="Torino" phrase="Torino" searchterms="" link=""/>
 			<team fullname="Udinese" phrase="Udinese" searchterms="" link=""/>
 		</competition>
 		<competition name="Norwegian" phrase="Norwegian" sport="Football">
 			<team fullname="Aalesund" phrase="Aalesund" searchterms="" link=""/>
-			<team fullname="Bodo/Glimt" phrase="Bodo/Glimt" searchterms="" link=""/>
-                        <team fullname="Brann" phrase="Brann" searchterms="" link=""/>
-                        <team fullname="Fredrikstad" phrase="Fredrikstad" searchterms="" link=""/>
+			<team fullname="Brann" phrase="Brann" searchterms="" link=""/>
+                        <team fullname="Haugesund" phrase="Haugesund" searchterms="" link=""/>
+			<team fullname="Honefoss" phrase="Honefoss" searchterms="" link=""/>
+                        <team fullname="Kongsvinger" phrase="Kongsvinger" searchterms="" link=""/>
 			<team fullname="Lillestrom" phrase="Lillestrom" searchterms="" link=""/>
-			<team fullname="Lyn Oslo" phrase="Lyn Oslo" searchterms="" link=""/>
 			<team fullname="Molde" phrase="Molde" searchterms="" link=""/>
 			<team fullname="Odd Grenland" phrase="Odd Grenland" searchterms="" link=""/>
                         <team fullname="Rosenborg" phrase="Rosenborg" searchterms="" link=""/>
 			<team fullname="Sandefjord" phrase="Sandefjord" searchterms="" link=""/>
-                        <team fullname="Stabaek" phrase="Stabaek" searchterms="" link=""/>
+			<team fullname="Stabaek" phrase="Stabaek" searchterms="" link=""/>
 			<team fullname="Start" phrase="Start" searchterms="" link=""/>
                         <team fullname="Stromsgodset" phrase="Stromsgodset" searchterms="" link=""/>
 			<team fullname="Tromso" phrase="Tromso" searchterms="" link=""/>
 			<team fullname="Valerenga" phrase="Valerenga" searchterms="" link=""/>
-			<team fullname="Viking FK" phrase="Viking FK" searchterms="" link=""/>
+			<team fullname="Viking" phrase="Viking" searchterms="" link=""/>
 		</competition>
 		<competition name="Portuguese" phrase="Portuguese" sport="Football">
 			<team fullname="Academica" phrase="Academica" searchterms="" link=""/>
-			<team fullname="Amadora" phrase="Amadora" searchterms="" link=""/>
+			<team fullname="Beira-Mar" phrase="Amadora" searchterms="" link=""/>
 			<team fullname="Benfica" phrase="Benfica" searchterms="" link=""/>
-			<team fullname="Boavista" phrase="Boavista" searchterms="" link=""/>
 			<team fullname="Braga" phrase="Braga" searchterms="" link=""/>
-			<team fullname="FC Porto" phrase="FC Porto" searchterms="" link=""/>
-                        <team fullname="Leiria" phrase="Leiria" searchterms="" link=""/>
-			<team fullname="Leixoes" phrase="Leixoes" searchterms="" link=""/>
-                        <team fullname="Maritimo" phrase="Maritimo" searchterms="" link=""/>
+			<team fullname="Maritimo" phrase="Maritimo" searchterms="" link=""/>
 			<team fullname="Nacional" phrase="Nacional" searchterms="" link=""/>
 			<team fullname="Naval" phrase="Naval" searchterms="" link=""/>
-                        <team fullname="Olhanense" phrase="Olhanense" searchterms="" link=""/>
-			<team fullname="Rio Ave" phrase="Rio Ave" searchterms="" link=""/>
+			<team fullname="Olhanense" phrase="Olhanense" searchterms="" link=""/>
+                        <team fullname="Pacos de Ferreira" phrase="Pacos de Ferreira" searchterms="" link=""/>
+                        <team fullname="Portimonense" phrase="Portimonense" searchterms="" link=""/>
+                        <team fullname="Porto" phrase="Porto" searchterms="" link=""/>
+                        <team fullname="Rio Ave" phrase="Rio Ave" searchterms="" link=""/>
 			<team fullname="Sporting Lisbon" phrase="Sporting Lisbon" searchterms="" link=""/>
+			<team fullname="Uniao de Leiria" phrase="Uniao de Leiria" searchterms="" link=""/>
 			<team fullname="Vitoria Guimaraes" phrase="Vitoria Guimaraes" searchterms="" link=""/>
                         <team fullname="Vitoria Setubal" phrase="Vitoria Setubal" searchterms="" link=""/>
 		</competition>
 		<competition name="Russian" phrase="Russian" sport="Football">			
-                        <team fullname="Amkar" phrase="Amkar" searchterms="" link=""/>
                         <team fullname="CSKA Moscow" phrase="CSKA Moscow" searchterms="" link=""/>
-                        <team fullname="Dynamo Moscow" phrase="Dynamo Moscow" searchterms="" link=""/>
-                        <team fullname="FC Moscow" phrase="FC Moscow" searchterms="" link=""/>
-                        <team fullname="FC Tom Tomsk" phrase="FC Moscow" searchterms="" link=""/>
-                        <team fullname="Khimki" phrase="Khimki" searchterms="" link=""/>
-                        <team fullname="Krylia Sovetov" phrase="Krylia Sovetov" searchterms="" link=""/>
-                        <team fullname="Kuban" phrase="Kuban" searchterms="" link=""/>
+                        <team fullname="Dinamo Moscow" phrase="Dinamo Moscow" searchterms="" link=""/>
                         <team fullname="Lokomotiv Moscow" phrase="Lokomotiv Moscow" searchterms="" link=""/>
-                        <team fullname="Rostov" phrase="Rostov" searchterms="" link=""/>
                         <team fullname="Rubin Kazan" phrase="Rubin Kazan" searchterms="" link=""/>
-                        <team fullname="Saturn" phrase="Saturn" searchterms="" link=""/>
                         <team fullname="Spartak Moscow" phrase="Spartak Moscow" searchterms="" link=""/>
-                        <team fullname="Spartak Nalchik" phrase="Spartak Nalchik" searchterms="" link=""/>
-                        <team fullname="Terek Grozny" phrase="Terek Grozny" searchterms="" link=""/>
                         <team fullname="Zenit St Petersburg" phrase="Zenit St Petersburg" searchterms="" link=""/>
 		</competition>
 		<competition name="Spanish" phrase="Spanish" sport="Football">
@@ -549,68 +538,68 @@
 			<team fullname="Deportivo La Coruna" phrase="Deportivo La Coruna" searchterms="" link=""/>
 			<team fullname="Espanyol" phrase="Espanyol" searchterms="" link=""/>
 			<team fullname="Getafe" phrase="Getafe" searchterms="" link=""/>
-			<team fullname="Malaga" phrase="Malaga" searchterms="" link=""/>
+			<team fullname="Hercules" phrase="Hercules" searchterms="" link=""/>
+                        <team fullname="Levante" phrase="Levante" searchterms="" link=""/>
+                        <team fullname="Malaga" phrase="Malaga" searchterms="" link=""/>
 			<team fullname="Mallorca" phrase="Mallorca" searchterms="" link=""/>
 			<team fullname="Osasuna" phrase="Osasuna" searchterms="" link=""/>
 			<team fullname="Racing Santander" phrase="Racing Santander" searchterms="" link=""/>
 			<team fullname="Real Madrid" phrase="Real Madrid" searchterms="" link=""/>
-                        <team fullname="Real Zaragoza" phrase="Real Zaragoza" searchterms="" link=""/>
+			<team fullname="Real Sociedad" phrase="Real Sociedad" searchterms="" link=""/>
 			<team fullname="Sevilla" phrase="Sevilla" searchterms="" link=""/>
 			<team fullname="Sporting Gijon" phrase="Sporting Gijon" searchterms="" link=""/>
-                        <team fullname="Tenerife" phrase="Tenerife" searchterms="" link=""/>
                         <team fullname="Valencia" phrase="Valencia" searchterms="" link=""/>
-			<team fullname="Valladolid" phrase="Valladolid" searchterms="" link=""/>
                         <team fullname="Villarreal" phrase="Villarreal" searchterms="" link=""/>
-                        <team fullname="Xerez" phrase="Xerez" searchterms="" link=""/>
+                        <team fullname="Real Zaragoza" phrase="Real Zaragoza" searchterms="" link=""/>
 		</competition>
 		<competition name="Swedish" phrase="Swedish" sport="Football">
 			<team fullname="AIK" phrase="AIK" searchterms="" link=""/>
+			<team fullname="Atvidaberg" phrase="Atvidaberg" searchterms="" link=""/>
                         <team fullname="Brommapojkarna" phrase="Brommapojkarna" searchterms="" link=""/>
-			<team fullname="Djurgardens" phrase="Djurgardens" searchterms="" link=""/>
-                        <team fullname="Elfsborg" phrase="Elfsborg" searchterms="" link=""/>
-			<team fullname="GAIS" phrase="GAIS" searchterms="" link=""/>
-			<team fullname="Gefle" phrase="Gefle" searchterms="" link=""/>
-                        <team fullname="Goteborg" phrase="Goteborg" searchterms="" link=""/>
+                        <team fullname="Djurgarden" phrase="Djurgardens IF" searchterms="" link=""/>
+			<team fullname="Elfsborg" phrase="Elfsborg" searchterms="" link=""/>
+                        <team fullname="GAIS" phrase="GAIS" searchterms="" link=""/>
+			<team fullname="Gefle" phrase="Gefle IF" searchterms="" link=""/>
 			<team fullname="Hacken" phrase="Hacken" searchterms="" link=""/>
-                        <team fullname="Halmstads" phrase="Halmstads" searchterms="" link=""/>
-			<team fullname="Hammarby" phrase="Hammarby" searchterms="" link=""/>
-			<team fullname="Helsingborgs" phrase="Helsingborgs" searchterms="" link=""/>		
-			<team fullname="Kalmar" phrase="Kalmar" searchterms="" link=""/>
-			<team fullname="Malmo" phrase="Malmo" searchterms="" link=""/>
-			<team fullname="Orebro" phrase="Orebro" searchterms="" link=""/>
-                        <team fullname="Orgryte" phrase="Orgryte" searchterms="" link=""/>
-			<team fullname="Trelleborgs" phrase="Trelleborgs" searchterms="" link=""/>
+                        <team fullname="Halmstad" phrase="Halmstads BK" searchterms="" link=""/>
+			<team fullname="Helsingborg" phrase="Helsingborg" searchterms="" link=""/>
+			<team fullname="IFK Goteborg" phrase="IFK Goteborg" searchterms="" link=""/>
+			<team fullname="Kalmar" phrase="Kalmar FF" searchterms="" link=""/>
+			<team fullname="Malmo FF" phrase="Malmo FF" searchterms="" link=""/>
+			<team fullname="Mjallby" phrase="Mjallby" searchterms="" link=""/>
+                        <team fullname="Orebro" phrase="Orebro SK" searchterms="" link=""/>
+			<team fullname="Trelleborgs FF" phrase="Trelleborgs FF" searchterms="" link=""/>
 		</competition>
 		<competition name="Swiss" phrase="Swiss" sport="Football">
-			<team fullname="Aarau" phrase="Aarau" searchterms="" link=""/>
 			<team fullname="Basle" phrase="Basle" searchterms="" link=""/>
 			<team fullname="Bellinzona" phrase="Bellinzona" searchterms="" link=""/>
-                        <team fullname="FC Sion" phrase="FC Sion" searchterms="" link=""/>
-			<team fullname="FC Vaduz" phrase="FC Vaduz" searchterms="" link=""/>
-                        <team fullname="FC Zurich" phrase="FC Zurich" searchterms="" link=""/>
-			<team fullname="Grasshoppers" phrase="Grasshoppers" searchterms="" link=""/>
-			<team fullname="Lucerne" phrase="Lucerne" searchterms="" link=""/>
-			<team fullname="Neuchatel Xamax" phrase="Neuchatel Xamax" searchterms="" link=""/>
-			<team fullname="Young Boys" phrase="Young Boys" searchterms="" link=""/>
+                        <team fullname="Grasshoppers" phrase="Grasshoppers" searchterms="" link=""/>
+                        <team fullname="Lucerne" phrase="Lucerne" searchterms="" link=""/>
+                        <team fullname="Neuchatel Xamax" phrase="Neuchatel Xamax" searchterms="" link=""/>
+                        <team fullname="Sion" phrase="FC Sion" searchterms="" link=""/>
+			<team fullname="St Gallen" phrase="St Gallen" searchterms="" link=""/>
+                        <team fullname="Thun" phrase="Thun" searchterms="" link=""/>
+                        <team fullname="Young Boys" phrase="Young Boys" searchterms="" link=""/>
+                        <team fullname="Zurich" phrase="FC Zurich" searchterms="" link=""/>
 		</competition>
 		<competition name="Turkish" phrase="Turkish" sport="Football">
 			<team fullname="Ankaragucu" phrase="Ankaragucu" searchterms="" link=""/>
-			<team fullname="Ankaraspor" phrase="Ankaraspor" searchterms="" link=""/>
 			<team fullname="Antalyaspor" phrase="Antalyaspor" searchterms="" link=""/>
 			<team fullname="Besiktas" phrase="Besiktas" searchterms="" link=""/>
-			<team fullname="Bursaspor" phrase="Bursaspor" searchterms="" link=""/>
-			<team fullname="Denizlispor" phrase="Denizlispor" searchterms="" link=""/>
-                        <team fullname="Diyarbakirspor" phrase="Diyarbakirspor" searchterms="" link=""/>
+			<team fullname="Bucaspor" phrase="Young Boys" searchterms="" link=""/>
+                        <team fullname="Bursaspor" phrase="Bursaspor" searchterms="" link=""/>
 			<team fullname="Eskisehirspor" phrase="Eskisehirspor" searchterms="" link=""/>
 			<team fullname="Fenerbahce" phrase="Fenerbahce" searchterms="" link=""/>
 			<team fullname="Galatasaray" phrase="Galatasaray" searchterms="" link=""/>
 			<team fullname="Gaziantepspor" phrase="Gaziantepspor" searchterms="" link=""/>
-			<team fullname="Genclerbirligi" phrase="Genclerbirligi" searchterms="" link=""/>			
-                        <team fullname="Istanbul Buyuksehir" phrase="Istanbul Buyuksehir" searchterms="" link=""/>
+			<team fullname="Genclerbirligi" phrase="Genclerbirligi" searchterms="" link=""/>
+			<team fullname="Istanbul Buyuksehir" phrase="Istanbul Buyuksehir" searchterms="" link=""/>
+                        <team fullname="Karabukspor" phrase="Karabukspor" searchterms="" link=""/>
                         <team fullname="Kasimpasa" phrase="Kasimpasa" searchterms="" link=""/>
                         <team fullname="Kayserispor" phrase="Kayserispor" searchterms="" link=""/>
-                        <team fullname="Manisaspor" phrase="Manisaspor" searchterms="" link=""/>			                    
-			<team fullname="Sivasspor" phrase="Sivasspor" searchterms="" link=""/>
+			<team fullname="Konyaspor" phrase="Konyaspor" searchterms="" link=""/>
+			<team fullname="Manisaspor" phrase="Manisaspor" searchterms="" link=""/>
+                        <team fullname="Sivasspor" phrase="Sivasspor" searchterms="" link=""/>
 			<team fullname="Trabzonspor" phrase="Trabzonspor" searchterms="" link=""/>
 		</competition>
 		
@@ -621,10 +610,12 @@
 		</competition>
 		<competition name="MAJOR COMPETITIONS 2" phrase="Major Competitions 2" sport="Football" hide="yes" hidefromteam="yes">
 			<team fullname="Euro 2012" phrase="Euro 2012" searchterms="" link=""/>
+                        <team fullname="Euro 2016" phrase="Euro 2016" searchterms="" link=""/>
                         <team fullname="Copa America" phrase="Copa America" searchterms="" link=""/>
 		</competition>
 		<competition name="MAJOR COMPETITIONS 3" phrase="Major Competitions 3" sport="Football" hide="yes" hidefromteam="yes">
 			<team fullname="African" phrase="African" searchterms="" link=""/>
+                        <team fullname="Africa Cup of Nations" phrase="Africa Cup of Nations" searchterms="" link=""/>
 			<team fullname="Confederations Cup" phrase="Confederations Cup" searchterms="" link=""/>
 		</competition>
 		<competition name="MAJOR COMPETITIONS 4" phrase="Major Competitions 4" sport="Football" hide="yes" hidefromteam="yes">
@@ -930,7 +921,8 @@
 			<team fullname="Tests" phrase="Tests" searchterms="" link=""/>
 			<team fullname="One-day internationals" phrase="One-day internationals" searchterms="" link=""/>
 			<team fullname="World Cup" phrase="World Cup" searchterms="" link=""/>
-			<team fullname="The Ashes" phrase="The Ashes" searchterms="" link=""/>
+			<team fullname="World Twenty20" phrase="World Twenty20" searchterms="" link=""/>
+                        <team fullname="The Ashes" phrase="The Ashes" searchterms="" link=""/>
 			<team fullname="County championship" phrase="County championship" searchterms="" link=""/>
 			<team fullname="Twenty20" phrase="Twenty20" searchterms="" link=""/>
 			<team fullname="Pro40" phrase="Pro40" searchterms="" link=""/>
@@ -981,21 +973,22 @@
 		<competition sport="Rugby union" converted="rugbyunion" name="European" phrase="European" searchterms="" link=""/>
 		
 		<competition sport="Rugby union" converted="rugbyunion" name="Premiership" phrase="Premiership" searchterms="" link="">
-			<team fullname="Bath" phrase="Bath" searchterms="" link=""/>			
-			<team fullname="Gloucester" phrase="Gloucester" searchterms="" link=""/>
+			<team fullname="Bath" phrase="Bath" searchterms="" link=""/>
+			<team fullname="Exeter" phrase="Exeter" searchterms="" link=""/>
+                        <team fullname="Gloucester" phrase="Gloucester" searchterms="" link=""/>
 			<team fullname="Harlequins" phrase="Harlequins" searchterms="" link=""/>
-                        <team fullname="Leeds Carnegie" phrase="Leeds Carnegie" searchterms="" link=""/>
-			<team fullname="Leicester" phrase="Leicester" searchterms="" link=""/>
+			<team fullname="Leeds Carnegie" phrase="Leeds Carnegie" searchterms="" link=""/>
+                        <team fullname="Leicester" phrase="Leicester" searchterms="" link=""/>
 			<team fullname="London Irish" phrase="London Irish" searchterms="" link=""/>
 			<team fullname="Newcastle" phrase="Newcastle" searchterms="" link=""/>
 			<team fullname="Northampton" phrase="Northampton" searchterms="" link=""/>
                         <team fullname="Sale" phrase="Sale" searchterms="" link=""/>
 			<team fullname="Saracens" phrase="Saracens" searchterms="" link=""/>
 			<team fullname="Wasps" phrase="Wasps" searchterms="" link=""/>
-			<team fullname="Worcester" phrase="Worcester" searchterms="" link=""/>
-		</competition>
+                </competition>
 		<competition sport="Rugby union" converted="rugbyunion" name="Magners League" phrase="MagnersLeague" searchterms="" link="">
-			<team fullname="Cardiff Blues" phrase="Cardiff Blues" searchterms="" link=""/>
+			<team fullname="Aironi" phrase="Aironi" searchterms="" link=""/>
+                        <team fullname="Cardiff Blues" phrase="Cardiff Blues" searchterms="" link=""/>
 			<team fullname="Connacht" phrase="Connacht" searchterms="" link=""/>
 			<team fullname="Edinburgh" phrase="Edinburgh" searchterms="" link=""/>
 			<team fullname="Glasgow" phrase="Glasgow" searchterms="" link=""/>
@@ -1004,23 +997,26 @@
 			<team fullname="N-G Dragons" phrase="N-G Dragons" searchterms="" link=""/>
 			<team fullname="Ospreys" phrase="Ospreys" searchterms="" link=""/>
 			<team fullname="Scarlets" phrase="Scarlets" searchterms="" link=""/>
+                        <team fullname="Treviso" phrase="Treviso" searchterms="" link=""/>
                         <team fullname="Ulster" phrase="Ulster" searchterms="" link=""/>
 		</competition>
-		<competition sport="Rugby union" converted="rugbyunion" name="Super 14" phrase="Super 14" searchterms="" link="">
-			<team fullname="Blues  " phrase="Blues  " searchterms="" link=""/>
-			<team fullname="Sharks " phrase="Sharks " searchterms="" link=""/>
-			<team fullname="Bulls " phrase="Bulls " searchterms="" link=""/>
-			<team fullname="Western Force " phrase="Western Force " searchterms="" link=""/>
-			<team fullname="Highlanders " phrase="Highlanders " searchterms="" link=""/>
-			<team fullname="Lions " phrase="Lions " searchterms="" link=""/>
-			<team fullname="Brumbies " phrase="Brumbies " searchterms="" link=""/>
-			<team fullname="Hurricanes " phrase="Hurricanes " searchterms="" link=""/>
-			<team fullname="Crusaders " phrase="Crusaders " searchterms="" link=""/>
-			<team fullname="Cheetahs " phrase="Cheetahs " searchterms="" link=""/>
-			<team fullname="Stormers " phrase="Stormers " searchterms="" link=""/>
-			<team fullname="Waratahs " phrase="Waratahs " searchterms="" link=""/>
-			<team fullname="Chiefs " phrase="Chiefs " searchterms="" link=""/>
-			<team fullname="Reds " phrase="Reds " searchterms="" link=""/>
+		<competition sport="Rugby union" converted="rugbyunion" name="Super 15" phrase="Super 15" searchterms="" link="">
+			<team fullname="Blues" phrase="Blues" searchterms="" link=""/>
+			<team fullname="Brumbies" phrase="Brumbies" searchterms="" link=""/>
+                        <team fullname="Bulls" phrase="Bulls" searchterms="" link=""/>
+			<team fullname="Cheetahs" phrase="Cheetahs" searchterms="" link=""/>
+                        <team fullname="Chiefs" phrase="Chiefs" searchterms="" link=""/>
+                        <team fullname="Crusaders" phrase="Crusaders" searchterms="" link=""/>
+                        <team fullname="Highlanders" phrase="Highlanders" searchterms="" link=""/>
+			<team fullname="Hurricanes" phrase="Hurricanes" searchterms="" link=""/>
+			<team fullname="Lions" phrase="Lions" searchterms="" link=""/>
+			<team fullname="Rebels" phrase="Rebels" searchterms="" link=""/>
+                        <team fullname="Reds" phrase="Reds" searchterms="" link=""/>
+			<team fullname="Sharks" phrase="Sharks" searchterms="" link=""/>
+                        <team fullname="Stormers" phrase="Stormers" searchterms="" link=""/>
+			<team fullname="Waratahs" phrase="Waratahs" searchterms="" link=""/>
+			<team fullname="Western Force" phrase="Western Force" searchterms="" link=""/>
+			
 		</competition>
 		
 		<competition sport="Rugby union" converted="rugbyunion" name="Rugby world cup" phrase="Rugby world cup" searchterms="" link=""/>
@@ -1037,6 +1033,7 @@
 		<competition sport="Rugby union" converted="rugbyunion" name="COMPETITIONS 3" phrase="Competitions 3" hide="yes" hidefromteam="yes">
 			<team fullname="European club rugby" phrase="European club rugby" searchterms="" link=""/>
 			<team fullname="Heineken Cup" phrase="Heineken Cup" searchterms="" link=""/>
+                        <team fullname="European Challenge Cup" phrase="European Challenge Cup" searchterms="" link=""/>
 		</competition>
 		<competition sport="Rugby union" converted="rugbyunion" name="COMPETITIONS 4" phrase="Competitions 4" hide="yes" hidefromteam="yes">
 			<team fullname="French rugby" phrase="French rugby" searchterms="" link=""/>
@@ -1044,72 +1041,23 @@
 		</competition>
 		
 		<competition sport="Rugby union" converted="rugbyunion" name="MORE ENGLISH" phrase="MORE ENGLISH" hide="yes">
-			<team fullname="Barking " phrase="Barking " searchterms="" link=""/>
-			<team fullname="Bedford Blues" phrase="Bedford Blues" searchterms="" link=""/>
-                        <team fullname="Birmingham &#38; Solihull" phrase="Birmingham &#38; Solihull" searchterms="" link=""/>
-			<team fullname="Blackheath " phrase="Blackheath " searchterms="" link=""/>
-			<team fullname="Blaydon " phrase="Blaydon " searchterms="" link=""/>
-			<team fullname="Bradford &amp; Bingley " phrase="Bradford &amp; Bingley " searchterms="" link=""/>
-			<team fullname="Bridgwater &amp; Albion " phrase="Bridgwater &amp; Albion " searchterms="" link=""/>
+			<team fullname="Bedford" phrase="Bedford" searchterms="" link=""/>
+			<team fullname="Birmingham-Solihull" phrase="Birmingham Solihull" searchterms="" link=""/>
                         <team fullname="Bristol" phrase="Bristol" searchterms="" link=""/>
-			<team fullname="Cambridge " phrase="Cambridge " searchterms="" link=""/>
-			<team fullname="Canterbury " phrase="Canterbury " searchterms="" link=""/>
-			<team fullname="Chinnor " phrase="Chinnor " searchterms="" link=""/>
-			<team fullname="Cinderford " phrase="Cinderford " searchterms="" link=""/>
-			<team fullname="Cleckheaton " phrase="Cleckheaton " searchterms="" link=""/>
-			<team fullname="Clifton " phrase="Clifton " searchterms="" link=""/>
-			<team fullname="Cornish Pirates " phrase="Cornish Pirates " searchterms="" link=""/>
-			<team fullname="Coventry " phrase="Coventry " searchterms="" link=""/>
-			<team fullname="Darlington " phrase="Darlington " searchterms="" link=""/>
-			<team fullname="Darlington Mowden Pk " phrase="Darlington Mowden Pk " searchterms="" link=""/>
-			<team fullname="Dings Crusaders " phrase="Dings Crusaders " searchterms="" link=""/>
-			<team fullname="Doncaster Knights" phrase="Doncaster Knights" searchterms="" link=""/>
-			<team fullname="Earth Titans " phrase="Earth Titans " searchterms="" link=""/>
-			<team fullname="Esher " phrase="Esher " searchterms="" link=""/>
-			<team fullname="Exeter Chiefs" phrase="Exeter Chiefs" searchterms="" link=""/>
-			<team fullname="Fylde " phrase="Fylde " searchterms="" link=""/>
-			<team fullname="Halifax " phrase="Halifax " searchterms="" link=""/>
-			<team fullname="Harrogate " phrase="Harrogate " searchterms="" link=""/>
-			<team fullname="Havant " phrase="Havant " searchterms="" link=""/>
-			<team fullname="Henley " phrase="Henley " searchterms="" link=""/>
-			<team fullname="Hertford " phrase="Hertford " searchterms="" link=""/>
-			<team fullname="Hull Ionians " phrase="Hull Ionians " searchterms="" link=""/>
-			<team fullname="Launceston " phrase="Launceston " searchterms="" link=""/>			
-                        <team fullname="Leicester Lions " phrase="Leicester Lions " searchterms="" link=""/>
-			<team fullname="London Welsh " phrase="London Welsh " searchterms="" link=""/>
-			<team fullname="Lydney " phrase="Lydney " searchterms="" link=""/>
-			<team fullname="Macclesfield " phrase="Macclesfield " searchterms="" link=""/>
-			<team fullname="Manchester " phrase="Manchester " searchterms="" link=""/>
-			<team fullname="Morley " phrase="Morley " searchterms="" link=""/>
-			<team fullname="Moseley " phrase="Moseley " searchterms="" link=""/>
-                        <team fullname="Mounts Bay " phrase="Mounts Bay" searchterms="" link=""/>
-			<team fullname="Newbury " phrase="Newbury " searchterms="" link=""/>
-			<team fullname="North Walsham " phrase="North Walsham " searchterms="" link=""/>
-			<team fullname="Nottingham " phrase="Nottingham " searchterms="" link=""/>
-			<team fullname="Nuneaton " phrase="Nuneaton " searchterms="" link=""/>
-			<team fullname="Old Patesians " phrase="Old Patesians " searchterms="" link=""/>
-			<team fullname="Orrell " phrase="Orrell " searchterms="" link=""/>
-			<team fullname="Otley " phrase="Otley " searchterms="" link=""/>
-			<team fullname="Pertemps Bees " phrase="Pertemps Bees " searchterms="" link=""/>
-			<team fullname="Plymouth Albion " phrase="Plymouth Albion " searchterms="" link=""/>
-			<team fullname="Preston Grasshoppers " phrase="Preston Grasshoppers " searchterms="" link=""/>
-			<team fullname="Redruth " phrase="Redruth " searchterms="" link=""/>
-			<team fullname="Rosslyn Park " phrase="Rosslyn Park " searchterms="" link=""/>
-                        <team fullname="Rotherham" phrase="Rotherham" searchterms="" link=""/>
-			<team fullname="Rugby Lions " phrase="Rugby Lions " searchterms="" link=""/>
-			<team fullname="Sedgley Park " phrase="Sedgley Park " searchterms="" link=""/>
-			<team fullname="Southend " phrase="Southend " searchterms="" link=""/>
-			<team fullname="Stourbridge " phrase="Stourbridge " searchterms="" link=""/>
-			<team fullname="Tynedale " phrase="Tynedale " searchterms="" link=""/>
-			<team fullname="Waterloo " phrase="Waterloo " searchterms="" link=""/>
-			<team fullname="West Park St Helens " phrase="West Park St Helens " searchterms="" link=""/>
-			<team fullname="Westcombe Park " phrase="Westcombe Park " searchterms="" link=""/>
-			<team fullname="Wharfedale " phrase="Wharfedale " searchterms="" link=""/>
-		</competition>
+                        <team fullname="Cornish Pirates" phrase="Cornish Pirates" searchterms="" link=""/>
+			<team fullname="Doncaster" phrase="Doncaster" searchterms="" link=""/>
+			<team fullname="Esher" phrase="Esher" searchterms="" link=""/>
+			<team fullname="London Welsh" phrase="London Welsh" searchterms="" link=""/>
+			<team fullname="Moseley" phrase="Moseley" searchterms="" link=""/>
+                        <team fullname="Nottingham" phrase="Nottingham" searchterms="" link=""/>
+			<team fullname="Plymouth Albion" phrase="Plymouth Albion" searchterms="" link=""/>
+			<team fullname="Rotherham Titans" phrase="Rotherham Titans" searchterms="" link=""/>
+                        <team fullname="Worcester" phrase="Worcester" searchterms="" link=""/>
+                </competition>
 		
 		<competition sport="Rugby union" converted="rugbyunion" name="MORE IRISH" phrase="MORE IRISH" hide="yes">
 			<team fullname="Ballymena " phrase="Ballymena " searchterms="" link=""/>
-			<team fullname="Ballynahinch " phrase="Ballynahinch " searchterms="" link=""/>
+			<team fullname="Belfast Harlequins " phrase="Belfast Harlequins " searchterms="" link=""/>
 			<team fullname="Blackrock College " phrase="Blackrock College " searchterms="" link=""/>
 			<team fullname="Buccaneers " phrase="Buccaneers " searchterms="" link=""/>
 			<team fullname="Clontarf " phrase="Clontarf " searchterms="" link=""/>
@@ -1118,95 +1066,49 @@
 			<team fullname="Dungannon " phrase="Dungannon " searchterms="" link=""/>
 			<team fullname="Galwegians " phrase="Galwegians " searchterms="" link=""/>
 			<team fullname="Garryowen " phrase="Garryowen " searchterms="" link=""/>
-			<team fullname="Old Belvedere  " phrase="Old Belvedere  " searchterms="" link=""/>
+			<team fullname="Lansdowne " phrase="Lansdowne " searchterms="" link=""/>
+			<team fullname="Shannon " phrase="Shannon " searchterms="" link=""/>
 			<team fullname="St Mary's College " phrase="St Marys College " searchterms="" link=""/>
-                        <team fullname="Shannon " phrase="Shannon " searchterms="" link=""/>			
-			<team fullname="UCC " phrase="UCC " searchterms="" link=""/>
+			<team fullname="Terenure College " phrase="Terenure College " searchterms="" link=""/>
 			<team fullname="UCD " phrase="UCD " searchterms="" link=""/>
 			<team fullname="UL Bohemians " phrase="UL Bohemians " searchterms="" link=""/>
 		</competition>
 		
 		<competition sport="Rugby union" converted="rugbyunion" name="MORE SCOTTISH" phrase="MORE SCOTTISH" hide="yes">
-			<team fullname="Aberdeen GSFP " phrase="Aberdeen GSFP " searchterms="" link=""/>
 			<team fullname="Ayr " phrase="Ayr " searchterms="" link=""/>
-			<team fullname="Berwick " phrase="Berwick " searchterms="" link=""/>
-			<team fullname="Biggar " phrase="Biggar " searchterms="" link=""/>
 			<team fullname="Boroughmuir " phrase="Boroughmuir " searchterms="" link=""/>
-			<team fullname="Cambuslang " phrase="Cambuslang " searchterms="" link=""/>
-			<team fullname="Cartha Q P " phrase="Cartha Q P " searchterms="" link=""/>
 			<team fullname="Currie " phrase="Currie " searchterms="" link=""/>
 			<team fullname="Dundee HSFP " phrase="Dundee HSFP " searchterms="" link=""/>
-			<team fullname="Dunfermline " phrase="Dunfermline " searchterms="" link=""/>
 			<team fullname="Edinburgh Acads " phrase="Edinburgh Acads " searchterms="" link=""/>
-			<team fullname="Ellon " phrase="Ellon " searchterms="" link=""/>
-			<team fullname="Gala " phrase="Gala " searchterms="" link=""/>
-			<team fullname="GHA " phrase="GHA " searchterms="" link=""/>
 			<team fullname="Glasgow Hawks " phrase="Glasgow Hawks " searchterms="" link=""/>
-			<team fullname="Haddington " phrase="Haddington " searchterms="" link=""/>
-			<team fullname="Hamilton " phrase="Hamilton " searchterms="" link=""/>
-			<team fullname="Hawick " phrase="Hawick " searchterms="" link=""/>
 			<team fullname="Heriots Rugby Club " phrase="Heriots Rugby Club " searchterms="" link=""/>
-			<team fullname="Hillhead/Jordanhill " phrase="Hillhead/Jordanhill " searchterms="" link=""/>
-			<team fullname="Jed-Forest " phrase="Jed-Forest " searchterms="" link=""/>
-			<team fullname="Kelso " phrase="Kelso " searchterms="" link=""/>
-			<team fullname="Kirkcaldy " phrase="Kirkcaldy " searchterms="" link=""/>
-			<team fullname="Livingston " phrase="Livingston " searchterms="" link=""/>
 			<team fullname="Melrose " phrase="Melrose " searchterms="" link=""/>
-			<team fullname="Murrayfield Wanderers " phrase="Murrayfield Wanderers " searchterms="" link=""/>
-			<team fullname="Musselburgh " phrase="Musselburgh " searchterms="" link=""/>
-			<team fullname="Peebles " phrase="Peebles " searchterms="" link=""/>
-			<team fullname="Perthshire " phrase="Perthshire " searchterms="" link=""/>
 			<team fullname="Selkirk " phrase="Selkirk " searchterms="" link=""/>
 			<team fullname="Stewart's Melville FP " phrase="Stewarts Melville FP " searchterms="" link=""/>
-			<team fullname="Stirling County " phrase="Stirling County " searchterms="" link=""/>
 			<team fullname="Watsonians " phrase="Watsonians " searchterms="" link=""/>
 			<team fullname="West of Scotland " phrase="West of Scotland " searchterms="" link=""/>
 		</competition>
 		
 		<competition sport="Rugby union" converted="rugbyunion" name="MORE WELSH" phrase="MORE WELSH" hide="yes">
 			<team fullname="Aberavon " phrase="Aberavon " searchterms="" link=""/>
-			<team fullname="Abercynon " phrase="Abercynon " searchterms="" link=""/>
-			<team fullname="Bargoed " phrase="Bargoed " searchterms="" link=""/>
-			<team fullname="Beddau " phrase="Beddau " searchterms="" link=""/>
 			<team fullname="Bedwas " phrase="Bedwas " searchterms="" link=""/>
-			<team fullname="Blackwood " phrase="Blackwood " searchterms="" link=""/>
-			<team fullname="Bonymaen " phrase="Bonymaen " searchterms="" link=""/>
-			<team fullname="Bridgend " phrase="Bridgend " searchterms="" link=""/>
-			<team fullname="Bridgend Ath " phrase="Bridgend Ath " searchterms="" link=""/>
-			<team fullname="Builth Wells " phrase="Builth Wells " searchterms="" link=""/>
-			<team fullname="Caerphilly " phrase="Caerphilly " searchterms="" link=""/>
 			<team fullname="Cardiff " phrase="Cardiff " searchterms="" link=""/>
-			<team fullname="Carmarthen Quins " phrase="Carmarthen Quins " searchterms="" link=""/>
+                        <team fullname="Carmarthen Quins " phrase="Carmarthen Quins " searchterms="" link=""/>
 			<team fullname="Cross Keys " phrase="Cross Keys " searchterms="" link=""/>
-			<team fullname="Cwmllynfell " phrase="Cwmllynfell " searchterms="" link=""/>
-			<team fullname="Dunvant " phrase="Dunvant " searchterms="" link=""/>
 			<team fullname="Ebbw Vale " phrase="Ebbw Vale " searchterms="" link=""/>
-			<team fullname="Fleur De Lys " phrase="Fleur De Lys " searchterms="" link=""/>
 			<team fullname="Glamorgan Wanderers " phrase="Glamorgan Wanderers " searchterms="" link=""/>
 			<team fullname="Llandovery " phrase="Llandovery " searchterms="" link=""/>
 			<team fullname="Llanelli " phrase="Llanelli " searchterms="" link=""/>
-			<team fullname="Llangennech " phrase="Llangennech " searchterms="" link=""/>
-			<team fullname="Llanharan " phrase="Llanharan " searchterms="" link=""/>
-			<team fullname="Loughor " phrase="Loughor " searchterms="" link=""/>
-			<team fullname="Maesteg " phrase="Maesteg " searchterms="" link=""/>
-			<team fullname="Merthyr " phrase="Merthyr " searchterms="" link=""/>
-			<team fullname="Narberth " phrase="Narberth " searchterms="" link=""/>
 			<team fullname="Neath " phrase="Neath " searchterms="" link=""/>
-			<team fullname="Newbridge " phrase="Newbridge " searchterms="" link=""/>
 			<team fullname="Newport " phrase="Newport " searchterms="" link=""/>
-			<team fullname="Newport Saracens " phrase="Newport Saracens " searchterms="" link=""/>
 			<team fullname="Pontypool " phrase="Pontypool " searchterms="" link=""/>
 			<team fullname="Pontypridd " phrase="Pontypridd " searchterms="" link=""/>
 			<team fullname="Swansea " phrase="Swansea " searchterms="" link=""/>
-			<team fullname="UWIC " phrase="UWIC " searchterms="" link=""/>
-			<team fullname="Waunarlwydd " phrase="Waunarlwydd " searchterms="" link=""/>
-			<team fullname="Whitland " phrase="Whitland " searchterms="" link=""/>
-			<team fullname="Ystrad Rhondda " phrase="Ystrad Rhondda " searchterms="" link=""/>
 		</competition>
 		
 		<!--
 		<competition sport="Rugby union" converted="rugbyunion" name="European club rugby" phrase="European club rugby" searchterms="" link="" hidefromteam="yes" hide="yes">
-			<team fullname="Bath" phrase="Bath" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/bath/default.stm"/>			
+			<team fullname="Bath" phrase="Bath" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/bath/default.stm"/>
 			<team fullname="Cardiff Blues" phrase="Cardiff Blues" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/cardiff_blues/default.stm"/>
 			<team fullname="Connacht" phrase="Connacht" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/connacht/default.stm"/>
 			<team fullname="Edinburgh" phrase="Edinburgh" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/edinburgh/default.stm"/>
@@ -1230,7 +1132,7 @@
 			<team fullname="Worcester" phrase="Worcester" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/worcester/default.stm"/>
 		</competition>
 		<competition sport="Rugby union" converted="rugbyunion" name="English club rugby" phrase="English club rugby" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/english/default.stm">
-			<team fullname="Bath" phrase="Bath" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/bath/default.stm"/>			
+			<team fullname="Bath" phrase="Bath" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/bath/default.stm"/>
 			<team fullname="Gloucester" phrase="Gloucester" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/gloucester/default.stm"/>
 			<team fullname="Harlequins" phrase="Harlequins" searchterms="" link="http://news.bbc.co.uk/sport1/hi/rugby_union/my_club/harlequins/default.stm"/>
 			<team fullname="Leeds Carnegie" phrase="Leeds Carnegie" searchterms="" link=""/>
@@ -1266,7 +1168,7 @@
 			<team fullname="Bradford" phrase="Bradford" searchterms="" link=""/>
 			<team fullname="Castleford" phrase="Castleford" searchterms="" link=""/>
 			<team fullname="Catalans" phrase="Catalans" searchterms="" link=""/>
-			<team fullname="Celtic Crusaders" phrase="Celtic Crusaders" searchterms="" link=""/>
+			<team fullname="Crusaders" phrase="Crusaders" searchterms="" link=""/>
                         <team fullname="Harlequins" phrase="Harlequins" searchterms="" link=""/>
 			<team fullname="Huddersfield" phrase="Huddersfield" searchterms="" link=""/>
 			<team fullname="Hull" phrase="Hull" searchterms="" link=""/>
@@ -1287,7 +1189,8 @@
 			<team fullname="Ireland" phrase="Ireland" searchterms="" link=""/>
 			<team fullname="Scotland" phrase="Scotland" searchterms="" link=""/>
 			<team fullname="France" phrase="France" searchterms="" link=""/>
-			<team fullname="Russia" phrase="Russia" searchterms="" link=""/>
+			<team fullname="Papua New Guinea" phrase="Papua New Guinea" searchterms="" link=""/>
+                        <team fullname="Russia" phrase="Russia" searchterms="" link=""/>
 			<team fullname="Tonga " phrase="Tonga " searchterms="" link=""/>
 			<team fullname="Cook Islands" phrase="Cook Islands" searchterms="" link=""/>
 			<team fullname="Samoa " phrase="Samoa " searchterms="" link=""/>
@@ -1320,66 +1223,27 @@
 
 		<competition sport="Rugby league" converted="rugbyleague" name="NRL" phrase="NRL" searchterms="" link="" hide="yes">
 			<team fullname="Brisbane " phrase="Brisbane " searchterms="" link=""/>
-                        <team fullname="Bulldogs" phrase="Bulldogs" searchterms="" link=""/>
-			<team fullname="Canberra" phrase="Canberra" searchterms="" link=""/>			
+			<team fullname="Canberra" phrase="Canberra" searchterms="" link=""/>
+			<team fullname="Canterbury" phrase="Canterbury" searchterms="" link=""/>
 			<team fullname="Cronulla" phrase="Cronulla" searchterms="" link=""/>
 			<team fullname="Gold Coast" phrase="Gold Coast" searchterms="" link=""/>
 			<team fullname="Manly" phrase="Manly" searchterms="" link=""/>
 			<team fullname="Melbourne" phrase="Melbourne" searchterms="" link=""/>
 			<team fullname="Newcastle" phrase="Newcastle" searchterms="" link=""/>
-                        <team fullname="New Zealand Warriors" phrase="New Zealand Warriors" searchterms="" link=""/>
-			<team fullname="North Queensland" phrase="North Queensland" searchterms="" link=""/>
+			<team fullname="New Zealand Warriors" phrase="New Zealand Warriors" searchterms="" link=""/>
+                        <team fullname="North Queensland" phrase="North Queensland" searchterms="" link=""/>
 			<team fullname="Parramatta" phrase="Parramatta" searchterms="" link=""/>
 			<team fullname="Penrith" phrase="Penrith" searchterms="" link=""/>
 			<team fullname="St George/Illawarra" phrase="St George/Illawarra" searchterms="" link=""/>
-                        <team fullname="South Sydney" phrase="South Sydney" searchterms="" link=""/>			
-			<team fullname="Sydney" phrase="Sydney" searchterms="" link=""/>
+			<team fullname="South Sydney" phrase="South Sydney" searchterms="" link=""/>
+                        <team fullname="Sydney" phrase="Sydney" searchterms="" link=""/>
 			<team fullname="Wests" phrase="Wests" searchterms="" link=""/>
-			
 		</competition>
 		<competition sport="Rugby league" converted="rugbyleague" name="Origin" phrase="Origin" searchterms="" link="" hide="yes">
 			<team fullname="New South Wales" phrase="New South Wales" searchterms="" link=""/>
 			<team fullname="Queensland" phrase="Queensland" searchterms="" link=""/>
 		</competition>
-		<competition sport="Rugby league" converted="rugbyleague" name="National League" phrase="National League" searchterms="" link="">
-			<team fullname="Barrow Raiders" phrase="Barrow Raiders" searchterms="" link=""/>
-			<team fullname="Batley" phrase="Batley" searchterms="" link=""/>
-			<team fullname="Blackpool Panthers" phrase="Blackpool Panthers" searchterms="" link=""/>
-			<team fullname="Bramley" phrase="Bramley" searchterms="" link=""/>
-                        <team fullname="Carlisle Centurions" phrase="Carlisle Centurions" searchterms="" link=""/>
-			<team fullname="Celtic Crusaders" phrase="Celtic Crusaders" searchterms="" link=""/>
-			<team fullname="Cottingham Phoenix" phrase="Cottingham Phoenix" searchterms="" link=""/>			
-			<team fullname="Dewsbury Celtic" phrase="Dewsbury Celtic" searchterms="" link=""/>
-			<team fullname="Dewsbury Rams" phrase="Dewsbury Rams" searchterms="" link=""/>
-                        <team fullname="Doncaster RLFC" phrase="Doncaster RLFC" searchterms="" link=""/>
-			<team fullname="East Lancashire Lions" phrase="East Lancashire Lions" searchterms="" link=""/>			
-			<team fullname="Featherstone Lions" phrase="Featherstone Lions" searchterms="" link=""/>			
-			<team fullname="Featherstone Rovers" phrase="Featherstone Rovers" searchterms="" link=""/>
-                        <team fullname="Gateshead Storm" phrase="Gateshead Storm" searchterms="" link=""/>
-                        <team fullname="Gateshead Thunder" phrase="Gateshead Thunder" searchterms="" link=""/>
-			<team fullname="Halifax RLFC" phrase="Halifax RLFC" searchterms="" link=""/>
-			<team fullname="Hemel" phrase="Hemel" searchterms="" link=""/>
-			<team fullname="Huddersfield Underbank" phrase="Huddersfield Underbank" searchterms="" link=""/>
-			<team fullname="Hunslet" phrase="Hunslet" searchterms="" link=""/>
-			<team fullname="Keighley" phrase="Keighley" searchterms="" link=""/>
-			<team fullname="Leeds Akademiks" phrase="Leeds Akademiks" searchterms="" link=""/>
-			<team fullname="Leigh Centurions" phrase="Leigh Centurions" searchterms="" link=""/>
-                        <team fullname="Liverpool Buccaneers" phrase="Liverpool Buccaneers" searchterms="" link=""/>
-			<team fullname="London Skolars" phrase="London Skolars" searchterms="" link=""/>
-                        <team fullname="Nottingham Outlaws" phrase="Nottingham Outlaws" searchterms="" link=""/>
-			<team fullname="Oldham Roughyeds" phrase="Oldham Roughyeds" searchterms="" link=""/>
-			<team fullname="Rochdale Hornets" phrase="Rochdale Hornets" searchterms="" link=""/>
-			<team fullname="Salford" phrase="Salford" searchterms="" link=""/>
-			<team fullname="Sheffield Eagles" phrase="Sheffield Eagles" searchterms="" link=""/>
-			<team fullname="Swinton" phrase="Swinton" searchterms="" link=""/>
-                        <team fullname="Toulouse Olympique" phrase="Toulouse Olympique" searchterms="" link=""/>
-			<team fullname="Warrington Wizards" phrase="Warrington Wizards" searchterms="" link=""/>
-			<team fullname="Whitehaven" phrase="Whitehaven" searchterms="" link=""/>
-			<team fullname="Widnes" phrase="Widnes" searchterms="" link=""/>
-			<team fullname="Workington Town" phrase="Workington Town" searchterms="" link=""/>
-			<team fullname="York City Knights" phrase="York City Knights" searchterms="" link=""/>
-		</competition>
-		
+				
 		<competition sport="Rugby league" converted="rugbyleague" name="Challenge Cup" phrase="Challenge Cup"/>
 		<competition sport="Rugby league" converted="rugbyleague" name="Tri Nations" phrase="Tri Nations"/>
 		<competition sport="Rugby league" converted="rugbyleague" name="World Cup" phrase="World Cup"/>
