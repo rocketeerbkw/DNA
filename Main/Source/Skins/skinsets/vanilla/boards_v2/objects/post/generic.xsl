@@ -148,8 +148,8 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                             </xsl:attribute>
-                            <xsl:text>Report abuse</xsl:text>
-                            <span class="blq-hide"> for message <xsl:value-of select="count(preceding-sibling::*)" /></span>
+                            <xsl:text>Report message</xsl:text>
+                            <span class="blq-hide"> <xsl:value-of select="count(preceding-sibling::*)" /></span>
                         </a>
                     </p>
                 </xsl:with-param>
