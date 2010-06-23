@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
@@ -13,45 +14,55 @@ namespace BBC.Dna.Objects
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(TypeName = "ARTICLESUMMARY")]
+    [DataContract(Name = "articleSummary")]
     public class ArticleSummary
     {
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "H2G2ID")]
+        [DataMember(Name="h2g2id")]
         public int H2G2ID { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "NAME")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 2, ElementName = "STRIPPEDNAME")]
+        [DataMember(Name = "strippedName")]
         public string StrippedName { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "EDITOR")]
+        [DataMember(Name = "editor")]
         public UserElement Editor { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 4, ElementName = "STATUS")]
+        [DataMember(Name = "status")]
         public ArticleStatus Status { get; set; }
 
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "EXTRAINFO")]
+        [DataMember(Name = "extraInfo")]
         public XmlElement ExtraInfo { get; set; }
 
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 6, ElementName = "DATECREATED")]
+        [DataMember(Name = "dateCreated")]
         public DateElement DateCreated { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 7, ElementName = "LASTUPDATED")]
+        [DataMember(Name = "lastUpdated")]
         public DateElement LastUpdated { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 8, ElementName = "REDIRECTNODEID")]
+        [DataMember(Name = "redirectNodeId")]
         public int RedirectNodeID { get; set; }
 
         /// <remarks/>
@@ -75,7 +86,7 @@ namespace BBC.Dna.Objects
                         ArticleSummary childArticle = new ArticleSummary();
                         childArticle.H2G2ID = reader.GetInt32NullAsZero("h2g2id");
                         childArticle.Name = reader.GetStringNullAsEmpty("subject");
-                        childArticle.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("DisplayName")); ;
+                        childArticle.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("subject")); ;
                         childArticle.ExtraInfo = ExtraInfoCreator.CreateExtraInfo(reader.GetStringNullAsEmpty("extrainfo"));
                         childArticle.Editor = new UserElement() { user = User.CreateUserFromReader(reader, "editor")} ;
                         childArticle.DateCreated = new DateElement(reader.GetDateTime("datecreated"));

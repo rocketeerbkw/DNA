@@ -12,6 +12,7 @@ using Rhino.Mocks.Constraints;
 using System.Xml;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Sites;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -168,9 +169,34 @@ namespace BBC.Dna.Objects.Tests
             {
                 Category actual = Category.CreateCategory(site, cache, readerCreator, viewingUser, _test_nodeID, false);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
-                Assert.AreEqual("Category not found", e.Message);
+                Assert.AreEqual(e.type, ErrorType.CategoryNotFound);
+            }
+        }
+
+        /// <summary>
+        /// Test if CreateCategory throws an exception when no results are returned
+        /// </summary>
+        [TestMethod()]
+        public void CreateCategory_NoSite_ThrowsException()
+        {
+            // setup the default mocks
+            MockRepository mocks;
+            ICacheManager cache;
+            Article article;
+            IDnaDataReaderCreator readerCreator;
+            User viewingUser;
+            ISite site;
+            CreateCategory_SetupDefaultMocks(out mocks, out cache, out article, _test_h2g2id, out readerCreator, out viewingUser, out site);
+
+            try
+            {
+                Category actual = Category.CreateCategory(null, cache, readerCreator, viewingUser, _test_nodeID, false);
+            }
+            catch (ApiException e)
+            {
+                Assert.AreEqual(e.type, ErrorType.UnknownSite);
             }
         }
         
@@ -201,7 +227,7 @@ namespace BBC.Dna.Objects.Tests
             gethierarchynodedetails2Reader.Stub(x => x.GetStringNullAsEmpty("Description")).Return("TestDescription");
             gethierarchynodedetails2Reader.Stub(x => x.GetStringNullAsEmpty("synonyms")).Return("synonyms");
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("h2g2ID")).Return(_test_h2g2id);
-            gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("userAdd")).Return(1);
+            gethierarchynodedetails2Reader.Stub(x => x.GetTinyIntAsInt("userAdd")).Return(1);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("type")).Return(2);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("nodeID")).Return(_test_nodeID);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("ParentID")).Return(_test_ParentID_Root);

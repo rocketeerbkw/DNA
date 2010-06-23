@@ -144,6 +144,9 @@ namespace BBC.Dna.Api
                 case ErrorType.NotSecure:
                     error = new ApiException("Not a secure posting.", innerException);
                     break;
+                case ErrorType.CategoryNotFound:
+                    error = new ApiException("Category not found.", innerException);
+                    break;
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
                     break;
@@ -186,6 +189,7 @@ namespace BBC.Dna.Api
         CommentNotFound,
         MinCharLimitNotReached,
         MissingUserList,
-        NotSecure
+        NotSecure,
+        CategoryNotFound
     }
 }

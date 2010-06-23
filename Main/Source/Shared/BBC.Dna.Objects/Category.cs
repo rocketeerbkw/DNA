@@ -6,6 +6,8 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Sites;
+using System.Runtime.Serialization;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {
@@ -15,53 +17,65 @@ namespace BBC.Dna.Objects
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "CATEGORY")]
+    [DataContract(Name = "category")]
     public class Category : CachableBase<Category>
     {
         #region Properties
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName="DISPLAYNAME")]
+        [DataMember (Name="displayName")]
         public string DisplayName { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "DESCRIPTION")]
+        [DataMember(Name = "description")]
         public string Description { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 2, ElementName = "SYNONYMS")]
+        [DataMember(Name = "synonyms")]
         public string Synonyms { get; set; }
         
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "H2G2ID")]
+        [DataMember(Name = "h2g2id")]
         public int H2g2id { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 4, ElementName = "ANCESTRY")]
         [System.Xml.Serialization.XmlArrayItemAttribute("CATEGORYSUMMARY", IsNullable = false)]
+        [DataMember(Name = "ancestry")]
         public System.Collections.Generic.List<CategorySummary> Ancestry { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "CHILDREN")]
+        [DataMember(Name = "children")]
         public CategoryChildren Children { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 6, ElementName = "ARTICLE")]
+        [DataMember(Name = "article")]
         public Article Article { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("NODEID")]
+        [DataMember(Name = "nodeId")]
         public int NodeId { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("ISROOT")]
+        [DataMember(Name = "isRoot")]
         public bool IsRoot { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("USERADD")]
+        [DataMember(Name = "userAdd")]
         public int UserAdd { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("TYPE")]
+        [DataMember(Name = "type")]
         public int Type { get; set; }
 
         /// <remarks/>        
@@ -77,9 +91,6 @@ namespace BBC.Dna.Objects
 
         /// <summary>
         /// Gets category from cache or db if not found in cache.
-        /// All child instances such as CategorySummary, Article and ArticleSummary are cached as part of the Category object.
-        /// Eg an existing version of an Article may already exist in the Article cache, but a seperate instance will always be used for Category.Article.
-        /// The reason for this is to reduce the complexity involved with invalidating isntances acrosss objects.
         /// </summary>
         /// <param name="cache"></param>
         /// <param name="readerCreator"></param>
@@ -89,8 +100,7 @@ namespace BBC.Dna.Objects
         public static Category CreateCategory(ISite site, ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
                                              int nodeid, bool ignoreCache)
         {
-            var category = new Category();
-
+            Category category = new Category();
             string key = category.GetCacheKey(nodeid);
 
             //check for item in the cache first
@@ -111,6 +121,11 @@ namespace BBC.Dna.Objects
 
             //create from db
             category = CreateCategoryFromDatabase(site, cache, readerCreator, viewingUser, nodeid);
+
+            if (category == null)
+            {
+                throw ApiException.GetError(ErrorType.CategoryNotFound);
+            }
 
             //add to cache
             cache.Add(key, category);
@@ -135,10 +150,8 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("nodeid", nodeid);
                 reader.Execute();
                 
-                // Make sure we got something back
                 if (!reader.HasRows || !reader.Read())
                 {
-                    throw new Exception("Category not found");
                 }
                 else
                 {                    
@@ -148,7 +161,7 @@ namespace BBC.Dna.Objects
                     category.LastUpdated = reader.GetDateTime("LastUpdated");
                     category.Synonyms = reader.GetStringNullAsEmpty("synonyms");
                     category.H2g2id = reader.GetInt32NullAsZero("h2g2ID");
-                    category.UserAdd = reader.GetInt32NullAsZero("userAdd");
+                    category.UserAdd = reader.GetTinyIntAsInt("userAdd");
                     category.Type = reader.GetInt32NullAsZero("type");
                     category.NodeId = reader.GetInt32NullAsZero("nodeID");
                     if (reader.GetInt32NullAsZero("ParentID") == 0)
@@ -160,18 +173,11 @@ namespace BBC.Dna.Objects
                         category.IsRoot = false;
                     }
 
-                    //DO NOT reuse the article cache or any other cache for child properties
                     category.Article = Article.CreateArticle(cache, readerCreator, viewingUser, category.H2g2id);
                     category.Ancestry = CategorySummary.GetCategoryAncestry(readerCreator, category.NodeId);
                     category.Children = new CategoryChildren();
                     category.Children.SubCategories = CategorySummary.GetChildCategories(readerCreator, category.NodeId);
                     category.Children.Articles = ArticleSummary.GetChildArticles(readerCreator, category.NodeId, site.SiteID);
-                }
-
-                //not created so scream
-                if (category == null)
-                {
-                    throw new Exception("Category not found");
                 }
             }
             return category;

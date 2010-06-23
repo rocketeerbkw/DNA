@@ -840,6 +840,8 @@ namespace Tests
             
         }
 
+        
+
         /// <summary>
         /// This function is used to send the request
         /// </summary>
@@ -974,10 +976,8 @@ namespace Tests
             }
             catch (WebException ex)
             {
-                // Problems!
                 _response = (HttpWebResponse)ex.Response;
-                Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-                
+                throw;
             }
             
             GetLastResponseAsString();

@@ -12,6 +12,7 @@ using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using BBC.Dna.Api;
 using System.Xml;
+using BBC.Dna.Users;
 
 
 namespace BBC.Dna.Services
@@ -23,7 +24,6 @@ namespace BBC.Dna.Services
 
         public CategoryService(): base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
-            
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/categories/{categoryId}", ResponseFormat = WebMessageFormat.Json)]
@@ -31,17 +31,36 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Category GetCategory(string siteName, string categoryId)
         {
-            ISite site = Global.siteList.GetSite(siteName);
-            var category = Category.CreateCategory(site, cacheManager, readerCreator, null, Int32.Parse(categoryId), false);
+            Category category = null;
+            try
+            {
+                ISite site = GetSite(siteName);
+
+                category = Category.CreateCategory(site, cacheManager, readerCreator, null, Int32.Parse(categoryId), false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }            
             return category;
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/categories/{categoryId}/xml", ResponseFormat = WebMessageFormat.Xml)]
-        [WebHelp(Comment = "Get the given article in XML format for a given site")]
+        [WebHelp(Comment = "Get the given category in XML format for a given site")]
         [OperationContract]
         public Category GetCategoryXml(string siteName, string categoryId)
         {
-            var category = GetCategory(siteName, categoryId);
+            Category category = null;
+            try
+            {
+                ISite site = GetSite(siteName);
+
+                category = Category.CreateCategory(site, cacheManager, readerCreator, null, Int32.Parse(categoryId), false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
             return category;
         }
     }

@@ -9,10 +9,10 @@
         <xs:element name="articleInfo">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="crumbTrails">
+              <xs:element name="crumbTrails" >
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="crumbTrail">
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="crumbTrail"  >
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element name="ancestor">
@@ -131,7 +131,7 @@
                     <xs:element name="relatedArticles">
                       <xs:complexType>
                         <xs:sequence>
-                          <xs:element maxOccurs="unbounded" name="articleMember">
+                          <xs:element minOccurs="0" maxOccurs="unbounded" name="articleMember">
                             <xs:complexType>
                               <xs:sequence>
                                 <xs:element name="dateCreated">
