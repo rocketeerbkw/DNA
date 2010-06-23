@@ -1024,6 +1024,7 @@ namespace SkinManager
             queryString["skinstubpath"] = Uri.EscapeUriString(skinStubPath);
             queryString["skinname"] = Uri.EscapeUriString(skinName);
             queryString["skin"] = "purexml";
+            queryString["_si"] = "h2g2";
 
             response = UploadFileEx(filename, URL, "file", "text/xml", queryString, _cookieContainer);
 
