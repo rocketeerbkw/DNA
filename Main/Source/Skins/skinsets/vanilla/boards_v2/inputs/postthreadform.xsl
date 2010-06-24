@@ -22,7 +22,20 @@
         </p>
     </xsl:template>
     
-    <xsl:template match="POSTTHREADFORM[@CANWRITE = 0]" mode="input_postthreadform">
+    <xsl:template match="POSTTHREADFORM[PREMODERATION = 1]" mode="input_postthreadform">
+      <div>
+          <xsl:call-template name="library_header_h2">
+            <xsl:with-param name="text">
+                <xsl:text>&nbsp;</xsl:text>
+            </xsl:with-param>
+        </xsl:call-template>
+        <p class="closed">
+            This Posting has been temporarily hidden, because a member of our Moderation Team has referred it to the Community Team for a decision as to whether it contravenes the House Rules in some way. We will do everything we can to ensure that a decision is made as quickly as possible.
+        </p>
+	</div> 
+	</xsl:template>    
+    
+   <xsl:template match="POSTTHREADFORM[@CANWRITE = 0]" mode="input_postthreadform">
       <div>
           <xsl:call-template name="library_header_h2">
             <xsl:with-param name="text">
@@ -33,7 +46,6 @@
             This discussion has been closed and is not now accepting any contributions.
         </p>
 	</div>      
-     
     </xsl:template>
     
     <xsl:template match="POSTTHREADFORM[@CANWRITE = 1]" mode="input_postthreadform">
