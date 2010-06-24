@@ -26,7 +26,7 @@
       <div>
           <xsl:call-template name="library_header_h2">
             <xsl:with-param name="text">
-                <xsl:text>&nbsp;</xsl:text>
+                &#160;
             </xsl:with-param>
         </xsl:call-template>
         <p class="closed">
