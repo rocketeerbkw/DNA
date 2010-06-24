@@ -153,6 +153,20 @@ namespace BBC.Dna.Objects
         [XmlIgnore]
         public int JournalOwner { get; set; }
 
+        /// <summary>
+        /// Plumbing for journal owner which is conditional in xml
+        /// </summary>
+        [XmlAttribute(AttributeName = "JOURNALOWNER")]
+        public string JournalOwnerAttribute
+        {
+            get { return (JournalOwner == 0 ? null : JournalOwner.ToString()); }
+
+
+
+
+        }
+
+
 
         /// <summary>
         /// 
