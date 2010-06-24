@@ -63,9 +63,14 @@ namespace BBC.Dna.Objects
         public int SkipTo { get; set; }
 
         /// <remarks/>
-        [XmlAttribute(AttributeName = "COUNT")]
+        [XmlIgnore]
         [DataMember(Name = ("totalCount"))]
         public int Count { get; set; }
+
+
+        [XmlAttribute(AttributeName = "COUNT")]//this is to support skins who expect the count to be the itemsperpage and not change
+        [DataMember(Name = ("itemsPerPage"))]
+        public int ItemsPerPage { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "TOTALTHREADS")]
@@ -96,7 +101,6 @@ namespace BBC.Dna.Objects
             get { return CanRead == 1; }
             set { }
         }
-
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANWRITE")]
@@ -130,18 +134,17 @@ namespace BBC.Dna.Objects
         [XmlAttribute(AttributeName = "DEFAULTCANWRITE")]
         public byte DefaultCanWrite { get; set; }
 
-        /// <summary>
-        /// Plumbing for journal owner which is conditional in xml
-        /// </summary>
-        [XmlAttribute(AttributeName = "JOURNALOWNER")]
-        public string JournalOwnerAttribute
-        {
-            get { return (JournalOwner == 0 ? null : JournalOwner.ToString()); }
-        }
-
         /// <remarks/>
         [XmlAttribute(AttributeName = "MORE")]
-        public string More { get; set; }
+        public string More
+        {
+            get
+            {
+                return TotalThreads > SkipTo + ItemsPerPage ? "1" : "0";
+            }
+            set { }
+        }
+
 
 
         /// <summary>
@@ -149,6 +152,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         [XmlIgnore]
         public int JournalOwner { get; set; }
+
 
         /// <summary>
         /// 
@@ -313,7 +317,8 @@ namespace BBC.Dna.Objects
                               {
                                   ForumId = forumId,
                                   SiteId = site.SiteID,
-                                  SkipTo = startIndex
+                                  SkipTo = startIndex,
+                                  ItemsPerPage = itemsPerPage
                               };
 
             //do db call
@@ -369,10 +374,7 @@ namespace BBC.Dna.Objects
                     {
                         threads.LastForumUpdated = reader.GetDateTime("ForumLastUpdated");
                     }
-                    if (threads.TotalThreads > (startIndex + itemsPerPage))
-                    {
-                        threads.More = "1";
-                    }
+                    
                     threads.ModerationStatus = new ModerationStatus
                                                    {
                                                        Id = forumId,

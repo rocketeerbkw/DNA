@@ -7,8 +7,10 @@
       <xs:sequence>
         <xs:element name="canRead" type="xs:boolean" />
         <xs:element name="canWrite" type="xs:boolean" />
+        
         <xs:element name="forumId" type="xs:unsignedInt" />
         <xs:element name="forumPostCount" type="xs:unsignedInt" />
+        <xs:element name="itemsPerPage" type="xs:unsignedInt" />
         <xs:element name="lastForumUpdated" type="xs:dateTime" />
         <xs:element name="lastThreadUpdated" type="xs:dateTime" />
         <xs:element name="moderationStatus" type="xs:string" />
@@ -63,7 +65,9 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+
         <xs:element name="totalCount" type="xs:unsignedInt" />
+        
       </xs:sequence>
     </xs:complexType>
   </xs:element>
