@@ -22,7 +22,20 @@
         </p>
     </xsl:template>
     
-    <xsl:template match="POSTTHREADFORM[@CANWRITE = 0]" mode="input_postthreadform">
+    <xsl:template match="POSTTHREADFORM[PREMODERATION = 1]" mode="input_postthreadform">
+      <div>
+          <xsl:call-template name="library_header_h2">
+            <xsl:with-param name="text">
+                &#160;
+            </xsl:with-param>
+        </xsl:call-template>
+        <p class="closed">
+            This Posting has been temporarily hidden, because a member of our Moderation Team has referred it to the Community Team for a decision as to whether it contravenes the House Rules in some way. We will do everything we can to ensure that a decision is made as quickly as possible.
+        </p>
+	</div> 
+	</xsl:template>    
+    
+   <xsl:template match="POSTTHREADFORM[@CANWRITE = 0]" mode="input_postthreadform">
       <div>
           <xsl:call-template name="library_header_h2">
             <xsl:with-param name="text">
@@ -33,7 +46,6 @@
             This discussion has been closed and is not now accepting any contributions.
         </p>
 	</div>      
-     
     </xsl:template>
     
     <xsl:template match="POSTTHREADFORM[@CANWRITE = 1]" mode="input_postthreadform">
@@ -215,29 +227,27 @@
 		<p id="countdown"><strong>You must wait  <span id="minuteValue"><xsl:value-of select="$minutestowait"/></span> minutes  <span id="secondValue"><xsl:value-of select="$secondsstowait"/></span> secs before you can post again</strong></p>
 	</xsl:template>
 	
-  <xsl:template match="POSTTHREADFORM[PREVIEWBODY]" mode="preview">
-  	<p class="preview">Previewing your post:</p>
-      <div>
-      <ul>
-        <li>
-          <xsl:if test="@INREPLYTO = 0">
-            <h4><xsl:value-of select="SUBJECT"/></h4>
-          </xsl:if>
-          <div class="itemdetail">
-            <span class="createdby">
-              <span>Message posted by </span>
-              <a href="MP{/H2G2/VIEWING-USER/USER/USERID}" class="user linked">
-                <xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
-              </a>
-              <xsl:text>:</xsl:text>
-            </span>
-          </div>
-          <p>
-            <xsl:apply-templates select="PREVIEWBODY" mode="library_GuideML" />
-          </p>
-        </li>
-      </ul>
-    </div>
+	<xsl:template match="POSTTHREADFORM[PREVIEWBODY]" mode="preview">
+		<p class="preview">Previewing your post:</p>
+		<div>
+			<xsl:if test="@INREPLYTO = 0">
+				<h4><xsl:value-of select="SUBJECT"/></h4>
+			</xsl:if>
+			<div id="previewpost">
+				<p class="itemdetail">
+					<span class="createdby">
+						<span>Message posted by </span>
+						<a href="MP{/H2G2/VIEWING-USER/USER/USERID}" class="user linked">
+							<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
+						</a>
+						<xsl:text>:</xsl:text>
+					</span>
+				</p>
+				<p>
+					<xsl:apply-templates select="PREVIEWBODY" mode="library_GuideML" />
+				</p>
+			</div>
+		</div>
 	</xsl:template>
 
 	

@@ -192,7 +192,7 @@
           </div>
 
 
-          <div id="dna-preview-right" class="dna-fl">
+          <div id="dna-preview-right" class="dna-fr">
             <div class="dna-box-border">
               <h4>About this board</h4>
               
@@ -267,21 +267,16 @@
           <h4>Social media toolbar</h4>
 
           <xsl:choose>
-            <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR != ''">
-              <p>
-                <strong>Toolbar added: </strong>
-                <xsl:choose>
-                  <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR = 'true'">yes</xsl:when>
-                  <xsl:otherwise>no</xsl:otherwise>
-                </xsl:choose>
-              </p>
+            <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR = 'true'">
+              <p><strong>Toolbar added: </strong>yes</p>
               <p>
                 <a href="?s_mode=toolbar#dna-preview-addtoolbar" class="dna-link-overlay">+ Remove Social Media toolbar</a>
               </p>
             </xsl:when>
             <xsl:otherwise>
+              <p><strong>Toolbar added: </strong>no</p>
               <p>
-                <a href="?s_mode=toolbar#dna-preview-addtoolbar" class="dna-link-overlay">+ Add Social Media toolbar (e.g. Facebook, Digg, Delicious etc.)</a>
+                <a href="?s_mode=toolbar#dna-preview-addtoolbar" class="dna-link-overlay">+ Add Social Media toolbar</a>
               </p>
             </xsl:otherwise>
           </xsl:choose>

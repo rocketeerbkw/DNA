@@ -315,7 +315,7 @@ namespace BBC.Dna.Objects.Tests
                                                                  true, threadOrder);
             Assert.AreEqual(actual.Thread.Count, totalItems - 1);
             //number of reader.read calls is decremented by other call
-            Assert.AreEqual(actual.More, null);
+            Assert.AreEqual("0", actual.More);
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace BBC.Dna.Objects.Tests
                                                                               threadId,
                                                                               overFlow, threadOrder);
             Assert.AreEqual(actual.Thread.Count, itemsPerPage);
-            Assert.IsNull(actual.More);
+            Assert.AreEqual("0", actual.More);
 
         }
 
@@ -415,7 +415,7 @@ namespace BBC.Dna.Objects.Tests
                                                                               threadId,
                                                                               overFlow, threadOrder);
             Assert.AreEqual(0, actual.Thread.Count);
-            Assert.IsNull(actual.More);
+            Assert.AreEqual("0", actual.More);
 
         }
 

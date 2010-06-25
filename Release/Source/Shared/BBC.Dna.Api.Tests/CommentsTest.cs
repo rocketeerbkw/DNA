@@ -1544,7 +1544,6 @@ namespace BBC.Dna.Api.Tests
         {
             var itemsPerPage = 10;
             var postIndex = 25;
-            var expectedStartIndex = 20;
             var postId = 5;
             var sortDirection = SortDirection.Ascending;
             var sortBy = SortBy.Created;
@@ -1586,7 +1585,6 @@ namespace BBC.Dna.Api.Tests
         {
             var itemsPerPage = 10;
             var postIndex = 25;
-            var expectedStartIndex = 20;
             var postId = 5;
             var sortDirection = SortDirection.Ascending;
             var sortBy = SortBy.Created;
@@ -1627,8 +1625,6 @@ namespace BBC.Dna.Api.Tests
         public void GetStartIndexForPostId_DbException_ReturnCorrectException()
         {
             var itemsPerPage = 10;
-            var postIndex = 25;
-            var expectedStartIndex = 20;
             var postId = 5;
             var sortDirection = SortDirection.Ascending;
             var sortBy = SortBy.Created;

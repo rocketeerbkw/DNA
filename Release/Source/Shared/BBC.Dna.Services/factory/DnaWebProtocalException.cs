@@ -106,6 +106,7 @@ namespace BBC.Dna.Services
                 case ErrorType.MissingUserList: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.NotSecure: StatusCode = HttpStatusCode.Unauthorized; break;
                 case ErrorType.CommentNotFound: StatusCode = HttpStatusCode.NotFound; break;
+                case ErrorType.CategoryNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 

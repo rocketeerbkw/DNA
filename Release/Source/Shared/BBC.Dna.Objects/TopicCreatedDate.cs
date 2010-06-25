@@ -24,6 +24,6 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElement(Order = 2, ElementName = "CREATEDDATE")]
-        public Date CreatedDate { get; set; }
+        public DateElement CreatedDate { get; set; }
     }
 }

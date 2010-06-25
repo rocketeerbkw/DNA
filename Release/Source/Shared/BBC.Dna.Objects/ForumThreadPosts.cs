@@ -57,9 +57,15 @@ namespace BBC.Dna.Objects
         public int SkipTo { get; set; }
 
         /// <remarks/>
-        [XmlAttribute(AttributeName = "COUNT")]
-        [DataMember(Name = "itemsPerPage")]
+        [XmlIgnore]
+        [DataMember(Name = "count")]
         public int Count { get; set; }
+
+        [XmlAttribute(AttributeName = "COUNT")]
+        [DataMember(Name = ("itemsPerPage"))]
+        public int ItemsPerPage { get; set; }
+
+        
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANREAD")]
@@ -123,7 +129,15 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         /// TODO: remove this as it is been replaced by correct logic in the skins... finally
         [XmlAttribute(AttributeName = "MORE")]
-        public byte More { get; set; }
+        public byte More {
+            get
+            {
+                return (byte)(TotalPostCount > (SkipTo + Count) ? 1: 0);
+            }
+
+            
+            set{} 
+        }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "GROUPALERTID")]
@@ -312,15 +326,19 @@ namespace BBC.Dna.Objects
                                                                 int forumId, int threadId, int itemsPerPage,
                                                                 int startIndex, int postId, bool orderByDatePostedDesc)
         {
+
+            //max return count is 200
+            itemsPerPage = itemsPerPage > 200 ? 200 : itemsPerPage;
+
             //create the base object
             var thread = new ForumThreadPosts
                              {
                                  ForumId = forumId,
                                  ThreadId = threadId,
-                                 SiteId = siteId
+                                 SiteId = siteId,
+                                 ItemsPerPage = itemsPerPage
                              };
-            //max return count is 200
-            itemsPerPage = itemsPerPage > 200 ? 200 : itemsPerPage;
+            
 
             // if we want to display a post, find its position - which block it's in
             if (postId > 0)

@@ -119,13 +119,9 @@ namespace BBC.Dna.Objects
         [XmlAttribute(AttributeName = "CANREAD")]
         public int CanRead { get; set; }
 
-        
-
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANWRITE")]
         public int CanWrite { get; set; }
-
-        
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "CANCHANGEPERMISSIONS")]
@@ -482,15 +478,16 @@ namespace BBC.Dna.Objects
         /// <param name="cache"></param>
         /// <param name="readerCreator"></param>
         /// <param name="viewingUser"></param>
-        /// <param name="entryId"></param>
+        /// <param name="h2g2Id"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
         public static Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
-                                            int entryId, bool ignoreCache)
+                                            int h2g2Id, bool ignoreCache)
         {
             var article = new Article();
             //convert entryId
-            entryId = Convert.ToInt32(entryId.ToString().Substring(0, entryId.ToString().Length - 1));
+            //int entryId = Convert.ToInt32(h2g2Id.ToString().Substring(0, entryId.ToString().Length - 1));
+            int entryId = h2g2Id / 10;
 
             string key = article.GetCacheKey(entryId);
             //check for item in the cache first
@@ -527,12 +524,12 @@ namespace BBC.Dna.Objects
         /// <param name="cache"></param>
         /// <param name="readerCreator"></param>
         /// <param name="viewingUser"></param>
-        /// <param name="entryId"></param>
+        /// <param name="h2g2Id"></param>
         /// <returns></returns>
         public static Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
-                                            int entryId)
+                                            int h2g2Id)
         {
-            return CreateArticle(cache, readerCreator, viewingUser, entryId, false);
+            return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
         }
 
         /// <summary>

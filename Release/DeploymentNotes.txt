@@ -527,3 +527,6 @@ UNICODE Updates -
 Markn:
 Run "populate BBCDividionId column in Sites.sql" from DBScripts to put some
 values in the new BBCDivision column of the Sites table.
+
+MarcusP:
+FTP /dnaimages/dna_messageboards to live - these are the message board admin assets

@@ -3,7 +3,7 @@
     var glow, $, addListener;
 
     gloader.load(
-        ["glow", "1.1.0", "glow.dom", "glow.widgets", "glow.widgets.Sortable", "glow.widgets.Overlay"],
+        ["glow", "1", "glow.dom", "glow.events", "glow.widgets", "glow.widgets.Sortable", "glow.widgets.Overlay"],
         {
             async: true,
             onLoad: function(g) {
@@ -16,10 +16,18 @@
     );
 
 
+
     function init() {
 
+        if (typeof identity !== 'undefined') {
+            glow.events.addListener(identity, 'login', function() {
+                window.location.reload();
+            });
+        }
+       
+       
         // RE-ORDER TOPIC
-       $(".dna-topic-position").addClass("dna-off");
+        $(".dna-topic-position").addClass("dna-off");
 
         // find index of each 'li' element
         Array.prototype.find = function(searchStr) {
@@ -114,6 +122,8 @@
                     whichDiv = whichAnchor[1];
 
                 // overlay divs are hidden by default 
+                addListener;
+             
                 $("#" + whichDiv).removeClass("dna-off");
 
                 // edit topic : show/hide step 2 and 3
@@ -218,7 +228,6 @@
                 });
 
                 addListener(".dna-buttons input", "mousedown", function() {
-
                     var whichForm = $("#" + whichDiv + " form").attr("name");
                     document.forms[whichForm].action = 'messageboardadmin_design?s_mode=design';
                 });
@@ -245,6 +254,9 @@
                     document.forms[whichForm].reset();
                     $("textarea, input").removeClass("dna-error-input");
                     $(".dna-error-text").addClass("dna-off");
+
+                    $("#dna-footer-color").removeClass("dna-off");
+                    $("#dna-footer-links").addClass("dna-off");
                 }
 
                 // reset the form when the overlay is closed by clicking the mask
@@ -254,12 +266,6 @@
 
                 // hide the overlay when 'cancel' is clicked on
                 if (myOverlay.isShown) {
-                    addListener("a.dna-btn-cancel", "mousedown", function() {
-                        resetForm;
-                        myOverlay.hide();
-                        return false;
-                    });
-
                     addListener("a.dna-btn-cancel", "mousedown", function() {
                         resetForm;
                         myOverlay.hide();
@@ -288,9 +294,9 @@
         if (cmd == 'PUBLISHMESSAGEBOARD') {
             // overlay divs are hidden by default 
             $("#dna-publish-mb-yes").removeClass("dna-off");
-            
+
             // show overlay
-            var publishOverlay= new glow.widgets.Overlay("#dna-publish-mb-yes", {
+            var publishOverlay = new glow.widgets.Overlay("#dna-publish-mb-yes", {
                 modal: true
             });
 

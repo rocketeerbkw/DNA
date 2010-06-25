@@ -1156,6 +1156,7 @@ links: http://www.bbc.co.uk and other stuff";
             var topicXml = xml.SelectSingleNode("//H2G2/TOPICLIST");
             Assert.IsNotNull(topicXml);
             Assert.AreEqual("PREVIEW", topicXml.Attributes["STATUS"].Value);
+            Assert.AreEqual("1", xml.SelectSingleNode("//H2G2/PREVIEWMODE").InnerText);
             
             
         }

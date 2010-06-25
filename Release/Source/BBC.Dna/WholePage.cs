@@ -52,6 +52,11 @@ namespace BBC.Dna.Component
 			{
                 H2G2.AppendChild(ImportNode(SiteXmlBuilder.GenerateSiteOptions(InputContext.CurrentSite, InputContext.IsPreviewMode())));
 			}
+
+            if (InputContext.IsPreviewMode())
+            {//adding preview mode skin value
+                AddTextTag(H2G2, "PREVIEWMODE", "1");
+            }
 		}
 
 		/// <summary>

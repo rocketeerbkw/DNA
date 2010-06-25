@@ -19,11 +19,13 @@ namespace BBC.Dna
         private int _forumId;
         private bool _orderByDatePostedDesc = true;
         private int _postId;
-        private int _show;
         private int _skip;
         private int _threadId;
         private bool _ignoreCache = false;
         private bool _latest = false;
+
+        private const int THREADSTOSHOW = 25;
+        private const int POSTSTOSHOW = 50;
 
 
         /// <summary>
@@ -80,7 +82,7 @@ namespace BBC.Dna
 //dont add threads for forumstyle=1
                 threads = ForumThreads.CreateForumThreads(_cache, _creator, InputContext.TheSiteList,
                                                                        _forumId,
-                                                                       _show, _skip, _threadId, false,
+                                                                       THREADSTOSHOW, _skip, _threadId, false,
                                                                        ThreadOrder.LatestPost, _viewingUser, _ignoreCache);
                 SerialiseAndAppend(threads, String.Empty);
             }
@@ -96,7 +98,7 @@ namespace BBC.Dna
 
             if (_latest)
             {
-                _skip = threads.GetLatestSkipValue(_threadId, _show);
+                _skip = threads.GetLatestSkipValue(_threadId, POSTSTOSHOW);
             }
 
             //add threadposts if required
@@ -190,7 +192,7 @@ namespace BBC.Dna
             ForumThreadPosts thread = ForumThreadPosts.CreateThreadPosts(_creator, _cache, _viewingUser,
                                                                          InputContext.TheSiteList,
                                                                          InputContext.CurrentSite.SiteID, _forumId,
-                                                                         _threadId, _show, _skip, _postId,
+                                                                         _threadId, POSTSTOSHOW, _skip, _postId,
                                                                          _orderByDatePostedDesc, _ignoreCache);
             //process subscription information
             SerialiseAndAppend(thread, String.Empty);
@@ -329,11 +331,6 @@ namespace BBC.Dna
 
             _threadId = InputContext.GetParamIntOrZero("thread", "Forum thread ID");
             _skip = InputContext.GetParamIntOrZero("skip", "Number of items to skip to");
-            _show = InputContext.GetParamIntOrZero("show", "Number of items to show");
-            if (_show == 0)
-            {//default to 20
-                _show = 20;
-            }
 
             _postId = InputContext.GetParamIntOrZero("post", "A post Id with the above forum");
             InputContext.GetParamIntOrZero("thread", "Whether to show the latest");
