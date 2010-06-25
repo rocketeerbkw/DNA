@@ -191,7 +191,9 @@
             </p>
             <p class="dna-turn-img-off">
               <input type="checkbox" name="fp_templatetype" id="fp_templatetype-{$topicid}" value="turnimageoff">
-                
+                <xsl:if test="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME = ''">
+                  <xsl:attribute name="checked">checked</xsl:attribute>
+                </xsl:if>
               </input>
               <label for="fp_templatetype-{$topicid}">To turn off the image for this topic promo, please select this box</label>
             </p>
