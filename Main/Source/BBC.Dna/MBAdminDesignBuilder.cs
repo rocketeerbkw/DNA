@@ -224,7 +224,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("HEADER_COLOUR", "header_colour"))
             {
-                _siteConfig.V2Board.HeaderColour = InputContext.GetParamStringOrEmpty("HEADER_COLOUR", "header_colour");
+                _siteConfig.V2Board.HeaderColour = InputContext.GetParamStringOrEmpty("HEADER_COLOUR", "header_colour").Trim();
                 if(String.IsNullOrEmpty(_siteConfig.V2Board.HeaderColour))
                 {
                     return new Error("InvalidHeaderColour", "Unable to update due to an invalid header colour.");
@@ -233,7 +233,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("TOPICLAYOUT", "TOPICLAYOUT"))
             {
-                _siteConfig.V2Board.TopicLayout = InputContext.GetParamStringOrEmpty("TOPICLAYOUT", "TOPICLAYOUT");
+                _siteConfig.V2Board.TopicLayout = InputContext.GetParamStringOrEmpty("TOPICLAYOUT", "TOPICLAYOUT").Trim();
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.TopicLayout))
                 {
                     return new Error("InvalidTopicLayout", "Unable to update due to an invalid topic layout.");
@@ -242,17 +242,17 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("BANNER_SSI", "BANNER_SSI"))
             {
-                _siteConfig.V2Board.BannerSsi = InputContext.GetParamStringOrEmpty("BANNER_SSI", "BANNER_SSI");
+                _siteConfig.V2Board.BannerSsi = InputContext.GetParamStringOrEmpty("BANNER_SSI", "BANNER_SSI").Trim();
             }
 
             if (InputContext.DoesParamExist("HORIZONTAL_NAV_SSI", "HORIZONTAL_NAV_SSI"))
             {
-                _siteConfig.V2Board.HorizontalNavSsi = InputContext.GetParamStringOrEmpty("HORIZONTAL_NAV_SSI", "HORIZONTAL_NAV_SSI");
+                _siteConfig.V2Board.HorizontalNavSsi = InputContext.GetParamStringOrEmpty("HORIZONTAL_NAV_SSI", "HORIZONTAL_NAV_SSI").Trim();
             }
 
             if (InputContext.DoesParamExist("LEFT_NAV_SSI", "LEFT_NAV_SSI"))
             {
-                _siteConfig.V2Board.LeftNavSsi = InputContext.GetParamStringOrEmpty("LEFT_NAV_SSI", "LEFT_NAV_SSI");
+                _siteConfig.V2Board.LeftNavSsi = InputContext.GetParamStringOrEmpty("LEFT_NAV_SSI", "LEFT_NAV_SSI").Trim();
             }
 
             if (InputContext.DoesParamExist("WELCOME_MESSAGE", "WELCOME_MESSAGE"))
@@ -284,7 +284,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("FOOTER_COLOUR", "FOOTER_COLOUR"))
             {
-                _siteConfig.V2Board.Footer.Colour = InputContext.GetParamStringOrEmpty("FOOTER_COLOUR", "FOOTER_COLOUR");
+                _siteConfig.V2Board.Footer.Colour = InputContext.GetParamStringOrEmpty("FOOTER_COLOUR", "FOOTER_COLOUR").Trim();
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.Footer.Colour))
                 {
                     return new Error("InvalidFooterColour", "Unable to update due to an invalid footer colour.");
@@ -293,12 +293,12 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("CSS_LOCATION", "CSS_LOCATION"))
             {
-                _siteConfig.V2Board.CssLocation = InputContext.GetParamStringOrEmpty("CSS_LOCATION", "CSS_LOCATION");
+                _siteConfig.V2Board.CssLocation = InputContext.GetParamStringOrEmpty("CSS_LOCATION", "CSS_LOCATION").Trim();
             }
 
             if (InputContext.DoesParamExist("EMOTICON_LOCATION", "EMOTICON_LOCATION"))
             {
-                _siteConfig.V2Board.EmoticonLocation = InputContext.GetParamStringOrEmpty("EMOTICON_LOCATION", "EMOTICON_LOCATION");
+                _siteConfig.V2Board.EmoticonLocation = InputContext.GetParamStringOrEmpty("EMOTICON_LOCATION", "EMOTICON_LOCATION").Trim();
             }
 
             if (InputContext.DoesParamExist("RECENTDISCUSSIONS_SUBMIT", "RECENTDISCUSSIONS_SUBMIT"))
@@ -319,9 +319,9 @@ namespace BBC.Dna
                 var linkCollection = new StringCollection();
                 foreach(var link in links)
                 {
-                    if(!String.IsNullOrEmpty(link))
+                    if (!String.IsNullOrEmpty(link.Trim()))
                     {
-                        linkCollection.Add(link);
+                        linkCollection.Add(link.Trim());
                     }
                 }
                 _siteConfig.V2Board.Footer.Links = linkCollection;
@@ -334,9 +334,9 @@ namespace BBC.Dna
                 var linkCollection = new StringCollection();
                 foreach (var link in links)
                 {
-                    if (!String.IsNullOrEmpty(link))
+                    if (!String.IsNullOrEmpty(link.Trim()))
                     {
-                        linkCollection.Add(link);
+                        linkCollection.Add(link.Trim());
                     }
                 }
                 _siteConfig.V2Board.Modules.Links = linkCollection;

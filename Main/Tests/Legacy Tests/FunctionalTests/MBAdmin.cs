@@ -318,6 +318,34 @@ namespace FunctionalTests
 
         }
 
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_UpdatePreviewValidBannerSsiWithSpaces_CorrectUpdate()
+        {
+            var expectedType = "SiteConfigUpdateSuccess";
+            var updateType = "BANNER_SSI";
+            var updateValue = " testbanner.ssi ";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+            request.RequestPage("mbadmin?skin=purexml");
+
+            var editKey = CheckPageSchema(request.GetLastResponseAsXML());
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("editkey", editKey));
+            postParams.Enqueue(new KeyValuePair<string, string>(updateType, updateValue));
+
+
+            request.RequestPage("mbadmin?cmd=UPDATEPREVIEW&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+            CheckV2Config(request.GetLastResponseAsXML(), updateType, updateValue.Trim());
+
+
+        }
+
         /// <summary>
 
         /// </summary>
