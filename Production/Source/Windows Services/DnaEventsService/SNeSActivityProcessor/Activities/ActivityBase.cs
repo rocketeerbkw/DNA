@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Text;
 using DnaEventService.Common;
 using Microsoft.Http;
 
@@ -49,7 +50,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
         {
             LogUtility.LogRequest(GetActivityJson(), GetUri().ToString());
             var activityJson = GetActivityJson();
-            var content = HttpContent.Create(activityJson, "application/json");
+            var content = HttpContent.Create(activityJson, Encoding.UTF8, "application/json");
             using (var response = func(GetUri(), content))
             {
                 response.Content.LoadIntoBuffer();

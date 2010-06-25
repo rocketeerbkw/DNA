@@ -14,13 +14,15 @@
     </doc:documentation>
     
     <xsl:template match="USER | @USERID" mode="moderation_cta_moderateuser">
-      <xsl:param name="label" select="'Moderate this user'"/>
+      <xsl:param name="label"/>
+      <xsl:param name="user"/>
+      
       <xsl:choose>
         <xsl:when test="self::USER">
-          <a class="popup" href="{$root}/MemberList?UserID={USERID}"><xsl:value-of select="$label"/></a>
+          <a class="popup" href="{$root}/MemberList?UserID={USERID}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
         </xsl:when>
         <xsl:otherwise>
-          <a class="popup" href="{$root}/MemberList?UserID={.}"><xsl:value-of select="$label"/></a>
+          <a class="popup" href="{$root}/MemberList?UserID={.}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:template>

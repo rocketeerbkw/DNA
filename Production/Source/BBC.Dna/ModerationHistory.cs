@@ -101,11 +101,11 @@ namespace BBC.Dna
                     {
                         AddXmlTextTag(modHistory, "SUBJECT", reader.GetStringNullAsEmpty("subject"));
 
-                        if ( reader.DoesFieldExist("userid") && !reader.IsDBNull("userid") )
+                        if (reader.DoesFieldExist("authoruserid") && !reader.IsDBNull("authoruserid"))
                         {
                             XmlElement editorNode = AddElementTag(modHistory, "EDITOR");
                             User editor = new User(InputContext);
-                            editor.AddUserXMLBlock(reader, reader.GetInt32NullAsZero("userid"), editorNode);
+                            editor.AddPrefixedUserXMLBlock(reader, reader.GetInt32NullAsZero("authoruserid"), "Author", editorNode);
                         }
                     }
 

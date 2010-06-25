@@ -21,7 +21,7 @@
 
   <xsl:variable name="configuration" select="msxsl:node-set($skin)/configuration" />
 
-  <xsl:include href="../../../common/1/includes.xsl" />
+  <xsl:include href="../../../common/2/includes.xsl" />
 
   <xsl:include href="pages/messageboardadmin.xsl"/>
   <xsl:include href="pages/messageboardadmin_design.xsl"/>

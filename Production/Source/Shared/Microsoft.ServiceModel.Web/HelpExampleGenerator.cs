@@ -298,29 +298,36 @@ namespace Microsoft.ServiceModel.Web
             foreach (XmlSchemaObject innerObject in sequence.Items)
             {
                 XmlSchemaElement element = innerObject as XmlSchemaElement;
-                for (int count = 0; count < 2 && element.MaxOccurs > count; ++count)
+                if (element == null)
                 {
-                    if (element != null && IsObject(element))
+                    InvokeHandler(innerObject, context);
+                }
+                else
+                {
+                    for (int count = 0; count < 2 && element.MaxOccurs > count; ++count)
                     {
-
-                        int instances = 0;
-                        context.elementDepth.TryGetValue(element, out instances);
-                        context.elementDepth[element] = ++instances;
-                        if (instances < 3)
+                        if (element != null && IsObject(element))
                         {
-                            InvokeHandler(innerObject, context);
+
+                            int instances = 0;
+                            context.elementDepth.TryGetValue(element, out instances);
+                            context.elementDepth[element] = ++instances;
+                            if (instances < 3)
+                            {
+                                InvokeHandler(innerObject, context);
+                            }
+                            else
+                            {
+                                context.writer.WriteStartElement(element.QualifiedName.Name, element.QualifiedName.Namespace);
+                                context.writer.WriteAttributeString("i", XmlSchemaInstanceNil, XmlSchemaInstanceNamespace, "true");
+                                context.writer.WriteEndElement();
+                            }
+                            --context.elementDepth[element];
                         }
                         else
                         {
-                            context.writer.WriteStartElement(element.QualifiedName.Name, element.QualifiedName.Namespace);
-                            context.writer.WriteAttributeString("i", XmlSchemaInstanceNil, XmlSchemaInstanceNamespace, "true");
-                            context.writer.WriteEndElement();
+                            InvokeHandler(innerObject, context);
                         }
-                        --context.elementDepth[element];
-                    }
-                    else
-                    {
-                        InvokeHandler(innerObject, context);
                     }
                 }
             }

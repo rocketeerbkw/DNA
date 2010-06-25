@@ -1,28 +1,41 @@
-﻿using BBC.Dna.Data;
+﻿using System;
+using BBC.Dna.Data;
 using System.Xml;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System.Collections.Generic;
+
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, TypeName="ARTICLEINFO")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false, ElementName="ARTICLEINFO")]
-    public partial class ArticleInfo
+    [SerializableAttribute()]
+    [XmlTypeAttribute(AnonymousType=true, TypeName="ARTICLEINFO")]
+    [XmlRootAttribute(Namespace="", IsNullable=false, ElementName="ARTICLEINFO")]
+    [DataContract(Name = "articleInfo")]
+    public class ArticleInfo
     {
 
         #region Properties
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "STATUS")]
+        [XmlElementAttribute(Order = 0, ElementName = "STATUS")]
         public ArticleStatus Status
         {
             get;
             set;
         }
 
+        [XmlIgnore]
+        [DataMember(Name = "status")]
+        public string StatusValue
+        {
+            get { return Status.Value; }
+            set { }
+        }
+
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "H2G2ID")]
+        [XmlElementAttribute(Order = 1, ElementName = "H2G2ID")]
+        [DataMember(Name = "entryId")]
         public int H2g2Id
         {
             get;
@@ -30,7 +43,8 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 2, ElementName = "FORUMID")]
+        [XmlElementAttribute(Order = 2, ElementName = "FORUMID")]
+        [DataMember(Name = "forumId")]
         public int ForumId
         {
             get;
@@ -39,7 +53,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         /// TODO: remove this element - its such a waste
-        [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "SITE")]
+        [XmlElementAttribute(Order = 3, ElementName = "SITE")]
         public ArticleInfoSite Site
         {
             get;
@@ -47,7 +61,8 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 4, ElementName = "SITEID")]
+        [XmlElementAttribute(Order = 4, ElementName = "SITEID")]
+        [DataMember(Name = "siteId")]
         public int SiteId
         {
             get;
@@ -55,15 +70,24 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "MODERATIONSTATUS")]
+        [XmlElementAttribute(Order = 5, ElementName = "MODERATIONSTATUS")]
         public ModerationStatus ModerationStatus
         {
             get;
             set;
         }
 
+        [XmlIgnore]
+        [DataMember(Name = "moderationStatus")]
+        public string ModerationStatusValue
+        {
+            get { return this.ModerationStatus.Value; }
+            set {}
+        }
+
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 6, ElementName = "PAGEAUTHOR")]
+        [XmlElementAttribute(Order = 6, ElementName = "PAGEAUTHOR")]
+        [DataMember(Name = "pageAuthor")]
         public ArticleInfoPageAuthor PageAuthor
         {
             get;
@@ -71,7 +95,8 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 7, ElementName = "DATECREATED")]
+        [XmlElementAttribute(Order = 7, ElementName = "DATECREATED")]
+        [DataMember(Name = "dateCreated")]
         public DateElement DateCreated
         {
             get;
@@ -79,7 +104,8 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 8, ElementName = "LASTUPDATED")]
+        [XmlElementAttribute(Order = 8, ElementName = "LASTUPDATED")]
+        [DataMember(Name = "lastUpdated")]
         public DateElement LastUpdated
         {
             get;
@@ -87,7 +113,8 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 9, ElementName = "RELATEDMEMBERS")]
+        [XmlElementAttribute(Order = 9, ElementName = "RELATEDMEMBERS")]
+        [DataMember(Name = "relatedMembers")]
         public ArticleInfoRelatedMembers RelatedMembers
         {
             get;
@@ -95,7 +122,8 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 10, ElementName = "PREPROCESSED")]
+        [XmlElementAttribute(Order = 10, ElementName = "PREPROCESSED")]
+        [DataMember(Name = "preProcessed")]
         public int PreProcessed
         {
             get;
@@ -103,7 +131,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 11, ElementName = "CRUMBTRAILS")]
+        [XmlElementAttribute(Order = 11, ElementName = "CRUMBTRAILS")]
         public CrumbTrails CrumbTrails
         {
             get;
@@ -111,7 +139,18 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 12, ElementName = "REFERENCES")]
+        [XmlIgnore]
+        [DataMember(Name = "crumbTrails")]
+        public List<CrumbTrail> CatgoriesList
+        {
+            get { return CrumbTrails.CrumbTrail; }
+            set { }
+        }
+        
+
+        /// <remarks/>
+        [XmlElementAttribute(Order = 12, ElementName = "REFERENCES")]
+        [DataMember(Name = "references")]
         public ArticleInfoReferences References
         {
             get;
@@ -119,7 +158,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 13, ElementName = "SUBMITTABLE")]
+        [XmlElementAttribute(Order = 13, ElementName = "SUBMITTABLE")]
         public ArticleInfoSubmittable Submittable
         {
             get;

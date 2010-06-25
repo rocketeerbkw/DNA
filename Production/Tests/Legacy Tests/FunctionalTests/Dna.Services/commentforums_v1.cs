@@ -85,73 +85,7 @@ namespace FunctionalTests
             return returnedForum;
         }
 
-        /// <summary>
-        /// Test GetAllCommentForumsAsXML method from service
-        /// </summary>
-        [TestMethod]
-        public void GetAllCommentForumsAsXML()
-        {
-            var request = new DnaTestURLRequest(_sitename);
-            request.SetCurrentUserNormal();
-
-            // Setup the request url
-            string url = "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/";
-
-            // now get the response
-            request.RequestPageWithFullURL(url, "", "text/xml");
-
-            // Check to make sure that the page returned with the correct information
-            XmlDocument xml = request.GetLastResponseAsXML();
-            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForumList);
-            validator.Validate();
-        }
-
-        /// <summary>
-        /// Test GetAllCommentForumsAsJSON method from service
-        /// </summary>
-        [TestMethod]
-        public void GetAllCommentForumsAsJSON()
-        {
-            Console.WriteLine("Before CommentForumTests_V1 - GetAllCommentForumsAsJSON");
-
-            var request = new DnaTestURLRequest(_sitename);
-            request.SetCurrentUserNormal();
-
-            // Setup the request url
-            string url = "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/";
-
-            // now get the response
-            request.RequestPageWithFullURL(url, "", "application/json");
-
-            var returnedList =
-                (CommentForumList)
-                StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof (CommentForumList));
-            Console.WriteLine("After CommentForumTests_V1 - GetAllCommentForumsAsJSON");
-        }
-
-        /// <summary>
-        /// Test GetAllCommentForumsAsJSON method from service
-        /// </summary>
-        [TestMethod]
-        public void GetAllCommentForumsAsHTML()
-        {
-            Console.WriteLine("Before CommentForumTests_V1 - GetAllCommentForumsAsHTML");
-
-            var request = new DnaTestURLRequest(_sitename);
-            request.SetCurrentUserNormal();
-
-            // Setup the request url
-            string url = "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/commentsforums/";
-
-            // now get the response
-            request.RequestPageWithFullURL(url, "", "text/html");
-            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("<div") >= 0);
-            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("&lt;") < 0); //should be no escaped tags
-            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("&gt;") < 0); //should be no escaped tags
-
-            Console.WriteLine("After CommentForumTests_V1 - GetAllCommentForumsAsHTML");
-        }
-
+ 
         /// <summary>
         /// Test GetCommentForumsBySitenameXML method from service
         /// </summary>
@@ -734,21 +668,13 @@ namespace FunctionalTests
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/",
                                        "NOTAVALIDSITE");
 
-            // now get the response
-            request.RequestPageWithFullURL(url, "", "text/xml");
-
-            // Check to make sure that the page returned with the correct information
-            XmlDocument xml = request.GetLastResponseAsXML();
-            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForumList);
-            validator.Validate();
-
-            var returnedList =
-                (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
-            Assert.IsTrue(returnedList != null);
-            Assert.IsTrue(returnedList.TotalCount == 0);
-            Assert.IsTrue(returnedList.CommentForums != null);
-            Console.WriteLine("After GetCommentForumsBySitenameXML");
+            try
+            {
+                // now get the response
+                request.RequestPageWithFullURL(url, "", "text/xml");
+            }
+            catch { }
+            Assert.AreEqual(request.CurrentWebResponse.StatusCode, HttpStatusCode.NotFound);
         }
 
         /// <summary>
@@ -1920,6 +1846,147 @@ namespace FunctionalTests
                             xml.SelectSingleNode("//bda:error/bda:detail", nsmgr).InnerText);
 
             Console.WriteLine("After CreateCommentAsNonAgreedTermsAndConditionsUser");
+        }
+
+
+        [TestMethod]
+        public void GetCommentForumWithCommentId_CreateAndDescending_ReturnsCorrectPost()
+        {
+            var sortBy = SortBy.Created;
+            var sortDirection = SortDirection.Descending;
+            var expectedStartIndex = 0;
+            var itemsPerPage =1;
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreateHelper();
+
+            //Create 2 Comments in the same forum.
+            var comments = new CommentsTests_V1();
+            CommentInfo commentInfo = comments.CreateCommentHelper(commentForum.Id);
+            CommentInfo commentInfo2 = comments.CreateCommentHelper(commentForum.Id);
+            CommentInfo commentInfo3 = comments.CreateCommentHelper(commentForum.Id);
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+                                       _sitename, commentForum.Id, commentInfo3.ID, sortBy, sortDirection, itemsPerPage);
+            // now get the response
+            request.RequestPageWithFullURL(url, "", "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+            var returnedForum =
+                (CommentForum)
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+
+            Assert.AreEqual(expectedStartIndex, returnedForum.commentList.StartIndex);
+            Assert.AreEqual(itemsPerPage, returnedForum.commentList.ItemsPerPage);
+            Assert.AreEqual(commentInfo3.ID, returnedForum.commentList.comments[0].ID);
+
+            
+        }
+
+        [TestMethod]
+        public void GetCommentForumWithCommentId_CreateAndAscending_ReturnsCorrectPost()
+        {
+            var sortBy = SortBy.Created;
+            var sortDirection = SortDirection.Ascending;
+            var expectedStartIndex = 2;
+            var itemsPerPage = 1;
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreateHelper();
+
+            //Create 2 Comments in the same forum.
+            var comments = new CommentsTests_V1();
+            CommentInfo commentInfo = comments.CreateCommentHelper(commentForum.Id);
+            CommentInfo commentInfo2 = comments.CreateCommentHelper(commentForum.Id);
+            CommentInfo commentInfo3 = comments.CreateCommentHelper(commentForum.Id);
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+                                       _sitename, commentForum.Id, commentInfo3.ID, sortBy, sortDirection, itemsPerPage);
+            // now get the response
+            request.RequestPageWithFullURL(url, "", "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+            var returnedForum =
+                (CommentForum)
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+
+            Assert.AreEqual(expectedStartIndex, returnedForum.commentList.StartIndex);
+            Assert.AreEqual(itemsPerPage, returnedForum.commentList.ItemsPerPage);
+            Assert.AreEqual(commentInfo3.ID, returnedForum.commentList.comments[0].ID);
+
+
+        }
+
+        [TestMethod]
+        public void GetCommentForumWithCommentId_CommentIdDoesNotExist_ReturnsCorrectError()
+        {
+            var sortBy = SortBy.Created;
+            var sortDirection = SortDirection.Ascending;
+            var itemsPerPage = 1;
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreateHelper();
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+                                       _sitename, commentForum.Id, Int32.MaxValue-1, sortBy, sortDirection, itemsPerPage);
+            try
+            {
+                // now get the response
+                request.RequestPageWithFullURL(url, "", "text/xml");
+            }
+            catch 
+            {
+            }
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.NotFound);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+
+        }
+
+        [TestMethod]
+        public void GetCommentForumWithCommentId_CommentIdNotValid_ReturnsCorrectError()
+        {
+            var sortBy = SortBy.Created;
+            var sortDirection = SortDirection.Ascending;
+            var itemsPerPage = 1;
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreateHelper();
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
+                                       _sitename, commentForum.Id, "notacomment", sortBy, sortDirection, itemsPerPage);
+            try
+            {
+                // now get the response
+                request.RequestPageWithFullURL(url, "", "text/xml");
+            }
+            catch 
+            {
+            }
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.NotFound);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+
         }
 
         /// <summary>

@@ -14,10 +14,10 @@
     </doc:documentation>
     
     <xsl:template match="THREAD" mode="moderation_cta_removethreadsticky">
-        <xsl:param name="label" select="'Unstick thread from front page'" />
+        <xsl:param name="subject"/>
         
         <a href="{$root}/NF{@FORUMID}?cmd=REMOVESTICKYTHREAD&amp;stickythreadid={@THREADID}">
-            <xsl:value-of select="$label"/>
+            Unpin <span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$subject"/></span> thread
         </a>
     </xsl:template>
     

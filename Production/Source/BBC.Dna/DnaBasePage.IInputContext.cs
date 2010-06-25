@@ -81,6 +81,20 @@ namespace BBC.Dna.Page
         }
 
         /// <summary>
+        /// Returns if preview flag set
+        /// </summary>
+        /// <returns></returns>
+        public bool IsPreviewMode()
+        {
+            string value = "";
+            if(TryGetParamString("_previewmode", ref value, "Preview mode") )
+            {
+                return value == "1";
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Sets the Site name from the si input parameter or sets it to h2g2 if none found
         /// </summary>
         private void SetCurrentSiteName()
@@ -91,7 +105,10 @@ namespace BBC.Dna.Page
             if (_currentSiteName == null || _currentSiteName.Length == 0 || CurrentSite == null)
             {
                 // Default back to h2g2
-                _currentSiteName = "h2g2";
+                //_currentSiteName = "h2g2";
+                Diagnostics.WriteToLog("Error", "Site not known." + _currentSiteName);
+
+                throw new DnaException("Site not known.");
             }
         }
 

@@ -43,6 +43,7 @@ namespace BBC.Dna.Api.Tests
 
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
@@ -52,7 +53,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forums = comments.GetCommentForumListBySite(siteName);
+            var forums = comments.GetCommentForumListBySite(site);
 
             Assert.AreEqual(1, forums.CommentForums.Count);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumsreadbysitename"));
@@ -75,6 +76,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
             reader.Stub(x => x.HasRows).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentforumsreadbysitename")).Return(reader);
@@ -82,7 +84,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forums = comments.GetCommentForumListBySite(siteName);
+            var forums = comments.GetCommentForumListBySite(site);
 
             Assert.AreEqual(0, forums.CommentForums.Count);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumsreadbysitename"));
@@ -104,6 +106,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(false).Repeat.Once();
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
@@ -112,7 +115,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forums = comments.GetCommentForumListBySite(siteName);
+            var forums = comments.GetCommentForumListBySite(site);
 
             Assert.AreEqual(0, forums.CommentForums.Count);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumsreadbysitename"));
@@ -134,6 +137,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             reader.Stub(x => x.Execute()).Throw(new Exception("DB Error"));
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentforumsreadbysitename")).Return(reader);
@@ -143,7 +147,7 @@ namespace BBC.Dna.Api.Tests
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
             try
             {
-                comments.GetCommentForumListBySite(siteName);
+                comments.GetCommentForumListBySite(site);
                 throw new Exception("No expection thrown)");
             }
             catch (ApiException ex)
@@ -172,6 +176,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            site.Stub(x => x.SiteName).Return(siteName);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
@@ -180,7 +185,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forums = comments.GetCommentForumListBySite(siteName, "prefix");
+            var forums = comments.GetCommentForumListBySite(site, "prefix");
 
             Assert.AreEqual(1, forums.CommentForums.Count);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumsreadbysitenameprefix"));
@@ -1500,6 +1505,164 @@ namespace BBC.Dna.Api.Tests
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentcreate"));
         }
 
+
+        [TestMethod]
+        public void GetStartIndexForPostId_ValidResult_ReturnCorrectIndex()
+        {
+            var itemsPerPage = 10;
+            var postIndex = 25;
+            var expectedStartIndex = 20;
+            var postId = 5;
+            var sortDirection = SortDirection.Ascending;
+            var sortBy = SortBy.Created;
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("startIndex")).Return(postIndex);
+            readerCreator.Stub(x => x.CreateDnaDataReader("getindexofcomment")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                ItemsPerPage= itemsPerPage,
+                SortDirection =sortDirection,
+                SortBy = sortBy
+            };
+
+            Assert.AreEqual(expectedStartIndex, comments.GetStartIndexForPostId(postId));
+            reader.AssertWasCalled((x => x.AddParameter("postid", postId)));
+            reader.AssertWasCalled((x => x.AddParameter("sortby", sortBy.ToString())));
+            reader.AssertWasCalled((x => x.AddParameter("sortdirection", sortDirection.ToString())));
+
+        }
+
+        [TestMethod]
+        public void GetStartIndexForPostId_NoResult_ReturnCorrectException()
+        {
+            var itemsPerPage = 10;
+            var postIndex = 25;
+            var expectedStartIndex = 20;
+            var postId = 5;
+            var sortDirection = SortDirection.Ascending;
+            var sortBy = SortBy.Created;
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(false);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("startIndex")).Return(postIndex);
+            readerCreator.Stub(x => x.CreateDnaDataReader("getindexofcomment")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                ItemsPerPage = itemsPerPage,
+                SortDirection = sortDirection,
+                SortBy = sortBy
+            };
+
+            try
+            {
+                comments.GetStartIndexForPostId(postId);
+                throw new Exception("Should have thrown expection");
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.CommentNotFound, ex.type);
+            }
+
+            reader.AssertWasCalled((x => x.AddParameter("postid", postId)));
+            reader.AssertWasCalled((x => x.AddParameter("sortby", sortBy.ToString())));
+            reader.AssertWasCalled((x => x.AddParameter("sortdirection", sortDirection.ToString())));
+
+        }
+
+        [TestMethod]
+        public void GetStartIndexForPostId_NoRead_ReturnCorrectException()
+        {
+            var itemsPerPage = 10;
+            var postIndex = 25;
+            var expectedStartIndex = 20;
+            var postId = 5;
+            var sortDirection = SortDirection.Ascending;
+            var sortBy = SortBy.Created;
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.GetInt32NullAsZero("startIndex")).Return(postIndex);
+            readerCreator.Stub(x => x.CreateDnaDataReader("getindexofcomment")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                ItemsPerPage = itemsPerPage,
+                SortDirection = sortDirection,
+                SortBy = sortBy
+            };
+
+            try
+            {
+                comments.GetStartIndexForPostId(postId);
+                throw new Exception("Should have thrown expection");
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.CommentNotFound, ex.type);
+            }
+
+            reader.AssertWasCalled((x => x.AddParameter("postid", postId)));
+            reader.AssertWasCalled((x => x.AddParameter("sortby", sortBy.ToString())));
+            reader.AssertWasCalled((x => x.AddParameter("sortdirection", sortDirection.ToString())));
+
+        }
+
+        [TestMethod]
+        public void GetStartIndexForPostId_DbException_ReturnCorrectException()
+        {
+            var itemsPerPage = 10;
+            var postIndex = 25;
+            var expectedStartIndex = 20;
+            var postId = 5;
+            var sortDirection = SortDirection.Ascending;
+            var sortBy = SortBy.Created;
+            var expectedException = "dbexception thrown";
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Execute()).Throw(new Exception(expectedException)); ;
+            readerCreator.Stub(x => x.CreateDnaDataReader("getindexofcomment")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                ItemsPerPage = itemsPerPage,
+                SortDirection = sortDirection,
+                SortBy = sortBy
+            };
+
+            try
+            {
+                comments.GetStartIndexForPostId(postId);
+                throw new Exception("Should have thrown expection");
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(expectedException, ex.Message);
+            }
+
+            reader.AssertWasCalled((x => x.AddParameter("postid", postId)));
+            reader.AssertWasCalled((x => x.AddParameter("sortby", sortBy.ToString())));
+            reader.AssertWasCalled((x => x.AddParameter("sortdirection", sortDirection.ToString())));
+
+        }
        
         
 

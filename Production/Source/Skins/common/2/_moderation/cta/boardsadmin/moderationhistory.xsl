@@ -14,10 +14,12 @@
     </doc:documentation>
     
     <xsl:template match="@POSTID" mode="moderation_cta_boardsadmin_moderationhistory">
-        <xsl:param name="label" select="'Moderation History'" />
-        
+        <xsl:param name="label"/>
+        <xsl:param name="post" />
+      
         <a href="{$root-base}/boards-admin/ModerationHistory?PostId={.}" target="_blank" class="popup">
             <xsl:value-of select="$label"/>
+            <span class="blq-hide"><xsl:text> of post: </xsl:text><xsl:value-of select="$post" /></span>
         </a>
     </xsl:template>
 </xsl:stylesheet>

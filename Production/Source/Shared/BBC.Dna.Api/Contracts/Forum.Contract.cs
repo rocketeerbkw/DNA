@@ -85,6 +85,14 @@ namespace BBC.Dna.Api
             set;
         }
 
+
+        [DataMember(Name = ("identityPolicy"), Order = 12)]
+        public string identityPolicy
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         ///  can read the forum
         /// </summary>

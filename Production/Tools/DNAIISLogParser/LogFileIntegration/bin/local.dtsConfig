@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<DTSConfiguration>
+	<DTSConfigurationHeading>
+		<DTSConfigurationFileInfo GeneratedBy="NATIONAL\parnwm01" GeneratedFromPackageName="LogFileIntegration" GeneratedFromPackageID="{D72B150A-C17E-43CB-BCE3-5B36840ACBE6}" GeneratedDate="14/07/2009 17:07:30"/></DTSConfigurationHeading>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[DNA_Stats].Properties[ConnectionString]" ValueType="String">
+		<ConfiguredValue>Data Source=PC-S007821\DNA2005;User ID=sa;Initial Catalog=DNA_STATS;Provider=SQLNCLI.1;Persist Security Info=True;Auto Translate=False; password=marcusp;</ConfiguredValue>
+	</Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[ConnectionString]" ValueType="String"><ConfiguredValue>SmtpServer=127.0.0.1;UseWindowsAuthentication=False;EnableSsl=False;</ConfiguredValue></Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Connections[SMTP Connection Manager].Properties[SmtpServer]" ValueType="String"><ConfiguredValue>127.0.0.1</ConfiguredValue></Configuration>
+	<Configuration ConfiguredType="Property" Path="\Package.Variables[User::folderLocation].Properties[Value]" ValueType="String"><ConfiguredValue>K:\testlogs\april\foldertest\</ConfiguredValue></Configuration></DTSConfiguration>

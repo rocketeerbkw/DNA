@@ -48,8 +48,13 @@ namespace BBC.Dna.Services
         [OperationContract]
         public ForumThreads GetForum(string siteName, string forumId)
         {
-            return ForumThreads.CreateForumThreads(cacheManager, readerCreator, Global.siteList,Int32.Parse(forumId), 
-                        itemsPerPage, startIndex, 0, true, ThreadOrder.CreateDate, null, false);
+            ThreadOrder threadOrder = ThreadOrder.CreateDate;
+            if (sortBy == SortBy.LastPosted)
+            {
+                threadOrder = ThreadOrder.LatestPost;
+            }
+            return ForumThreads.CreateForumThreads(cacheManager, readerCreator, Global.siteList,Int32.Parse(forumId),
+                        itemsPerPage, startIndex, 0, true, threadOrder, null, false);
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/xml", ResponseFormat = WebMessageFormat.Xml)]
@@ -57,12 +62,7 @@ namespace BBC.Dna.Services
         [OperationContract]
         public ForumThreads GetForumXml(string siteName, string forumId)
         {
-
-            return ForumThreads.CreateForumThreads(cacheManager, readerCreator,
-                                                      Global.siteList,
-                                                      Int32.Parse(forumId), 20, 0, 0,
-                                                     true, ThreadOrder.CreateDate, null,
-                                                      false);
+            return GetForum(siteName, forumId);
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}", ResponseFormat = WebMessageFormat.Json)]

@@ -31,9 +31,17 @@ namespace DnaEventProcessorService
             CreateExModerationEventTimer();
         }
 
-        private string GetCertificateName()
+        private string GetCertificateName(string type)
         {
-            certificateName = Properties.Settings.Default.certificateName;
+            certificateName = string.Empty;
+            if (Properties.Settings.Default.PropertyValues[type + ".certificateName"] != null)
+            {
+                certificateName = Properties.Settings.Default.PropertyValues[type + ".certificateName"].PropertyValue.ToString();
+            }
+            else
+            {
+                throw new Exception("Missing app.config setting " + type + ".certificateName");
+            }
             return certificateName;
         }
 
@@ -41,7 +49,7 @@ namespace DnaEventProcessorService
         {
             Uri snesBaseUri = new Uri(Properties.Settings.Default.snesBaseUri);
             Uri proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
-            X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName());
+            X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName("SnesActivityProcessor"));
             guideConnectionString = Properties.Settings.Default.guideConnectionString;
 
             snesActivityProcessor = PolicyInjection.Create<SnesActivityProcessor>(
@@ -56,7 +64,7 @@ namespace DnaEventProcessorService
         private void CreateExModerationEventTimer()
         {
             Uri proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
-            X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName());
+            X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName("ExModerationProcessor"));
 
             guideConnectionString = Properties.Settings.Default.guideConnectionString;
 

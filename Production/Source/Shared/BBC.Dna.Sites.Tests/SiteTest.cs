@@ -4,7 +4,9 @@ using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
+using Rhino.Mocks.Constraints;
 using System;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Sites.Tests
 {
@@ -368,6 +370,142 @@ namespace BBC.Dna.Sites.Tests
             Assert.AreEqual("UpdateEveryMessageBoardAdminStatusForSite", result.Type);
         }
 
+        [TestMethod]
+        public void GetPreviewTopicsXml_ValidRecordSet_ReturnsCorrectXml()
+        {
+            IDnaDataReaderCreator creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("GetTopicDetails")).Return(GetSiteTopicsMockReader());
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var node = site.GetPreviewTopicsXml(creator);
+            Assert.IsNotNull(node.SelectSingleNode("TOPIC"));
+        }
+
+        [TestMethod]
+        public void GetPreviewTopicsXml_NoRows_ReturnsCorrectXml()
+        {
+            IDnaDataReaderCreator creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            IDnaDataReader reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(false);
+            creator.Stub(x => x.CreateDnaDataReader("GetTopicDetails")).Return(reader);
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var node = site.GetPreviewTopicsXml(creator);
+            Assert.IsNull(node.SelectSingleNode("TOPIC"));
+        
+        }
+
+        [TestMethod]
+        public void GetPreviewTopicsXml_NoRead_ReturnsCorrectXml()
+        {
+            IDnaDataReaderCreator creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            IDnaDataReader reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.Read()).Return(false);
+            creator.Stub(x => x.CreateDnaDataReader("GetTopicDetails")).Return(reader);
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var node = site.GetPreviewTopicsXml(creator);
+            Assert.IsNull(node.SelectSingleNode("TOPIC"));
+        }
+
+        [TestMethod]
+        public void AddSkinAndMakeDefault_ValidRecordset_ReturnsCorrectResult()
+        {
+            var skinSet = "vanilla";
+            var skinName = "boards_v2";
+            var skinDescription = "description";
+            var useFrames = true;
+
+            var reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetInt32NullAsZero("Result")).Return(0);
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("updatesitedefaultskin")).Return(reader);
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var result = site.AddSkinAndMakeDefault(skinSet, skinName, skinDescription, useFrames, creator);
+            Assert.AreEqual("AddSkinAndMakeDefault", result.Type);
+            Assert.AreEqual("OK", ((Result)result).Message);
+            Assert.IsFalse(result.IsError());
+
+            Assert.AreEqual(skinName, site.DefaultSkin);
+            Assert.AreEqual(skinSet, site.SkinSet);
+
+            Assert.IsTrue(site.DoesSkinExist(skinName));
+        }
+
+        [TestMethod]
+        public void AddSkinAndMakeDefault_DBError_ReturnsCorrectError()
+        {
+            var skinSet = "vanilla";
+            var skinName = "boards_v2";
+            var skinDescription = "description";
+            var useFrames = false;
+            var errorText = "this is an error";
+
+            var reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetInt32NullAsZero("Result")).Return(1);
+            reader.Stub(x => x.GetStringNullAsEmpty("Error")).Return(errorText);
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("updatesitedefaultskin")).Return(reader);
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var result = (Error)site.AddSkinAndMakeDefault(skinSet, skinName, skinDescription, useFrames, creator);
+            Assert.AreEqual("AddSkinAndMakeDefault", result.Type);
+            Assert.AreEqual(errorText, result.ErrorMessage);
+            Assert.IsTrue(result.IsError());
+
+            Assert.AreNotEqual(skinName, site.DefaultSkin);
+            Assert.AreNotEqual(skinSet, site.SkinSet);
+
+            Assert.IsFalse(site.DoesSkinExist(skinName));
+        }
+
+        [TestMethod]
+        public void AddSkinAndMakeDefault_NoResult_ReturnsCorrectError()
+        {
+            var skinSet = "vanilla";
+            var skinName = "boards_v2";
+            var skinDescription = "description";
+            var useFrames = false;
+            var errorText = "No response from database";
+
+            var reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.Read()).Return(false).Repeat.Once();
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("updatesitedefaultskin")).Return(reader);
+
+            _mocks.ReplayAll();
+
+            var site = CreateDefaultSiteObject();
+            var result = (Error)site.AddSkinAndMakeDefault(skinSet, skinName, skinDescription, useFrames, creator);
+            Assert.AreEqual("AddSkinAndMakeDefault", result.Type);
+            Assert.AreEqual(errorText, result.ErrorMessage);
+            Assert.IsTrue(result.IsError());
+
+            Assert.AreNotEqual(skinName, site.DefaultSkin);
+            Assert.AreNotEqual(skinSet, site.SkinSet);
+
+            Assert.IsFalse(site.DoesSkinExist(skinName));
+        }
+
         private static Site CreateDefaultSiteObject()
         {
             int id = 5;
@@ -412,6 +550,18 @@ namespace BBC.Dna.Sites.Tests
             Assert.AreEqual(id, target.SiteID);
 
             return target;
+        }
+
+        private IDnaDataReader GetSiteTopicsMockReader()
+        {
+            IDnaDataReader reader = _mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetStringNullAsEmpty("")).Constraints(Is.Anything()).Return("");
+            reader.Stub(x => x.GetByte("")).Constraints(Is.Anything()).Return(1);
+            reader.Stub(x => x.GetInt32NullAsZero("SiteID")).Return(1);
+
+            return reader;
         }
     }
 }

@@ -210,5 +210,24 @@ namespace BBC.Dna.Sites
         /// <returns></returns>
         BaseResult UpdateEveryMessageBoardAdminStatusForSite(IDnaDataReaderCreator readerCreator, MessageBoardAdminStatus status);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ReaderCreator"></param>
+        /// <returns></returns>
+        XmlNode GetPreviewTopicsXml(IDnaDataReaderCreator ReaderCreator);
+
+
+        /// <summary>
+        /// Updates the site with a new skin and sets it as the default
+        /// </summary>
+        /// <param name="skinSet"></param>
+        /// <param name="skinName"></param>
+        /// <param name="skinDescription"></param>
+        /// <param name="useFrames"></param>
+        /// <param name="readerCreator"></param>
+        /// <returns>A result of type result for ok or error with messaging</returns>
+        BaseResult AddSkinAndMakeDefault(string skinSet, string skinName, string skinDescription, bool useFrames, IDnaDataReaderCreator readerCreator);
+
         }
 }

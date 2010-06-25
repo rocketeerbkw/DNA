@@ -19,7 +19,7 @@
         <li>
             <xsl:call-template name="library_listitem_stripe"/>
             
-            <h4>
+            <h3>
             	
        			<xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
 				<xsl:if test="$test_stickythreadson">
@@ -39,7 +39,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </a>
-            </h4>
+            </h3>
             <div class="itemdetail">
                 <p>This discussion was started on 
 	                <xsl:apply-templates select="FIRSTPOST/DATE | FIRSTUSERPOST/DATEPOSTED/DATE" mode="library_date_longformat"/>
@@ -53,7 +53,7 @@
             	<p class="itemdetail">
             		<xsl:text>Last updated </xsl:text>
             		<a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;latest=1#p{LASTPOST/@POSTID}">
-            			<xsl:value-of select="DATEPOSTED/DATE/@RELATIVE"/>
+            	      <xsl:value-of select="DATEPOSTED/DATE/@RELATIVE"/>
             		</a>
             		<xsl:text> by </xsl:text>
             		<span class="vcard">
@@ -81,30 +81,33 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </p>
-            	
-            	<xsl:call-template name="library_userstate_editor">
-            		<xsl:with-param name="loggedin">
+
+              <xsl:call-template name="library_userstate_editor">
+                <xsl:with-param name="loggedin">
             			<div>
             				<div class="dna-moderation-wrapup">
 	            				<p class="dna-boards-moderation">
 	            					<xsl:text>Moderation:</xsl:text>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = 1]" mode="moderation_cta_closethread">
-										<xsl:with-param name="label" select="'Close discussion'" />
-									</xsl:apply-templates>
+                    <xsl:with-param name="label" select="'Close discussion'"/>
+                    <xsl:with-param name="subject" select="SUBJECT"/>
+                </xsl:apply-templates>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = 0]" mode="moderation_cta_closethread">
 										<xsl:with-param name="label" select="'Open discussion'" />
+                    <xsl:with-param name="subject" select="SUBJECT"/>
 									</xsl:apply-templates>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId]" mode="moderation_cta_movethread">
 										<xsl:with-param name="label" select="'Move discussion'" />
+                    <xsl:with-param name="subject" select="SUBJECT"/>
 									</xsl:apply-templates>
 									
 									<xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
 										<xsl:if test="$test_stickythreadson">
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_removethreadsticky">
-										<xsl:with-param name="label" select="'Unpin Thread'" />
+                    <xsl:with-param name="subject" select="SUBJECT"/>
 									</xsl:apply-templates>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='false']" mode="moderation_cta_makethreadsticky">
-										<xsl:with-param name="label" select="'Pin to front page'" />
+                    <xsl:with-param name="subject" select="SUBJECT"/>
 									</xsl:apply-templates>
 									</xsl:if>
 	            				</p>

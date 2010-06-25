@@ -1,42 +1,71 @@
+#blq-main #header {	
+	padding: 0;
+	margin: 0;
+}
+#blq-main #header #banner {
+  	padding: 0;
+  	margin: 0;
+}
 #blq-main #blq-local-nav a, #blq-main #blq-content a, #blq-main #dna-boardpromo a {
 	color: cadetblue;
 }
+#blq-main #blq-content a:focus, #blq-main #dna-boardpromo a:focus {
+	background-color: cadetblue;
+	color: #fff;
+}
 #blq-main #header {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-main #header #banner {
   	color: #fff;
 }
 #blq-main #global-nav {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-local-nav ul.local-site-nav  {
-	background: cadetblue;
+	background-color: cadetblue;
 }
-#blq-local-nav ul.local-site-nav a:hover {
+#blq-main #blq-local-nav ul.local-site-nav a:hover {
 	background: #fff;
+	color: cadetblue;
 }
 #blq-main #blq-local-nav ul li.topic-parent a {
-	background: LightSlateGray;
+	background-color: LightSlateGray;
+}
+#blq-main #global-nav ul li a:hover, #blq-main #global-nav ul li.selected a, #blq-main #global-nav ul li a:focus {
+	background-color: cadetblue;
+	background-image: none;
+	color: #fff;
 }
 #blq-main #blq-content h2, #blq-main #dna-boardpromo h3 {
-	background: cadetblue;
+	background-color: cadetblue;
 }
 #blq-main ul.topfives {
 	color: cadetblue;
 }
-#blq-main .pagination li.dna-button {
-	background: cadetblue;
+/* pagination */
+#blq-main #blq-content .pagination li a {
+	background-color: cadetblue;
 }
-#blq-main .pagination li.dna-button a {
-	background: cadetblue;
+#blq-main #blq-content .pagination li.current a {
+  	background-color: LightSlateGray;
 }
-#blq-main .pagination li a {
-	background: cadetblue;
+#blq-main #blq-content .pagination li span {
+	background-color: cadetblue;
+	background-image: none;
 }
-#blq-main .pagination li.current a {
-  	background:LightSlateGray;
+#blq-main #blq-content .pagination li.dna-button {
+	background-color: cadetblue;
+	background-image: none;
 }
-#blq-main .pagination li span {
-	background: cadetblue;
+#blq-main #blq-content .pagination li.dna-button a {
+	background-color: cadetblue;
+	background-image: none;
+}
+/* add thread */
+#blq-main #blq-content .dna-boards input.dna-button {
+	background-color: cadetblue;
+}
+#blq-main #blq-content .dna-boards input.cancel {
+	background-color: #778899;
 }

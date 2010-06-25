@@ -59,6 +59,12 @@ namespace BBC.Dna
             ForumSource forumSource = ForumSource.CreateForumSource(_cache, _creator, _viewingUser, _forumId, _threadId,
                                                                     InputContext.CurrentSite.SiteID,
                                                                     true, _ignoreCache);
+
+            if (forumSource == null)
+            {
+                AddErrorXml("ForumNotFound", "Unable to find forum", null);
+                return;
+            }
             if (forumSource.Type == ForumSourceType.Redirect)
             {
 //do redirect now
@@ -109,7 +115,14 @@ namespace BBC.Dna
             SerialiseAndAppend(pageUi, String.Empty);
 
             //add topics
-            RootElement.AppendChild(ImportNode(InputContext.CurrentSite.GetTopicListXml()));
+            if (InputContext.IsPreviewMode())
+            {
+                RootElement.AppendChild(ImportNode(InputContext.CurrentSite.GetPreviewTopicsXml(_creator)));
+            }
+            else
+            {
+                RootElement.AppendChild(ImportNode(InputContext.CurrentSite.GetTopicListXml()));
+            }
         }
 
         /*

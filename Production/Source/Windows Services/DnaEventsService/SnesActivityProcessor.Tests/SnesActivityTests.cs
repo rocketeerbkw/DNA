@@ -288,6 +288,24 @@ namespace SnesActivityProcessorTests
             Assert.IsTrue(activity.GetActivityJson().Contains("\"username\":\"12345\""));
         }
 
+        [TestMethod]
+        public void GetActivityJson_BodyContainsQuotedText_EscapedCorrectly()
+        {
+            var reader = MockRepository.GenerateStub<IDnaDataReader>();
+            reader.Stub(x => x.GetInt32("ActivityType")).Return(19);
+            var body = @"'quoted' and ""quoted"" text";
+            reader.Stub(x => x.GetString("Body")).Return(body);
+
+
+            var commentActivity = SnesActivityFactory.CreateSnesActivity(reader);
+
+            var json = commentActivity.GetActivityJson();
+
+            Assert.IsTrue(json.Length>1);
+
+               
+        }
+
         #region Test Helper Methods
         private static IDnaDataReader CreateDataReaderDynamicMock(MockRepository mocks)
         {

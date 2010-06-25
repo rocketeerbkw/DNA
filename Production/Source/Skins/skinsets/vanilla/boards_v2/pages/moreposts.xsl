@@ -46,7 +46,7 @@
 	                <xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/>
 	                <xsl:text> (U</xsl:text><xsl:value-of select="$userId"/><xsl:text>) </xsl:text>
 	                <span>
-	                	<a href="{$root}/MP{$userId}">permalink</a>
+	                	<a href="{$root}/MP{$userId}">permalink <span class="blq-hide"> <xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/></span></a>
 	                </span>
             	<!--<xsl:if test="$userId = $loggedInUser">
             		<a href="{$root-rss}/MP{$userId}" class="rsslink" title="View as RSS feed">
@@ -106,13 +106,16 @@
           <xsl:with-param name="loggedin">
             <p class="dna-boards-moderation">
               <xsl:apply-templates select="POSTS/POST-LIST/USER" mode="moderation_cta_moderateuser">
-                <xsl:with-param name="label">Moderate this user</xsl:with-param>
+                <xsl:with-param name="label" select="'Moderate this user'" />
+                <xsl:with-param name="user" select="POSTS/POST-LIST/USER/USERNAME" />
               </xsl:apply-templates>
               <xsl:apply-templates select="POSTS/POST-LIST/USER" mode="moderation_cta_inspectuser">
-                <xsl:with-param name="label">Inspect this user</xsl:with-param>
+                <xsl:with-param name="label" select="'Inspect this user'" />
+                <xsl:with-param name="user" select="POSTS/POST-LIST/USER/USERNAME" />
               </xsl:apply-templates>
               <xsl:apply-templates select="POSTS/POST-LIST/USER" mode="moderation_cta_viewalluserposts">
-               <xsl:with-param name="label">View all posts for this user</xsl:with-param>
+               <xsl:with-param name="label" select="'View all posts for this user'"/>
+                <xsl:with-param name="user" select="POSTS/POST-LIST/USER/USERNAME" />
               </xsl:apply-templates>
             </p>
           </xsl:with-param>

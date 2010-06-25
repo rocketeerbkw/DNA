@@ -416,6 +416,8 @@ public:
 	bool UnlockAllArticleModerations(int iUserID, int iCalledBy, int iModClassID);
 	bool UnlockAllForumModerations(int iUserID);
 	bool UnlockAllNicknameModerations(int iUserID, int iClassModID);
+	bool UnlockUsersExLinkModerations(int iUserID, int iClassModID);
+	
 	bool UnlockAllGeneralModerations(int iUserID);
 	bool UnlockAllArticleReferrals(int iUserID, int iCalledBy);
 	bool UnlockAllForumReferrals(int iUserID);

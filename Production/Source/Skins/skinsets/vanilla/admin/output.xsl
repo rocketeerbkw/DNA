@@ -74,7 +74,7 @@
 				
 				<script type="text/javascript" src="/dnaimages/dna_messageboard/javascript/admin.js"><xsl:text> </xsl:text></script>
 				
-				<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/admin.css"/>
+				<link type="text/css" rel="stylesheet" href="/dnaimages/dna_messageboard/style/admin.css"/>
 				
 			</head>
 			
@@ -103,16 +103,16 @@
 
          
 				  <div id="blq-content">
-            <xsl:apply-templates select="/H2G2[@TYPE != 'ERROR']/ERROR" mode="page"/>
-            
-            <xsl:apply-templates select="/H2G2/RESULT" mode="page"/>
 
-            <xsl:if test="not(/H2G2[@TYPE='ERROR'])">
+            <xsl:if test="not(/H2G2[@TYPE='ERROR' or @TYPE = 'FRONTPAGE'])">
               <xsl:call-template name="emergency-stop"/>
             </xsl:if>
+
+            <xsl:apply-templates select="/H2G2[@TYPE != 'ERROR']/ERROR" mode="page"/>
+
+            <xsl:apply-templates select="/H2G2/RESULT" mode="page"/>
             
             <xsl:apply-templates select="." mode="page"/>
-
           </div>
   				
 				  <xsl:comment>#include virtual="/includes/blq/include/blq_body_last.sssi"</xsl:comment>
@@ -124,12 +124,24 @@
 	
 	<xsl:template name="emergency-stop">
 		<div class="dna-emergency-stop">
-			<p>
-				<a href="{$root}/MessageBoardSchedule?action=setinactive">
-					<strong>EMERGENCY CLOSURE</strong>
-          Stop all posts to this messageboard
-        </a>
-			</p>
+			<xsl:choose>
+        <xsl:when test="//H2G2/SITE/SITECLOSED[@EMERGENCYCLOSED = '0']">
+          <p>
+            <a href="{$root}/MessageBoardSchedule?action=CloseSite&amp;confirm=1" class="dna-stop">
+              <strong>EMERGENCY CLOSURE</strong>
+              Stop all posts to this messageboard
+            </a>
+          </p>
+        </xsl:when>
+        <xsl:otherwise>
+          <p>
+            <a href="{$root}/MessageBoardSchedule?action=OpenSite&amp;confirm=1" class="dna-go">
+              <strong>RE-OPEN BOARD</strong>
+              Allow all posts to this messageboard
+            </a>
+          </p>
+        </xsl:otherwise>
+      </xsl:choose>
 		</div>
 	</xsl:template>
     

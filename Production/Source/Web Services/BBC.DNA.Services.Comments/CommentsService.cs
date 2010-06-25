@@ -39,6 +39,7 @@ namespace BBC.Dna.Services
             _commentObj.BasePath = ConfigurationManager.AppSettings["ServerBasePath"];
         }
 
+        /*
         [WebGet(UriTemplate = "V1/commentsforums/")]
         [WebHelp(Comment = "Get the comments forums in XML format")]
         [OperationContract]
@@ -54,13 +55,18 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
             return GetOutputStream(commentForumList);
-        }
+        }*/
 
         [WebGet(UriTemplate = "V1/site/{sitename}/")]
         [WebHelp(Comment = "Get the comment forums for given sitename")]
         [OperationContract]
         public Stream GetCommentForumsBySitename(string sitename)
         {
+            ISite site = GetSite(sitename);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
             CommentForumList commentForumList;
             try
             {
@@ -72,11 +78,11 @@ namespace BBC.Dna.Services
                         {
                             timePeriod = 24;
                         }
-                        commentForumList = _commentObj.GetCommentForumListBySiteWithinTimeFrame(sitename, prefix, timePeriod);
+                        commentForumList = _commentObj.GetCommentForumListBySiteWithinTimeFrame(site, prefix, timePeriod);
                         break;
 
                     default:
-                        commentForumList = _commentObj.GetCommentForumListBySite(sitename, prefix);
+                        commentForumList = _commentObj.GetCommentForumListBySite(site, prefix);
                         break;
                 }
                 
@@ -94,11 +100,24 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetCommentForum(string commentForumId, string siteName)
         {
+            ISite site = GetSite(siteName);
             CommentForum commentForumData;
             Stream output = null;
             try
             {
-                ISite site = GetSite(siteName);
+                //get the startindex to include the post id
+                var postValue = QueryStringHelper.GetQueryParameterAsString("includepostid", string.Empty);
+                if(postValue != string.Empty)
+                {
+                    int postId =0;
+                    if (!Int32.TryParse(postValue, out postId))
+                    {
+                        throw ApiException.GetError(ErrorType.CommentNotFound);
+                    }
+                    _commentObj.StartIndex = _commentObj.GetStartIndexForPostId(postId);
+                }
+
+
                 if (
                     !GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentForumGetLastUpdate),
                                         new object[] {commentForumId, site.SiteID}))
@@ -121,12 +140,37 @@ namespace BBC.Dna.Services
             return output;
         }
 
+        [WebGet(UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/comment/{commentId}/")]
+        [WebHelp(Comment = "Get the comments forum by ID")]
+        [OperationContract]
+        public Stream GetCommentForumWithCommentId(string commentForumId, string siteName, string commentId)
+        {
+            int postId = 0;
+            try
+            {
+                if (!Int32.TryParse(commentId, out postId))
+                {
+                    throw ApiException.GetError(ErrorType.CommentNotFound);
+                }
+                _commentObj.StartIndex = _commentObj.GetStartIndexForPostId(postId);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+            return GetCommentForum(commentForumId, siteName);
+        }
+
         [WebGet(UriTemplate = "V1/site/{siteName}/comments/{commentid}")]
         [WebHelp(Comment = "Get the requested comment from the Comment ID")]
         [OperationContract]
         public Stream GetComment(string commentid, string siteName)
         {
             ISite site = GetSite(siteName);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
             Stream output;
             try
             {
@@ -151,11 +195,15 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetCommentListBySiteName(string sitename)
         {
+            ISite site = GetSite(sitename);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
             CommentsList commentList;
             Stream output = null;
             try
             {
-                var site = GetSite(sitename);
 
 
                 //_commentObj.CommentListGetLastUpdate(site.SiteID, prefix)
@@ -181,10 +229,14 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream CreateCommentForumWithComment(string sitename, CommentForum commentForum, string commentForumId)
         {
+            ISite site = GetSite(sitename);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
             try
             {
                 commentForum.Id = commentForumId;
-                ISite site = GetSite(sitename);
                 _commentObj.CallingUser = GetCallingUser(site);
 
                 CommentForum commentForumData = _commentObj.CreateCommentForum(commentForum, site);
@@ -300,10 +352,14 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream CreateComment(string commentForumId, string siteName, CommentInfo comment)
         {
+            ISite site = GetSite(siteName);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
             CommentInfo commentInfo;
             try
             {
-                ISite site = GetSite(siteName);
                 CommentForum commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
                 _commentObj.CallingUser = GetCallingUser(site);
                 if (commentForumData == null)
@@ -382,7 +438,11 @@ namespace BBC.Dna.Services
         [OperationContract]
         public void RemoveEditorPick(string commentId, string siteName)
         {
-            var site = GetSite(siteName);
+            ISite site = GetSite(siteName);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
             try
             {
                 _commentObj.CallingUser = GetCallingUser(site);
@@ -425,9 +485,13 @@ namespace BBC.Dna.Services
         [OperationContract]
         public void CreateEditorPick(String sitename, String commentId)
         {
+            ISite site = GetSite(sitename);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
             try
             {
-                ISite site = GetSite(sitename);
                 _commentObj.CallingUser = GetCallingUser(site);
                 if (_commentObj.CallingUser.IsUserA(UserTypes.Editor))
                 {

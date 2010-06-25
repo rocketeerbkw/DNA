@@ -366,6 +366,14 @@ namespace BBC.Dna.Users
             _userID = reader.GetInt32("userid");
             _userName = reader.GetString("username");
             _status = reader.GetInt32("status");
+            if (_status == 1)//normal global status
+            {
+
+                if (reader.GetInt32("PrefStatus") == 4)//banned
+                {
+                    _status = 0;
+                }
+            }
             _email = reader.GetString("email");
             _siteSuffix = reader.GetStringNullAsEmpty("SiteSuffix");
             _lastSynchronisedDate = reader.GetDateTime("LastUpdatedDate");

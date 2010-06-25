@@ -15,13 +15,13 @@
     
     <xsl:template match="COMMENTBOX/FORUMTHREADPOSTS/POST/@INDEX" mode="library_itemdetail">
         <span class="permalink">
-            <a href="#comment{(. + 1)}">permalink</a>
+            <a href="#comment{(. + 1)}">permalink<span class="blq-hide"> comment: <xsl:value-of select="../SUBJECT"/></span></a>
         </span>
     </xsl:template>
     
     <xsl:template match="FORUMTHREADPOSTS/POST/@INDEX" mode="library_itemdetail">
         <span class="permalink">
-            <a href="#p{(../@POSTID)}">permalink</a>
+            <a href="#p{(../@POSTID)}">permalink<span class="blq-hide"> forum: <xsl:value-of select="../SUBJECT"/></span></a>
         </span>
     </xsl:template>
 </xsl:stylesheet>

@@ -16,7 +16,7 @@
     
     
     <xsl:template match="POST" mode="object_post_generic">
-        <xsl:param name="additional-classnames" select="''" />
+        <xsl:param name="additional-classnames" />
         
         <li id="p{@POSTID}">
             <!-- Add the stripe class -->
@@ -30,12 +30,14 @@
               	<div class="dna-moderation-wrapup"> 
                 <p class="dna-boards-moderation">
                 	<xsl:text>Moderation:</xsl:text>
-					<xsl:apply-templates select="USER" mode="moderation_cta_moderateuser">
-						<xsl:with-param name="label">Moderate this user</xsl:with-param>
-					</xsl:apply-templates>
-					<xsl:apply-templates select="USER" mode="moderation_cta_viewalluserposts">
-						<xsl:with-param name="label">View all posts for this user</xsl:with-param>
-					</xsl:apply-templates>
+					        <xsl:apply-templates select="USER" mode="moderation_cta_moderateuser">
+						        <xsl:with-param name="label" select="'Moderate this user'" />
+                    <xsl:with-param name="user" select="USER/USERNAME" />
+					        </xsl:apply-templates>
+					        <xsl:apply-templates select="USER" mode="moderation_cta_viewalluserposts">
+						        <xsl:with-param name="label" select="'View all posts for this user'" />
+                    <xsl:with-param name="user" select="USER/USERNAME" />
+					        </xsl:apply-templates>
                 </p>
                 </div>
               </xsl:with-param>
@@ -105,6 +107,7 @@
                                 </xsl:with-param>
                             </xsl:call-template>
                             Reply to this message
+                            <span class="blq-hide"><xsl:value-of select="count(preceding-sibling::*)" /></span>
                         </a>
                     </p>
                 </xsl:otherwise>
@@ -119,12 +122,15 @@
 			        		<xsl:with-param name="loggedin">
 		        				<xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_editpost" >
 		        					<xsl:with-param name="label" select="'Edit Post'"/>
+                      <xsl:with-param name="post" select="count(preceding-sibling::*)" />
 		        				</xsl:apply-templates>
 			        		</xsl:with-param>
 			        	</xsl:call-template>                    
                         <span class="dna-invisible">View the </span>
-                        <xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_moderationhistory" />
-                        <span class="dna-invisible">.</span>
+                        <xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_moderationhistory">
+                          <xsl:with-param name="label" select="'Moderation History'"/>
+                          <xsl:with-param name="post" select="count(preceding-sibling::*)" />
+                      </xsl:apply-templates>
                     </p>
                 </div>
                 </xsl:with-param>
@@ -143,6 +149,7 @@
                                 </xsl:call-template>
                             </xsl:attribute>
                             <xsl:text>Report abuse</xsl:text>
+                            <span class="blq-hide"> for message <xsl:value-of select="count(preceding-sibling::*)" /></span>
                         </a>
                     </p>
                 </xsl:with-param>
@@ -150,7 +157,14 @@
             
             <xsl:if test="@INREPLYTO">
               <p class="dna-boards-thisreplyto">
-                This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}"> message <xsl:value-of select="@INREPLYTOINDEX+1" /></a>.
+              <xsl:choose>
+              	<xsl:when test="@INREPLYTOINDEX">
+                	This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}"> message <xsl:value-of select="@INREPLYTOINDEX+1" /></a>.
+                </xsl:when>
+                <xsl:otherwise>
+                	This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}"> this message</a>.
+                </xsl:otherwise>
+               </xsl:choose>
               </p>
             </xsl:if>
             

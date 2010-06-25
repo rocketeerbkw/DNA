@@ -4,21 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using BBC.Dna.Data;
+using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "ARTICLEINFOREFERENCES")]
+    [DataContract (Name="references")]
     public partial class ArticleInfoReferences
     {
 
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 0, ElementName = "ENTRIES")]
         [System.Xml.Serialization.XmlArrayItemAttribute("ENTRYLINK", IsNullable = false)]
+        [DataMember (Name="entries")]
         public System.Collections.Generic.List<ArticleInfoReferencesEntryLink> Entries
         {
             get;
@@ -28,6 +31,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 1, ElementName = "EXTERNAL")]
         [System.Xml.Serialization.XmlArrayItemAttribute("EXTERNALLINK", IsNullable = false)]
+        [DataMember(Name = "externalLinks")]
         public System.Collections.Generic.List<ArticleInfoReferencesExternalLink> External
         {
             get;
@@ -37,6 +41,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 2, ElementName = "USERS")]
         [System.Xml.Serialization.XmlArrayItemAttribute("USERLINK", IsNullable = false)]
+        [DataMember(Name = "users")]
         public System.Collections.Generic.List<ArticleInfoReferencesUser> Users
         {
             get;

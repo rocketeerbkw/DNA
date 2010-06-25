@@ -14,10 +14,12 @@
     </doc:documentation>
     
     <xsl:template match="@POSTID" mode="moderation_cta_boardsadmin_editpost">
-        <xsl:param name="label" select="'Show'" />
+        <xsl:param name="label" />
+        <xsl:param name="post" />
         
     	<a href="{$root-base}/boards-admin/EditPost?PostId={.}" class="popup">
             <xsl:value-of select="$label"/>
+            <span class="blq-hide"><xsl:text>&#32;</xsl:text><xsl:value-of select="$post" /></span>
         </a>
     </xsl:template>
 </xsl:stylesheet>

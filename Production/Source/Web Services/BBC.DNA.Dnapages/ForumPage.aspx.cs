@@ -97,6 +97,14 @@ public partial class ForumPage : BBC.Dna.Page.DnaWebPage
 		return GetSiteOptionValueBool("cache", "HTMLCaching");
 	}
 
+    public override bool IncludeTopFives
+    {
+        get
+        {
+            return true;
+        }
+    }
+
 	public override int GetHtmlCachingTime()
 	{
 		return GetSiteOptionValueInt("Cache", "HTMLCachingExpiryTime");

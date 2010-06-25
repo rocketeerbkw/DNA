@@ -17,7 +17,7 @@ function previewmode()
 		for (i=0;i<alen;i++)
 		{
 			var l = document.links[i];
-			var shref = l.href.toLowerCase();
+			var shref = l.href.toLowerCase();			
 			// check the link is a dna link
 			if (shref.indexOf("/dna/") >= 0)
 			{

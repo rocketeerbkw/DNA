@@ -80,10 +80,14 @@ namespace BBC.Dna.Objects
             //create from db
             source = CreateForumSourceFromDatabase(cache, creator, viewingUser, forumId, threadId, siteId,
                                                    includeArticle);
-            //add to cache, first strip article as it is cached on its own
-            var sourceCopy = (ForumSource) source.Clone();
-            sourceCopy.Article = null;
-            cache.Add(key, sourceCopy);
+
+            if (source != null)
+            {
+                //add to cache, first strip article as it is cached on its own
+                var sourceCopy = (ForumSource)source.Clone();
+                sourceCopy.Article = null;
+                cache.Add(key, sourceCopy);
+            }
             return source;
         }
 
@@ -102,7 +106,7 @@ namespace BBC.Dna.Objects
                                                                  User viewingUser, int forumId, int threadId, int siteId,
                                                                  bool includeArticle)
         {
-            var source = new ForumSource();
+            ForumSource source = null;
 
             //TODO: getforumsource returns entire users, articles, journals etc - massive query
             // it should return the type, the id of the item and use objects/caches to get objects.
@@ -115,6 +119,7 @@ namespace BBC.Dna.Objects
 
                 if (dataReader.HasRows && dataReader.Read())
                 {
+                    source = new ForumSource();
                     source.Type = (ForumSourceType) dataReader.GetInt32NullAsZero("Type");
                     source.AlertInstantly = (byte) dataReader.GetInt32("AlertInstantly");
 

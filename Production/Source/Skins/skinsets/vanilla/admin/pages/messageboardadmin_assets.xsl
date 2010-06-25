@@ -34,50 +34,26 @@
         <input type="hidden" name="editkey" value="{SITECONFIGPREVIEW/EDITKEY}"></input>
 
         <div class="dna-fl dna-main-full">
-          <div class="dna-fl dna-half">
-            <div class="dna-box">
-              <h3>Emoticons</h3>
-              <p>
-                Add custom emoticons to your messageboard.
-              </p>
+          <div class="dna-box">
+            <h3>Stylesheet</h3>
+            <p>
+              Add a stylesheet to control the design of your messageboard.
+            </p>
 
-              <p>
-                <label for="mbemoticon">URL:</label>
-                <input type="text" name="EMOTICON_LOCATION" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION}" id="mbemoticon"/>
-                <span class="dna-fnote">
-                 <strong>Example:</strong> /emoticons/happy.gif
-                </span>
-               </p>
-             
-                <xsl:if test="//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION">
-                  <p>
-                    <img src="{//SITECONFIG/V2_BOARDS/EMOTICON_LOCATION}" alt=""/>
-                  </p>
-               </xsl:if>
-            </div>
+            <p>
+              <label for="mbcss">URL:</label>
+              <input type="text" name="CSS_LOCATION" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/CSS_LOCATION}" id="mbcss"/>
+              <span class="dna-fnote">
+                <strong>Example:</strong> http://www.bbc.co.uk/files/styles.css
+               </span>
+            </p>
           </div>
-
-          <div class="dna-fr dna-half">
-            <div class="dna-box">
-              <h3>Stylesheet</h3>
-              <p>
-                Add a stylesheet to control the design of your messageboard.
-              </p>
-
-              <p>
-                <label for="mbcss">URL:</label>
-                <input type="text" name="CSS_LOCATION" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/CSS_LOCATION}" id="mbcss"/>
-                <span class="dna-fnote">
-                  <strong>Example:</strong> /files/styles.css
-                 </span>
-              </p>
-            </div>
-          </div>
-
         </div>
         
-        <xsl:call-template name="submitbuttons"/>
-     
+        <xsl:call-template name="submitbuttons">
+          <xsl:with-param name="cancelUrl" select="'mbadmin?s_mode=admin'" />
+        </xsl:call-template>
+
       </form>
      
      </div>

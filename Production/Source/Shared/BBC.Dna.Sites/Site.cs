@@ -32,6 +32,7 @@ namespace BBC.Dna.Sites
         /// </summary>
         private readonly TopicList _topics = new TopicList();
 
+
         private readonly bool _unmoderated;
         private readonly bool _preModeration;
 
@@ -380,7 +381,49 @@ namespace BBC.Dna.Sites
         {
             var newskin = new Skin(skinName, skinDescription, useFrames);
             string keyName = skinName.ToUpper();
-            _skins.Add(keyName, newskin);
+            if (!_skins.ContainsKey(keyName))
+            {
+                _skins.Add(keyName, newskin);
+            }
+        }
+
+        /// <summary>
+        /// Adds a new skin object to the skin list
+        /// </summary>
+        /// <param name="skinName">Name of the skin</param>
+        /// <param name="skinDescription">Description for the skin</param>
+        /// <param name="useFrames">whether the skin uses frames</param>
+        /// <param name="readerCreator">used to commit to database</param>
+        public BaseResult AddSkinAndMakeDefault(string skinSet, string skinName, string skinDescription, bool useFrames, IDnaDataReaderCreator readerCreator)
+        {
+            using (var reader = readerCreator.CreateDnaDataReader("updatesitedefaultskin"))
+            {
+                reader.AddParameter("siteid", SiteID);
+                reader.AddParameter("defaultskin", skinName);
+                reader.AddParameter("skinset", skinSet);
+                reader.AddParameter("skindescription", skinDescription);
+                reader.AddParameter("useframes", useFrames?1:0);
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    if (reader.GetInt32NullAsZero("Result") == 1)
+                    {
+                        return new Error("AddSkinAndMakeDefault", reader.GetStringNullAsEmpty("Error"));
+                    }
+                    else
+                    {
+                        AddSkin(skinName, skinDescription, useFrames);
+                        DefaultSkin = skinName;
+                        SkinSet = skinSet;
+                    }
+                }
+                else
+                {
+                    return new Error("AddSkinAndMakeDefault", "No response from database");
+                }
+            }
+            return new Result("AddSkinAndMakeDefault", "OK");
         }
 
         /// <summary>
@@ -417,6 +460,7 @@ namespace BBC.Dna.Sites
             _articles.Add(name, 1);
         }
 
+
         /// <summary>
         /// Adds a topic to the topics list for this site
         /// </summary>
@@ -437,6 +481,41 @@ namespace BBC.Dna.Sites
         public List<Topic> GetLiveTopics()
         {
             return _topics.Topics;
+        }
+
+        /// <summary>
+        /// This method gets the topics for the given site
+        /// </summary>
+        /// <param name="context">The context in which it's being called</param>
+        public XmlNode GetPreviewTopicsXml(IDnaDataReaderCreator ReaderCreator)
+        {
+            var previewTopics = new TopicList() { Status = "PREVIEW" };
+            // Get the topics for the given site
+            using (IDnaDataReader reader = ReaderCreator.CreateDnaDataReader("GetTopicDetails"))
+            {
+                reader.AddParameter("TopicStatus", 1);
+                reader.AddParameter("SiteID", SiteID);
+                reader.Execute();
+
+                // Check to see if we got anything
+                if (reader.HasRows)
+                {
+                    // Add each topic to the current site
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32NullAsZero("SiteID");
+                        int topicID = reader.GetInt32("TopicID");
+                        string title = reader.GetString("Title");
+                        int h2g2ID = reader.GetInt32("h2g2ID");
+                        int forumID = reader.GetInt32("ForumID");
+                        previewTopics.Topics.Add(new Topic(){SiteId =id, TopicId=topicID, Title = title, H2G2Id = h2g2ID, ForumId = forumID});
+                    }
+                }
+            }
+            var doc = new XmlDocument();
+            doc.LoadXml(StringUtils.SerializeToXmlUsingXmlSerialiser(previewTopics));
+            // Return the list)
+            return doc.DocumentElement;
         }
 
         /// <summary>

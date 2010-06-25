@@ -54,6 +54,8 @@ namespace Tests
                 ICacheManager groupsCache = new StaticCacheManager();
                 var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
                 g.InitialiseAllUsersAndGroups();
+
+                ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
             }
         }
 
@@ -72,30 +74,21 @@ namespace Tests
 		[TestMethod]
         public void CommentForumsReadBySiteName()
 		{
-            string goodSiteName = "h2g2";
-            string badSiteName = "not a site name";
-            
+           
             SetupACommentForum();
 
             //test good site
-            CommentForumList result = _comments.GetCommentForumListBySite(goodSiteName);
+            CommentForumList result = _comments.GetCommentForumListBySite(site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.TotalCount > 0);
             //test paging
             _comments.ItemsPerPage = 50;
             _comments.StartIndex = 0;
-            result = _comments.GetCommentForumListBySite(goodSiteName);
+            result = _comments.GetCommentForumListBySite(site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.TotalCount > 0);
             Assert.IsTrue(result.ItemsPerPage == _comments.ItemsPerPage);
             Assert.IsTrue(result.StartIndex == _comments.StartIndex);
-
-            //test bad site name
-            result = _comments.GetCommentForumListBySite(badSiteName);
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.CommentForums != null);
-            Assert.IsTrue(result.CommentForums.Count == 0);
-            Assert.IsTrue(result.TotalCount == 0);
 
 		}
 
@@ -152,7 +145,7 @@ namespace Tests
             Assert.IsTrue(result.Title == commentForum.Title);
 
             //get comment list with prefix
-            CommentForumList resultList = _comments.GetCommentForumListBySite(site.SiteName, prefix);
+            CommentForumList resultList = _comments.GetCommentForumListBySite(site, prefix);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.TotalCount == 3);
 
@@ -762,7 +755,7 @@ namespace Tests
             //get comment list with ascending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Ascending;
-            CommentForumList resultList = _comments.GetCommentForumListBySite(site.SiteName);
+            CommentForumList resultList = _comments.GetCommentForumListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -779,7 +772,7 @@ namespace Tests
             //get comment list with descending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Descending;
-            resultList = _comments.GetCommentForumListBySite(site.SiteName);
+            resultList = _comments.GetCommentForumListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -823,7 +816,7 @@ namespace Tests
             //get comment list with ascending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Ascending;
-            CommentForumList resultList = _comments.GetCommentForumListBySite(site.SiteName, prefix);
+            CommentForumList resultList = _comments.GetCommentForumListBySite(site, prefix);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -840,7 +833,7 @@ namespace Tests
             //get comment list with descending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Descending;
-            resultList = _comments.GetCommentForumListBySite(site.SiteName, prefix);
+            resultList = _comments.GetCommentForumListBySite(site, prefix);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);

@@ -311,6 +311,11 @@ namespace Tests
             get { throw new NotImplementedException("IncludeCrumbtrail not supported"); }
         }
 
+        public BaseResult AddSkinAndMakeDefault(string skinSet, string skinName, string skinDescription, bool useFrames, IDnaDataReaderCreator readerCreator)
+        {
+            throw new NotImplementedException("AddSkinAndMakeDefault not implimented for tests!");
+        }
+
         #endregion
 
         public XmlNode GetTopicListXml()
@@ -397,6 +402,11 @@ namespace Tests
         public BaseResult UpdateEveryMessageBoardAdminStatusForSite(IDnaDataReaderCreator readerCreator, MessageBoardAdminStatus status)
         {
             return new Result("UpdateEveryMessageBoardAdminStatusForSite", "Successful");
+        }
+
+        public XmlNode GetPreviewTopicsXml(IDnaDataReaderCreator creator)
+        {
+            throw new NotImplementedException();
         }
 
         #region IDnaComponent Members

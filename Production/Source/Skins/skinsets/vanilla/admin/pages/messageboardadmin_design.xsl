@@ -34,31 +34,12 @@
         <h3>Your messageboard</h3>
 
         <div class="dna-box-border">
-          <h4>Header</h4>
-          <p>
-            <xsl:choose>
-              <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HEADER_COLOUR">
-                <strong>Colour chosen: </strong>
-                <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HEADER_COLOUR"/>
-              </xsl:when>
-              <xsl:otherwise>
-                <strong>Header colour by default is:</strong> blue.
-              </xsl:otherwise>
-            </xsl:choose>
-          </p>
-
-          <p>
-            <a href="?s_mode=header#dna-preview-editheader" class="dna-link-overlay">+ Edit header colour</a>
-          </p>
-        </div>
-
-        <div class="dna-box-border">
           <h4>Banner</h4>
           <xsl:choose>
-            <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI">
+            <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI != ''">
               <p>
                 <strong>Banner included: </strong>
-                <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI"/>
+                <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI"/>
               </p>
               <p>
                 <a href="?s_mode=banner#dna-preview-insertbanner" class="dna-link-overlay">+ Update banner</a>
@@ -75,10 +56,10 @@
         <div class="dna-box-border">
           <h4>Horizontal navigation</h4>
           <xsl:choose>
-            <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI">
+            <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI != ''">
               <p>
                 <strong>Navigation included: </strong>
-                <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI"/>
+                <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI"/>
               </p>
               <p>
                 <a href="?s_mode=topnav#dna-preview-addtopnav" class="dna-link-overlay">+ Update horizontal navigation</a>
@@ -99,15 +80,14 @@
             <div class="dna-box-border">
               <h4>Left navigation</h4>
               <xsl:choose>
-                <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/LEFT_NAV_SSI">
-
+                <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/LEFT_NAV_SSI != ''">
                   <p>
                     <strong>Navigation included:</strong>
                   </p>
 
                   <ul class="dna-list-links">
                     <li>
-                      <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/LEFT_NAV_SSI"/>
+                      <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/LEFT_NAV_SSI"/>
                     </li>
                   </ul>
 
@@ -124,10 +104,10 @@
             </div>
 
             <div class="dna-box">
-              <h4>Topic's list</h4>
+              <h4>Topics list</h4>
               <xsl:if test="/H2G2/TOPIC_PAGE">
                 <ul class="dna-list-links">
-                  <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']" mode="object_topiclist"/>
+                  <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC" mode="object_topiclist_design" />
                 </ul>
               </xsl:if>
 
@@ -155,13 +135,14 @@
           <div id="dna-preview-middle" class="dna-fl">
             <div class="dna-box-border">
               <h4>Welcome message</h4>
+             
               <xsl:choose>
-                <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE">
+                <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE != ''">
                   <p>
-                    <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE"/>
+                    <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE"/>
                   </p>
                   <p>
-                    <a href="?s_mode=welcome#dna-preview-addwelcome" class="dna-link-overlay">+ Modify your welcome message</a>
+                    <a href="?s_mode=welcome#dna-preview-addwelcome" class="dna-link-overlay">+ Update your welcome message</a>
                   </p>
                 </xsl:when>
                 <xsl:otherwise>
@@ -172,22 +153,25 @@
               </xsl:choose>
             </div>
 
-            <div>
-              <h4 class="dna-off">Topics</h4>
+            <div id="dna-s-topics" class="dna-box">
+              <h4>Topic management</h4>
+             
+              
+              <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatetopicpositions&amp;s_success_topics=true" method="post">
+                <p>To re-order the topics, drag and drop the topic modules and select <span class="dna-buttons"><input type="submit" value="Save"/></span></p>
 
-              <form action="messageboardadmin_design?s_mode=design&amp;cmd=updatetopicpositions" method="post">
+                <p class="dna-topic-options"><span><a href="?s_mode=layout#dna-preview-edittopiclayout" class="dna-link-overlay">+ Choose topic layout</a></span><span><a href="?s_edittopic=0#dna-preview-topic-edit-0" class="dna-link-overlay">+ Add a new topic</a></span></p>
+                
                 <xsl:choose>
                   <xsl:when test="/H2G2/TOPIC_PAGE">
 
                       <xsl:choose>
                         <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
                           <ul class="dna-list-topic-col1">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION = starts-with(POSITION,'1')]" mode="object_topiclist_elements" />
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2') and position() mod 2 = 1]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION mod 2 = 1]" mode="object_topiclist_elements" />
                           </ul>
                           <ul class="dna-list-topic-col2">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION = starts-with(POSITION,'2')]" mode="object_topiclist_elements" />
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[POSITION != starts-with(POSITION,'1') and POSITION != starts-with(POSITION,'2') and position() mod 2 = 0]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION  mod 2 = 0]" mode="object_topiclist_elements" />
                           </ul>
                         </xsl:when>
                         <xsl:otherwise>
@@ -203,22 +187,6 @@
                   </xsl:otherwise>
                 </xsl:choose>
 
-                <div class="dna-box-border dna-clear">
-                  <p >
-                    <a href="?s_mode=topic&amp;s_edittopic=0#dna-preview-topic-add" class="dna-link-overlay">+ Add a new topic</a>
-                  </p>
-                </div>
-
-                <div class="dna-box-border">
-                  <p>
-                    <a href="?s_mode=layout#dna-preview-edittopiclayout" class="dna-link-overlay">+ Choose topic layout</a>
-                  </p>
-                  <p class="dna-fnote">Choose between a 1 and 2 column layout to display the topics.</p>
-                </div>
-
-                <p class="dna-buttons dna-fr">
-                  <input type="submit" value="Update Topic Layout"/>
-                </p>
               </form>
             </div>
           </div>
@@ -230,18 +198,18 @@
               
               <h5>About message:</h5>
               <p>
-                <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE"/>
+                <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE"/>
               </p>
 
               <h5>Opening hours:</h5>
                <p>
-                <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT"/>
+                 <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT"/>
               </p>
 
               <xsl:choose>
-                <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE != '' or SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT != ''">
+                <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE != '' or /H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT != ''">
                   <p>
-                    <a href="?s_mode=about#dna-preview-addtext" class="dna-link-overlay">+ Modify introduction/about message</a>
+                    <a href="?s_mode=about#dna-preview-addtext" class="dna-link-overlay">+ Update introduction/about message</a>
                   </p>
                 </xsl:when>
                 <xsl:otherwise>
@@ -252,23 +220,33 @@
               </xsl:choose>
             </div>
 
-            <div id="dna-preview-recent" class="dna-box">
+            <div class="dna-box">
               <h4>Recent Discussions</h4>
-              <p>For messageboards aimed at people under 16 years old, you may turn off the Recent Discussions module. This option is for <strong>under 16 messageboards only</strong> - the module is compulsory for all others.</p>
-              <p>
-                <a href="?s_mode=discussions#dna-preview-addrecentdiscussions" class="dna-link-overlay">+ Turn off recent discussions</a>
-              </p>
+              <p>The recent discussions module should only be  switched off for messageboards aimed at children.</p>
+
+              <xsl:choose>
+                <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'false'">
+                  <p>
+                    <a href="?s_mode=discussions#dna-preview-addrecentdiscussions" class="dna-link-overlay">+ Turn on recent discussions</a>
+                  </p>
+                </xsl:when>
+                <xsl:otherwise>
+                  <p>
+                    <a href="?s_mode=discussions#dna-preview-addrecentdiscussions" class="dna-link-overlay">+ Turn off recent discussions</a>
+                  </p>
+                </xsl:otherwise>
+              </xsl:choose>
             </div>
 
 
             <div class="dna-box-border">
-              <h4>Extras modules</h4>
-              <xsl:if test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS">
+              <h4>Additional modules</h4>
+              <xsl:if test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS != ''">
                 <p>
                   <strong>Modules inserted:</strong>
                 </p>
                 <ul class="dna-list-links">
-                  <xsl:for-each select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
+                  <xsl:for-each select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS/LINK">
                     <li>
                       <xsl:value-of select="."/>
                     </li>
@@ -277,7 +255,7 @@
               </xsl:if>
 
               <p>
-                <a href="?s_mode=modules#dna-preview-addmodules" class="dna-link-overlay">+ Add more modules</a>
+                <a href="?s_mode=modules#dna-preview-addmodules" class="dna-link-overlay">+ Add modules</a>
               </p>
             </div>
           </div>
@@ -289,11 +267,11 @@
           <h4>Social media toolbar</h4>
 
           <xsl:choose>
-            <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR">
+            <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR != ''">
               <p>
                 <strong>Toolbar added: </strong>
                 <xsl:choose>
-                  <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR = 'true'">yes</xsl:when>
+                  <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR = 'true'">yes</xsl:when>
                   <xsl:otherwise>no</xsl:otherwise>
                 </xsl:choose>
               </p>
@@ -315,11 +293,11 @@
 
           <p>
             <xsl:choose>
-              <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/COLOUR">
+              <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/COLOUR != ''">
                 <strong>Footer colour chosen: </strong>
-                <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/COLOUR"/>
+                <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/COLOUR"/>
               </xsl:when>
-              <xsl:otherwise>Footer colour by default is dark grey.</xsl:otherwise>
+              <xsl:otherwise>The default footer colour is dark grey.</xsl:otherwise>
             </xsl:choose>
           </p>
 
@@ -334,10 +312,10 @@
             <xsl:variable name="topicId" select="TOPICID" />
             <div id="dna-preview-topic-edit-{$topicId}">
               <xsl:attribute name="class">
-                dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+                dna-preview-box  <xsl:if test="//PARAMS/PARAM[NAME = 's_edittopic']/VALUE != $topicId or not(//PARAMS/PARAM[NAME = 's_edittopic'])">dna-off</xsl:if>
               </xsl:attribute>
-              
-              <xsl:value-of select="PARAMS/PARAM[NAME='s_edittopic']/VALUE"/>
+
+
               <xsl:call-template name="object_topic_edit">
                 <xsl:with-param name="topicid" select="TOPICID" />
               </xsl:call-template>
@@ -349,9 +327,9 @@
             <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICSTATUS='4']" mode="object_topic_overlay"/>
           </xsl:for-each>
        
-          <div id="dna-preview-topic-add">
+          <div id="dna-preview-topic-edit-0">
             <xsl:attribute name="class">
-              dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'topic' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+              dna-preview-box <xsl:if test="//PARAMS/PARAM[NAME = 's_edittopic']/VALUE != '0' or not(//PARAMS/PARAM[NAME = 's_edittopic'])">dna-off</xsl:if>
             </xsl:attribute>
 
             <xsl:call-template name="object_topic_edit">

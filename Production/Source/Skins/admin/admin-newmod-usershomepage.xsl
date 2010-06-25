@@ -269,6 +269,25 @@
 	</xsl:template>
 
   <!-- 
+  Shows the user preference status
+  -->
+  <xsl:template match="STATUS" mode="user_pref_status">
+    <xsl:choose>
+      <xsl:when test="current()">
+        <img width="22" height="23">
+          <xsl:attribute name="src">
+            <xsl:value-of select="$asset-root"/>moderation/images/icons/status<xsl:value-of select="current()"/>.gif
+          </xsl:attribute>
+        </img>
+      </xsl:when>
+      <xsl:otherwise>
+        <img src="{$asset-root}moderation/images/icons/status0.gif" width="22" height="23" alt="Standard"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+
+  <!-- 
 	<xsl:template match="GROUPS" mode="user_groups">
 	Author:		Martin Robb
 	Context:     USER/GROUPS

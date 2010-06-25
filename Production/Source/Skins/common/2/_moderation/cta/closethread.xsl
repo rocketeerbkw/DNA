@@ -14,19 +14,23 @@
     </doc:documentation>
     
     <xsl:template match="THREAD[@CANWRITE = 1]" mode="moderation_cta_closethread">
-        <xsl:param name="label" select="'Close this thread'" />
-        
+        <xsl:param name="label" />
+        <xsl:param name="subject" />
+       
         <a href="{$root}/F{@FORUMID}?thread={@THREADID}&amp;cmd=closethread">
-            <xsl:value-of select="$label"/>
+            <xsl:value-of select="$label"/> 
+            <span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$subject"/></span>
         </a>
     </xsl:template>
     
     
     <xsl:template match="THREAD[@CANWRITE = 0]" mode="moderation_cta_closethread">
-        <xsl:param name="label" select="'Reopen this thread'" />
-        
+        <xsl:param name="label" />
+       <xsl:param name="subject" />
+
         <a href="{$root}/F{@FORUMID}?thread={@THREADID}&amp;cmd=reopenthread">
-            <xsl:value-of select="$label"/>
+           <xsl:value-of select="$label"/> 
+            <span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$subject"/></span>
         </a>
     </xsl:template>
     
