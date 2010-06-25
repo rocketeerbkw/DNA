@@ -114,7 +114,7 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("stitle", Title);
                 reader.AddParameter("stext", Description);
                 reader.AddParameter("itopicstatus", (int)TopicStatus.Preview);
-                reader.AddParameter("itopiclinkid", FrontPageElement.Elementid);
+                reader.AddParameter("itopiclinkid", TopicLinkId);
                 reader.AddParameter("sextrainfo", string.Empty);
                 reader.AddParameter("position", Position);
                 reader.Execute();
