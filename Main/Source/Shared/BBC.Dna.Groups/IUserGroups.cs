@@ -35,7 +35,7 @@ namespace BBC.Dna.Groups
         /// <param name="siteID">The sites id you want to get the group info from</param>
         /// <returns></returns>
         [OperationContract(Name = "GetUsersGroupsForSite")]
-        List<string> GetUsersGroupsForSite(int userID, int siteID);
+        List<UserGroup> GetUsersGroupsForSite(int userID, int siteID);
 
         /// <summary>
         /// Creates a new group in the database
@@ -58,6 +58,6 @@ namespace BBC.Dna.Groups
         /// </summary>
         /// <returns>The list of all group names</returns>
         [OperationContract(Name = "GetAllGroups")]
-        List<string> GetAllGroups();
+        List<UserGroup> GetAllGroups();
     }
 }

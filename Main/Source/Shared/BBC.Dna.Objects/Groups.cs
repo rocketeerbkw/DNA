@@ -42,9 +42,9 @@ namespace BBC.Dna.Objects
             try
             {
                 var groupList = userGroups.GetUsersGroupsForSite(userId, siteId);
-                foreach (var name in groupList)
+                foreach (var group in groupList)
                 {
-                    groups.AddGroup(name);
+                    groups.AddGroup(group.Name);
                 }
             }
             catch (Exception)

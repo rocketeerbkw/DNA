@@ -6,21 +6,30 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Configuration;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Groups
 {
+    [DataContract(Name = "userGroups")]
     public class UserGroups : IUserGroups
     {
         private ICacheManager _cachedGroups = null;
         private IDnaDataReaderCreator _dnaDataReaderCreator = null;
         private IDnaDiagnostics _dnaDiagnostics = null;
-        private List<string> _groupList = null;
+        private List<UserGroup> _allGroups = null;
+
 #if DEBUG
         public static string _cacheName = "BBC.Dna.UserGroups-";
 #else
         private static string _cacheName = "BBC.Dna.UserGroups-";
 #endif
         private static bool IsInitialised = false;
+
+        public List<UserGroup> AllGroups
+        {
+            get { return _allGroups; }
+            set { _allGroups = value; }
+        }
 
         /// <summary>
         /// Default constructor
@@ -60,12 +69,12 @@ namespace BBC.Dna.Groups
         public bool PutUserIntoGroup(int userID, string groupName, int siteID)
         {
             // Check to see if we've got a list for this user already
-            List<string> userGroups = GetUsersGroupListForSite(userID, siteID);
+            List<UserGroup> userGroups = GetUsersGroupListForSite(userID, siteID);
 
             // Ok, got a list. Check to make sure they don't already belong to the group
             if (userGroups != null)
             {
-                if (userGroups.Contains(groupName.ToLower()))
+                if (IsItemInList(userGroups, groupName.ToLower()))
                 {
                     // Already a member of this group. Nothing to do
                     return true;
@@ -74,7 +83,7 @@ namespace BBC.Dna.Groups
             else
             {
                 // Ok, no group list for this user on this site
-                userGroups = new List<string>();
+                userGroups = new List<UserGroup>();
             }
 
             // Add the user to the group in the database
@@ -87,11 +96,18 @@ namespace BBC.Dna.Groups
             }
 
             // Add the new group to their current list
-            userGroups.Add(groupName.ToLower());
+            userGroups.Add(new UserGroup() { Name = groupName.ToLower()});
 
             // Add the updated group list to the main cache list
             AddUserGroupListToMainList(userID, siteID, userGroups);
             return true;
+        }
+
+        public bool IsItemInList(List<UserGroup> list, string name)
+        {
+            bool itemInList = ((from i in list where i.Name == name.ToLower()
+                                select i).Count() > 0);
+            return itemInList;
         }
 
         /// <summary>
@@ -103,24 +119,27 @@ namespace BBC.Dna.Groups
         public void DeleteUserFromGroup(int userID, string groupName, int siteID)
         {
             // Check to see if we've got a list for this user already
-            List<string> userGroups = GetUsersGroupListForSite(userID, siteID);
+            List<UserGroup> userGroups = GetUsersGroupListForSite(userID, siteID);
 
             // Ok, got a list. Check to make sure they don't already belong to the group
             if (userGroups != null)
             {
-                if (!userGroups.Contains(groupName.ToLower()))
+                if (!IsItemInList(userGroups, groupName.ToLower()))
                 {
                     // Not in this group, nothing to remove
                     return;
                 }
 
                 // Remove the group to their current list
-                userGroups.Remove(groupName.ToLower());
+                UserGroup itemToRemove = (from u in userGroups
+                                          where u.Name == groupName.ToLower()
+                                          select u).FirstOrDefault();
+                userGroups.Remove(itemToRemove);
             }
             else
             {
                 // Ok, no group list currently for this user
-                userGroups = new List<string>();
+                userGroups = new List<UserGroup>();
             }
 
             // Remove the user from the group in the database
@@ -142,7 +161,7 @@ namespace BBC.Dna.Groups
         /// <param name="userID">The users id you want to get the groups for</param>
         /// <param name="siteID">The sites id you want to get the group info from</param>
         /// <returns>a list of the groups the user belongs to for a given site</returns>
-        public List<string> GetUsersGroupsForSite(int userID, int siteID)
+        public List<UserGroup> GetUsersGroupsForSite(int userID, int siteID)
         {
             if(!IsInitialised)
             {
@@ -152,7 +171,7 @@ namespace BBC.Dna.Groups
             var list = GetUsersGroupListForSite(userID, siteID);
             if(list == null)
             {
-                list = new List<string>();
+                list = new List<UserGroup>();
             }
             return list;
 
@@ -209,7 +228,7 @@ namespace BBC.Dna.Groups
                     }
 
                     // Go round all the results building the lists and caching them.
-                    List<string> groups = null;
+                    List<UserGroup> groups = null;
                     int lastUserID = 0;
                     int lastSiteID = 0;
                     int currentUserID = 0;
@@ -227,12 +246,12 @@ namespace BBC.Dna.Groups
                             {
                                 _cachedGroups.Add(_cacheName + lastUserID.ToString() + "-" + lastSiteID.ToString(), groups);
                             }
-                            groups = new List<string>();
+                            groups = new List<UserGroup>();
                             lastUserID = currentUserID;
                             lastSiteID = currentSiteID;
                         }
                         // Add the group name to the list
-                        groups.Add(reader.GetString("name").ToLower());
+                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToLower() });
                     }
 
                     // Put the last group info into the cache
@@ -257,7 +276,7 @@ namespace BBC.Dna.Groups
         /// <param name="userID">The id of the user</param>
         /// <param name="siteID">The id of the site</param>
         /// <param name="userGroups">The group list information you want to add</param>
-        private void AddUserGroupListToMainList(int userID, int siteID, List<string> userGroups)
+        private void AddUserGroupListToMainList(int userID, int siteID, List<UserGroup> userGroups)
         {
             if (userGroups.Count > 0)
             {
@@ -272,11 +291,11 @@ namespace BBC.Dna.Groups
         /// <param name="siteID">The site you want to check against</param>
         /// <returns>A list containing the groups the user belongs to, or null if we don't have that info yet</returns>
         /// <remarks>An empty list does not mean it hasn't been setup, the user does not belong to any groups</remarks>
-        private List<string> GetUsersGroupListForSite(int userID, int siteID)
+        private List<UserGroup> GetUsersGroupListForSite(int userID, int siteID)
         {
             if (_cachedGroups.Contains(_cacheName + userID.ToString() + "-" + siteID.ToString()))
             {
-                return (List<string>)_cachedGroups.GetData(_cacheName + userID.ToString() + "-" + siteID.ToString());
+                return (List<UserGroup>)_cachedGroups.GetData(_cacheName + userID.ToString() + "-" + siteID.ToString());
             }
             return null;
         }
@@ -297,15 +316,15 @@ namespace BBC.Dna.Groups
         /// Gets a list of all the current groups in the database
         /// </summary>
         /// <returns>The list of all group names</returns>
-        public List<string> GetAllGroups()
+        public List<UserGroup> GetAllGroups()
         {
             // Check to see if we have the list yet
-            if (_groupList == null)
+            if (_allGroups == null)
             {
                 try
                 {
                     // Get the list from the database
-                    _groupList = new List<string>();
+                    _allGroups = new List<UserGroup>();
                     using (IDnaDataReader reader = CreateStoreProcedureReader("GetAllGroups"))
                     {
                         reader.Execute();
@@ -316,22 +335,22 @@ namespace BBC.Dna.Groups
 
                         while (reader.Read())
                         {
-                            _groupList.Add(reader.GetString("groupname"));
+                            _allGroups.Add(new UserGroup() { Name = reader.GetString("groupname") });
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    _groupList = null;
+                    _allGroups = null;
                     throw ex;
                 }
 
-                _cachedGroups.Add("grouplists",_groupList);
+                _cachedGroups.Add("grouplists",_allGroups);
             }
 
             // Return the list
-            return _groupList;
+            return _allGroups;
         }
 
         /// <summary>
@@ -347,7 +366,7 @@ namespace BBC.Dna.Groups
             try
             {
                 // Check to see if we already have the group
-                if (_groupList.Contains(groupName.ToLower()))
+                if (IsItemInList(_allGroups, groupName.ToLower()))
                 {
                     // Already Exists!
                     return true;
@@ -360,8 +379,8 @@ namespace BBC.Dna.Groups
                     reader.AddParameter("groupname", groupName);
                     reader.Execute();
                 }
-                _groupList.Add(groupName.ToLower());
-                _cachedGroups.Add("grouplists", _groupList);
+                _allGroups.Add(new UserGroup() { Name = groupName.ToLower() });
+                _cachedGroups.Add("grouplists", _allGroups);
             }
             catch (Exception ex)
             {
