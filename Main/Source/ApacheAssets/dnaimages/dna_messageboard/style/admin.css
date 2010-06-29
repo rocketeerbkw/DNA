@@ -37,11 +37,12 @@
     .dna-main h3,.dna-main h4,.glow170-overlay h4 {margin-bottom:10px; text-transform:uppercase}
     .dna-main h3 {padding:5px; color:#fff; background-color:#56a4ce}
     .dna-main h4 {border-bottom:1px solid #56a4ce; line-height:140%; margin:10px}
-    .dna-main h4 span {color:#ccc; font-size:.8em}
+    .dna-main h4 span {color:#ccc; font-size:.75em}
     .dna-main h5  {margin:0 10px}
     .dna-main h5 + p {margin:0 10px 10px 10px}
     .dna-main h3 a {float:right; margin-top:-2px}
     .glow170-overlay h4 {padding:10px; line-height:140%; color:#fff; background-color:#56a4ce}
+    .glow170-overlay h4 span {color:#ccc; font-size:.9em}
 
     /* COMMON CLASSES */
     .dna-fl {float:left}
@@ -142,6 +143,8 @@
     .dna-preview h3 {color:#666; background-color:transparent}
     .dna-preview a {padding:5px 7px; color:#fff; font-weight:bold; background:#a9d5ed url(/dnaimages/dna_messageboard/img/bg-btn-preview.gif) repeat-x 0 100%; border:1px solid #56a4ce}
     .dna-preview a:hover,.dna-preview a:focus,.dna-preview a:active {background:#84bfdf url(/dnaimages/dna_messageboard/img/bg-btn-preview-h.gif) repeat-x 0 100%; border:1px solid #56a4ce}
+    .dna-preview.dna-fr {width:20em}
+    .dna-mr250 {margin-right:250px}
 
     /* box: publish */
     .dna-publish {background-color:#56a4ce; border:1px solid #ccc}
