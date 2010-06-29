@@ -154,7 +154,7 @@
                         $("#fp_imagealttext-" + seditTopic).addClass("dna-error-input");
                         return false;
                     } else if ($("#fp_imagename-" + seditTopic).val() == "" && $("#fp_imagealttext-" + seditTopic).val() == "") {
-                        $("#fp_templatetype-" + seditTopic).attr("checked", false);
+                        $("#fp_templatetype-" + seditTopic).attr("checked", true);
                         $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
                         $("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
                         $("#dna-preview-edittopic-step3-" + seditTopic).removeClass("dna-off");
@@ -217,15 +217,6 @@
                     }
                 });
 
-
-                addListener(".dna-buttons input", "mousedown", function() {
-                    // welcome message
-                    if ($("#mbwelcome").val() == "") {
-                        glow.dom.create('<span class="dna-error-text">Please add your welcome message</span>').insertBefore("#mbwelcome");
-                        $("#mbwelcome").addClass("dna-error-input");
-                        return false;
-                    }
-                });
 
                 addListener(".dna-buttons input", "mousedown", function() {
                     var whichForm = $("#" + whichDiv + " form").attr("name");
@@ -303,6 +294,12 @@
             publishOverlay.show();
         }
 
+
+        // loading gif when publish is clicked
+        addListener(".dna-publish-mboard", "submit", function() {
+        $("#dna-publish-form").addClass("dna-off");
+            $("#dna-publish-loading").removeClass("dna-off");
+        });
 
         // OPENING TIMES
         var twentyfourseven = $("#twentyfourseven");
@@ -395,7 +392,7 @@
         var href = $(openNewWindow).attr("href");
 
         addListener(openNewWindow, "click", function() {
-            window.open(href);
+            window.open(href,"previewMessageboard");
             return false;
         });
 
