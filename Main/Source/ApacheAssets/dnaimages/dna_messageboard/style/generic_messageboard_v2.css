@@ -325,7 +325,6 @@ body.ie6 #blq-main #blq-content .pagination li {
 #blq-content .topiclist br {display:none;}
 
 #blq-content .topiclist {
-	overflow:auto;
 	padding: 0;
 }
 #blq-content h3 {
