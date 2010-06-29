@@ -129,16 +129,23 @@ ul.navigation li a {
 	color: #fff;
 }
 #blq-local-nav ul.topics li {
-	padding-left: 5px;	
-	line-height: 1.2em;
+	/*padding-left: 5px;*/	
+	line-height: 1.4em;
+}
+#blq-local-nav ul.topics li a {
+	display: block;
+	padding-left: 15px;
 }
 body.ie6 #blq-local-nav ul.topics li {
 	line-height: 0.8em;
 }
 #blq-local-nav ul.topics li.topic-parent {
 	padding-left: 0;
-	line-height: 1.8em;
+	line-height: 1.9em;
 	margin-bottom: 5px;
+}
+#blq-local-nav ul.topics li.topic-parent a {
+	padding-left: 10px;
 }
 #blq-local-nav ul.topics li a:hover {
 	/*font-weight: bold;*/	
@@ -192,7 +199,7 @@ ul.admin {
 	/*width: 100%; how to make this relative size? */
 	width: 463px;
 }
-#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {
+#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {
 	width: 463px;
 	margin-right: 14px;
 	padding-bottom: 10px;
@@ -250,6 +257,7 @@ ul.admin {
   	float:left;
   	width: auto;
   	margin-right: 1px;
+  	font-family: verdana,arial,helvetica,sans serif;
 }
 
 body.ie6 #blq-main #blq-content .pagination li {
@@ -260,16 +268,16 @@ body.ie6 #blq-main #blq-content .pagination li {
 	height: 10px;
 	font-size:0.9em; 
 	margin:0 1px 0 0; 
-	padding: 3px 7px 7px 7px;
+	padding: 3px 5px 7px 5px;
 }
 #blq-main #blq-content .pagination li a:hover {
 	text-decoration: underline;	
 }
 #blq-main #blq-content .pagination li.previous {
-	margin-right: 7px; 	
+	margin-right: 5px; 	
 }
 #blq-main #blq-content .pagination li.next {
-	margin-left: 7px; 	
+	margin-left: 5px; 	
 }
 #blq-main #blq-content .pagination li.dna-button {
 	height: 20px;
@@ -278,7 +286,7 @@ body.ie6 #blq-main #blq-content .pagination li {
 #blq-main #blq-content .pagination li.dna-button a {
 	height: 11px;
 	margin-left: 3px;
-	padding: 3px 7px 6px 5px;
+	padding: 3px 5px 6px 2px;
 	background: url(/dnaimages/dna_messageboard/img/button_right_bg.png) top right no-repeat;	
 	text-decoration: none;
 	color: #fff;
@@ -551,6 +559,9 @@ ul.forumthreadposts li blockquote, div.inreplyto blockquote {
 a.editor, a.notable { 
   	font-style: italic;
 }
+p#countdown {
+	margin-left: 10px;	
+}
 /*#blq-content .dna-boards p.dna-error {
   	padding-left:214px; 
   	width:375px; 
@@ -635,7 +646,7 @@ div#dna-boardpromo #dna-about-board .id-wrap a.id-signin, #blq-main #blq-content
 	width: 75px;
 	height: 22px;
 	margin-top: 9px;
-	margin-left: 10px;
+	margin-left: 9px;
 	padding: 3px 5px 0px 45px;
 	background:url(/dnaimages/dna_messageboard/img/id-signin.gif) no-repeat top left; 	
 	color: #000;
@@ -663,7 +674,7 @@ div#dna-boardpromo #dna-about-board .id-wrap p, #blq-content .id-wrap p {
 	line-height: 2.1em;
 }
 #blq-main #dna-boardpromo hr {
-	margin: 10px 10px 0 10px;
+	margin: 10px 8px 0 8px;
 	line-height: 1px;
 	border: none;
 	border-top: 1px solid #ccc;
@@ -751,8 +762,8 @@ p.flag {
 p.flag a {
   color:#999; 
   background-color: transparent;
-  background:url(/dnaimages/dna_messageboard/img/complainicon.gif) no-repeat top left; 
-  padding-left:20px;
+  background:url(/dnaimages/dna_messageboard/img/warning-triangle3.gif) no-repeat top left; 
+  padding: 2px 0 2px 20px;
 }
 
 .dna-boards .collections {margin-left:216px;}
@@ -771,15 +782,10 @@ p.flag a {
   font-weight:bold;
 }
 
-.dna-boards fieldset {
-   border:1px solid #ccc
-}
-
 .dna-boards legend {
-  margin-left:10px;
-  padding:1em 10px;
+  padding:1em 0 1em 0;
   font-size:1.2em;
-  color:#444;
+  color:#444
 }
 .dna-boards .text,
 .dna-boards select,
@@ -822,9 +828,8 @@ p.flag a {
   padding: 0 10px;
 }
 .dna-boards .submit, .dna-boards .cancel {
-  margin:10px; 
+  margin:0 0 10px 10px; 
   padding:4px;
-  float:right;
 }
 
 .dna-boards-membername {display:none}
