@@ -248,7 +248,7 @@ ul.admin {
 }
 /* pagination */
 #blq-main #blq-content .pagination { 
-  	margin: 10px; 
+  	margin: 10px 9px; 
   	float:right;
   	width: auto;
   	clear: both;
@@ -352,6 +352,9 @@ body.ie6 #blq-main #blq-content .pagination li {
 	border: 1px solid #CCCCCC;
 	background-color: #FFFFFF;
 	min-height: 160px;
+}
+#blq-content .topiclistimage li {
+	min-height: 245px;
 }
 /*#blq-content .single-col-topics li {
 	width: 463px;
