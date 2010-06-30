@@ -188,10 +188,10 @@
 		      					</li>
 		      				</xsl:if>
 		      				<li>
-		      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a>
+		      					<a href="{$houserulesurl}" class="popup">House Rules</a>
 		      				</li>
 		      				<li>
-		      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html" class="popup">FAQs</a>
+		      					<a href="{$faqsurl}" class="popup">FAQs</a>
 		      				</li>
 		      				<xsl:variable name="currentSite" select="CURRENTSITE"/>
 		      				<xsl:if test="SITE[@ID='$currentSite']/SITEOPTIONS/SITEOPTION[NAME='IsKidsSite']/VALUE='1'">
@@ -266,17 +266,17 @@
 	      				<xsl:call-template name="boardtimes"/>
 	      				<xsl:choose>
 	      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 1">
-	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">post-moderated</a>.</p>
+	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">post-moderated</a>.</p>
 	      					</xsl:when>
 	      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 2">
-	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">pre-moderated</a>.</p>
+	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">pre-moderated</a>.</p>
 	      					</xsl:when>
 	      					<xsl:otherwise>
-	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">reactively moderated</a>.</p>
+	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">reactively moderated</a>.</p>
 	      					</xsl:otherwise>
 	      				</xsl:choose>
 	      				
-	      				<p>Find out more about this board <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a></p>
+	      				<p>Find out more about this board <a href="{$houserulesurl}" class="popup">House Rules</a></p>
 	      			</div>
 	      			
 	      			<!-- Recent Discussions -->

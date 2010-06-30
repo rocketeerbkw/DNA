@@ -176,4 +176,36 @@
     
     <xsl:variable name="signin-discussion-text">to take part in a discussion.</xsl:variable>
     
+    <xsl:variable name="moderationinfourl">http://www.bbc.co.uk/messageboards/popups/checking_messages.shtml#B</xsl:variable>
+    
+    <xsl:variable name="faqsurl">
+    	<xsl:choose>
+    		<xsl:when test="/H2G2/SITE/IDENTITYPOLICY = 'http://identity/policies/dna/kids'">
+    			http://www.bbc.co.uk/cbbc/mb/help.shtml
+    		</xsl:when>
+			<xsl:otherwise>
+				<!-- Default to adult -->
+				<xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>    
+    </xsl:variable>
+    
+    <xsl:variable name="houserulesurl">
+    	<xsl:choose>
+    		<xsl:when test="/H2G2/SITE/IDENTITYPOLICY = 'http://identity/policies/dna/kids'">
+    			http://www.bbc.co.uk/cbbc/mb/rules.shtml
+    		</xsl:when>
+			<xsl:when test="/H2G2/SITE/IDENTITYPOLICY='http://identity/policies/dna/over13'">
+				<xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_house_rules_teens.html</xsl:text>
+			</xsl:when>
+			<xsl:when test="/H2G2/SITE/IDENTITYPOLICY='http://identity/policies/dna/schools'">
+				<xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_house_rules_schools.html</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- Default to adult -->
+				<xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+    </xsl:variable>
+    
 </xsl:stylesheet>
