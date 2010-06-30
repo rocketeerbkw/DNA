@@ -422,6 +422,87 @@ ul.forumthreadposts li.stripe {
 	font-size: 1em;
 	padding:0
 }
+#blq-content table.forumthreads {
+	width: 463px;
+	font-size: 	1.1em;
+}
+#blq-content table.forumthreads a {
+	text-decoration: none;	
+}
+#blq-content table.forumthreads a:hover {
+	text-decoration: underline;	
+}
+#blq-content table.forumthreads tr.stickypin {
+	border: 1px solid #a5a5a5;
+}
+#blq-content table.forumthreads tr.stickypin h3 {
+	padding: 2px 0 3px 25px;
+	background: url(/dnaimages/dna_messageboard/img/bg_pin.png) top left no-repeat;
+}
+#blq-content table.forumthreads th {
+	padding: 5px;
+	border-right: 1px solid #fff;
+	background-color: #71aef1;
+	text-align: left;
+	font-weight: normal;
+	color: #fff;
+}
+#blq-content table.forumthreads th#discussion {
+	width: 50%;	
+	padding-left: 10px;
+}
+#blq-content table.forumthreads th#replies{
+	width: 10%;
+	text-align: center;
+}
+#blq-content table.forumthreads th#startedby {
+	width: 20%;
+	text-align: center;
+}
+#blq-content table.forumthreads th#latestreply {
+	width: 20%;
+	border-right: none;	
+	text-align: center;
+}
+#blq-content table.forumthreads td {
+	padding:10px 5px 10px 5px;
+	border-right: 1px solid #fff;
+	vertical-align: top;
+}
+#blq-content table.forumthreads .moderation td {
+	padding: 0;
+	border-right: none;
+}
+#blq-content table.forumthreads .moderation td a {
+	text-decoration: underline;
+} 
+#blq-content table.forumthreads .stickypin td {
+	background-color: #d4e2e6;
+} 
+#blq-content table.forumthreads td.discussiondetail {
+	padding-left: 7px;
+	word-break: break-all;
+}
+#blq-content table.forumthreads td.replies {
+	text-align: center;
+}
+#blq-content table.forumthreads td.startedby {
+	text-align: center;
+	word-break: break-all;
+}
+#blq-content table.forumthreads td.latestreply {
+	text-align: center;
+	border-right: none;
+}
+#blq-content table.forumthreads td h3 {
+	margin: 0;
+}
+#blq-content table.forumthreads .stripe td {
+	background-color: #e2e7e9;
+}
+#blq-content table.forumthreads .stickypin td {
+	background-color: #d4e2e6;
+} 
 #blq-content .post-list h4 {
 	margin-left: 10px;
 	margin-right: 10px;
@@ -447,7 +528,7 @@ ul.forumthreads li p {
 	padding-left: 10px; 
 	font-size: 0.8em;
 }
-ul.forumthreads div.stickypin {
+/*ul.forumthreads div.stickypin {
 	float: left;
 	width: 20px;
 	height: 20px;
@@ -456,7 +537,7 @@ ul.forumthreads div.stickypin {
 }
 ul.forumthreads div.stickypin span {
 	display: none;	
-}
+}*/
 #blq-main #blq-content ul.forumthreads p a:hover, #blq-main #blq-content ul.post-list p a:hover {
 	text-decoration: none;
 }
@@ -579,16 +660,19 @@ p#countdown {
 #blq-content .dna-moderation-wrap {
 	background: url(/dnaimages/dna_messageboard/img/dna-mod-bottom-arrow.png) top right no-repeat;
 }
+#blq-content .dna-moderation-wrap a {
+	text-decoration: underline;
+}
 #blq-content .dna-moderation-wrap p.dna-boards-moderation {
 	padding-left: 10px;	
 }
 #blq-content .dna-moderation-wrapup {
-	margin-bottom: 10px;
+	/*margin-bottom: 10px;*/
 	padding-top: 6px;
 	background: url(/dnaimages/dna_messageboard/img/dna-mod-top-arrow.png) top right no-repeat;
 }
 #blq-content .forumthreads .dna-moderation-wrapup {
-	margin-top: 10px;
+	/*margin-top: 10px;*/
 	font-size: 0.9em;
 }
 #blq-content .dna-boards-moderation {
@@ -764,7 +848,7 @@ p.flag {
 p.flag a {
   color:#999; 
   background-color: transparent;
-  background:url(/dnaimages/dna_messageboard/img/warning-triangle3.gif) no-repeat top left; 
+  background:url(/dnaimages/dna_messageboard/img/warning-triangle-5.gif) no-repeat top left; 
   padding: 2px 0 2px 20px;
 }
 

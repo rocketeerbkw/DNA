@@ -26,7 +26,8 @@
     
     <xsl:template name="library_listitem_stripe">
         <xsl:param name="additional-classnames" select="''" />
-        
+        <xsl:param name="threadId" />
+        <xsl:param name="test_stickythreadson" />
         <xsl:choose>
             <xsl:when test="@POSTID and @messingabout">
                 <!-- DNA has passed us a usable sort number (i.e primary key) -->
@@ -76,6 +77,9 @@
                             <xsl:value-of select="$additional-classnames"/>
                         </xsl:otherwise>
                     </xsl:choose>
+					<xsl:if test="$test_stickythreadson">
+						<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_addthreadstickypin" />
+					</xsl:if>                    
                 </xsl:attribute>
             </xsl:when>
             <xsl:otherwise>
@@ -89,9 +93,11 @@
                     <xsl:if test="(count(ancestor-or-self::*/preceding-sibling::*)) mod 2 = 1">
                         <xsl:text>stripe</xsl:text>
                     </xsl:if>
+					<xsl:if test="$test_stickythreadson">
+						<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_addthreadstickypin" />
+					</xsl:if>                    
                 </xsl:attribute>
             </xsl:otherwise>
         </xsl:choose>
-        
     </xsl:template>
 </xsl:stylesheet>

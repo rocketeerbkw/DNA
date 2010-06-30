@@ -21,9 +21,20 @@
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
         
-        <ul class="forumthreads">
-          <xsl:apply-templates select="THREAD" mode="object_thread" />
-        </ul>
+        <h2 class="blq-hide">Threads for <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" /></h2>
+        <table class="forumthreads">
+        	<thead>
+	        	<tr>
+	        		<th id="discussion">Discussion</th>
+	        		<th id="replies">Replies</th>
+	        		<th id="startedby">Started by</th>
+	        		<th id="latestreply">Latest reply</th>
+	        	</tr>
+        	</thead>
+          	<tbody>
+          		<xsl:apply-templates select="THREAD" mode="object_thread" />
+          	</tbody>
+        </table>
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
         
