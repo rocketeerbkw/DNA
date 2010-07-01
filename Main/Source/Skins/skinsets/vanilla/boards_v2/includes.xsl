@@ -100,6 +100,7 @@
     <xsl:include href="objects/error/error.xsl" />
     <xsl:include href="objects/error/errormessage.xsl" />
     <xsl:include href="objects/error/extrainfo.xsl" />
+    <xsl:include href="objects/error/forumnotfound.xsl" />
     
     
     <xsl:include href="objects/member/article.xsl" />

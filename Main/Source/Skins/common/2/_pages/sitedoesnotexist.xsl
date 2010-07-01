@@ -26,27 +26,27 @@
             <ul>
               <li class="sitelink">
                 <a href="/dna/h2g2">
-                  <img src="/dnaimages/h2g2/images/h2g2_logo.gif" alt="H2G2" title="H2G2" width="107" height="39"/>
+                  <img src="http://www.bbc.co.uk/h2g2/skins/brunel/images/h2g2_logo.gif" alt="H2G2" title="H2G2" width="106" height="39"/>
                 </a>
               </li>
               <li class="sitelink">
                 <a href="/dna/memoryshare">
-                  <img src="/dnaimages/memoryshare/images/logo1_memoryshare.gif" title="BBC Memoryshare" alt="BBC Memoryshare" width="126" height="23"/>
+                  <img src="http://www.bbc.co.uk/memoryshare/images/logos/logo1_memoryshare.gif" title="BBC Memoryshare" alt="BBC Memoryshare" width="126" height="23"/>
                 </a>
               </li>
               <li class="sitelink">
                 <a href="/dna/filmnetwork">
-                  <img src="/dnaimages/filmnetwork/bbcfilmnetwork_wht_medium.gif" alt="BBC Film Network" title="BBC Film Network" width="140" height="49"/>
+                  <img src="http://www.bbc.co.uk/dnaimages/filmnetwork/bbcfilmnetwork_wht_medium.gif" alt="BBC Film Network" title="BBC Film Network" width="139" height="49"/>
                 </a>
               </li>
               <li class="sitelink">
                 <a href="/dna/606">
-                  <img src="/dnaimages/606/606_logo_nborder.jpg" alt="BBC 606" title="BBC 606" height="40" width="140"/>
+                  <img src="http://www.bbc.co.uk/dnaimages/606/606_logo_nborder.jpg" alt="BBC 606" title="BBC 606" height="40" width="140"/>
                 </a>
               </li>
               <li class="sitelink">
                 <a href="/messageboards/newguide/">
-                  <img src="/dnaimages/messageboards_logo.gif" alt="BBC DNA Messageboards" title="BBC DNA Messageboards" width="291" height="40"/>
+                  <img src="http://www.bbc.co.uk/dnaimages/messageboards_logo.gif" alt="BBC DNA Messageboards" title="BBC DNA Messageboards" width="291" height="40"/>
                 </a>
               </li>
             </ul>

@@ -38,7 +38,7 @@ ul li h4 {
 	background-color: #376dad;
 }
 #blq-main #header #banner {
-  	padding-left: 13px;
+  	padding-left: 14px;
   	color: #fff;
 }
 #blq-main #header #banner h1 {
@@ -199,7 +199,7 @@ ul.admin {
 	/*width: 100%; how to make this relative size? */
 	width: 463px;
 }
-#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {
+#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .notfound, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {
 	width: 463px;
 	margin-right: 14px;
 	padding-bottom: 10px;
@@ -248,7 +248,7 @@ ul.admin {
 }
 /* pagination */
 #blq-main #blq-content .pagination { 
-  	margin: 10px 9px; 
+  	margin: 5px 9px 10px 9px; 
   	float:right;
   	width: auto;
   	clear: both;
@@ -317,8 +317,7 @@ body.ie6 #blq-main #blq-content .pagination li {
 /* topiclist, forumthreads, post-list */
 #blq-content.frontpage  { 
 	background:none; 
-	/*float:left; 
-	width: 479px;*/
+
 	margin-left:14px;
 	padding:0;
 }
@@ -343,9 +342,6 @@ body.ie6 #blq-main #blq-content .pagination li {
 	text-decoration: underline;	
 }
 #blq-content .topiclist li {
-	/*float: left;
-	width: 223px;
-	position: relative;*/
 	margin-bottom: 14px;
 	margin-right: 14px;
 	padding-bottom:10px;
@@ -356,9 +352,6 @@ body.ie6 #blq-main #blq-content .pagination li {
 #blq-content .topiclistimage li {
 	min-height: 245px;
 }
-/*#blq-content .single-col-topics li {
-	width: 463px;
-}*/
 #blq-content .topiclist li p {
 	font-size: 1.1em; 
 	margin-top: 5px;
@@ -368,12 +361,8 @@ body.ie6 #blq-main #blq-content .pagination li {
 #blq-content .topiclist li a:hover {
 	text-decoration: none;
 }
-#blq-main #blq-content .topiclist li div.topicimage {
-  	/*margin: 10px 10px 0;*/
-}
 #blq-content .topiclist li div.topicimage img {
   	border: 0;
-  	
 }
 #blq-main .multiposts h3 {
 	padding-left: 10px;
@@ -389,6 +378,7 @@ ul.forumthreadposts {
 ul.forumthreadposts li {
   	padding: 10px;
 }
+
 ul.forumthreadposts li p {
 	margin-bottom: 10px;
 }
@@ -424,6 +414,7 @@ ul.forumthreadposts li.stripe {
 }
 #blq-content table.forumthreads {
 	width: 463px;
+	margin-bottom: 10px;
 	font-size: 	1.1em;
 }
 #blq-content table.forumthreads a {
@@ -449,7 +440,7 @@ ul.forumthreadposts li.stripe {
 }
 #blq-content table.forumthreads th#discussion {
 	width: 50%;	
-	padding-left: 10px;
+	padding-left: 9px;
 }
 #blq-content table.forumthreads th#replies{
 	width: 10%;
@@ -480,7 +471,7 @@ ul.forumthreadposts li.stripe {
 	background-color: #d4e2e6;
 } 
 #blq-content table.forumthreads td.discussiondetail {
-	padding-left: 7px;
+	padding-left: 9px;
 	word-break: break-all;
 }
 #blq-content table.forumthreads td.replies {
@@ -528,16 +519,6 @@ ul.forumthreads li p {
 	padding-left: 10px; 
 	font-size: 0.8em;
 }
-/*ul.forumthreads div.stickypin {
-	float: left;
-	width: 20px;
-	height: 20px;
-	margin-right: 5px;
-	background: url(/dnaimages/dna_messageboard/img/bg_pin.png) top left no-repeat;
-}
-ul.forumthreads div.stickypin span {
-	display: none;	
-}*/
 #blq-main #blq-content ul.forumthreads p a:hover, #blq-main #blq-content ul.post-list p a:hover {
 	text-decoration: none;
 }
@@ -557,7 +538,7 @@ ul.forumthreads li.stripe, ul.post-list li.stripe {
 ul.forumthreads li span.userid {
 	display:none;
 }
-#blq-content.moreposts p, #blq-content.morecomments p {
+#blq-content.moreposts p, #blq-content.morecomments p, #blq-content.notfound p {
   	margin-left: 10px;
   	margin-right: 10px;
   	margin-bottom: 5px;
@@ -755,6 +736,9 @@ div#dna-boardpromo #dna-about-board .id-wrap, #blq-content .id-wrap  {
 	border: none;	
 	padding: 0;
 	margin: 0;
+}
+#blq-content .id-wrap  {
+	margin-bottom: 10px;	
 }
 div#dna-boardpromo #dna-about-board .id-wrap p, #blq-content .id-wrap p {
 	line-height: 2.1em;
@@ -964,7 +948,7 @@ div#logintrouble {
 	color: #000;
 }
 .servertoobusy p {
-  margin: 10px 0 10px 0;
+  margin: 10px;
 }
 .servertoobusy ul {
   margin-top: 20px;
@@ -972,7 +956,7 @@ div#logintrouble {
 }
 .servertoobusy li.sitelink {
   float: left;
-  margin-right: 10px;
+  margin-right: 20px;
   /*width: 15%;*/
 }
 #blq-content .servertoobusy li.sitelink a {
