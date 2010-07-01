@@ -110,7 +110,7 @@
       			}
       		</script>
       		
-      		<link type="text/css" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_v3.css"/>
+      		<link type="text/css" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_v2.css"/>
       		<xsl:if test="SITECONFIG/V2_BOARDS/CSS_LOCATION and SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
       			<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
       		</xsl:if> 
