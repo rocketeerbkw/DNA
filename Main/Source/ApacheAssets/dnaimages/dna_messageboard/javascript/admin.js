@@ -154,7 +154,9 @@
                         $("#fp_imagealttext-" + seditTopic).addClass("dna-error-input");
                         return false;
                     } else if ($("#fp_imagename-" + seditTopic).val() == "" && $("#fp_imagealttext-" + seditTopic).val() == "") {
-                        $("#fp_templatetype-" + seditTopic).attr("checked", true);
+                        $("#fp_templatetype-" + seditTopic).attr("checked", "checked");
+                        $("#fp_imagealttext-" + seditTopic).removeClass("dna-error-input");
+                        $("span.dna-error-text").remove();
                         $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
                         $("#dna-preview-edittopic-step2-" + seditTopic).addClass("dna-off");
                         $("#dna-preview-edittopic-step3-" + seditTopic).removeClass("dna-off");
