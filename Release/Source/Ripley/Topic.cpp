@@ -2,7 +2,7 @@
 #include ".\topic.h"
 #include ".\tdvassert.h"
 
-CTopic::CTopic(CInputContext& inputContext) : CXMLObject(inputContext), m_bValidTopic(false), m_iTextStyle(1), m_iTopicID(0)
+CTopic::CTopic(CInputContext& inputContext) : CXMLObject(inputContext), m_bValidTopic(false), m_iTextStyle(1), m_iTopicID(0), m_iTopicListSiteID(0)
 {
 }
 
@@ -35,12 +35,14 @@ bool CTopic::CreateXMLForTopic()
 		return false;
 	}
 
+	int iTopicLinkID = 0;
+	int iTopicID = 0;
 	bool bOk = OpenXMLTag("TOPIC");
-	bOk = bOk && AddDBXMLIntTag("TOPICID");
+	bOk = bOk && AddDBXMLIntTag("TOPICID", NULL, false, &iTopicID);
 	bOk = bOk && AddDBXMLIntTag("H2G2ID");
 	bOk = bOk && AddDBXMLIntTag("SITEID");
 	bOk = bOk && AddDBXMLIntTag("TOPICSTATUS");	 
-	bOk = bOk && AddDBXMLIntTag("TOPICLINKID");	 
+	bOk = bOk && AddDBXMLIntTag("TOPICLINKID", NULL, false, &iTopicLinkID);	 
 	bOk = bOk && AddDBXMLTag("TITLE",NULL,false,false,&m_sTitle);
 	bOk = bOk && AddDBXMLIntTag("FORUMID");
 	bOk = bOk && AddDBXMLIntTag("FORUMPOSTCOUNT");
@@ -76,6 +78,16 @@ bool CTopic::CreateXMLForTopic()
 	}
 
 	bOk = bOk && CloseXMLTag("TOPIC");
+
+	if (iTopicID > 0)
+	{
+		topicInfo t;
+		t.editKey = "";
+		t.iTopicID = iTopicID;
+		t.iTopicLinkID = iTopicLinkID;
+		m_siteTopicIDs.AddHead(t);
+	}
+
 	return bOk;
 }
 
@@ -182,7 +194,12 @@ bool CTopic::EditTopic(int iTopicID, int iSiteID, int iEditorID, const TDVCHAR* 
 	}
 	
 	//check that record was updated
-	bEditKeyClash = ((int)(SP.GetIntField("ValidEditKey"))) == 1;				
+	bEditKeyClash = ((int)(SP.GetIntField("ValidEditKey"))) == 1;
+
+	if (!bEditKeyClash)
+	{
+		SP.GetField("NewEditKey", m_sEditKey);
+	}
 
 	return true;
 }
@@ -215,6 +232,9 @@ bool CTopic::GetTopicsForSiteID(int iSiteID, CTopic::eTopicStatus TopicStatus, b
 	{
 		return SetDNALastError("CTopic::GetTopicsForSiteID","FailedToGetTopicsForSiteID","Failed to get topics for site");
 	}
+
+	m_iTopicListSiteID = iSiteID;
+	m_siteTopicIDs.RemoveAll();
 
 	// Setup the list of status types
 	CTDVString sTopicListStatus[5];
@@ -258,6 +278,50 @@ bool CTopic::GetTopicsForSiteID(int iSiteID, CTopic::eTopicStatus TopicStatus, b
 	return true;
 }
 
+bool CTopic::GetTopicLinkIDAndEditKeyForTopicIDOnSite(int iTopicID, int iSiteID, CTDVString& editKey, int& iTopicLinkID, int& iLinkTopicElementID, CTDVString& topicElementEditKey)
+{
+	if (m_iTopicListSiteID != iSiteID || iTopicID == 0)
+	{
+		return false;
+	}
+
+	POSITION pos = m_siteTopicIDs.GetHeadPosition();
+	for (int i=0; i < m_siteTopicIDs.GetCount(); i++)
+	{
+	   topicInfo ti = m_siteTopicIDs.GetNext(pos);
+		if (ti.iTopicLinkID == iTopicID)
+		{
+			CStoredProcedure SP;
+			if (!m_InputContext.InitialiseStoredProcedureObject(&SP))
+			{
+				return SetDNALastError("CTopic::DoesTopicExistForSite","FailedToInitialiseStoredProcedure","Failed To Initialise Stored Procedure");
+			}
+
+			iTopicLinkID = ti.iTopicID;
+			if (GetTopicDetailsFromDatabase(iTopicLinkID, SP))
+			{
+				iLinkTopicElementID = SP.GetIntField("FP_ELEMENTID");
+				bool bOk = SP.GetField("EDITKEY", editKey);
+				bOk = bOk && SP.GetField("FP_EDITKEY", topicElementEditKey);
+				return bOk;
+			}
+		}
+	}
+
+
+	return false;
+}
+
+bool CTopic::GetTopicDetailsFromDatabase(int iTopicID, CStoredProcedure& SP)
+{
+	// Now call the procedure
+	if (!SP.GetTopicDetails(iTopicID))
+	{
+		return SetDNALastError("CTopic::GetTopicDetails","FailedToGetTopicDetails","Failed to get topic details");
+	}
+	return true;
+}
+
 /*********************************************************************************
 
 	bool CTopic::GetTopicDetails(int iTopicID)
@@ -277,15 +341,15 @@ bool CTopic::GetTopicDetails(int iTopicID)
 
 	// Create and initialise a storedprocedure
 	CStoredProcedure SP;
-	if (!m_InputContext.InitialiseStoredProcedureObject(&SP))
+	if (!m_InputContext.InitialiseStoredProcedureObject(SP))
 	{
 		return SetDNALastError("CTopic::GetTopicDetails","FailedToInitialiseStoredProcedure","Failed To Initialise Stored Procedure");
 	}
 	
 	// Now call the procedure
-	if (!SP.GetTopicDetails(iTopicID))
+	if (!GetTopicDetailsFromDatabase(iTopicID, SP))
 	{
-		return SetDNALastError("CTopic::GetTopicDetails","FailedToGetTopicDetails","Failed to get topic details");
+		return false;
 	}
 
 	// Now insert the results into the XML

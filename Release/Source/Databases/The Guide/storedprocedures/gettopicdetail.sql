@@ -48,6 +48,12 @@ BEGIN
 						WHEN fp.ElementStatus = 0 THEN fp.title 
 						WHEN fp.ElementStatus = 1 THEN fp.title 
 						ELSE NULL 
+					END , 
+				"FP_EditKey" =
+					CASE 
+						WHEN fp.ElementStatus = 0 THEN fp.EditKey 
+						WHEN fp.ElementStatus = 1 THEN fp.EditKey 
+						ELSE NULL 
 					END 				
 	FROM dbo.Topics tp 
 		INNER JOIN dbo.GuideEntries ge ON tp.h2g2ID = ge.h2g2ID

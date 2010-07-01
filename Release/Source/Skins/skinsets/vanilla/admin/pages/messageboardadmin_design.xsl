@@ -33,7 +33,18 @@
 
         <h3>Your messageboard</h3>
 
-        <div class="dna-box-border">
+        <div class="dna-preview dna-fr">
+          <h3>Preview</h3>
+
+          <p class="dna-center">
+            <a href="/dna/{SITE/URLNAME}/boards_v2/?_previewmode=1" class="dna-openNewWindow">Preview this messageboard</a>
+          </p>
+          <p class="dna-fnote">
+            <strong>View your messageboard exactly as the user will see it.</strong>
+          </p>
+        </div>
+        
+        <div class="dna-box-border dna-mr250">
           <h4>Banner</h4>
           <xsl:choose>
             <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI != ''">
@@ -53,8 +64,8 @@
           </xsl:choose>
         </div>
 
-        <div class="dna-box-border">
-          <h4>Horizontal navigation</h4>
+        <div class="dna-box-border dna-mr250">
+          <h4>Horizontal navigation <span>opt</span></h4>
           <xsl:choose>
             <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI != ''">
               <p>
@@ -78,7 +89,7 @@
           <div id="dna-preview-left" class="dna-fl">
 
             <div class="dna-box-border">
-              <h4>Left navigation</h4>
+              <h4>Left navigation <span>opt</span></h4>
               <xsl:choose>
                 <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/LEFT_NAV_SSI != ''">
                   <p>
@@ -119,15 +130,9 @@
             <div class="dna-box">
               <h4 class="dna-off">Internal links</h4>
               <ul class="dna-list-links">
-                <li>
-                  <a href="#">My Discussions</a>
-                </li>
-                <li>
-                  <a href="#">House Rules</a>
-                </li>
-                <li>
-                  <a href="#">FAQs</a>
-                </li>
+                <li>My Discussions</li>
+                <li>House Rules</li>
+                <li>FAQs</li>
               </ul>
             </div>
           </div>
@@ -168,10 +173,10 @@
                       <xsl:choose>
                         <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/TOPICLAYOUT = '2col'">
                           <ul class="dna-list-topic-col1">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION mod 2 = 1]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION mod 2 = 0]" mode="object_topiclist_elements" />
                           </ul>
                           <ul class="dna-list-topic-col2">
-                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION  mod 2 = 0]" mode="object_topiclist_elements" />
+                            <xsl:apply-templates select="/H2G2/TOPIC_PAGE/TOPICLIST[@STATUS='Preview']/TOPIC[FRONTPAGEELEMENT/POSITION  mod 2 = 1]" mode="object_topiclist_elements" />
                           </ul>
                         </xsl:when>
                         <xsl:otherwise>
@@ -240,7 +245,7 @@
 
 
             <div class="dna-box-border">
-              <h4>Additional modules</h4>
+              <h4>Additional modules <span>opt</span></h4>
               <xsl:if test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/MODULES/LINKS != ''">
                 <p>
                   <strong>Modules inserted:</strong>
@@ -264,7 +269,7 @@
 
 
         <div class="dna-box-border dna-clear">
-          <h4>Social media toolbar</h4>
+          <h4>Social media toolbar <span>opt</span></h4>
 
           <xsl:choose>
             <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/SOCIALTOOLBAR = 'true'">
@@ -284,7 +289,7 @@
 
 
         <div class="dna-box-border">
-          <h4>Footer colour</h4>
+          <h4>Footer colour <span>opt</span></h4>
 
           <p>
             <xsl:choose>

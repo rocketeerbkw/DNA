@@ -64,13 +64,13 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'THREADS']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/F', FORUMTHREADS/@FORUMID)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID)"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'MULTIPOSTS']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/F', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID)"/>
 		</xsl:call-template>
 	</xsl:template>
 	

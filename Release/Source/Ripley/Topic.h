@@ -13,6 +13,13 @@ public:
 		TS_ARCHIVE 
 	};
 
+	struct topicInfo
+	{
+		CTDVString editKey;
+		int iTopicLinkID;
+		int iTopicID;
+	};
+
 public:
 	CTopic(CInputContext& inputContext);
 	virtual ~CTopic(void);
@@ -40,11 +47,18 @@ public:
 	bool GetTopicEditKey(CTDVString& sEditKey);
 	bool GetTopicID(int& iTopicID);
 
+	bool GetTopicLinkIDAndEditKeyForTopicIDOnSite(int iTopicID, int iSiteID, CTDVString& editKey, int& topicLinkID, int& iLinkTopicElementID, CTDVString& topicElementEditKey);
+
 private:
 	CTDVString m_sTitle;
 	CTDVString m_sText;
 	CTDVString m_sEditKey;
+	CList<topicInfo> m_siteTopicIDs;
+
+	int m_iTopicListSiteID;
 	int m_iTopicID;
 	int m_iTextStyle;
 	bool m_bValidTopic;
+
+	bool GetTopicDetailsFromDatabase(int iTopicID, CStoredProcedure& SP);
 };

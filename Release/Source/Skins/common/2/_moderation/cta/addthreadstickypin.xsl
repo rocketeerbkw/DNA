@@ -14,10 +14,7 @@
     </doc:documentation>
     
     <xsl:template match="THREAD" mode="moderation_cta_addthreadstickypin">
-		<div title="Sticky topic placed by host" class="stickypin">
-			<span>thread has been pinned</span>
-		</div>
-		<!-- <img src="/dnaimages/dna_messageboard/img/bg_pin.png" class="stickypin" alt="thread has been pinned" /> -->
+		<xsl:text> stickypin</xsl:text>
     </xsl:template>
     
 </xsl:stylesheet>

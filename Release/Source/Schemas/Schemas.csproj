@@ -128,6 +128,8 @@
     <None Include="Club.xsd" />
     <None Include="ContentSignifSettings.xsd" />
     <None Include="Dna.Services.Common\ExtraInfo.xsd" />
+    <None Include="Dna.Services.Users\group.xsd" />
+    <None Include="Dna.Services.Users\user.xsd" />
     <None Include="UserComplaintArticle.xsd" />
     <None Include="UserComplaintUrl.xsd" />
     <None Include="Dna.Services.Articles\article.xsd" />
