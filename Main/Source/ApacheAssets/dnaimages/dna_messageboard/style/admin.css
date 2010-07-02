@@ -3,14 +3,14 @@
     /* DEFAULT STYLES */
     p, ul, h1, h2, h3, h4, h5 {line-height:130%}
 
-    #blq-content,.glow170-overlay {color:#666}
+    #blq-content,.glowNoMask  {color:#666}
 
     .dna-main input:focus,.dna-main select:focus {border:1px solid #7f9db9; background:#ebebe4}
 
     /* link */
-    .dna-main a,.glow170-overlay a {color:#666; padding:1px; border-bottom:1px solid #666; text-decoration:none}
-    .dna-main a:hover,.glow170-overlay a:hover {border-bottom:none}
-    .dna-main a:focus,.glow170-overlay a:focus,.dna-main a:active,.glow170-overlay a:active {border-bottom:none; background:#666; color:#fff}
+    .dna-main a,.glowNoMask  a {color:#666; padding:1px; border-bottom:1px solid #666; text-decoration:none}
+    .dna-main a:hover,.glowNoMask  a:hover {border-bottom:none}
+    .dna-main a:focus,.glowNoMask  a:focus,.dna-main a:active,.glowNoMask  a:active {border-bottom:none; background:#666; color:#fff}
 
     .dna-link-edit {position:absolute; top:-6px; right:0; line-height:150%}
     .dna-link-edit a {padding:1px 3px; height:1%; text-transform:uppercase;  background-color:#fff; color:#666; border:1px solid #666; font-size:.8em}
@@ -28,21 +28,21 @@
     .dna-main-right div {margin-bottom:20px}
     .dna-main-full  {width:100%; margin:0}
     .dna-half {width:49.4%}
-    .dna-main p,.glow170-overlay p{margin:10px}
+    .dna-main p,.glowNoMask  p{margin:10px}
 
     /* headings  */
     #blq-main h1 {line-height:100%; font-size:1.85em; font-weight:normal; padding:25px 10px 15px 10px; color:#fff}
     #blq-main h1 span {border-left:1px solid #fff; margin-left:10px; padding-left:10px}
     #blq-main h2 {font-size:1.167em}
-    .dna-main h3,.dna-main h4,.glow170-overlay h4 {margin-bottom:10px; text-transform:uppercase}
+    .dna-main h3,.dna-main h4,.glowNoMask  h4 {margin-bottom:10px; text-transform:uppercase}
     .dna-main h3 {padding:5px; color:#fff; background-color:#56a4ce}
     .dna-main h4 {border-bottom:1px solid #56a4ce; line-height:140%; margin:10px}
     .dna-main h4 span {color:#ccc; font-size:.75em}
     .dna-main h5  {margin:0 10px}
     .dna-main h5 + p {margin:0 10px 10px 10px}
     .dna-main h3 a {float:right; margin-top:-2px}
-    .glow170-overlay h4 {padding:10px; line-height:140%; color:#fff; background-color:#56a4ce}
-    .glow170-overlay h4 span {color:#ccc; font-size:.9em}
+    .glowNoMask  h4 {padding:10px; line-height:140%; color:#fff; background-color:#56a4ce}
+    .glowNoMask  h4 span {color:#ccc; font-size:.9em}
 
     /* COMMON CLASSES */
     .dna-fl {float:left}
@@ -57,7 +57,7 @@
 
     .dna-fnote {font-size:.8em; word-wrap:break-word}
     span.dna-fnote {display:block; margin-top:2px}
-    .glow170-overlay .dna-fnote {font-size:1em}
+    .glowNoMask  .dna-fnote {font-size:1em}
 
     .dna-off {position:absolute; left:-9000px; top:0; z-index:20}
 
@@ -73,7 +73,7 @@
     .dna-error-input {background:#feecec; border-color:#ba0c0c}
 
 
-    .glow170-overlay {width:350px; overflow:hidden}
+    .glowNoMask  {width:350px; overflow:hidden}
 
     .dna-error-box a.id-signin {float:left; display:inline-block; width:75px; height:22px; margin:0 5px; padding:6px 5px 4px 45px; background:url(/dnaimages/dna_messageboard/img/id-signin-hover.gif) no-repeat top left; color:#fff; font-weight:bold; text-decoration:none; border:none}
     *+html .dna-error-box a.id-signin,*html .dna-error-box a.id-signin {position:relative; top:30px}
@@ -103,10 +103,10 @@
     *+html .dna-buttons a {padding:3px 7px!important}
     *html .dna-buttons a {padding:3px 7px!important}
 
-    .glow170-overlay a.dna-btn-link {text-decoration:none; font-size:1em; padding:3px 7px!important}
-    *+html .glow170-overlay a.dna-btn-link {padding:4px 7px!important}
-    *html .glow170-overlay a.dna-btn-link {padding:4px 7px!important}
-    *+html .glow170-overlay .dna-buttons input,*html .glow170-overlay .dna-buttons input {font-size:1.05em}
+    .glowNoMask  a.dna-btn-link {text-decoration:none; font-size:1em; padding:3px 7px!important}
+    *+html .glowNoMask  a.dna-btn-link {padding:4px 7px!important}
+    *html .glowNoMask  a.dna-btn-link {padding:4px 7px!important}
+    *+html .glowNoMask  .dna-buttons input,*html .glowNoMask  .dna-buttons input {font-size:1.05em}
 
     /* HEADER - banner*/
     #blq-local-nav {background:#97c8e3 url(/dnaimages/dna_messageboard/img/bg-header.gif) repeat-x 0 100%}
@@ -131,8 +131,8 @@
 
 
     /* INTRO text */
-    .dna-mb-intro {width:45em; min-height:4em; margin:20px 10px 10px 10px}
-    * html .dna-mb-intro {height:4em}
+    .dna-mb-intro {width:45em; min-height:6em; margin:20px 10px 10px 10px}
+    * html .dna-mb-intro {height:6em}
     .dna-mb-intro p {margin:10px 0}
     .dna-mb-intro a {color:#666}
     .dna-mb-intro a:focus,.dna-mb-intro a:active {background-color:#666; color:#fff}
@@ -235,11 +235,11 @@
 
     #dna-preview-editheader ul li label,#dna-preview-edittopiclayout ul li label,#dna-footer-color ul li label,.dna-turn-img-off label,#dna-preview-addtoolbar label,#dna-preview-addrecentdiscussions label,#dna-topic-archive label,#dna-topic-unarchive label,#dna-topic-delete label{display:inline-block!important; width:240px}
 
-    .glow170-overlay input,.glow170-overlay textarea {width:325px}
-    *+html .glow170-overlay textarea {width:320px}
-    *html .glow170-overlay textarea {width:320px}
-    .glow170-overlay #dna-preview-editheader ul li input,.glow170-overlay #dna-preview-edittopiclayout ul li input,#dna-footer-color ul li input,.dna-turn-img-off input,#dna-preview-addtoolbar input,#dna-preview-addrecentdiscussions input,#dna-topic-archive input,#dna-topic-unarchive input,#dna-topic-delete input{width:auto}
-    .glow170-overlay .dna-main h4 span {font-size:.9em}
+    .glowNoMask  input,.glowNoMask  textarea {width:325px}
+    *+html .glowNoMask  textarea {width:320px}
+    *html .glowNoMask  textarea {width:320px}
+    .glowNoMask  #dna-preview-editheader ul li input,.glowNoMask  #dna-preview-edittopiclayout ul li input,#dna-footer-color ul li input,.dna-turn-img-off input,#dna-preview-addtoolbar input,#dna-preview-addrecentdiscussions input,#dna-topic-archive input,#dna-topic-unarchive input,#dna-topic-delete input{width:auto}
+    .glowNoMask  .dna-main h4 span {font-size:.9em}
 
     .dna-turn-img-off {margin:30px 10px 10px 10px!important; padding:5px; background:#dce3e8; border:1px solid #ccc}
 
@@ -253,7 +253,7 @@
     .dna-emergency-go,.dna-emergency-stop,.dna-box,.dna-preview,.dna-preview a,.dna-publish,.dna-publish a,.dna-buttons input,.dna-buttons a,.dna-preview-box {-moz-border-radius:5px; -webkit-border-radius:5px}
     .dna-link-edit a {-moz-border-radius:3px; -webkit-border-radius:3px}
 
-    #blq-local-nav a,.dna-main h3,.glow170-overlay h4  {-moz-border-radius-topleft:5px; -webkit-border-top-left-radius:5px; -moz-border-radius-topRight:5px; -webkit-border-top-right-radius:5px}
+    #blq-local-nav a,.dna-main h3,.glowNoMask  h4  {-moz-border-radius-topleft:5px; -webkit-border-top-left-radius:5px; -moz-border-radius-topRight:5px; -webkit-border-top-right-radius:5px}
 
 
     /* CLEAR HACKS */
