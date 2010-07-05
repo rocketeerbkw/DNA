@@ -21,7 +21,7 @@
             <xsl:attribute name="class">
             	<xsl:text>topiclist</xsl:text>
             	<xsl:value-of select="$topic-layout" />
-            	<xsl:if test="/H2G2/TOPICELEMENTLIST/TOPICELEMENT/IMAGENAME">
+            	<xsl:if test="/H2G2/TOPICELEMENTLIST/TOPICELEMENT/IMAGENAME and /H2G2/SITECONFIG/V2_BOARDS/TOPICLAYOUT != '1col'">
             		<xsl:text> topiclistimage</xsl:text>
             	</xsl:if>
             </xsl:attribute>
