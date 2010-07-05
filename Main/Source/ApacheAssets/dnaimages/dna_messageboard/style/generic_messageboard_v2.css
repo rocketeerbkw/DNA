@@ -84,7 +84,6 @@ ul.navigation li {
 	float: none;
 	width: auto;
 	line-height: 1.8em;
-	
 }
 ul.navigation li a {
 	display: block;
@@ -195,10 +194,7 @@ ul.admin {
 	width: 223px;
 	position: relative;
 }
-#blq-content .single-col-topics li {
-	/*width: 100%; how to make this relative size? */
-	width: 463px;
-}
+
 #blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .notfound, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {
 	width: 463px;
 	margin-right: 14px;
@@ -348,6 +344,11 @@ body.ie6 #blq-main #blq-content .pagination li {
 	border: 1px solid #CCCCCC;
 	background-color: #FFFFFF;
 	min-height: 160px;
+}
+#blq-content .single-col-topics li {
+	/*width: 100%; how to make this relative size? */
+	width: 463px;
+	min-height: 120px;
 }
 #blq-content .topiclistimage li {
 	min-height: 245px;
