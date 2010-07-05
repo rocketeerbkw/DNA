@@ -11,7 +11,7 @@ if (@sortBy is null or @sortBy ='') set @sortBy = 'created'
 if (@sortDirection is null or @sortDirection ='') set @sortDirection = 'descending'
 
 -- get userid tmp table
-declare @userIds table (userid int)
+declare @userIds table (userid varchar(40))
 insert into @userIds 
 select element from dbo.udf_splitint(@userlist);
 

@@ -1234,11 +1234,11 @@ public:
 
 	bool GetMemberArticleCount( int iUserID, int siteID, int& userarticlecount );
 
-	bool CreateNewUserFromIdentityID(int iIdentityUserID, int iLegacySSOUserID, const TDVCHAR *pUserName, const TDVCHAR* pEmail, int iSiteID, const TDVCHAR* pFirstName, const TDVCHAR* pLastName, const TDVCHAR* pDisplayName);
+	bool CreateNewUserFromIdentityID(const TDVCHAR *pIdentityUserID, int iLegacySSOUserID, const TDVCHAR *pUserName, const TDVCHAR* pEmail, int iSiteID, const TDVCHAR* pFirstName, const TDVCHAR* pLastName, const TDVCHAR* pDisplayName);
 	bool CreateNewUserFromSSOID(int iSSOUserID, const TDVCHAR *pUserName, const TDVCHAR* pEmail, int iSiteID, const TDVCHAR* pFirstName, const TDVCHAR* pLastName, const TDVCHAR* pDisplayName);
 
 	bool GetDNAUserIDFromSSOUserID(int iSSOUserID, bool& bIDFound);
-	bool GetDNAUserIDFromIdentityUserID(int iIdentityUserID, bool& bIDFound);
+	bool GetDNAUserIDFromIdentityUserID(const TDVCHAR *pIdentityUserID, bool& bIDFound);
 };
 
 #endif // !defined(AFX_STOREDPROCEDURE_H__562B53B1_E8BA_11D3_89EF_00104BF83D2F__INCLUDED_)

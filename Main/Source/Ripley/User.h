@@ -197,9 +197,9 @@ public:
 	// 3 different unique identifiers for users, so three different ways
 	// to create one
 	virtual bool CreateFromIDInternal(int iUserID, bool bCreateIfNotFound = false);
-	virtual bool CreateFromSigninIDInternal(int iSignInUserID, bool bCreateIfNotFound = false);
+	virtual bool CreateFromSigninIDInternal(const TDVCHAR *pIdentityUserID, bool bCreateIfNotFound = false);
 	virtual bool CreateFromID(int iUserID);
-	virtual bool CreateFromSigninIDAndInDatabase(int iUserID);
+	virtual bool CreateFromSigninIDAndInDatabase(const TDVCHAR *pIdentityUserID);
 	//virtual bool CreateFromCookie(const TDVCHAR* pCookie);
 	virtual bool CreateFromEmail(const TDVCHAR* pEmail);
 	virtual bool CreateFromH2G2ID(int ih2g2ID, int iSiteID = 1);
@@ -264,6 +264,7 @@ protected:
 	
 	// member variables to store XML data instead of using the tree
 	int				m_UserID;
+	CTDVString		m_IdentityUserID;
 	CTDVString		m_LoginName;
 	CTDVString		m_Username;
 	CTDVString		m_FirstNames;

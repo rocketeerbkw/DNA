@@ -1,4 +1,4 @@
-CREATE PROCEDURE createnewuserfromidentityid	@identityuserid int,
+CREATE PROCEDURE createnewuserfromidentityid	@identityuserid varchar(40),
 												@legacyssoid int = null,
 												@username varchar(255),
 												@email varchar(255),

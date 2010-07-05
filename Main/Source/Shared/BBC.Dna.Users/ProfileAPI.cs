@@ -83,9 +83,16 @@ namespace DnaIdentityWebServiceProxy
         /// <summary>
         /// User Id property
         /// </summary>
-        public int UserID
+        public int SSOUserID
         {
             get { return _ssoUser.UserID; }
+        }
+        /// <summary>
+        /// User Id string property
+        /// </summary>
+        public string UserID
+        {
+            get { return _ssoUser.UserID.ToString(); }
         }
 
         /// <summary>

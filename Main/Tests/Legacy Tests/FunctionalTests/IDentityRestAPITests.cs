@@ -23,7 +23,7 @@ namespace FunctionalTests
         private string _displayName = "Good old tester";
         private Cookie _identityUserCookie = null;
         private Cookie _secureidentityUserCookie = null;
-        private int _userIdentityID = 0;
+        private string _userIdentityID = String.Empty;
         string _responseString = "";
         private Dictionary<string, string> _postParams = new Dictionary<string, string>();
         private List<Cookie> _cookies = new List<Cookie>();

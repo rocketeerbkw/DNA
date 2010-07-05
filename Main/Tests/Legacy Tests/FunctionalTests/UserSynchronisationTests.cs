@@ -196,7 +196,7 @@ namespace FunctionalTests
                 Assert.AreEqual(TestUserAccounts.GetNormalUserAccount.UserName, reader.GetString("username"));
             }
 
-            int identityUserID;
+            string identityUserID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, TestUserAccounts.GetNormalUserAccount.UserID, out _cookie, out _secureCookie, out identityUserID), "Failed to create test identity user");
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAs(_userName, _password, TestUserAccounts.GetNormalUserAccount.UserID, _cookie.Value, true);
@@ -329,7 +329,7 @@ namespace FunctionalTests
                 Assert.AreEqual(TestUserAccounts.GetNormalUserAccount.UserName, reader.GetString("username"));
             }
 
-            int identityUserID;
+            string identityUserID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, TestUserAccounts.GetNormalUserAccount.UserID, out _cookie, out _secureCookie, out identityUserID), "Failed to create test identity user");
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAs(_userName, _password, TestUserAccounts.GetNormalUserAccount.UserID, _cookie.Value, true);

@@ -65,6 +65,7 @@ CNewRegisterBuilder::~CNewRegisterBuilder()
 
 bool CNewRegisterBuilder::Build(CWholePage* pPage)
 {
+	/*
 	// Fetch the parameters from the qeury
 	CTDVString	sLoginName;
 	CTDVString	sError;
@@ -151,7 +152,7 @@ bool CNewRegisterBuilder::Build(CWholePage* pPage)
 			CStoredProcedure SP;
 			if (m_InputContext.InitialiseStoredProcedureObject(&SP))
 			{
-				bSuccess = SP.GetUserFromUserID(Connection->GetUserId(), m_InputContext.GetSiteID());
+				bSuccess = SP.GetUserFromUserID(Connection->, m_InputContext.GetSiteID());
 			}
 	
 			if (bSuccess)
@@ -171,21 +172,21 @@ bool CNewRegisterBuilder::Build(CWholePage* pPage)
 				sXML 	<< "</NEWREGISTER>";
 				pPage->AddInside("H2G2", sXML);
 				
-				/* 
+				 
 				/////////////////////////////////////////////////////////////////////////////
 				// Now set the cookie
-				sXML = "<SETCOOKIE><COOKIE>";
-				sXML << sSsoCookie << "</COOKIE>\n";
-				if (!bRemember)
-				{
-					sXML << "<MEMORY/>";
-				}
-				sXML << "<NAME>" << CProfileApi::GetCookieName() << "</NAME>";
-				sXML << "</SETCOOKIE>";
+				//sXML = "<SETCOOKIE><COOKIE>";
+				//sXML << sSsoCookie << "</COOKIE>\n";
+				//if (!bRemember)
+				//{
+				//	sXML << "<MEMORY/>";
+				//}
+				//sXML << "<NAME>" << CProfileApi::GetCookieName() << "</NAME>";
+				//sXML << "</SETCOOKIE>";
 				
-				pPage->AddInside("H2G2", sXML);
+				//pPage->AddInside("H2G2", sXML);
 				///////////////////////////////////////////////////////////////////////////////
-				*/
+				
 				
 				//declare cookie instance (can be more than one)
 				CXMLCookie oXMLCookie (CProfileApi::GetCookieName(), sSsoCookie, "", (bRemember==false) );	
@@ -209,7 +210,7 @@ bool CNewRegisterBuilder::Build(CWholePage* pPage)
 		return NotFound.Build(pPage);
 	}
 	
-	
+*/	
 	return false;
 }
 

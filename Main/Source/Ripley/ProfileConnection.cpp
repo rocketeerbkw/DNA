@@ -209,23 +209,20 @@ const TDVCHAR* CProfileConnection::GetUserName()
 	return NULL;
 }
 
-unsigned long CProfileConnection::GetUserId()
+const TDVCHAR* CProfileConnection::GetUserId()
 {
 	if (m_pIdentityInteropPtr != NULL)
 	{
 		try
 		{
-			unsigned long id = m_pIdentityInteropPtr->GetUserID();
-			return id;
+			USES_CONVERSION;
+			const TDVCHAR *pid = W2A(m_pIdentityInteropPtr->GetUserID());
+			return pid;
 		}
 		catch(...)
 		{
 			m_sLastIdentityError = "Failed to get user id";
 		}
-	}
-	else if (m_pProfile != NULL)
-	{
-		return m_pProfile->GetUserId();
 	}
 	return 0;
 }

@@ -35,7 +35,8 @@ public:
 	virtual bool ReleaseConnection();
 	virtual bool SetService(const TDVCHAR* sSiteName, CGI* pCGI);
 	virtual const TDVCHAR* GetUserName();
-	virtual unsigned long GetUserId();
+	virtual const TDVCHAR* GetUserId();
+
 	virtual bool UpdateUserProfileValue(const TDVCHAR* sName, const TDVCHAR* sValue);
 	virtual bool LoginUser(unsigned int& uiCanLogin);
 	virtual bool GetUserProfileValue(const TDVCHAR* sName, CTDVString& sValue);

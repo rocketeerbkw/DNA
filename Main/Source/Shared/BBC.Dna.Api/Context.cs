@@ -220,9 +220,9 @@ namespace BBC.Dna.Api
             {
                 user.Notable = (reader.GetInt32NullAsZero("userIsNotable") == 1);
             }
-            if (reader.DoesFieldExist("bbcId"))
+            if (reader.DoesFieldExist("identityUserId"))
             {
-                user.BbcId = reader.GetInt32NullAsZero("bbcId");
+                user.BbcId = reader.GetStringNullAsEmpty("identityUserId");
             }
             return user;
         }

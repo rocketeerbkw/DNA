@@ -30,6 +30,6 @@ namespace BBC.Dna.Api
         public bool Notable { get; set; }
 
         [DataMember(Name = "bbcId", Order = 7, IsRequired = false)]
-        public int BbcId { get; set; }
+        public string BbcId { get; set; }
     }
 }
