@@ -12,8 +12,8 @@ ul li h4 {margin-left:0}
  
  /* header */
 #blq-main #header {width:100%; margin-bottom:30px; padding:20px 0; background:#376dad url(/dnaimages/dna_messageboard/img/bg_banner.jpg) top left no-repeat}
-#blq-main #header #banner {padding-left:14px; color:#fff}
-#blq-main #header #banner h1 {font-size:1.8em}
+#blq-main #header #banner {color:#fff}
+#blq-main #header #banner h1 {padding-left:14px; font-size:1.8em}
 
 /* navigation */
 #blq-main #global-nav {margin-bottom:14px; padding:5px 10px; background-color:#376dad; text-align:center}
@@ -113,12 +113,11 @@ ul.forumthreadposts li p {margin-bottom:10px}
 ul.forumthreadposts li.stripe {background-color:#edf0f1}
 #blq-content .forumthreads {margin-top:10px; font-size:1.2em; color:#000}
 #blq-content .forumthreads h3 {margin:0 10px; padding:0; font-size:1em}
-blq-content table.forumthreads {width: 463px;margin-bottom: 10px;font-size: 	1.1em;}
-#blq-content table.forumthreads a {text-decoration: none;}
+#blq-content table.forumthreads a {text-decoration:none}
 #blq-content table.forumthreads a:hover {text-decoration:underline}
 #blq-content table.forumthreads tr.stickypin {border:1px solid #a5a5a5}
 #blq-content table.forumthreads tr.stickypin h3 {padding: 2px 0 3px 25px; background: url(/dnaimages/dna_messageboard/img/bg_pin.png) top left no-repeat;}
-#blq-content table.forumthreads th {padding:5px; text-align:left; font-weight:normal; color:#fff; border-right:1px solid #fff; background-color:#71aef1}
+#blq-content table.forumthreads th {padding:5px; text-align:left; font-weight:normal; color:#fff; border-right:1px solid #fff; background-color:#376dad}
 #blq-content table.forumthreads th#discussion {width:50%; padding-left:9px}
 #blq-content table.forumthreads th#replies {width:10%; text-align:center}
 #blq-content table.forumthreads th#startedby {width:20%; text-align:center}
