@@ -1255,7 +1255,10 @@ bool CGI::CreateCurrentUser()
 		//user is now logged in so create the data
 		if (bUserLoggedIn)
 		{
-			if (m_pCurrentUser->CreateFromSigninIDAndInDatabase(m_ProfileConnection.GetUserId()))
+			CTDVString sSignInUserId = m_ProfileConnection.GetUserId();
+			WriteInputLog(CTDVString("SIGNIN SignInUserId: " + sSignInUserId));
+
+			if (m_pCurrentUser->CreateFromSigninIDAndInDatabase(sSignInUserId))
 			{
 				m_pCurrentUser->SetUserLoggedIn();
 			}
@@ -1264,7 +1267,7 @@ bool CGI::CreateCurrentUser()
 				m_pCurrentUser->SetUserNotLoggedIn();
 			}
 		}
-
+		
 		return true;
 
 	}

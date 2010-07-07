@@ -74,6 +74,7 @@ protected:
 	CTDVString m_sLastTimingInfo;
 	CTDVString m_sCookieValue;
 	CTDVString m_sSecureCookieValue;
+	CTDVString m_sSignInUserId;
 	DWORD m_dTimerStart;
 	DWORD m_dTimerSplitTime;
 
