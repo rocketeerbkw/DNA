@@ -261,39 +261,8 @@
                 <label for="mbfootercolor-white" class="dna-white">White</label>
               </li>
             </ul>
-
-            <p class="dna-fnote">
-              <strong>Note:</strong> You can also <a href="#" class="dna-add-footer-links">add links to your footer</a>.
-            </p>
           </div>
 
-          <div id="dna-footer-links">
-            <p>You can add additional links to the footer.</p>
-            <p>Please input the links you would like to add:</p>
-            
-            <ul>
-                <li>
-                  <xsl:variable name="flink-value">
-                    <xsl:choose>
-                      <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/LINKS/LINK">
-                        <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/FOOTER/LINKS/LINK"/>
-                      </xsl:when>
-                      <xsl:otherwise></xsl:otherwise>
-                    </xsl:choose>
-                  </xsl:variable>
-                  
-                  <label for="mb-url-flink">Link URL:</label>
-                  <input type="text" name="FOOTER_LINK" value="{$flink-value}" id="mb-url-flink" />   
-                </li>
-            </ul>
-            <p class="dna-fnote">
-              <strong>Example:</strong> &lt;!--#set var="blq_footer_link_url_1" value="/site_url1/"--&gt;
-            </p>
-
-            <p class="dna-fnote">
-              <strong>Note:</strong> Additional information on adding footer links can be found in this guide to <a href="http://www.live.bbc.co.uk/frameworks/barlesque/examples/footer/footlinks">custom footer links</a> (external link).
-            </p>
-          </div>
 
         <xsl:call-template name="submitbuttons">
           <xsl:with-param name="cancelUrl" select="'messageboardadmin_design?s_mode=design'" />
