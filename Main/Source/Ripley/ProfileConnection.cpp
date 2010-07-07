@@ -216,8 +216,9 @@ const TDVCHAR* CProfileConnection::GetUserId()
 		try
 		{
 			USES_CONVERSION;
-			const TDVCHAR *pid = W2A(m_pIdentityInteropPtr->GetUserID());
-			return pid;
+			CTDVString sSignInUserID = W2A(m_pIdentityInteropPtr->GetUserID());
+			AddTimingsInfo("CProfileConnection UserID : " + sSignInUserID, true);
+			return sSignInUserID;
 		}
 		catch(...)
 		{

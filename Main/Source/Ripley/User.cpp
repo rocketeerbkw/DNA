@@ -4514,9 +4514,10 @@ bool CUser::LoginUserToProfile()
 		return false;
 	}
 
-	m_IdentityUserID = pProfile->GetUserId();
+	CTDVString sSignInUserId = pProfile->GetUserId();
+	m_InputContext.WriteInputLog("USER", "UserID:" + sSignInUserId);
 	
-	if (m_IdentityUserID == NULL)
+	if (sSignInUserId == NULL)
 	{
 		TDVASSERT(false,"In CUSER::LoginUserToProfile m_IdentityUserID = Null");
 		return false;
@@ -4535,7 +4536,7 @@ bool CUser::LoginUserToProfile()
 			//we can't find the user in our database so they are new to dna
 			//this means that we have to create them in our database as a new user
 			
-			if (!CreateFromSigninIDAndInDatabase(m_IdentityUserID))
+			if (!CreateFromSigninIDAndInDatabase(sSignInUserId))
 			{
 				SetUserNotLoggedIn();
 				return false;
