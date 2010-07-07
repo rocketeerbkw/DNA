@@ -390,14 +390,16 @@
 
 
         // replace target=blank for links that open in new window
-        var openNewWindow = $(".dna-openNewWindow");
-        var href = $(openNewWindow).attr("href");
+        var openNewWindow = $("a.dna-openNewWindow");
 
-        addListener(openNewWindow, "click", function() {
-            window.open(href,"previewMessageboard");
-            return false;
+        openNewWindow.each(function(i) {
+            var href = $(this).attr("href");
+
+            addListener(this, "click", function() {
+                window.open(href,"previewMessageboard");
+                return false;
+            });
         });
-
 
         // mbadmin : click on opening times link to message board schedule page
         var openTimeTable = $(".dna-open-time");
