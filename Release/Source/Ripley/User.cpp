@@ -187,7 +187,7 @@ bool CUser::CreateFromIDInternal(int iUserID, bool bCreateIfNotFound /*false*/)
 
 	Author:		Mark Howitt
 	Created:	29/02/2000
-	Inputs:		iSignInUserID - the unique ID for the user to be created.
+	Inputs:		pIdentityUserID - the unique Identity ID for the user to be created.
 				bCreateIfNotFound - set to true if you want to create the user if
 									they are not found
 	Outputs:	-
@@ -195,9 +195,9 @@ bool CUser::CreateFromIDInternal(int iUserID, bool bCreateIfNotFound /*false*/)
 	Purpose:	Creates the user from their signin userid.
 
 *********************************************************************************/
-bool CUser::CreateFromSigninIDInternal(int iSignInUserID, bool bCreateIfNotFound /*false*/)
+bool CUser::CreateFromSigninIDInternal(const TDVCHAR *pIdentityUserID, bool bCreateIfNotFound /*false*/)
 {
-	TDVASSERT(iSignInUserID > 0, "Non-positive Signin userid from CreateFromSigninIDInternal(...)");
+	TDVASSERT(pIdentityUserID != NULL, "Null Identity userid from CreateFromSigninIDInternal(...)");
 
 	//this should always be the current site
 	SetSiteID(m_InputContext.GetSiteID());
@@ -211,16 +211,9 @@ bool CUser::CreateFromSigninIDInternal(int iSignInUserID, bool bCreateIfNotFound
 	{
 		// Check to see which signin system the site is using
 		bool bIDFound = false;
-		if (m_InputContext.GetSiteUsesIdentitySignIn(m_InputContext.GetSiteID()))
-		{
-			// Get the dna userid from the identity id
-			bOk = SP.GetDNAUserIDFromIdentityUserID(iSignInUserID, bIDFound);
-		}
-		else
-		{
-			// Get the dna userid from the sso id
-			bOk = SP.GetDNAUserIDFromSSOUserID(iSignInUserID, bIDFound);
-		}
+
+		// Get the dna userid from the identity id
+		bOk = SP.GetDNAUserIDFromIdentityUserID(pIdentityUserID, bIDFound);
 
 		if (!bOk)
 		{
@@ -245,9 +238,9 @@ bool CUser::CreateFromSigninIDInternal(int iSignInUserID, bool bCreateIfNotFound
 	return FetchData();
 }
 
-bool CUser::CreateFromSigninIDAndInDatabase(int iUserID)
+bool CUser::CreateFromSigninIDAndInDatabase(const TDVCHAR *pIdentityUserID)
 {
-	return CreateFromSigninIDInternal(iUserID,true);
+	return CreateFromSigninIDInternal(pIdentityUserID, true);
 }
 
 bool CUser::CreateFromID(int iUserID)
@@ -4521,11 +4514,12 @@ bool CUser::LoginUserToProfile()
 		return false;
 	}
 
-	int iSignInUserID = pProfile->GetUserId();
+	CTDVString sSignInUserId = pProfile->GetUserId();
+	m_InputContext.WriteInputLog("USER", "UserID:" + sSignInUserId);
 	
-	if (iSignInUserID <= 0)
+	if (sSignInUserId == NULL)
 	{
-		TDVASSERT(false,"In CUSER::LoginUserToProfile userid = 0");
+		TDVASSERT(false,"In CUSER::LoginUserToProfile m_IdentityUserID = Null");
 		return false;
 	}
 
@@ -4542,7 +4536,7 @@ bool CUser::LoginUserToProfile()
 			//we can't find the user in our database so they are new to dna
 			//this means that we have to create them in our database as a new user
 			
-			if (!CreateFromSigninIDAndInDatabase(iSignInUserID))
+			if (!CreateFromSigninIDAndInDatabase(sSignInUserId))
 			{
 				SetUserNotLoggedIn();
 				return false;
@@ -5379,47 +5373,34 @@ bool CUser::CreateNewUserInDatabase(CStoredProcedure& SP)
 		}
 	}
 	
-	int iSignInUserID = pProfile->GetUserId();
+	m_IdentityUserID = pProfile->GetUserId();
 
 	pProfile->GetUserProfileValue("email",m_Email);
 
-	// Check to see if the current site uses identity to sign in
-	if (m_InputContext.GetSiteUsesIdentitySignIn(m_SiteID))
+	// Get the legacy SSO UserID
+	CTDVString sLegacySSOID;
+	if (pProfile->AttributeExistsForService("legacy_user_id"))
 	{
-		// Get the legacy SSO UserID
-		CTDVString sLegacySSOID;
-		if (pProfile->AttributeExistsForService("legacy_user_id"))
-		{
-			pProfile->GetUserProfileValue("legacy_user_id",sLegacySSOID);
-		}
-		int iLegacySSOID = 0;
-		if (!sLegacySSOID.IsEmpty())
-		{
-			iLegacySSOID = atoi(sLegacySSOID);
-		}
-		else
-		{
-			//Creating a new user copies the current SSO details.
-			m_bIsSynchronised = true;
-		}
-
-		// Call the stored procedure with the details
-		if (!SP.CreateNewUserFromIdentityID(iSignInUserID, iLegacySSOID, m_SsoUsername, m_Email, m_InputContext.GetSiteID(), sFirstName, sLastName, m_Username))
-		{
-			return false;
-		}
+		pProfile->GetUserProfileValue("legacy_user_id",sLegacySSOID);
+	}
+	int iLegacySSOID = 0;
+	if (!sLegacySSOID.IsEmpty())
+	{
+		iLegacySSOID = atoi(sLegacySSOID);
 	}
 	else
 	{
-		// Call the stored procedure with the details
-		if (!SP.CreateNewUserFromSSOID(iSignInUserID, m_SsoUsername, m_Email, m_InputContext.GetSiteID(), sFirstName, sLastName, sDisplayName))
-		{
-			return false;
-		}
-
 		//Creating a new user copies the current SSO details.
 		m_bIsSynchronised = true;
 	}
+
+	// Call the stored procedure with the details
+	if (!SP.CreateNewUserFromIdentityID(m_IdentityUserID, iLegacySSOID, m_SsoUsername, m_Email, m_InputContext.GetSiteID(), sFirstName, sLastName, m_Username))
+	{
+		return false;
+	}
+
+
 
 	return true;
 }

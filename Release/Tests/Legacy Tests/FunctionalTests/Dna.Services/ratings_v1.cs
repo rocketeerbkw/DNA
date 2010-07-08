@@ -833,7 +833,7 @@ namespace FunctionalTests
 
             PostToRatingForumAsIdentityUser(ratingForum, ratingForumXml, request, siteName);
 
-            int newIdentityUserID = request.CurrentIdentityUserID;
+            string newIdentityUserID = request.CurrentIdentityUserID;
 
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();

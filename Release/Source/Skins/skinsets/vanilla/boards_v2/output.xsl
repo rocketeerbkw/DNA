@@ -58,7 +58,7 @@
       	<head profile="http://dublincore.org/documents/dcq-html/">
       		
       		<title>
-      			<xsl:value-of select="$socialbookmark_title" />
+      			<xsl:value-of select="$socialbookmark_title" />test
       		</title>
       		
       		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -224,6 +224,7 @@
 	      					</ul>
 	      				</xsl:with-param>
 	      			</xsl:call-template>
+	      			<xsl:comment>close div</xsl:comment>
 	      		</div>
       		</xsl:if>
       		
@@ -289,7 +290,7 @@
 	      							<xsl:apply-templates select="/H2G2/TOP-FIVES/TOP-FIVE[@NAME = 'MostRecentConversations']/TOP-FIVE-FORUM" mode="object_top-fives_top-five-forum"/>
 	      						</xsl:if>
 	      						<xsl:if test="/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS">
-	      							<xsl:apply-templates select="/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS[@NAME = 'PopularThreads']/FORUM" mode="object_recentactivity_most-recent-conversations"/>
+	      							<xsl:apply-templates select="/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS/FORUM" mode="object_recentactivity_most-recent-conversations"/>
 	      						</xsl:if>
 	      					</ul>
 	      				</div>

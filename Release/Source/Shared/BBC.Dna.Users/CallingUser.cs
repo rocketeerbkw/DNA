@@ -179,7 +179,7 @@ namespace BBC.Dna.Users
             return base.CreateUserFromDnaUserID(userID, siteID);
         }
 
-        public override int IdentityUserID
+        public override string IdentityUserID
         {
             get { return base.IdentityUserID; }
         }

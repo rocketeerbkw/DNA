@@ -1,4 +1,4 @@
-CREATE procedure ratingsreadbyforumandidentityid @uid varchar(255), @identityid int, @siteid int
+CREATE procedure ratingsreadbyforumandidentityid @uid varchar(255), @identityid varchar(40), @siteid int
 as
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED 
 

@@ -98,7 +98,7 @@ namespace Tests
         private string _password = "APITest";
         private string _cookie = "44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00";
         private int _userid = 1090498911;
-        private int _identityuserid = 0;
+        private string _identityuserid = "";
         private string _server = "";
         private string _secureServer = "";
         private HttpWebResponse _response = null;
@@ -475,7 +475,7 @@ namespace Tests
         /// <summary>
         /// Current Identity User ID property
         /// </summary>
-        public int CurrentIdentityUserID
+        public string CurrentIdentityUserID
         {
             get { return _identityuserid; }
         }
@@ -718,8 +718,8 @@ namespace Tests
                 URL = new Uri("https://" + _secureServer + "/dna/" + _serviceName + "/" + pageAndParams);
                 //URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
 
-                System.Net.ServicePointManager.ServerCertificateValidationCallback =
-                    ((sender, certificate, chain, sslPolicyErrors) => true);
+                //System.Net.ServicePointManager.ServerCertificateValidationCallback =
+                //    ((sender, certificate, chain, sslPolicyErrors) => true);
 
             }
             else
@@ -861,8 +861,8 @@ namespace Tests
             webRequest.AllowAutoRedirect = false;
 
             //Trust all certificates
-            System.Net.ServicePointManager.ServerCertificateValidationCallback =
-                ((sender, certificate, chain, sslPolicyErrors) => true);
+            //System.Net.ServicePointManager.ServerCertificateValidationCallback =
+            //    ((sender, certificate, chain, sslPolicyErrors) => true);
 
             if (!String.IsNullOrEmpty(postDataType))
             {

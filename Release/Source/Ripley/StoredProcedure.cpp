@@ -26202,11 +26202,11 @@ bool CStoredProcedure::GetMemberArticleCount( int iUserID, int iSiteID, int& use
 
 /*********************************************************************************
 
-	bool CStoredProcedure::CreateNewUserFromIdentityID(int iIdentityUserID, int iLegacySSOUserID, const TDVCHAR *pUserName, const TDVCHAR* pEmail, int iSiteID, const TDVCHAR* pFirstName, const TDVCHAR* pLastName)
+	bool CStoredProcedure::CreateNewUserFromIdentityID(string iIdentityUserID, int iLegacySSOUserID, const TDVCHAR *pUserName, const TDVCHAR* pEmail, int iSiteID, const TDVCHAR* pFirstName, const TDVCHAR* pLastName)
 
 		Author:		Mark Howitt
 		Created:	04/08/2008
-		Inputs:		iIdentityUserID - The Identity ID for the user to be created.
+		Inputs:		pIdentityUserID - The Identity ID for the user to be created.
 					iLegacySSOUserID - The legacy SSO ID for the user if they have one.
 					pUserName - The name for the user being created.
 					pEMail - The users email address.
@@ -26216,11 +26216,11 @@ bool CStoredProcedure::GetMemberArticleCount( int iUserID, int iSiteID, int& use
 		Purpose:	Gets the user details from the database. If they do not exist then they get created.
 
 *********************************************************************************/
-bool CStoredProcedure::CreateNewUserFromIdentityID(int iIdentityUserID, int iLegacySSOUserID, const TDVCHAR *pUserName, const TDVCHAR* pEmail, int iSiteID, const TDVCHAR* pFirstName, const TDVCHAR* pLastName, const TDVCHAR* pDisplayName)
+bool CStoredProcedure::CreateNewUserFromIdentityID(const TDVCHAR *pIdentityUserID, int iLegacySSOUserID, const TDVCHAR *pUserName, const TDVCHAR* pEmail, int iSiteID, const TDVCHAR* pFirstName, const TDVCHAR* pLastName, const TDVCHAR* pDisplayName)
 {
 	StartStoredProcedure("createnewuserfromidentityid");
 
-	AddParam("identityuserid",iIdentityUserID);
+	AddParam("identityuserid", pIdentityUserID);
 	if (iLegacySSOUserID > 0)
 	{
 		AddParam("legacyssoid",iLegacySSOUserID);
@@ -26328,10 +26328,10 @@ bool CStoredProcedure::GetDNAUserIDFromSSOUserID(int iSSOUserID, bool& bIDFound)
 	return true;
 }
 
-bool CStoredProcedure::GetDNAUserIDFromIdentityUserID(int iIdentityUserID, bool& bIDFound)
+bool CStoredProcedure::GetDNAUserIDFromIdentityUserID(const TDVCHAR *pIdentityUserID, bool& bIDFound)
 {
 	StartStoredProcedure("getdnauseridfromidentityuserid");
-	AddParam("IdentityUserID",iIdentityUserID);
+	AddParam("IdentityUserID", pIdentityUserID);
 	ExecuteStoredProcedure();
 	if (HandleError("GetDNAUserIDFromIdentityUserID"))
 	{

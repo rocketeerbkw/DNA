@@ -12,7 +12,7 @@ namespace BBC.Dna.Users
         int Status { get; }
         bool IsUserA(UserTypes type);
 
-        int IdentityUserID{ get;}
+        string IdentityUserID{ get;}
 
         bool IsUserSignedIn(string cookie, string policy, int siteID, string identityUserName);
         bool IsUserSignedInSecure(string cookie, string secureCookie, string policy, int siteID);
