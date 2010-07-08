@@ -9,9 +9,12 @@ using DnaIdentityWebServiceProxy;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Users
 {
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "")]
+    [DataContract(Name="user")]
     public class CallingUser : User, ICallingUser
     {
         SignInSystem _signInSystem = SignInSystem.Identity;

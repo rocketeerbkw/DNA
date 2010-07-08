@@ -47,7 +47,8 @@
                 <xsl:when test="@HIDDEN = 3 and USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
                     <!-- Hidden post for the owner -->
                     <p class="dna-boards-failedpost">
-                        <xsl:apply-templates select="/H2G2/SITECONFIG/DNACOMMENTTEXT/PREMODMESSAGE" mode="library_siteconfig_premodmessage" />
+                        <!-- <xsl:apply-templates select="/H2G2/SITECONFIG/DNACOMMENTTEXT/PREMODMESSAGE" mode="library_siteconfig_premodmessage" /> -->
+                        <xsl:value-of select="TEXT" />
                     </p>
                 </xsl:when>
                 <xsl:when test="(@HIDDEN = 3 and USER/USERID != /H2G2/VIEWING-USER/USER/USERID) or @HIDDEN = 3">
@@ -148,8 +149,8 @@
                                     </xsl:with-param>
                                 </xsl:call-template>
                             </xsl:attribute>
-                            <xsl:text>Report abuse</xsl:text>
-                            <span class="blq-hide"> for message <xsl:value-of select="count(preceding-sibling::*)" /></span>
+                            <xsl:text>Report message</xsl:text>
+                            <span class="blq-hide"> <xsl:value-of select="count(preceding-sibling::*)" /></span>
                         </a>
                     </p>
                 </xsl:with-param>

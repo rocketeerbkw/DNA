@@ -1265,6 +1265,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cachegetarticleinfo2.sql" />
+    <None Include="cachegetcategory.sql" />
     <None Include="CommentForumsReadBySiteNamePrefixWithinTimeFrame.sql" />
     <None Include="CommentForumsReadBySiteNameWithinTimeFrame.sql" />
     <None Include="commentreplycreate.sql" />

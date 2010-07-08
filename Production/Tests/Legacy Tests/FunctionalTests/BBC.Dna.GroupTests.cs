@@ -44,7 +44,7 @@ namespace FunctionalTests
         {
 
             // Get the groups for the given user on the given site
-            List<string> details = g.GetUsersGroupsForSite(_userID, 1);
+            List<UserGroup> details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             Assert.IsFalse(details.Count > 0, "The normal user should not belong to any groups!");
         }
@@ -60,12 +60,12 @@ namespace FunctionalTests
             
 
             // Get the groups for the given user on the given site
-            List<string> details = g.GetUsersGroupsForSite(_editorID, 1);
+            List<UserGroup> details = g.GetUsersGroupsForSite(_editorID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for editor " + _editorID.ToString() + " for site 1");
             int itemCount = details.Count;
 
             // Check to make sure that the groups info is in the cache
-            details = (List<string>)groupsCache["BBC.Dna.UserGroups-" + _editorID.ToString() + "-1"];
+            details = (List<UserGroup>)groupsCache["BBC.Dna.UserGroups-" + _editorID.ToString() + "-1"];
             Assert.IsNotNull(details, "Failed to get the group details for editor " + _editorID.ToString() + " for site 1 The second time round");
             Assert.AreEqual(itemCount, details.Count, "The cache contains different info");
 
@@ -85,7 +85,7 @@ namespace FunctionalTests
             
 
             // Get the groups for the given user on the given site
-            List<string> details = g.GetUsersGroupsForSite(_userID, 1);
+            List<UserGroup> details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             int itemCount = details.Count;
 
@@ -96,7 +96,7 @@ namespace FunctionalTests
             details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             Assert.AreEqual(itemCount+1,details.Count,"There should be one more group in the list for the user");
-            Assert.IsTrue(details.Contains("mentor"), "The list does not contain the Mentor group");
+            Assert.IsTrue(details.Find(delegate(UserGroup group) { return group.Name == "mentor"; }) != null, "The list does not contain the Mentor group");
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace FunctionalTests
             
 
             // Get the groups for the given user on the given site
-            List<string> details = g.GetUsersGroupsForSite(_userID, 1);
+            List<UserGroup> details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             int itemCount = details.Count;
 
@@ -121,7 +121,11 @@ namespace FunctionalTests
             details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             Assert.AreEqual(itemCount - 1, details.Count, "There should be one less group in the list for the user");
-            Assert.IsFalse(details.Contains("mentor"), "The list contains the Mentor group");
+            Assert.IsFalse(details.Find(delegate(UserGroup group) { return group.Name == "mentor"; }) != null, "The list contains the Mentor group");
+
+            
+            
+            
         }
     }
 }

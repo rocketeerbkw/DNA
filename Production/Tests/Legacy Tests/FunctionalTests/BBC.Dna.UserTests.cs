@@ -76,11 +76,11 @@ namespace FunctionalTests
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
-            Assert.IsFalse(user.GetUsersGroupsForSite().Contains("aces"));
-            Assert.IsTrue(user.AddUserToGroup("Aces"));
-            Assert.IsTrue(user.GetUsersGroupsForSite().Contains("aces"));
+            Assert.IsFalse(user.GetUsersGroupsForSite().Find(delegate(UserGroup group) { return group.Name == "aces"; }) != null);
+            Assert.IsTrue(user.AddUserToGroup("aces"));
+            Assert.IsTrue(user.GetUsersGroupsForSite().Find(delegate(UserGroup group) { return group.Name == "aces"; }) != null);
         }
-
+        
         /// <summary>
         /// Check to make sure that the normal user account has the correct permissions
         /// </summary>

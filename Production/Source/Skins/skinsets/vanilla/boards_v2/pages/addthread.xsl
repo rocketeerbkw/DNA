@@ -20,7 +20,7 @@
         <xsl:variable name="idptrt" select="concat('/AddThread?inreplyto=', POSTTHREADUNREG/@POSTID)" />
         
         <xsl:choose>
-	        <xsl:when test="POSTTHREADFORM">
+	        <xsl:when test="/H2G2/VIEWING-USER/USER">
 	    		<xsl:apply-templates select="POSTTHREADFORM" mode="input_postthreadform" />
 	    		<xsl:apply-templates select="POSTPREMODERATED" mode="input_moderated"/>
 	    		<xsl:apply-templates select="POSTTHREADUNREG" mode="input_moderated"/>
@@ -31,8 +31,7 @@
 						<xsl:text>Sorry...</xsl:text>
 					</xsl:with-param>
 				</xsl:call-template>
-				<xsl:choose>
-					<xsl:when test="not(/H2G2/VIEWING-USER/USER)">
+				
 						<p class="signin">You need to be 
 						<a>
 						<xsl:attribute name="href">
@@ -41,8 +40,6 @@
 				            </xsl:apply-templates>	
 				    	</xsl:attribute>
 						signed in</a> to submit a reply.</p>
-					</xsl:when>
-				</xsl:choose>	        	
 	        </xsl:otherwise>
         </xsl:choose>
         

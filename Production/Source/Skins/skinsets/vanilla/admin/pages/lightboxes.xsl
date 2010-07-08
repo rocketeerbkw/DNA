@@ -140,7 +140,7 @@
         <p>
         <label for="mbbanner">URL:</label>
 				<input type="text" name="BANNER_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI}" id="mbbanner"/>
-				<span class="dna-fnote"><strong>Example:</strong> http://www.bbc.co.uk/includes/blq/include_blq_banner.ssi</span>
+				<span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_banner.ssi</span>
         </p>
 
         <xsl:call-template name="submitbuttons">
@@ -163,7 +163,7 @@
         <p>
           <label for="mbtopnav">URL:</label>
 				  <input type="text" name="HORIZONTAL_NAV_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/HORIZONTAL_NAV_SSI}" id="mbtopnav"/>
-          <span class="dna-fnote"><strong>Example:</strong> http://www.bbc.co.uk/includes/blq/include_blq_navigation.ssi</span>
+          <span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_navigation.ssi</span>
        </p>
 
         <xsl:call-template name="submitbuttons">
@@ -186,7 +186,7 @@
         <p>
           <label for="mbleftnav">URL:</label>
           <input type="text" name="LEFT_NAV_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/LEFT_NAV_SSI}" id="mbleftnav"/>
-          <span class="dna-fnote"><strong>Example:</strong> http://www.bbc.co.uk/includes/blq/include_blq_left-navigation.ssi</span>
+          <span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_left-navigation.ssi</span>
         </p>
 
         <xsl:call-template name="submitbuttons">
@@ -283,7 +283,7 @@
                   </xsl:variable>
                   
                   <label for="mb-url-flink">Link URL:</label>
-                  <input type="text" name="FOOTER_LINK" value="{$flink-value}" id="mb-url-flink" class="right"/>   
+                  <input type="text" name="FOOTER_LINK" value="{$flink-value}" id="mb-url-flink" />   
                 </li>
             </ul>
             <p class="dna-fnote">
@@ -291,7 +291,7 @@
             </p>
 
             <p class="dna-fnote">
-              <strong>Note:</strong> Additional information on adding footer links can be found in this guide to <a href="http://www.bbc.co.uk/includes/blq/include/help/display_customisation/test_footer_links.shtml">custom footer links</a> (external link).
+              <strong>Note:</strong> Additional information on adding footer links can be found in this guide to <a href="http://www.live.bbc.co.uk/frameworks/barlesque/examples/footer/footlinks">custom footer links</a> (external link).
             </p>
           </div>
 
@@ -437,7 +437,7 @@
           </xsl:choose>         
         </ul>
         <p class="dna-fnote">
-          <strong>Example:</strong> http://www.bbc.co.uk/includes/blq/include_blq_other.sssi
+          <strong>Example:</strong> /includes/blq/include_blq_other.sssi
         </p>
 
         <xsl:call-template name="submitbuttons">

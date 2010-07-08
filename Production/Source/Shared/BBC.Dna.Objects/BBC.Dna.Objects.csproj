@@ -74,6 +74,12 @@
     <Compile Include="Club.cs" />
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="FrontPageElement.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="CategoryAncestor.cs" />
+    <Compile Include="CategoryChildren.cs" />
+    <Compile Include="ArticleSummary.cs" />
+    <Compile Include="CategorySummary.cs" />
+    <Compile Include="CategorySummarySubnode.cs" />
     <Compile Include="MessageBoardPublishError.cs" />
     <Compile Include="SmileyTranslator.cs" />
     <Compile Include="ThreadPostSummary.cs" />

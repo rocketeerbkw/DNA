@@ -128,8 +128,8 @@
         <xsl:when test="//H2G2/SITE/SITECLOSED[@EMERGENCYCLOSED = '0']">
           <p>
             <a href="{$root}/MessageBoardSchedule?action=CloseSite&amp;confirm=1" class="dna-stop">
-              <strong>EMERGENCY CLOSURE</strong>
-              Stop all posts to this messageboard
+              <strong>CLOSE MESSAGEBOARD</strong>
+              Board closed to all new posts,<br />except from editor accounts
             </a>
           </p>
         </xsl:when>

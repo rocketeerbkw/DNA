@@ -106,6 +106,7 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="Category.xsd" />
     <None Include="CategoryList.xsd" />
     <None Include="Cmd.xsd" />
     <None Include="CommentBox.xsd">
@@ -126,6 +127,9 @@
     </None>
     <None Include="Club.xsd" />
     <None Include="ContentSignifSettings.xsd" />
+    <None Include="Dna.Services.Common\ExtraInfo.xsd" />
+    <None Include="Dna.Services.Users\group.xsd" />
+    <None Include="Dna.Services.Users\user.xsd" />
     <None Include="UserComplaintArticle.xsd" />
     <None Include="UserComplaintUrl.xsd" />
     <None Include="Dna.Services.Articles\article.xsd" />
@@ -137,6 +141,7 @@
     <None Include="Dna.Services.Forums\forumThreads.xsd" />
     <None Include="H2G2ModerateHome.xsd" />
     <None Include="H2G2ModeratePosts.xsd" />
+    <None Include="Dna.Services.Categories\Category.xsd" />
     <None Include="ModerationHome.xsd" />
     <None Include="SiteConfig_V2Boards.xsd" />
     <None Include="Result.xsd" />

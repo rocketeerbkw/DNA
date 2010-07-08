@@ -100,7 +100,7 @@
       		<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
       		
       		<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
-      		<script type="text/javascript" src="http://www.bbc.co.uk/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
+      		<script type="text/javascript" src="/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
       		<xsl:if test="PREVIEWMODE = 1"><script type="text/javascript" src="/dnaimages/dna_messageboard/javascript/previewmode.js"><xsl:text> </xsl:text></script></xsl:if>
       		
       		<!-- disable Identity JavaScript for now -->
@@ -110,7 +110,8 @@
       			}
       		</script>
       		
-      		<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_v2.css"/>
+      		<link type="text/css" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_v2.css"/>
+          <link type="text/css" media="print" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_print.css"/>
       		<xsl:if test="SITECONFIG/V2_BOARDS/CSS_LOCATION and SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
       			<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
       		</xsl:if> 
@@ -188,10 +189,10 @@
 		      					</li>
 		      				</xsl:if>
 		      				<li>
-		      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a>
+		      					<a href="{$houserulesurl}" class="popup">House Rules</a>
 		      				</li>
 		      				<li>
-		      					<a href="http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html" class="popup">FAQs</a>
+		      					<a href="{$faqsurl}" class="popup">FAQs</a>
 		      				</li>
 		      				<xsl:variable name="currentSite" select="CURRENTSITE"/>
 		      				<xsl:if test="SITE[@ID='$currentSite']/SITEOPTIONS/SITEOPTION[NAME='IsKidsSite']/VALUE='1'">
@@ -266,17 +267,17 @@
 	      				<xsl:call-template name="boardtimes"/>
 	      				<xsl:choose>
 	      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 1">
-	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">post-moderated</a>.</p>
+	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">post-moderated</a>.</p>
 	      					</xsl:when>
 	      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 2">
-	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">pre-moderated</a>.</p>
+	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">pre-moderated</a>.</p>
 	      					</xsl:when>
 	      					<xsl:otherwise>
-	      						<p>This message board is <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" class="popup">reactively moderated</a>.</p>
+	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">reactively moderated</a>.</p>
 	      					</xsl:otherwise>
 	      				</xsl:choose>
 	      				
-	      				<p>Find out more about this board <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a></p>
+	      				<p>Find out more about this board <a href="{$houserulesurl}" class="popup">House Rules</a></p>
 	      			</div>
 	      			
 	      			<!-- Recent Discussions -->

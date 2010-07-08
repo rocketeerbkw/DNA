@@ -216,6 +216,7 @@ namespace BBC.Dna.Utils
         /// <returns>Stripped name</returns>
         public static string StrippedName(string name)
         {
+            if (name == null) { return String.Empty; }
             string strippedName = name;
             if (strippedName.ToLower().StartsWith("a "))
             {

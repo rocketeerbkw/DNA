@@ -358,6 +358,9 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReaderCreator creator;
             CreateThreadFromDatabaseTestSetup(out mocks, out siteId, out forumId, out threadId, out itemsPerPage, out startIndex, out postId, out entryId, out orderByDatePostedDesc, out reader, out creator);
 
+
+            mocks.ReplayAll();
+
             ForumThreadPosts actual;
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId, 
                 orderByDatePostedDesc);
@@ -371,6 +374,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(itemsPerPage + 2);
             reader.Stub(x => x.GetInt32NullAsZero("EntryID")).Return(entryId);
+            reader.Stub(x => x.GetInt32NullAsZero("Total")).Return(itemsPerPage * 2 + 1);//more should = 1
 
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("threadlistposts2_desc")).Return(reader);
@@ -411,6 +415,8 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(itemsPerPage + 2);
             reader.Stub(x => x.GetInt32NullAsZero("EntryID")).Return(entryId);
+            reader.Stub(x => x.GetInt32NullAsZero("Total")).Return(itemsPerPage*2 + 1);//more should = 1
+            
 
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("threadlistposts2_desc")).Return(reader);
@@ -419,7 +425,7 @@ namespace BBC.Dna.Objects.Tests
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId,
                 orderByDatePostedDesc);
             Assert.AreEqual(actual.Post.Count, itemsPerPage);
-            Assert.AreEqual(actual.More, 1);
+            Assert.AreEqual(1, actual.More);
             Assert.AreEqual(actual.Post[actual.Post.Count - 1].NextIndex, entryId);
 
         }
@@ -440,6 +446,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(itemsPerPage + 2);
             reader.Stub(x => x.GetInt32NullAsZero("EntryID")).Return(entryId);
+            reader.Stub(x => x.GetInt32NullAsZero("Total")).Return(itemsPerPage * 2 + 1);//more should = 1
 
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("threadlistposts2")).Return(reader);
@@ -468,6 +475,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(smallerItemsPerPage + 2);
             reader.Stub(x => x.GetInt32NullAsZero("EntryID")).Return(1);
+            reader.Stub(x => x.GetInt32NullAsZero("Total")).Return(itemsPerPage * 2 + 1);//more should = 1
 
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("threadlistposts2")).Return(reader);
@@ -477,7 +485,7 @@ namespace BBC.Dna.Objects.Tests
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId,
                 orderByDatePostedDesc);
             Assert.AreEqual(actual.Post.Count, smallerItemsPerPage);
-            Assert.AreEqual(actual.More, 1);
+            Assert.AreEqual(1, actual.More);
         }
 
         /// <summary>
@@ -500,6 +508,8 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.Read()).Return(true);//extra time for getindex call
             reader.Stub(x => x.GetInt32NullAsZero("EntryID")).Return(1);
             reader.Stub(x => x.GetInt32NullAsZero("Index")).Return(25);
+            reader.Stub(x => x.GetInt32NullAsZero("Total")).Return(50);
+            
             reader.Stub(x => x.NextResult()).Return(true);
 
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
@@ -511,7 +521,7 @@ namespace BBC.Dna.Objects.Tests
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId,
                 orderByDatePostedDesc);
             Assert.AreEqual(actual.Post.Count, itemsPerPage);
-            Assert.AreEqual(actual.More, 1);
+            Assert.AreEqual(1, actual.More);
         }
 
         /// <summary>

@@ -34,7 +34,7 @@
       </p>
       <p>
         <em>
-          If you need additional help, please check our <a href="https://confluence.dev.bbc.co.uk/display/DNA/Messageboards+Admin+Tool+-+User+Guide">user guide</a>.
+          If you need additional help, please check our <a href="https://confluence.dev.bbc.co.uk/display/DNA/Messageboards+Admin+Tool+-+User+Guide" class="dna-openNewWindow">user guide</a>.
         </em>
       </p>
     </div>
@@ -199,23 +199,29 @@
 
           <h4>Publish this messageboard</h4>
 
-          <form action="mbadmin?cmd=PUBLISHMESSAGEBOARD" method="post">
-  
-            <p>
-              Are you sure you want to publish this messageboard?
-            </p>
+          <form action="mbadmin?cmd=PUBLISHMESSAGEBOARD" method="post" class="dna-publish-mboard">
+            
+            <div id="dna-publish-form">
+              <p>
+                Are you sure you want to publish this messageboard?
+              </p>
 
-            <div class="dna-buttons">
-              <ul>
-                <li>
-                  <input type="submit" name="submit" value="Yes" />
-                </li>
-                <li>
-                  <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">No</a>
-                </li>
-              </ul>
+              <div class="dna-buttons">
+                <ul>
+                  <li>
+                    <input type="submit" name="submit" value="Yes" />
+                  </li>
+                  <li>
+                    <a href="mbadmin?s_mode=admin" class="dna-btn-link dna-btn-cancel">No</a>
+                  </li>
+                </ul>
+              </div>
             </div>
 
+            <div id="dna-publish-loading" class="dna-off">
+              <p class="dna-center"><img src="/dnaimages/dna_messageboard/img/icon-loading.gif" alt="Loading"/></p>
+            </div>
+              
           </form>
          </div>
         

@@ -16,6 +16,8 @@
     
     <xsl:template match="/H2G2[@TYPE = 'THREADS']" mode="page">        
       
+      <xsl:apply-templates select="ERROR"  mode="objects_error_forumnotfound" />
+      
       <xsl:apply-templates select="FORUMSOURCE/ARTICLE" mode="object_article_generic" />
       <xsl:apply-templates select="FORUMTHREADS" mode="object_forumthreads" />
         

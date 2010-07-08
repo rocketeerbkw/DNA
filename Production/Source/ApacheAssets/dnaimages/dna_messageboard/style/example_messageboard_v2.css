@@ -7,64 +7,64 @@
   	margin: 0;
 }
 #blq-main #blq-local-nav a, #blq-main #blq-content a, #blq-main #dna-boardpromo a {
-	color: cadetblue;
+	color: #5f9ea0;
 }
 #blq-main #blq-content a:focus, #blq-main #dna-boardpromo a:focus {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 	color: #fff;
 }
 #blq-main #header {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 }
 #blq-main #header #banner {
   	color: #fff;
 }
 #blq-main #global-nav {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 }
 #blq-local-nav ul.local-site-nav  {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 }
 #blq-main #blq-local-nav ul.local-site-nav a:hover {
 	background: #fff;
-	color: cadetblue;
+	color: #5f9ea0;
 }
 #blq-main #blq-local-nav ul li.topic-parent a {
-	background-color: LightSlateGray;
+	background-color: #778899;
 }
 #blq-main #global-nav ul li a:hover, #blq-main #global-nav ul li.selected a, #blq-main #global-nav ul li a:focus {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 	background-image: none;
 	color: #fff;
 }
 #blq-main #blq-content h2, #blq-main #dna-boardpromo h3 {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 }
 #blq-main ul.topfives {
-	color: cadetblue;
+	color: #5f9ea0;
 }
 /* pagination */
 #blq-main #blq-content .pagination li a {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 }
 #blq-main #blq-content .pagination li.current a {
-  	background-color: LightSlateGray;
+  	background-color: #778899;
 }
 #blq-main #blq-content .pagination li span {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 	background-image: none;
 }
 #blq-main #blq-content .pagination li.dna-button {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 	background-image: none;
 }
 #blq-main #blq-content .pagination li.dna-button a {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 	background-image: none;
 }
 /* add thread */
 #blq-main #blq-content .dna-boards input.dna-button {
-	background-color: cadetblue;
+	background-color: #5f9ea0;
 }
 #blq-main #blq-content .dna-boards input.cancel {
 	background-color: #778899;

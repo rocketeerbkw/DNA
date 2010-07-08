@@ -1,5 +1,5 @@
 #pragma once
-#include "xmlobject.h"
+#include ".\xmlobject.h"
 #include ".\MessageBoardPromo.h"
 
 class CMessageBoardTransfer : public CXMLObject
@@ -36,6 +36,16 @@ private:
 	int GetNodeInt(const TDVCHAR* pNodeName,CXMLTree* pRoot);
 	CTDVString GetNodeText(const TDVCHAR* pNodeName,CXMLTree* pRoot);
 	CTDVString GetNodeChildXML(const TDVCHAR* pNodeName,CXMLTree* pRoot);
+
+	struct topicInfo
+	{
+		CTDVString editKey;
+		CTDVString topicElementEditKey;
+		int iTopicElementID;
+		int iTopicID;
+	};
+
+	map<int,topicInfo> m_TopicInfo;
 
 	map<int,int> m_mTopicIDMap;
 };

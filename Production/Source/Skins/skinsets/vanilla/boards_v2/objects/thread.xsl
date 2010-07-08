@@ -16,20 +16,27 @@
     
     <xsl:template match="THREAD" mode="object_thread">
       <xsl:variable name="threadId" select="@THREADID"/>
-        <li>
-            <xsl:call-template name="library_listitem_stripe"/>
-            
+      <xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
+      <tr>  
+       <xsl:call-template name="library_listitem_stripe">
+        <xsl:with-param name="threadId" select="$threadId" />
+        <xsl:with-param name="test_stickythreadson" select="$test_stickythreadson" />       	
+       </xsl:call-template>
+        <td class="discussiondetail">
             <h3>
-            	
-       			<xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
-				<xsl:if test="$test_stickythreadson">
-					<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_addthreadstickypin" />
-				</xsl:if>
+
 				
                 <a href="{$root}/NF{@FORUMID}?thread={@THREADID}">
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
-                            <xsl:value-of select="SUBJECT"/> 
+			            	<xsl:choose>
+				            	<xsl:when test="string-length(SUBJECT) >= 72">
+				            		<xsl:value-of select="concat(substring(SUBJECT, 1, 72), '...')" />
+				            	</xsl:when>
+				            	<xsl:otherwise>
+				            		<xsl:value-of select="SUBJECT" />
+				            	</xsl:otherwise>
+			            	</xsl:choose>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:attribute name="class">
@@ -40,83 +47,91 @@
                     </xsl:choose>
                 </a>
             </h3>
-            <div class="itemdetail">
-                <p>This discussion was started on 
-	                <xsl:apply-templates select="FIRSTPOST/DATE | FIRSTUSERPOST/DATEPOSTED/DATE" mode="library_date_longformat"/>
-	               	<xsl:text> by </xsl:text>
-	                <span class="vcard">
-	                    <span class="fn">
-	                        <xsl:apply-templates select="FIRSTPOST/USER" mode="object_user_linked" />
-	                    </span>
-	                </span>
-                </p>
-            	<p class="itemdetail">
-            		<xsl:text>Last updated </xsl:text>
-            		<a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;latest=1#p{LASTPOST/@POSTID}">
-            	      <xsl:value-of select="DATEPOSTED/DATE/@RELATIVE"/>
-            		</a>
-            		<xsl:text> by </xsl:text>
-            		<span class="vcard">
-            			<span class="fn">
-            				<xsl:apply-templates select="LASTPOST/USER" mode="object_user_linked" />
-            			</span>
-            		</span>
-            	</p>
-
-                <p class="replies">
-                    <xsl:choose>
-                        <xsl:when test="(TOTALPOSTS - 1) = 0">
-                            <span class="dna-invisible">There have been </span>
-                            <span class="noreplies">
-                                <xsl:text>no messages</xsl:text>
-                            </span>
-                        </xsl:when>
-                        <xsl:when test="(TOTALPOSTS - 1) = 1">
-                            <xsl:value-of select="TOTALPOSTS - 1" />
-                            <xsl:text> message</xsl:text>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:value-of select="TOTALPOSTS - 1" />
-                            <xsl:text> messages</xsl:text>
-                        </xsl:otherwise>
-                    </xsl:choose>
-                </p>
-
-              <xsl:call-template name="library_userstate_editor">
-                <xsl:with-param name="loggedin">
-            			<div>
-            				<div class="dna-moderation-wrapup">
-	            				<p class="dna-boards-moderation">
-	            					<xsl:text>Moderation:</xsl:text>
+            <p>
+            	<xsl:choose>
+	            	<xsl:when test="string-length(FIRSTPOST/TEXT) >= 72">
+	            		<xsl:value-of select="concat(substring(FIRSTPOST/TEXT, 1, 62), '...')" />
+	            	</xsl:when>
+	            	<xsl:otherwise>
+	            		<xsl:value-of select="FIRSTPOST/TEXT" />
+	            	</xsl:otherwise>
+            	</xsl:choose>
+            </p>
+         </td>
+         <td class="replies">
+            <p class="replies">
+                 <xsl:value-of select="TOTALPOSTS - 1" />
+            </p>         
+         </td>
+         <td class="startedby">
+	         <span class="vcard">
+	             <span class="fn">
+	             	<!-- Split the string as it was destroying table layout -->
+	             	<xsl:variable name="stringlimit">15</xsl:variable>
+	             	<xsl:choose>
+	             		<xsl:when test="string-length(FIRSTPOST/USER/USERNAME) >= $stringlimit">
+	             			<xsl:variable name="stringlength">
+	             				<xsl:value-of select="string-length(FIRSTPOST/USER/USERNAME)" />
+	             			</xsl:variable>	             			
+	             			<xsl:variable name="tempstring1">
+	             				<xsl:value-of select="substring(FIRSTPOST/USER/USERNAME, 1, $stringlimit)" />
+	             			</xsl:variable>
+	             			<xsl:variable name="tempstring2">
+	             				<xsl:value-of select="substring(FIRSTPOST/USER/USERNAME, $stringlimit+1, $stringlength)" />
+	             			</xsl:variable>	 
+	             			            		
+	             			<xsl:value-of select="$tempstring1" /><br /><xsl:value-of select="$tempstring2" />    
+	             			
+	             		</xsl:when>
+	             		<xsl:otherwise>
+	                 		<xsl:value-of select="FIRSTPOST/USER/USERNAME" />
+	                 	</xsl:otherwise>
+	                 </xsl:choose>
+	             </span>
+	         </span>         
+         </td>
+         <td class="latestreply">
+       		<a href="{$root}/NF{@FORUMID}?thread={@THREADID}&amp;latest=1#p{LASTPOST/@POSTID}">
+     	      <xsl:value-of select="DATEPOSTED/DATE/@RELATIVE"/>
+     		</a>       
+         </td>
+      </tr>
+		<tr class="moderation">
+			<td colspan="4">
+				<xsl:call-template name="library_userstate_editor">
+					<xsl:with-param name="loggedin">
+						<div>
+							<div class="dna-moderation-wrapup">
+								<p class="dna-boards-moderation">
+									<xsl:text>Moderation:</xsl:text>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = 1]" mode="moderation_cta_closethread">
-                    <xsl:with-param name="label" select="'Close discussion'"/>
-                    <xsl:with-param name="subject" select="SUBJECT"/>
-                </xsl:apply-templates>
+										<xsl:with-param name="label" select="'Close discussion'"/>
+										<xsl:with-param name="subject" select="SUBJECT"/>
+									</xsl:apply-templates>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = 0]" mode="moderation_cta_closethread">
 										<xsl:with-param name="label" select="'Open discussion'" />
-                    <xsl:with-param name="subject" select="SUBJECT"/>
+										<xsl:with-param name="subject" select="SUBJECT"/>
 									</xsl:apply-templates>
 									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId]" mode="moderation_cta_movethread">
 										<xsl:with-param name="label" select="'Move discussion'" />
-                    <xsl:with-param name="subject" select="SUBJECT"/>
+										<xsl:with-param name="subject" select="SUBJECT"/>
 									</xsl:apply-templates>
 									
-									<xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
-										<xsl:if test="$test_stickythreadson">
-									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_removethreadsticky">
-                    <xsl:with-param name="subject" select="SUBJECT"/>
-									</xsl:apply-templates>
-									<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='false']" mode="moderation_cta_makethreadsticky">
-                    <xsl:with-param name="subject" select="SUBJECT"/>
-									</xsl:apply-templates>
+									<xsl:if test="$test_stickythreadson">
+										<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_removethreadsticky">
+											<xsl:with-param name="subject" select="SUBJECT"/>
+										</xsl:apply-templates>
+										<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='false']" mode="moderation_cta_makethreadsticky">
+											<xsl:with-param name="subject" select="SUBJECT"/>
+										</xsl:apply-templates>
 									</xsl:if>
-	            				</p>
-            				</div>
-            			</div>
-            		</xsl:with-param>
-            	</xsl:call-template>
-            </div>
-        </li>
+								</p>
+							</div>
+						</div>
+					</xsl:with-param>
+				</xsl:call-template>  
+			</td>            	
+		</tr>      
     </xsl:template>
     
     <!-- For the MP page -->

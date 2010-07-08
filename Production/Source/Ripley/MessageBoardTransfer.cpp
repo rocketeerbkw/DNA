@@ -104,17 +104,17 @@ bool CMessageBoardTransfer::CreateBackupXML(int iSiteID)
 		AddInside(BACKUPTAG,GetLastErrorAsXMLString());
 	}
 
-	// Board promos
-	if (!AddBoardPromos(iSiteID))
-	{
-		AddInside(BACKUPTAG,GetLastErrorAsXMLString());
-	}
+	//// Board promos
+	//if (!AddBoardPromos(iSiteID))
+	//{
+	//	AddInside(BACKUPTAG,GetLastErrorAsXMLString());
+	//}
 
-	// Text boxes
-	if (!AddTextBoxes(iSiteID))
-	{
-		AddInside(BACKUPTAG,GetLastErrorAsXMLString());
-	}
+	//// Text boxes
+	//if (!AddTextBoxes(iSiteID))
+	//{
+	//	AddInside(BACKUPTAG,GetLastErrorAsXMLString());
+	//}
 
 	// Forum schedule
 	if (!AddForumSchedule(iSiteID))
@@ -451,16 +451,16 @@ bool CMessageBoardTransfer::RestoreFromBackupXML(const TDVCHAR* pRestoreXML)
 			ClearError();
 
 			// Board promos
-			pNode = pTree->FindFirstTagName("/"BACKUPTAG"/BOARDPROMOLIST");
-			RestoreBoardPromoList(pNode,iSiteID,iEditorID);
-			sRestoreXMLErrors << GetLastErrorAsXMLString();
-			ClearError();
+			//pNode = pTree->FindFirstTagName("/"BACKUPTAG"/BOARDPROMOLIST");
+			//RestoreBoardPromoList(pNode,iSiteID,iEditorID);
+			//sRestoreXMLErrors << GetLastErrorAsXMLString();
+			//ClearError();
 
-			// Text boxes
-			pNode = pTree->FindFirstTagName("/"BACKUPTAG"/TEXTBOXLIST");
-			RestoreTextBoxList(pNode,iSiteID,iEditorID);
-			sRestoreXMLErrors << GetLastErrorAsXMLString();
-			ClearError();
+			//// Text boxes
+			//pNode = pTree->FindFirstTagName("/"BACKUPTAG"/TEXTBOXLIST");
+			//RestoreTextBoxList(pNode,iSiteID,iEditorID);
+			//sRestoreXMLErrors << GetLastErrorAsXMLString();
+			//ClearError();
 
 			// Forum schedules
 			pNode = pTree->FindFirstTagName("/"BACKUPTAG"/FORUMSCHEDULES");
@@ -570,9 +570,16 @@ bool CMessageBoardTransfer::RestoreFrontPageXML(CXMLTree* pFrontPageXMLNode,int 
 bool CMessageBoardTransfer::RestoreTopicList(CXMLTree* pTopicListNode,int iSiteID,int iEditorID)
 {
 	m_mTopicIDMap.clear();
+	m_TopicInfo.clear();
 
 	if (pTopicListNode != NULL)
 	{
+		CTopic TopicList(m_InputContext);
+		if (!TopicList.GetTopicsForSiteID(iSiteID, CTopic::TS_PREVIEW, false))
+		{
+			// Failed to get topic details, continue with creation only.
+		}
+
 		CXMLTree* pNode = pTopicListNode->FindFirstTagName("TOPIC",pTopicListNode);
 		while (pNode != NULL && !ErrorReported())
 		{
@@ -580,15 +587,35 @@ bool CMessageBoardTransfer::RestoreTopicList(CXMLTree* pTopicListNode,int iSiteI
 
 			if (iOrigTopicID > 0)
 			{
+				topicInfo ti;
+				ti.iTopicID = iOrigTopicID;
+
 				CTDVString sTitle = GetNodeChildXML("TITLE",pNode);
 				CTDVString sText  = GetNodeChildXML("DESCRIPTION",pNode);
 
 				CTopic Topic(m_InputContext);
-				int iNewTopicID=0;
-				Topic.CreateTopic(iNewTopicID,iSiteID,iEditorID,sTitle,sText,CTopic::TS_PREVIEW,0,true);
+				int iNewTopicID = 0;
+				int iTopicElementID = 0;
+				bool bFailed = false;
+				CTDVString sEditKey;
+				CTDVString sTopicElementEditKey;
+				if (TopicList.GetTopicLinkIDAndEditKeyForTopicIDOnSite(iOrigTopicID, iSiteID, sEditKey, iNewTopicID, iTopicElementID, sTopicElementEditKey) && !sEditKey.IsEmpty() && iNewTopicID > 0)
+				{
+					Topic.EditTopic(iNewTopicID, iSiteID, iEditorID, sTitle, sText, CTopic::TS_PREVIEW, 0, sEditKey, bFailed);
+				}
+				else
+				{
+					Topic.CreateTopic(iNewTopicID,iSiteID,iEditorID,sTitle,sText,CTopic::TS_PREVIEW,0,true);
+				}
 
 				// Remember mapping between orig & new IDs
 				m_mTopicIDMap[iOrigTopicID] = iNewTopicID;
+
+				ti.iTopicElementID = iTopicElementID;
+				ti.iTopicID = iNewTopicID;
+				ti.editKey = sEditKey;
+				ti.topicElementEditKey = sTopicElementEditKey;
+				m_TopicInfo[iOrigTopicID] = ti;
 
 				if (Topic.ErrorReported())
 				{
@@ -637,7 +664,7 @@ bool CMessageBoardTransfer::RestoreTopicElementList(CXMLTree* pTopicElementListN
 		while (pNode != NULL && !ErrorReported())
 		{
 			int iTopicID = GetNodeInt("TOPICID",pNode);
-			int iMappedTopicID = m_mTopicIDMap[iTopicID];
+			int iMappedTopicID = m_TopicInfo[iTopicID].iTopicID;
 
 			if (iTopicID > 0 && iMappedTopicID > 0)
 			{
@@ -649,8 +676,16 @@ bool CMessageBoardTransfer::RestoreTopicElementList(CXMLTree* pTopicElementListN
 
 				CFrontPageTopicElement TopicElement(m_InputContext);
 
-				int iTopicElementID = 0;
-				TopicElement.CreateTopicFrontPageElement(iTopicElementID,iSiteID,iEditorID,CFrontPageElement::ES_PREVIEW,0,iMappedTopicID,false,sText,sImage,iTemplateType,sTitle,sImageAltText);
+				int iTopicElementID = m_TopicInfo[iTopicID].iTopicElementID;
+
+				if (iTopicElementID == 0)
+				{
+					TopicElement.CreateTopicFrontPageElement(iTopicElementID,iSiteID,iEditorID,CFrontPageElement::ES_PREVIEW,0,iMappedTopicID,false,sText,sImage,iTemplateType,sTitle,sImageAltText);
+				}
+				else
+				{
+					TopicElement.EditTopicFrontPageElement(iTopicElementID, iEditorID, CFrontPageElement::ES_PREVIEW,false,sText,sImage,iTemplateType,m_TopicInfo[iTopicID].topicElementEditKey,sTitle,sImageAltText);
+				}
 
 				if (TopicElement.ErrorReported())
 				{

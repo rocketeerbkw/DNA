@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
@@ -11,10 +12,12 @@ namespace BBC.Dna.Objects
     
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "GENERICSTATUS")]
+    [DataContract(Name = "articleStatus")]
     public partial class ArticleStatus
     {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "TYPE")]
+        [DataMember(Name = "type")]
         public int Type
         {
             get;
@@ -23,6 +26,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlTextAttribute()]
+        [DataMember(Name = "value")]
         public string Value
         {
             get;

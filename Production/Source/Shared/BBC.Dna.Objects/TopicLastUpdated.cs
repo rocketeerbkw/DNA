@@ -24,6 +24,6 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElement(Order = 2, ElementName = "LASTUPDATED")]
-        public Date LastUpdated { get; set; }
+        public DateElement LastUpdated { get; set; }
     }
 }

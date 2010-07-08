@@ -74,7 +74,6 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        private bool _formattedText = false;
         private string _text="";
         [XmlIgnore]
         [DataMember(Name = ("text"))]

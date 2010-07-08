@@ -36,14 +36,14 @@ namespace BBC.Dna.Objects
             topicEdit.TopicLinkId = reader.GetInt32NullAsZero("topiclinkid");
             topicEdit.Createdby = new TopicCreatedDate
               {
-                  CreatedDate = new Date(reader.GetDateTime("createddate")),
+                  CreatedDate = new DateElement(reader.GetDateTime("createddate")),
                   Username = reader.GetStringNullAsEmpty("CreatedByUserName"),
                   Userid = reader.GetInt32NullAsZero("CreatedByUserID")
               };
 
             topicEdit.Updatedby = new TopicLastUpdated()
             {
-                LastUpdated = new Date(reader.GetDateTime("LastUpdated")),
+                LastUpdated = new DateElement(reader.GetDateTime("LastUpdated")),
                 Username = reader.GetStringNullAsEmpty("UpdatedByUserName"),
                 Userid = reader.GetInt32NullAsZero("UpdatedByUserID")
             };
@@ -114,7 +114,7 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("stitle", Title);
                 reader.AddParameter("stext", Description);
                 reader.AddParameter("itopicstatus", (int)TopicStatus.Preview);
-                reader.AddParameter("itopiclinkid", FrontPageElement.Elementid);
+                reader.AddParameter("itopiclinkid", TopicLinkId);
                 reader.AddParameter("sextrainfo", string.Empty);
                 reader.AddParameter("position", Position);
                 reader.Execute();

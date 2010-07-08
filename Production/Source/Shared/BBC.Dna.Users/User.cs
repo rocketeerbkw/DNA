@@ -8,6 +8,7 @@ using BBC.Dna.Utils;
 using System.Configuration;
 using System.Diagnostics;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Users
 {
@@ -41,117 +42,133 @@ namespace BBC.Dna.Users
         /// </summary>
         Notable
     }
+
+    public enum UserStatus
+    {
+        /// <summary>
+        /// Banned
+        /// </summary>
+        Banned = 0, 
+
+        /// <summary>
+        /// Normal
+        /// </summary>
+        Normal = 1, 
+
+        /// <summary>
+        /// Super
+        /// </summary>
+        Super = 2
+    }
     
     /// <summary>
     /// The dna user class
     /// </summary>
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "")]
+    [DataContract(Name = "user")]    
     public class User : IUser
     {
-        private Groups.UserGroups _userGroups;
-        private List<string> _usersGroupsForSite;
+        
         protected string _databaseConnectionDetails = "";
-        private int _userID = 0;
-        private int _ssoSignInUserID = 0;
-        private int _IdentitySignInUserID = 0;
-        private string _userName = "";
-        private string _email = "";
-        private string _firstNames = "";
-        private string _lastName = "";
-        private string _siteSuffix = "";
         private int _status = -1;
-        private int _siteID = 0;
         private DateTime _lastSynchronisedDate;
         protected ICacheManager _cachingObject = null;
         protected IDnaDataReaderCreator _dnaDataReaderCreator = null;
         protected IDnaDiagnostics _dnaDiagnostics = null;
+        private Groups.UserGroups _userGroupsManager;
+
+        [DataMember(Name = "groups")]
+        public List<UserGroup> UserGroups { get; set; }
 
         /// <summary>
         /// Get property for the dna users id
         /// </summary>
-        public virtual int UserID
-        {
-            get { return _userID; }
-        }
+        [DataMember(Name = "id")]
+        public virtual int UserID { get; set;}
 
         /// <summary>
         /// The get property for the users SSO user id
         /// </summary>
-        public virtual int SSOUserID
-        {
-            get { return _ssoSignInUserID; }
-        }
+        [DataMember(Name = "ssoUserID")]
+        public virtual int SSOUserID {get; set;}
 
         /// <summary>
         /// The get property for the users identity user id
         /// </summary>
-        public virtual int IdentityUserID
-        {
-            get { return _IdentitySignInUserID; }
-        }
+        [DataMember(Name = "identityUserID")]
+        public virtual int IdentityUserID  {get; set;}
 
         /// <summary>
         /// The get property for the users name
         /// </summary>
-        public virtual string UserName
-        {
-            get { return _userName; }
-        }
+        [DataMember(Name = "userName")]
+        public virtual string UserName  {get; set;}
 
         /// <summary>
         /// The get property for the users email
         /// </summary>
-        public string Email
-        {
-            get { return _email; }
-        }
+        [DataMember(Name = "email")]
+        public string Email  {get; set;}
+
 
         /// <summary>
         /// The get property for the user first names
         /// </summary>
-        public string FirstNames
-        {
-            get { return _firstNames; }
-        }
+        [DataMember(Name = "firstNames")]
+        public string FirstNames { get; set;  }
 
         /// <summary>
         /// The get property for the users last name
         /// </summary>
-        public string LastName
+        [DataMember(Name = "lastName")]
+        public string LastName  { get; set;  }
+
+
+        public int Status
         {
-            get { return _lastName; }
+            get { return _status;}
+            set { _status = value;}
         }
 
         /// <summary>
         /// The get property for the users status
         /// </summary>
-        public int Status
+        [DataMember(Name = "status")]
+        public string StatusAsString
         {
-            get { return _status; }
+            get 
+            {
+                return Enum.GetName(typeof(UserStatus), _status);
+            }
+            set 
+            {
+                UserStatus stringAsEnum = (UserStatus)Enum.Parse(typeof(UserStatus), value);
+                _status = (int)stringAsEnum;
+            }
         }
 
         /// <summary>
         /// The get property for the siteid the user was created for
         /// </summary>
-        public int SiteID
-        {
-            get { return _siteID; }
-        }
+        [DataMember(Name = "siteID")]
+        public int SiteID { get; set; } 
 
         /// <summary>
         /// The get property for the users
         /// </summary>
-        public DateTime LastSynchronisedDate
-        {
-            get { return _lastSynchronisedDate; }
-        }
+        [DataMember(Name = "lastSynchronisedDate")]
+        public DateTime LastSynchronisedDate { get; set; } 
+ 
 
         /// <summary>
         /// Get property for the users SiteSuffix
         /// </summary>
-        public string SiteSuffix
-        {
-            get { return _siteSuffix; }
-        }
+        [DataMember(Name = "siteSuffix")]
+        public string SiteSuffix { get; set; } 
+
 
         /// <summary>
         /// Default constructor
@@ -172,7 +189,7 @@ namespace BBC.Dna.Users
 
             Trace.WriteLine("User() - connection details = " + _databaseConnectionDetails);
             _cachingObject = caching;
-            _userGroups = new Groups.UserGroups(_dnaDataReaderCreator, _dnaDiagnostics, null);
+            _userGroupsManager = new Groups.UserGroups(_dnaDataReaderCreator, _dnaDiagnostics, null);
         }
 
         /// <summary>
@@ -189,17 +206,16 @@ namespace BBC.Dna.Users
         public bool CreateUserFromSignInUserID(int userSignInID, int legacyUserID, SignInSystem signInType, int siteID, string loginName, string email, string displayName)
         {
             bool userCreated = false;
-            _siteID = siteID;
             if (signInType == SignInSystem.Identity)
             {
-                _IdentitySignInUserID = userSignInID;
+                IdentityUserID = userSignInID;
                 Trace.WriteLine("CreateUserFromSignInUserID() - Using Identity");
-                userCreated = CreateNewUserFromId(_siteID, _IdentitySignInUserID, legacyUserID, loginName, email, displayName);
+                userCreated = CreateNewUserFromId(siteID, IdentityUserID, legacyUserID, loginName, email, displayName);
             }
             else
             {
-                _ssoSignInUserID = userSignInID;
-                userCreated = CreateNewUserFromId(_siteID, 0, _ssoSignInUserID, loginName, email, displayName);
+                SSOUserID = userSignInID;
+                userCreated = CreateNewUserFromId(siteID, 0, SSOUserID, loginName, email, displayName);
                 Trace.WriteLine("CreateUserFromSignInUserID() - Using SSO");
             }
 
@@ -250,11 +266,11 @@ namespace BBC.Dna.Users
                 reader.Execute();
                 if (reader.HasRows && reader.Read())
                 {
-                    _userID = reader.GetInt32("DnaUserID");
+                     UserID = reader.GetInt32("DnaUserID");
                 }
             }
 
-            return _userID;
+            return  UserID;
         }
 
         /// <summary>
@@ -321,9 +337,9 @@ namespace BBC.Dna.Users
                 if (reader.Read() && reader.HasRows)
                 {
                     // Get the id for the user.
-                    _siteID = siteID;
+                    SiteID = siteID;
                     ReadUserDetails(reader);
-                    return _userID > 0;
+                    return UserID > 0;
                 }
             }
             return false;
@@ -347,7 +363,7 @@ namespace BBC.Dna.Users
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
-                        _siteID = siteID;
+                        SiteID = siteID;
                         ReadUserDetails(reader);
                         GetUsersGroupsForSite();
                         return true;
@@ -363,8 +379,8 @@ namespace BBC.Dna.Users
         /// <param name="reader">The StoredProcedure reader that contains the data</param>
         private void ReadUserDetails(IDnaDataReader reader)
         {
-            _userID = reader.GetInt32("userid");
-            _userName = reader.GetString("username");
+            UserID = reader.GetInt32("userid");
+            UserName = reader.GetString("username");
             _status = reader.GetInt32("status");
             if (_status == 1)//normal global status
             {
@@ -374,20 +390,20 @@ namespace BBC.Dna.Users
                     _status = 0;
                 }
             }
-            _email = reader.GetString("email");
-            _siteSuffix = reader.GetStringNullAsEmpty("SiteSuffix");
-            _lastSynchronisedDate = reader.GetDateTime("LastUpdatedDate");
+            Email = reader.GetString("email");
+            SiteSuffix = reader.GetStringNullAsEmpty("SiteSuffix");
+            LastSynchronisedDate = reader.GetDateTime("LastUpdatedDate");
         }
 
         /// <summary>
         /// Gets the given users groups they belong to for a given site
         /// </summary>
         /// <returns>The list of groups they belong to. This will be empty if they donot belong to any groups</returns>
-        public List<string> GetUsersGroupsForSite()
+        public List<UserGroup> GetUsersGroupsForSite()
         {
             // Call the groups service
-            _usersGroupsForSite = _userGroups.GetUsersGroupsForSite(_userID, _siteID);
-            return _usersGroupsForSite;
+            UserGroups = _userGroupsManager.GetUsersGroupsForSite(UserID, SiteID);
+            return UserGroups;
         }
 
         /// <summary>
@@ -398,7 +414,7 @@ namespace BBC.Dna.Users
         public bool AddUserToGroup(string groupName)
         {
             // Call the groups service
-            if (_userGroups.PutUserIntoGroup(UserID, groupName, SiteID))
+            if (_userGroupsManager.PutUserIntoGroup(UserID, groupName, SiteID))
             {
                 GetUsersGroupsForSite();
                 return true;
@@ -416,7 +432,7 @@ namespace BBC.Dna.Users
         public bool AddUserToGroup(int userID, int siteID, string groupName)
         {
             // Call the groups service
-            if (_userGroups.PutUserIntoGroup(userID, groupName, siteID))
+            if (_userGroupsManager.PutUserIntoGroup(userID, groupName, siteID))
             {
                 GetUsersGroupsForSite();
                 return true;
@@ -431,7 +447,7 @@ namespace BBC.Dna.Users
         public void RemoveUserFromGroup(string groupName)
         {
             // Call the groups service
-            _userGroups.DeleteUserFromGroup(UserID, groupName, SiteID);
+            _userGroupsManager.DeleteUserFromGroup(UserID, groupName, SiteID);
             GetUsersGroupsForSite();
         }
 
@@ -444,9 +460,11 @@ namespace BBC.Dna.Users
         public void RemoveUserFromGroup(int userID, int siteID, string groupName)
         {
             // Call the groups service
-            _userGroups.DeleteUserFromGroup(userID, groupName, siteID);
+            _userGroupsManager.DeleteUserFromGroup(userID, groupName, siteID);
             GetUsersGroupsForSite();
         }
+
+
 
         /// <summary>
         /// This method checks to see if the current user is one of the known user types
@@ -459,11 +477,12 @@ namespace BBC.Dna.Users
             {
                 case UserTypes.BannedUser:
                     {
-                        return _status == 0 || _usersGroupsForSite.Contains("banned");
+                        
+                        return _status == 0 || _userGroupsManager.IsItemInList(UserGroups, "banned");
                     }
                 case UserTypes.Editor:
                     {
-                        return _status == 2 || _usersGroupsForSite.Contains("editor");
+                        return _status == 2 || _userGroupsManager.IsItemInList(UserGroups, "editor");
                     }
                 case UserTypes.SuperUser:
                     {
@@ -471,7 +490,7 @@ namespace BBC.Dna.Users
                     }
                 case UserTypes.Moderator:
                     {
-                        return _usersGroupsForSite.Contains("moderator");
+                        return _userGroupsManager.IsItemInList(UserGroups, "moderator");
                     }
                 case UserTypes.NormalUser:
                     {
@@ -479,7 +498,7 @@ namespace BBC.Dna.Users
                     }
                 case UserTypes.Notable:
                     {
-                        return _usersGroupsForSite.Contains("notables");
+                        return _userGroupsManager.IsItemInList(UserGroups, "notables");
                     }
             }
 
@@ -495,23 +514,23 @@ namespace BBC.Dna.Users
         /// <returns>True if it synch'd, false if not</returns>
         public void SynchronizeUserSigninDetails(string signInUserName, string signInEmail, string signInLoginName)
         {
-            if (_userName != signInUserName || _email != signInEmail)
+            if (UserName != signInUserName || Email != signInEmail)
             {
                 using (IDnaDataReader reader = CreateStoreProcedureReader("synchroniseuserwithprofile"))
                 {
-                    reader.AddParameter("userid", _userID);
+                    reader.AddParameter("userid", UserID);
                     reader.AddParameter("displayname", signInUserName);
                     reader.AddParameter("loginname", signInLoginName);
                     reader.AddParameter("email", signInEmail);
-                    reader.AddParameter("siteid", _siteID);
-                    reader.AddParameter("identitysite", _IdentitySignInUserID > 0 ? 1 : 0);
+                    reader.AddParameter("siteid", SiteID);
+                    reader.AddParameter("identitysite", IdentityUserID > 0 ? 1 : 0);
                     reader.Execute();
                     if (reader.Read())
                     {
-                        _email = signInEmail;
+                        Email = signInEmail;
                         if (signInUserName.Length > 0)
                         {
-                            _userName = signInUserName;
+                            UserName = signInUserName;
                         }
                     }
                 }
@@ -524,17 +543,17 @@ namespace BBC.Dna.Users
         /// <param name="siteSuffix">The sitesuffix to sync against</param>
         public void SynchroniseSiteSuffix(string siteSuffix)
         {
-            if (_siteSuffix != siteSuffix)
+            if (SiteSuffix != siteSuffix)
             {
                 using (IDnaDataReader dataReader = CreateStoreProcedureReader("updateuser2"))
                 {
-                    dataReader.AddParameter("UserID", _userID);
-                    dataReader.AddParameter("SiteID", _siteID);
+                    dataReader.AddParameter("UserID", UserID);
+                    dataReader.AddParameter("SiteID", SiteID);
                     dataReader.AddParameter("SiteSuffix", siteSuffix);
                     dataReader.Execute();
                 }
 
-                _siteSuffix = siteSuffix;
+                SiteSuffix = siteSuffix;
             }
         }
     }
