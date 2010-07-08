@@ -97,7 +97,14 @@
       			<xsl:comment>#set var="blq_search_scope" value="cbbc" </xsl:comment>
       		</xsl:if>
       		
-      		<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
+      		<xsl:choose>
+      			<xsl:when test="$blq_header_siteoption != ''">
+      				<xsl:comment>#include virtual="<xsl:value-of select="$blq_header_siteoption"/>"</xsl:comment>
+      			</xsl:when>
+      			<xsl:otherwise>
+      				<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
+      			</xsl:otherwise>
+      		</xsl:choose>
       		
       		<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
       		<script type="text/javascript" src="/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
