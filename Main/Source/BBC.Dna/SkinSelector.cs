@@ -114,7 +114,7 @@ namespace BBC.Dna
             //Fallback to users preferred skin
             if ( inputContext.ViewingUser != null && inputContext.ViewingUser.UserLoggedIn)
             {
-                if (inputContext.ViewingUser.PreferredSkin.ToLower().CompareTo("default") != 0 && VerifySkin(inputContext.ViewingUser.PreferredSkin, inputContext.CurrentSite))
+                if (inputContext.ViewingUser.PreferredSkin.Length != 0 && VerifySkin(inputContext.ViewingUser.PreferredSkin, inputContext.CurrentSite))
                 {
                     _skinName = inputContext.ViewingUser.PreferredSkin.ToLower();
                     return true;
