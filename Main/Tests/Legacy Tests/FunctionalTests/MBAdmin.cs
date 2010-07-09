@@ -4,7 +4,6 @@ using System.Text;
 using System.Xml;
 using BBC.Dna;
 using BBC.Dna.Data;
-using BBC.Dna.Groups;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,6 +11,7 @@ using Tests;
 using BBC.Dna.Moderation.Utils;
 using TestUtils;
 using System.Net;
+using System.Threading;
 
 namespace FunctionalTests
 {
@@ -689,6 +689,7 @@ namespace FunctionalTests
 
             request.RequestPage("mbadmin?cmd=PUBLISHMESSAGEBOARD&skin=purexml");
 
+            Thread.Sleep(3000);
             var xml = request.GetLastResponseAsXML();
             
             CheckPageSchema(request.GetLastResponseAsXML());

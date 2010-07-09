@@ -7,6 +7,7 @@ using System.Xml.XPath;
 using System.Xml.Xsl;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Common;
 
 //Build you bugger!!
 
@@ -35,19 +36,7 @@ namespace BBC.Dna.Component
             if (InputContext.TryGetParamString("action",ref action, "Which signal is this. 'recache-site' or 'recache-groups' are valid"))
             {
                 // Now see what that anything is
-                if (action.ToLower() == "recache-site")
-                {
-                    // We need to reload the site data
-                    ReloadSiteData();
-                    //Get the profanity list as well..
-                    ProfanityFilter.InitialiseProfanities(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics);
-                }
-                else if (action.ToLower() == "recache-groups")
-                {
-                    // We're being asked to reload the groups information
-                    ReloadGroupInformation();
-                }
-                else if (action.ToLower() == "recache-allowedurls")
+                if (action.ToLower() == "recache-allowedurls")
                 {
                     // We're being asked to reload the allowed urls information
                     ReloadAllowedURLs();
@@ -68,9 +57,19 @@ namespace BBC.Dna.Component
                 }
                 else
                 {
-                    // Don't reconise what the action is!
-                    return;
+                    try
+                    {
+                        SignalHelper.HandleSignal(InputContext.CurrentDnaRequest.QueryString);
+                    }
+                    catch(Exception e)
+                    {//not dealt with 
+                        InputContext.Diagnostics.WriteExceptionToLog(e);
+                        return;
+                    }
+                    
                 }
+
+
 
                 // Add some XML to the page to say that we actually did something
                 XmlNode xml = CreateElementNode("SIGNAL");
@@ -99,13 +98,7 @@ namespace BBC.Dna.Component
             }
         }
 
-        private void ReloadSiteData()
-        {
-            // Call the EnsureSiteListExists function with a force to recache
-            InputContext.EnsureSiteListExists(true, InputContext);
-
-            InputContext.Diagnostics.WriteToLog("Signal", "Reloaded site data");
-        }
+        
 
         private void ReloadAllowedURLs()
         {
@@ -113,22 +106,6 @@ namespace BBC.Dna.Component
             InputContext.EnsureAllowedURLsExists(true, InputContext);
 
             InputContext.Diagnostics.WriteToLog("Signal", "Reloaded allowed url data");
-        }
-
-        private void ReloadGroupInformation()
-        {
-			int userID = InputContext.GetParamIntOrZero("userID","ID of single user whose group data needs recaching");
-			if (userID > 0)
-			{
-				UserGroups.RefreshCacheForUser(userID, InputContext);
-			}
-			else
-			{
-				// Call the refresh usergroups function
-				UserGroups.RefreshCache(InputContext);
-			}
-
-            InputContext.Diagnostics.WriteToLog("Signal", "Reloaded group info");
         }
     }
 }

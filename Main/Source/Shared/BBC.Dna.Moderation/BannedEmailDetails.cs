@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BBC.Dna.BannedEmails
+namespace BBC.Dna.Moderation
 {
+    [Serializable]
     /// <summary>
     /// Container class for a banned email details
     /// </summary>
     public class BannedEmailDetails
     {
+        public BannedEmailDetails()
+        {
+        }
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -18,9 +23,9 @@ namespace BBC.Dna.BannedEmails
         /// <param name="isBannedFromComplaints">A flag to state whether or not the email is banned from complaining</param>
         /// <param name="editorID">The id of the editor who added the eamil</param>
         /// <param name="dateAdded">The time at which the eamil was added to the list</param>
-        public BannedEmailDetails(string email, bool isBannedFromSignin, bool isBannedFromComplaints, int editorID, DateTime dateAdded)
+        public BannedEmailDetails(string email, bool isBannedFromSignin, bool isBannedFromComplaints, int editorID, string editorName, DateTime dateAdded)
         {
-            EMail = email;
+            Email = email;
             IsBannedFromSignIn = isBannedFromSignin;
             IsBannedFromComplaints = isBannedFromComplaints;
             EditorID = editorID;
@@ -30,7 +35,7 @@ namespace BBC.Dna.BannedEmails
         /// <summary>
         /// The get/set property for the email address
         /// </summary>
-        public string EMail
+        public string Email
         {
             get;
             set;
@@ -67,6 +72,15 @@ namespace BBC.Dna.BannedEmails
         /// The get/set property for the editor id who added the email
         /// </summary>
         public int EditorID
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// The get/set property for the editor id who added the email
+        /// </summary>
+        public string EditorName
         {
             get;
             set;

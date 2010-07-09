@@ -11,6 +11,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Linq;
 using System.Runtime.Serialization;
 using ISite = BBC.Dna.Sites.ISite;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

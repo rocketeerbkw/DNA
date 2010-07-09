@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Configuration;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Utils;
 
 
 namespace BBC.Dna.Component

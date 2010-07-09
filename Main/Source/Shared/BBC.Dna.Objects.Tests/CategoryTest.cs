@@ -23,7 +23,6 @@ namespace BBC.Dna.Objects.Tests
     public class CategoryTest
     {
         private readonly int _test_h2g2id = 100;
-        private readonly int _test_siteid = 1;
         private readonly int _test_nodeID = 99;
         private readonly string _test_categoryCacheKey = "BBC.Dna.Objects.Category, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|99|";
         private readonly int _test_ParentID_NonRoot = 44;

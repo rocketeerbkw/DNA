@@ -59,6 +59,8 @@
     <Compile Include="DNADateTimeTests.cs" />
     <Compile Include="DnaDiagnosticsTests.cs" />
     <Compile Include="DnaStringParserTest.cs" />
+    <Compile Include="EmailFilterTests.cs" />
+    <Compile Include="Entities.cs" />
     <Compile Include="GuideMLTranslatorTests.cs" />
     <Compile Include="HtmlUtilsTests.cs" />
     <Compile Include="LinkTranslatorTests.cs" />

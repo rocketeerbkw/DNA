@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticateUser.cs" />
+    <Compile Include="CachedGroups.cs" />
     <Compile Include="CallingUser.cs" />
     <Compile Include="ICallingUser.cs" />
     <Compile Include="IUser.cs" />
@@ -116,19 +117,21 @@
     <Compile Include="SSOUser.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserExceptions.cs" />
+    <Compile Include="UserGroup.cs" />
+    <Compile Include="UserGroups.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BBC.Dna.BannedEmails\BBC.Dna.BannedEmails.csproj">
-      <Project>{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}</Project>
-      <Name>BBC.Dna.BannedEmails %28Source\Shared\BBC.Dna.BannedEmails\BBC.Dna.BannedEmails%29</Name>
+    <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
+      <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
+      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BBC.Dna.Groups\BBC.Dna.Groups.csproj">
-      <Project>{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}</Project>
-      <Name>BBC.Dna.Groups %28Source\Shared\BBC.Dna.Groups\BBC.Dna.Groups%29</Name>
+    <ProjectReference Include="..\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
+      <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
+      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>

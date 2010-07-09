@@ -1163,7 +1163,7 @@ namespace FunctionalTests
                 }
             }
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
-            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?_ns=1", "", "text/xml");
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site", "", "text/xml");
 
         }
 
@@ -1182,7 +1182,7 @@ namespace FunctionalTests
                 }
             }
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
-            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?_ns=1", "", "text/xml");
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site&siteid=1", "", "text/xml");
 
         }
     }

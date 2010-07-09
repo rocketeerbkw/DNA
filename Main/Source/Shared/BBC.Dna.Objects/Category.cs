@@ -8,6 +8,7 @@ using BBC.Dna.Utils;
 using BBC.Dna.Sites;
 using System.Runtime.Serialization;
 using BBC.Dna.Api;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

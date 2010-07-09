@@ -9,6 +9,8 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 
 namespace Tests
@@ -371,10 +373,10 @@ namespace Tests
             Stub.On(mockedInputContext).GetProperty("CurrentSite").Will(Return.Value(site));
 
             // Create the site options for the new mocked site
-            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
-            siteOptionList.CreateFromDatabase();
-            siteOptionList.SetValueBool(1, "Forum", "EmailAddressFilter", true);
-            siteOptionList.SetValueBool(1, "General", "IsURLFiltered", true);
+            SiteOptionList siteOptionList = new SiteOptionList();
+            siteOptionList.CreateFromDatabase(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default);
+            siteOptionList.SetValueBool(1, "Forum", "EmailAddressFilter", true, DnaMockery.CreateDatabaseReaderCreator(), null);
+            siteOptionList.SetValueBool(1, "General", "IsURLFiltered", true, DnaMockery.CreateDatabaseReaderCreator(), null);
 
             // Stub the call to the siteoption
             Stub.On(mockedInputContext).Method("GetSiteOptionValueBool").With("Forum", "EmailAddressFilter").Will(Return.Value(true));
@@ -382,7 +384,7 @@ namespace Tests
             Stub.On(mockedInputContext).Method("GetSiteOptionValueBool").With("General", "IsURLFiltered").Will(Return.Value(true));
 
             // Initialise the profanities object
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
+            var p = new ProfanityFilter(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
 
             using (IDnaDataReader reader = mockedInputContext.CreateDnaDataReader("getuitemplate"))
             {
@@ -432,10 +434,10 @@ namespace Tests
             Stub.On(mockedInputContext).GetProperty("CurrentSite").Will(Return.Value(site));
 
             // Create the site options for the new mocked site
-            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
-            siteOptionList.CreateFromDatabase();
-            siteOptionList.SetValueBool(1, "Forum", "EmailAddressFilter", true);
-            siteOptionList.SetValueBool(1, "General", "IsURLFiltered", true);
+            SiteOptionList siteOptionList = new SiteOptionList();
+            siteOptionList.CreateFromDatabase(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default);
+            siteOptionList.SetValueBool(1, "Forum", "EmailAddressFilter", true, DnaMockery.CreateDatabaseReaderCreator(), null);
+            siteOptionList.SetValueBool(1, "General", "IsURLFiltered", true, DnaMockery.CreateDatabaseReaderCreator(), null);
 
             // Stub the call to the siteoption
             Stub.On(mockedInputContext).Method("GetSiteOptionValueBool").With("Forum", "EmailAddressFilter").Will(Return.Value(true));
@@ -443,7 +445,7 @@ namespace Tests
             Stub.On(mockedInputContext).Method("GetSiteOptionValueBool").With("General", "IsURLFiltered").Will(Return.Value(true));
 
             // Initialise the profanities object
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
+            var p = new ProfanityFilter(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
 
             using (IDnaDataReader reader = mockedInputContext.CreateDnaDataReader("getuitemplate"))
             {

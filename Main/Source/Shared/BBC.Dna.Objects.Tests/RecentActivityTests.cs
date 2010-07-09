@@ -10,6 +10,7 @@ using Rhino.Mocks;
 using TestUtils.Mocks.Extentions;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Rhino.Mocks.Constraints;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects.Tests
 {

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BBC.Dna.Groups;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
-
 using TestUtils;
+using BBC.Dna.Users;
 
 namespace FunctionalTests
 {
@@ -32,8 +31,7 @@ namespace FunctionalTests
             SnapshotInitialisation.ForceRestore();
 
             ICacheManager groupsCache = new StaticCacheManager();
-            g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
-            g.InitialiseAllUsersAndGroups();
+            g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), _context.dnaDiagnostics, groupsCache, null, null);
         }
 
         /// <summary>
@@ -56,18 +54,17 @@ namespace FunctionalTests
         public void Test04GetGroupsForEditor()
         {
             
-            ICacheManager groupsCache = new StaticCacheManager();
-            
-
-            // Get the groups for the given user on the given site
+           // Get the groups for the given user on the given site
             List<UserGroup> details = g.GetUsersGroupsForSite(_editorID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for editor " + _editorID.ToString() + " for site 1");
             int itemCount = details.Count;
 
+            /* cache no longer works like this...
             // Check to make sure that the groups info is in the cache
-            details = (List<UserGroup>)groupsCache["BBC.Dna.UserGroups-" + _editorID.ToString() + "-1"];
+            details = (List<string>)groupsCache["BBC.Dna.UserGroups-" + _editorID.ToString() + "-1"];
             Assert.IsNotNull(details, "Failed to get the group details for editor " + _editorID.ToString() + " for site 1 The second time round");
             Assert.AreEqual(itemCount, details.Count, "The cache contains different info");
+             */
 
             // Get them again, they should be cached now
             details = g.GetUsersGroupsForSite(_editorID, 1);
@@ -81,9 +78,6 @@ namespace FunctionalTests
         public void Test02AddUserToGroup()
         {
             
-            ICacheManager groupsCache = new StaticCacheManager();
-            
-
             // Get the groups for the given user on the given site
             List<UserGroup> details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
@@ -96,7 +90,7 @@ namespace FunctionalTests
             details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             Assert.AreEqual(itemCount+1,details.Count,"There should be one more group in the list for the user");
-            Assert.IsTrue(details.Find(delegate(UserGroup group) { return group.Name == "mentor"; }) != null, "The list does not contain the Mentor group");
+            Assert.IsTrue(details.Exists(x => x.Name == "mentor"), "The list does not contain the Mentor group");
         }
 
         /// <summary>
@@ -121,11 +115,7 @@ namespace FunctionalTests
             details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             Assert.AreEqual(itemCount - 1, details.Count, "There should be one less group in the list for the user");
-            Assert.IsFalse(details.Find(delegate(UserGroup group) { return group.Name == "mentor"; }) != null, "The list contains the Mentor group");
-
-            
-            
-            
+            Assert.IsFalse(details.Exists(x => x.Name =="mentor"), "The list contains the Mentor group");
         }
     }
 }

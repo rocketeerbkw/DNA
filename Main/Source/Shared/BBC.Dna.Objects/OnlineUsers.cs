@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

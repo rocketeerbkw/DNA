@@ -36,7 +36,6 @@ namespace Tests
             string rootPath = TestConfig.GetConfig().GetRipleyServerPath();
             BBC.Dna.AppContext.OnDnaStartup(rootPath);
 
-            ProfanityFilter.ClearTestData();
 
             Console.WriteLine("Before RecentSearch - AddRecentSearchTests");
 
@@ -49,8 +48,6 @@ namespace Tests
             Stub.On(_InputContext).GetProperty("CurrentSite").Will(Return.Value(mockedSite));
             Stub.On(mockedSite).GetProperty("ModClassID").Will(Return.Value(1));
 
-            // Initialise the profanities object
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
 
             BBC.Dna.User user = new BBC.Dna.User(_InputContext);
             Stub.On(_InputContext).GetProperty("ViewingUser").Will(Return.Value(user));

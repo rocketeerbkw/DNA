@@ -115,6 +115,7 @@
     <Compile Include="DnaException.cs" />
     <Compile Include="DnaHasher.cs" />
     <Compile Include="DnaStringParser.cs" />
+    <Compile Include="EmailAddressFilter.cs" />
     <Compile Include="Entities.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="GuideMLTranslator.cs" />

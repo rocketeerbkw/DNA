@@ -99,6 +99,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
+      <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
+      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
@@ -107,6 +111,10 @@
       <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
       <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
+      <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
+      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
       <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
       <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
@@ -114,10 +122,6 @@
     <ProjectReference Include="..\BBC.Dna.Api\BBC.Dna.Api.csproj">
       <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
       <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BBC.Dna.Groups\BBC.Dna.Groups.csproj">
-      <Project>{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}</Project>
-      <Name>BBC.Dna.Groups %28Source\Shared\BBC.Dna.Groups\BBC.Dna.Groups%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>

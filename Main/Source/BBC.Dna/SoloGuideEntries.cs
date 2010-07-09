@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using BBC.Dna.Data;
+using BBC.Dna.Users;
 
 namespace BBC.Dna.Component
 {
@@ -101,7 +102,7 @@ namespace BBC.Dna.Component
                 }
                 if (refreshGroups == 1)
                 {
-                    InputContext.SendSignal("action=recache-groups&userid=" + userID.ToString());
+                    UserGroups.GetObject().SendSignal(userID);
                 }
             }
 

@@ -65,7 +65,7 @@ namespace FunctionalTests
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
-                    ISiteList _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, true);
+                    ISiteList _siteList = SiteList.GetSiteList();
                     ISite site = _siteList.GetSite(testUtils_CommentsAPI.sitename);
 
                     string sqlStr = "delete from GroupMembers where UserId=" + testUserReq.CurrentUserID;

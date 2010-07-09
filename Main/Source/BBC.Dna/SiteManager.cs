@@ -420,14 +420,14 @@ namespace BBC.Dna.Component
             {
                 if (CreateSite(ref siteId))
                 {
-                    InputContext.SendSignal("action=recache-site");
+                    AppContext.TheAppContext.TheSiteList.SendSignal(siteId);
                 }
             }
             else if (InputContext.DoesParamExist("update", "Update Site") )
             {
                 if (UpdateSite())
                 {
-                    InputContext.SendSignal("action=recache-site");
+                    AppContext.TheAppContext.TheSiteList.SendSignal(siteId);
                 }
             }
 

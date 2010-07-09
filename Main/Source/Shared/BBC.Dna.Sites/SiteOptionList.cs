@@ -11,7 +11,8 @@ namespace BBC.Dna.Sites
     /// <summary>
     /// A list of all the site options
     /// </summary>
-    public class SiteOptionList : Context
+    [Serializable]
+    public class SiteOptionList
     {
         private List<SiteOption> _siteOptionList;
         private Dictionary<string, SiteOption> _siteOptionDictionary;
@@ -19,8 +20,7 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// Creates the SiteOptionList
         /// </summary>
-        public SiteOptionList(IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag)
-            : base(ReaderCreator, DnaDiag)
+        public SiteOptionList()
         {
             _siteOptionList = new List<SiteOption>();
             _siteOptionDictionary = new Dictionary<string, SiteOption>();
@@ -29,9 +29,9 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// Creates a list of site options by reading them from the database
         /// </summary>
-        public void CreateFromDatabase()
+        public void CreateFromDatabase(IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag)
         {
-            DnaDiagnostics.WriteTimedEventToLog("SiteOptionList", "Creating list from database");
+            DnaDiag.WriteTimedEventToLog("SiteOptionList", "Creating list from database");
 
             _siteOptionList = new List<SiteOption>();
             _siteOptionDictionary = new Dictionary<string, SiteOption>();
@@ -74,7 +74,7 @@ namespace BBC.Dna.Sites
 
                 }
             }
-            DnaDiagnostics.WriteTimedEventToLog("SiteOptionList", "Created list from database");
+            DnaDiag.WriteTimedEventToLog("SiteOptionList", "Created list from database");
         }
 
         private string GetKey( int siteId, string section, string name )
@@ -227,13 +227,13 @@ namespace BBC.Dna.Sites
         /// <param name="value">new value of option</param>
         /// <param name="context">The context</param>
         /// <exception cref="SiteOptionNotFoundException">Thrown if the site option doesn't exist</exception>
-        public void SetValueInt(int siteId, string section, string name, int value)
+        public void SetValueInt(int siteId, string section, string name, int value, IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag)
         {
             SiteOption siteOption = null;
             if (TryFindSiteOption(siteId, section, name, out siteOption))
             {
                 siteOption.SetValueInt(value);
-                UpdateSiteOptionInDatabase(siteOption);
+                UpdateSiteOptionInDatabase(siteOption, ReaderCreator, DnaDiag);
             }
             else
             {
@@ -248,10 +248,9 @@ namespace BBC.Dna.Sites
                 newSiteOption.SetValueInt(value);
                 _siteOptionList.Add(newSiteOption);
                 _siteOptionDictionary.Add(GetKey(siteId, section, name), newSiteOption);
-                UpdateSiteOptionInDatabase(newSiteOption);
+                UpdateSiteOptionInDatabase(newSiteOption, ReaderCreator, DnaDiag);
             }
         }
-
 
         /// <summary>
         /// Sets the bool value of the specified option.
@@ -263,13 +262,13 @@ namespace BBC.Dna.Sites
         /// <param name="value">new value of option</param>
         /// <param name="context">The context</param>
         /// <exception cref="SiteOptionNotFoundException">Thrown if the site option doesn't exist</exception>
-        public void SetValueBool(int siteId, string section, string name, bool value)
+        public void SetValueBool(int siteId, string section, string name, bool value, IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag)
         {
             SiteOption siteOption = null;
             if (TryFindSiteOption(siteId, section, name, out siteOption))
             {
                 siteOption.SetValueBool(value);
-                UpdateSiteOptionInDatabase(siteOption);
+                UpdateSiteOptionInDatabase(siteOption, ReaderCreator, DnaDiag);
             }
             else
             {
@@ -284,7 +283,7 @@ namespace BBC.Dna.Sites
                 newSiteOption.SetValueBool(value);
                 _siteOptionList.Add(newSiteOption);
                 _siteOptionDictionary.Add(GetKey(siteId, section, name), newSiteOption);
-                UpdateSiteOptionInDatabase(newSiteOption);
+                UpdateSiteOptionInDatabase(newSiteOption, ReaderCreator, DnaDiag);
             }
         }
 
@@ -292,7 +291,7 @@ namespace BBC.Dna.Sites
         /// Updates the siteoption which is passed in
         /// </summary>
         /// <param name="so"></param>
-        private void UpdateSiteOptionInDatabase(SiteOption so)
+        private void UpdateSiteOptionInDatabase(SiteOption so, IDnaDataReaderCreator ReaderCreator, IDnaDiagnostics DnaDiag)
         {
             using (IDnaDataReader dataReader = ReaderCreator.CreateDnaDataReader("setsiteoption"))
             {

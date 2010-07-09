@@ -1,8 +1,10 @@
+using System;
 namespace BBC.Dna.Sites
 {
     /// <summary>
     /// Encapsulates a SiteOption
     /// </summary>
+    [Serializable]
     public class SiteOption
     {
         #region SiteOptionType enum

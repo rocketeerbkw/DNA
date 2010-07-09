@@ -33,7 +33,7 @@ bool CSignalBuilder::Build(CWholePage* pPage)
 	m_InputContext.GetParamString("action", action);
 
 
-	if (action.CompareText("recache-site"))
+	if (action.CompareText("recache-site") || action.CompareText("recache-terms"))
 	{
 		m_InputContext.SiteDataUpdated();
 	}

@@ -16,6 +16,9 @@ using DnaIdentityWebServiceProxy;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
+using System.Collections.Specialized;
+using BBC.Dna.Common;
+using BBC.Dna.Users;
 
 
 namespace BBC.Dna.Page
@@ -327,8 +330,6 @@ namespace BBC.Dna.Page
                     }
                     else
                     {
-                        ProfanityFilter.InitialiseProfanitiesIfEmpty(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics);
-
                         // Now call the add components
                         _dnapage.OnPageLoad();
 
@@ -471,16 +472,12 @@ namespace BBC.Dna.Page
             Diagnostics.WriteRequestToLog(Request);
 
             // Make sure that the site list exists
-			if (1 == GetParamIntOrZero("_ns", "Force the framework to recache the static site list. Admin use only."))
-			{
-                EnsureSiteListExists(true, this);
+            if (1 == GetParamIntOrZero("_ns", "Force the framework to recache the static site list. Admin use only."))
+            {
+                TheSiteList.ReInitialise();
                 EnsureAllowedURLsExists(true, this);
             }
-			else
-			{
-				EnsureSiteListExists(false, this);
-                EnsureAllowedURLsExists(false, this);
-			}
+           
 
             bool clearTemplates = (Request.Params["clear_templates"] != null);
 #if DEBUG
@@ -497,11 +494,11 @@ namespace BBC.Dna.Page
                 ClearTemplates();
             }
             
+
             // Check to see if we've been told to recache the user groups
             if (Request.Params["_gc"] != null)
             {
-                // Call the clear templates function
-                UserGroups.RefreshCache(this);
+                UserGroups.GetObject().ReInitialise();
             }
 #if DEBUG
             if (Request.Params["d_skinfile"] != null)

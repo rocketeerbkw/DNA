@@ -252,7 +252,7 @@ namespace BBC.Dna.Component
                                 }
                             }
 
-                            string groupsXml = UserGroups.GetUserGroupsAsXml(authorId, siteId, InputContext);
+                            string groupsXml = UserGroupsHelper.GetUserGroupsAsXml(authorId, siteId, InputContext);
                             XmlDocument groups = new XmlDocument();
                             groups.LoadXml(groupsXml);
                             if (groups.HasChildNodes)
@@ -286,7 +286,7 @@ namespace BBC.Dna.Component
                             }
 
                             // Add Complainant Groups
-                            string groupsXml = UserGroups.GetUserGroupsAsXml(complainantId, siteId, InputContext);
+                            string groupsXml = UserGroupsHelper.GetUserGroupsAsXml(complainantId, siteId, InputContext);
                             XmlDocument groups = new XmlDocument();
                             groups.LoadXml(groupsXml);
                             if (groups.HasChildNodes)

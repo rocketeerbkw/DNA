@@ -435,7 +435,7 @@ namespace BBC.Dna
                 InputContext.Diagnostics.WriteToLog(result.Type, ((Error)result).ErrorMessage);
             }
 
-            AppContext.TheAppContext.SendSignal("action=recache-site");
+            AppContext.TheAppContext.TheSiteList.SendSignal(InputContext.CurrentSite.SiteID);
 
             return new Result("PublishMessageBoard", "Message board update successful.");
         }

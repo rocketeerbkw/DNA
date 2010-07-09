@@ -8,6 +8,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using System.Web;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

@@ -8,7 +8,6 @@ using System.Net;
 using BBC.Dna.Api;
 using BBC.Dna.Utils;
 using System.Xml;
-using BBC.Dna.Groups;
 
 namespace FunctionalTests.Dna.Services.Users
 {
@@ -42,7 +41,7 @@ namespace FunctionalTests.Dna.Services.Users
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
-            Assert.IsNotNull(user.UserGroups.Find(delegate(UserGroup group) { return group.Name == "editor"; }));
+            Assert.IsNotNull(user.UsersListOfGroups.Find(x => x.Name.ToLower()  == "editor"));
 
             Console.WriteLine("After CallingUsers_AsEditor_ReturnsEditorItemInGroup");
         }
@@ -74,7 +73,7 @@ namespace FunctionalTests.Dna.Services.Users
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
             
-            Assert.IsNotNull(user.UserGroups.Find(delegate(UserGroup group) { return group.Name == "moderator"; }));
+            Assert.IsTrue(user.UsersListOfGroups.Exists(x => x.Name.ToLower() == "moderator"));
 
             Console.WriteLine("After CallingUsers_AsModerator_ReturnsModeratorItemInGroup");
         }
@@ -138,7 +137,7 @@ namespace FunctionalTests.Dna.Services.Users
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
-            Assert.IsNotNull(user.UserGroups.Find(delegate(UserGroup group) { return group.Name == "notables"; }));
+            Assert.IsNotNull(user.UsersListOfGroups.Find(x => x.Name.ToLower() == "notables"));
 
             Console.WriteLine("After CallingUsers_AsModerator_ReturnsNotablesItemInGroup");
         }

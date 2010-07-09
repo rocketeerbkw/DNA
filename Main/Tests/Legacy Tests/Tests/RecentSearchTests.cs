@@ -8,6 +8,8 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Utils;
 
 
 namespace Tests
@@ -34,7 +36,7 @@ namespace Tests
             string rootPath = TestConfig.GetConfig().GetRipleyServerPath();
             BBC.Dna.AppContext.OnDnaStartup(rootPath);
 
-            ProfanityFilter.ClearTestData(); 
+
 
             Console.WriteLine("Before RecentSearch - AddRecentSearchTests");
 
@@ -47,8 +49,6 @@ namespace Tests
             Stub.On(context).GetProperty("CurrentSite").Will(Return.Value(mockedSite));
             Stub.On(mockedSite).GetProperty("ModClassID").Will(Return.Value(1));
 
-            // Initialise the profanities object
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
 
             BBC.Dna.User user = new BBC.Dna.User(context);
             Stub.On(context).GetProperty("ViewingUser").Will(Return.Value(user));
@@ -56,7 +56,7 @@ namespace Tests
 
 
             // Initialise the profanities object
-            ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
+            var p = new ProfanityFilter(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
 
             RecentSearch recentsearch = new RecentSearch(context);
             Assert.IsTrue(recentsearch.AddSearchTerm("test article", RecentSearch.SEARCHTYPE.ARTICLE),"Adding valid artical search");

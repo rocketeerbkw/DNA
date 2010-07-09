@@ -33,6 +33,8 @@ namespace Tests
             // Now create a mocked DataReader. This will be returned by the mocked input context method CreateDnaDataReader
             _mockedDataReader = _mock.NewMock<IDnaDataReader>();
 
+           
+
             // Ensure the Statistics object is initialised
             Statistics.ResetCounters();
         }
@@ -59,6 +61,8 @@ namespace Tests
             // First mockup the inputcontext that we'll use to create the status object
             IInputContext mockedInputContext = _mock.NewMock<IInputContext>();
 
+            Stub.On(mockedInputContext).GetProperty("Diagnostics").Will(Return.Value(DnaDiagnostics.Default));
+
             // Now mockup the methods the status object requires from the InputContext
             // Mockup the GetParamIntOrZero method as a stub so it returns 60. Stubs don't care how many times they called or with what params!
             Stub.On(mockedInputContext).Method("GetParamIntOrZero").Will(Return.Value(60));
@@ -79,6 +83,8 @@ namespace Tests
 
                 // Mock up the CurrentServerName property of the inputcontext as a stub
                 Stub.On(mockedInputContext).GetProperty("CurrentServerName").Will(Return.Value(Environment.MachineName));
+
+
 
                 // Now create the status object using our new mocked up version of the input context
                 Status status = new Status(mockedInputContext);
@@ -102,6 +108,7 @@ namespace Tests
             Console.WriteLine("UnitTestStatusOK");
             // First mockup the inputcontext that we'll use to create the status object
             IInputContext mockedInputContext = _mock.NewMock<IInputContext>();
+            Stub.On(mockedInputContext).GetProperty("Diagnostics").Will(Return.Value(DnaDiagnostics.Default));
 
             // Now mockup the methods the status object requires from the InputContext
             // Mockup the GetParamIntOrZero method as a stub so it returns 60. Stubs don't care how many times they called or with what params!

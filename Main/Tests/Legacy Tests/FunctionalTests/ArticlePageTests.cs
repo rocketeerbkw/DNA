@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using BBC.Dna;
-using BBC.Dna.Groups;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

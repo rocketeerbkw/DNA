@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
 using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
-using BBC.Dna.Objects;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Moderation
 {

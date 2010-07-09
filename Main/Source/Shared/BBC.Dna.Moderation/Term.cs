@@ -1,6 +1,5 @@
 using System;
 using System.Xml.Serialization;
-using BBC.Dna.Objects;
 using BBC.Dna.Data;
 namespace BBC.Dna.Moderation
 {
