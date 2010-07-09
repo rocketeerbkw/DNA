@@ -32,7 +32,7 @@
         </xsl:apply-templates>
 
         <p>
-          You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please refer to our <a href="https://confluence.dev.bbc.co.uk/display/DNA/Messageboards+Admin+Tool+-+User+Guide">user guide</a> or contact your <strong>social media representative</strong>.
+          You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please refer to our <a href="https://confluence.dev.bbc.co.uk/display/DNA/Messageboards+Admin+Tool+-+User+Guide" class="dna-openNewWindow">user guide</a> or contact your <strong>social media representative</strong>.
         </p>
       </div>
     </div>
@@ -52,6 +52,7 @@
         <xsl:when test="@TYPE = 'TopicDescriptionMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Add the topic page description</a></xsl:when>
         <xsl:when test="@TYPE = 'ImageNameMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Add a topic promo image</a></xsl:when>
         <xsl:when test="@TYPE = 'AltTextMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Provide an alt text</a></xsl:when>
+        <xsl:when test="@CODE = 'UserNotLoggedIn'">You are not logged in</xsl:when>
         <xsl:otherwise><xsl:value-of select="ERRORMESSAGE"/></xsl:otherwise>
       </xsl:choose>
     </p>
