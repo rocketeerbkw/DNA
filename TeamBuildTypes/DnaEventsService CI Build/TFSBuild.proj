@@ -203,7 +203,7 @@
 
      Use %2a instead of * and %3f instead of ? to prevent expansion before test assemblies are built
     -->
-    <TestContainer Include="$(OutDir)\%2ProcessorTests%2a.dll" />
+    <TestContainer Include="$(OutDir)\%2aProcessorTests%2a.dll" />
 
   </ItemGroup>
 
