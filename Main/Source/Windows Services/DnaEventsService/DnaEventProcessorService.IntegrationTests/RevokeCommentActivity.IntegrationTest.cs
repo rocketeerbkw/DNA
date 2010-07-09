@@ -72,7 +72,9 @@ namespace DnaEventProcessorService.IntegrationTests
                                                          ForumId = 1,
                                                          PostId = 1,
                                                          ThreadId = 1
-                                                     }
+                                                     },
+                                    IdentityUserId = "0"
+
                                 };
 
             var activity = CommentActivityBase.CreateActivity(openSocialActivity, eventData);
@@ -86,7 +88,7 @@ namespace DnaEventProcessorService.IntegrationTests
                                       FilterBy = "postedTime",
                                       FilterOp = "equals",
                                       FilterValue = now.ToString(),
-                                      IdentityUserId = 0,
+                                      IdentityUserId = "0",
                                   };
             var statusCode =  getActivity.Send(httpClient);
             Assert.AreEqual(HttpStatusCode.InternalServerError, statusCode);

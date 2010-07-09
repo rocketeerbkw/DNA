@@ -10,7 +10,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.DataReaderAdapters
             AppInfo = new AppInfoDataReaderAdapter(dataReader);
             ActivityType = dataReader.GetInt32("ActivityType");
             EventId = dataReader.GetInt32("EventId");
-            IdentityUserId = dataReader.GetInt32("IdentityUserId");
+            IdentityUserId = dataReader.GetString("IdentityUserId");
             BlogUrl = dataReader.IsDBNull("BlogUrl") ? null : dataReader.GetString("BlogUrl");
 
             UrlBuilder = new DnaUrlBuilder
