@@ -136,11 +136,10 @@
               <strong>Below are the assets you have defined for your messageboard.</strong>
             </p>
 
-   
             <h4>Stylesheet</h4>
 
             <xsl:choose>
-              <xsl:when test="string(//SITECONFIG/V2_BOARDS/CSS_LOCATION)">
+              <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
                 <p>Stylesheet currently being used:</p>
                 <p class="dna-fnote"><strong>File: </strong>
                   <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/CSS_LOCATION" />
