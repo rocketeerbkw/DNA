@@ -34,8 +34,27 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DNA")]
+        public string SnesActivityProcessor_certificateName {
+            get {
+                return ((string)(this["SnesActivityProcessor_certificateName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\sqlserver2005;Initial Catalog=smallGuide;Integrated Security=True")]
+        public string guideConnectionString {
+            get {
+                return ((string)(this["guideConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:8890")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost")]
         public string snesBaseUri {
             get {
                 return ((string)(this["snesBaseUri"]));
@@ -44,16 +63,7 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DNA")]
-        public string certificateName {
-            get {
-                return ((string)(this["certificateName"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://10.152.4.15:80")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www-cache.reith.bbc.co.uk:80")]
         public string proxyAddress {
             get {
                 return ((string)(this["proxyAddress"]));
@@ -62,11 +72,10 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLSERVER2005;Initial Catalog=TheGuide;Integrated Security=True")]
-        public string guideConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("DNA")]
+        public string ExModerationProcessor_certificateName {
             get {
-                return ((string)(this["guideConnectionString"]));
+                return ((string)(this["ExModerationProcessor_certificateName"]));
             }
         }
     }
