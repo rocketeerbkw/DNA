@@ -62,11 +62,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{611F01
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Api", "BBC.Dna.Api", "{2BF3EB98-483E-4C8D-98B7-C0BE3F649C39}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.BannedEmails", "BBC.Dna.BannedEmails", "{E7D52159-4788-490A-8E44-14FE7C556338}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Data", "BBC.Dna.Data", "{DA384153-9F00-48D4-AEC8-3D445FB65C95}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Groups", "BBC.Dna.Groups", "{AC460917-9D7B-47E0-BF9A-9E06FCBF8D11}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Moderation", "BBC.Dna.Moderation", "{E8CACC67-1E8F-4142-B2DE-1BAC73309E6C}"
 EndProject
@@ -86,11 +82,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Memcached.ClientLibrary", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api", "Source\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj", "{A46E6756-CA6A-4C8A-A063-8515AFD1C614}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.BannedEmails", "Source\Shared\BBC.Dna.BannedEmails\BBC.Dna.BannedEmails.csproj", "{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data", "Source\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj", "{F79CF818-D597-4C2F-A61D-87773951E234}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Groups", "Source\Shared\BBC.Dna.Groups\BBC.Dna.Groups.csproj", "{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation", "Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj", "{ED8FAD29-DC4F-40DC-A275-45D215591FA2}"
 EndProject
@@ -124,7 +116,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Moderation
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference DLLs", "Reference DLLs", "{444038EE-D867-45BE-87CA-062461221E5F}"
 	ProjectSection(SolutionItems) = preProject
-		Source\Reference DLLs\DnaIdentityWebServiceProxy.dll = Source\Reference DLLs\DnaIdentityWebServiceProxy.dll
 		Source\Reference DLLs\Microsoft.ServiceModel.Web.dll = Source\Reference DLLs\Microsoft.ServiceModel.Web.dll
 		Source\Reference DLLs\Rhino.Mocks.dll = Source\Reference DLLs\Rhino.Mocks.dll
 	EndProjectSection
@@ -160,7 +151,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Cleanfilter.reg = Cleanfilter.reg
 		DeploymentNotes.txt = DeploymentNotes.txt
 		deploywebservices.bat = deploywebservices.bat
+		deploywebservicesTest.bat = deploywebservicesTest.bat
 		filter.reg = filter.reg
+		IISresetWithMemcached.bat = IISresetWithMemcached.bat
 		PublishRipleyDebug.bat = PublishRipleyDebug.bat
 		ripleyserver.xmlconf = ripleyserver.xmlconf
 		UserServices4.vsmdi = UserServices4.vsmdi
@@ -461,17 +454,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheGuide.Database.UnitTests", "Source\Databases\The Guide\TheGuide.Database.UnitTests\TheGuide.Database.UnitTests.csproj", "{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Common", "BBC.Dna.Common", "{6508FDD8-346E-436F-A19C-BE414A86B67A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Common", "Source\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj", "{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Common.Tests", "Source\Shared\BBC.Dna.Common.Tests\BBC.Dna.Common.Tests.csproj", "{1A301836-3B83-4854-8F3A-EB778B6C4E82}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Users.Tests", "Source\Shared\BBC.Dna.Users.Tests\BBC.Dna.Users.Tests.csproj", "{1A62C0FE-7309-4E8A-B018-98FD26B4E672}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Users", "BBC.DNA.Services.Users", "{7CAAB26D-EF5E-4C24-8098-CA092047C3CA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Users", "BBC.DNA.Services.Users", "{1283DADF-1D96-40D9-BA0D-0CABA59D3E8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Users", "Source\Web Services\BBC.DNA.Services.Users\BBC.DNA.Services.Users.csproj", "{528B5353-0E55-4935-9F73-961603046DEF}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 52
+		SccNumberOfProjects = 54
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs
+		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = Source\\BBC.Dna\\BBC.DNA.csproj
 		SccProjectTopLevelParentUniqueName1 = UserServices.sln
@@ -669,14 +668,22 @@ Global
 		SccProjectTopLevelParentUniqueName49 = UserServices.sln
 		SccProjectName49 = Source/Databases/The\u0020Guide/TheGuide.Database.UnitTests
 		SccLocalPath49 = Source\\Databases\\The\u0020Guide\\TheGuide.Database.UnitTests
-		SccProjectUniqueName50 = Source\\Shared\\BBC.Dna.Users.Tests\\BBC.Dna.Users.Tests.csproj
+		SccProjectUniqueName50 = Source\\Shared\\BBC.Dna.Common\\BBC.Dna.Common.csproj
 		SccProjectTopLevelParentUniqueName50 = UserServices.sln
-		SccProjectName50 = Source/Shared/BBC.Dna.Users.Tests
-		SccLocalPath50 = Source\\Shared\\BBC.Dna.Users.Tests
-		SccProjectUniqueName51 = Source\\Web\u0020Services\\BBC.DNA.Services.Users\\BBC.DNA.Services.Users.csproj
+		SccProjectName50 = Source/Shared/BBC.Dna.Common
+		SccLocalPath50 = Source\\Shared\\BBC.Dna.Common
+		SccProjectUniqueName51 = Source\\Shared\\BBC.Dna.Common.Tests\\BBC.Dna.Common.Tests.csproj
 		SccProjectTopLevelParentUniqueName51 = UserServices.sln
-		SccProjectName51 = Source/Web\u0020Services/BBC.DNA.Services.Users
-		SccLocalPath51 = Source\\Web\u0020Services\\BBC.DNA.Services.Users
+		SccProjectName51 = Source/Shared/BBC.Dna.Common.Tests
+		SccLocalPath51 = Source\\Shared\\BBC.Dna.Common.Tests
+		SccProjectUniqueName52 = Source\\Shared\\BBC.Dna.Users.Tests\\BBC.Dna.Users.Tests.csproj
+		SccProjectTopLevelParentUniqueName52 = UserServices.sln
+		SccProjectName52 = Source/Shared/BBC.Dna.Users.Tests
+		SccLocalPath52 = Source\\Shared\\BBC.Dna.Users.Tests
+		SccProjectUniqueName53 = Source\\Web\u0020Services\\BBC.DNA.Services.Users\\BBC.DNA.Services.Users.csproj
+		SccProjectTopLevelParentUniqueName53 = UserServices.sln
+		SccProjectName53 = Source/Web\u0020Services/BBC.DNA.Services.Users
+		SccLocalPath53 = Source\\Web\u0020Services\\BBC.DNA.Services.Users
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UserServices4.vsmdi
@@ -1032,42 +1039,6 @@ Global
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.Retail|Win32.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.DebugSmallGuide|.NET.ActiveCfg = DebugSmallGuide|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.DebugSmallGuide|Mixed Platforms.ActiveCfg = DebugSmallGuide|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.DebugSmallGuide|Mixed Platforms.Build.0 = DebugSmallGuide|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.DebugSmallGuide|Win32.ActiveCfg = DebugSmallGuide|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Debug|.NET.ActiveCfg = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Debug|Any CPU.Build.0 = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Debug|Win32.ActiveCfg = Debug|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Release|.NET.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Release|Any CPU.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Release|Any CPU.Build.0 = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.MySQL Release|Win32.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Release|.NET.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Release|Win32.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Retail|.NET.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Retail|Any CPU.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Retail|Any CPU.Build.0 = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53}.Retail|Win32.ActiveCfg = Release|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -1104,42 +1075,6 @@ Global
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{F79CF818-D597-4C2F-A61D-87773951E234}.Retail|Win32.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Debug|.NET.ActiveCfg = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.DebugSmallGuide|.NET.ActiveCfg = DebugSmallGuide|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.DebugSmallGuide|Mixed Platforms.ActiveCfg = DebugSmallGuide|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.DebugSmallGuide|Mixed Platforms.Build.0 = DebugSmallGuide|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.DebugSmallGuide|Win32.ActiveCfg = DebugSmallGuide|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Debug|.NET.ActiveCfg = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Debug|Win32.ActiveCfg = Debug|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Release|.NET.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Release|Any CPU.Build.0 = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.MySQL Release|Win32.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Release|.NET.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Release|Win32.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Retail|.NET.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Retail|Any CPU.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Retail|Any CPU.Build.0 = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D}.Retail|Win32.ActiveCfg = Release|Any CPU
 		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -2248,6 +2183,78 @@ Global
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Win32.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.DebugSmallGuide|.NET.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.DebugSmallGuide|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.DebugSmallGuide|Mixed Platforms.Build.0 = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.DebugSmallGuide|Win32.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Debug|.NET.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Debug|Win32.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Release|.NET.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Release|Any CPU.Build.0 = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.MySQL Release|Win32.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Release|.NET.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Release|Win32.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Retail|.NET.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Retail|Win32.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.DebugSmallGuide|.NET.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.DebugSmallGuide|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.DebugSmallGuide|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.DebugSmallGuide|Win32.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Debug|.NET.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Debug|Win32.ActiveCfg = Debug|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Release|.NET.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Release|Any CPU.Build.0 = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.MySQL Release|Win32.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Release|.NET.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Release|Win32.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Retail|.NET.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82}.Retail|Win32.ActiveCfg = Release|Any CPU
 		{1A62C0FE-7309-4E8A-B018-98FD26B4E672}.Debug|.NET.ActiveCfg = Debug|Any CPU
 		{1A62C0FE-7309-4E8A-B018-98FD26B4E672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1A62C0FE-7309-4E8A-B018-98FD26B4E672}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -2350,9 +2357,7 @@ Global
 		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4} = {3CD6ABEB-E99F-43F5-8977-DD734CCBCBE3}
 		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF} = {3FEECA36-C430-42EB-B37D-01EB46BA0875}
 		{2BF3EB98-483E-4C8D-98B7-C0BE3F649C39} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
-		{E7D52159-4788-490A-8E44-14FE7C556338} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{DA384153-9F00-48D4-AEC8-3D445FB65C95} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
-		{AC460917-9D7B-47E0-BF9A-9E06FCBF8D11} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{E8CACC67-1E8F-4142-B2DE-1BAC73309E6C} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{38F22A8A-7C67-4D41-8294-5C5FE31FF325} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{EE3A6C77-9CAC-43F3-ACFF-190C3E584B0A} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
@@ -2363,12 +2368,11 @@ Global
 		{D651DDAE-4623-4E78-83B5-6905A0CEEC16} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{67595DFD-E528-4F60-8298-5A3484BE5E28} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{54187AB7-0320-401A-948D-F1AE381F3D2C} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
+		{6508FDD8-346E-436F-A19C-BE414A86B67A} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614} = {2BF3EB98-483E-4C8D-98B7-C0BE3F649C39}
 		{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9} = {2BF3EB98-483E-4C8D-98B7-C0BE3F649C39}
-		{804EBAEE-DBD7-4C2B-80C3-C43C476E0C53} = {E7D52159-4788-490A-8E44-14FE7C556338}
 		{F79CF818-D597-4C2F-A61D-87773951E234} = {DA384153-9F00-48D4-AEC8-3D445FB65C95}
 		{0B6597BC-1CC6-4D5B-8850-94E750B4B413} = {DA384153-9F00-48D4-AEC8-3D445FB65C95}
-		{33A2531A-AAAA-4A97-A2C1-F18E785D6F8D} = {AC460917-9D7B-47E0-BF9A-9E06FCBF8D11}
 		{ED8FAD29-DC4F-40DC-A275-45D215591FA2} = {E8CACC67-1E8F-4142-B2DE-1BAC73309E6C}
 		{4F451D92-54A1-4013-B703-8F339F741935} = {E8CACC67-1E8F-4142-B2DE-1BAC73309E6C}
 		{8EB8245F-927C-469B-9DBB-4BAED2A9F420} = {38F22A8A-7C67-4D41-8294-5C5FE31FF325}
@@ -2390,7 +2394,7 @@ Global
 		{6C3A9796-633A-4738-B003-BDBA5ABE3FD8} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{96C76C5A-C07C-4269-A7D5-934AEE606719} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{1B24DDDB-2681-4E12-9DD1-A42239CD0A47} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
-		{7CAAB26D-EF5E-4C24-8098-CA092047C3CA} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
+		{1283DADF-1D96-40D9-BA0D-0CABA59D3E8B} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{E4C34C5F-5F3B-4A43-A2BF-E593E1884786} = {FF6B0888-50F6-4B13-B804-3E010866916E}
 		{BF321555-30BC-45A3-BF5F-0E381DE31FAE} = {06315016-E046-45CD-B63F-B68A10D3A8C8}
 		{A135E839-C263-4171-A2B3-E1D41355B6BB} = {444038EE-D867-45BE-87CA-062461221E5F}
@@ -2428,7 +2432,9 @@ Global
 		{B83A2AA4-D762-45E3-BB28-4B4A53D3C852} = {96C76C5A-C07C-4269-A7D5-934AEE606719}
 		{B6F288C5-806D-40F5-A1A2-14EACD78ACB8} = {1B24DDDB-2681-4E12-9DD1-A42239CD0A47}
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79} = {257F8EC6-1DFF-4029-9E88-11173ACE9DD4}
-		{528B5353-0E55-4935-9F73-961603046DEF} = {7CAAB26D-EF5E-4C24-8098-CA092047C3CA}
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E} = {6508FDD8-346E-436F-A19C-BE414A86B67A}
+		{1A301836-3B83-4854-8F3A-EB778B6C4E82} = {6508FDD8-346E-436F-A19C-BE414A86B67A}
+		{528B5353-0E55-4935-9F73-961603046DEF} = {1283DADF-1D96-40D9-BA0D-0CABA59D3E8B}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 35
