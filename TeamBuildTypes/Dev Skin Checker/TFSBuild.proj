@@ -276,18 +276,22 @@
 
     <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
     <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /u:dna_admin sotzed03"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /u:dna_admin sotzed03"></Exec>
+
 
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web1\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Message Text="Skins: @(Skins) - solutionroot: $(SolutionRoot)"></Message>
-
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web3\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    
 
     <!-- Close Access to vp-dev-dna-web1 -->
     <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /D"></Exec>
 
 
     <!-- Clear templates... -->
     <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
 
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
