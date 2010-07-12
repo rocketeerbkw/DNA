@@ -1267,7 +1267,7 @@ return.";
                     {
                     }
                 }
-                _siteList = SiteList.GetSiteList();
+                _siteList.ReInitialise();
                 _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
         }
