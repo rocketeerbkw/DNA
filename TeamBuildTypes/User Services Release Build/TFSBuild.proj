@@ -359,12 +359,12 @@
     <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /u:dna_admin sotzed03"></Exec>
 
 
-    <Exec Command='"$(SolutionRoot)\deploywebservicesTest.bat" "$(BinariesRoot)" "\\vp-dev-dna-web2\h2g2" "$(SolutionRoot)\filter.reg" vp-dev-dna-web2 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web2_deploy.txt"' ContinueOnError='true'>
+    <Exec Command='"$(SolutionRoot)\deploywebservicesTest.bat" "$(BinariesRoot)" "\\vp-dev-dna-web2\" "$(SolutionRoot)\filter.reg" vp-dev-dna-web2 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web2_deploy.txt"' ContinueOnError='true'>
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
     <Error Text="Error while deploying to Web2: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
 
-    <Exec Command='"$(SolutionRoot)\deploywebservicesTest.bat" "$(BinariesRoot)" "\\vp-dev-dna-web4\h2g2" "$(SolutionRoot)\filter.reg" vp-dev-dna-web4 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web4_deploy.txt"' ContinueOnError='true' >
+    <Exec Command='"$(SolutionRoot)\deploywebservicesTest.bat" "$(BinariesRoot)" "\\vp-dev-dna-web4" "$(SolutionRoot)\filter.reg" vp-dev-dna-web4 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web4_deploy.txt"' ContinueOnError='true' >
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
     <Error Text="Error while deploying to Web4: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
