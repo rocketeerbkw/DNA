@@ -269,6 +269,7 @@
 
     <!-- Exec IPC$ command - get access to vp-dev-dna-web2-->
     <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /u:dna_admin sotzed03"></Exec>
 
     <!-- call targets -->
     <CallTarget Targets="DeployToRelease" />
@@ -276,6 +277,7 @@
 
     <!-- Close Access to vp-dev-dna-web2 -->
     <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /D"></Exec>
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
     <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
@@ -299,8 +301,10 @@
     <!-- Exec Command="sc \\vp-dev-dna-web2 stop w3svc" Timeout="10000"></Exec -->
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web4\wwwroot\h2g2\Skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <!-- Clear templates... -->
-    <WebDownload FileUri="http://dnarelease.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb2.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb4.national.core.bbc.co.uk/dna/h2g2?clear_templates=1" FileName="templates.html" ContinueOnError="true" />
     <!-- start website to copy ripley -->
     <!-- Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec -->
     <!-- When everything is done, change the status of the task to "Succeeded" -->
