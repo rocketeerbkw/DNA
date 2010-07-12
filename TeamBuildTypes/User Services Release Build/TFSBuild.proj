@@ -330,15 +330,11 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
-    <!-- Exec IPC$ command - get access to ops-dna1-->
-    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
-
     <!-- call targets -->
     <CallTarget Targets="DeployToRelease" />
     <CallTarget Targets="DeployToPublishFolder" />
     
-    <!-- Close Access to ops-dna1 -->
-    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
+
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
     <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
@@ -351,36 +347,63 @@
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 
-
   <Target Name="DeployToRelease">
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to release server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+    <!-- Create the build steps which start in mode "Running" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to integration server" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
-      <Output TaskParameter="Id" PropertyName="DeployToReleaseId" />
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
-    <!-- stop iis on ops-dna1 -->
-    <Exec Command="sc \\vp-dev-dna-web2 stop w3svc" Timeout="10000"></Exec>
-    <!-- Copy DnaPages to int drop location -->
-    <Copy SourceFiles="@(DnaPages)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <!-- Copy CommentsApi to int drop location -->
-    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <!-- Copy ModerationApi to int drop location -->
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <!-- Copy ripley dlls over existing-->
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="\\vp-dev-dna-web2\wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <!-- start website to copy ripley -->
-    <Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec>
-    <!-- When everything is done, change the status of the task to "Succeeded" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
+    <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
+    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /u:dna_admin sotzed03"></Exec>
+
+
+    <Exec Command='"$(SolutionRoot)\deploywebservicesTest.bat" "$(BinariesRoot)" "\\vp-dev-dna-web2\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web2 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web2_deploy.txt"' ContinueOnError='true'>
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+    <Error Text="Error while deploying to Web2: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
+
+    <Exec Command='"$(SolutionRoot)\deploywebservicesTest.bat" "$(BinariesRoot)" "\\vp-dev-dna-web4\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web4 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web4_deploy.txt"' ContinueOnError='true' >
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+    <Error Text="Error while deploying to Web4: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
+
+
+    <!-- Close Access to vp-dev-dna-web1 -->
+    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /D"></Exec>
+
+
+    <!-- warm up servers -->
+    <WebDownload FileUri="http://dnaweb2.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb2.national.core.bbc.co.uk/dna/h2g2/status-n" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb2.national.core.bbc.co.uk/dna/api/comments/status.aspx" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb4.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb4.national.core.bbc.co.uk/dna/h2g2/status-n" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb4.national.core.bbc.co.uk/dna/api/comments/status.aspx" FileName="templates.html" ContinueOnError="true" />
+
+
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
     <OnError ExecuteTargets="DeployToReleaseFailed" />
   </Target>
+
+
   <Target Name="DeployToReleaseFailed">
-    <!-- Change the status of the task to "Failed" -->
+    <!-- start website to copy ripley -->
     <Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec>
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToReleaseId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <Exec Command="sc \\vp-dev-dna-web4 start w3svc"></Exec>
+
+    <!-- Close Access to vp-dev-dna-web1 -->
+    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /D"></Exec>
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
+
 
   <Target Name="DeployToPublishFolder">
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to deploy folder" Condition=" '$(IsDesktopBuild)' != 'true' ">
