@@ -154,8 +154,10 @@ namespace BBC.Dna.Sites.Tests
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(false);
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
-            
 
+            IDnaDataReader readerOptions = mocks.DynamicMock<IDnaDataReader>();
+            readerOptions.Stub(x => x.Read()).Return(false);
+            creator.Stub(x => x.CreateDnaDataReader("getallsiteoptions")).Return(readerOptions);
             mocks.ReplayAll();
 
             SiteList target = new SiteList(creator, diag, cache, null, null); 
