@@ -124,17 +124,13 @@ namespace BBC.Dna
                 element.FrontPageElement.Editkey = new Guid(InputContext.GetParamStringOrEmpty("fptopiceditkey", "fptopiceditkey"));
             }
 
-            element.FrontPageElement.Title = InputContext.GetParamStringOrEmpty("fp_title", "fp_title");
+            element.FrontPageElement.Title = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("fp_title", "fp_title"));
             if (element.FrontPageElement.Title.Length == 0)
             {
                 return new Error("TopicElementTitleMissing", "No topic element title given.");
             }
 
-            element.FrontPageElement.Text = InputContext.GetParamStringOrEmpty("fp_text", "fp_text");
-            if (element.FrontPageElement.Text.Length == 0)
-            {
-                return new Error("TopicElementTextMissing", "No topic element text given.");
-            }
+            element.FrontPageElement.Text = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("fp_text", "fp_text"));
 
             if (InputContext.GetParamStringOrEmpty("fp_templatetype", "fp_templatetype") == string.Empty)
             {
@@ -156,16 +152,13 @@ namespace BBC.Dna
                 element.FrontPageElement.ImageAltText = "";
                 element.FrontPageElement.Template = FrontPageTemplate.TextOnly;
             }
-            element.Title = InputContext.GetParamStringOrEmpty("topictitle","topictitle");
+            element.Title = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("topictitle","topictitle"));
             if (element.Title.Length == 0)
             {
                 return new Error("TopicTitleMissing", "No topic title given.");
             }
-            element.Description = "<GUIDE><BODY>" + InputContext.GetParamStringOrEmpty("topictext", "topictext") + "</BODY></GUIDE>";
-            if (element.Description.Length == 0)
-            {
-                return new Error("TopicDescriptionMissing", "No topic description given.");
-            }
+            element.Description = "<GUIDE><BODY>" + HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("topictext", "topictext")) + "</BODY></GUIDE>";
+
 
             if (topicId == 0)
             {
@@ -257,7 +250,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("WELCOME_MESSAGE", "WELCOME_MESSAGE"))
             {
-                _siteConfig.V2Board.WelcomeMessage = InputContext.GetParamStringOrEmpty("WELCOME_MESSAGE", "WELCOME_MESSAGE");
+                _siteConfig.V2Board.WelcomeMessage = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("WELCOME_MESSAGE", "WELCOME_MESSAGE"));
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.WelcomeMessage))
                 {
                     return new Error("InvalidWelcomeMessage", "Unable to update due to an invalid welcome message.");
@@ -266,7 +259,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("ABOUT_MESSAGE", "ABOUT_MESSAGE"))
             {
-                _siteConfig.V2Board.AboutMessage = InputContext.GetParamStringOrEmpty("ABOUT_MESSAGE", "ABOUT_MESSAGE");
+                _siteConfig.V2Board.AboutMessage = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("ABOUT_MESSAGE", "ABOUT_MESSAGE"));
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.AboutMessage))
                 {
                     return new Error("InvalidAboutMessage", "Unable to update due to an invalid about message.");
@@ -275,7 +268,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT"))
             {
-                _siteConfig.V2Board.OpenclosetimesText = InputContext.GetParamStringOrEmpty("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT");
+                _siteConfig.V2Board.OpenclosetimesText = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT"));
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.OpenclosetimesText))
                 {
                     return new Error("InvalidOpenCloseMessage", "Unable to update due to an invalid open/close message.");
