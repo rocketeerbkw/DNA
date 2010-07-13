@@ -419,7 +419,7 @@ namespace FunctionalTests
             request.RequestPage("termsfilteradmin?cmd=REFRESHCACHE");
 
             //wait for signals...
-            Thread.Sleep(3000);
+            Thread.Sleep(6000);
 
             // Setup the request url
             var url = String.Format("AddThread?skin=purexml");
