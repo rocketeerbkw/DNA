@@ -418,6 +418,9 @@ namespace FunctionalTests
             //Do siterefresh
             request.RequestPage("termsfilteradmin?cmd=REFRESHCACHE");
 
+            //wait for signals...
+            Thread.Sleep(3000);
+
             // Setup the request url
             var url = String.Format("AddThread?skin=purexml");
             request = new DnaTestURLRequest("h2g2");
