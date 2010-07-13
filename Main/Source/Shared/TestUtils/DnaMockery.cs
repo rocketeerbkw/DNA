@@ -144,7 +144,7 @@ namespace Tests
             Stub.On(mockedProfile).GetProperty("IsUserLoggedIn").Will(Return.Value(true));
             Stub.On(mockedProfile).GetProperty("IsUserSignedIn").Will(Return.Value(true));
             
-            Stub.On(mockedProfile).GetProperty("UserID").Will(Return.Value(userID));
+            Stub.On(mockedProfile).GetProperty("UserID").Will(Return.Value(userID.ToString()));
             Stub.On(mockedProfile).GetProperty("LoginName").Will(Return.Value(loginName));
 
             Stub.On(mockedProfile).Method("DoesAttributeExistForService").With("h2g2", "email").Will(Return.Value(serviceHasEmail));

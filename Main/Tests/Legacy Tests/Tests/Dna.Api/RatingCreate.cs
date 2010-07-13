@@ -1228,8 +1228,8 @@ return.";
             try
             {
                 Random random = new Random(DateTime.Now.Millisecond);
-                int minCharLength = random.Next(1, 2000);
-                int maxCharLength = minCharLength + random.Next(1, 2000);
+                int minCharLength = random.Next(1, 100);
+                int maxCharLength = minCharLength + random.Next(1, 100);
 
                 SetMinCharLimit(minCharLength);
                 SetMaxCharLimit(maxCharLength);
@@ -1462,7 +1462,7 @@ return.";
         private string GetASCIIcodes()
         {
             string asciiCodes = String.Empty;
-            for (int i = 32; i < 127; i++)
+            for (int i = 97; i < 127; i++)
             {
                 asciiCodes += (char)i;
             }
