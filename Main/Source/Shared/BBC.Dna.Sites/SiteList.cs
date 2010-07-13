@@ -81,7 +81,6 @@ namespace BBC.Dna.Sites
             catch (Exception ex)
             {
                 _dnaDiagnostics.WriteExceptionToLog(ex);
-                return siteList;
             }
 
             //always refresh all options
