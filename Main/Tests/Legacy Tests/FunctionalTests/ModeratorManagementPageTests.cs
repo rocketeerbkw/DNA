@@ -278,9 +278,6 @@ namespace FunctionalTests
 
         private void CheckUserPermissions(string groupName)
         {
-            //wait for signals
-            Thread.Sleep(5000);
-
             DnaTestURLRequest request3 = new DnaTestURLRequest("h2g2");
             request3.SetCurrentUserNormal();
             //c# page

@@ -231,16 +231,19 @@ namespace BBC.Dna.Common
             }
             if (_ripleyServerAddresses != null)
             {
+                //send signals synchronously if only one - helps with automatic testing
+                var sync = (_ripleyServerAddresses.Count == 1);
                 foreach (var server in _ripleyServerAddresses)
                 {
-                    SendSignal(server, "signal", queryStringData);
+                    SendSignal(server, "signal", queryStringData, sync);
                 }
             }
             if (_dotNetServerAddresses != null)
             {
+                var sync = (_dotNetServerAddresses.Count == 1);
                 foreach (var server in _dotNetServerAddresses)
                 {
-                    SendSignal(server, "dnasignal", queryStringData);
+                    SendSignal(server, "dnasignal", queryStringData, sync);
                 }
             }
         }
@@ -251,7 +254,7 @@ namespace BBC.Dna.Common
         /// <param name="serverName"></param>
         /// <param name="pageName"></param>
         /// <param name="queryStringData"></param>
-        private void SendSignal(string serverName, string pageName, NameValueCollection queryStringData)
+        private void SendSignal(string serverName, string pageName, NameValueCollection queryStringData, bool sendSync)
         {
             string request = string.Format("http://{0}/dna/h2g2/{1}?action={2}", serverName, pageName, SignalKey);
 
@@ -266,10 +269,18 @@ namespace BBC.Dna.Common
             Uri URL = new Uri(request);
             _dnaDiagnostics.WriteToLog("SendingSignal", request);
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
+            webRequest.Timeout = 5000;//timeout after 10s
             try
             {
                 // Try to send the request and get the response
-                webRequest.BeginGetResponse(new AsyncCallback(FinishSignalRequest), null);
+                if (sendSync)
+                {
+                    webRequest.GetResponse();
+                }
+                else
+                {
+                    webRequest.BeginGetResponse(new AsyncCallback(FinishSignalRequest), null);
+                }
             }
             catch (Exception ex)
             {

@@ -399,9 +399,6 @@ namespace FunctionalTests
             request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&action=UPDATETERM&skin=purexml", modClassId),
                 postParams);
 
-            //wait for asynch signal
-            Thread.Sleep(3000);
-
             ValidateResponse(request);
             ValidateOkResult(request, "TermsUpdateSuccess", "Terms updated successfully.");
             doc = request.GetLastResponseAsXML();

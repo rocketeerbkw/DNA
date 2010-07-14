@@ -726,6 +726,33 @@ namespace BBC.Dna.Users.Tests
         }
 
         [TestMethod]
+        public void SendSignal_MultipleServersWithUserId_SendsCorrectSignal()
+        {
+            var url = "1.0.0.1";
+            var userId = 1;
+            var cachedGroups = GetCachedGroups();
+            var cache = _mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.Contains(UserGroups.GetCacheKey("LASTUPDATE"))).Return(false);
+            cache.Stub(x => x.Contains(UserGroups.GetCacheKey())).Return(true);
+            cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
+            List<string> servers = new List<string>() { url, url };
+            _mocks.ReplayAll();
+
+            var obj = new UserGroups(creator, diag, cache, servers, servers);
+
+            var groupsList = obj.GetUsersGroupsForSite(int.MaxValue, int.MaxValue);
+            Assert.IsNotNull(groupsList);
+            Assert.AreEqual(0, groupsList.Count);
+            obj.SendSignal(userId);
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/signal?action={1}&userid={2}", url, obj.SignalKey, userId)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/dnasignal?action={1}&userid={2}", url, obj.SignalKey, userId)));
+
+        }
+
+        [TestMethod]
         public void GetUserGroupsStats_GetsValidStats_ReturnsValidObject()
         {
             var cachedGroups = GetCachedGroups();
