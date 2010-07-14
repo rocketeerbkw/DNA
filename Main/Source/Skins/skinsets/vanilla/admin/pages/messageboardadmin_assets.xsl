@@ -44,7 +44,7 @@
               <label for="mbcss">URL:</label>
               <input type="text" name="CSS_LOCATION" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/CSS_LOCATION}" id="mbcss"/>
               <span class="dna-fnote">
-                <strong>Example:</strong> /files/styles.css
+                <strong>Example:</strong> http://www.bbc.co.uk/files/styles.css
                </span>
             </p>
           </div>
