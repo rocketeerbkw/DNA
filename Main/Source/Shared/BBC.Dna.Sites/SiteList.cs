@@ -426,11 +426,16 @@ namespace BBC.Dna.Sites
                     //For each row/site in the database add it's details
                     while (dataReader.Read())
                     {
-						int id = dataReader.GetInt32NullAsZero("SiteID");
+                        var articleSiteId = siteId;
+                        if (siteId == 0)
+                        {
+                            articleSiteId = dataReader.GetInt32NullAsZero("SiteID");
+                        }
+
                         string articleName = dataReader.GetStringNullAsEmpty("ArticleName");
                         try
                         {
-                            siteList.Ids[id].AddArticle(articleName);
+                            siteList.Ids[articleSiteId].AddArticle(articleName);
                         }
                         catch (Exception e)
                         {
