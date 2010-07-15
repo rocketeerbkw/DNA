@@ -207,7 +207,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test GetReviewForumXML_WithUserList method from service
         /// </summary>
-        [TestMethod]
+        [Ignore]//ignored because method is no longer supported
         public void GetReviewForumXML_WithUserList()
         {
             BBC.Dna.Api.RatingForum returnedForum = RatingForumIdentityUserCreate("tests", Guid.NewGuid().ToString() ,ModerationStatus.ForumStatus.Reactive, DateTime.MinValue);
