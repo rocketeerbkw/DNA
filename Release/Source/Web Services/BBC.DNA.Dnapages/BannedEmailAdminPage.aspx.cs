@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using BBC.Dna;
 using BBC.Dna.Component;
 using BBC.Dna.Page;
+using BBC.Dna.Moderation;
+using BBC.Dna.Utils;
 
 public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
 {
@@ -179,7 +181,7 @@ public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
         }
 
         // Get the emails from the database
-        BannedEmails bannedEmails = new BannedEmails(_basePage);
+        BannedEmailsPageBuilder bannedEmails = new BannedEmailsPageBuilder(_basePage);
 
         // Get the emails based on the search term
         if (_letter.CompareTo("All") == 0)
@@ -234,7 +236,7 @@ public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
 
         // Add a row to the table for each item
         int i = 0;
-        foreach (BannedEmail email in bannedEmailArray)
+        foreach (BannedEmailDetails email in bannedEmailArray)
         {
             // Add the item
             CreateTableEntryForEmailItem(email,i++);
@@ -268,7 +270,7 @@ public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
     /// Creates a table row for a banned email item
     /// </summary>
     /// <param name="item">The bannedEmail object that contains the details to fill the row in</param>
-    private void CreateTableEntryForEmailItem(BannedEmail item, int rowIndex)
+    private void CreateTableEntryForEmailItem(BannedEmailDetails item, int rowIndex)
     {
          // Create the row and then add the cells to it
         TableRow row = new TableRow();
@@ -292,7 +294,7 @@ public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
         // Create the banned from signin check box
         TableCell bannedSignInCell = new TableCell();
         CheckBox bannedSignInCB = _signinBannedCheckBoxes[rowIndex];
-        bannedSignInCB.Checked = item.BannedFromSignIn;
+        bannedSignInCB.Checked = item.IsBannedFromSignIn;
         bannedSignInCB.Visible = true;
         bannedSignInCB.Attributes.Add("Email", item.Email);
         bannedSignInCell.Controls.Add(bannedSignInCB);
@@ -305,7 +307,7 @@ public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
         // Create the banned from complaining check box
         TableCell bannedComplainingCell = new TableCell();
         CheckBox bannedCompCB = _complaintBannedCheckBoxes[rowIndex];
-        bannedCompCB.Checked = item.BannedFromComplaining;
+        bannedCompCB.Checked = item.IsBannedFromComplaints;
         bannedCompCB.Visible = true;
         bannedCompCB.Attributes.Add("Email", item.Email);
         bannedComplainingCell.Controls.Add(bannedCompCB);
@@ -357,9 +359,9 @@ public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
         // Add the new email to the list, basic checks first to avoid 
         if ( EmailAddressFilter.IsValidEmailAddresses(tbNewEmail.Text) )
         {
-            BannedEmails bannedEmails = new BannedEmails(_basePage);
-            if (bannedEmails.AddEmailToBannedList(tbNewEmail.Text, _basePage.ViewingUser.UserID, cbNewSignInBanned.Checked, cbNewComplaintBanned.Checked))
+            if (BannedEmails.GetObject().AddEmailToBannedList(tbNewEmail.Text, cbNewSignInBanned.Checked, cbNewComplaintBanned.Checked, _basePage.ViewingUser.UserID, _basePage.ViewingUser.UserName))
             {
+                BannedEmails.GetObject().UpdateCacheAndSendSignal();
                 // Tell the user which email they just removed
                 DisplayUserMessage("Email address '" + tbNewEmail.Text + "' has just been added", true);
 
@@ -394,8 +396,8 @@ public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
             string cmdArg = btClicked.CommandArgument;
 
             // Remove the email from the list
-            BannedEmails bannedEmails = new BannedEmails(_basePage);
-            bannedEmails.RemoveEmail(cmdArg);
+            BannedEmails.GetObject().RemoveEmailFromBannedList(cmdArg);
+            BannedEmails.GetObject().UpdateCacheAndSendSignal();
 
             // Tell the user which email they just removed
             DisplayUserMessage("Email address '" + cmdArg + "' has just been removed", true);
@@ -452,9 +454,8 @@ public partial class BannedEmailAdminPage : BBC.Dna.Page.DnaWebPage
     private void UpdateBannedEmailSettings(string email, bool toggleSignInBanned, bool toggleComplaintBanned)
     {
         // Update the select email
-        BannedEmails bannedEmails = new BannedEmails(_basePage);
-        bannedEmails.UpdateBannedEmail(email, _basePage.ViewingUser.UserID, toggleSignInBanned, toggleComplaintBanned);
-
+        BannedEmails.GetObject().UpdateEmailDetails(email, toggleSignInBanned, toggleComplaintBanned, _basePage.ViewingUser.UserID);
+        BannedEmails.GetObject().UpdateCacheAndSendSignal();
         // Tell the user
         string msg = "Email address '" + email + "' ";
         if (toggleComplaintBanned)

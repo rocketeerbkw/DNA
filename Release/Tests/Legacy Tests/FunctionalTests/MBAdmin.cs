@@ -4,7 +4,6 @@ using System.Text;
 using System.Xml;
 using BBC.Dna;
 using BBC.Dna.Data;
-using BBC.Dna.Groups;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,6 +11,7 @@ using Tests;
 using BBC.Dna.Moderation.Utils;
 using TestUtils;
 using System.Net;
+using System.Threading;
 
 namespace FunctionalTests
 {
@@ -223,6 +223,36 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
+        public void MBAdmin_UpdatePreviewInValidHtmlWelcomeMessage_CorrectUpdate()
+        {
+            var expectedType = "SiteConfigUpdateSuccess";
+            var updateType = "WELCOME_MESSAGE";
+            var updateValue = "<div>welcome message";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+            request.RequestPage("mbadmin?skin=purexml");
+
+            var editKey = CheckPageSchema(request.GetLastResponseAsXML());
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("editkey", editKey));
+            postParams.Enqueue(new KeyValuePair<string, string>(updateType, updateValue));
+
+
+            request.RequestPage("mbadmin?cmd=UPDATEPREVIEW&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+            CheckV2Config(request.GetLastResponseAsXML(), updateType, HtmlUtils.TryParseToValidHtml(updateValue));
+
+
+        }
+
+        /// <summary>
+
+        /// </summary>
+        [TestMethod]
         public void MBAdmin_UpdatePreviewInvalidAboutMessage_CorrectError()
         {
             var expectedType = "InvalidAboutMessage";
@@ -245,6 +275,36 @@ namespace FunctionalTests
             var updateValue = "welcome message";
 
             UpdatePeviewValidRequest(expectedType, updateType, updateValue);
+
+
+        }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_UpdatePreviewInValidHtmlAboutMessage_CorrectUpdate()
+        {
+            var expectedType = "SiteConfigUpdateSuccess";
+            var updateType = "ABOUT_MESSAGE";
+            var updateValue = "<strong>about message";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+            request.RequestPage("mbadmin?skin=purexml");
+
+            var editKey = CheckPageSchema(request.GetLastResponseAsXML());
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("editkey", editKey));
+            postParams.Enqueue(new KeyValuePair<string, string>(updateType, updateValue));
+
+
+            request.RequestPage("mbadmin?cmd=UPDATEPREVIEW&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+            CheckV2Config(request.GetLastResponseAsXML(), updateType, HtmlUtils.TryParseToValidHtml(updateValue));
+
+            
 
 
         }
@@ -278,6 +338,37 @@ namespace FunctionalTests
 
 
         }
+
+        /// <summary/>
+        [TestMethod]
+        public void MBAdmin_UpdatePreviewInValidHtmlOpenCloseTimesText_CorrectUpdate()
+        {
+            var expectedType = "SiteConfigUpdateSuccess";
+            var updateType = "OPENCLOSETIMES_TEXT";
+            var updateValue = "<strong>open close times";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+            request.RequestPage("mbadmin?skin=purexml");
+
+            var editKey = CheckPageSchema(request.GetLastResponseAsXML());
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("editkey", editKey));
+            postParams.Enqueue(new KeyValuePair<string, string>(updateType, updateValue));
+
+
+            request.RequestPage("mbadmin?cmd=UPDATEPREVIEW&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+            CheckV2Config(request.GetLastResponseAsXML(), updateType, HtmlUtils.TryParseToValidHtml(updateValue));
+
+
+
+
+        }
+
 
         /// <summary/>
         [TestMethod]
@@ -529,6 +620,81 @@ namespace FunctionalTests
 
         }
 
+        [TestMethod]
+        public void MBAdmin_UpdateTopicWithoutDescription_CorrectUpdate()
+        {
+            var expectedType = "TopicCreateSuccessful";
+            var fpTitleValue = "fp title";
+            var fpText = "";
+            var fpImagename = "fp_imagename.jpg";
+            var fpImagealttext = "fp_imagealttext";
+            var topicTitle = "topictitle";
+            var topicText = "";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_title", fpTitleValue));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_text", fpText));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagename", fpImagename));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagealttext", fpImagealttext));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictitle", topicTitle));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictext", topicText));
+
+
+
+            request.RequestPage("mbadmin?cmd=UPDATETOPIC&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+
+            var xml = request.GetLastResponseAsXML();
+            Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
+            Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
+            Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
+            Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
+            Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
+        }
+
+        [TestMethod]
+        public void MBAdmin_UpdateTopicWithInvalidHtml_CorrectUpdate()
+        {
+            var expectedType = "TopicCreateSuccessful";
+            var fpTitleValue = "fp title";
+            var fpText = "<div>missing closing tag";
+            var fpImagename = "fp_imagename.jpg";
+            var fpImagealttext = "fp_imagealttext";
+            var topicTitle = "topictitle";
+            var topicText = "";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_title", fpTitleValue));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_text", fpText));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagename", fpImagename));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagealttext", fpImagealttext));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictitle", topicTitle));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictext", topicText));
+
+
+
+            request.RequestPage("mbadmin?cmd=UPDATETOPIC&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+
+            var xml = request.GetLastResponseAsXML();
+            Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
+            Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
+            Assert.AreEqual(HtmlUtils.TryParseToValidHtml(fpText), xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TEXT/GUIDE/BODY").InnerXml);
+            Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
+            Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
+            Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
+        }
+
         /// <summary/>
         [TestMethod]
         public void MBAdmin_UpdateTopic_CorrectUpdate()
@@ -689,12 +855,13 @@ namespace FunctionalTests
 
             request.RequestPage("mbadmin?cmd=PUBLISHMESSAGEBOARD&skin=purexml");
 
+            Thread.Sleep(3000);
             var xml = request.GetLastResponseAsXML();
             
             CheckPageSchema(request.GetLastResponseAsXML());
             CheckResult(request.GetLastResponseAsXML(), expectedType);
 
-            request.RequestPage("?skin=purexml");
+            request.RequestPage("frontpage?skin=purexml");
             xml = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(xml.SelectSingleNode("//H2G2/SITECONFIG"));

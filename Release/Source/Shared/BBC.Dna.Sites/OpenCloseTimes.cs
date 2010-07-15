@@ -5,6 +5,7 @@ namespace BBC.Dna.Sites
     /// <summary>
     /// Class to define the Open and Closing time (for a site)
     /// </summary>
+    [Serializable]
     public class OpenCloseTime
     {
         /// <summary>

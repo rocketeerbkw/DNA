@@ -9,6 +9,7 @@ using BBC.Dna.Sites;
 using DnaIdentityWebServiceProxy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using BBC.Dna.Utils;
 
 namespace Tests
 {
@@ -52,10 +53,10 @@ namespace Tests
             ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
 
             // Create the site options for the new mocked site
-            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
-            siteOptionList.CreateFromDatabase();
-            siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", false);
-            siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", false);
+            SiteOptionList siteOptionList = new SiteOptionList();
+            siteOptionList.CreateFromDatabase(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default);
+            siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", false, DnaMockery.CreateDatabaseReaderCreator(),null);
+            siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", false, DnaMockery.CreateDatabaseReaderCreator(), null);
 
             // Stub the call to the siteoption
             Stub.On(context).Method("GetSiteOptionValueBool").With("General", "CheckUserNameSet").Will(Return.Value(false));
@@ -87,10 +88,10 @@ namespace Tests
             // Create a mocked site
             ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
 
-            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
-            siteOptionList.CreateFromDatabase();
-            siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", true);
-            siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", false);
+            SiteOptionList siteOptionList = new SiteOptionList();
+            siteOptionList.CreateFromDatabase(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default);
+            siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", true, DnaMockery.CreateDatabaseReaderCreator(), null);
+            siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", false, DnaMockery.CreateDatabaseReaderCreator(),null);
 
             // Stub the call to the siteoption
             Stub.On(context).Method("GetSiteOptionValueBool").With("General", "CheckUserNameSet").Will(Return.Value(false));
@@ -122,10 +123,10 @@ namespace Tests
             // Create a mocked site
             ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
 
-            SiteOptionList siteOptionList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
-            siteOptionList.CreateFromDatabase();
-            siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", false);
-            siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", true);
+            SiteOptionList siteOptionList = new SiteOptionList();
+            siteOptionList.CreateFromDatabase(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default);
+            siteOptionList.SetValueBool(1, "Moderation", "SetNewUsersNickNames", false, DnaMockery.CreateDatabaseReaderCreator(), null);
+            siteOptionList.SetValueBool(1, "General", "CheckUserNameSet", true, DnaMockery.CreateDatabaseReaderCreator(), null);
 
             IDnaDataReader reader = context.CreateDnaDataReader("getallsiteoptions");
             Stub.On(context).Method("CreateDnaDataReader").With("getallsiteoptions").Will(Return.Value(reader));

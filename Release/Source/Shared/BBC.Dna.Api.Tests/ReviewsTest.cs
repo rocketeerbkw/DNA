@@ -1129,7 +1129,7 @@ namespace BBC.Dna.Api.Tests
             string siteName = "h2g2";
             int siteId = 1;
             string uid = "uid";
-            string text = "profanity";
+            string text = " (ock ";
             var siteList = mocks.DynamicMock<ISiteList>();
             var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
             var site = mocks.DynamicMock<ISite>();
@@ -1147,6 +1147,7 @@ namespace BBC.Dna.Api.Tests
             cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
 
             site.Stub(x => x.SiteID).Return(siteId);
+            site.Stub(x => x.ModClassID).Return(3);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
 

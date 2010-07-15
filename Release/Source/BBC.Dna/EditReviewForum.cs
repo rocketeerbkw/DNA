@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using BBC.Dna.Sites;
 
 namespace BBC.Dna.Component
 {
@@ -111,7 +112,7 @@ namespace BBC.Dna.Component
                         return;
                     }
                     //sitedata needs to be update for updates
-                    InputContext.SendSignal("action=recache-site");
+                    AppContext.TheAppContext.TheSiteList.SendSignal(InputContext.CurrentSite.SiteID);
                 }
                 else
                 {
@@ -148,7 +149,7 @@ namespace BBC.Dna.Component
                         return;
                     }
                     //sitedata needs to be update for additions
-                    InputContext.SendSignal("action=recache-site");
+                    AppContext.TheAppContext.TheSiteList.SendSignal(InputContext.CurrentSite.SiteID);
                 }
                 else
                 {

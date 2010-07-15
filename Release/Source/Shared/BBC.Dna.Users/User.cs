@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BBC.Dna.Groups;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using System.Configuration;
@@ -68,20 +67,20 @@ namespace BBC.Dna.Users
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "")]
+    [Serializable]
     [DataContract(Name = "user")]    
     public class User : IUser
     {
         
         protected string _databaseConnectionDetails = "";
         private int _status = -1;
-        private DateTime _lastSynchronisedDate;
         protected ICacheManager _cachingObject = null;
         protected IDnaDataReaderCreator _dnaDataReaderCreator = null;
         protected IDnaDiagnostics _dnaDiagnostics = null;
-        private Groups.UserGroups _userGroupsManager;
+        private UserGroups _userGroupsManager;
 
         [DataMember(Name = "groups")]
-        public List<UserGroup> UserGroups { get; set; }
+        public List<UserGroup> UsersListOfGroups { get; set; }
 
         /// <summary>
         /// Get property for the dna users id
@@ -189,7 +188,7 @@ namespace BBC.Dna.Users
 
             Trace.WriteLine("User() - connection details = " + _databaseConnectionDetails);
             _cachingObject = caching;
-            _userGroupsManager = new Groups.UserGroups(_dnaDataReaderCreator, _dnaDiagnostics, null);
+            _userGroupsManager = UserGroups.GetObject();
         }
 
         /// <summary>
@@ -377,8 +376,8 @@ namespace BBC.Dna.Users
         public List<UserGroup> GetUsersGroupsForSite()
         {
             // Call the groups service
-            UserGroups = _userGroupsManager.GetUsersGroupsForSite(UserID, SiteID);
-            return UserGroups;
+            UsersListOfGroups = _userGroupsManager.GetUsersGroupsForSite(UserID, SiteID);
+            return UsersListOfGroups;
         }
 
         /// <summary>
@@ -453,11 +452,11 @@ namespace BBC.Dna.Users
                 case UserTypes.BannedUser:
                     {
                         
-                        return _status == 0 || _userGroupsManager.IsItemInList(UserGroups, "banned");
+                        return _status == 0 || UsersListOfGroups.Exists(x => x.Name.ToLower() == "banned");
                     }
                 case UserTypes.Editor:
                     {
-                        return _status == 2 || _userGroupsManager.IsItemInList(UserGroups, "editor");
+                        return _status == 2 || UsersListOfGroups.Exists(x => x.Name.ToLower() == "editor"); 
                     }
                 case UserTypes.SuperUser:
                     {
@@ -465,7 +464,7 @@ namespace BBC.Dna.Users
                     }
                 case UserTypes.Moderator:
                     {
-                        return _userGroupsManager.IsItemInList(UserGroups, "moderator");
+                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "moderator"); 
                     }
                 case UserTypes.NormalUser:
                     {
@@ -473,7 +472,7 @@ namespace BBC.Dna.Users
                     }
                 case UserTypes.Notable:
                     {
-                        return _userGroupsManager.IsItemInList(UserGroups, "notables");
+                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "notables");
                     }
             }
 

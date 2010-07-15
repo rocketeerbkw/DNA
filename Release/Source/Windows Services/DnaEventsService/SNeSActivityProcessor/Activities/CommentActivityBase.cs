@@ -36,7 +36,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
             set;
         }
 
-        public int IdentityUserId
+        public string IdentityUserId
         {
             get;
             set;
@@ -51,7 +51,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
         {
             var relativeBase = new Uri("http://localhost/");
             return new Uri(PostUserActivityTemplate.BindByPosition(relativeBase,
-                                                                   IdentityUserId.ToString(),
+                                                                   IdentityUserId,
                                                                    Application).PathAndQuery, UriKind.Relative);
         }
 

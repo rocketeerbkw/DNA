@@ -4374,10 +4374,6 @@ bool CGI::Signal(const TDVCHAR *pURL)
 	CTDVString sDotNetURL(pURL);
 	sDotNetURL = "/dna" + sDotNetURL.Mid(1) + "&skin=purexml&_si=h2g2";
 
-	CTDVString sAPISigURL(pURL);
-	int paramsStart = sDotNetURL.Find("?");
-	sAPISigURL = "/dna/api/comments/status.aspx" + sDotNetURL.Mid(paramsStart);
-
 	start = theConfig.GetDotNetServerArray().begin();
 	end = theConfig.GetDotNetServerArray().end();
 	while (start != end)
@@ -4385,10 +4381,6 @@ bool CGI::Signal(const TDVCHAR *pURL)
 		// Send the signal to the .net BBC.Dna
 		CSignalData* pSigData = new CSignalData(sDotNetURL, *start, "");
 		AfxBeginThread(&SendSignal, pSigData, 0, 0, 0, NULL);
-
-		// Send the signal to the .net API Service
-		CSignalData* pAPISigData = new CSignalData(sAPISigURL, *start, "");
-		AfxBeginThread(&SendSignal, pAPISigData, 0, 0, 0, NULL);
 
 		*start++;
 	}

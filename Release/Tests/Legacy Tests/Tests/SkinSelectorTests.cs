@@ -204,7 +204,7 @@ namespace Tests
         [TestMethod]
         public void SiteHasDefaultSkinAndUserPreferenceEqualsDefault_ExpectSitesDefaultSkin()
         {
-            setUserToBeLoggedInWithAPreferredSkin("default");
+            setUserToBeLoggedInWithAPreferredSkin("");
             setupRequestToHaveNoRequestedSkin();
             setupRequestToHaveNoFilterDerivedSkin();
             _skinSelector.Initialise(_inputContext, _outputContext);

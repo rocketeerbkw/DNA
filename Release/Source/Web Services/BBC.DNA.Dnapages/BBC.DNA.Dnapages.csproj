@@ -132,6 +132,13 @@
     <Compile Include="ContentSignifPage.aspx.designer.cs">
       <DependentUpon>ContentSignifPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MBBackupRestore.aspx.cs">
+      <DependentUpon>MBBackupRestore.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MBBackupRestore.aspx.designer.cs">
+      <DependentUpon>MBBackupRestore.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MBAdmin.aspx.cs">
       <DependentUpon>MBAdmin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -715,6 +722,10 @@
       <Project>{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}</Project>
       <Name>BBC.DNA %28Source\BBC.Dna\BBC.DNA%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj">
+      <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
+      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
@@ -734,6 +745,10 @@
     <ProjectReference Include="..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
       <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj">
+      <Project>{4770D032-9B06-450D-8B00-7200D8330397}</Project>
+      <Name>Memcached.ClientLibrary %28Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -836,6 +851,7 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="MBBackupRestore.aspx" />
     <Content Include="MBAdmin.aspx" />
     <Content Include="MBAdminAssets.aspx" />
     <Content Include="MBAdminDesign.aspx" />

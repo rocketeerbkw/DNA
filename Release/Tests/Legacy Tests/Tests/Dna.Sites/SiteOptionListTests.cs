@@ -91,8 +91,8 @@ namespace Tests
             Console.WriteLine("TestSiteOptionListValues");
             List<SiteOptionSpec> list = ReadSiteOptionsDirectly();
 
-            SiteOptionList soList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
-            soList.CreateFromDatabase();
+            SiteOptionList soList = new SiteOptionList();
+            soList.CreateFromDatabase(ReaderCreator, base.dnaDiagnostics);
 
             foreach (SiteOptionSpec s in list)
             {
@@ -194,8 +194,8 @@ namespace Tests
             Console.WriteLine("TestSiteOptionListGetMethods");
             List<SiteOptionSpec> list = ReadSiteOptionsDirectly();
 
-            SiteOptionList soList = new SiteOptionList(DnaMockery.CreateDatabaseReaderCreator(), null);
-            soList.CreateFromDatabase();
+            SiteOptionList soList = new SiteOptionList();
+            soList.CreateFromDatabase(DnaMockery.CreateDatabaseReaderCreator(), dnaDiagnostics);
 
             List<SiteOptionSpec> siteZero = new List<SiteOptionSpec>();
             List<SiteOptionSpec> siteNoneZero = new List<SiteOptionSpec>();

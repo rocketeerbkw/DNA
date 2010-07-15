@@ -77,7 +77,7 @@ namespace SnesActivityProcessorTests
             
             eventData.BlogUrl = "http://www.example.com/blogurl";
             eventData.EventId = 1;
-            eventData.IdentityUserId = 12345;
+            eventData.IdentityUserId = "12345";
 
             eventData.Rating = new Rating { MaxValue = 5, Value = 4 };
             eventData.UrlBuilder = new DnaUrlBuilder { DnaUrl = "iplayer", ForumId = 1, PostId = 1, ThreadId = 1 };

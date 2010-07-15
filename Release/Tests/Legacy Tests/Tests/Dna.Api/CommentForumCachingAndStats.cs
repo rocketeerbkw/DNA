@@ -52,11 +52,11 @@ namespace Tests
                 {//force processpremod out...
                     reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=1 and Name='ProcessPreMod'");
                 }
-                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+                _siteList = SiteList.GetSiteList();
                 site = _siteList.GetSite("h2g2");
 
                 _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
-                ProfanityFilter.InitialiseProfanitiesIfEmpty(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+                var p = new ProfanityFilter(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);
             }
         }
 
@@ -280,7 +280,7 @@ namespace Tests
                 _siteList.GetSite(site.ShortName).IsEmergencyClosed = false;
                 using (FullInputContext inputcontext = new FullInputContext(true))
                 {
-                    _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+                    _siteList = SiteList.GetSiteList();
                     site = _siteList.GetSite("h2g2");
                     _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                 }

@@ -83,7 +83,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context.cs" />
     <Compile Include="ISite.cs" />
     <Compile Include="ISiteList.cs" />
     <Compile Include="OpenCloseTimes.cs" />
@@ -93,6 +92,7 @@
     <Compile Include="Siteconfigv2BoardsFooter.cs" />
     <Compile Include="SiteConfigV2BoardsModules.cs" />
     <Compile Include="SiteList.cs" />
+    <Compile Include="SiteListCache.cs" />
     <Compile Include="SiteOption.cs" />
     <Compile Include="SiteOptionExceptions.cs" />
     <Compile Include="SiteOptionList.cs" />
@@ -102,6 +102,10 @@
     <Compile Include="TopicList.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
+      <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
+      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>

@@ -1,8 +1,10 @@
+using System;
 namespace BBC.Dna.Sites
 {
     /// <summary>
     /// The Skin class holds all the data regarding a Skins for a site
     /// </summary>
+    [Serializable]
     public class Skin
     {
         /// <summary>

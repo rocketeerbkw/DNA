@@ -12,7 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
 using TestUtils;
-using BBC.Dna.Groups;
+using BBC.Dna.Moderation;
 
 namespace Tests
 {
@@ -46,16 +46,15 @@ namespace Tests
 
             using (FullInputContext inputcontext = new FullInputContext(true))
             {
-                _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+                _siteList = SiteList.GetSiteList();
                 site = _siteList.GetSite("h2g2");
 
                 _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                 
                 ICacheManager groupsCache = new StaticCacheManager();
-                var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
-                g.InitialiseAllUsersAndGroups();
-
-                ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
+                var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache, null, null);
+                var p = new ProfanityFilter(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache, null, null);
+                var b = new BannedEmails(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache, null, null);
             }
         }
 

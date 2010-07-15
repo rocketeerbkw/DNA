@@ -3,9 +3,10 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using BBC.Dna.Groups;
 using System.Linq;
 using System.Runtime.Serialization;
+using BBC.Dna.Common;
+using BBC.Dna.Users;
 
 
 namespace BBC.Dna.Objects
@@ -38,7 +39,7 @@ namespace BBC.Dna.Objects
         public static Groups GetGroupsForUserBySiteId(int userId, int siteId)
         {
             var groups = new Groups();
-            var userGroups = new UserGroups(null,null,null);
+            var userGroups = (UserGroups)SignalHelper.GetObject(typeof(UserGroups));
             try
             {
                 var groupList = userGroups.GetUsersGroupsForSite(userId, siteId);

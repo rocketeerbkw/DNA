@@ -58,7 +58,7 @@
       	<head profile="http://dublincore.org/documents/dcq-html/">
       		
       		<title>
-      			<xsl:value-of select="$socialbookmark_title" />test
+      			<xsl:value-of select="$socialbookmark_title" />
       		</title>
       		
       		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -264,7 +264,7 @@
 	      		<div id="dna-boardpromo"> 
 	      			<h3>About this Board</h3>
 	      			<div id="dna-about-board">
-	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" /></p>
+	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" disable-output-escaping="yes" /></p>
 	      				
 	      				<xsl:if test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
 	      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">

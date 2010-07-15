@@ -7,6 +7,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Moderation;
 using System.Threading;
 using System.ComponentModel;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna
 {
@@ -74,13 +75,7 @@ namespace BBC.Dna
                     return UpdateTerm();
 
                 case "REFRESHCACHE":
-                    //run in background...
-                    //var thread = new Thread(() => AppContext.TheAppContext.SendSignal("action=recache-site"));
-                    //thread.IsBackground = true;
-                    //thread.Priority = ThreadPriority.Highest;
-                    //thread.Start();
-
-                    AppContext.TheAppContext.SendSignal("action=recache-site");
+                    ProfanityFilter.GetObject().SendSignal();
                     return new Result("SiteRefreshSuccess", "Terms filter refresh initiated.");
             }
             return null;

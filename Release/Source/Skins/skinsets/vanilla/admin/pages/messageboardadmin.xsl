@@ -136,11 +136,10 @@
               <strong>Below are the assets you have defined for your messageboard.</strong>
             </p>
 
-   
             <h4>Stylesheet</h4>
 
             <xsl:choose>
-              <xsl:when test="string(//SITECONFIG/V2_BOARDS/CSS_LOCATION)">
+              <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
                 <p>Stylesheet currently being used:</p>
                 <p class="dna-fnote"><strong>File: </strong>
                   <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/CSS_LOCATION" />
@@ -170,7 +169,7 @@
           <h3>Publish</h3>
 
           <p class="dna-center">
-            <a href="{$root}/mbadmin#dna-publish-mb"  class="dna-link-overlay">Publish this messageboard</a>
+            <a href="{$root}/mbadmin?s_mode=publish#dna-publish-mb"  class="dna-link-overlay">Publish this messageboard</a>
           </p>
           <p class="dna-fnote"><strong>Publish your messageboard live to the web.</strong></p>
         </div>
@@ -199,12 +198,10 @@
 
           <h4>Publish this messageboard</h4>
 
-          <form action="mbadmin?cmd=PUBLISHMESSAGEBOARD" method="post" class="dna-publish-mboard">
+          <form action="mbadmin?s_mode=publishyes&amp;cmd=PUBLISHMESSAGEBOARD" method="post" class="dna-publish-mboard">
             
             <div id="dna-publish-form">
-              <p>
-                Are you sure you want to publish this messageboard?
-              </p>
+              <p>Are you sure you want to publish this messageboard?</p>
 
               <div class="dna-buttons">
                 <ul>
@@ -219,7 +216,7 @@
             </div>
 
             <div id="dna-publish-loading" class="dna-off">
-              <p class="dna-center"><img src="/dnaimages/dna_messageboard/img/icon-loading.gif" alt="Loading"/></p>
+              <p class="dna-center"><img src="/dnaimages/dna_messageboard/img/loading.gif" alt="Loading"/></p>
             </div>
               
           </form>
@@ -227,7 +224,7 @@
         
          <div id="dna-publish-mb-yes">
            <xsl:attribute name="class">
-             dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'publish' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
+             dna-preview-box <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE != 'publishyes' or not(PARAMS/PARAM[NAME = 's_mode'])">dna-off</xsl:if>
            </xsl:attribute>
 
 
@@ -235,7 +232,7 @@
             <xsl:when test="//MESSAGEBOARDPUBLISHERROR">
               <h4>Your board cannot be published yet...</h4>
 
-              <p> In order to publish your messageboard, the following areas need to be completed:</p>
+              <p>In order to publish your messageboard, the following areas need to be completed:</p>
 
               <xsl:if test="MESSAGEBOARDPUBLISHERROR/DESIGN">
                 <p>In the Design Section</p>

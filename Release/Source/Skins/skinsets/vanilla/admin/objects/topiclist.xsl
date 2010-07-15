@@ -132,7 +132,7 @@
 
             <p>
               <label for="fp_text-{$topicid}">Enter the text to describe what this topic is about:</label>
-              <textarea name="fp_text" id="fp_text-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT"/></textarea>
+              <textarea name="fp_text" id="fp_text-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text><xsl:copy-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT/GUIDE/BODY/node()"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's got a good chance this year? Who'll be waltzing off in the first few shows?
               </span>
@@ -241,7 +241,8 @@
             </p>
             <p>
               <label for="topictext-{$topicid}">Enter the text to describe what this topic page is about:</label>
-              <textarea name="topictext" id="topictext-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY"/></textarea>
+              <textarea name="topictext" id="topictext-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text>
+                <xsl:copy-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY/node()"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's will your favourite dancers be this year? Let the speculations begin...
               </span>

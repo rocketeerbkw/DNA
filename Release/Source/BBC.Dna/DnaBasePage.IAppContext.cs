@@ -83,16 +83,6 @@ namespace BBC.Dna.Page
         }
 
         /// <summary>
-        /// <see cref="AppContext.EnsureSiteListExists"/>
-        /// </summary>
-        /// <param name="context">The context</param>
-        /// <param name="recacheData"></param>
-        public void EnsureSiteListExists(bool recacheData, IAppContext context)
-        {
-            AppContext.TheAppContext.EnsureSiteListExists(recacheData, context);
-        }
-
-        /// <summary>
         /// <see cref="AppContext.EnsureAllowedURLsExists"/>
         /// </summary>
         /// <param name="context">The context</param>
@@ -100,15 +90,6 @@ namespace BBC.Dna.Page
         public void EnsureAllowedURLsExists(bool recacheData, IAppContext context)
         {
             AppContext.TheAppContext.EnsureAllowedURLsExists(recacheData, context);
-        }
-
-        /// <summary>
-        /// <see cref="AppContext.SendSignal"/>
-        /// </summary>
-        /// <param name="signal"></param>
-        public void SendSignal(string signal)
-        {
-            AppContext.TheAppContext.SendSignal(signal);
         }
 
         /// <summary>

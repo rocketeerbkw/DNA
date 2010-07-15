@@ -4,12 +4,14 @@ using System.Xml;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
 using BBC.Dna.Data;
+using System.Linq;
 
 namespace BBC.Dna.Sites
 {
     /// <summary>
     /// The Site class holds all the data regarding a Site
     /// </summary>
+    [Serializable]
     public class Site : ISite
     {
         /// <summary>
@@ -438,6 +440,14 @@ namespace BBC.Dna.Sites
         }
 
         /// <summary>
+        /// Refreshes object to clear
+        /// </summary>
+        public void ClearAllReviewForums()
+        {
+            _reviewForums.Clear();
+        }
+
+        /// <summary>
         /// Method to Add Open Close Time to the sites list of open close times
         /// </summary>
         /// <param name="dayOfWeek">Day of the Week</param>
@@ -451,6 +461,14 @@ namespace BBC.Dna.Sites
         }
 
         /// <summary>
+        /// Clears the times
+        /// </summary>
+        public void ClearOpenCloseTimes()
+        {
+            OpenCloseTimes.Clear();
+        }
+
+        /// <summary>
         /// Method to add to the sites dictionary object of Articles
         /// </summary>
         /// <param name="articleName">The key article name</param>
@@ -460,6 +478,13 @@ namespace BBC.Dna.Sites
             _articles.Add(name, 1);
         }
 
+        /// <summary>
+        /// Clears articles
+        /// </summary>
+        public void ClearArticles()
+        {
+            _articles.Clear();
+        }
 
         /// <summary>
         /// Adds a topic to the topics list for this site
@@ -472,6 +497,15 @@ namespace BBC.Dna.Sites
         public void AddTopic(int topicID, string title, int h2g2ID, int forumID, int status)
         {
             _topics.Topics.Add(new Topic(topicID, title, h2g2ID, forumID, status));
+        }
+
+        /// <summary>
+        /// Clear topics before reloading
+        /// </summary>
+        /// <param name="siteId"></param>
+        public void ClearAllTopics()
+        {
+            _topics.Topics.Clear();
         }
 
         /// <summary>

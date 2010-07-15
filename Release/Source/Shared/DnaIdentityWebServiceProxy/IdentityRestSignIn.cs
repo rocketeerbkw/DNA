@@ -389,6 +389,7 @@ namespace DnaIdentityWebServiceProxy
                 XmlDocument xDoc = new XmlDocument();
                 xDoc.Load(response.GetResponseStream());
                 response.Close();
+                _userSignedIn = true;
                 _cookieValue = cookie;
                 if (secureCookie.Length > 0)
                 {
@@ -403,9 +404,6 @@ namespace DnaIdentityWebServiceProxy
                     AddTimingInfoLine( "<* IDENTITY END *>");
                     return false;
                 }
-
-                _userSignedIn = true;
-
                 string identityUserName = cookie.Split('|').GetValue(1).ToString();
 
                 AddTimingInfoLine("Calling Get Attributes...");

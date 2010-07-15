@@ -31,7 +31,7 @@ namespace BBC.Dna.LoadTest
             
         }
 
-        [TestMethod]
+        [Ignore]
         public void CommentBox_readwrite()
         {
 
@@ -49,7 +49,7 @@ namespace BBC.Dna.LoadTest
             testHandler.CompareResults();
         }
 
-        [TestMethod]
+        [Ignore]
         public void Commentboxusingapi_Readwrite()
         {
 

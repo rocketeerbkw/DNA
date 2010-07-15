@@ -34,13 +34,14 @@ namespace DnaEventProcessorService
         private string GetCertificateName(string type)
         {
             certificateName = string.Empty;
-            if (Properties.Settings.Default.PropertyValues[type + ".certificateName"] != null)
+            string settingName = type + "_certificateName";
+            if (Properties.Settings.Default.PropertyValues[settingName] != null)
             {
-                certificateName = Properties.Settings.Default.PropertyValues[type + ".certificateName"].PropertyValue.ToString();
+                certificateName = Properties.Settings.Default.PropertyValues[settingName].PropertyValue.ToString();
             }
             else
             {
-                throw new Exception("Missing app.config setting " + type + ".certificateName");
+                throw new Exception("Missing app.config setting " + settingName);
             }
             return certificateName;
         }

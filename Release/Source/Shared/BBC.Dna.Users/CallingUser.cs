@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
-using BBC.Dna.BannedEmails;
 using BBC.Dna.Utils;
 using DnaIdentityWebServiceProxy;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using System.Runtime.Serialization;
+using BBC.Dna.Moderation;
 
 namespace BBC.Dna.Users
 {
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "")]
+    [Serializable]
     [DataContract(Name="user")]
     public class CallingUser : User, ICallingUser
     {
@@ -122,7 +123,7 @@ namespace BBC.Dna.Users
                         _isSecureRequest = authenticatedUser.IsSecureRequest;
 
                         // Check to see if the email is in the banned emails list
-                        BannedEmails.BannedEmails emails = new BannedEmails.BannedEmails(_dnaDataReaderCreator, _dnaDiagnostics, _cachingObject);
+                        BannedEmails emails = BannedEmails.GetObject();
                         string emailToCheck = authenticatedUser.Email;
                         if (emailToCheck.Length == 0 || !emails.IsEmailInBannedFromSignInList(emailToCheck))
                         {

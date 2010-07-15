@@ -1160,7 +1160,7 @@ namespace BBC.Dna
                 
             }
             
-            string groupsXml = UserGroups.GetUserGroupsAsXml(userId, InputContext.CurrentSite.SiteID, InputContext);
+            string groupsXml = UserGroupsHelper.GetUserGroupsAsXml(userId, InputContext.CurrentSite.SiteID, InputContext);
 
             XmlDocument groups = new XmlDocument();
             groups.LoadXml(groupsXml);
@@ -1744,7 +1744,7 @@ namespace BBC.Dna
 		/// </summary>
         public XmlElement GetSitesThisUserIsEditorOfXML()
         {
-            return UserGroups.GetSitesUserIsEditorOfXML(_userID, IsSuperUser, InputContext);
+            return UserGroupsHelper.GetSitesUserIsEditorOfXML(_userID, IsSuperUser, InputContext);
         }
 
         /// <summary>

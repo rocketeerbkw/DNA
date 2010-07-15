@@ -137,7 +137,7 @@ namespace BBC.Dna.Component
             }
 
             //Add All User Groups.
-            XmlElement groups = UserGroups.GetSiteGroupsElement(InputContext.CurrentSite.SiteID,InputContext);
+            XmlElement groups = UserGroupsHelper.GetSiteGroupsElement(InputContext.CurrentSite.SiteID, InputContext);
             RootElement.AppendChild(ImportNode(groups));
             
             //Add Functionality / Parameters for each search type.

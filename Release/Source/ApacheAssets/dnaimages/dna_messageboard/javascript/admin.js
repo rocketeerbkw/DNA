@@ -136,10 +136,6 @@
                         glow.dom.create('<span class="dna-error-text">Please add a topic promo title</span>').insertBefore("#fp_title-" + seditTopic);
                         $("input#fp_title-" + seditTopic).addClass("dna-error-input");
                         return false;
-                    } else if ($("#fp_text-" + seditTopic).val() == "") {
-                        glow.dom.create('<span class="dna-error-text">Please add a topic promo description</span>').insertBefore("#fp_text-" + seditTopic);
-                        $("textarea#fp_text-" + seditTopic).addClass("dna-error-input");
-                        return false;
                     } else {
                         $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
                         $("#dna-preview-edittopic-step2-" + seditTopic).removeClass("dna-off");
@@ -173,11 +169,7 @@
                         glow.dom.create('<span class="dna-error-text">Please add a title topic</span>').insertBefore("#topictitle-" + seditTopic);
                         $("#topictitle-" + seditTopic).addClass("dna-error-input");
                         return false;
-                    } else if ($("#topictext-" + seditTopic).val() == "") {
-                        glow.dom.create('<span class="dna-error-text">Please add a topic description</span>').insertBefore("#topictext-" + seditTopic);
-                        $("textarea#topictext-" + seditTopic).addClass("dna-error-input");
-                        return false;
-                    }
+                    } 
                     return false;
                 });
 

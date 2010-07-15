@@ -5192,7 +5192,11 @@ bool CUser::FetchData()
 			m_Active = SP.GetBoolField("Active");
 			m_Anonymous = SP.GetBoolField("Anonymous");
 			m_PrivateForum = SP.GetIntField("PrivateForum");
-			bSuccess = SP.GetField("PrefSkin", m_PrefSkin) && bSuccess;
+			m_PrefSkin = "";
+			if (!SP.IsNULL("PrefSkin"))
+			{
+				bSuccess = SP.GetField("PrefSkin", m_PrefSkin) && bSuccess;
+			}
 			m_PrefUserMode = SP.GetIntField("PrefUserMode");
 			m_PrefForumStyle = SP.GetIntField("PrefForumStyle");
 			m_AgreedTerms = SP.GetBoolField("AgreedTerms");

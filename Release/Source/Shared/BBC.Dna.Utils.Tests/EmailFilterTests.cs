@@ -5,7 +5,7 @@ using BBC.Dna;
 using BBC.Dna.Component;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests
+namespace BBC.Dna.Utils.Tests
 {
     /// <summary>
     /// Tests for EmailFilterTests.

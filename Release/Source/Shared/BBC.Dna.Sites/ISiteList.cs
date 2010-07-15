@@ -10,10 +10,6 @@ namespace BBC.Dna.Sites
 	/// </summary>
 	public interface ISiteList
 	{
-        /// <summary>
-        /// Public accessor for site names
-        /// </summary>
-        Dictionary<string, Site> Names{get;}
 
         /// <summary>
         /// Public accessor for site ids
@@ -82,5 +78,20 @@ namespace BBC.Dna.Sites
         /// <exception cref="SiteOptionNotFoundException"></exception>
         /// <exception cref="SiteOptionInvalidTypeException"></exception>
         string GetSiteOptionValueString(int siteId, string section, string name);
+
+        /// <summary>
+        /// The signal key the object is looking for
+        /// </summary>
+        void ReInitialise();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void SendSignal();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        void SendSignal(int siteId);
 	}
 }

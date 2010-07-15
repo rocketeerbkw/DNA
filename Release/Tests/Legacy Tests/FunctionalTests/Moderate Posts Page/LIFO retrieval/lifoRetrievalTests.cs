@@ -183,7 +183,7 @@ namespace FunctionalTests
 
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
-                    ISiteList _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, true);
+                    ISiteList _siteList = SiteList.GetSiteList();
                     ISite site = _siteList.GetSite(testUtils_CommentsAPI.sitename);
 
                     sqlStr = "UPDATE ModerationClass SET LIFOQueue=" + (flag ? 1 : 0);
@@ -207,7 +207,7 @@ namespace FunctionalTests
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
-                    ISiteList _siteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, true);
+                    ISiteList _siteList = SiteList.GetSiteList();
                     ISite site = _siteList.GetSite(testUtils_CommentsAPI.sitename);
 
                     string sqlStr = "select ModClassId FROM Sites WHERE shortname ='" + siteName +"'";
