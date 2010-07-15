@@ -443,7 +443,7 @@ public partial class UserStatisticsPage : BBC.Dna.Page.DnaWebPage
             string path = @"/dnaimages/boards/images/complain.gif";
 
             HyperLink complaintLink = new HyperLink();
-            complaintLink.NavigateUrl = GetBaseUrl() + siteName + @"/comments/UserComplaintPage?PostID=" + postID;
+            complaintLink.NavigateUrl = GetBaseUrl() + siteName + @"/comments/UserComplaintPage?s_start=1&PostID=" + postID;
             complaintLink.ImageUrl = path;
             complaintLink.Target = "_blank";
             complaintCell.Controls.Add(complaintLink);
