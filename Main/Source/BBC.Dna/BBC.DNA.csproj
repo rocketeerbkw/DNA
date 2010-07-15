@@ -125,6 +125,7 @@
     <Compile Include="ContentSignifAdminBuilder.cs" />
     <Compile Include="ContentSignifSettings.cs" />
     <Compile Include="ContentSignifSettingsParameters.cs" />
+    <Compile Include="MBBackupRestore.cs" />
     <Compile Include="MBAdminDesignBuilder.cs" />
     <Compile Include="ModerateHome.cs" />
     <Compile Include="ModeratorInfo.cs" />

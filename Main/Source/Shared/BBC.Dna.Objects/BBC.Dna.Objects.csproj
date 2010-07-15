@@ -72,6 +72,7 @@
     <Compile Include="ArticleInfoSubmittable.cs" />
     <Compile Include="Club.cs" />
     <Compile Include="ArticleInfoReferencesUser.cs" />
+    <Compile Include="MessageBoardBackup.cs" />
     <Compile Include="FrontPageElement.cs" />
     <Compile Include="Category.cs" />
     <Compile Include="CategoryAncestor.cs" />

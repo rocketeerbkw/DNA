@@ -157,8 +157,32 @@ namespace BBC.Dna.Objects
         public string Title { get; set; }
 
         /// <remarks/>
-        [XmlElement(Order = 5, ElementName = "TEXT")]
+        [XmlIgnore]
         public string Text { get; set; }
+
+        [XmlElement(Order = 5, ElementName = "TEXT")]
+        public XmlElement TextElement
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(Text))
+                {
+                    try
+                    {
+                        return GuideEntry.CreateGuideEntry(Text, 0, GuideEntryStyle.GuideML);
+                    }
+                    catch { }
+                }
+                return GuideEntry.CreateGuideEntry("<GUIDE><BODY></BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+            }
+            set
+            {
+                if (value != null && value.SelectSingleNode("/BODY") != null)
+                {
+                    Text = value.SelectSingleNode("/BODY").InnerXml;
+                }
+            }
+        }
 
         /// <remarks/>
         [XmlElement(Order = 6, ElementName = "IMAGENAME")]
@@ -181,7 +205,15 @@ namespace BBC.Dna.Objects
         public int StatusElement 
         {
             get { return (int)Status; }
-            set { }
+            set {
+                    try
+                    {
+                        Status = (TopicStatus)value;
+                    }
+                    catch
+                    {
+                    }
+           }
         
         }
         

@@ -24,6 +24,7 @@
   <xsl:include href="../../../common/2/includes.xsl" />
 
   <xsl:include href="pages/messageboardadmin.xsl"/>
+  <xsl:include href="pages/mbbackuprestore.xsl"/>
   <xsl:include href="pages/messageboardadmin_design.xsl"/>
   <xsl:include href="pages/messageboardadmin_assets.xsl"/>
   <xsl:include href="pages/topicbuilder.xsl"/>

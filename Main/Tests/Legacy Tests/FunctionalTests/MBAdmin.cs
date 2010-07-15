@@ -689,7 +689,7 @@ namespace FunctionalTests
             var xml = request.GetLastResponseAsXML();
             Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
             Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
-            Assert.AreEqual(HtmlUtils.TryParseToValidHtml(fpText), xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TEXT").InnerText);
+            Assert.AreEqual(HtmlUtils.TryParseToValidHtml(fpText), xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TEXT/GUIDE/BODY").InnerXml);
             Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
             Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
             Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
@@ -861,7 +861,7 @@ namespace FunctionalTests
             CheckPageSchema(request.GetLastResponseAsXML());
             CheckResult(request.GetLastResponseAsXML(), expectedType);
 
-            request.RequestPage("?skin=purexml");
+            request.RequestPage("frontpage?skin=purexml");
             xml = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(xml.SelectSingleNode("//H2G2/SITECONFIG"));

@@ -130,7 +130,7 @@ namespace BBC.Dna
                 return new Error("TopicElementTitleMissing", "No topic element title given.");
             }
 
-            element.FrontPageElement.Text = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("fp_text", "fp_text"));
+            element.FrontPageElement.Text = "<GUIDE><BODY>" + HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("fp_text", "fp_text")) + "</BODY></GUIDE>"; 
 
             if (InputContext.GetParamStringOrEmpty("fp_templatetype", "fp_templatetype") == string.Empty)
             {
