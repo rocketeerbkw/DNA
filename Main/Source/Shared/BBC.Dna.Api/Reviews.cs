@@ -245,16 +245,16 @@ namespace BBC.Dna.Api
         /// </summary>
         /// <param name="forumid">The forums internal id</param>
         /// <param name="site">The sites internal id</param>
-        /// <param name="identityid">The user id</param>
+        /// <param name="identityuserid">The users identity user id</param>
         /// <returns>The list of comments</returns>
-        public RatingInfo RatingsReadByIdentityID(string uid, ISite site, int identityid)
+        public RatingInfo RatingsReadByIdentityID(string uid, ISite site, string identityuserid)
         {
             RatingInfo rating = null;
 
             using (var reader = CreateReader("ratingsreadbyforumandidentityid"))
             {
                 reader.AddParameter("uid", uid);
-                reader.AddParameter("identityid", identityid);
+                reader.AddParameter("identityid", identityuserid);
                 reader.AddParameter("siteid", site.SiteID);
 
                 reader.Execute();

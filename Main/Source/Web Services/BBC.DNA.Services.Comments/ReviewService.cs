@@ -75,21 +75,25 @@ namespace BBC.Dna.Services
             return output;
         }
 
-        [WebGet(UriTemplate = "V1/site/{siteName}/reviewforum/{reviewForumId}/user/{userId}/")]
+        [WebGet(UriTemplate = "V1/site/{siteName}/reviewforum/{reviewForumId}/user/{identityuserid}/")]
         [WebHelp(Comment = "Get the review created by a user")]
         [OperationContract]
-        public Stream GetUserReview(string reviewForumId, string siteName, string userId)
+        public Stream GetUserReview(string reviewForumId, string siteName, string identityuserid)
         {
             RatingInfo rating = null;
             try
             {
-                int identityid = 0;
-                if (!Int32.TryParse(userId, out identityid))
+                /* Do we need to validate the identity userid now??
+                 * string identityid = String.Empty;
+                
+                 * if (!Int32.TryParse(userId, out identityid))
                 {
                     throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidUserId));
                 }
+                 */
+
                 ISite site = GetSite(siteName);
-                rating = _ratingObj.RatingsReadByIdentityID(reviewForumId, site, identityid);
+                rating = _ratingObj.RatingsReadByIdentityID(reviewForumId, site, identityuserid);
                 if (rating == null)
                 {
                     throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumUnknown));
