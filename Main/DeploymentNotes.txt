@@ -532,6 +532,10 @@ MarcusP:
 FTP /dnaimages/dna_messageboards to live - these are the message board admin assets
 
 ============== v 3.5.40.0 =============
+SteveF
+-The new IdentityWebProxy.dll will most probably need reregistering from the batch file in the c:\Certs directory
+otherwise the C++ will not work
+
 MarcusP:
 Install Memcached - within source/shared/Memcached.ClientLibrary - copy the install folder
 	Modify the '50' in the line "memcached.exe -d install -m 50" to whatever size the live memcached servers require
