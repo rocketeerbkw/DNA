@@ -109,6 +109,10 @@
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
       <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj">
+      <Project>{4770D032-9B06-450D-8B00-7200D8330397}</Project>
+      <Name>Memcached.ClientLibrary %28Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
       <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
       <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
