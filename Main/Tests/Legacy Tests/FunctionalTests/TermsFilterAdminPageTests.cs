@@ -413,7 +413,7 @@ namespace FunctionalTests
             CheckAuditTable(modClassId, terms);
 
             //Do siterefresh
-            request.RequestPage("termsfilteradmin?cmd=REFRESHCACHE");
+            request.RequestPage("termsfilteradmin?action=REFRESHCACHE");
 
             //wait for signals...
             Thread.Sleep(6000);
