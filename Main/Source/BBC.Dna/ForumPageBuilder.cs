@@ -56,6 +56,17 @@ namespace BBC.Dna
             ProcessCommand();
 
             //Assemble page parts.
+            //add topics
+            if (InputContext.IsPreviewMode())
+            {
+                RootElement.AppendChild(ImportNode(InputContext.CurrentSite.GetPreviewTopicsXml(_creator)));
+            }
+            else
+            {
+                RootElement.AppendChild(ImportNode(InputContext.CurrentSite.GetTopicListXml()));
+            }
+
+            
 
             //add forumsource
             ForumSource forumSource = ForumSource.CreateForumSource(_cache, _creator, _viewingUser, _forumId, _threadId,
@@ -64,7 +75,7 @@ namespace BBC.Dna
 
             if (forumSource == null)
             {
-                AddErrorXml("ForumNotFound", "Unable to find forum", null);
+                AddErrorXml("ForumOrThreadNotFound", "Unable to find the requested forum or thread.", null);
                 return;
             }
             if (forumSource.Type == ForumSourceType.Redirect)
@@ -112,19 +123,11 @@ namespace BBC.Dna
                 SerialiseAndAppend(users, String.Empty);
             }
 
+
             //add page ui to xml
             PageUi pageUi = PageUi.GetPageUi(_creator, forumSource.Article, _viewingUser);
             SerialiseAndAppend(pageUi, String.Empty);
-
-            //add topics
-            if (InputContext.IsPreviewMode())
-            {
-                RootElement.AppendChild(ImportNode(InputContext.CurrentSite.GetPreviewTopicsXml(_creator)));
-            }
-            else
-            {
-                RootElement.AppendChild(ImportNode(InputContext.CurrentSite.GetTopicListXml()));
-            }
+            
         }
 
         /*
@@ -194,6 +197,13 @@ namespace BBC.Dna
                                                                          InputContext.CurrentSite.SiteID, _forumId,
                                                                          _threadId, POSTSTOSHOW, _skip, _postId,
                                                                          _orderByDatePostedDesc, _ignoreCache);
+
+            if (thread == null)
+            {
+                AddErrorXml("ThreadNotFound", "Unable to find the specified forum thread.", null);
+                return;
+            }
+
             //process subscription information
             SerialiseAndAppend(thread, String.Empty);
 
