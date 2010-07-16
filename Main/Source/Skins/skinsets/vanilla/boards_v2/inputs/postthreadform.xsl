@@ -43,6 +43,8 @@
                     <xsl:with-param name="text"><xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" /></xsl:with-param>
                 </xsl:call-template>
                
+               <xsl:apply-templates select="PREVIEWERROR"/>
+               
                <h3><xsl:value-of select="SUBJECT" /></h3>
                
             	<xsl:apply-templates select="SECONDSBEFOREREPOST"/>
@@ -86,7 +88,7 @@
 							<span class="createdby">
 									In reply to
 								<a href="MP{USERID}" class="user linked">
-									<xsl:value-of select="USERNAME"/>
+									<xsl:apply-templates select="." mode="library_user_username" />
 								</a>
 								<xsl:text>:</xsl:text>
 							</span>
@@ -123,6 +125,8 @@
                                     <xsl:with-param name="text">Start a new discussion</xsl:with-param>
                                     <xsl:with-param name="class">new-discussion</xsl:with-param>
                                 </xsl:call-template>
+                            	
+                            	<xsl:apply-templates select="PREVIEWERROR"/>
                             	
                             	<xsl:apply-templates select="SECONDSBEFOREREPOST"/>
                                 
@@ -214,18 +218,22 @@
 		<p id="countdown"><strong>You must wait  <span id="minuteValue"><xsl:value-of select="$minutestowait"/></span> minutes  <span id="secondValue"><xsl:value-of select="$secondsstowait"/></span> secs before you can post again</strong></p>
 	</xsl:template>
 	
+	<xsl:template match="PREVIEWERROR">
+		<p class="closed"><strong><xsl:value-of select="." /></strong></p>
+	</xsl:template>	
+	
 	<xsl:template match="POSTTHREADFORM[PREVIEWBODY]" mode="preview">
 		<p class="preview">Previewing your post:</p>
 		<div>
-			<xsl:if test="@INREPLYTO = 0">
-				<h4><xsl:value-of select="SUBJECT"/></h4>
-			</xsl:if>
 			<div id="previewpost">
+				<xsl:if test="@INREPLYTO = 0">
+					<h4><xsl:value-of select="SUBJECT"/></h4>
+				</xsl:if>			
 				<p class="itemdetail">
 					<span class="createdby">
 						<span>Message posted by </span>
 						<a href="MP{/H2G2/VIEWING-USER/USER/USERID}" class="user linked">
-							<xsl:value-of select="/H2G2/VIEWING-USER/USER/USERNAME"/>
+							<xsl:apply-templates select="/H2G2/VIEWING-USER/USER" mode="library_user_username" />
 						</a>
 						<xsl:text>:</xsl:text>
 					</span>
