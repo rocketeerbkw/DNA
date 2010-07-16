@@ -18,16 +18,15 @@
 	
 	
 	<xsl:template match="H2G2[@TYPE]" mode="library_identity_ptrt">
-    <xsl:call-template name="library_string_urlencode">
+	
+    	<xsl:call-template name="library_string_urlencode">
 			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
-	
-	
 	<xsl:template match="H2G2[@TYPE = 'COMMENTBOX']" mode="library_identity_ptrt">
 		<xsl:param name="urlidentification" />
-		
+
 		<xsl:variable name="contactdetails">
 			<xsl:if test="contains(/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'CollectExtraDetails']/VALUE, 'phone') and $urlidentification = 'registerurl'">
             	<xsl:text>%3Fs_contact=1</xsl:text>
@@ -52,37 +51,37 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'ADDTHREAD']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/AddThread?inreplyto=', POSTTHREADUNREG/@POSTID)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/AddThread?inreplyto=', POSTTHREADUNREG/@POSTID, $cbbc)"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'ARTICLE']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/A', ARTICLE/H2G2ID)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/A', ARTICLE/H2G2ID, $cbbc)"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'THREADS']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, $cbbc)"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'MULTIPOSTS']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID)"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID, $cbbc)"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'USERDETAILS']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/', $cbbc)"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/', $cbbc)"/>
 		</xsl:call-template>
 	</xsl:template>
 	
@@ -90,7 +89,7 @@
 		<xsl:call-template name="library_string_urlencode">
 			<xsl:with-param name="string" select="concat($host, $root)"/>
 		</xsl:call-template>
-    <xsl:text>%2FUserComplaintPage%3FPostId=</xsl:text>
+    	<xsl:text>%2FUserComplaintPage%3FPostId=</xsl:text>
 		<xsl:value-of select="USER-COMPLAINT-FORM/POST-ID | USERCOMPLAINT/@POSTID | USERCOMPLAINT/@H2G2ID"/>
 		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_step']">
 			<xsl:value-of select="concat('&amp;s_step=', number(/H2G2/PARAMS/PARAM[NAME = 's_step']/VALUE) + 1)"/>

@@ -67,24 +67,28 @@
 	         <span class="vcard">
 	             <span class="fn">
 	             	<!-- Split the string as it was destroying table layout -->
+	             	<xsl:variable name="firstpostuser">
+						<xsl:apply-templates select="FIRSTPOST/USER" mode="library_user_username" />
+					</xsl:variable>	             	
+	             	
 	             	<xsl:variable name="stringlimit">15</xsl:variable>
 	             	<xsl:choose>
-	             		<xsl:when test="string-length(FIRSTPOST/USER/USERNAME) >= $stringlimit">
+	             		<xsl:when test="string-length($firstpostuser) >= $stringlimit">
 	             			<xsl:variable name="stringlength">
-	             				<xsl:value-of select="string-length(FIRSTPOST/USER/USERNAME)" />
+	             				<xsl:value-of select="string-length($firstpostuser)" />
 	             			</xsl:variable>	             			
 	             			<xsl:variable name="tempstring1">
-	             				<xsl:value-of select="substring(FIRSTPOST/USER/USERNAME, 1, $stringlimit)" />
+	             				<xsl:value-of select="substring($firstpostuser, 1, $stringlimit)" />
 	             			</xsl:variable>
 	             			<xsl:variable name="tempstring2">
-	             				<xsl:value-of select="substring(FIRSTPOST/USER/USERNAME, $stringlimit+1, $stringlength)" />
+	             				<xsl:value-of select="substring($firstpostuser, $stringlimit+1, $stringlength)" />
 	             			</xsl:variable>	 
 	             			            		
 	             			<xsl:value-of select="$tempstring1" /><br /><xsl:value-of select="$tempstring2" />    
 	             			
 	             		</xsl:when>
 	             		<xsl:otherwise>
-	                 		<xsl:value-of select="FIRSTPOST/USER/USERNAME" />
+	                 		<xsl:value-of select="$firstpostuser" />
 	                 	</xsl:otherwise>
 	                 </xsl:choose>
 	             </span>

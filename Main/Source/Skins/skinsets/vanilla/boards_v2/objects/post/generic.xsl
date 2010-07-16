@@ -30,14 +30,14 @@
               	<div class="dna-moderation-wrapup"> 
                 <p class="dna-boards-moderation">
                 	<xsl:text>Moderation:</xsl:text>
-					        <xsl:apply-templates select="USER" mode="moderation_cta_moderateuser">
-						        <xsl:with-param name="label" select="'Moderate this user'" />
-                    <xsl:with-param name="user" select="USER/USERNAME" />
-					        </xsl:apply-templates>
-					        <xsl:apply-templates select="USER" mode="moderation_cta_viewalluserposts">
-						        <xsl:with-param name="label" select="'View all posts for this user'" />
-                    <xsl:with-param name="user" select="USER/USERNAME" />
-					        </xsl:apply-templates>
+					<xsl:apply-templates select="USER" mode="moderation_cta_moderateuser">
+						<xsl:with-param name="label" select="'Moderate this user'" />
+                    	<xsl:with-param name="user" select="USER/USERNAME" />
+					</xsl:apply-templates>
+					<xsl:apply-templates select="USER" mode="moderation_cta_viewalluserposts">
+						<xsl:with-param name="label" select="'View all posts for this user'" />
+                    	<xsl:with-param name="user" select="USER/USERNAME" />
+					</xsl:apply-templates>
                 </p>
                 </div>
               </xsl:with-param>

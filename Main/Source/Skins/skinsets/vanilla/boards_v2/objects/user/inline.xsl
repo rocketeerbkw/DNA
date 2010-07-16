@@ -15,8 +15,8 @@
     
     <xsl:template match="USER" mode="object_user_inline">
         <span class="user inline">
-          <xsl:value-of select="USERNAME"/>
-            
+          <!-- <xsl:value-of select="USERNAME"/> -->
+           <xsl:apply-templates select="." mode="library_user_username" /> 
         </span>
     </xsl:template>
     
