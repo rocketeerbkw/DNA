@@ -62,7 +62,7 @@
       		</title>
       		
       		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-      		<meta name="description" content="" />
+      		<meta name="description"><xsl:attribute name="content">BBC message board for <xsl:value-of select="SITECONFIG/BOARDNAME"/></xsl:attribute></meta>
       		<meta name="keywords" content="" />
       		<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
       		<link type="image/x-icon" href="/favicon.ico" rel="icon"/>
@@ -91,20 +91,14 @@
       		<xsl:if test="SITECONFIG/V2_BOARDS/FOOTER/COLOUR">
       			<xsl:comment>#set var="blq_footer_color" value="<xsl:value-of select="SITECONFIG/V2_BOARDS/FOOTER/COLOUR"/>"</xsl:comment>
       		</xsl:if>
-      		
-      		<xsl:if test="SITE/SITEOPTIONS/SITEOPTION[NAME = 'IsKidsSite']/VALUE = 1">
-      			<xsl:comment>#set var="blq_variant" value="cbbc" </xsl:comment>
-      			<xsl:comment>#set var="blq_search_scope" value="cbbc" </xsl:comment>
+
+      		<xsl:if test="$blq_header_siteoption != ''">
+      			<xsl:call-template name="loopstring">
+      				<xsl:with-param name="value" select="$blq_header_siteoption" />
+      			</xsl:call-template>
       		</xsl:if>
-      		
-      		<xsl:choose>
-      			<xsl:when test="$blq_header_siteoption != ''">
-      				<xsl:comment>#include virtual="<xsl:value-of select="$blq_header_siteoption"/>"</xsl:comment>
-      			</xsl:when>
-      			<xsl:otherwise>
-      				<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
-      			</xsl:otherwise>
-      		</xsl:choose>
+      				
+      		<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
       		
       		<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
       		<script type="text/javascript" src="/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
@@ -118,7 +112,8 @@
       		</script>
       		
       		<link type="text/css" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_v2.css"/>
-          <link type="text/css" media="print" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_print.css"/>
+          	<link type="text/css" media="print" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard_print.css"/>
+      		
       		<xsl:if test="SITECONFIG/V2_BOARDS/CSS_LOCATION and SITECONFIG/V2_BOARDS/CSS_LOCATION != ''">
       			<link type="text/css" media="screen" rel="stylesheet" href="{SITECONFIG/V2_BOARDS/CSS_LOCATION}"/>
       		</xsl:if> 
@@ -190,7 +185,6 @@
 	      					<xsl:apply-templates select="TOPICLIST/TOPIC" mode="object_topic_title"/>
 	      					<li class="hr"><hr /></li>
 		      				<xsl:if test="/H2G2/VIEWING-USER/USER">
-		      					
 		      					<li id="mydiscussions">
 		      						<a href="{$root}/MP{/H2G2/VIEWING-USER/USER/USERID}">My Discussions</a>
 		      					</li>
@@ -256,7 +250,6 @@
    						<xsl:otherwise><h2>Welcome</h2></xsl:otherwise>
    					</xsl:choose>
    				</xsl:if>
-   				
       			<xsl:apply-templates select="." mode="page"/>
       		</div>  
       		
@@ -265,7 +258,6 @@
 	      			<h3>About this Board</h3>
 	      			<div id="dna-about-board">
 	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" disable-output-escaping="yes" /></p>
-	      				
 	      				<xsl:if test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
 	      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
 	      						<xsl:with-param name="signin-text"><xsl:value-of select="$signin-discussion-text" /></xsl:with-param>
@@ -284,7 +276,6 @@
 	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">reactively moderated</a>.</p>
 	      					</xsl:otherwise>
 	      				</xsl:choose>
-	      				
 	      				<p>Find out more about this board <a href="{$houserulesurl}" class="popup">House Rules</a></p>
 	      			</div>
 	      			
@@ -302,7 +293,6 @@
 	      					</ul>
 	      				</div>
 	      			</xsl:if>
-	      			
 	      			<xsl:apply-templates select="SITECONFIG/V2_BOARDS/MODULES/LINKS" mode="modules" />
 	      		</div>
       		</xsl:if>
@@ -326,7 +316,7 @@
 				<p id="boardclosed">The message board is currently closed for posting.</p>
 			</xsl:when>
 			<xsl:otherwise>
-				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT" /></p>
+				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT" disable-output-escaping="yes" /></p>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
@@ -335,5 +325,33 @@
 		<xsl:comment>#include virtual="<xsl:value-of select="."/>"</xsl:comment>
 	</xsl:template>
 	
-    
+	<!-- 
+		For custom barleque header options
+		loop for custombarlesquepath site option, each ssi variable must be added as a site option and delimited by a |  
+	-->
+	<xsl:template name="loopstring">
+		<xsl:param name="value"/>
+		
+		<xsl:choose>
+			<xsl:when test="contains($value,'|')">
+				<xsl:call-template name="setvariable">
+					<xsl:with-param name="this" select="substring-before($value,'|')"/>
+				</xsl:call-template>
+				<xsl:call-template name="loopstring">
+					<xsl:with-param name="value" select="substring-after($value,'|')"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="setvariable">
+					<xsl:with-param name="this" select="$value"/>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+ 
+	 <xsl:template name="setvariable">
+	 	<xsl:param name="this"/>
+	 	<xsl:comment>#set <xsl:value-of select="$this" /></xsl:comment>
+	 </xsl:template>
+
 </xsl:stylesheet>
