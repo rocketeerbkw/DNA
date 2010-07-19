@@ -132,7 +132,7 @@
 
                 // edit topic : validate form
                 addListener("#dna-btn-next-1-" + seditTopic, "mousedown", function() {
-                    if ($("#fp_title-" + seditTopic).val() == "") {
+                    if ($("#fp_title-" + seditTopic).val() == "" || $("#fp_title-" + seditTopic).val() == " ") {
                         glow.dom.create('<span class="dna-error-text">Please add a topic promo title</span>').insertBefore("#fp_title-" + seditTopic);
                         $("input#fp_title-" + seditTopic).addClass("dna-error-input");
                         return false;
@@ -165,7 +165,7 @@
                 });
 
                 addListener("#dna-btn-next-3-" + seditTopic, "mousedown", function() {
-                    if ($("#topictitle-" + seditTopic).val() == "") {
+                    if ($("#topictitle-" + seditTopic).val() == "" || $("#topictitle-" + seditTopic).val() == " ") {
                         glow.dom.create('<span class="dna-error-text">Please add a title topic</span>').insertBefore("#topictitle-" + seditTopic);
                         $("#topictitle-" + seditTopic).addClass("dna-error-input");
                         return false;
