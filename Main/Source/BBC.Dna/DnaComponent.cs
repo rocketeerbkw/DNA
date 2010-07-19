@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Text.RegularExpressions;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using System.Xml.Serialization;
 
 namespace BBC.Dna.Component
 {
@@ -508,6 +509,8 @@ namespace BBC.Dna.Component
             XmlDocument xml = new XmlDocument();
             using (StringWriterWithEncoding writer = new StringWriterWithEncoding(Encoding.UTF8))
             {
+                var ns = new XmlSerializerNamespaces();
+                ns.Add("", "");
                 XmlWriterSettings settings = new XmlWriterSettings();
                 settings.Encoding = new UTF8Encoding(false);
                 settings.Indent = true;
@@ -515,7 +518,7 @@ namespace BBC.Dna.Component
                 using (XmlWriter xWriter = XmlWriter.Create(writer, settings))
                 {
                     System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(obj.GetType());
-                    x.Serialize(xWriter, obj);
+                    x.Serialize(xWriter, obj, ns);
                     xWriter.Flush();
                     xml.InnerXml = Entities.GetEntities() +  writer.ToString();
                 }
