@@ -537,7 +537,8 @@ SteveF
 otherwise the C++ will not work
 
 MarcusP:
-Install Memcached - within source/shared/Memcached.ClientLibrary - copy the install folder
+Install Memcached - within source/shared/Memcached.ClientLibrary
+	Copy the "memcached" folder from the "deploy" folder to "d:\program files"
 	Modify the '50' in the line "memcached.exe -d install -m 50" to whatever size the live memcached servers require
 	Run the install.bat file
 	
