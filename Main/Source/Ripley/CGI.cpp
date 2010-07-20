@@ -371,7 +371,7 @@ bool CGI::InitUser()
 
 	try
 	{
-		if (!m_pProfilePool->GetConnection(m_ProfileConnection,GetSiteUsesIdentitySignIn(m_SiteID), GetIPAddress()))
+		if (!m_pProfilePool->GetConnection(m_ProfileConnection, GetSiteUsesIdentitySignIn(m_SiteID), GetIPAddress()))
 		{
 			throw "Unable to Initialise Profile Connection";
 		}
