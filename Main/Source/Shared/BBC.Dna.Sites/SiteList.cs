@@ -281,10 +281,7 @@ namespace BBC.Dna.Sites
                                     skinSet, IdentityPolicy);
 
 
-                    string skinName = dataReader.GetStringNullAsEmpty("SkinName");
-                    string skinDescription = dataReader.GetStringNullAsEmpty("SkinDescription");
-                    bool useFrames = (dataReader.GetInt32NullAsZero("UseFrames") == 1);
-                    siteData.AddSkin(skinName, skinDescription, useFrames);
+                    
 
                     if(siteList.Ids.ContainsKey(id))
                     {
@@ -298,6 +295,10 @@ namespace BBC.Dna.Sites
                     prevSiteID = id;
                     
                 }
+                string skinName = dataReader.GetStringNullAsEmpty("SkinName");
+                string skinDescription = dataReader.GetStringNullAsEmpty("SkinDescription");
+                bool useFrames = (dataReader.GetInt32NullAsZero("UseFrames") == 1);
+                siteList.Ids[id].AddSkin(skinName, skinDescription, useFrames);
             }
 			
         }
