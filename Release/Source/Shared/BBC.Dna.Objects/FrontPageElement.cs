@@ -152,9 +152,15 @@ namespace BBC.Dna.Objects
         [XmlElement(Order = 3, ElementName = "POSITION")]
         public int Position { get; set; }
 
+        [XmlIgnore]
+        public string Title;
         /// <remarks/>
         [XmlElement(Order = 4, ElementName = "TITLE")]
-        public string Title { get; set; }
+        public string TitleElement
+        {
+            get { return HtmlUtils.HtmlDecode(Title); }
+            set { Title = value; }
+        }
 
         /// <remarks/>
         [XmlIgnore]

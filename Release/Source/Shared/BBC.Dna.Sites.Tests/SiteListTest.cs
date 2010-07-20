@@ -78,13 +78,23 @@ namespace BBC.Dna.Sites.Tests
         ///A test for LoadSiteList
         ///</summary>
         [TestMethod()]
-        public void LoadSiteListTest_ValidRecordset_ReturnsSingleSite()
+        public void LoadSiteListTest_ValidRecordsetMultipleSkins_ReturnsSitesAndSkins()
         {
+            var mockedReader = mocks.DynamicMock<IDnaDataReader>();
+            mockedReader.Stub(x => x.HasRows).Return(true);
+            mockedReader.Stub(x => x.GetInt32("SiteID")).Return(1);
+            mockedReader.Stub(x => x["URLName"]).Return("h2g2");
+            var queue = new Queue<string>();
+            queue.Enqueue("skin1");
+            queue.Enqueue("skin2");
+            mockedReader.Stub(x => x.GetStringNullAsEmpty("SkinName")).Return("").WhenCalled(x => x.ReturnValue = queue.Dequeue());
+            mockedReader.Stub(x => x.Read()).Return(true).Repeat.Twice();
+
             var cache = mocks.DynamicMock<ICacheManager>();
             cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
             IDnaDiagnostics diag = mocks.DynamicMock<IDnaDiagnostics>();
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("fetchsitedata")).Return(GetSiteListMockReader());
+            creator.Stub(x => x.CreateDnaDataReader("fetchsitedata")).Return(mockedReader);
             creator.Stub(x => x.CreateDnaDataReader("getreviewforums")).Return(GetReviewForumsMockReader());
             creator.Stub(x => x.CreateDnaDataReader("getkeyarticlelist")).Return(GetKeyArticleListMockReader());
             creator.Stub(x => x.CreateDnaDataReader("getsitetopicsopenclosetimes")).Return(GetSiteOpenCloseTimesMockReader());
@@ -99,6 +109,8 @@ namespace BBC.Dna.Sites.Tests
             SiteList target = new SiteList(creator, diag, cache, null, null);
             
             Assert.AreEqual(1, target.Ids.Count);
+            Assert.IsTrue(target.Ids[1].DoesSkinExist("skin1"));
+            Assert.IsTrue(target.Ids[1].DoesSkinExist("skin2"));
         }
 
         /// <summary>
@@ -681,6 +693,7 @@ namespace BBC.Dna.Sites.Tests
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetInt32("SiteID")).Return(1);
             reader.Stub(x => x["URLName"]).Return("h2g2calledagain");
+            reader.Stub(x => x.GetStringNullAsEmpty("SkinName")).Return("skin2");
             reader.Stub(x => x.GetStringNullAsEmpty("")).Constraints(Is.Anything()).Return("");
             return reader;
         }
