@@ -403,7 +403,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)Source\Shared\restart memcahced.bat"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>
