@@ -16,7 +16,7 @@ function initialiseForm() {
 	hideClass("reasonText");
 	//hideClass("urlText");
 	hideClass("emailText");
-	hideClass("failReason");
+	//hideClass("failReason");
 	
 	addEventToClass("type", "change", decisionChange, false)
 	addEventToClass("failReason", "change", failChange, false);
@@ -68,8 +68,8 @@ function checkDecision(decisionSelect){
 
   switch (decisionChoice){
     // decision is pass
-    case "3": 
-      return true;
+      case "3":
+        return true;
       break;
             
     // decision is edit and fail
@@ -92,8 +92,9 @@ function checkDecision(decisionSelect){
     // decision is fail
     case "4": 
       if (failureSelect.options[0].selected == 1){
-        alert("You have not given a failure reason"); 
-        failureSelect.focus();
+          alert("You have not given a failure reason");
+          failureSelect.style.display = "block";
+          failureSelect.focus();
         return false;         
       }      
       else {
@@ -158,7 +159,7 @@ function showCorrectForm (decisionSelect){
           editSelect.options[0].selected = 1;
           referSelect.options[0].selected = 1;
           failureSelect.options[0].selected = 1;
-          failureSelect.style.display = "none";
+          failureSelect.style.display = "block";//always show the fail reason and default it to first option
           break;
       
     // decision is edit and fail
@@ -322,7 +323,13 @@ function failChange(e){
 
   var changedForm = document.getElementById('form' + eventSource.options[0].className);
   var decisionObject = getChildByClassName(changedForm, 'type');
-  decisionObject.value = 4;
+  var failReasonValue = eventSource.value;
+  if (eventSource.options[0].selected) {
+      decisionObject.value = 3;//revert back to pass if no fail option chosen
+  }
+  else {
+      decisionObject.value = 4;
+  }
   
   showCorrectForm(decisionObject);
 }

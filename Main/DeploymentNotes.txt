@@ -551,3 +551,8 @@ Replace nightly iisreset script with "IISresetWithMemcached.bat"
 Update release notes and run book to include memcached elements restarts
 	
 	
+============== v 3.5.41.0 =============
+Marcus
+Within apacheassets copy the following files:
+	moderation\includes\moderation_posts.js
+	moderation\includes\moderation_links.js
