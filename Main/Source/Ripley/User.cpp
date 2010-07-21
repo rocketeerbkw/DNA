@@ -4517,7 +4517,7 @@ bool CUser::LoginUserToProfile()
 	CTDVString sSignInUserId = pProfile->GetUserId();
 	m_InputContext.WriteInputLog("USER", "UserID:" + sSignInUserId);
 	
-	if (sSignInUserId.GetLength() <= 0 )
+	if (sSignInUserId == NULL || sSignInUserId.GetLength() <= 0 )
 	{
 		TDVASSERT(false,"In CUSER::LoginUserToProfile sSignInUserId is Empty");
 		return false;

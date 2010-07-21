@@ -224,7 +224,7 @@ const TDVCHAR* CProfileConnection::GetUserId()
 			m_sLastIdentityError = "Failed to get user id";
 		}
 	}
-	return 0;
+	return NULL;
 }
 	
 bool CProfileConnection::UpdateUserProfileValue(const TDVCHAR* sName, const TDVCHAR* sValue)
