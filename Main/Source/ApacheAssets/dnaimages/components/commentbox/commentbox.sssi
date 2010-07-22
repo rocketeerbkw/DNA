@@ -2,6 +2,7 @@
 <!--#if expr="${dna.commentbox.dnauid} = ''"--><!--#set var="dna.commentbox.initError" value="1"--><!--#endif-->
 <!--#if expr="${dna.commentbox.title} = ''"--><!--#set var="dna.commentbox.initError" value="1"--><!--#endif-->
 
+
 <!--#if expr="${dna.commentbox.initError} = 1"-->
 	<!--Please supply a service name, a title and a dnauid to dna comments...-->
 <!--#else-->
@@ -61,12 +62,7 @@
 		<!--#if expr="${dna.commentbox.listRangeEnd} = ''"-->
 			<!--#set var="dna.commentbox.listRangeEnd" value="null"-->
 		<!--#endif-->
-		
-		<!--#if expr="$dna.commentbox.listCount = ''"-->
-			<!--#set var="dna.commentbox.listCount" value="null"-->
-		<!--#endif-->
-		
-		
+	
 		<!-- [Experimental] -->
 		
 		<!--#setsplitvars value="$QUERY_STRING" -->
@@ -112,14 +108,15 @@
 			dna.commentbox.postback=<!--#echo var="dna.commentbox.postback"-->,
 			dna.commentbox.listRangeStart=<!--#echo var="dna.commentbox.listRangeStart"-->,
 			dna.commentbox.listRangeEnd=<!--#echo var="dna.commentbox.listRangeEnd"-->,
-			
-			dna.commentbox.staging=<!--#echo var="dna.commentbox.staging"-->,
+      dna.commentbox.amountPerPage=<!--#echo var="dna.commentbox.amountPerPage"-->,
+
+      dna.commentbox.staging=<!--#echo var="dna.commentbox.staging"-->,
 			dna.commentbox.beingDiscussedNow=<!--#echo var="dna.commentbox.beingDiscussedNow"-->
 			dna.commentbox.recentComments=<!--#echo var="dna.commentbox.recentComments"-->,
 			dna.commentbox.maintenanceMode=<!--#echo var="dna.commentbox.maintenanceMode"-->, 
 			dna.commentbox.sssiComponent=<!--#echo var="dna.commentbox.sssiComponent"-->,
       dna.commentbox.s_contact=<!--#echo var="dna.commentbox.s_contact"-->,
-      call to DNA: /dna-ssi/<!--#echo var="dna.commentbox.servicename"-->/comments/acs?dnainitialtitle=<!--#echo var="dna.commentbox.title"-->&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=utf-8&s_sssicomponent=<!--#echo var="dna.commentbox.sssiComponent"-->&s_sssiCommentCount=<!--#echo var="dna.commentbox.commentCount"-->&dnacommentforumlistprefix=<!--#echo var="dna.commentbox.listNamespace"-->&dnarecentcommentsprefix=<!--#echo var="dna.commentbox.listNamespace"-->&s_commentprofileurl=<!--#echo var="dna.commentbox.commentProfileUrl"-->&s_contact=<!--#echo var="dna.commentbox.s_contact"-->
+      call to DNA: /dna-ssi/<!--#echo var="dna.commentbox.servicename"-->/comments/acs?dnainitialtitle=<!--#echo var="dna.commentbox.title"-->&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnashow=<!--#echo var="dna.commentbox.amountPerPage"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=utf-8&s_sssicomponent=<!--#echo var="dna.commentbox.sssiComponent"-->&s_sssiCommentCount=<!--#echo var="dna.commentbox.commentCount"-->&dnacommentforumlistprefix=<!--#echo var="dna.commentbox.listNamespace"-->&dnarecentcommentsprefix=<!--#echo var="dna.commentbox.listNamespace"-->&s_commentprofileurl=<!--#echo var="dna.commentbox.commentProfileUrl"-->&s_contact=<!--#echo var="dna.commentbox.s_contact"-->
   </pre>
 		<!--echo var="dna.commentbox.staging"-->
 		<!--echo var="dna.commentbox.commentProfileUrl"-->
@@ -127,9 +124,9 @@
 		
 		<!--#if expr="${dna.commentbox.staging} = '1'"-->
 			<!--Using dna staging...-->
-<!--#include virtual="/dna-ssi/staging/${dna.commentbox.servicename}/comments/acs?dnainitialtitle=${dna.commentbox.title}&dnahostpageurl=${dna.commentbox.postback}&dnauid=${dna.commentbox.dnauid}&s_baseHeadingLevel=${dna.commentbox.baseHeadingLevel}&dnafrom=${dna.commentbox.listRangeStart}&dnato=${dna.commentbox.listRangeEnd}&dna_encoding=utf-8&s_sssicomponent=${dna.commentbox.sssiComponent}&s_sssiCommentCount=${dna.commentbox.commentCount}&dnacommentforumlistprefix=${dna.commentbox.listNamespace}&dnarecentcommentsprefix=${dna.commentbox.listNamespace}&s_commentprofileurl=${dna.commentbox.commentProfileUrl}&s_contact=${dna.commentbox.s_contact}" -->
+<!--#include virtual="/dna-ssi/staging/${dna.commentbox.servicename}/comments/acs?dnainitialtitle=${dna.commentbox.title}&dnahostpageurl=${dna.commentbox.postback}&dnauid=${dna.commentbox.dnauid}&s_baseHeadingLevel=${dna.commentbox.baseHeadingLevel}&dnashow=${dna.commentbox.amountPerPage}&dnafrom=${dna.commentbox.listRangeStart}&dnato=${dna.commentbox.listRangeEnd}&dna_encoding=utf-8&s_sssicomponent=${dna.commentbox.sssiComponent}&s_sssiCommentCount=${dna.commentbox.commentCount}&dnacommentforumlistprefix=${dna.commentbox.listNamespace}&dnarecentcommentsprefix=${dna.commentbox.listNamespace}&s_commentprofileurl=${dna.commentbox.commentProfileUrl}&s_contact=${dna.commentbox.s_contact}" -->
 		<!--#else-->
-<!--#include virtual="/dna-ssi/${dna.commentbox.servicename}/comments/acs?dnainitialtitle=${dna.commentbox.title}&dnahostpageurl=${dna.commentbox.postback}&dnauid=${dna.commentbox.dnauid}&s_baseHeadingLevel=${dna.commentbox.baseHeadingLevel}&dnashow=${dna.commentbox.listCount}&dnafrom=${dna.commentbox.listRangeStart}&dnato=${dna.commentbox.listRangeEnd}&dna_encoding=utf-8&s_sssicomponent=${dna.commentbox.sssiComponent}&s_sssiCommentCount=${dna.commentbox.commentCount}&dnacommentforumlistprefix=${dna.commentbox.listNamespace}&dnarecentcommentsprefix=${dna.commentbox.listNamespace}&s_commentprofileurl=${dna.commentbox.commentProfileUrl}&s_contact=${dna.commentbox.s_contact}" -->
+<!--#include virtual="/dna-ssi/${dna.commentbox.servicename}/comments/acs?dnainitialtitle=${dna.commentbox.title}&dnahostpageurl=${dna.commentbox.postback}&dnauid=${dna.commentbox.dnauid}&s_baseHeadingLevel=${dna.commentbox.baseHeadingLevel}&dnashow=${dna.commentbox.amountPerPage}&dnafrom=${dna.commentbox.listRangeStart}&dnato=${dna.commentbox.listRangeEnd}&dna_encoding=utf-8&s_sssicomponent=${dna.commentbox.sssiComponent}&s_sssiCommentCount=${dna.commentbox.commentCount}&dnacommentforumlistprefix=${dna.commentbox.listNamespace}&dnarecentcommentsprefix=${dna.commentbox.listNamespace}&s_commentprofileurl=${dna.commentbox.commentProfileUrl}&s_contact=${dna.commentbox.s_contact}" -->
 		<!--#endif-->
 	
 	
@@ -137,8 +134,8 @@
 		<!--#if expr="${dnadebug} = '1'"-->
 			<!--left over junk from debugging-->	
 			
-			<!--include virtual="/dnassi/<!--#echo var="dna.commentbox.servicename"-->/vanilla/acs?dnainitialtitle=New+Comment+Box2&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnashow=<!--#echo var="dna.commentbox.listCount"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=utf-8&s_sssicomponent=1&s_sssiCommentCount=<!--#echo var="dna.commentbox.commentCount"-->&<!--#echo var="${QUERY_STRING}"-->
-			<!--include virtual="/dnassi/<!--#echo var="dna.commentbox.servicename"-->/vanilla/acs?dnainitialtitle=<!--#echo var="dna.commentbox.title"-->&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnashow=<!--#echo var="dna.commentbox.listCount"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=utf-8&s_sssicomponent=1&dna_list_ns=<!--#echo var="dna.commentbox.listNamespace"-->&<!--#echo var="QUERY_STRING"-->
+			<!--include virtual="/dnassi/<!--#echo var="dna.commentbox.servicename"-->/vanilla/acs?dnainitialtitle=New+Comment+Box2&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnashow=<!--#echo var="dna.commentbox.amountPerPage"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=utf-8&s_sssicomponent=1&s_sssiCommentCount=<!--#echo var="dna.commentbox.commentCount"-->&<!--#echo var="${QUERY_STRING}"-->
+			<!--include virtual="/dnassi/<!--#echo var="dna.commentbox.servicename"-->/vanilla/acs?dnainitialtitle=<!--#echo var="dna.commentbox.title"-->&dnahostpageurl=<!--#echo var="dna.commentbox.postback"-->&dnauid=<!--#echo var="dna.commentbox.dnauid"-->&s_baseHeadingLevel=<!--#echo var="dna.commentbox.baseHeadingLevel"-->&dnashow=<!--#echo var="dna.commentbox.amountPerPage"-->&dnafrom=<!--#echo var="dna.commentbox.listRangeStart"-->&dnato=<!--#echo var="dna.commentbox.listRangeEnd"-->&dna_encoding=utf-8&s_sssicomponent=1&dna_list_ns=<!--#echo var="dna.commentbox.listNamespace"-->&<!--#echo var="QUERY_STRING"-->
 			
 			
 			

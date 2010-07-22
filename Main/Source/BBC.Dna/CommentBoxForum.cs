@@ -162,20 +162,6 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                 // If we don't have a title, then we cannot create the forum if it does not exist as it is a manditory field
                 createIfNotExist = false;
             }
-
-
-            fromPostIndex = InputContext.GetParamIntOrZero("dnafrom", _docDnaFrom);
-            if (fromPostIndex < 0)
-            {
-                fromPostIndex = 0;
-            }
-
-            toPostIndex = InputContext.GetParamIntOrZero("dnato", _docDnaTo);
-            if (toPostIndex < 0)
-            {
-                toPostIndex = 0;
-            }
-
             show = InputContext.GetParamIntOrZero("dnashow", _docDnaShow);
             if (show > 500)
             {
@@ -187,6 +173,20 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                 //if an erroneous, minus value or missing show value then set to the default
                 show = InputContext.GetSiteOptionValueInt("CommentForum", "DefaultShow");
             }
+
+            fromPostIndex = InputContext.GetParamIntOrZero("dnafrom", _docDnaFrom);
+            if (fromPostIndex < 0)
+            {
+                fromPostIndex = 0;
+            }
+
+            toPostIndex = InputContext.GetParamIntOrZero("dnato", _docDnaTo);
+            if (toPostIndex <= 0)
+            {
+                toPostIndex = show;
+            }
+
+            
 
             bool moderationStatusExists = InputContext.DoesParamExist("dnainitialmodstatus", _docDnaInitialModStatus);
             if (moderationStatusExists)

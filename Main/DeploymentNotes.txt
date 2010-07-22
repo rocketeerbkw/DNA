@@ -556,3 +556,4 @@ Marcus
 Within apacheassets copy the following files:
 	moderation\includes\moderation_posts.js
 	moderation\includes\moderation_links.js
+	components\commentbox\commentbox.sssi
