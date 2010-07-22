@@ -40,7 +40,7 @@
   </xsl:template>
 
   <xsl:template match="TOPIC" mode="object_topiclist_design">
-    <li><xsl:value-of select="FRONTPAGEELEMENT/TITLE"/></li>
+    <li><xsl:value-of select="TITLE"/></li>
   </xsl:template>
 	
 	<xsl:template match="TOPICLIST" mode="object_topiclist_setup">
