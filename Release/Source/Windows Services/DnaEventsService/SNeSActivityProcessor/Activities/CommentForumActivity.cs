@@ -10,7 +10,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
         public CommentForumActivity(OpenSocialActivity openSocialActivity, SnesActivityData eventData)
         {
             Contents = openSocialActivity;
-            Contents.ActivityType = "comment";
+            Contents.ActivityType = "recommend_comment";
             IdentityUserId = eventData.IdentityUserId;
             ActivityId = eventData.EventId;
         }
