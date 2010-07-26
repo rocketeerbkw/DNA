@@ -498,6 +498,7 @@ namespace BBC.Dna.Users
                     reader.AddParameter("email", signInEmail);
                     reader.AddParameter("siteid", SiteID);
                     reader.AddParameter("identitysite",  1);
+                    reader.AddParameter("LastUpdated", LastSynchronisedDate);
                     reader.Execute();
                     if (reader.Read())
                     {
