@@ -664,11 +664,13 @@ namespace Memcached.ClientLibrary
                     // always serialize for non-primitive types
 					try
                     {
-                        MemoryStream memStream = new MemoryStream();
-                        new BinaryFormatter().Serialize(memStream, obj);
-                        val = memStream.GetBuffer();
-						length = (int) memStream.Length;
-                        flags |= F_SERIALIZED;
+                        using (MemoryStream memStream = new MemoryStream())
+                        {
+                            new BinaryFormatter().Serialize(memStream, obj);
+                            val = memStream.GetBuffer();
+                            length = (int)memStream.Length;
+                            flags |= F_SERIALIZED;
+                        }
                     }
                     catch(IOException e)
                     {
@@ -702,18 +704,18 @@ namespace Memcached.ClientLibrary
 
 				try 
 				{
-					MemoryStream memoryStream = new MemoryStream();
-					GZipOutputStream gos = new GZipOutputStream(memoryStream);
-					gos.Write(val, 0, length);
-					gos.Finish();
-				
-					// store it and set compression flag
-					val = memoryStream.GetBuffer();
-					length = (int)memoryStream.Length;
-					flags |= F_COMPRESSED;
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        GZipOutputStream gos = new GZipOutputStream(memoryStream);
+                        gos.Write(val, 0, length);
+                        gos.Finish();
 
-
-						Logging.Verbose(GetLocalizedString("set compression success").Replace("$$Size$$", length.ToString(new NumberFormatInfo())));
+                        // store it and set compression flag
+                        val = memoryStream.GetBuffer();
+                        length = (int)memoryStream.Length;
+                        flags |= F_COMPRESSED;
+                    }
+    				Logging.Verbose(GetLocalizedString("set compression success").Replace("$$Size$$", length.ToString(new NumberFormatInfo())));
 				}
 				catch(IOException e) 
 				{

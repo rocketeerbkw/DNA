@@ -11970,7 +11970,8 @@ bool CStoredProcedure::SynchroniseUserWithProfile(CTDVString* pFirstNames,
 												  const TDVCHAR* sLoginName,
 												  int iSiteID,
 												  const WCHAR* pDisplayName,
-												  BOOL bIdentitySite)
+												  BOOL bIdentitySite,
+												  CTDVDateTime* pLastUpdatedDate)
 {
 	StartStoredProcedure("synchroniseuserwithprofile");
 	AddParam("userid",iUserID);
@@ -11993,6 +11994,11 @@ bool CStoredProcedure::SynchroniseUserWithProfile(CTDVString* pFirstNames,
 	if (pDisplayName != NULL && wcslen(pDisplayName) > 0)
 	{
 		AddParam("DisplayName", pDisplayName);
+	}
+
+	if (pLastUpdatedDate != NULL)
+	{
+		AddParam("LastUpdated", *pLastUpdatedDate);
 	}
 
 	ExecuteStoredProcedure();

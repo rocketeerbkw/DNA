@@ -30,7 +30,7 @@ public:
 		SIT_IDENTITY
 	};
 
-	virtual bool InitialiseConnection(CProfileConnectionPool* pOwningPool, CProfileApi* pProfile, bool bUseIdentityWebService, const TDVCHAR* sClientIPAddress);
+	virtual bool InitialiseConnection(CProfileConnectionPool* pOwningPool, CProfileApi* pProfile, bool bUseIdentityWebService, const TDVCHAR* sClientIPAddress, CTDVString sDebugUserID);
 	virtual bool IsInitialised();
 	virtual bool ReleaseConnection();
 	virtual bool SetService(const TDVCHAR* sSiteName, CGI* pCGI);

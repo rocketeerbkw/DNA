@@ -453,12 +453,12 @@ protected:
 
 #ifdef _DEBUG
 protected:
-	bool GetDebugCookie(int& iUserID);
-	void SetDebugCookie(int iUserID);
+	bool GetDebugCookie(CTDVString& sUserID);
+	void SetDebugCookie(CTDVString sUserID);
 	void ClearDebugCookie();
 	bool CreateDebugCurrentUser(int iDebugUserID);
 	bool m_bSetDebugCookie;
-	int m_iDebugUserID;
+	CTDVString m_sDebugUserID;
 
 public:
 	bool GetDebugCookieString(CTDVString& sCookie);

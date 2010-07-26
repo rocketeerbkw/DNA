@@ -5,7 +5,8 @@ CREATE PROCEDURE synchroniseuserwithprofile	@userid int,
 												@loginname varchar(255),
 												@displayname nvarchar(255) = NULL,
 												@identitysite int = NULL,
-												@siteid int = 1
+												@siteid int = 1,
+												@lastupdated datetime = NULL
 As
 
 IF EXISTS (SELECT * FROM Users WHERE UserID = @userid)
@@ -65,7 +66,7 @@ BEGIN
 
 	UPDATE Users
 	--SET EMail = @email, FirstNames = @firstnames, LastName = @lastname, LoginName = @loginname, username = @UserNameInDNA, LastUpdatedDate = GetDate() where UserID = @userid <-- Reinsert to correctly collect firstname/lastname
-	SET EMail = @email, FirstNames = NULL, LastName = NULL, LoginName = @loginname, username = @UserNameInDNA, LastUpdatedDate = GetDate() where UserID = @userid
+	SET EMail = @email, FirstNames = NULL, LastName = NULL, LoginName = @loginname, username = @UserNameInDNA, LastUpdatedDate = ISNULL(@LastUpdated, GetDate()) where UserID = @userid
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN

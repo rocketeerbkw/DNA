@@ -418,61 +418,40 @@ namespace BBC.Dna
             }
             InputContext.Diagnostics.WriteTimedSignInEventToLog("User","Creating User");
 
-			bool isDebugUser = false;
 			bool autoLogIn = false;
             bool migrated = false;
-#if DEBUG
-            //Uses Debug user if available.  ( Debug Cookie created with d_userid= parameter in Ripley code. )
-			//InputContext.Diagnostics.WriteTimedEventToLog("User", "Start Create User");
-			DnaCookie debuguser = InputContext.GetCookie("H2G2DEBUG");
-			if (debuguser != null)
-			{
-				int result = 0;
-				if (Int32.TryParse(debuguser.Value.Replace("A", ""), out result))
-				{
-                    if ( result > 0 )
-                    {
-					    _userID = result;
-					    _userLoggedIn = true;
-					    isDebugUser = true;
-                    }
-				}
-			}
-#endif
-			if (isDebugUser == false)
-			{
-				DnaCookie cookie;
-                if (signInComponent.SignInSystemType == SignInSystem.Identity)
-                {
-                    cookie = InputContext.GetCookie("IDENTITY");
-                }
-                else
-                {
-                    cookie = InputContext.GetCookie("SSO2-UID");
-                }
 
-				if (cookie == null)
-				{
-                    InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "No cookie");
-                    return;
-				}
+		    DnaCookie cookie;
+            if (signInComponent.SignInSystemType == SignInSystem.Identity)
+            {
+                cookie = InputContext.GetCookie("IDENTITY");
+            }
+            else
+            {
+                cookie = InputContext.GetCookie("SSO2-UID");
+            }
 
-				if (!InitialiseProfileAPI(cookie, ref signInComponent))
-				{
-					InputContext.Diagnostics.WriteWarningToLog("ProfileAPI", "Unable to initialise user");
-					signInComponent.CloseConnections();
-                    InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "SignIn System Failed");
-                    return;
-				}
+		    if (cookie == null)
+		    {
+                InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "No cookie");
+                return;
+		    }
 
-				TryLoginUser(ref signInComponent, ref autoLogIn, ref migrated);
+		    if (!InitialiseProfileAPI(cookie, ref signInComponent))
+		    {
+			    InputContext.Diagnostics.WriteWarningToLog("ProfileAPI", "Unable to initialise user");
+			    signInComponent.CloseConnections();
+                InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "SignIn System Failed");
+                return;
+		    }
 
-				// Get the users BBCUID
-                if (InputContext.GetCookie("BBC-UID") != null)
-                {
-                    _bbcuid = InputContext.GetCookie("BBC-UID").Value;
-                }
-			}
+		    TryLoginUser(ref signInComponent, ref autoLogIn, ref migrated);
+
+		    // Get the users BBCUID
+            if (InputContext.GetCookie("BBC-UID") != null)
+            {
+                _bbcuid = InputContext.GetCookie("BBC-UID").Value;
+            }
 
 			// If we're logged in, then get the details for the current user
 			if (_userLoggedIn)
@@ -495,7 +474,7 @@ namespace BBC.Dna
 					newUser = true;
 
 					// Check to see if the users email is in the banned list
-					if (!isDebugUser && !IsEmailInBannedList(signInComponent))
+					if (!IsEmailInBannedList(signInComponent))
 					{
 						// Get the users details from SSO
 						ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
@@ -514,9 +493,9 @@ namespace BBC.Dna
                 InputContext.Diagnostics.WriteToLog("User", "Auto login Synch check" + autoLogInOrSync.ToString());
 
                 // If the site is using identity, then we need to check the users last updated date
-                if (InputContext.GetCurrentSignInObject.SignInSystemType == SignInSystem.Identity)
+                DateTime lastUpdatedDateFromSignInSystem = DateTime.Now;
+                if (signInComponent.SignInSystemType == SignInSystem.Identity)
                 {
-                    DateTime lastUpdatedDateFromSignInSystem = DateTime.Now; 
                     if (signInComponent.DoesAttributeExistForService(InputContext.CurrentSite.SSOService, "lastupdated"))
                     {
                         lastUpdatedDateFromSignInSystem = Convert.ToDateTime(signInComponent.GetUserAttribute("lastupdated"));
@@ -530,9 +509,10 @@ namespace BBC.Dna
                 InputContext.Diagnostics.WriteToLog("User", "New user - " + newUser.ToString());
                 InputContext.Diagnostics.WriteToLog("User", "Synch check - " + migrated.ToString());
 
-                if (!isDebugUser && (!newUser || migrated) && autoLogInOrSync)
+                if ((!newUser || migrated) && autoLogInOrSync)
                 {
                     ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
+                    _lastUpdated = lastUpdatedDateFromSignInSystem;
                     SynchroniseWithProfile(ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, ssoDisplayName);
                 }
                 else
@@ -540,10 +520,8 @@ namespace BBC.Dna
                     CheckForExistingUDNGifSiteSuffixIsNullOrDisplayName();
                 }
 			}
-			if (!isDebugUser)
-			{
-				signInComponent.CloseConnections();
-			}
+
+			signInComponent.CloseConnections();
             
             // Now generate the XML for the user
             GenerateUserXml();

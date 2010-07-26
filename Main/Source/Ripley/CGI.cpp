@@ -371,7 +371,39 @@ bool CGI::InitUser()
 
 	try
 	{
-		if (!m_pProfilePool->GetConnection(m_ProfileConnection, GetSiteUsesIdentitySignIn(m_SiteID), GetIPAddress()))
+
+#ifdef _DEBUG
+		m_bSetDebugCookie = false;
+		m_sDebugUserID = "";
+
+		CTDVString sDebugCookieUserIDValue = "";
+		
+		if (m_InputContext.ParamExists("d_identityuserid") || GetDebugCookie(sDebugCookieUserIDValue))
+		{
+			if (m_InputContext.ParamExists("d_clearidentityuserid"))
+			{
+				//Clear the cookie here
+				ClearDebugCookie();
+				m_sDebugUserID = "";
+			}
+			else if (sDebugCookieUserIDValue.IsEmpty())
+			{
+				if (m_InputContext.GetParamString("d_identityuserid",m_sDebugUserID) && !m_sDebugUserID.IsEmpty())
+				{
+					//set the cookie here
+					SetDebugCookie(m_sDebugUserID);
+				}
+			}
+			else
+			{
+				m_sDebugUserID = sDebugCookieUserIDValue;
+			}
+		}
+		
+		m_pProfilePool->SetDebugMode(m_sDebugUserID);
+#endif
+
+		if (!m_pProfilePool->GetConnection(m_ProfileConnection,GetSiteUsesIdentitySignIn(m_SiteID), GetIPAddress()))
 		{
 			throw "Unable to Initialise Profile Connection";
 		}
@@ -1021,33 +1053,12 @@ CUser* CGI::GetCurrentLoggedInUser()
 
 bool CGI::CreateDebugCurrentUser(int iDebugUserID)
 {
-	m_pCurrentUser = new CUser(GetInputContext());
-	
-	m_pCurrentUser->SetUserSignedIn();
-	m_pCurrentUser->SetSsoUserName("debuguser");
-	
-	bool bSuccess = true;
-
-	CStoredProcedure SP;
-	if (m_InputContext.InitialiseStoredProcedureObject(&SP))
-	{
-		bSuccess = SP.GetUserFromUserID(iDebugUserID, m_SiteID);
-	}
-	
-	if (bSuccess)
-	{
-		m_pCurrentUser->CreateFromID(iDebugUserID);
-		m_pCurrentUser->SetUserLoggedIn();
-		m_iDebugUserID = iDebugUserID;
-		return true;
-	}
-
 	return false;
 }
 
-bool CGI::GetDebugCookie(int& iUserID)
+bool CGI::GetDebugCookie(CTDVString& sUserID)
 {
-	iUserID = 0;
+	sUserID = "";
 	CTDVString sDebugCookie;
 	bool bSuccess = GetServerVariable("HTTP_COOKIE", sDebugCookie);
 
@@ -1056,7 +1067,7 @@ bool CGI::GetDebugCookie(int& iUserID)
 		return false;
 	}
 	
-	CTDVString sNameToFind = "H2G2DEBUG=";
+	CTDVString sNameToFind = "DNADEBUGUSER=";
 	long pos = sDebugCookie.Find(sNameToFind);		// find the start of the cookie
 	long len = sDebugCookie.GetLength();
 
@@ -1070,21 +1081,24 @@ bool CGI::GetDebugCookie(int& iUserID)
 	if (pos >= 0)
 	{
 		const char* pCookie = sDebugCookie;
-		sDebugCookie = pCookie + pos + sNameToFind.GetLength();;
-		long separator = sDebugCookie.Find("A");
-		if (separator >= 0)
+		sDebugCookie = pCookie + pos + sNameToFind.GetLength();
+		if (!sDebugCookie.IsEmpty())
 		{
-			sDebugCookie = sDebugCookie.Mid(0, separator);
-			iUserID = atoi(sDebugCookie);
+			long separator = sDebugCookie.Find("ID-") + 3;
+			long end = sDebugCookie.Find(";");
+			if (separator >= 0)
+			{
+				if (end > 0)
+				{
+					sUserID = sDebugCookie.Mid(separator, end - separator);
+				}
+				else
+				{
+					sUserID = sDebugCookie.Mid(separator);
+				}
+			}
 		}
-		if (iUserID > 0)
-		{
-			bSuccess = true;
-		}
-		else
-		{
-			bSuccess = false;
-		}
+		bSuccess = !sUserID.IsEmpty();
 	}
 	else
 	{
@@ -1094,29 +1108,56 @@ bool CGI::GetDebugCookie(int& iUserID)
 	return bSuccess;
 }
 
-void CGI::SetDebugCookie(int iUserID)
+void CGI::SetDebugCookie(CTDVString sUserID)
 {
 	m_bSetDebugCookie = true;
-	m_iDebugUserID = iUserID;
+	m_sDebugUserID = sUserID;
 
 	CTDVString sCookie;
-	sCookie << iUserID << "A";
-	SetCookie(sCookie,false,"H2G2DEBUG");
+	sCookie << "ID-" << sUserID;
+	SetCookie(sCookie,false,"DNADEBUGUSER");
 }
 
 void CGI::ClearDebugCookie()
 {
 	m_bSetDebugCookie = false;
-	m_iDebugUserID = 0;
-	SetCookie("0A",false,"H2G2DEBUG");
+	m_sDebugUserID = "";
+
+	CTDVString cookie = "";
+	cookie << "DNADEBUGUSER=;";
+	COleDateTimeSpan span(365.0);	// timespan of 365 days
+	COleDateTime yearbeforenow = COleDateTime::GetCurrentTime();
+	yearbeforenow -= span;
+	CTDVString date = (LPCSTR)yearbeforenow.Format("%a, %d-%b-%Y 00:00:00 GMT");
+	cookie << "EXPIRES=" << date << ";";
+	cookie << "PATH=/;";
+	cookie << "DOMAIN=" << theConfig.GetCookieDomain() << ";";
+    CTDVString set = "Set-Cookie: ";
+    set << cookie << "\r\n";
+
+	cookie = "IDENTITY=;";
+	cookie << "EXPIRES=" << date << ";";
+	cookie << "PATH=/;";
+	cookie << "DOMAIN=" << theConfig.GetCookieDomain() << ";";
+    set << "Set-Cookie: ";
+    set << cookie << "\r\n";
+
+	cookie = "IDENTITY-HTTPS=;";
+	cookie << "EXPIRES=" << date << ";";
+	cookie << "PATH=/;";
+	cookie << "DOMAIN=" << theConfig.GetCookieDomain() << ";";
+    set << "Set-Cookie: ";
+    set << cookie << "\r\n";
+
+	m_sHeaders << set;
 }
 
 bool CGI::GetDebugCookieString(CTDVString& sCookie)
 {
 	if (m_bSetDebugCookie)
 	{
-		sCookie = "<SETCOOKIE><COOKIE>H2G2DEBUG=";
-		sCookie << m_iDebugUserID;
+		sCookie = "<SETCOOKIE><COOKIE>DNADEBUGUSER=";
+		sCookie << m_sDebugUserID;
 		sCookie << "</COOKIE>";
 		return true;
 	}
@@ -1144,42 +1185,6 @@ bool CGI::GetDebugCookieString(CTDVString& sCookie)
 
 bool CGI::CreateCurrentUser()
 {
-#ifdef _DEBUG
-
-	m_bSetDebugCookie = false;
-	m_iDebugUserID = 0;
-
-	int iDebugCookieTemp = 0;
-	
-	if (m_InputContext.ParamExists("d_userid") || GetDebugCookie(iDebugCookieTemp))
-	{
-		if (m_InputContext.ParamExists("d_clearid"))
-		{
-			//Clear the cookie here
-			ClearDebugCookie();
-		}
-		else
-		{
-			int iDebugUserID = m_InputContext.GetParamInt("d_userid");
-			
-			if (iDebugUserID > 0)
-			{
-				//set the cookie here
-				SetDebugCookie(iDebugUserID);
-				return CreateDebugCurrentUser(iDebugUserID);
-			}
-			//if the cookie exists then use it
-			else
-			{
-				m_bSetDebugCookie = false;
-				return CreateDebugCurrentUser(iDebugCookieTemp);
-			}
-		}
-		
-	}
-#endif
-
-
 	// if we already have a current user object then return a pointer to that
 	if (m_pCurrentUser != NULL)
 	{
@@ -1196,7 +1201,7 @@ bool CGI::CreateCurrentUser()
 		}
 
 		CTDVString sIdentityUserName;
-		GetCookieByName("IDENTITY-USERNAME", sIdentityUserName);
+		GetCookieByName("IDENTITY", sIdentityUserName);
 		
 		CTDVString sSecureCookie;
 		GetCookieByName("IDENTITY-HTTPS", sSecureCookie);
@@ -1207,7 +1212,6 @@ bool CGI::CreateCurrentUser()
 			m_pCurrentUser->SetSyncByDefault(true);
 		}
 
-		//bool bUserSet = m_ProfileConnection.SetUserViaCookieAndUserName(sSsoCookie, sIdentityUserName);
 		bool bUserSet = m_ProfileConnection.SecureSetUserViaCookies(sSsoCookie, sSecureCookie);
 		if (ParamExists("logsignin") || theConfig.UseExtraSigninlogging())
 		{
@@ -2066,6 +2070,18 @@ bool CGI::GetCookieByName(const TDVCHAR* pCookieName, CTDVString& sCookieValue)
 	{
 		sSsoCookie = "";
 		bSuccess = false;
+
+		if (!m_sDebugUserID.IsEmpty())
+		{
+			if (pCookieName == "IDENTITY")
+			{
+				return m_ProfileConnection.GetCookieValue(false, sCookieValue);
+			}
+			else if (pCookieName == "IDENTITY-HTTPS")
+			{
+				return m_ProfileConnection.GetSecureCookieValue(sCookieValue);
+			}
+		}
 	}
 
 	// Cookie values are encoded
@@ -2094,21 +2110,13 @@ bool CGI::GetCookie(CTDVString& sResult)
 {
     if (m_InputContext.GetSiteUsesIdentitySignIn(m_SiteID))
 	{
-        // BODGE!!! Make sure that the cookie is fully decoded.
-        // Currently the cookie can come in from Forge double encoded.
-        // Our tests are correct in encoding only the once.
-			
 		if (GetCookieByName( "IDENTITY", sResult))
 		{
-			/*
-			int i = 0;
-			while (sResult.Find(' ') < 0 && sResult.Find('/') < 0 && sResult.Find('+') < 0 && i < 3)
-			{
-				UnEscapeString(&sResult);
-				i++;
-			}
-			*/
 			return true;
+		}
+		else if (!m_sDebugUserID.IsEmpty())
+		{
+			return m_ProfileConnection.GetCookieValue(false, sResult);
 		}
 		return false;
 	}
