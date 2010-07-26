@@ -92,10 +92,14 @@
 	<!-- ** Identity variables ** If I'd known what was involved I would've structured this completely differently. -->
 	<xsl:template match="USER|INREPLYTO" mode="username">
 		<xsl:param name="stringlimit" />
-		
+
 		<xsl:variable name="username">
 			<xsl:choose>
 				<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSiteSuffix']/VALUE = '1' and SITESUFFIX != ''">	
+					<xsl:if test="/H2G2/SITE/@ID = '1'">
+						<xsl:value-of select="USERNAME" />
+						<xsl:text> - </xsl:text>
+					</xsl:if>					
 					<xsl:value-of select="SITESUFFIX" />
 				</xsl:when>
 				<xsl:otherwise>

@@ -6,15 +6,19 @@
 	</xsl:template>
 	
 	<!-- Site specific nickname text -->
-	<xsl:template name="ssnickname_introtext">
-		<p>You can change your h2g2 display name by entering it in the below field (255 character limit):</p>
+	<xsl:template name="ssnickname_nb">
+		<p><strong>Please note:</strong> Your BBC iD Display name will always be displayed everywhere on the BBC. Only on H2G2 will you be identified by <strong>both</strong> your BBC iD Display name and your H2G2 suffix should you wish to have one. H2G2 suffixes will not appear on other BBC sites which use the iD sign-in system.</p>
+		<p>Click <a href="http://www.bbc.co.uk/dna/h2g2/brunel/DontPanic-Prefs#2">here</a> for more information about Display names on H2G2 and BBC iD.</p>
 	</xsl:template>
 	
-	<xsl:template name="ssnickname_nb">
-		<p><strong>Please note:</strong> This is the name by which you are identified on  h2g2 only, not other BBC sites which use the iD sign-in system. <br />
+	<xsl:template name="ssnickname_introtext">
+		<!-- <p><strong>Please note:</strong> This is the name by which you are identified on  h2g2 only, not other BBC sites which use the iD sign-in system. <br />
 		To change your  general BBC iD display name, click the <a href="{$id_settingslink}">Settings</a> link above and enter it in the name field.<br />
 		Click <a href="http://www.bbc.co.uk/dna/h2g2/brunel/DontPanic-Prefs#2">here</a> for more information about display names on h2g2 and BBC iD.
-		</p>
+		</p> -->
+		
+		<p>To change your general BBC iD Display name, click the <a href="{$id_settingslink}">Settings</a> link above and enter it in the name field.</p>
+		<p>Also, on H2G2 you can add a suffix - a site specific nickname - to the end of your BBC iD Display name. You can create your H2G2 suffix by entering it in the field below (100 character limit):</p>
 	</xsl:template>	
 	
 	<xsl:variable name="categorydata">
