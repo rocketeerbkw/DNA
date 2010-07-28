@@ -36,11 +36,13 @@ namespace BBC.Dna.Utils.Tests
                 for (int i = 0; i < 8; i++)
                     Statistics.AddHTMLCacheMiss();
                 for (int i = 0; i < 9; i++)
-                    Statistics.AddNonSSORequest();
+                    Statistics.AddLoggedOutRequest();
                 for (int i = 0; i < 2; i++)
                     Statistics.AddRawRequest();
                 for (int i = 0; i < 11; i++)
                     Statistics.AddRequestDuration(123);
+                for (int i = 0; i < 11; i++)
+                    Statistics.AddIdentityCallDuration(400);
                 for (int i = 0; i < 15; i++)
                     Statistics.AddRssCacheHit();
                 for (int i = 0; i < 55; i++)
@@ -92,6 +94,8 @@ namespace BBC.Dna.Utils.Tests
                 Assert.AreEqual(0, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/HTMLCACHEHITS)"), "Wrong HtmlCacheHits value");
                 Assert.AreEqual(0, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/HTMLCACHEMISSES)"), "Wrong HtmlCacheMisses value");
                 Assert.AreEqual(000, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/AVERAGEREQUESTTIME)"), "Wrong Averagerequesttime value");
+                Assert.AreEqual(000, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/AVERAGEIDENTITYTIME)"), "Wrong Averageidentitytime value");
+                Assert.AreEqual(0, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/IDENTITYREQUESTS)"), "Wrong Identityresuests value");
                 Assert.AreEqual(00, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/REQUESTS)"), "Wrong requests value");
                 Assert.AreEqual(1, 1);
             //}
@@ -112,8 +116,10 @@ namespace BBC.Dna.Utils.Tests
 			Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/NONSSOREQUESTS)"));
 			Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/HTMLCACHEHITS)"));
 			Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/HTMLCACHEMISSES)"));
-			Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/AVERAGEREQUESTTIME)"));
-			Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/REQUESTS)"));
+            Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/AVERAGEREQUESTTIME)"));
+            Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/AVERAGEIDENTITYTIME)"));
+            Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/IDENTITYREQUESTS)"));
+            Assert.AreEqual(datapointcount, (double)nav.Evaluate("count(/STATISTICS/STATISTICSDATA/REQUESTS)"));
 
 			Assert.AreEqual(2, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/RAWREQUESTS)"), "Wrong RawRequests value");
 			Assert.AreEqual(22, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/SERVERBUSYCOUNT)"), "Wrong ServerBusy value");
@@ -125,8 +131,10 @@ namespace BBC.Dna.Utils.Tests
 			Assert.AreEqual(9, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/NONSSOREQUESTS)"), "Wrong NonSSORequests value");
 			Assert.AreEqual(3, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/HTMLCACHEHITS)"), "Wrong HtmlCacheHits value");
 			Assert.AreEqual(8, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/HTMLCACHEMISSES)"), "Wrong HtmlCacheMisses value");
-			Assert.AreEqual(123, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/AVERAGEREQUESTTIME)"), "Wrong Averagerequesttime value");
-			Assert.AreEqual(11, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/REQUESTS)"), "Wrong requests value");
+            Assert.AreEqual(123, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/AVERAGEREQUESTTIME)"), "Wrong Averagerequesttime value");
+            Assert.AreEqual(400, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/AVERAGEIDENTITYTIME)"), "Wrong Averageidentitytime value");
+            Assert.AreEqual(11, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/IDENTITYREQUESTS)"), "Wrong Identityrequests value");
+            Assert.AreEqual(11, (double)nav.Evaluate("sum(/STATISTICS/STATISTICSDATA/REQUESTS)"), "Wrong requests value");
 
 		}
 	}

@@ -30,7 +30,8 @@ public:
 	void AddRawRequest();
 	void AddServerBusy(void);
 	void AddRequestDuration( long ttaken );
-	void AddNonSSORequest();
+	void AddIdentityCallDuration( long ttaken );
+	void AddLoggedOutRequest();
 	void AddCacheHit(void);
 	void AddCacheMiss(void);
 	void AddRssCacheHit(void);
@@ -55,7 +56,7 @@ private:
 						m_ServerBusyCounter(0), 
 						m_TotalRequestTime(0),
 						m_Requests(0),
-						m_NonSSORequests(0),
+						m_LoggedOutRequests(0),
 						m_CacheHitCounter(0),
 						m_CacheMissCounter(0),
 						m_RssCacheHitCounter(0),
@@ -63,12 +64,14 @@ private:
 						m_SsiCacheHitCounter(0),
 						m_SsiCacheMissCounter(0),
 						m_HTMLCacheHitCounter(0),
-						m_HTMLCacheMissCounter(0)
+						m_HTMLCacheMissCounter(0),
+						m_IdentityCallTime(0),
+						m_IdentityCallCount(0)
 						{}
 		
 		void AddRawRequest();
 		void AddServerBusy();
-		void AddNonSSORequest();
+		void AddLoggedOutRequest();
 		void AddCacheHit();
 		void AddCacheMiss();
 		void AddRssCacheHit();
@@ -78,10 +81,11 @@ private:
 		void AddHTMLCacheHit();
 		void AddHTMLCacheMiss();
 		void AddRequestDuration( int ttaken);
+		void AddIdentityCallDuration( int ttaken);
 
 		long GetRawRequestCounter()		{ return m_RawRequestCounter; }
 		long GetServerBusyCounter()		{ return m_ServerBusyCounter; }
-		long GetNonSSORequest()			{ return m_NonSSORequests; }
+		long GetLoggedOutRequests()		{ return m_LoggedOutRequests; }
 		long GetCacheMissCounter()		{ return m_CacheMissCounter; }
 		long GetCacheHitCounter()		{ return m_CacheHitCounter; }
 		long GetRssCacheMissCounter()	{ return m_RssCacheMissCounter; }
@@ -92,6 +96,8 @@ private:
 		long GetHTMLCacheMissCounter()	{ return m_HTMLCacheMissCounter; }
 		long GetRequests()				{ return m_Requests; }
 		long GetRequestTime()			{ return m_TotalRequestTime; }
+		long GetIdentityCallTime()		{ return m_IdentityCallTime; }
+		long GetIdentityCallCount()		{ return m_IdentityCallCount; }
 
 	private:
 
@@ -100,7 +106,7 @@ private:
 		long	m_ServerBusyCounter;
 		long	m_TotalRequestTime;
 		long	m_Requests;
-		long	m_NonSSORequests;
+		long	m_LoggedOutRequests;
 
 		long	m_CacheHitCounter;
 		long	m_CacheMissCounter;
@@ -113,6 +119,9 @@ private:
 
 		long	m_HTMLCacheHitCounter;
 		long	m_HTMLCacheMissCounter;
+
+		long	m_IdentityCallTime;
+		long	m_IdentityCallCount;
 	};
 
 	std::vector<STAT_DATA>	m_StatData;

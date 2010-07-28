@@ -156,7 +156,6 @@ namespace BBC.Dna.Services
                 {
                     callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
                     userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID);
-                    Statistics.AddNonSSORequest();
                 }
                 // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs
                 if (callingUser.GetSigninStatus == CallingUser.SigninStatus.SignedInNotLoggedIn)

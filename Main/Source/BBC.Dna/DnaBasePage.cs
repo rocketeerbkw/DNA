@@ -396,9 +396,9 @@ namespace BBC.Dna.Page
 		/// <summary>
 		/// Add a non SSO request to the stats
 		/// </summary>
-		public void AddNonSSORequest()
+		public void AddLoggedOutRequest()
 		{
-			Statistics.AddNonSSORequest();
+			Statistics.AddLoggedOutRequest();
 		}
 
 		/// <summary>

@@ -111,7 +111,8 @@ CGI::CGI() :					m_pSiteList(NULL),
 								m_AllowPostCodesInSearch(0),
 								m_bQueuePostings(false),
 								m_bSiteEmergencyClosed(false),
-								m_bIsSecureRequest(false)
+								m_bIsSecureRequest(false),
+								m_IdentityCalDuration(0)
 {
 	m_TickStart = GetTickCount();
 	m_LastEventTime = m_TickStart;
@@ -368,6 +369,7 @@ bool CGI::InitUser()
 		sServiceName = m_pSiteList->GetSiteIdentityPolicy(m_SiteID);
 	}
 	LogTimerEvent(sSignInSystem + "Creating User");
+	DWORD ssostart = GetTickCount();
 
 	try
 	{
@@ -431,7 +433,6 @@ bool CGI::InitUser()
 	if (!sCmd.CompareText("BLOB") && !m_bFastBuilderMode && bValidSignInObject)
 	{
 		WriteInputLog("SSOSTART");
-		DWORD ssostart = GetTickCount();
 		bool bRet = m_ProfileConnection.SetService(sServiceName, this);		
 		
 		//if this fails we should keep going but output a debug error message
@@ -441,9 +442,9 @@ bool CGI::InitUser()
 		}
 		
 		//always create the user
-		int duration = GetTickCount() - ssostart;
+		m_IdentityCalDuration = GetTickCount() - ssostart;
 		CTDVString sMessage;
-		sMessage << "SSOEND " << duration;
+		sMessage << "SSOEND " << m_IdentityCalDuration;
 		WriteInputLog(sMessage);
 		CreateCurrentUser();
 	}
@@ -1200,6 +1201,8 @@ bool CGI::CreateCurrentUser()
 			return false;
 		}
 
+		long ssostart = GetTickCount();
+
 		CTDVString sIdentityUserName;
 		GetCookieByName("IDENTITY", sIdentityUserName);
 		
@@ -1217,6 +1220,9 @@ bool CGI::CreateCurrentUser()
 		{
 			WriteInputLog(CTDVString("SIGNIN ") + m_ProfileConnection.GetLastTimings());
 		}
+
+		m_IdentityCalDuration += GetTickCount() - ssostart;
+		AddIdentityCallDuration(m_IdentityCalDuration);
 
 		bool bUserSignedIn = false;
 		if (GetSiteUsesIdentitySignIn(m_SiteID))
@@ -5963,9 +5969,15 @@ void CGI::AddHTMLCacheMiss()
 {
 	m_pStatistics->AddHTMLCacheMiss();
 }
-void CGI::AddNonSSORequest()
+
+void CGI::AddIdentityCallDuration(long ttaken)
 {
-	m_pStatistics->AddNonSSORequest();
+	m_pStatistics->AddIdentityCallDuration(ttaken);
+}
+
+void CGI::AddLoggedOutRequest()
+{
+	m_pStatistics->AddLoggedOutRequest();
 }
 bool CGI::IsRequestForCachedFeed()
 {

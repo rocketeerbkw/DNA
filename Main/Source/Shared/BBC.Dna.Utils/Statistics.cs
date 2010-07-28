@@ -32,6 +32,8 @@ namespace BBC.Dna.Utils
 				m_SsiCacheMissCounter = 0;
 				m_HTMLCacheHitCounter = 0;
 				m_HTMLCacheMissCounter = 0;
+                m_IdentityUserCall = 0;
+                m_IdentityCallCount = 0;
 			}
 			public void AddCacheHit()
 			{
@@ -66,7 +68,7 @@ namespace BBC.Dna.Utils
 			{
 				Interlocked.Increment(ref m_RawRequestCounter);
 			}
-			public void AddNonSSORequest()
+			public void AddLoggedOutRequest()
 			{
 				Interlocked.Increment(ref m_NonSSORequests);
 			}
@@ -78,11 +80,16 @@ namespace BBC.Dna.Utils
 			{
 				Interlocked.Increment(ref m_HTMLCacheMissCounter);
 			}
-			public void AddRequestDuration(int ttaken)
-			{
-				Interlocked.Increment(ref m_Requests);
-				Interlocked.Add(ref m_TotalRequestTime, ttaken);
-			}
+            public void AddRequestDuration(int ttaken)
+            {
+                Interlocked.Increment(ref m_Requests);
+                Interlocked.Add(ref m_TotalRequestTime, ttaken);
+            }
+            public void AddIdentityCallDuration(int ttaken)
+            {
+                Interlocked.Increment(ref m_IdentityCallCount);
+                Interlocked.Add(ref m_IdentityUserCall, ttaken);
+            }
 
 			public int GetRawRequestCounter() { return m_RawRequestCounter; }
 			public int GetServerBusyCounter() { return m_ServerBusyCounter; }
@@ -97,6 +104,8 @@ namespace BBC.Dna.Utils
 			public int GetHTMLCacheMissCounter() { return m_HTMLCacheMissCounter; }
 			public int GetRequests() { return m_Requests; }
 			public int GetRequestTime() { return m_TotalRequestTime; }
+            public int GetIdentityCallTime() { return m_IdentityUserCall; }
+            public int GetIdentityCallCount() { return m_IdentityCallCount; }
 
 			int m_RawRequestCounter;
 			int m_ServerBusyCounter;
@@ -115,6 +124,9 @@ namespace BBC.Dna.Utils
 
 			int m_HTMLCacheHitCounter;
 			int m_HTMLCacheMissCounter;
+
+            int m_IdentityUserCall;
+            int m_IdentityCallCount;
 		}
 
 
@@ -139,20 +151,28 @@ namespace BBC.Dna.Utils
 		{
 			_statData[CalcMinutes()].AddServerBusy();
 		}
-		/// <summary>
-		/// Addto the tracking of average request duration
-		/// </summary>
-		/// <param name="ttaken"></param>
-		public static void AddRequestDuration(int ttaken)
-		{
-			_statData[CalcMinutes()].AddRequestDuration(ttaken);
-		}
+        /// <summary>
+        /// Addto the tracking of average request duration
+        /// </summary>
+        /// <param name="ttaken"></param>
+        public static void AddRequestDuration(int ttaken)
+        {
+            _statData[CalcMinutes()].AddRequestDuration(ttaken);
+        }
+        /// <summary>
+        /// Addto the tracking of average request duration
+        /// </summary>
+        /// <param name="ttaken"></param>
+        public static void AddIdentityCallDuration(int ttaken)
+        {
+            _statData[CalcMinutes()].AddIdentityCallDuration(ttaken);
+        }
 		/// <summary>
 		/// Add a non SSO request to the stats
 		/// </summary>
-		public static void AddNonSSORequest()
+		public static void AddLoggedOutRequest()
 		{
-			_statData[CalcMinutes()].AddNonSSORequest();
+			_statData[CalcMinutes()].AddLoggedOutRequest();
 		}
 		/// <summary>
 		/// Add an XML cache hit
@@ -298,6 +318,9 @@ namespace BBC.Dna.Utils
 			long htmlcachemisses = 0;
 			long requests = 0;
 			long requesttime = 0;
+            long identityCallTime = 0;
+            long identityCallCount = 0;
+
 			TimeSpan timespan = new TimeSpan();
 			int minutes = 0;
 			for (int i = 0; i < 24 * 60; i++)
@@ -364,10 +387,20 @@ namespace BBC.Dna.Utils
 				else
 					requests = long.MaxValue;
 
-				if (requesttime < long.MaxValue - _statData[i].GetRequestTime())
-					requesttime += _statData[i].GetRequestTime();
-				else
-					requesttime = long.MaxValue;
+                if (requesttime < long.MaxValue - _statData[i].GetRequestTime())
+                    requesttime += _statData[i].GetRequestTime();
+                else
+                    requesttime = long.MaxValue;
+
+                if (identityCallTime < long.MaxValue - _statData[i].GetIdentityCallTime())
+                    identityCallTime += _statData[i].GetIdentityCallTime();
+                else
+                    identityCallTime = long.MaxValue;
+
+                if (identityCallCount < long.MaxValue - _statData[i].GetIdentityCallCount())
+                    identityCallCount += _statData[i].GetIdentityCallCount();
+                else
+                    identityCallCount = long.MaxValue;
 
 				++minutes;
 				if (minutes % interval == 0)
@@ -392,6 +425,9 @@ namespace BBC.Dna.Utils
 
 					AddLongElement(xmlbuilder, datasection, "AVERAGEREQUESTTIME", requesttime / (requests > 0 ? requests : 1));
 
+                    AddLongElement(xmlbuilder, datasection, "AVERAGEIDENTITYTIME", identityCallTime / (identityCallCount > 0 ? identityCallCount : 1));
+                    AddLongElement(xmlbuilder, datasection, "IDENTITYREQUESTS", identityCallCount);
+
 					AddLongElement(xmlbuilder, datasection, "REQUESTS", requests);
 
 					root.AppendChild(datasection);
@@ -410,6 +446,8 @@ namespace BBC.Dna.Utils
 					htmlcachemisses = 0;
 					requests = 0;
 					requesttime = 0;
+                    identityCallTime = 0;
+                    identityCallCount = 0;
 					timespan += new TimeSpan(0, interval, 0);
 				}
 			}

@@ -199,7 +199,8 @@ public:
 	void AddSsiCacheMiss(); 
 	void AddHTMLCacheHit();
 	void AddHTMLCacheMiss(); 
-	void AddNonSSORequest();
+	void AddLoggedOutRequest();
+	void AddIdentityCallDuration(long ttaken);
 	bool InitialiseSiteList(CSiteList* pSiteList);
 
     bool TestFileExists(const CTDVString& sFile);
@@ -431,6 +432,8 @@ protected:
 	CTDVString	m_SiteConfig;
 	CTDVString	m_sTopicsXML;	
 	VARIABLEMAP m_ServerVariables;
+
+	long m_IdentityCalDuration;
 
 	static bool m_bShowTimers;
 	DWORD m_TickStart;

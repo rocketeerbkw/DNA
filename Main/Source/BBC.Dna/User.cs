@@ -434,6 +434,7 @@ namespace BBC.Dna
 		    if (cookie == null)
 		    {
                 InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "No cookie");
+                Statistics.AddLoggedOutRequest();
                 return;
 		    }
 
@@ -454,41 +455,41 @@ namespace BBC.Dna
             }
 
 			// If we're logged in, then get the details for the current user
-			if (_userLoggedIn)
-			{
+            if (_userLoggedIn)
+            {
                 InputContext.Diagnostics.WriteToLog("User", "User logged in");
 
                 bool newUser = false;
                 string ssoLoginName;
                 string ssoDisplayName;
                 string ssoEmail;
-				string ssoFirstNames;
-				string ssoLastName;
+                string ssoFirstNames;
+                string ssoLastName;
                 int ssoUserID;
                 string identityUserID;
 
-				// Check to make sure that we've got the users details
-				if (!GetUserDetails())
-				{
-					// New User has registered - add them to DB.
-					newUser = true;
+                // Check to make sure that we've got the users details
+                if (!GetUserDetails())
+                {
+                    // New User has registered - add them to DB.
+                    newUser = true;
 
-					// Check to see if the users email is in the banned list
-					if (!IsEmailInBannedList(signInComponent))
-					{
-						// Get the users details from SSO
-						ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
+                    // Check to see if the users email is in the banned list
+                    if (!IsEmailInBannedList(signInComponent))
+                    {
+                        // Get the users details from SSO
+                        ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
 
-						// Create the new user in the database with the given information
-						if (CreateNewUserFromId(identityUserID, ssoUserID, ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, InputContext.CurrentSite.SiteID, ssoDisplayName))
-						{
-							// Get the extra details from our dtabase
-							GetUserDetails();
-						}
-					}
-				}
+                        // Create the new user in the database with the given information
+                        if (CreateNewUserFromId(identityUserID, ssoUserID, ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, InputContext.CurrentSite.SiteID, ssoDisplayName))
+                        {
+                            // Get the extra details from our dtabase
+                            GetUserDetails();
+                        }
+                    }
+                }
 
-				//Existing users may need to be synchronised.
+                //Existing users may need to be synchronised.
                 bool autoLogInOrSync = (autoLogIn || InputContext.GetParamIntOrZero("s_sync", "User's details must be synchronised with the data in SSO.") == 1);
                 InputContext.Diagnostics.WriteToLog("User", "Auto login Synch check" + autoLogInOrSync.ToString());
 
@@ -519,7 +520,11 @@ namespace BBC.Dna
                 {
                     CheckForExistingUDNGifSiteSuffixIsNullOrDisplayName();
                 }
-			}
+            }
+            else
+            {
+                Statistics.AddLoggedOutRequest();
+            }
 
 			signInComponent.CloseConnections();
             
@@ -643,6 +648,7 @@ namespace BBC.Dna
         private bool InitialiseProfileAPI(DnaCookie cookie, ref IDnaIdentityWebServiceProxy signInComponent)
         {
             InputContext.Diagnostics.WriteTimedEventToLog("SSO", "Start");
+            DateTime timer = DateTime.Now; 
 
             // Set the current user. If this returns false, it means the user was not signed in correctly
             string decodedCookie = cookie.Value;
@@ -651,18 +657,6 @@ namespace BBC.Dna
             if (signInComponent.SignInSystemType == SignInSystem.Identity)
             {
                 signInComponent.SetService(InputContext.CurrentSite.IdentityPolicy);
-
-                // BODGE!!! Make sure that the cookie is fully decoded.
-                // Currently the cookie can come in from Forge double encoded.
-                // Our tests are correct in encoding only the once.
-                /*
-                int i = 0;
-                while (decodedCookie.IndexOfAny(new char[] { ' ', '/', '+' }) < 0 && i < 3)
-                {
-                    decodedCookie = HttpUtility.UrlDecode(decodedCookie);
-                    i++;
-                }
-                */
             }
             else
             {
@@ -697,6 +691,8 @@ namespace BBC.Dna
                 }
                 return false;
             }
+
+            Statistics.AddIdentityCallDuration(TimeSpan.FromTicks(DateTime.Now.Ticks - timer.Ticks).Milliseconds);
 
             return true;
         }
