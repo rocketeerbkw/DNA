@@ -50,7 +50,7 @@ namespace BBC.Dna.Services
         protected int summaryLength = 256;
         protected Guid bbcUidCookie = Guid.Empty;
         protected string _iPAddress = String.Empty;
-        protected int debugDnaUserId;
+        protected string debugDnaUserId;
         protected IDnaDiagnostics dnaDiagnostic;
 
         public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
@@ -114,11 +114,11 @@ namespace BBC.Dna.Services
                 _iPAddress = QueryStringHelper.GetHeaderValueAsString("REMOTE_ADDR", "");
             }
 
-            int allowDebugUser = 0;
-            if (int.TryParse(ConfigurationManager.AppSettings["allowdebuguser"], out allowDebugUser) && allowDebugUser > 0)
-            {
-                debugDnaUserId = QueryStringHelper.GetQueryParameterAsInt("debugdnauserid", 0);
-            }
+            debugDnaUserId = "";
+#if DEBUG
+            //WebOperationContext webContext = WebOperationContext.Current;
+            //debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("debugdnauserid", "");
+#endif
         }
 
         ///// <summary>
@@ -155,7 +155,6 @@ namespace BBC.Dna.Services
                 else
                 {
                     callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
-                    //userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), site.IdentityPolicy, site.SiteID, "");
                     userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID);
                     Statistics.AddNonSSORequest();
                 }
