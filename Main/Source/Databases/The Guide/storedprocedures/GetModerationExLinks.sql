@@ -66,9 +66,11 @@ SELECT	Ex.*,
 	refer.userid 'referrerid', refer.username 'referrername', refer.firstnames 'referrerfirstnames', refer.lastname 'referrerlastname', refer.status 'referrerstatus'
 FROM ExLinkMod Ex
 INNER JOIN Users locked ON locked.userid = Ex.lockedby 
+INNER JOIN Sites s ON s.SiteID = Ex.SiteID
 LEFT JOIN Users refer ON refer.userid = Ex.referredby 
 WHERE	Ex.Status = CASE WHEN @referrals = 1 THEN 2 ELSE 0 END
 		AND Ex.LockedBy = @userid
 		AND CASE WHEN complainttext IS NULL THEN 0 ELSE 1 END = @alerts
 		AND CASE WHEN Ex.status = 2 THEN 1 ELSE 0 END = @referrals
+		AND s.ModClassID = @ModClassID
 ORDER BY Ex.ModID
