@@ -18,15 +18,16 @@
       <xsl:variable name="threadId" select="@THREADID"/>
       <xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
       <tr>  
-       <xsl:call-template name="library_listitem_stripe">
-        <xsl:with-param name="threadId" select="$threadId" />
-        <xsl:with-param name="test_stickythreadson" select="$test_stickythreadson" />       	
-       </xsl:call-template>
+       	<xsl:call-template name="library_listitem_stripe">
+	        <xsl:with-param name="threadId" select="$threadId" />
+	        <xsl:with-param name="test_stickythreadson" select="$test_stickythreadson" />       	
+       	</xsl:call-template>
         <td class="discussiondetail">
             <h3>
-
-				
                 <a href="{$root}/NF{@FORUMID}?thread={@THREADID}">
+					<xsl:if test="$test_stickythreadson">
+						<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_addthreadstickytitle" />
+					</xsl:if>
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
 			            	<xsl:choose>
@@ -181,7 +182,6 @@
 			            <xsl:text>New posts: </xsl:text><xsl:value-of select="number(parent::POST/@COUNTPOSTS) - number(parent::POST/@LASTPOSTCOUNTREAD)"/>
             			<br/>
             		</xsl:if>
-            		<!-- <xsl:text>Total posts:</xsl:text> -->
             		<xsl:text>Latest post: </xsl:text>
             		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/F', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#p', LASTUSERPOST/@POSTID)}">
             			<xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>
