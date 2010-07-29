@@ -20,7 +20,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.DataReaderAdapters
 
             var appName = dataReader.GetString("DnaUrl") ?? "";
             var baseUriPath = "bbc:dna";
-            if (appName.ToUpper() == "IPLAYERTV")
+            if (appName.ToUpper() == "IPLAYERTV" || appName.ToUpper() == "IPLAYERRADIO")
             {//TODO: replace this with site wide value
                 baseUriPath = "bbc:programme";
             }
