@@ -30,10 +30,12 @@ namespace FunctionalTests.Dna.Services.Users
             callinguser_url_withInvalidSite = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/unknownite/users/callinguser/xml";
         }
 
+
+
         [TestMethod]
-        public void CallingUsers_AsEditor_ReturnsEditorItemInGroup()
+        public void GetCallingUserInfo_AsEditor_ReturnsEditorItemInGroup()
         {
-            Console.WriteLine("Before CallingUsers_AsEditor_ReturnsEditorItemInGroup");
+            Console.WriteLine("Before GetCallingUserInfo_AsEditor_ReturnsEditorItemInGroup");
             
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserEditor();
@@ -43,13 +45,13 @@ namespace FunctionalTests.Dna.Services.Users
 
             Assert.IsNotNull(user.UsersListOfGroups.Find(x => x.Name.ToLower()  == "editor"));
 
-            Console.WriteLine("After CallingUsers_AsEditor_ReturnsEditorItemInGroup");
+            Console.WriteLine("After GetCallingUserInfo_AsEditor_ReturnsEditorItemInGroup");
         }
 
         [TestMethod]
-        public void CallingUsers_AsBannedUser_ReturnsBannedStatus()
+        public void GetCallingUserInfo_AsBannedUser_ReturnsBannedStatus()
         {
-            Console.WriteLine("Before CallingUsers_AsBannedUser_ReturnsBannedStatus");
+            Console.WriteLine("Before GetCallingUserInfo_AsBannedUser_ReturnsBannedStatus");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserBanned();
@@ -59,13 +61,13 @@ namespace FunctionalTests.Dna.Services.Users
 
             Assert.AreEqual("Banned", user.StatusAsString);
 
-            Console.WriteLine("After CallingUsers_AsBannedUser_ReturnsBannedStatus");
+            Console.WriteLine("After GetCallingUserInfo_AsBannedUser_ReturnsBannedStatus");
         }
 
         [TestMethod]
-        public void CallingUsers_AsModerator_ReturnsModeratorItemInGroup()
+        public void GetCallingUserInfo_AsModerator_ReturnsModeratorItemInGroup()
         {
-            Console.WriteLine("Before CallingUsers_AsModerator_ReturnsModeratorItemInGroup");
+            Console.WriteLine("Before GetCallingUserInfo_AsModerator_ReturnsModeratorItemInGroup");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserModerator();
@@ -75,13 +77,13 @@ namespace FunctionalTests.Dna.Services.Users
             
             Assert.IsTrue(user.UsersListOfGroups.Exists(x => x.Name.ToLower() == "moderator"));
 
-            Console.WriteLine("After CallingUsers_AsModerator_ReturnsModeratorItemInGroup");
+            Console.WriteLine("After GetCallingUserInfo_AsModerator_ReturnsModeratorItemInGroup");
         }
 
         [TestMethod]
-        public void CallingUsers_AsNormalUser_ReturnsNormalStatus()
+        public void GetCallingUserInfo_AsNormalUser_ReturnsNormalStatus()
         {
-            Console.WriteLine("Before CallingUsers_AsNormalUser_ReturnsNormalStatus");
+            Console.WriteLine("Before GetCallingUserInfo_AsNormalUser_ReturnsNormalStatus");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
@@ -91,13 +93,13 @@ namespace FunctionalTests.Dna.Services.Users
 
             Assert.AreEqual("Normal", user.StatusAsString);
 
-            Console.WriteLine("After CallingUsers_AsNormalUser_ReturnsNormalStatus");
+            Console.WriteLine("After GetCallingUserInfo_AsNormalUser_ReturnsNormalStatus");
         }
 
         [TestMethod]
-        public void CallingUsers_AsNormalUser_ReturnsValidXml()
+        public void GetCallingUserInfo_AsNormalUser_ReturnsValidXml()
         {
-            Console.WriteLine("Before CallingUsers_AsNormalUser_ReturnsNormalStatus");
+            Console.WriteLine("Before GetCallingUserInfo_AsNormalUser_ReturnsNormalStatus");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserEditor();
@@ -111,25 +113,25 @@ namespace FunctionalTests.Dna.Services.Users
             DnaXmlValidator validator = new DnaXmlValidator(xmlWithoutNamespaces, _schemaUser);
             validator.Validate();
 
-            Console.WriteLine("After CallingUsers_AsNormalUser_ReturnsNormalStatus");
+            Console.WriteLine("After GetCallingUserInfo_AsNormalUser_ReturnsNormalStatus");
         }
 
         [TestMethod]
-        public void CallingUsers_AsNormalUser_ReturnsValidJson()
+        public void GetCallingUserInfo_AsNormalUser_ReturnsValidJson()
         {
-            Console.WriteLine("Before CallingUsers_AsNormalUser_ReturnsValidJson");
+            Console.WriteLine("Before GetCallingUserInfo_AsNormalUser_ReturnsValidJson");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(callinguser_url_json);
 
-            Console.WriteLine("After CallingUsers_AsNormalUser_ReturnsValidJson");
+            Console.WriteLine("After GetCallingUserInfo_AsNormalUser_ReturnsValidJson");
         }        
 
         [TestMethod]
-        public void CallingUsers_AsNotableUser_ReturnsNotablesItemInGroup()
+        public void GetCallingUserInfo_AsNotableUser_ReturnsNotablesItemInGroup()
         {
-            Console.WriteLine("Before CallingUsers_AsModerator_ReturnsNotablesItemInGroup");
+            Console.WriteLine("Before GetCallingUserInfo_AsModerator_ReturnsNotablesItemInGroup");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNotableUser();
@@ -139,13 +141,13 @@ namespace FunctionalTests.Dna.Services.Users
 
             Assert.IsNotNull(user.UsersListOfGroups.Find(x => x.Name.ToLower() == "notables"));
 
-            Console.WriteLine("After CallingUsers_AsModerator_ReturnsNotablesItemInGroup");
+            Console.WriteLine("After GetCallingUserInfo_AsModerator_ReturnsNotablesItemInGroup");
         }
 
         [TestMethod]        
-        public void CallingUsers_AsNotLoggedInUser_Returns401()
+        public void GetCallingUserInfo_AsNotLoggedInUser_Returns401()
         {
-            Console.WriteLine("Before CallingUsers_AsNotLoggedInUser_Returns401");
+            Console.WriteLine("Before GetCallingUserInfo_AsNotLoggedInUser_Returns401");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2"); request.SetCurrentUserNotLoggedInUser();
             request.SetCurrentUserNotLoggedInUser();
@@ -160,13 +162,13 @@ namespace FunctionalTests.Dna.Services.Users
             ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
             Assert.AreEqual(ErrorType.MissingUserCredentials.ToString(), errorData.Code);
 
-            Console.WriteLine("After CallingUsers_AsNotLoggedInUser_Returns401");
+            Console.WriteLine("After GetCallingUserInfo_AsNotLoggedInUser_Returns401");
         }
 
         [TestMethod]
-        public void CallingUsers_UnknownSite_Returns404()
+        public void GetCallingUserInfo_UnknownSite_Returns404()
         {
-            Console.WriteLine("Before CallingUsers_UnknownSite_Returns404");
+            Console.WriteLine("Before GetCallingUserInfo_UnknownSite_Returns404");
 
             DnaTestURLRequest request = new DnaTestURLRequest(DnaTestURLRequest.CurrentServer);
             try
@@ -181,13 +183,13 @@ namespace FunctionalTests.Dna.Services.Users
             ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
             Assert.AreEqual(ErrorType.UnknownSite.ToString(), errorData.Code);
 
-            Console.WriteLine("After CallingUsers_UnknownSite_Returns404");
+            Console.WriteLine("After GetCallingUserInfo_UnknownSite_Returns404");
         }
 
         [TestMethod]
-        public void CallingUsers_AsPreModUser_ReturnsNormalUser()
+        public void GetCallingUserInfo_AsPreModUser_ReturnsNormalUser()
         {
-            Console.WriteLine("Before CallingUsers_AsPreModUser_ReturnsNormalUser");
+            Console.WriteLine("Before GetCallingUserInfo_AsPreModUser_ReturnsNormalUser");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserPreModUser();
@@ -197,13 +199,13 @@ namespace FunctionalTests.Dna.Services.Users
 
             Assert.AreEqual("Normal", user.StatusAsString);            
 
-            Console.WriteLine("After CallingUsers_AsPreModUser_ReturnsNormalUser");
+            Console.WriteLine("After GetCallingUserInfo_AsPreModUser_ReturnsNormalUser");
         }
 
         [TestMethod]
-        public void CallingUsers_AsSuperUser_ReturnsSuperStatus()
+        public void GetCallingUserInfo_AsSuperUser_ReturnsSuperStatus()
         {
-            Console.WriteLine("Before CallingUsers_AsSuperUser_ReturnsSuperStatus");
+            Console.WriteLine("Before GetCallingUserInfo_AsSuperUser_ReturnsSuperStatus");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserSuperUser();
@@ -214,7 +216,7 @@ namespace FunctionalTests.Dna.Services.Users
             Assert.AreEqual("Super", user.StatusAsString);            
             
 
-            Console.WriteLine("After CallingUsers_AsSuperUser_ReturnsSuperStatus");
+            Console.WriteLine("After GetCallingUserInfo_AsSuperUser_ReturnsSuperStatus");
         }
 
 

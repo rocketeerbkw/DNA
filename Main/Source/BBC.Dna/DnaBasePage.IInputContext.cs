@@ -397,7 +397,7 @@ namespace BBC.Dna.Page
 
             if (fromAddress == String.Empty)
             {
-                fromAddress = this.TheSiteList.GetSite(CurrentSite.SiteID).GetEmail(Site.EmailType.Feedback);
+                fromAddress = this.TheSiteList.GetSite(CurrentSite.SiteID).GetEmail(BBC.Dna.Sites.Site.EmailType.Feedback);
                 fromName = this.TheSiteList.GetSite(CurrentSite.SiteID).ShortName;
             }
 

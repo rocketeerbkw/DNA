@@ -215,6 +215,30 @@ namespace BBC.Dna.Data
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool TryGetIntReturnValueNullAsZero(out int value)
+        {
+            if ((_returnValue == null) || (_returnValue.Value == null))
+            {
+                value = 0;
+                return false;
+            }
+
+            try
+            {
+                value = (int)_returnValue.Value;
+            }
+            catch (InvalidCastException)
+            {
+                value = 0;
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Helper function that copes with the fact that _dnaDiagnostics can be null
         /// </summary>
         /// <param name="message">The message</param>

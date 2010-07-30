@@ -76,6 +76,7 @@
     <Compile Include="ArticleSummaryTest.cs" />
     <Compile Include="ArticleTest.cs" />
     <Compile Include="CategorySummaryTest.cs" />
+    <Compile Include="ContributionsTest.cs" />
     <Compile Include="CrumbTrailsTest.cs" />
     <Compile Include="DateTests.cs" />
     <Compile Include="EmailAlertGroupTest.cs" />
