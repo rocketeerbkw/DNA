@@ -53,66 +53,66 @@ namespace BBC.Dna.Users
         private CachedGroups InitialiseAllUsersAndGroups()
         {
             var cachedGroups = new CachedGroups();
-            try
-            {
+            //try
+            //{
 
-                // Get all the users and groups
-                using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("fetchgroupsandmembers"))
-                {
-                    reader.Execute();
-                    // Go round all the results building the lists and caching them.
-                    List<UserGroup> groups = null;
-                    int lastUserID = 0;
-                    int lastSiteID = 0;
-                    int currentUserID = 0;
-                    int currentSiteID = 0;
-                    while (reader.Read())
-                    {
-                        currentSiteID = reader.GetInt32("siteid");
-                        currentUserID = reader.GetInt32("userid");
+            //    // Get all the users and groups
+            //    using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("fetchgroupsandmembers"))
+            //    {
+            //        reader.Execute();
+            //        // Go round all the results building the lists and caching them.
+            //        List<UserGroup> groups = null;
+            //        int lastUserID = 0;
+            //        int lastSiteID = 0;
+            //        int currentUserID = 0;
+            //        int currentSiteID = 0;
+            //        while (reader.Read())
+            //        {
+            //            currentSiteID = reader.GetInt32("siteid");
+            //            currentUserID = reader.GetInt32("userid");
 
-                        // Check to see if we need to start a new list
-                        if (currentUserID != lastUserID || currentSiteID != lastSiteID)
-                        {
-                            // Put the current groups list into the cache
-                            if (groups != null)
-                            {
-                                try
-                                {
-                                    cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
-                                }
-                                catch (Exception e)
-                                {
-                                    _dnaDiagnostics.WriteExceptionToLog(e);
-                                }
-                            }
-                            groups = new List<UserGroup>();
-                            lastUserID = currentUserID;
-                            lastSiteID = currentSiteID;
-                        }
-                        // Add the group name to the list
-                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper() });
-                    }
+            //            // Check to see if we need to start a new list
+            //            if (currentUserID != lastUserID || currentSiteID != lastSiteID)
+            //            {
+            //                // Put the current groups list into the cache
+            //                if (groups != null)
+            //                {
+            //                    try
+            //                    {
+            //                        cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
+            //                    }
+            //                    catch (Exception e)
+            //                    {
+            //                        _dnaDiagnostics.WriteExceptionToLog(e);
+            //                    }
+            //                }
+            //                groups = new List<UserGroup>();
+            //                lastUserID = currentUserID;
+            //                lastSiteID = currentSiteID;
+            //            }
+            //            // Add the group name to the list
+            //            groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper() });
+            //        }
 
-                    // Put the last group info into the cache
-                    if (groups != null)
-                    {
-                        try
-                        {
-                            cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
-                        }
-                        catch (Exception e)
-                        {
-                            _dnaDiagnostics.WriteExceptionToLog(e);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                _dnaDiagnostics.WriteExceptionToLog(ex);
-                throw ex;
-            }
+            //        // Put the last group info into the cache
+            //        if (groups != null)
+            //        {
+            //            try
+            //            {
+            //                cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                _dnaDiagnostics.WriteExceptionToLog(e);
+            //            }
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    _dnaDiagnostics.WriteExceptionToLog(ex);
+            //    throw ex;
+            //}
             cachedGroups.GroupList = InitialiseAllGroups();
 
             
@@ -128,6 +128,7 @@ namespace BBC.Dna.Users
         private CachedGroups InitialiseGroupsForSingleUser(int userId)
         {
             var cachedGroups = GetCachedObject();
+
             try
             {
                 //remove all groups for this user
@@ -184,6 +185,8 @@ namespace BBC.Dna.Users
                             _dnaDiagnostics.WriteExceptionToLog(e);
                         }
                     }
+                    cachedGroups.CachedUsers.Add(userId); 
+                    UpdateCache();
                 }
             }
             catch (Exception ex)
@@ -191,13 +194,21 @@ namespace BBC.Dna.Users
                 _dnaDiagnostics.WriteExceptionToLog(ex);
                 throw ex;
             }
-            cachedGroups.GroupList = InitialiseAllGroups();
-
-
+            //cachedGroups.GroupList = InitialiseAllGroups();
 
             return cachedGroups;
             //
 
+        }
+
+        private CachedGroups GetCachedGroups(int userId)
+        {
+            var cachedGroups = GetCachedObject();
+            if (!cachedGroups.CachedUsers.Contains(userId))
+            {
+                cachedGroups = InitialiseGroupsForSingleUser(userId);
+            }
+            return cachedGroups;
         }
 
         /// <summary>
@@ -354,7 +365,7 @@ namespace BBC.Dna.Users
         public bool CreateNewGroup(string groupName, int userID)
         {
             // Get all the groups first so we know we're in a stable state
-            var cachedGroups = GetCachedObject();
+            var cachedGroups = GetCachedGroups(userID);
             try
             {
                 if (!AddGroupToInternalList(groupName, userID, ref cachedGroups))
@@ -486,7 +497,8 @@ namespace BBC.Dna.Users
         /// <remarks>An empty list does not mean it hasn't been setup, the user does not belong to any groups</remarks>
         private List<UserGroup> GetUsersGroupListForSite(int userID, int siteID)
         {
-            var cachedGroups = GetCachedObject();
+            var cachedGroups = GetCachedGroups(userID);
+
             if (cachedGroups.AllUsersGroupsAndSites.ContainsKey(GetListKey(userID, siteID)))
             {
                 return (List<UserGroup>)cachedGroups.AllUsersGroupsAndSites[GetListKey(userID, siteID)];
@@ -613,6 +625,7 @@ namespace BBC.Dna.Users
             GetCachedObject();
             values.Add("NumberOfAllUsersGroupsAndSites", _object.AllUsersGroupsAndSites.Count.ToString());
             values.Add("NumberOfGroups", _object.GroupList.Count.ToString());
+            values.Add("CachedObjectSize", _object.CachedObjectSize.ToString());
             return values;
         }
     }

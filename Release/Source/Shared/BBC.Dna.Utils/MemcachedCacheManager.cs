@@ -131,6 +131,8 @@ namespace BBC.Dna.Utils
             return _mc.Stats(servers);
         }
 
+        public int LastCachedOjectSize { get; private set; }
+
         /// <summary>
         /// Returns stats for servers or all servers
         /// </summary>
@@ -241,6 +243,14 @@ namespace BBC.Dna.Utils
                     while (!setSuccess && tries > 0)
                     {
                         setSuccess = _mc.Set(key, value, expiry);
+                        if (!setSuccess)
+                        {
+                            DnaDiagnostics.Default.WriteWarningToLog("CACHING", _mc.LastError);
+                        }
+                        else
+                        {
+                            DnaDiagnostics.Default.WriteToLog("CACHING", _mc.LastSuccess);
+                        }
                         tries--;
                     }
 
@@ -250,6 +260,7 @@ namespace BBC.Dna.Utils
                         Logger.Write(new LogEntry(){Message="Failed to set in memcached", Severity= System.Diagnostics.TraceEventType.Error});
                     }
 
+                    LastCachedOjectSize = _mc.CachedObjectSize;
                 }
 
             }

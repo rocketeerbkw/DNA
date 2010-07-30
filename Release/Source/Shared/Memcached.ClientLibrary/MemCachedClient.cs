@@ -190,6 +190,24 @@ namespace Memcached.ClientLibrary
 		// which pool to use
 		private string _poolName;
 
+        private int _cachedObjectSize = 0;
+        public int CachedObjectSize
+        {
+            get { return _cachedObjectSize; }
+        }
+
+        public string LastError
+        {
+            get;
+            set;
+        }
+
+        public string LastSuccess
+        {
+            get;
+            set;
+        }
+
 		/// <summary>
 		/// Creates a new instance of MemcachedClient.
 		/// </summary>
@@ -576,7 +594,8 @@ namespace Memcached.ClientLibrary
 
 			if(cmdname == null || cmdname.Trim().Length == 0 || key == null || key.Length == 0) 
 			{
-				Logging.Error(GetLocalizedString("set key null"));
+                LastError = GetLocalizedString("set key null");
+				Logging.Error(LastError);
 				return false;
 			}
 
@@ -664,11 +683,14 @@ namespace Memcached.ClientLibrary
                     // always serialize for non-primitive types
 					try
                     {
-                        MemoryStream memStream = new MemoryStream();
-                        new BinaryFormatter().Serialize(memStream, obj);
-                        val = memStream.GetBuffer();
-						length = (int) memStream.Length;
-                        flags |= F_SERIALIZED;
+                        using (MemoryStream memStream = new MemoryStream())
+                        {
+                            new BinaryFormatter().Serialize(memStream, obj);
+                            val = memStream.GetBuffer();
+                            length = (int)memStream.Length;
+                            flags |= F_SERIALIZED;
+                            _cachedObjectSize = length;
+                        }
                     }
                     catch(IOException e)
                     {
@@ -735,28 +757,31 @@ namespace Memcached.ClientLibrary
 
 				// get result code
 				string line = sock.ReadLine();
-				Logging.Verbose(GetLocalizedString("set memcached command result").Replace("$$Cmd$$", cmd).Replace("$$Line$$", line));
-				
+                Logging.Verbose(GetLocalizedString("set memcached command result").Replace("$$Cmd$$", cmd).Replace("$$Line$$", line));
 
 				if(STORED == line) 
 				{
 
-						Logging.Verbose(GetLocalizedString("set success").Replace("$$Key$$", key));
+					Logging.Verbose(GetLocalizedString("set success").Replace("$$Key$$", key));
+                    LastSuccess = "Set object " + obj.ToString() + " SUCCEEDED. Object cache size = " + length;
 
 					sock.Close();
 					sock = null;
+
                     //sleep to allow cache to catch up??
                     //System.Threading.Thread.Sleep(1000);
 					return true;
 				}
 				else if(NOTSTORED == line) 
 				{
-						Logging.Verbose(GetLocalizedString("set not stored").Replace("$$Key$$", key));
+						LastError = GetLocalizedString("set not stored").Replace("$$Key$$", key);
+                        Logging.Error(LastError);
 				}
 				else 
 				{
-						Logging.Error(GetLocalizedString("set error").Replace("$$Key$$", key).Replace("$$Size$$", length.ToString(new NumberFormatInfo())).Replace("$$Line$$", line));
-				}
+                        LastError = GetLocalizedString("set error").Replace("$$Key$$", key).Replace("$$Size$$", length.ToString(new NumberFormatInfo())).Replace("$$Line$$", line);
+                        Logging.Error(LastError);
+                }
 			}
 			catch(IOException e) 
 			{
