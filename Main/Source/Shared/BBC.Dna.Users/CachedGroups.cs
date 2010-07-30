@@ -14,11 +14,15 @@ namespace BBC.Dna.Users
 
         public List<UserGroup> GroupList = null;
 
+        public List<int> CachedUsers = null;
+
+        public int CachedObjectSize { get; set; }
+
         public CachedGroups()
         {
             GroupList = new List<UserGroup>();
             AllUsersGroupsAndSites = new Dictionary<string, List<UserGroup>>();
+            CachedUsers = new List<int>();
         }
-
     }
 }

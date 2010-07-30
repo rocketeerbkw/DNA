@@ -35,6 +35,12 @@ namespace BBC.Dna.Common
         protected List<string> _ripleyServerAddresses;
         protected List<string> _dotNetServerAddresses;
 
+        public int CachedObjectSize
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// The signal that this object listens for
         /// </summary>
@@ -182,9 +188,15 @@ namespace BBC.Dna.Common
         {
             try
             {
+                DnaDiagnostics.Default.WriteTimedEventToLog("CACHING", "About to add " + SignalKey + " to cache");
                 _lastUpdate = DateTime.Now;
                 _cache.Add(GetCacheKey(), _object);
                 _cache.Add(GetCacheKey(_lastUpdateCacheKey), _lastUpdate);
+                DnaDiagnostics.Default.WriteTimedEventToLog("CACHING", "Finished adding " + SignalKey + " to cache");
+                if (_cache.GetType() == typeof(MemcachedCacheManager))
+                {
+                    CachedObjectSize = ((MemcachedCacheManager)_cache).LastCachedOjectSize;
+                }
             }
             catch (Exception e)
             {
