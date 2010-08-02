@@ -26,6 +26,18 @@ robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Co
 echo Copying DNA.Services.Moderation
 robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Moderation\ %varServerLocation%\wwwroot\api\moderation %varRobocopyParams%
 
+echo Copying DNA.Services.Articles
+robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Articles\ %varServerLocation%\wwwroot\api\articles %varRobocopyParams%
+
+echo Copying DNA.Services.Categories
+robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Categories\ %varServerLocation%\wwwroot\api\categories %varRobocopyParams%
+
+echo Copying DNA.Services.Forums
+robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Forums\ %varServerLocation%\wwwroot\api\forums %varRobocopyParams%
+
+echo Copying DNA.Services.Users
+robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Users\ %varServerLocation%\wwwroot\api\users %varRobocopyParams%
+
 echo Copying Ripley
 robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\wwwroot\h2g2 %varRobocopyParams%
 
