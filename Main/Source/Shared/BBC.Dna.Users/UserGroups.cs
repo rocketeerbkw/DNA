@@ -53,70 +53,7 @@ namespace BBC.Dna.Users
         private CachedGroups InitialiseAllUsersAndGroups()
         {
             var cachedGroups = new CachedGroups();
-            //try
-            //{
-
-            //    // Get all the users and groups
-            //    using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("fetchgroupsandmembers"))
-            //    {
-            //        reader.Execute();
-            //        // Go round all the results building the lists and caching them.
-            //        List<UserGroup> groups = null;
-            //        int lastUserID = 0;
-            //        int lastSiteID = 0;
-            //        int currentUserID = 0;
-            //        int currentSiteID = 0;
-            //        while (reader.Read())
-            //        {
-            //            currentSiteID = reader.GetInt32("siteid");
-            //            currentUserID = reader.GetInt32("userid");
-
-            //            // Check to see if we need to start a new list
-            //            if (currentUserID != lastUserID || currentSiteID != lastSiteID)
-            //            {
-            //                // Put the current groups list into the cache
-            //                if (groups != null)
-            //                {
-            //                    try
-            //                    {
-            //                        cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
-            //                    }
-            //                    catch (Exception e)
-            //                    {
-            //                        _dnaDiagnostics.WriteExceptionToLog(e);
-            //                    }
-            //                }
-            //                groups = new List<UserGroup>();
-            //                lastUserID = currentUserID;
-            //                lastSiteID = currentSiteID;
-            //            }
-            //            // Add the group name to the list
-            //            groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper() });
-            //        }
-
-            //        // Put the last group info into the cache
-            //        if (groups != null)
-            //        {
-            //            try
-            //            {
-            //                cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
-            //            }
-            //            catch (Exception e)
-            //            {
-            //                _dnaDiagnostics.WriteExceptionToLog(e);
-            //            }
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    _dnaDiagnostics.WriteExceptionToLog(ex);
-            //    throw ex;
-            //}
             cachedGroups.GroupList = InitialiseAllGroups();
-
-            
-
             return cachedGroups;
         }
 
@@ -170,7 +107,7 @@ namespace BBC.Dna.Users
                             lastSiteID = currentSiteID;
                         }
                         // Add the group name to the list
-                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper() });
+                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToLower() });
                     }
 
                     // Put the last group info into the cache
@@ -194,11 +131,8 @@ namespace BBC.Dna.Users
                 _dnaDiagnostics.WriteExceptionToLog(ex);
                 throw ex;
             }
-            //cachedGroups.GroupList = InitialiseAllGroups();
 
             return cachedGroups;
-            //
-
         }
 
         private CachedGroups GetCachedGroups(int userId)
@@ -515,7 +449,7 @@ namespace BBC.Dna.Users
         private bool AddGroupToInternalList(string groupName, int userID, ref CachedGroups cachedGroups)
         {
             // Check to see if we already have the group
-            if (cachedGroups.GroupList.Exists(x => x.Name.ToUpper() == groupName.ToUpper()))
+            if (cachedGroups.GroupList.Exists(x => x.Name.ToLower() == groupName.ToLower()))
             {
                 // Already Exists!
                 return false;
@@ -531,12 +465,10 @@ namespace BBC.Dna.Users
         /// <returns>The list of all group names</returns>
         private List<UserGroup> InitialiseAllGroups()
         {
-
             var _groupList = new List<UserGroup>();
             try
             {
                 // Get the list from the database
-
                 using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("GetAllGroups"))
                 {
                     reader.Execute();
@@ -597,7 +529,7 @@ namespace BBC.Dna.Users
             // Ok, got a list. Check to make sure they don't already belong to the group
             if (userGroups != null)
             {
-                if (userGroups.Exists(x => x.Name == groupName.ToLower()))
+                if (userGroups.Exists(x => x.Name.ToLower() == groupName.ToLower()))
                 {
                     // Already a member of this group. Nothing to do
                     return false;
