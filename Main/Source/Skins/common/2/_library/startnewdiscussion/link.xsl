@@ -24,20 +24,22 @@
 	    	</xsl:when>
 	    	
 	    	<xsl:otherwise>
-				<p class="dna-boards-startanewdiscussion">
-					<a href="{$root}/AddThread?forum={@FORUMID}%26article={/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID}" class="id-cta">
-				        <xsl:call-template name="library_memberservice_require">
-				            <xsl:with-param name="ptrt">
-				                <xsl:value-of select="$root"/>
-				                <xsl:text>/AddThread?forum=</xsl:text>
-				                <xsl:value-of select="@FORUMID"/>
-				            	<xsl:text>%26article=</xsl:text>
-				                <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID"/>
-				            </xsl:with-param>
-				        </xsl:call-template>
-				        <xsl:text>Start a new discussion</xsl:text>
-				    </a>          
-				</p>
+	    		<xsl:if test="@CANWRITE = '1'">
+					<p class="dna-boards-startanewdiscussion">
+						<a href="{$root}/AddThread?forum={@FORUMID}%26article={/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID}" class="id-cta">
+					        <xsl:call-template name="library_memberservice_require">
+					            <xsl:with-param name="ptrt">
+					                <xsl:value-of select="$root"/>
+					                <xsl:text>/AddThread?forum=</xsl:text>
+					                <xsl:value-of select="@FORUMID"/>
+					            	<xsl:text>%26article=</xsl:text>
+					                <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID"/>
+					            </xsl:with-param>
+					        </xsl:call-template>
+					        <xsl:text>Start a new discussion</xsl:text>
+					    </a>          
+					</p>
+				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
 		
