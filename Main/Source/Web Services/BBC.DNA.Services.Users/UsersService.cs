@@ -119,7 +119,7 @@ namespace BBC.Dna.Services
             return Contributions.GetUserContributions(cacheManager,
                 readerCreator,
                 siteName,
-                Convert.ToInt32(identityuserid),
+                identityuserid,
                 itemsPerPage,
                 startIndex,
                 sortDirection,

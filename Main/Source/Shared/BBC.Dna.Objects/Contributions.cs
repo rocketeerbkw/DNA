@@ -24,10 +24,10 @@ namespace BBC.Dna.Objects
     public class Contributions : CachableBase<Contribution>
     {
         /// <summary>
-        /// DNA Userid of user who made the contribution. 
+        /// Identity Userid of user who made the contribution. 
         /// This is used for as an identifier for caching purposes.
         /// </summary>
-        public int UserID {get; set; }
+        public string IdentityUserID {get; set; }
 
         /// <summary>
         /// This is used for as an identifier for caching purposes.
@@ -80,12 +80,12 @@ namespace BBC.Dna.Objects
         /// Gets all conributions for the user, given the parameters and using the cache if possible.
         /// </summary>
         /// <returns></returns>
-        public static Contributions GetUserContributions(ICacheManager cache, IDnaDataReaderCreator readerCreator, string siteName, int userid,
+        public static Contributions GetUserContributions(ICacheManager cache, IDnaDataReaderCreator readerCreator, string siteName, string userid,
             int itemsPerPage, int startIndex, SortDirection SortDirection, SiteType? filterBySiteType, bool ignoreCache)
         {
             Contributions contributions = new Contributions()
             {
-                UserID = userid,
+                IdentityUserID = userid,
                 ItemsPerPage = itemsPerPage,
                 StartIndex = startIndex,
                 SortDirection = SortDirection,
@@ -108,7 +108,7 @@ namespace BBC.Dna.Objects
             DateTime lastPostedDateTime = DateTime.MinValue;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("cachegetlastpostdate"))
             {
-                reader.AddParameter("identityuserid", UserID);
+                reader.AddParameter("identityuserid", IdentityUserID);
                 reader.Execute();
         
                 if (reader.HasRows && reader.Read())
@@ -127,7 +127,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return GetCacheKey(UserID, SiteType, SiteName, SortDirection.ToString(), ItemsPerPage, StartIndex);
+                return GetCacheKey(IdentityUserID, SiteType, SiteName, SortDirection.ToString(), ItemsPerPage, StartIndex);
             }
         }
 
@@ -152,7 +152,7 @@ namespace BBC.Dna.Objects
 
             returnedContributions = new Contributions()
             {
-                UserID = contributionsFromCache.UserID,
+                IdentityUserID = contributionsFromCache.IdentityUserID,
                 ItemsPerPage = contributionsFromCache.ItemsPerPage,
                 StartIndex = contributionsFromCache.StartIndex,
                 SortDirection = contributionsFromCache.SortDirection,
@@ -166,7 +166,7 @@ namespace BBC.Dna.Objects
             {
                 // Add the entry id and execute
                 reader2.AddIntReturnValue();
-                reader2.AddParameter("identityuserid", returnedContributions.UserID);
+                reader2.AddParameter("identityuserid", returnedContributions.IdentityUserID);
                 reader2.AddParameter("itemsPerPage", returnedContributions.ItemsPerPage);
                 reader2.AddParameter("startIndex", returnedContributions.StartIndex);
                 reader2.AddParameter("sortDirection", returnedContributions.SortDirection.ToString().ToLower());
@@ -196,7 +196,7 @@ namespace BBC.Dna.Objects
                         contribution.SiteName = reader2.GetStringNullAsEmpty("SiteName");
                         contribution.SiteType = (SiteType)Enum.Parse(typeof(SiteType), reader2.GetStringNullAsEmpty("SiteType"));
                         contribution.SiteDescription = reader2.GetStringNullAsEmpty("SiteDescription");
-                        contribution.SiteUrl = reader2.GetStringNullAsEmpty("SiteUrl");
+                        contribution.SiteUrl = reader2.GetStringNullAsEmpty("UrlName");
                         contribution.FirstSubject = reader2.GetStringNullAsEmpty("FirstSubject");
                         contribution.Subject = reader2.GetStringNullAsEmpty("Subject"); 
                         contribution.Timestamp = reader2.GetDateTime("TimeStamp");

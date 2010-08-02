@@ -22,7 +22,7 @@ namespace BBC.Dna.Objects.Tests
     public class ContributionsTest
     {
         private readonly string _test_sitename = "h2g2";
-        private readonly int _test_userid = 99;
+        private readonly string _test_identityuserid = "99";
         private readonly int _test_itemsPerPage = 10;
         private readonly int _test_postIndex = 0;
         private readonly string _test_sitedescription = null;
@@ -119,7 +119,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename);
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return("1");
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return(_test_sitedescription);
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteUrl")).Return(_test_siteurl);
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return(_test_siteurl);
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return(_test_title);
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return(_test_subject);
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return(_test_firstsubject);
@@ -134,7 +134,7 @@ namespace BBC.Dna.Objects.Tests
             Contributions actual = Contributions.GetUserContributions(cache,
                 readerCreator,
                 _test_sitename,
-                _test_userid,
+                _test_identityuserid,
                 _test_itemsPerPage,
                 _test_postIndex,
                 _test_sortDirection,
@@ -184,7 +184,7 @@ namespace BBC.Dna.Objects.Tests
             Contributions actual = Contributions.GetUserContributions(cache,
                 readerCreator,
                 _test_sitename,
-                _test_userid,
+                _test_identityuserid,
                 _test_itemsPerPage,
                 _test_postIndex,
                 _test_sortDirection,
@@ -238,7 +238,7 @@ namespace BBC.Dna.Objects.Tests
             Contributions actual = Contributions.GetUserContributions(cache,
                 readerCreator,
                 _test_sitename,
-                _test_userid,
+                _test_identityuserid,
                 _test_itemsPerPage,
                 _test_postIndex,
                 _test_sortDirection,
@@ -282,7 +282,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Blog).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Blog Description").Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteUrl")).Return("Blog Url").Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return("Blog Url").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Blog Title").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return("Blog Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Blog First Subject").Repeat.Once();
@@ -296,7 +296,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Community).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Community Description").Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteUrl")).Return("Community Url").Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return("Community Url").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Community Title").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return("Community Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Community First Subject").Repeat.Once();
@@ -310,7 +310,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Messageboard).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Messageboard Description").Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteUrl")).Return("Messageboard Url").Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return("Messageboard Url").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Messageboard Title").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return("Messageboard Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Messageboard First Subject").Repeat.Once();
@@ -324,7 +324,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.EmbeddedComments).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Comments Description").Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteUrl")).Return("Comments Url").Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return("Comments Url").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Comments Title").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return("Comments Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Comments First Subject").Repeat.Once();
@@ -338,7 +338,7 @@ namespace BBC.Dna.Objects.Tests
             Contributions actual = Contributions.GetUserContributions(cache,
                 readerCreator,
                 _test_sitename,
-                _test_userid,
+                _test_identityuserid,
                 _test_itemsPerPage,
                 _test_postIndex,
                 _test_sortDirection,
@@ -351,7 +351,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(_test_itemsPerPage, actual.ItemsPerPage);
             Assert.AreEqual(_test_sortDirection, actual.SortDirection);
             Assert.AreEqual(_test_postIndex, actual.StartIndex);
-            Assert.AreEqual(_test_userid, actual.UserID);
+            Assert.AreEqual(_test_identityuserid, actual.IdentityUserID);
 
             // check the first ContributionItems member (Blog)
             Assert.AreEqual("Blog Body", actual.ContributionItems[0].Body);
@@ -438,7 +438,7 @@ namespace BBC.Dna.Objects.Tests
             Contributions actual = Contributions.GetUserContributions(cache,
                 readerCreator,
                 _test_sitename,
-                _test_userid,
+                _test_identityuserid,
                 _test_itemsPerPage,
                 _test_postIndex,
                 _test_sortDirection,
@@ -477,7 +477,7 @@ namespace BBC.Dna.Objects.Tests
                 Contributions actual = Contributions.GetUserContributions(cache,
                     readerCreator,
                     _test_sitename,
-                    _test_userid,
+                    _test_identityuserid,
                     _test_itemsPerPage,
                     _test_postIndex,
                     _test_sortDirection,
@@ -500,7 +500,7 @@ namespace BBC.Dna.Objects.Tests
                 ItemsPerPage = 20,
                 SortDirection = SortDirection.Ascending,
                 StartIndex = 0,
-                UserID = 77,
+                IdentityUserID = "77",
                 ContributionItems = new List<Contribution>() 
                 { 
                     new Contribution()
