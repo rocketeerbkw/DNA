@@ -192,6 +192,8 @@ namespace FunctionalTests.Services.Articles
         {
             Console.WriteLine("Before GetSearchArticles");
 
+            SetupFullTextIndex();
+
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles?querystring=dinosaur&showapproved=1&type=ARTICLE&format=xml", _sitename);
@@ -214,7 +216,7 @@ namespace FunctionalTests.Services.Articles
             }
 
             //wait a bit for the cat to be filled
-            System.Threading.Thread.Sleep(30000);
+            System.Threading.Thread.Sleep(20000);
         }
 
 
