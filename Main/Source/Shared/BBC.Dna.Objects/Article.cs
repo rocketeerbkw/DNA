@@ -604,26 +604,9 @@ namespace BBC.Dna.Objects
         {
             var article = new Article();
 
-            string key = article.GetCacheKey(siteId, status1, status2, status3, status4, status5);
-            //check for item in the cache first
-            if (!ignoreCache)
-            {
-                //not ignoring cache
-                article = (Article) cache.GetData(key);
-                if (article != null)
-                {
-                    if (article.IsUpToDate(readerCreator))
-                    {
-                        //all good - apply viewing user attributes and return
-                        article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
-                        return article;
-                    }
-                }
-            }
             //create from db
             article = CreateRandomArticleFromDatabase(readerCreator, siteId, status1, status2, status3, status4, status5);
-            //add to cache
-            cache.Add(key, article);
+
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 

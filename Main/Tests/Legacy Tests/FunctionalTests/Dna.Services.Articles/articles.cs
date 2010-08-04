@@ -192,11 +192,6 @@ namespace FunctionalTests.Services.Articles
         {
             Console.WriteLine("Before GetSearchArticles");
 
-            SetupFullTextIndex();
-
-            //wait a bit for the cat to be filled
-            System.Threading.Thread.Sleep(30000);
-
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles?querystring=dinosaur&showapproved=1&type=ARTICLE&format=xml", _sitename);
@@ -217,6 +212,9 @@ namespace FunctionalTests.Services.Articles
                 reader.ExecuteDEBUGONLY("CREATE FULLTEXT CATALOG GuideEntriesCat WITH ACCENT_SENSITIVITY = OFF");
                 reader.ExecuteDEBUGONLY("CREATE FULLTEXT INDEX ON dbo.GuideEntries(Subject, text) KEY INDEX PK_GuideEntries ON GuideEntriesCat WITH CHANGE_TRACKING AUTO");
             }
+
+            //wait a bit for the cat to be filled
+            System.Threading.Thread.Sleep(30000);
         }
 
 
