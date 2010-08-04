@@ -52,7 +52,7 @@ namespace BBC.Dna.Users.Tests
             readerGetAllGroups.Stub(x => x.GetString("groupname")).Return(groupName);
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
+            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsandmembers")).Return(readerMembers);
             creator.Stub(x => x.CreateDnaDataReader("GetAllGroups")).Return(readerGetAllGroups);
             
 
@@ -63,8 +63,8 @@ namespace BBC.Dna.Users.Tests
 
             var cachedObj = UserGroups.GetObject().GetCachedObject();
             Assert.IsNotNull(cachedObj);
-            Assert.AreEqual(0, cachedObj.AllUsersGroupsAndSites.Count);
-            Assert.IsFalse(cachedObj.AllUsersGroupsAndSites.ContainsKey(UserGroups.GetListKey(6, 1)));
+            Assert.AreEqual(3, cachedObj.AllUsersGroupsAndSites.Count);
+            Assert.IsTrue(cachedObj.AllUsersGroupsAndSites.ContainsKey(UserGroups.GetListKey(6, 1)));
 
             Assert.AreEqual(1, cachedObj.GroupList.Count);
             Assert.AreEqual(groupName, cachedObj.GroupList[0].Name);
@@ -74,14 +74,72 @@ namespace BBC.Dna.Users.Tests
         [TestMethod]
         public void InitialiseAllUsersAndGroups_ExceptionThrown_ThrowsException()
         {
+            var groupName = "editor";
+            
+
             var cache = _mocks.DynamicMock<ICacheManager>();
             cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+
+            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
+            readerMembers.Stub(x => x.Execute()).Throw(new Exception("fetchgroupsandmembers"));
+
+
+            var readerGetAllGroups = _mocks.DynamicMock<IDnaDataReader>();
+            readerGetAllGroups.Stub(x => x.Read()).Return(true).Repeat.Once();
+            readerGetAllGroups.Stub(x => x.GetString("groupname")).Return(groupName);
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsandmembers")).Return(readerMembers);
+            creator.Stub(x => x.CreateDnaDataReader("GetAllGroups")).Return(readerGetAllGroups);
+
+
+            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
+            _mocks.ReplayAll();
+
+            bool exceptionThrown = false;
+            try
+            {
+                var obj = new UserGroups(creator, diag, cache, null, null);
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("fetchgroupsandmembers", e.InnerException.Message);
+                exceptionThrown = true;
+            }
+            Assert.IsTrue(exceptionThrown);
+            readerGetAllGroups.AssertWasNotCalled(x => x.Execute());
+
+        }
+
+        [TestMethod]
+        public void InitialiseAllGroups_ExceptionThrown_ThrowsException()
+        {
+            var groupName = "editor";
+            var siteId = new Queue<int>();
+            siteId.Enqueue(1);
+            siteId.Enqueue(2);
+            siteId.Enqueue(2);
+            var userId = new Queue<int>();
+            userId.Enqueue(6);
+            userId.Enqueue(6);
+            userId.Enqueue(7);
+
+            var cache = _mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+
+            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
+            readerMembers.Stub(x => x.Read()).Return(true).Repeat.Times(3);
+            readerMembers.Stub(x => x.GetString("name")).Return(groupName);
+            readerMembers.Stub(x => x.GetInt32("siteid")).Return(1).WhenCalled(x => x.ReturnValue = siteId.Dequeue());
+            readerMembers.Stub(x => x.GetInt32("userid")).Return(1).WhenCalled(x => x.ReturnValue = userId.Dequeue());
 
             var readerGetAllGroups = _mocks.DynamicMock<IDnaDataReader>();
             readerGetAllGroups.Stub(x => x.Execute()).Throw(new Exception("GetAllGroups"));
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsandmembers")).Return(readerMembers);
             creator.Stub(x => x.CreateDnaDataReader("GetAllGroups")).Return(readerGetAllGroups);
+
 
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
@@ -108,21 +166,7 @@ namespace BBC.Dna.Users.Tests
             cache.Stub(x => x.Contains(UserGroups.GetCacheKey())).Return(true);
             cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
 
-            var groupName = "editor";
-            var siteId = new Queue<int>();
-            siteId.Enqueue(1);
-
-            var userId = new Queue<int>();
-            userId.Enqueue(6);
-
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true).Repeat.Times(1);
-            readerMembers.Stub(x => x.GetString("name")).Return(groupName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(1).WhenCalled(x => x.ReturnValue = siteId.Dequeue());
-            readerMembers.Stub(x => x.GetInt32("userid")).Return(1).WhenCalled(x => x.ReturnValue = userId.Dequeue());
-
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
 
@@ -144,11 +188,6 @@ namespace BBC.Dna.Users.Tests
             cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
-
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
 
@@ -175,11 +214,6 @@ namespace BBC.Dna.Users.Tests
 
             var reader = _mocks.DynamicMock<IDnaDataReader>();
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
-
             creator.Stub(x => x.CreateDnaDataReader("AddUserToGroup")).Return(reader);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
@@ -205,21 +239,7 @@ namespace BBC.Dna.Users.Tests
             cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
 
             var reader = _mocks.DynamicMock<IDnaDataReader>();
-
-            var initialsiteId = new Queue<int>();
-            initialsiteId.Enqueue(1);
-
-            var initialuserId = new Queue<int>();
-            initialuserId.Enqueue(6);
-
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true).Repeat.Times(1);
-            readerMembers.Stub(x => x.GetString("name")).Return(groupName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(1).WhenCalled(x => x.ReturnValue = initialsiteId.Dequeue());
-            readerMembers.Stub(x => x.GetInt32("userid")).Return(1).WhenCalled(x => x.ReturnValue = initialuserId.Dequeue()); 
-            
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             creator.Stub(x => x.CreateDnaDataReader("AddUserToGroup")).Return(reader);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
@@ -227,7 +247,7 @@ namespace BBC.Dna.Users.Tests
             var obj = new UserGroups(creator, diag, cache, null, null);
 
             Assert.IsTrue(obj.PutUserIntoGroup(userId, groupName, siteId));
-            Assert.AreEqual(1, UserGroups.GetObject().GetUsersGroupsForSite(userId, siteId).Count);
+            Assert.AreEqual(2, UserGroups.GetObject().GetUsersGroupsForSite(userId, siteId).Count);
 
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("AddUserToGroup"));
 
@@ -246,23 +266,8 @@ namespace BBC.Dna.Users.Tests
             cache.Stub(x => x.Contains(UserGroups.GetCacheKey())).Return(true);
             cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
 
-            var intialgroupName = "editor";
-            var initialsiteId = new Queue<int>();
-            initialsiteId.Enqueue(1);
-
-            var initialuserId = new Queue<int>();
-            initialuserId.Enqueue(6);
-
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true).Repeat.Times(1);
-            readerMembers.Stub(x => x.GetString("name")).Return(intialgroupName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(1).WhenCalled(x => x.ReturnValue = initialsiteId.Dequeue());
-            readerMembers.Stub(x => x.GetInt32("userid")).Return(1).WhenCalled(x => x.ReturnValue = initialuserId.Dequeue());
-
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
-
             var reader = _mocks.DynamicMock<IDnaDataReader>();
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("RemoveUserFromGroup")).Return(reader);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
@@ -289,11 +294,6 @@ namespace BBC.Dna.Users.Tests
 
             var reader = _mocks.DynamicMock<IDnaDataReader>();
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
-
             creator.Stub(x => x.CreateDnaDataReader("RemoveUserFromGroup")).Return(reader);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
@@ -319,22 +319,7 @@ namespace BBC.Dna.Users.Tests
             cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
 
             var reader = _mocks.DynamicMock<IDnaDataReader>();
-
-            var intialgroupName = "editor";
-            var initialsiteId = new Queue<int>();
-            initialsiteId.Enqueue(1);
-
-            var initialuserId = new Queue<int>();
-            initialuserId.Enqueue(6);
-
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true).Repeat.Times(1);
-            readerMembers.Stub(x => x.GetString("name")).Return(intialgroupName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(1).WhenCalled(x => x.ReturnValue = initialsiteId.Dequeue());
-            readerMembers.Stub(x => x.GetInt32("userid")).Return(1).WhenCalled(x => x.ReturnValue = initialuserId.Dequeue());
-
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             creator.Stub(x => x.CreateDnaDataReader("RemoveUserFromGroup")).Return(reader);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
@@ -342,7 +327,7 @@ namespace BBC.Dna.Users.Tests
             var obj = new UserGroups(creator, diag, cache, null, null);
 
             obj.DeleteUserFromGroup(userId, groupName, siteId);
-            Assert.AreEqual(0, UserGroups.GetObject().GetUsersGroupsForSite(userId, siteId).Count);
+            Assert.AreEqual(1, UserGroups.GetObject().GetUsersGroupsForSite(userId, siteId).Count);
             Assert.IsFalse(UserGroups.GetObject().GetUsersGroupsForSite(userId, siteId).Exists(x => x.Name == groupName));
 
             creator.AssertWasCalled(x => x.CreateDnaDataReader("RemoveUserFromGroup"));
@@ -363,9 +348,6 @@ namespace BBC.Dna.Users.Tests
 
             var reader = _mocks.DynamicMock<IDnaDataReader>();
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             creator.Stub(x => x.CreateDnaDataReader("createnewusergroup")).Return(reader);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
@@ -393,9 +375,6 @@ namespace BBC.Dna.Users.Tests
             reader.Stub(x => x.Execute()).Throw(new Exception("createnewusergroup"));
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("createnewusergroup")).Return(reader);
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
 
@@ -431,9 +410,6 @@ namespace BBC.Dna.Users.Tests
             var reader = _mocks.DynamicMock<IDnaDataReader>();
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("createnewusergroup")).Return(reader);
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
 
@@ -460,9 +436,6 @@ namespace BBC.Dna.Users.Tests
             var reader = _mocks.DynamicMock<IDnaDataReader>();
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("createnewusergroup")).Return(reader);
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
 
@@ -489,12 +462,6 @@ namespace BBC.Dna.Users.Tests
             var siteId = 2;
             var signalType = "recache-groups";
 
-            var cachedGroups = GetCachedGroups();
-            var cache = _mocks.DynamicMock<ICacheManager>();
-            cache.Stub(x => x.Contains(UserGroups.GetCacheKey("LASTUPDATE"))).Return(false);
-            cache.Stub(x => x.Contains(UserGroups.GetCacheKey())).Return(true).Repeat.Once();
-            cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups).Repeat.Once(); 
-            
             var groupName = "editor";
             var siteIds = new Queue<int>();
             siteIds.Enqueue(1);
@@ -504,6 +471,12 @@ namespace BBC.Dna.Users.Tests
             userIds.Enqueue(6);
             userIds.Enqueue(6);
             userIds.Enqueue(7);
+
+            var cachedGroups = GetCachedGroups();
+            var cache = _mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.Contains(UserGroups.GetCacheKey("LASTUPDATE"))).Return(false);
+            cache.Stub(x => x.Contains(UserGroups.GetCacheKey())).Return(true).Repeat.Once();
+            cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups).Repeat.Once();
 
             var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
             readerMembers.Stub(x => x.Read()).Return(true).Repeat.Times(3);
@@ -516,7 +489,7 @@ namespace BBC.Dna.Users.Tests
             readerGetAllGroups.Stub(x => x.GetString("groupname")).Return(groupName);
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
+            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsandmembers")).Return(readerMembers);
             creator.Stub(x => x.CreateDnaDataReader("GetAllGroups")).Return(readerGetAllGroups);
 
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
@@ -710,9 +683,6 @@ namespace BBC.Dna.Users.Tests
             cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             List<string> servers = new List<string>() { url };
             _mocks.ReplayAll();
@@ -740,9 +710,6 @@ namespace BBC.Dna.Users.Tests
             cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             List<string> servers = new List<string>() { url };
             _mocks.ReplayAll();
@@ -770,9 +737,6 @@ namespace BBC.Dna.Users.Tests
             cache.Stub(x => x.GetData(UserGroups.GetCacheKey())).Return(cachedGroups);
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("fetchgroupsforuser")).Return(readerMembers);
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             List<string> servers = new List<string>() { url, url };
             _mocks.ReplayAll();
