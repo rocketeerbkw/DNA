@@ -91,7 +91,7 @@ namespace BBC.Dna.Users
                             lastSiteID = currentSiteID;
                         }
                         // Add the group name to the list
-                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToLower() });
+                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper() });
                     }
 
                     // Put the last group info into the cache
@@ -114,6 +114,9 @@ namespace BBC.Dna.Users
                 throw ex;
             }
             cachedGroups.GroupList = InitialiseAllGroups();
+
+            
+
             return cachedGroups;
         }
 
@@ -125,7 +128,6 @@ namespace BBC.Dna.Users
         private CachedGroups InitialiseGroupsForSingleUser(int userId)
         {
             var cachedGroups = GetCachedObject();
-
             try
             {
                 //remove all groups for this user
@@ -167,7 +169,7 @@ namespace BBC.Dna.Users
                             lastSiteID = currentSiteID;
                         }
                         // Add the group name to the list
-                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToLower() });
+                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper() });
                     }
 
                     // Put the last group info into the cache
@@ -182,8 +184,6 @@ namespace BBC.Dna.Users
                             _dnaDiagnostics.WriteExceptionToLog(e);
                         }
                     }
-                    cachedGroups.CachedUsers.Add(userId); 
-                    UpdateCache();
                 }
             }
             catch (Exception ex)
@@ -191,18 +191,13 @@ namespace BBC.Dna.Users
                 _dnaDiagnostics.WriteExceptionToLog(ex);
                 throw ex;
             }
+            cachedGroups.GroupList = InitialiseAllGroups();
+
+
 
             return cachedGroups;
-        }
+            //
 
-        private CachedGroups GetCachedGroups(int userId)
-        {
-            var cachedGroups = GetCachedObject();
-            if (!cachedGroups.CachedUsers.Contains(userId))
-            {
-                cachedGroups = InitialiseGroupsForSingleUser(userId);
-            }
-            return cachedGroups;
         }
 
         /// <summary>
@@ -359,7 +354,7 @@ namespace BBC.Dna.Users
         public bool CreateNewGroup(string groupName, int userID)
         {
             // Get all the groups first so we know we're in a stable state
-            var cachedGroups = GetCachedGroups(userID);
+            var cachedGroups = GetCachedObject();
             try
             {
                 if (!AddGroupToInternalList(groupName, userID, ref cachedGroups))
@@ -491,8 +486,7 @@ namespace BBC.Dna.Users
         /// <remarks>An empty list does not mean it hasn't been setup, the user does not belong to any groups</remarks>
         private List<UserGroup> GetUsersGroupListForSite(int userID, int siteID)
         {
-            var cachedGroups = GetCachedGroups(userID);
-
+            var cachedGroups = GetCachedObject();
             if (cachedGroups.AllUsersGroupsAndSites.ContainsKey(GetListKey(userID, siteID)))
             {
                 return (List<UserGroup>)cachedGroups.AllUsersGroupsAndSites[GetListKey(userID, siteID)];
@@ -509,7 +503,7 @@ namespace BBC.Dna.Users
         private bool AddGroupToInternalList(string groupName, int userID, ref CachedGroups cachedGroups)
         {
             // Check to see if we already have the group
-            if (cachedGroups.GroupList.Exists(x => x.Name.ToLower() == groupName.ToLower()))
+            if (cachedGroups.GroupList.Exists(x => x.Name.ToUpper() == groupName.ToUpper()))
             {
                 // Already Exists!
                 return false;
@@ -525,16 +519,18 @@ namespace BBC.Dna.Users
         /// <returns>The list of all group names</returns>
         private List<UserGroup> InitialiseAllGroups()
         {
+
             var _groupList = new List<UserGroup>();
             try
             {
                 // Get the list from the database
+
                 using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("GetAllGroups"))
                 {
                     reader.Execute();
                     while (reader.Read())
                     {
-                        _groupList.Add(new UserGroup() { Name = reader.GetString("groupname").ToLower() });
+                        _groupList.Add(new UserGroup() { Name = reader.GetString("groupname") });
                     }
                 }
             }
@@ -562,14 +558,14 @@ namespace BBC.Dna.Users
             // Ok, got a list. Check to make sure they don't already belong to the group
             if (userGroups != null)
             {
-                if (!userGroups.Exists(x => x.Name.ToLower() == groupName.ToLower()))
+                if (!userGroups.Exists(x => x.Name == groupName.ToLower()))
                 {
                     // Not in this group, nothing to remove
                     return false;
                 }
 
                 // Remove the group to their current list
-                userGroups.Remove(userGroups.First(x => x.Name.ToLower() == groupName.ToLower()));
+                userGroups.Remove(userGroups.First(x => x.Name == groupName.ToLower()));
                 return true;
             }
             return false;
@@ -589,7 +585,7 @@ namespace BBC.Dna.Users
             // Ok, got a list. Check to make sure they don't already belong to the group
             if (userGroups != null)
             {
-                if (userGroups.Exists(x => x.Name.ToLower() == groupName.ToLower()))
+                if (userGroups.Exists(x => x.Name == groupName.ToLower()))
                 {
                     // Already a member of this group. Nothing to do
                     return false;
@@ -617,7 +613,6 @@ namespace BBC.Dna.Users
             GetCachedObject();
             values.Add("NumberOfAllUsersGroupsAndSites", _object.AllUsersGroupsAndSites.Count.ToString());
             values.Add("NumberOfGroups", _object.GroupList.Count.ToString());
-            values.Add("CachedObjectSize", _object.CachedObjectSize.ToString());
             return values;
         }
     }
