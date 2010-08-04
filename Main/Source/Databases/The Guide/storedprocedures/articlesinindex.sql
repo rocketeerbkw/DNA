@@ -52,8 +52,26 @@ BEGIN
 			FROM Articles a
 	)
 	SELECT 	'Count' = (select count(*) FROM Articles), 
-			s.Subject, s.EntryID, s.h2g2ID, s.Status, s.UserID, s.extrainfo, s.DateCreated
+			s.Subject, 
+			s.EntryID, 
+			s.h2g2ID, 
+			s.Status, 
+			s.UserID, 
+			s.extrainfo, 
+			s.DateCreated, 
+			s.LastUpdated, 
+			siuidm.IdentityUserID, 
+			'IdentityUserName' = u.LoginName, 
+			u.UserName, 
+			u.FirstNames, 
+			u.LastName, 
+			u.Area, 
+			u.Status, 
+			u.TaxonomyNode, 
+			u.Active
 		FROM ArticlesWithSortCols s
+		LEFT JOIN Users u ON u.UserID = s.UserID
+		LEFT JOIN SignInUserIDMapping siuidm WITH(NOLOCK) ON u.UserID = siuidm.DnaUserID
 		ORDER BY s.DateCreated_Sort, s.LastUpdated_Sort DESC, s.SortSubject_Sort
 
 	RETURN 0;
@@ -97,8 +115,26 @@ BEGIN
 			FROM Articles a
 	)
 	SELECT 	'Count' = (select count(*) FROM Articles), 
-			s.Subject, s.EntryID, s.h2g2ID, s.Status, s.UserID, s.extrainfo, s.DateCreated
+			s.Subject, 
+			s.EntryID, 
+			s.h2g2ID, 
+			s.Status, 
+			s.UserID, 
+			s.extrainfo, 
+			s.DateCreated, 
+			s.LastUpdated, 
+			siuidm.IdentityUserID, 
+			'IdentityUserName' = u.LoginName, 
+			u.UserName, 
+			u.FirstNames, 
+			u.LastName, 
+			u.Area, 
+			u.Status, 
+			u.TaxonomyNode, 
+			u.Active
 		FROM ArticlesWithSortCols s
+		LEFT JOIN Users u ON u.UserID = s.UserID
+		LEFT JOIN SignInUserIDMapping siuidm ON u.UserID = siuidm.DnaUserID
 		ORDER BY s.DateCreated_Sort, s.LastUpdated_Sort DESC, s.SortSubject_Sort
 
 	RETURN 0;

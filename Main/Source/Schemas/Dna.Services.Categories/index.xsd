@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="../Dna.Services.Articles/articlesummary.xsd" />
+	<xs:element name="index">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="count" type="xs:unsignedShort" />
+				<xs:element name="letter" type="xs:string" />
+				<xs:element name="indexEntries" >
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="articleSummary" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -143,12 +143,34 @@ namespace BBC.Dna.Objects
         public static Category CreateCategoryFromDatabase(ISite site, ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser, int nodeid)
         {
             Category category = null;
+            int realNodeId = nodeid;
+
+            //if the nodeId is zero then we actually want the root for the given site
+            if (nodeid == 0)
+            {
+                //get the proper nodeID from the table;
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gethierarchynodedetails2"))
+                {
+                    // Add the site id and execute
+                    reader.AddParameter("siteid", site.SiteID);
+                    reader.Execute();
+
+                    if (!reader.HasRows || !reader.Read())
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        realNodeId = reader.GetInt32NullAsZero("nodeID");
+                    }
+                }
+            }
 
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gethierarchynodedetails2"))
             {
-                // Add the entry id and execute
-                reader.AddParameter("nodeid", nodeid);
+                // Add the node id and execute
+                reader.AddParameter("nodeid", realNodeId);
                 reader.Execute();
                 
                 if (!reader.HasRows || !reader.Read())
@@ -159,7 +181,10 @@ namespace BBC.Dna.Objects
                     category = new Category();
                     category.DisplayName = reader.GetStringNullAsEmpty("DisplayName");
                     category.Description = reader.GetStringNullAsEmpty("Description");
-                    category.LastUpdated = reader.GetDateTime("LastUpdated");
+                    if (reader.Exists("Lastupdated"))
+                    {
+                        category.LastUpdated = reader.GetDateTime("LastUpdated");
+                    }
                     category.Synonyms = reader.GetStringNullAsEmpty("synonyms");
                     category.H2g2id = reader.GetInt32NullAsZero("h2g2ID");
                     category.UserAdd = reader.GetTinyIntAsInt("userAdd");

@@ -39,6 +39,7 @@
     <None Include="udf_calcdistance.sql" />
     <None Include="udf_checkerr.sql" />
     <None Include="udf_generateh2g2id.sql" />
+    <None Include="udf_getdnauseridfromloginname.sql" />
     <None Include="udf_GetGuideEntryType.sql" />
     <None Include="udf_getkeyphrasenamespacepairs.sql" />
     <None Include="udf_getobjectname.sql" />

@@ -9,6 +9,7 @@ using BBC.Dna.Utils;
 using System.Web;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {
@@ -399,65 +400,7 @@ namespace BBC.Dna.Objects
                     {
                         if (reader.GetInt32("IsMainArticle") == 1)
                         {
-                            article = new Article();
-                            article.EntryId = reader.GetInt32("EntryID");
-                            article.H2g2Id = reader.GetInt32("h2g2ID");
-
-                            // if h2g2ID is zero then this is a new entry, so don't try to validate its ID
-                            // => must avoid trying to show alternative entries for a new entry!
-                            if (article.H2g2Id > 0)
-                            {
-                                // check if this is a valid h2g2ID
-                                if (!ValidateH2G2ID(article.H2g2Id))
-                                {
-                                    throw new NotImplementedException("Invalid ID we've got here!");
-                                }
-                            }
-                            article.ArticleInfo = ArticleInfo.GetEntryFromDataBase(article.EntryId, reader,
-                                                                                   readerCreator);
-
-                            if (article.ArticleInfo == null)
-                            {
-                                throw new Exception("Unable to create article info");
-                            }
-
-                            // Now start reading in all the values for the entry
-                            //int Submittable = reader.GetTinyIntAsInt("Submittable");
-                            //int type = reader.GetInt32("Type");
-
-                            article.Subject = reader.GetString("subject");
-                            article.Style = (GuideEntryStyle)reader.GetInt32NullAsZero("style");
-                            if(article.Style == 0)
-                            {
-                                article.Style = GuideEntryStyle.GuideML;
-                            }
-                            article.ExtraInfo = reader.GetString("extrainfo");
-
-                            if (!reader.IsDBNull("HIdden"))
-                            {
-                                article.HiddenStatus = reader.GetInt32("HIdden");
-                            }
-                            article.DefaultCanRead = reader.GetTinyIntAsInt("CanRead");
-                            article.DefaultCanWrite = reader.GetTinyIntAsInt("CanWrite");
-                            article.DefaultCanChangePermissions = reader.GetTinyIntAsInt("CanChangePermissions");
-                            //default to the default values
-                            article.CanRead = reader.GetTinyIntAsInt("CanRead");
-                            article.CanWrite = reader.GetTinyIntAsInt("CanWrite");
-                            article.CanChangePermissions = reader.GetTinyIntAsInt("CanChangePermissions");
-                            //fill complex children objects
-                            article.GetBookmarkCount(readerCreator);
-                            article.Guide = reader.GetString("text");
-
-                            if (article.Guide != null &&
-                                article.GuideElement.ParentNode.SelectSingleNode("//GUIDE") != null)
-                            {
-                                article.ArticleInfo.GetReferences(readerCreator,
-                                                                  article.GuideElement.ParentNode.SelectSingleNode(
-                                                                      "//GUIDE"));
-                            }
-
-                            //get forum style
-                            article.GetForumStyle(readerCreator);
+                            article = CreateArticleFromReader(readerCreator, reader);
 
                             break; //got the info so run
                         }
@@ -470,6 +413,121 @@ namespace BBC.Dna.Objects
                     }
                 }
             }
+            return article;
+        }
+
+        /// <summary>
+        /// Creates the random article from db
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="siteId"></param>
+        /// <param name="status1"></param>
+        /// <param name="status2"></param>
+        /// <param name="status3"></param>
+        /// <param name="status4"></param>
+        /// <param name="status5"></param>
+        /// <returns></returns>
+        public static Article CreateRandomArticleFromDatabase(IDnaDataReaderCreator readerCreator, 
+                                                                                int siteId, 
+                                                                                int status1,
+                                                                                int status2,
+                                                                                int status3,
+                                                                                int status4,
+                                                                                int status5 )
+        {
+            Article article = null;
+            // fetch all the lovely intellectual property from the database
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("fetchrandomarticle"))
+            {
+                // Add the site id and execute
+                reader.AddParameter("SiteID", siteId);
+	            reader.AddParameter("Status1", status1);
+	            reader.AddParameter("Status2", status2);
+	            reader.AddParameter("Status3", status3);
+	            reader.AddParameter("Status4", status4);
+	            reader.AddParameter("Status5", status5);
+                reader.Execute();
+
+                // Make sure we got something back
+                if (!reader.HasRows || !reader.Read())
+                {
+                    throw new Exception("Article not found");
+                }
+                else
+                {
+                    article = CreateArticleFromReader(readerCreator, reader);
+
+                    //not created so scream
+                    if (article == null)
+                    {
+                        throw new Exception("Article not found");
+                    }
+                }
+            }
+            return article;
+        }
+
+        private static Article CreateArticleFromReader(IDnaDataReaderCreator readerCreator, IDnaDataReader reader)
+        {
+            Article article = new Article();
+            article.EntryId = reader.GetInt32("EntryID");
+            article.H2g2Id = reader.GetInt32("h2g2ID");
+
+            // if h2g2ID is zero then this is a new entry, so don't try to validate its ID
+            // => must avoid trying to show alternative entries for a new entry!
+            if (article.H2g2Id > 0)
+            {
+                // check if this is a valid h2g2ID
+                if (!ValidateH2G2ID(article.H2g2Id))
+                {
+                    throw new NotImplementedException("Invalid ID we've got here!");
+                }
+            }
+            article.ArticleInfo = ArticleInfo.GetEntryFromDataBase(article.EntryId, reader,
+                                                                   readerCreator);
+
+            if (article.ArticleInfo == null)
+            {
+                throw new Exception("Unable to create article info");
+            }
+
+            // Now start reading in all the values for the entry
+            //int Submittable = reader.GetTinyIntAsInt("Submittable");
+            //int type = reader.GetInt32("Type");
+
+            article.Subject = reader.GetString("subject");
+            article.Style = (GuideEntryStyle)reader.GetInt32NullAsZero("style");
+            if (article.Style == 0)
+            {
+                article.Style = GuideEntryStyle.GuideML;
+            }
+            article.ExtraInfo = reader.GetString("extrainfo");
+
+            if (!reader.IsDBNull("HIdden"))
+            {
+                article.HiddenStatus = reader.GetInt32("Hidden");
+            }
+            article.DefaultCanRead = reader.GetTinyIntAsInt("CanRead");
+            article.DefaultCanWrite = reader.GetTinyIntAsInt("CanWrite");
+            article.DefaultCanChangePermissions = reader.GetTinyIntAsInt("CanChangePermissions");
+            //default to the default values
+            article.CanRead = reader.GetTinyIntAsInt("CanRead");
+            article.CanWrite = reader.GetTinyIntAsInt("CanWrite");
+            article.CanChangePermissions = reader.GetTinyIntAsInt("CanChangePermissions");
+            //fill complex children objects
+            article.GetBookmarkCount(readerCreator);
+            article.Guide = reader.GetString("text");
+
+            if (article.Guide != null &&
+                article.GuideElement.ParentNode.SelectSingleNode("//GUIDE") != null)
+            {
+                article.ArticleInfo.GetReferences(readerCreator,
+                                                  article.GuideElement.ParentNode.SelectSingleNode(
+                                                      "//GUIDE"));
+            }
+
+            //get forum style
+            article.GetForumStyle(readerCreator);
             return article;
         }
 
@@ -520,6 +578,60 @@ namespace BBC.Dna.Objects
         }
 
         /// <summary>
+        /// Gets random article from cache or db if not found in cache
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteId"></param>
+        /// <param name="status1"></param>
+        /// <param name="status2"></param>
+        /// <param name="status3"></param>
+        /// <param name="status4"></param>
+        /// <param name="status5"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static Article CreateRandomArticle(ICacheManager cache, 
+                                                    IDnaDataReaderCreator readerCreator, 
+                                                    User viewingUser,
+                                                    int siteId, 
+                                                    int status1,
+                                                    int status2,
+                                                    int status3,
+                                                    int status4,
+                                                    int status5, 
+                                                    bool ignoreCache)
+        {
+            var article = new Article();
+
+            string key = article.GetCacheKey(siteId, status1, status2, status3, status4, status5);
+            //check for item in the cache first
+            if (!ignoreCache)
+            {
+                //not ignoring cache
+                article = (Article) cache.GetData(key);
+                if (article != null)
+                {
+                    if (article.IsUpToDate(readerCreator))
+                    {
+                        //all good - apply viewing user attributes and return
+                        article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
+                        return article;
+                    }
+                }
+            }
+            //create from db
+            article = CreateRandomArticleFromDatabase(readerCreator, siteId, status1, status2, status3, status4, status5);
+            //add to cache
+            cache.Add(key, article);
+            //update with viewuser info
+            article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
+
+            return article;
+        }
+
+
+        /// <summary>
         /// Gets article from cache or db if not found in cache
         /// </summary>
         /// <param name="cache"></param>
@@ -531,6 +643,136 @@ namespace BBC.Dna.Objects
                                             int h2g2Id)
         {
             return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
+        }
+
+        /// <summary>
+        /// Gets article from cache or db if not found in cache
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteId"></param>
+        /// <param name="status1"></param>
+        /// <param name="status2"></param>
+        /// <param name="status3"></param>
+        /// <param name="status4"></param>
+        /// <param name="status5"></param>
+        /// <returns></returns>
+        public static Article CreateRandomArticle(ICacheManager cache, 
+                                                    IDnaDataReaderCreator readerCreator, 
+                                                    User viewingUser,
+                                                    int siteId, 
+                                                    int status1,
+                                                    int status2,
+                                                    int status3,
+                                                    int status4,
+                                                    int status5)
+        {
+            return CreateRandomArticle(cache, readerCreator, viewingUser, siteId, status1, status2, status3, status4, status5, false);
+        }
+
+        /// <summary>
+        /// Gets about me article from cache or db if not found in cache
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteId"></param>
+        /// <param name="identityUserName"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static Article CreateAboutMeArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+                                            int siteId, string identityUserName)
+        {
+            return CreateAboutMeArticle(cache, readerCreator, viewingUser, siteId, identityUserName, false);
+        }
+
+        /// <summary>
+        /// Gets about me article from cache or db if not found in cache by DNAUserid
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteId"></param>
+        /// <param name="DNAUserid"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static Article CreateAboutMeArticleByDNAUserId(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+                                            int siteId, int DNAUserid)
+        {
+            return CreateAboutMeArticleByDNAUserId(cache, readerCreator, viewingUser, siteId, DNAUserid, false);
+        }
+
+        /// <summary>
+        /// Gets article from cache or db if not found in cache
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteId"></param>
+        /// <param name="identityUserName"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static Article CreateAboutMeArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+                                                        int siteId, string identityUserName, bool ignoreCache)
+        {
+            // fetch all the lovely intellectual property from the database
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("finduserfromidentityusername"))
+            {
+                // Add the identityUserName and execute
+                reader.AddParameter("identityUserName", identityUserName);
+
+                reader.AddParameter("siteid", siteId);
+
+                reader.Execute();
+
+                // Make sure we got something back
+                if (!reader.HasRows || !reader.Read())
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
+                else
+                {
+                    int h2g2Id = reader.GetInt32NullAsZero("Masthead");
+                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets article from cache or db if not found in cache from a dnauserid
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteId"></param>
+        /// <param name="DNAUserId"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static Article CreateAboutMeArticleByDNAUserId(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+                                            int siteId, int DNAUserId, bool ignoreCache)
+        {
+            // fetch all the lovely intellectual property from the database
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("finduserfromid"))
+            {
+                // Add the identityUserName and execute
+                reader.AddParameter("userId", DNAUserId);
+
+                reader.AddParameter("siteid", siteId);
+
+                reader.Execute();
+
+                // Make sure we got something back
+                if (!reader.HasRows || !reader.Read())
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
+                else
+                {
+                    int h2g2Id = reader.GetInt32NullAsZero("Masthead");
+                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
+                }
+            }
         }
 
         /// <summary>

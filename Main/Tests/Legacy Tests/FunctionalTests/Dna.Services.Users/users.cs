@@ -22,12 +22,17 @@ namespace FunctionalTests.Dna.Services.Users
         string callinguser_url_json;
         
         private const string _schemaUser = @"Dna.Services.Users\user.xsd";
+        private const string _schemaArticle = "Dna.Services.Articles\\article.xsd";
+        private const string _schemaForumThreads = "Dna.Services.Forums\\forumThreads.xsd";
+
+        private string _server = DnaTestURLRequest.CurrentServer;
+        private string _sitename = "h2g2";
 
         public users()
         {
-            callinguser_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser/xml";
-            callinguser_url_json = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser/json";
-            callinguser_url_withInvalidSite = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/unknownite/users/callinguser/xml";
+            callinguser_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=xml";
+            callinguser_url_json = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=json";
+            callinguser_url_withInvalidSite = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/unknownsite/users/callinguser?format=xml";
         }
 
 
@@ -219,7 +224,158 @@ namespace FunctionalTests.Dna.Services.Users
             Console.WriteLine("After GetCallingUserInfo_AsSuperUser_ReturnsSuperStatus");
         }
 
+        /// <summary>
+        /// Test GetUsersAboutMeArticle method from service 
+        /// </summary>
+        [TestMethod]
+        public void GetUsersAboutMeArticleByIdentityUserName_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersAboutMeArticleByIdentityUserName_ReadOnly_ReturnsValidXml");
 
+            string[] identityUserNames = { "DotNetNormalUser", "DotNetEditor", "DotNetSuperUser", "DotNetModerator" };
 
+            foreach (var name in identityUserNames)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validating Users About Me IdentityUserName:" + name);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?format=xml", _sitename, name);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersAboutMeArticleByIdentityUserName_ReadOnly_ReturnsValidXml");
+        }
+        /// <summary>
+        /// Test GetUsersAboutMeArticle method from service
+        /// </summary>
+        [TestMethod]
+        public void GetUsersAboutMeArticleByDNAUserId_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersAboutMeArticleByDNAUserId_ReadOnly_ReturnsValidXml");
+
+            int[] userIds = { 6, 42, 284, 128652, 225620, 551837, 1090501859 };
+
+            foreach (var id in userIds)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validating Users About Me UserID:" + id);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?idtype=DNAUserId&format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersAboutMeArticleByDNAUserId_ReadOnly_ReturnsValidXml");
+        }
+
+        /// <summary>
+        /// Test GetUsersJournalByDNAUserId method from service
+        /// </summary>
+        [TestMethod]
+        public void GetUsersJournalByIdentityUserName_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersJournalByIdentityUserName_ReadOnly_ReturnsValidXml");
+
+            string[] identityUserNames = { "DotNetNormalUser", "DotNetEditor", "DotNetSuperUser", "DotNetModerator" };
+
+            foreach (var name in identityUserNames)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validating Users Journal IdentityUserName:" + name);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?format=xml", _sitename, name);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaForumThreads);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersJournalByIdentityUserName_ReadOnly_ReturnsValidXml");
+        }
+
+        /// <summary>
+        /// Test GetUsersJournal method from service
+        /// </summary>
+        [TestMethod]
+        public void GetUsersJournalByDNAUserId_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersJournalByDNAUserId_ReadOnly_ReturnsValidXml");
+
+            int[] userIds = { 6, 42, 284, 128652, 225620, 551837, 1090501859 };
+
+            foreach (var id in userIds)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validating Users Journal UserID:" + id);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?idtype=DNAUserId&format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaForumThreads);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersJournalByDNAUserId_ReadOnly_ReturnsValidXml");
+        }
+        /// <summary>
+        /// Test GetUsersMessages method from service by IdentityUserName
+        /// </summary>
+        [TestMethod]
+        public void GetUsersMessagesByIdentityUserName_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersMessagesByIdentityUserName_ReadOnly_ReturnsValidXml");
+
+            string[] identityUserNames = { "DotNetNormalUser", "DotNetEditor", "DotNetSuperUser", "DotNetModerator" };
+
+            foreach (var name in identityUserNames)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validating Users Messages IdentityUserName:" + name);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?format=xml", _sitename, name);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaForumThreads);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersMessagesByIdentityUserName_ReadOnly_ReturnsValidXml");
+        }
+
+        /// <summary>
+        /// Test GetUsersMessages method from service by DNAUserID
+        /// </summary>
+        [TestMethod]
+        public void GetUsersMessagesByDNAUserId_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersMessagesByDNAUserId_ReadOnly_ReturnsValidXml");
+
+            int[] userIds = { 6, 42, 284, 128652, 225620, 551837, 1090501859 };
+
+            foreach (var id in userIds)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validating Users Messages UserID:" + id);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?idtype=DNAUserId&format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaForumThreads);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersMessagesByDNAUserId_ReadOnly_ReturnsValidXml");
+        }
     }
 }

@@ -147,6 +147,15 @@ namespace BBC.Dna.Api
                 case ErrorType.CategoryNotFound:
                     error = new ApiException("Category not found.", innerException);
                     break;
+                case ErrorType.MonthSummaryNotFound:
+                    error = new ApiException("Month summary not found.", innerException);
+                    break;
+                case ErrorType.IndexNotFound:
+                    error = new ApiException("Index not found.", innerException);
+                    break;
+                case ErrorType.UserNotFound:
+                    error = new ApiException("User not found.", innerException);
+                    break;
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
                     break;
@@ -190,6 +199,9 @@ namespace BBC.Dna.Api
         MinCharLimitNotReached,
         MissingUserList,
         NotSecure,
-        CategoryNotFound
+        CategoryNotFound,
+        MonthSummaryNotFound,
+        IndexNotFound,
+        UserNotFound
     }
 }

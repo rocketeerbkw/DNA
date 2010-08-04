@@ -87,7 +87,7 @@ namespace FunctionalTests.Dna.Services.Categories
         [TestMethod]
         public void GetCategory_ReadOnly_ReturnsValidXml()
         {
-            Console.WriteLine("Before GetArticle_ReadOnly_ReturnsValidXml");
+            Console.WriteLine("Before GetCategory_ReadOnly_ReturnsValidXml");
 
             int[] ids = { 889,  // top level element, no ancestors
                           74,   // child of 889
@@ -100,7 +100,7 @@ namespace FunctionalTests.Dna.Services.Categories
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validing ID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/categories/categoryservice.svc/V1/site/{0}/categories/{1}/xml", _sitename, id);
+                string url = String.Format("http://" + _server + "/dna/api/categories/categoryservice.svc/V1/site/{0}/categories/{1}?format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -109,7 +109,7 @@ namespace FunctionalTests.Dna.Services.Categories
                 validator.Validate();
             }
 
-            Console.WriteLine("After GetArticle_ReadOnly_ReturnsValidXml");
+            Console.WriteLine("After GetCategory_ReadOnly_ReturnsValidXml");
         }
 
         [TestMethod]
@@ -124,7 +124,7 @@ namespace FunctionalTests.Dna.Services.Categories
             string unknownSite = "unknown_site";
 
             Console.WriteLine("Validing site:" + unknownSite);
-            string url = String.Format("http://" + _server + "/dna/api/categories/categoryservice.svc/V1/site/{0}/categories/{1}/xml", unknownSite, id);
+            string url = String.Format("http://" + _server + "/dna/api/categories/categoryservice.svc/V1/site/{0}/categories/{1}?format=xml", unknownSite, id);
             // now get the response
 
             try
@@ -153,7 +153,7 @@ namespace FunctionalTests.Dna.Services.Categories
             int unknown_id = 1; // non existing 
 
             Console.WriteLine("Validing category:" + unknown_id);
-            string url = String.Format("http://" + _server + "/dna/api/categories/categoryservice.svc/V1/site/{0}/categories/{1}/xml", _sitename, unknown_id);
+            string url = String.Format("http://" + _server + "/dna/api/categories/categoryservice.svc/V1/site/{0}/categories/{1}?format=xml", _sitename, unknown_id);
             // now get the response
 
             try

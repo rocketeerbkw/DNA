@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
 using System.Xml.XPath;
+using BBC.Dna;
 using BBC.Dna.Api;
 using BBC.Dna.Component;
 using BBC.Dna.Data;
@@ -60,7 +61,7 @@ namespace FunctionalTests.Services.Articles
 
         
         /// <summary>
-        /// Test CreateCommentForum method from service
+        /// Test CreateArticle method from service
         /// </summary>
         [TestMethod]
         public void GetArticle_ReadOnly_ReturnsValidXml()
@@ -75,19 +76,168 @@ namespace FunctionalTests.Services.Articles
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
    
                 Console.WriteLine("Validing ID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}/xml", _sitename, id);
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);
+                validator.Validate();            
+            }
+            Console.WriteLine("After GetArticle_ReadOnly_ReturnsValidXml");
+        }
+
+        /// <summary>
+        /// Test CreateRandomArticle method from service
+        /// </summary>
+        [TestMethod]
+        public void GetRandomArticle_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetRandomArticle_ReadOnly_ReturnsValidXml");
+
+            for(int i=0 ;i < 50; i++)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Get Random Article");
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/random?type=Edited&format=xml", _sitename);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
                 XmlDocument xml = request.GetLastResponseAsXML();
                 DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);
                 validator.Validate();
-            
             }
+            Console.WriteLine("After GetRandomArticle_ReadOnly_ReturnsValidXml");
+        }
+        /// <summary>
+        /// Test GetComingUpArticles method from service
+        /// </summary>
+        [TestMethod]
+        public void GetComingUpArticles_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetComingUpArticles_ReadOnly_ReturnsValidXml");
+
+            for (int i = 0; i < 10; i++)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/comingup?format=xml", _sitename);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
 
 
+                //DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);
+                //validator.Validate();
+            }
+            Console.WriteLine("After GetComingUpArticles_ReadOnly_ReturnsValidXml");
+        }
+        /// <summary>
+        /// Test GetMonthlySummary method from service
+        /// </summary>
+        [TestMethod]
+        public void GetMonthlySummaryArticles_FailsWithMonthSummaryNotFound()
+        {
+            Console.WriteLine("Before GetMonthlySummaryArticles_FailsWithMonthSummaryNotFound");
 
-            Console.WriteLine("After GetArticle_ReadOnly_ReturnsValidXml");
+            for (int i = 0; i < 10; i++)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/month?format=xml", _sitename);
+
+                try
+                {
+                    // now get the response
+                    request.RequestPageWithFullURL(url, null, "text/xml");
+                }
+                catch (Exception Ex)
+                {
+                    Assert.IsTrue(Ex.Message.Contains("Month summary not found"));
+                }
+            }
+            Console.WriteLine("After GetMonthlySummaryArticles_FailsWithMonthSummaryNotFound");
+        }
+        /// <summary>
+        /// Test GetMonthlySummaryArticles_WithSomeArticles method from service
+        /// </summary>
+        [TestMethod]
+        public void GetMonthlySummaryArticles_WithSomeArticles()
+        {
+            Console.WriteLine("Before GetMonthlySummaryArticles_WithSomeArticles");
+
+            SetupMonthSummaryArticle();
+
+            for (int i = 0; i < 10; i++)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/month?format=xml", _sitename);
+
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                XmlDocument xml = request.GetLastResponseAsXML();
+            }
+            Console.WriteLine("After GetMonthlySummaryArticles_WithSomeArticles");
+        }
+
+        /// <summary>
+        /// Test GetSearchArticles method from service
+        /// Needs guide entry cat on smallguide created
+        /// </summary>
+        [TestMethod]
+        public void GetSearchArticles()
+        {
+            Console.WriteLine("Before GetSearchArticles");
+
+            SetupFullTextIndex();
+
+            //wait a bit for the cat to be filled
+            System.Threading.Thread.Sleep(30000);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles?querystring=dinosaur&showapproved=1&type=ARTICLE&format=xml", _sitename);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            XmlDocument xml = request.GetLastResponseAsXML();
+
+            Console.WriteLine("After GetSearchArticles");
+        }
+
+
+        private void SetupFullTextIndex()
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY("CREATE FULLTEXT CATALOG GuideEntriesCat WITH ACCENT_SENSITIVITY = OFF");
+                reader.ExecuteDEBUGONLY("CREATE FULLTEXT INDEX ON dbo.GuideEntries(Subject, text) KEY INDEX PK_GuideEntries ON GuideEntriesCat WITH CHANGE_TRACKING AUTO");
+            }
+        }
+
+
+        private void SetupMonthSummaryArticle()
+        {
+            int entryId = 0;
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+            {
+
+                reader.ExecuteDEBUGONLY("SELECT TOP 1 * from guideentries where status=1 and siteid=1 ORDER BY EntryID DESC");
+                if (reader.Read())
+                {
+                    entryId = reader.GetInt32("entryid");
+                }
+                if (entryId > 0)
+                {
+                    reader.ExecuteDEBUGONLY(string.Format("update guideentries set datecreated = getdate() where entryid={0}", entryId));
+                }
+            }
         }
     }
 }

@@ -79,6 +79,7 @@ namespace BBC.Dna.Objects.Tests
             IUser target = new User(null, null, null)
             {
                 UserId = 1,
+                IdentityUserId = "90680774725696464",
                 UserMode = 1,
                 UnReadPrivateMessageCount = 0,
                 UnReadPublicMessageCount = 1,

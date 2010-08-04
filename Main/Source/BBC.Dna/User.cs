@@ -58,6 +58,8 @@ namespace BBC.Dna
 
 		private int _masthead;
 
+        private string _identityUserId = String.Empty;
+
         private static object _lock = new object();
 
         /// <summary>
@@ -154,6 +156,17 @@ namespace BBC.Dna
             get
             {
                 return _userID;
+            }
+        }
+
+        /// <summary>
+        /// <see cref="IUser"/>
+        /// </summary>
+        public string IdentityUserId
+        {
+            get
+            {
+                return _identityUserId;
             }
         }
 
@@ -1059,17 +1072,19 @@ namespace BBC.Dna
         /// <param name="forumPostedTo">if the Users forum has been posted to</param>
         /// <param name="masthead">Users masthead</param>
         /// <param name="sinbin">if the user is sinbinned</param>
+        /// <param name="identityUserId">Identity User ID to put in the XML</param>
         /// <returns>Xml Node set up with a uniform representation of User XML.</returns>
         
         public XmlNode GenerateUserXml(int userId, string userName, string emailAddress, string firstNames, string lastName, 
                                         int status, int taxonomyNode, bool active, double zeitgeistScore,
                                         string siteSuffix, string area, string title, int journal,
                                         DateTime dateLastNotified, int subQuota, int allocations, DateTime dateJoined,
-                                        int forumID, int forumPostedTo, int masthead, int sinbin)
+                                        int forumID, int forumPostedTo, int masthead, int sinbin, string identityUserId)
         {
 
             Dictionary<string, object> userData = new Dictionary<string, object>();
             userData.Add("UserID", userId);
+            userData.Add("IdentityUserId", identityUserId);
             userData.Add("UserName", userName);
             userData.Add("EMAIL-ADDRESS", emailAddress);
             userData.Add("Status", status);
@@ -1325,7 +1340,8 @@ namespace BBC.Dna
         {
 			// Set member variables that are useful as values
             _userID = sp.GetInt32NullAsZero("userid");
-			_status = (UserStatus)sp.GetInt32NullAsZero("Status");
+            _identityUserId = sp.GetStringNullAsEmpty("identityuserid");
+            _status = (UserStatus)sp.GetInt32NullAsZero("Status");
 			_userName = sp.GetStringNullAsEmpty("UserName");
 			_firstNames = sp.GetStringNullAsEmpty("FirstNames");
             _lastName = sp.GetStringNullAsEmpty("LastName");
@@ -1767,6 +1783,12 @@ namespace BBC.Dna
                 userName = "Member " + userID.ToString();
             }
 
+            string identityUserId = "";
+            if (dataReader.Exists(prefix + "identityUserId"))
+            {
+                identityUserId = dataReader.GetStringNullAsEmpty(prefix + "identityUserId");
+            }
+
             string emailAddress = "";
             if (dataReader.Exists(prefix + "Email"))
             {
@@ -1874,8 +1896,8 @@ namespace BBC.Dna
                                                 forumID,
                                                 forumPostedTo,
                                                 masthead,
-                                                sinbin
-                                                );
+                                                sinbin,
+                                                identityUserId);
 
 
             if (userXML != null)

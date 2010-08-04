@@ -1277,9 +1277,11 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="finduserfromidentityusername.sql" />
     <None Include="cachegetlastpostdate.sql" />
     <None Include="getusercontributions.sql" />
     <None Include="GetAllGroups.sql" />
+    <None Include="getuserfromidentityusername.sql" />
     <None Include="updatesitedefaultskin.sql" />
     <None Include="getindexofcomment.sql" />
     <None Include="EditTopic2.sql" />

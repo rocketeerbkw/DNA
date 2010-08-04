@@ -318,9 +318,33 @@ namespace BBC.Dna.Objects.Tests
             
             Article actual;
             actual = Article.CreateArticleFromDatabase(creator, entryId);
-            Assert.AreEqual(entryId, actual.EntryId);
-            
-            
+            Assert.AreEqual(entryId, actual.EntryId);                        
+        }
+
+        /// <summary>
+        ///A test for CreateRandomArticleFromDatabase
+        ///</summary>
+        [TestMethod()]
+        public void CreateRandomArticleFromDatabase_ValidResultSet_ReturnsValidObject()
+        {
+            int entryId = 1;
+            MockRepository mocks = new MockRepository();
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Times(8);
+            reader.Stub(x => x.GetInt32("IsMainArticle")).Return(1);
+            reader.Stub(x => x.GetInt32("EntryID")).Return(entryId);
+            reader.Stub(x => x.GetInt32("Status")).Return(1);
+            reader.Stub(x => x.GetTinyIntAsInt("style")).Return(1);
+            reader.Stub(x => x.GetString("text")).Return("<GUIDE><BODY>this is an article</BODY></GUIDE>");
+
+            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("")).Return(reader).Constraints(Is.Anything());
+            mocks.ReplayAll();
+
+            Article actual;
+            actual = Article.CreateRandomArticleFromDatabase(creator, 1, 1, -1, -1, -1,-1);
+            Assert.AreEqual(ArticleStatus.GetStatus(1).Value, actual.ArticleInfo.Status.Value);
         }
 
         [TestMethod()]
@@ -338,7 +362,6 @@ namespace BBC.Dna.Objects.Tests
 
             try
             {
-
                 Article actual;
                 actual = Article.CreateArticleFromDatabase(creator, entryId);
             }
@@ -346,8 +369,29 @@ namespace BBC.Dna.Objects.Tests
             {
                 Assert.AreEqual("Article not found", e.Message);
             }
+        }
 
+        [TestMethod()]
+        public void CreateRandomArticleFromDatabase_NoResults_ThrowsException()
+        {
+            MockRepository mocks = new MockRepository();
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.Read()).Return(false);
 
+            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("")).Return(reader).Constraints(Is.Anything());
+            mocks.ReplayAll();
+
+            try
+            {
+                Article actual;
+                actual = Article.CreateRandomArticleFromDatabase(creator, 1, -1, -1, -1, -1, -1);
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("Article not found", e.Message);
+            }
         }
 
         /// <summary>
@@ -379,8 +423,6 @@ namespace BBC.Dna.Objects.Tests
 
             actual.MakeEdittable();
             Assert.AreEqual("<GUIDE><BODY>this is an\r\n article</BODY></GUIDE>", actual.Guide);
-
-
         }
 
         /// <summary>
@@ -395,9 +437,7 @@ namespace BBC.Dna.Objects.Tests
             target.UpdateProfanityUrlTriggerCount(profanityTriggered, nonAllowedURLsTriggered);
             Assert.AreEqual(1, target.ProfanityTriggered);
             Assert.AreEqual(1, target.NonAllowedUrlsTriggered);
-        }
-
-        
+        }       
 
         static public Article CreateArticle()
         {

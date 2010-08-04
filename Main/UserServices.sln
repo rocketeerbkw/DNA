@@ -156,7 +156,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		IISresetWithMemcached.bat = IISresetWithMemcached.bat
 		PublishRipleyDebug.bat = PublishRipleyDebug.bat
 		ripleyserver.xmlconf = ripleyserver.xmlconf
-		UserServices4.vsmdi = UserServices4.vsmdi
+		UserServices2.vsmdi = UserServices2.vsmdi
 		Web.config = Web.config
 	EndProjectSection
 EndProject
@@ -470,7 +470,7 @@ Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 54
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
+		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = Source\\BBC.Dna\\BBC.DNA.csproj
 		SccProjectTopLevelParentUniqueName1 = UserServices.sln
@@ -686,7 +686,7 @@ Global
 		SccLocalPath53 = Source\\Web\u0020Services\\BBC.DNA.Services.Users
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = UserServices4.vsmdi
+		CategoryFile = UserServices2.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET

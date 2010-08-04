@@ -107,6 +107,12 @@ namespace BBC.Dna.Users
         public virtual string UserName  {get; set;}
 
         /// <summary>
+        /// The get property for the users identity user name
+        /// </summary>
+        [DataMember(Name = "identityUserName")]
+        public virtual string IdentityUserName { get; set; }
+
+        /// <summary>
         /// The get property for the users email
         /// </summary>
         [DataMember(Name = "email")]

@@ -27,23 +27,15 @@ namespace BBC.Dna.Services
         {
         }
 
-        [WebGet(UriTemplate = "V1/site/{sitename}/users/callinguser/xml", ResponseFormat = WebMessageFormat.Xml)]
-        [WebHelp(Comment = "Get the calling user's info in XML format")]
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/callinguser")]
+        [WebHelp(Comment = "Get a user's info")]
         [OperationContract]
-        public CallingUser GetCallingUserInfoXML(string sitename)
+        public Stream GetCallingUserInfo(string sitename)
         {
-            return GetCallingUserInfo(sitename);
+            return GetOutputStream(GetCallingUserInfoInternal(sitename));
         }
 
-        [WebGet(UriTemplate = "V1/site/{sitename}/users/callinguser/json", ResponseFormat = WebMessageFormat.Json)]
-        [WebHelp(Comment = "Get the calling user's info in JSON format")]
-        [OperationContract]
-        public CallingUser GetCallingUserInfoJSON(string sitename)
-        {
-            return GetCallingUserInfo(sitename);
-        }
-
-        private CallingUser GetCallingUserInfo(string sitename)
+        private CallingUser GetCallingUserInfoInternal(string sitename)
         {
             ISite site = GetSite(sitename);
             BBC.Dna.Users.CallingUser user;
@@ -58,55 +50,142 @@ namespace BBC.Dna.Services
             return user;
         }
 
-        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/json", ResponseFormat = WebMessageFormat.Json)]
-        [WebHelp(Comment = "Get the given user's contributions in JSON format")]
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identityusername}/aboutme")]
+        [WebHelp(Comment = "Get a user's aboutme article")]
         [OperationContract]
-        public Contributions GetContributionsJSON(string identityuserid)
+        public Stream GetUsersAboutMeArticle(string sitename, string identityusername)
         {
-            return GetContributions(identityuserid, null, null);
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+            ISite site = GetSite(sitename);
+
+            Article article;
+            try
+            {
+                if (userNameType.ToUpper() == "DNAUSERID")
+                {
+                    article = Article.CreateAboutMeArticleByDNAUserId(cacheManager, readerCreator, null, site.SiteID, Convert.ToInt32(identityusername));
+                }
+                else
+                {
+                    article = Article.CreateAboutMeArticle(cacheManager, readerCreator, null, site.SiteID, identityusername);
+                }
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(article);
         }
 
-        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/xml", ResponseFormat = WebMessageFormat.Xml)]
-        [WebHelp(Comment = "Get the given user's contributions in XML format")]
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identityusername}/journal")]
+        [WebHelp(Comment = "Get a user's journal forum")]
         [OperationContract]
-        public Contributions GetContributionsXML(string identityuserid)
+        public Stream GetUsersJournal(string sitename, string identityusername)
         {
-            return GetContributions(identityuserid, null, null);
+            ThreadOrder threadOrder = ThreadOrder.CreateDate;
+            if (sortBy == SortBy.LastPosted)
+            {
+                threadOrder = ThreadOrder.LatestPost;
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+            ISite site = GetSite(sitename);
+
+            ForumThreads journal;
+            try
+            {
+                journal = ForumThreads.CreateUsersJournal(cacheManager, 
+                                                            readerCreator, 
+                                                            Global.siteList, 
+                                                            identityusername,
+                                                            site.SiteID,
+                                                            itemsPerPage, 
+                                                            startIndex, 
+                                                            0, 
+                                                            true, 
+                                                            threadOrder, 
+                                                            null,
+                                                            userNameType.ToUpper()=="DNAUSERID",
+                                                            false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(journal);
         }
 
-
-        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/type/{type}/json", ResponseFormat = WebMessageFormat.Json)]
-        [WebHelp(Comment = "Get the given user's contributions for the specified type in JSON format")]
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identityusername}/messages")]
+        [WebHelp(Comment = "Get a user's messages forum")]
         [OperationContract]
-        public Contributions GetContributionsByTypeJSON(string identityuserid, string type)
+        public Stream GetUsersMessages(string sitename, string identityusername)
         {
-            return GetContributions(identityuserid, null, type);
+            ThreadOrder threadOrder = ThreadOrder.CreateDate;
+            if (sortBy == SortBy.LastPosted)
+            {
+                threadOrder = ThreadOrder.LatestPost;
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+            ISite site = GetSite(sitename);
+
+            ForumThreads messages;
+            try
+            {
+                Article article;
+                if (userNameType.ToUpper() == "DNAUSERID")
+                {
+                    article = Article.CreateAboutMeArticleByDNAUserId(cacheManager, readerCreator, null, site.SiteID, Convert.ToInt32(identityusername));
+                }
+                else
+                {
+                    article = Article.CreateAboutMeArticle(cacheManager, readerCreator, null, site.SiteID, identityusername);
+                }
+                messages = ForumThreads.CreateForumThreads(cacheManager,
+                                                                readerCreator,
+                                                                Global.siteList,
+                                                                article.ArticleInfo.ForumId,
+                                                                itemsPerPage,
+                                                                startIndex,
+                                                                0,
+                                                                true,
+                                                                threadOrder,
+                                                                null,
+                                                                false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(messages);
         }
 
-        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/type/{type}/xml", ResponseFormat = WebMessageFormat.Xml)]
-        [WebHelp(Comment = "Get the given user's contributions for the specified type in XML format")]
+        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}")]
+        [WebHelp(Comment = "Get the given user's contributions in the format requested")]
         [OperationContract]
-        public Contributions GetContributionsByTypeXML(string identityuserid, string type)
+        public Stream GetContributions(string identityuserid)
         {
-            return GetContributions(identityuserid, null, type);
+            return GetOutputStream(GetContributions(identityuserid, null, null));
         }
 
-        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/site/{site}/json", ResponseFormat = WebMessageFormat.Json)]
-        [WebHelp(Comment = "Get the given user's contributions for the specified site in JSON format")]
+        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/type/{type}")]
+        [WebHelp(Comment = "Get the given user's contributions for the specified type in the format requested")]
         [OperationContract]
-        public Contributions GetContributionsBySiteJSON(string identityuserid, string site)
+        public Stream GetContributionsByType(string identityuserid, string type)
         {
-            return GetContributions(identityuserid, site, null);
+            return GetOutputStream(GetContributions(identityuserid, null, type));
         }
 
-        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/site/{site}/xml", ResponseFormat = WebMessageFormat.Xml)]
-        [WebHelp(Comment = "Get the given user's contributions for the specified site in XML format")]
+        [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/site/{site}")]
+        [WebHelp(Comment = "Get the given user's contributions for the specified site in the format requested")]
         [OperationContract]
-        public Contributions GetContributionsBySiteXML(string identityuserid, string site)
+        public Stream GetContributionsBySite(string identityuserid, string site)
         {
-            return GetContributions(identityuserid, site, null);
+            return GetOutputStream(GetContributions(identityuserid, site, null));
         }
-
 
         private Contributions GetContributions(string identityuserid, string siteName, string siteType)
         {

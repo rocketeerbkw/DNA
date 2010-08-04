@@ -1041,7 +1041,7 @@ namespace BBC.Dna.Data
         }
 
         /// <summary>
-        /// Gets a value the indicates whether the reader has one or more rows.
+        /// Does the requested column exist in the return row
         /// </summary>
         public bool Exists(string name)
         {
