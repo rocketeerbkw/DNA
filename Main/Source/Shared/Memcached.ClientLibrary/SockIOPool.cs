@@ -491,7 +491,12 @@ namespace Memcached.ClientLibrary
 			}
 
 			// mark pool as initialized
-			_initialized = true;
+            if (_availPool.Count == 0)
+            {
+                throw new ArgumentException(GetLocalizedString("Failed To Initialize - No Sockets in pool!"));
+            }
+
+            _initialized = true;
 
 			// start maint thread TODO: re-enable
 			if(_maintThreadSleep > 0)
