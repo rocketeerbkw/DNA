@@ -764,7 +764,7 @@ namespace Memcached.ClientLibrary
 				{
 
 					Logging.Verbose(GetLocalizedString("set success").Replace("$$Key$$", key));
-                    LastSuccess = "Set object " + obj.ToString() + " SUCCEEDED. Object cache size = " + length;
+                    LastSuccess = "Set object " + key.ToString() + " SUCCEEDED. Object cache size = " + length;
 
 					sock.Close();
 					sock = null;
