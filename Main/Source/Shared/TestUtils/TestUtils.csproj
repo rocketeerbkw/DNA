@@ -63,7 +63,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DnaIdentityWebServiceProxy, Version=1.0.1.15, Culture=neutral, PublicKeyToken=8e1f4c7d0de58a62, processorArchitecture=MSIL">
+    <Reference Include="DnaIdentityWebServiceProxy, Version=1.0.2.0, Culture=neutral, PublicKeyToken=8e1f4c7d0de58a62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Reference DLLs\DnaIdentityWebServiceProxy.dll</HintPath>
     </Reference>
