@@ -224,7 +224,7 @@ namespace Tests
         /// <summary>
         /// Tests trying to post as a banned user
         /// </summary>
-        [Ignore]
+        [TestMethod]
         public void CommentCreate_BannedUser()
         {
             Comments comments = null;

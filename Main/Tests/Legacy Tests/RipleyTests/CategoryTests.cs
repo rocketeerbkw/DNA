@@ -27,8 +27,8 @@ namespace RipleyTests
             Console.WriteLine("After TestRedirectNodeMissingForNonHiddenNodes");
         }
 
-        [TestMethod, Ignore]
-        public void TestRedirectNodeExistsForHiddenNodes()
+        [TestMethod]
+        public void TestRedirectNodeExistsForHiddenNodes_AddsRedirectNodeId()
         {
             Console.WriteLine("Before TestRedirectNodeExistsForHiddenNodes");
             // Connect to Actionnetwork and navigate to a known hidden node
@@ -40,8 +40,8 @@ namespace RipleyTests
             Console.WriteLine("After TestRedirectNodeExistsForHiddenNodes");
         }
 
-        [TestMethod, Ignore]
-        public void TestRedirectNodeExistsForAncestorsOnHiddenNodes()
+        [TestMethod]
+        public void TestRedirectNodeExistsForAncestorsOnHiddenNodes_AddsRedirectNodeId()
         {
             Console.WriteLine("Before TestRedirectNodeExistsForAncestorsOnHiddenNodes");
             // Connect to Actionnetwork and navigate to a known hidden node with hidden ancestors
@@ -54,8 +54,8 @@ namespace RipleyTests
             Console.WriteLine("After TestRedirectNodeExistsForAncestorsOnHiddenNodes");
         }
 
-        [TestMethod, Ignore]
-        public void TestHierarchySearchResultContainRedirectNodeIDs()
+        [TestMethod]
+        public void TestHierarchySearchResult_ContainRedirectNodeIDs()
         {
             Console.WriteLine("Before TestHierarchySearchResultContainRedirectNodeIDs");
             // Connect to actionnetwork and search for a known hidden node

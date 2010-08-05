@@ -53,7 +53,7 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetForumThreads(string siteName, string forumId, string threadId)
         {
-            return GetOutputStream(GetForumThreadsWithPost(siteName, forumId, threadId, "0"));
+            return GetForumThreadsWithPost(siteName, forumId, threadId, "0");
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/post/{postId}")]
@@ -61,7 +61,10 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetForumThreadsWithPost(string siteName, string forumId, string threadId, string postId)
         {
-            return GetOutputStream(GetForumThreadsWithPost(siteName, forumId, threadId, postId));
+            ISite site = Global.siteList.GetSite(siteName);
+
+            return GetOutputStream(ForumThreadPosts.CreateThreadPosts(readerCreator, cacheManager, null, siteList, site.SiteID,
+                Int32.Parse(forumId), Int32.Parse(threadId), itemsPerPage, startIndex, Int32.Parse(postId), (SortBy.Created == sortBy), false));
         }
     }
 }

@@ -359,7 +359,7 @@ namespace Tests
         /// <summary>
         /// Tests trying to post as a banned user
         /// </summary>
-        [Ignore]
+        [TestMethod]
         public void RatingCreate_BannedUser()
         {
             Reviews ratings = null;

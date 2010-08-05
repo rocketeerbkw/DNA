@@ -8,6 +8,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace Tests
 {
@@ -17,6 +18,19 @@ namespace Tests
     [TestClass]
     public class ModeratorManagementTests
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestInitialize]
+        public void Initialise()
+        {
+            using(var context = new FullInputContext(true))
+            {
+                var ug = new BBC.Dna.Users.UserGroups(context.ReaderCreator, context.Diagnostics, CacheFactory.GetCacheManager(), null, null);
+            }
+        }
+
+
         /// <summary>
         /// Check that the Stored Procedure is called correctly.
         /// </summary>

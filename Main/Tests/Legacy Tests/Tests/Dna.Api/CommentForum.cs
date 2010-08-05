@@ -666,7 +666,7 @@ namespace Tests
         /// <summary>
         /// Tests of the read of comment forums by sitename and prefix with sorting
         /// </summary>
-        [Ignore]
+        [TestMethod]
         public void CommentForumsReadAll_SortBy_Created()
         {
 
@@ -693,7 +693,7 @@ namespace Tests
             //get comment list with ascending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Ascending;
-            CommentForumList resultList = _comments.GetCommentForumListBySite(null);
+            CommentForumList resultList = _comments.GetCommentForumListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);
@@ -710,7 +710,7 @@ namespace Tests
             //get comment list with descending sort
             _comments.SortBy = SortBy.Created;
             _comments.SortDirection = SortDirection.Descending;
-            resultList = _comments.GetCommentForumListBySite(null);
+            resultList = _comments.GetCommentForumListBySite(site);
             Assert.IsTrue(resultList != null);
             Assert.IsTrue(resultList.SortBy == _comments.SortBy);
             Assert.IsTrue(resultList.SortDirection == _comments.SortDirection);

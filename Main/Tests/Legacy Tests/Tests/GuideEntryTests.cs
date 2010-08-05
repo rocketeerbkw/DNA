@@ -17,7 +17,7 @@ namespace Tests
         /// <summary>
         /// Test to make sure that an invalid h2g2id will fail to create an entry
         /// </summary>
-        [Ignore]
+        [TestMethod]
         public void EnsureInvalidH2G2IDFailsToCreate()
         {
             // Create a mockery of the input context

@@ -150,7 +150,6 @@
     <Compile Include="FileCacheTests.cs" />
     <Compile Include="GuideEntryTests.cs" />
     <Compile Include="HtmlCachingTests.cs" />
-    <Compile Include="InputContextTest.cs" />
     <Compile Include="MemberListTests.cs" />
     <Compile Include="NamespacedPhrasesTests.cs" />
     <Compile Include="NameSpaceTests.cs" />

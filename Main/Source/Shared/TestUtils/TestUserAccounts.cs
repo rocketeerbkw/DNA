@@ -92,6 +92,17 @@ namespace TestUtils
             get;
             set;
         }
+
+        /// <summary>
+        /// The get/set property for the identity user name
+        /// </summary>
+        public string IdentityId
+        {
+            get
+            {
+                return Cookie.Substring(0, Cookie.IndexOf("|"));
+            }
+        }
     }
     
     /// <summary>

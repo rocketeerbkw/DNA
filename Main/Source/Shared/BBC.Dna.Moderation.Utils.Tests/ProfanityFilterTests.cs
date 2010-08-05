@@ -297,7 +297,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
         /// <summary>
         /// Test that a profanity is not detected inside a link within the input text.
         /// </summary>
-        [Ignore]
+        [TestMethod]
         public void CheckForProfanities_CheckForProfanitiesWithInputContainingUrls()
         {
             string testInput = @"Here is some text. It contains a link, http://www.bbc.co.uk/dna/h2g2/inspectuser?id=324.";
@@ -305,7 +305,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             List<string> wordList2 = new List<string>(new string[] { "link" });
             string match;
 
-            Assert.IsFalse(ProfanityFilter.DoesTextContain(testInput, wordList1, false, false, out match));
+            Assert.IsTrue(ProfanityFilter.DoesTextContain(testInput, wordList1, false, false, out match));//should trap words in urls
             Assert.IsTrue(ProfanityFilter.DoesTextContain(testInput, wordList2, false, false, out match));
         }
 
