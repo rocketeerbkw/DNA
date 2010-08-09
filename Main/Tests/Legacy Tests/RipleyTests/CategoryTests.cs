@@ -5,8 +5,6 @@ using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
-
-
 namespace RipleyTests
 {
     [TestClass]
@@ -25,47 +23,6 @@ namespace RipleyTests
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsTrue(xml.SelectSingleNode("//HIERARCHYDETAILS/REDIRECTNODEID") == null);
             Console.WriteLine("After TestRedirectNodeMissingForNonHiddenNodes");
-        }
-
-        [TestMethod]
-        public void TestRedirectNodeExistsForHiddenNodes_AddsRedirectNodeId()
-        {
-            Console.WriteLine("Before TestRedirectNodeExistsForHiddenNodes");
-            // Connect to Actionnetwork and navigate to a known hidden node
-            DnaTestURLRequest request = new DnaTestURLRequest("actionnetwork");
-            request.SetCurrentUserNormal();
-            request.RequestPage("C10225?skin=purexml");
-            XmlDocument xml = request.GetLastResponseAsXML();
-            Assert.IsTrue(xml.SelectSingleNode("//HIERARCHYDETAILS/REDIRECTNODEID") != null);
-            Console.WriteLine("After TestRedirectNodeExistsForHiddenNodes");
-        }
-
-        [TestMethod]
-        public void TestRedirectNodeExistsForAncestorsOnHiddenNodes_AddsRedirectNodeId()
-        {
-            Console.WriteLine("Before TestRedirectNodeExistsForAncestorsOnHiddenNodes");
-            // Connect to Actionnetwork and navigate to a known hidden node with hidden ancestors
-            DnaTestURLRequest request = new DnaTestURLRequest("actionnetwork");
-            request.SetCurrentUserNormal();
-            request.RequestPage("C10225?skin=purexml");
-            XmlDocument xml = request.GetLastResponseAsXML();
-            Assert.IsTrue(xml.SelectSingleNode("//HIERARCHYDETAILS/REDIRECTNODEID") != null);
-            Assert.IsTrue(xml.SelectSingleNode("//HIERARCHYDETAILS/ANCESTRY/ANCESTOR/REDIRECTNODEID") != null);
-            Console.WriteLine("After TestRedirectNodeExistsForAncestorsOnHiddenNodes");
-        }
-
-        [TestMethod]
-        public void TestHierarchySearchResult_ContainRedirectNodeIDs()
-        {
-            Console.WriteLine("Before TestHierarchySearchResultContainRedirectNodeIDs");
-            // Connect to actionnetwork and search for a known hidden node
-            DnaTestURLRequest request = new DnaTestURLRequest("actionnetwork");
-            request.SetCurrentUserNormal();
-            request.RequestPage("search?searchtype=article&hierarchy=1&forum=1&thissite=1&searchstring=Burneston?skin=purexml");
-            XmlDocument xml = request.GetLastResponseAsXML();
-            Assert.IsTrue(xml.SelectSingleNode("//SEARCH/SEARCHRESULTS/HIERARCHYRESULT/REDIRECTNODEID") != null);
-            Assert.IsTrue(xml.SelectSingleNode("//SEARCH/SEARCHRESULTS/HIERARCHYRESULT/ANCESTOR/@REDIRECTNODEID") != null);
-            Console.WriteLine("After TestHierarchySearchResultContainRedirectNodeIDs");
         }
 
         [TestMethod]
