@@ -135,7 +135,7 @@
                                   <xsl:apply-templates select="." mode="preview"/>
                                 </xsl:when>
                                 <xsl:otherwise>
-                                  <p class="article">To create a new discussion in the , fill out the form below.</p>
+                                  <p class="article">To create a new discussion, fill out the form below.</p>
                                 </xsl:otherwise>
                               </xsl:choose>
                                 
