@@ -12,9 +12,10 @@ using System.Collections;
 
 namespace BBC.Dna.Users
 {
-    public class UserGroups : SignalBase<CachedGroups>
+    public class UserGroups : SignalBase<UserGroups>
     {
         private const string _signalKey = "recache-groups";
+        public static string ALLGROUPSKEY = "ALLGROUPS";
 
         /// <summary>
         /// Default constructor
@@ -24,10 +25,10 @@ namespace BBC.Dna.Users
         public UserGroups(IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, List<string> ripleyServerAddresses, List<string> dotNetServerAddresses)
             : base(dnaDataReaderCreator, dnaDiagnostics, caching, _signalKey, ripleyServerAddresses, dotNetServerAddresses)
         {
-            InitialiseObject = new InitialiseObjectDelegate(InitialiseAllUsersAndGroups);
+            InitialiseObject += new InitialiseObjectDelegate(InitialiseAllUsersAndGroups);
             HandleSignalObject = new HandleSignalDelegate(HandleSignal);
             GetStatsObject = new GetStatsDelegate(GetUserGroupsStats);
-            CheckVersionInCache();
+            CheckVersionInCache(ALLGROUPSKEY);
 
             SignalHelper.AddObject(typeof(UserGroups), this);
         }
@@ -50,12 +51,23 @@ namespace BBC.Dna.Users
         /// Gets all the groups for all the users and sets up the cached information
         /// </summary>
         /// <returns>True if we initialised correctly</returns>
-        private CachedGroups InitialiseAllUsersAndGroups()
+        private void InitialiseAllUsersAndGroups(params object[] args)
         {
-            var cachedGroups = new CachedGroups();
+
+            if (args != null && args.Length == 2)
+            {
+                if (args[0].GetType() == typeof(Int32) && args[1].GetType() == typeof(Int32))
+                {//arg[0]= userid arg[1]= siteid
+                    int userId = (int)args[0];
+                    int siteId = (int)args[1];
+                    AddToInternalObjects(CreateCacheKey(userId, siteId), CreateCacheLastUpdateKey(userId, siteId), new List<UserGroup>());
+                    return;
+                }
+            }
+
             try
             {
-
+                DnaDiagnostics.Default.WriteTimedEventToLog("CACHING", "About to initialise all groups and users");
                 // Get all the users and groups
                 using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("fetchgroupsandmembers"))
                 {
@@ -79,7 +91,7 @@ namespace BBC.Dna.Users
                             {
                                 try
                                 {
-                                    cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
+                                    AddToInternalObjects(CreateCacheKey(lastUserID, lastSiteID), GetCacheKeyLastUpdate(lastUserID, lastSiteID), groups);
                                 }
                                 catch (Exception e)
                                 {
@@ -91,7 +103,7 @@ namespace BBC.Dna.Users
                             lastSiteID = currentSiteID;
                         }
                         // Add the group name to the list
-                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper() });
+                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper(), SiteId = lastSiteID });
                     }
 
                     // Put the last group info into the cache
@@ -99,7 +111,7 @@ namespace BBC.Dna.Users
                     {
                         try
                         {
-                            cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
+                            AddToInternalObjects(CreateCacheKey(lastUserID, lastSiteID), GetCacheKeyLastUpdate(lastUserID, lastSiteID), groups);
                         }
                         catch (Exception e)
                         {
@@ -113,11 +125,9 @@ namespace BBC.Dna.Users
                 _dnaDiagnostics.WriteExceptionToLog(ex);
                 throw ex;
             }
-            cachedGroups.GroupList = InitialiseAllGroups();
 
-            
-
-            return cachedGroups;
+            InitialiseAllGroups();
+            DnaDiagnostics.Default.WriteTimedEventToLog("CACHING", "All groups and users initialised");
         }
 
         /// <summary>
@@ -125,25 +135,22 @@ namespace BBC.Dna.Users
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        private CachedGroups InitialiseGroupsForSingleUser(int userId)
+        private void InitialiseGroupsForSingleUser(int userId)
         {
-            var cachedGroups = GetCachedObject();
+            
             try
             {
-                //remove all groups for this user
-                cachedGroups.AllUsersGroupsAndSites.Where(x => x.Key.IndexOf(userId.ToString() + "-") >= 0).ToList().ForEach(pair => cachedGroups.AllUsersGroupsAndSites.Remove(pair.Key));
-
                 // Get all the users and groups
                 using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("fetchgroupsforuser"))
                 {
                     reader.AddParameter("userid", userId);
                     reader.Execute();
                     // Go round all the results building the lists and caching them.
-                    List<UserGroup> groups = null;
                     int lastUserID = 0;
                     int lastSiteID = 0;
                     int currentUserID = 0;
                     int currentSiteID = 0;
+                    List<UserGroup> groups = null;
                     while (reader.Read())
                     {
                         currentSiteID = reader.GetInt32("siteid");
@@ -157,7 +164,7 @@ namespace BBC.Dna.Users
                             {
                                 try
                                 {
-                                    cachedGroups.AllUsersGroupsAndSites.Add(GetListKey(lastUserID, lastSiteID), groups);
+                                    AddToInternalObjects(CreateCacheKey(lastUserID, lastSiteID), GetCacheKeyLastUpdate(lastUserID, lastSiteID), groups);
                                 }
                                 catch (Exception e)
                                 {
@@ -169,7 +176,7 @@ namespace BBC.Dna.Users
                             lastSiteID = currentSiteID;
                         }
                         // Add the group name to the list
-                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper() });
+                        groups.Add(new UserGroup() { Name = reader.GetString("name").ToUpper(), SiteId = lastSiteID });
                     }
 
                     // Put the last group info into the cache
@@ -177,7 +184,7 @@ namespace BBC.Dna.Users
                     {
                         try
                         {
-                            cachedGroups.AllUsersGroupsAndSites.Add(lastUserID.ToString() + "-" + lastSiteID.ToString(), groups);
+                            AddToInternalObjects(CreateCacheKey(lastUserID, lastSiteID), GetCacheKeyLastUpdate(lastUserID, lastSiteID), groups);
                         }
                         catch (Exception e)
                         {
@@ -189,15 +196,7 @@ namespace BBC.Dna.Users
             catch (Exception ex)
             {
                 _dnaDiagnostics.WriteExceptionToLog(ex);
-                throw ex;
             }
-            cachedGroups.GroupList = InitialiseAllGroups();
-
-
-
-            return cachedGroups;
-            //
-
         }
 
         /// <summary>
@@ -218,14 +217,13 @@ namespace BBC.Dna.Users
 
             if (userId == 0)
             {
-                _object = InitialiseAllUsersAndGroups();
+                InitialiseAllUsersAndGroups(null);
             }
             else
             {
-                _object = InitialiseGroupsForSingleUser(userId);
+                InitialiseGroupsForSingleUser(userId);
             }
-               
-            UpdateCache();
+            
 
             return true;
         }
@@ -241,8 +239,8 @@ namespace BBC.Dna.Users
         {
             // Check to see if we've got a list for this user already
             List<UserGroup> userGroups = GetUsersGroupListForSite(userID, siteID);
-            if (!AddUserToInternalList(userID, groupName.ToLower(), siteID, ref userGroups))
-            {
+            if (!AddUserToInternalList(userID, groupName, siteID, ref userGroups))
+            {//already in group
                 return true;
             }
 
@@ -254,15 +252,10 @@ namespace BBC.Dna.Users
                 reader.AddParameter("groupname", groupName.ToLower());
                 reader.Execute();
             }
-
             
 
             // Add the updated group list to the main cache list
-            AddUserGroupListToMainList(userID, siteID, userGroups);
-
-            //update cache
-            UpdateCache();
-
+            AddToInternalObjects(CreateCacheKey(userID, siteID), GetCacheKeyLastUpdate(userID, siteID), userGroups);
             return true;
         }
 
@@ -291,10 +284,7 @@ namespace BBC.Dna.Users
             }
 
             // Add the updated group list to the main cache list
-            AddUserGroupListToMainList(userID, siteID, userGroups);
-
-            //update cache
-            UpdateCache();
+            AddToInternalObjects(CreateCacheKey(userID, siteID), GetCacheKeyLastUpdate(userID, siteID), userGroups);
         }
         
         /// <summary>
@@ -322,23 +312,20 @@ namespace BBC.Dna.Users
         /// <returns></returns>
         public List<int> GetSitesUserIsMemberOf(int userId, string groupName)
         {
+            InitialiseGroupsForSingleUser(userId);//ensure cache contains all user groups for user
             var siteIds = new List<int>();
-            var lookupKey = string.Format("{0}-", userId);
+            var lookupKey = CreateCacheKey(userId, 0);
 
-            var allUserGroups = UserGroups.GetObject().GetCachedObject();
-            var userGroups = from n in allUserGroups.AllUsersGroupsAndSites
-                             where n.Key.IndexOf(lookupKey) == 0
+            var keys = from n in InternalObjects.Keys
+                       where n.IndexOf(lookupKey) == 0 && n.IndexOf(_lastUpdateCacheKey) < 0
                              select n;
 
-            foreach (KeyValuePair<string,List<UserGroup>> group in userGroups)
+            foreach (string key in keys)
             {
-                if (group.Value.Exists(x => x.Name.ToLower() == groupName.ToLower()))
+                var group = (List<UserGroup>)InternalObjects[key];
+                if (group.Exists(x => x.Name.ToLower() == groupName.ToLower()))
                 {
-                    var siteId=0;
-                    if(Int32.TryParse(group.Key.Substring(group.Key.LastIndexOf("-") + 1, group.Key.Length - group.Key.LastIndexOf("-")-1), out siteId))
-                    {
-                        siteIds.Add(siteId);
-                    }
+                    siteIds.Add(group[0].SiteId);
                 }
             }
 
@@ -354,7 +341,7 @@ namespace BBC.Dna.Users
         public bool CreateNewGroup(string groupName, int userID)
         {
             // Get all the groups first so we know we're in a stable state
-            var cachedGroups = GetCachedObject();
+            var cachedGroups = (List<UserGroup>)GetCachedObject(ALLGROUPSKEY);
             try
             {
                 if (!AddGroupToInternalList(groupName, userID, ref cachedGroups))
@@ -371,8 +358,8 @@ namespace BBC.Dna.Users
                 }
 
 
-                //update cache
-                UpdateCache();
+                AddToInternalObjects(GetCacheKey(ALLGROUPSKEY), GetCacheKeyLastUpdate(ALLGROUPSKEY), cachedGroups);
+
 
             }
             catch (Exception ex)
@@ -423,17 +410,6 @@ namespace BBC.Dna.Users
         }
 
         /// <summary>
-        /// Returns the key used for the cached dictionary
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="siteId"></param>
-        /// <returns></returns>
-        static public string GetListKey(int userId, int siteId)
-        {
-            return userId.ToString() + "-" + siteId.ToString();
-        }
-
-        /// <summary>
         /// Sends the signal
         /// 
         /// </summary>
@@ -456,27 +432,6 @@ namespace BBC.Dna.Users
             SendSignals(args);
         }
 
-
-        /// <summary>
-        /// Helper method for add user group list infomation to the main list
-        /// </summary>
-        /// <param name="userID">The id of the user</param>
-        /// <param name="siteID">The id of the site</param>
-        /// <param name="userGroups">The group list information you want to add</param>
-        private void AddUserGroupListToMainList(int userID, int siteID, List<UserGroup> userGroups)
-        {
-            var cachedGroups = GetCachedObject();
-            if (userGroups.Count > 0)
-            {
-                cachedGroups.AllUsersGroupsAndSites[GetListKey(userID, siteID)] = userGroups;
-
-            }
-            else
-            {
-                cachedGroups.AllUsersGroupsAndSites.Remove(GetListKey(userID, siteID));
-            }
-        }
-
         /// <summary>
         /// Helper method that gets the users group list for a given site
         /// </summary>
@@ -486,12 +441,7 @@ namespace BBC.Dna.Users
         /// <remarks>An empty list does not mean it hasn't been setup, the user does not belong to any groups</remarks>
         private List<UserGroup> GetUsersGroupListForSite(int userID, int siteID)
         {
-            var cachedGroups = GetCachedObject();
-            if (cachedGroups.AllUsersGroupsAndSites.ContainsKey(GetListKey(userID, siteID)))
-            {
-                return (List<UserGroup>)cachedGroups.AllUsersGroupsAndSites[GetListKey(userID, siteID)];
-            }
-            return null;
+            return (List<UserGroup>)GetCachedObject(userID, siteID);
         }
 
         /// <summary>
@@ -500,15 +450,15 @@ namespace BBC.Dna.Users
         /// <param name="groupName"></param>
         /// <param name="userID"></param>
         /// <returns></returns>
-        private bool AddGroupToInternalList(string groupName, int userID, ref CachedGroups cachedGroups)
+        private bool AddGroupToInternalList(string groupName, int userID, ref List<UserGroup> cachedGroups)
         {
             // Check to see if we already have the group
-            if (cachedGroups.GroupList.Exists(x => x.Name.ToUpper() == groupName.ToUpper()))
+            if (cachedGroups.Exists(x => x.Name.ToUpper() == groupName.ToUpper()))
             {
                 // Already Exists!
                 return false;
             }
-            cachedGroups.GroupList.Add(new UserGroup() { Name = groupName.ToLower() });
+            cachedGroups.Add(new UserGroup() { Name = groupName.ToLower() });
             return true;
 
         }
@@ -517,7 +467,7 @@ namespace BBC.Dna.Users
         /// Gets a list of all the current groups in the database
         /// </summary>
         /// <returns>The list of all group names</returns>
-        private List<UserGroup> InitialiseAllGroups()
+        private void InitialiseAllGroups()
         {
 
             var _groupList = new List<UserGroup>();
@@ -540,8 +490,8 @@ namespace BBC.Dna.Users
                 throw ex;
             }
 
-            // Return the list
-            return _groupList;
+            AddToInternalObjects(GetCacheKey(ALLGROUPSKEY), GetCacheKeyLastUpdate(ALLGROUPSKEY), _groupList);
+
         }
 
         /// <summary>
@@ -610,10 +560,67 @@ namespace BBC.Dna.Users
         {
             var values = new NameValueCollection();
 
-            GetCachedObject();
-            values.Add("NumberOfAllUsersGroupsAndSites", _object.AllUsersGroupsAndSites.Count.ToString());
-            values.Add("NumberOfGroups", _object.GroupList.Count.ToString());
+            values.Add("NumberOfAllUsersGroupsAndSites", InternalObjects.Count.ToString());
+            if(InternalObjects.ContainsKey(GetCacheKey(ALLGROUPSKEY)))
+            {
+                values.Add("NumberOfGroups", ((List<UserGroup>)InternalObjects[GetCacheKey(ALLGROUPSKEY)]).Count.ToString());
+            }
+            else
+            {
+                values.Add("NumberOfGroups", "0");
+            }
+
             return values;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="siteId"></param>
+        /// <returns></returns>
+        public static string CreateCacheKey(int userId, int siteId)
+        {
+            if (siteId == 0)
+            {
+                return GetCacheKey(userId);
+            }
+            else
+            {
+                return GetCacheKey(userId, siteId);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="siteId"></param>
+        /// <returns></returns>
+        public static string CreateCacheLastUpdateKey(int userId, int siteId)
+        {
+            if (siteId == 0)
+            {
+                return GetCacheKeyLastUpdate(userId);
+            }
+            else
+            {
+                return GetCacheKeyLastUpdate(userId, siteId);
+            }
+        }
+
+        /// <summary>
+        /// Returns all groups in cache
+        /// </summary>
+        /// <returns></returns>
+        public List<UserGroup> GetAllGroups()
+        {
+            if(InternalObjects.ContainsKey(GetCacheKey(ALLGROUPSKEY)))
+            {
+                return (List<UserGroup>)InternalObjects[GetCacheKey(ALLGROUPSKEY)];
+            }
+            return new List<UserGroup>();
+        }
+
     }
 }

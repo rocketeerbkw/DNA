@@ -246,6 +246,10 @@ namespace BBC.Dna.Utils
                         if (!setSuccess)
                         {
                             DnaDiagnostics.Default.WriteWarningToLog("CACHING", _mc.LastError);
+                            if (_mc.LastError.IndexOf("object too large for cache") >= 0)
+                            {
+                                return;
+                            }
                         }
                         else
                         {

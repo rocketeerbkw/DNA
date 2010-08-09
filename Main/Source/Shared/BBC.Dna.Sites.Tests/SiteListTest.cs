@@ -663,11 +663,11 @@ namespace BBC.Dna.Sites.Tests
 
             SiteList siteList = new SiteList(creator, diag, cache, null, null);
 
-            var stats = siteList.GetStats();
+            var stats = siteList.GetStats(typeof(SiteList));
             Assert.IsNotNull(stats);
-            Assert.AreEqual(typeof(SiteListCache).AssemblyQualifiedName, stats.Name);
-            Assert.AreEqual(siteList.GetCachedObject().Ids.Count.ToString(), stats.Values["NumberOfSites"]);
-            Assert.AreEqual(siteList.GetCachedObject().SiteOptionList.GetAllOptions().Count.ToString(), stats.Values["NumberOfSiteOptions"]);
+            Assert.AreEqual(typeof(SiteList).AssemblyQualifiedName, stats.Name);
+            Assert.AreEqual(siteList.GetObjectFromCache().Ids.Count.ToString(), stats.Values["NumberOfSites"]);
+            Assert.AreEqual(siteList.GetObjectFromCache().SiteOptionList.GetAllOptions().Count.ToString(), stats.Values["NumberOfSiteOptions"]);
             
         }
 

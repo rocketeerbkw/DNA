@@ -15,7 +15,7 @@ namespace BBC.Dna.Moderation
     /// <summary>
     /// The banned emails service class
     /// </summary>
-    public class BannedEmails : SignalBase<BannedEmailsList>
+    public class BannedEmails : SignalBase<BannedEmails>
     {
         private const string _signalKey = "recache-bannedEmails";
 
@@ -28,7 +28,7 @@ namespace BBC.Dna.Moderation
             : base(dnaDataReaderCreator, dnaDiagnostics, caching, _signalKey, ripleyServerAddresses, dotNetServerAddresses)
         {
             
-            InitialiseObject = new InitialiseObjectDelegate(InitializeBannedEmails);
+            InitialiseObject += new InitialiseObjectDelegate(InitializeBannedEmails);
             HandleSignalObject = new HandleSignalDelegate(HandleSignal);
             GetStatsObject = new GetStatsDelegate(GetBannedEmailsStats);
             CheckVersionInCache();
@@ -53,7 +53,7 @@ namespace BBC.Dna.Moderation
         /// <summary>
         /// Initialize the banned list from the database - used as a delegate
         /// </summary>
-        private BannedEmailsList InitializeBannedEmails()
+        private void InitializeBannedEmails(params object[] args)
         {
             var bannedEmailsList = new BannedEmailsList();
             // Check to see if we need to fill the cache
@@ -86,7 +86,8 @@ namespace BBC.Dna.Moderation
             {
                 _dnaDiagnostics.WriteExceptionToLog(ex);
             }
-            return bannedEmailsList;
+
+            AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), bannedEmailsList);
         }
 
         /// <summary>
@@ -96,8 +97,7 @@ namespace BBC.Dna.Moderation
         /// <returns></returns>
         private bool HandleSignal(NameValueCollection args)
         {
-            _object = InitializeBannedEmails();
-            UpdateCache();
+            InitializeBannedEmails();
             return true;
         }
 
@@ -109,9 +109,19 @@ namespace BBC.Dna.Moderation
         {
             var values = new NameValueCollection();
 
-            GetCachedObject();
+            var _object = GetObjectFromCache();
             values.Add("NumberOfBannedEmailsInList", _object.bannedEmailsList.Count.ToString());
             return values;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public BannedEmailsList GetObjectFromCache()
+        {
+            return (BannedEmailsList)GetCachedObject();
         }
 
         /// <summary>
@@ -123,7 +133,7 @@ namespace BBC.Dna.Moderation
         {
             try
             {
-                var bannedEmails = GetCachedObject();
+                var bannedEmails = GetObjectFromCache();
                 // Get the details from the cache
                 var emailDetails = bannedEmails.bannedEmailsList[email];
 
@@ -146,7 +156,7 @@ namespace BBC.Dna.Moderation
             // Get the details from the cache
             try
             {
-                var bannedEmails = GetCachedObject();
+                var bannedEmails = GetObjectFromCache();
                 // Get the details from the cache
                 var emailDetails = bannedEmails.bannedEmailsList[email];
 
@@ -191,9 +201,10 @@ namespace BBC.Dna.Moderation
                     {
                         if (reader.GetInt32("Duplicate") == 0)
                         {
-                            var bannedEmails = GetCachedObject();
+                            var bannedEmails = GetObjectFromCache();
                             bannedEmails.bannedEmailsList.Add(email, new BannedEmailDetails(email, bannedFromSignIn, bannedFromComplaints, editorID, editorName, DateTime.Now));
-                            UpdateCacheAndSignal();
+                            AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), bannedEmails);
+                            SendSignals();
                         }
                     }
                     else
@@ -218,7 +229,7 @@ namespace BBC.Dna.Moderation
         {
             try
             {
-                var emailObj = GetCachedObject().bannedEmailsList[email];
+                var emailObj = GetObjectFromCache().bannedEmailsList[email];
                 using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("RemoveBannedEMail"))
                 {
                     // Add the email and execute
@@ -227,9 +238,10 @@ namespace BBC.Dna.Moderation
                 }
 
                 // Check to see if the email is in the list
-                var bannedEmails = GetCachedObject();
+                var bannedEmails = GetObjectFromCache();
                 bannedEmails.bannedEmailsList.Remove(email);
-                UpdateCacheAndSignal();
+                AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), bannedEmails);
+                SendSignals();
             }
             catch(Exception e) 
             {
@@ -249,7 +261,7 @@ namespace BBC.Dna.Moderation
         {
             try
             {
-                var bannedEmails = GetCachedObject();
+                var bannedEmails = GetObjectFromCache();
                 var details = bannedEmails.bannedEmailsList[email];
                 if (details != null)
                 {
@@ -293,7 +305,7 @@ namespace BBC.Dna.Moderation
             //InitializebannedEmails(false);
 
             // Return the list from the cache
-            return GetCachedObject().bannedEmailsList;
+            return GetObjectFromCache().bannedEmailsList;
         }
 
         /// <summary>
@@ -301,7 +313,7 @@ namespace BBC.Dna.Moderation
         /// </summary>
         public void UpdateCacheAndSendSignal()
         {
-            UpdateCacheAndSignal();
+            SendSignals();
         }
 
         

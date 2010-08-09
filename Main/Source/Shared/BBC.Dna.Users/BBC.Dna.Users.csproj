@@ -93,7 +93,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticateUser.cs" />
-    <Compile Include="CachedGroups.cs" />
     <Compile Include="CallingUser.cs" />
     <Compile Include="ICallingUser.cs" />
     <Compile Include="IUser.cs" />

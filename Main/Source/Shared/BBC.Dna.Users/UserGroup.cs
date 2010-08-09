@@ -12,5 +12,8 @@ namespace BBC.Dna.Users
     {
         [DataMember(Name = "name")]   
         public string Name { get; set; }
+
+
+        public int SiteId { get; set; }
     }
 }

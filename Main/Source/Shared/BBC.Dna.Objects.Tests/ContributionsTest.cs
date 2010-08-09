@@ -43,6 +43,7 @@ namespace BBC.Dna.Objects.Tests
         
         public ContributionsTest()
         {
+            _test_sortDirection = SortDirection.Ascending;
         }
 
         private TestContext testContextInstance;
