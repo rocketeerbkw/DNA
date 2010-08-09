@@ -263,8 +263,6 @@
     <Compile Include="CommentBoxTestsUsingApi.cs" />
     <Compile Include="ArticlePageTests.cs" />
     <Compile Include="Dna.Services.Categories\categories.cs" />
-    <Compile Include="Dna.Services.Categories\Index.cs" />
-    <Compile Include="Dna.Services.Users\contributions.cs" />
     <Compile Include="Dna.Services.Users\users.cs" />
     <Compile Include="MBAdmin.cs" />
     <Compile Include="Dna.Services.Articles\articles.cs" />
