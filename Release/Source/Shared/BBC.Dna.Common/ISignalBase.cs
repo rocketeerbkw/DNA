@@ -20,7 +20,7 @@ namespace BBC.Dna.Common
         /// Returns the status of the object
         /// </summary>
         /// <returns></returns>
-        SignalStatusMember GetStats();
+        SignalStatusMember GetStats(Type type);
 
     }
 }

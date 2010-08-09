@@ -18,7 +18,7 @@ namespace BBC.Dna.Sites
     /// Summary of the SiteList object, holds the list of 
     /// </summary>
     [Serializable]
-    public class SiteList : SignalBase<SiteListCache>, ISiteList
+    public class SiteList : SignalBase<SiteList>, ISiteList
     {
         private const string _signalKey = "recache-site";
         /// <summary>
@@ -27,7 +27,7 @@ namespace BBC.Dna.Sites
         public SiteList(IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, List<string> ripleyServerAddresses, List<string> dotNetServerAddresses)
             : base(dnaDataReaderCreator, dnaDiagnostics, caching, _signalKey, ripleyServerAddresses, dotNetServerAddresses)
         {
-            InitialiseObject = new InitialiseObjectDelegate(LoadSiteList);
+            InitialiseObject += new InitialiseObjectDelegate(LoadSiteList);
             HandleSignalObject = new HandleSignalDelegate(HandleSignal);
             GetStatsObject = new GetStatsDelegate(GetSiteStats);
             CheckVersionInCache();
@@ -39,9 +39,9 @@ namespace BBC.Dna.Sites
         /// Public method to Load the Site List with data from all of the Sites.
         /// Also loads in site options for all sites too
         /// </summary>
-        private SiteListCache LoadSiteList()
+        private void LoadSiteList(params object[] args)
         {
-            return LoadSiteList(0, null);
+            LoadSiteList(0, null);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace BBC.Dna.Sites
         /// </summary>
         /// <param name="context">The context</param>
         /// <param name="id">Can load just a specific site</param>
-        private SiteListCache LoadSiteList(int siteId, SiteListCache siteList)
+        private void LoadSiteList(int siteId, SiteListCache siteList)
         {
             _dnaDiagnostics.WriteTimedEventToLog("SiteList.LoadSiteList", "Loading sitelist for " +
                 (siteId == 0 ? "all sites" : "siteid=" + siteId.ToString()));
@@ -87,7 +87,18 @@ namespace BBC.Dna.Sites
             siteList.SiteOptionList.CreateFromDatabase(_readerCreator, _dnaDiagnostics);
             _dnaDiagnostics.WriteTimedEventToLog("SiteList.LoadSiteList", "Completed loading sitelist for " +
                 (siteId == 0 ? "all sites" : "siteid=" + siteId.ToString()));
-            return siteList;
+
+            AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), siteList);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public SiteListCache GetObjectFromCache()
+        {
+            return (SiteListCache)GetCachedObject();
         }
 
         /// <summary>
@@ -104,12 +115,11 @@ namespace BBC.Dna.Sites
             {
                 if (Int32.TryParse(args["siteid"], out siteId))
                 {//get the existing cache to update only the new site value
-                    siteListCache = GetCachedObject();
+                    siteListCache = GetObjectFromCache();
                 }
             }
 
-            _object = LoadSiteList(siteId, siteListCache);
-            UpdateCache();
+            LoadSiteList(siteId, siteListCache);
 
             return true;
         }
@@ -122,9 +132,9 @@ namespace BBC.Dna.Sites
         {
             var values = new NameValueCollection();
 
-            GetCachedObject();
-            values.Add("NumberOfSites", _object.Ids.Count.ToString());
-            values.Add("NumberOfSiteOptions", _object.SiteOptionList.GetAllOptions().Count.ToString());
+            var obj = GetObjectFromCache();
+            values.Add("NumberOfSites", obj.Ids.Count.ToString());
+            values.Add("NumberOfSiteOptions", obj.SiteOptionList.GetAllOptions().Count.ToString());
             return values;
         }
 
@@ -133,7 +143,7 @@ namespace BBC.Dna.Sites
         /// </summary>
         public Dictionary<int, Site> Ids
         {
-            get { return GetCachedObject().Ids; }
+            get { return GetObjectFromCache().Ids; }
         }
 
         /// <summary>
@@ -146,7 +156,7 @@ namespace BBC.Dna.Sites
         public static ISiteList GetSiteList()
         {
             SiteList siteList =  (SiteList)SignalHelper.GetObject(typeof(SiteList));
-            siteList.GetCachedObject();
+            siteList.GetObjectFromCache();
             return (ISiteList)siteList;
         }
 
@@ -158,7 +168,7 @@ namespace BBC.Dna.Sites
         /// <returns>The Site oject with that name or null</returns>
         public ISite GetSite(string name)
         {
-
+            var _object = GetObjectFromCache();
             ISite site = _object.Ids.Values.FirstOrDefault(x => x.SiteName == name);
             if (site == null)
             {
@@ -177,6 +187,7 @@ namespace BBC.Dna.Sites
         /// <returns>The Site with that ID or null</returns>
         public ISite GetSite(int id)
         {
+            var _object = GetObjectFromCache();
             bool siteInList = _object.Ids.ContainsKey(id);
             if (!siteInList)
             {
@@ -506,7 +517,7 @@ namespace BBC.Dna.Sites
         /// <exception cref="SiteOptionInvalidTypeException"></exception>
         public int GetSiteOptionValueInt(int siteId, string section, string name)
         {
-            return _object.SiteOptionList.GetValueInt(siteId, section, name);
+            return GetObjectFromCache().SiteOptionList.GetValueInt(siteId, section, name);
         }
 
         /// <summary>
@@ -521,7 +532,7 @@ namespace BBC.Dna.Sites
         /// <exception cref="SiteOptionInvalidTypeException"></exception>
         public bool GetSiteOptionValueBool(int siteId, string section, string name)
         {
-            return _object.SiteOptionList.GetValueBool(siteId, section, name);
+            return GetObjectFromCache().SiteOptionList.GetValueBool(siteId, section, name);
         }
 
         /// <summary>
@@ -536,7 +547,7 @@ namespace BBC.Dna.Sites
         /// <exception cref="SiteOptionInvalidTypeException"></exception>
         public string GetSiteOptionValueString(int siteId, string section, string name)
         {
-            return _object.SiteOptionList.GetValueString(siteId, section, name);
+            return GetObjectFromCache().SiteOptionList.GetValueString(siteId, section, name);
         }
 
         /// <summary>
@@ -546,7 +557,7 @@ namespace BBC.Dna.Sites
         /// <returns></returns>
         public List<SiteOption> GetSiteOptionListForSite(int siteId)
         {
-            return _object.SiteOptionList.GetSiteOptionListForSite(siteId);
+            return GetObjectFromCache().SiteOptionList.GetSiteOptionListForSite(siteId);
         }
 
         /// <summary>
@@ -554,7 +565,7 @@ namespace BBC.Dna.Sites
         /// </summary>
         public bool IsMessageboard(int siteID)
         {
-            return _object.SiteOptionList.GetValueBool(siteID, "General", "IsMessageboard");
+            return GetObjectFromCache().SiteOptionList.GetValueBool(siteID, "General", "IsMessageboard");
         }
 
         /// <summary>

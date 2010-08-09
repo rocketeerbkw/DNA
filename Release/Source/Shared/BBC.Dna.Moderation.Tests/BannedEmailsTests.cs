@@ -508,7 +508,7 @@ namespace BBC.Dna.Moderation.Tests
             var testObj = (GetBannedEmailsList()).bannedEmailsList["userbannedfromcomplaining@bbc.co.uk"];
 
             Assert.IsTrue(obj.UpdateEmailDetails(testObj.Email, !testObj.IsBannedFromSignIn, !testObj.IsBannedFromComplaints, 0));
-            var returnedList = obj.GetCachedObject().bannedEmailsList;
+            var returnedList = obj.GetObjectFromCache().bannedEmailsList;
             Assert.AreEqual(!testObj.IsBannedFromComplaints, returnedList[testObj.Email].IsBannedFromComplaints);
             Assert.AreEqual(!testObj.IsBannedFromSignIn, returnedList[testObj.Email].IsBannedFromSignIn);
             
@@ -679,10 +679,10 @@ namespace BBC.Dna.Moderation.Tests
 
             var obj = new BannedEmails(creator, diag, cache, null, null);
 
-            var stats = obj.GetStats();
+            var stats = obj.GetStats(typeof(BannedEmails));
             Assert.IsNotNull(stats);
-            Assert.AreEqual(typeof(BannedEmailsList).AssemblyQualifiedName, stats.Name);
-            Assert.AreEqual(obj.GetCachedObject().bannedEmailsList.Count.ToString(), stats.Values["NumberOfBannedEmailsInList"]);
+            Assert.AreEqual(typeof(BannedEmails).AssemblyQualifiedName, stats.Name);
+            Assert.AreEqual(obj.GetObjectFromCache().bannedEmailsList.Count.ToString(), stats.Values["NumberOfBannedEmailsInList"]);
 
         }
         

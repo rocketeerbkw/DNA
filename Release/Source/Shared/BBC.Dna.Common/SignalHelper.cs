@@ -95,7 +95,7 @@ namespace BBC.Dna.Common
                 try
                 {
                     var obj = (ISignalBase)signalObj.Value;
-                    signalStatus.Members.Add(obj.GetStats());
+                    signalStatus.Members.Add(obj.GetStats(obj.GetType()));
                 }
                 catch (Exception e)
                 {
