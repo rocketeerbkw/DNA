@@ -311,14 +311,10 @@
     </xsl:template>
     
     <xsl:template name="boardtimes">
-		<xsl:choose>
-			<xsl:when test="$boardClosed = 'true'">
-				<p id="boardclosed">The message board is currently closed for posting.</p>
-			</xsl:when>
-			<xsl:otherwise>
-				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT" disable-output-escaping="yes" /></p>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:if test="$boardClosed = 'true'">
+			<p id="boardclosed">The message board is currently closed for posting.</p>
+		</xsl:if>
+		<p><xsl:value-of select="SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT" disable-output-escaping="yes" /></p>
 	</xsl:template>
 	
 	<xsl:template match="LINK" mode="modules">
