@@ -22,6 +22,8 @@ namespace BBC.Dna.Sites
             WelcomeMessage = String.Empty;
             AboutMessage = String.Empty;
             OpenclosetimesText = String.Empty;
+            Recentdiscussions = true;
+            Socialtoolbar = false;
             TopicLayout = String.Empty;
             CssLocation = String.Empty;
             EmoticonLocation = String.Empty;
