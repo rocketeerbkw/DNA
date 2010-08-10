@@ -115,7 +115,7 @@
 		
 	<xsl:variable name="cbbc">
 		<xsl:if test="contains(/H2G2/SITE/IDENTITYPOLICY, 'kids')">
-			<xsl:text>&amp;cbbc=true</xsl:text>
+			<xsl:text>%26cbbc=true</xsl:text>
 		</xsl:if>	
 	</xsl:variable>    
     
