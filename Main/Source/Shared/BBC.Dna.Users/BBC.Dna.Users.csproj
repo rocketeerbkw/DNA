@@ -99,7 +99,6 @@
     <Compile Include="ProfileAPI.cs" />
     <Compile Include="ProfileAPI.SQL.cs" />
     <Compile Include="ProfileAPIExceptions.cs" />
-    <Compile Include="SerializableDictionary.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>
