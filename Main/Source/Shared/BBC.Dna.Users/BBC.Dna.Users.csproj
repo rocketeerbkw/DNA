@@ -99,6 +99,7 @@
     <Compile Include="ProfileAPI.cs" />
     <Compile Include="ProfileAPI.SQL.cs" />
     <Compile Include="ProfileAPIExceptions.cs" />
+    <Compile Include="SerializableDictionary.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -114,6 +115,7 @@
     <Compile Include="UserExceptions.cs" />
     <Compile Include="UserGroup.cs" />
     <Compile Include="UserGroups.cs" />
+    <Compile Include="UserSiteGroups.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">

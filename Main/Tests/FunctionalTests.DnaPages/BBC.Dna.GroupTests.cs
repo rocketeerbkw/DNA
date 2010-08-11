@@ -84,13 +84,13 @@ namespace FunctionalTests
             int itemCount = details.Count;
 
             // Now add the user to another group
-            Assert.IsTrue(g.PutUserIntoGroup(_userID, "mentor", 1), "Failed to add the user to the mentor group");
+            Assert.IsTrue(g.PutUserIntoGroup(_userID, "bestnewbie", 1), "Failed to add the user to the scouts group");
 
             // Check to make sure that the user was added correctly
             details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             Assert.AreEqual(itemCount+1,details.Count,"There should be one more group in the list for the user");
-            Assert.IsTrue(details.Exists(x => x.Name == "mentor"), "The list does not contain the Mentor group");
+            Assert.IsTrue(details.Exists(x => x.Name == "bestnewbie"), "The list does not contain the Mentor group");
         }
 
         /// <summary>
@@ -109,13 +109,13 @@ namespace FunctionalTests
             int itemCount = details.Count;
 
             // Now remove the user from the aces group
-            g.DeleteUserFromGroup(_userID, "mentor", 1);
+            g.DeleteUserFromGroup(_userID, "bestnewbie", 1);
 
             // Check to make sure that the user was added correctly
             details = g.GetUsersGroupsForSite(_userID, 1);
             Assert.IsNotNull(details, "Failed to get the group details for user " + _userID.ToString() + " for site 1");
             Assert.AreEqual(itemCount - 1, details.Count, "There should be one less group in the list for the user");
-            Assert.IsFalse(details.Exists(x => x.Name =="mentor"), "The list contains the Mentor group");
+            Assert.IsFalse(details.Exists(x => x.Name =="bestnewbie"), "The list contains the Mentor group");
         }
     }
 }
