@@ -1069,6 +1069,8 @@ namespace FunctionalTests.Services.Comments
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
+            request.UseDebugUserSecureCookie = false;
+
             //create the forum
             CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
 

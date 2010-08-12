@@ -48,19 +48,14 @@ namespace BBC.Dna.Users
         private DateTime _lastUpdatedDate;
         private string _debugIdentityUserID = "";
 
-        public string DebugIdentityUserID
+        public void DebugIdentityUserID(string debugUserID)
         {
 #if DEBUG
-            set
+            _debugIdentityUserID = debugUserID;
+            if (_debugIdentityUserID.Length > 0)
             {
-                _debugIdentityUserID = value;
-                if (_debugIdentityUserID.Length > 0)
-                {
-                    _signInComponent = SignInComponentFactory.CreateSignInComponent(_debugIdentityUserID, SignInSystem.DebugIdentity);
-                }
+                _signInComponent = SignInComponentFactory.CreateSignInComponent(_debugIdentityUserID, SignInSystem.DebugIdentity);
             }
-#else
-            set { _debugIdentityUserID = ""; }
 #endif
         }
 

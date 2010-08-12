@@ -116,8 +116,7 @@ namespace BBC.Dna.Services
 
             debugDnaUserId = "";
 #if DEBUG
-            //WebOperationContext webContext = WebOperationContext.Current;
-            //debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("debugdnauserid", "");
+            debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
 #endif
         }
 

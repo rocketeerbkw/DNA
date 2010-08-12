@@ -110,7 +110,7 @@ namespace BBC.Dna.Users
             {
                 if (_debugUserID.Length > 0)
                 {
-                    authenticatedUser.DebugIdentityUserID = _debugUserID;
+                    authenticatedUser.DebugIdentityUserID(_debugUserID);
                 } 
                 
                 if (authenticatedUser.AuthenticateUserFromCookies(cookie, secureCookie, policy))
