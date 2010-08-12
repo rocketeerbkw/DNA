@@ -19,7 +19,7 @@
 	<xsl:template match="LINKMODERATION-LIST">
 		<div class="linksmoderation">
       <div class="link">
-        <form action="{$root}moderateexlinks" method="post" name="LinksModerationForm">
+        <form action="{$root}moderateexlinks" method="post" name="LinksModerationForm" id="LinksModerationForm">
           <table width="100%">
           <xsl:apply-templates select="LINKMODERATION"/>
           </table>
@@ -36,7 +36,7 @@
 	<xsl:template match="LINKMODERATION">
     <tr>
 		  <input type="hidden" name="URI" value="{URI}"/>
-		  <input type="hidden" name="ModID" value="{@MODID}"/>
+		  <input type="hidden" name="ModID" id="ModId" value="{@MODID}"/>
       <input type="hidden" name="ModClassId" value="{/H2G2/LINKMODERATION-LIST/@MODCLASSID}"/>
       <input type="hidden" name="alerts" value="{/H2G2/LINKMODERATION-LIST/@ALERTS}"/>
       <input type="hidden" name="referrals" value="{/H2G2/LINKMODERATION-LIST/@REFERRALS}"/>
@@ -91,7 +91,7 @@
       <h2>Moderation Action</h2>
       <div class="postForm" id="form{@MODERATIONID}">
         <label class="hiddenLabel" for="Decision">Moderation decision for the link</label>
-        <select class="type" name="Decision">
+        <select class="type" name="Decision" id="Decision">
           <xsl:choose>
             <xsl:when test="../@ALERTS = 1">
               <option value="3" class="{@MODERATIONID}">Reject Alert &amp; Pass </option>

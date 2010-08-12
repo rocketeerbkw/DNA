@@ -11,8 +11,26 @@ addEvent(window, 'load', initialiseForm, false);
 //form are showing
 //Finally it adds the submission checking event
 function initialiseForm() {
+
+    var modId = document.getElementById("ModId");
+    if (modId == null) {
+        return;
+    }
+
+    var modForm = document.getElementById("LinksModerationForm");
+    if (modForm != null) {
+        addEvent(modForm, 'submit', checkSubmission, false);
+    }
+    else {
+        return;
+    }
+	
 	addEventToClass("type", "change", decisionChange, false)
 	addEventToClass("failReason", "change", failChange, false);
+
+	
+
+	
   }
 
 //If the decision dropdown is changed we capture the event and call the form changer function
@@ -52,6 +70,69 @@ function failChange(e){
   else {
       decisionObject.value = 4;
   }
+}
+
+function checkSubmission(e) {
+   if (!checkDecision(e)) {
+        if (window.event) {
+            window.event.returnValue = false;
+        }
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
+    }
+
+}
+
+function checkDecision(e) {
+    var changedForm = document.getElementById("LinksModerationForm");
+    var decisionSelect = document.getElementById("Decision");
+
+    var failureSelect = getChildByClassName(changedForm, 'failReason');
+
+    var referSelect = getChildByClassName(changedForm, 'referName');
+    var referValue = referSelect.value;
+    var referNotes = getChildByClassName(changedForm, 'reasonArea');
+
+    var decisionChoice = decisionSelect.value;
+
+    switch (decisionChoice) {
+        // decision is pass 
+        case "3":
+            return true;
+            break;
+
+
+        // decision is fail
+        case "4":
+            if (failureSelect.options[0].selected == 1) {
+                alert("You have not given a failure reason");
+                failureSelect.style.display = "block";
+                failureSelect.focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+            break;
+
+        // decision is refer 
+        case "2":
+            if (referSelect.options[0].selected == 1) {
+                alert("You have not given a referral name");
+                referSelect.focus();
+                return false;
+            }
+            else if (referNotes.value == ' ' | referNotes.value == '') {
+                alert("You have not given a referral reason");
+                referNotes.focus();
+                return false;
+            }
+            else {
+                return true;
+            }
+            break;
+    }
 }
 
 

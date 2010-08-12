@@ -5,6 +5,7 @@ using System.Text;
 using BBC.Dna.Moderation;
 using System.Xml;
 using BBC.Dna.Data;
+using BBC.Dna.Component;
 
 namespace BBC.Dna
 {
@@ -79,15 +80,22 @@ namespace BBC.Dna
                 String notes = InputContext.GetParamStringOrEmpty("notes", i, "notes");
                 int referTo = InputContext.GetParamIntOrZero("referTo", i, "referTo");
 
-                //Insert into mod queue
-                using ( IDnaDataReader reader = InputContext.CreateDnaDataReader("moderateexlinks"))
+                if (decision == (int)ModeratePosts.Status.Refer && referTo == 0)
                 {
-                    reader.AddParameter("modid", modId);
-                    reader.AddParameter("decision", decision);
-                    reader.AddParameter("userid", InputContext.ViewingUser.UserID);
-                    reader.AddParameter("notes", notes);
-                    reader.AddParameter("referTo", referTo);
-                    reader.Execute();
+                    AddErrorXml("MissingReferTo", "Please specify a referee to refer items to", RootElement);
+                }
+                else
+                {
+                    //Insert into mod queue
+                    using (IDnaDataReader reader = InputContext.CreateDnaDataReader("moderateexlinks"))
+                    {
+                        reader.AddParameter("modid", modId);
+                        reader.AddParameter("decision", decision);
+                        reader.AddParameter("userid", InputContext.ViewingUser.UserID);
+                        reader.AddParameter("notes", notes);
+                        reader.AddParameter("referTo", referTo);
+                        reader.Execute();
+                    }
                 }
             }
 
