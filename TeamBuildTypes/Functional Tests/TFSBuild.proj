@@ -180,14 +180,8 @@
     -->
     <ConfigurationToBuild Include="Debug|Mixed Platform">
       <FlavorToBuild>Debug</FlavorToBuild>
-      <PlatformToBuild>Any CPU</PlatformToBuild>
+      <PlatformToBuild>Mixed Platform</PlatformToBuild>
     </ConfigurationToBuild>
-
-    <ConfigurationToBuild Include="Debug|Win32">
-      <FlavorToBuild>Debug</FlavorToBuild>
-      <PlatformToBuild>Win32</PlatformToBuild>
-    </ConfigurationToBuild>
-
   </ItemGroup>
 
   <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
