@@ -116,6 +116,63 @@ namespace DnaIdentityWebServiceProxy
             }
         }
 
+        private string DotNetBannedUser
+        {
+            get
+            {
+                StringBuilder details = new StringBuilder();
+                details.Append("<signInDetails>");
+                details.Append(string.Format("<{0}>{1}</{0}>", "logInName", "DotNetUserBanned"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "identityUserID", "6042004"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "displayName", "DotNetUserBanned"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "email", "marcusparnwell.1@gmail.com"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042004|DotNetUserBanned|DotNetUserBanned|0|DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append("</signInDetails>");
+
+                return details.ToString();
+            }
+        }
+
+        private string DotNetNotableUser
+        {
+            get
+            {
+                StringBuilder details = new StringBuilder();
+                details.Append("<signInDetails>");
+                details.Append(string.Format("<{0}>{1}</{0}>", "logInName", "DotNetNotable"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "identityUserID", "6042020"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "displayName", "DotNetNotable"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042020|DotNetNotable|DotNetNotable|0|DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append("</signInDetails>");
+
+                return details.ToString();
+            }
+        }
+
+        private string ProfileAPITest
+        {
+            get
+            {
+                StringBuilder details = new StringBuilder();
+                details.Append("<signInDetails>");
+                details.Append(string.Format("<{0}>{1}</{0}>", "logInName", "ProfileAPITest"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "identityUserID", "6041996"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "displayName", "ProfileAPITest"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6041996|ProfileAPITest|ProfileAPITest|0|DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append("</signInDetails>");
+
+                return details.ToString();
+            }
+        }
+
         private bool SyncDetails { get; set; }
         private string DBConnectionDetails { get; set; }
         private string RunningWebDirectoryRoot { get; set; }
@@ -138,16 +195,31 @@ namespace DnaIdentityWebServiceProxy
             RunningWebDirectoryRoot = "";
 
             Console.WriteLine(debugIdentityUserID);
+            int debugInfoParamCount = 0;
+            string userID = "";
+            bool useSecureCookie = true;
 
-            string[] details = debugIdentityUserID.Split('|');
-            if (details.Length == 0)
+            foreach (string s in debugIdentityUserID.Split('|'))
+            {
+                if (debugInfoParamCount == 0)
+                {
+                    userID = s.ToLower();
+                }
+                else if (s.ToLower() == "sync")
+                {
+                    SyncDetails = true;
+                }
+                else if (s.ToLower() == "nosecurecookie")
+                {
+                    useSecureCookie = false;
+                }
+                debugInfoParamCount++;
+            }
+
+            if (userID.Length == 0 || debugInfoParamCount == 0)
             {
                 return false;
             }
-
-            SyncDetails = details.Length > 1 && details[1].ToLower() == "sync";
-
-            string userID = details[0].ToLower();
 
             string userDetails = "";
             if (userID == "dotnetnormaluser")
@@ -169,6 +241,18 @@ namespace DnaIdentityWebServiceProxy
             else if (userID == "dotnetpremoduser")
             {
                 userDetails = DotNetPreModUser;
+            }
+            else if (userID == "dotnetuserbanned")
+            {
+                userDetails = DotNetBannedUser;
+            }
+            else if (userID == "dotnetnotableuser")
+            {
+                userDetails = DotNetNotableUser;
+            }
+            else if (userID == "profileapitest")
+            {
+                userDetails = ProfileAPITest;
             }
             else if (userID.Contains("configfileuser-") && userID.IndexOf("configfileuser-") == 0)
             {
@@ -243,7 +327,7 @@ namespace DnaIdentityWebServiceProxy
                 }
 
                 XmlNode secureCookieNode = signinDetailsXML.SelectSingleNode("signInDetails/secureCookie");
-                if (secureCookieNode != null)
+                if (secureCookieNode != null && useSecureCookie)
                 {
                     SecureCookieValue = secureCookieNode.InnerText;
                 }
@@ -309,14 +393,14 @@ namespace DnaIdentityWebServiceProxy
             {
                 using (IDnaDataReader reader = dataReaderCreator.CreateDnaDataReader(""))
                 {
-                    reader.ExecuteDEBUGONLY("SELECT * FROM SignInUserIDMapping sim JOIN Users u ON u.UserID = sim.DNAUserID WHERE IdentityUserID = " + userID);
+                    reader.ExecuteDEBUGONLY("SELECT * FROM SignInUserIDMapping sim JOIN Users u ON u.UserID = sim.DNAUserID WHERE IdentityUserID = '" + userID + "'");
                     if (reader.HasRows && reader.Read())
                     {
                         details.Append("<signInDetails>");
                         string loginName = reader.GetStringNullAsEmpty("loginname");
                         details.Append(string.Format("<{0}>{1}</{0}>", "logInName", loginName));
 
-                        string identityUserID = reader.GetInt32NullAsZero("IdentityUserID").ToString();
+                        string identityUserID = reader.GetStringNullAsEmpty("IdentityUserID");
                         details.Append(string.Format("<{0}>{1}</{0}>", "identityUserID", identityUserID));
 
                         string displayName = reader.GetStringNullAsEmpty("username");
@@ -400,7 +484,7 @@ namespace DnaIdentityWebServiceProxy
             string rootPath = "";
             try
             {
-                DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC", "editor", "editor");
+                DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC","editor","editor");
                 foreach (DirectoryEntry site in entry.Children)
                 {
                     if (site.SchemaClassName == "IIsWebServer")
