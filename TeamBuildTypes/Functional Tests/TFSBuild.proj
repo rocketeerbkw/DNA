@@ -180,7 +180,7 @@
     -->
     <ConfigurationToBuild Include="Debug|Mixed Platform">
       <FlavorToBuild>Debug</FlavorToBuild>
-      <PlatformToBuild>Mixed Platform</PlatformToBuild>
+      <PlatformToBuild>Mixed Platforms</PlatformToBuild>
     </ConfigurationToBuild>
   </ItemGroup>
 
