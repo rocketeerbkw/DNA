@@ -183,6 +183,11 @@
       <PlatformToBuild>Any CPU</PlatformToBuild>
     </ConfigurationToBuild>
 
+    <ConfigurationToBuild Include="Debug|Win32">
+      <FlavorToBuild>Debug</FlavorToBuild>
+      <PlatformToBuild>Win32</PlatformToBuild>
+    </ConfigurationToBuild>
+
   </ItemGroup>
 
   <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
@@ -246,7 +251,7 @@
 
     <Exec Command="delete &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
 
-    <Exec Command="rename &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.dll&quot; &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RiplayServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
+    <Exec Command="rename &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.dll&quot; &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
 
     <!-- Copy ripley dlls -->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="true"/>
