@@ -215,7 +215,6 @@
   <ItemGroup>
     <WebSites Include="$(BinariesRoot)\Debug\_PublishedWebsites\**\*.*"></WebSites>
     <Binaries Include="$(BinariesRoot)\Debug\*.*" Exclude="$(BinariesRoot)$(Platform)$(Configuration)\debug\*_Accessor.dll,$(BinariesRoot)$(Platfom)$(Configuration)\debug\*.instr.pdb"></Binaries>
-    <Ripley Include="$(BinariesRoot)\Win32\Debug\*.*"></Ripley>
     <Skins Include="$(SolutionRoot)\Main\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
   </ItemGroup>
 
@@ -240,15 +239,6 @@
 
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-
-    <Message Text="Ripley files: @(Ripley)"></Message>
-
-    <Exec Command="delete &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
-
-    <Exec Command="rename &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.dll&quot; &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
-
-    <!-- Copy ripley dlls -->
-    <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="true"/>
 
     <Exec Command="CMD &quot;C:\TFSScripts\UnloadTestWeb.bat&quot;" Timeout="10000"></Exec>
 
