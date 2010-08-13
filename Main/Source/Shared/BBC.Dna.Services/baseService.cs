@@ -133,6 +133,11 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.UnknownSite));
             }
+
+            //set the language code
+            var languageCode = siteList.GetSiteOptionValueString(site.SiteID, "General", "SiteLanguage");
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", languageCode);
+
             return site;
         }
 

@@ -27,7 +27,7 @@ namespace BBC.Dna.Component
         /// </summary>
         public override void ProcessRequest()
         {
-            const bool ignoreCache = false;
+            const bool ignoreCache = true;//used in admin pages so dont cache
             var cache = CacheFactory.GetCacheManager();
 
             ModerationClassList moderationClassList =

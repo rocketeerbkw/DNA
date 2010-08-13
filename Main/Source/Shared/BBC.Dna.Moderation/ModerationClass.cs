@@ -19,6 +19,10 @@ namespace BBC.Dna.Moderation
         public string Description { get; set; }
 
         /// <remarks/>
+        [XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, Order = 2, ElementName = "LANGUAGE")]
+        public string Language { get; set; }
+
+        /// <remarks/>
         [XmlAttributeAttribute(AttributeName="CLASSID")]
         public int ClassId { get; set; }
     }

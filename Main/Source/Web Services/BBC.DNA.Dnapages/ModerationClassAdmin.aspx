@@ -39,6 +39,11 @@
         <asp:TextBox ID="txtDescription" runat="server" Style="z-index: 106;
             position: relative; left: 8px; top: 0px;" Width="448px"></asp:TextBox>&nbsp;<br />
         <br />
+        <asp:Label ID="Label1" runat="server" Style="z-index: 105; position: relative;
+            top: 0px;" Text="Language" Width="88px"></asp:Label>
+        <asp:TextBox ID="txtLanguage" runat="server" Style="z-index: 106;
+            position: relative; left: 8px; top: 0px;" Width="448px" Text="en"></asp:TextBox>&nbsp;<br />
+        <br />
         <asp:Label ID="Label6" runat="server" Style="z-index: 107; position: relative;
             " Text="Template" Width="96px"></asp:Label>&nbsp;
         <asp:DropDownList ID="cmbTemplate" runat="server" Style="z-index: 108;

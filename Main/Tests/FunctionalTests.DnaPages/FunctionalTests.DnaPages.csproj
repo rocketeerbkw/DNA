@@ -260,6 +260,7 @@
     <Compile Include="BBC.Dna.BannedEmailsTests.cs" />
     <Compile Include="cachingSignals\groupSignalTests.cs" />
     <Compile Include="ArticlePageTests.cs" />
+    <Compile Include="SiteManagerTests.cs" />
     <Compile Include="MBAdmin.cs" />
     <Compile Include="ModerateHomePageTests.cs" />
     <Compile Include="MorePagesPageTests.cs" />

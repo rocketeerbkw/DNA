@@ -356,7 +356,6 @@ Located :    at System.ServiceModel.Dispatcher.DemultiplexingDispatchMessageForm
 
             // working data
             DnaTestURLRequest request;
-            int newSiteCount = 0;
 
             request = doIt(postData, mimeType, expectedResponseCode, fileName);
             

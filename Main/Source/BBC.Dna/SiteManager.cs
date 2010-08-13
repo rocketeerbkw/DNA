@@ -6,6 +6,8 @@ using System.IO;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using DnaIdentityWebServiceProxy;
+using BBC.Dna.Moderation;
+using System.Linq;
 
 namespace BBC.Dna.Component
 {
@@ -133,14 +135,20 @@ namespace BBC.Dna.Component
         /// <returns></returns>
         private bool UpdateSite()
         {
+            int modClassId = InputContext.GetParamIntOrZero("modclassid", "Moderation Class");
             int siteId = InputContext.GetParamIntOrZero("siteid", "siteId");
+            if (!IsSiteLanguageCompatibleWithModClass(siteId, modClassId))
+            {
+                return false;
+            }
+            
             string shortName = InputContext.GetParamStringOrEmpty("shortname", "ShortName");
             string description = InputContext.GetParamStringOrEmpty("description", "Description");
             string skinSet = InputContext.GetParamStringOrEmpty("skinset", "SkinSet");
             string defaultSkin = InputContext.GetParamStringOrEmpty("defaultSkin", "DefaultSkin");
             string ssoService = InputContext.GetParamStringOrEmpty("ssoservice", "SSOService");
             int modStatus = InputContext.GetParamIntOrZero("modstatus", "Moderation Status");
-            int modClassId = InputContext.GetParamIntOrZero("modclassid", "Moderation Class");
+            
             int noAutoSwitch = InputContext.GetParamIntOrZero("noautoswitch", "NoAutoSwitch");
             int customTerms = InputContext.GetParamIntOrZero("customterms", "CustomTerms");
             string moderatorsEmail = InputContext.GetParamStringOrEmpty("moderatorsemail", "Moderators Email");
@@ -205,6 +213,7 @@ namespace BBC.Dna.Component
                     return false;
                 }
             }
+            
 
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("changemoderationclassofsite"))
             {
@@ -432,6 +441,24 @@ namespace BBC.Dna.Component
             }
 
             GenerateXML(siteId);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private bool IsSiteLanguageCompatibleWithModClass(int siteId, int modClassId)
+        {
+            //check modclass language vs site language to ensure they are compatible
+            var modClasses = ModerationClassList.GetAllModerationClasses(AppContext.ReaderCreator, AppContext.DnaCacheManager, false);
+            var modClass = modClasses.ModClassList.FirstOrDefault(x => x.ClassId == modClassId);
+            var siteLanguage = InputContext.TheSiteList.GetSiteOptionValueString(siteId, "General", "SiteLanguage");
+            if (siteLanguage.ToUpper() != modClass.Language.ToUpper())
+            {
+                AddErrorXml("UPDATE ERROR", "Site language is not compatible with new moderation class language.", RootElement);
+                return false;
+            }
+            return true;
         }
     }
 }

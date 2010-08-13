@@ -136,7 +136,6 @@ namespace BBC.Dna.Utils
             GuideMLTranslator guideMLTranslator = new GuideMLTranslator();
             string guideML = String.Empty;
             guideML = guideMLTranslator.ConvertPlainText(text);
-
             return guideML;
         }
 
@@ -469,14 +468,14 @@ namespace BBC.Dna.Utils
         {
             using (var memoryStream = new MemoryStream())
             {
+                var ns = new XmlSerializerNamespaces();
+                ns.Add("", "");
                 var xs = new XmlSerializer(obj.GetType());
                 var xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
-                xs.Serialize(xmlTextWriter, obj);
+                xs.Serialize(xmlTextWriter, obj, ns);
                 using (var memoryStream2 = (MemoryStream)xmlTextWriter.BaseStream)
                 {
                     var actualXml = UTF8ByteArrayToString(memoryStream2.ToArray());
-                    actualXml = actualXml.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"", "");
-                    actualXml = actualXml.Replace(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
                     actualXml = actualXml.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
 
                     return actualXml.TrimStart();

@@ -8,6 +8,7 @@ using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using TestUtils;
+using BBC.Dna.Sites;
 
 namespace FunctionalTests.Services.Comments
 {
@@ -24,6 +25,7 @@ namespace FunctionalTests.Services.Comments
         private readonly string _server = DnaTestURLRequest.CurrentServer;
         private readonly string _secureServer = DnaTestURLRequest.SecureServerAddress;
         private string _sitename = "h2g2";
+        private ISiteList _siteList;
 
         [TestCleanup]
         public void ShutDown()
@@ -38,6 +40,9 @@ namespace FunctionalTests.Services.Comments
         public void StartUp()
         {
             SnapshotInitialisation.RestoreFromSnapshot();
+            FullInputContext context = new FullInputContext("");
+
+            _siteList = context.SiteList;
         }
 
         public CommentForum CommentForumCreateHelper()
@@ -104,14 +109,21 @@ namespace FunctionalTests.Services.Comments
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/xml");
 
+            
+
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
             var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForumList);
             validator.Validate();
 
+            
             var returnedList =
                 (CommentForumList)
                 StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+
+            //check the content language returned
+            Assert.IsNotNull(request.CurrentWebResponse.Headers["Content-Language"]);
+            Assert.AreEqual(request.CurrentWebResponse.Headers["Content-Language"], _siteList.GetSiteOptionValueString(1, "General", "SiteLanguage"));
             Console.WriteLine("After GetCommentForumsBySitenameXML");
         }
 

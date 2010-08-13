@@ -156,7 +156,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		IISresetWithMemcached.bat = IISresetWithMemcached.bat
 		PublishRipleyDebug.bat = PublishRipleyDebug.bat
 		ripleyserver.xmlconf = ripleyserver.xmlconf
-		userservices4.vsmdi = userservices4.vsmdi
+		UserServices5.vsmdi = UserServices5.vsmdi
 		Web.config = Web.config
 	EndProjectSection
 EndProject
@@ -736,7 +736,7 @@ Global
 		SccLocalPath60 = Source\\Shared\\DnaIdentityWebServiceProxy
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = UserServices4.vsmdi
+		CategoryFile = UserServices5.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
