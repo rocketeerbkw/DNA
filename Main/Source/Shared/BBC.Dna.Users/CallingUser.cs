@@ -49,22 +49,6 @@ namespace BBC.Dna.Users
         }
 
         /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="signInSystem">The sign in system to use</param>
-        /// <param name="dnaDataReaderCreator">A DnaDataReaderCreator object for creating the procedure this class needs.
-        /// If NULL, it uses the connection stringsfrom the configuration manager</param>
-        /// <param name="dnaDiagnostics">A DnaDiagnostics object for logging purposes</param>
-        /// <param name="caching">The caching object that the class can use for caching</param>
-        /// <param name="siteList">A SiteList object for getting siteoption values</param>
-        public CallingUser(SignInSystem signInSystem, IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, ISiteList siteList)
-            : base(dnaDataReaderCreator, dnaDiagnostics, caching)
-        {
-            _signInSystem = signInSystem;
-            _siteList = siteList;
-        }
-
-        /// <summary>
         /// Debug constructor
         /// </summary>
         /// <param name="signInSystem">The sign in system to use</param>

@@ -1021,7 +1021,7 @@ namespace FunctionalTests.Services.Comments
         private void SetMaxCharLimit(int maxLimit)
         {
             //set max char option
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -1035,7 +1035,7 @@ namespace FunctionalTests.Services.Comments
         private void SetMinCharLimit(int minLimit)
         {
             //set min char option
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {

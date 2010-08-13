@@ -156,6 +156,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2"); request.SetCurrentUserNotLoggedInUser();
             request.SetCurrentUserNotLoggedInUser();
+            request.AssertWebRequestFailure = false;
             try
             {
                 request.RequestPageWithFullURL(callinguser_url);               
@@ -176,6 +177,7 @@ namespace FunctionalTests.Services.Users
             Console.WriteLine("Before GetCallingUserInfo_UnknownSite_Returns404");
 
             DnaTestURLRequest request = new DnaTestURLRequest(DnaTestURLRequest.CurrentServer);
+            request.AssertWebRequestFailure = false; 
             try
             {
                 request.RequestPageWithFullURL(callinguser_url_withInvalidSite);

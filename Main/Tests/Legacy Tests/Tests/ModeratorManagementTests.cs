@@ -24,7 +24,7 @@ namespace Tests
         [TestInitialize]
         public void Initialise()
         {
-            using(var context = new FullInputContext(true))
+            using(var context = new FullInputContext(""))
             {
                 var ug = new BBC.Dna.Users.UserGroups(context.ReaderCreator, context.Diagnostics, CacheFactory.GetCacheManager(), null, null);
             }

@@ -147,6 +147,7 @@ namespace FunctionalTests.Dna.Services.Categories
 
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
             string unknownSite = "unknown_site";
 
             Console.WriteLine("Validing site:" + unknownSite);

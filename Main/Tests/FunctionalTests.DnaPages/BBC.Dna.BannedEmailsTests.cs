@@ -32,7 +32,7 @@ namespace FunctionalTests
         public void TestsSetup()
         {
             //SnapshotInitialisation.ForceRestore();
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
                 dnaDiagnostics = _context.dnaDiagnostics;
                 readerCreator = new DnaDataReaderCreator(_context.DnaConfig.ConnectionString, dnaDiagnostics);

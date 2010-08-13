@@ -221,7 +221,6 @@
     </Compile>
     <Compile Include="ExtraInfo.cs" />
     <Compile Include="FileCache.cs" />
-    <Compile Include="CommentBoxForumUsingApi.cs" />
     <Compile Include="Forum.cs" />
     <Compile Include="GuideEntry.cs" />
     <Compile Include="Hierarchy.cs" />

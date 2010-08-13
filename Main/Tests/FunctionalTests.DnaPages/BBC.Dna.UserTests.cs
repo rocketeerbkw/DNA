@@ -38,7 +38,7 @@ namespace FunctionalTests
         [TestMethod]
         public void Test01CreateAUserFromDNAUserID()
         {
-            FullInputContext context = new FullInputContext(true);
+            FullInputContext context = new FullInputContext("");
             User user = new User(null, null, null);
             Assert.IsTrue(user.CreateUserFromDnaUserID(TestUserAccounts.GetModeratorAccount.UserID, 1));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
@@ -51,9 +51,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test02SignUserInViaIdentityCookie()
         {
-            FullInputContext context = new FullInputContext(true);
+            FullInputContext context = new FullInputContext("");
             SignInSystem signInType = SignInSystem.Identity;
-            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
+            CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetModeratorAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
             string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
@@ -68,9 +68,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test03SignUserInAndAddThemToAcesGroup()
         {
-            FullInputContext context = new FullInputContext(true);
+            FullInputContext context = new FullInputContext("");
             SignInSystem signInType = SignInSystem.Identity;
-            CallingUser user = new CallingUser(signInType, context.ReaderCreator, null, null, context.SiteList);
+            CallingUser user = new CallingUser(signInType, context.ReaderCreator, null, null, TestUserAccounts.GetModeratorAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
             string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
@@ -87,9 +87,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test04CheckSignedInNormalUserBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(true);
+            FullInputContext context = new FullInputContext("");
             SignInSystem signInType = SignInSystem.Identity;
-            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
+            CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetNormalUserAccount.Cookie;
             string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
@@ -107,9 +107,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test05CheckSignedInEditorBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(true);
+            FullInputContext context = new FullInputContext("");
             SignInSystem signInType = SignInSystem.Identity;
-            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
+            CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetEditorUserAccount.Cookie;
             string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
@@ -127,9 +127,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test06CheckSignedInSuperUserBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(true);
+            FullInputContext context = new FullInputContext("");
             SignInSystem signInType = SignInSystem.Identity;
-            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
+            CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetSuperUserAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetSuperUserAccount.Cookie;
             string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
@@ -147,9 +147,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test07CheckSignedInModeratorBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(true);
+            FullInputContext context = new FullInputContext("");
             SignInSystem signInType = SignInSystem.Identity;
-            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
+            CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetModeratorAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
             string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
@@ -167,9 +167,9 @@ namespace FunctionalTests
         [TestMethod]
         public void Test08CheckSignedInNotableBelongsToTheCorrectGroups()
         {
-            FullInputContext context = new FullInputContext(true);
+            FullInputContext context = new FullInputContext("");
             SignInSystem signInType = SignInSystem.Identity;
-            CallingUser user = new CallingUser(signInType, null, null, null, context.SiteList);
+            CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetNotableUserAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetNotableUserAccount.Cookie;
             string policy = "http://identity/policies/dna/adult";
             int siteID = 1;

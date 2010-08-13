@@ -178,7 +178,7 @@ namespace FunctionalTests
         /// <param name="modClassOfSite">needed so that we change the right thing</param>
         private void makeClassLifo(Boolean flag, int modClassOfSite)
         {
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 string sqlStr;
 
@@ -204,7 +204,7 @@ namespace FunctionalTests
         /// <returns>the mod class of that site</returns>
         private int getModClass(string siteName)
         {
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {

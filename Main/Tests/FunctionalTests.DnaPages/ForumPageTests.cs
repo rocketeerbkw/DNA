@@ -1386,7 +1386,7 @@ links: http://www.bbc.co.uk and other stuff";
                 reader.Execute();
             }
 
-            using (FullInputContext inputContext = new FullInputContext(true))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {//send signal
                 inputContext.SendSignal("action=recache-site");
             }
@@ -1405,7 +1405,7 @@ links: http://www.bbc.co.uk and other stuff";
         private void CleanRiplyCache()
         {
             string cachePath = string.Empty;
-            using (FullInputContext inputContext = new FullInputContext(true))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {//send signal
                 cachePath = inputContext.DnaConfig.CachePath;
             }

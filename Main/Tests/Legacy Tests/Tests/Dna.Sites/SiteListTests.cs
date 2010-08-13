@@ -37,7 +37,7 @@ namespace Tests
         {
             if (!_siteListloaded)
             {
-                using (FullInputContext inputcontext = new FullInputContext(false))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     _testSiteList = SiteList.GetSiteList();
                     inputcontext.SetCurrentSite("h2g2");
@@ -64,7 +64,7 @@ namespace Tests
         public void Test2LoadSiteListTest()
         {
             Console.WriteLine("Test2LoadSiteListTest");
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 SiteList testSiteList = new SiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, CacheFactory.GetCacheManager(),null, null);
                 _siteListloaded = true;
@@ -78,7 +78,7 @@ namespace Tests
         public void Test3GetSiteh2g2byidTest()
         {
             Console.WriteLine("Test3GetSiteh2g2byidTest");
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 Site h2g2 = (Site)_testSiteList.GetSite(1);
                 Assert.AreEqual(h2g2.SiteName, "h2g2");
@@ -92,7 +92,7 @@ namespace Tests
         public void Test4GetSiteh2g2byNameTest()
         {
             Console.WriteLine("Test4GetSiteh2g2byNameTest");
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 Site h2g2 = (Site)_testSiteList.GetSite("h2g2");
                 Assert.AreEqual(h2g2.SiteID, 1);
@@ -107,7 +107,7 @@ namespace Tests
         public void Test5AddASiteTest()
         {
             Console.WriteLine("Test5AddASiteTest");
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 SiteList testSiteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
                 testSiteList.AddSiteDetails(999, "MyTestSite", 0, false, "TestSiteSkin", true, "NewTestSite", "TestSite",

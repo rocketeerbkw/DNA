@@ -57,7 +57,7 @@ namespace Tests
         /// </summary>
         public CommentCreateTests()
         {
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 _siteList = SiteList.GetSiteList();
                 site = _siteList.GetSite("h2g2");
@@ -125,12 +125,12 @@ namespace Tests
             CommentForum commentForum = CommentForumCreate(commentForumID);
 
             Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.IdentityPolicy, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
 
             try
@@ -163,12 +163,12 @@ namespace Tests
             CommentForum commentForum = CommentForumCreate(commentForumID);
 
             Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -195,7 +195,7 @@ namespace Tests
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -228,7 +228,7 @@ namespace Tests
         public void CommentCreate_BannedUser()
         {
             Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
@@ -245,7 +245,7 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetBannedUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetBannedUserAccount.Cookie, TestUtils.TestUserAccounts.GetBannedUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -267,7 +267,7 @@ namespace Tests
         {
             //create comments objects
 
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             var callingUser = _comments.CallingUser;
             //set up test data
@@ -286,7 +286,7 @@ namespace Tests
             try
             {//turn the site into emergency closed mode
                 _siteList.GetSite(site.ShortName).IsEmergencyClosed = true;
-                using (var inputcontext = new FullInputContext(true))
+                using (var inputcontext = new FullInputContext(""))
                 {
                     _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator,
                                              CacheFactory.GetCacheManager(), _siteList);
@@ -324,7 +324,7 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -353,7 +353,7 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -383,7 +383,7 @@ namespace Tests
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie,site.IdentityPolicy, site.SiteID);
             
 
@@ -413,7 +413,7 @@ with a carrage return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -443,7 +443,7 @@ return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             bool exceptionThrown = false;
@@ -487,7 +487,7 @@ return.";
             string commentForumID = "testCommentForum" + Guid.NewGuid().ToString();
             CommentForum commentForum = CommentForumCreate(commentForumID);
 
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -515,7 +515,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie,TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -525,7 +525,7 @@ return.";
             Assert.AreEqual("This post is awaiting moderation.", result.FormatttedText);
 
             //check if post in mod queue table
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -546,7 +546,7 @@ return.";
         public void CommentCreate_PreModSiteWithProcessPreMod()
         {
 
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -576,7 +576,7 @@ return.";
 
                 CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.Unknown);//should override this with the site value
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
                 _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
                 CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -586,7 +586,7 @@ return.";
                 Assert.IsTrue(result.FormatttedText == "This post is awaiting moderation.");
 
                 //check if post in PreModPostings queue table
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -601,7 +601,7 @@ return.";
             finally 
             { 
                 //reset h2g2 site
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -634,7 +634,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetEditorUserAccount.Cookie, TestUtils.TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -662,7 +662,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -671,7 +671,7 @@ return.";
             Assert.IsTrue(result.text == comment.text);
 
             //check if post in mod queue table
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -704,7 +704,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -734,7 +734,7 @@ return.";
 
 
             //change the closing date for this forum
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = StoredProcedureReader.Create("", DnaMockery.DnaConfig.ConnectionString, inputcontext.dnaDiagnostics))
                 {
@@ -743,7 +743,7 @@ return.";
                 }
             }
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             bool exceptionThrown = false;
@@ -774,7 +774,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             
@@ -798,7 +798,7 @@ return.";
             try
             {
                 //set max char option
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -812,7 +812,7 @@ return.";
                 //set up test data
                 CommentInfo comment = new CommentInfo{text = Guid.NewGuid().ToString().Substring(0,10)};
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
                 _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
                 CommentInfo result = _comments.CreateComment(commentForum, comment);//should pass successfully
                 Assert.IsTrue(result != null);
@@ -850,7 +850,7 @@ return.";
             }
             finally 
             {
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -893,7 +893,7 @@ return.";
                 sql.AppendLine("UPDATE Sites SET IdentityPolicy='http://identity/policies/dna/adult' WHERE SiteID=1");
                 reader.ExecuteDEBUGONLY(sql.ToString());
             }
-            using (FullInputContext inputContext = new FullInputContext(true))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {//send signal
                 inputContext.SendSignal("action=recache-site");
                 _siteList = SiteList.GetSiteList(DnaMockery.CreateDatabaseReaderCreator(), null);

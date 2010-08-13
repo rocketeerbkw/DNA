@@ -120,9 +120,6 @@
     <Compile Include="CommentBox.aspx.designer.cs">
       <DependentUpon>CommentBox.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CommentBoxUsingApi.aspx.designer.cs">
-      <DependentUpon>CommentBoxUsingApi.aspx</DependentUpon>
-    </Compile>
     <Compile Include="CommentForumListPage.aspx.designer.cs">
       <DependentUpon>CommentForumListPage.aspx</DependentUpon>
     </Compile>
@@ -327,10 +324,6 @@
     </Compile>
     <Compile Include="CommentBox.aspx.cs">
       <DependentUpon>CommentBox.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CommentBoxUsingApi.aspx.cs">
-      <DependentUpon>CommentBoxUsingApi.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CommentForumListPage.aspx.cs">
@@ -771,7 +764,6 @@
     <Content Include="CategoryListPage.aspx" />
     <Content Include="ComingUpPage.aspx" />
     <Content Include="CommentBox.aspx" />
-    <Content Include="CommentBoxUsingApi.aspx" />
     <Content Include="CommentForumListPage.aspx" />
     <Content Include="ContentSignifAdminBuilderPage.aspx" />
     <Content Include="ContentSignifPage.aspx" />

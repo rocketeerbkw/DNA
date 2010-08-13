@@ -29,8 +29,8 @@ namespace Tests
         /// <summary>
         /// Constructor
         /// </summary>
-        public HtmlCachingTests(bool useIdentity)
-            : base(useIdentity)
+        public HtmlCachingTests(string debugUserDetails)
+            : base(debugUserDetails)
         {
             ReadSiteOptionListFromDatabase();
         }
@@ -39,7 +39,7 @@ namespace Tests
         /// Constructor
         /// </summary>
         public HtmlCachingTests()
-            : base(false)
+            : base("")
         {
             ReadSiteOptionListFromDatabase();
         }

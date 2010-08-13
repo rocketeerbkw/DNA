@@ -16,7 +16,7 @@ namespace FunctionalTests
     [TestClass]
     public class BBCDnaGroupTests
     {
-        private FullInputContext _context = new FullInputContext(true);
+        private FullInputContext _context = new FullInputContext("");
         private int _userID = TestUserAccounts.GetNormalUserAccount.UserID;
         private int _editorID = TestUserAccounts.GetEditorUserAccount.UserID;
         private UserGroups g;

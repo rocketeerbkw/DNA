@@ -296,6 +296,12 @@ namespace Tests
             set { _useDebugUserSecureCookie = value; }
         }
 
+        public bool UserBannedViaEmail
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Creates and then sets the current user to a new identity user account.
         /// </summary>
@@ -901,6 +907,11 @@ namespace Tests
                     debugUserParams += "|nosecurecookie";
                 }
 
+                if (UserBannedViaEmail)
+                {
+                    debugUserParams += "|bannedemail";
+                }
+
                 pageAndParams += debugUserParams;
             }
             return pageAndParams;
@@ -1074,9 +1085,26 @@ namespace Tests
             }
             catch (WebException ex)
             {
-                _response = (HttpWebResponse)ex.Response;
-                Console.WriteLine(ex.Message);
-                throw;
+                string error = ex.Message;
+
+                if (ex.Response != null)
+                {
+                    _response = (HttpWebResponse)ex.Response;
+                    StreamReader reader = new StreamReader(ex.Response.GetResponseStream(), Encoding.UTF8);
+                    _responseAsString = reader.ReadToEnd();
+                }
+
+                if (ex.InnerException != null)
+                {
+                    error += " : " + ex.InnerException.Message;
+                }
+
+                if (_assertWebFailure)
+                {
+                    Assert.Fail("DNARequest Failed!!! - " + error);
+                }
+
+                throw ex;
             }
             
             GetLastResponseAsString();
@@ -1240,6 +1268,8 @@ namespace Tests
         /// <param name="userType">The type of user you want to log in as.</param>
         public void SignUserIntoSSOViaProfileAPI(usertype userType)
         {
+            Assert.Fail("We nolonger support SSO login/Signin. Please rewrite your test to use identity!");
+
             // Check to see what type of user we are wanting to sign in as
             Console.WriteLine("SignUserIntoSSOViaProfileAPI");
             if (userType == usertype.NORMALUSER)
@@ -1284,7 +1314,7 @@ namespace Tests
             }
 
             // Create the profile api obejct
-            using (FullInputContext inputContext = new FullInputContext(_useIdentity))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 inputContext.GetCurrentSignInObject.SetService(_serviceName);
                 inputContext.GetCurrentSignInObject.TrySetUserViaCookie(_cookie);

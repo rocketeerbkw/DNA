@@ -199,7 +199,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {
@@ -253,7 +253,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsFalse(result.isClosed);
 
             // Now ste the closing date of the forum to something in the past.
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {
@@ -311,7 +311,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
 
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("hidepost"))
@@ -478,7 +478,7 @@ namespace FunctionalTests.Services.Comments
         /// <param name="edittedText"></param>
         private void ModerateComment(int postid, int forumid, BBC.Dna.Component.ModeratePosts.Status status, string edittedText)
         {
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
                 int threadId = 0, modId = 0, threadModStatus = 0;
 
@@ -736,7 +736,7 @@ namespace FunctionalTests.Services.Comments
                 return false;
             }
 
-            using (FullInputContext inputContext = new FullInputContext(true))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 inputContext.SendSignal("action=recache-site");
             }

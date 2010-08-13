@@ -419,7 +419,7 @@ namespace FunctionalTests.Services.Comments
         /// <param name="forumCeiling">new value to be used by this forum</param>
         internal static void setCeiling(string testForumId, string forumCeiling)
         {
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 string sqlStr;
 

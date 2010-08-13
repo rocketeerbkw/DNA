@@ -32,7 +32,7 @@ namespace FunctionalTests
             // First get the open close times for the h2g2 site
             SnapshotInitialisation.RestoreFromSnapshot();
             SetSiteEmergencyClosed(false);
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 inputContext.SendSignal("action=recache-site");
             }
@@ -98,7 +98,7 @@ namespace FunctionalTests
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "0");
 
             // Now send the recache signal and check to make sure that the times are updated!
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 inputContext.SendSignal("action=recache-site");
 
@@ -183,7 +183,7 @@ namespace FunctionalTests
         {
             // Make sure the times get put back correctly
             SetSiteEmergencyClosed(false);
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 inputContext.SendSignal("action=recache-site");
             }

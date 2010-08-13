@@ -22,11 +22,10 @@ namespace Tests
         /// </summary>
         public UserTests()
         {
-            using (FullInputContext fullinputcontext = new FullInputContext(true))
+            using (FullInputContext fullinputcontext = new FullInputContext(TestUserAccounts.GetProfileAPITestUserAccount.UserName))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
                 fullinputcontext.InitUserFromCookie(TestUserAccounts.GetProfileAPITestUserAccount.Cookie, TestUserAccounts.GetProfileAPITestUserAccount.SecureCookie);
-                //fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 _testUser = (User)fullinputcontext.ViewingUser;
             }
        }
@@ -110,11 +109,10 @@ namespace Tests
             _testUser.SetUsername(newUserName);
             _testUser.UpdateDetails();
 
-            using (FullInputContext fullinputcontext = new FullInputContext(true))
+            using (FullInputContext fullinputcontext = new FullInputContext(TestUserAccounts.GetProfileAPITestUserAccount.UserName))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
                 fullinputcontext.InitUserFromCookie(TestUserAccounts.GetProfileAPITestUserAccount.Cookie, TestUserAccounts.GetProfileAPITestUserAccount.SecureCookie);
-                //                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 User tempUser = new User(fullinputcontext);
                 tempUser.CreateUser(_testUser.UserID);
                 Assert.AreEqual(tempUser.UserName, newUserName);
@@ -125,11 +123,10 @@ namespace Tests
             _testUser.SetUsername(originalUserName);
             _testUser.UpdateDetails();
 
-            using (FullInputContext fullinputcontext = new FullInputContext(true))
+            using (FullInputContext fullinputcontext = new FullInputContext(TestUserAccounts.GetProfileAPITestUserAccount.UserName))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
                 fullinputcontext.InitUserFromCookie(TestUserAccounts.GetProfileAPITestUserAccount.Cookie, TestUserAccounts.GetProfileAPITestUserAccount.SecureCookie);
-                //                fullinputcontext.InitUserFromCookie("44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00");
                 User tempUser = new User(fullinputcontext);
                 tempUser.CreateUser(_testUser.UserID);
                 Assert.AreEqual(tempUser.UserName, originalUserName);

@@ -23,7 +23,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void LogoutProfileAPITestUserSetUp()
         {
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -45,7 +45,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestValidUserIsLoggedIn");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -67,7 +67,7 @@ namespace FunctionalTests
         [TestCleanup]
         public void LogoutProfileAPITestUserTearDown()
         {
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -95,7 +95,7 @@ namespace FunctionalTests
         public void TestValidUserIsLoggedIn()
         {
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("mbcbbc");
@@ -120,7 +120,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestCreateProfile");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 using (DnaIdentityWebServiceProxy.ProfileAPI testProfile = new DnaIdentityWebServiceProxy.ProfileAPI(inputContext.GetConnectionDetails["ProfileRead"].ConnectionString))
                 {
@@ -136,7 +136,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestSetService");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -151,7 +151,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestSetUserViaValidCookie");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -167,7 +167,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestSetUserViaInValidLengthCookie");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -183,7 +183,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestSetUserViaInValidCookie");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -199,7 +199,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestSetUserViaInValidCookieWithValidationMarkGreaterThanOneCharacter");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -215,7 +215,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestInvalidUserLoggedIn");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -232,7 +232,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestLoggedInStatusForNonSetUserAndServiceNotSet");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 bool loggedin = testProfile.IsUserLoggedIn;
@@ -248,7 +248,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestLoggedInStatusForNonSetUserAndServiceSet");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -271,7 +271,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("TestGetUserValue");
             // Create the profile connection first
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy testProfile = inputContext.GetCurrentSignInObject;
                 testProfile.SetService("h2g2");
@@ -297,7 +297,7 @@ namespace FunctionalTests
         public void TestMultipleCallsForSingleInstanceOfProfileAPIClosingConnections()
         {
             Console.WriteLine("TestMultipleCallsForSingleInstanceOfProfileAPIClosingConnections");
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy profileAPI = inputContext.GetCurrentSignInObject;
                 int firstMinAge = -1;
@@ -323,7 +323,7 @@ namespace FunctionalTests
         public void TestMultipleCallsForSingleInstanceOfProfileAPINotClosingConnections()
         {
             Console.WriteLine("TestMultipleCallsForSingleInstanceOfProfileAPINotClosingConnections");
-            using (FullInputContext inputContext = new FullInputContext(false))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 IDnaIdentityWebServiceProxy profileAPI = inputContext.GetCurrentSignInObject;
                 int firstMinAge = -1;

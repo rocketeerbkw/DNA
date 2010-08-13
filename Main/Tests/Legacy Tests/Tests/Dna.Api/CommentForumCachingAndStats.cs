@@ -13,6 +13,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
 using TestUtils;
+using BBC.Dna.Moderation;
 
 
 namespace Tests
@@ -46,7 +47,7 @@ namespace Tests
             Statistics.InitialiseIfEmpty();
             Statistics.ResetCounters();
 
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {//force processpremod out...
@@ -56,7 +57,9 @@ namespace Tests
                 site = _siteList.GetSite("h2g2");
 
                 _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
-                var p = new ProfanityFilter(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);
+                var bannedEmails = new BannedEmails(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);//no sending signals from here
+                var userGroups = new UserGroups(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);//no sending signals from here
+                var profanityFilter = new ProfanityFilter(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);//no sending signals from here            
             }
         }
 
@@ -90,7 +93,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             _comments.CreateComment(result, comment);
 
@@ -142,7 +145,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             _comments.CreateComment(result, comment);
 
@@ -193,7 +196,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             _comments.CreateComment(result, comment);
 
@@ -206,7 +209,7 @@ namespace Tests
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {
@@ -248,7 +251,7 @@ namespace Tests
                 //add a comment 
                 CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
                 //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
                 _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
                 _comments.CreateComment(result, comment);
 
@@ -262,7 +265,7 @@ namespace Tests
 
                 //close site
                 _siteList.GetSite(site.ShortName).IsEmergencyClosed = true;
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                     
@@ -278,7 +281,7 @@ namespace Tests
             finally
             {
                 _siteList.GetSite(site.ShortName).IsEmergencyClosed = false;
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     _siteList = SiteList.GetSiteList();
                     site = _siteList.GetSite("h2g2");
@@ -311,7 +314,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             _comments.CreateComment(result, comment);
 
@@ -324,7 +327,7 @@ namespace Tests
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
 
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("hidepost"))
@@ -367,7 +370,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             CommentInfo returnComment = _comments.CreateComment(result, comment);
             Assert.IsTrue(returnComment.ID != 0);//not processpremod'ed
@@ -415,7 +418,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             _comments.CreateComment(result, comment);
 
@@ -460,7 +463,7 @@ namespace Tests
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
             //normal user
-            _comments.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             _comments.CreateComment(result, comment);
 
@@ -492,7 +495,7 @@ namespace Tests
         /// <param name="edittedText"></param>
         private void ModerateComment(int postid, int forumid, BBC.Dna.Component.ModeratePosts.Status status, string edittedText)
         {
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
                 int threadId = 0, modId = 0, threadModStatus = 0;
 

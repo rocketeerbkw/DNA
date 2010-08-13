@@ -33,7 +33,7 @@ namespace DnaIdentityWebServiceProxy
                 details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042002|DotNetNormalUser|DotNetNormalUser|0|DEBUG-IDENTITY-COOKIE"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
                 details.Append("</signInDetails>");
 
                 return details.ToString();
@@ -52,7 +52,7 @@ namespace DnaIdentityWebServiceProxy
                 details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042010|DotNetSuperUser|DotNetSuperUser|0|DEBUG-IDENTITY-COOKIE"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
                 details.Append("</signInDetails>");
 
                 return details.ToString();
@@ -71,7 +71,7 @@ namespace DnaIdentityWebServiceProxy
                 details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042008|DotNetEditor|DotNetEditor|0|DEBUG-IDENTITY-COOKIE"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
                 details.Append("</signInDetails>");
 
                 return details.ToString();
@@ -90,7 +90,7 @@ namespace DnaIdentityWebServiceProxy
                 details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042012|DotNetModerator|DotNetModerator|0|DEBUG-IDENTITY-COOKIE"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
                 details.Append("</signInDetails>");
 
                 return details.ToString();
@@ -109,7 +109,7 @@ namespace DnaIdentityWebServiceProxy
                 details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042014|DotNetPreModUser|DotNetPreModUser|0|DEBUG-IDENTITY-COOKIE"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
                 details.Append("</signInDetails>");
 
                 return details.ToString();
@@ -125,10 +125,11 @@ namespace DnaIdentityWebServiceProxy
                 details.Append(string.Format("<{0}>{1}</{0}>", "logInName", "DotNetUserBanned"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "identityUserID", "6042004"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "displayName", "DotNetUserBanned"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "email", "marcusparnwell.1@gmail.com"));
+                //details.Append(string.Format("<{0}>{1}</{0}>", "email", "marcusparnwell.1@gmail.com"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042004|DotNetUserBanned|DotNetUserBanned|0|DEBUG-IDENTITY-COOKIE"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
                 details.Append("</signInDetails>");
 
                 return details.ToString();
@@ -147,7 +148,7 @@ namespace DnaIdentityWebServiceProxy
                 details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6042020|DotNetNotable|DotNetNotable|0|DEBUG-IDENTITY-COOKIE"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
                 details.Append("</signInDetails>");
 
                 return details.ToString();
@@ -166,7 +167,7 @@ namespace DnaIdentityWebServiceProxy
                 details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "6041996|ProfileAPITest|ProfileAPITest|0|DEBUG-IDENTITY-COOKIE"));
                 details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
-                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
                 details.Append("</signInDetails>");
 
                 return details.ToString();
@@ -198,6 +199,7 @@ namespace DnaIdentityWebServiceProxy
             int debugInfoParamCount = 0;
             string userID = "";
             bool useSecureCookie = true;
+            bool bannedEmail = false;
 
             foreach (string s in debugIdentityUserID.Split('|'))
             {
@@ -212,6 +214,10 @@ namespace DnaIdentityWebServiceProxy
                 else if (s.ToLower() == "nosecurecookie")
                 {
                     useSecureCookie = false;
+                }
+                else if (s.ToLower() == "bannedemail")
+                {
+                    bannedEmail = true;
                 }
                 debugInfoParamCount++;
             }
@@ -300,7 +306,15 @@ namespace DnaIdentityWebServiceProxy
                 XmlNode emailNode = signinDetailsXML.SelectSingleNode("signInDetails/email");
                 if (emailNode != null)
                 {
-                    Email = emailNode.InnerText;
+                    if (bannedEmail)
+                    {
+                        // Set the users email to one that is known to be in the banned emails list
+                        Email = "marcusparnwell.1@gmail.com";
+                    }
+                    else
+                    {
+                        Email = emailNode.InnerText;
+                    }
                     _userAttributes.Add("email", Email);
                 }
 

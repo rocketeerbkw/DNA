@@ -119,6 +119,7 @@ namespace FunctionalTests.Dna.Services.Categories
 
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
 
             int id = 889;
             string unknownSite = "unknown_site";
@@ -149,6 +150,7 @@ namespace FunctionalTests.Dna.Services.Categories
 
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
 
             int unknown_id = 1; // non existing 
 

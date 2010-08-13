@@ -301,7 +301,7 @@ namespace FunctionalTests
         [TestCleanup]
         public void TearDown()
         {
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
