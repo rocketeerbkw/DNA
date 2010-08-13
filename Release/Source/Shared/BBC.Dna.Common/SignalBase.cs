@@ -12,20 +12,18 @@ namespace BBC.Dna.Common
 {
     public class SignalBase<T> : ISignalBase
     {
-        
-
         //cache and db objects
         private Dictionary<string, object> _objects;
         public Dictionary<string, object> InternalObjects
         {
             get { return _objects; }
         }
-        
+        private int MaxCacheItemSize = 0;
+        private string MaxCacheItemSizeKey = string.Empty;
         protected ICacheManager _cache;
         protected IDnaDiagnostics _dnaDiagnostics;
         protected IDnaDataReaderCreator _readerCreator;
         protected const string _lastUpdateCacheKey = "LASTUPDATE";
-        
 
         //Delegates
         protected delegate void InitialiseObjectDelegate(params object[] args);
@@ -38,12 +36,6 @@ namespace BBC.Dna.Common
         //server addresses
         protected List<string> _ripleyServerAddresses;
         protected List<string> _dotNetServerAddresses;
-
-        //public int CachedObjectSize
-        //{
-        //    get;
-        //    private set;
-        //}
 
         /// <summary>
         /// The signal that this object listens for
@@ -131,7 +123,7 @@ namespace BBC.Dna.Common
         /// <returns></returns>
         static public string GetCacheKey(params object[] args)
         {
-            var key = string.Format(@"{0}|", typeof(T).AssemblyQualifiedName);
+            var key = string.Format(@"{0}|", typeof(T).Name);
             return args.Aggregate(key, (current, arg) => current + (arg + "|"));
         }
 
@@ -264,6 +256,16 @@ namespace BBC.Dna.Common
                 _objects.Add(cacheLastUpdateKey, saveDate);
             }
             _cache.Add(cacheLastUpdateKey, _objects[cacheLastUpdateKey]);
+
+            if (_cache.GetType() == typeof(MemcachedCacheManager))
+            {
+                var cachedObjectSize = ((MemcachedCacheManager)_cache).LastCachedOjectSize;
+                if (MaxCacheItemSize < cachedObjectSize)
+                {
+                    MaxCacheItemSize = cachedObjectSize;
+                    MaxCacheItemSizeKey = cacheKey;
+                }
+            }
             
         }
 
@@ -384,7 +386,7 @@ namespace BBC.Dna.Common
         {
             if (InitialiseObject != null)
             {
-                InitialiseObject.DynamicInvoke(null);
+                InitialiseObject.DynamicInvoke(new object[1]);
             }
             else
             {
@@ -399,7 +401,7 @@ namespace BBC.Dna.Common
         public SignalStatusMember GetStats(Type type)
         {
             var signalStatusMember = new SignalStatusMember() { Name = type.AssemblyQualifiedName };
-            //signalStatusMember.Values.Add("LastCacheUpdate", _lastUpdate.ToString());
+            
             if (GetStatsObject != null)
             {
                 signalStatusMember.Values =  (NameValueCollection)GetStatsObject.DynamicInvoke();
@@ -408,6 +410,8 @@ namespace BBC.Dna.Common
                 {
                     signalStatusMember.Values = new NameValueCollection();
                 }
+                signalStatusMember.Values.Add("MaxCacheItemSize", MaxCacheItemSize.ToString());
+                signalStatusMember.Values.Add("MaxCacheItemSizeKey", MaxCacheItemSizeKey);
             }
             return signalStatusMember;
         }

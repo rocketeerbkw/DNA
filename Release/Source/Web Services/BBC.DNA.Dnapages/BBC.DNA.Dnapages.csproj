@@ -120,9 +120,6 @@
     <Compile Include="CommentBox.aspx.designer.cs">
       <DependentUpon>CommentBox.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CommentBoxUsingApi.aspx.designer.cs">
-      <DependentUpon>CommentBoxUsingApi.aspx</DependentUpon>
-    </Compile>
     <Compile Include="CommentForumListPage.aspx.designer.cs">
       <DependentUpon>CommentForumListPage.aspx</DependentUpon>
     </Compile>
@@ -327,10 +324,6 @@
     </Compile>
     <Compile Include="CommentBox.aspx.cs">
       <DependentUpon>CommentBox.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CommentBoxUsingApi.aspx.cs">
-      <DependentUpon>CommentBoxUsingApi.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CommentForumListPage.aspx.cs">
@@ -746,6 +739,11 @@
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
       <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj">
+      <Project>{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}</Project>
+      <Name>DnaIdentityWebServiceProxy %28Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy%29</Name>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj">
       <Project>{4770D032-9B06-450D-8B00-7200D8330397}</Project>
       <Name>Memcached.ClientLibrary %28Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary%29</Name>
@@ -766,7 +764,6 @@
     <Content Include="CategoryListPage.aspx" />
     <Content Include="ComingUpPage.aspx" />
     <Content Include="CommentBox.aspx" />
-    <Content Include="CommentBoxUsingApi.aspx" />
     <Content Include="CommentForumListPage.aspx" />
     <Content Include="ContentSignifAdminBuilderPage.aspx" />
     <Content Include="ContentSignifPage.aspx" />

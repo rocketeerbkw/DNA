@@ -86,7 +86,7 @@ bool CProfileConnectionPool::GetConnection(CProfileConnection& Connection, bool 
 			}
 		}
 
-		if (!Connection.InitialiseConnection(this, pProfile, bUseIdentitySignIn, sClientIPAddress))
+		if (!Connection.InitialiseConnection(this, pProfile, bUseIdentitySignIn, sClientIPAddress, m_sDebugUserID))
 		{
 			if (pProfile != NULL)
 			{

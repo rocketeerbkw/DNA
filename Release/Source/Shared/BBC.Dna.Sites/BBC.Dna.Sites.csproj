@@ -97,6 +97,7 @@
     <Compile Include="SiteOptionExceptions.cs" />
     <Compile Include="SiteOptionList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SiteType.cs" />
     <Compile Include="Skin.cs" />
     <Compile Include="Topic.cs" />
     <Compile Include="TopicList.cs" />

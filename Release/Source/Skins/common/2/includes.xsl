@@ -95,6 +95,7 @@
             <xsl:include href="_library/user/linked.xsl" />
             <xsl:include href="_library/user/morecomments.xsl" />
             <xsl:include href="_library/user/notables.xsl" />
+            <xsl:include href="_library/user/username.xsl" />
     
             <xsl:include href="_library/date/longformat.xsl" />
             <xsl:include href="_library/date/shortformat.xsl" />

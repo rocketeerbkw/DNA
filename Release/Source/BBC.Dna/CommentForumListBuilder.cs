@@ -435,6 +435,7 @@ namespace BBC.Dna
             AddTextTag(commentForum, "TITLE", dataReader.GetStringNullAsEmpty("title"));
             AddTextTag(commentForum, "MODSTATUS", dataReader.GetByteNullAsZero("ModerationStatus"));
             AddTextTag(commentForum, "SITEID", dataReader.GetInt32NullAsZero("siteid"));
+            AddTextTag(commentForum, "FASTMOD", dataReader.GetInt32NullAsZero("fastmod"));
 
             if (dataReader.DoesFieldExist("DateCreated") && !dataReader.IsDBNull("DateCreated"))
             {

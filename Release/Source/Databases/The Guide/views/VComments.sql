@@ -16,7 +16,8 @@ AS
 		dbo.udf_isusermemberofgroup(dbo.ThreadEntries.UserID, dbo.CommentForums.siteid, 'EDITOR') AS userIsEditor, 
 		dbo.udf_isusermemberofgroup(dbo.ThreadEntries.UserID, dbo.CommentForums.siteid, 'NOTABLES') AS userIsNotable, 
 		dbo.ThreadEntries.lastupdated as lastupdated,
-		dbo.SignInUserIDMapping.IdentityUserID
+		dbo.SignInUserIDMapping.IdentityUserID,
+		dbo.Users.LoginName As IdentityUserName 
 		
 	FROM         dbo.ThreadEntries 
 	INNER JOIN dbo.CommentForums ON dbo.CommentForums.ForumID = dbo.ThreadEntries.ForumID 

@@ -7,12 +7,20 @@ SELECT @forumpostcount = @forumpostcount + isnull(sum(PostCountDelta),0) FROM Fo
 DECLARE @numbertoget int
 DECLARE @from int
 DECLARE @to int
-SET @numbertoget = (@forumpostcount % @show) + @show
-SET @to = @forumpostcount - 1
-SET @from = @forumpostcount - @numbertoget
+
+
 
 IF @forumpostcount > 0
 BEGIN
+
+	SET @numbertoget = @show
+	SET @to = @forumpostcount - 1
+	SET @from = @to - @numbertoget
+	if @from < 0
+	begin
+		SET @from =0
+	end
+
 	SELECT TOP (@numbertoget)
 		t.EntryID, 
 		t.ForumID, 

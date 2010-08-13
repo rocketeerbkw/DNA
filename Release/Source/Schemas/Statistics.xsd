@@ -33,6 +33,8 @@
               <xs:element name="HTMLCACHEHITS" type="xs:unsignedByte" />
               <xs:element name="HTMLCACHEMISSES" type="xs:unsignedByte" />
               <xs:element name="AVERAGEREQUESTTIME" type="xs:unsignedShort" />
+              <xs:element name="AVERAGEIDENTITYTIME" type="xs:unsignedShort" />
+              <xs:element name="IDENTITYREQUESTS" type="xs:unsignedShort" />
               <xs:element name="REQUESTS" type="xs:unsignedShort" />
             </xs:sequence>
             <xs:attribute name="INTERVALSTARTTIME" type="xs:string" use="required" />

@@ -401,6 +401,26 @@ namespace BBC.Dna.Objects
             set;
         }
 
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(ElementName = "IDENTITYUSERID", Order = 35)]
+        [DataMember(Name = ("identityUserId"))]
+        public string IdentityUserId
+        {
+            get;
+            set;
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(ElementName = "IDENTITYUSERNAME", Order = 36)]
+        [DataMember(Name = ("identityUserName"))]
+        public string IdentityUserName
+        {
+            get;
+            set;
+        }
+
+
+
         [XmlIgnore]
         public bool UserLoggedIn { get; set; }
 
@@ -479,14 +499,35 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         static public User CreateUserFromReader(IDnaDataReader reader, string prefix)
         {
-            IUser user = new User(_dnaDataReaderCreator, _dnaDiagnostics, _cacheManager);
+
+            //IUser user = new User(_dnaDataReaderCreator, _dnaDiagnostics, _cacheManager);
+            IUser user = new User();
 
             if (reader.Exists(prefix + "userID"))
             {
                 user.UserId = reader.GetInt32NullAsZero(prefix  + "userID");
             }
+            else if (reader.Exists(prefix + "ID"))
+            {
+                user.UserId = reader.GetInt32NullAsZero(prefix + "ID");
+            }
 
-            if(reader.Exists(prefix + "FirstNames"))
+            if (reader.Exists(prefix + "IdentityUserID"))
+            {
+                user.IdentityUserId = reader.GetStringNullAsEmpty(prefix + "IdentityUserId");
+            }
+
+            if (reader.Exists(prefix + "IdentityUserName"))
+            {
+                user.IdentityUserName = reader.GetStringNullAsEmpty(prefix + "IdentityUserName");
+            }
+            else if (reader.Exists(prefix + "LoginName"))
+            {
+                user.IdentityUserName = reader.GetStringNullAsEmpty(prefix + "LoginName");
+            }
+
+            /*
+            if (reader.Exists(prefix + "FirstNames"))
             {
 
                 user.FirstNames = reader.GetStringNullAsEmpty(prefix + "FirstNames") ?? "";
@@ -497,7 +538,7 @@ namespace BBC.Dna.Objects
 
                 user.LastName = reader.GetStringNullAsEmpty(prefix + "LastName") ?? "";
             }
-
+            */
             if(reader.Exists(prefix + "Status"))
             {
                 

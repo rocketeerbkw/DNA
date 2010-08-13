@@ -132,9 +132,9 @@ namespace BBC.Dna.Objects
                         CategorySummary newCategorySummary = new CategorySummary();
                         newCategorySummary.NodeID = reader.GetInt32NullAsZero("NodeID");
                         newCategorySummary.Type = reader.GetInt32NullAsZero("Type");
-                        // newCategorySummary.NodeCount = reader.GetInt32NullAsZero("NodeCount");
-                        // newCategorySummary.ArticleCount = reader.GetInt32NullAsZero("ArticleCount");
-                        // newCategorySummary.AliasCount = reader.GetInt32NullAsZero("AliasCount");
+                        newCategorySummary.NodeCount = reader.GetInt32NullAsZero("NodeMembers");
+                        newCategorySummary.ArticleCount = reader.GetInt32NullAsZero("ArticleMembers");
+                        newCategorySummary.AliasCount = reader.GetInt32NullAsZero("NodeAliasMembers");
                         newCategorySummary.Name = reader.GetStringNullAsEmpty("DisplayName");
                         newCategorySummary.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("DisplayName"));
                         newCategorySummary.RedirectNodeID = reader.GetInt32NullAsZero("RedirectNodeID");

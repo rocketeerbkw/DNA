@@ -12,6 +12,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using ISite = BBC.Dna.Sites.ISite;
 using BBC.Dna.Common;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {
@@ -300,6 +301,93 @@ namespace BBC.Dna.Objects
             }
 
             return forumThreads;
+        }
+
+        /// <summary>
+        /// Creates a users forum thread either journal from cache or db
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="siteList"></param>
+        /// <param name="identityusername"></param>
+        /// <param name="siteId"></param>
+        /// <param name="itemsPerPage"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="threadId"></param>
+        /// <param name="overFlow"></param>
+        /// <param name="threadOrder"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="byDnaUserId"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static ForumThreads CreateUsersJournal(ICacheManager cache, IDnaDataReaderCreator readerCreator,
+                                                            ISiteList siteList,
+                                                            string identityUserName,
+                                                            int siteId,
+                                                            int itemsPerPage,
+                                                            int startIndex, 
+                                                            int threadId,
+                                                            bool overFlow, 
+                                                            ThreadOrder threadOrder, 
+                                                            IUser viewingUser, 
+                                                            bool byDnaUserId, 
+                                                            bool ignoreCache)
+        {
+            int forumId = GetUsersJournalForumData(readerCreator, identityUserName, siteId, byDnaUserId);
+
+            return CreateForumThreads(cache, readerCreator, siteList, forumId,
+                itemsPerPage, startIndex, threadId, overFlow, threadOrder, viewingUser, ignoreCache);
+        }
+
+
+
+        private static int GetUsersJournalForumData(IDnaDataReaderCreator readerCreator, 
+                                                string identityUserName,
+                                                int siteId,
+                                                bool byDnaUserId)
+        {
+            int forumId = 0;
+            string userSp = String.Empty;
+            string paramName = String.Empty;
+            int dnaUserId = 0;
+
+            if (byDnaUserId == true)
+            {
+                userSp = "finduserfromid";
+                dnaUserId = Convert.ToInt32(identityUserName);
+            }
+            else 
+            {
+                userSp = "finduserfromidentityusername";
+            }
+            // fetch all the lovely intellectual property from the database
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader(userSp))
+            {
+                // Add the identityusername or dnauserid and execute
+                if (byDnaUserId == true)
+                {
+                    reader.AddParameter("userId", dnaUserId);
+                }
+                else
+                {
+                    reader.AddParameter("identityusername", identityUserName);
+                }
+
+                reader.AddParameter("siteid", siteId);
+
+                reader.Execute();
+
+                // Make sure we got something back
+                if (!reader.HasRows || !reader.Read())
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
+                else
+                {
+                    forumId = reader.GetInt32NullAsZero("Journal");
+                }
+            }
+            return forumId;
         }
 
         /// <summary>

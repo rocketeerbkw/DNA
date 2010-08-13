@@ -8,6 +8,7 @@ using System.Text;
 using BBC.Dna.Data;
 using Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading;
 
 namespace TestUtils
 {
@@ -119,7 +120,8 @@ namespace TestUtils
             UnderAgeRangeCheck
         }
 
-        private static string _IdentityServerBaseUri = "https://api.stage.bbc.co.uk/idservices";
+        //private static string _IdentityServerBaseUri = "https://api.stage.cwwtf.bbc.co.uk/idservices"; // <-- Watford data centre only
+        private static string _IdentityServerBaseUri = "https://api.stage.bbc.co.uk/idservices"; // Load balanced calls
 
         public static string SetBaseIdentityURL
         {
@@ -518,6 +520,7 @@ namespace TestUtils
         /// <returns>True if set ok, false if not</returns>
         public static bool SetDnaAttribute(string loginName, string cookie, DnaAttributeNames attributeName, string value)
         {
+            Thread.Sleep(1001);
             List<Cookie> cookies = new List<Cookie>();
             cookies.Add(new Cookie("IDENTITY", cookie, "/", "api.stage.bbc.co.uk"));
             Dictionary<string, string> reqParams = new Dictionary<string, string>();
@@ -567,6 +570,7 @@ namespace TestUtils
         /// <returns></returns>
         public static bool SetAppNamedSpacedAttribute(string loginName, string cookie, string attributeName, string value, string appNameSpace)
         {
+            Thread.Sleep(1001);
             List<Cookie> cookies = new List<Cookie>();
             cookies.Add(new Cookie("IDENTITY", cookie, "/", "api.stage.bbc.co.uk"));
             Dictionary<string, string> reqParams = new Dictionary<string, string>();
@@ -593,6 +597,7 @@ namespace TestUtils
         /// <returns>True if set ok, false if not</returns>
         public static bool SetIdentityAttribute(string loginName, string cookie, AttributeNames attributeName, string value)
         {
+            Thread.Sleep(1001); 
             List<Cookie> cookies = new List<Cookie>();
             cookies.Add(new Cookie("IDENTITY", cookie, "/", "api.stage.bbc.co.uk"));
             Dictionary<string,string> reqParams = new Dictionary<string,string>();
@@ -793,7 +798,7 @@ namespace TestUtils
                     _error += reader.ReadToEnd();
                 }
                 Console.WriteLine(_error);
-                Assert.Fail("Failed calling Identity Rest Interface with '" + identityRestCall + "' request.");
+                Assert.Fail("Failed calling Identity Rest Interface with '" + identityRestCall + "' request. Error = " + _error);
             }
 
             Console.WriteLine("Response cookies...");

@@ -58,6 +58,8 @@ namespace BBC.Dna
 
 		private int _masthead;
 
+        private string _identityUserId = String.Empty;
+
         private static object _lock = new object();
 
         /// <summary>
@@ -154,6 +156,17 @@ namespace BBC.Dna
             get
             {
                 return _userID;
+            }
+        }
+
+        /// <summary>
+        /// <see cref="IUser"/>
+        /// </summary>
+        public string IdentityUserId
+        {
+            get
+            {
+                return _identityUserId;
             }
         }
 
@@ -418,105 +431,85 @@ namespace BBC.Dna
             }
             InputContext.Diagnostics.WriteTimedSignInEventToLog("User","Creating User");
 
-			bool isDebugUser = false;
 			bool autoLogIn = false;
             bool migrated = false;
-#if DEBUG
-            //Uses Debug user if available.  ( Debug Cookie created with d_userid= parameter in Ripley code. )
-			//InputContext.Diagnostics.WriteTimedEventToLog("User", "Start Create User");
-			DnaCookie debuguser = InputContext.GetCookie("H2G2DEBUG");
-			if (debuguser != null)
-			{
-				int result = 0;
-				if (Int32.TryParse(debuguser.Value.Replace("A", ""), out result))
-				{
-                    if ( result > 0 )
-                    {
-					    _userID = result;
-					    _userLoggedIn = true;
-					    isDebugUser = true;
-                    }
-				}
-			}
-#endif
-			if (isDebugUser == false)
-			{
-				DnaCookie cookie;
-                if (signInComponent.SignInSystemType == SignInSystem.Identity)
-                {
-                    cookie = InputContext.GetCookie("IDENTITY");
-                }
-                else
-                {
-                    cookie = InputContext.GetCookie("SSO2-UID");
-                }
 
-				if (cookie == null)
-				{
-                    InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "No cookie");
-                    return;
-				}
+		    DnaCookie cookie;
+            if (signInComponent.SignInSystemType == SignInSystem.Identity)
+            {
+                cookie = InputContext.GetCookie("IDENTITY");
+            }
+            else
+            {
+                cookie = InputContext.GetCookie("SSO2-UID");
+            }
 
-				if (!InitialiseProfileAPI(cookie, ref signInComponent))
-				{
-					InputContext.Diagnostics.WriteWarningToLog("ProfileAPI", "Unable to initialise user");
-					signInComponent.CloseConnections();
-                    InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "SignIn System Failed");
-                    return;
-				}
+		    if (cookie == null)
+		    {
+                InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "No cookie");
+                Statistics.AddLoggedOutRequest();
+                return;
+		    }
 
-				TryLoginUser(ref signInComponent, ref autoLogIn, ref migrated);
+		    if (!InitialiseProfileAPI(cookie, ref signInComponent))
+		    {
+			    InputContext.Diagnostics.WriteWarningToLog("ProfileAPI", "Unable to initialise user");
+			    signInComponent.CloseConnections();
+                InputContext.Diagnostics.WriteTimedSignInEventToLog(signInMethod, "SignIn System Failed");
+                return;
+		    }
 
-				// Get the users BBCUID
-                if (InputContext.GetCookie("BBC-UID") != null)
-                {
-                    _bbcuid = InputContext.GetCookie("BBC-UID").Value;
-                }
-			}
+		    TryLoginUser(ref signInComponent, ref autoLogIn, ref migrated);
+
+		    // Get the users BBCUID
+            if (InputContext.GetCookie("BBC-UID") != null)
+            {
+                _bbcuid = InputContext.GetCookie("BBC-UID").Value;
+            }
 
 			// If we're logged in, then get the details for the current user
-			if (_userLoggedIn)
-			{
+            if (_userLoggedIn)
+            {
                 InputContext.Diagnostics.WriteToLog("User", "User logged in");
 
                 bool newUser = false;
                 string ssoLoginName;
                 string ssoDisplayName;
                 string ssoEmail;
-				string ssoFirstNames;
-				string ssoLastName;
+                string ssoFirstNames;
+                string ssoLastName;
                 int ssoUserID;
                 string identityUserID;
 
-				// Check to make sure that we've got the users details
-				if (!GetUserDetails())
-				{
-					// New User has registered - add them to DB.
-					newUser = true;
+                // Check to make sure that we've got the users details
+                if (!GetUserDetails())
+                {
+                    // New User has registered - add them to DB.
+                    newUser = true;
 
-					// Check to see if the users email is in the banned list
-					if (!isDebugUser && !IsEmailInBannedList(signInComponent))
-					{
-						// Get the users details from SSO
-						ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
+                    // Check to see if the users email is in the banned list
+                    if (!IsEmailInBannedList(signInComponent))
+                    {
+                        // Get the users details from SSO
+                        ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
 
-						// Create the new user in the database with the given information
-						if (CreateNewUserFromId(identityUserID, ssoUserID, ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, InputContext.CurrentSite.SiteID, ssoDisplayName))
-						{
-							// Get the extra details from our dtabase
-							GetUserDetails();
-						}
-					}
-				}
+                        // Create the new user in the database with the given information
+                        if (CreateNewUserFromId(identityUserID, ssoUserID, ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, InputContext.CurrentSite.SiteID, ssoDisplayName))
+                        {
+                            // Get the extra details from our dtabase
+                            GetUserDetails();
+                        }
+                    }
+                }
 
-				//Existing users may need to be synchronised.
+                //Existing users may need to be synchronised.
                 bool autoLogInOrSync = (autoLogIn || InputContext.GetParamIntOrZero("s_sync", "User's details must be synchronised with the data in SSO.") == 1);
                 InputContext.Diagnostics.WriteToLog("User", "Auto login Synch check" + autoLogInOrSync.ToString());
 
                 // If the site is using identity, then we need to check the users last updated date
-                if (InputContext.GetCurrentSignInObject.SignInSystemType == SignInSystem.Identity)
+                DateTime lastUpdatedDateFromSignInSystem = DateTime.Now;
+                if (signInComponent.SignInSystemType == SignInSystem.Identity)
                 {
-                    DateTime lastUpdatedDateFromSignInSystem = DateTime.Now; 
                     if (signInComponent.DoesAttributeExistForService(InputContext.CurrentSite.SSOService, "lastupdated"))
                     {
                         lastUpdatedDateFromSignInSystem = Convert.ToDateTime(signInComponent.GetUserAttribute("lastupdated"));
@@ -530,20 +523,23 @@ namespace BBC.Dna
                 InputContext.Diagnostics.WriteToLog("User", "New user - " + newUser.ToString());
                 InputContext.Diagnostics.WriteToLog("User", "Synch check - " + migrated.ToString());
 
-                if (!isDebugUser && (!newUser || migrated) && autoLogInOrSync)
+                if ((!newUser || migrated) && autoLogInOrSync)
                 {
                     ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
+                    _lastUpdated = lastUpdatedDateFromSignInSystem;
                     SynchroniseWithProfile(ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, ssoDisplayName);
                 }
                 else
                 {
                     CheckForExistingUDNGifSiteSuffixIsNullOrDisplayName();
                 }
-			}
-			if (!isDebugUser)
-			{
-				signInComponent.CloseConnections();
-			}
+            }
+            else
+            {
+                Statistics.AddLoggedOutRequest();
+            }
+
+			signInComponent.CloseConnections();
             
             // Now generate the XML for the user
             GenerateUserXml();
@@ -665,6 +661,7 @@ namespace BBC.Dna
         private bool InitialiseProfileAPI(DnaCookie cookie, ref IDnaIdentityWebServiceProxy signInComponent)
         {
             InputContext.Diagnostics.WriteTimedEventToLog("SSO", "Start");
+            DateTime timer = DateTime.Now; 
 
             // Set the current user. If this returns false, it means the user was not signed in correctly
             string decodedCookie = cookie.Value;
@@ -673,18 +670,6 @@ namespace BBC.Dna
             if (signInComponent.SignInSystemType == SignInSystem.Identity)
             {
                 signInComponent.SetService(InputContext.CurrentSite.IdentityPolicy);
-
-                // BODGE!!! Make sure that the cookie is fully decoded.
-                // Currently the cookie can come in from Forge double encoded.
-                // Our tests are correct in encoding only the once.
-                /*
-                int i = 0;
-                while (decodedCookie.IndexOfAny(new char[] { ' ', '/', '+' }) < 0 && i < 3)
-                {
-                    decodedCookie = HttpUtility.UrlDecode(decodedCookie);
-                    i++;
-                }
-                */
             }
             else
             {
@@ -719,6 +704,8 @@ namespace BBC.Dna
                 }
                 return false;
             }
+
+            Statistics.AddIdentityCallDuration(TimeSpan.FromTicks(DateTime.Now.Ticks - timer.Ticks).Milliseconds);
 
             return true;
         }
@@ -1085,17 +1072,19 @@ namespace BBC.Dna
         /// <param name="forumPostedTo">if the Users forum has been posted to</param>
         /// <param name="masthead">Users masthead</param>
         /// <param name="sinbin">if the user is sinbinned</param>
+        /// <param name="identityUserId">Identity User ID to put in the XML</param>
         /// <returns>Xml Node set up with a uniform representation of User XML.</returns>
         
         public XmlNode GenerateUserXml(int userId, string userName, string emailAddress, string firstNames, string lastName, 
                                         int status, int taxonomyNode, bool active, double zeitgeistScore,
                                         string siteSuffix, string area, string title, int journal,
                                         DateTime dateLastNotified, int subQuota, int allocations, DateTime dateJoined,
-                                        int forumID, int forumPostedTo, int masthead, int sinbin)
+                                        int forumID, int forumPostedTo, int masthead, int sinbin, string identityUserId)
         {
 
             Dictionary<string, object> userData = new Dictionary<string, object>();
             userData.Add("UserID", userId);
+            userData.Add("IdentityUserId", identityUserId);
             userData.Add("UserName", userName);
             userData.Add("EMAIL-ADDRESS", emailAddress);
             userData.Add("Status", status);
@@ -1351,7 +1340,8 @@ namespace BBC.Dna
         {
 			// Set member variables that are useful as values
             _userID = sp.GetInt32NullAsZero("userid");
-			_status = (UserStatus)sp.GetInt32NullAsZero("Status");
+            _identityUserId = sp.GetStringNullAsEmpty("identityuserid");
+            _status = (UserStatus)sp.GetInt32NullAsZero("Status");
 			_userName = sp.GetStringNullAsEmpty("UserName");
 			_firstNames = sp.GetStringNullAsEmpty("FirstNames");
             _lastName = sp.GetStringNullAsEmpty("LastName");
@@ -1793,6 +1783,12 @@ namespace BBC.Dna
                 userName = "Member " + userID.ToString();
             }
 
+            string identityUserId = "";
+            if (dataReader.Exists(prefix + "identityUserId"))
+            {
+                identityUserId = dataReader.GetStringNullAsEmpty(prefix + "identityUserId");
+            }
+
             string emailAddress = "";
             if (dataReader.Exists(prefix + "Email"))
             {
@@ -1900,8 +1896,8 @@ namespace BBC.Dna
                                                 forumID,
                                                 forumPostedTo,
                                                 masthead,
-                                                sinbin
-                                                );
+                                                sinbin,
+                                                identityUserId);
 
 
             if (userXML != null)

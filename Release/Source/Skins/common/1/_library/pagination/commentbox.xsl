@@ -58,7 +58,7 @@
 				</li>
 			</xsl:if>
 			
-			<xsl:if test="@FORUMPOSTCOUNT &gt; @SHOW">
+			<xsl:if test="@FORUMPOSTCOUNT &gt; (@TO + 1)">
 				<li class="next">
 					<a>
 						<xsl:attribute name="href">

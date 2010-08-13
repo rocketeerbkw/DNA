@@ -31,6 +31,7 @@
     <!-- ===================================================================================== Markup === -->
     <!--   =============================================================== Pages ===                      -->
     <xsl:include href="pages/multiposts-article.xsl" />
+    <xsl:include href="pages/multiposts-error.xsl" />
     <xsl:include href="pages/multiposts-userpage.xsl" />
     
     <xsl:include href="pages/addthread.xsl" />

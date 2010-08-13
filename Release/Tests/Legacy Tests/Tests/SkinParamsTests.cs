@@ -21,7 +21,7 @@ namespace Tests
 		public void TestSkinParams()
 		{
             Console.WriteLine("TestSkinParams");
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 inputcontext.SetCurrentSite("h2g2");
                 inputcontext.InitDefaultUser();
@@ -76,7 +76,7 @@ namespace Tests
 		public void TestAbsentSkinParams()
 		{
             Console.WriteLine("TestAbsentSkinParams");
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 inputcontext.SetCurrentSite("h2g2");
                 inputcontext.InitDefaultUser();

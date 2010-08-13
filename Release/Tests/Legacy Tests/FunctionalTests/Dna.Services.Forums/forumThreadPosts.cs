@@ -68,15 +68,13 @@ namespace FunctionalTests.Services.Forums
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
-            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/xml", _sitename, 150, 33);
+            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}?format=xml", _sitename, 150, 33);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"","") , _schemaForumThreads);
             validator.Validate();
-
-
 
             Console.WriteLine("After GetForumXml_ReadOnly_ReturnsValidXml");
         }
@@ -91,15 +89,13 @@ namespace FunctionalTests.Services.Forums
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
-            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/post/{3}/xml", _sitename, 150, 33, 60);
+            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/post/{3}?format=xml", _sitename, 150, 33, 60);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaForumThreads);
             validator.Validate();
-
-
 
             Console.WriteLine("After GetForumXml_ReadOnly_ReturnsValidXml");
         }

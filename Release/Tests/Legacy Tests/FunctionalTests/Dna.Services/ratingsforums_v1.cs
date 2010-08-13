@@ -811,6 +811,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateReviewForum");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.UseEditorAuthentication = true;
             request.SetCurrentUserEditor();
 
             string id = "FunctiontestCommentForum-" + Guid.NewGuid().ToString();//have to randomize the string to post
@@ -851,6 +852,7 @@ namespace FunctionalTests
             Console.WriteLine("Before CreateReviewForum");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.UseEditorAuthentication = true;
             request.SetCurrentUserEditor();
 
             string id = "FunctiontestCommentForum-" + Guid.NewGuid().ToString();//have to randomize the string to post
@@ -867,7 +869,7 @@ namespace FunctionalTests
                 "</ratingForum>", id, title, parentUri, closeDate.ToString("yyyy-MM-dd"));
 
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/", _sitename);
+            string url = String.Format("https://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information

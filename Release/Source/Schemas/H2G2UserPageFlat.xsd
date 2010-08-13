@@ -15,7 +15,7 @@
 				<xs:element ref="DATE" />
 				<xs:element ref="SITECONFIG" />
         <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
-				<xs:element name="TOPICLIST">
+				<xs:element name="TOPICLIST" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element maxOccurs="unbounded" name="TOPIC">
@@ -50,7 +50,7 @@
 							<xs:element name="JOURNALPOSTS">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="POST">
+										<xs:element name="POST" minOccurs="0">
 											<xs:complexType>
 												<xs:sequence>
 													<xs:element name="SUBJECT" type="xs:string" />
@@ -856,10 +856,11 @@
 				<xs:element name="CURRENTSITEMINAGE" type="xs:unsignedByte" />
 				<xs:element name="CURRENTSITEMAXAGE" type="xs:unsignedByte" />
 				<xs:element name="SITE-CLOSED" type="xs:unsignedByte" />
-				<xs:element ref="SITE">
-				</xs:element>
+				<xs:element ref="SITE"></xs:element>
 			</xs:sequence>
+      <xs:attribute name="TYPE" type="xs:string" />
 		</xs:complexType>
+    
 	</xs:element>
 	<xs:complexType name="ExtraInfoType">
 		<xs:sequence>

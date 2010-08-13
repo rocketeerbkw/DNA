@@ -94,7 +94,7 @@ namespace Tests
         /// Test to make sure that a normal user can be created after a banned user is caught
         /// </summary>
         /// TODO NEED TO GO THROUGH WITH MARK HOWITT TO FIND OUT WHAT THIS TEST IS TRYING TO DO
-        [TestMethod, Ignore]
+        [TestMethod]
         public void TestNormalUserCanBeCreatedAfterABannedUserIsCaught()
         {
             Console.WriteLine("Before TestNormalUserCanBeCreatedAfterABannedUserIsCaught");

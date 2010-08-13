@@ -26496,23 +26496,25 @@ Purpose:	Displays the Viewers name or 'Unknown Visitor'
 
         <table>
           <tr>
-            <td>Time</td>
-            <td>Raw Requests</td>
-            <td>Server Too Busy</td>
-            <td>Cache hits</td>
-            <td>Cache Misses</td>
-            <td>Non SSO requests</td>
-            <td>HTML cache hits</td>
-            <td>HTML cache misses</td>
-            <td>RSS cache hits</td>
-            <td>RSS cache misses</td>
-            <td>SSI cache hits</td>
-            <td>SSI cache misses</td>
-            <td>Average Request Time</td>
-            <td>Total Requests</td>
+            <td>Time |</td>
+            <td>Raw Requests |</td>
+            <td>STBs |</td>
+            <td>Avg Request Time |</td>
+            <td>Avg Identity Time |</td>
+            <td>Total Requests |</td>
+            <td>Logged out requests |</td>
+            <td>Logged in requests |</td>
+            <td>Cache hits |</td>
+            <td>Cache misses |</td>
+            <td>HTML cache hit |</td>
+            <td>HTML cache miss |</td>
+            <td>RSS cache hit |</td>
+            <td>RSS cache miss |</td>
+            <td>SSI cache hit |</td>
+            <td>SSI cache miss</td>
           </tr>
           <xsl:for-each select="/H2G2/STATUS-REPORT/STATISTICS/STATISTICSDATA">
-            <tr>
+            <tr style="text-align:center">
               <td>
                 <xsl:value-of select="@INTERVALSTARTTIME"/>
               </td>
@@ -26523,13 +26525,25 @@ Purpose:	Displays the Viewers name or 'Unknown Visitor'
                 <xsl:value-of select="SERVERBUSYCOUNT"/>
               </td>
               <td>
+                <xsl:value-of select="AVERAGEREQUESTTIME"/>
+              </td>
+              <td>
+                <xsl:value-of select="AVERAGEIDENTITYTIME"/>
+              </td>
+              <td>
+                <xsl:value-of select="REQUESTS"/>
+              </td>
+              <td>
+                <xsl:value-of select="NONSSOREQUESTS"/>
+              </td>
+              <td>
+                <xsl:value-of select="IDENTITYREQUESTS"/>
+              </td>
+              <td>
                 <xsl:value-of select="CACHEHITS"/>
               </td>
               <td>
                 <xsl:value-of select="CACHEMISSES"/>
-              </td>
-              <td>
-                <xsl:value-of select="NONSSOREQUESTS"/>
               </td>
               <td>
                 <xsl:value-of select="HTMLCACHEHITS"/>
@@ -26548,12 +26562,6 @@ Purpose:	Displays the Viewers name or 'Unknown Visitor'
               </td>
               <td>
                 <xsl:value-of select="SSICACHEMISSES"/>
-              </td>
-              <td>
-                <xsl:value-of select="AVERAGEREQUESTTIME"/>
-              </td>
-              <td>
-                <xsl:value-of select="REQUESTS"/>
               </td>
             </tr>
           </xsl:for-each>

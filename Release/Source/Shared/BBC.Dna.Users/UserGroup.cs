@@ -10,10 +10,17 @@ namespace BBC.Dna.Users
     [DataContract(Name = "group")]   
     public class UserGroup
     {
+        public UserGroup(string name)
+        {
+            Name = name;
+        }
+
+        public UserGroup()
+        {
+        }
+
         [DataMember(Name = "name")]   
         public string Name { get; set; }
 
-
-        public int SiteId { get; set; }
     }
 }

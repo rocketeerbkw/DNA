@@ -50,7 +50,7 @@ namespace BBC.Dna.Services
         protected int summaryLength = 256;
         protected Guid bbcUidCookie = Guid.Empty;
         protected string _iPAddress = String.Empty;
-        protected int debugDnaUserId;
+        protected string debugDnaUserId;
         protected IDnaDiagnostics dnaDiagnostic;
 
         public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
@@ -114,11 +114,10 @@ namespace BBC.Dna.Services
                 _iPAddress = QueryStringHelper.GetHeaderValueAsString("REMOTE_ADDR", "");
             }
 
-            int allowDebugUser = 0;
-            if (int.TryParse(ConfigurationManager.AppSettings["allowdebuguser"], out allowDebugUser) && allowDebugUser > 0)
-            {
-                debugDnaUserId = QueryStringHelper.GetQueryParameterAsInt("debugdnauserid", 0);
-            }
+            debugDnaUserId = "";
+#if DEBUG
+            debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
+#endif
         }
 
         ///// <summary>
@@ -134,6 +133,11 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.UnknownSite));
             }
+
+            //set the language code
+            var languageCode = siteList.GetSiteOptionValueString(site.SiteID, "General", "SiteLanguage");
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", languageCode);
+
             return site;
         }
 
@@ -155,9 +159,7 @@ namespace BBC.Dna.Services
                 else
                 {
                     callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
-                    //userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), site.IdentityPolicy, site.SiteID, "");
                     userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID);
-                    Statistics.AddNonSSORequest();
                 }
                 // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs
                 if (callingUser.GetSigninStatus == CallingUser.SigninStatus.SignedInNotLoggedIn)

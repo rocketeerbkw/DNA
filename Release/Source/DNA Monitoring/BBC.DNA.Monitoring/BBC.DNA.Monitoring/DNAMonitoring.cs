@@ -11,11 +11,11 @@ namespace BBC.DNA.Monitoring
     public class DNAMonitoring
     {
         string _ripleyServerStatsUrlFormat = "http://www.bbc.co.uk/h2g2/servers/{0}/h2g2/plain/status?s_disp=stats&interval=60&skin=purexml";
-        string _bbcDnaStatsUrlFormat       = "http://www.bbc.co.uk/h2g2/servers/{0}/h2g2/plain/status-n?s_disp=stats&interval=60&skin=purexml";
+        string _bbcDnaStatsUrlFormat       = "http://www.bbc.co.uk/h2g2/servers/{0}/h2g2/plain/status-n?s_disp=stats&interval=5&skin=purexml";
         string _apiCommentsStatsUrlFormat  = "http://www.bbc.co.uk/h2g2/servers/{0}/api/comments/status.aspx?interval=60&skin=purexml";
 
         string _ripleyServerAppName = "DNA-RipleyServer";
-        string _bbcDnaAppName = "DNA-BBC.DNA";
+        string _bbcDnaAppName = "DNA-BBCDNA";
         string _apiCommentsAppName = "DNA-API-Comments";
 
         public KPIList GetApiCommentsStatsKPIs(string serverName)
@@ -38,16 +38,43 @@ namespace BBC.DNA.Monitoring
 
         KPIList GenerateKPIListFromStatsXml(XmlDocument statsXml, string appName, string serverName)
         {
-            string currentHour = statsXml.SelectSingleNode("//STATUS-REPORT/STATISTICS/CURRENTDATE/DATE/@HOURS").InnerText;
-            XmlNode statisticsDataNode = statsXml.SelectSingleNode("//STATUS-REPORT/STATISTICS/STATISTICSDATA[@INTERVALSTARTTIME='" + currentHour + ":00']");
-
             KPIList kpiList = new KPIList(appName, serverName);
 
-            kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "AVERAGEREQUESTTIME", "AverageResponseTime"));
-            kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "SERVERBUSYCOUNT", "ServerTooBusyCount"));
-            kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "RAWREQUESTS", "RawRequests"));
+            if (statsXml != null)
+            {
+                string currentHour = statsXml.SelectSingleNode("//STATUS-REPORT/STATISTICS/CURRENTDATE/DATE/@HOURS").InnerText;
+                XmlNode statisticsDataNode = statsXml.SelectSingleNode("//STATUS-REPORT/STATISTICS/STATISTICSDATA[@INTERVALSTARTTIME='" + currentHour + ":00']");
+
+
+                kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "AVERAGEREQUESTTIME", "AverageRequestTime"));
+                kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "SERVERBUSYCOUNT", "ServerTooBusyCount"));
+                kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "RAWREQUESTS", "RawRequests"));
+
+                kpiList.ListOfKPIs.Add(CreateServerTooBusyPctKpi(kpiList));
+            }
 
             return kpiList;
+        }
+
+        private KPI CreateServerTooBusyPctKpi(KPIList kpiList)
+        {
+            KPI stbPct = new KPI();
+            stbPct.KPIName = "ServerTooBusyPct";
+            stbPct.Dt = DateTime.UtcNow;
+
+            KPI stb = kpiList.FindKpiByName("ServerTooBusyCount");
+            KPI rr = kpiList.FindKpiByName("RawRequests");
+
+            if (rr.KPIValue > 0)
+            {
+                stbPct.KPIValue = (stb.KPIValue * 100) / rr.KPIValue;
+            }
+            else
+            {
+                stbPct.KPIValue = 0;
+            }
+
+            return stbPct;
         }
 
         KPI ExtractStatsValue(XmlNode n, string nodeName, string KPIName)
@@ -62,21 +89,28 @@ namespace BBC.DNA.Monitoring
 
         XmlDocument GetStatsXmlFromUrl(string format,string serverName)
         {
-            string url = string.Format(format,serverName);
+            try
+            {
+                string url = string.Format(format, serverName);
 
-            HttpWebRequest req = GetWebRequest(url);
+                HttpWebRequest req = GetWebRequest(url);
 
-            WebResponse resp = req.GetResponse();
-            Stream respStream = resp.GetResponseStream();
-            StreamReader sreader = new StreamReader(respStream);
-            string xmlfile = sreader.ReadToEnd();
-            sreader.Close();
-            resp.Close();
+                WebResponse resp = req.GetResponse();
+                Stream respStream = resp.GetResponseStream();
+                StreamReader sreader = new StreamReader(respStream);
+                string xmlfile = sreader.ReadToEnd();
+                sreader.Close();
+                resp.Close();
 
-            XmlDocument statsXml = new XmlDocument();
-            statsXml.LoadXml(xmlfile);
+                XmlDocument statsXml = new XmlDocument();
+                statsXml.LoadXml(xmlfile);
 
-            return statsXml;    
+                return statsXml;
+            }
+            catch (System.Net.WebException we)
+            {
+                return null;
+            }
         }
 
         HttpWebRequest GetWebRequest(string sURL)

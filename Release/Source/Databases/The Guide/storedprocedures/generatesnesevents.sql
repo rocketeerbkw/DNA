@@ -1,8 +1,6 @@
 CREATE PROCEDURE generatesnesevents @topeventid INT
 AS
 BEGIN
-	declare @siteid int
-	select @siteid = siteid from sites where urlname = 'iplayertv'
 	
 	INSERT INTO SNeSActivityQueue
 		select EQ.EventType,
@@ -20,7 +18,9 @@ BEGIN
 	and EXISTS(select *
 		from ThreadEntries TE 
         INNER JOIN Forums F on F.ForumID = TE.ForumID
-        where TE.EntryID = EQ.ItemID2 AND f.siteid=@siteid)
+        where TE.EntryID = EQ.ItemID2 AND f.siteid in 
+			( select siteid from sites where urlname = 'iplayertv' or urlname = 'iplayerradio')
+        )
 END
 
 RETURN 0;

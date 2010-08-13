@@ -267,7 +267,9 @@ And lose the name of action. ";
         /// <summary>
         /// Check to make sure the quote translator translates as expected
         /// </summary>
-        /// <remarks>This test is being ignored as we don't cope with > in user names. When we do, put this back ;)</remarks>
+        /// <remarks>This test is being ignored as we don't cope with > in user names. When we do, put this back ;)
+        /// TFS bug 1520
+        /// </remarks>
         [Ignore]
         public void Test09aQuoteTranslator_ComplexQuoteUserIDThenUserWithGraterThanInName()
         {

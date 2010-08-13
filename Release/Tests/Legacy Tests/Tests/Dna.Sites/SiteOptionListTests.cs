@@ -41,10 +41,10 @@ namespace Tests
     {
         /// <summary>
         /// Constructor
-        /// <param name="useIdentity"></param>
+        /// <param name="debugUserDetails"></param>
         /// </summary>
-        public SiteOptionListTests(bool useIdentity)
-            : base(useIdentity)
+        public SiteOptionListTests(string debugUserDetails)
+            : base(debugUserDetails)
         {
         }
 
@@ -52,7 +52,7 @@ namespace Tests
         /// Constructor
         /// </summary>
         public SiteOptionListTests()
-            : base(false)
+            : base("")
         {
         }
 

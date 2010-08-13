@@ -410,7 +410,7 @@ namespace BBC.Dna.Component
 
             emailBody = emailBody.Replace("++**inserted_text**++", complaintText);
 
-            string moderatorEmail = InputContext.TheSiteList.GetSite(siteId).GetEmail(Site.EmailType.Moderators);
+            string moderatorEmail = InputContext.TheSiteList.GetSite(siteId).GetEmail(BBC.Dna.Sites.Site.EmailType.Moderators);
 
             try
             {

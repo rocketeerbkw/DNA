@@ -178,7 +178,7 @@ namespace Tests
         [TestMethod]
         public void Test8UserListClassTest_AddCurrentUserToList()
         {
-            using (FullInputContext fullinputcontext = new FullInputContext(true))
+            using (FullInputContext fullinputcontext = new FullInputContext(""))
             {
                 fullinputcontext.SetCurrentSite("h2g2");
                 fullinputcontext.InitUserFromCookie(TestUserAccounts.GetProfileAPITestUserAccount.Cookie, TestUserAccounts.GetProfileAPITestUserAccount.SecureCookie);

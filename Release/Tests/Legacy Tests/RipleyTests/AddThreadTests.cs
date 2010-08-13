@@ -11,7 +11,7 @@ using Tests;
 namespace RipleyTests
 {
     [TestClass]
-    class AddThreadTests
+    public class AddThreadTests
     {
     }
 }

@@ -3,15 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Monitoring", "BBC.DNA.Monitoring\BBC.DNA.Monitoring.csproj", "{06384972-66B0-4F8A-9099-76A5ABA2DCDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{4E833C5A-6C4C-4611-9DB2-BEDD73B54A12}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 2
+		SccNumberOfProjects = 3
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
 		SccProjectUniqueName1 = BBC.DNA.Monitoring\\BBC.DNA.Monitoring.csproj
 		SccProjectName1 = BBC.DNA.Monitoring
 		SccLocalPath1 = BBC.DNA.Monitoring
+		SccProjectUniqueName2 = ConsoleApplication1\\ConsoleApplication1.csproj
+		SccProjectName2 = ConsoleApplication1
+		SccLocalPath2 = ConsoleApplication1
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +27,10 @@ Global
 		{06384972-66B0-4F8A-9099-76A5ABA2DCDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06384972-66B0-4F8A-9099-76A5ABA2DCDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06384972-66B0-4F8A-9099-76A5ABA2DCDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E833C5A-6C4C-4611-9DB2-BEDD73B54A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E833C5A-6C4C-4611-9DB2-BEDD73B54A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E833C5A-6C4C-4611-9DB2-BEDD73B54A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E833C5A-6C4C-4611-9DB2-BEDD73B54A12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

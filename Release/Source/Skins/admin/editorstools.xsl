@@ -129,6 +129,9 @@
 				<xsl:if test="/H2G2/@TYPE = 'POST-MODERATION'">
 					<script type="text/javascript" src="{$asset-root}moderation/includes/moderation_posts.js"/>
 				</xsl:if>
+        <xsl:if test="/H2G2/@TYPE = 'LINKS-MODERATION'">
+          <script type="text/javascript" src="{$asset-root}moderation/includes/moderation_links.js"/>
+        </xsl:if>
 			</head>
 			<body>
 				<xsl:choose>

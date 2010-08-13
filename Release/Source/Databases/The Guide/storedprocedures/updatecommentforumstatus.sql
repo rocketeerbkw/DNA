@@ -1,4 +1,4 @@
-create procedure updatecommentforumstatus @uid varchar(255), @forumclosedate datetime = null, @modstatus int = null, @canwrite int = null
+create procedure updatecommentforumstatus @uid varchar(255), @forumclosedate datetime = null, @modstatus int = null, @canwrite int = null, @fastmod int =null
 as
 begin
 	
@@ -36,10 +36,29 @@ begin
 		set @forumUpdate =1
 	end
 	
+	if (@fastmod is not null)
+	begin
+		if @fastmod = 1
+		begin
+			insert into fastmodforums
+			(forumid)
+			values
+			(@forumid)
+			
+		end
+		else
+		begin
+			delete from fastmodforums
+			where forumid = @forumid
+		end
+		set @forumUpdate =1
+	end
+	
 	--update last updated flag on forum
 	if @forumUpdate =1
 	BEGIN
 		INSERT INTO ForumLastUpdated (ForumID, LastUpdated)
 		VALUES(@forumid, getdate())
 	END
+	
 end

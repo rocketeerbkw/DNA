@@ -29,7 +29,7 @@ namespace BBC.Dna.Users
 
         private SigninStatus _signedInStatus = SigninStatus.NotSignedinNotLoggedIn;
         private bool _isSecureRequest = false;
-        private int _debugUserID = 0;
+        private string _debugUserID = "";
         private ISiteList _siteList = null;
 
         /// <summary>
@@ -49,22 +49,6 @@ namespace BBC.Dna.Users
         }
 
         /// <summary>
-        /// Default constructor
-        /// </summary>
-        /// <param name="signInSystem">The sign in system to use</param>
-        /// <param name="dnaDataReaderCreator">A DnaDataReaderCreator object for creating the procedure this class needs.
-        /// If NULL, it uses the connection stringsfrom the configuration manager</param>
-        /// <param name="dnaDiagnostics">A DnaDiagnostics object for logging purposes</param>
-        /// <param name="caching">The caching object that the class can use for caching</param>
-        /// <param name="siteList">A SiteList object for getting siteoption values</param>
-        public CallingUser(SignInSystem signInSystem, IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, ISiteList siteList)
-            : base(dnaDataReaderCreator, dnaDiagnostics, caching)
-        {
-            _signInSystem = signInSystem;
-            _siteList = siteList;
-        }
-
-        /// <summary>
         /// Debug constructor
         /// </summary>
         /// <param name="signInSystem">The sign in system to use</param>
@@ -74,7 +58,7 @@ namespace BBC.Dna.Users
         /// <param name="caching">The caching object that the class can use for caching</param>
         /// <param name="debugUserID">A userid for debugging/testing purposes</param>
         /// <param name="siteList">A SiteList object for getting siteoption values</param>
-        public CallingUser(SignInSystem signInSystem, IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, int debugUserID, ISiteList siteList)
+        public CallingUser(SignInSystem signInSystem, IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, string debugUserID, ISiteList siteList)
             : base(dnaDataReaderCreator, dnaDiagnostics, caching)
         {
             _signInSystem = signInSystem;
@@ -105,54 +89,49 @@ namespace BBC.Dna.Users
         public bool IsUserSignedInSecure(string cookie, string secureCookie, string policy, int siteID)
         {
             _isSecureRequest = false;
-            if (_debugUserID > 0)
+
+            using (AuthenticateUser authenticatedUser = new AuthenticateUser(_signInSystem))
             {
-                if (CreateUserFromDnaUserID(_debugUserID, siteID))
+                if (_debugUserID.Length > 0)
                 {
-                    _signedInStatus = SigninStatus.SignedInLoggedIn;
-                    _isSecureRequest = true;
-                    return true;
-                }
-            }
-            else
-            {
-                using (AuthenticateUser authenticatedUser = new AuthenticateUser(_signInSystem))
+                    authenticatedUser.DebugIdentityUserID(_debugUserID);
+                } 
+                
+                if (authenticatedUser.AuthenticateUserFromCookies(cookie, secureCookie, policy))
                 {
-                    if (authenticatedUser.AuthenticateUserFromCookies(cookie, secureCookie, policy))
+                    _isSecureRequest = authenticatedUser.IsSecureRequest;
+
+                    // Check to see if the email is in the banned emails list
+                    BannedEmails emails = BannedEmails.GetObject();
+                    string emailToCheck = authenticatedUser.Email;
+                    if (emailToCheck.Length == 0 || !emails.IsEmailInBannedFromSignInList(emailToCheck))
                     {
-                        _isSecureRequest = authenticatedUser.IsSecureRequest;
-
-                        // Check to see if the email is in the banned emails list
-                        BannedEmails emails = BannedEmails.GetObject();
-                        string emailToCheck = authenticatedUser.Email;
-                        if (emailToCheck.Length == 0 || !emails.IsEmailInBannedFromSignInList(emailToCheck))
+                        // The users email is not in the banned list, get the rest of the details from the database
+                        if (CreateUserFromSignInUserID(authenticatedUser.SignInUserID, authenticatedUser.LegacyUserID, _signInSystem, siteID, authenticatedUser.LoginName, authenticatedUser.Email, authenticatedUser.UserName))
                         {
-                            // The users email is not in the banned list, get the rest of the details from the database
-                            if (CreateUserFromSignInUserID(authenticatedUser.SignInUserID, authenticatedUser.LegacyUserID, _signInSystem, siteID, authenticatedUser.LoginName, authenticatedUser.Email, authenticatedUser.UserName))
+                            _signedInStatus = SigninStatus.SignedInLoggedIn;
+
+                            // Check to see if we need to sync with the signin system details
+                            if (authenticatedUser.LastUpdatedDate > LastSynchronisedDate)
                             {
-                                _signedInStatus = SigninStatus.SignedInLoggedIn;
-
-                                // Check to see if we need to sync with the signin system details
-                                if (authenticatedUser.LastUpdatedDate > LastSynchronisedDate)
+                                LastSynchronisedDate = authenticatedUser.LastUpdatedDate;
+                                SynchronizeUserSigninDetails(authenticatedUser.UserName, authenticatedUser.Email, authenticatedUser.LoginName);
+                                if (_siteList.GetSiteOptionValueString(siteID, "User", "AutoGeneratedNames").Length > 0)
                                 {
-                                    SynchronizeUserSigninDetails(authenticatedUser.UserName, authenticatedUser.Email, authenticatedUser.LoginName);
-                                    if (_siteList.GetSiteOptionValueString(siteID, "User", "AutoGeneratedNames").Length > 0)
-                                    {
-                                        string siteSuffix = authenticatedUser.GetAutoGenNameFromSignInSystem(_siteList.GetSiteOptionValueBool(siteID, "General", "IsKidsSite"));
-                                        SynchroniseSiteSuffix(siteSuffix);
-                                    }
+                                    string siteSuffix = authenticatedUser.GetAutoGenNameFromSignInSystem(_siteList.GetSiteOptionValueBool(siteID, "General", "IsKidsSite"));
+                                    SynchroniseSiteSuffix(siteSuffix);
                                 }
-
-                                return true;
                             }
+
+                            return true;
                         }
                     }
+                }
 
-                    // Check to see if the user was signed in, but not logged in
-                    if (authenticatedUser.IsSignedIn && !authenticatedUser.IsLoggedIn)
-                    {
-                        _signedInStatus = SigninStatus.SignedInNotLoggedIn;
-                    }
+                // Check to see if the user was signed in, but not logged in
+                if (authenticatedUser.IsSignedIn && !authenticatedUser.IsLoggedIn)
+                {
+                    _signedInStatus = SigninStatus.SignedInNotLoggedIn;
                 }
             }
 

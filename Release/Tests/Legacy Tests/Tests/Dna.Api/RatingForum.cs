@@ -51,7 +51,7 @@ namespace Tests
         /// </summary>
         public RatingForumTests()
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 _siteList = SiteList.GetSiteList();
                 site = _siteList.GetSite("h2g2");
@@ -94,7 +94,7 @@ namespace Tests
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
             RatingInfo returnedRating = _ratings.RatingCreate(result, rating);
             Assert.IsTrue(returnedRating != null);
@@ -451,7 +451,7 @@ namespace Tests
             Assert.IsTrue(result.Title == ratingForum.Title);
 
             //create first rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             byte[] ratings = { 1, 2, 5 };
@@ -464,14 +464,14 @@ namespace Tests
             RatingInfo ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
             //create second rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             rating.rating = ratings[1];
             ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
 
             //create third rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNotableUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             rating.rating = ratings[2];
             ratingReturned = _ratings.RatingCreate(ratingForum, rating);
@@ -506,7 +506,7 @@ namespace Tests
             Assert.IsTrue(result.Title == ratingForum.Title);
 
             //create first rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             byte[] ratings = { 1, 2, 1 };
@@ -517,7 +517,7 @@ namespace Tests
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
             //create third rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNotableUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             rating.rating = ratings[2];
             RatingInfo ratingReturned = _ratings.RatingCreate(ratingForum, rating);
@@ -557,7 +557,7 @@ namespace Tests
             Assert.IsTrue(result.Title == ratingForum.Title);
 
             //create first rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             byte[] ratings = { 1, 2, 1 };
@@ -570,13 +570,13 @@ namespace Tests
             RatingInfo ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
             //create second rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNotableUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             rating.rating = ratings[1];
             ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
             //create third rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetSuperUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetSuperUserAccount.Cookie, TestUserAccounts.GetSuperUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             rating.rating = ratings[2];
             ratingReturned = _ratings.RatingCreate(ratingForum, rating);
@@ -627,7 +627,7 @@ namespace Tests
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
             RatingInfo ratingInfo = _ratings.RatingCreate(result, rating);
             Assert.IsTrue(ratingInfo != null);
@@ -674,7 +674,7 @@ namespace Tests
                 string IPAddress = String.Empty;
                 Guid BBCUid = Guid.NewGuid();
                 //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, _siteList);
                 _ratings.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
                 CommentInfo commentInfo = _ratings.CommentCreate(result, comment);
                 Assert.IsTrue(commentInfo != null);
@@ -733,7 +733,7 @@ namespace Tests
                 string IPAddress = String.Empty;
                 Guid BBCUid = Guid.NewGuid();
                 //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, _siteList);
                 _ratings.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
                 CommentInfo commentInfo = _ratings.CommentCreate(result, comment);
                 Assert.IsTrue(commentInfo != null);
@@ -976,7 +976,7 @@ namespace Tests
                 string IPAddress = String.Empty;
                 Guid BBCUid = Guid.NewGuid();
                 //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, _siteList);
                 _ratings.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
                 CommentInfo commentInfo = _ratings.CommentCreate(result, comment);
                 Assert.IsTrue(commentInfo != null);
@@ -1069,7 +1069,7 @@ namespace Tests
                 string IPAddress = String.Empty;
                 Guid BBCUid = Guid.NewGuid();
                 //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, _siteList);
                 _ratings.CallingUser.CreateUserFromDnaUserID(TestUtils.TestUserAccounts.GetNormalUserAccount.UserID, site.SiteID);
                 CommentInfo commentInfo = _ratings.CommentCreate(result, comment);
                 Assert.IsTrue(commentInfo != null);

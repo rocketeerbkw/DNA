@@ -30,7 +30,7 @@ namespace Tests
         [TestInitialize]
         public void SetupTestSite()
         {
-            _inputcontext = new FullInputContext(false);
+            _inputcontext = new FullInputContext("");
             _testSite = new Site(1, "h2g2", 0, false, "brunel", true, "H2G2", "h2g2",
                         "moderator@bbc.co.uk", "editor@bbc.co.uk", "feedback@bbc.co.uk", 1090497224, false, true, true, "", "Alert", 2000, 1090497224, 0,
                         1, 1, false, false, 16, 255, 1, "h2g2", false, "brunel", "");
@@ -323,7 +323,7 @@ namespace Tests
         {
             Console.WriteLine("TestGTestSiteOptions");
             
-            using (FullInputContext fullInputContext = new FullInputContext(false))
+            using (FullInputContext fullInputContext = new FullInputContext(""))
             {
                 SiteList siteList = new SiteList(fullInputContext.ReaderCreator, fullInputContext.dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);
 
