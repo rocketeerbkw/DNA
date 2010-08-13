@@ -178,9 +178,9 @@
 
      The Include attribute value should be unique for each ConfigurationToBuild node.
     -->
-    <ConfigurationToBuild Include="Debug|Mixed Platforms">
+    <ConfigurationToBuild Include="Debug|Any Cpu">
       <FlavorToBuild>Debug</FlavorToBuild>
-      <PlatformToBuild>Mixed Platforms</PlatformToBuild>
+      <PlatformToBuild>Any Cpu</PlatformToBuild>
     </ConfigurationToBuild>
   </ItemGroup>
 

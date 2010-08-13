@@ -226,4 +226,55 @@
          <AdditionalReferencePath Include="C:\MyFolder2\" />
     -->
   </ItemGroup>
+
+  <ItemGroup>
+    <Ripley Include="$(BinariesRoot)\Win32\Debug\*.*"></Ripley>
+  </ItemGroup>
+
+
+  <Target Name="PostBuildStep">
+    <!-- Create the build steps which start in mode "Running" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to test server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+    </BuildStep>
+
+    <!-- stop website to copy ripley -->
+    <Exec Command="iisweb /stop h2g2UnitTesting" Timeout="10000"></Exec>
+
+    <Exec Command="net stop &quot;memcached server&quot;" Timeout="10000" ContinueOnError="true"></Exec>
+
+    
+    <Message Text="Ripley files: @(Ripley)"></Message>
+
+    <Exec Command="delete &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
+
+    <Exec Command="rename &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.dll&quot; &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
+
+    <!-- Copy ripley dlls -->
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="true"/>
+
+    <Exec Command="CMD &quot;C:\TFSScripts\UnloadTestWeb.bat&quot;" Timeout="10000"></Exec>
+
+    <Exec Command="net start &quot;memcached server&quot;" Timeout="10000" ContinueOnError="true"></Exec>
+
+    <!-- start website to copy ripley -->
+    <Exec Command="iisweb /start h2g2UnitTesting" Timeout="10000"></Exec>
+
+
+
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+    <OnError ExecuteTargets="FailedBeforeTest" />
+  </Target>
+
+  <Target Name="FailedBeforeTest">
+    <!-- start website to copy ripley -->
+    <Exec Command="iisweb /start h2g2UnitTesting" Timeout="10000"></Exec>
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  </Target>
+  
 </Project>
