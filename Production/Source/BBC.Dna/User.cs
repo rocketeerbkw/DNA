@@ -486,7 +486,7 @@ namespace BBC.Dna
 				string ssoFirstNames;
 				string ssoLastName;
                 int ssoUserID;
-                int identityUserID;
+                string identityUserID;
 
 				// Check to make sure that we've got the users details
 				if (!GetUserDetails())
@@ -766,7 +766,7 @@ namespace BBC.Dna
             // Now get the userid if we logged them in ok
             if (_userLoggedIn)
             {
-                GetDnaUserIDFromSignInID(signInComponent, 0);
+                GetDnaUserIDFromSignInID(signInComponent, "");
                 if (_userID == 0 && signInComponent.SignInSystemType == SignInSystem.Identity)
                 {
                     if (signInComponent.DoesAttributeExistForService(InputContext.CurrentSite.SSOService, "legacy_user_id"))
@@ -774,7 +774,7 @@ namespace BBC.Dna
                         int legacyID = 0;
                         if (int.TryParse(signInComponent.GetUserAttribute("legacy_user_id"), out legacyID))
                         {
-                            GetDnaUserIDFromSignInID(signInComponent, legacyID);
+                            GetDnaUserIDFromSignInID(signInComponent, legacyID.ToString());
                             migrated = true;
                         }
                     }
@@ -787,27 +787,22 @@ namespace BBC.Dna
         /// </summary>
         /// <param name="signInComponent">The current signin component</param>
         /// <param name="overideSignInUserID">If this is greater than 0, then it is used instead of the signin objects userid</param>
-        private void GetDnaUserIDFromSignInID(IDnaIdentityWebServiceProxy signInComponent, int overideSignInUserID)
+        private void GetDnaUserIDFromSignInID(IDnaIdentityWebServiceProxy signInComponent, string overideSignInUserID)
         {
             // Get the DnaUserID associated with the SignInUserID
-            int signInUserID = signInComponent.UserID;
-            if (overideSignInUserID > 0)
+            string identityUserID = signInComponent.UserID;
+            if (overideSignInUserID.Length > 0)
             {
-                signInUserID = overideSignInUserID;
+                identityUserID = overideSignInUserID;
             }
 
-            string databaseProc = "GetDnaUserIDFromSSOUserID";
-            string signInIDName = "SSOUserID";
-            if (signInComponent.SignInSystemType == SignInSystem.Identity && overideSignInUserID == 0)
-            {
-                databaseProc = "GetDnaUserIDFromIdentityUserID";
-                signInIDName = "IdentityUserID";
-            }
+            string databaseProc = "GetDnaUserIDFromIdentityUserID";
+            string signInIDName = "IdentityUserID";
 
             // Now get the user id
             using (IDnaDataReader reader = InputContext.CreateDnaDataReader(databaseProc))
             {
-                reader.AddParameter(signInIDName, signInUserID);
+                reader.AddParameter(signInIDName, identityUserID);
                 reader.Execute();
                 if (reader.HasRows && reader.Read())
                 {
@@ -826,7 +821,7 @@ namespace BBC.Dna
         /// <param name="ssoUserID"></param>
         /// <param name="ssoDisplayName"></param>
         /// </summary>
-        private bool ReadUserSSODetails(IDnaIdentityWebServiceProxy signInComponent, out string ssoLoginName, out string ssoEmail, out string ssoFirstNames, out string ssoLastName, out int identityUserID, out int ssoUserID, out string ssoDisplayName)
+        private bool ReadUserSSODetails(IDnaIdentityWebServiceProxy signInComponent, out string ssoLoginName, out string ssoEmail, out string ssoFirstNames, out string ssoLastName, out string identityUserID, out int ssoUserID, out string ssoDisplayName)
         {
             ssoLoginName = signInComponent.LoginName;
 
@@ -855,18 +850,11 @@ namespace BBC.Dna
             }
 
             ssoUserID = 0;
-            if (signInComponent.SignInSystemType == SignInSystem.Identity)
+            identityUserID = signInComponent.UserID;
+
+            if (signInComponent.GetUserAttribute("legacy_user_id").Length > 0)
             {
-                identityUserID = signInComponent.UserID;
-                if (signInComponent.GetUserAttribute("legacy_user_id").Length > 0)
-                {
-                    ssoUserID = Convert.ToInt32(signInComponent.GetUserAttribute("legacy_user_id"));
-                }
-            }
-            else
-            {
-                identityUserID = 0;
-                ssoUserID = signInComponent.UserID;
+                ssoUserID = Convert.ToInt32(signInComponent.GetUserAttribute("legacy_user_id"));
             }
 
             return true;
@@ -1000,7 +988,7 @@ namespace BBC.Dna
         /// <summary>
         /// Gets the user data details and fills in the XML block
         /// </summary>
-        private bool CreateNewUserFromId(int identityUserID, int ssoUserID, string ssoLoginName, string ssoEmail, string ssoFirstNames, string ssoLastName, int siteId, string ssoDisplayName )
+        private bool CreateNewUserFromId(string identityUserID, int ssoUserID, string ssoLoginName, string ssoEmail, string ssoFirstNames, string ssoLastName, int siteId, string ssoDisplayName )
         {
             if (InputContext.CurrentSite.SiteID != 0)
             {
@@ -1008,7 +996,7 @@ namespace BBC.Dna
                 {
                     using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("createnewuserfromidentityid"))
                     {
-                        dataReader.AddParameter("identityuserid",identityUserID);
+                        dataReader.AddParameter("identityuserid", identityUserID);
                         if (ssoUserID > 0)
                         {
                             dataReader.AddParameter("legacyssoid", ssoUserID);
@@ -1172,7 +1160,7 @@ namespace BBC.Dna
                 
             }
             
-            string groupsXml = UserGroups.GetUserGroupsAsXml(userId, InputContext.CurrentSite.SiteID, InputContext);
+            string groupsXml = UserGroupsHelper.GetUserGroupsAsXml(userId, InputContext.CurrentSite.SiteID, InputContext);
 
             XmlDocument groups = new XmlDocument();
             groups.LoadXml(groupsXml);
@@ -1756,7 +1744,7 @@ namespace BBC.Dna
 		/// </summary>
         public XmlElement GetSitesThisUserIsEditorOfXML()
         {
-            return UserGroups.GetSitesUserIsEditorOfXML(_userID, IsSuperUser, InputContext);
+            return UserGroupsHelper.GetSitesUserIsEditorOfXML(_userID, IsSuperUser, InputContext);
         }
 
         /// <summary>

@@ -220,7 +220,12 @@ namespace BBC.Dna.Objects
                 }
                 return GuideEntry.CreateGuideEntry("<GUIDE><BODY></BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
             }
-            set { }
+            set {
+                if (value != null && value.SelectSingleNode("/BODY") != null)
+                {
+                    Description = value.SelectSingleNode("/BODY").InnerXml;
+                }
+            }
         }
 
         /// <remarks/>

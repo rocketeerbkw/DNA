@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-using BBC.Dna.Component;
 
-namespace BBC.Dna
+namespace BBC.Dna.Utils
 {
     /// <summary>
     /// Class to Check for a valid email address

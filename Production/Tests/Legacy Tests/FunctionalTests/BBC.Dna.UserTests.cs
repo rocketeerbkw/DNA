@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BBC.Dna.Groups;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
@@ -10,6 +9,7 @@ using Tests;
 
 
 using TestUtils;
+using BBC.Dna.Moderation;
 
 namespace FunctionalTests
 {
@@ -28,8 +28,8 @@ namespace FunctionalTests
             SnapshotInitialisation.ForceRestore();
 
             ICacheManager groupsCache = new StaticCacheManager();
-            var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache);
-            g.InitialiseAllUsersAndGroups();
+            var g = new UserGroups(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, groupsCache,null, null);
+            var b = new BannedEmails(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, groupsCache, null, null);
         }
 
         /// <summary>
@@ -76,11 +76,11 @@ namespace FunctionalTests
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
-            Assert.IsFalse(user.GetUsersGroupsForSite().Find(delegate(UserGroup group) { return group.Name == "aces"; }) != null);
-            Assert.IsTrue(user.AddUserToGroup("aces"));
-            Assert.IsTrue(user.GetUsersGroupsForSite().Find(delegate(UserGroup group) { return group.Name == "aces"; }) != null);
+            Assert.IsFalse(user.GetUsersGroupsForSite().Exists(x => x.Name == "aces"));
+            Assert.IsTrue(user.AddUserToGroup("Aces"));
+            Assert.IsTrue(user.GetUsersGroupsForSite().Exists(x => x.Name == "aces"));
         }
-        
+
         /// <summary>
         /// Check to make sure that the normal user account has the correct permissions
         /// </summary>

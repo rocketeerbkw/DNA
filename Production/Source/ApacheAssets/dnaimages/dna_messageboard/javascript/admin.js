@@ -132,13 +132,9 @@
 
                 // edit topic : validate form
                 addListener("#dna-btn-next-1-" + seditTopic, "mousedown", function() {
-                    if ($("#fp_title-" + seditTopic).val() == "") {
+                    if ($("#fp_title-" + seditTopic).val() == "" || $("#fp_title-" + seditTopic).val() == " ") {
                         glow.dom.create('<span class="dna-error-text">Please add a topic promo title</span>').insertBefore("#fp_title-" + seditTopic);
                         $("input#fp_title-" + seditTopic).addClass("dna-error-input");
-                        return false;
-                    } else if ($("#fp_text-" + seditTopic).val() == "") {
-                        glow.dom.create('<span class="dna-error-text">Please add a topic promo description</span>').insertBefore("#fp_text-" + seditTopic);
-                        $("textarea#fp_text-" + seditTopic).addClass("dna-error-input");
                         return false;
                     } else {
                         $("#dna-preview-edittopic-step1-" + seditTopic).addClass("dna-off");
@@ -169,15 +165,11 @@
                 });
 
                 addListener("#dna-btn-next-3-" + seditTopic, "mousedown", function() {
-                    if ($("#topictitle-" + seditTopic).val() == "") {
+                    if ($("#topictitle-" + seditTopic).val() == "" || $("#topictitle-" + seditTopic).val() == " ") {
                         glow.dom.create('<span class="dna-error-text">Please add a title topic</span>').insertBefore("#topictitle-" + seditTopic);
                         $("#topictitle-" + seditTopic).addClass("dna-error-input");
                         return false;
-                    } else if ($("#topictext-" + seditTopic).val() == "") {
-                        glow.dom.create('<span class="dna-error-text">Please add a topic description</span>').insertBefore("#topictext-" + seditTopic);
-                        $("textarea#topictext-" + seditTopic).addClass("dna-error-input");
-                        return false;
-                    }
+                    } 
                     return false;
                 });
 
@@ -390,14 +382,16 @@
 
 
         // replace target=blank for links that open in new window
-        var openNewWindow = $(".dna-openNewWindow");
-        var href = $(openNewWindow).attr("href");
+        var openNewWindow = $("a.dna-openNewWindow");
 
-        addListener(openNewWindow, "click", function() {
-            window.open(href,"previewMessageboard");
-            return false;
+        openNewWindow.each(function(i) {
+            var href = $(this).attr("href");
+
+            addListener(this, "click", function() {
+                window.open(href,"previewMessageboard");
+                return false;
+            });
         });
-
 
         // mbadmin : click on opening times link to message board schedule page
         var openTimeTable = $(".dna-open-time");

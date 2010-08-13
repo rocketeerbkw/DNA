@@ -72,26 +72,12 @@ namespace BBC.Dna
         string UrlEscape(string text);
 
         /// <summary>
-        /// Ensures that the site list data is created and loaded. Can be called to reload the data from the database
-        /// with the recacheData flag set to true.
-        /// </summary>
-        /// <param name="recacheData">Set to true will create a new list and replace the old. False will just ensure that there is a valid list to use</param>
-        /// <param name="context">The context that it's running under</param>
-        void EnsureSiteListExists(bool recacheData, IAppContext context);
-
-        /// <summary>
         /// Ensures that the non allowed url list data is created and loaded. Can be called to reload the data from the database
         /// with the recacheData flag set to true.
         /// </summary>
         /// <param name="recacheData">Set to true will create a new list and replace the old. False will just ensure that there is a valid list to use</param>
         /// <param name="context">The context that it's running under</param>
         void EnsureAllowedURLsExists(bool recacheData, IAppContext context);
-
-        /// <summary>
-        /// Sends a control signal to all the other front end servers. Used for recaching site data and the likes.
-        /// </summary>
-        /// <param name="signal">The action that you want to perform</param>
-        void SendSignal(string signal);
 
         /// <summary>
         /// Gets the current machine name

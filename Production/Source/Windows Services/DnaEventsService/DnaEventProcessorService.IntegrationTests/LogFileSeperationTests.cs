@@ -51,6 +51,12 @@ namespace DnaEventProcessorService.IntegrationTests
         [TestMethod]
         public void ProcessEvents_SeperateLogFilesGeneratedByAssemblyName()
         {
+            if (File.Exists("snesactivityprocessor.responses.log"))
+                File.Delete("snesactivityprocessor.responses.log");
+
+            if (File.Exists("snesactivityprocessor.requests.log"))
+                File.Delete("snesactivityprocessor.requests.log");
+
             var mocks = new MockRepository();
 
             var getSnesEvents = mocks.DynamicMock<IDnaDataReader>();
@@ -191,7 +197,7 @@ namespace DnaEventProcessorService.IntegrationTests
                 adhoc.ExecuteDEBUGONLY("delete from snesapplicationmetadata where siteid = 1");
                 adhoc.ExecuteDEBUGONLY(
                     "insert into snesapplicationmetadata(siteid, applicationid, applicationname) values " +
-                    "(1, 'h2g2', 'Hitchhiker''s guide to the Galaxy')");
+                    "(1, 'iplayertv', 'Hitchhiker''s guide to the Galaxy')");
                 adhoc.ExecuteDEBUGONLY("update users set loginname = 'Test' where userid = 6");
             }
         }
@@ -274,6 +280,7 @@ namespace DnaEventProcessorService.IntegrationTests
             Expect.Call(reader.Read()).Return(true).WhenCalled( x => x.ReturnValue = readReturn.Dequeue());
             Expect.Call(reader.Dispose);
             Expect.Call(reader.GetString("AppId")).Return("iPlayer");
+            Expect.Call(reader.GetString("IdentityUserId")).Return("0");
 
             //Expect.Call(reader.GetInt32NullAsZero("PostId")).Repeat.Times(2).Return(1);
 

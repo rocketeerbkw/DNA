@@ -22,6 +22,9 @@ namespace RipleyTests
         public void TestTypedArticleUpdateCancelled()
         {
             Console.WriteLine("Before TestTypedArticleUpdateCancelled");
+
+            TestTypedArticleCreateWithDateRangeUsingFreeTextDates();
+
             DnaTestURLRequest request = new DnaTestURLRequest("actionnetwork");
             request.SetCurrentUserNormal();
             IInputContext inputContext = DnaMockery.CreateDatabaseInputContext();
@@ -62,6 +65,9 @@ namespace RipleyTests
         public void TestTypedArticleEditWithDateRange()
         {
             Console.WriteLine("Before TestTypedArticleEditWithDateRange");
+
+            TestTypedArticleCreateWithDateRangeUsingFreeTextDates();
+
             DnaTestURLRequest request = new DnaTestURLRequest("actionnetwork");
             request.SetCurrentUserNormal();
             IInputContext inputContext = DnaMockery.CreateDatabaseInputContext();

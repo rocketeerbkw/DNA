@@ -4,6 +4,7 @@ using System.Text;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace Tests
 {
@@ -38,7 +39,7 @@ namespace Tests
             {
                 using (FullInputContext inputcontext = new FullInputContext(false))
                 {
-                    _testSiteList = SiteList.GetSiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+                    _testSiteList = SiteList.GetSiteList();
                     inputcontext.SetCurrentSite("h2g2");
                     inputcontext.InitDefaultUser();
                     _siteListloaded = true;
@@ -65,8 +66,7 @@ namespace Tests
             Console.WriteLine("Test2LoadSiteListTest");
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                SiteList testSiteList = new SiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
-                testSiteList.LoadSiteList();
+                SiteList testSiteList = new SiteList(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics, CacheFactory.GetCacheManager(),null, null);
                 _siteListloaded = true;
             }
         }
@@ -98,18 +98,18 @@ namespace Tests
                 Assert.AreEqual(h2g2.SiteID, 1);
             }
         }
-
+        /*
         /// <summary>
         /// Test5AddASiteTest
         /// </summary>
+         not relevant test anymore
         [TestMethod]
         public void Test5AddASiteTest()
         {
             Console.WriteLine("Test5AddASiteTest");
             using (FullInputContext inputcontext = new FullInputContext(false))
             {
-                SiteList testSiteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), null);
-                testSiteList.LoadSiteList();
+                SiteList testSiteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
                 testSiteList.AddSiteDetails(999, "MyTestSite", 0, false, "TestSiteSkin", true, "NewTestSite", "TestSite",
                             "moderator@bbc.co.uk", "editor@bbc.co.uk", "feedback@bbc.co.uk", 1090497224, false, true, true, "", "Alert", 2000, 1090497224, 0,
                             1, 1, false, false, 16, 255, 1,"MySSOService",false,"skinset","");
@@ -123,6 +123,7 @@ namespace Tests
                 Assert.AreEqual(h2g2.SSOService, "MySSOService");
             }
         }
+         */
 
         /// <summary>
         /// Helper function for other tests. Use this test class functionality to get the site id for a given site

@@ -47,10 +47,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BBC.Dna.Users, Version=1.0.0.1, Culture=neutral, PublicKeyToken=929d592aff975e8f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BBC.Dna.Users\bin\Debug\BBC.Dna.Users.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
@@ -91,6 +87,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BannedEmailDetails.cs" />
+    <Compile Include="BannedEmails.cs" />
+    <Compile Include="BannedEmailsList.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Contracts\ModerationItem.cs" />
     <Compile Include="ExternalLinkModeration.cs" />
@@ -103,13 +102,13 @@
     <Compile Include="Term.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
+      <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
+      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
-      <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
-      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>

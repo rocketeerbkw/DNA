@@ -332,4 +332,5 @@ REGEDIT4
 --MB Admin pages
 "/messageboardadmin_design"="/dna/dnapages/MBAdminDesign.aspx?"
 "/messageboardadmin_assets"="/dna/dnapages/MBAdminAssets.aspx?"
+"/messageboardbackuprestore"="/dna/dnapages/MBBackupRestore.aspx?"
 "/mbadmin"="/dna/dnapages/MBAdmin.aspx?"

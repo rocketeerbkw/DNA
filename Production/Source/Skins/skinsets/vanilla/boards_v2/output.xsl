@@ -97,7 +97,14 @@
       			<xsl:comment>#set var="blq_search_scope" value="cbbc" </xsl:comment>
       		</xsl:if>
       		
-      		<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
+      		<xsl:choose>
+      			<xsl:when test="$blq_header_siteoption != ''">
+      				<xsl:comment>#include virtual="<xsl:value-of select="$blq_header_siteoption"/>"</xsl:comment>
+      			</xsl:when>
+      			<xsl:otherwise>
+      				<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
+      			</xsl:otherwise>
+      		</xsl:choose>
       		
       		<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
       		<script type="text/javascript" src="/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
@@ -224,6 +231,7 @@
 	      					</ul>
 	      				</xsl:with-param>
 	      			</xsl:call-template>
+	      			<xsl:comment>close div</xsl:comment>
 	      		</div>
       		</xsl:if>
       		
@@ -256,7 +264,7 @@
 	      		<div id="dna-boardpromo"> 
 	      			<h3>About this Board</h3>
 	      			<div id="dna-about-board">
-	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" /></p>
+	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" disable-output-escaping="yes" /></p>
 	      				
 	      				<xsl:if test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
 	      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
@@ -289,7 +297,7 @@
 	      							<xsl:apply-templates select="/H2G2/TOP-FIVES/TOP-FIVE[@NAME = 'MostRecentConversations']/TOP-FIVE-FORUM" mode="object_top-fives_top-five-forum"/>
 	      						</xsl:if>
 	      						<xsl:if test="/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS">
-	      							<xsl:apply-templates select="/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS[@NAME = 'PopularThreads']/FORUM" mode="object_recentactivity_most-recent-conversations"/>
+	      							<xsl:apply-templates select="/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS/FORUM" mode="object_recentactivity_most-recent-conversations"/>
 	      						</xsl:if>
 	      					</ul>
 	      				</div>

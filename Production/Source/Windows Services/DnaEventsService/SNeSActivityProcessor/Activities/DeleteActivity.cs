@@ -16,12 +16,12 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
             get; set;
         }
 
-        private int IdentityUserId
+        private string IdentityUserId
         {
             get; set;
         }
 
-        public DeleteActivity(string snesId, string applicationId, int identityUserId)
+        public DeleteActivity(string snesId, string applicationId, string identityUserId)
         {
             SnesId = snesId;
             ApplicationId = applicationId;

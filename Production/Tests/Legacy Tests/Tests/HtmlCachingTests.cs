@@ -47,8 +47,8 @@ namespace Tests
         private void ReadSiteOptionListFromDatabase()
         {
             _testXSLTFilename = base.DnaConfig.CachePath + "DnaHtmlCacheTestFile.xsl";
-            _siteOptionList = new SiteOptionList(ReaderCreator,base.dnaDiagnostics);
-            _siteOptionList.CreateFromDatabase();
+            _siteOptionList = new SiteOptionList();
+            _siteOptionList.CreateFromDatabase(ReaderCreator, base.dnaDiagnostics);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Tests
         /// <param name="value">the new value</param>
         public void SetHtmlCaching(bool value)
         {
-            _siteOptionList.SetValueBool(_siteId, "Cache", "HTMLCaching", value);
+            _siteOptionList.SetValueBool(_siteId, "Cache", "HTMLCaching", value, DnaMockery.CreateDatabaseReaderCreator(), null);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Tests
         /// <param name="value">the new value</param>
         public void SetHtmlCachingExpiryTime(int value)
         {
-            _siteOptionList.SetValueInt(_siteId, "Cache", "HTMLCachingExpiryTime", value);
+            _siteOptionList.SetValueInt(_siteId, "Cache", "HTMLCachingExpiryTime", value, ReaderCreator, base.dnaDiagnostics);
         }
 
         /// <summary>

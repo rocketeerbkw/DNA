@@ -6,6 +6,8 @@ using System.IO;
 using System.Reflection;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using BBC.Dna.Common;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna
 {
@@ -62,6 +64,18 @@ namespace BBC.Dna
 
                     string message = string.Format("DNA is up and running on {0}", InputContext.CurrentServerName);
                     AddTextTag(reportnode, "MESSAGE", message);
+
+                    SerialiseAndAppend(SignalHelper.GetStatus(InputContext.Diagnostics), "/DNAROOT/STATUS-REPORT");
+
+                    try
+                    {
+                        var memcachedCacheManager = (MemcachedCacheManager)CacheFactory.GetCacheManager("Memcached");
+                        ImportAndAppend(memcachedCacheManager.GetStatsXml(), "/DNAROOT/STATUS-REPORT");
+                    }
+                    catch(Exception e) 
+                    {
+                        AddTextTag(reportnode, "MEMCACHED_STATUS", "Error getting memcached stats:" + e.Message);
+                    }
                 }
             }
         }

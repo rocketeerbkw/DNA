@@ -115,7 +115,7 @@ namespace DnaIdentityWebServiceProxy
         /// <summary>
         /// Get property for the current user id
         /// </summary>
-        int UserID { get; }
+        string UserID { get; }
 
         /// <summary>
         /// Get property for the current users login name

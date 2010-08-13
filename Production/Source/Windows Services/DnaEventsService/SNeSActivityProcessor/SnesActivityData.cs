@@ -14,7 +14,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
             get; set;
         }
 
-        public int IdentityUserId
+        public string IdentityUserId
         {
             get; set;
         }

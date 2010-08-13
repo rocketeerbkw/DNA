@@ -207,7 +207,7 @@ namespace FunctionalTests
         /// <summary>
         /// Test GetReviewForumXML_WithUserList method from service
         /// </summary>
-        [TestMethod]
+        [Ignore]//ignored because method is no longer supported
         public void GetReviewForumXML_WithUserList()
         {
             BBC.Dna.Api.RatingForum returnedForum = RatingForumIdentityUserCreate("tests", Guid.NewGuid().ToString() ,ModerationStatus.ForumStatus.Reactive, DateTime.MinValue);
@@ -217,11 +217,11 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest(identitySiteName);
 
             PostToRatingForumAsIdentityUser(returnedForum, request, identitySiteName);
-            int newIdentityUserID1 = request.CurrentIdentityUserID;
+            string newIdentityUserID1 = request.CurrentIdentityUserID;
             PostToRatingForumAsIdentityUser(returnedForum, request, identitySiteName);
-            int newIdentityUserID2 = request.CurrentIdentityUserID;
+            string newIdentityUserID2 = request.CurrentIdentityUserID;
             PostToRatingForumAsIdentityUser(returnedForum, request, identitySiteName);
-            int newIdentityUserID3 = request.CurrentIdentityUserID;
+            string newIdentityUserID3 = request.CurrentIdentityUserID;
 
 
             //////////////////////////////
@@ -229,7 +229,7 @@ namespace FunctionalTests
             //////////////////////////////
             url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", identitySiteName, returnedForum.Id);
             string filterBy = FilterBy.UserList.ToString();
-            string userList = newIdentityUserID1.ToString() + "," + newIdentityUserID2.ToString();
+            string userList = newIdentityUserID1 + "," + newIdentityUserID2;
             string filterUrl = url + "?filterBy={0}&userList={1}";
 
             request.RequestPageWithFullURL(String.Format(filterUrl, filterBy, userList), "", "text/xml");
@@ -296,7 +296,7 @@ namespace FunctionalTests
             //Assert.IsTrue(request.SetCurrentUserAsNewIdentityUser(userName, "password", "RatingForum User", userEmail, "1989-12-31", TestUserCreator.IdentityPolicies.Adult, true, true), "Failed to create a test identity user");
             //using (IDnaDataReader reader = DnaMockery.CreateDatabaseInputContext().CreateDnaDataReader(""))
             //{
-            //    string sql = "EXEC dbo.createnewuserfromidentityid " + request.CurrentIdentityUserID.ToString() + ",0,'" + userName + "','" + userEmail + "',74";
+            //    string sql = "EXEC dbo.createnewuserfromidentityid " + request.CurrentIdentityUserID + ",0,'" + userName + "','" + userEmail + "',74";
             //    reader.ExecuteDEBUGONLY(sql);
             //    if (reader.Read())
             //    {

@@ -488,7 +488,7 @@ namespace BBC.Dna.Component
                         }
 
                         AddIntElement(userAccount, "SSOUSERID", dataReader.GetInt32NullAsZero("SSOUserID"));
-                        AddIntElement(userAccount, "IDENTITYUSERID", dataReader.GetInt32NullAsZero("IdentityUserID"));
+                        AddTextTag(userAccount, "IDENTITYUSERID", dataReader.GetStringNullAsEmpty("IdentityUserID"));
 
                         userAccounts.AppendChild(userAccount);
 

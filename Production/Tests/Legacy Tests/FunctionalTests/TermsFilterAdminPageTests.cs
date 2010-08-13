@@ -285,8 +285,8 @@ namespace FunctionalTests
             CheckAuditTable(modClassId, terms);
 
             //Do siterefresh
-            SendSignal(String.Format("http://{0}/dna/api/comments/status.aspx?action=recache-site",
-                                     DnaTestURLRequest.CurrentServer));
+            request.RequestPage("termsfilteradmin?action=REFRESHCACHE");
+
             //Post Via Comments Api
             var commentForumObj = new CommentForumTests_V1();
             var commentForum = commentForumObj.CommentForumCreateHelper();
@@ -354,8 +354,7 @@ namespace FunctionalTests
             CheckAuditTable(modClassId, terms);
 
             //Do siterefresh
-            SendSignal(String.Format("http://{0}/dna/h2g2/DnaSignal?action=recache-site",
-                                     DnaTestURLRequest.CurrentServer));
+            request.RequestPage("termsfilteradmin?action=REFRESHCACHE");
 
             // Setup the request url
             var url = String.Format("acs?dnauid={0}&dnahostpageurl={1}&dnainitialtitle={2}&dnaur=0&skin=purexml", 
@@ -370,7 +369,7 @@ namespace FunctionalTests
             url += "&dnaaction=add";
             postParams = new Queue<KeyValuePair<string, string>>();
             postParams.Enqueue(new KeyValuePair<string, string>("dnacomment", termText));
-            request.RequestPage(url, postParams);
+            request.RequestSecurePage(url, postParams);
             ValidateError(request, "profanityblocked", termText);
 
 
@@ -414,8 +413,10 @@ namespace FunctionalTests
             CheckAuditTable(modClassId, terms);
 
             //Do siterefresh
-            SendSignal(String.Format("http://{0}/dna/h2g2/Signal?action=recache-site",
-                                     DnaTestURLRequest.CurrentServer));
+            request.RequestPage("termsfilteradmin?action=REFRESHCACHE");
+
+            //wait for signals...
+            Thread.Sleep(6000);
 
             // Setup the request url
             var url = String.Format("AddThread?skin=purexml");

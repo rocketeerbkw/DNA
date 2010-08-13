@@ -38,8 +38,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(0, target.GetAllOptions().Count);
             Assert.AreEqual(0, target.GetAllOptionsDictionary().Count);
         }
@@ -71,10 +71,10 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
+            SiteOptionList target = new SiteOptionList();
             try
             {
-                target.CreateFromDatabase();
+                target.CreateFromDatabase(creator, diag);
                 throw new Exception("CreateFromDatabase should have thrown exception");
             }
             catch (SiteOptionInvalidTypeException)
@@ -102,8 +102,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(2, target.GetAllOptions().Count);
             Assert.AreEqual(2, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Bool, target.GetAllOptions()[0].OptionType);
@@ -151,8 +151,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.String, target.GetAllOptions()[0].OptionType);
@@ -190,8 +190,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Int, target.GetAllOptions()[0].OptionType);
@@ -239,8 +239,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Bool, target.GetAllOptions()[0].OptionType);
@@ -276,8 +276,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.String, target.GetAllOptions()[0].OptionType);
@@ -311,8 +311,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Int, target.GetAllOptions()[0].OptionType);
@@ -338,7 +338,7 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
+            SiteOptionList target = new SiteOptionList();
             try
             {
                 target.GetValueBool(1, "", "");
@@ -368,7 +368,7 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
+            SiteOptionList target = new SiteOptionList();
             try
             {
                 target.GetValueInt(1, "", "");
@@ -398,7 +398,7 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
+            SiteOptionList target = new SiteOptionList();
             try
             {
                 target.GetValueString(1, "", "");
@@ -439,13 +439,13 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Int, target.GetAllOptions()[0].OptionType);
 
-            target.SetValueInt(1, "test", "test", 2);
+            target.SetValueInt(1, "test", "test", 2, creator, diag);
             Assert.AreEqual(2, target.GetValueInt(1, "test", "test"));
         }
 
@@ -478,13 +478,13 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Int, target.GetAllOptions()[0].OptionType);
 
-            target.SetValueInt(1, "test", "test", 2);
+            target.SetValueInt(1, "test", "test", 2, creator, diag);
             Assert.AreEqual(2, target.GetValueInt(1, "test", "test"));
         }
 
@@ -508,10 +508,10 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
+            SiteOptionList target = new SiteOptionList();
             try
             {
-                target.SetValueInt(1, "test", "test", 1);
+                target.SetValueInt(1, "test", "test", 1, creator, diag);
             }
             catch (SiteOptionNotFoundException)
             {
@@ -547,13 +547,13 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Bool, target.GetAllOptions()[0].OptionType);
 
-            target.SetValueBool(1, "test", "test", false);
+            target.SetValueBool(1, "test", "test", false, creator, diag);
             Assert.AreEqual(false, target.GetValueBool(1, "test", "test"));
         }
 
@@ -586,13 +586,13 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Bool, target.GetAllOptions()[0].OptionType);
 
-            target.SetValueBool(1, "test", "test", true);
+            target.SetValueBool(1, "test", "test", true, creator, diag);
             Assert.AreEqual(true, target.GetValueBool(1, "test", "test"));
         }
 
@@ -616,10 +616,10 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
+            SiteOptionList target = new SiteOptionList();
             try
             {
-                target.SetValueBool(1, "test", "test", false);
+                target.SetValueBool(1, "test", "test", false, creator, diag);
             }
             catch (SiteOptionNotFoundException)
             {
@@ -655,8 +655,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Bool, target.GetAllOptions()[0].OptionType);
@@ -694,8 +694,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Bool, target.GetAllOptions()[0].OptionType);
@@ -724,7 +724,7 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
+            SiteOptionList target = new SiteOptionList();
 
             try
             {
@@ -766,8 +766,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(2, target.GetAllOptions().Count);
             Assert.AreEqual(2, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Bool, target.GetAllOptions()[0].OptionType);
@@ -808,8 +808,8 @@ namespace BBC.Dna.Sites.Tests
 
             mocks.ReplayAll();
 
-            SiteOptionList target = new SiteOptionList(creator, diag);
-            target.CreateFromDatabase();
+            SiteOptionList target = new SiteOptionList();
+            target.CreateFromDatabase(creator, diag);
             Assert.AreEqual(1, target.GetAllOptions().Count);
             Assert.AreEqual(1, target.GetAllOptionsDictionary().Count);
             Assert.AreEqual(SiteOption.SiteOptionType.Bool, target.GetAllOptions()[0].OptionType);

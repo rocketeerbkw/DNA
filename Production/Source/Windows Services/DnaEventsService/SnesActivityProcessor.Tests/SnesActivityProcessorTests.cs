@@ -168,6 +168,7 @@ namespace SnesActivityTests
             Expect.Call(reader.Read()).Return(true).WhenCalled( x => x.ReturnValue = readReturn.Dequeue());
             Expect.Call(() => reader.Dispose());
             Expect.Call(reader.GetString("AppId")).Return("iPlayer");
+            Expect.Call(reader.GetString("IdentityUserId")).Return("0");
 
             //Expect.Call(reader.GetInt32NullAsZero("PostId")).Repeat.Times(2).Return(1);
 

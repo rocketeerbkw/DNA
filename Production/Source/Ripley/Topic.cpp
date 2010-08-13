@@ -175,18 +175,6 @@ bool CTopic::EditTopic(int iTopicID, int iSiteID, int iEditorID, const TDVCHAR* 
 		return SetDNALastError("CTopic::EditTopic","FailedToInitialiseStoredProcedure","Failed To Initialise Stored Procedure");
 	}
 	
-	//find out if an entry with the existing title already exists 
-	bool bTopicTitleAlreadyExist = false;
-	if ( !SP.DoesTopicAlreadyExist(iSiteID, psTitle, TopicStatus, bTopicTitleAlreadyExist, iTopicID))
-	{
-		return SetDNALastError("CTopic::EditTopic","FailedToEditTopic","Failed to execute DoesTopicAlreadyExist");
-	}
-
-	if ( bTopicTitleAlreadyExist)
-	{
-		return SetDNALastError("CTopic::EditTopic","FailedToEditTopic","A Topic with the same title already exists for this site");
-	}
-
 	// Now call the procedure
 	if (!SP.EditTopic(iTopicID, iEditorID, psTitle, psText, iStyle, sEditKey))
 	{

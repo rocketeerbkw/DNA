@@ -7,6 +7,8 @@ using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Users;
 
 namespace Tests
 {
@@ -32,14 +34,18 @@ namespace Tests
         [TestInitialize]
         public void Initialise()
         {
+            SnapshotInitialisation.RestoreFromSnapshot();
             SetupTestData();
             InitialiseMockedInputContext();
+
+            var dnaDataReader = new DnaDataReaderCreator(DnaMockery.DnaConfig.ConnectionString);
+            var usg = new UserGroups(dnaDataReader, _context.Diagnostics, CacheFactory.GetCacheManager("Memcached"),null, null);
         }
 
         private  void InitialiseMockedInputContext()
         {
             Mockery mock = new Mockery();
-            IUser viewingUser = mock.NewMock<IUser>();
+            BBC.Dna.IUser viewingUser = mock.NewMock<BBC.Dna.IUser>();
             Stub.On(viewingUser).GetProperty("UserLoggedIn").Will(Return.Value(true));
             Stub.On(viewingUser).GetProperty("Email").Will(Return.Value("davewil@bbc.co.uk"));
             Stub.On(viewingUser).GetProperty("IsEditor").Will(Return.Value(false));
@@ -169,19 +175,10 @@ namespace Tests
         [TestMethod]
         public void Test2CheckGroupNameXml()
         {
-            string output = UserGroups.GetUserGroupsAsXml(6, 1, _context);
+            string output = UserGroupsHelper.GetUserGroupsAsXml(6, 1, _context);
             DnaXmlValidator validator = new DnaXmlValidator(output, "Groups.xsd");
             validator.Validate();
             StringAssert.Contains(output, "<GROUP><NAME>EDITOR");
-        }
-
-         /// <summary>
-        /// Third UserGroups Test.
-        /// </summary>
-        [TestMethod]
-        public void Test3CheckSetCacheExpired()
-        {
-            UserGroups.SetCacheExpired();
         }
 
         /// <summary>
@@ -197,6 +194,7 @@ namespace Tests
 
 			DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
 			request.SetCurrentUserEditor();
+            request.RequestPage(@"DnaSignal?action=recache-groups");
 			request.RequestPage(@"acs?dnauid=RecacheUserGroupsTestForum&dnainitialtitle=UserGroupTest&dnahostpageurl=http://localhost.bbc.co.uk/usergrouptestforum&skin=purexml");
 			if (request.GetLastResponseAsXML().SelectSingleNode("H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/USER[USERNAME='" + request.CurrentUserName + "']") == null)
 			{
@@ -321,11 +319,11 @@ namespace Tests
 			// fetch pages for both users - the editor user will have been updated, the moderator user will not
 			request.SetCurrentUserModerator();
 			request.RequestPage("acs?dnauid=RecacheUserGroupsTestForum&skin=purexml&xyzzy=7");
-			CheckResponseForGroups(request, "MODERATOR", true, true, "FORMERSTAFF", true, false);
+			CheckResponseForGroups(request, "MODERATOR", true, true, "FORMERSTAFF", true, false);//should not be updated in second post as user not recached
 
 			request.SetCurrentUserEditor();
 			request.RequestPage("acs?dnauid=RecacheUserGroupsTestForum&skin=purexml&xyzzy=8");
-			CheckResponseForGroups(request, "EDITOR", true, true, "FORMERSTAFF", true, true);
+            CheckResponseForGroups(request, "EDITOR", true, true, "FORMERSTAFF", true, true);//should be updated in second post as user recached
 
 			// TODO: reapply groups for both users and check all is well
 			AddUserToGroups(editorUserID, GetIDForSiteName(), _userGroups, true);
@@ -367,150 +365,6 @@ namespace Tests
 			return request.GetLastResponseAsXML().SelectSingleNode("H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/USER[USERNAME='" + request.CurrentUserName + "']/GROUPS/GROUP[NAME='" + groupName + "']") != null;
 		}
 
-
-		/// <summary>
-		/// 
-		/// </summary>
-		[Ignore]
-		public void Test5ContextFun()
-		{
-			Mockery mocks = new Mockery();
-
-			ISiteList mocklist = mocks.NewMock<ISiteList>();
-			ISite mocksite = mocks.NewMock<ISite>();
-			Stub.On(mocksite).GetProperty("SiteID").Will(Return.Value(1));
-			Stub.On(mocksite).GetProperty("SiteName").Will(Return.Value("h2g2"));
-			Stub.On(mocksite).GetProperty("Description").Will(Return.Value("h2g2"));
-			Stub.On(mocksite).GetProperty("ShortName").Will(Return.Value("h2g2"));
-			Stub.On(mocksite).GetProperty("SSOService").Will(Return.Value("h2g2"));
-			Expect.AtLeastOnce.On(mocklist).Method("GetSite").WithAnyArguments().Will(Return.Value(mocksite));
-			
-			IInputContext context = mocks.NewMock<IInputContext>();
-			Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(mocklist));
-			IDnaDataReader mockedreader = mocks.NewMock<IDnaDataReader>();
-			Stub.On(context).Method("CreateDnaDataReader").With("fetchgroupsandmembers").Will(Return.Value(mockedreader));
-			Stub.On(mockedreader).Method("Dispose");
-			Stub.On(mockedreader).Method("Execute");
-			IAction action = new MockedDataReader(@"..\..\UserGroupData1.xml");
-			Stub.On(mockedreader).Method("Read").Will(action);
-
-            Stub.On(mockedreader).Method("GetInt32NullAsZero").Will(action);
-            Stub.On(mockedreader).Method("IsDBNull").Will(action);
-            Stub.On(mockedreader).Method("GetInt32").Will(action);
-
-			Stub.On(mockedreader).Method("GetString").Will(action);
-			Stub.On(mockedreader).GetProperty("HasRows").Will(Return.Value(true));
-
-			IDnaDataReader readerforusergroups = mocks.NewMock<IDnaDataReader>();
-			Stub.On(context).Method("CreateDnaDataReader").With("fetchgroupsforuser").Will(Return.Value(readerforusergroups));
-			Stub.On(readerforusergroups).Method("Dispose");
-			Stub.On(readerforusergroups).Method("Execute");
-			Stub.On(readerforusergroups).Method("AddParameter");
-			IAction fugaction = new MockedDataReader(@"..\..\fetchgroupsforuser1.xml");
-			Stub.On(readerforusergroups).Method("Read").Will(fugaction);
-            Stub.On(readerforusergroups).Method("GetInt32NullAsZero").Will(fugaction);
-            Stub.On(readerforusergroups).Method("GetString").Will(fugaction);
-			Stub.On(readerforusergroups).GetProperty("HasRows").Will(Return.Value(true));
-
-			UserGroups.RefreshCache(context);
-
-			XmlElement sitesuseriseditorof = UserGroups.GetSitesUserIsEditorOfXML(6, false, context);
-			Assert.IsNotNull(sitesuseriseditorof, "Null element for sites user is editor of");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=1]"), "User isn't editor of site 1");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=9]"), "User isn't editor of site 1");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=66]"), "User isn't editor of site 1");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=68]"), "User isn't editor of site 1");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=71]"), "User isn't editor of site 1");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=72]"), "User isn't editor of site 1");
-			Assert.IsNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=73]"), "User is editor of site 73");
-
-			sitesuseriseditorof = UserGroups.GetSitesUserIsEditorOfXML(1581231, false, context);
-			Assert.IsNotNull(sitesuseriseditorof, "Null element for sites user is editor of");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=72]"), "User isn't editor of site 1");
-
-			XmlElement userGroups = UserGroups.GetUserGroupsElement(6, 1, context);
-			Assert.IsNotNull(userGroups, "Not expecting NULL userGroups");
-			Assert.IsNotNull(userGroups.SelectSingleNode("GROUP[NAME='EDITOR']"), "User should be editor");
-			Assert.IsNull(userGroups.SelectSingleNode("GROUP[NAME='MODERATOR']"), "User should not be moderator");
-
-			userGroups = UserGroups.GetUserGroupsElement(1090564231, 1, context);
-			Assert.IsNotNull(userGroups, "Not expecting NULL userGroups");
-			Assert.IsNotNull(userGroups.SelectSingleNode("GROUP[NAME='MODERATOR']"), "User should be editor");
-			Assert.IsNull(userGroups.SelectSingleNode("GROUP[NAME='EDITOR']"), "User should not be moderator");
-
-			userGroups = UserGroups.GetUserGroupsElement(1165233424, 1, context);
-			Assert.IsNotNull(userGroups, "Not expecting NULL userGroups");
-			Assert.IsNotNull(userGroups.SelectSingleNode("GROUP[NAME='NOTABLES']"), "User should be editor");
-			Assert.IsNull(userGroups.SelectSingleNode("GROUP[NAME='EDITOR']"), "User should not be moderator");
-
-			sitesuseriseditorof = UserGroups.GetSitesUserIsEditorOfXML(15459, false, context);
-			Assert.IsNotNull(sitesuseriseditorof, "Null element for sites user is editor of");
-			Assert.IsNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=1]"), "User isn't editor of site 1");
-			Assert.IsNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=2]"), "User isn't editor of site 2");
-
-			UserGroups.RefreshCacheForUser(15459, context);
-			sitesuseriseditorof = UserGroups.GetSitesUserIsEditorOfXML(15459, false, context);
-			Assert.IsNotNull(sitesuseriseditorof, "Null element for sites user is editor of");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=1]"), "User isn't editor of site 1");
-			Assert.IsNotNull(sitesuseriseditorof.SelectSingleNode("SITE-LIST/SITE[@ID=2]"), "User isn't editor of site 2");
-
-		}
-
-		private IAction ReadFromMockedReader(string dataname)
-		{
-			return new MockedDataReader(dataname);
-		}
-
-		internal class MockedDataReader : IAction
-		{
-			XmlDocument doc;
-			int currentRow = 0;
-
-			public MockedDataReader(string filename)
-			{
-				doc = new XmlDocument();
-				doc.Load(filename);
-			}
-
-			#region IInvokable Members
-
-			public void Invoke(NMock2.Monitoring.Invocation invocation)
-			{
-				if (invocation.Method.Name == "Read")
-				{
-					++currentRow;
-					if (doc.SelectSingleNode("/data/row[position()=" + (currentRow) + "]") == null)
-					{
-						invocation.Result = false;
-					}
-					else
-					{
-						invocation.Result = true;
-					}
-				}
-				else if (invocation.Method.Name == "GetInt32")
-				{
-					string fieldname = invocation.Parameters[0] as string;
-					invocation.Result = Int32.Parse(doc.SelectSingleNode(string.Format("/data/row[position()={0}]/@{1}",currentRow,fieldname)).InnerText);
-				}
-				else if (invocation.Method.Name == "GetString")
-				{
-					string fieldname = invocation.Parameters[0] as string;
-					invocation.Result = doc.SelectSingleNode(string.Format("/data/row[position()={0}]/@{1}", currentRow, fieldname)).InnerText;
-				}
-			}
-
-			#endregion
-
-			#region ISelfDescribing Members
-
-			public void DescribeTo(System.IO.TextWriter writer)
-			{
-				writer.Write("Reading a data line");
-			}
-
-			#endregion
-		}
 
         /// <summary>
         /// Helper function for adding a user to a group on a given site

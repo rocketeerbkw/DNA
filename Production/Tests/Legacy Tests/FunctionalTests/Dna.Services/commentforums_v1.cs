@@ -1700,13 +1700,13 @@ namespace FunctionalTests
             string userEmail = userName + "@bbc.co.uk";
             Cookie cookie;
             Cookie secureCookie;
-            int userID;
+            string identityUserID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(userName, "password", "1989-12-31", userEmail,
                                                              "Comment User", true,
                                                              TestUserCreator.IdentityPolicies.Adult, false, 0,
                                                              out cookie,
                                                              out secureCookie,
-                                                             out userID));
+                                                             out identityUserID));
             request.UseIdentitySignIn = true;
             request.CurrentCookie = cookie.Value;
             request.CurrentSecureCookie = secureCookie.Value;
@@ -1799,13 +1799,13 @@ namespace FunctionalTests
 
             Cookie cookie;
             Cookie secureCookie;
-            int userID;
+            string identityUserID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(userName, "password", "1989-12-31", userEmail,
                                                              "Comment User", true,
                                                              TestUserCreator.IdentityPolicies.Adult, false, 0,
                                                              out cookie,
                                                              out secureCookie,
-                                                             out userID));
+                                                             out identityUserID));
             request.UseIdentitySignIn = true;
 
             request.CurrentCookie = cookie.Value;

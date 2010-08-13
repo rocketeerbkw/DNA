@@ -406,7 +406,7 @@ namespace DnaIdentityWebServiceProxy
                 }
                 string identityUserName = cookie.Split('|').GetValue(1).ToString();
 
-                AddTimingInfoLine("Calling Get Attrbutes...");
+                AddTimingInfoLine("Calling Get Attributes...");
                 response = CallRestAPI(string.Format("{0}/idservices/users/{1}/attributes", _identityBaseURL, identityUserName));
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
@@ -432,7 +432,7 @@ namespace DnaIdentityWebServiceProxy
                         _lastName = xDoc.SelectSingleNode("//attributes/lastname").InnerText;
                     }
 
-                    _userID = Convert.ToInt32(xDoc.SelectSingleNode("//attributes/id").InnerText);
+                    _userID = xDoc.SelectSingleNode("//attributes/id").InnerText;
 
                     string legacyID = xDoc.SelectSingleNode("//attributes/legacy_user_id").InnerText;
                     if (legacyID.Length == 0)
@@ -449,7 +449,7 @@ namespace DnaIdentityWebServiceProxy
                     AddTimingInfoLine("Last Updated    : " + _lastUpdatedDate.ToString());
 
                     // The user is now setup correctly
-                    _userLoggedIn = _userID > 0;
+                    _userLoggedIn = _userID.Length > 0;
                 }
             }
             catch (Exception ex)
@@ -475,12 +475,12 @@ namespace DnaIdentityWebServiceProxy
             return userLoggedIn;
         }
 
-        private int _userID = 0;
+        private string _userID = "";
 
         /// <summary>
         /// Get property for the current user id
         /// </summary>
-        public int UserID
+        public string UserID
         {
             get { return _userID; }
         }

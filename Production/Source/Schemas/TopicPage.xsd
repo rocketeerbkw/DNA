@@ -67,7 +67,13 @@
                           <xs:element name="TEMPLATE" type="xs:unsignedByte" />
                           <xs:element name="POSITION" type="xs:unsignedByte" />
                           <xs:element name="TITLE" type="xs:string" />
-                          <xs:element name="TEXT" type="xs:string" />
+                          <xs:element name="TEXT">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element ref="GUIDE" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
                           <xs:element name="IMAGENAME" type="xs:string" />
                           <xs:element name="IMAGEALTTEXT" type="xs:string" />
                           <xs:element name="EDITKEY" type="xs:string" />

@@ -10,8 +10,10 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
-using BBC.Dna.Groups;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Common;
+using BBC.Dna.Users;
+using BBC.Dna.Moderation;
 
 namespace BBC.Dna
 {
@@ -65,11 +67,25 @@ namespace BBC.Dna
 
             //load the smiley list
             SmileyTranslator.LoadSmileys(ReaderCreator);
-            ProfanityFilter.InitialiseProfanities(ReaderCreator, TheAppContext._dnaAppDiagnostics);
-            DnaDiagnostics.Default.WriteToLog("UserGroups", "Before InitialiseAllUsersAndGroups.");
-            var userGroups = new Groups.UserGroups(ReaderCreator, TheAppContext._dnaAppDiagnostics, null);
-		    userGroups.InitialiseAllUsersAndGroups();
-            DnaDiagnostics.Default.WriteToLog("UserGroups", "After InitialiseAllUsersAndGroups.");
+
+            ICacheManager cacheMemcachedManager = null;
+            try
+            {
+                cacheMemcachedManager = CacheFactory.GetCacheManager("Memcached");
+            }
+            catch (Exception error)
+            {
+                DnaDiagnostics.Default.WriteWarningToLog("OnDnaStartup", "Unable to use memcached cachemanager - falling back to static inmemory");
+                DnaDiagnostics.Default.WriteExceptionToLog(error);
+                cacheMemcachedManager = new StaticCacheManager();
+            }
+
+            //new signal objects below here
+            _appContext.TheSiteList = new SiteList(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
+            var bannedEmails = new BannedEmails(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
+            var userGroups = new UserGroups(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
+            var profanityFilter = new ProfanityFilter(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
+
 		}
 
 		/// <summary>
@@ -83,7 +99,6 @@ namespace BBC.Dna
 		private DnaDiagnostics _dnaAppDiagnostics;
 		private DnaConfig _dnaConfig;
 		private int _maximumRequestCount = 50;
-        private ISiteList _siteList = null;
         private AllowedURLs _allowedURLs = null;
 
 		/// <summary>
@@ -108,24 +123,13 @@ namespace BBC.Dna
 		/// </summary>
 		public ISiteList TheSiteList
 		{
-			get { return _siteList; }
+			get;set;
 		}
 
-		private static object _createSiteListLock = new object();
-
-		private void InitialiseSiteList(object context)
-		{
-            _siteList = SiteList.GetSiteList(ReaderCreator, _dnaAppDiagnostics, true);
-            if (context == null)
-            {
-                context = _appContext;
-            }
-			((IAppContext)context).Diagnostics.WriteToLog("Initialisation", "Initialised SiteList");
-		}
 
 		private bool IsSitelistEmpty()
 		{
-			return (_siteList == null);
+            return (TheSiteList == null);
 		}
 
         /// <summary>
@@ -222,17 +226,7 @@ namespace BBC.Dna
 			return Uri.EscapeDataString(text);
 		}
 
-		/// <summary>
-		/// Ensures that the site list data is created and loaded. Can be called to reload the data from the database
-		/// with the recacheData flag set to true.
-		/// </summary>
-		/// <param name="context">The context</param>
-		/// <param name="recacheData">Set to true will create a new list and replace the old. False will just ensure that there is a valid list to use</param>
-		public void EnsureSiteListExists(bool recacheData, IAppContext context)
-		{
-			Locking.InitialiseOrRefresh(_createSiteListLock, InitialiseSiteList, IsSitelistEmpty, recacheData, context);
-
-		}
+		
 
         /// <summary>
         /// Ensures that the allowed url list data is created and loaded. Can be called to reload the data from the database
@@ -244,68 +238,6 @@ namespace BBC.Dna
         {
             Locking.InitialiseOrRefresh(_createAllowedURLsLock, InitialiseAllowedURLs, IsAllowedURLsInitialised, recacheData, context);
         }
-
-		/// <summary>
-		/// Sends a control signal to all the other front end servers. Used for recaching site data and the likes.
-		/// </summary>
-		/// <param name="signal">The action that you want to perform. This should not contain the page as this will be different
-		/// between the ripley and .net applications. The function itself takes care of this.\n
-		/// Current actions supported are...\n
-		/// 'action=recache-site' - This recaches all the site information.\n
-		/// 'action=recache-groups' - This recaches the groups information.</param>
-		public void SendSignal(string signal)
-		{
-			// Make sue the requested signal does not contain any page specific information, as we need to call both the .net and ripley
-			// versions of the signal builder. Get everything after the first ? if it exists
-			signal = signal.Substring(signal.IndexOf('?') + 1);
-
-			// Go through each ripley server sending the signal.
-			foreach (string address in _dnaConfig.RipleyServerAddresses)
-			{
-				// Send the signal to the selected server
-				SendSignalToServer(address, "signal?" + signal + "&skin=purexml", false);
-			}
-
-			// Go through each .net server sending the signal.
-			foreach (string address in _dnaConfig.DotNetServerAddresses)
-			{
-				// Send the signal to the selected server
-                SendSignalToServer(address, "dnasignal?" + signal + "&skin=purexml", false);
-                SendSignalToServer(address, signal, true);
-            }
-		}
-
-		/// <summary>
-		/// Send a given signal to a given server
-		/// </summary>
-		/// <param name="serverName">the ip or name of the server to send the signal to</param>
-		/// <param name="signal">The action you want to perform</param>
-        /// <param name="APIsignal">When false, the signal is sent to the h2g2 site, if true, then it sends it to the Status page of the commnets API</param>
-		private void SendSignalToServer(string serverName, string signal, bool APIsignal)
-		{
-			// Setup the request to send the signal action
-            string request = "";
-            if (APIsignal)
-            {
-                request = "http://" + serverName + "/dna/api/comments/status.aspx?" + signal;
-            }
-            else
-            {
-                request = "http://" + serverName + "/dna/h2g2/" + signal;
-            }
-			Uri URL = new Uri(request);
-			HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
-			try
-			{
-				// Try to send the request and get the response
-				webRequest.GetResponse();
-			}
-			catch (Exception ex)
-			{
-				// Problems!
-				Diagnostics.WriteWarningToLog("Signal", "Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-			}
-		}
 
 		/// <summary>
 		/// Property to get the CurrentServerName
@@ -340,7 +272,7 @@ namespace BBC.Dna
 		/// <exception cref="SiteOptionInvalidTypeException"></exception>
 		public int GetSiteOptionValueInt(int siteId, string section, string name)
 		{
-			return _siteList.GetSiteOptionValueInt(siteId, section, name);
+            return TheSiteList.GetSiteOptionValueInt(siteId, section, name);
 		}
 
 		/// <summary>
@@ -354,7 +286,7 @@ namespace BBC.Dna
 		/// <exception cref="SiteOptionInvalidTypeException"></exception>
 		public bool GetSiteOptionValueBool(int siteId, string section, string name)
 		{
-			return _siteList.GetSiteOptionValueBool(siteId, section, name);
+            return TheSiteList.GetSiteOptionValueBool(siteId, section, name);
 		}
 
 		/// <summary>
@@ -368,7 +300,7 @@ namespace BBC.Dna
         /// <exception cref="SiteOptionInvalidTypeException"></exception>
         public string GetSiteOptionValueString(int siteId, string section, string name)
         {
-            return _siteList.GetSiteOptionValueString(siteId, section, name);
+            return TheSiteList.GetSiteOptionValueString(siteId, section, name);
         }
 
 		/// <summary>
@@ -402,5 +334,5 @@ namespace BBC.Dna
             return FileCache.InvalidateItem(_dnaConfig.CachePath, cacheName, itemName);
         }
 
-	}
+    }
 }

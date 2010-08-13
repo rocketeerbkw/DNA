@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using BBC.Dna.Data;
-using BBC.Dna.Users;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 

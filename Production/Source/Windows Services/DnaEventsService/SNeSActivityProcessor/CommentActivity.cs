@@ -54,7 +54,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
         {
             var relativeBase = new Uri("http://localhost");
             return postUserActivityTemplate.BindByPosition(relativeBase,
-                IdentityUserId.ToString(),
+                IdentityUserId,
                 Application);
         }
 

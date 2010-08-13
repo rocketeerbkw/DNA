@@ -29,7 +29,7 @@ namespace BBC.Dna.Users
     {
         private IDnaIdentityWebServiceProxy _signInComponent = null;
         private SignInSystem _signInSystem;
-        private int _signInUserID = 0;
+        private string _signInUserID = "";
         private int _legacySSOUserID = 0;
         private string _loginName = "";
         private string _userName = "";
@@ -41,9 +41,9 @@ namespace BBC.Dna.Users
         private DateTime _lastUpdatedDate;
 
         /// <summary>
-        /// Get property for the users signin userid
+        /// Get property for the users sign in userid
         /// </summary>
-        public int SignInUserID
+        public string SignInUserID
         {
             get { return _signInUserID; }
         }
@@ -149,10 +149,6 @@ namespace BBC.Dna.Users
         {
             _signInSystem = signInSystem;
             string signinConnectionDetails = ConfigurationManager.ConnectionStrings["IdentityURL"].ConnectionString;
-            if (signInSystem == SignInSystem.SSO)
-            {
-                signinConnectionDetails = ConfigurationManager.ConnectionStrings["ProfileRead"].ConnectionString;
-            }
             _signInComponent = SignInComponentFactory.CreateSignInComponent(signinConnectionDetails, _signInSystem);
         }
 

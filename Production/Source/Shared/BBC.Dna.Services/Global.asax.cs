@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Web;
 using System.Configuration;
-using BBC.Dna.Groups;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Common;
+using BBC.Dna.Users;
+using BBC.Dna.Moderation;
 
 namespace BBC.Dna.Services
 {
@@ -25,11 +27,24 @@ namespace BBC.Dna.Services
             dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
             connectionString = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiagnostics);
-            siteList = SiteList.GetSiteList(readerCreator, dnaDiagnostics);
-            ProfanityFilter.InitialiseProfanities(readerCreator, dnaDiagnostics);
-            var userGroups = new UserGroups(readerCreator, dnaDiagnostics, null);
-            userGroups.InitialiseAllUsersAndGroups();
-            
+
+            ICacheManager cacheManager = null;
+            try
+            {
+                cacheManager = CacheFactory.GetCacheManager("Memcached");
+            }
+            catch (Exception error)
+            {
+                dnaDiagnostics.WriteWarningToLog("BBC.Dna.Services.Application_Start", "Unable to use memcached cachemanager - falling back to static inmemory");
+                dnaDiagnostics.WriteExceptionToLog(error);
+                cacheManager = new StaticCacheManager();
+            }
+
+
+            siteList = new SiteList(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
+            var bannedEmails = new BannedEmails(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
+            var userGroups = new UserGroups(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
+            var profanityFilter = new ProfanityFilter(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
         }
 
         protected void Session_Start(object sender, EventArgs e)
@@ -39,32 +54,22 @@ namespace BBC.Dna.Services
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            siteList = SiteList.GetSiteList();
             _openTime = DateTime.Now;
             if (Request.Path.IndexOf("status.aspx") < 0)
             {
                 Statistics.AddRawRequest();
             }
 
-            // Check to see if we're being asked to recache the site data
-            if (Request.QueryString["action"] == "recache-site" || Request.QueryString["_ns"] == "1")
+            if (!String.IsNullOrEmpty(Request.QueryString["action"]))
             {
-                siteList = SiteList.GetSiteList(readerCreator, dnaDiagnostics, true);
-                //refresh profanity filter
-                ProfanityFilter.InitialiseProfanities(readerCreator, dnaDiagnostics);
-                var userGroups = new UserGroups(readerCreator, dnaDiagnostics, null);
-                userGroups.InitialiseAllUsersAndGroups();
-            }
-
-            // Check to see if we're being asked to do a recache of groups
-            if (Request.QueryString["action"] == "recache-groups")
-            {
-                int siteId;
-                int userId;
-                int.TryParse(Request.QueryString["userid"], out userId);
-                int.TryParse(Request.QueryString["siteid"], out siteId);
-                if (userId > 0 && siteId > 0)
+                try
                 {
-                    Groups.UserGroups.DropCachedGroupsForUser(CacheFactory.GetCacheManager(), userId, siteId);
+                    SignalHelper.HandleSignal(Request.QueryString);
+                }
+                catch (Exception err)
+                {//not dealt with 
+                    dnaDiagnostics.WriteExceptionToLog(err);
                 }
             }
         }

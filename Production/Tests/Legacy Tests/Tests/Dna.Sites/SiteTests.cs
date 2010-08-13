@@ -6,6 +6,7 @@ using System.Xml;
 using BBC.Dna;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace Tests
 {
@@ -324,8 +325,7 @@ namespace Tests
             
             using (FullInputContext fullInputContext = new FullInputContext(false))
             {
-                SiteList siteList = new SiteList(fullInputContext.ReaderCreator, fullInputContext.dnaDiagnostics);
-                siteList.LoadSiteList();
+                SiteList siteList = new SiteList(fullInputContext.ReaderCreator, fullInputContext.dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);
 
                 SiteXmlBuilder siteXml = new SiteXmlBuilder(fullInputContext);
                 XmlNode siteOptionsNode = siteXml.GetSiteOptionListForSiteXml(1, siteList);

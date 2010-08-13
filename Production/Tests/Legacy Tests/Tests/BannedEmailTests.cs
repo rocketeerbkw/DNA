@@ -9,6 +9,8 @@ using BBC.Dna.Utils;
 using DnaIdentityWebServiceProxy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using BBC.Dna.Moderation;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace Tests
 {
@@ -25,7 +27,13 @@ namespace Tests
         public void Setup()
         {
             SnapshotInitialisation.ForceRestore();
+
+            var b = new BannedEmails(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default,
+                CacheFactory.GetCacheManager(), null, null);
+
             AddTestEmailsToDatabase();
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            
         }
 
         /// <summary>
@@ -722,7 +730,7 @@ namespace Tests
             Stub.On(context).Method("UrlEscape").WithAnyArguments().Will(Return.Value("Escaped EMail"));
 
             // Now create banned email object and process the request
-            BannedEmails testBannedEmails = new BannedEmails(context);
+            BannedEmailsPageBuilder testBannedEmails = new BannedEmailsPageBuilder(context);
             testBannedEmails.ProcessRequest();
 
             // Get the resultant XML from the object
@@ -759,7 +767,7 @@ namespace Tests
             Stub.On(context).Method("DoesParamExist").With("AddEmail", "Are we tring to remove an email").Will(Return.Value(false));
 
             // Now create banned email object and process the request
-            BannedEmails testBannedEmails = new BannedEmails(context);
+            BannedEmailsPageBuilder testBannedEmails = new BannedEmailsPageBuilder(context);
             testBannedEmails.ProcessRequest();
 
             // Get the resultant XML from the object
@@ -825,10 +833,11 @@ namespace Tests
             // Create the editor
             IUser mockedUser = DnaMockery.CurrentMockery.NewMock<IUser>();
             Stub.On(mockedUser).GetProperty("UserID").Will(Return.Value(1090558353));
+            Stub.On(mockedUser).GetProperty("UserName").Will(Return.Value("username"));
             Stub.On(context).GetProperty("ViewingUser").Will(Return.Value(mockedUser));
 
             // Now create banned email object and process the request
-            BannedEmails testBannedEmails = new BannedEmails(context);
+            BannedEmailsPageBuilder testBannedEmails = new BannedEmailsPageBuilder(context);
             testBannedEmails.ProcessRequest();
 
             // Get the resultant XML from the object
@@ -1006,7 +1015,7 @@ namespace Tests
             Stub.On(mockedProfile).GetProperty("IsUserLoggedIn").Will(Return.Value(true));
             Stub.On(mockedProfile).GetProperty("IsUserSignedIn").Will(Return.Value(true));            
 
-            Stub.On(mockedProfile).GetProperty("UserID").Will(Return.Value(userID));
+            Stub.On(mockedProfile).GetProperty("UserID").Will(Return.Value(userID.ToString()));
             Stub.On(mockedProfile).GetProperty("LoginName").Will(Return.Value(loginName));
 
             Stub.On(mockedProfile).Method("DoesAttributeExistForService").With("h2g2", "email").Will(Return.Value(serviceHasEmail));

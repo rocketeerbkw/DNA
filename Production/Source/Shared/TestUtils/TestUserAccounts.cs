@@ -105,7 +105,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetProfileAPITestUserAccount
         {
-            get { return new UserAccount("ProfileAPITest", "APITest", "6041996|ProfileAPITest|ProfileAPITest|1276186657787|0|4874e6862efdcc88ade91895c12f8ead2d15bdc25ed9", "8ec1e6210c1392e7a05dfdc6907e31abcfe11bad", 1090498911, true); }
+            get { return new UserAccount("ProfileAPITest", "APITest", "6041996|ProfileAPITest|ProfileAPITest|1278931860545|0|2015a6fdc466524a1558fef420cc72bb91318f2ada03", "06424f6d9ea694a15a78fa403e71b458de7ee2ab", 1090498911, true); }
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetNormalUserAccount
         {
-            get { return new UserAccount("DotNetNormalUser", "789456123", "6042002|DotNetNormalUser|DotNetNormalUser|1276178977695|0|a3fcc9fb3f250cb4d89005823c5594c2d5e2569aafb5", "528df52cdc33cf1db82cfd19f76319a48585db40", 1090501859, true); }
+            get { return new UserAccount("DotNetNormalUser", "789456123", "6042002|DotNetNormalUser|DotNetNormalUser|1278931997492|0|7c94ac3c9aa5711bbbf3f3f8e52b8ab953d76c0492c9", "24adcca95b98a359958e5e38b9921996a7efcc4d", 1090501859, true); }
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetBannedUserAccount
         {
-            get { return new UserAccount("DotNetUserBanned", "asdfasdf", "6042004|DotNetUserBanned|DotNetUserBanned|1276179047641|0|1c103d7b9428f20ae8c9fc7bff3ea66fc7822f510328%3A1", "f5f5df1f91fa4e99bb2821b4da1743922aa0d5c7", 1165333426, true); }
+            get { return new UserAccount("DotNetUserBanned", "asdfasdf", "6042004|DotNetUserBanned|DotNetUserBanned|1278932355700|0|286f856fcffe2f8464de1221ec745602955b4f529a9f", "28a9ad0e37b02b97ab7dd49dabf0c1212f07030f", 1165333426, true); }
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetEditorUserAccount
         {
-            get { return new UserAccount("DotNetEditor", "789456123", "6042008|DotNetEditor|DotNetEditor|1276179099788|0|5cbbf354cc7da089a9c559866fa04180356e37d23415%3A1", "48f975301829256f96a17b3f00690ce7556f569f", 1090558353, true); }
+            get { return new UserAccount("DotNetEditor", "789456123", "6042008|DotNetEditor|DotNetEditor|1278932076599|0|283da2e47ac55c5d41d8c79e8252dba938df6ebf6799", "32ba4f5c31478f5246bfe8bf83b0c07d6268d7d9", 1090558353, true); }
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetSuperUserAccount
         {
-            get { return new UserAccount("DotNetSuperUser", "789456123", "6042010|DotNetSuperUser|DotNetSuperUser|1276179150977|0|238d4cac69478d3af9f13da9ef09cc298a4abde31506", "d03bf5f07015a6df869b1ecc1fb68d864d2263e2", 1090558354, true); }
+            get { return new UserAccount("DotNetSuperUser", "789456123", "6042010|DotNetSuperUser|DotNetSuperUser|1278932113907|0|1a8c6a7fa6c7988539a9dbd009947bd91275181adf24", "ab87139454d8c26a08e83426565b02d42ce6ec04", 1090558354, true); }
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetModeratorAccount
         {
-            get { return new UserAccount("DotNetModerator", "789456123", "6042012|DotNetModerator|DotNetModerator|1276179194056|0|2213c99777475fd0fc61685e6e15b4e634bcbc06ca8d", "23dda7c3984f4c982c5fc9dd28266bc0a86e60c7", 1090564231, true); }
+            get { return new UserAccount("DotNetModerator", "789456123", "6042012|DotNetModerator|DotNetModerator|1278932154747|0|011028ab133a54235e7014cfdf18fe4dab220cef0a41", "a0a73b26623fbdf7305b750a97a422b0bf130505", 1090564231, true); }
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetPreModeratedUserAccount
         {
-            get { return new UserAccount("DotNetPreModUser", "789456123", "6042014|DotNetPreModUser|DotNetPreModUser|1276179232442|0|b67d417ebd125946b4dc1f6badafdf60d2a97fddc924", "5d154b3f9a4ad510258ac33931f264a0c098ec4e", 1090565871, true); }
+            get { return new UserAccount("DotNetPreModUser", "789456123", "6042014|DotNetPreModUser|DotNetPreModUser|1278932191622|0|2182db9680b1288a2c9b858ab2370c12bd6762428e34", "38e54c7ed1b5b08b3678e52be3d7f9a6bf6cb3ef", 1090565871, true); }
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetNotableUserAccount
         {
-            get { return new UserAccount("DotNetNotableUser", "789456123", "6042020|DotNetNotableUser|DotNetNotableUser|1276179286146|0|a38d2e4e33d7ecd802b1c2c595393779961bccb28402", "7c3918e3f67e82c66290476cd24a8e530c2b2af4", 1165233424, true); }
+            get { return new UserAccount("DotNetNotableUser", "789456123", "6042020|DotNetNotableUser|DotNetNotableUser|1278932260628|0|a815ee222d1cabee1209b3dcba5f324daabea7579747", "2e331bab30933c96fea83276ef383b17b5d85a43", 1165233424, true); }
         }
 
         /// <summary>
@@ -186,7 +186,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetNormalIdentityUserAccount
         {
-            get { return new UserAccount("tester633518075951276859", "123456789", "6042026|tester633518075951276859|tester633518075951276859|1276179330727|0|b7ec6bd9ab8225b3ccbd1c29e7a9b82e9214769cb6f1", "9d4fdacc46e76d353585a720efed6506fa3ec38c", 3405375, true); }
+            get { return new UserAccount("tester633518075951276859", "123456789", "6042026|tester633518075951276859|tester633518075951276859|1278932303472|0|ada0a782d45e069a1a789ff23336fedf671732ecf2ea", "0c6fc5d0555458cba17b3d568e84c7c9df024faa", 3405375, true); }
         }
     }
 }

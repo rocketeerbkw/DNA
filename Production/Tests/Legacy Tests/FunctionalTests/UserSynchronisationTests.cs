@@ -196,7 +196,7 @@ namespace FunctionalTests
                 Assert.AreEqual(TestUserAccounts.GetNormalUserAccount.UserName, reader.GetString("username"));
             }
 
-            int identityUserID;
+            string identityUserID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, TestUserAccounts.GetNormalUserAccount.UserID, out _cookie, out _secureCookie, out identityUserID), "Failed to create test identity user");
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAs(_userName, _password, TestUserAccounts.GetNormalUserAccount.UserID, _cookie.Value, true);
@@ -329,7 +329,7 @@ namespace FunctionalTests
                 Assert.AreEqual(TestUserAccounts.GetNormalUserAccount.UserName, reader.GetString("username"));
             }
 
-            int identityUserID;
+            string identityUserID;
             Assert.IsTrue(TestUserCreator.CreateIdentityUser(_userName, _password, _dob, _email, _displayName, true, TestUserCreator.IdentityPolicies.Adult, true, TestUserAccounts.GetNormalUserAccount.UserID, out _cookie, out _secureCookie, out identityUserID), "Failed to create test identity user");
             DnaTestURLRequest request = new DnaTestURLRequest("identity606");
             request.SetCurrentUserAs(_userName, _password, TestUserAccounts.GetNormalUserAccount.UserID, _cookie.Value, true);
@@ -429,7 +429,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest("mbcbbc");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _14YearsOld, TestUserCreator.IdentityPolicies.Kids, "mbcbbc", TestUserCreator.UserType.IdentityOnly);
             string cookie = request.CurrentCookie;
-            request.RequestPage("?_ns=1&skin=purexml");
+            request.RequestPage("signal?action=recache-site&siteid=54&skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
@@ -471,7 +471,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest("mbcbbc");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _14YearsOld, TestUserCreator.IdentityPolicies.Kids, "mbcbbc", TestUserCreator.UserType.IdentityOnly);
             string cookie = request.CurrentCookie;
-            request.RequestPage("status-n?_ns=1&skin=purexml");
+            request.RequestPage("dnasignal?action=recache-site&siteid=54&skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
@@ -509,7 +509,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest("mbcbbc");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _14YearsOld, TestUserCreator.IdentityPolicies.Kids, "mbcbbc", TestUserCreator.UserType.IdentityOnly);
             string cookie = request.CurrentCookie;
-            request.RequestPage("status-n?_ns=1&skin=purexml");
+            request.RequestPage("dnasignal?action=recache-site&siteid=54&skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");

@@ -14,6 +14,7 @@ set varRobocopyParams=/E /XF web.config /R:1
 
 echo Stopping IIS
 sc \\%varServerName% stop w3svc
+sc \\%varServerName% stop "memcached server"
 sleep 5
 
 echo Copying DNA.Pages
@@ -29,6 +30,7 @@ echo Copying Ripley
 robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\ %varRobocopyParams%
 
 echo Starting IIS
+sc \\%varServerName% start "memcached server"
 sc \\%varServerName% start w3svc
 
 echo Deploying Filter.reg

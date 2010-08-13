@@ -45,6 +45,7 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateNewSiteTests.cs" />
     <Compile Include="GetIndexOfComment.cs" />
     <Compile Include="GetModerationExLinks.cs" />
     <Compile Include="FetchArticleModerationHistory.cs" />

@@ -13,6 +13,8 @@ using BBC.Dna.Utils;
 using BBC.Dna.Data;
 
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Moderation.Utils.Tests;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 
 namespace Tests
@@ -214,17 +216,9 @@ namespace Tests
 
             ReaderCreator = new DnaDataReaderCreator(_dnaConfig.ConnectionString, _dnaDiagnostics);
 
-            if (_siteList == null)
-            {
-                _siteList = new SiteList(ReaderCreator, _dnaDiagnostics);
-                _siteList.LoadSiteList();
-            }
+            _siteList = new SiteList(ReaderCreator, dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);
 
-            try
-            {//shouldn't crash if no test profanity data...
-                ProfanityFilter.InitialiseTestData("../../../Tests/ProfanityData.xml", "../../../Tests/ProfanityData.xsd");
-            }
-            catch { }
+            ProfanityFilterTests.InitialiseProfanities();
 
         }
 

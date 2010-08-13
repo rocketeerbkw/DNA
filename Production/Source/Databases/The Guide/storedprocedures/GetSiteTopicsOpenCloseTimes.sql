@@ -1,4 +1,4 @@
-CREATE PROCEDURE getsitetopicsopenclosetimes --@siteid INT 
+CREATE PROCEDURE getsitetopicsopenclosetimes @siteid INT =0
 AS
 	/* 
 		Returns site's open and close times. Must be in this order to iteration through collection
@@ -7,7 +7,7 @@ AS
 	*/
 	SELECT SiteID, DayWeek, Hour, Minute, Closed
 	  FROM dbo.SiteTopicsOpenCloseTimes WITH(NOLOCK)
-	 --WHERE SiteID = @siteid
+	 WHERE (@siteid = 0 OR SiteID = @siteid)
 	 ORDER BY SiteID, DayWeek DESC, Hour DESC, Minute DESC, Closed DESC 
 	 
 

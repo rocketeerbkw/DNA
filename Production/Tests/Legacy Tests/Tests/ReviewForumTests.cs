@@ -9,6 +9,8 @@ using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using TestUtils;
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 
 namespace Tests
@@ -42,8 +44,6 @@ namespace Tests
                 string rootPath = TestConfig.GetConfig().GetRipleyServerPath();
                 BBC.Dna.AppContext.OnDnaStartup(rootPath);
 
-                ProfanityFilter.ClearTestData();
-
                 //Create the mocked inputcontext
                 Mockery mock = new Mockery();
                 _context = DnaMockery.CreateDatabaseInputContext();
@@ -57,8 +57,7 @@ namespace Tests
                 Stub.On(_context).Method("FileCachePutItem").Will(Return.Value(false));
 
                 // Initialise the profanities object
-                ProfanityFilter.InitialiseProfanitiesIfEmpty(DnaMockery.CreateDatabaseReaderCreator(), null);
-
+                var p = new ProfanityFilter(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
                 BBC.Dna.User user = new BBC.Dna.User(_context);
                 Stub.On(_context).GetProperty("ViewingUser").Will(Return.Value(user));
                 

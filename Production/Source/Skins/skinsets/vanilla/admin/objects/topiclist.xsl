@@ -99,7 +99,16 @@
     </xsl:param>
 
 
-    <form action="messageboardadmin_design?s_mode=design" method="post" id="dna-add-topic-{$topicid}" name="frm-add-topic-{$topicid}">
+    <form method="post" id="dna-add-topic-{$topicid}" name="frm-add-topic-{$topicid}">
+      <xsl:attribute name="action">
+        <xsl:choose>
+          <xsl:when test="//PARAMS/PARAM[NAME = 's_step']/VALUE = '2'">messageboardadmin_design?s_mode=topic&amp;s_step=3&amp;s_edittopic=<xsl:value-of select="$topicid"/>#dna-preview-edittopic-step3-<xsl:value-of select="$topicid"/></xsl:when>
+          <xsl:when test="//PARAMS/PARAM[NAME = 's_step']/VALUE = '3'">messageboardadmin_design?s_mode=topic&amp;s_edittopic=<xsl:value-of select="$topicid"/></xsl:when>
+          <xsl:otherwise>messageboardadmin_design?s_mode=topic&amp;s_step=2&amp;s_edittopic=<xsl:value-of select="$topicid"/>#dna-preview-edittopic-step2-<xsl:value-of select="$topicid"/></xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+      
+      
       <input type="hidden" name="topiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/EDITKEY}"></input>
       <input type="hidden" name="fptopiceditkey" value="{/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/EDITKEY}"></input>
       <input type="hidden" id="topicid" name="topicid" value="{$topicid}"></input>
@@ -124,7 +133,17 @@
             <p>Add the text for the topic promo. This will appear on the messageboard homepage.</p>
             <p>
               <label for="fp_title-{$topicid}">Title of topic promo:</label>
-              <input type="text" name="fp_title" id="fp_title-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/TITLE}"/>
+              <input type="text" name="fp_title" id="fp_title-{$topicid}">
+              <xsl:attribute name="value">
+                <xsl:choose>
+                  <xsl:when test="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/TITLE">
+                    <xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID = $topicid]/FRONTPAGEELEMENT/TITLE"/>
+                  </xsl:when>
+                  <xsl:otherwise><xsl:text>&#32;</xsl:text></xsl:otherwise>
+                </xsl:choose>
+              </xsl:attribute>
+              </input> 
+              
               <span class="dna-fnote">
                 <strong>Example:</strong> Our Couples for 2009
               </span>
@@ -132,7 +151,7 @@
 
             <p>
               <label for="fp_text-{$topicid}">Enter the text to describe what this topic is about:</label>
-              <textarea name="fp_text" id="fp_text-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT"/></textarea>
+              <textarea name="fp_text" id="fp_text-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text><xsl:copy-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/TEXT/GUIDE/BODY/node()"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's got a good chance this year? Who'll be waltzing off in the first few shows?
               </span>
@@ -141,7 +160,7 @@
             <div class="dna-buttons">
               <ul>
                 <li>
-                  <a href="?s_mode=topic&amp;s_step=2&amp;s_edittopic={$topicid}#dna-preview-edittopic-step2-{$topicid}" class="dna-btn-link" id="dna-btn-next-1-{$topicid}">Next</a>
+                  <input type="submit" name="submit" value="Next" id="dna-btn-next-1-{$topicid}" />
                 </li>
                 <li>
                   <a href="messageboardadmin_design?s_mode=design" class="dna-btn-link dna-btn-cancel">Cancel</a>
@@ -191,7 +210,7 @@
             </p>
             <p class="dna-turn-img-off">
               <input type="checkbox" name="fp_templatetype" id="fp_templatetype-{$topicid}" value="turnimageoff">
-                <xsl:if test="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME = ''">
+                <xsl:if test="not(/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME) or /H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/FRONTPAGEELEMENT/IMAGENAME = ''">
                   <xsl:attribute name="checked">checked</xsl:attribute>
                 </xsl:if>
               </input>
@@ -204,7 +223,7 @@
                   <a href="?s_mode=topic&amp;s_step=1&amp;s_edittopic={$topicid}#dna-preview-edittopic-step1-{$topicid}" class="dna-btn-link" id="dna-btn-back-2-{$topicid}">Back</a>
                 </li>
                 <li>
-                  <a href="?s_mode=topic&amp;s_step=3&amp;s_edittopic={$topicid}#dna-preview-edittopic-step3-{$topicid}" class="dna-btn-link" id="dna-btn-next-2-{$topicid}">Next</a>
+                  <input type="submit" name="submit" value="Next" id="dna-btn-next-2-{$topicid}" />
                 </li>
                 <li>
                   <a href="messageboardadmin_design?s_mode=design" class="dna-btn-link dna-btn-cancel">Cancel</a>
@@ -234,14 +253,27 @@
             <p>Add the text for the topic promo. This will appear on the topic page.</p>
             <p>
               <label for="topictitle-{$topicid}">Title to appear on topic page:</label>
-              <input type="text" name="topictitle" id="topictitle-{$topicid}" value="{/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/TITLE}" />
-              <span class="dna-fnote">
+              <input type="text" name="topictitle" id="topictitle-{$topicid}">
+                  <xsl:attribute name="value">
+                    <xsl:choose>
+                      <xsl:when test="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/TITLE">
+                        <xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/TITLE"/>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:text>&#32;</xsl:text>
+                      </xsl:otherwise>
+                    </xsl:choose>
+                  </xsl:attribute>
+                </input>
+
+                <span class="dna-fnote">
                 <strong>Example:</strong> Our Couples for 2009
               </span>
             </p>
             <p>
               <label for="topictext-{$topicid}">Enter the text to describe what this topic page is about:</label>
-              <textarea name="topictext" id="topictext-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY"/></textarea>
+              <textarea name="topictext" id="topictext-{$topicid}" cols="50" rows="5"><xsl:text>&#x0A;</xsl:text>
+                <xsl:copy-of select="/H2G2/TOPIC_PAGE/TOPICLIST/TOPIC[TOPICID=$topicid]/DESCRIPTION/GUIDE/BODY/node()"/></textarea>
               <span class="dna-fnote">
                 <strong>Example:</strong> Who's will your favourite dancers be this year? Let the speculations begin...
               </span>

@@ -200,11 +200,11 @@ namespace TestUtils
                                                 int legacySSOID, 
                                                 out Cookie cookie, 
                                                 out Cookie secureCookie,
-                                                out int userIdentityID)
+                                                out string userIdentityID)
         {
             ServicePointManager.ServerCertificateValidationCallback += AcceptAllCertificatePolicy;
 
-            userIdentityID = 0;
+            userIdentityID = "";
             cookie = null;
             secureCookie = null;
 
@@ -240,7 +240,7 @@ namespace TestUtils
                 secureCookie = response.Cookies["IDENTITY-HTTPS"];
 
                 string[] cookieParams = cookie.Value.Split('|');
-                userIdentityID = Convert.ToInt32(cookieParams[0]);
+                userIdentityID = cookieParams[0];
                 response.Close();
             }
             else
@@ -305,7 +305,7 @@ namespace TestUtils
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentityNormalUser(string userName, string password, string dateOfBirth, string email, string displayName, bool acceptedIdentiutyTCs, IdentityPolicies policy, bool acceptedPolicyTCs, out Cookie cookie, out Cookie secureCookie, out int userIdentityID, out int dnaUserID)
+        public static bool CreateNewIdentityNormalUser(string userName, string password, string dateOfBirth, string email, string displayName, bool acceptedIdentiutyTCs, IdentityPolicies policy, bool acceptedPolicyTCs, out Cookie cookie, out Cookie secureCookie, out string userIdentityID, out int dnaUserID)
         {
             dnaUserID = 0;
             if (CreateIdentityUser(userName, password, dateOfBirth, email, displayName, true, policy, true, 0, out cookie, out secureCookie, out userIdentityID))
@@ -329,7 +329,7 @@ namespace TestUtils
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentitySuperUser(string userName, string password, string dateOfBirth, string email, string displayName, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out int userIdentityID, out int dnaUserID)
+        public static bool CreateNewIdentitySuperUser(string userName, string password, string dateOfBirth, string email, string displayName, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out string userIdentityID, out int dnaUserID)
         {
             dnaUserID = 0;
             if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out secureCookie, out userIdentityID, out dnaUserID))
@@ -354,7 +354,7 @@ namespace TestUtils
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentityEditorUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out int identityUserID, out int dnaUserID)
+        public static bool CreateNewIdentityEditorUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out string identityUserID, out int dnaUserID)
         {
             dnaUserID = 0;
             if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out secureCookie, out identityUserID, out dnaUserID))
@@ -382,7 +382,7 @@ namespace TestUtils
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentityModeratorUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out int identityUserID, out int dnaUserID)
+        public static bool CreateNewIdentityModeratorUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out string identityUserID, out int dnaUserID)
         {
             dnaUserID = 0;
             if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out secureCookie, out identityUserID, out dnaUserID))
@@ -410,7 +410,7 @@ namespace TestUtils
         /// <param name="identityUserID">Output value for the new users Identity UserID</param>
         /// <param name="dnaUserID">Output value for the new users DNA UserID</param>
         /// <returns>True if they were created ok, false if not</returns>
-        public static bool CreateNewIdentityNotableUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out int identityUserID, out int dnaUserID)
+        public static bool CreateNewIdentityNotableUser(string userName, string password, string dateOfBirth, string email, string displayName, int siteid, IdentityPolicies policy, out Cookie cookie, out Cookie secureCookie, out string identityUserID, out int dnaUserID)
         {
             dnaUserID = 0;
             if (CreateNewIdentityNormalUser(userName, password, dateOfBirth, email, displayName, true, policy, true, out cookie, out secureCookie, out identityUserID, out dnaUserID))
@@ -431,12 +431,12 @@ namespace TestUtils
         /// <param name="displayName">The users display name</param>
         /// <param name="userIdentityID">The users Identity UserID</param>
         /// <returns>The new DNA UserID</returns>
-        private static int CreateUserInDatabase(string userName, string email, string displayName, int userIdentityID)
+        private static int CreateUserInDatabase(string userName, string email, string displayName, string userIdentityID)
         {
             int dnaUserID = 0;
             using (IDnaDataReader reader = DnaMockery.CreateDatabaseInputContext().CreateDnaDataReader(""))
             {
-                string sql = "EXEC dbo.createnewuserfromidentityid " + userIdentityID.ToString() + ",0,'" + userName + "','" + email + "',1,null,null";//,'" + displayName + "'";
+                string sql = "EXEC dbo.createnewuserfromidentityid " + userIdentityID + ",0,'" + userName + "','" + email + "',1,null,null";//,'" + displayName + "'";
                 reader.ExecuteDEBUGONLY(sql);
                 if (reader.Read())
                 {

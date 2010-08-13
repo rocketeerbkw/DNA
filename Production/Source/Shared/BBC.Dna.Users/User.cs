@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BBC.Dna.Groups;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using System.Configuration;
@@ -68,20 +67,20 @@ namespace BBC.Dna.Users
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "")]
+    [Serializable]
     [DataContract(Name = "user")]    
     public class User : IUser
     {
         
         protected string _databaseConnectionDetails = "";
         private int _status = -1;
-        private DateTime _lastSynchronisedDate;
         protected ICacheManager _cachingObject = null;
         protected IDnaDataReaderCreator _dnaDataReaderCreator = null;
         protected IDnaDiagnostics _dnaDiagnostics = null;
-        private Groups.UserGroups _userGroupsManager;
+        private UserGroups _userGroupsManager;
 
         [DataMember(Name = "groups")]
-        public List<UserGroup> UserGroups { get; set; }
+        public List<UserGroup> UsersListOfGroups { get; set; }
 
         /// <summary>
         /// Get property for the dna users id
@@ -99,7 +98,7 @@ namespace BBC.Dna.Users
         /// The get property for the users identity user id
         /// </summary>
         [DataMember(Name = "identityUserID")]
-        public virtual int IdentityUserID  {get; set;}
+        public virtual string IdentityUserID  {get; set;}
 
         /// <summary>
         /// The get property for the users name
@@ -189,7 +188,7 @@ namespace BBC.Dna.Users
 
             Trace.WriteLine("User() - connection details = " + _databaseConnectionDetails);
             _cachingObject = caching;
-            _userGroupsManager = new Groups.UserGroups(_dnaDataReaderCreator, _dnaDiagnostics, null);
+            _userGroupsManager = UserGroups.GetObject();
         }
 
         /// <summary>
@@ -203,21 +202,13 @@ namespace BBC.Dna.Users
         /// <param name="email">The users email</param>
         /// <param name="displayName">The users display name if gievn</param>
         /// <returns>True if they we're created ok, false if not</returns>
-        public bool CreateUserFromSignInUserID(int userSignInID, int legacyUserID, SignInSystem signInType, int siteID, string loginName, string email, string displayName)
+        public bool CreateUserFromSignInUserID(string userSignInID, int legacyUserID, SignInSystem signInType, int siteID, string loginName, string email, string displayName)
         {
             bool userCreated = false;
-            if (signInType == SignInSystem.Identity)
-            {
-                IdentityUserID = userSignInID;
-                Trace.WriteLine("CreateUserFromSignInUserID() - Using Identity");
-                userCreated = CreateNewUserFromId(siteID, IdentityUserID, legacyUserID, loginName, email, displayName);
-            }
-            else
-            {
-                SSOUserID = userSignInID;
-                userCreated = CreateNewUserFromId(siteID, 0, SSOUserID, loginName, email, displayName);
-                Trace.WriteLine("CreateUserFromSignInUserID() - Using SSO");
-            }
+            
+            IdentityUserID = userSignInID;
+            Trace.WriteLine("CreateUserFromSignInUserID() - Using Identity");
+            userCreated = CreateNewUserFromId(siteID, IdentityUserID, legacyUserID, loginName, email, displayName);
 
             if (userCreated)
             {
@@ -252,13 +243,8 @@ namespace BBC.Dna.Users
         /// <returns>The DNA User ID</returns>
         private int GetDnaUserIDFromSignInID(int signInUserID, SignInSystem signInType)
         {
-            string procedureName = "GetDnaUserIDFromSSOUserID";
-            string signInIDName = "SSOUserID";
-            if (signInType == SignInSystem.Identity)
-            {
-                procedureName = "GetDnaUserIDFromIdentityUserID";
-                signInIDName = "IdentityUserID";
-            }
+            string procedureName = "GetDnaUserIDFromIdentityUserID";
+            string signInIDName = "IdentityUserID";
 
             using (IDnaDataReader reader = CreateStoreProcedureReader(procedureName))
             {
@@ -282,11 +268,11 @@ namespace BBC.Dna.Users
         /// <param name="signInLoginName">The users signin system login name</param>
         /// <param name="signInEmail">The users signin system email address</param>
         /// <param name="displayName">The users signin system display name</param>
-        private bool CreateNewUserFromId(int siteID, int identityUserID, int ssoUserID, string signInLoginName, string signInEmail, string displayName)
+        private bool CreateNewUserFromId(int siteID, string identityUserID, int ssoUserID, string signInLoginName, string signInEmail, string displayName)
         {
             if (siteID != 0)
             {
-                return CreateUserFromSignInUserID(siteID, identityUserID, ssoUserID, signInLoginName, signInEmail, displayName, identityUserID != 0);
+                return CreateUserFromSignInUserID(siteID, identityUserID, ssoUserID, signInLoginName, signInEmail, displayName);
             }
             return false;
         }
@@ -296,33 +282,21 @@ namespace BBC.Dna.Users
         /// </summary>
         /// <param name="siteID">The id of the site the user is being created on</param>
         /// <param name="identityUserID">The users IDentity UserID</param>
-        /// <param name="ssoUserID">The users SSO UserID or Legacy SSO UserID</param>
+        /// <param name="ssoUserID">The users Legacy SSO UserID</param>
         /// <param name="loginName">The users Login Name</param>
         /// <param name="email">The users Email</param>
         /// <param name="displayName">The users displayname</param>
-        /// <param name="identitySignIn">A flag to state that we're on an Identity signin site or SSO site</param>
         /// <returns>True if the user is created, false if not</returns>
-        private bool CreateUserFromSignInUserID(int siteID, int identityUserID, int ssoUserID, string loginName, string email, string displayName, bool identitySignIn)
+        private bool CreateUserFromSignInUserID(int siteID, string identityUserID, int ssoUserID, string loginName, string email, string displayName)
         {
             string procedureName = "createnewuserfromidentityid";
-            if (!identitySignIn)
-            {
-                procedureName = "createnewuserfromssoid";
-            }
 
             using (IDnaDataReader reader = CreateStoreProcedureReader(procedureName))
             {
-                if (identitySignIn)
+                reader.AddParameter("identityuserid", identityUserID);
+                if (ssoUserID > 0)
                 {
-                    reader.AddParameter("identityuserid", identityUserID);
-                    if (ssoUserID > 0)
-                    {
-                        reader.AddParameter("legacyssoid", ssoUserID);
-                    }
-                }
-                else
-                {
-                    reader.AddParameter("ssouserid", ssoUserID);
+                    reader.AddParameter("legacyssoid", ssoUserID);
                 }
 
                 reader.AddParameter("username", loginName);
@@ -402,8 +376,8 @@ namespace BBC.Dna.Users
         public List<UserGroup> GetUsersGroupsForSite()
         {
             // Call the groups service
-            UserGroups = _userGroupsManager.GetUsersGroupsForSite(UserID, SiteID);
-            return UserGroups;
+            UsersListOfGroups = _userGroupsManager.GetUsersGroupsForSite(UserID, SiteID);
+            return UsersListOfGroups;
         }
 
         /// <summary>
@@ -478,11 +452,11 @@ namespace BBC.Dna.Users
                 case UserTypes.BannedUser:
                     {
                         
-                        return _status == 0 || _userGroupsManager.IsItemInList(UserGroups, "banned");
+                        return _status == 0 || UsersListOfGroups.Exists(x => x.Name.ToLower() == "banned");
                     }
                 case UserTypes.Editor:
                     {
-                        return _status == 2 || _userGroupsManager.IsItemInList(UserGroups, "editor");
+                        return _status == 2 || UsersListOfGroups.Exists(x => x.Name.ToLower() == "editor"); 
                     }
                 case UserTypes.SuperUser:
                     {
@@ -490,7 +464,7 @@ namespace BBC.Dna.Users
                     }
                 case UserTypes.Moderator:
                     {
-                        return _userGroupsManager.IsItemInList(UserGroups, "moderator");
+                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "moderator"); 
                     }
                 case UserTypes.NormalUser:
                     {
@@ -498,7 +472,7 @@ namespace BBC.Dna.Users
                     }
                 case UserTypes.Notable:
                     {
-                        return _userGroupsManager.IsItemInList(UserGroups, "notables");
+                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "notables");
                     }
             }
 
@@ -523,7 +497,7 @@ namespace BBC.Dna.Users
                     reader.AddParameter("loginname", signInLoginName);
                     reader.AddParameter("email", signInEmail);
                     reader.AddParameter("siteid", SiteID);
-                    reader.AddParameter("identitysite", IdentityUserID > 0 ? 1 : 0);
+                    reader.AddParameter("identitysite",  1);
                     reader.Execute();
                     if (reader.Read())
                     {

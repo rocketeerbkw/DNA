@@ -4,6 +4,7 @@ using System.Text;
 using System.Web;
 using System.Xml;
 using BBC.Dna.Utils;
+using BBC.Dna.Sites;
 
 namespace BBC.Dna.Component
 {
@@ -28,6 +29,9 @@ namespace BBC.Dna.Component
 		/// <returns>True if ok, false if not</returns>
 		public void InitialisePage(string pageType)
 		{
+            //check the cache once per request
+            AppContext.TheAppContext.TheSiteList = SiteList.GetSiteList();
+
 			//InputContext.Diagnostics.WriteTimedEventToLog("WholePage", "Starting initialise whole page");
 			// Initialise the root for the document
 			XmlNode H2G2 = AddElementTag(RootElement, "H2G2");

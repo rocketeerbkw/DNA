@@ -45,7 +45,7 @@ public partial class BannedEmailsPage : BBC.Dna.Page.DnaWebPage
         }
 
         // Now create the comment forum list object
-        AddComponent(new BannedEmails(_basePage));
+        AddComponent(new BannedEmailsPageBuilder(_basePage));
     }
 
     public override DnaBasePage.UserTypes AllowedUsers

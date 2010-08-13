@@ -98,7 +98,7 @@ namespace Tests
         private string _password = "APITest";
         private string _cookie = "44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00";
         private int _userid = 1090498911;
-        private int _identityuserid = 0;
+        private string _identityuserid = "";
         private string _server = "";
         private string _secureServer = "";
         private HttpWebResponse _response = null;
@@ -475,7 +475,7 @@ namespace Tests
         /// <summary>
         /// Current Identity User ID property
         /// </summary>
-        public int CurrentIdentityUserID
+        public string CurrentIdentityUserID
         {
             get { return _identityuserid; }
         }
@@ -687,7 +687,7 @@ namespace Tests
         /// <returns>The HTTP response object to the request</returns>
         public void RequestPage(string pageAndParams)
         {
-            RequestPage(pageAndParams, false);
+            RequestPage(pageAndParams, false, null);
         }
 
         /// <summary>
@@ -697,7 +697,18 @@ namespace Tests
         /// <returns>The HTTP response object to the request</returns>
         public void RequestSecurePage(string pageAndParams)
         {
-            RequestPage(pageAndParams, true);
+            RequestPage(pageAndParams, true, null);
+        }
+
+        /// <summary>
+        /// This function is used to send the request
+        /// </summary>
+        /// <param name="page">The dna page that you want to call and the associated params</param>
+        /// <param name="postparams">Collection of params for a post request.</param>
+        /// <returns>The HTTP response object to the request</returns>
+        public void RequestPage(string page, Queue<KeyValuePair<string, string>> postparams)
+        {
+            RequestPage(page, false, postparams);
         }
 
         /// <summary>
@@ -705,7 +716,17 @@ namespace Tests
         /// </summary>
         /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
         /// <returns>The HTTP response object to the request</returns>
-        public void RequestPage(string pageAndParams, bool secure)
+        public void RequestSecurePage(string pageAndParams, Queue<KeyValuePair<string, string>> postparams)
+        {
+            RequestPage(pageAndParams, true, postparams);
+        }
+
+        /// <summary>
+        /// This function is used to send the request
+        /// </summary>
+        /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
+        /// <returns>The HTTP response object to the request</returns>
+        public void RequestPage(string pageAndParams, bool secure, Queue<KeyValuePair<string, string>> postparams)
         {
             // Make sure that we clear the last response objects
             _responseAsString = null;
@@ -718,8 +739,7 @@ namespace Tests
                 URL = new Uri("https://" + _secureServer + "/dna/" + _serviceName + "/" + pageAndParams);
                 //URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
 
-                System.Net.ServicePointManager.ServerCertificateValidationCallback =
-                    ((sender, certificate, chain, sslPolicyErrors) => true);
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
 
             }
             else
@@ -784,6 +804,30 @@ namespace Tests
                 {
                     Console.WriteLine("Adding cookie - " + cookie.Name + " : " + cookie.Value);
                     webRequest.CookieContainer.Add(new Uri("http://" + _server + "/"), cookie);
+                }
+            }
+
+            if (postparams != null)
+            {
+                webRequest.Method = "POST";
+                webRequest.ContentType = "application/x-www-form-urlencoded";
+                StringBuilder data = new StringBuilder();
+                foreach (KeyValuePair<string, string> kvp in postparams)
+                {
+                    data.Append("&" + kvp.Key + "=" + kvp.Value);
+                }
+
+
+                // Create a byte array of the data we want to send   
+                byte[] byteData = UTF8Encoding.UTF8.GetBytes(data.ToString());
+
+                // Set the content length in the request headers   
+                webRequest.ContentLength = byteData.Length;
+
+                // Write data   
+                using (Stream postStream = webRequest.GetRequestStream())
+                {
+                    postStream.Write(byteData, 0, byteData.Length);
                 }
             }
 
@@ -861,8 +905,7 @@ namespace Tests
             webRequest.AllowAutoRedirect = false;
 
             //Trust all certificates
-            System.Net.ServicePointManager.ServerCertificateValidationCallback =
-                ((sender, certificate, chain, sslPolicyErrors) => true);
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
 
             if (!String.IsNullOrEmpty(postDataType))
             {
@@ -986,109 +1029,7 @@ namespace Tests
             return; // _response;
         }
 
-        /// <summary>
-        /// This function is used to send the request
-        /// </summary>
-        /// <param name="page">The dna page that you want to call and the associated params</param>
-        /// <param name="postparams">Collection of params for a post request.</param>
-        /// <returns>The HTTP response object to the request</returns>
-        public void RequestPage(string page, Queue<KeyValuePair<string,string> > postparams )
-        {
-            // Make sure that we clear the last response objects
-            _responseAsString = null;
-            _responseAsXML = null;
-
-            // Create the URL and the Request object
-            Uri URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + page);
-            HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
-            webRequest.Method = "POST";
-            webRequest.ContentType = "application/x-www-form-urlencoded";
-            webRequest.Timeout = 400000;
-
-            // Check to see if we require a proxy for the request
-            if (_useProxyPassing)
-            {
-                // Set the proxy
-                webRequest.Proxy = _proxy;
-            }
-            else
-            {
-                webRequest.Proxy = null;
-            }
-
-            // Check to see if we need to authenticate the request as an editor
-            if (_useEditorAuthentication)
-            {
-                webRequest.PreAuthenticate = true;
-                NetworkCredential myCred = new NetworkCredential("editor", "editor");
-                CredentialCache MyCrendentialCache = new CredentialCache();
-                MyCrendentialCache.Add(URL, "Basic", myCred);
-                webRequest.Credentials = MyCrendentialCache;
-            }
-
-            // Check to see if we need to add a cookie
-            if (_cookie.Length >= 66)
-            {
-                // Create and add the cookie to the request
-                Cookie cookie;
-                if (_useIdentity)
-                {
-                    cookie = new Cookie("IDENTITY", _cookie, "/", _server);
-                }
-                else
-                {
-                    cookie = new Cookie("SSO2-UID", _cookie, "/", _server);
-                }
-                webRequest.CookieContainer = new CookieContainer();
-                webRequest.CookieContainer.Add(cookie);
-            }
-
-            foreach (Cookie cookie in _cookieList)
-            {
-                webRequest.CookieContainer.Add(cookie);
-            }
-
-            // Create test data
-            StringBuilder data = new StringBuilder();
-            foreach( KeyValuePair<string, string> kvp in postparams )
-            {
-                data.Append("&" + kvp.Key  + "=" + kvp.Value );
-            }
-
-            // Create a byte array of the data we want to send   
-            byte[] byteData = UTF8Encoding.UTF8.GetBytes(data.ToString());
-
-            // Set the content length in the request headers   
-            webRequest.ContentLength = byteData.Length;
-
-            // Write data   
-            using (Stream postStream = webRequest.GetRequestStream())
-            {
-                postStream.Write(byteData, 0, byteData.Length);
-            }   
-
-            try
-            {
-                // Try to send the request and get the response
-                Console.Write("Requesting page ->");
-                _response = (HttpWebResponse)webRequest.GetResponse();
-                Console.WriteLine(" done");
-            }
-            catch (Exception ex)
-            {
-                // Problems!
-                Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-				_response = null;
-                return;
-            }
-
-            // State that the last request was not for an aspx page
-            _lastRequestWasASPX = false;
-
-			GetLastResponseAsString();
-            // Return the response object
-            return;
-        }
+        
 
         /// <summary>
         /// Uploads a file simulating a multipart/form-data encoded request.

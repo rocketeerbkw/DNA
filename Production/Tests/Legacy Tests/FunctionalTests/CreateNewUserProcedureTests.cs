@@ -162,7 +162,7 @@ namespace FunctionalTests
 
             // setup the test data
             int ssoUserID = 123456789;
-            int identityUserID = 987654321;
+            string identityUserID = "987654321";
             int dnaUserID = 0;
 
             // Simulate a new user signing into dna via SSO

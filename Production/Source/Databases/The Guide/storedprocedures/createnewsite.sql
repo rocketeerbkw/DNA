@@ -87,7 +87,7 @@ BEGIN
 							PrefUserMode, 
 							SiteID, 
 							AgreedTerms)
-		VALUES(0, 0, 0, 0, 0, 0, @defaultskin, 0, @siteid, 
+		VALUES(0, 0, 0, 0, 0, 0, NULL, 0, @siteid, 
 				CASE WHEN @customterms = 1 THEN NULL ELSE 1 END)
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)

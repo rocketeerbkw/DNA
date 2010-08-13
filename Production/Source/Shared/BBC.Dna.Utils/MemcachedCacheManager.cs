@@ -8,6 +8,7 @@ using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Caching.Configuration;
+using System.Xml;
 
 namespace BBC.Dna.Utils
 {
@@ -130,6 +131,8 @@ namespace BBC.Dna.Utils
             return _mc.Stats(servers);
         }
 
+        public int LastCachedOjectSize { get; private set; }
+
         /// <summary>
         /// Returns stats for servers or all servers
         /// </summary>
@@ -138,6 +141,42 @@ namespace BBC.Dna.Utils
         public Hashtable GetStats()
         {
             return GetStats(null);
+        }
+
+
+        /// <summary>
+        /// Returns stats as xml document
+        /// </summary>
+        /// <returns></returns>
+        public XmlElement GetStatsXml()
+        {
+            XmlDocument xml = new XmlDocument();
+            XmlNode xmlEl = xml.AppendChild(xml.CreateElement("MEMCACHED_STATUS"));
+            try
+            {
+                Hashtable stats = GetStats();
+                if(stats.Keys.Count == 0)
+                {
+                    throw new Exception("Empty stats object - no valid servers");
+                }
+                foreach (string key in stats.Keys)
+                {
+                    xmlEl = xmlEl.AppendChild(xml.CreateElement("SERVER"));
+                    xmlEl.Attributes.Append(xml.CreateAttribute("ADDRESS"));
+                    xmlEl.Attributes["ADDRESS"].InnerText = key;
+                    Hashtable serverStats = (Hashtable)stats[key];
+                    foreach (string subKey in serverStats.Keys)
+                    {
+                        var xmlElChild = xmlEl.AppendChild(xml.CreateElement(subKey.ToUpper()));
+                        xmlElChild.InnerText = serverStats[subKey].ToString();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                xmlEl.InnerText = "Unable to get Memcached stats:" + e.Message;
+            }
+            return xml.DocumentElement;
         }
 
         /// <summary>
@@ -204,6 +243,14 @@ namespace BBC.Dna.Utils
                     while (!setSuccess && tries > 0)
                     {
                         setSuccess = _mc.Set(key, value, expiry);
+                        if (!setSuccess)
+                        {
+                            DnaDiagnostics.Default.WriteWarningToLog("CACHING", _mc.LastError);
+                        }
+                        else
+                        {
+                            DnaDiagnostics.Default.WriteToLog("CACHING", _mc.LastSuccess);
+                        }
                         tries--;
                     }
 
@@ -213,6 +260,7 @@ namespace BBC.Dna.Utils
                         Logger.Write(new LogEntry(){Message="Failed to set in memcached", Severity= System.Diagnostics.TraceEventType.Error});
                     }
 
+                    LastCachedOjectSize = _mc.CachedObjectSize;
                 }
 
             }

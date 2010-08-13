@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using BBC.Dna.Api;
 
-namespace BBC.Dna.Objects
+namespace BBC.Dna.Common
 {
     [Serializable]
     public abstract class CachableBase<T> : ICloneable

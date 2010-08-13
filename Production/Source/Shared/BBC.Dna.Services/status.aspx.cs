@@ -8,6 +8,7 @@ using System.Xml;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Collections;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Services
 {
@@ -21,7 +22,13 @@ namespace BBC.Dna.Services
         protected void Page_Load(object sender, EventArgs e)
         {
             int interval = 60;
-            Int32.TryParse(Request.QueryString["interval"], out interval);
+            if (!Int32.TryParse(Request.QueryString["interval"], out interval))
+            {
+                interval = 60;
+            }
+
+
+
 
             if (Request.QueryString["reset"] == "1")
             {
@@ -45,6 +52,21 @@ namespace BBC.Dna.Services
             xmlEl.Attributes["TYPE"].InnerText = "STATUSPAGE";
             xmlEl = xmlEl.AppendChild(xDoc.CreateElement("STATUS-REPORT"));
             xmlEl.AppendChild(xDoc.ImportNode(Statistics.CreateStatisticsDocument(interval).FirstChild, true));
+
+            XmlDocument xmlSignal = new XmlDocument();
+            xmlSignal.LoadXml(StringUtils.SerializeToXmlUsingXmlSerialiser(SignalHelper.GetStatus(Global.dnaDiagnostics)));
+            xmlEl.AppendChild(xDoc.ImportNode(xmlSignal.DocumentElement, true));
+
+            try
+            {
+                var memcachedCacheManager = (MemcachedCacheManager)CacheFactory.GetCacheManager("Memcached");
+                xmlEl.AppendChild(xDoc.ImportNode(memcachedCacheManager.GetStatsXml(), true));
+            }
+            catch (Exception e)
+            {
+                var childNode = xmlEl.AppendChild(xDoc.CreateElement("MEMCACHED_STATUS"));
+                childNode.InnerText = "Error getting memcached stats:" + e.Message;
+            }
 
             Response.ContentType = "text/xml";
             Response.Clear();

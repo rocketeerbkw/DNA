@@ -14,6 +14,7 @@ using BBC.Dna;
 using BBC.Dna.Page;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using BBC.Dna.Sites;
 
 public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
 {
@@ -497,7 +498,7 @@ public partial class SiteConfigEditor : BBC.Dna.Page.DnaWebPage
                 }
                 else
                 {
-                    AppContext.TheAppContext.SendSignal("action=recache-site");
+                    AppContext.TheAppContext.TheSiteList.SendSignal(_basePage.CurrentSite.SiteID);
 
                     // Tell the user we've just saved.
                     message.Text = "\n\rThe site config has now been updated.";

@@ -4,7 +4,7 @@ using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Collections.Generic;
 using System.Linq;
-using BBC.Dna.Objects;
+using BBC.Dna.Common;
 
 
 namespace BBC.Dna.Moderation

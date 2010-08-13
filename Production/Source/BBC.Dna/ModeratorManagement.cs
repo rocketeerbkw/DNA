@@ -4,6 +4,8 @@ using System.Text;
 using System.Xml;
 using BBC.Dna.Moderation;
 using BBC.Dna.Data;
+using BBC.Dna.Utils;
+using BBC.Dna.Users;
 
 namespace BBC.Dna.Component
 {
@@ -131,6 +133,7 @@ namespace BBC.Dna.Component
                 int userId = InputContext.GetParamIntOrZero("userid", "UserId");
 
                 updateUser(groupName, userId);
+                UserGroups.GetObject().SendSignal(userId);
 
                 //Produce Found User XML.
                 XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
@@ -149,10 +152,12 @@ namespace BBC.Dna.Component
             else if (InputContext.DoesParamExist("giveaccess", "Give Access"))
             {
                 GiveAccess(groupName);
+                UserGroups.GetObject().SendSignal();
             }
             else if (InputContext.DoesParamExist("removeaccess", "removeaccess") || InputContext.DoesParamExist("removeallaccess", "removeallaccess"))
             {
                 RemoveAccess(groupName);
+                UserGroups.GetObject().SendSignal();
             }
         }
 

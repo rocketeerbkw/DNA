@@ -30,9 +30,12 @@ namespace RipleyTests
         [TestInitialize]
         public void Setup()
         {
-            _appContext = new AppContext(TestConfig.GetConfig().GetRipleyServerPath());
-            _siteOptionList = new SiteOptionList(AppContext.ReaderCreator, null);
-            _siteOptionList.CreateFromDatabase();
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                _appContext = new AppContext(TestConfig.GetConfig().GetRipleyServerPath());
+                _siteOptionList = new SiteOptionList();
+                _siteOptionList.CreateFromDatabase(inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+            }
             
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.SetCurrentUserNormal();
@@ -67,8 +70,11 @@ namespace RipleyTests
         {
             if (_siteOptionList.GetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites") !=  _includeContentFromOtherSites)
             {
-                //Reset to initial value.
-                _siteOptionList.SetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites", _includeContentFromOtherSites);
+                using (FullInputContext inputcontext = new FullInputContext(false))
+                {
+                    //Reset to initial value.
+                    _siteOptionList.SetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites", _includeContentFromOtherSites, inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+                }
                 
                 //Recache Site Data.
                 DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
@@ -90,7 +96,10 @@ namespace RipleyTests
             
             //Want to test content from the current site only
             //Clear IncludeContentFromOtherSites option
-            _siteOptionList.SetValueBool(_siteId, "PersonalSpace","IncludeContentFromOtherSites", false);
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                _siteOptionList.SetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites", false, inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+            }
 
             int id = request.CurrentUserID;
 
@@ -112,7 +121,10 @@ namespace RipleyTests
 
             //Want to test content from the current site only
             //Clear IncludeContentFromOtherSites option
-            _siteOptionList.SetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites", true);
+            using (FullInputContext inputcontext = new FullInputContext(false))
+            {
+                _siteOptionList.SetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites", true, inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
+            }
 
             int id = request.CurrentUserID;
 

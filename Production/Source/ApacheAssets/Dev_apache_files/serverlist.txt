@@ -1,0 +1,3 @@
+dnaintservers     dnaweb1.national.core.bbc.co.uk|dnaweb3.national.core.bbc.co.uk
+dnatestservers    dnaweb2.national.core.bbc.co.uk|dnaweb4.national.core.bbc.co.uk
+

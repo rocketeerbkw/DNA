@@ -16,6 +16,7 @@ using BBC.Dna;
 using BBC.Dna.Page;
 using BBC.Dna.Component;
 using BBC.Dna.Moderation;
+using BBC.Dna.Users;
 
 
 public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
@@ -673,7 +674,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
             memberList.UpdateModerationStatuses(userIDList, siteIDList, newPrefStatusValue, newPrefStatusDuration);
         }
 
-        AppContext.TheAppContext.SendSignal("action=recache-groups");
+        UserGroups.GetObject().SendSignal();
         GetMemberList();
     }
 

@@ -530,3 +530,24 @@ values in the new BBCDivision column of the Sites table.
 
 MarcusP:
 FTP /dnaimages/dna_messageboards to live - these are the message board admin assets
+
+============== v 3.5.40.0 =============
+SteveF
+-The new IdentityWebProxy.dll will most probably need reregistering from the batch file in the c:\Certs directory
+otherwise the C++ will not work
+
+MarcusP:
+Install Memcached - within source/shared/Memcached.ClientLibrary
+	Copy the "memcached" folder from the "deploy" folder to "d:\program files"
+	Modify the '50' in the line "memcached.exe -d install -m 50" to whatever size the live memcached servers require
+	Run the install.bat file
+	
+Add memcached server details to web.config
+	Add this line within <cachingConfiguration><cacheManagers>
+	<add ServerList="127.0.0.1:11211" type="BBC.Dna.Utils.MemcachedCacheManager, BBC.Dna.Utils, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887" name="Memcached" />
+	
+Replace nightly iisreset script with "IISresetWithMemcached.bat"
+
+Update release notes and run book to include memcached elements restarts
+	
+	
