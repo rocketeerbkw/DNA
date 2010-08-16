@@ -5,8 +5,8 @@
   </TestList>
   <TestList name="Tests Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d">
     <TestLinks>
-      <TestLink id="830f9aa6-5bac-eb5d-6505-d201bd8eddee" name="CloneTest" storage="source\shared\bbc.dna.objects.tests\bin\debug\bbc.dna.objects.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
-      <TestLink id="73de9ce4-5e47-d90f-c5e8-b476705749e6" name="CloneTest" storage="source\shared\bbc.dna.objects.tests\bin\debug\bbc.dna.objects.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="830f9aa6-5bac-eb5d-6505-d201bd8eddee" name="CloneTest" storage="source\shared\bbc.dna.objects.tests\bin\release\bbc.dna.objects.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+      <TestLink id="73de9ce4-5e47-d90f-c5e8-b476705749e6" name="CloneTest" storage="source\shared\bbc.dna.objects.tests\bin\release\bbc.dna.objects.tests.dll" enabled="false" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
     </TestLinks>
   </TestList>
 </TestLists>
