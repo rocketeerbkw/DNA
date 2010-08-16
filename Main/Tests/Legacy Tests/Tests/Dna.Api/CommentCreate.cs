@@ -124,11 +124,6 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
 
-            Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(""))
-            {
-                comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
-            }
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.IdentityPolicy, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
@@ -162,11 +157,6 @@ namespace Tests
 
             CommentForum commentForum = CommentForumCreate(commentForumID);
 
-            Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(""))
-            {
-                comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
-            }
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
@@ -227,11 +217,6 @@ namespace Tests
         [TestMethod]
         public void CommentCreate_BannedUser()
         {
-            Comments comments = null;
-            using (FullInputContext inputcontext = new FullInputContext(""))
-            {
-                comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
-            }
             //set up test data
             CommentInfo comment = new CommentInfo
             {
