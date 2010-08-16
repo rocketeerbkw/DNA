@@ -461,11 +461,10 @@ protected:
 	void ClearDebugCookie();
 	bool CreateDebugCurrentUser(int iDebugUserID);
 	bool m_bSetDebugCookie;
-	CTDVString m_sDebugUserID;
-
 public:
 	bool GetDebugCookieString(CTDVString& sCookie);
 #endif
+	CTDVString m_sDebugUserID;
 
 	protected:
 		DBO* GetWriteDatabaseObject();
