@@ -484,6 +484,10 @@
 				RelativePath="RipleyServer.rc"
 				>
 			</File>
+			<File
+				RelativePath=".\StoredProcedure.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"

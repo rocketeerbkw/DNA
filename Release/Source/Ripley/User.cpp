@@ -4577,7 +4577,7 @@ bool CUser::LoginUserToProfile()
 
 bool CUser::SynchroniseWithProfile( bool bForceUpdate )
 {
-	m_InputContext.WriteInputLog("USER", "SynchroniseWithProfile\n\r");
+	m_InputContext.WriteInputLog("USER", "SynchroniseWithProfile");
 
 	//if you don't have the user data then you can't synchronise
 	if (!GotUserData())
@@ -4666,7 +4666,7 @@ bool CUser::SynchroniseWithProfile( bool bForceUpdate )
 		
 		//Do DB Update
 		if (!SP.SynchroniseUserWithProfile(pFirstNames, pLastName, 
-			m_UserID, sEmail, sLoginName, m_InputContext.GetSiteID(), pDisplayName, m_InputContext.GetSiteUsesIdentitySignIn(m_InputContext.GetSiteID())))
+			m_UserID, sEmail, sLoginName, m_InputContext.GetSiteID(), pDisplayName, m_InputContext.GetSiteUsesIdentitySignIn(m_InputContext.GetSiteID()), &m_LastUpdated))
 		{
 			return false;
 		}
@@ -5303,6 +5303,7 @@ bool CUser::FetchData()
 
 				if (m_LastUpdated < dLastUpdated)
 				{
+					m_LastUpdated = dLastUpdated;
 					SynchroniseWithProfile(true);
 				}
 				else
