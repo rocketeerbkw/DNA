@@ -9,6 +9,21 @@ namespace BBC.Dna.Utils
 {
     public class QueryStringHelper
     {
+        public static bool GetQueryParameterAsBool(string parameterName, bool defaultValue)
+        {
+            WebOperationContext webContext = WebOperationContext.Current;
+            bool retVal = defaultValue;
+
+            try
+            {
+                retVal = bool.Parse(webContext.IncomingRequest.UriTemplateMatch.QueryParameters[parameterName]);
+            }
+            catch (Exception)
+            {
+            }
+            return retVal;
+        }
+
         public static int GetQueryParameterAsInt(string parameterName, int defaultValue)
         {
             WebOperationContext webContext = WebOperationContext.Current;

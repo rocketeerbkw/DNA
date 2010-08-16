@@ -317,7 +317,7 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
             
             Article actual;
-            actual = Article.CreateArticleFromDatabase(creator, entryId);
+            actual = Article.CreateArticleFromDatabase(creator, entryId, false);
             Assert.AreEqual(entryId, actual.EntryId);                        
         }
 
@@ -345,6 +345,9 @@ namespace BBC.Dna.Objects.Tests
             Article actual;
             actual = Article.CreateRandomArticleFromDatabase(creator, 1, 1, -1, -1, -1,-1);
             Assert.AreEqual(ArticleStatus.GetStatus(1).Value, actual.ArticleInfo.Status.Value);
+            Assert.AreEqual(entryId, actual.EntryId);
+            
+            
         }
 
         [TestMethod()]
@@ -363,7 +366,7 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 Article actual;
-                actual = Article.CreateArticleFromDatabase(creator, entryId);
+                actual = Article.CreateArticleFromDatabase(creator, entryId, true);
             }
             catch (Exception e)
             {
@@ -418,11 +421,13 @@ namespace BBC.Dna.Objects.Tests
 
 
             Article actual;
-            actual = Article.CreateArticleFromDatabase(creator, entryId);
+            actual = Article.CreateArticleFromDatabase(creator, entryId, false);
             Assert.AreEqual(entryId, actual.EntryId);
 
             actual.MakeEdittable();
-            Assert.AreEqual("<GUIDE><BODY>this is an\r\n article</BODY></GUIDE>", actual.Guide);
+            Assert.AreEqual("<GUIDE><BODY>this is an\r\n article</BODY></GUIDE>", actual.GuideMLAsString);
+
+
         }
 
         /// <summary>
@@ -446,7 +451,7 @@ namespace BBC.Dna.Objects.Tests
                 ArticleInfo = ArticleInfoTest.CreateArticleInfo(),
                 Subject = String.Empty,
                 ExtraInfo = "<EXTRAINFO><TEXT>test text</TEXT></EXTRAINFO>",
-                Guide =  GuideEntryTest.CreateBlankEntry()
+                GuideMLAsString =  GuideEntryTest.CreateBlankEntry()
             };
         }
     }

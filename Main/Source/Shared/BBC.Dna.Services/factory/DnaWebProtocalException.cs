@@ -109,7 +109,12 @@ namespace BBC.Dna.Services
                 case ErrorType.CategoryNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 case ErrorType.MonthSummaryNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 case ErrorType.IndexNotFound: StatusCode = HttpStatusCode.NotFound; break;
-                case ErrorType.UserNotFound: StatusCode = HttpStatusCode.NotFound; break;
+                case ErrorType.UserNotFound: StatusCode = HttpStatusCode.NotFound; break;                
+                case ErrorType.GuideMLTransformationFailed: StatusCode = HttpStatusCode.InternalServerError; break;
+                case ErrorType.ThreadPostNotFound: StatusCode = HttpStatusCode.NotFound; break;
+                case ErrorType.ThreadNotFound: StatusCode = HttpStatusCode.NotFound; break;
+                case ErrorType.InvalidThreadID: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.ForumIDNotWellFormed: StatusCode = HttpStatusCode.BadRequest; break;                    
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 

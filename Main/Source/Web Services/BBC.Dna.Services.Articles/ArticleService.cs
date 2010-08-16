@@ -32,8 +32,11 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetArticle(string siteName, string articleId)
         {
-            var article = Article.CreateArticle(cacheManager, readerCreator, null, Int32.Parse(articleId));
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
 
+            var article = Article.CreateArticle(cacheManager, readerCreator, null, Int32.Parse(articleId), applySkin);
+
+            //article.Guide = "";
             return GetOutputStream(article);
         }
 

@@ -5,12 +5,10 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Data;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
-
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {
-    
-    
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
@@ -18,7 +16,7 @@ namespace BBC.Dna.Objects
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "POST")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "POST")]
     [DataContract(Name="threadPost")]
-    public partial class ThreadPost
+    public partial class ThreadPost 
     {
         #region Properties
         /// <remarks/>
@@ -147,7 +145,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "INDEX")]
         [DataMember(Name = "index")]
-        public byte Index
+        public int Index
         {
             get;
             set;
@@ -273,6 +271,10 @@ namespace BBC.Dna.Objects
         
         #endregion
 
+        public ThreadPost()
+        {
+        }
+
         /// <summary>
         /// Formats the post
         /// </summary>
@@ -293,8 +295,8 @@ namespace BBC.Dna.Objects
             inputText = HtmlUtils.ReplaceCRsWithBRs(inputText);
 
             return inputText;
-
         }
+
 
 
 
@@ -317,7 +319,31 @@ namespace BBC.Dna.Objects
                 }
                 else
                 {
-                    throw new Exception("Invalid post id");
+                    throw new ApiException("Thread post not found.", ErrorType.ThreadPostNotFound);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="postId"></param>
+        /// <returns></returns>
+        static public ThreadPost FetchPostFromDatabase(IDnaDataReaderCreator readerCreator, int postId)
+        {
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("fetchpostdetails"))
+            {
+                reader.AddParameter("postid", postId);
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    return ThreadPost.CreateThreadPostFromReader(reader, postId);
+                }
+                else
+                {
+                    throw new ApiException("Thread post not found.", ErrorType.ThreadPostNotFound);
                 }
             }
         }
@@ -356,6 +382,10 @@ namespace BBC.Dna.Objects
                 post.InReplyToIndex = reader.GetInt32NullAsZero(prefix + "replypostindex");
             }
 
+            if (reader.DoesFieldExist(prefix +"postindex"))
+            {
+                post.Index = reader.GetInt32NullAsZero(prefix + "postindex");
+            }
             
             if (reader.DoesFieldExist(prefix +"prevSibling"))
             {
@@ -375,7 +405,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"subject"))
             {
-                post.Subject = reader["subject"] as string;
+                post.Subject = reader.GetStringNullAsEmpty("subject");
             }
             if (reader.DoesFieldExist(prefix + "datePosted") && reader[prefix + "datePosted"] != DBNull.Value)
             {
@@ -383,7 +413,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"postStyle"))
             {
-                post.Style = (PostStyle.Style)reader.GetByteNullAsZero(prefix + "postStyle");
+                post.Style =  (PostStyle.Style)reader.GetByteNullAsZero(prefix + "postStyle");
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
@@ -426,5 +456,56 @@ namespace BBC.Dna.Objects
             return post;
         }
 
+        /// <summary>
+        /// Prepares all the pre-requisites for a post.
+        /// </summary>
+        /// <param name="userId"> Post using the specified user.</param>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
+        /// <param name="replyTo"></param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="postStyle">Th estyle of the post</param>
+        /// <param name="ignoreModeration"> Allow automated posts.</param>
+        /// <param name="postId"> New postId</param>
+        /// <param name="isQueued"> Indicates whether post was Queued</param>
+        /// <param name="isPreModPosting"></param>
+        /// <param name="isPreModerated"></param>
+        public void CreateForumPost(IDnaDataReaderCreator readerCreator, int userid, int forumId, bool ignoreModeration, bool isNotable, string ipAddress, Guid bbcUID, bool isComment, bool allowQueuing, bool forcePreModerate, bool forceModeration)
+        {
+
+            String source = this.Subject + "<:>" + this.Text + "<:>" + Convert.ToString(userid) + "<:>" + Convert.ToString(forumId) + "<:>" + Convert.ToString(ThreadId) + "<:>" + Convert.ToString(this.InReplyTo);
+            Guid hash = DnaHasher.GenerateHash(source);
+
+            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("posttoforum"))
+            {
+                dataReader.AddParameter("userid", userid);
+                dataReader.AddParameter("forumid", forumId);
+                dataReader.AddParameter("inreplyto", this.InReplyTo);
+                dataReader.AddParameter("threadid",  ThreadId);
+                dataReader.AddParameter("subject", this.Subject);
+                dataReader.AddParameter("content", this.Text);
+                dataReader.AddParameter("poststyle", this.Style);
+                dataReader.AddParameter("hash", hash);
+                dataReader.AddParameter("forcemoderate", forceModeration);
+                dataReader.AddParameter("forcepremoderation", forcePreModerate);
+                dataReader.AddParameter("ignoremoderation", ignoreModeration);
+                dataReader.AddParameter("ipaddress", ipAddress);
+                dataReader.AddParameter("bbcuid", bbcUID);
+                dataReader.AddParameter("allowqueuing", allowQueuing);
+                dataReader.AddParameter("isnotable", isNotable);
+                dataReader.AddParameter("iscomment", isComment);
+                dataReader.Execute();
+
+                if (dataReader.Read())
+                {
+                    this.PostId = dataReader.GetInt32NullAsZero("postid");
+                    this.ThreadId = dataReader.GetInt32NullAsZero("threadid");
+                    // isPreModPosting = dataReader.GetBoolean("ispremodposting");                    
+                    // isPreModerated = dataReader.GetBoolean("ispremoderated");
+                    // isQueued = dataReader.GetBoolean("wasqueued");
+                }
+            }
+        }
     }
 }

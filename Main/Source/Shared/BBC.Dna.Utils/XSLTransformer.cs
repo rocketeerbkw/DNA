@@ -16,6 +16,8 @@ namespace BBC.Dna.Utils
     {
         public static Processor processor = new Processor();
         private static Dictionary<string, XslCompiledTransform> _cachedXslt = new Dictionary<string, XslCompiledTransform>();
+
+
         /// <summary>
         /// The MS Xslt transformer method
         /// </summary>
@@ -23,7 +25,7 @@ namespace BBC.Dna.Utils
         /// <param name="testXML">The xml to test against</param>
         /// <param name="numberOfErrors">A counter that will be incremented if an error occures</param>
         /// <returns>The result of the test. Possible results are XML errors, Xslt errors, File Errors and Success</returns>
-        private string TransformUsingXslt(string xslFile, XmlDocument testXML, ref int numberOfErrors)
+        public static string TransformUsingXslt(string xslFile, XmlDocument testXML, ref int numberOfErrors)
         {
             try
             {
@@ -155,8 +157,6 @@ namespace BBC.Dna.Utils
 
                 XdmDestination output = new XdmDestination();
                 transformer.Run(output);
-
-                
 
                 return output.XdmNode.OuterXml;
             }

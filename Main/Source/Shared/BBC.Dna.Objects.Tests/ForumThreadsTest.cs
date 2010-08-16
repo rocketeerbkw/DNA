@@ -8,6 +8,7 @@ using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
 using BBC.Dna.Objects;
 using BBC.Dna.Common;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -677,6 +678,151 @@ namespace BBC.Dna.Objects.Tests
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
+
+        [TestMethod]
+        public void FetchPostFromDatabase_WithValidValues_ReturnsValidObject()
+        {
+            int threadId = 11;
+            int siteId = 5;
+            int postid = 123;
+            string subject = "test subject";
+            string text = "text";
+            int hidden = 0;
+            int postindex = 11;
+            int postStyle = 0;
+            DateTime datePosted = DateTime.Now;
+
+            // 1) prepare the test            
+            IDnaDataReaderCreator readerCreator;
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+
+            reader.Stub(x => x.DoesFieldExist("postid")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("postid")).Return(postid);
+            reader.Stub(x => x.DoesFieldExist("threadid")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("threadid")).Return(threadId);
+            reader.Stub(x => x.DoesFieldExist("siteid")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("siteid")).Return(siteId);
+            reader.Stub(x => x.DoesFieldExist("datePosted")).Return(true);
+            reader.Stub(x => x.GetDateTime("datePosted")).Return(datePosted);
+            reader.Stub(x => x.DoesFieldExist("postindex")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("postindex")).Return(postindex);            
+            reader.Stub(x => x.DoesFieldExist("subject")).Return(true);
+            reader.Stub(x => x.GetStringNullAsEmpty("subject")).Return(subject);
+            reader.Stub(x => x.DoesFieldExist("text")).Return(true);
+            reader.Stub(x => x.GetStringNullAsEmpty("text")).Return(text);
+            reader.Stub(x => x.DoesFieldExist("postStyle")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("postStyle")).Return(postStyle);            
+            reader.Stub(x => x.DoesFieldExist("hidden")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("hidden")).Return(hidden);
+
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("fetchpostdetails")).Return(reader);
+            Mocks.ReplayAll();
+
+            // 2) execute the test
+            ThreadPost threadPost = ThreadPost.FetchPostFromDatabase(creator, postid);
+
+            // 3) verify the results
+            Assert.AreEqual(postid, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+            Assert.AreEqual(datePosted.ToShortDateString(), threadPost.DatePosted.Date.DateTime.ToShortDateString());
+            Assert.AreEqual(postindex, threadPost.Index);
+            Assert.AreEqual(subject, threadPost.Subject);
+            Assert.AreEqual(text, threadPost.Text);
+            Assert.AreEqual(postStyle, (int)threadPost.Style);
+            Assert.AreEqual(hidden, (int)threadPost.Hidden);
+        }
+
+
+        [TestMethod]
+        public void FetchPostFromDatabase_WithNonExistingPost_ThrowsException()
+        {
+            int postid = 123;
+
+            // 1) prepare the test                        
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.Read()).Return(false);
+            reader.Stub(x => x.CanCache).Return(false);
+
+            var readerCreator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            readerCreator.Stub(x => x.CreateDnaDataReader("fetchpostdetails")).Return(reader);
+            Mocks.ReplayAll();
+
+            // 2) execute the test
+            ThreadPost threadPost;
+            try
+            {
+                threadPost = ThreadPost.FetchPostFromDatabase(readerCreator, postid);
+            }
+            catch (ApiException e)
+            {
+
+                // 3) verify the results
+                Assert.AreEqual(e.type, ErrorType.ThreadPostNotFound);
+            }
+        }
+
+        [TestMethod]
+        public void CreateThreadPost_WithValidValues_CreatesRecord()
+        {
+            // 1) prepare the test
+            int postid = 222;
+            int threadid = 333;
+            int userid = 999;
+            int forumid = 888;
+            int inReplyTo = 123;
+            int threadId = 465;
+            string subject = "subject";
+            string text = "text";
+            bool ignoreModeration = true;
+            bool notablable = true;
+            bool iscomment = false;
+            string ipAddress = "1.1.1.1";
+            Guid bbcUID = Guid.NewGuid();
+            bool allowQueing = false;
+            bool forcePreModerate = true;
+            bool forceModerate = true;
+
+            // essential details
+            ThreadPost newThreadPost = new ThreadPost();            
+            newThreadPost.InReplyTo = inReplyTo;
+            newThreadPost.ThreadId = threadId;
+            newThreadPost.Subject = "subject";
+            newThreadPost.Text = "text";
+            newThreadPost.Style = PostStyle.Style.richtext;
+
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("postid")).Return(postid);
+            reader.Stub(x => x.GetInt32NullAsZero("threadid")).Return(threadid);             
+
+            var readerCreator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            readerCreator.Stub(x => x.CreateDnaDataReader("posttoforum")).Return(reader);
+            Mocks.ReplayAll();
+
+            // 2) execute the test
+            newThreadPost.CreateForumPost(readerCreator,
+                userid,
+                forumid,
+                ignoreModeration,
+                notablable,
+                ipAddress,
+                bbcUID,
+                iscomment,
+                allowQueing,
+                forcePreModerate,
+                forceModerate);
+
+            // 3) verify the results
+            Assert.AreEqual(postid, newThreadPost.PostId);
+            Assert.AreEqual(threadid, newThreadPost.ThreadId);
+
+        }
+
 
         /// <summary>
         ///A test for IsUpToDate

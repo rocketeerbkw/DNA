@@ -199,7 +199,7 @@ namespace BBC.Dna.Objects
                         category.IsRoot = false;
                     }
 
-                    category.Article = Article.CreateArticle(cache, readerCreator, viewingUser, category.H2g2id);
+                    category.Article = Article.CreateArticle(cache, readerCreator, viewingUser, category.H2g2id, true);
                     category.Ancestry = CategorySummary.GetCategoryAncestry(readerCreator, category.NodeId);
                     category.Children = new CategoryChildren();
                     category.Children.SubCategories = CategorySummary.GetChildCategories(readerCreator, category.NodeId);

@@ -17,6 +17,7 @@ using Microsoft.ServiceModel.Web;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
+using System.Web;
 
 
 
@@ -136,7 +137,7 @@ namespace BBC.Dna.Services
 
             //set the language code
             var languageCode = siteList.GetSiteOptionValueString(site.SiteID, "General", "SiteLanguage");
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", languageCode);
+            //WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", languageCode);
 
             return site;
         }

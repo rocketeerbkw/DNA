@@ -72,7 +72,7 @@ namespace BBC.Dna.Objects
 //add article back to object
                     if (includeArticle && source.ArticleH2G2Id != 0)
                     {
-                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id);
+                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, true);
                     }
                     return source;
                 }
@@ -209,7 +209,7 @@ namespace BBC.Dna.Objects
                     if (includeArticle)
                     {
                         source.ArticleH2G2Id = dataReader.GetInt32NullAsZero("h2g2ID");
-                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id);
+                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, true);
                     }
                 }
                 return source;
