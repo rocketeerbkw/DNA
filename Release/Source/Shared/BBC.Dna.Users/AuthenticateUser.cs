@@ -56,6 +56,8 @@ namespace BBC.Dna.Users
             {
                 _signInComponent = SignInComponentFactory.CreateSignInComponent(_debugIdentityUserID, SignInSystem.DebugIdentity);
             }
+#else
+            _debugIdentityUserID = "";
 #endif
         }
 
