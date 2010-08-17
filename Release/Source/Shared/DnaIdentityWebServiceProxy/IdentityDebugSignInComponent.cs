@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-//#if DEBUG
 using BBC.Dna.Data;
 using System.DirectoryServices;
 using System.Diagnostics;
@@ -683,4 +682,3 @@ namespace DnaIdentityWebServiceProxy
         #endregion
     }
 }
-//#endif

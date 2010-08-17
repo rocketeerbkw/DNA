@@ -150,12 +150,10 @@ namespace DnaIdentityWebServiceProxy
         /// </summary>
         string GetSecureCookieValue { get; }
 
-#if DEBUG
         /// <summary>
         /// Debugging feature for logging out users
         /// </summary>
         void LogoutUser();
-#endif
 
         /// <summary>
         /// Gets the last known error as a string
