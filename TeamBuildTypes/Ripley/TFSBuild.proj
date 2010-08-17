@@ -307,7 +307,7 @@
     </Exec>
     <Error Text="Error while deploying to Web1: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
 
-    <Exec Command='"$(SolutionRoot)\Main\Source\ripley\eployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web3\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web3 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web3_deployripley.txt"' ContinueOnError='true' >
+    <Exec Command='"$(SolutionRoot)\Main\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web3\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web3 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web3_deployripley.txt"' ContinueOnError='true' >
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
     <Error Text="Error while deploying to Web3: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
