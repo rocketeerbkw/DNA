@@ -229,8 +229,9 @@
   </ItemGroup>
 
   <Target Name="AfterDropBuild">
-    <CallTarget Targets="DeployLocal" />
     <CallTarget Targets="DeployInt" />
+    <CallTarget Targets="DeployLocal" />
+    
   </Target>
 
 
