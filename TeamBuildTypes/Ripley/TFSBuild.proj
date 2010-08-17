@@ -263,17 +263,8 @@
 
     <Exec Command="net stop &quot;memcached server&quot;" Timeout="10000" ContinueOnError="true"></Exec>
 
-    
-    <Message Text="Ripley files: @(Ripley)"></Message>
-
-    <Exec Command="delete &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
-
-    <Exec Command="rename &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.dll&quot; &quot;C:\Inetpub\wwwroot\h2g2UnitTesting\RipleyServer.old&quot;" Timeout="10000" ContinueOnError="true"></Exec>
-
     <!-- Copy ripley dlls -->
     <Copy SourceFiles="@(Ripley)" DestinationFolder="C:\Inetpub\wwwroot\h2g2UnitTesting\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="true"/>
-
-    <Exec Command="CMD &quot;C:\TFSScripts\UnloadTestWeb.bat&quot;" Timeout="10000"></Exec>
 
     <Exec Command="net start &quot;memcached server&quot;" Timeout="10000" ContinueOnError="true"></Exec>
 
@@ -311,12 +302,12 @@
     <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /u:dna_admin sotzed03"></Exec>
 
 
-    <Exec Command='"$(SolutionRoot)\Main\Source\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web1\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web1 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web1_deployripley.txt"' ContinueOnError='true'>
+    <Exec Command='"$(SolutionRoot)\Main\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web1\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web1 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web1_deployripley.txt"' ContinueOnError='true'>
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
     <Error Text="Error while deploying to Web1: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
 
-    <Exec Command='"$(SolutionRoot)\Main\Source\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web3\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web3 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web3_deployripley.txt"' ContinueOnError='true' >
+    <Exec Command='"$(SolutionRoot)\Main\Source\ripley\eployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web3\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web3 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web3_deployripley.txt"' ContinueOnError='true' >
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
     <Error Text="Error while deploying to Web3: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
