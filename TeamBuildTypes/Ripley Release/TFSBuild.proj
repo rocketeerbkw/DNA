@@ -229,9 +229,13 @@
 
   <Target Name="AfterDropBuild">
     <CallTarget Targets="DeployTest" />
+    <CallTarget Targets="DeployToPublishFolder" />
   </Target>
 
+  <ItemGroup>
+    <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
 
+  </ItemGroup>
 
   <!-- do post build step stuff -->
 
@@ -286,6 +290,34 @@
     <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /D"></Exec>
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  </Target>
+
+  <Target Name="DeployToPublishFolder">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to deploy folder" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
+    </BuildStep>
+    <!-- Get the version of BBC.Dna.dll -->
+    <!-- Version VersionFile="$(BinariesRoot)\Release\BBC.Dna.Api.dll" RevisionType="None">
+      <Output TaskParameter="Major" PropertyName="Major" />
+      <Output TaskParameter="Minor" PropertyName="Minor" />
+      <Output TaskParameter="Build" PropertyName="Build" />
+      <Output TaskParameter="Revision" PropertyName="Revision" />
+    </Version -->
+    <!-- create the deploy dir variable-->
+    <PropertyGroup>
+      <DeployDir>C:\RipleyRelease\deploy\</DeployDir>
+    </PropertyGroup>
+
+    <!-- delete existing files -->
+    <Copy SourceFiles="@(Ripley)" DestinationFolder="$(DeployDir)wwwroot\h2g2\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <OnError ExecuteTargets="DeployToPublishFolderFailed" />
+  </Target>
+  <Target Name="DeployToPublishFolderFailed">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 
 </Project>
