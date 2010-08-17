@@ -57,7 +57,7 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         public static ForumSource CreateForumSource(ICacheManager cache, IDnaDataReaderCreator creator, User viewingUser,
                                                     int forumId, int threadId, int siteId, bool includeArticle,
-                                                    bool ignoreCache)
+                                                    bool ignoreCache, bool applySkin)
         {
             var source = new ForumSource();
             string key = source.GetCacheKey(forumId, threadId, siteId);
@@ -72,7 +72,7 @@ namespace BBC.Dna.Objects
 //add article back to object
                     if (includeArticle && source.ArticleH2G2Id != 0)
                     {
-                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, true);
+                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, applySkin);
                     }
                     return source;
                 }

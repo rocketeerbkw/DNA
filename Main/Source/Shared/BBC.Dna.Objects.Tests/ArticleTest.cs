@@ -5,6 +5,7 @@ using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
+using System.Configuration;
 
 
 
@@ -343,7 +344,7 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
 
             Article actual;
-            actual = Article.CreateRandomArticleFromDatabase(creator, 1, 1, -1, -1, -1,-1);
+            actual = Article.CreateRandomArticleFromDatabase(creator, 1, 1, -1, -1, -1,-1, false);
             Assert.AreEqual(ArticleStatus.GetStatus(1).Value, actual.ArticleInfo.Status.Value);
             Assert.AreEqual(entryId, actual.EntryId);
             
@@ -389,7 +390,7 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 Article actual;
-                actual = Article.CreateRandomArticleFromDatabase(creator, 1, -1, -1, -1, -1, -1);
+                actual = Article.CreateRandomArticleFromDatabase(creator, 1, -1, -1, -1, -1, -1, false );
             }
             catch (Exception e)
             {

@@ -415,7 +415,7 @@ namespace BBC.Dna.Objects.Tests
             }
             catch(Exception e) 
             {
-                Assert.AreEqual(e.Message, "Invalid post id");
+                Assert.AreEqual(e.Message, "Thread post not found.");
             }
 
             

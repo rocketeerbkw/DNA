@@ -479,7 +479,8 @@ namespace BBC.Dna.Objects
                                                                                 int status2,
                                                                                 int status3,
                                                                                 int status4,
-                                                                                int status5 )
+                                                                                int status5,
+                                                                                bool applySkin)
         {
             Article article = null;
             // fetch all the lovely intellectual property from the database
@@ -501,7 +502,7 @@ namespace BBC.Dna.Objects
                 }
                 else
                 {
-                    article = CreateArticleFromReader(readerCreator, reader, true);
+                    article = CreateArticleFromReader(readerCreator, reader, applySkin);
 
                     //not created so scream
                     if (article == null)
@@ -565,12 +566,9 @@ namespace BBC.Dna.Objects
             article.GetBookmarkCount(readerCreator);
             article.GuideMLAsString = reader.GetString("text");
 
-            if (article.GuideMLAsString != null &&
-                article.GuideMLAsXmlElement.ParentNode.SelectSingleNode("//GUIDE") != null)
+           if (article.GuideMLAsString != null && article.GuideMLAsXmlElement != null)
             {
-                article.ArticleInfo.GetReferences(readerCreator,
-                                                  article.GuideMLAsXmlElement.ParentNode.SelectSingleNode(
-                                                      "//GUIDE"));
+                article.ArticleInfo.GetReferences(readerCreator, article.GuideMLAsXmlElement);
             }
 
             //get forum style
@@ -647,12 +645,13 @@ namespace BBC.Dna.Objects
                                                     int status3,
                                                     int status4,
                                                     int status5, 
-                                                    bool ignoreCache)
+                                                    bool ignoreCache,
+                                                    bool applySkin)
         {
             var article = new Article();
 
             //create from db
-            article = CreateRandomArticleFromDatabase(readerCreator, siteId, status1, status2, status3, status4, status5);
+            article = CreateRandomArticleFromDatabase(readerCreator, siteId, status1, status2, status3, status4, status5, applySkin);
 
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
@@ -696,9 +695,10 @@ namespace BBC.Dna.Objects
                                                     int status2,
                                                     int status3,
                                                     int status4,
-                                                    int status5)
+                                                    int status5, 
+                                                    bool applySkin)
         {
-            return CreateRandomArticle(cache, readerCreator, viewingUser, siteId, status1, status2, status3, status4, status5, false);
+            return CreateRandomArticle(cache, readerCreator, viewingUser, siteId, status1, status2, status3, status4, status5, false, applySkin);
         }
 
         /// <summary>

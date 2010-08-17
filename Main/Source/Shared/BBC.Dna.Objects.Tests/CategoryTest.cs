@@ -226,8 +226,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.IsNotNull(actual.Children);
             Assert.IsNotNull(actual.Children.SubCategories);
             Assert.IsNotNull(actual.Children.Articles);
-            Assert.IsNotNull(actual.Article);
-            Assert.AreSame(article, actual.Article);
+            Assert.IsNotNull(actual.Article);           
         }
         
         /// <summary>
