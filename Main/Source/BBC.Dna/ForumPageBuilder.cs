@@ -71,7 +71,7 @@ namespace BBC.Dna
             //add forumsource
             ForumSource forumSource = ForumSource.CreateForumSource(_cache, _creator, _viewingUser, _forumId, _threadId,
                                                                     InputContext.CurrentSite.SiteID,
-                                                                    true, _ignoreCache);
+                                                                    true, _ignoreCache, true);
 
             if (forumSource == null)
             {
