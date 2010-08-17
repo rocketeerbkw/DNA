@@ -229,17 +229,30 @@
   </ItemGroup>
 
   <Target Name="AfterDropBuild">
-    <CallTarget Targets="PostBuildStep" />
+    <CallTarget Targets="DeployLocal" />
+    <CallTarget Targets="DeployInt" />
   </Target>
 
+
+
   <ItemGroup>
-    <Ripley Include="$(BinariesRoot)\Win32\Debug\*.*"></Ripley>
+    <Schemas Include="$(SolutionRoot)\Source\schemas\**\*.*"></Schemas>
+    <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
+    <DnaPages Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*"></DnaPages>
+    <CommentsApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*"></CommentsApi>
+    <ModerationApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*"></ModerationApi>
+    <ArticlesApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Articles\**\*.*"></ArticlesApi>
+    <CategoriesApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.*"></CategoriesApi>
+    <ForumsApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.*"></ForumsApi>
+    <UsersApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Users\**\*.*"></UsersApi>
+    <Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
+    <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.*"></Ripley>
   </ItemGroup>
 
 
-  <Target Name="PostBuildStep">
+  <Target Name="DeployLocal">
     <!-- Create the build steps which start in mode "Running" -->
-    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to test server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to local test server" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
@@ -278,6 +291,66 @@
   <Target Name="FailedBeforeTest">
     <!-- start website to copy ripley -->
     <Exec Command="iisweb /start h2g2UnitTesting" Timeout="10000"></Exec>
+    <!-- Change the status of the task to "Failed" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  </Target>
+
+
+  <!-- do post build step stuff -->
+
+  <Target Name="DeployInt">
+    <!-- Create the build steps which start in mode "Running" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to integration server" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
+    </BuildStep>
+
+    <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
+    <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /u:dna_admin sotzed03"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /u:dna_admin sotzed03"></Exec>
+
+
+    <Exec Command='"$(SolutionRoot)\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web1\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web1 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web1_deployripley.txt"' ContinueOnError='true'>
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+    <Error Text="Error while deploying to Web1: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
+
+    <Exec Command='"$(SolutionRoot)\deploywebservices.bat" "$(BinariesRoot)" "\\vp-dev-dna-web3\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web3 Debug > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web3_deployripley.txt"' ContinueOnError='true' >
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+    </Exec>
+    <Error Text="Error while deploying to Web3: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
+
+
+    <!-- Close Access to vp-dev-dna-web1 -->
+    <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /D"></Exec>
+
+
+    <!-- warm up servers -->
+    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2/status-n" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/api/comments/status.aspx" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/h2g2/status-n" FileName="templates.html" ContinueOnError="true" />
+    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/api/comments/status.aspx" FileName="templates.html" ContinueOnError="true" />
+
+
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+
+    <!-- If an error occurs during the process, run the target "PostBuildStepFailed" -->
+    <OnError ExecuteTargets="PostBuildStepFailed" />
+  </Target>
+
+
+  <Target Name="PostBuildStepFailed">
+    <!-- start website to copy ripley -->
+    <Exec Command="sc \\vp-dev-dna-web1 start w3svc"></Exec>
+    <Exec Command="sc \\vp-dev-dna-web3 start w3svc"></Exec>
+
+    <!-- Close Access to vp-dev-dna-web1 -->
+    <Exec Command="NET USE \\vp-dev-dna-web1\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /D"></Exec>
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
