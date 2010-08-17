@@ -189,7 +189,7 @@
 	</ItemGroup>
 
     <ItemGroup Condition=" '$(Platform)' == 'Any CPU' ">
-      <TestContainer Include="$(BinariesRoot)\%2a%2a\%2a.Tests.dll" />
+      <TestContainer Include="$(BinariesRoot)\%2a%2a\BBC.Dna.%2a.Tests.dll" />
     </ItemGroup>
       <PropertyGroup>
         <RunConfigFile>$(SolutionRoot)\bbc.dna.tests.testrunconfig</RunConfigFile>
@@ -303,10 +303,8 @@
 
 
     <!-- warm up servers -->
-    <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
     <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/h2g2/status-n" FileName="templates.html" ContinueOnError="true" />
     <WebDownload FileUri="http://dnaweb1.national.core.bbc.co.uk/dna/api/comments/status.aspx" FileName="templates.html" ContinueOnError="true" />
-    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
     <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/h2g2/status-n" FileName="templates.html" ContinueOnError="true" />
     <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/api/comments/status.aspx" FileName="templates.html" ContinueOnError="true" />
 
