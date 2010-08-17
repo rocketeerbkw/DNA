@@ -129,6 +129,7 @@ namespace BBC.Dna.Objects.Tests
             gethierarchynodedetails2Reader.Stub(x => x.HasRows).Return(true);
             gethierarchynodedetails2Reader.Stub(x => x.Read()).Return(true).Repeat.Times(8);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("h2g2ID")).Return(_test_h2g2id);
+            gethierarchynodedetails2Reader.Stub(x => x.GetInt32("IsMainArticle")).Return(1);
             readerCreator.Stub(x => x.CreateDnaDataReader("gethierarchynodedetails2")).Return(gethierarchynodedetails2Reader).Constraints(Is.Anything());
 
             // EXECUTE THE TEST            
@@ -202,6 +203,7 @@ namespace BBC.Dna.Objects.Tests
             gethierarchynodedetails2Reader.Stub(x => x.GetStringNullAsEmpty("Description")).Return("TestDescription");
             gethierarchynodedetails2Reader.Stub(x => x.GetStringNullAsEmpty("synonyms")).Return("synonyms");
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("h2g2ID")).Return(_test_h2g2id);
+            gethierarchynodedetails2Reader.Stub(x => x.GetInt32("IsMainArticle")).Return(1);
             gethierarchynodedetails2Reader.Stub(x => x.GetTinyIntAsInt("userAdd")).Return(1);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("type")).Return(2);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("nodeID")).Return(_test_nodeID);
@@ -252,6 +254,7 @@ namespace BBC.Dna.Objects.Tests
             gethierarchynodedetails2Reader.Stub(x => x.HasRows).Return(true);
             gethierarchynodedetails2Reader.Stub(x => x.Read()).Return(true).Repeat.Times(8);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("h2g2ID")).Return(_test_h2g2id);
+            gethierarchynodedetails2Reader.Stub(x => x.GetInt32("IsMainArticle")).Return(1);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("ParentID")).Return(_test_ParentID_NonRoot);
             readerCreator.Stub(x => x.CreateDnaDataReader("gethierarchynodedetails2")).Return(gethierarchynodedetails2Reader).Constraints(Is.Anything());
 
@@ -287,6 +290,8 @@ namespace BBC.Dna.Objects.Tests
             gethierarchynodedetails2Reader.Stub(x => x.HasRows).Return(true);
             gethierarchynodedetails2Reader.Stub(x => x.Read()).Return(true).Repeat.Times(8);
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("h2g2ID")).Return(_test_h2g2id);
+            gethierarchynodedetails2Reader.Stub(x => x.GetInt32("IsMainArticle")).Return(1);
+
             gethierarchynodedetails2Reader.Stub(x => x.GetInt32NullAsZero("ParentID")).Return(_test_ParentID_Root);
             readerCreator.Stub(x => x.CreateDnaDataReader("gethierarchynodedetails2")).Return(gethierarchynodedetails2Reader).Constraints(Is.Anything());
 
