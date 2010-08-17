@@ -23,6 +23,7 @@ using System.Web;
 
 namespace BBC.Dna.Services
 {
+
     public class baseService
     {
         
@@ -53,6 +54,7 @@ namespace BBC.Dna.Services
         protected string _iPAddress = String.Empty;
         protected string debugDnaUserId;
         protected IDnaDiagnostics dnaDiagnostic;
+        protected string _languageCode = "en";
 
         public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
         {
@@ -136,8 +138,7 @@ namespace BBC.Dna.Services
             }
 
             //set the language code
-            var languageCode = siteList.GetSiteOptionValueString(site.SiteID, "General", "SiteLanguage");
-            //WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", languageCode);
+            _languageCode = siteList.GetSiteOptionValueString(site.SiteID, "General", "SiteLanguage");
 
             return site;
         }
@@ -245,6 +246,8 @@ namespace BBC.Dna.Services
             WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
             MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output));
             XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
             //add to cache
             AddOutputToCache(output, GetCacheKey(), lastUpdated);
             return xmlTextWriter.BaseStream;
@@ -339,5 +342,6 @@ namespace BBC.Dna.Services
                 format + CacheDelimiter +
                 prefix + CacheDelimiter;
         }
+
     }
 }
