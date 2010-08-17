@@ -18,15 +18,11 @@ sc \\%varServerName% stop "memcached server"
 sleep 5
 
 echo Copying Ripley
-robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\ %varRobocopyParams%
+robocopy %varBinaryRoot%\Win32\%varBuildConfig%\RipleyServer.dll %varServerLocation%\ %varRobocopyParams%
 
 echo Starting IIS
 sc \\%varServerName% start "memcached server"
 sc \\%varServerName% start w3svc
-
-echo Deploying Filter.reg
-REG IMPORT %varFilterReg%
-REG COPY "HKLM\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes" "\\%varServerName%\HKLM\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes" /f /s
 
 echo ErrorLevel: %ERRORLEVEL%
 exit %ERRORLEVEL% 
