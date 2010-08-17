@@ -7,8 +7,8 @@
     <ProjectGuid>{344FF2EF-8DD5-4FAB-991B-6A1D1E4B0F56}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BBC.Dna.Services.Comments.Functional.Tests</RootNamespace>
-    <AssemblyName>BBC.Dna.Services.Comments.Functional.Tests</AssemblyName>
+    <RootNamespace>FunctionalTests.Services.Forums</RootNamespace>
+    <AssemblyName>FunctionalTests.Services.Forums</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
