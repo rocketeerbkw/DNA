@@ -204,7 +204,7 @@
   </ItemGroup>
 <!-- Make it an incremental build -->
   <PropertyGroup>
-	<IncrementalBuild>true</IncrementalBuild>
+	<IncrementalBuild>false</IncrementalBuild>
   </PropertyGroup>
 
   <PropertyGroup>
