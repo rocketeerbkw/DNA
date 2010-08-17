@@ -84,7 +84,7 @@ namespace BBC.Dna.Services
 			}
 
             var randomArticle = Article.CreateRandomArticle(cacheManager, readerCreator, null, 
-                                                            site.SiteID, status1, status2, status3, status4, status5);
+                                                            site.SiteID, status1, status2, status3, status4, status5, true);
 
             return GetOutputStream(randomArticle);
         }
