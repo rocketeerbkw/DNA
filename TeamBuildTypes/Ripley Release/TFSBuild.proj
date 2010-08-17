@@ -243,15 +243,15 @@
 
     <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
     <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
-    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /u:dna_admin sotzed03"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /u:dna_admin sotzed03"></Exec>
 
 
-    <Exec Command='"$(SolutionRoot)\Main\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web2\wwwroot\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web2 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web2_deployripley.txt"' ContinueOnError='true'>
+    <Exec Command='"$(SolutionRoot)\Release\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web2\wwwroot\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web2 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web2_deployripley.txt"' ContinueOnError='true'>
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
     <Error Text="Error while deploying to Web2: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
 
-    <Exec Command='"$(SolutionRoot)\Main\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web4\wwwroot\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web4 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web4_deployripley.txt"' ContinueOnError='true' >
+    <Exec Command='"$(SolutionRoot)\Release\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web4\wwwroot\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web4 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web4_deployripley.txt"' ContinueOnError='true' >
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
     <Error Text="Error while deploying to Web4: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
