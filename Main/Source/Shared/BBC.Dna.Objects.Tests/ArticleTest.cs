@@ -367,7 +367,7 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 Article actual;
-                actual = Article.CreateArticleFromDatabase(creator, entryId, true);
+                actual = Article.CreateArticleFromDatabase(creator, entryId, false);
             }
             catch (Exception e)
             {

@@ -34,7 +34,7 @@ namespace BBC.Dna.Services
         {
             bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
 
-            var article = Article.CreateArticle(cacheManager, readerCreator, null, Int32.Parse(articleId), applySkin);
+            var article = Article.CreateArticle(cacheManager, readerCreator, null, Int32.Parse(articleId), false, applySkin);
 
             //article.Guide = "";
             return GetOutputStream(article);

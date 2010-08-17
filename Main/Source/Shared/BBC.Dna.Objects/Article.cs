@@ -764,7 +764,7 @@ namespace BBC.Dna.Objects
                 else
                 {
                     int h2g2Id = reader.GetInt32NullAsZero("Masthead");
-                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
+                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false, true);
                 }
             }
         }
@@ -800,7 +800,7 @@ namespace BBC.Dna.Objects
                 else
                 {
                     int h2g2Id = reader.GetInt32NullAsZero("Masthead");
-                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
+                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false, true);
                 }
             }
         }
