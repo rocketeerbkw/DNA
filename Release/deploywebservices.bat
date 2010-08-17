@@ -39,7 +39,8 @@ echo Copying DNA.Services.Users
 robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Users\ %varServerLocation%\dna\api\users %varRobocopyParams%
 
 echo Copying Ripley
-robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\ %varRobocopyParams%
+echo not deploying ripley here
+echo robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\ %varRobocopyParams%
 
 echo Starting IIS
 sc \\%varServerName% start "memcached server"
