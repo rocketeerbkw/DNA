@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ripleycore", "ripleycore.vcproj", "{ECAF0B64-57F6-4883-A633-93367D3BF1F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B} = {5B2FC0E0-8C34-48F0-A57A-C46C5187834B}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RipleyServer", "RipleyServer.vcproj", "{62AC310D-0AE3-4D92-A928-CA9291481B5A}"
 	ProjectSection(ProjectDependencies) = postProject
