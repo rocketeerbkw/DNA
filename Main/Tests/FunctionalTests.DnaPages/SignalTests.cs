@@ -55,7 +55,7 @@ namespace FunctionalTests
             Assert.IsNull(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/OPENCLOSETIMES/OPENCLOSETIME"));
             // no times! Set daily repeating times for the site
             request.UseEditorAuthentication = true;
-            request.SignUserIntoSSOViaProfileAPI(DnaTestURLRequest.usertype.EDITOR);
+            request.SetCurrentUserEditor();
             request.RequestPage("messageboardschedule?action=update&updatetype=sameeveryday&recurrenteventopenhours=0&recurrenteventopenminutes=15&recurrenteventclosehours=23&recurrenteventcloseminutes=45&skin=purexml");
             request.UseEditorAuthentication = false;
 
