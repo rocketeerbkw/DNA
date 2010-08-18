@@ -16,7 +16,7 @@ namespace BBC.Dna.Objects
     [Serializable]
     [XmlType(AnonymousType = true, TypeName = "GROUPS")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "GROUPS")]
-    [DataContract]
+    [DataContract(Name = "groups")]
     public class Groups
     {
         public Groups()
@@ -60,7 +60,7 @@ namespace BBC.Dna.Objects
     [Serializable]
     [XmlType(AnonymousType = true, TypeName = "GROUPS")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "GROUP")]
-    [DataContract]
+    [DataContract (Name = "group")]
     public class Group
     {
         public Group()
@@ -74,7 +74,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElement("NAME")]
-        [DataMember]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
     }
 }
