@@ -38,7 +38,13 @@ namespace BBC.Dna.Objects
         private string _subject = String.Empty;
 
 
-        private bool _applySkinOnGuideML;
+        private bool _applySkinOnGuideML = false;
+        [XmlIgnore]
+        public bool ApplySkinOnGuideML
+        {
+            get { return _applySkinOnGuideML; }
+            set { _applySkinOnGuideML = value; }
+        }
 
         /// <summary>
         /// 

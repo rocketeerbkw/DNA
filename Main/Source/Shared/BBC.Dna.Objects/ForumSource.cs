@@ -70,17 +70,14 @@ namespace BBC.Dna.Objects
                 if (source != null)
                 {
 //add article back to object
-                    if (includeArticle && source.ArticleH2G2Id != 0)
-                    {
-                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, false, applySkin);
-                    }
+                    source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
                     return source;
                 }
             }
 
             //create from db
             source = CreateForumSourceFromDatabase(cache, creator, viewingUser, forumId, threadId, siteId,
-                                                   includeArticle);
+                                                   includeArticle, applySkin);
 
             if (source != null)
             {
@@ -89,6 +86,7 @@ namespace BBC.Dna.Objects
                 sourceCopy.Article = null;
                 cache.Add(key, sourceCopy);
             }
+            source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
             return source;
         }
 
@@ -105,7 +103,7 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         private static ForumSource CreateForumSourceFromDatabase(ICacheManager cache, IDnaDataReaderCreator creator,
                                                                  User viewingUser, int forumId, int threadId, int siteId,
-                                                                 bool includeArticle)
+                                                                 bool includeArticle, bool applySkin)
         {
             ForumSource source = null;
 
@@ -206,11 +204,7 @@ namespace BBC.Dna.Objects
                             break;
                     }
 
-                    if (includeArticle)
-                    {
-                        source.ArticleH2G2Id = dataReader.GetInt32NullAsZero("h2g2ID");
-                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, false, true);
-                    }
+                    source.ArticleH2G2Id = dataReader.GetInt32NullAsZero("h2g2ID");
                 }
                 return source;
             }
