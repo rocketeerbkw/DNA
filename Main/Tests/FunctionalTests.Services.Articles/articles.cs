@@ -16,10 +16,8 @@ using BBC.Dna.Component;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
-using BBC.Dna;
 
 
 
@@ -184,6 +182,8 @@ namespace FunctionalTests.Services.Articles
             for (int i = 0; i < 10; i++)
             {
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNotLoggedInUser();
+                request.AssertWebRequestFailure = false;
 
                 string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/month?format=xml", _sitename);
 
@@ -192,10 +192,13 @@ namespace FunctionalTests.Services.Articles
                     // now get the response
                     request.RequestPageWithFullURL(url, null, "text/xml");
                 }
-                catch (Exception Ex)
+                catch (WebException)
                 {
-                    Assert.IsTrue(Ex.Message.Contains("Month summary not found"));
+
                 }
+                Assert.AreEqual(HttpStatusCode.NotFound, request.CurrentWebResponse.StatusCode);
+                ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+                Assert.AreEqual(ErrorType.MonthSummaryNotFound.ToString(), errorData.Code);
             }
             Console.WriteLine("After GetMonthlySummaryArticles_FailsWithMonthSummaryNotFound");
         }
