@@ -258,6 +258,10 @@
     <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
     <CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.pdb"></CommentsApi>
     <ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.pdb"></ModerationApi>
+    <ArticlesApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Articles\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Articles\**\*.pdb"></ArticlesApi>
+    <CategoriesApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.pdb"></CategoriesApi>
+    <ForumsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.pdb"></ForumsApi>
+    <UsersApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Users\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Users\**\*.pdb"></UsersApi>
     <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
     <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\cleanfilter.reg;$(SolutionRoot)\DeploymentNotes.txt"></Documentation>
   </ItemGroup>
@@ -428,6 +432,10 @@
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="$(DeployDir)wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(CommentsApi)" DestinationFolder="$(DeployDir)wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(ModerationApi)" DestinationFolder="$(DeployDir)wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ArticlesApi)" DestinationFolder="$(DeployDir)wwwroot\api\articles\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ForumsApi)" DestinationFolder="$(DeployDir)wwwroot\api\forums\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CategoriesApi)" DestinationFolder="$(DeployDir)wwwroot\api\categories\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(UsersApi)" DestinationFolder="$(DeployDir)wwwroot\api\users\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Database)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
