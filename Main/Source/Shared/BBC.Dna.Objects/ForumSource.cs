@@ -85,8 +85,9 @@ namespace BBC.Dna.Objects
                 var sourceCopy = (ForumSource)source.Clone();
                 sourceCopy.Article = null;
                 cache.Add(key, sourceCopy);
+                source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
             }
-            source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
+            
             return source;
         }
 

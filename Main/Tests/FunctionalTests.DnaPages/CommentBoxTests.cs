@@ -523,7 +523,7 @@ namespace FunctionalTests
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
 
-            string dodgyLink = @"<a href=""#" + "\r\n" + @""">Test Link</a>";
+            string dodgyLink = @"<a <href=""" + "\r\n" + @""">Test Link</a>";
             // Now check to make sure we can post to the comment box
             request.RequestSecurePage("acswithoutapi?skin=purexml&dnapoststyle=1&dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah" + dodgyLink + "&dnahostpageurl=" + hosturl);
 
