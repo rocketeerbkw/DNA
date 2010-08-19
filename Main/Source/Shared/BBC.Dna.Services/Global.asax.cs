@@ -22,7 +22,7 @@ namespace BBC.Dna.Services
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            //System.Diagnostics.Debugger.Launch();
+            System.Diagnostics.Debugger.Launch();
             Statistics.InitialiseIfEmpty(/*TheAppContext*/);
             dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
             connectionString = ConfigurationManager.ConnectionStrings["database"].ConnectionString;

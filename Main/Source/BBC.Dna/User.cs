@@ -1987,10 +1987,10 @@ namespace BBC.Dna
                 Status = IsSuperUser ? 2 : 0
             };
 
-            userObj.Groups.Group = new List<Group>();
+            userObj.Groups = new List<Group>();
             foreach (string group in _userGroupsData)
             {
-                userObj.Groups.Group.Add(new Group() { Name = group.ToUpper() });
+                userObj.Groups.Add(new Group() { Name = group.ToUpper() });
             }
             return userObj;
         }
