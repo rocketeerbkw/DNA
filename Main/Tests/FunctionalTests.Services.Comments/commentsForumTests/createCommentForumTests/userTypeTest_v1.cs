@@ -119,7 +119,7 @@ namespace FunctionalTests.Services.Comments
 
             try
             {
-                myRequest.RequestPageWithFullURL(url, postXML, "text/html");
+                myRequest.RequestPageWithFullURL(url, postXML, "text/xml");
             }
             catch
             {
