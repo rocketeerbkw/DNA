@@ -404,10 +404,12 @@ namespace FunctionalTests.Services.Comments
             url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
 
             // now get the response
-            request.RequestPageWithFullURL(url, "", "text/html");
-            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("<div") >= 0);
-
-
+            try
+            {
+                request.RequestPageWithFullURL(url, "", "text/html");
+            }
+            catch { }
+            Assert.AreEqual(HttpStatusCode.NotImplemented, request.CurrentWebResponse.StatusCode);
             Console.WriteLine("After GetReviewForumHTML");
         }
 

@@ -210,13 +210,14 @@ namespace BBC.Dna.Services
                     break;
 
                 case WebFormat.format.HTML:
-                    string xsltFile = String.Format("{0}/{1}.xsl", ConfigurationManager.AppSettings["xslt_directory"], data.GetType().Name);
-                    int errorCount = 0;
-                    output = ((baseContract)data).ToHtml(xsltFile, ref errorCount);
-                    if (errorCount != 0)
-                    {
-                        throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, "Error during xslt transformation", new Exception(output));
-                    }
+                    //string xsltFile = String.Format("{0}/{1}.xsl", ConfigurationManager.AppSettings["xslt_directory"], data.GetType().Name);
+                    //int errorCount = 0;
+                    //output = ((baseContract)data).ToHtml(xsltFile, ref errorCount);
+                    //if (errorCount != 0)
+                    //{
+                    //    throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, "Error during xslt transformation", new Exception(output));
+                    //}
+                    throw new DnaWebProtocolException(System.Net.HttpStatusCode.NotImplemented, "Not implemented yet", null);
                     break;
 
                 case WebFormat.format.RSS:
