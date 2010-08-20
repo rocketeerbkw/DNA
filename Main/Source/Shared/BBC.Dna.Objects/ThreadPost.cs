@@ -481,7 +481,14 @@ namespace BBC.Dna.Objects
             {
                 dataReader.AddParameter("userid", userid);
                 dataReader.AddParameter("forumid", forumId);
-                dataReader.AddParameter("inreplyto", this.InReplyTo);
+                if (this.InReplyTo == 0)
+                {
+                    dataReader.AddParameter("inreplyto", DBNull.Value);
+                }
+                else
+                {
+                    dataReader.AddParameter("inreplyto", this.InReplyTo);
+                }                
                 dataReader.AddParameter("threadid",  ThreadId);
                 dataReader.AddParameter("subject", this.Subject);
                 dataReader.AddParameter("content", this.Text);

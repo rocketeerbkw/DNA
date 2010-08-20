@@ -6,7 +6,7 @@ GO
 
 
 create procedure getusercontributions
-@identityuserid varchar(40), 
+@identityuserid varchar(40) = null, 
 @startindex int = null, 
 @itemsperpage int = null, 
 @sitetype int = null, 
@@ -22,13 +22,18 @@ if (@startindex is null) set @startindex = 1
 if (@itemsPerPage is null or @itemsPerPage = 0) set @itemsPerPage = 20
 if (@sortDirection is null or @sortDirection ='') set @sortDirection = 'descending'
 
-select @userid = DnaUserID from dbo.SignInUserIDMapping where IdentityUserID = @identityuserid
-if (@userid IS NULL) 
+
+if not (@identityuserid is null)
 BEGIN
-	return 1 -- User not found
+	select @userid = DnaUserID from dbo.SignInUserIDMapping where IdentityUserID = @identityuserid
+	if (@userid IS NULL) 
+	BEGIN
+		return 1 -- User not found
+	END	
 END
 
 select @siteid = SiteID from dbo.Sites where UrlName = @sitename
+
 
 create table #PagedMessageBoardPosts
 (
@@ -46,6 +51,8 @@ BEGIN
 			dbo.ThreadEntries te
 		where 
 			te.userid = @userid
+		or
+			(@userid is null)
 	),
 	pagedPostsDesc as
 	(
@@ -68,6 +75,8 @@ BEGIN
 			dbo.ThreadEntries te
 		where 
 			te.userid = @userid
+		or
+			(@userid is null)
 	
 	),
 	pagedPostsDesc as
@@ -121,6 +130,8 @@ where
 order by PostIndex	
 
 return 0
+
+
 
 
 

@@ -18,6 +18,7 @@ using BBC.Dna.Utils;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using System.Collections.Specialized;
 
 
 
@@ -76,6 +77,69 @@ namespace FunctionalTests.Services.Forums
             validator.Validate();
 
             Console.WriteLine("After GetForumXml_ReadOnly_ReturnsValidXml");
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void CreateThread_WithValidHTMLValues_ReturnsSuccess()
+        {
+            Console.WriteLine("Before CreateThread_WithValidHTMLValues_ReturnsSuccess");
+
+            string forum = "7619338";
+            string subject = "html posted thread subject";
+            string text = "html posted text";
+            string style = "richtext";
+            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/create.htm", _sitename, forum);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("subject={0}&text={1}&style={2}",
+                 HttpUtility.HtmlEncode(subject),
+                 HttpUtility.HtmlEncode(text),
+                 HttpUtility.HtmlEncode(style));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", null, localHeaders);
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After CreateThread_WithValidHTMLValues_ReturnsSuccess");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void CreateThread_WithValidXMLValues_ReturnsSuccess()
+        {
+            Console.WriteLine("Before CreateThread_WithValidXMLValues_ReturnsSuccess");
+
+            string forum = "7619338";
+            string subject = "xml posted subject";
+            string text = "xml psoted text";
+            string style = "richtext";
+            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads",
+                _sitename, forum);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string serializedData = String.Format(@"<?xml version=""1.0"" encoding=""utf-8""?><threadPost xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://schemas.datacontract.org/2004/07/BBC.Dna.Objects""><datePosted i:nil=""true"" /><firstChild>0</firstChild><inReplyToIndex>0</inReplyToIndex><index>0</index><nextIndex>0</nextIndex><nextSibling>0</nextSibling><postId>0</postId><prevIndex>0</prevIndex><prevSibling>0</prevSibling><status>0</status><style>{2}</style><subject>{0}</subject><text>{1}</text><threadId>0</threadId><user i:nil=""true"" /></threadPost>",
+             subject,
+             text,
+             style);
+
+            request.RequestPageWithFullURL(url, serializedData, "text/xml");
+
+            Console.WriteLine("After CreateForumPost_WithValidXMLValues_ReturnsSuccess");
         }
     }
 }

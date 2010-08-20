@@ -94,6 +94,22 @@ namespace BBC.Dna.Services
         }
 
 
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads/create.htm")]
+        [WebHelp(Comment = "Creates a thread post from Html form")]
+        [OperationContract]
+        public void CreateThreadHtml(string siteName, string forumId, NameValueCollection formsData)
+        {
+            CreateThreadPostHtml(siteName, forumId, "0", formsData);
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads")]
+        [WebHelp(Comment = "Creates a thread post")]
+        [OperationContract]
+        public void CreateThread(string siteName, string forumId, ThreadPost threadPost)
+        {
+            CreateThreadPost(siteName, forumId, "0", threadPost);
+        }
+
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads/{threadid}/create.htm")]
         [WebHelp(Comment = "Creates a thread post from Html form")]
         [OperationContract]
@@ -156,18 +172,22 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidThreadID));
             }
 
-            // Check 4) check threadid exists and user has permission to write
-            bool canReadThread = false;
-            bool canWriteThread = false;
             ForumHelper helper = new ForumHelper(readerCreator);
-            helper.GetThreadPermissions(callingUser.UserID, threadIdAsInt, ref canReadThread, ref canWriteThread);
-            if (!canReadThread)
+
+            // Check 4) check threadid exists and user has permission to write
+            if (threadIdAsInt != 0)
             {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ThreadNotFound));
-            }
-            if (!canWriteThread)
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumReadOnly));
+                bool canReadThread = false;
+                bool canWriteThread = false;                
+                helper.GetThreadPermissions(callingUser.UserID, threadIdAsInt, ref canReadThread, ref canWriteThread);
+                if (!canReadThread)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ThreadNotFound));
+                }
+                if (!canWriteThread)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumReadOnly));
+                }
             }
 
             // Check 5) check forum exists. Note, Check 4 and 5 must be done in this order.
@@ -263,14 +283,13 @@ namespace BBC.Dna.Services
 
             bool forcePreModeration = false;
             // PreModerate first post in discussion if site premoderatenewdiscussions option set.
-            if ((threadPost.InReplyTo == 0) && siteList.GetSiteOptionValueInt(site.SiteID, "Moderation", "PreModerateNewDiscussions") == 1)
+            if ((threadPost.InReplyTo == 0) && siteList.GetSiteOptionValueBool(site.SiteID, "Moderation", "PreModerateNewDiscussions"))
             {
                 if (!ignoreModeration && !isNotable)
                 {
                     forcePreModeration = true;
                 }
             }
-
 
             // save the Post in the database
             ThreadPost post = new ThreadPost();

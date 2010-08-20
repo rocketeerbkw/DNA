@@ -166,7 +166,7 @@ namespace BBC.Dna.Services
         [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}")]
         [WebHelp(Comment = "Get the given user's contributions in the format requested")]
         [OperationContract]
-        public Stream GetContributions(string identityuserid)
+        public Stream GetUserContributions(string identityuserid)
         {
             return GetOutputStream(GetContributions(identityuserid, null, null));
         }
@@ -174,15 +174,24 @@ namespace BBC.Dna.Services
         [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/type/{type}")]
         [WebHelp(Comment = "Get the given user's contributions for the specified type in the format requested")]
         [OperationContract]
-        public Stream GetContributionsByType(string identityuserid, string type)
+        public Stream GetUserContributionsByType(string identityuserid, string type)
         {
             return GetOutputStream(GetContributions(identityuserid, null, type));
+        }
+
+
+        [WebGet(UriTemplate = "V1/recentcontributions/type/{type}")]
+        [WebHelp(Comment = "Get the given user's contributions for the specified type in the format requested")]
+        [OperationContract]
+        public Stream GetRecentContributionsByType(string type)
+        {
+            return GetOutputStream(GetContributions(null, null, type));
         }
 
         [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/site/{site}")]
         [WebHelp(Comment = "Get the given user's contributions for the specified site in the format requested")]
         [OperationContract]
-        public Stream GetContributionsBySite(string identityuserid, string site)
+        public Stream GetUserContributionsBySite(string identityuserid, string site)
         {
             return GetOutputStream(GetContributions(identityuserid, site, null));
         }

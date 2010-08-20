@@ -105,6 +105,8 @@ namespace BBC.Dna.Objects
         public override bool IsUpToDate(IDnaDataReaderCreator readerCreator)
         {
 
+            if (this.IdentityUserID == null) { return false; }
+
             DateTime lastPostedDateTime = DateTime.MinValue;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("cachegetlastpostdate"))
             {
@@ -161,7 +163,6 @@ namespace BBC.Dna.Objects
                 InstanceCreatedDateTime = DateTime.Now
             };
 
-            
             using (IDnaDataReader reader2 = readerCreator.CreateDnaDataReader("getusercontributions"))
             {
                 // Add the entry id and execute
