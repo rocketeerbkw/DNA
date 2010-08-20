@@ -159,6 +159,8 @@ namespace FunctionalTests
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "1");
 
+            Thread.Sleep(5000);
+
             // Check to make sure that the dot net web app got the signal and that the xml reflects the fact!
             request.RequestPage("acs?skin=purexml");
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/SITECLOSED") != null);
@@ -168,6 +170,8 @@ namespace FunctionalTests
             request.RequestPage("messageboardschedule?action=opensite&confirm=1&skin=purexml");
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "0");
+
+            Thread.Sleep(5000);
 
             // Check to make sure that the dot net web app got the signal and that the xml reflects the fact!
             request.RequestPage("acs?skin=purexml");
