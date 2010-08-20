@@ -84,8 +84,8 @@
 		<ul class="pagination">
 			<li class="previous">
 				<xsl:choose>
-					<xsl:when test="(@FROM > 0) and ((@TO div (@TO - @FROM)) - 1) > 0">
-						<a href="?page={floor(@TO div (@TO - @FROM)) - 1}#comments">
+					<xsl:when test="(@FROM > 0) and (floor((@FROM) div (@SHOW))) > 0">
+						<a href="?page={floor((@FROM) div (@SHOW))}#comments">
 							<xsl:text>Previous</xsl:text>
 						</a>
 					</xsl:when>
@@ -98,9 +98,9 @@
 			<xsl:apply-templates select="self::node()[@TO > 0]" mode="library_pagination_pagelist" />
 			<li class="next">
 				<xsl:choose>
-					<xsl:when test="(@TO > 0) and (((@TO - @FROM) + @FROM)+1) &lt; @FORUMPOSTCOUNT">
+					<xsl:when test="(@TO > 0) and (@TO+1) &lt; @FORUMPOSTCOUNT">
 						
-						<a href="?page={floor(@TO div (@TO - @FROM)) + 1}#comments">
+						<a href="?page={floor((@TO +1) div (@SHOW)) +1}#comments">
 							<xsl:text>Next</xsl:text>
 						</a>
 					</xsl:when>
@@ -113,8 +113,8 @@
 	</xsl:template>
 	
 	<xsl:template match="FORUMTHREADPOSTS[@TO > 0]" mode="library_pagination_pagelist">
-		<xsl:param name="amount" select="(@TO - @FROM) + 1" />
-		<xsl:param name="total" select="floor(@FORUMPOSTCOUNT div $amount)" />
+		<xsl:param name="amount" select="(@SHOW)" />
+		<xsl:param name="total" select="ceiling(@FORUMPOSTCOUNT div $amount)" />
 		<xsl:param name="counter" select="1" />
 		
 		<xsl:param name="current" select="floor(@FROM div $total) + 1" />
