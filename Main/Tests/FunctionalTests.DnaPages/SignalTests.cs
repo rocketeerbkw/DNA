@@ -59,6 +59,7 @@ namespace FunctionalTests
             request.RequestPage("messageboardschedule?action=update&updatetype=sameeveryday&recurrenteventopenhours=0&recurrenteventopenminutes=15&recurrenteventclosehours=23&recurrenteventcloseminutes=45&skin=purexml");
             request.UseEditorAuthentication = false;
 
+            Thread.Sleep(5000);
             // Now re-request the original page
            request.RequestPage("acs?skin=purexml");
            Assert.IsNotNull(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/OPENCLOSETIMES/OPENCLOSETIME"));
