@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Sites
 {
@@ -6,6 +7,7 @@ namespace BBC.Dna.Sites
     /// Class to define the Open and Closing time (for a site)
     /// </summary>
     [Serializable]
+    [DataContract(Name = "openCloseTime")]
     public class OpenCloseTime
     {
         /// <summary>
@@ -45,21 +47,25 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// Public accessor for Day Of Week field
         /// </summary>
+        [DataMember(Name = ("dayOfWeek"))]
         public int DayOfWeek { get; set; }
 
         /// <summary>
         /// Public accessor for Hour field
         /// </summary>
+        [DataMember(Name = ("hour"))]
         public int Hour { get; set; }
 
         /// <summary>
         /// Public accessor for minute field
         /// </summary>
+        [DataMember(Name = ("minute"))]
         public int Minute { get; set; }
 
         /// <summary>
         /// Public accessor for closed field
         /// </summary>
+        [DataMember(Name = ("closed"))]
         public int Closed { get; set; }
 
         /// <summary>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" > 
+  <xs:element name="siteOption">
+    <xs:annotation>
+      <xs:documentation>Representation of a site option.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+			  <xs:element name="description" type="xs:string">
+			    <xs:annotation>
+				    <xs:documentation>No idea what this is - ripley has it though</xs:documentation>
+			    </xs:annotation>
+		    </xs:element>
+        <xs:element name="isGlobal" type="xs:boolean">
+          <xs:annotation>
+            <xs:documentation>Whether option is globally set or not.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="name" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Name of the site option.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="section" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>The area of DNA functionality the option relates to. E.g. “Forum”, “User”. If the option doesn’t fit in a particular functional section, put it in section “General”.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="type">
+          <xs:annotation>
+            <xs:documentation>Describes the type of data held in value. Used to control how the option should be presented to the user.</xs:documentation>
+          </xs:annotation>
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="Int">
+                <xs:annotation>
+                  <xs:documentation>Integer</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="Bool">
+                <xs:annotation>
+                  <xs:documentation>Boolean</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+              <xs:enumeration value="String">
+                <xs:annotation>
+                  <xs:documentation>String</xs:documentation>
+                </xs:annotation>
+              </xs:enumeration>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="value" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Value of the option as a string.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

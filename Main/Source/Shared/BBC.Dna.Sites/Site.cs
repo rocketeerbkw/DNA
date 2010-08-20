@@ -5,6 +5,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
 using BBC.Dna.Data;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Sites
 {
@@ -12,6 +13,7 @@ namespace BBC.Dna.Sites
     /// The Site class holds all the data regarding a Site
     /// </summary>
     [Serializable]
+    [DataContract(Name = "site")]
     public class Site : ISite
     {
         /// <summary>
@@ -152,16 +154,19 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// SiteID Property
         /// </summary>
+        [DataMember(Name = ("siteId"))]
         public int SiteID { get; set; }
 
         /// <summary>
         /// The Moderation Class of this site
         /// </summary>
+        [DataMember(Name = ("modClassID"))]
         public int ModClassID { get; private set; }
 
         /// <summary>
         /// SiteName Property
         /// </summary>
+        [DataMember(Name = ("siteName"))]
         public string SiteName { get; set; }
 
         /// <summary>
@@ -172,16 +177,19 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// Get/Set property for the Identity policy Uri
         /// </summary>
+        [DataMember(Name = ("identityPolicy"))]
         public string IdentityPolicy { get; set; }
 
         /// <summary>
         /// MinAge property
         /// </summary>
+        [DataMember(Name = ("minAge"))]
         public int MinAge { get; set; }
 
         /// <summary>
         /// MaxAge property
         /// </summary>
+        [DataMember(Name = ("maxAge"))]
         public int MaxAge { get; set; }
 
         /// <summary>
@@ -192,6 +200,7 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// Emergency Closed property
         /// </summary>
+        [DataMember(Name = ("isEmergencyClosed"))]
         public bool IsEmergencyClosed { get; set; }
 
         /// <summary>
@@ -202,32 +211,45 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// Editors Email Property
         /// </summary>
+        [DataMember(Name = ("editorsEmail"))]
         public string EditorsEmail { get; set; }
 
         /// <summary>
         /// Moderators Email Property
         /// </summary>
+        [DataMember(Name = ("moderatorsEmail"))]
         public string ModeratorsEmail { get; set; }
 
         /// <summary>
         /// Feedback Email Property
         /// </summary>
+        [DataMember(Name = ("feedbackEmail"))]
         public string FeedbackEmail { get; set; }
 
         /// <summary>
         /// Returns the list of open/close times
         /// </summary>
+        [DataMember(Name = ("openCloseTimes"))]
         public List<OpenCloseTime> OpenCloseTimes { get; private set; }
 
         /// <summary>
         /// Description field
         /// </summary>
+        [DataMember(Name = ("description"))]
         public string Description { get; private set; }
 
         /// <summary>
         /// ShortName field
         /// </summary>
+        [DataMember(Name = ("shortName"))]
         public string ShortName { get; private set; }
+
+        /// <summary>
+        /// Stub for serialising object with siteoptions
+        /// Fill using the siteoptionlist GetSiteOptionListForSite method
+        /// </summary>
+        [DataMember(Name = ("siteOptions"))]
+        public List<SiteOption> SiteOptions { get; set; }
 
         /// <summary>
         /// Is the site passworded
@@ -372,6 +394,21 @@ namespace BBC.Dna.Sites
             isClosed = (IsSiteScheduledClosed(DateTime.Now) || IsEmergencyClosed);
             return isClosed;
         }
+
+        /// <summary>
+        /// Checks if the Site is closed whether emergency closed or scheduled closed
+        /// </summary>
+        /// <returns>Whether the site is closed period</returns>
+        [DataMember(Name = ("isClosed"))]
+        public bool Closed
+        {
+            get
+            {
+                return IsSiteClosed();
+            }
+            set { }
+        }
+        
 
         /// <summary>
         /// Adds a new skin object to the skin list

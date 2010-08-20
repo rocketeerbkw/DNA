@@ -12,6 +12,7 @@ using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.ServiceModel.Web;
+using System.Linq;
 
 namespace BBC.Dna.Services
 {
@@ -507,6 +508,25 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ex);
             }
+        }
+
+        ///// <summary>
+        ///// Helper method for getting the site object given a sitename
+        ///// </summary>
+        ///// <param name="siteName">The name of the site you want to get</param>
+        ///// <returns>The site object for the given sitename</returns>
+        ///// <exception cref="ApiException">Thrown if the site does not exist</exception>
+        [WebGet(UriTemplate = "V1/site/{siteName}")]
+        [WebHelp(Comment = "Get the site")]
+        [OperationContract]
+        public Stream GetSiteObject(string siteName)
+        {
+            var siteObject = (Sites.Site)GetSite(siteName);
+            siteObject.SiteOptions = siteList.GetSiteOptionListForSite(siteObject.SiteID);
+            siteObject.SiteOptions = siteObject.SiteOptions.FindAll(x => x.Section.ToUpper() == "COMMENTFORUM" || x.Section.ToUpper() == "GENERAL");
+
+            
+            return GetOutputStream(siteObject);
         }
     }
 }

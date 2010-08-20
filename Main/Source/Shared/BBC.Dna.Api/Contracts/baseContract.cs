@@ -41,8 +41,7 @@ namespace BBC.Dna.Api
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(rawXml);
             
-            int errorCount = 0;
-            return XSLTransformer.TransformUsingXslt2(xsltFile, xmlDoc, ref errorCount);
+            return XSLTransformer.TransformUsingXslt2(xsltFile, xmlDoc, ref error);
         }
 
         /// <summary>

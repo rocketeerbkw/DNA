@@ -68,6 +68,12 @@ namespace BBC.Dna.Sites
         bool IsEmergencyClosed { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        bool Closed { get; set; }
+        
+
+        /// <summary>
         /// DefaultSkin Property
         /// </summary>
         string DefaultSkin { get; }
