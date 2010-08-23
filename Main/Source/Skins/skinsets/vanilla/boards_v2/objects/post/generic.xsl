@@ -97,6 +97,9 @@
                 <xsl:when test="$siteClosed = 'true'">
                     <!-- Nowt -->
                 </xsl:when>
+                <xsl:when test="$autogenname_required = 'true'">
+	            	<!-- nowt again -->                
+                </xsl:when>
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
                         <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
