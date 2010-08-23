@@ -274,7 +274,7 @@
 	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">reactively moderated</a>.</p>
 	      					</xsl:otherwise>
 	      				</xsl:choose>
-	      				<p>Find out more about this board <a href="{$houserulesurl}" class="popup">House Rules</a></p>
+	      				<p>Find out more about this board's <a href="{$houserulesurl}" class="popup">House Rules</a></p>
 	      			</div>
 	      			
 	      			<!-- Recent Discussions -->

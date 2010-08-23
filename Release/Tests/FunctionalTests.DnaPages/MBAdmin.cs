@@ -12,6 +12,7 @@ using BBC.Dna.Moderation.Utils;
 using TestUtils;
 using System.Net;
 using System.Threading;
+using System.Web;
 
 namespace FunctionalTests
 {
@@ -368,7 +369,6 @@ namespace FunctionalTests
 
 
         }
-
 
         /// <summary/>
         [TestMethod]
@@ -958,7 +958,83 @@ namespace FunctionalTests
 
         }
 
-       
+        [TestMethod]
+        public void MBAdmin_CreateValidHTMLTopic_SuccessfullyMaintainsHTML()
+        {
+            var expectedType = "TopicCreateSuccessful";
+            var fpTitleValue = "fp title";
+            var fpText = "fp <b>text</b>";
+            var fpImagename = "fp_imagename.jpg";
+            var fpImagealttext = "fp_imagealttext";
+            var topicTitle = "topictitle";
+            var topicText = "this is some html <div>topictext</div>";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_title", fpTitleValue));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_text", fpText));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagename", fpImagename));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagealttext", fpImagealttext));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictitle", topicTitle));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictext", topicText));
+
+
+
+            request.RequestPage("mbadmin?cmd=UPDATETOPIC&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+
+            var xml = request.GetLastResponseAsXML();
+            Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
+            Assert.AreEqual(fpText, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TEXT/GUIDE/BODY").InnerXml);
+            Assert.AreEqual(topicText, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/DESCRIPTION/GUIDE/BODY").InnerXml);
+            Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
+            Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
+            Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
+            Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
+        }
+
+        [TestMethod]
+        public void MBAdmin_CreateInValidHTMLTopic_ReturnsEscapedHTML()
+        {
+            var expectedType = "TopicCreateSuccessful";
+            var fpTitleValue = "fp title";
+            var fpText = "fp <b>text";
+            var fpImagename = "fp_imagename.jpg";
+            var fpImagealttext = "fp_imagealttext";
+            var topicTitle = "topictitle";
+            var topicText = "this is some html topictext</div>";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserEditor();
+            request.UseEditorAuthentication = true;
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_title", fpTitleValue));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_text", HttpUtility.UrlEncode(fpText)));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagename", fpImagename));
+            postParams.Enqueue(new KeyValuePair<string, string>("fp_imagealttext", fpImagealttext));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictitle", topicTitle));
+            postParams.Enqueue(new KeyValuePair<string, string>("topictext", HttpUtility.UrlEncode(topicText)));
+
+
+
+            request.RequestPage("mbadmin?cmd=UPDATETOPIC&skin=purexml", postParams);
+            CheckPageSchema(request.GetLastResponseAsXML());
+            CheckResult(request.GetLastResponseAsXML(), expectedType);
+
+            var xml = request.GetLastResponseAsXML();
+            Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
+            Assert.AreEqual(StringUtils.EscapeAllXml(fpText), xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TEXT/GUIDE/BODY").InnerXml);
+            Assert.AreEqual(StringUtils.EscapeAllXml(topicText), xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/DESCRIPTION/GUIDE/BODY").InnerXml);
+            Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
+            Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
+            Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
+            Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
+        }
 
         private void CheckV2Config(XmlDocument xml, string updateType, string updateValue)
         {
