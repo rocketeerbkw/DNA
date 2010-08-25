@@ -11,6 +11,7 @@ using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DNA.WebRequests
 {
@@ -142,6 +143,9 @@ namespace DNA.WebRequests
 		//private System.Windows.Forms.OpenFileDialog downloadFileDialog;
 		//private string sPathForDownload = "";
 
+        private string _identityurlbase;
+        private string _certname;
+
 		public WebRequests()
         {
 
@@ -174,9 +178,65 @@ namespace DNA.WebRequests
                         _password = GetConfigValue("loginpassword", xml);
 						_loginhost = GetConfigValue("loginhost", xml);
 						_logfile = GetConfigValue("logfile", xml);
+                        _identityurlbase = GetConfigValue("identityurlbase", xml);
+                        _certname = GetConfigValue("certname", xml);
+
+                        ServicePointManager.ServerCertificateValidationCallback += DNAIWSAcceptCertificatePolicy;
+        }
+
+        public static bool DNAIWSAcceptCertificatePolicy(object sender,
+                                        X509Certificate certificate,
+                                        X509Chain chain,
+                                        SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
+
+        private CookieContainer _cookieContainer = new CookieContainer();
+
+        private HttpWebResponse CallRestAPI(string identityRestCall)
+        {
+            HttpWebResponse response = null;
+            try
+            {
+                Uri URL = new Uri(identityRestCall);
+                HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
+
+                webRequest.Timeout = 30000;
+
+                if (_proxy.Length > 0)
+                {
+                    webRequest.Proxy = new WebProxy(_proxy);
+                }
+
+                webRequest.CookieContainer = _cookieContainer;
+                X509Store store = new X509Store("My", StoreLocation.LocalMachine);
+                store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
+                X509Certificate certificate = store.Certificates.Find(X509FindType.FindBySubjectName, _certname, false)[0];
+                webRequest.ClientCertificates.Add(certificate);
+                webRequest.Method = "POST";
+                response = (HttpWebResponse)webRequest.GetResponse();
+            }
+            catch (WebException ex)
+            {
+                string error = ex.Message;
+
+                if (ex.Response != null)
+                {
+                    StreamReader reader = new StreamReader(ex.Response.GetResponseStream(), Encoding.UTF8);
+                    error += reader.ReadToEnd();
+                }
+
+                if (ex.InnerException != null)
+                {
+                    error += " : " + ex.InnerException.Message;
+                }
+            }
+
+            return response;
         }
         
-		private string GetConfigValue(string sKey, XmlDocument xml)
+        private string GetConfigValue(string sKey, XmlDocument xml)
 		{
 			XmlNode node = xml.SelectSingleNode("/config/settings/" + sKey);
 			if (node != null)
@@ -289,12 +349,28 @@ namespace DNA.WebRequests
 			return wr;
 		}
 
-		public void HardcodeSSOCookie(string ssoCookie)
-		{
-			Cookie cookie = new Cookie("SSO2-UID", ssoCookie, "/", _hostname);
-			_cContainer.Add(cookie);
-		}
+        public void HardcodeSSOCookie(string ssoCookie)
+        {
+            Cookie cookie = new Cookie("SSO2-UID", ssoCookie, "/", _hostname);
+            _cContainer.Add(cookie);
+        }
 
+		public void LogIntoIdentity()
+		{
+            string identityRestCall = _identityurlbase + "/idservices/tokens?username=" + _loginname + "&password=" + _password;
+            CallRestAPI(identityRestCall);
+
+            Uri u = new Uri(_identityurlbase);
+            CookieCollection cc = _cookieContainer.GetCookies(u);
+            foreach (Cookie c in cc)
+            {
+                string n = c.Name;
+                string v = c.Value;
+
+                Cookie cookie = new Cookie(c.Name, c.Value, "/", _hostname);
+                _cContainer.Add(cookie);
+            }
+		}
 
 		public bool ConnectToServer()
 		{

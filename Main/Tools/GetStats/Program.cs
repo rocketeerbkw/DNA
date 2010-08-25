@@ -34,7 +34,8 @@ namespace GetStats
 					}
 				}
 				//req.ConnectToServer();
-				req.HardcodeSSOCookie("44741966ea9db55af653e6f6d1af913f29a872488813303b121b2951942fd31a11");
+				//req.HardcodeSSOCookie("44741966ea9db55af653e6f6d1af913f29a872488813303b121b2951942fd31a11");
+                req.LogIntoIdentity();
 
 				DateTime dt = DateTime.Now.AddDays(-1);
 				if (args.Length > 0)
