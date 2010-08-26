@@ -725,6 +725,9 @@ dna.comments = function (){
 				
 				//Post occurred successfully, stop the user from posting for a while.
 				countdown.start(countdown.seconds || defaultCountdown);
+				
+				//hack to refresh window after a post
+				window.location.reload();
 			}
 		};
 		
