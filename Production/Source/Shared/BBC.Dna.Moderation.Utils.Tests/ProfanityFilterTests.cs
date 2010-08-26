@@ -1,5 +1,4 @@
 ﻿using BBC.Dna.Data;
-using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using System.Collections.Generic;
@@ -61,7 +60,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
 
-            Assert.AreEqual(2, profanityObj.GetCachedObject().ProfanityClasses.Keys.Count);
+            Assert.AreEqual(2, profanityObj.GetObjectFromCache().ProfanityClasses.Keys.Count);
             creator.AssertWasCalled(x => x.CreateDnaDataReader("getallprofanities"));
         }
 
@@ -85,7 +84,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
 
-            Assert.AreEqual(0, ProfanityFilter.GetObject().GetCachedObject().ProfanityClasses.Keys.Count);
+            Assert.AreEqual(0, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.Keys.Count);
             creator.AssertWasCalled(x => x.CreateDnaDataReader("getallprofanities"));
         }
 
@@ -111,7 +110,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
 
-            Assert.AreEqual(cacheObj.ProfanityClasses.Count, ProfanityFilter.GetObject().GetCachedObject().ProfanityClasses.Keys.Count);
+            Assert.AreEqual(cacheObj.ProfanityClasses.Count, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.Keys.Count);
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("getallprofanities"));
         }
 
@@ -153,7 +152,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("getallprofanities"));
-            Assert.AreEqual(cacheObj.ProfanityClasses.Count, ProfanityFilter.GetObject().GetCachedObject().ProfanityClasses.Keys.Count);
+            Assert.AreEqual(cacheObj.ProfanityClasses.Count, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.Keys.Count);
 
             Assert.IsTrue(profanityObj.HandleSignal(signalType, null));
 
@@ -297,7 +296,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
         /// <summary>
         /// Test that a profanity is not detected inside a link within the input text.
         /// </summary>
-        [Ignore]
+        [TestMethod]
         public void CheckForProfanities_CheckForProfanitiesWithInputContainingUrls()
         {
             string testInput = @"Here is some text. It contains a link, http://www.bbc.co.uk/dna/h2g2/inspectuser?id=324.";
@@ -305,7 +304,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             List<string> wordList2 = new List<string>(new string[] { "link" });
             string match;
 
-            Assert.IsFalse(ProfanityFilter.DoesTextContain(testInput, wordList1, false, false, out match));
+            Assert.IsTrue(ProfanityFilter.DoesTextContain(testInput, wordList1, false, false, out match));//should trap words in urls
             Assert.IsTrue(ProfanityFilter.DoesTextContain(testInput, wordList2, false, false, out match));
         }
 
@@ -372,10 +371,10 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
 
-            var stats = profanityObj.GetStats();
+            var stats = profanityObj.GetStats(typeof(ProfanityFilter));
             Assert.IsNotNull(stats);
-            Assert.AreEqual(typeof(ProfanityCache).AssemblyQualifiedName, stats.Name);
-            foreach (var modclass in profanityObj.GetCachedObject().ProfanityClasses)
+            Assert.AreEqual(typeof(ProfanityFilter).AssemblyQualifiedName, stats.Name);
+            foreach (var modclass in profanityObj.GetObjectFromCache().ProfanityClasses)
             {
                 Assert.AreEqual(modclass.Value.ProfanityList.Count.ToString(), stats.Values["ModClassID_" + modclass.Key.ToString() + "_ProfanityList"]);
                 Assert.AreEqual(modclass.Value.ReferList.Count.ToString(), stats.Values["ModClassID_" + modclass.Key.ToString() + "_ReferList"]);

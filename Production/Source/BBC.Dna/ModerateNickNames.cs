@@ -141,7 +141,7 @@ namespace BBC.Dna
             emailSubject = emailSubject.Replace("++**userid**++", userId.ToString());
             emailBody = emailBody.Replace("++**userid**++", userId.ToString());
 
-            string moderatorEmail = InputContext.TheSiteList.GetSite(siteId).GetEmail(Site.EmailType.Moderators);
+            string moderatorEmail = InputContext.TheSiteList.GetSite(siteId).GetEmail(BBC.Dna.Sites.Site.EmailType.Moderators);
 
             try
             {

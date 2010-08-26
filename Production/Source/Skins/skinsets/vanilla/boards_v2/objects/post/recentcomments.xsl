@@ -17,7 +17,8 @@
     
     <xsl:template match="POST" mode="object_post_recentcomments">
         <li>
-            <xsl:value-of select="USER/USERNAME"/>
+            <!-- <xsl:value-of select="USER/USERNAME"/> -->
+            <xsl:apply-templates select="USER" mode="library_user_username" />
             <xsl:text> on </xsl:text>
             <a href="{HOSTPAGEURL}#comment{(@INDEX + 1)}">
                 <xsl:call-template name="library_string_searchandreplace">

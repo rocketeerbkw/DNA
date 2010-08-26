@@ -603,14 +603,12 @@ namespace DnaIdentityWebServiceProxy
             get { return _secureCookieValue; }
         }
 
-#if DEBUG
         /// <summary>
         /// Debugging feature for logging out users
         /// </summary>
         public void LogoutUser()
         {
         }
-#endif
 
         private string _lastError = "";
 

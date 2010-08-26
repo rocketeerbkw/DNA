@@ -12,20 +12,22 @@ namespace BBC.Dna.Common
 {
     public class SignalBase<T> : ISignalBase
     {
-        
-
         //cache and db objects
-        protected T _object;
-        private DateTime _lastUpdate = DateTime.MaxValue;
+        private Dictionary<string, object> _objects;
+        public Dictionary<string, object> InternalObjects
+        {
+            get { return _objects; }
+        }
+        private int MaxCacheItemSize = 0;
+        private string MaxCacheItemSizeKey = string.Empty;
         protected ICacheManager _cache;
         protected IDnaDiagnostics _dnaDiagnostics;
         protected IDnaDataReaderCreator _readerCreator;
-        const string _lastUpdateCacheKey = "LASTUPDATE";
-        
+        protected const string _lastUpdateCacheKey = "LASTUPDATE";
 
         //Delegates
-        protected delegate T InitialiseObjectDelegate();
-        protected Delegate InitialiseObject;
+        protected delegate void InitialiseObjectDelegate(params object[] args);
+        protected event InitialiseObjectDelegate InitialiseObject;
         protected delegate bool HandleSignalDelegate(NameValueCollection args);
         protected Delegate HandleSignalObject;
         protected delegate NameValueCollection GetStatsDelegate();
@@ -34,12 +36,6 @@ namespace BBC.Dna.Common
         //server addresses
         protected List<string> _ripleyServerAddresses;
         protected List<string> _dotNetServerAddresses;
-
-        public int CachedObjectSize
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         /// The signal that this object listens for
@@ -62,6 +58,7 @@ namespace BBC.Dna.Common
         public SignalBase(IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics,
             ICacheManager caching, string signalKey, List<string> ripleyServerAddresses, List<string> dotNetServerAddresses)
         {
+            _objects = new Dictionary<string,object>();
             _readerCreator = dnaDataReaderCreator;
             _dnaDiagnostics = dnaDiagnostics;
             _cache = caching;
@@ -74,10 +71,19 @@ namespace BBC.Dna.Common
         /// Returns the object which is cached
         /// </summary>
         /// <returns></returns>
-        public T GetCachedObject()
+        protected object GetCachedObject(params object[] args)
         {
-            CheckVersionInCache();
-            return _object;
+            CheckVersionInCache(args);
+            var cacheKey = GetCacheKey(args);
+
+            if(_objects.ContainsKey(cacheKey))
+            {
+                return _objects[cacheKey];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -85,8 +91,12 @@ namespace BBC.Dna.Common
         /// </summary>
         public void Clear()
         {
-            _object = default(T);
-            _cache.Remove(GetCacheKey());
+            var keys = _objects.Keys.ToArray();
+            foreach (var key in keys)
+            {
+                _objects.Remove(key);
+                _cache.Remove(key);
+            }
         }
 
         /// <summary>
@@ -113,43 +123,63 @@ namespace BBC.Dna.Common
         /// <returns></returns>
         static public string GetCacheKey(params object[] args)
         {
-            var key = string.Format(@"{0}|", typeof(T).AssemblyQualifiedName);
+            var key = string.Format(@"{0}|", typeof(T).Name);
             return args.Aggregate(key, (current, arg) => current + (arg + "|"));
+        }
+
+        /// <summary>
+        /// Returns unique cache key per object
+        /// </summary>
+        /// <returns></returns>
+        static public string GetCacheKeyLastUpdate(params object[] args)
+        {
+            return GetCacheKey(args) + "|" + _lastUpdateCacheKey;
+            
         }
 
         /// <summary>
         /// Checks if the current version of object up to date with cache
         /// </summary>
-        protected void CheckVersionInCache()
+        protected void CheckVersionInCache(params object[] args)
         {
+            var cacheKey = GetCacheKey(args);
+            var cacheLastUpdateKey = GetCacheKeyLastUpdate(args);
+
             DateTime cacheLastUpdate = DateTime.MinValue;
             try
             {
-                if (_cache.Contains(GetCacheKey(_lastUpdateCacheKey)))
+                if (_cache.Contains(cacheLastUpdateKey))
                 {
-                    cacheLastUpdate = (DateTime)_cache.GetData(GetCacheKey(_lastUpdateCacheKey));
+                    cacheLastUpdate = (DateTime)_cache.GetData(cacheLastUpdateKey);
                 }
             }
             catch(Exception e)
             {
                 _dnaDiagnostics.WriteExceptionToLog(e);
             }
-            if (_lastUpdate == cacheLastUpdate && _object != null)
+
+            DateTime localLastUpdate = DateTime.MaxValue;
+            if (_objects.ContainsKey(cacheLastUpdateKey))
+            {
+                localLastUpdate = (DateTime)_objects[cacheLastUpdateKey];
+            }
+
+            if (localLastUpdate == cacheLastUpdate && _objects.ContainsKey(cacheKey))
             {//everything up to date
                 return;
             }
 
-            T tempObject = default(T);
+            object tempObject = null;
             try
             {
                 //get new object
-                if (_cache.Contains(GetCacheKey()))
+                if (_cache.Contains(cacheKey))
                 {
-                    tempObject = (T)_cache.GetData(GetCacheKey());
+                    tempObject = _cache.GetData(cacheKey);
                 }
-                if (_cache.Contains(GetCacheKey(_lastUpdateCacheKey)))
+                if (_cache.Contains(cacheLastUpdateKey))
                 {
-                    _lastUpdate = (DateTime)_cache.GetData(GetCacheKey(_lastUpdateCacheKey));
+                    cacheLastUpdate = (DateTime)_cache.GetData(cacheLastUpdateKey);
                 }
 
             }
@@ -159,11 +189,27 @@ namespace BBC.Dna.Common
             }
             if(tempObject != null)
             {//got a valid object
-                _object = tempObject;
+                if (_objects.ContainsKey(cacheLastUpdateKey))
+                {
+                    _objects[cacheLastUpdateKey] = cacheLastUpdate;
+                }
+                else
+                {
+                    _objects.Add(cacheLastUpdateKey, cacheLastUpdate);
+                }
+
+                if (_objects.ContainsKey(cacheKey))
+                {
+                    _objects[cacheKey] = tempObject;
+                }
+                else
+                {
+                    _objects.Add(cacheKey, tempObject);
+                }
                 return;
             }
 
-            if(_object != null)
+            if (_objects.ContainsKey(cacheKey))
             {//no update but have an object so use it
                 return;
             }
@@ -171,8 +217,8 @@ namespace BBC.Dna.Common
             //no object in cache or cache not available
             if (InitialiseObject != null)
             {
-                _object = (T)InitialiseObject.DynamicInvoke();
-                UpdateCache();
+                //InitialiseObject.DynamicInvoke(args);
+                InitialiseObject(args);
             }
             else
             {
@@ -182,45 +228,67 @@ namespace BBC.Dna.Common
         }
 
         /// <summary>
-        /// Copies current version to cache
+        /// Adds the object to the internal cache and distrubted version
         /// </summary>
-        protected void UpdateCache()
+        /// <param name="cacheKey"></param>
+        /// <param name="cacheLastUpdateKey"></param>
+        /// <param name="obj"></param>
+        protected void AddToInternalObjects(string cacheKey, string cacheLastUpdateKey, object obj)
         {
-            try
+            
+            var saveDate = DateTime.Now;
+            if (_objects.ContainsKey(cacheKey))
             {
-                DnaDiagnostics.Default.WriteTimedEventToLog("CACHING", "About to add " + SignalKey + " to cache");
-                _lastUpdate = DateTime.Now;
-                _cache.Add(GetCacheKey(), _object);
-                _cache.Add(GetCacheKey(_lastUpdateCacheKey), _lastUpdate);
-                DnaDiagnostics.Default.WriteTimedEventToLog("CACHING", "Finished adding " + SignalKey + " to cache");
-                if (_cache.GetType() == typeof(MemcachedCacheManager))
+                _objects[cacheKey] = obj;
+            }
+            else
+            {
+                _objects.Add(cacheKey, obj);
+            }
+            _cache.Add(cacheKey, _objects[cacheKey]);
+
+            if (_objects.ContainsKey(cacheLastUpdateKey))
+            {
+                _objects[cacheLastUpdateKey] = saveDate;
+            }
+            else
+            {
+                _objects.Add(cacheLastUpdateKey, saveDate);
+            }
+            _cache.Add(cacheLastUpdateKey, _objects[cacheLastUpdateKey]);
+
+            if (_cache.GetType() == typeof(MemcachedCacheManager))
+            {
+                var cachedObjectSize = ((MemcachedCacheManager)_cache).LastCachedOjectSize;
+                if (MaxCacheItemSize < cachedObjectSize)
                 {
-                    CachedObjectSize = ((MemcachedCacheManager)_cache).LastCachedOjectSize;
+                    MaxCacheItemSize = cachedObjectSize;
+                    MaxCacheItemSizeKey = cacheKey;
                 }
             }
-            catch (Exception e)
-            {
-                _dnaDiagnostics.WriteExceptionToLog(e);
-            }
+            
         }
 
-        /// <summary>
-        /// Updates cache and sends signal
-        /// </summary>
-        protected void UpdateCacheAndSignal()
-        {
-            UpdateCacheAndSignal(null);
-        }
-
-        /// <summary>
-        /// Updates and send signal with querystring data
-        /// </summary>
-        /// <param name="queryStringData"></param>
-        protected void UpdateCacheAndSignal(NameValueCollection queryStringData)
-        {
-            UpdateCache();
-            SendSignals(queryStringData);
-        }
+        ///// <summary>
+        ///// Copies current version to cache
+        ///// </summary>
+        //protected void AddAllItemsToCache()
+        //{
+        //    try
+        //    {
+        //        DnaDiagnostics.Default.WriteTimedEventToLog("CACHING", "About to add all items to cache");
+        //        var keys = _objects.Keys.ToArray();
+        //        foreach (var key in keys)
+        //        {
+        //            _cache.Add(key, _objects[key]);
+        //        }
+        //        DnaDiagnostics.Default.WriteTimedEventToLog("CACHING", "Finished adding items to cache");
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        _dnaDiagnostics.WriteExceptionToLog(e);
+        //    }
+        //}
 
         /// <summary>
         /// Sends the signal to other machines to refresh caches
@@ -318,8 +386,7 @@ namespace BBC.Dna.Common
         {
             if (InitialiseObject != null)
             {
-                _object = (T)InitialiseObject.DynamicInvoke();
-                UpdateCache();
+                InitialiseObject.DynamicInvoke(new object[1]);
             }
             else
             {
@@ -331,10 +398,10 @@ namespace BBC.Dna.Common
         /// Get stats
         /// </summary>
         /// <returns></returns>
-        public SignalStatusMember GetStats()
+        public SignalStatusMember GetStats(Type type)
         {
-            var signalStatusMember = new SignalStatusMember(){Name = typeof(T).AssemblyQualifiedName};
-            signalStatusMember.Values.Add("LastCacheUpdate", _lastUpdate.ToString());
+            var signalStatusMember = new SignalStatusMember() { Name = type.AssemblyQualifiedName };
+            
             if (GetStatsObject != null)
             {
                 signalStatusMember.Values =  (NameValueCollection)GetStatsObject.DynamicInvoke();
@@ -343,6 +410,8 @@ namespace BBC.Dna.Common
                 {
                     signalStatusMember.Values = new NameValueCollection();
                 }
+                signalStatusMember.Values.Add("MaxCacheItemSize", MaxCacheItemSize.ToString());
+                signalStatusMember.Values.Add("MaxCacheItemSizeKey", MaxCacheItemSizeKey);
             }
             return signalStatusMember;
         }

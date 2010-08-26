@@ -740,7 +740,7 @@ bool CRipleyServerExtension::UseHTMLCache(CGI& ThisRequest)
 
 	if (!ThisRequest.HasSSOCookie())
 	{
-		ThisRequest.AddNonSSORequest();
+		ThisRequest.AddLoggedOutRequest();
 
 		if (!ThisRequest.DoesCurrentSiteCacheHTML() || ThisRequest.GetCurrentSiteHTMLCacheExpiry() == 0 )
 		{

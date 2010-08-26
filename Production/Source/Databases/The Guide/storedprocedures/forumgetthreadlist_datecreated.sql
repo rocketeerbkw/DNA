@@ -39,7 +39,9 @@ as
 					'FirstPostEntryID' = te.EntryID,
 					'FirstPosting' = te.DatePosted,
 					'FirstPostUserID' = u.UserID,
+					'FirstPostIdentityUserID' = siuidm.IdentityUserID,
 					'FirstPostUserName' = u.UserName,
+					'FirstPostIdentityUserName'	= u.LoginName, 
 					'FirstPostFirstNames' = u.FirstNames,
 					'FirstPostLastName' = u.LastName,
 					'FirstPostNotableUser' = CASE WHEN gm.UserID IS NOT NULL THEN 1 ELSE 0 END,
@@ -54,7 +56,9 @@ as
 					'FirstPostActive' = u.Active,
 					'LastPostEntryID' = te1.EntryID,
 					'LastPostUserID' = u1.UserID,
+					'LastPostIdentityUserID' = siuidm1.IdentityUserID,
 					'LastPostUserName' = u1.UserName,
+					'LastPostIdentityUserName'	= u1.LoginName, 
 					'LastPostFirstNames' = u1.FirstNames,
 					'LastPostLastName' = u1.LastName,
 					'LastPostNotableUser' = CASE WHEN gm1.UserID IS NOT NULL THEN 1 ELSE 0 END,
@@ -80,10 +84,12 @@ as
 				INNER JOIN Forums f WITH(NOLOCK) ON f.ForumID = t.ForumID
 				INNER JOIN ThreadEntries te WITH(NOLOCK) ON te.Threadid = t.ThreadID AND te.PostIndex = 0
 				INNER JOIN Users u WITH(NOLOCK) ON u.UserID = te.UserID
+				LEFT JOIN SignInUserIDMapping siuidm WITH(NOLOCK) ON u.UserID = siuidm.DnaUserID
 				LEFT JOIN Preferences p WITH(NOLOCK) ON u.UserID = p.UserID AND f.SiteID = p.SiteID
 
 				INNER JOIN ThreadEntries te1 WITH(NOLOCK) ON te1.ThreadID = t.ThreadID AND te1.PostIndex = (SELECT top 1 PostIndex FROM ThreadEntries tex WITH(NOLOCK) WHERE tex.ThreadID = t.ThreadID ORDER BY PostIndex DESC) 
 				INNER JOIN Users u1 WITH(NOLOCK) ON u1.UserID = te1.UserID
+				LEFT JOIN SignInUserIDMapping siuidm1 WITH(NOLOCK) ON u1.UserID = siuidm1.DnaUserID
 				LEFT JOIN Preferences p1 WITH(NOLOCK) ON u1.UserID = p1.UserID AND f.SiteID = p1.SiteID
 				LEFT JOIN GroupMembers gm WITH(NOLOCK) ON gm.UserID = te.UserID AND gm.SiteID = f.SiteID AND gm.GroupID = @notablesgroup
 				LEFT JOIN GroupMembers gm1 WITH(NOLOCK) ON gm1.UserID = te1.UserID AND gm1.SiteID = f.SiteID AND gm1.GroupID = @notablesgroup

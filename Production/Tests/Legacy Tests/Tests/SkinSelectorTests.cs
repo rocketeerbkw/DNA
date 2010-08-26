@@ -226,7 +226,7 @@ namespace Tests
         [TestMethod]
         public void WhenSkinNameIsUppercaseXmlThenSkinIsAlwaysValid()
         {
-            CheckSpecialCaseSkinName("XML");
+            CheckSpecialCaseSkinName("xml");
         }
 
         /// <summary>
@@ -244,27 +244,27 @@ namespace Tests
         [TestMethod]
         public void WhenSkinNameIsUppercasePurexmlThenSkinIsAlwaysValid()
         {
-            CheckSpecialCaseSkinName("PUREXML");
+            CheckSpecialCaseSkinName("purexml");
         }
 
         /// <summary>
         /// Tests special case when a skin name ends in -xml
         /// </summary>
-        [Ignore]
-        public void WhenSkinNameEndsInDashXmlThenWeShouldValidThePrefixPartOfTheSkinName()
+        [TestMethod]
+        public void WhenSkinNameEndsInDashXml_ReturnsXmlSkin()
         {
             string validSkinNameEndingInXml = FILTER_DERIVED_SKIN + "-xml";
-            CheckSpecialCaseSkinName(validSkinNameEndingInXml);
+            CheckSpecialCaseSkinName(validSkinNameEndingInXml, "xml");
         }
 
         /// <summary>
         /// Tests special case when a skin name ends in -XML
         /// </summary>
-        [Ignore]
-        public void WhenSkinNameEndsInDashUppercaseXmlThenWeShouldValidThePrefixPartOfTheSkinName()
+        [TestMethod]
+        public void WhenSkinNameEndsInDashUppercaseXml_ReturnsXmlSkin()
         {
             string validSkinNameEndingInXml = FILTER_DERIVED_SKIN + "-XML";
-            CheckSpecialCaseSkinName(validSkinNameEndingInXml);
+            CheckSpecialCaseSkinName(validSkinNameEndingInXml, "xml");
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Tests
             string skinName = _skinSelector.SkinName;
         }
 
-        private void CheckSpecialCaseSkinName(string skinName)
+        private void CheckSpecialCaseSkinName(string skinName, string expectedSkin)
         {
             setupRequestToHaveRequestedSkin(skinName);
             setupUserAsNotLoggedIn();
@@ -289,7 +289,13 @@ namespace Tests
             Stub.On(_outputContext).Method("GetSkinPath").Will(Return.Value(Path.Combine(IIsInitialise.GetIIsInitialise().GetWebSiteRoot("h2g2UnitTesting"), @"Skins/SkinSets/vanilla/default/output.xsl")));
             _skinSelector.Initialise(_inputContext, _outputContext);
 
-            Assert.AreEqual(skinName.ToLower(), _skinSelector.SkinName);
+            Assert.AreEqual(expectedSkin , _skinSelector.SkinName);
+        }
+
+
+        private void CheckSpecialCaseSkinName(string skinName)
+        {
+            CheckSpecialCaseSkinName(skinName, skinName);
         }
 
         private void setupUserAsNotLoggedIn()

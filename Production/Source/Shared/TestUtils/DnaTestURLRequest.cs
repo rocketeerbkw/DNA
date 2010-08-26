@@ -94,6 +94,8 @@ namespace Tests
         private WebProxy _proxy = new WebProxy("http://www-cache.reith.bbc.co.uk:80");
         private bool _useProxyPassing = false;
         private bool _useEditorAuthentication = false;
+        private bool _useDebugIdentityUser = false;
+        private bool _useDebugUserSecureCookie = true;
         private string _userName = "ProfileAPITest";
         private string _password = "APITest";
         private string _cookie = "44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00";
@@ -136,6 +138,7 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
         }
 
         /// <summary>
@@ -150,6 +153,7 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
         }
 
         /// <summary>
@@ -164,6 +168,7 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
         }
 
         /// <summary>
@@ -178,6 +183,7 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
         }
 
         /// <summary>
@@ -192,6 +198,7 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
         }
 
         /// <summary>
@@ -206,6 +213,7 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
         }
 
         /// <summary>
@@ -220,6 +228,7 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
         }
 
         /// <summary>
@@ -251,6 +260,21 @@ namespace Tests
         }
 
         /// <summary>
+        /// Helper function that sets the current user to be a banned user
+        /// </summary>
+        public void SetCurrentUserBanned()
+        {
+            UserAccount user = TestUserAccounts.GetBannedUserAccount;
+            _userName = user.UserName;
+            _password = user.Password;
+            _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
+            _userid = user.UserID;
+            _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
+        }
+
+        /// <summary>
         /// Sets the current user with the given details
         /// </summary>
         /// <param name="userName">The username for the user</param>
@@ -265,6 +289,17 @@ namespace Tests
             _cookie = cookie;
             _userid = dnaUserID;
             _useIdentity = useIdentity;
+        }
+
+        public bool UseDebugUserSecureCookie
+        {
+            set { _useDebugUserSecureCookie = value; }
+        }
+
+        public bool UserBannedViaEmail
+        {
+            get;
+            set;
         }
 
         /// <summary>
@@ -376,20 +411,6 @@ namespace Tests
             _useIdentity = true;
 
             return true;
-        }
-
-        /// <summary>
-        /// Helper function that sets the current user to be a banned user
-        /// </summary>
-        public void SetCurrentUserBanned()
-        {
-            UserAccount user = TestUserAccounts.GetBannedUserAccount;
-            _userName = user.UserName;
-            _password = user.Password;
-            _cookie = user.Cookie;
-            _secureCookie = user.SecureCookie;
-            _userid = user.UserID;
-            _useIdentity = user.UsesIdentity;
         }
 
         /// <summary>
@@ -673,6 +694,8 @@ namespace Tests
                 pageParams += "&d_skinfile=" + skinPath;
             }
 
+            pageParams = AddDebugUserParams(pageParams);
+
             // Now call the request
             _hostRequest.ProcessRequest(page, pageParams, "IDENTITY=" + _cookie);
 
@@ -732,15 +755,14 @@ namespace Tests
             _responseAsString = null;
             _responseAsXML = null;
 
+            pageAndParams = AddDebugUserParams(pageAndParams);
+
             // Create the URL and the Request object
             Uri URL;
             if (secure)
             {
                 URL = new Uri("https://" + _secureServer + "/dna/" + _serviceName + "/" + pageAndParams);
-                //URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
-
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
-
             }
             else
             {
@@ -864,6 +886,38 @@ namespace Tests
         }
 
         /// <summary>
+        /// Checks and adds the debuguser params.
+        /// </summary>
+        /// <param name="pageAndParams">Current params for the request</param>
+        /// <returns>The new param string</returns>
+        private string AddDebugUserParams(string pageAndParams)
+        {
+            if (_useDebugIdentityUser)
+            {
+                string debugUserParams = "?";
+                if (pageAndParams.Contains("?"))
+                {
+                    debugUserParams = "&";
+                }
+
+                debugUserParams += "d_identityuserid=" + _userName;
+                
+                if (!_useDebugUserSecureCookie)
+                {
+                    debugUserParams += "|nosecurecookie";
+                }
+
+                if (UserBannedViaEmail)
+                {
+                    debugUserParams += "|bannedemail";
+                }
+
+                pageAndParams += debugUserParams;
+            }
+            return pageAndParams;
+        }
+
+        /// <summary>
         /// This function is used to send the request
         /// </summary>
         /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
@@ -898,6 +952,8 @@ namespace Tests
             _responseAsString = null;
             _responseAsXML = null;
 
+            fullUrl = AddDebugUserParams(fullUrl);
+
             // Create the URL and the Request object
             Uri URL = new Uri(fullUrl);
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
@@ -905,8 +961,8 @@ namespace Tests
             webRequest.AllowAutoRedirect = false;
 
             //Trust all certificates
-            System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
-
+            ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
+            
             if (!String.IsNullOrEmpty(postDataType))
             {
                 webRequest.ContentType = postDataType;
@@ -996,14 +1052,24 @@ namespace Tests
                 byte[] data = encoding.GetBytes(postData);
                 if (webRequest.Method == "GET")
                 {
-                webRequest.Method = "POST";
+                    webRequest.Method = "POST";
                 }
                 
                 webRequest.ContentLength = data.Length;
-	            Stream newStream=webRequest.GetRequestStream();
-	            // Send the data.
-                newStream.Write(data, 0, data.Length);
-	            newStream.Close();
+                try
+                {
+                    using (Stream newStream = webRequest.GetRequestStream())
+                    {
+                        // Send the data.
+                        newStream.Write(data, 0, data.Length);
+                        newStream.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw ex;
+                }
             }
             else
             {
@@ -1019,8 +1085,26 @@ namespace Tests
             }
             catch (WebException ex)
             {
-                _response = (HttpWebResponse)ex.Response;
-                throw;
+                string error = ex.Message;
+
+                if (ex.Response != null)
+                {
+                    _response = (HttpWebResponse)ex.Response;
+                    StreamReader reader = new StreamReader(ex.Response.GetResponseStream(), Encoding.UTF8);
+                    _responseAsString = reader.ReadToEnd();
+                }
+
+                if (ex.InnerException != null)
+                {
+                    error += " : " + ex.InnerException.Message;
+                }
+
+                if (_assertWebFailure)
+                {
+                    Assert.Fail("DNARequest Failed!!! - " + error);
+                }
+
+                throw ex;
             }
             
             GetLastResponseAsString();
@@ -1184,6 +1268,8 @@ namespace Tests
         /// <param name="userType">The type of user you want to log in as.</param>
         public void SignUserIntoSSOViaProfileAPI(usertype userType)
         {
+            Assert.Fail("We nolonger support SSO login/Signin. Please rewrite your test to use identity!");
+
             // Check to see what type of user we are wanting to sign in as
             Console.WriteLine("SignUserIntoSSOViaProfileAPI");
             if (userType == usertype.NORMALUSER)
@@ -1228,7 +1314,7 @@ namespace Tests
             }
 
             // Create the profile api obejct
-            using (FullInputContext inputContext = new FullInputContext(_useIdentity))
+            using (FullInputContext inputContext = new FullInputContext(""))
             {
                 inputContext.GetCurrentSignInObject.SetService(_serviceName);
                 inputContext.GetCurrentSignInObject.TrySetUserViaCookie(_cookie);

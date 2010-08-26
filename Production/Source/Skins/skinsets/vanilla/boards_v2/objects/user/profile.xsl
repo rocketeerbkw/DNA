@@ -20,7 +20,7 @@
             <xsl:call-template name="library_header_h3">
                 <xsl:with-param name="text">
                     	<a href="?userid={USERID}">
-	                        <xsl:value-of select="USERNAME"/>
+	                        <xsl:apply-templates select="." mode="library_user_username" />
 	                        <xsl:text> (U</xsl:text>
 	                        <xsl:value-of select="USERID"/>
 	                        <xsl:text>)</xsl:text>

@@ -1174,7 +1174,27 @@ links: http://www.bbc.co.uk and other stuff";
 
             var errorXml = xml.SelectSingleNode("//H2G2/ERROR");
             Assert.IsNotNull(errorXml);
-            Assert.AreEqual("ForumNotFound", errorXml.Attributes["TYPE"].Value);
+            Assert.AreEqual("ForumOrThreadNotFound", errorXml.Attributes["TYPE"].Value);
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/TOPICLIST"));
+
+        }
+
+        [TestMethod]
+        public void Test40ForumPageThreadNotFound()
+        {
+
+            var siteName = "mbiplayer";
+            var threadId = Int32.MaxValue - 1;
+
+            var request = new DnaTestURLRequest(siteName);
+            request.RequestPage(string.Format("NF7325075?thread={0}&skin=purexml", threadId));
+
+            var xml = request.GetLastResponseAsXML();
+
+            var errorXml = xml.SelectSingleNode("//H2G2/ERROR");
+            Assert.IsNotNull(errorXml);
+            Assert.AreEqual("ForumOrThreadNotFound", errorXml.Attributes["TYPE"].Value);
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/TOPICLIST"));
 
         }
 

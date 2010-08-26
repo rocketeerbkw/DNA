@@ -30,7 +30,7 @@ namespace BBC.Dna
         public void CreateXmlSiteList(ISiteList sites)
         {
             XmlNode sitesxml = AddElementTag(RootElement, "SITE-LIST");
-            foreach (Site site in sites.Ids.Values)
+            foreach (BBC.Dna.Sites.Site site in sites.Ids.Values)
             {
                 XmlNode sitexml = AddElementTag(sitesxml, "SITE");
                 AddAttribute(sitexml, "ID", site.SiteID);
@@ -236,7 +236,7 @@ namespace BBC.Dna
 
             XmlNode siteOptionsListXml = AddElementTag(RootElement, "SITEOPTIONSLIST");
 
-            foreach ( KeyValuePair<int, Site> site in sites.Ids)
+            foreach ( KeyValuePair<int, BBC.Dna.Sites.Site> site in sites.Ids)
             {
                 XmlNode siteOptionsXml = AddElementTag(siteOptionsListXml, "SITEOPTIONS");
                 AddAttribute(siteOptionsXml, "SITEID", site.Key);

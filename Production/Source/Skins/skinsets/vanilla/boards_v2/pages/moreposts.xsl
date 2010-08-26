@@ -43,17 +43,11 @@
             		<span class="dna-invisible">
 	                    <xsl:text>Profile for </xsl:text>
 	                </span>
-	                <xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/>
+	                <xsl:apply-templates select="POSTS/POST-LIST/USER" mode="library_user_username" />
 	                <xsl:text> (U</xsl:text><xsl:value-of select="$userId"/><xsl:text>) </xsl:text>
 	                <span>
-	                	<a href="{$root}/MP{$userId}">permalink <span class="blq-hide"> <xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/></span></a>
+	                	<a href="{$root}/MP{$userId}">permalink <span class="blq-hide"> <xsl:apply-templates select="POSTS/POST-LIST/USER" mode="library_user_username" /></span></a>
 	                </span>
-            	<!--<xsl:if test="$userId = $loggedInUser">
-            		<a href="{$root-rss}/MP{$userId}" class="rsslink" title="View as RSS feed">
-	            		<span></span>
-	            	</a>
-            	</xsl:if>
-            	<span class="clear"> </span>-->
             </xsl:with-param>
         </xsl:call-template>    
         
@@ -66,7 +60,7 @@
             			<strong> you</strong>
             		</xsl:when>
             		<xsl:otherwise>
-            			<xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/>
+            			<xsl:apply-templates select="POSTS/POST-LIST/USER" mode="library_user_username" />
             		</xsl:otherwise>
             	</xsl:choose>
             	<xsl:text> (U</xsl:text><xsl:value-of select="POSTS/POST-LIST/USER/USERID"/><xsl:text>)</xsl:text>
@@ -83,24 +77,6 @@
           </xsl:choose>
           
         </p>
-        
-        <!-- <p>
-          <xsl:text>You can also view a </xsl:text>
-        	<a href="{$root}/MC{$userId}">
-        	<xsl:choose>
-        		<xsl:when test="POSTS/POST-LIST/USER/USERID = $loggedInUser">
-        			<xsl:text>list of your comments</xsl:text>
-        		</xsl:when>
-        		<xsl:when test="POSTS/POST-LIST/USER/USERNAME">
-        			list of <xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/>'s comments
-        		</xsl:when>
-        		<xsl:otherwise>
-        			<xsl:text>list of this user's comments</xsl:text>
-        		</xsl:otherwise>
-        	</xsl:choose>
-        	</a>
-          <xsl:text>.</xsl:text>
-        </p> -->
         
         <xsl:call-template name="library_userstate_editor">
           <xsl:with-param name="loggedin">
@@ -138,7 +114,7 @@
                 <xsl:text>Profile for </xsl:text>
             	<xsl:choose>
             		<xsl:when test="POSTS/POST-LIST/USER/USERNAME">
-            			<xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/>
+            			<xsl:apply-templates select="POSTS/POST-LIST/USER" mode="library_user_username" />
             		</xsl:when>
             		<xsl:otherwise>
             			<xsl:value-of select="POSTS/@USERID"/>

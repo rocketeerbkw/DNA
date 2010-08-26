@@ -8,16 +8,10 @@ using System.Web.Configuration;
 using System.Web.UI;
 using System.Xml;
 using System.Xml.Xsl;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Configuration;
 using BBC.Dna.Component;
 using DnaIdentityWebServiceProxy;
 using BBC.Dna.Utils;
-using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
-using System.Collections.Specialized;
-using BBC.Dna.Common;
 using BBC.Dna.Users;
 
 
@@ -266,7 +260,11 @@ namespace BBC.Dna.Page
             InitialiseRequest();
 
             // Check to see which sign in method we need to create
-            if (CurrentSite.UseIdentitySignInSystem)
+            if (_debugUserID.Length > 0)
+            {
+                SetupDebugUserSignin();
+            }
+            else if (CurrentSite.UseIdentitySignInSystem)
             {
                 // Create a new Identity web service object
                 string identityWebServiceConnetionDetails = GetConnectionDetails["IdentityURL"].ConnectionString;
@@ -358,6 +356,26 @@ namespace BBC.Dna.Page
 
 		}
 
+        private void SetupDebugUserSignin()
+        {
+#if DEBUG
+            Diagnostics.WriteTimedEventToLog("IDENTITY", "Started using debugging user cookie mode");
+            _signInComponent = new DnaIdentityWebServiceProxy.IdentityDebugSigninComponent(_debugUserID);
+
+            HttpCookie idcookie = new HttpCookie("IDENTITY", _signInComponent.GetCookieValue);
+            idcookie.Domain = ".bbc.co.uk";
+            idcookie.Path = "/";
+            Cookies.Add(idcookie);
+
+            HttpCookie idsecurecookie = new HttpCookie("IDENTITY-HTTPS", _signInComponent.GetSecureCookieValue);
+            idsecurecookie.Domain = ".bbc.co.uk";
+            idsecurecookie.Path = "/";
+            Cookies.Add(idsecurecookie);
+
+            Diagnostics.WriteTimedEventToLog("IDENTITY", "Finished");
+#endif
+        }
+
 		/// <summary>
 		/// Add to the ServerTooBusy stats
 		/// </summary>
@@ -378,9 +396,9 @@ namespace BBC.Dna.Page
 		/// <summary>
 		/// Add a non SSO request to the stats
 		/// </summary>
-		public void AddNonSSORequest()
+		public void AddLoggedOutRequest()
 		{
-			Statistics.AddNonSSORequest();
+			Statistics.AddLoggedOutRequest();
 		}
 
 		/// <summary>
@@ -500,7 +518,27 @@ namespace BBC.Dna.Page
             {
                 UserGroups.GetObject().ReInitialise();
             }
+
+            _debugUserID = "";
 #if DEBUG
+            // Check to see if we're wanting to use the debug user or not
+            if (Request.Params["d_identityuserid"] != null)
+            {
+                SetDebugUserCookie(Request.Params["d_identityuserid"]);
+            }
+            else if (Request.Params["d_clearidentityuserid"] != null)
+            {
+                ClearDebugUserCookie();
+            }
+            else if (GetCookie("DNADEBUGUSER") != null)
+            {
+                DnaCookie debuguser = GetCookie("DNADEBUGUSER");
+                if (debuguser != null && debuguser.Value.Length > 0)
+                {
+                    _debugUserID = debuguser.Value.Substring(3);
+                }
+            }
+
             if (Request.Params["d_skinfile"] != null)
             {
                 DebugSkinFile = Request.Params["d_skinfile"];
@@ -512,6 +550,42 @@ namespace BBC.Dna.Page
             // Create the transformer for this request
             CreateTransformer();
         }
+
+        private string _debugUserID = "";
+
+#if DEBUG
+        private void SetDebugUserCookie(string userid)
+        {
+            HttpCookie identityDebugUser = new HttpCookie("DNADEBUGUSER", "ID-" + userid);
+            identityDebugUser.Expires = DateTime.Now.AddYears(1);
+            identityDebugUser.Domain = "bbc.co.uk";
+            identityDebugUser.Path = "/";
+            Response.Cookies.Add(identityDebugUser);
+            _debugUserID = userid;
+        }
+
+        private void ClearDebugUserCookie()
+        {
+            HttpCookie identityDebugUser = new HttpCookie("DNADEBUGUSER", "ID-0");
+            identityDebugUser.Expires = DateTime.Now.AddYears(-1);
+            identityDebugUser.Domain = "bbc.co.uk";
+            identityDebugUser.Path = "/";
+            Response.Cookies.Add(identityDebugUser);
+            
+            HttpCookie identity = new HttpCookie("IDENTITY", "");
+            identity.Expires = DateTime.Now.AddYears(-1);
+            identity.Domain = "bbc.co.uk";
+            identity.Path = "/";
+            Response.Cookies.Add(identity);
+
+            HttpCookie httpsIdentity = new HttpCookie("IDENTITY-HTTPS", "");
+            httpsIdentity.Expires = DateTime.Now.AddYears(-1);
+            httpsIdentity.Domain = "bbc.co.uk";
+            httpsIdentity.Path = "/";
+            Response.Cookies.Add(httpsIdentity);
+            _debugUserID = "";
+        }
+#endif
 
         /// <summary>
         /// Initialises the page by setting up all the member vairables

@@ -50,7 +50,7 @@ namespace BBC.Dna.Moderation.Utils
         public ProfanityFilter(IDnaDataReaderCreator dnaData_readerCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, List<string> ripleyServerAddresses, List<string> dotNetServerAddresses)
             : base(dnaData_readerCreator, dnaDiagnostics, caching, _signalKey, ripleyServerAddresses, dotNetServerAddresses)
         {
-            InitialiseObject = new InitialiseObjectDelegate(InitialiseProfanities);
+            InitialiseObject += new InitialiseObjectDelegate(InitialiseProfanities);
             HandleSignalObject = new HandleSignalDelegate(HandleSignal);
             GetStatsObject = new GetStatsDelegate(GetTermsStats);
             CheckVersionInCache();
@@ -62,9 +62,8 @@ namespace BBC.Dna.Moderation.Utils
 	    /// Initialises the terms list
 	    /// </summary>
 	    /// <returns>Cachable object</returns>
-        private ProfanityCache InitialiseProfanities()
+        private void InitialiseProfanities(params object[] args)
 	    {
-
             var profanityCache = new ProfanityCache();
 
             using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("getallprofanities"))
@@ -94,7 +93,7 @@ namespace BBC.Dna.Moderation.Utils
                     }
                 }
             }
-            return profanityCache;
+            AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), profanityCache);
 	    }
 
         /// <summary>
@@ -104,8 +103,7 @@ namespace BBC.Dna.Moderation.Utils
         /// <returns></returns>
         private bool HandleSignal(NameValueCollection args)
         {
-            _object = InitialiseProfanities();
-            UpdateCache();
+            InitialiseProfanities();
             return true;
         }
 
@@ -117,7 +115,8 @@ namespace BBC.Dna.Moderation.Utils
         {
             var values = new NameValueCollection();
 
-            GetCachedObject();
+
+            var _object = (ProfanityCache)GetObjectFromCache();
             foreach (var modclass in _object.ProfanityClasses)
             {
                 values.Add("ModClassID_" + modclass.Key.ToString() + "_ProfanityList", modclass.Value.ProfanityList.Count.ToString());
@@ -160,7 +159,7 @@ namespace BBC.Dna.Moderation.Utils
 		///</remarks>
 		public static FilterState CheckForProfanities(int modClassID, string textToCheck, out string matchingProfanity)
 		{
-            var _profanityClasses = ProfanityFilter.GetObject().GetCachedObject().ProfanityClasses;
+            var _profanityClasses = ((ProfanityCache)ProfanityFilter.GetObject().GetObjectFromCache()).ProfanityClasses;
 			if (false == _profanityClasses.ContainsKey(modClassID))
 			{
 				matchingProfanity = string.Empty;
@@ -360,6 +359,16 @@ namespace BBC.Dna.Moderation.Utils
         public void SendSignal()
         {
             SendSignals();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public ProfanityCache GetObjectFromCache()
+        {
+            return (ProfanityCache)GetCachedObject();
         }
 
 	}

@@ -16,5 +16,16 @@ namespace BBC.DNA.Monitoring
         public List<KPI> ListOfKPIs { get { return _listOfKPIs; } }
         public string ServerName { get { return _serverName; } }
         public string AppName { get { return _appName; } }
+
+        public KPI FindKpiByName(string name)
+        {
+            foreach (KPI kpi in _listOfKPIs)
+            {
+                if (kpi.KPIName.Equals(name))
+                    return kpi;
+            }
+
+            return null;
+        }
     }
 }

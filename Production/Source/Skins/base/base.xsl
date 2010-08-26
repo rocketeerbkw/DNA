@@ -14700,8 +14700,8 @@ Call:		<xsl:apply-templates select="." mode="UserNameInput">
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:if test="$sitesuffix_required = 'true'">
-				<xsl:attribute name="maxlength">255</xsl:attribute>
-				<xsl:attribute name="size">60</xsl:attribute>
+				<xsl:attribute name="maxlength">100</xsl:attribute>
+				<xsl:attribute name="style">width:100%;</xsl:attribute>
 			</xsl:if>
 		</input>
 	</xsl:template>
@@ -17333,7 +17333,7 @@ Call:		<xsl:apply-templates select="." mode="Form">
 		<xsl:if test="MESSAGE[@TYPE='']">
 			<xsl:call-template name="m_spacingaboveudetails"/>
 		</xsl:if>
-		<TABLE vspace="0" hspace="0" border="0" cellpadding="0" cellspacing="0" width="47%">
+		<TABLE vspace="0" hspace="0" border="0" cellpadding="0" cellspacing="0" width="400">
 			<FORM xsl:use-attribute-sets="asfUSER-DETAILS-FORM">
 				<TR>
 					<xsl:apply-templates select="." mode="HiddenInputs"/>
@@ -17362,7 +17362,7 @@ Call:		<xsl:apply-templates select="." mode="Form">
 						</TD>
 					</TR>
 					<TR>
-						<TD>
+						<TD colspan="2">
 							<BR/>
 						</TD>
 					</TR>
@@ -17374,17 +17374,17 @@ Call:		<xsl:apply-templates select="." mode="Form">
 						</td>
 					</tr>
 					<TR>
-						<TD>
+						<TD colspan="2">
 							<BR/>
 						</TD>
-					</TR>					
+					</TR>
 					<TR>
-						<TD align="RIGHT" width="18%">
+						<TD align="RIGHT" width="80">
 							<FONT xsl:use-attribute-sets="mainfont">
-								Display Name:&#160;
+								H2G2 Suffix:&#160;
 							</FONT>
 						</TD>
-						<TD width="80%">
+						<TD width="300">
 							<FONT xsl:use-attribute-sets="mainfont">
 								<xsl:apply-templates select="." mode="UserName"/>
 							</FONT>
@@ -17392,24 +17392,14 @@ Call:		<xsl:apply-templates select="." mode="Form">
 						<TD/>
 					</TR>
 					<TR>
-						<TD>
-							<BR/>
-						</TD>
-					</TR>					
-					<tr>
-						<td colspan="3">
-							<xsl:call-template name="ssnickname_nb" />
-						</td>
-					</tr>	
-					<TR>
-						<TD>
+						<TD colspan="2">
 							<BR/>
 						</TD>
 					</TR>
 				</xsl:if>
 				<xsl:if test="$changeableskins">
 					<TR>
-						<TD align="RIGHT" width="18%">
+						<TD align="RIGHT" width="80">
 							<FONT xsl:use-attribute-sets="mainfont">
 								<xsl:value-of select="$m_skin"/>
 							</FONT>
@@ -17509,7 +17499,7 @@ Call:		<xsl:apply-templates select="." mode="Form">
 				</TD>
 			</TR-->
 				<TR>
-					<TD>
+					<TD colspan="2">
 						<BR/>
 					</TD>
 				</TR>
@@ -17519,6 +17509,23 @@ Call:		<xsl:apply-templates select="." mode="Form">
 						<INPUT xsl:use-attribute-sets="asiUSER-DETAILS-FORM_Submit"/>
 					</TD>
 				</TR>
+				<xsl:if test="$sitesuffix_required = 'true'">
+					<TR>
+						<TD colspan="2">
+							<BR/>
+						</TD>
+					</TR>					
+					<tr>
+						<td colspan="3">
+							<xsl:call-template name="ssnickname_nb" />
+						</td>
+					</tr>	
+					<TR>
+						<TD>
+							<BR/>
+						</TD>
+					</TR>	
+				</xsl:if>				
 			</FORM>
 		</TABLE>
 		<BR/>

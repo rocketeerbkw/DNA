@@ -46,13 +46,15 @@ namespace Tests
         private bool _isSecure = false;
         System.Collections.SortedList _params = new System.Collections.SortedList();
         public IDnaDataReaderCreator ReaderCreator{get;private set;}
+        private string _debugUserDetails = "";
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public FullInputContext(bool useIdentity)
+        public FullInputContext(string debugUserDetails)
         {
-            _useIdentity = useIdentity;
+            _useIdentity = true;
+            _debugUserDetails = debugUserDetails;
             InitialiseFromConfig(null);
         }
 
@@ -194,11 +196,20 @@ namespace Tests
                 if (_useIdentity)
                 {
                     string identityWebServiceConnetionDetails = GetConnectionDetails["IdentityURL"].ConnectionString;
-                    _signInComponent = new DnaIdentityWebServiceProxy.IdentityRestSignIn(identityWebServiceConnetionDetails, "");
+                    if (_debugUserDetails.Length == 0)
+                    {
+                        _signInComponent = new DnaIdentityWebServiceProxy.IdentityRestSignIn(identityWebServiceConnetionDetails, "");
+                        Console.WriteLine("Using REAL Identity signin system");
+                    }
+                    else
+                    {
+                        _signInComponent = new DnaIdentityWebServiceProxy.IdentityDebugSigninComponent(_debugUserDetails);
+                        Console.WriteLine("Using DEBUG Identity signin system");
+                    }
                 }
                 else
                 {
-                    _signInComponent = new ProfileAPI(GetConnectionDetails["ProfileRead"].ConnectionString);
+                    throw new Exception("SSO Sign in is nologer supported! Please rewrite your test to use identity.");
                 }
             }
 

@@ -724,18 +724,19 @@ namespace Memcached.ClientLibrary
 
 				try 
 				{
-					MemoryStream memoryStream = new MemoryStream();
-					GZipOutputStream gos = new GZipOutputStream(memoryStream);
-					gos.Write(val, 0, length);
-					gos.Finish();
-				
-					// store it and set compression flag
-					val = memoryStream.GetBuffer();
-					length = (int)memoryStream.Length;
-					flags |= F_COMPRESSED;
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        GZipOutputStream gos = new GZipOutputStream(memoryStream);
+                        gos.Write(val, 0, length);
+                        gos.Finish();
 
-
-						Logging.Verbose(GetLocalizedString("set compression success").Replace("$$Size$$", length.ToString(new NumberFormatInfo())));
+                        // store it and set compression flag
+                        val = memoryStream.GetBuffer();
+                        length = (int)memoryStream.Length;
+                        flags |= F_COMPRESSED;
+                        _cachedObjectSize = length;
+                    }
+    				Logging.Verbose(GetLocalizedString("set compression success").Replace("$$Size$$", length.ToString(new NumberFormatInfo())));
 				}
 				catch(IOException e) 
 				{
@@ -763,7 +764,7 @@ namespace Memcached.ClientLibrary
 				{
 
 					Logging.Verbose(GetLocalizedString("set success").Replace("$$Key$$", key));
-                    LastSuccess = "Set object " + obj.ToString() + " SUCCEEDED. Object cache size = " + length;
+                    LastSuccess = "Set object " + key.ToString() + " SUCCEEDED. Object cache size = " + length;
 
 					sock.Close();
 					sock = null;

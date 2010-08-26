@@ -25,7 +25,7 @@ namespace Tests
         /// </summary>
         public XSLTCachingTests()
         {
-            _htmlCachingTests = new HtmlCachingTests(false);
+            _htmlCachingTests = new HtmlCachingTests("");
         }
 
         /// <summary>

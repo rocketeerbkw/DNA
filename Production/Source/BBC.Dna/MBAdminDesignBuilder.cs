@@ -124,13 +124,13 @@ namespace BBC.Dna
                 element.FrontPageElement.Editkey = new Guid(InputContext.GetParamStringOrEmpty("fptopiceditkey", "fptopiceditkey"));
             }
 
-            element.FrontPageElement.Title = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("fp_title", "fp_title"));
+            element.FrontPageElement.Title = StringUtils.EscapeAllXml(InputContext.GetParamStringOrEmpty("fp_title", "fp_title"));
             if (element.FrontPageElement.Title.Length == 0)
             {
                 return new Error("TopicElementTitleMissing", "No topic element title given.");
             }
 
-            element.FrontPageElement.Text = "<GUIDE><BODY>" + HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("fp_text", "fp_text")) + "</BODY></GUIDE>"; 
+            element.FrontPageElement.Text = ExtractHtmlInput("fp_text");
 
             if (InputContext.GetParamStringOrEmpty("fp_templatetype", "fp_templatetype") == string.Empty)
             {
@@ -152,12 +152,12 @@ namespace BBC.Dna
                 element.FrontPageElement.ImageAltText = "";
                 element.FrontPageElement.Template = FrontPageTemplate.TextOnly;
             }
-            element.Title = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("topictitle","topictitle"));
+            element.Title = StringUtils.EscapeAllXml(InputContext.GetParamStringOrEmpty("topictitle","topictitle"));
             if (element.Title.Length == 0)
             {
                 return new Error("TopicTitleMissing", "No topic title given.");
             }
-            element.Description = "<GUIDE><BODY>" + HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("topictext", "topictext")) + "</BODY></GUIDE>";
+            element.Description = ExtractHtmlInput("topictext");
 
 
             if (topicId == 0)
@@ -190,6 +190,22 @@ namespace BBC.Dna
                 return new Result("TopicUpdateSuccessful", "Existing topic editted");
             }
             
+        }
+
+        /// <summary>
+        /// Helper to get valid html or escaped version
+        /// </summary>
+        /// <param name="querystringParam"></param>
+        /// <returns></returns>
+        private string ExtractHtmlInput(string querystringParam)
+        {
+            var paramStr = HtmlUtils.HtmlDecode(InputContext.GetParamStringOrEmpty(querystringParam, querystringParam));
+            var parsedStr = HtmlUtils.TryParseToValidHtml("<GUIDE><BODY>" + paramStr + "</BODY></GUIDE>");
+            if (parsedStr.IndexOf("<") != 0)
+            {//failed parsing
+                parsedStr = "<GUIDE><BODY>" + StringUtils.EscapeAllXml(paramStr) + "</BODY></GUIDE>";
+            }
+            return parsedStr;
         }
 
         /// <summary>

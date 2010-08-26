@@ -201,10 +201,10 @@ void CRipleyStatistics::AddRawRequest()
 
 *********************************************************************************/
 
-void CRipleyStatistics::AddNonSSORequest()
+void CRipleyStatistics::AddLoggedOutRequest()
 {
 	int minutes = CalcMinutes();
-	m_StatData[minutes].AddNonSSORequest();
+	m_StatData[minutes].AddLoggedOutRequest();
 }
 
 
@@ -223,6 +223,12 @@ void CRipleyStatistics::AddRequestDuration( long ttaken )
 {
 	int minutes = CalcMinutes();
 	m_StatData[minutes].AddRequestDuration(ttaken);
+}
+
+void CRipleyStatistics::AddIdentityCallDuration( long ttaken )
+{
+	int minutes = CalcMinutes();
+	m_StatData[minutes].AddIdentityCallDuration(ttaken);
 }
 
 /*********************************************************************************
@@ -262,6 +268,9 @@ CTDVString CRipleyStatistics::GetStatisticsXML( int interval  )
 	long	htmlcachemisses = 0;
 	long	requests = 0;
 	long	requesttime = 0;
+	long	identitytime = 0;
+	long	identitycallcount = 0;
+
 	CTimeSpan	timespan;
 	int minutes = 0;
 	for ( std::vector<STAT_DATA>::iterator iter = m_StatData.begin(); iter != m_StatData.end(); ++iter )
@@ -276,8 +285,8 @@ CTDVString CRipleyStatistics::GetStatisticsXML( int interval  )
 		else
 			serverbusy = LONG_MAX;
 
-		if ( nonssorequests < LONG_MAX - iter->GetNonSSORequest() )
-			nonssorequests += iter->GetNonSSORequest();
+		if ( nonssorequests < LONG_MAX - iter->GetLoggedOutRequests() )
+			nonssorequests += iter->GetLoggedOutRequests();
 		else
 			nonssorequests = LONG_MAX;
 		
@@ -333,6 +342,16 @@ CTDVString CRipleyStatistics::GetStatisticsXML( int interval  )
 		else
 			requesttime = LONG_MAX;
 
+		if ( identitytime < LONG_MAX - iter->GetIdentityCallTime() )
+			identitytime += iter->GetIdentityCallTime();
+		else
+			identitytime = LONG_MAX;
+
+		if ( identitycallcount < LONG_MAX - iter->GetIdentityCallCount() )
+			identitycallcount += iter->GetIdentityCallCount();
+		else
+			identitycallcount = LONG_MAX;
+
 		++minutes;
 		if ( minutes%interval == 0 )
 		{	
@@ -354,6 +373,11 @@ CTDVString CRipleyStatistics::GetStatisticsXML( int interval  )
 			
 			if ( requesttime < LONG_MAX && requests < LONG_MAX )
 				xmlbuilder.AddIntTag("AVERAGEREQUESTTIME", requesttime/(requests > 0 ? requests : 1) ); // Nearest millisecond.
+
+			if ( identitytime < LONG_MAX && requests < LONG_MAX )
+				xmlbuilder.AddIntTag("AVERAGEIDENTITYTIME", identitytime/(identitycallcount > 0 ? identitycallcount : 1) ); // Nearest millisecond.
+
+			xmlbuilder.AddIntTag("IDENTITYREQUESTS", identitycallcount < INT_MAX ? identitycallcount : INT_MAX );
 			
 			xmlbuilder.AddIntTag("REQUESTS", requests < INT_MAX ? requests : INT_MAX );
 			xmlbuilder.CloseTag("STATISTICSDATA");
@@ -372,6 +396,8 @@ CTDVString CRipleyStatistics::GetStatisticsXML( int interval  )
 			htmlcachemisses = 0;
 			requests = 0;
 			requesttime = 0;
+			identitytime= 0;
+			identitycallcount = 0;
 			timespan += CTimeSpan(0,0,interval,0);
 		}
 	}
@@ -434,9 +460,9 @@ void CRipleyStatistics::STAT_DATA::AddRawRequest()
 {
 	InterlockedIncrement(&m_RawRequestCounter);
 }
-void CRipleyStatistics::STAT_DATA::AddNonSSORequest()
+void CRipleyStatistics::STAT_DATA::AddLoggedOutRequest()
 {
-	InterlockedIncrement(&m_NonSSORequests);
+	InterlockedIncrement(&m_LoggedOutRequests);
 }
 void CRipleyStatistics::STAT_DATA::AddHTMLCacheHit()
 {
@@ -450,6 +476,11 @@ void CRipleyStatistics::STAT_DATA::AddRequestDuration( int ttaken )
 {
 	InterlockedIncrement(&m_Requests);
 	InterlockedExchangeAdd(&m_TotalRequestTime,ttaken);
+}
+void CRipleyStatistics::STAT_DATA::AddIdentityCallDuration( int ttaken )
+{
+	InterlockedIncrement(&m_IdentityCallCount);
+	InterlockedExchangeAdd(&m_IdentityCallTime,ttaken);
 }
 
 /*********************************************************************************

@@ -12,7 +12,7 @@
 #include "TDVString.h"
 #include "TDVDateTime.h"
 #include "profileapi\profileapi\include\service.h"
-#import "..\Reference DLLs\DnaIdentityWebServiceProxy.tlb" no_namespace
+#import "C:\Builds\User Services\Reference DLLs\DnaIdentityWebServiceProxy.tlb" no_namespace
 
 class CProfileConnectionPool;
 class CProfileApi;
@@ -30,7 +30,7 @@ public:
 		SIT_IDENTITY
 	};
 
-	virtual bool InitialiseConnection(CProfileConnectionPool* pOwningPool, CProfileApi* pProfile, bool bUseIdentityWebService, const TDVCHAR* sClientIPAddress);
+	virtual bool InitialiseConnection(CProfileConnectionPool* pOwningPool, CProfileApi* pProfile, bool bUseIdentityWebService, const TDVCHAR* sClientIPAddress, CTDVString sDebugUserID);
 	virtual bool IsInitialised();
 	virtual bool ReleaseConnection();
 	virtual bool SetService(const TDVCHAR* sSiteName, CGI* pCGI);

@@ -199,7 +199,8 @@ public:
 	void AddSsiCacheMiss(); 
 	void AddHTMLCacheHit();
 	void AddHTMLCacheMiss(); 
-	void AddNonSSORequest();
+	void AddLoggedOutRequest();
+	void AddIdentityCallDuration(long ttaken);
 	bool InitialiseSiteList(CSiteList* pSiteList);
 
     bool TestFileExists(const CTDVString& sFile);
@@ -432,6 +433,8 @@ protected:
 	CTDVString	m_sTopicsXML;	
 	VARIABLEMAP m_ServerVariables;
 
+	long m_IdentityCalDuration;
+
 	static bool m_bShowTimers;
 	DWORD m_TickStart;
 	CTDVString m_TimerHeaders;
@@ -453,16 +456,15 @@ protected:
 
 #ifdef _DEBUG
 protected:
-	bool GetDebugCookie(int& iUserID);
-	void SetDebugCookie(int iUserID);
+	bool GetDebugCookie(CTDVString& sUserID);
+	void SetDebugCookie(CTDVString sUserID);
 	void ClearDebugCookie();
 	bool CreateDebugCurrentUser(int iDebugUserID);
 	bool m_bSetDebugCookie;
-	int m_iDebugUserID;
-
 public:
 	bool GetDebugCookieString(CTDVString& sCookie);
 #endif
+	CTDVString m_sDebugUserID;
 
 	protected:
 		DBO* GetWriteDatabaseObject();

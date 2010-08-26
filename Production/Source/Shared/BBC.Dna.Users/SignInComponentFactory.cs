@@ -32,9 +32,15 @@ namespace BBC.Dna.Users
                 {
                     return new DnaIdentityWebServiceProxy.IdentityRestSignIn(connectionString, "");
                 }
+#if DEBUG
+                else if (signInSystem == SignInSystem.DebugIdentity)
+                {
+                    return new DnaIdentityWebServiceProxy.IdentityDebugSigninComponent(connectionString);
+                }
+#endif
                 else
                 {
-                    return new ProfileAPI(connectionString);
+                    throw new Exception("SSO Signin model nolonger supported!!");
                 }
             }
             catch (Exception Ex)

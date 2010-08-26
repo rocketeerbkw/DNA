@@ -18,15 +18,16 @@
       <xsl:variable name="threadId" select="@THREADID"/>
       <xsl:variable name="test_stickythreadson" select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='EnableStickyThreads' and VALUE ='1']" />
       <tr>  
-       <xsl:call-template name="library_listitem_stripe">
-        <xsl:with-param name="threadId" select="$threadId" />
-        <xsl:with-param name="test_stickythreadson" select="$test_stickythreadson" />       	
-       </xsl:call-template>
+       	<xsl:call-template name="library_listitem_stripe">
+	        <xsl:with-param name="threadId" select="$threadId" />
+	        <xsl:with-param name="test_stickythreadson" select="$test_stickythreadson" />       	
+       	</xsl:call-template>
         <td class="discussiondetail">
             <h3>
-
-				
                 <a href="{$root}/NF{@FORUMID}?thread={@THREADID}">
+					<xsl:if test="$test_stickythreadson">
+						<xsl:apply-templates select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@ISSTICKY='true']" mode="moderation_cta_addthreadstickytitle" />
+					</xsl:if>
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
 			            	<xsl:choose>
@@ -67,24 +68,28 @@
 	         <span class="vcard">
 	             <span class="fn">
 	             	<!-- Split the string as it was destroying table layout -->
+	             	<xsl:variable name="firstpostuser">
+						<xsl:apply-templates select="FIRSTPOST/USER" mode="library_user_username" />
+					</xsl:variable>	             	
+	             	
 	             	<xsl:variable name="stringlimit">15</xsl:variable>
 	             	<xsl:choose>
-	             		<xsl:when test="string-length(FIRSTPOST/USER/USERNAME) >= $stringlimit">
+	             		<xsl:when test="string-length($firstpostuser) >= $stringlimit">
 	             			<xsl:variable name="stringlength">
-	             				<xsl:value-of select="string-length(FIRSTPOST/USER/USERNAME)" />
+	             				<xsl:value-of select="string-length($firstpostuser)" />
 	             			</xsl:variable>	             			
 	             			<xsl:variable name="tempstring1">
-	             				<xsl:value-of select="substring(FIRSTPOST/USER/USERNAME, 1, $stringlimit)" />
+	             				<xsl:value-of select="substring($firstpostuser, 1, $stringlimit)" />
 	             			</xsl:variable>
 	             			<xsl:variable name="tempstring2">
-	             				<xsl:value-of select="substring(FIRSTPOST/USER/USERNAME, $stringlimit+1, $stringlength)" />
+	             				<xsl:value-of select="substring($firstpostuser, $stringlimit+1, $stringlength)" />
 	             			</xsl:variable>	 
 	             			            		
 	             			<xsl:value-of select="$tempstring1" /><br /><xsl:value-of select="$tempstring2" />    
 	             			
 	             		</xsl:when>
 	             		<xsl:otherwise>
-	                 		<xsl:value-of select="FIRSTPOST/USER/USERNAME" />
+	                 		<xsl:value-of select="$firstpostuser" />
 	                 	</xsl:otherwise>
 	                 </xsl:choose>
 	             </span>
@@ -177,7 +182,6 @@
 			            <xsl:text>New posts: </xsl:text><xsl:value-of select="number(parent::POST/@COUNTPOSTS) - number(parent::POST/@LASTPOSTCOUNTREAD)"/>
             			<br/>
             		</xsl:if>
-            		<!-- <xsl:text>Total posts:</xsl:text> -->
             		<xsl:text>Latest post: </xsl:text>
             		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/F', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#p', LASTUSERPOST/@POSTID)}">
             			<xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>

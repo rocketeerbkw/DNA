@@ -17,4 +17,8 @@
 		<xsl:text> stickypin</xsl:text>
     </xsl:template>
     
+    <xsl:template match="THREAD" mode="moderation_cta_addthreadstickytitle">
+		<xsl:attribute name="title">Sticky topic placed by host</xsl:attribute>
+    </xsl:template>    
+    
 </xsl:stylesheet>

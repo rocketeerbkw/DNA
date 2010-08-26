@@ -61,6 +61,13 @@ namespace BBC.Dna.Data
         bool TryGetIntReturnValue(out int value);
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        bool TryGetIntReturnValueNullAsZero(out int value);
+
+        /// <summary>
         /// Execute method fetches the data.
         /// </summary>
         /// <returns>Current instance of the class implementing the IDnaDataReader interface.</returns>

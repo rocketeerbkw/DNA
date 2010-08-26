@@ -619,7 +619,8 @@ public:
 	bool UpdateUsersGroupMembership(int iUserID, int iSiteID, const map<CTDVString, int>& Groups);
 	bool BeginUpdateUser(int iUserID, int iSiteID);
 	bool SynchroniseUserWithProfile(CTDVString* pFirstNames, CTDVString* pLastName, int iUserID, 
-		const TDVCHAR* sEmail, const TDVCHAR* sLoginName, int iSiteID, const WCHAR* pDisplayName, BOOL bIdentitySite);
+		const TDVCHAR* sEmail, const TDVCHAR* sLoginName, int iSiteID, const WCHAR* pDisplayName, BOOL bIdentitySite,
+												  CTDVDateTime* pLastUpdatedDate);
 	bool GetUserFromIDAndLogSession(int iID, int iSiteID);
 /*
 	bool UserUpdateIsModerator(bool bIsModerator);

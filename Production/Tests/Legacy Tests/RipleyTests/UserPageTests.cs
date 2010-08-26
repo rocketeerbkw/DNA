@@ -30,7 +30,7 @@ namespace RipleyTests
         [TestInitialize]
         public void Setup()
         {
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 _appContext = new AppContext(TestConfig.GetConfig().GetRipleyServerPath());
                 _siteOptionList = new SiteOptionList();
@@ -70,7 +70,7 @@ namespace RipleyTests
         {
             if (_siteOptionList.GetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites") !=  _includeContentFromOtherSites)
             {
-                using (FullInputContext inputcontext = new FullInputContext(false))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     //Reset to initial value.
                     _siteOptionList.SetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites", _includeContentFromOtherSites, inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
@@ -96,7 +96,7 @@ namespace RipleyTests
             
             //Want to test content from the current site only
             //Clear IncludeContentFromOtherSites option
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 _siteOptionList.SetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites", false, inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
             }
@@ -121,7 +121,7 @@ namespace RipleyTests
 
             //Want to test content from the current site only
             //Clear IncludeContentFromOtherSites option
-            using (FullInputContext inputcontext = new FullInputContext(false))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 _siteOptionList.SetValueBool(_siteId, "PersonalSpace", "IncludeContentFromOtherSites", true, inputcontext.ReaderCreator, inputcontext.dnaDiagnostics);
             }

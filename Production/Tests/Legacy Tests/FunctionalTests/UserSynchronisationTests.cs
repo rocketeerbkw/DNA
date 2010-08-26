@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
-using System.Threading;
 using System.Xml;
-using BBC.Dna;
-using BBC.Dna.Api;
 using BBC.Dna.Data;
-using DnaIdentityWebServiceProxy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using TestUtils;
 using System.Text;
-
-
-
-
 
 namespace FunctionalTests
 {
@@ -100,7 +90,6 @@ namespace FunctionalTests
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/USER/FIRSTNAME"), "There shouldn't be a first name");
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/LASTNAME"), "There shouldn't be a last name");
-            Thread.Sleep(2000);
 
             Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName));
             Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.FirstName, _firstName));
@@ -129,7 +118,6 @@ namespace FunctionalTests
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
-            Thread.Sleep(2000);
 
             Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName));
             
@@ -163,7 +151,6 @@ namespace FunctionalTests
             Assert.AreEqual(_displayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
-            Thread.Sleep(2000);
 
             string newName = _displayName + " Updated!";
             Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, newName));
@@ -261,7 +248,6 @@ namespace FunctionalTests
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
-            Thread.Sleep(2000);
 
             Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName));
             
@@ -279,7 +265,7 @@ namespace FunctionalTests
                 reader.ExecuteDEBUGONLY(sql);
                 Assert.IsTrue(reader.Read());
                 string dbname = reader.GetString("username");
-                Assert.AreEqual(_displayName, reader.GetString("username"));
+                Assert.AreEqual(_displayName, dbname);
             }
         }
 
@@ -296,7 +282,6 @@ namespace FunctionalTests
             Assert.AreEqual(_cppDisplayName, doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME").InnerText, "User name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME"), "login name is not correct");
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
-            Thread.Sleep(2000);
 
             string newName = _displayName + " Updated!";
             string newNameCPP = _cppDisplayName + " Updated!";
@@ -368,7 +353,6 @@ namespace FunctionalTests
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/USER/LASTNAME"), "There shouldn't be a last name");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS"), "incorrect email");
             Assert.AreEqual(_email, doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS").InnerText, "incorrect email");
-            Thread.Sleep(2000);
 
             Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.DisplayName, _displayName));
             Assert.IsTrue(TestUserCreator.SetIdentityAttribute(_userName, cookie, TestUserCreator.AttributeNames.FirstName, _firstName));
@@ -442,7 +426,6 @@ namespace FunctionalTests
             Assert.AreEqual(_email, doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS").InnerText, "incorrect email");
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/USER/SITESUFFIX"), "Site suffix should not exist!");
 
-            Thread.Sleep(5000);
             TestUserCreator.SetAppNamedSpacedAttribute(_userName, cookie, "cbbc_displayname", "This Is My SiteSuffix", "cbbc");
 
             request.RequestPage("?skin=purexml");
@@ -480,7 +463,6 @@ namespace FunctionalTests
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/SITESUFFIX"), "Site suffix should not exist!");
 
-            Thread.Sleep(5000);
             TestUserCreator.SetAppNamedSpacedAttribute(_userName, cookie, "cbbc_displayname", "This Is My SiteSuffix", "cbbc");
 
             request.RequestPage("status-n?skin=purexml");
@@ -518,7 +500,6 @@ namespace FunctionalTests
             Assert.AreEqual(_userName, doc.SelectSingleNode("//VIEWING-USER/SIGNINNAME").InnerText, "login name is not correct");
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/SITESUFFIX"), "Site suffix should not exist!");
 
-            Thread.Sleep(5000);
             //Set sitesuffix to be same as the username
             using (IDnaDataReader reader = DnaMockery.CreateDatabaseInputContext().CreateDnaDataReader(""))
             {

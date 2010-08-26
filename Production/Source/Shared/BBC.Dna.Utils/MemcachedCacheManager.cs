@@ -245,11 +245,10 @@ namespace BBC.Dna.Utils
                         setSuccess = _mc.Set(key, value, expiry);
                         if (!setSuccess)
                         {
-                            DnaDiagnostics.Default.WriteWarningToLog("CACHING", _mc.LastError);
-                        }
-                        else
-                        {
-                            DnaDiagnostics.Default.WriteToLog("CACHING", _mc.LastSuccess);
+                            if (_mc.LastError.IndexOf("object too large for cache") >= 0)
+                            {
+                                return;
+                            }
                         }
                         tries--;
                     }
@@ -258,6 +257,7 @@ namespace BBC.Dna.Utils
                     if (!setSuccess)
                     {
                         Logger.Write(new LogEntry(){Message="Failed to set in memcached", Severity= System.Diagnostics.TraceEventType.Error});
+                        DnaDiagnostics.Default.WriteWarningToLog("CACHING", _mc.LastError);
                     }
 
                     LastCachedOjectSize = _mc.CachedObjectSize;

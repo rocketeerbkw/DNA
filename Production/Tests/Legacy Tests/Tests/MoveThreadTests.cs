@@ -349,8 +349,8 @@ namespace Tests
         /// moderated site with a unicode title and then move it
         /// </summary>
         ///TODO SEE MARK ABOUT THE SSL secure channel stuff
-        [TestMethod, Ignore]
-        public void TestCreateCommentForumWithUnicodeTitleAndThenMoveIt()
+        [TestMethod]
+        public void TestCreateCommentForumWithUnicodeTitleAndThenMoveIt_ReturnsMovedThread()
         {
             Console.WriteLine("Before MoveThreadTests - TestCreateCommentForumWithUnicodeTitleAndThenMoveIt");
 

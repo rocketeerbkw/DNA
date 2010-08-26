@@ -238,7 +238,7 @@ namespace BBC.Dna
 
             User viewUser = (User)InputContext.ViewingUser;
             XmlNode userXML = viewUser.GenerateUserXml(viewUser.UserID, viewUser.FirstNames, "", viewUser.FirstNames,
-                viewUser.LastName, viewUser.Status, 0, true, 0.0, "", "", viewUser.Title, viewUser.Journal, DateTime.MinValue, 0, 0, DateTime.MinValue, -1, -1, -1, -1);
+                viewUser.LastName, viewUser.Status, 0, true, 0.0, "", "", viewUser.Title, viewUser.Journal, DateTime.MinValue, 0, 0, DateTime.MinValue, -1, -1, -1, -1, viewUser.IdentityUserId);
 
             RootElement.SelectSingleNode("USER-LIST").AppendChild(RootElement.OwnerDocument.ImportNode(userXML,true));
 

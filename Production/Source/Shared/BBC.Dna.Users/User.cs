@@ -107,6 +107,12 @@ namespace BBC.Dna.Users
         public virtual string UserName  {get; set;}
 
         /// <summary>
+        /// The get property for the users identity user name
+        /// </summary>
+        [DataMember(Name = "identityUserName")]
+        public virtual string IdentityUserName { get; set; }
+
+        /// <summary>
         /// The get property for the users email
         /// </summary>
         [DataMember(Name = "email")]
@@ -498,6 +504,7 @@ namespace BBC.Dna.Users
                     reader.AddParameter("email", signInEmail);
                     reader.AddParameter("siteid", SiteID);
                     reader.AddParameter("identitysite",  1);
+                    reader.AddParameter("LastUpdated", LastSynchronisedDate);
                     reader.Execute();
                     if (reader.Read())
                     {

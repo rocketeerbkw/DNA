@@ -290,7 +290,7 @@ namespace FunctionalTests
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request3.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
             Assert.IsTrue(user.UsersListOfGroups.Exists(x => x.Name.ToUpper() == groupName.ToUpper()), "The group '" + groupName + "' not found in the users xml\r\n" + request3.GetLastResponseAsXML().OuterXml);
             //ripley page
-            request3.RequestPage("status?skin=purexml");
+            request3.RequestPage("?skin=purexml");
             xml = request3.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("//H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME[text()='" + groupName + "']"));
 
@@ -306,6 +306,7 @@ namespace FunctionalTests
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
                     reader.ExecuteDEBUGONLY("delete from GroupMembers where UserId=" + TestUserAccounts.GetNormalUserAccount.UserID);
+                    reader.ExecuteDEBUGONLY("delete from ModerationClassMembers where UserId=" + TestUserAccounts.GetNormalUserAccount.UserID);
                 }
                 inputcontext.SendSignal("action=recache-groups&userid=" + TestUserAccounts.GetNormalUserAccount.UserID);
             }

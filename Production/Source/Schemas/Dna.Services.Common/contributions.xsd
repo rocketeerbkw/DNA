@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" 
+           attributeFormDefault="unqualified" 
+           elementFormDefault="qualified" 
+           targetNamespace="http://schemas.datacontract.org/2004/07/BBC.Dna.Objects" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <xs:element name="contributions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="contributionItems">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="contribution">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="body" type="xs:string" />
+                    <xs:element name="contributionId" type="xs:unsignedByte" />
+                    <xs:element name="moderationStatus" type="xs:string" />
+                    <xs:element name="postIndex" type="xs:unsignedByte" />
+                    <xs:element name="site" type="xs:string" />
+                    <xs:element name="siteType" type="xs:string" />
+                    <xs:element name="sourceTitle" type="xs:string" />
+                    <xs:element name="subTitle" type="xs:string" />
+                    <xs:element name="timestamp" type="xs:dateTime" />
+                    <xs:element name="title" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="filterBy" type="xs:byte" />
+        <xs:element name="instanceCreatedDateTime" type="xs:dateTime" />
+        <xs:element name="itemsPerPage" type="xs:unsignedByte" />
+        <xs:element name="sortDirection" type="xs:string" />
+        <xs:element name="startIndex" type="xs:unsignedByte" />
+        <xs:element name="userid" type="xs:unsignedByte" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

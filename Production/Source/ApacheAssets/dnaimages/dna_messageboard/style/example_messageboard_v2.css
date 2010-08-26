@@ -62,6 +62,10 @@
 	background-color: #5f9ea0;
 	background-image: none;
 }
+#blq-content table.forumthreads th {
+	background-color: #5f9ea0;
+	color: #fff;
+}
 /* add thread */
 #blq-main #blq-content .dna-boards input.dna-button {
 	background-color: #5f9ea0;

@@ -215,6 +215,30 @@ namespace BBC.Dna.Data
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public bool TryGetIntReturnValueNullAsZero(out int value)
+        {
+            if ((_returnValue == null) || (_returnValue.Value == null))
+            {
+                value = 0;
+                return false;
+            }
+
+            try
+            {
+                value = (int)_returnValue.Value;
+            }
+            catch (InvalidCastException)
+            {
+                value = 0;
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Helper function that copes with the fact that _dnaDiagnostics can be null
         /// </summary>
         /// <param name="message">The message</param>
@@ -1017,7 +1041,7 @@ namespace BBC.Dna.Data
         }
 
         /// <summary>
-        /// Gets a value the indicates whether the reader has one or more rows.
+        /// Does the requested column exist in the return row
         /// </summary>
         public bool Exists(string name)
         {

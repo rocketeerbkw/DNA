@@ -38,7 +38,15 @@
 			<head profile="http://dublincore.org/documents/dcq-html/">
 				
 				<title>
-					<xsl:value-of select="concat('BBC - ', /H2G2/SITECONFIG/BOARDNAME, ' messageboards - Boards Admin')"/>
+          <xsl:choose>
+            <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
+                DNA Site Admin - <xsl:value-of select="SITE/SHORTNAME"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="concat('BBC - ', /H2G2/SITECONFIG/BOARDNAME, ' messageboards - Boards Admin')"/>
+            </xsl:otherwise>
+          </xsl:choose>
+					
 				</title>
 				
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -82,9 +90,22 @@
 				
 			  <xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
           <div id="blq-local-nav" class="nav blq-clearfix">
-      
-            <h1>Messageboard Admin <span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span></h1>
-
+            <xsl:choose>
+              <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
+                <h1>
+                  DNA Site Admin <span>
+                    <xsl:value-of select="SITE/SHORTNAME"/>
+                  </span>
+                </h1>
+              </xsl:when>
+              <xsl:otherwise>
+                <h1>
+                  Messageboard Admin <span>
+                    <xsl:value-of select="SITECONFIG/BOARDNAME"/>
+                  </span>
+                </h1>
+              </xsl:otherwise>
+            </xsl:choose>
             <ul>
               <li>
                 <xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
@@ -105,7 +126,15 @@
 				  <div id="blq-content">
 
             <xsl:if test="not(/H2G2[@TYPE='ERROR' or @TYPE = 'FRONTPAGE'])">
-              <xsl:call-template name="emergency-stop"/>
+              <xsl:choose>
+                <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
+                  <xsl:call-template name="emergency-stop"><xsl:with-param name="type" select="'SITE'" /></xsl:call-template>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:call-template name="emergency-stop"><xsl:with-param name="type" select="'BOARD'" /></xsl:call-template>
+                </xsl:otherwise>
+              </xsl:choose>
+              
             </xsl:if>
 
             <xsl:apply-templates select="/H2G2[@TYPE != 'ERROR']/ERROR" mode="page"/>
@@ -123,12 +152,14 @@
 	</xsl:template>
 	
 	<xsl:template name="emergency-stop">
+    <xsl:param name="type"></xsl:param>
 		<div class="dna-emergency-stop">
 			<xsl:choose>
         <xsl:when test="//H2G2/SITE/SITECLOSED[@EMERGENCYCLOSED = '0']">
           <p>
             <a href="{$root}/MessageBoardSchedule?action=CloseSite&amp;confirm=1" class="dna-stop">
-              <strong>CLOSE MESSAGEBOARD</strong>
+              <strong>CLOSE <xsl:value-of select="$type"/>
+            </strong>
               Board closed to all new posts,<br />except from editor accounts
             </a>
           </p>
@@ -136,7 +167,7 @@
         <xsl:otherwise>
           <p>
             <a href="{$root}/MessageBoardSchedule?action=OpenSite&amp;confirm=1" class="dna-go">
-              <strong>RE-OPEN BOARD</strong>
+              <strong>RE-OPEN <xsl:value-of select="@type"/></strong>
               Allow all posts to this messageboard
             </a>
           </p>

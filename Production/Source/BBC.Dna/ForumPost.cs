@@ -240,7 +240,7 @@ namespace BBC.Dna
             User user = new User(context);
             XmlNode userNode = component.ImportNode(user.GenerateUserXml(comment.User.UserId, comment.User.DisplayName, String.Empty, String.Empty, String.Empty
                 , comment.User.Status, 0, true, 0.0, String.Empty, String.Empty, String.Empty, comment.User.Journal, DateTime.MinValue,
-                0, 0, DateTime.MinValue, forum.ForumID, 0, 0, 0));
+                0, 0, DateTime.MinValue, forum.ForumID, 0, 0, 0, comment.User.BbcId));
 
             AddPostXmlInternal(component, parentNode, context, hidden, inReplyTo, prevSibling, nextSibling,
                 firstChild, userID, subject, datePosted, bodyText, hostPageUrl, commentForumTitle, entryId, threadId,

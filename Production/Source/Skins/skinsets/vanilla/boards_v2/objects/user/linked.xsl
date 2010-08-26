@@ -17,7 +17,7 @@
         <xsl:choose>
         	<xsl:when test="GROUPS/EDITOR or GROUPS/GROUP/NAME = 'EDITOR' or STATUS = 2">
         		<a href="MP{USERID}" class="user linked editor" title="This user has Editor status">
-        			<xsl:value-of select="USERNAME"/>
+        			<xsl:apply-templates select="." mode="library_user_username" />
         			<span class="userid">
         				<xsl:text> (U</xsl:text>
         				<xsl:value-of select="USERID"/>
@@ -26,7 +26,7 @@
         	</xsl:when>
         	<xsl:when test="GROUPS/GROUP[NAME = 'NOTABLES']">
         		<a href="MP{USERID}" class="user linked notable" title="This user has Notable status">
-        			<xsl:value-of select="USERNAME"/>
+        			<xsl:apply-templates select="." mode="library_user_username" />
         			<span class="userid">
         				<xsl:text> (U</xsl:text>
         				<xsl:value-of select="USERID"/>
@@ -35,7 +35,7 @@
         	</xsl:when>
         	<xsl:otherwise>
         		<a href="MP{USERID}" class="user linked">
-		           <xsl:value-of select="USERNAME"/>
+		           <xsl:apply-templates select="." mode="library_user_username" />
         			<span class="userid">
         				<xsl:text> (U</xsl:text>
 	        			<xsl:value-of select="USERID"/>

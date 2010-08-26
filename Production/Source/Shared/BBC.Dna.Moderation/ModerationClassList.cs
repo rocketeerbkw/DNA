@@ -62,7 +62,8 @@ namespace BBC.Dna.Moderation
                                        {
                                            ClassId = reader.GetInt32NullAsZero("ModClassId"),
                                            Description = reader.GetStringNullAsEmpty("Description"),
-                                           Name = reader.GetStringNullAsEmpty("name")
+                                           Name = reader.GetStringNullAsEmpty("name"),
+                                           Language = reader.GetStringNullAsEmpty("ClassLanguage")
                                        };
                     classes.ModClassList.Add(modClass);
                 }

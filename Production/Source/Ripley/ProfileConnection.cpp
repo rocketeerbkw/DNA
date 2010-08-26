@@ -54,7 +54,8 @@ void CProfileConnection::AddTimingsInfo(const TDVCHAR* sInfo, bool bNewInfo)
 bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPool,
 											  CProfileApi* pProfile,
 											  bool bUseIdentityWebService,
-											  const TDVCHAR* sClientIPAddress)
+											  const TDVCHAR* sClientIPAddress,
+											  CTDVString sDebugUserID)
 {
 	AddTimingsInfo("InitialiseConnection",true);
 
@@ -67,15 +68,24 @@ bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPoo
 
 	if (bUseIdentityWebService)
 	{
+		bool bError = false;
 		try
 		{
 			// Create a new connection to use
 			AddTimingsInfo("Using Identity",false);
 			CoInitialize(NULL);
 			AddTimingsInfo("CoInitialized",false);
-			//HRESULT hr = m_pIdentityInteropPtr.CreateInstance(__uuidof(DnaIdentityWebServiceProxy));
-			HRESULT hr = m_pIdentityInteropPtr.CreateInstance(__uuidof(IdentityRestSignIn));
-			
+			HRESULT hr = NULL;
+
+			if (!sDebugUserID.IsEmpty())
+			{
+				hr = m_pIdentityInteropPtr.CreateInstance(__uuidof(IdentityDebugSigninComponent));
+			}
+			else
+			{
+				hr = m_pIdentityInteropPtr.CreateInstance(__uuidof(IdentityRestSignIn));
+			}
+
 			if (FAILED(hr))
 			{
 				m_sLastIdentityError = CTDVString("Failed to create instance of Identity SignIn Proxy - HRESULT : ") << hr;
@@ -84,11 +94,20 @@ bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPoo
 			}
 			AddTimingsInfo("Created Instance",false);
 
-			CTDVString sIdURL = pOwningPool->GetIdentityWebServiceUri();
-			_bstr_t sIdentityUri(sIdURL);
-			_bstr_t sIPAddress(sClientIPAddress);
-			variant_t ok = m_pIdentityInteropPtr->Initialise(sIdentityUri, sIPAddress);
-			bInitialised = ok.boolVal;
+			if (!sDebugUserID.IsEmpty())
+			{
+				_bstr_t sBSTRUserID(sDebugUserID);
+				m_pIdentityInteropPtr->Initialise(sBSTRUserID, _bstr_t(""));
+				bInitialised = true;
+			}
+			else
+			{
+				CTDVString sIdURL = pOwningPool->GetIdentityWebServiceUri();
+				_bstr_t sIdentityUri(sIdURL);
+				_bstr_t sIPAddress(sClientIPAddress);
+				variant_t ok = m_pIdentityInteropPtr->Initialise(sIdentityUri, sIPAddress);
+				bInitialised = ok.boolVal;
+			}
 			if (!bInitialised)
 			{
 				USES_CONVERSION;
@@ -99,8 +118,14 @@ bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPoo
 		}
 		catch (...)
 		{
-			AddTimingsInfo("Exception thrown",false);
-			m_sLastIdentityError = CTDVString("Unknown Exception Thrown!");
+			bError = true;
+		}
+
+		if (bError)
+		{
+			USES_CONVERSION;
+			m_sLastIdentityError = W2A(m_pIdentityInteropPtr->GetLastError());
+			AddTimingsInfo("Exception thrown - " + m_sLastIdentityError,false);
 			return bInitialised;
 		}
 	}
@@ -217,7 +242,6 @@ const TDVCHAR* CProfileConnection::GetUserId()
 		{
 			USES_CONVERSION;
 			m_sSignInUserId = W2A(m_pIdentityInteropPtr->GetUserID());
-			AddTimingsInfo("CProfileConnection UserID : " + m_sSignInUserId, true);
 			return m_sSignInUserId;
 		}
 		catch(...)
@@ -225,7 +249,7 @@ const TDVCHAR* CProfileConnection::GetUserId()
 			m_sLastIdentityError = "Failed to get user id";
 		}
 	}
-	return 0;
+	return NULL;
 }
 	
 bool CProfileConnection::UpdateUserProfileValue(const TDVCHAR* sName, const TDVCHAR* sValue)

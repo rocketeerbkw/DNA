@@ -26,10 +26,10 @@ namespace BBC.Dna.Services
         {
         }
 
-        [WebGet(UriTemplate = "V1/site/{siteName}/categories/{categoryId}", ResponseFormat = WebMessageFormat.Json)]
-        [WebHelp(Comment = "Get the given category in JSON format for a given site")]
+        [WebGet(UriTemplate = "V1/site/{siteName}/categories/{categoryId}")]
+        [WebHelp(Comment = "Get the given category for a given site")]
         [OperationContract]
-        public Category GetCategory(string siteName, string categoryId)
+        public Stream GetCategory(string siteName, string categoryId)
         {
             Category category = null;
             try
@@ -42,26 +42,61 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ex);
             }            
-            return category;
+            return GetOutputStream(category);
         }
 
-        [WebGet(UriTemplate = "V1/site/{siteName}/categories/{categoryId}/xml", ResponseFormat = WebMessageFormat.Xml)]
-        [WebHelp(Comment = "Get the given category in XML format for a given site")]
+        [WebGet(UriTemplate = "V1/site/{siteName}/index")]
+        [WebHelp(Comment = "Get the index for a given site")]
         [OperationContract]
-        public Category GetCategoryXml(string siteName, string categoryId)
+        public Stream GetIndex(string siteName)
         {
-            Category category = null;
+            return GetIndexByLetter(siteName, "");
+        }
+
+        [WebGet(UriTemplate = "V1/site/{siteName}/index/{letter}")]
+        [WebHelp(Comment = "Get the index for a given site begining with the given letter")]
+        [OperationContract]
+        public Stream GetIndexByLetter(string siteName, string letter)
+        {
+            Index index = null;
             try
             {
                 ISite site = GetSite(siteName);
 
-                category = Category.CreateCategory(site, cacheManager, readerCreator, null, Int32.Parse(categoryId), false);
+                var showApproved = QueryStringHelper.GetQueryParameterAsInt("showApproved", 1);
+                var showSubmitted = QueryStringHelper.GetQueryParameterAsInt("showSubmitted", 0);
+                var showUnapproved = QueryStringHelper.GetQueryParameterAsInt("showUnapproved", 0);
+
+                //	orderBy - A Variable to determine the ordering of the results.
+                //	(Empty)		= Sort By Subject		= 0
+                //	datecreated	= Sort by date created	= 1
+                //	lastupdated	= Sort by last updated	= 2
+                int orderBy = 0;
+                string order = QueryStringHelper.GetQueryParameterAsString("orderby", "");
+                if (order == "datecreated")
+                {
+                    orderBy = 1;
+                }
+                else if (order == "lastupdated")
+                {
+                    orderBy = 2;
+                }
+                index = Index.CreateIndex(cacheManager, 
+                    readerCreator,
+                    site.SiteID, 
+                    letter,
+                    showApproved == 1 ? true : false,
+                    showSubmitted == 1 ? true : false,
+                    showUnapproved == 1 ? true : false,
+                    "",
+                    orderBy,
+                    false);
             }
             catch (ApiException ex)
             {
                 throw new DnaWebProtocolException(ex);
             }
-            return category;
+            return GetOutputStream(index);
         }
     }
 }

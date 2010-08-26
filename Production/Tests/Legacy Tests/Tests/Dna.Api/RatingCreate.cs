@@ -52,7 +52,7 @@ namespace Tests
         {
             SnapshotInitialisation.RestoreFromSnapshot();
             Statistics.InitialiseIfEmpty();
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 var p = new ProfanityFilter(DnaMockery.CreateDatabaseReaderCreator(), null, CacheFactory.GetCacheManager(), null, null);
                 var b = new BannedEmails(DnaMockery.CreateDatabaseReaderCreator(), null, CacheFactory.GetCacheManager(), null, null);
@@ -136,7 +136,7 @@ namespace Tests
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -165,7 +165,7 @@ namespace Tests
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             //repeat post
@@ -192,7 +192,7 @@ namespace Tests
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -235,7 +235,7 @@ namespace Tests
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
 
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             //repeat post
@@ -257,7 +257,7 @@ namespace Tests
         {
             try
             {
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -281,7 +281,7 @@ namespace Tests
                 string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
 
                 RatingForum ratingForum = RatingForumCreate(ratingForumID);
-                _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
                 _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
                 //getr the forum and check value
@@ -293,7 +293,7 @@ namespace Tests
             }
             finally
             {
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -324,7 +324,7 @@ namespace Tests
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
 
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             
@@ -359,11 +359,11 @@ namespace Tests
         /// <summary>
         /// Tests trying to post as a banned user
         /// </summary>
-        [Ignore]
+        [TestMethod]
         public void RatingCreate_BannedUser()
         {
             Reviews ratings = null;
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
             }
@@ -380,7 +380,7 @@ namespace Tests
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetBannedUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetBannedUserAccount.Cookie, TestUserAccounts.GetBannedUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             try
@@ -401,7 +401,7 @@ namespace Tests
         {
             //create ratings objects
 
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             var callingUser = _ratings.CallingUser;
@@ -421,7 +421,7 @@ namespace Tests
             try
             {//turn the site into emergency closed mode
                 _siteList.GetSite(site.ShortName).IsEmergencyClosed = true;
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     _ratings = new Reviews(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                     _ratings.CallingUser = callingUser;
@@ -458,7 +458,7 @@ namespace Tests
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -487,7 +487,7 @@ namespace Tests
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -517,7 +517,7 @@ namespace Tests
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             
 
@@ -547,7 +547,7 @@ with a carrage return.";
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -577,7 +577,7 @@ return.";
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             bool exceptionThrown = false;
@@ -621,7 +621,7 @@ return.";
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -649,7 +649,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
 
@@ -659,7 +659,7 @@ return.";
             Assert.AreEqual("This post is awaiting moderation.", result.FormatttedText);
 
             //check if post in mod queue table
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -680,7 +680,7 @@ return.";
         public void RatingCreate_PreModSiteWithProcessPreMod()
         {
 
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -710,7 +710,7 @@ return.";
 
                 RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.Unknown);//should override this with the site value
                 //normal user
-                _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+                _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
                 _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
                 try
@@ -724,7 +724,7 @@ return.";
             }
             finally 
             { //reset h2g2 site
-                using (FullInputContext inputcontext = new FullInputContext(true))
+                using (FullInputContext inputcontext = new FullInputContext(""))
                 {
                     using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                     {
@@ -757,7 +757,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -785,7 +785,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -794,7 +794,7 @@ return.";
             Assert.IsTrue(result.text == rating.text);
 
             //check if post in mod queue table
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -827,7 +827,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
@@ -857,7 +857,7 @@ return.";
 
 
             //change the closing date for this forum
-            using (FullInputContext _context = new FullInputContext(true))
+            using (FullInputContext _context = new FullInputContext(""))
             {
                 using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
                 {
@@ -868,7 +868,7 @@ return.";
             }
             ratingForum = _ratings.RatingForumReadByUID(ratingForumID, site);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             try
@@ -900,7 +900,7 @@ return.";
             
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             try
@@ -1065,7 +1065,7 @@ return.";
 
             RatingInfo rating = new RatingInfo { text = maxText };
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1093,7 +1093,7 @@ return.";
             RatingInfo rating = new RatingInfo { text = minText };
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1123,7 +1123,7 @@ return.";
             rating.text = goodText;
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1148,7 +1148,7 @@ return.";
             rating.text = goodText;
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1173,7 +1173,7 @@ return.";
             rating.text = goodText;
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
             result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
             Assert.IsTrue(result != null);
@@ -1248,7 +1248,7 @@ return.";
 
         private void DeleteMinMaxLimitSiteOptions()
         {
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -1275,7 +1275,7 @@ return.";
         private void SetMaxCharLimit(int maxLimit)
         {
             //set min and max char option
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -1288,7 +1288,7 @@ return.";
         private void SetMinCharLimit(int minLimit)
         {
             //set min and max char option
-            using (FullInputContext inputcontext = new FullInputContext(true))
+            using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
@@ -1324,7 +1324,7 @@ return.";
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             ThreadInfo result = _ratings.RatingThreadCreate(ratingForum, rating);
@@ -1354,7 +1354,7 @@ return.";
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //1st normal users rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             ThreadInfo result = _ratings.RatingThreadCreate(ratingForum, rating);
@@ -1364,7 +1364,7 @@ return.";
             Assert.IsTrue(result.rating.text == rating.text);
 
             //create second editors rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             rating.text += "SecondOne";
@@ -1399,7 +1399,7 @@ return.";
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //1st normal users rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             ThreadInfo result = _ratings.RatingThreadCreate(ratingForum, rating);
@@ -1409,7 +1409,7 @@ return.";
             Assert.IsTrue(result.rating.text == rating.text);
 
             //create second editors rating
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             rating.text += "SecondOne";
@@ -1424,7 +1424,7 @@ return.";
             Assert.IsTrue(threadID1 != threadID2);
 
             //1st normal user
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             //Now the comments
@@ -1446,7 +1446,7 @@ return.";
             Assert.IsTrue(commentResult.text == comment.text);
 
             //1st comment by the editor account
-            _ratings.CallingUser = new CallingUser(SignInSystem.Identity, null, null, null, _siteList);
+            _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
 
             comment.text = baseText + "SecondCommentOnFirstRating";

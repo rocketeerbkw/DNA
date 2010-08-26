@@ -115,8 +115,14 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
         descriptionCell.ColumnSpan = 1;
         descriptionCell.Text = "Description";
         
+        TableCell languageCell = new TableCell();
+        languageCell.ColumnSpan = 1;
+        languageCell.Text = "Language";
+
         header.Cells.Add(nameCell);
         header.Cells.Add(descriptionCell);
+        header.Cells.Add(languageCell);
+
 
         TableCell ordercell = new TableCell();
         ordercell.Text = "Display Order";
@@ -138,6 +144,9 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
 
                 descriptionCell = new TableCell();
                 descriptionCell.Text = dataReader.GetStringNullAsEmpty("description");
+
+                languageCell = new TableCell();
+                languageCell.Text = dataReader.GetStringNullAsEmpty("ClassLanguage");
                 
                 TableCell upCell = new TableCell();
                 HyperLink upLink = new HyperLink();
@@ -153,6 +162,7 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
 
                 row.Cells.Add(nameCell);
                 row.Cells.Add(descriptionCell);
+                row.Cells.Add(languageCell);
                 row.Cells.Add(upCell);
                 row.Cells.Add(downCell);
                 tblModerationClasses.Rows.Add(row);
@@ -174,6 +184,8 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
         {
             dataReader.AddParameter("classname", txtName.Text);
             dataReader.AddParameter("description", txtDescription.Text);
+            dataReader.AddParameter("Language", txtLanguage.Text);
+            
 
             String basedOn = cmbTemplate.SelectedValue;
             dataReader.AddParameter("basedonclass", basedOn);

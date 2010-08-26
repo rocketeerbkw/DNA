@@ -26,8 +26,21 @@ robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Co
 echo Copying DNA.Services.Moderation
 robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Moderation\ %varServerLocation%\dna\api\moderation %varRobocopyParams%
 
+echo Copying DNA.Services.Articles
+robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Articles\ %varServerLocation%\dna\api\articles %varRobocopyParams%
+
+echo Copying DNA.Services.Categories
+robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Categories\ %varServerLocation%\dna\api\categories %varRobocopyParams%
+
+echo Copying DNA.Services.Forums
+robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Forums\ %varServerLocation%\dna\api\forums %varRobocopyParams%
+
+echo Copying DNA.Services.Users
+robocopy %varBinaryRoot%\%varBuildConfig%\_PublishedWebsites\BBC.DNA.Services.Users\ %varServerLocation%\dna\api\users %varRobocopyParams%
+
 echo Copying Ripley
-robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\ %varRobocopyParams%
+echo not deploying ripley here
+echo robocopy %varBinaryRoot%\Win32\%varBuildConfig% %varServerLocation%\ %varRobocopyParams%
 
 echo Starting IIS
 sc \\%varServerName% start "memcached server"

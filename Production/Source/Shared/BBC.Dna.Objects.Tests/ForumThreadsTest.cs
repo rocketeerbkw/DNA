@@ -829,6 +829,300 @@ namespace BBC.Dna.Objects.Tests
 
         }
 
+        /// <summary>
+        ///A test for CreateJournal
+        ///</summary>
+        [TestMethod]
+        public void CreateJournal_WithIgnoreCache_ReturnsValidObject()
+        {
+            IDnaDataReaderCreator readerCreator;
+            ISiteList siteList;
+            string identityUserName;
+            int userId;
+            int forumId;
+            int itemsPerPage;
+            int startIndex;
+            int threadId;
+            bool overFlow;
+            ThreadOrder threadOrder;
+            bool ignoreCache = true;
+
+            CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+            var viewingUser = Mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var cache = Mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(null).Throw(new Exception("GetData should not be called"));
+            cache.Stub(x => x.Add("", null)).Constraints(Is.Anything(), Is.Anything()).Repeat.Once();
+
+            Mocks.ReplayAll();
+
+            ForumThreads actual = ForumThreads.CreateUsersJournal(cache, 
+                                                            readerCreator, 
+                                                            siteList,
+                                                            identityUserName,
+                                                            1,
+                                                            itemsPerPage, 
+                                                            startIndex,                
+                                                            threadId, 
+                                                            overFlow, 
+                                                            threadOrder, 
+                                                            viewingUser,
+                                                            false,
+                                                            ignoreCache);
+            Assert.IsNotNull(actual);
+            //Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for CreateJournal
+        ///</summary>
+        [TestMethod]
+        public void CreateJournal_NotUpToDate_ReturnsValidObject()
+        {
+            IDnaDataReaderCreator readerCreator;
+            ISiteList siteList;
+            int userId;
+            string identityUserName;
+            int forumId;
+            int itemsPerPage;
+            int startIndex;
+            int threadId;
+            bool overFlow;
+            ThreadOrder threadOrder;
+            bool ignoreCache = false;
+
+            CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+            var viewingUser = Mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var forumThreads = Mocks.DynamicMock<CachableBase<ForumThreads>>();
+            forumThreads.Stub(x => x.IsUpToDate(null)).Constraints(Is.Anything()).Return(false);
+
+            var cache = Mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(forumThreads);
+            cache.Stub(x => x.Add("", null)).Constraints(Is.Anything(), Is.Anything()).Repeat.Once();
+
+            Mocks.ReplayAll();
+
+            ForumThreads actual = ForumThreads.CreateUsersJournal(cache, 
+                                                            readerCreator, 
+                                                            siteList, 
+                                                            identityUserName,
+                                                            1,
+                                                            itemsPerPage, 
+                                                            startIndex,
+                                                            threadId, 
+                                                            overFlow, 
+                                                            threadOrder, 
+                                                            viewingUser,
+                                                            false,
+                                                            ignoreCache);
+            Assert.IsNotNull(actual);
+            //Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for CreateJournal
+        ///</summary>
+        [TestMethod]
+        public void CreateJournal_UpToDate_ReturnsValidObject()
+        {
+            IDnaDataReaderCreator readerCreator;
+            ISiteList siteList;
+            int userId;
+            string identityUserName;
+            int forumId;
+            int itemsPerPage;
+            int startIndex;
+            int threadId;
+            bool overFlow;
+            ThreadOrder threadOrder;
+            bool ignoreCache = false;
+
+            CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+
+
+            var viewingUser = Mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var forumThreads = new ForumThreads()
+            {
+                LastForumUpdated = DateTime.MaxValue,
+                LastThreadUpdated = DateTime.MaxValue
+
+            };
+            var cache = Mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(forumThreads);
+            cache.Stub(x => x.Add("", null)).Constraints(Is.Anything(), Is.Anything()).Repeat.Once();
+
+            Mocks.ReplayAll();
+
+            ForumThreads actual = ForumThreads.CreateUsersJournal(cache,
+                                                            readerCreator,
+                                                            siteList,
+                                                            identityUserName,
+                                                            1,
+                                                            itemsPerPage,
+                                                            startIndex,
+                                                            threadId,
+                                                            overFlow,
+                                                            threadOrder,
+                                                            viewingUser,
+                                                            false,
+                                                            ignoreCache);
+            Assert.IsNotNull(actual);
+            //Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for CreateJournalByDNAUserId
+        ///</summary>
+        [TestMethod]
+        public void CreateJournalByDNAUserId_WithIgnoreCache_ReturnsValidObject()
+        {
+            IDnaDataReaderCreator readerCreator;
+            ISiteList siteList;
+            int userId;
+            string identityUserName;
+            int forumId;
+            int itemsPerPage;
+            int startIndex;
+            int threadId;
+            bool overFlow;
+            ThreadOrder threadOrder;
+            bool ignoreCache = true;
+
+            CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+            var viewingUser = Mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var cache = Mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(null).Throw(new Exception("GetData should not be called"));
+            cache.Stub(x => x.Add("", null)).Constraints(Is.Anything(), Is.Anything()).Repeat.Once();
+
+            Mocks.ReplayAll();
+
+            ForumThreads actual = ForumThreads.CreateUsersJournal(cache,
+                                                            readerCreator,
+                                                            siteList,
+                                                            userId.ToString(),
+                                                            1,
+                                                            itemsPerPage,
+                                                            startIndex,
+                                                            threadId,
+                                                            overFlow,
+                                                            threadOrder,
+                                                            viewingUser,
+                                                            true,
+                                                            ignoreCache);
+            Assert.IsNotNull(actual);
+            //Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for CreateJournalByDNAUserId
+        ///</summary>
+        [TestMethod]
+        public void CreateJournalByDNAUserId_NotUpToDate_ReturnsValidObject()
+        {
+            IDnaDataReaderCreator readerCreator;
+            ISiteList siteList;
+            int userId;
+            string identityUserName;
+            int forumId;
+            int itemsPerPage;
+            int startIndex;
+            int threadId;
+            bool overFlow;
+            ThreadOrder threadOrder;
+            bool ignoreCache = false;
+
+            CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+            var viewingUser = Mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var forumThreads = Mocks.DynamicMock<CachableBase<ForumThreads>>();
+            forumThreads.Stub(x => x.IsUpToDate(null)).Constraints(Is.Anything()).Return(false);
+
+            var cache = Mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(forumThreads);
+            cache.Stub(x => x.Add("", null)).Constraints(Is.Anything(), Is.Anything()).Repeat.Once();
+
+            Mocks.ReplayAll();
+
+            ForumThreads actual = ForumThreads.CreateForumThreads(cache, readerCreator, siteList, forumId, itemsPerPage, startIndex,
+                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache);
+            Assert.IsNotNull(actual);
+            //Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+        /// <summary>
+        ///A test for CreateJournalByDNAUserId
+        ///</summary>
+        [TestMethod]
+        public void CreateJournalByDNAUserId_UpToDate_ReturnsValidObject()
+        {
+            IDnaDataReaderCreator readerCreator;
+            ISiteList siteList;
+            int userId;
+            string identityUserName;
+            int forumId;
+            int itemsPerPage;
+            int startIndex;
+            int threadId;
+            bool overFlow;
+            ThreadOrder threadOrder;
+            bool ignoreCache = false;
+
+            CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+
+
+            var viewingUser = Mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsEditor).Return(false);
+            viewingUser.Stub(x => x.IsSuperUser).Return(false);
+
+            var forumThreads = new ForumThreads()
+            {
+                LastForumUpdated = DateTime.MaxValue,
+                LastThreadUpdated = DateTime.MaxValue
+
+            };
+            var cache = Mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(forumThreads);
+            cache.Stub(x => x.Add("", null)).Constraints(Is.Anything(), Is.Anything()).Repeat.Once();
+
+            Mocks.ReplayAll();
+
+            ForumThreads actual = ForumThreads.CreateUsersJournal(cache,
+                                                            readerCreator,
+                                                            siteList,
+                                                            userId.ToString(),
+                                                            1,
+                                                            itemsPerPage,
+                                                            startIndex,
+                                                            threadId,
+                                                            overFlow,
+                                                            threadOrder,
+                                                            viewingUser,
+                                                            true,
+                                                            ignoreCache);
+            Assert.IsNotNull(actual);
+            //Assert.Inconclusive("Verify the correctness of this test method.");
+        }
+
+
         #region Helper methods
 
         private static void GetSiteForForumIdTestSetup(out MockRepository mocks, out IDnaDataReaderCreator creator,
@@ -896,6 +1190,53 @@ namespace BBC.Dna.Objects.Tests
             siteList.Stub(x => x.GetSite(siteId)).Return(site);
             mocks.ReplayAll();
         }
+
+        private static void CreateJournalTestSetup(out int userId, out string identityUserName, out int forumId, out int threadId,
+                                                           out int itemsPerPage, out int startIndex,
+                                                           out ThreadOrder threadOrder, out bool overFlow,
+                                                           out IDnaDataReaderCreator creator,
+                                                           out ISiteList siteList)
+        {
+            var mocks = new MockRepository();
+            int siteId = 1;
+            userId = 6;
+            identityUserName = "Damnyoureyes";
+            forumId = 7;
+            threadId = 0;
+            itemsPerPage = 10;
+            startIndex = 0;
+            threadOrder = ThreadOrder.LatestPost;
+            overFlow = true;
+
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("Journal")).Return(forumId);
+            reader.Stub(x => x.GetInt32NullAsZero("ThreadID")).Return(threadId);
+            reader.Stub(x => x.GetInt32NullAsZero("ThreadCount")).Return(itemsPerPage + 1);
+            reader.Stub(x => x.GetInt32NullAsZero("SiteID")).Return(siteId);
+            reader.Stub(x => x.DoesFieldExist("ForumPostCount")).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("ForumPostCount")).Return(itemsPerPage + 1);
+            reader.Stub(x => x.GetDateTime("ThreadLastUpdated")).Return(DateTime.MinValue);
+            reader.Stub(x => x.GetDateTime("ForumLastUpdated")).Return(DateTime.MinValue);
+
+
+
+            creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("finduserfromidentityusername")).Return(reader);
+            creator.Stub(x => x.CreateDnaDataReader("finduserfromid")).Return(reader);
+            creator.Stub(x => x.CreateDnaDataReader("forumgetthreadlist")).Return(reader);
+            creator.Stub(x => x.CreateDnaDataReader("GetForumSiteID")).Return(reader);
+            creator.Stub(x => x.CreateDnaDataReader("cachegetforumlastupdate")).Return(reader);
+
+            var site = mocks.DynamicMock<ISite>();
+            site.Stub(x => x.SiteID).Return(siteId);
+
+            siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSite(siteId)).Return(site);
+            mocks.ReplayAll();
+        }
+
 
         private static void GetIndexOfThreadInForumTestSetup(out MockRepository mocks, out IDnaDataReader reader,
                                                              out IDnaDataReaderCreator creator)

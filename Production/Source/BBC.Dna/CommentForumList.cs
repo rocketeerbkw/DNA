@@ -110,6 +110,20 @@ namespace BBC.Dna.Component
                             return AddErrorXml("invalidparameters", "Illegal New Moderation Status setting (" + dnaNewModStatus + ")", null);
                         }
                     }
+                    int fastModStatus = 0;
+                    bool newFastModStatusExists = InputContext.DoesParamExist("dnafastmod", "");
+                    if (newFastModStatusExists)
+                    {
+                        var fastModVal = InputContext.GetParamStringOrEmpty("dnafastmod", "");
+                        if (fastModVal.ToUpper() == "ENABLED")
+                        {
+                            fastModStatus = 1;
+                        }
+                        else
+                        {
+                            fastModStatus = 0;
+                        }
+                    }
 
                     string docNewCanWrite = "The new Open Close Status for the given comment forum.";
                     bool newNewCanWriteExists = false;
@@ -119,7 +133,7 @@ namespace BBC.Dna.Component
                         newCanWrite = InputContext.GetParamIntOrZero("dnanewcanwrite", docNewCanWrite);
                     }
 
-                    if (newNewForumCloseDateExists || newModStatusExists || newNewCanWriteExists)
+                    if (newNewForumCloseDateExists || newModStatusExists || newNewCanWriteExists || newFastModStatusExists)
                     {
 
                         using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("updatecommentforumstatus"))
@@ -150,6 +164,14 @@ namespace BBC.Dna.Component
                             else
                             {
                                 dataReader.AddParameter("canwrite", DBNull.Value);
+                            }
+                            if (newFastModStatusExists)
+                            {
+                                dataReader.AddParameter("fastmod", fastModStatus);
+                            }
+                            else
+                            {
+                                dataReader.AddParameter("fastmod", DBNull.Value);
                             }
                             dataReader.Execute();
                         }

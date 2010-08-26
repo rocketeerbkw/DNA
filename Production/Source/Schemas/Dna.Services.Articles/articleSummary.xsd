@@ -1,0 +1,46 @@
+﻿<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+	<xs:include schemaLocation="../Dna.Services.Common/date.xsd"/>
+	<xs:include schemaLocation="../Dna.Services.Common/extraInfo.xsd"/>
+	<xs:element name="articleSummary">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="dateCreated">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="date" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="editor">
+					<xs:complexType mixed="true">
+						<xs:sequence>
+							<xs:element ref="user" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="extraInfo" />
+				<xs:element name="h2g2id" type="xs:int" />
+				<xs:element name="lastUpdated">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="date" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="name" type="xs:string" />
+				<xs:element name="redirectNodeId" type="xs:int" />
+				<xs:element name="status">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="type" type="xs:int" />
+							<xs:element name="value" type="xs:string" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="strippedName" type="xs:string" />
+				<!--<xs:element name="sortOrder" type="xs:int" minOccurs ="0" />-->
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

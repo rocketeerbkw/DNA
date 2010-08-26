@@ -92,7 +92,7 @@ namespace BBC.Dna
         /// <returns></returns>
         public static XmlElement GetSiteGroupsElement(int siteID, IInputContext context )
         {
-            var groupList = UserGroups.GetObject().GetCachedObject().GroupList;
+            var groupList = UserGroups.GetObject().GetAllGroups();
 
             XmlDocument groupsdoc = new XmlDocument();
             XmlElement groups = groupsdoc.CreateElement("GROUPS");

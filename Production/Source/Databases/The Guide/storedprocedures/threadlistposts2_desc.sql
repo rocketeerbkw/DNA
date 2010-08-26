@@ -21,6 +21,8 @@ select @notablesgroup = GroupID FROM Groups WITH(NOLOCK) WHERE Name = 'Notables'
 			t.ForumID, 
 			t.ThreadID, 
 			t.UserID, 
+			siuidm.IdentityUserId,
+			'IdentityUserName'	= u.LoginName, 
 			u.FirstNames, 
 			u.LastName, 
 			u.Area,
@@ -55,8 +57,9 @@ select @notablesgroup = GroupID FROM Groups WITH(NOLOCK) WHERE Name = 'Notables'
 			'threadlastupdate' = th.lastupdated,
 			te.postindex as 'replypostindex'
 	FROM ThreadEntries t WITH(NOLOCK)
-		left join ThreadEntries te on te.entryid=t.parent
+		LEFT JOIN ThreadEntries te on te.entryid=t.parent
 		INNER JOIN Users u WITH(NOLOCK) ON t.UserID = u.UserID
+		LEFT JOIN SignInUserIDMapping siuidm WITH(NOLOCK) ON u.UserID = siuidm.DnaUserID
 		INNER JOIN Threads th WITH(NOLOCK) ON t.ThreadID = th.ThreadID
 		INNER JOIN Forums f WITH(NOLOCK) on f.ForumID = t.ForumID
 		LEFT JOIN Preferences p WITH(NOLOCK) on (p.UserID = u.UserID) AND (p.SiteID = f.SiteID)

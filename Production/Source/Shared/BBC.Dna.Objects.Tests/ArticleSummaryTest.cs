@@ -75,6 +75,31 @@ namespace BBC.Dna.Objects.Tests
             readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
         }
 
+        public static ArticleSummary CreateArticleSummaryTest()
+        {
+            var summary = new ArticleSummary
+            {
+
+                DateCreated = new DateElement(DateTime.Now),
+                Editor = new UserElement()
+                {
+                    user = UserTest.CreateTestUser()
+                },
+                ExtraInfo = ExtraInfoCreator.CreateExtraInfo(@"<test>extra</test>"),
+                H2G2ID = 1,
+                LastUpdated = new DateElement(DateTime.Now),
+                Name = "Test",
+                SortOrder = 1,
+                Status = new ArticleStatus()
+                {
+                    Type = 1,
+                    Value = "1"
+                },
+                StrippedName = "StrippedName"
+            };
+            return summary;
+        }
+
         /// <summary>
         /// Tests if GetChildArticles correctly populates all immediate child properties of the first returned instance in the list
         /// </summary>
@@ -103,10 +128,10 @@ namespace BBC.Dna.Objects.Tests
             getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("editor")).Return(99);
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorName")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorName")).Return("name");
-            getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorFirstNames")).Return(true);
-            getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorFirstNames")).Return("First Names");
-            getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorLastName")).Return(true);
-            getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorLastName")).Return("Last Name");
+            //getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorFirstNames")).Return(true);
+            //getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorFirstNames")).Return("First Names");
+            //getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorLastName")).Return(true);
+            //getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorLastName")).Return("Last Name");
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorArea")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorArea")).Return("Editor Area");
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorStatus")).Return(true);
@@ -137,8 +162,8 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(_test_strippedname, actual.First().StrippedName);
             Assert.AreEqual("<ExtraInfoContainer>test displayname</ExtraInfoContainer>", actual.First().ExtraInfo.OuterXml);
             Assert.IsNotNull(actual.First().Editor);
-            Assert.AreEqual("First Names", actual.First().Editor.user.FirstNames);
-            Assert.AreEqual("Last Name", actual.First().Editor.user.LastName);
+            //Assert.AreEqual("First Names", actual.First().Editor.user.FirstNames);
+            //Assert.AreEqual("Last Name", actual.First().Editor.user.LastName);
             Assert.AreEqual("Editor Area", actual.First().Editor.user.Area);
             Assert.AreEqual(2, actual.First().Editor.user.Status);
             Assert.AreEqual(3, actual.First().Editor.user.TaxonomyNode);
@@ -206,10 +231,10 @@ namespace BBC.Dna.Objects.Tests
             getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("editor")).Return(99);
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorName")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorName")).Return("name");
-            getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorFirstNames")).Return(true);
-            getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorFirstNames")).Return("First Names");
-            getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorLastName")).Return(true);
-            getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorLastName")).Return("Last Name");
+            //getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorFirstNames")).Return(true);
+            //getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorFirstNames")).Return("First Names");
+            //getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorLastName")).Return(true);
+            //getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorLastName")).Return("Last Name");
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorArea")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorArea")).Return("Editor Area");
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorStatus")).Return(true);

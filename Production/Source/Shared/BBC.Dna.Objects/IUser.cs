@@ -46,6 +46,16 @@ namespace BBC.Dna.Objects
         int UserId { get; set;}
 
         /// <summary>
+        /// IdentityId Property
+        /// </summary>
+        string IdentityUserId { get; set; }
+
+        /// <summary>
+        /// IdentityUserName Property
+        /// </summary>
+        string IdentityUserName { get; set; }
+
+        /// <summary>
         /// UserLoggedIn Property
         /// </summary>
         bool UserLoggedIn { get; set;}

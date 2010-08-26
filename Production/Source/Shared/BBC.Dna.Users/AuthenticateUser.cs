@@ -20,6 +20,13 @@ namespace BBC.Dna.Users
         /// ProfileAPI connection
         /// </summary>
         SSO
+#if DEBUG
+        ,
+        /// <summary>
+        /// Debug Identity sign in
+        /// </summary>
+        DebugIdentity
+#endif
     }
     
     /// <summary>
@@ -39,6 +46,20 @@ namespace BBC.Dna.Users
         private string _cookie = "";
         private string _secureCookie = "";
         private DateTime _lastUpdatedDate;
+        private string _debugIdentityUserID = "";
+
+        public void DebugIdentityUserID(string debugUserID)
+        {
+#if DEBUG
+            _debugIdentityUserID = debugUserID;
+            if (_debugIdentityUserID.Length > 0)
+            {
+                _signInComponent = SignInComponentFactory.CreateSignInComponent(_debugIdentityUserID, SignInSystem.DebugIdentity);
+            }
+#else
+            _debugIdentityUserID = "";
+#endif
+        }
 
         /// <summary>
         /// Get property for the users sign in userid
@@ -194,26 +215,7 @@ namespace BBC.Dna.Users
 
             string decodedCookie = cookie;
             string decodedSecureCookie = secureCookie;
-            if (_signInSystem == SignInSystem.Identity)
-            {
-                // BODGE!!! Make sure that the cookie is fully decoded.
-                // Currently the cookie can come in from Forge double encoded.
-                // Our tests are correct in encoding only the once.
-                /*
-                int i = 0;
-                while (decodedCookie.IndexOfAny(new char[] { ' ', '/', '+' }) < 0 && i < 3)
-                {
-                    decodedCookie = HttpUtility.UrlDecode(decodedCookie);
-                    i++;
-                }
-
-                i = 0;
-                while (decodedSecureCookie.IndexOfAny(new char[] { ' ', '/', '+' }) < 0 && i < 3)
-                {
-                    decodedSecureCookie = HttpUtility.UrlDecode(decodedSecureCookie);
-                    i++;
-                }*/
-            }
+ 
             Trace.WriteLine("AuthenticateUserFromCookie() - policy = " + policy);
             Trace.WriteLine("AuthenticateUserFromCookie() - cookie = " + decodedCookie);
             Trace.WriteLine("AuthenticateUserFromCookie() - secure cookie = " + decodedSecureCookie);
@@ -226,7 +228,6 @@ namespace BBC.Dna.Users
             }
             else
             {
-                //userSet = _signInComponent.TrySetUserViaCookieAndUserName(decodedCookie, identityUserName);
                 userSet = _signInComponent.TrySecureSetUserViaCookies(decodedCookie, decodedSecureCookie);
             }
 
