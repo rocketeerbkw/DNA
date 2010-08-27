@@ -33,8 +33,8 @@
         
     <xsl:template match="FORUMTHREADPOSTS[@FROM and @TO][@FORUMPOSTCOUNT > 0]" mode="object_forumthreadposts">
         
-        'id': '<xsl:value-of select="POST[ position() = 1]/@INDEX + 1" />',
-        'html': '<xsl:apply-templates select="POST[ position() = 1]" mode="object_post_comment" />'
+        'id': '<xsl:value-of select="POST[ position() = last()]/@INDEX + 1" />',
+        'html': '<xsl:apply-templates select="POST[ position() = last()]" mode="object_post_comment" />'
         
     </xsl:template>
     
