@@ -109,12 +109,15 @@ namespace BBC.Dna.Services
                 case ErrorType.CategoryNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 case ErrorType.MonthSummaryNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 case ErrorType.IndexNotFound: StatusCode = HttpStatusCode.NotFound; break;
-                case ErrorType.UserNotFound: StatusCode = HttpStatusCode.NotFound; break;                
+                case ErrorType.UserNotFound: StatusCode = HttpStatusCode.NotFound; break;
+                case ErrorType.ForumOrThreadNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 case ErrorType.GuideMLTransformationFailed: StatusCode = HttpStatusCode.InternalServerError; break;
                 case ErrorType.ThreadPostNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 case ErrorType.ThreadNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 case ErrorType.InvalidThreadID: StatusCode = HttpStatusCode.BadRequest; break;
-                case ErrorType.ForumIDNotWellFormed: StatusCode = HttpStatusCode.BadRequest; break;                    
+                case ErrorType.ForumIDNotWellFormed: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.AlreadyLinked: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.ArticleNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 
@@ -140,7 +143,6 @@ namespace BBC.Dna.Services
 
             }*/
             this.detailWriter = new StringDetailWriter() { ErrorCode = e.type.ToString(), Detail = e.Message, StatusCode = StatusCode, innerException = e.InnerException };
-
         }
 
         public abstract class DetailWriter

@@ -59,6 +59,10 @@ namespace BBC.Dna.Objects
         /// </summary>        
         public string SiteName { get; set; }
 
+        /// <summary>
+        /// Whether we get via id or username.
+        /// </summary>
+        private string UserNameType { get; set; }
 
         /// <summary>
         /// This is used for as an identifier for caching purposes.
@@ -81,7 +85,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <returns></returns>
         public static Contributions GetUserContributions(ICacheManager cache, IDnaDataReaderCreator readerCreator, string siteName, string userid,
-            int itemsPerPage, int startIndex, SortDirection SortDirection, SiteType? filterBySiteType, bool ignoreCache)
+            int itemsPerPage, int startIndex, SortDirection SortDirection, SiteType? filterBySiteType, string userNameType, bool ignoreCache)
         {
             Contributions contributions = new Contributions()
             {
@@ -91,7 +95,9 @@ namespace BBC.Dna.Objects
                 SortDirection = SortDirection,
                 SiteType = filterBySiteType,
                 SiteName = siteName,
-                InstanceCreatedDateTime = DateTime.Now                
+                UserNameType = userNameType,
+                InstanceCreatedDateTime = DateTime.Now 
+               
             };
 
             contributions = CreateContributionFromDatabase(cache, contributions, readerCreator, ignoreCache);
@@ -129,14 +135,17 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return GetCacheKey(IdentityUserID, SiteType, SiteName, SortDirection.ToString(), ItemsPerPage, StartIndex);
+                return GetCacheKey(IdentityUserID, SiteType, SiteName, SortDirection.ToString(), ItemsPerPage, StartIndex, UserNameType);
             }
         }
 
         /// <summary>
         /// Fills the contributions list (if not obtainable from cache) with the return of getusercontributions
         /// </summary>
-        private static Contributions CreateContributionFromDatabase(ICacheManager cache, Contributions contributionsFromCache, IDnaDataReaderCreator readerCreator, bool ignoreCache)
+        private static Contributions CreateContributionFromDatabase(ICacheManager cache, 
+                                                                    Contributions contributionsFromCache, 
+                                                                    IDnaDataReaderCreator readerCreator, 
+                                                                    bool ignoreCache)
         {
             // NOTE
             // contributionsFromCache is simply used to get the cache key
@@ -160,6 +169,7 @@ namespace BBC.Dna.Objects
                 SortDirection = contributionsFromCache.SortDirection,
                 SiteType = contributionsFromCache.SiteType,
                 SiteName = contributionsFromCache.SiteName,
+                UserNameType = contributionsFromCache.UserNameType,
                 InstanceCreatedDateTime = DateTime.Now
             };
 
@@ -173,6 +183,7 @@ namespace BBC.Dna.Objects
                 reader2.AddParameter("sortDirection", returnedContributions.SortDirection.ToString().ToLower());
                 reader2.AddParameter("siteType", returnedContributions.SiteType);
                 reader2.AddParameter("siteName", returnedContributions.SiteName);
+                reader2.AddParameter("userNameType", returnedContributions.UserNameType);
                 reader2.Execute();
 
                 int returnValue = 0;

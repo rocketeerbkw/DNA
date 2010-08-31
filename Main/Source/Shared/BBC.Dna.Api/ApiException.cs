@@ -156,6 +156,9 @@ namespace BBC.Dna.Api
                 case ErrorType.UserNotFound:
                     error = new ApiException("User not found.", innerException);
                     break;
+                case ErrorType.ForumOrThreadNotFound:
+                    error = new ApiException("Forum or Thread not found.", innerException);
+                    break;
                 case ErrorType.GuideMLTransformationFailed:
                     error = new ApiException("GuideML Transformation Failed.", innerException);
                     break;
@@ -168,7 +171,12 @@ namespace BBC.Dna.Api
                 case ErrorType.ForumIDNotWellFormed:
                     error = new ApiException("ForumID not well formed.", innerException);
                     break;
-                    
+                case ErrorType.AlreadyLinked:
+                    error = new ApiException("Already linked.", innerException);
+                    break;
+                case ErrorType.ArticleNotFound:
+                    error = new ApiException("Article not found.", innerException);
+                    break;                   
 
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
@@ -219,9 +227,12 @@ namespace BBC.Dna.Api
         MonthSummaryNotFound,
         IndexNotFound,
         UserNotFound,
+        ForumOrThreadNotFound,
         GuideMLTransformationFailed,
         ThreadPostNotFound,
         ThreadNotFound,
-        ForumIDNotWellFormed
+        ForumIDNotWellFormed,
+        AlreadyLinked,
+        ArticleNotFound
     }
 }

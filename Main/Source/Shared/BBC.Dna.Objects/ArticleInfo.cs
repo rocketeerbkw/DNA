@@ -193,7 +193,7 @@ namespace BBC.Dna.Objects
                 // Go though the results untill we get the main article
                 do
                 {
-                    if (reader.GetInt32("IsMainArticle") == 1)
+                    if (reader.GetInt32("IsMainArticle") == 1 ) 
                     {
                         articleInfo = new ArticleInfo();
                         // Now start reading in all the values for the entry

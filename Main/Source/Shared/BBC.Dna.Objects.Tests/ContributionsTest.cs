@@ -38,8 +38,8 @@ namespace BBC.Dna.Objects.Tests
         private readonly string _test_siteurl = "test url";
         private readonly string _test_commentforumurl = "test comment forum url";
         private readonly string _test_guideentry_subject = "test guide entry subject";
-        
-        private readonly string _test_cache_key = "BBC.Dna.Objects.Contribution, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|99|Blog|h2g2|Ascending|10|0|";
+
+        private readonly string _test_cache_key = "BBC.Dna.Objects.Contribution, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|99|Blog|h2g2|Ascending|10|0|identityuserid|";
         
         public ContributionsTest()
         {
@@ -140,6 +140,7 @@ namespace BBC.Dna.Objects.Tests
                 _test_postIndex,
                 _test_sortDirection,
                 _test_siteType,
+                "identityuserid",
                 true);
 
             // VERIFY THE RESULTS
@@ -190,6 +191,7 @@ namespace BBC.Dna.Objects.Tests
                 _test_postIndex,
                 _test_sortDirection,
                 _test_siteType,
+                "identityuserid",
                 false);
 
             // VERIFY THE RESULTS
@@ -244,6 +246,7 @@ namespace BBC.Dna.Objects.Tests
                 _test_postIndex,
                 _test_sortDirection,
                 _test_siteType,
+                "identityuserid",
                 false);
 
             // VERIFY THE RESULTS            
@@ -344,6 +347,7 @@ namespace BBC.Dna.Objects.Tests
                 _test_postIndex,
                 _test_sortDirection,
                 _test_siteType,
+                "identityuserid",
                 false);
 
             // VERIFY THE RESULTS
@@ -444,6 +448,7 @@ namespace BBC.Dna.Objects.Tests
                 _test_postIndex,
                 _test_sortDirection,
                 SiteType.Undefined,
+                "identityuserid",
                 false);
 
             // VERIFY THE RESULTS            
@@ -483,6 +488,7 @@ namespace BBC.Dna.Objects.Tests
                     _test_postIndex,
                     _test_sortDirection,
                     SiteType.Undefined,
+                    "identityuserid",
                     false);
             }
             catch (ApiException e)
@@ -511,10 +517,10 @@ namespace BBC.Dna.Objects.Tests
                          PostIndex = 0,
                          SiteName = "h2g2",
                          SiteType = BBC.Dna.Site.SiteType.Blog,
-                         FirstSubject = "Test Intance Source Title",
-                         Subject = "Test Intance Sub Title",
+                         FirstSubject = "Test Instance Source Title",
+                         Subject = "Test Instance Sub Title",
                          Timestamp = DateTime.Now,
-                         Title = "Test Intance Title"
+                         Title = "Test Instance Title"
                     },
                     new Contribution()
                     {
@@ -523,10 +529,10 @@ namespace BBC.Dna.Objects.Tests
                          PostIndex = 1,
                          SiteName = "h2g2",
                          SiteType = BBC.Dna.Site.SiteType.Messageboard,
-                         FirstSubject = "Test Intance Source Title 2",
-                         Subject = "Test Intance Sub Title 2",
+                         FirstSubject = "Test Instance Source Title 2",
+                         Subject = "Test Instance Sub Title 2",
                          Timestamp = DateTime.Now,
-                         Title = "Test Intance Title 2"
+                         Title = "Test Instance Title 2"
                     }
                 }
             };

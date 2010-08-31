@@ -12,7 +12,6 @@ using BBC.Dna.Common;
 using BBC.Dna.Api;
 using System.Configuration;
 using System.IO;
-using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {
@@ -342,6 +341,34 @@ namespace BBC.Dna.Objects
         }
 
         /// <summary>
+        /// Check with a light db call to see if the cache should expire
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="articleName"></param>
+        /// <param name="siteId"></param>
+        /// <returns>True if up to date and ok to use</returns>
+        public bool IsNamedArticleUpToDate(IDnaDataReaderCreator readerCreator, string articleName, int siteId)
+        {
+            int seconds = 0;
+            DateTime lastUpdate = DateTime.Now;
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("cachegetkeyarticledate"))
+            {
+                reader.AddParameter("artname", articleName);
+                reader.AddParameter("siteid", siteId);
+                reader.Execute();
+
+                // If we found the info, set the expiry date
+                if (reader.HasRows && reader.Read())
+                {
+                    seconds = reader.GetInt32NullAsZero("seconds");
+                    lastUpdate = DateTime.Now.Subtract(new TimeSpan(0, 0, seconds));
+                }
+            }
+            return (ArticleInfo != null && ArticleInfo.LastUpdated != null &&
+                    ArticleInfo.LastUpdated.Date.Local.DateTime >= lastUpdate);
+        }
+
+        /// <summary>
         /// Checks to see if a user has edit permissions for the current guide entry
         /// </summary>
         /// <param name="user">The user you want to check against</param>
@@ -422,12 +449,61 @@ namespace BBC.Dna.Objects
                 }
             }
         }
+       
+        /// <summary>
+        /// Creates the article from db
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="articleName"></param>
+        /// <param name="siteId"></param>
+        /// <param name="applySkin"></param>
+        /// <returns></returns>
+        public static Article CreateNamedArticleFromDatabase(IDnaDataReaderCreator readerCreator, string articleName, int siteId, bool applySkin)
+        {
+            
+            Article article = null;
+            // fetch all the lovely intellectual property from the database
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getkeyarticlecomponents"))
+            {
+                // Add the articleName and execute
+                reader.AddParameter("articlename", articleName);
+                reader.AddParameter("siteid", siteId);
+                reader.Execute();
+
+                // Make sure we got something back
+                if (!reader.HasRows || !reader.Read())
+                {
+                    throw ApiException.GetError(ErrorType.ArticleNotFound);
+                }
+                else
+                {
+                    // Go though the results untill we get the main article
+                    do
+                    {
+                        if (reader.GetInt32("IsMainArticle") == 1)
+                        {
+                            article = CreateArticleFromReader(readerCreator, reader, applySkin);
+                            break;
+                        }
+
+                    } while (reader.Read());
+
+                    //not created so scream
+                    if (article == null)
+                    {
+                        throw ApiException.GetError(ErrorType.ArticleNotFound);
+                    }
+                }
+            }
+            return article;
+        }
 
         /// <summary>
         /// Creates the article from db
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <param name="entryId"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
         public static Article CreateArticleFromDatabase(IDnaDataReaderCreator readerCreator, int entryId, bool applySkin)
         {
@@ -520,7 +596,7 @@ namespace BBC.Dna.Objects
             return article;
         }
 
-        private static Article CreateArticleFromReader(IDnaDataReaderCreator readerCreator, IDnaDataReader reader, bool applySkin)
+        public static Article CreateArticleFromReader(IDnaDataReaderCreator readerCreator, IDnaDataReader reader, bool applySkin)
         {
             Article article = new Article();
             article._applySkinOnGuideML = applySkin;
@@ -628,6 +704,50 @@ namespace BBC.Dna.Objects
             return article;
         }
 
+        /// <summary>
+        /// Gets article via the Name of the Article from cache or db if not found in cache
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="articleName"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static Article CreateNamedArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+                                            int siteId, string articleName, bool ignoreCache, bool applySkin)
+        {
+            var article = new Article();
+
+            string key = article.GetCacheKey(articleName, siteId, applySkin);
+            //check for item in the cache first
+            if (!ignoreCache)
+            {
+                //not ignoring cache
+
+                article = (Article)cache.GetData(key);
+                if (article != null)
+                {
+                    //check if still valid with db...
+                    if (article.IsNamedArticleUpToDate(readerCreator, articleName, siteId))
+                    {
+                        //all good - apply viewing user attributes and return
+                        article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
+                        return article;
+                    }
+                }
+            }
+
+            //create from db
+            article = CreateNamedArticleFromDatabase(readerCreator, articleName, siteId, applySkin);
+            //add to cache
+            cache.Add(key, article);
+            //update with viewuser info
+            article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
+
+            return article;
+        }
+
+        
         /// <summary>
         /// Gets random article from cache or db if not found in cache
         /// </summary>

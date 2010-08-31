@@ -50,6 +50,30 @@ namespace BBC.Dna.Services
                         itemsPerPage, startIndex, 0, true, threadOrder, null, false));
         }
 
+        [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadid}/forumsource")]
+        [WebHelp(Comment = "Get the forum source for a given forum id, thread id and site")]
+        [OperationContract]
+        public Stream GetForumSource(string siteName, string forumId, string threadId)
+        {
+            ISite site = Global.siteList.GetSite(siteName);
+
+            ForumSource forumSource = ForumSource.CreateForumSource(cacheManager,
+                                                                readerCreator,
+                                                                null,
+                                                                Int32.Parse(forumId),
+                                                                Int32.Parse(threadId),
+                                                                site.SiteID,
+                                                                true,
+                                                                false,
+                                                                true);
+            if (forumSource == null)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumOrThreadNotFound));
+            }
+
+            return GetOutputStream(forumSource);
+        }
+
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}")]
         [WebHelp(Comment = "Get the thread and posts for a given thread id")]
         [OperationContract]

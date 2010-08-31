@@ -1280,6 +1280,7 @@
     <None Include="fetchgroupsandmembersbysite.sql" />
     <None Include="finduserfromidentityusername.sql" />
     <None Include="cachegetlastpostdate.sql" />
+    <None Include="getdnauseridfromidentityusername.sql" />
     <None Include="getusercontributions.sql" />
     <None Include="GetAllGroups.sql" />
     <None Include="getuserfromidentityusername.sql" />

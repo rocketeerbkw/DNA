@@ -1,19 +1,14 @@
+CREATE PROCEDURE getusercontributions   @identityuserid varchar(255) = null, 
+										@startindex int = null, 
+										@itemsperpage int = null, 
+										@sitetype int = null, 
+										@sitename varchar(50) = null,
+										@sortdirection varchar(20) = 'descending',
+										@usernametype varchar(40) = 'identityid'
 
-/****** Object:  StoredProcedure [dbo].[getusercontributions]    Script Date: 07/13/2010 16:18:59 ******/
-if object_id('[getusercontributions]') is not null
-	DROP PROCEDURE getusercontributions
-GO
+AS
 
-
-create procedure getusercontributions
-@identityuserid varchar(40) = null, 
-@startindex int = null, 
-@itemsperpage int = null, 
-@sitetype int = null, 
-@sitename varchar(50) = null,
-@sortdirection varchar(20) = 'descending'
-
-as SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
 declare @userid int 
 declare @siteid int
@@ -25,11 +20,22 @@ if (@sortDirection is null or @sortDirection ='') set @sortDirection = 'descendi
 
 if not (@identityuserid is null)
 BEGIN
-	select @userid = DnaUserID from dbo.SignInUserIDMapping where IdentityUserID = @identityuserid
-	if (@userid IS NULL) 
+	IF @userNameType = 'identityuserid'
 	BEGIN
-		return 1 -- User not found
-	END	
+		SELECT @userid = DnaUserID from dbo.SignInUserIDMapping where IdentityUserID = @identityuserid
+		IF (@userid IS NULL) 
+		BEGIN
+			return 1 -- User not found
+		END
+	END
+	ELSE
+	BEGIN --get dna id from identityusername
+		SELECT @userid = dbo.udf_getdnauseridfromloginname (@identityuserid)
+		IF (@userid IS NULL) 
+		BEGIN
+			return 1 -- User not found
+		END
+	END
 END
 
 select @siteid = SiteID from dbo.Sites where UrlName = @sitename

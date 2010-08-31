@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
@@ -16,9 +17,11 @@ namespace BBC.Dna.Objects
     [DesignerCategory("code")]
     [XmlType(AnonymousType = true, TypeName = "FORUMSOURCE")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "FORUMSOURCE")]
+    [DataContract(Name = "forumSource")]
     public class ForumSource : CachableBase<ForumSource>
     {
         [XmlIgnore]
+        [DataMember(Name = "type")]
         public ForumSourceType Type { get; set; }
 
         /// <summary>
@@ -32,14 +35,17 @@ namespace BBC.Dna.Objects
         }
 
         [XmlElement(ElementName = "ALERTINSTANTLY")]
+        [DataMember(Name = "alertInstantly")]
         public byte AlertInstantly { get; set; }
 
         /// <remarks/>
         [XmlElement(ElementName = "ARTICLE")]
+        [DataMember(Name = "article")]
         public Article Article { get; set; }
 
         /// <remarks/>
         [XmlIgnore]
+        [DataMember(Name = "h2g2Id")]
         public int ArticleH2G2Id { get; set; }
 
 
@@ -102,7 +108,7 @@ namespace BBC.Dna.Objects
         /// <param name="siteId"></param>
         /// <param name="includeArticle"></param>
         /// <returns></returns>
-        private static ForumSource CreateForumSourceFromDatabase(ICacheManager cache, IDnaDataReaderCreator creator,
+        public static ForumSource CreateForumSourceFromDatabase(ICacheManager cache, IDnaDataReaderCreator creator,
                                                                  User viewingUser, int forumId, int threadId, int siteId,
                                                                  bool includeArticle, bool applySkin)
         {

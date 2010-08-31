@@ -693,7 +693,6 @@ namespace BBC.Dna.Objects.Tests
             DateTime datePosted = DateTime.Now;
 
             // 1) prepare the test            
-            IDnaDataReaderCreator readerCreator;
             var reader = Mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true);
@@ -790,8 +789,8 @@ namespace BBC.Dna.Objects.Tests
             ThreadPost newThreadPost = new ThreadPost();            
             newThreadPost.InReplyTo = inReplyTo;
             newThreadPost.ThreadId = threadId;
-            newThreadPost.Subject = "subject";
-            newThreadPost.Text = "text";
+            newThreadPost.Subject = subject;
+            newThreadPost.Text = text;
             newThreadPost.Style = PostStyle.Style.richtext;
 
             var reader = Mocks.DynamicMock<IDnaDataReader>();

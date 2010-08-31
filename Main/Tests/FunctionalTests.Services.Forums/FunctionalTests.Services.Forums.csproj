@@ -53,6 +53,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="forumSource.cs" />
     <Compile Include="forumThreadPosts.cs" />
     <Compile Include="forumThreads.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

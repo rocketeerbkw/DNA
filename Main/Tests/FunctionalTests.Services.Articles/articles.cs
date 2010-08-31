@@ -20,7 +20,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
 
-
 namespace FunctionalTests.Services.Articles
 {
     /// <summary>
@@ -42,14 +41,18 @@ namespace FunctionalTests.Services.Articles
             Console.WriteLine("ShutDown Article_V1");
         }
 
+
         /// <summary>
         /// Set up function  
         /// </summary>
-        [TestInitialize]
-        public void StartUp()
+        [ClassInitialize]
+        public static void StartUp(TestContext testContext)
         {
             Console.WriteLine("StartUp Article_V1");
             SnapshotInitialisation.RestoreFromSnapshot();
+
+            SetupFullTextIndex();
+            SetupKeyNamedArticles();
         }
 
         /// <summary>
@@ -92,10 +95,6 @@ namespace FunctionalTests.Services.Articles
 
             Assert.AreEqual(_unskinnedGuideML, bodyContent);
         }
-
-
-
-
 
         /// <summary>
         /// Test CreateArticle method from service
@@ -155,20 +154,15 @@ namespace FunctionalTests.Services.Articles
         {
             Console.WriteLine("Before GetComingUpArticles_ReadOnly_ReturnsValidXml");
 
-            for (int i = 0; i < 10; i++)
-            {
-                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
-                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/comingup?format=xml", _sitename);
-                // now get the response
-                request.RequestPageWithFullURL(url, null, "text/xml");
-                // Check to make sure that the page returned with the correct information
-                XmlDocument xml = request.GetLastResponseAsXML();
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/comingup?format=xml", _sitename);
+            // now get the response
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
 
 
-                //DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);
-                //validator.Validate();
-            }
             Console.WriteLine("After GetComingUpArticles_ReadOnly_ReturnsValidXml");
         }
         /// <summary>
@@ -178,28 +172,27 @@ namespace FunctionalTests.Services.Articles
         public void GetMonthlySummaryArticles_FailsWithMonthSummaryNotFound()
         {
             Console.WriteLine("Before GetMonthlySummaryArticles_FailsWithMonthSummaryNotFound");
+            ClearArticlesForTheLastMonthForMonthSummaryFail();
 
-            for (int i = 0; i < 10; i++)
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNotLoggedInUser();
+            request.AssertWebRequestFailure = false;
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/month?format=xml", _sitename);
+
+            try
             {
-                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
-                request.SetCurrentUserNotLoggedInUser();
-                request.AssertWebRequestFailure = false;
-
-                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/month?format=xml", _sitename);
-
-                try
-                {
-                    // now get the response
-                    request.RequestPageWithFullURL(url, null, "text/xml");
-                }
-                catch (WebException)
-                {
-
-                }
-                Assert.AreEqual(HttpStatusCode.NotFound, request.CurrentWebResponse.StatusCode);
-                ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
-                Assert.AreEqual(ErrorType.MonthSummaryNotFound.ToString(), errorData.Code);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
             }
+            catch (WebException)
+            {
+
+            }
+            Assert.AreEqual(HttpStatusCode.NotFound, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.MonthSummaryNotFound.ToString(), errorData.Code);
+
             Console.WriteLine("After GetMonthlySummaryArticles_FailsWithMonthSummaryNotFound");
         }
         /// <summary>
@@ -212,16 +205,14 @@ namespace FunctionalTests.Services.Articles
 
             SetupMonthSummaryArticle();
 
-            for (int i = 0; i < 10; i++)
-            {
-                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
-                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/month?format=xml", _sitename);
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/month?format=xml", _sitename);
 
-                // now get the response
-                request.RequestPageWithFullURL(url, null, "text/xml");
-                XmlDocument xml = request.GetLastResponseAsXML();
-            }
+            // now get the response
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            XmlDocument xml = request.GetLastResponseAsXML();
+
             Console.WriteLine("After GetMonthlySummaryArticles_WithSomeArticles");
         }
 
@@ -234,11 +225,9 @@ namespace FunctionalTests.Services.Articles
         {
             Console.WriteLine("Before GetSearchArticles");
 
-            SetupFullTextIndex();
-
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
-            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles?querystring=dinosaur&showapproved=1&type=ARTICLE&format=xml", _sitename);
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles?querystring=dinosaur&showapproved=1&searchtype=ARTICLE&format=xml", _sitename);
 
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
@@ -247,8 +236,229 @@ namespace FunctionalTests.Services.Articles
             Console.WriteLine("After GetSearchArticles");
         }
 
+        /// <summary>
+        /// Test ClipArticle method from service
+        /// </summary>
+        [TestMethod]
+        public void ClipArticle()
+        {
+            Console.WriteLine("Before ClipArticle");
 
-        private void SetupFullTextIndex()
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/1021825/clip/", _sitename);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After ClipArticle");
+        }
+
+        /// <summary>
+        /// Test TryClipArticleTwice method from service
+        /// </summary>
+        [TestMethod]
+        public void TryClipArticleTwice()
+        {
+            Console.WriteLine("Before TryClipArticleTwice");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            request.AssertWebRequestFailure = false;
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/1422/clip/", _sitename);
+
+            request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+
+            try
+            {
+                request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+            }
+            catch (WebException)
+            {
+
+            }
+            Assert.AreEqual(HttpStatusCode.BadRequest, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.AlreadyLinked.ToString(), errorData.Code);
+
+
+            Console.WriteLine("After TryClipArticleTwice");
+        }
+
+        [TestMethod]
+        public void ClipArticle_UnknownSite_Returns404()
+        {
+            Console.WriteLine("Before ClipArticle_UnknownSite_Returns404");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+
+            string unknownSite = "unknown_site";
+
+            Console.WriteLine("Validing site:" + unknownSite);
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/1422/clip/", unknownSite);
+
+            DateTime dt = DateTime.Now;
+            String timeStamp = dt.ToString("ddddyyyyMMMMddHHmmssfffffff");
+            try
+            {
+                request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+            }
+            catch (WebException)
+            {
+
+            }
+            Assert.AreEqual(HttpStatusCode.NotFound, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.UnknownSite.ToString(), errorData.Code);
+
+            Console.WriteLine("After ClipArticle_UnknownSite_Returns404");
+        }
+
+        [TestMethod]
+        public void ClipArticle_NotLoggedInUser_Returns404()
+        {
+            Console.WriteLine("Before ClipArticle_NotLoggedInUser_Returns404");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/1422/clip/", _sitename);
+
+            DateTime dt = DateTime.Now;
+            String timeStamp = dt.ToString("ddddyyyyMMMMddHHmmssfffffff");
+            try
+            {
+                request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+            }
+            catch (WebException)
+            {
+
+            }
+            Assert.AreEqual(HttpStatusCode.Unauthorized, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.MissingUserCredentials.ToString(), errorData.Code);
+
+            Console.WriteLine("After ClipArticle_NotLoggedInUser_Returns404");
+        }
+
+        /// <summary>
+        /// Test CreateNamedArticle method from service
+        /// </summary>
+        [TestMethod]
+        public void GetNamedArticle_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetNamedArticle_ReadOnly_ReturnsValidXml");
+            
+            string[] names = { "Askh2g2", "Feedback", "Writing-Guidelines", "GuideML-Introduction", "Welcome" };
+
+            foreach (var name in names)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validing Name:" + name);
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/name/{1}?format=xml", _sitename, name);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetNamedArticle_ReadOnly_ReturnsValidXml");
+        }
+
+        /// <summary>
+        /// Test CreateNamedArticle method from service
+        /// </summary>
+        [TestMethod]
+        public void GetNamedArticleViaGetArticles_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetNamedArticleViaGetArticles_ReadOnly_ReturnsValidXml");
+
+            string[] names = { "Askh2g2", "Feedback", "Writing-Guidelines", "GuideML-Introduction", "Welcome" };
+
+            foreach (var name in names)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validing Name:" + name);
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?format=xml", _sitename, name);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetNamedArticleViaGetArticles_ReadOnly_ReturnsValidXml");
+        }
+
+        [TestMethod]
+        public void GetNamedArticle_UnknownArticle_Returns404()
+        {
+            Console.WriteLine("Before GetNamedArticle_UnknownArticle_Returns404");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+
+            string unknownArticle = "IAmTheUnknownArticle";
+
+            Console.WriteLine("Validing site:" + unknownArticle);
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/name/{1}?format=xml", _sitename, unknownArticle);
+
+            try
+            {
+                request.RequestPageWithFullURL(url, null, "text/xml");
+            }
+            catch (WebException)
+            {
+
+            }
+            Assert.AreEqual(HttpStatusCode.NotFound, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.ArticleNotFound.ToString(), errorData.Code);
+
+            Console.WriteLine("After ClipArticle_UnknownSite_Returns404");
+        }
+
+#region SetupFunctions
+
+        private static void SetupKeyNamedArticles()
+        {
+            Dictionary<string, int> namedarticles = new Dictionary<string,int>()
+            { {"Feedback", 5734},
+                        {"Welcome", 53146},
+                        {"EditedGuide-Guidelines", 53209},
+                        {"Writing-Guidelines", 53209},
+                        {"Copyright", 109748},
+                        {"Trademarks", 109748},
+                        {"MiscChat", 121096},
+                        {"Privacy", 122275},
+                        {"terms", 122284},
+                        {"WordOfTheDay", 142147},
+                        {"Askh2g2", 148907},
+                        {"GuideML-Introduction", 155701},
+                        {"Smiley", 155909},
+                        {"Welcome-DNA", 157349} };
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+            {
+                foreach( KeyValuePair<string, int> namedarticle in namedarticles)
+                {
+                    String sql = String.Format("exec setkeyarticle '{0}', {1}, 1, 1", namedarticle.Key, namedarticle.Value);
+
+                    reader.ExecuteDEBUGONLY(sql);
+                }
+            }
+        }
+
+        private static void SetupFullTextIndex()
         {
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
@@ -261,8 +471,16 @@ namespace FunctionalTests.Services.Articles
             System.Threading.Thread.Sleep(20000);
         }
 
+        private static void ClearArticlesForTheLastMonthForMonthSummaryFail()
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(string.Format("update guideentries set datecreated = DATEADD(month, -2, getdate()) where datecreated > DATEADD(month, -1, getdate())"));
+            }
+        }
 
-        private void SetupMonthSummaryArticle()
+        private static void SetupMonthSummaryArticle()
         {
             int entryId = 0;
 
@@ -281,5 +499,13 @@ namespace FunctionalTests.Services.Articles
                 }
             }
         }
+        private String makeTimestamp()
+        {
+            DateTime dt = DateTime.Now;
+            String timeStamp = dt.ToString("ddddyyyyMMMMddHHmmssfffffff");
+            return timeStamp;
+        }
+#endregion
+
     }
 }
