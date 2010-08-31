@@ -182,8 +182,9 @@ Possible values are 'reactive', 'postmod' and 'premod'";
 
             toPostIndex = InputContext.GetParamIntOrZero("dnato", _docDnaTo);
             if (toPostIndex <= 0)
-            {
-                toPostIndex = show;
+            {//HACK: if posttoindex is not set then must default to 0 so that order of comments returned is reversed
+                //this is ajax required.
+                toPostIndex = 0;
             }
 
             
