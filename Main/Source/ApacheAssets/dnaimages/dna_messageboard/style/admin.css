@@ -258,6 +258,34 @@
 
     /* CLEAR HACKS */
     .dna-main:after,.dna-half:after,.dna-box:after,.dna-buttons:after,#mbpreview-content:after,.dna-box-border:after,.dna-list-topic li:after {content:".";  display:block; height:0; clear:both; visibility:hidden}
+
+	/* Comment forum list */
+	.dna-cfl p {padding: 5px 0; margin: 0;}
+	.dna-cfl .cfl-skip-show li {float:left; margin:2px; padding:2px; border:1px solid #000033; list-style:none;}
+	.dna-cfl #commentforumlist {font-size:80%; margin-top: 20px;}
+	.dna-cfl-intro h2 {margin: 10px 0;}
+	.dna-cfl-intro {margin: 10px 0; padding: 0;}
+	.dna-cfl-intro #dnahostpageurl {width:400px; margin-top: 10px}
+	
+	.dna-cfl .cfl-skip-show li {background:#efefef; padding: 3px}
+	.dna-cfl .cfl-skip-show li a:hover {text-decoration: none}
+	
+	.dna-cfl table#commentforumlist {border:1px solid #ccc; width:100%}
+	.dna-cfl table#commentforumlist th {background-color:#56A4CE; color:#fff; padding:5px;} 
+	.dna-cfl table#commentforumlist tr.even {background:#efefef;}
+	.dna-cfl table#commentforumlist td.cfl-cell {width:200px; word-wrap:break-word}
+	.dna-cfl table#commentforumlist td.cfl-cell-modstatus {width:130px;}
+	.dna-cfl table#commentforumlist td.cfl-cell-closedate {width:130px;}
+	.dna-cfl table#commentforumlist td {vertical-align:top; padding:10px 5px 0 5px}
+	.dna-cfl table#commentforumlist td .cfl-wrap {height:60px}
+	.dna-cfl table#commentforumlist td a {line-height:1.4em}
+	.dna-cfl table#commentforumlist td .dna-buttons {margin:0; padding:5px 0}
+	.dna-cfl table#commentforumlist td .dna-buttons input {margin:10px 0 5px 0;}
+	.dna-cfl table#commentforumlist td li {line-height:1.8em;}
+	.dna-cfl table#commentforumlist td .cfl-list li {line-height:1.6em;}
+	.dna-cfl table#commentforumlist td .cfl-list label {float:right; display:block; width:105px; text-align:left;}
+	.dna-cfl table#commentforumlist td#cfl-cell-closedate label {width: 55px;}
+	.dna-cfl table#commentforumlist td .cfl-cell-input {width: 60px}
 }
 
 @media print{
