@@ -21,7 +21,8 @@
             
             <h2>
                 Message Centre for 
-                <xsl:value-of select="FORUMSOURCE/USERPAGE/USER/USERNAME"/>
+                <!-- <xsl:value-of select="FORUMSOURCE/USERPAGE/USER/USERNAME"/> -->
+                <xsl:apply-templates select="FORUMSOURCE/USERPAGE/USER" mode="object_user_username" />
             </h2>
         
             <!-- Insert posts-->

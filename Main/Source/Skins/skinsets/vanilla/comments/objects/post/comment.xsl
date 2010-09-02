@@ -45,7 +45,7 @@
                     	<a href="{/H2G2/PARAMS/PARAM[NAME = 's_commentprofileurl']/VALUE}?userid={USER/USERID}">
                     		<xsl:choose>
                     			<xsl:when test="/H2G2/VIEWING-USER/USER/USERID = $thisUserId">you</xsl:when>
-                    			<xsl:otherwise><xsl:value-of select="USER/USERNAME"/></xsl:otherwise>
+                    			<xsl:otherwise><xsl:apply-templates select="USER" mode="object_user_username" /></xsl:otherwise>
                     		</xsl:choose>
                     	</a>
                     </span>
@@ -97,7 +97,7 @@
                     	<a href="{/H2G2/PARAMS/PARAM[NAME = 's_commentprofileurl']/VALUE}?userid={USER/USERID}">
                     		<xsl:choose>
                     			<xsl:when test="/H2G2/VIEWING-USER/USER/USERID = $thisUserId">you</xsl:when>
-                    			<xsl:otherwise><xsl:value-of select="USER/USERNAME"/></xsl:otherwise>
+                    			<xsl:otherwise><xsl:apply-templates select="USER" mode="object_user_username" /></xsl:otherwise>
                     		</xsl:choose>
                     	</a>
                     </span>
@@ -143,7 +143,7 @@
                     	<a href="{/H2G2/PARAMS/PARAM[NAME = 's_commentprofileurl']/VALUE}?userid={USER/USERID}">
                     		<xsl:choose>
                     			<xsl:when test="/H2G2/VIEWING-USER/USER/USERID = $thisUserId">you</xsl:when>
-                    			<xsl:otherwise><xsl:value-of select="USER/USERNAME"/></xsl:otherwise>
+                    			<xsl:otherwise><xsl:apply-templates select="USER" mode="object_user_username" /></xsl:otherwise>
                     		</xsl:choose>
                     	</a>
                     </span>
@@ -188,7 +188,7 @@
                     	<a href="{/H2G2/PARAMS/PARAM[NAME = 's_commentprofileurl']/VALUE}?userid={USER/USERID}">
                     		<xsl:choose>
                     			<xsl:when test="/H2G2/VIEWING-USER/USER/USERID = $thisUserId">you</xsl:when>
-                    			<xsl:otherwise><xsl:value-of select="USER/USERNAME"/></xsl:otherwise>
+                    			<xsl:otherwise><xsl:apply-templates select="USER" mode="object_user_username" /></xsl:otherwise>
                     		</xsl:choose>
                     	</a>
                     </span>
@@ -232,7 +232,7 @@
                     	<a href="{/H2G2/PARAMS/PARAM[NAME = 's_commentprofileurl']/VALUE}?userid={USER/USERID}">
                     		<xsl:choose>
                     			<xsl:when test="/H2G2/VIEWING-USER/USER/USERID = $thisUserId">you</xsl:when>
-                    			<xsl:otherwise><xsl:value-of select="USER/USERNAME"/></xsl:otherwise>
+                    			<xsl:otherwise><xsl:apply-templates select="USER" mode="object_user_username" /></xsl:otherwise>
                     		</xsl:choose>
                     	</a>
                     </span>
@@ -279,7 +279,7 @@
                     	<a href="{/H2G2/PARAMS/PARAM[NAME = 's_commentprofileurl']/VALUE}?userid={USER/USERID}">
                     		<xsl:choose>
                     			<xsl:when test="/H2G2/VIEWING-USER/USER/USERID = $thisUserId">you</xsl:when>
-                    			<xsl:otherwise><xsl:value-of select="USER/USERNAME"/></xsl:otherwise>
+                    			<xsl:otherwise><xsl:apply-templates select="USER" mode="object_user_username" /></xsl:otherwise>
                     		</xsl:choose>
                     	</a>
                     </span>
