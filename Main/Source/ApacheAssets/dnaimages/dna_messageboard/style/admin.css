@@ -270,12 +270,10 @@
 	.dna-cfl .cfl-skip-show li {background:#efefef; padding: 3px}
 	.dna-cfl .cfl-skip-show li a:hover {text-decoration: none}
 	
-	.dna-cfl table#commentforumlist {border:1px solid #ccc; width:100%}
+	.dna-cfl table#commentforumlist {border:1px solid #ccc; width:100%;  table-layout:fixed}
 	.dna-cfl table#commentforumlist th {background-color:#56A4CE; color:#fff; padding:5px;} 
 	.dna-cfl table#commentforumlist tr.even {background:#efefef;}
-	.dna-cfl table#commentforumlist td.cfl-cell {width:200px; word-wrap:break-word}
-	.dna-cfl table#commentforumlist td.cfl-cell-modstatus {width:130px;}
-	.dna-cfl table#commentforumlist td.cfl-cell-closedate {width:130px;}
+	.dna-cfl table#commentforumlist td.cfl-cell {word-wrap:break-word;}
 	.dna-cfl table#commentforumlist td {vertical-align:top; padding:10px 5px 0 5px}
 	.dna-cfl table#commentforumlist td .cfl-wrap {height:60px}
 	.dna-cfl table#commentforumlist td a {line-height:1.4em}
@@ -283,7 +281,7 @@
 	.dna-cfl table#commentforumlist td .dna-buttons input {margin:10px 0 5px 0;}
 	.dna-cfl table#commentforumlist td li {line-height:1.8em;}
 	.dna-cfl table#commentforumlist td .cfl-list li {line-height:1.6em;}
-	.dna-cfl table#commentforumlist td .cfl-list label {float:right; display:block; width:105px; text-align:left;}
+	.dna-cfl table#commentforumlist td .cfl-list label {float:right; display:block; width:125px; text-align:left;}
 	.dna-cfl table#commentforumlist td#cfl-cell-closedate label {width: 55px;}
 	.dna-cfl table#commentforumlist td .cfl-cell-input {width: 60px}
 }
