@@ -171,6 +171,11 @@ namespace BBC.Dna.Api
                 case ErrorType.ForumIDNotWellFormed:
                     error = new ApiException("ForumID not well formed.", innerException);
                     break;
+
+                case ErrorType.MaintenanceMode:
+                    error = new ApiException("Service under maintenance mode.", innerException);
+                    break;
+                    
                 case ErrorType.AlreadyLinked:
                     error = new ApiException("Already linked.", innerException);
                     break;
@@ -232,6 +237,7 @@ namespace BBC.Dna.Api
         ThreadPostNotFound,
         ThreadNotFound,
         ForumIDNotWellFormed,
+        MaintenanceMode,
         AlreadyLinked,
         ArticleNotFound
     }

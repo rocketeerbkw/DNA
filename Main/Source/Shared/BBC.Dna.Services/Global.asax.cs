@@ -23,6 +23,11 @@ namespace BBC.Dna.Services
         protected void Application_Start(object sender, EventArgs e)
         {
             //System.Diagnostics.Debugger.Launch();
+            if (ConfigurationManager.AppSettings["MaintenanceMode"] == "1")
+            {//do nothing if in maintenance
+                return;
+            }
+            
             Statistics.InitialiseIfEmpty(/*TheAppContext*/);
             dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
             connectionString = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
@@ -45,6 +50,7 @@ namespace BBC.Dna.Services
             var bannedEmails = new BannedEmails(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
             var userGroups = new UserGroups(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
             var profanityFilter = new ProfanityFilter(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
+        
         }
 
         protected void Session_Start(object sender, EventArgs e)
@@ -54,6 +60,10 @@ namespace BBC.Dna.Services
 
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
+            if (ConfigurationManager.AppSettings["MaintenanceMode"] == "1")
+            {//do nothing if in maintenance
+                return;
+            }
             siteList = SiteList.GetSiteList();
             _openTime = DateTime.Now;
             if (Request.Path.IndexOf("status.aspx") < 0)
@@ -76,6 +86,10 @@ namespace BBC.Dna.Services
 
         protected void Application_EndRequest(object sender, EventArgs e)
         {
+            if (ConfigurationManager.AppSettings["MaintenanceMode"] == "1")
+            {//do nothing if in maintenance
+                return;
+            }
             TimeSpan requestTime = (DateTime.Now - _openTime);
             if (Request.Path.IndexOf("status.aspx") < 0)
             {//dont report on status page builds

@@ -58,6 +58,11 @@ namespace BBC.Dna.Services
 
         public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
         {
+            if (ConfigurationManager.AppSettings["MaintenanceMode"] == "1")
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MaintenanceMode));
+            }
+            
             _connectionString = connectionString;
             this.siteList = siteList;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiag);
@@ -121,6 +126,7 @@ namespace BBC.Dna.Services
 #if DEBUG
             debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
 #endif
+            
         }
 
         ///// <summary>

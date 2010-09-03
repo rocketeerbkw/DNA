@@ -116,6 +116,7 @@ namespace BBC.Dna.Services
                 case ErrorType.ThreadNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 case ErrorType.InvalidThreadID: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.ForumIDNotWellFormed: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.MaintenanceMode: StatusCode = HttpStatusCode.ServiceUnavailable; break;  
                 case ErrorType.AlreadyLinked: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.ArticleNotFound: StatusCode = HttpStatusCode.NotFound; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
