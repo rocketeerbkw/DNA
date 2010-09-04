@@ -64,9 +64,13 @@ BEGIN
 		RETURN @ErrorCode
 	END
 
+	IF (@defultskin = 'default')
+	BEGIN
+		@defaultskin = NULL
+	END
+
 	update Preferences
-		SET AgreedTerms = CASE WHEN @customterms = 1 THEN NULL ELSE 1 END,
-			PrefSkin = @defaultskin
+		SET AgreedTerms = CASE WHEN @customterms = 1 THEN NULL ELSE 1 END
 		WHERE SiteID = @siteid AND UserID = 0
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
