@@ -24,22 +24,8 @@
 	</doc:documentation>
 	
 	<xsl:template match="POST-LIST" mode="library_pagination_post-list">
-		<xsl:if test="@COUNT > @SHOW">
-			<ul class="pagination test">
-				<li class="first dna-button">
-					<xsl:choose>
-						<xsl:when test="@SKIPTO > 0">
-							<a href="{$root}/MP{USER/USERID}?skip=0">
-								<xsl:text>First </xsl:text>
-							</a>
-						</xsl:when>
-						<xsl:otherwise>
-							<span>
-								<xsl:text>First </xsl:text>
-							</span>
-						</xsl:otherwise>
-					</xsl:choose>
-				</li>
+		<xsl:if test="@MORE != 0 or @SKIPTO > 0">
+			<ul class="pagination">
 				<li class="previous dna-button">
 					<xsl:choose>
 						<xsl:when test="@SKIPTO > 0">
@@ -47,52 +33,22 @@
 								<span class="arrow">
 									<xsl:text disable-output-escaping="yes"><![CDATA[&laquo;]]></xsl:text>
 								</span>
-								<xsl:text>Previous</xsl:text>
+								<xsl:text>Newer</xsl:text>
 							</a>
 						</xsl:when>
-						<xsl:otherwise>
-							<span>
-								<span class="arrow">
-									<xsl:text disable-output-escaping="yes"><![CDATA[&laquo;]]></xsl:text>
-								</span>
-								<xsl:text>Previous</xsl:text>
-							</span>
-						</xsl:otherwise>
+						
 					</xsl:choose>
 				</li>
-				<xsl:apply-templates select="." mode="library_pagination_pagelist"/>
 				<li class="next dna-button">
 					<xsl:choose>
 						<xsl:when test="@MORE != 0">
 							<a href="{$root}/MP{USER/USERID}?skip={@SKIPTO + 25}">
-								<xsl:text>Next</xsl:text>
+								<xsl:text>Older</xsl:text>
 								<span class="arrow">
 									<xsl:text disable-output-escaping="yes"><![CDATA[&raquo;]]></xsl:text>
 								</span>
 							</a>
 						</xsl:when>
-						<xsl:otherwise>
-							<span>
-								<xsl:text>Next</xsl:text>
-								<span class="arrow">
-									<xsl:text disable-output-escaping="yes"><![CDATA[&raquo;]]></xsl:text>
-								</span>
-							</span>
-						</xsl:otherwise>
-					</xsl:choose>
-				</li>
-				<li class="last dna-button">
-					<xsl:choose>
-						<xsl:when test="@MORE != 0">
-							<a href="{$root}/MP{USER/USERID}?skip={(floor(@TOTALPOSTCOUNT div @COUNT) * @COUNT)}">
-								<xsl:text>Last</xsl:text>
-							</a>
-						</xsl:when>
-						<xsl:otherwise>
-							<span>
-								<xsl:text>Last</xsl:text>
-							</span>
-						</xsl:otherwise>
 					</xsl:choose>
 				</li>
 			</ul>
