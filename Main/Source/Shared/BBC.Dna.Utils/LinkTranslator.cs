@@ -15,8 +15,8 @@ namespace BBC.Dna.Utils
     { 
         static Regex regForumEx = new Regex(@"(\A|(?<=\s))F[1-9]\d+(\Z|(?=\s))");
         static Regex regArticleEx = new Regex(@"(\A|(?<=\s))A[0-9]+(\Z|(?=\s))");
-        static Regex regCategoryEx = new Regex(@"C[0-9]+");
-        static Regex regLinkEx = new Regex(@"((http|https):[A-Za-z0-9/](([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2})+(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?)[^.?\s<]");
+        static Regex regCategoryEx = new Regex(@"(\A|(?<=\s))C[0-9]+");
+        static Regex regLinkEx = new Regex(@"(\A|(?<=\s))((http|https):[A-Za-z0-9/](([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2})+(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?)[^.?\s<]");
         //static Regex regInternalLinkEx = new Regex(@"(\A|(?<=\s))&lt;[.]/&gt;\w+&lt;/[.]&gt;(\Z|(?=\s))"); // Match <./>A-Z</.>
         //static Regex regGroupEx = new Regex(@"(?<=\s)G[1-9]\d*(?=\s)");
         static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(\Z|(?=\s))");
