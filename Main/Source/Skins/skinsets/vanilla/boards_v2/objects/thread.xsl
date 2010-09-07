@@ -146,7 +146,7 @@
             <xsl:call-template name="library_listitem_stripe"/>
             
             <p class="threadtitle">
-            	<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/F', @FORUMID, '?thread=', @THREADID)}">
+            	<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID)}">
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
                             <xsl:value-of select="SUBJECT"/> 
@@ -162,7 +162,7 @@
             </p>
         	<p class="thread-additionalinfo">
         		<xsl:text>from </xsl:text>
-        		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/F', @FORUMID)}">
+        		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID)}">
         			<xsl:value-of select="FORUMTITLE"/>
         		</a>
         		<xsl:text> in </xsl:text>
@@ -183,7 +183,7 @@
             			<br/>
             		</xsl:if>
             		<xsl:text>Latest post: </xsl:text>
-            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/F', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#p', LASTUSERPOST/@POSTID)}">
+            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#p', LASTUSERPOST/@POSTID)}">
             			<xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>
             		</a>
             	</p>
