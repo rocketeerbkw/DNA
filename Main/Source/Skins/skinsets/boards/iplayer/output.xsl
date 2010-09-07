@@ -175,7 +175,7 @@ body {font-size:50%;}
                   <a href="http://www.bbc.co.uk/iplayer/">iPlayer Home</a>
                 </li>
                 <li id="modNav">
-                  <a href="http://www.bbc.co.uk/iplayer/help" >iPlayer Help and FAQ</a>
+                  <a href="http://iplayerhelp.external.bbc.co.uk/help/" >iPlayer Help and FAQ</a>
                 </li>
               </ul>
           </li>
