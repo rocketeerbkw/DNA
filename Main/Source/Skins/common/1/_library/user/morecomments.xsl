@@ -41,8 +41,15 @@
                     <xsl:value-of select="$additional-classnames"/>
                 </xsl:attribute>
             </xsl:if>
-            
-            <xsl:value-of select="USERNAME"/>
+
+          <xsl:choose>
+            <xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSiteSuffix']/VALUE = '1' and SITESUFFIX != ''">
+              <xsl:value-of select="SITESUFFIX" />
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="USERNAME" />
+            </xsl:otherwise>
+          </xsl:choose>
             <xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'IsMessageboard'] and /H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'IsMessageboard']/VALUE = 1">
               <xsl:text> (U</xsl:text><xsl:value-of select="USERID"/><xsl:text>)</xsl:text>
             </xsl:if>
