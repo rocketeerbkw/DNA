@@ -126,9 +126,9 @@ ul.forumthreadposts li.stripe {background-color:#edf0f1}
 #blq-content table.forumthreads .moderation td {padding:0; border-right: none}
 #blq-content table.forumthreads .moderation td a {text-decoration:underline} 
 #blq-content table.forumthreads .stickypin td {background-color:#d4e2e6} 
-#blq-content table.forumthreads td.discussiondetail {padding-left:9px; word-break:break-all}
+#blq-content table.forumthreads td.discussiondetail {padding-left:9px}
 #blq-content table.forumthreads td.replies {text-align:center}
-#blq-content table.forumthreads td.startedby {text-align:center; word-break:break-all}
+#blq-content table.forumthreads td.startedby {text-align:center}
 #blq-content table.forumthreads td.latestreply {text-align:center; border-right:none}
 #blq-content table.forumthreads td h3 {margin: 0;}
 #blq-content table.forumthreads .stripe td {background-color:#e2e7e9}
