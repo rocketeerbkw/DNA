@@ -14,11 +14,11 @@ using BBC.Dna;
 using BBC.Dna.Moderation;
 using BBC.Dna.Component;
 
-public partial class UserList : DnaWebPage
+public partial class UserListPage : DnaWebPage
 {
    /// <summary>
     /// </summary>
-    public UserList()
+    public UserListPage()
     {
         UseDotNetRendering = false;
     }

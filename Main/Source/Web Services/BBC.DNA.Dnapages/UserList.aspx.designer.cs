@@ -10,7 +10,7 @@
 
 
 
-public partial class UserList {
+public partial class UserListPage {
     
     /// <summary>
     /// form1 control.

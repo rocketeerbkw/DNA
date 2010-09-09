@@ -367,7 +367,7 @@ namespace BBC.Dna.Component
         /// <param name="userSearchType"></param>
         /// <param name="searchText"></param>
         /// <param name="checkAllSites"></param>
-        private void GenerateMemberListXml(
+        public void GenerateMemberListXml(
             IDnaDataReader dataReader,
             int userSearchType,
             string searchText,
