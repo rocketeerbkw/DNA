@@ -78,6 +78,12 @@
                         This post has been temporarily hidden, because a moderator has referred it to a supervisor, BBC host or the Central Communities Team for a decision as to whether it contravenes the <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a> in some way. A decision will be made as quickly as possible..
                     </p>
                 </xsl:when>
+                <xsl:when test="@HIDDEN = 8">
+                  <!-- Removed post for any user -->
+                  <p class="dna-boards-failedpost">
+                    Why have all of a users’ comments vanished? If the user is a spammer or a user who has been banned many times before all of their comments are removed when their account is closed.
+                  </p>
+                </xsl:when>
                 <xsl:when test="@HIDDEN != 0 and @HIDDEN != 6 and @HIDDEN != 3 and @HIDDEN != 2 and @HIDDEN != 1"/>
                 <xsl:when test="@HIDDEN = 0 or @HIDDEN = ''">
                     <p>

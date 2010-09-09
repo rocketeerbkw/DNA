@@ -284,6 +284,20 @@
 	.dna-cfl table#commentforumlist td .cfl-list label {float:right; display:block; width:125px; text-align:left;}
 	.dna-cfl table#commentforumlist td#cfl-cell-closedate label {width: 55px;}
 	.dna-cfl table#commentforumlist td .cfl-cell-input {width: 60px}
+	
+	/* User list */
+	.dna-userlist .searchTypeRadio{float:left;padding: 5px;text-align: center}
+    .dna-userlist .userListTable{border: solid 1px black;padding-top: 10px;padding-bottom: 10px;width:100%}
+    .dna-userlist .userListTable th{color: white;padding: 5px;background-color:black}
+    .dna-userlist .userListTable td{border: solid 1px grey;padding: 5px;word-wrap:break-word;}
+    .dna-userlist #hideAllPostsContainer{clear:both; padding-top: 5px; padding-bottom: 5px;}
+    .dna-userlist #durationContainer{ clear:both; padding-top: 5px; padding-bottom: 5px;}
+    
+    /*dna-memberdetails */
+    .dna-memberdetails .postItems th{color: white;padding: 5px;background-color:black}
+    .dna-memberdetails .postItems td{border: solid 1px grey;padding: 5px;word-wrap:break-word;}
+    .dna-memberdetails .memberDetails { clear:both;}
+    
 }
 
 @media print{

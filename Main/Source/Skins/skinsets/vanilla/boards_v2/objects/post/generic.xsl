@@ -78,6 +78,12 @@
                         This posting has been hidden during moderation because it broke the <a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a> in some way.
                     </p>
                 </xsl:when>
+                <xsl:when test="@HIDDEN = 8">
+                  <!-- Removed post for any user -->
+                  <p class="dna-boards-failedpost">
+                    Why have all of a users’ comments vanished? If the user is a spammer or a user who has been banned many times before all of their comments are removed when their account is closed.
+                  </p>
+                </xsl:when>
                 <xsl:when test="@HIDDEN = 2 or @HIDDEN = 6">
                     <!-- Referred post for any user -->
                     <p class="dna-boards-failedpost">

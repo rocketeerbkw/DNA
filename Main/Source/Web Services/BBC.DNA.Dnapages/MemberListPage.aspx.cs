@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.Xml;
 using System.Drawing;
 using System.Globalization;
+using System.Linq;
 
 using BBC.Dna;
 using BBC.Dna.Page;
@@ -56,7 +57,10 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
     {
         base.OnInit(e);
         UserStatusDescription.SelectedIndex = 0;
+        panelForm.Visible = false;
         Duration.Visible = false;
+        chkHideAllContent.Visible = false;
+
     }
 
     /// <summary>
@@ -167,8 +171,17 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
         //Reset any previous error text.
         lblError.Text = "";
 
+        if (ViewingUser.IsSuperUser)
+        {//add deactivate option for super users only
+            if (UserStatusDescription.Items.FindByText("Deactivate") == null)
+            {
+                UserStatusDescription.Items.Add(new ListItem("Deactivate", "Deactivate"));
+            }
+        }
+
         if (show)
         {
+            
             Search.Visible = true;
             lblSearchBy.Visible = true;
             txtEntry.Visible = true;
@@ -193,6 +206,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
                 ApplyAction.Visible = true;
                 ApplyNickNameReset.Visible = true;
                 ShowDuration();
+                panelForm.Visible = true;
                 Count.Visible = true;
             }
             else
@@ -209,6 +223,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
         else
         {
             //Hide all controls.
+            panelForm.Visible = false;
             Search.Visible = false;
             lblSearchBy.Visible = false;
             txtEntry.Visible = false;
@@ -297,13 +312,8 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
             }
 
             MemberList memberList = new MemberList(_basePage);
-            memberList.GetMemberListXml(userSearchType, 
-                                        userID, 
-                                        userEmail, 
-                                        userName, 
-                                        userIPAddress, 
-                                        userBBCUID, 
-                                        loginName,
+            memberList.GenerateMemberListPageXml(userSearchType, 
+                                        txtEntry.Text,
                                         checkAllSites);
 
             int count = 0;
@@ -394,6 +404,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
                         nextCell.Controls.Add(img);
                         row.Cells.Add(nextCell);
                     }
+
                     else if (data.LocalName == "SITEID")
                     {
                         if (count == 0)
@@ -437,7 +448,7 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
                             AddHeaderCell(headerRow, "DURATION");
                         }
                         nextCell.HorizontalAlign = HorizontalAlign.Center;
-                        nextCell.Text = GetPrefStatusDurationDisplayText(data.InnerText);
+                        nextCell.Text = memberList.GetPrefStatusDurationDisplayText(data.InnerText);
                         row.Cells.Add(nextCell);
                     }
                     else if (data.LocalName == "SHORTNAME")
@@ -512,7 +523,28 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
     protected void UserStatusDescription_SelectedIndexChanged(object sender, EventArgs e)
     {
         ShowDuration();
+        ShowHideAllPostCheck();
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void ShowHideAllPostCheck()
+    {
+        
+        UserStatusDescriptionValue = UserStatusDescription.SelectedItem.Value;
+
+        if (UserStatusDescription.SelectedItem.Text == "Deactivate")
+        {
+            chkHideAllContent.Visible = true;
+        }
+        else
+        {
+            chkHideAllContent.Visible = false;
+            chkHideAllContent.Checked = false;
+        }
+    }
+
 
     /// <summary>
     /// Show the duration combobox if relevant.
@@ -632,8 +664,13 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
         MemberList memberList = new MemberList(_basePage);
         ArrayList userIDList = new ArrayList();
         ArrayList siteIDList = new ArrayList();
+        ArrayList deactivatedUsers = new ArrayList();
 
-        int newPrefStatusValue = GetPrefStatusValueFromDescription(UserStatusDescription.SelectedValue);
+        int newPrefStatusValue = 0;
+        bool hideAllPosts = chkHideAllContent.Checked;
+        var reason = txtReason.Text;
+
+        memberList.GetPrefStatusValueFromDescription(UserStatusDescription.SelectedValue, ref newPrefStatusValue);
         int newPrefStatusDuration = 0;
         Int32.TryParse(Duration.SelectedValue, out newPrefStatusDuration);
 
@@ -659,11 +696,16 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
                 {
                     int userID = 0;
                     int siteID = 0;
+                    int deactivated = 0;
                     Int32.TryParse(row.Cells[1].Text, out userID);
                     Int32.TryParse(row.Cells[2].Text, out siteID);
 
                     userIDList.Add(userID);
                     siteIDList.Add(siteID);
+                    if(Int32.TryParse(row.Cells[12].Text, out deactivated) && deactivated == 0)
+                    {
+                        deactivatedUsers.Add(userID);
+                    }
                 }
                 rowCount++;
             }
@@ -671,7 +713,15 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
 
         if (userIDList.Count > 0)
         {
-            memberList.UpdateModerationStatuses(userIDList, siteIDList, newPrefStatusValue, newPrefStatusDuration);
+            if (newPrefStatusValue == 5)//deactivate in user table)
+            {
+                memberList.DeactivateAccount(userIDList, hideAllPosts, reason);
+            }
+            else
+            {
+                memberList.ReactivateAccount(deactivatedUsers, reason);
+                memberList.UpdateModerationStatuses(userIDList, siteIDList, newPrefStatusValue, newPrefStatusDuration, reason);
+            }
         }
 
         UserGroups.GetObject().SendSignal();
@@ -763,66 +813,5 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
             }
         }
     }
-    /// <summary>
-    /// Returns the pref status value from the given description
-    /// </summary>
-    /// <param name="newPrefStatusDescription">The pref status description</param>
-    /// <returns>The associated pref status value</returns>
-    private static int GetPrefStatusValueFromDescription(string newPrefStatusDescription)
-    {
-        int newPrefStatusValue = 0;
 
-        switch (newPrefStatusDescription)
-        {
-            case "Standard":
-                newPrefStatusValue = 0;
-                break;
-            case "Premoderate":
-                newPrefStatusValue = 1;
-                break;
-            case "Postmoderate":
-                newPrefStatusValue = 2;
-                break;
-            case "Send for review":
-                newPrefStatusValue = 3;
-                break;
-            case "Restricted":
-                newPrefStatusValue = 4;
-                break;
-            default:
-                newPrefStatusValue = 0;
-                break;
-        }
-        return newPrefStatusValue;
-    }
-
-    /// <summary>
-    /// Returns the text to display for a given duration in seconds
-    /// </summary>
-    /// <param name="prefStatusDuration">The pref status duration value text</param>
-    /// <returns>The associated pref status duration</returns>
-    private static string GetPrefStatusDurationDisplayText(string prefStatusDuration)
-    {
-        string newPrefStatusValue = String.Empty;
-
-        switch (prefStatusDuration)
-        {
-            case "1440":
-                newPrefStatusValue = @"1 day";
-                break;
-            case "10080":
-                newPrefStatusValue = @"1 week";
-                break;
-            case "20160":
-                newPrefStatusValue = @"2 weeks";
-                break;
-            case "40320":
-                newPrefStatusValue = @"1 month";
-                break;
-            default:
-                newPrefStatusValue = @"no limit";
-                break;
-        }
-        return newPrefStatusValue;
-    }
 }

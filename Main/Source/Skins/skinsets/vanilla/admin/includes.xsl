@@ -33,6 +33,10 @@
   <xsl:include href="pages/error.xsl"/>
   <xsl:include href="pages/messageboardschedule.xsl"/>
   <xsl:include href="pages/commentforumlist.xsl"/>
+  <xsl:include href="pages/UserList.xsl"/>
+  <xsl:include href="pages/memberdetails.xsl"/>
+  
+  
 
   <xsl:include href="objects/topiclist.xsl"/>
     

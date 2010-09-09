@@ -219,6 +219,7 @@ REGEDIT4
 
 "/UserSearch"="/dna/dnapages/UserSearchPage.aspx?"
 "/MemberList"="/dna/dnapages/MemberListPage.aspx?"
+"/UserList"="/dna/dnapages/UserList.aspx?"
 "/NameSpaceAdmin"="/dna/dnapages/NameSpaceAdminPage.aspx?"
 "/NewSearch"="/dna/dnapages/SearchPage.aspx?"
 

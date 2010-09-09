@@ -50,16 +50,19 @@ namespace BBC.Dna.Component
             //Clean any existing XML.
             RootElement.RemoveAll();
 
+            TryCreateMemberList();
+
             TryGetAction(ref action);
-            if (action == "update")
+            if (!String.IsNullOrEmpty(action))
             {
-                TryUpdateMemberList();
-            }
-            else
-            {
-                TryCreateMemberList();
+                if (TryUpdateMemberList(action))
+                {
+                    RootElement.RemoveAll();
+                    TryCreateMemberList();//get changes
+                }
             }
         }
+
         /// <summary>
         /// Method called to try and create Member List, gathers the input params, 
         /// gets the correct records from the DB and formulates the XML
@@ -67,38 +70,20 @@ namespace BBC.Dna.Component
         /// <returns>Whether the search has succeeded with out error</returns>
         private bool TryCreateMemberList()
         {
-            bool checkAllSites = false;
-            int userSearchType = 0;
+            bool checkAllSites = InputContext.ViewingUser.IsSuperUser;
+            int userSearchType = InputContext.GetParamIntOrZero("usersearchtype", _docDnaUserSearchType);
+            string searchText = InputContext.GetParamStringOrEmpty("searchText", "User search text");
 
-            int userID = 0;
-            string userEmail = String.Empty;
-            string userName = String.Empty;
-            string loginName = String.Empty;
-            string userIPAddress = String.Empty;
-            string userBBCUID = String.Empty;
-
-            bool pageParamsOK = TryGetPageParams(ref userSearchType,
-                                                    ref userID,
-                                                    ref userEmail,
-                                                    ref userName,
-                                                    ref userIPAddress,
-                                                    ref userBBCUID,
-                                                    ref loginName,
-                                                    ref checkAllSites);
-
-            if (!pageParamsOK)
+            if (String.IsNullOrEmpty(searchText))
             {
                 return false;
             }
 
-            GetMemberListXml(userSearchType, 
-                                userID, 
-                                userEmail, 
-                                userName, 
-                                userIPAddress,
-                                userBBCUID, 
-                                loginName,
-                                checkAllSites);
+            
+
+            GenerateMemberListPageXml(userSearchType,
+                                       searchText,
+                                       checkAllSites);
 
             return true;
         }
@@ -106,83 +91,88 @@ namespace BBC.Dna.Component
         /// Method called to try and update the Member from the Member List, 
         /// gathers the input params and updates the correct records in the DB 
         /// </summary>
-        private void TryUpdateMemberList()
+        private bool TryUpdateMemberList(string action)
         {
-            int userID = 0;
-            int siteID = 0;
-            int newPrefStatus = 0;
-            int newPrefStatusDuration = 0;
+            ArrayList userIDs = new ArrayList();
+            ArrayList siteIDs = new ArrayList();
+            ArrayList userNames = new ArrayList();
+            ArrayList deactivatedUserIds = new ArrayList();
+            TryGetUserSiteList(ref userIDs, ref siteIDs, ref userNames, ref deactivatedUserIds);
 
-            TryGetActionPageParams(ref userID,
-                                    ref siteID,
-                                    ref newPrefStatus,
-                                    ref newPrefStatusDuration);
-
-            UpdateModerationStatus(userID, siteID, newPrefStatus, newPrefStatusDuration, 0, 0);
-        }
-
-        /// <summary>
-        /// Function to get the XML representation of the member list results (from cache if available)
-        /// </summary>
-        /// <param name="userSearchType">Method to search for users </param>
-        /// <param name="userID">User ID to search for.</param>
-        /// <param name="userEmail">User email to search for.</param>
-        /// <param name="userName">User name to look for.</param>
-        /// <param name="userIPAddress">User ip address to search for.</param>
-        /// <param name="userBBCUID">User bbcuid to look for.</param>
-        /// <param name="loginName">Login name to look for.</param>
-        /// <param name="checkAllSites">Whether to bring back results for all sites</param>
-         public void GetMemberListXml(int userSearchType, 
-                                         int userID, 
-                                         string userEmail, 
-                                         string userName, 
-                                         string userIPAddress,
-                                         string userBBCUID, 
-                                         string loginName, 
-                                         bool checkAllSites)
-        {
-            //bool cached = GetMemberListCachedXml(userSearchType, userID, userEmail, userName, checkAllSites);
-
-            //if (!cached)
-            //{
-            GenerateMemberListPageXml(userSearchType, 
-                                        userID, 
-                                        userEmail, 
-                                        userName,
-                                        userIPAddress,
-                                        userBBCUID,
-                                        loginName,
-                                        checkAllSites);
-            //}
-        }
-
-        /// <summary>
-        /// Function to update the moderation status of a member list result
-        /// </summary>
-        /// <param name="userID">User ID of the users moderation status to update </param>
-        /// <param name="siteID">Site ID to update the users moderation status on.</param>
-        /// <param name="newPrefStatus">The value of the new moderation status</param>
-        /// <param name="newPrefStatusDuration">The value of the duration of the new moderation status</param>
-        /// <param name="applytoaltids">Flag whether to apply to all the alt ids for that user for that site</param>
-        /// <param name="allprofiles">Flag whether to apply to all the alt ids for that user across all sites</param>
-        public void UpdateModerationStatus(int userID, int siteID, int newPrefStatus, int newPrefStatusDuration, int applytoaltids, int allprofiles)
-        {
-            string storedProcedureName = @"updatetrackedmemberprofile";
-
-            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader(storedProcedureName))
+            if (action.ToUpper() == "APPLYACTION")
             {
-                dataReader.AddParameter("userid", userID)
-                    .AddParameter("siteid", siteID)
-                    .AddParameter("prefstatus", newPrefStatus)
-                    .AddParameter("prefstatusduration", newPrefStatusDuration)
-                    .AddParameter("usertags", "")
-                    .AddParameter("applytoaltids", applytoaltids)
-                    .AddParameter("allprofiles", allprofiles);
+                int newPrefStatus = 0;
+                GetPrefStatusValueFromDescription(InputContext.GetParamStringOrEmpty("userStatusDescription", _docDnaNewPrefStatus), ref newPrefStatus);
+                int newPrefStatusDuration = InputContext.GetParamIntOrZero("duration", _docDnaNewPrefStatusDuration);
+                bool hideAllContent = InputContext.DoesParamExist("hideAllPosts","hideAllPosts");
+                string reason = InputContext.GetParamStringOrEmpty("reasonChange", "");
+                if (String.IsNullOrEmpty(reason))
+                {
+                    AddErrorXml("EmptyReason", "Please provide a valid reason for this change for auditing purposes.", null);
+                    return false;
+                }
+                if (hideAllContent && newPrefStatus != 5)
+                {
+                    AddErrorXml("InvalidStatus", "To hide all content you must deactivate the users account.", null);
+                    return false;
+                }
 
-                dataReader.Execute();
+                if (newPrefStatusDuration != 0 && (newPrefStatus != 2 && newPrefStatus != 1))
+                {
+                    AddErrorXml("UnableToSetDuration", "You cannot set a status duration when the status is not premoderation or postmoderation.", null);
+                    return false;
+                }
+
+                if (newPrefStatus == 5)//deactivate account
+                {
+                    if (!InputContext.ViewingUser.IsSuperUser)
+                    {
+                        AddErrorXml("InsufficientPermissions", "You do not have sufficient permissions to deactivate users.", null);
+                        return false;
+                    }
+                    DeactivateAccount(userIDs, hideAllContent, reason);
+                }
+                else
+                {
+                    if (!InputContext.ViewingUser.IsSuperUser && deactivatedUserIds.Count > 0)
+                    {
+                        AddErrorXml("InsufficientPermissions", "You do not have sufficient permissions to reactivate users.", null);
+                        return false;
+                    }
+                    else
+                    if(deactivatedUserIds.Count > 0)
+                    {
+                        ReactivateAccount(deactivatedUserIds, reason);
+                    }
+                    UpdateModerationStatuses(userIDs, siteIDs, newPrefStatus, newPrefStatusDuration, reason);
+                }
             }
+            if (action.ToUpper() == "APPLYNICKNAMERESET")
+            {
+                ResetNickNamesForUsers(userIDs, siteIDs, userNames);
+            }
+            return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userIDs"></param>
+        /// <param name="siteIDs"></param>
+        /// <param name="userNames"></param>
+        /// <returns></returns>
+        private bool ResetNickNamesForUsers(ArrayList userIDs, ArrayList siteIDs, ArrayList userNames)
+        {
+            ModerateNickNames resetNickName = new ModerateNickNames(InputContext);
+            for (int i = 0; i < userIDs.Count && i < siteIDs.Count && i < userNames.Count; i++)
+            {
+                if (!String.IsNullOrEmpty((string)userNames[i]))
+                {
+                    resetNickName.ResetNickName((string)userNames[i], (int)userIDs[i], (int)siteIDs[i]);
+                }
+            }
+            return true;
+        }
 
         /// <summary>
         /// Function to update the moderation statuses of a list of member list accounts
@@ -191,7 +181,8 @@ namespace BBC.Dna.Component
         /// <param name="siteIDList">List of Site ID to update with the new moderation status</param>
         /// <param name="newPrefStatus">The value of the new moderation status</param>
         /// <param name="newPrefStatusDuration">The value of the duration of the new moderation status</param>
-        public void UpdateModerationStatuses(ArrayList userIDList, ArrayList siteIDList, int newPrefStatus, int newPrefStatusDuration)
+        /// <param name="reason">reason for changes</param>
+        public void UpdateModerationStatuses(ArrayList userIDList, ArrayList siteIDList, int newPrefStatus, int newPrefStatusDuration, string reason)
         {
             //New function to take lists of users and sites
             string storedProcedureName = @"updatetrackedmemberlist";
@@ -219,96 +210,53 @@ namespace BBC.Dna.Component
                 dataReader.AddParameter("userIDs", userIDs)
                     .AddParameter("siteIDs", siteIDs)
                     .AddParameter("prefstatus", newPrefStatus)
-                    .AddParameter("prefstatusduration", newPrefStatusDuration);
-                dataReader.Execute();
-            }
-        }
-
-        /// <summary>
-        /// Function to update the moderation status of a member list result
-        /// </summary>
-        /// <param name="viewingUserID">Viewing User ID trying to update the moderation status</param>
-        /// <param name="userID">User ID of the users moderation status to update </param>
-        /// <param name="siteID">Site ID to update the users moderation status on.</param>
-        /// <param name="newPrefStatus">The value of the new moderation status</param>
-        /// <param name="newPrefStatusDuration">The value of the duration of the new moderation status</param>
-        public void UpdateModerationStatusAcrossAllSites(int viewingUserID, int userID, int siteID, int newPrefStatus, int newPrefStatusDuration)
-        {
-            string storedProcedureName = @"updatememberprofilesacrosssites";
-
-            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader(storedProcedureName))
-            {
-                dataReader.AddParameter("viewinguserid", viewingUserID)
-                    .AddParameter("userid", userID)
-                    .AddParameter("siteid", siteID)
-                    .AddParameter("prefstatus", newPrefStatus)
-                    .AddParameter("prefstatusduration", newPrefStatusDuration);
+                    .AddParameter("prefstatusduration", newPrefStatusDuration)
+                    .AddParameter("reason", reason)
+                    .AddParameter("viewinguser", InputContext.ViewingUser.UserID); 
 
                 dataReader.Execute();
             }
         }
 
         /// <summary>
-        /// Try to gets the params for the page
+        /// 
         /// </summary>
-        /// <param name="userSearchType">Method to search for users </param>
-        /// <param name="userID">User ID to search for.</param>
-        /// <param name="userEmail">User email to search for.</param>
-        /// <param name="userName">User name to look for.</param>
-        /// <param name="userIPAddress">User ip address to search for.</param>
-        /// <param name="userBBCUID">User bbcuid to look for.</param>
-        /// <param name="loginName">Login name to look for.</param>
-        /// <param name="checkAllSites">Whether to bring back results for all sites</param>
-        /// <returns>Whether the Params were retrieved without error</returns>
-        private bool TryGetPageParams(
-            ref int userSearchType,
-            ref int userID,
-            ref string userEmail,
-            ref string userName, 
-            ref string userIPAddress,
-            ref string userBBCUID,
-            ref string loginName,
-            ref bool checkAllSites)
+        /// <param name="userIDs"></param>
+        /// <param name="siteIDs"></param>
+        /// <param name="userNames"></param>
+        /// <param name="deactivatedUsers"></param>
+        private void TryGetUserSiteList(ref ArrayList userIDs, ref ArrayList siteIDs, ref ArrayList userNames, ref ArrayList deactivatedUsers)
         {
-            userSearchType = InputContext.GetParamIntOrZero("usersearchtype", _docDnaUserSearchType);
+            userIDs = new ArrayList();
+            siteIDs = new ArrayList();
+            userNames = new ArrayList();
+            deactivatedUsers = new ArrayList();
 
-            userID = InputContext.GetParamIntOrZero("userid", _docDnaUserID);
-            userEmail = InputContext.GetParamStringOrEmpty("useremail", _docDnaUserEmail);
-            userName = InputContext.GetParamStringOrEmpty("username", _docDnaUserName);
-            userIPAddress = InputContext.GetParamStringOrEmpty("useripaddress", _docDnaUserIPAddress);
-            userBBCUID = InputContext.GetParamStringOrEmpty("userbbcuid", _docDnaUserBBCUID);
-            loginName = InputContext.GetParamStringOrEmpty("loginname", _docDnaLoginName);
+            bool applyToAll = InputContext.DoesParamExist("applyToAll", "applyToAll");
 
-            checkAllSites = false;
-
-            int allSites = InputContext.GetParamIntOrZero("checkallsites", _docDnaCheckAllSites);
-            if (allSites == 1)
+            var users = RootElement.SelectNodes("MEMBERLIST/USERACCOUNTS/USERACCOUNT");
+            for (int i = 0; i < users.Count; i++)
             {
-                checkAllSites = true;
+                var userId = 0;
+                var siteId = 0;
+                var userName = users.Item(i).SelectSingleNode("USERNAME").InnerText;
+                var deactivated = users.Item(i).SelectSingleNode("ACTIVE").InnerText == "0";
+
+                if(Int32.TryParse(users.Item(i).Attributes["USERID"].Value, out userId) && Int32.TryParse(users.Item(i).SelectSingleNode("SITEID").InnerText, out siteId) )
+                {
+                    string formVar = string.Format("applyTo|{0}|{1}", userId, siteId);
+                    if (applyToAll || InputContext.DoesParamExist(formVar, formVar))
+                    {
+                        userIDs.Add(userId);
+                        siteIDs.Add(siteId);
+                        userNames.Add(userName);
+                        if (deactivated)
+                        {
+                            deactivatedUsers.Add(userId);
+                        }
+                    }
+                }
             }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Try to gets the action params for the page
-        /// </summary>
-        /// <param name="userID">Method to search for users </param>
-        /// <param name="siteID">User ID to search for.</param>
-        /// <param name="newPrefStatus">new pref status.</param>
-        /// <param name="newPrefStatusDuration">Duration for the pref status</param>
-        private void TryGetActionPageParams(
-            ref int userID,
-            ref int siteID,
-            ref int newPrefStatus,
-            ref int newPrefStatusDuration)
-        {
-            userID = InputContext.GetParamIntOrZero("userID", _docDnaUserID);
-
-            siteID = InputContext.GetParamIntOrZero("siteid", _docDnaSiteID);
-            newPrefStatus = InputContext.GetParamIntOrZero("newprefstatus", _docDnaNewPrefStatus);
-            newPrefStatusDuration = InputContext.GetParamIntOrZero("newprefstatusduration", _docDnaNewPrefStatusDuration);
-
         }
 
         /// <summary>
@@ -317,30 +265,53 @@ namespace BBC.Dna.Component
         /// <param name="action">The action param string</param>
         private void TryGetAction(ref string action)
         {
-            action = InputContext.GetParamStringOrEmpty("action", _docDnaAction);
+            action = string.Empty;
+            if (InputContext.DoesParamExist("ApplyNickNameReset", _docDnaAction))
+            {
+                action = "ApplyNickNameReset";
+            }
+            if (InputContext.DoesParamExist("ApplyAction", _docDnaAction))
+            {
+                action = "ApplyAction";
+            }
         }
 
         /// <summary>
-        /// Calls the correct stored procedure given the inputs selected
+        /// 
         /// </summary>
-        /// <param name="userSearchType">Method to search for users </param>
-        /// <param name="userID">User ID to search for.</param>
-        /// <param name="userEmail">User email to search for.</param>
-        /// <param name="userName">User name to look for.</param>
-        /// <param name="userIPAddress">User ip address to search for.</param>
-        /// <param name="userBBCUID">User bbcuid to look for.</param>
-        /// <param name="loginName">Login name to look for.</param>
-        /// <param name="checkAllSites">Whether to bring back results for all sites</param>
-        private void GenerateMemberListPageXml(
+        /// <param name="userSearchType"></param>
+        /// <param name="searchText"></param>
+        /// <param name="checkAllSites"></param>
+        public void GenerateMemberListPageXml(
             int userSearchType,
-            int userID,
-            string userEmail,
-            string userName,
-            string userIPAddress,
-            string userBBCUID,
-            string loginName,
+            string searchText,
             bool checkAllSites)
         {
+            if (userSearchType == 0)
+            {
+                int userId = 0;
+                if (!Int32.TryParse(searchText, out userId))
+                {
+                    AddErrorXml("InvalidUserID", "User Id should be a number", null);
+                    return;
+                }
+            }
+
+            if (userSearchType == 4)
+            {
+                try
+                {
+                    var guid = new Guid(searchText);
+                }
+                catch
+                {
+                    AddErrorXml("NotValidBBCUid", "A BBC Uid must be of the format 00000000-0000-0000-0000-000000000000",  null);
+                    return;
+                }
+
+            }
+
+
             string storedProcedureName = GetMemberListStoredProcedureName(userSearchType);
 
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader(storedProcedureName))
@@ -349,27 +320,27 @@ namespace BBC.Dna.Component
 
                 if (userSearchType == 0)
                 {
-                    dataReader.AddParameter("usertofindid", userID.ToString());
+                    dataReader.AddParameter("usertofindid", searchText);
                 }
                 else if (userSearchType == 1)
                 {
-                    dataReader.AddParameter("email", userEmail);
+                    dataReader.AddParameter("email", searchText);
                 }
                 else if (userSearchType == 2)
                 {
-                    dataReader.AddParameter("username", userName);
+                    dataReader.AddParameter("username", searchText);
                 }
                 else if (userSearchType == 3)
                 {
-                    dataReader.AddParameter("ipaddress", userIPAddress);
+                    dataReader.AddParameter("ipaddress", searchText);
                 }
                 else if (userSearchType == 4)
                 {
-                    dataReader.AddParameter("BBCUID", userBBCUID);
+                    dataReader.AddParameter("BBCUID", searchText);
                 }
                 else if (userSearchType == 5)
                 {
-                    dataReader.AddParameter("LoginName", loginName);
+                    dataReader.AddParameter("LoginName", searchText);
                 }
                 if (checkAllSites)
                 {
@@ -384,52 +355,29 @@ namespace BBC.Dna.Component
 
                 GenerateMemberListXml(dataReader, 
                                         userSearchType, 
-                                        userID, 
-                                        userEmail, 
-                                        userName, 
-                                        userIPAddress, 
-                                        userBBCUID, 
-                                        loginName,
+                                        searchText,
                                         checkAllSites);
             }
         }
 
         /// <summary>
-        /// With the returned data set generate the XML for the Member List page
+        /// 
         /// </summary>
-        /// <param name="dataReader">Data set to turn into XML</param>
-        /// <param name="userSearchType">Method to search for users </param>
-        /// <param name="userSearchID">User ID to search for.</param>
-        /// <param name="userEmail">User email to search for.</param>
-        /// <param name="userName">User name to look for.</param>
-        /// <param name="userIPAddress">User ip address to search for.</param>
-        /// <param name="userBBCUID">User bbcuid to look for.</param>
-        /// <param name="loginName">Login name to look for.</param>
-        /// <param name="checkAllSites">Whether to bring back results for all sites</param>
+        /// <param name="dataReader"></param>
+        /// <param name="userSearchType"></param>
+        /// <param name="searchText"></param>
+        /// <param name="checkAllSites"></param>
         private void GenerateMemberListXml(
             IDnaDataReader dataReader,
             int userSearchType,
-            int userSearchID,
-            string userEmail,
-            string userName,
-            string userIPAddress,
-            string userBBCUID,
-            string loginName,
+            string searchText,
             bool checkAllSites)
         {
             int count = 0;
 
             XmlNode memberList = AddElementTag(RootElement, "MEMBERLIST");
-
-            AddAttribute(memberList, "USERSEARCHTYPE", userSearchType);
-
-            AddAttribute(memberList, "USERSEARCHID", userSearchID);
-            AddAttribute(memberList, "USERSEARCHEMAIL", StringUtils.EscapeAllXmlForAttribute(userEmail));
-            AddAttribute(memberList, "USERSEARCHNAME", StringUtils.EscapeAllXmlForAttribute(userName));
-            AddAttribute(memberList, "USERSEARCHIPADDRESS", StringUtils.EscapeAllXmlForAttribute(userIPAddress));
-            AddAttribute(memberList, "USERSEARCHBBCUID", StringUtils.EscapeAllXmlForAttribute(userBBCUID));
-            AddAttribute(memberList, "USERSEARCHLOGINNAME", StringUtils.EscapeAllXmlForAttribute(loginName));
-
+            AddAttribute(memberList, "USERSEARCHTYPE", userSearchType.ToString());
+            AddAttribute(memberList, "SEARCHTEXT", searchText);
             AddAttribute(memberList, "CHECKALLSITES", checkAllSites.ToString());
 
             if (dataReader.HasRows)
@@ -489,7 +437,7 @@ namespace BBC.Dna.Component
 
                         AddIntElement(userAccount, "SSOUSERID", dataReader.GetInt32NullAsZero("SSOUserID"));
                         AddTextTag(userAccount, "IDENTITYUSERID", dataReader.GetStringNullAsEmpty("IdentityUserID"));
-
+                        AddIntElement(userAccount, "ACTIVE", dataReader.GetInt32NullAsZero("STATUS") != 0 ? 1:0);
                         userAccounts.AppendChild(userAccount);
 
                         count++;
@@ -601,6 +549,119 @@ namespace BBC.Dna.Component
             }
 
             return gotFromCache;
+        }
+
+
+        
+        /// <summary>
+        /// Converts form string into prefstatus and hide all posts values
+        /// </summary>
+        /// <param name="newPrefStatusDescription"></param>
+        /// <param name="newPrefStatusValue"></param>
+        public void GetPrefStatusValueFromDescription(string newPrefStatusDescription, ref int newPrefStatusValue)
+        {
+            newPrefStatusValue = 0;
+
+            switch (newPrefStatusDescription.ToUpper())
+            {
+                case "STANDARD":
+                    newPrefStatusValue = 0;
+                    break;
+                case "PREMODERATE":
+                    newPrefStatusValue = 1;
+                    break;
+                case "POSTMODERATE":
+                    newPrefStatusValue = 2;
+                    break;
+                case "SEND FOR REVIEW":
+                    newPrefStatusValue = 3;
+                    break;
+                case "RESTRICTED":
+                    newPrefStatusValue = 4;
+                    break;
+
+                case "DEACTIVATE":
+                    newPrefStatusValue = 5;
+                    break;
+                    
+                default:
+                    newPrefStatusValue = 0;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Returns the text to display for a given duration in seconds
+        /// </summary>
+        /// <param name="prefStatusDuration">The pref status duration value text</param>
+        /// <returns>The associated pref status duration</returns>
+        public string GetPrefStatusDurationDisplayText(string prefStatusDuration)
+        {
+            string newPrefStatusValue = String.Empty;
+
+            switch (prefStatusDuration)
+            {
+                case "1440":
+                    newPrefStatusValue = @"1 day";
+                    break;
+                case "10080":
+                    newPrefStatusValue = @"1 week";
+                    break;
+                case "20160":
+                    newPrefStatusValue = @"2 weeks";
+                    break;
+                case "40320":
+                    newPrefStatusValue = @"1 month";
+                    break;
+                default:
+                    newPrefStatusValue = @"no limit";
+                    break;
+            }
+            return newPrefStatusValue;
+        }
+
+        /// <summary>
+        /// Deactivates account and optionally removes all content
+        /// </summary>
+        /// <param name="userIDList"></param>
+        /// <param name="hideAllPosts"></param>
+        /// <param name="reason"></param>
+        public bool DeactivateAccount(ArrayList userIDList, bool hideAllPosts, string reason)
+        {
+            foreach (int userId in userIDList)
+            {
+                using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("deactivateaccount"))
+                {
+                    dataReader.AddParameter("userid", userId)
+                        .AddParameter("hidecontent", hideAllPosts ? 1 : 0)
+                        .AddParameter("reason", reason)
+                        .AddParameter("viewinguser", InputContext.ViewingUser.UserID);
+
+                    dataReader.Execute();
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Activates accounts
+        /// </summary>
+        /// <param name="userIDList"></param>
+        /// <param name="reason"></param>
+        public bool ReactivateAccount(ArrayList userIDList,string reason)
+        {
+            foreach (int userId in userIDList)
+            {
+                using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("reactivateaccount"))
+                {
+                    dataReader.AddParameter("userid", userId)
+                        .AddParameter("reason", reason)
+                        .AddParameter("viewinguser", InputContext.ViewingUser.UserID);
+
+                    dataReader.Execute();
+                }
+            }
+            return true;
         }
     }
 }
