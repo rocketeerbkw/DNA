@@ -200,10 +200,10 @@
               </xsl:choose>
             </xsl:variable>
             
-            <xsl:variable name="newline">&lt;BR /&gt;</xsl:variable>
+            <xsl:variable name="newline"> </xsl:variable>
 
             <xsl:variable name="newCurrentLineText">
-              <xsl:value-of disable-output-escaping="yes" select="concat(concat($newString, $currentLineText), $newline)"/>
+              <xsl:value-of disable-output-escaping="no" select="concat(concat($newString, $currentLineText), $newline)"/>
             </xsl:variable>
 
             <!-- call self to get next line -->
@@ -240,12 +240,12 @@
               </xsl:choose>
             </xsl:variable>
             <!-- output string -->
-            <xsl:value-of disable-output-escaping="yes" select="concat(concat($newString, substring($originalString, 1, $lastLineIndex)), '...')"/>
+            <xsl:value-of disable-output-escaping="no" select="concat(concat($newString, substring($originalString, 1, $lastLineIndex)), '...')"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of disable-output-escaping="yes" select="concat($newString, $originalString)"/>        
+        <xsl:value-of disable-output-escaping="no" select="concat($newString, $originalString)"/>        
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
