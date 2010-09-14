@@ -523,7 +523,7 @@ namespace BBC.Dna.Services
         {
             var siteObject = (Sites.Site)GetSite(siteName);
             siteObject.SiteOptions = siteList.GetSiteOptionListForSite(siteObject.SiteID);
-            siteObject.SiteOptions = siteObject.SiteOptions.FindAll(x => x.Section.ToUpper() == "COMMENTFORUM" || x.Section.ToUpper() == "GENERAL");
+            //siteObject.SiteOptions = siteObject.SiteOptions.FindAll(x => x.Section.ToUpper() == "COMMENTFORUM" || x.Section.ToUpper() == "GENERAL");
 
             
             return GetOutputStream(siteObject);
