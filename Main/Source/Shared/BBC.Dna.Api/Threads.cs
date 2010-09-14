@@ -162,7 +162,7 @@ namespace BBC.Dna.Api
                         threadInfo.rating.hidden = (threadInfo.rating.IsPreModerated
                                                         ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
                                                         : CommentStatus.Hidden.NotHidden);
-                        threadInfo.rating.User = commentsObj.UserReadByCallingUser();
+                        threadInfo.rating.User = commentsObj.UserReadByCallingUser(site);
                         threadInfo.rating.Created = new DateTimeHelper(DateTime.Now);
 
                         threadInfo.count = reader.GetInt32NullAsZero("ThreadPostCount");

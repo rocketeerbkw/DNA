@@ -527,7 +527,7 @@ namespace BBC.Dna.Api
             {
                 text = reader.GetString("text"),
                 Created = new DateTimeHelper(DateTime.Parse(reader.GetDateTime("Created").ToString())),
-                User = base.UserReadById(reader),
+                User = base.UserReadById(reader, site),
                 ID = reader.GetInt32NullAsZero("id"),
                 rating = reader.GetByte("rating")
             };

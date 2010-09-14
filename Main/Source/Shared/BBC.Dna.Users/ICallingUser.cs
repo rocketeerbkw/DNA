@@ -9,6 +9,7 @@ namespace BBC.Dna.Users
     {
         int UserID { get; }
         string UserName { get; }
+        string SiteSuffix { get; }
         int Status { get; }
         bool IsUserA(UserTypes type);
 

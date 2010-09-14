@@ -14,5 +14,6 @@ SELECT 	Id,
 		UserName, 
 		userstatus, 
 		userIsEditor, 
-		lastupdated
+		lastupdated,
+		SiteSpecificDisplayName
 	FROM VComments WHERE id = @postid

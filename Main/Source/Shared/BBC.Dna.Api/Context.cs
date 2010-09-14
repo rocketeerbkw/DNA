@@ -206,7 +206,7 @@ namespace BBC.Dna.Api
         /// </summary>
         /// <param name="reader"></param>
         /// <returns></returns>
-        public User UserReadById(IDnaDataReader reader)
+        public User UserReadById(IDnaDataReader reader, ISite site)
         {
             var user = new User
             {
@@ -224,6 +224,17 @@ namespace BBC.Dna.Api
             {
                 user.BbcId = reader.GetStringNullAsEmpty("identityUserId");
             }
+
+            user.SiteSpecificDisplayName = string.Empty;
+            if (SiteList.GetSiteOptionValueBool(site.SiteID, "User", "UseSiteSuffix"))
+            {
+                if (reader.DoesFieldExist("SiteSpecificDisplayName"))
+                {
+                    user.SiteSpecificDisplayName = reader.GetStringNullAsEmpty("SiteSpecificDisplayName");
+                }
+            }
+
+            
             return user;
         }
 
@@ -231,7 +242,7 @@ namespace BBC.Dna.Api
         /// 
         /// </summary>
         /// <returns></returns>
-        public User UserReadByCallingUser()
+        public User UserReadByCallingUser(ISite site)
         {
             var user = new User
             {
@@ -241,8 +252,14 @@ namespace BBC.Dna.Api
                 Notable = CallingUser.IsUserA(UserTypes.Notable),
                 BbcId = CallingUser.IdentityUserID,
                 Status = CallingUser.Status,
+                SiteSpecificDisplayName = string.Empty,
                 Journal = 0
             };
+            if (SiteList.GetSiteOptionValueBool(site.SiteID, "User", "UseSiteSuffix"))
+            {
+                user.SiteSpecificDisplayName = CallingUser.SiteSuffix;
+            }
+
             return user;
         }
     }
