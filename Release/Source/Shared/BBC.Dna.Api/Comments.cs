@@ -457,7 +457,7 @@ namespace BBC.Dna.Api
                         comment.hidden = (comment.IsPreModerated
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
                                               : CommentStatus.Hidden.NotHidden);
-                        comment.User = UserReadByCallingUser();
+                        comment.User = UserReadByCallingUser(site);
                         comment.Created = new DateTimeHelper(DateTime.Now);
 
                         if (reader.GetInt32NullAsZero("postid") != 0)
@@ -779,7 +779,7 @@ namespace BBC.Dna.Api
                         comment.hidden = (comment.IsPreModerated
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
                                               : CommentStatus.Hidden.NotHidden);
-                        comment.User = UserReadByCallingUser();
+                        comment.User = UserReadByCallingUser(site);
                         comment.Created = new DateTimeHelper(DateTime.Now);
 
                         //count = reader.GetInt32NullAsZero("ThreadPostCount");
@@ -998,7 +998,7 @@ namespace BBC.Dna.Api
                                       text = reader.GetString("text"),
                                       Created =
                                           new DateTimeHelper(DateTime.Parse(reader.GetDateTime("Created").ToString())),
-                                      User = UserReadById(reader),
+                                      User = UserReadById(reader, site),
                                       ID = reader.GetInt32NullAsZero("id")
                                   };
 
