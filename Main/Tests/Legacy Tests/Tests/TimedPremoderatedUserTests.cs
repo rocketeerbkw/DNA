@@ -61,6 +61,8 @@ namespace Tests
                 reader.AddParameter("SiteIDs", 1);
                 reader.AddParameter("PrefStatus", 1);
                 reader.AddParameter("PrefStatusDuration", 1440);
+                reader.AddParameter("reason", "test");
+                reader.AddParameter("viewinguser", 6);
                 reader.Execute();
             }
 
