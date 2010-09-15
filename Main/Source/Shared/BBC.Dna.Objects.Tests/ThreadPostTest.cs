@@ -407,9 +407,9 @@ default comment.", CommentStatus.Hidden.NotHidden);
         {
             ThreadPost target = new ThreadPost();
             target.Style = PostStyle.Style.richtext;
-            string expected = @"This is the <B>default</B> comment.";
+            string expected = @"This is the default comment.";
             XmlElement actual;
-            target.Text = ThreadPost.FormatPost("This is the default comment.", CommentStatus.Hidden.NotHidden);
+            target.Text = ThreadPost.FormatPost("This is the <B>default</B> comment.", CommentStatus.Hidden.NotHidden);
             actual = target.TextElement;
             Assert.AreEqual(expected, actual.InnerXml);
         }
