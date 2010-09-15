@@ -34,7 +34,7 @@ namespace BBC.Dna.Services
         protected const string CacheLastupdated = "|LASTUPDATED";
         protected const string CacheDelimiter = "|";
         protected const int Cacheexpiryminutes = 10;
-        protected readonly DnaDataReaderCreator readerCreator = null;
+        protected readonly IDnaDataReaderCreator readerCreator = null;
         protected delegate DateTime CheckCacheDelegate(params object[] args);
         
         //querystring variables

@@ -70,7 +70,7 @@ namespace BBC.Dna
         /// </summary>
         private void ProcessSubmission(  )
         {
-            ExternalLinkModeration modLink = new ExternalLinkModeration();
+            ExternalLinkModeration modLink = new ExternalLinkModeration(AppContext.TheAppContext.Diagnostics, AppContext.ReaderCreator, AppContext.DnaCacheManager, AppContext.TheAppContext.TheSiteList);
 
             int count = InputContext.GetParamCountOrZero("modid", "ModerationId");
             for (int i = 0; i < count; ++i)

@@ -382,13 +382,13 @@ beside a pre-existing phrase to perform these actions.</p>
 				<xsl:value-of select="TEXT"/>
 			</td>
 			<td>
-        <a href="ModerationEmailManagement?s_view={$modview}&amp;view={$modview}&amp;viewid={$modviewid}&amp;s_viewid={$modviewid}&amp;action=editinsert&amp;insertname={NAME}&amp;insertid={@ID}">edit</a>
+        <a href="ModerationEmailManagement?s_view={$view}&amp;view={$view}&amp;viewid={$viewid}&amp;s_viewid={$viewid}&amp;action=editinsert&amp;insertname={NAME}&amp;insertid={@ID}">edit</a>
         <xsl:choose>
-          <xsl:when test="@SITEID">
-            &nbsp;<a class="removeLink" href="ModerationEmailManagement?s_view={$view}&amp;s_viewid={$viewid}&amp;view={$view}&amp;viewid={$viewid}&amp;action=removeinsert&amp;insertname={NAME}&amp;insertid={@ID}" onclick="javascript:return(confirm('Remove the inserted phrase {NAME} from the {$sitename} site?'));">remove from site</a>
+          <xsl:when test="@SITEID != 0">
+            &nbsp;<a class="removeLink" href="ModerationEmailManagement?s_view={$view}&amp;s_viewid={$viewid}&amp;view={$view}&amp;viewid={$viewid}&amp;action=removeinsert&amp;insertname={NAME}&amp;insertid={@ID}&amp;siteid={@SITEID}" onclick="javascript:return(confirm('Remove the inserted phrase {NAME} from the {$sitename} site?'));">remove from site</a>
           </xsl:when>
           <xsl:otherwise>
-            &nbsp;<a class="removeLink" href="ModerationEmailManagement?s_view=class&amp;s_viewid={CLASSID}&amp;view=class&amp;viewid={CLASSID}&amp;action=removeinsert&amp;insertname={NAME}&amp;insertid={@ID}" onclick="javascript:return(confirm('Remove the inserted phrase {NAME} from the moderation class?'));">remove from class</a>
+            &nbsp;<a class="removeLink" href="ModerationEmailManagement?s_view=class&amp;s_viewid={CLASSID}&amp;view=class&amp;viewid={CLASSID}&amp;action=removeinsert&amp;insertname={NAME}&amp;insertid={@ID}&amp;modclassid={CLASSID}" onclick="javascript:return(confirm('Remove the inserted phrase {NAME} from the moderation class?'));">remove from class</a>
           </xsl:otherwise>
         </xsl:choose>
 			</td>
@@ -466,6 +466,8 @@ beside a pre-existing phrase to perform these actions.</p>
     <xsl:if test="$editemail = 'null'">
       <input type="hidden" name="action" value="save"/>
     </xsl:if>
+    <input type="hidden" name="s_view" value="class" />
+    <input type="hidden" name="s_viewid" value="{/H2G2/MODERATOR-VIEW/@CLASSID}" />
     <input type="reset" value="Clear Changes" class="buttonThreeD"/>
 		<input type="submit" name="saveandreturnhome" value="Save and Return Home" class="buttonThreeD"/>
 		<input type="submit" name="saveandcreatenew" value="Save and Create Another" class="buttonThreeD"/>
@@ -548,8 +550,10 @@ beside a pre-existing phrase to perform these actions.</p>
 				</li>
 			</ol>
 		</div>
-		<input type="reset" value="Clear Changes" class="buttonThreeD clearButton"/>
-		<input type="submit" name="insertsaveandreturnhome" value="Save &amp; Return Home" class="buttonThreeD"/>
+    <input type="hidden" name="s_view" value="site" />
+    <input type="hidden" name="s_viewid" value="{/H2G2/MODERATOR-VIEW/@SITEID}" />
+    <input type="reset" value="Clear Changes" class="buttonThreeD clearButton"/>
+    <input type="submit" name="insertsaveandreturnhome" value="Save &amp; Return Home" class="buttonThreeD"/>
 		<input type="submit" name="insertsaveandcreatenew" value="Save &amp; Create Another" class="buttonThreeD"/>
 	</xsl:template>
 	<!--

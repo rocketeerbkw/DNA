@@ -5,6 +5,7 @@ using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
+using BBC.Dna.Moderation;
 
 namespace BBC.Dna.Component
 {
@@ -366,8 +367,7 @@ namespace BBC.Dna.Component
             int siteId = InputContext.CurrentSite.SiteID;
             int userId = InputContext.ViewingUser == null ? 0 : InputContext.ViewingUser.UserID;
 
-            EmailTemplate emailTemplate = new EmailTemplate(InputContext);
-            emailTemplate.FetchEmailText(siteId, "UserComplaintEmail", out emailSubject, out emailBody);
+            EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "UserComplaintEmail", out emailSubject, out emailBody);
 
             if (string.IsNullOrEmpty(emailBody) || string.IsNullOrEmpty(emailSubject))
             {

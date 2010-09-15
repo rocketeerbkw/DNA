@@ -1,4 +1,4 @@
-CREATE PROCEDURE updatesiteemailinsert @siteid int, @name varchar(255), @group varchar(255), @text text, @reasondescription varchar(255) = NULL
+CREATE PROCEDURE updatesiteemailinsert @siteid int, @name varchar(255), @group varchar(255), @text nvarchar(MAX), @reasondescription varchar(255) = NULL
 AS
 UPDATE EmailInserts 
 SET InsertGroup = @group, InsertText = @text

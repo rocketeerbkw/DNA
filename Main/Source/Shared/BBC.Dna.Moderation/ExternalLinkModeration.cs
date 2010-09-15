@@ -4,6 +4,7 @@ using System.Text;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Moderation
 {
@@ -12,15 +13,9 @@ namespace BBC.Dna.Moderation
     /// </summary>
     public class ExternalLinkModeration : Context
     {
-
-        public ExternalLinkModeration(IDnaDiagnostics dnaDiagnostics, string connection ) : base (dnaDiagnostics, connection)
+        public ExternalLinkModeration(IDnaDiagnostics dnaDiagnostics, IDnaDataReaderCreator dataReaderCreator, ICacheManager cacheManager, ISiteList siteList)
+            : base(dnaDiagnostics, dataReaderCreator, cacheManager, siteList)
         {
-
-        }
-
-        public ExternalLinkModeration()
-        {
-
         }
 
         /// <summary>
@@ -29,7 +24,7 @@ namespace BBC.Dna.Moderation
         /// <param name="link"></param>
         public void AddToModerationQueue(Uri uri, Uri callBackUri, String complaintText, String notes, int siteId )
         {
-            using (StoredProcedureReader reader = CreateReader("addexlinktomodqueue") )
+            using (IDnaDataReader reader = DnaDataReaderCreator.CreateDnaDataReader("addexlinktomodqueue") )
             {
                 reader.AddParameter("uri", uri.ToString());
                 reader.AddParameter("callbackuri", callBackUri.ToString());

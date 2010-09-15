@@ -1,4 +1,4 @@
-CREATE PROCEDURE addmodclassemailinsert @modclassid int, @name varchar(255), @group varchar(255), @text text
+CREATE PROCEDURE addmodclassemailinsert @modclassid int, @name varchar(255), @group varchar(255), @text nvarchar(MAX)
 AS
 BEGIN TRANSACTION
 IF NOT EXISTS (SELECT * FROM EmailInserts WHERE ModClassID = @modclassid AND InsertName = @name)

@@ -1,35 +1,20 @@
 ﻿using System;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.IO;
 using System.ServiceModel;
-using System.ServiceModel.Activation;
-using System.ServiceModel.Syndication;
 using System.ServiceModel.Web;
-using System.Text;
-using System.Xml;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
-using BBC.Dna.Services;
 using Microsoft.ServiceModel.Web;
 using BBC.Dna.Moderation;
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
-
 
 namespace BBC.Dna.Services
 {
     [ServiceContract]
     public class ModerationService : baseService
     {
-
         public ModerationService()
             : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
-           
-
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{sitename}/items/")]
@@ -43,7 +28,7 @@ namespace BBC.Dna.Services
                 CallingUser viewer = GetCallingUser(site);
                 if (viewer.IsUserA(UserTypes.Editor))
                 {
-                    ExternalLinkModeration exLinkMod = new ExternalLinkModeration();
+                    ExternalLinkModeration exLinkMod = new ExternalLinkModeration(base.dnaDiagnostic, base.readerCreator, base.cacheManager, base.siteList);
 
                     Uri source;
                     Uri callback;

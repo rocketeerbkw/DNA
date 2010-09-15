@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Xml;
+using BBC.Dna.Common;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using TestUtils.Mocks.Extentions;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Rhino.Mocks.Constraints;
-using BBC.Dna.Common;
+using TestUtils.Mocks.Extentions;
 
 namespace BBC.Dna.Objects.Tests
 {
