@@ -20,29 +20,12 @@ namespace BBC.Dna.Objects
     {
         #region Properties
         /// <remarks/>
-        private string _subject = String.Empty;
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "SUBJECT")]
         [DataMember(Name = "subject")]
         public string Subject
         {
-            get {
-                return _subject;
-                    
-                }
-            set {
-                if (_hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || _hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
-                {
-                    _subject =  "Hidden";
-                }
-                else if (_hidden != CommentStatus.Hidden.NotHidden)
-                {
-                    _subject =  "Removed";
-                }
-                else
-                {
-                    _subject =  StringUtils.EscapeAllXml(value);
-                }
-            }
+            get;
+            set;
         }
 
         /// <remarks/>
@@ -291,14 +274,51 @@ namespace BBC.Dna.Objects
                 return "This post has been removed.";
             }
 
-            inputText = Translator.TranslateText(inputText);
+            //strip invalid xml chars
+            inputText = StringUtils.StripInvalidXmlChars(inputText);
+
+            // Perform Smiley Translations
+            inputText = SmileyTranslator.TranslateText(inputText);
+
+            // Quote translator.
+            inputText = QuoteTranslator.TranslateText(inputText);
+
+            //Remove bad html tags and events
+            inputText = HtmlUtils.CleanHtmlTags(inputText, true);
+
+            // Expand Links 
+            //Note this must happen after removal because <LINK>s will be removed in the CleanHtmlTags call 
+            inputText = LinkTranslator.TranslateTextLinks(inputText);
+
+            //convert BRs to CRs
             inputText = HtmlUtils.ReplaceCRsWithBRs(inputText);
+            
 
             return inputText;
         }
 
 
+        /// <summary>
+        /// Formats a subject based on hidden flags etc
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <param name="hidden"></param>
+        /// <returns></returns>
+        static public string FormatSubject(string inputText, CommentStatus.Hidden hidden)
+        {
+            if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
+            {
+                return "Hidden";
+            }
+            if (hidden != CommentStatus.Hidden.NotHidden)
+            {
+                return "Removed";
+            }
 
+            return HtmlUtils.HtmlDecode(HtmlUtils.RemoveAllHtmlTags(inputText));
+            
+
+        }
 
         /// <summary>
         /// 
@@ -347,7 +367,6 @@ namespace BBC.Dna.Objects
                 }
             }
         }
-
 
         /// <summary>
         /// Creates a threadpost from a given reader
@@ -405,7 +424,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"subject"))
             {
-                post.Subject = reader.GetStringNullAsEmpty("subject");
+                post.Subject = FormatSubject(reader.GetStringNullAsEmpty("subject"), (CommentStatus.Hidden)post.Hidden);
             }
             if (reader.DoesFieldExist(prefix + "datePosted") && reader[prefix + "datePosted"] != DBNull.Value)
             {

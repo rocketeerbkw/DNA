@@ -56,7 +56,7 @@ namespace BBC.Dna.Api
                         break;
 
                     case Api.PostStyle.Style.richtext:
-                        _text = HtmlUtils.RemoveBadHtmlTags(_text);
+                        _text = HtmlUtils.CleanHtmlTags(_text, false);
                         _text = HtmlUtils.ReplaceCRsWithBRs(_text);
                         //<dodgey>
                         var temp = "<RICHPOST>" + _text + "</RICHPOST>";

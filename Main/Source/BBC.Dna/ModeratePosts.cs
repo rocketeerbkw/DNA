@@ -5,6 +5,7 @@ using System.Xml;
 using BBC.Dna.Moderation;
 using BBC.Dna.Data;
 using BBC.Dna.Objects;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Component
 {
@@ -216,7 +217,7 @@ namespace BBC.Dna.Component
                         AddTextTag(post, "SUBJECT", dataReader.GetStringNullAsEmpty("subject"));
 
                         AddTextTag(post, "RAWTEXT", dataReader.GetStringNullAsEmpty("text"));
-                        String translated = Translator.TranslateText(dataReader.GetStringNullAsEmpty("text"));
+                        String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden);
                         translated = translated.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "TEXT", translated );
 

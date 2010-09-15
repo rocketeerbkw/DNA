@@ -55,11 +55,7 @@ namespace BBC.Dna.Utils
                 }
             }*/
 
-            if (regLinkEx.IsMatch(result))
-            {
-                String replace = "<LINK HREF=\"***\">***</LINK>";
-                result = ReplaceExLinks(result, replace);
-            }
+            result = TranslateTextLinks(result);
 
             if (regUserEx.IsMatch(result))
             {
@@ -153,6 +149,49 @@ namespace BBC.Dna.Utils
                     result = result.Insert(match.Index, replace.Replace("***", s));
                 }
             }*/
+            return result;
+        }
+
+        /// <summary>
+        /// Check the input string for matches.
+        /// If match found then expand into LINK XML .
+        /// Consider changing the Link XML so that all Links are of the same format.
+        /// </summary>
+        /// <param name="raw">The string to check if it is a valid email address</param>
+        /// <returns>True if it is a valid email address</returns>
+        public static string TranslateTextLinks(string raw)
+        {
+
+            String result = raw;
+
+            /*if (regInternalLinkEx.IsMatch(raw))
+            {
+                String replace = "<LINK HREF=\"***\">***</LINK>";
+                MatchCollection matches = regInternalLinkEx.Matches(raw);
+                Stack stack = new Stack();
+                foreach (Match match in matches)
+                {
+                    stack.Push(match);
+                }
+
+                foreach (Match match in stack)
+                {
+                    //Remove <./> and </.> from internal link
+                    String s = match.Value;
+                    s = s.Replace(@"&lt;./&gt;", "");
+                    s = s.Replace(@"&lt;/.&gt;", "");
+                    s = s.Trim();
+                    result = result.Remove(match.Index, match.Length);
+                    result = result.Insert(match.Index, replace.Replace("***", s));
+                }
+            }*/
+
+            if (regLinkEx.IsMatch(result))
+            {
+                String replace = "<LINK HREF=\"***\">***</LINK>";
+                result = ReplaceExLinks(result, replace);
+            }
+
             return result;
         }
 

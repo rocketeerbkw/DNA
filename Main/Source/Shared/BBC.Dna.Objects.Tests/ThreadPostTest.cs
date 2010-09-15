@@ -6,6 +6,7 @@ using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
+using System.Collections.Generic;
 
 
 namespace BBC.Dna.Objects.Tests
@@ -20,55 +21,30 @@ namespace BBC.Dna.Objects.Tests
     public class ThreadPostTest
     {
 
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
+        [TestInitialize]
+        public void Initialize()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            Queue<string> tags = new Queue<string>();
+            tags.Enqueue("<2cents>");
+            tags.Enqueue("<ale>");
+
+            Queue<string> tagTranslation = new Queue<string>();
+            tagTranslation.Enqueue("2cents");
+            tagTranslation.Enqueue("ale");
+            
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Times(2);
+            reader.Stub(x => x.GetStringNullAsEmpty("name")).Return("").WhenCalled(x => x.ReturnValue = tagTranslation.Dequeue());
+            reader.Stub(x => x.GetStringNullAsEmpty("tag")).Return("").WhenCalled(x => x.ReturnValue = tags.Dequeue());
+            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("getsmileylist")).Return(reader);
+            mocks.ReplayAll();
+
+            SmileyTranslator.LoadSmileys(creator);
         }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
 
         /// <summary>
         ///A test for text
@@ -76,14 +52,21 @@ namespace BBC.Dna.Objects.Tests
         [TestMethod()]
         public void FormatPost_DefaultStatus_ReturnsUnchangedText()
         {
-            var expected = "This post is ok.";
-            var testText = "This post is ok.";
-            var hidden = CommentStatus.Hidden.NotHidden;
-            string actual;
+            var testDataPlainText = new List<string[]>();
+            testDataPlainText.Add(new[] { "This post is ok.", "This post is ok." });//no html
+            testDataPlainText.Add(new[] { "This <script src=\"test\">post</script> is ok.", "This post is ok." });//script tags
+            testDataPlainText.Add(new[] { "This <p onclick=\"test\">post</p> is ok.", "This post is ok." });//allowed tags with events
+            testDataPlainText.Add(new[] { "This <link>post</link> is ok.", "This post is ok." });//invalid tags
+            testDataPlainText.Add(new[] { "This <ale> post is ok.", "This <SMILEY TYPE='ale' H2G2='Smiley#ale'/> post is ok." });//with smileys translation
+            testDataPlainText.Add(new[] { "This <quote>post</quote> is ok.", "This <QUOTE>post</QUOTE> is ok." });//with quote translation
+            testDataPlainText.Add(new[] { "This http://www.bbc.co.uk/ is ok.", "This <LINK HREF=\"http://www.bbc.co.uk/\">http://www.bbc.co.uk/</LINK> is ok." });//with link translation
+            testDataPlainText.Add(new[] { "This newline \r\n is ok.", "This newline <BR /> is ok." });//with newline translation
 
 
-            actual = ThreadPost.FormatPost(testText, hidden);
-            Assert.AreEqual(expected, actual);
+            foreach (var data in testDataPlainText)
+            {
+                Assert.AreEqual(data[1], ThreadPost.FormatPost(data[0], CommentStatus.Hidden.NotHidden));
+            }
 
         }
 
@@ -141,7 +124,7 @@ namespace BBC.Dna.Objects.Tests
         }
 
         [TestMethod()]
-        public void FormatPost__RemovedForumRemoved_ReturnsRemovedText()
+        public void FormatPost_RemovedForumRemoved_ReturnsRemovedText()
         {
 
             var expected = "This post has been removed.";
@@ -153,7 +136,7 @@ namespace BBC.Dna.Objects.Tests
         }
 
         [TestMethod()]
-        public void FormatPost__RemovedUserDeleted_ReturnsRemovedText()
+        public void FormatPost_RemovedUserDeleted_ReturnsRemovedText()
         {
             var expected = "This post has been removed.";
             var testText = "some text";
@@ -165,73 +148,13 @@ namespace BBC.Dna.Objects.Tests
         }
 
         /// <summary>
-        ///A test for text with style applied
+        ///A test for subject
         ///</summary>
         [TestMethod()]
-        public void FormatPost_AsPlainText_ReturnsOriginalText()
+        public void FormatSubject_DefaultStatus_ReturnsOriginalSubject()
         {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string expected = "This is the default comment.";
-            string actual;
-            target.Text = expected;
-            actual = target.Text;
-            Assert.AreEqual(expected, actual);
-
+            Assert.AreEqual("some subject", ThreadPost.FormatSubject("some subject", CommentStatus.Hidden.NotHidden));
             
-           
-
-        }
-
-        [TestMethod()]
-        public void FormatPost_AsRichtext_ReturnsOriginalText()
-        {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string expected = "This is the default comment.";
-            string actual;
-            //set style to richtext
-            target.Style = PostStyle.Style.richtext;
-            expected = "This is the default comment.";
-            target.Text = expected;
-            actual = target.Text;
-            Assert.AreEqual(expected, actual);
-
-
-
-        }
-
-        [TestMethod()]
-        public void FormatPost_AsUnknown_ReturnsOriginalText()
-        {
-            ThreadPost target = new ThreadPost();
-            target.Style = PostStyle.Style.plaintext;
-            string expected = "This is the default comment.";
-            string actual;
-
-            //set style to unknown (which is richpost)
-            target.Style = PostStyle.Style.unknown;
-            expected = "This is the default comment.";
-            target.Text = expected;
-            actual = target.Text;
-            Assert.AreEqual(expected, actual);
-
-
-        }
-
-        /// <summary>
-        ///A test for subject
-        ///</summary>
-        [TestMethod()]
-        public void subjectTestWithStatus_DefaultStatus_ReturnsOriginalSubject()
-        {
-            ThreadPost target = new ThreadPost();
-            string expected = "This is the default subject.";
-            string actual;
-            target.Subject = expected;
-            actual = target.Subject;
-            Assert.AreEqual(expected, actual);
-
         }
 
 
@@ -239,19 +162,9 @@ namespace BBC.Dna.Objects.Tests
         ///A test for subject
         ///</summary>
         [TestMethod()]
-        public void subjectTestWithStatus_HiddenAwaitingPreModeration_ReturnsHiddenSubject()
+        public void FormatSubject_HiddenAwaitingPreModeration_ReturnsHiddenSubject()
         {
-            ThreadPost target = new ThreadPost();
-            string expected = "This is the default subject.";
-            string actual;
-            
-
-            //set hidden to premoderated
-            target.Hidden = (byte)CommentStatus.Hidden.Hidden_AwaitingPreModeration;
-            target.Subject = "some subject";
-            expected = "Hidden";
-            actual = target.Subject;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual("Hidden", ThreadPost.FormatSubject("some subject", CommentStatus.Hidden.Hidden_AwaitingPreModeration));
 
         }
 
@@ -259,17 +172,9 @@ namespace BBC.Dna.Objects.Tests
         ///A test for subject
         ///</summary>
         [TestMethod()]
-        public void subjectTestWithStatus_HiddenAwaitingReferral_ReturnsHiddenSubject()
+        public void FormatSubject_HiddenAwaitingReferral_ReturnsHiddenSubject()
         {
-            ThreadPost target = new ThreadPost();
-            string expected = "This is the default subject.";
-            string actual;
-
-            expected = "Hidden";
-            target.Hidden = (byte)CommentStatus.Hidden.Hidden_AwaitingReferral;
-            target.Subject = "some subject";
-            actual = target.Subject;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual("Hidden", ThreadPost.FormatSubject("some subject", CommentStatus.Hidden.Hidden_AwaitingReferral));
 
         }
 
@@ -277,72 +182,43 @@ namespace BBC.Dna.Objects.Tests
         ///A test for subject
         ///</summary>
         [TestMethod()]
-        public void subjectTestWithStatus_RemovedEditorComplaintTakedown_ReturnsRemovedSubject()
+        public void FormatSubject_RemovedEditorComplaintTakedown_ReturnsRemovedSubject()
         {
-            ThreadPost target = new ThreadPost();
-            string expected = "This is the default subject.";
-            string actual;
-
-            //set hidden to hidden
-            expected = "Removed";
-            target.Hidden = (byte)CommentStatus.Hidden.Removed_EditorComplaintTakedown;
-            target.Subject = "some subject";
-            actual = target.Subject;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual("Removed", ThreadPost.FormatSubject("some subject", CommentStatus.Hidden.Removed_EditorComplaintTakedown));
         }
 
         /// <summary>
         ///A test for subject
         ///</summary>
         [TestMethod()]
-        public void subjectTestWithStatus_RemovedFailedModeration_ReturnsRemovedSubject()
+        public void FormatSubject_RemovedFailedModeration_ReturnsRemovedSubject()
         {
-            ThreadPost target = new ThreadPost();
-            string expected = "This is the default subject.";
-            string actual;
-
-            //set hidden to hidden
-            expected = "Removed";
-            target.Hidden = (byte)CommentStatus.Hidden.Removed_FailedModeration;
-            target.Subject = "some subject";
-            actual = target.Subject;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual("Removed", ThreadPost.FormatSubject("some subject", CommentStatus.Hidden.Removed_FailedModeration));
         }
 
         /// <summary>
         ///A test for subject
         ///</summary>
         [TestMethod()]
-        public void subjectTestWithStatus_RemovedForumRemoved_ReturnsRemovedSubject()
+        public void FormatSubject_RemovedForumRemoved_ReturnsRemovedSubject()
         {
-            ThreadPost target = new ThreadPost();
-            string expected = "This is the default subject.";
-            string actual;
+            Assert.AreEqual("Removed", ThreadPost.FormatSubject("some subject", CommentStatus.Hidden.Removed_ForumRemoved));
 
-            //set hidden to hidden
-            expected = "Removed";
-            target.Hidden = (byte)CommentStatus.Hidden.Removed_ForumRemoved;
-            target.Subject = "some subject";
-            actual = target.Subject;
-            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
         ///A test for subject
         ///</summary>
         [TestMethod()]
-        public void subjectTestWithStatus_RemovedUserDeleted_ReturnsRemovedSubject()
+        public void FormatSubject_RemovedUserDeleted_ReturnsRemovedSubject()
         {
-            ThreadPost target = new ThreadPost();
-            string expected = "This is the default subject.";
-            string actual;
+            Assert.AreEqual("Removed", ThreadPost.FormatSubject("some subject", CommentStatus.Hidden.Removed_UserDeleted));
+        }
 
-            //set hidden to hidden
-            expected = "Removed";
-            target.Hidden = (byte)CommentStatus.Hidden.Removed_UserDeleted;
-            target.Subject = "some subject";
-            actual = target.Subject;
-            Assert.AreEqual(expected, actual);
+        [TestMethod()]
+        public void FormatSubject_RemovedUserContent_ReturnsRemovedSubject()
+        {
+            Assert.AreEqual("Removed", ThreadPost.FormatSubject("some subject", CommentStatus.Hidden.Removed_UserContentRemoved));
         }
 
         
@@ -527,13 +403,13 @@ default comment.", CommentStatus.Hidden.NotHidden);
         ///A test for TextElement
         ///</summary>
         [TestMethod()]
-        public void TextElement_RichTextWithTags_ReturnsWithTags()
+        public void TextElement_RichTextWithTags_ReturnsWithWithoutTags()
         {
             ThreadPost target = new ThreadPost();
             target.Style = PostStyle.Style.richtext;
-            string expected = @"This is the &lt;b&gt;default&lt;/b&gt; comment.";
+            string expected = @"This is the <B>default</B> comment.";
             XmlElement actual;
-            target.Text = ThreadPost.FormatPost("This is the <b>default</b> comment.", CommentStatus.Hidden.NotHidden);
+            target.Text = ThreadPost.FormatPost("This is the default comment.", CommentStatus.Hidden.NotHidden);
             actual = target.TextElement;
             Assert.AreEqual(expected, actual.InnerXml);
         }

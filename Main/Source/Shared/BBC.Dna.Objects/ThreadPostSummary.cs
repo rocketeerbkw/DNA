@@ -126,7 +126,7 @@ namespace BBC.Dna.Objects
             
             if (reader.DoesFieldExist(prefix +"hidden"))
             {
-                post.Hidden = (byte)(reader.GetInt32NullAsZero(prefix +"hidden") == 1?1:0);
+                post.Hidden = (byte)reader.GetInt32NullAsZero(prefix +"hidden");
             }
             if (reader.DoesFieldExist("firstposting") && reader["firstposting"] != DBNull.Value)
             {

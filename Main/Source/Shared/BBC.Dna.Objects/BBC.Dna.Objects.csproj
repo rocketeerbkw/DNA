@@ -128,7 +128,6 @@
     <Compile Include="TopicLastUpdated.cs" />
     <Compile Include="TopicElementList.cs" />
     <Compile Include="TopicPage.cs" />
-    <Compile Include="Translator.cs" />
     <Compile Include="User.cs" />
     <Compile Include="RelatedClubs.cs" />
     <Compile Include="SubscribeState.cs" />

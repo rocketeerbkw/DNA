@@ -824,14 +824,14 @@ namespace BBC.Dna
                     }
                     if (postStyle != 1)
                     {
-                        text = Translator.TranslateText(text);
+                        text = ThreadPost.FormatPost(text, (CommentStatus.Hidden)hidden);
 
                         //text = StringUtils.ConvertPlainText(text);
                     }
                     else
                     {
                         //TODO Do we need Rich Post stuff for the post style??
-                        string temp = "<RICHPOST>" + text.Replace("\r\n", "<BR />").Replace("\n", "<BR />") + "</RICHPOST>";
+                        string temp = "<RICHPOST>" + HtmlUtils.ReplaceCRsWithBRs(text) + "</RICHPOST>";
                         //Regex regex = new Regex(@"(<[^<>]+)<BR \/>");
                         //while (regex.Match(temp).Success)
                         //{
