@@ -172,8 +172,13 @@ namespace BBC.Dna.Users
         /// Get property for the users SiteSuffix
         /// </summary>
         [DataMember(Name = "siteSuffix")]
-        public string SiteSuffix { get; set; } 
+        public string SiteSuffix { get; set; }
 
+        /// <summary>
+        /// The get property for the teamid the user is assigned
+        /// </summary>
+        [DataMember(Name = "teamID")]
+        public int TeamID { get; set; } 
 
         /// <summary>
         /// Default constructor
@@ -270,7 +275,7 @@ namespace BBC.Dna.Users
         /// </summary>
         /// <param name="siteID">The Id of the site that you want to create the user on</param>
         /// <param name="identityUserID">The users Identity UserID if given</param>
-        /// <param name="ssoUserID">The users SSO UserID if given</pparam>
+        /// <param name="ssoUserID">The users SSO UserID if given</param>
         /// <param name="signInLoginName">The users signin system login name</param>
         /// <param name="signInEmail">The users signin system email address</param>
         /// <param name="displayName">The users signin system display name</param>
@@ -373,6 +378,7 @@ namespace BBC.Dna.Users
             Email = reader.GetString("email");
             SiteSuffix = reader.GetStringNullAsEmpty("SiteSuffix");
             LastSynchronisedDate = reader.GetDateTime("LastUpdatedDate");
+            TeamID = reader.GetInt32NullAsZero("teamid");
         }
 
         /// <summary>

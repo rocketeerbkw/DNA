@@ -10,6 +10,8 @@ using System.Web;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
 using BBC.Dna.Api;
+using System.Configuration;
+using System.IO;
 
 namespace BBC.Dna.Objects
 {
@@ -27,9 +29,21 @@ namespace BBC.Dna.Objects
         private string _extraInfo = string.Empty;
 
         /// <remarks/>
-        private string _guide = String.Empty;
+        private string _guideMLAsString = String.Empty;
+
+        /// <remarks/>
+        private XmlElement _guideMLAsXmlElement;
 
         private string _subject = String.Empty;
+
+
+        private bool _applySkinOnGuideML = false;
+        [XmlIgnore]
+        public bool ApplySkinOnGuideML
+        {
+            get { return _applySkinOnGuideML; }
+            set { _applySkinOnGuideML = value; }
+        }
 
         /// <summary>
         /// 
@@ -82,19 +96,54 @@ namespace BBC.Dna.Objects
         }
 
         [XmlIgnore]
-        public string Guide
+        public string GuideMLAsString
         {
-            get { return _guide; }
-            set { _guide = value; }
+            get { return _guideMLAsString; }
+            set 
+            {
+                _guideMLAsXmlElement = null;
+                _guideMLAsString = value; 
+            }
         }
 
         /// <remarks/>
         [XmlAnyElement(Order = 2)]
         [DataMember(Name="text")]
-        public XmlElement GuideElement
+        public XmlElement GuideMLAsXmlElement
         {
-            get { return GuideEntry.CreateGuideEntry(Guide, HiddenStatus, Style); }
-            set { Guide = value.OuterXml; }
+            get 
+            {
+                if (_guideMLAsXmlElement == null)
+                {
+                    _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                                        
+                    if (_applySkinOnGuideML) //transformation required?
+                    {
+                        string apiGuideSkin = ConfigurationSettings.AppSettings["guideMLXSLTSkinPath"];
+
+                        int errorCount = 0;
+                        string transformedContent = XSLTransformer.TransformUsingXslt(apiGuideSkin, _guideMLAsXmlElement.OwnerDocument, ref errorCount);
+
+                        // strip out the xml header and namespaces
+                        transformedContent = transformedContent.Replace(@"<?xml version=""1.0"" encoding=""utf-16""?>" , "");
+                        transformedContent = transformedContent.Replace(@"xmlns=""http://www.w3.org/1999/xhtml""", "");
+
+                        if (errorCount != 0)
+                        {
+                            throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
+                        }
+
+                        // reassign string and element after transformation     
+                        _guideMLAsString = transformedContent;
+                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                    }                    
+                }
+                return _guideMLAsXmlElement;
+            }
+            set 
+            { 
+                _guideMLAsXmlElement = value; 
+            }
         }
 
 
@@ -260,12 +309,13 @@ namespace BBC.Dna.Objects
         /// </summary>
         public void MakeEdittable()
         {
-            if (ArticleInfo != null && ArticleInfo.PreProcessed > 0 && Guide != null)
+            if (ArticleInfo != null && ArticleInfo.PreProcessed > 0 && GuideMLAsString != null)
             {
                 // REPLACE BRs WITH RETURNS
-                Guide = Guide.Replace("<BR />", "\r\n");
+                GuideMLAsString = GuideMLAsString.Replace("<BR />", "\r\n");
             }
         }
+
 
         /// <summary>
         /// Check with a light db call to see if the cache should expire
@@ -284,6 +334,34 @@ namespace BBC.Dna.Objects
                 if (reader.HasRows && reader.Read())
                 {
                     lastUpdate = reader.GetDateTime("LastUpdated");
+                }
+            }
+            return (ArticleInfo != null && ArticleInfo.LastUpdated != null &&
+                    ArticleInfo.LastUpdated.Date.Local.DateTime >= lastUpdate);
+        }
+
+        /// <summary>
+        /// Check with a light db call to see if the cache should expire
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="articleName"></param>
+        /// <param name="siteId"></param>
+        /// <returns>True if up to date and ok to use</returns>
+        public bool IsNamedArticleUpToDate(IDnaDataReaderCreator readerCreator, string articleName, int siteId)
+        {
+            int seconds = 0;
+            DateTime lastUpdate = DateTime.Now;
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("cachegetkeyarticledate"))
+            {
+                reader.AddParameter("artname", articleName);
+                reader.AddParameter("siteid", siteId);
+                reader.Execute();
+
+                // If we found the info, set the expiry date
+                if (reader.HasRows && reader.Read())
+                {
+                    seconds = reader.GetInt32NullAsZero("seconds");
+                    lastUpdate = DateTime.Now.Subtract(new TimeSpan(0, 0, seconds));
                 }
             }
             return (ArticleInfo != null && ArticleInfo.LastUpdated != null &&
@@ -371,15 +449,65 @@ namespace BBC.Dna.Objects
                 }
             }
         }
+       
+        /// <summary>
+        /// Creates the article from db
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="articleName"></param>
+        /// <param name="siteId"></param>
+        /// <param name="applySkin"></param>
+        /// <returns></returns>
+        public static Article CreateNamedArticleFromDatabase(IDnaDataReaderCreator readerCreator, string articleName, int siteId, bool applySkin)
+        {
+            
+            Article article = null;
+            // fetch all the lovely intellectual property from the database
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getkeyarticlecomponents"))
+            {
+                // Add the articleName and execute
+                reader.AddParameter("articlename", articleName);
+                reader.AddParameter("siteid", siteId);
+                reader.Execute();
+
+                // Make sure we got something back
+                if (!reader.HasRows || !reader.Read())
+                {
+                    throw ApiException.GetError(ErrorType.ArticleNotFound);
+                }
+                else
+                {
+                    // Go though the results untill we get the main article
+                    do
+                    {
+                        if (reader.GetInt32("IsMainArticle") == 1)
+                        {
+                            article = CreateArticleFromReader(readerCreator, reader, applySkin);
+                            break;
+                        }
+
+                    } while (reader.Read());
+
+                    //not created so scream
+                    if (article == null)
+                    {
+                        throw ApiException.GetError(ErrorType.ArticleNotFound);
+                    }
+                }
+            }
+            return article;
+        }
 
         /// <summary>
         /// Creates the article from db
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <param name="entryId"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
-        public static Article CreateArticleFromDatabase(IDnaDataReaderCreator readerCreator, int entryId)
+        public static Article CreateArticleFromDatabase(IDnaDataReaderCreator readerCreator, int entryId, bool applySkin)
         {
+            
             Article article = null;
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getarticlecomponents2"))
@@ -400,10 +528,10 @@ namespace BBC.Dna.Objects
                     {
                         if (reader.GetInt32("IsMainArticle") == 1)
                         {
-                            article = CreateArticleFromReader(readerCreator, reader);
-
-                            break; //got the info so run
+                            article = CreateArticleFromReader(readerCreator, reader, applySkin);
+                            break;
                         }
+
                     } while (reader.Read());
 
                     //not created so scream
@@ -433,7 +561,8 @@ namespace BBC.Dna.Objects
                                                                                 int status2,
                                                                                 int status3,
                                                                                 int status4,
-                                                                                int status5 )
+                                                                                int status5,
+                                                                                bool applySkin)
         {
             Article article = null;
             // fetch all the lovely intellectual property from the database
@@ -455,7 +584,7 @@ namespace BBC.Dna.Objects
                 }
                 else
                 {
-                    article = CreateArticleFromReader(readerCreator, reader);
+                    article = CreateArticleFromReader(readerCreator, reader, applySkin);
 
                     //not created so scream
                     if (article == null)
@@ -467,9 +596,10 @@ namespace BBC.Dna.Objects
             return article;
         }
 
-        private static Article CreateArticleFromReader(IDnaDataReaderCreator readerCreator, IDnaDataReader reader)
+        public static Article CreateArticleFromReader(IDnaDataReaderCreator readerCreator, IDnaDataReader reader, bool applySkin)
         {
             Article article = new Article();
+            article._applySkinOnGuideML = applySkin;
             article.EntryId = reader.GetInt32("EntryID");
             article.H2g2Id = reader.GetInt32("h2g2ID");
 
@@ -505,7 +635,7 @@ namespace BBC.Dna.Objects
 
             if (!reader.IsDBNull("HIdden"))
             {
-                article.HiddenStatus = reader.GetInt32("Hidden");
+                article.HiddenStatus = reader.GetInt32("HIdden");
             }
             article.DefaultCanRead = reader.GetTinyIntAsInt("CanRead");
             article.DefaultCanWrite = reader.GetTinyIntAsInt("CanWrite");
@@ -516,14 +646,11 @@ namespace BBC.Dna.Objects
             article.CanChangePermissions = reader.GetTinyIntAsInt("CanChangePermissions");
             //fill complex children objects
             article.GetBookmarkCount(readerCreator);
-            article.Guide = reader.GetString("text");
+            article.GuideMLAsString = reader.GetString("text");
 
-            if (article.Guide != null &&
-                article.GuideElement.ParentNode.SelectSingleNode("//GUIDE") != null)
+           if (article.GuideMLAsString != null && article.GuideMLAsXmlElement != null)
             {
-                article.ArticleInfo.GetReferences(readerCreator,
-                                                  article.GuideElement.ParentNode.SelectSingleNode(
-                                                      "//GUIDE"));
+                article.ArticleInfo.GetReferences(readerCreator, article.GuideMLAsXmlElement);
             }
 
             //get forum style
@@ -541,14 +668,14 @@ namespace BBC.Dna.Objects
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
         public static Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
-                                            int h2g2Id, bool ignoreCache)
+                                            int h2g2Id, bool ignoreCache, bool applySkin)
         {
             var article = new Article();
             //convert entryId
             //int entryId = Convert.ToInt32(h2g2Id.ToString().Substring(0, entryId.ToString().Length - 1));
             int entryId = h2g2Id / 10;
 
-            string key = article.GetCacheKey(entryId);
+            string key = article.GetCacheKey(entryId, applySkin);
             //check for item in the cache first
             if (!ignoreCache)
             {
@@ -568,7 +695,7 @@ namespace BBC.Dna.Objects
             }
 
             //create from db
-            article = CreateArticleFromDatabase(readerCreator, entryId);
+            article = CreateArticleFromDatabase(readerCreator, entryId, applySkin);
             //add to cache
             cache.Add(key, article);
             //update with viewuser info
@@ -577,6 +704,50 @@ namespace BBC.Dna.Objects
             return article;
         }
 
+        /// <summary>
+        /// Gets article via the Name of the Article from cache or db if not found in cache
+        /// </summary>
+        /// <param name="cache"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="articleName"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static Article CreateNamedArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+                                            int siteId, string articleName, bool ignoreCache, bool applySkin)
+        {
+            var article = new Article();
+
+            string key = article.GetCacheKey(articleName, siteId, applySkin);
+            //check for item in the cache first
+            if (!ignoreCache)
+            {
+                //not ignoring cache
+
+                article = (Article)cache.GetData(key);
+                if (article != null)
+                {
+                    //check if still valid with db...
+                    if (article.IsNamedArticleUpToDate(readerCreator, articleName, siteId))
+                    {
+                        //all good - apply viewing user attributes and return
+                        article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
+                        return article;
+                    }
+                }
+            }
+
+            //create from db
+            article = CreateNamedArticleFromDatabase(readerCreator, articleName, siteId, applySkin);
+            //add to cache
+            cache.Add(key, article);
+            //update with viewuser info
+            article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
+
+            return article;
+        }
+
+        
         /// <summary>
         /// Gets random article from cache or db if not found in cache
         /// </summary>
@@ -600,12 +771,13 @@ namespace BBC.Dna.Objects
                                                     int status3,
                                                     int status4,
                                                     int status5, 
-                                                    bool ignoreCache)
+                                                    bool ignoreCache,
+                                                    bool applySkin)
         {
             var article = new Article();
 
             //create from db
-            article = CreateRandomArticleFromDatabase(readerCreator, siteId, status1, status2, status3, status4, status5);
+            article = CreateRandomArticleFromDatabase(readerCreator, siteId, status1, status2, status3, status4, status5, applySkin);
 
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
@@ -623,9 +795,9 @@ namespace BBC.Dna.Objects
         /// <param name="h2g2Id"></param>
         /// <returns></returns>
         public static Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
-                                            int h2g2Id)
+                                            int h2g2Id, bool applySkin)
         {
-            return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
+            return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false, applySkin);
         }
 
         /// <summary>
@@ -649,9 +821,10 @@ namespace BBC.Dna.Objects
                                                     int status2,
                                                     int status3,
                                                     int status4,
-                                                    int status5)
+                                                    int status5, 
+                                                    bool applySkin)
         {
-            return CreateRandomArticle(cache, readerCreator, viewingUser, siteId, status1, status2, status3, status4, status5, false);
+            return CreateRandomArticle(cache, readerCreator, viewingUser, siteId, status1, status2, status3, status4, status5, false, applySkin);
         }
 
         /// <summary>
@@ -717,7 +890,7 @@ namespace BBC.Dna.Objects
                 else
                 {
                     int h2g2Id = reader.GetInt32NullAsZero("Masthead");
-                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
+                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false, true);
                 }
             }
         }
@@ -753,7 +926,7 @@ namespace BBC.Dna.Objects
                 else
                 {
                     int h2g2Id = reader.GetInt32NullAsZero("Masthead");
-                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false);
+                    return CreateArticle(cache, readerCreator, viewingUser, h2g2Id, false, true);
                 }
             }
         }

@@ -16,7 +16,7 @@
 										<xs:element name="LOGINNAME" type="xs:string" />
 										<xs:element name="EMAIL" type="xs:string" />
 										<xs:element name="PREFSTATUS" type="xs:unsignedByte" />
-										<xs:element name="PREFSTATUSDURATION" type="xs:unsignedByte" />
+										<xs:element name="PREFSTATUSDURATION" type="xs:int" />
 										<xs:element name="USERSTATUSDESCRIPTION" type="xs:string" />
 										<xs:element name="PREFSTATUSCHANGEDDATE">
 											<xs:complexType>
@@ -31,6 +31,7 @@
 										<xs:element name="BBCUID" minOccurs="0" type="xs:string" />
                     <xs:element name="SSOUSERID" type="xs:unsignedInt" />
                     <xs:element name="IDENTITYUSERID" type="xs:unsignedInt" />
+                    <xs:element name="ACTIVE" type="xs:boolean" />
                   </xs:sequence>
 									<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
 								</xs:complexType>
@@ -40,12 +41,7 @@
 				</xs:element>
 			</xs:sequence>
 			<xs:attribute name="USERSEARCHTYPE" type="xs:unsignedByte" use="required" />
-			<xs:attribute name="USERSEARCHID" type="xs:unsignedInt" use="required" />
-			<xs:attribute name="USERSEARCHEMAIL" type="xs:string" use="required" />
-			<xs:attribute name="USERSEARCHNAME" type="xs:string" use="required" />
-			<xs:attribute name="USERSEARCHIPADDRESS" type="xs:string" use="required" />
-			<xs:attribute name="USERSEARCHBBCUID" type="xs:string" use="required" />
-			<xs:attribute name="USERSEARCHLOGINNAME" type="xs:string" use="required" />
+			<xs:attribute name="SEARCHTEXT" type="xs:string" use="required" />
 			<xs:attribute name="CHECKALLSITES" type="xs:string" use="required" />
 			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
 		</xs:complexType>

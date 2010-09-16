@@ -33,6 +33,7 @@ namespace FunctionalTests
                 Console.WriteLine("Setting up");
                 _request.UseEditorAuthentication = true;
                 _request.SetCurrentUserEditor();
+                _request.UseDebugUser = false;
                 _setupRun = true;
             }
             Console.WriteLine("Finished StartUp()");

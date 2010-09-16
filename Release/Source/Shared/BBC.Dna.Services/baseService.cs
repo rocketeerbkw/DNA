@@ -34,7 +34,7 @@ namespace BBC.Dna.Services
         protected const string CacheLastupdated = "|LASTUPDATED";
         protected const string CacheDelimiter = "|";
         protected const int Cacheexpiryminutes = 10;
-        protected readonly DnaDataReaderCreator readerCreator = null;
+        protected readonly IDnaDataReaderCreator readerCreator = null;
         protected delegate DateTime CheckCacheDelegate(params object[] args);
         
         //querystring variables
@@ -58,6 +58,11 @@ namespace BBC.Dna.Services
 
         public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
         {
+            if (ConfigurationManager.AppSettings["MaintenanceMode"] == "1")
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MaintenanceMode));
+            }
+            
             _connectionString = connectionString;
             this.siteList = siteList;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiag);
@@ -121,6 +126,7 @@ namespace BBC.Dna.Services
 #if DEBUG
             debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
 #endif
+            
         }
 
         ///// <summary>
@@ -210,13 +216,14 @@ namespace BBC.Dna.Services
                     break;
 
                 case WebFormat.format.HTML:
-                    string xsltFile = String.Format("{0}/{1}.xsl", ConfigurationManager.AppSettings["xslt_directory"], data.GetType().Name);
-                    int errorCount = 0;
-                    output = ((baseContract)data).ToHtml(xsltFile, ref errorCount);
-                    if (errorCount != 0)
-                    {
-                        throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, "Error during xslt transformation", new Exception(output));
-                    }
+                    //string xsltFile = String.Format("{0}/{1}.xsl", ConfigurationManager.AppSettings["xslt_directory"], data.GetType().Name);
+                    //int errorCount = 0;
+                    //output = ((baseContract)data).ToHtml(xsltFile, ref errorCount);
+                    //if (errorCount != 0)
+                    //{
+                    //    throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, "Error during xslt transformation", new Exception(output));
+                    //}
+                    throw new DnaWebProtocolException(System.Net.HttpStatusCode.NotImplemented, "Not implemented yet", null);
                     break;
 
                 case WebFormat.format.RSS:

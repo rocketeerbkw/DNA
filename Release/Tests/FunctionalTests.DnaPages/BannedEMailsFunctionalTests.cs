@@ -8,6 +8,7 @@ using BBC.Dna.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
+using TestUtils;
 
 
 namespace FunctionalTests
@@ -49,29 +50,45 @@ namespace FunctionalTests
             // Check to make sure that no errors came back
             Assert.IsTrue(xml.SelectSingleNode("//USER-COMPLAINT-FORM/ERROR") == null, "There should not be any errors present in the XML!");
 
-            // Now put the users email into the banned emails list for complaints
-            IInputContext context = DnaMockery.CreateDatabaseInputContext();
-            using (IDnaDataReader reader = context.CreateDnaDataReader("AddEMailToBannedList"))
+            try
             {
-                reader.AddParameter("Email", "damnyoureyes72+2@googlemail.com");
-                reader.AddParameter("SigninBanned", 0);
-                reader.AddParameter("ComplaintBanned", 1);
-                reader.AddParameter("EditorID", 6);
-                reader.Execute();
+                // Now put the users email into the banned emails list for complaints
+                IInputContext context = DnaMockery.CreateDatabaseInputContext();
+                using (IDnaDataReader reader = context.CreateDnaDataReader("AddEMailToBannedList"))
+                {
+                    reader.AddParameter("Email", "mark.howitt@bbc.co.uk");//this is dotnetnormaluser's email
+                    reader.AddParameter("SigninBanned", 0);
+                    reader.AddParameter("ComplaintBanned", 1);
+                    reader.AddParameter("EditorID", 6);
+                    reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+                    Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
+                    Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
+                    Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
+                    Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+
+                    request.RequestPage("dnasignal?action=recache-bannedEmails");
+                }
+
+                // Now try to complain again
+                request.RequestPage("UserComplaintPage?postid=2&skin=purexml");
+                request.SetCurrentUserEditor();
+                xml = request.GetLastResponseAsXML();
+
+                // Check to make sure that no errors came back
+                Assert.IsTrue(xml.SelectSingleNode("//ERROR") != null, "There should be an error present in the XML!");
+                Assert.IsTrue(xml.SelectSingleNode("//ERROR[@TYPE='EMAILNOTALLOWED']") != null, "There should be an EMAILNOTALLOWED error present in the XML!");
+
             }
-
-            // Now try to complain again
-            request.RequestPage("UserComplaintPage?postid=2&skin=purexml");
-            xml = request.GetLastResponseAsXML();
-
-            // Check to make sure that no errors came back
-            Assert.IsTrue(xml.SelectSingleNode("//ERROR") != null, "There should be an error present in the XML!");
-            Assert.IsTrue(xml.SelectSingleNode("//ERROR[@TYPE='EMAILNOTALLOWED']") != null, "There should be an EMAILNOTALLOWED error present in the XML!");
+            finally
+            {
+                IInputContext context = DnaMockery.CreateDatabaseInputContext();
+                using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("delete from bannedemails where email='mark.howitt@bbc.co.uk'");//this is dotnetnormaluser's email
+                    request.RequestPage("dnasignal?action=recache-bannedEmails");
+                }
+            }
         }
 
         /// <summary>

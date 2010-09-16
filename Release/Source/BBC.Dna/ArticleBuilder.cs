@@ -38,7 +38,7 @@ namespace BBC.Dna
             BBC.Dna.Objects.User viewingUser = InputContext.ViewingUser.ConvertUser();
 
             //create article
-            Article article = Article.CreateArticle(cache, creator, viewingUser, entryId, false);
+            Article article = Article.CreateArticle(cache, creator, viewingUser, entryId, false, true);
             PageUi pageUi = PageUi.GetPageUi(creator, article, viewingUser); 
 
             // Check to see if the guideentry is deleted before adding the forum to the page

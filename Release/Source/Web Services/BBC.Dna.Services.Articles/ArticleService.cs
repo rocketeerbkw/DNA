@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
@@ -10,6 +9,7 @@ using System.ServiceModel.Web;
 using Microsoft.ServiceModel.Web;
 using BBC.Dna.Objects;
 using BBC.Dna.Sites;
+using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using BBC.Dna.Api;
 using System.Xml;
@@ -32,7 +32,29 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetArticle(string siteName, string articleId)
         {
-            var article = Article.CreateArticle(cacheManager, readerCreator, null, Int32.Parse(articleId));
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+            ISite site = GetSite(siteName);
+
+            Article article;
+            int actualId = 0;
+
+            try
+            {
+                //if it's an int assume it's an articleId and get the article based on that
+                if (Int32.TryParse(articleId, out actualId))
+                {
+                    article = Article.CreateArticle(cacheManager, readerCreator, null, actualId, false, applySkin);
+                }
+                else
+                {
+                    //if it's a string assume it's a named article and try to get the article by that
+                    article = Article.CreateNamedArticle(cacheManager, readerCreator, null, site.SiteID, articleId, false, applySkin);
+                }
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
 
             return GetOutputStream(article);
         }
@@ -81,7 +103,7 @@ namespace BBC.Dna.Services
 			}
 
             var randomArticle = Article.CreateRandomArticle(cacheManager, readerCreator, null, 
-                                                            site.SiteID, status1, status2, status3, status4, status5);
+                                                            site.SiteID, status1, status2, status3, status4, status5, true);
 
             return GetOutputStream(randomArticle);
         }
@@ -114,7 +136,7 @@ namespace BBC.Dna.Services
             ISite site = Global.siteList.GetSite(siteName);
             var search = new Search();
             var querystring = QueryStringHelper.GetQueryParameterAsString("querystring", string.Empty);
-            var searchType = QueryStringHelper.GetQueryParameterAsString("type", string.Empty);
+            var searchType = QueryStringHelper.GetQueryParameterAsString("searchtype", string.Empty);
             var showApproved = QueryStringHelper.GetQueryParameterAsInt("showapproved", 1);
             var showNormal = QueryStringHelper.GetQueryParameterAsInt("shownormal", 0);
             var showSubmitted = QueryStringHelper.GetQueryParameterAsInt("showsubmitted", 0);
@@ -131,5 +153,63 @@ namespace BBC.Dna.Services
             }
             return GetOutputStream(search);
         }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/clip/")]
+        [WebHelp(Comment = "Clips (Creates Link/Bookmark) the given article for a given site to your personal space")]
+        [OperationContract]
+        public void ClipArticle(string siteName, string articleId)
+        {
+            var article = Article.CreateArticle(cacheManager, readerCreator, null, Int32.Parse(articleId), false, false);
+
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);            
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+            }
+
+            var isPrivate = QueryStringHelper.GetQueryParameterAsBool("private", false);
+
+            try
+            {
+                Link.ClipPageToUserPage(cacheManager,
+                                        readerCreator,
+                                        callingUser,
+                                        site.SiteID,
+                                        "article",
+                                        Int32.Parse(articleId),
+                                        article.Subject,
+                                        String.Empty,
+                                        isPrivate);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }            
+        }
+
+        [WebGet(UriTemplate = "V1/site/{siteName}/articles/name/{articlename}")]
+        [WebHelp(Comment = "Get the given article by articlename for a given site")]
+        [OperationContract]
+        public Stream GetNamedArticle(string siteName, string articlename)
+        {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+            ISite site = GetSite(siteName);
+            Article article;
+            try
+            {
+                article = Article.CreateNamedArticle(cacheManager, readerCreator, null, site.SiteID, articlename, false, applySkin);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(article);
+        }
+
     }
 }

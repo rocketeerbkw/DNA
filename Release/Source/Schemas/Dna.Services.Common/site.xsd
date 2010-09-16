@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+  <xs:include schemaLocation="siteOptions.xsd"/>
+  <xs:element name="site">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="description" type="xs:string" />
+        <xs:element name="editorsEmail" type="xs:string" />
+        <xs:element name="feedbackEmail" type="xs:string" />
+        <xs:element name="identityPolicy" type="xs:string" />
+        <xs:element name="isClosed" type="xs:boolean" />
+        <xs:element name="isEmergencyClosed" type="xs:boolean" />
+        <xs:element name="maxAge" type="xs:unsignedByte" />
+        <xs:element name="minAge" type="xs:unsignedByte" />
+        <xs:element name="modClassID" type="xs:unsignedByte" />
+        <xs:element name="moderatorsEmail" type="xs:string" />
+        <xs:element name="openCloseTimes">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="openCloseTime" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="closed" type="xs:unsignedByte" />
+                    <xs:element name="dayOfWeek" type="xs:unsignedByte" />
+                    <xs:element name="hour" type="xs:unsignedByte" />
+                    <xs:element name="minute" type="xs:unsignedByte" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="shortName" type="xs:string" />
+        <xs:element name="siteId" type="xs:int" />
+        <xs:element name="siteName" type="xs:string" />
+        <xs:element ref="siteOptions" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

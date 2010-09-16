@@ -176,6 +176,45 @@
             <xsl:apply-templates select="." mode="object_post_comment_moderation" />
         </li>
     </xsl:template>
+
+  <!-- Removed post for any user -->
+  <xsl:template match="POST[@HIDDEN = 8]" mode="object_post_comment">
+    <li id="comment{(@INDEX + 1)}">
+      <!-- Add the stripe class -->
+      <xsl:call-template name="library_listitem_stripe">
+        <xsl:with-param name="additional-classnames">
+          <xsl:apply-templates select="USER" mode="library_user_notables"/>
+        </xsl:with-param>
+      </xsl:call-template>
+
+      <span class="comment-number">
+        <xsl:value-of select="@INDEX + 1"/>
+        <xsl:text>. </xsl:text>
+      </span>
+      <cite>
+        <xsl:text>At </xsl:text>
+        <a class="time" href="{parent::FORUMTHREADPOSTS/@HOSTPAGEURL}#comment{@INDEX + 1}">
+          <xsl:apply-templates select="DATEPOSTED" mode="library_time_shortformat" />
+        </a>
+        <xsl:text> on </xsl:text>
+        <span class="date">
+          <xsl:apply-templates select="DATEPOSTED" mode="library_date_shortformat" />
+        </span>
+        <xsl:text>, </xsl:text>
+        <span class="vcard">
+          <span class="fn">
+            <xsl:apply-templates select="USER" mode="library_user_morecomments" >
+              <xsl:with-param name="url" select="/H2G2/PARAMS/PARAM[NAME = 's_commentprofileurl']/VALUE"/>
+            </xsl:apply-templates>
+          </span>
+        </span>
+      </cite>
+      <p class="comment-text-moderation">
+        Why have all of a users’ comments vanished? If the user is a spammer or a user who has been banned many times before all of their comments are removed when their account is closed.
+      </p>
+      <xsl:apply-templates select="." mode="object_post_comment_moderation" />
+    </li>
+  </xsl:template>
     
     <!-- Referred comment for any user -->
     <xsl:template match="POST[@HIDDEN = 2 or @HIDDEN = 6]" mode="object_post_comment">

@@ -1012,6 +1012,49 @@ namespace FunctionalTests.Services.Comments
         /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
+        public void CreateComment_AsDuplicate()
+        {
+            Console.WriteLine("Before CreateComment_AsDuplicate");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "</comment>", text);
+
+            // Setup the request url
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            try
+            {
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            }
+            catch { }
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.OK);
+
+            //try reposting same comment
+            try
+            {
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            }
+            catch { }
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.OK);
+
+
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            var returnedForum = (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.AreEqual(1, returnedForum.commentSummary.Total);
+            Console.WriteLine("After CreateComment_AsDuplicate");
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
         public void CreateComment_CheckAgoValues()
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);

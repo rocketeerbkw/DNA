@@ -228,6 +228,7 @@ namespace Tests
             ReaderCreator = new DnaDataReaderCreator(_dnaConfig.ConnectionString, _dnaDiagnostics);
 
             _siteList = new SiteList(ReaderCreator, dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);
+            Statistics.InitialiseIfEmpty();
 
             ProfanityFilterTests.InitialiseProfanities();
 

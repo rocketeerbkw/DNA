@@ -133,6 +133,18 @@ namespace Tests
             }
         }
 
+        public bool Closed
+        {
+            get
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+            set
+            {
+                throw new Exception("The method or operation is not implemented.");
+            }
+        }
+
         /// <summary>
         /// MinAge Property
         /// </summary>

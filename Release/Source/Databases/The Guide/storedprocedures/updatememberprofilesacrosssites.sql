@@ -1,3 +1,4 @@
+-- depreciated storedprocedure
 CREATE PROCEDURE updatememberprofilesacrosssites 
 	@viewinguserid int, 
 	@usertofindid int,	

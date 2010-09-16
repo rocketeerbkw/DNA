@@ -68,17 +68,17 @@ namespace FunctionalTests
         [TestMethod]
         public void Test03SignUserInAndAddThemToAcesGroup()
         {
-            FullInputContext context = new FullInputContext("");
+            FullInputContext context = new FullInputContext("dotnetmoderator");
             SignInSystem signInType = SignInSystem.Identity;
             CallingUser user = new CallingUser(signInType, context.ReaderCreator, null, null, TestUserAccounts.GetModeratorAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
             string policy = "http://identity/policies/dna/adult";
             int siteID = 1;
-            Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, ""));
+            Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, TestUserAccounts.GetModeratorAccount.UserName));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
             Assert.IsFalse(user.GetUsersGroupsForSite().Exists(x => x.Name == "aces"));
             Assert.IsTrue(user.AddUserToGroup("Aces"));
-            Assert.IsTrue(user.GetUsersGroupsForSite().Exists(x => x.Name == "aces"));
+            Assert.IsTrue(user.GetUsersGroupsForSite().Exists(x => x.Name.ToLower() == "aces"));
         }
 
         /// <summary>

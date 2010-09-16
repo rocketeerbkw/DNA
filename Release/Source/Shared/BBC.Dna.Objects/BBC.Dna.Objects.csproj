@@ -70,11 +70,14 @@
     <Compile Include="ArticleInfoReferencesEntryLink.cs" />
     <Compile Include="ArticleInfoReferencesExternalLink.cs" />
     <Compile Include="ArticleInfoSubmittable.cs" />
+    <Compile Include="ArticleSubscriptionsList.cs" />
     <Compile Include="Club.cs" />
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="Contributions.cs" />
     <Compile Include="Index.cs" />
+    <Compile Include="Link.cs" />
+    <Compile Include="LinksList.cs" />
     <Compile Include="MessageBoardBackup.cs" />
     <Compile Include="FrontPageElement.cs" />
     <Compile Include="Category.cs" />
@@ -125,13 +128,13 @@
     <Compile Include="TopicLastUpdated.cs" />
     <Compile Include="TopicElementList.cs" />
     <Compile Include="TopicPage.cs" />
-    <Compile Include="Translator.cs" />
     <Compile Include="User.cs" />
     <Compile Include="RelatedClubs.cs" />
     <Compile Include="SubscribeState.cs" />
     <Compile Include="OnlineUsers.cs" />
     <Compile Include="PageUi.cs" />
     <Compile Include="TopicElement.cs" />
+    <Compile Include="UserSubscriptionsList.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Api\BBC.Dna.Api.csproj">

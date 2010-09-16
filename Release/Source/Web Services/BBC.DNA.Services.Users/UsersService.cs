@@ -163,10 +163,101 @@ namespace BBC.Dna.Services
             return GetOutputStream(messages);
         }
 
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identityusername}/links")]
+        [WebHelp(Comment = "Get a user's links")]
+        [OperationContract]
+        public Stream GetUsersLinks(string sitename, string identityusername)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+            var showPrivate = QueryStringHelper.GetQueryParameterAsInt("showPrivate", 0);
+            ISite site = GetSite(sitename);
+
+            LinksList links;
+            try
+            {
+                links = LinksList.CreateLinksList(cacheManager, 
+                    readerCreator, 
+                    null, 
+                    identityusername, 
+                    site.SiteID, 
+                    startIndex, 
+                    itemsPerPage,
+                    showPrivate == 1 ? true : false, 
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(links);
+        }
+
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/usersubscriptions")]
+        [WebHelp(Comment = "Get a user's user subscriptions")]
+        [OperationContract]
+        public Stream GetUsersUserSubscriptions(string sitename, string identifier)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            ISite site = GetSite(sitename);
+
+            UserSubscriptionsList userSubscriptionsList;
+            try
+            {
+                userSubscriptionsList = UserSubscriptionsList.CreateUserSubscriptionsList(cacheManager,
+                    readerCreator,
+                    null,
+                    identifier,
+                    site.SiteID,
+                    startIndex,
+                    itemsPerPage,
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(userSubscriptionsList);
+        }
+
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/articlesubscriptions")]
+        [WebHelp(Comment = "Get a user's article subscriptions")]
+        [OperationContract]
+        public Stream GetUsersArticleSubscriptions(string sitename, string identifier)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            ISite site = GetSite(sitename);
+
+            ArticleSubscriptionsList articleSubscriptionsList;
+            try
+            {
+                articleSubscriptionsList = ArticleSubscriptionsList.CreateArticleSubscriptionsList(cacheManager,
+                    readerCreator,
+                    null,
+                    identifier,
+                    site.SiteID,
+                    startIndex,
+                    itemsPerPage,
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(articleSubscriptionsList);
+        }
+
         [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}")]
         [WebHelp(Comment = "Get the given user's contributions in the format requested")]
         [OperationContract]
-        public Stream GetContributions(string identityuserid)
+        public Stream GetUserContributions(string identityuserid)
         {
             return GetOutputStream(GetContributions(identityuserid, null, null));
         }
@@ -174,21 +265,32 @@ namespace BBC.Dna.Services
         [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/type/{type}")]
         [WebHelp(Comment = "Get the given user's contributions for the specified type in the format requested")]
         [OperationContract]
-        public Stream GetContributionsByType(string identityuserid, string type)
+        public Stream GetUserContributionsByType(string identityuserid, string type)
         {
             return GetOutputStream(GetContributions(identityuserid, null, type));
+        }
+
+
+        [WebGet(UriTemplate = "V1/recentcontributions/type/{type}")]
+        [WebHelp(Comment = "Get the given user's contributions for the specified type in the format requested")]
+        [OperationContract]
+        public Stream GetRecentContributionsByType(string type)
+        {
+            return GetOutputStream(GetContributions(null, null, type));
         }
 
         [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}/site/{site}")]
         [WebHelp(Comment = "Get the given user's contributions for the specified site in the format requested")]
         [OperationContract]
-        public Stream GetContributionsBySite(string identityuserid, string site)
+        public Stream GetUserContributionsBySite(string identityuserid, string site)
         {
             return GetOutputStream(GetContributions(identityuserid, site, null));
         }
 
         private Contributions GetContributions(string identityuserid, string siteName, string siteType)
         {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", "identityuserid").ToLower();
+
             SiteType? siteTypeAsEnum = null;
             if (!String.IsNullOrEmpty(siteType))
             {
@@ -203,6 +305,7 @@ namespace BBC.Dna.Services
                 startIndex,
                 sortDirection,
                 siteTypeAsEnum,
+                userNameType,
                 false);
         }
 

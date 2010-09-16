@@ -24,8 +24,8 @@
                 window.location.reload();
             });
         }
-       
-       
+
+
         // RE-ORDER TOPIC
         $(".dna-topic-position").addClass("dna-off");
 
@@ -123,7 +123,7 @@
 
                 // overlay divs are hidden by default 
                 addListener;
-             
+
                 $("#" + whichDiv).removeClass("dna-off");
 
                 // edit topic : show/hide step 2 and 3
@@ -169,7 +169,7 @@
                         glow.dom.create('<span class="dna-error-text">Please add a title topic</span>').insertBefore("#topictitle-" + seditTopic);
                         $("#topictitle-" + seditTopic).addClass("dna-error-input");
                         return false;
-                    } 
+                    }
                     return false;
                 });
 
@@ -291,7 +291,7 @@
 
         // loading gif when publish is clicked
         addListener(".dna-publish-mboard", "submit", function() {
-        $("#dna-publish-form").addClass("dna-off");
+            $("#dna-publish-form").addClass("dna-off");
             $("#dna-publish-loading").removeClass("dna-off");
         });
 
@@ -388,7 +388,7 @@
             var href = $(this).attr("href");
 
             addListener(this, "click", function() {
-                window.open(href,"previewMessageboard");
+                window.open(href, "previewMessageboard");
                 return false;
             });
         });
@@ -401,5 +401,87 @@
             window.location = "/dna/mbarchers/admin/MessageBoardSchedule";
             return false;
         });
+
+        //UserList functions
+        ///////////////////////
+
+        if (document.getElementById("modStatusForm")) {
+            document.getElementById("durationContainer").style.display = "none";
+            document.getElementById("duration").selectedIndex = 0;
+
+            document.getElementById("hideAllPostsContainer").style.display = "none";
+            document.getElementById("hideAllPosts").checked = false;
+
+            var statusDropDown = document.getElementById("userStatusDescription");
+            addListener(statusDropDown, "change", function() {
+                var selected = document.getElementById("userStatusDescription").value;
+
+                document.getElementById("durationContainer").style.display = "none";
+                document.getElementById("duration").selectedIndex = 0;
+
+                document.getElementById("hideAllPostsContainer").style.display = "none";
+                document.getElementById("hideAllPosts").checked = false;
+
+
+                if (selected == "Premoderate" || selected == "Postmoderate") {
+                    document.getElementById("durationContainer").style.display = "block";
+                }
+                if (selected == "Deactivate") {
+                    document.getElementById("hideAllPostsContainer").style.display = "block";
+                }
+
+            });
+
+            var ignoreValidation = false;
+
+
+            var resetUsernameObj = document.getElementById("ApplyNickNameReset");
+            addListener(resetUsernameObj, "mousedown", function() {
+                ignoreValidation = true;
+            });
+
+            var applyToAllObj = document.getElementById("applyToAll");
+            var applyToCheckBoxList = $(".dna-userlist .applyToCheckBox");
+            addListener(applyToCheckBoxList, "mousedown", function() {
+                applyToAllObj.checked = false;
+            });
+
+            addListener(applyToAllObj, "mousedown", function() {
+                for (i = 0; i < applyToCheckBoxList.length; i++) {
+                    applyToCheckBoxList[i].checked = !applyToAllObj.checked;
+                }
+            });
+
+            var applyActionObj = document.getElementById("modStatusForm");
+            addListener(applyActionObj, "submit", function() {
+
+                var numberSelected = 0;
+                for (i = 0; i < applyToCheckBoxList.length; i++) {
+                    if (applyToCheckBoxList[i].checked)
+                    { numberSelected++; }
+                }
+                if (numberSelected == 0) {
+                    alert("Please select a user to apply the action to.");
+                    return false;
+                }
+
+                if (ignoreValidation) {
+                    return true;
+                }
+
+                var selected = document.getElementById("userStatusDescription").value;
+
+                if (document.getElementById("reasonChange").value == "") {
+                    alert("Please provide a valid reason for this change for auditing purposes.");
+                    return false;
+                }
+                return true;
+
+            });
+
+
+
+        }
+
     }
 })();

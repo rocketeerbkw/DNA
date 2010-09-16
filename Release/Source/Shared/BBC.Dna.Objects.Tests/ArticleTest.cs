@@ -5,6 +5,7 @@ using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
+using System.Configuration;
 
 
 
@@ -317,7 +318,7 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
             
             Article actual;
-            actual = Article.CreateArticleFromDatabase(creator, entryId);
+            actual = Article.CreateArticleFromDatabase(creator, entryId, false);
             Assert.AreEqual(entryId, actual.EntryId);                        
         }
 
@@ -343,8 +344,9 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
 
             Article actual;
-            actual = Article.CreateRandomArticleFromDatabase(creator, 1, 1, -1, -1, -1,-1);
+            actual = Article.CreateRandomArticleFromDatabase(creator, 1, 1, -1, -1, -1,-1, false);
             Assert.AreEqual(ArticleStatus.GetStatus(1).Value, actual.ArticleInfo.Status.Value);
+            Assert.AreEqual(entryId, actual.EntryId);                      
         }
 
         [TestMethod()]
@@ -363,7 +365,7 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 Article actual;
-                actual = Article.CreateArticleFromDatabase(creator, entryId);
+                actual = Article.CreateArticleFromDatabase(creator, entryId, false);
             }
             catch (Exception e)
             {
@@ -386,11 +388,60 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 Article actual;
-                actual = Article.CreateRandomArticleFromDatabase(creator, 1, -1, -1, -1, -1, -1);
+                actual = Article.CreateRandomArticleFromDatabase(creator, 1, -1, -1, -1, -1, -1, false );
             }
             catch (Exception e)
             {
                 Assert.AreEqual("Article not found", e.Message);
+            }
+        }
+        /// <summary>
+        ///A test for CreateNamedArticleFromDatabase
+        ///</summary>
+        [TestMethod()]
+        public void CreateNamedArticleFromDatabase_ValidResultSet_ReturnsValidObject()
+        {
+            string articleName = "AskH2G2";
+            int entryId = 1;
+            MockRepository mocks = new MockRepository();
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Times(8);
+            reader.Stub(x => x.GetInt32("IsMainArticle")).Return(1);
+            reader.Stub(x => x.GetInt32("EntryID")).Return(entryId);
+            reader.Stub(x => x.GetTinyIntAsInt("style")).Return(1);
+            reader.Stub(x => x.GetString("text")).Return("<GUIDE><BODY>this is an article</BODY></GUIDE>");
+
+            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("")).Return(reader).Constraints(Is.Anything());
+            mocks.ReplayAll();
+
+            Article actual;
+            actual = Article.CreateNamedArticleFromDatabase(creator, articleName, 1, false);
+            Assert.AreEqual(entryId, actual.EntryId);
+        }
+
+        [TestMethod()]
+        public void CreateNamedArticleFromDatabase_NoResults_ThrowsException()
+        {
+            string articleName = "AskH2G2";
+            MockRepository mocks = new MockRepository();
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.Read()).Return(false);
+
+            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("")).Return(reader).Constraints(Is.Anything());
+            mocks.ReplayAll();
+
+            try
+            {
+                Article actual;
+                actual = Article.CreateNamedArticleFromDatabase(creator, articleName, 1, false);
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("Article not found.", e.Message);
             }
         }
 
@@ -418,11 +469,13 @@ namespace BBC.Dna.Objects.Tests
 
 
             Article actual;
-            actual = Article.CreateArticleFromDatabase(creator, entryId);
+            actual = Article.CreateArticleFromDatabase(creator, entryId, false);
             Assert.AreEqual(entryId, actual.EntryId);
 
             actual.MakeEdittable();
-            Assert.AreEqual("<GUIDE><BODY>this is an\r\n article</BODY></GUIDE>", actual.Guide);
+            Assert.AreEqual("<GUIDE><BODY>this is an\r\n article</BODY></GUIDE>", actual.GuideMLAsString);
+
+
         }
 
         /// <summary>
@@ -446,7 +499,7 @@ namespace BBC.Dna.Objects.Tests
                 ArticleInfo = ArticleInfoTest.CreateArticleInfo(),
                 Subject = String.Empty,
                 ExtraInfo = "<EXTRAINFO><TEXT>test text</TEXT></EXTRAINFO>",
-                Guide =  GuideEntryTest.CreateBlankEntry()
+                GuideMLAsString =  GuideEntryTest.CreateBlankEntry()
             };
         }
     }

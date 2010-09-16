@@ -6,6 +6,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using ISite = BBC.Dna.Sites.ISite;
 using System.Runtime.Serialization;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Objects
 {
@@ -141,13 +142,15 @@ namespace BBC.Dna.Objects
             thread.CanRead = (byte) (reader.GetBoolean("ThisCanRead") ? 1 : 0);
             thread.CanWrite = (byte) (reader.GetBoolean("ThisCanWrite") ? 1 : 0);
             thread.ThreadId = reader.GetInt32NullAsZero("ThreadID");
-            thread.Subject = StringUtils.EscapeAllXml(reader.GetString("FirstSubject"));
+            
             thread.DateLastPosted = new DateElement(reader.GetDateTime("LastPosted"));
             thread.TotalPosts = reader.GetInt32NullAsZero("cnt");
             thread.FirstPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "FirstPost",
                                                                             reader.GetInt32NullAsZero("firstpostentryid"));
             thread.LastPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "LastPost",
                                                                            reader.GetInt32NullAsZero("lastpostentryid"));
+
+            thread.Subject = ThreadPost.FormatSubject(reader.GetString("FirstSubject"), (CommentStatus.Hidden)thread.FirstPost.Hidden);
             if(reader.DoesFieldExist("IsSticky"))
             {//conditionally check if field exists..
                 thread.IsSticky = (reader.GetInt32NullAsZero("IsSticky")==1);

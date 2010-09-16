@@ -83,7 +83,7 @@ namespace FunctionalTests.Services.Comments
 
             // test variant data
             string mimeType = "text/html"; // test variant
-            HttpStatusCode expectedResponseCode = HttpStatusCode.OK;
+            HttpStatusCode expectedResponseCode = HttpStatusCode.NotImplemented;
 
             // consistent input data
             string id = "";
@@ -103,12 +103,6 @@ namespace FunctionalTests.Services.Comments
             newSiteCount = testUtils_CommentsAPI.countForums(testUtils_CommentsAPI.sitename);
             Assert.IsTrue(newSiteCount == (testUtils_CommentsAPI.runningForumCount + 1));
             testUtils_CommentsAPI.runningForumCount = newSiteCount;
-
-            // look at what came back
-            respStr = request.GetLastResponseAsString(); // store it before it goes away
-
-            Assert.IsTrue(respStr.IndexOf("0 comments") > 0);
-            Assert.IsTrue(respStr.IndexOf("id=\"dna-commentforum\"") > 0);
 
             Console.WriteLine("After mimeTypes - inXmlMimeTypeHTML");
         } // ends inXmlMimeTypeHTML

@@ -1198,6 +1198,46 @@ links: http://www.bbc.co.uk and other stuff";
 
         }
 
+        [TestMethod]
+        public void Test41ForumPage_FirstPostReferred_HiddenInThreadsPage()
+        {
+            try
+            {
+                var siteName = "mbiplayer";
+                var testPost = Guid.NewGuid().ToString();
+
+
+                var request = new DnaTestURLRequest(siteName);
+                request.RequestPage("NF7325075" + "?skin=purexml");
+                XmlDocument doc = request.GetLastResponseAsXML();
+
+                var post = doc.SelectSingleNode("//H2G2/FORUMTHREADS/THREAD/FIRSTPOST");
+                Assert.IsNotNull(post);
+
+                var testContext = DnaMockery.CreateDatabaseInputContext();
+                using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("update threadentries set hidden=2 where entryid=" + post.Attributes["POSTID"].Value);
+                    reader.ExecuteDEBUGONLY("insert into forumlastupdated (forumid, lastupdated) values (7325075, getdate())");
+                }
+                request.RequestPage("NF7325075" + "?skin=purexml");
+                doc = request.GetLastResponseAsXML();
+
+                post = doc.SelectSingleNode("//H2G2/FORUMTHREADS/THREAD/FIRSTPOST");
+                Assert.AreEqual("This post has been hidden.", post.SelectSingleNode("TEXT").InnerXml);
+                Assert.AreEqual("Hidden", doc.SelectSingleNode("//H2G2/FORUMTHREADS/THREAD/SUBJECT").InnerXml);
+            }
+            finally
+            {
+                var testContext = DnaMockery.CreateDatabaseInputContext();
+                using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("update threadentries set hidden=null where forumid=7325075");
+                    reader.ExecuteDEBUGONLY("insert into forumlastupdated (forumid, lastupdated) values (7325075, getdate())");
+                }
+            }
+        }
+
 
 
         #region Private helper functions

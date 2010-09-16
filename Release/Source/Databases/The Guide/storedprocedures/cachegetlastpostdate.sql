@@ -1,4 +1,4 @@
-CREATE PROCEDURE cachegetlastpostdate @identityuserid int
+CREATE PROCEDURE cachegetlastpostdate @identityuserid varchar(40)
 AS
 
 declare @DnaUserID int

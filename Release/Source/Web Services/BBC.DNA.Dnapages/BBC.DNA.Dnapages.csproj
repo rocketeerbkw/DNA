@@ -129,6 +129,13 @@
     <Compile Include="ContentSignifPage.aspx.designer.cs">
       <DependentUpon>ContentSignifPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="UserList.aspx.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserList.aspx.designer.cs">
+      <DependentUpon>UserList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="MBBackupRestore.aspx.cs">
       <DependentUpon>MBBackupRestore.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -163,6 +170,13 @@
     </Compile>
     <Compile Include="ModerateHomePage.aspx.designer.cs">
       <DependentUpon>ModerateHomePage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ModerationEmailManagementPage.aspx.cs">
+      <DependentUpon>ModerationEmailManagementPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ModerationEmailManagementPage.aspx.designer.cs">
+      <DependentUpon>ModerationEmailManagementPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="TermsFilterImport.aspx.cs">
       <DependentUpon>TermsFilterImport.aspx</DependentUpon>
@@ -848,11 +862,13 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="UserList.aspx" />
     <Content Include="MBBackupRestore.aspx" />
     <Content Include="MBAdmin.aspx" />
     <Content Include="MBAdminAssets.aspx" />
     <Content Include="MBAdminDesign.aspx" />
     <Content Include="ModerateHomePage.aspx" />
+    <Content Include="ModerationEmailManagementPage.aspx" />
     <Content Include="TermsFilterImport.aspx" />
     <Content Include="TermsFilterAdmin.aspx" />
   </ItemGroup>
@@ -871,7 +887,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>39695</DevelopmentServerPort>
+          <DevelopmentServerPort>31658</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

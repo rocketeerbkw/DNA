@@ -5,6 +5,7 @@ using System.Xml;
 using BBC.Dna.Moderation;
 using BBC.Dna.Data;
 using BBC.Dna.Objects;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Component
 {
@@ -216,7 +217,7 @@ namespace BBC.Dna.Component
                         AddTextTag(post, "SUBJECT", dataReader.GetStringNullAsEmpty("subject"));
 
                         AddTextTag(post, "RAWTEXT", dataReader.GetStringNullAsEmpty("text"));
-                        String translated = Translator.TranslateText(dataReader.GetStringNullAsEmpty("text"));
+                        String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden);
                         translated = translated.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "TEXT", translated );
 
@@ -461,14 +462,13 @@ namespace BBC.Dna.Component
 
             String emailSubject = "";
             String emailBody = ""; ;
-            EmailTemplate emailTemplate = new EmailTemplate(InputContext);
             if ( decision == Status.Failed )
             {
-                emailTemplate.FetchEmailText(siteId, "ContentRemovedEmail", out emailSubject, out emailBody);
+                EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "ContentRemovedEmail", out emailSubject, out emailBody);
             }
             else if (decision == Status.PassedWithEdit)
             {
-                emailTemplate.FetchEmailText(siteId, "ContentFailedAndEditedEmail", out emailSubject, out emailBody);
+                EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "ContentFailedAndEditedEmail", out emailSubject, out emailBody);
             }
             else
             {
@@ -478,7 +478,7 @@ namespace BBC.Dna.Component
 
 
             String insertText;
-            if (emailTemplate.FetchInsertText(siteId, emailType, out insertText))
+            if (EmailTemplates.FetchInsertText(AppContext.ReaderCreator, siteId, emailType, out insertText))
             {
                 emailBody = emailBody.Replace("++**inserted_text**++", insertText);
                 emailBody = emailBody.Replace("++**inserted_text**++", customText);
@@ -512,18 +512,17 @@ namespace BBC.Dna.Component
         {
             String emailSubject = "";
             String emailBody = ""; ;
-            EmailTemplate emailTemplate = new EmailTemplate(InputContext);
             if (decision == Status.Passed)
             {
-                emailTemplate.FetchEmailText(siteId, "RejectComplaintEmail", out emailSubject, out emailBody);
+                EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "RejectComplaintEmail", out emailSubject, out emailBody);
             }
             else if ( decision == Status.PassedWithEdit)
             {
-                emailTemplate.FetchEmailText(siteId, "UpholdComplaintEditEntryEmail", out emailSubject, out emailBody);
+                EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "UpholdComplaintEditEntryEmail", out emailSubject, out emailBody);
             }
             else if (decision == Status.Failed)
             {
-                emailTemplate.FetchEmailText(siteId, "UpholdComplaintEmail", out emailSubject, out emailBody);
+                EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "UpholdComplaintEmail", out emailSubject, out emailBody);
             }
 
             String reference = "P" + Convert.ToString(modId);

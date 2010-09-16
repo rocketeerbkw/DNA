@@ -296,6 +296,11 @@ namespace Tests
             set { _useDebugUserSecureCookie = value; }
         }
 
+        public bool UseDebugUser
+        {
+            set { _useDebugIdentityUser = value; }
+        }
+
         public bool UserBannedViaEmail
         {
             get;
@@ -602,6 +607,8 @@ namespace Tests
             //local.bbc.co.uk could not be resolved by Browser.GetPage() - not sure why.
             server = _server;
             server = server.Replace("local.bbc.co.uk", "localhost");
+
+            relativePath = AddDebugUserParams(relativePath);
 
             //Specifying the actual aspx page can be important so that NUNitASP click events are processed correctly.
             Uri URL = new Uri("http://" + server + relativePath );

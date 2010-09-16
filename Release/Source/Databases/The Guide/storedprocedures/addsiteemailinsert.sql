@@ -1,4 +1,4 @@
-CREATE PROCEDURE addsiteemailinsert @siteid int, @name varchar(255), @group varchar(255), @text text
+CREATE PROCEDURE addsiteemailinsert @siteid int, @name varchar(255), @group varchar(255), @text nvarchar(MAX)
 AS
 BEGIN TRANSACTION
 

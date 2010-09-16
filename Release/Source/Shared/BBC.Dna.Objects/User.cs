@@ -7,6 +7,8 @@ using System.Xml.Serialization;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Runtime.Serialization;
+using BBC.Dna.Common;
+using BBC.Dna.Users;
 
 namespace BBC.Dna.Objects
 {
@@ -30,7 +32,7 @@ namespace BBC.Dna.Objects
             _dnaDataReaderCreator = dnaDataReaderCreator;
             _dnaDiagnostics = dnaDiagnostics;
             _cacheManager = cacheManager;
-            Groups = new Groups();
+            Groups = new List<Group>();
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace BBC.Dna.Objects
             _dnaDataReaderCreator = null;
             _dnaDiagnostics = null;
             _cacheManager = null;
-            Groups = new Groups();
+            Groups = new List<Group>();
         }
 
         #region Properties
@@ -366,9 +368,10 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 31, ElementName = "GROUPS")]
+        [System.Xml.Serialization.XmlArray(Order = 31, ElementName = "GROUPS")]
+        [System.Xml.Serialization.XmlArrayItem(ElementName = "GROUP")]
         [DataMember(Name = ("groups"))]
-        public Groups Groups
+        public List<Group> Groups
         {
             get;
             set;
@@ -429,7 +432,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return (Groups.Group.Find(x => x.Name == "Guardian") != null);
+                return (Groups.Find(x => x.Name == "Guardian") != null);
             }
         }
 
@@ -438,7 +441,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return (Groups.Group.Find(x => x.Name.ToUpper() == "EDITOR") != null);
+                return (Groups.Find(x => x.Name.ToUpper() == "EDITOR") != null);
             }
         }
 
@@ -447,7 +450,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return (Groups.Group.Find(x => x.Name.ToUpper() == "MODERATOR") != null);
+                return (Groups.Find(x => x.Name.ToUpper() == "MODERATOR") != null);
             }
         }
 
@@ -456,7 +459,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return (Groups.Group.Find(x => x.Name.ToUpper() == "SUPERUSER") != null);
+                return (Groups.Find(x => x.Name.ToUpper() == "SUPERUSER") != null);
             }
         }
 
@@ -625,7 +628,22 @@ namespace BBC.Dna.Objects
             {
                 siteId = reader.GetInt32NullAsZero("SiteID");
             }
-            user.Groups = siteId != 0 ? Groups.GetGroupsForUserBySiteId(user.UserId, siteId) : new Groups();
+            
+            
+            if (siteId != 0 && user.UserId != 0)
+            {
+                var userGroups = (UserGroups)SignalHelper.GetObject(typeof(UserGroups));
+                var groupList = userGroups.GetUsersGroupsForSite(user.UserId, siteId);
+                foreach (var group in groupList)
+                {
+                    user.Groups.Add(new Group(){Name = group.Name});
+                }
+            }
+            else
+            {
+
+            }
+             
 
             return (User)user;
         
@@ -682,7 +700,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return Groups.Group.Find(x => x.Name.ToUpper() == "EDITOR") != null;
+                return Groups.Find(x => x.Name.ToUpper() == "EDITOR") != null;
             }
             set
             {
@@ -825,7 +843,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return Groups.Group.Find(x => x.Name.ToUpper() == "SCOUT") != null;
+                return Groups.Find(x => x.Name.ToUpper() == "SCOUT") != null;
             }
             set
             {
@@ -838,7 +856,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return Groups.Group.Find(x => x.Name.ToUpper() == "SUBEDITOR") != null;
+                return Groups.Find(x => x.Name.ToUpper() == "SUBEDITOR") != null;
             }
             set
             {

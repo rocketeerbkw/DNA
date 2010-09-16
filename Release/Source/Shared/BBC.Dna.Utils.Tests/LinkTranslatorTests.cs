@@ -24,6 +24,7 @@ namespace BBC.Dna.Utils.Tests
                 "<a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>this is a test with a anchor tag at the end",
                 "<a href=\"http://www.bbc.co.uk/\">tests</a> this is a test with a slash at the end",
                 "this is a test http://en.wikipedia.org/wiki/Sink_or_Swim_(song) in the middle",
+                "link with category in it http://picasaweb.google.com/lh/photo/nJvUd_wNF75UjzHZWKxZTwC9?feat=directlink"
                              };
             string[] expected = {"<LINK HREF=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</LINK>",
                                     "this is a test with a . at the end <LINK HREF=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</LINK>.",
@@ -33,6 +34,7 @@ namespace BBC.Dna.Utils.Tests
                                     "<a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>this is a test with a anchor tag at the end",
                                     "<a href=\"http://www.bbc.co.uk/\">tests</a> this is a test with a slash at the end",
                                     "this is a test <LINK HREF=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</LINK> in the middle",
+                                    "link with category in it <LINK HREF=\"http://picasaweb.google.com/lh/photo/nJvUd_wNF75UjzHZWKxZTwC9?feat=directlink\">http://picasaweb.google.com/lh/photo/nJvUd_wNF75UjzHZWKxZTwC9?feat=directlink</LINK>",
                                 };
 
             for (int i = 0; i < input.Length; i++)
@@ -44,9 +46,12 @@ namespace BBC.Dna.Utils.Tests
         [TestMethod]
         public void TestCategoryPage_ValidCategory_ReturnsCorrectValue()
         {
-            string[] input = {"C1", " C1", " C1 ", "C1 "};
-            string[] expected = { "<LINK DNAID=\"C1\">C1</LINK>", " <LINK DNAID=\"C1\">C1</LINK>", " <LINK DNAID=\"C1\">C1</LINK> ",
-                                "<LINK DNAID=\"C1\">C1</LINK> "};
+            string[] input = {"C1", " C1", " C1 ", "C1 ", "<C1>"};
+            string[] expected = { "<LINK DNAID=\"C1\">C1</LINK>", 
+                                    " <LINK DNAID=\"C1\">C1</LINK>", 
+                                    " <LINK DNAID=\"C1\">C1</LINK> ",
+                                    "<LINK DNAID=\"C1\">C1</LINK> ",
+                                    "<C1>"};
 
             for(int i=0; i < input.Length; i++)
             {

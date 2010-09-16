@@ -73,9 +73,11 @@
     <Compile Include="ArticleInfoReferencesEntryLinkTest.cs" />
     <Compile Include="ArticleInfoSubmittableTest.cs" />
     <Compile Include="ArticleInfoTest.cs" />
+    <Compile Include="ArticleSubscriptionsListTest.cs" />
     <Compile Include="ArticleSummaryTest.cs" />
     <Compile Include="ArticleTest.cs" />
     <Compile Include="CategorySummaryTest.cs" />
+    <Compile Include="ForumSourceTest.cs" />
     <Compile Include="IndexTest.cs" />
     <Compile Include="ContributionsTest.cs" />
     <Compile Include="CrumbTrailsTest.cs" />
@@ -87,6 +89,8 @@
     <Compile Include="FrontPageElementTest.cs" />
     <Compile Include="GuideEntryTest.cs" />
     <Compile Include="CategoryTest.cs" />
+    <Compile Include="LinksListTest.cs" />
+    <Compile Include="LinkTest.cs" />
     <Compile Include="MonthSummaryTest.cs" />
     <Compile Include="OnlineUsersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +108,7 @@
     <Compile Include="RecentActivityTests.cs" />
     <Compile Include="TopicElementTest.cs" />
     <Compile Include="TopicListEditTest.cs" />
+    <Compile Include="UserSubscriptionsListTest.cs" />
     <Compile Include="UserTest.cs" />
   </ItemGroup>
   <ItemGroup>

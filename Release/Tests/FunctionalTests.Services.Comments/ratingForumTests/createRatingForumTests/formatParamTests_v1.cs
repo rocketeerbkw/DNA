@@ -148,7 +148,7 @@ namespace FunctionalTests.Services.Comments
             string mimeType = "text/xml";
             string formatParam = "HTML";
 
-            HttpStatusCode expectedResponseCode = HttpStatusCode.OK;
+            HttpStatusCode expectedResponseCode = HttpStatusCode.NotImplemented;
 
             // working data
             string id = "";
@@ -181,15 +181,6 @@ namespace FunctionalTests.Services.Comments
                 );
 
             string theResponse = request.GetLastResponseAsString(); // store it before it goes away
-
-            // cecking is not that tidy. Check for...
-            // a div of the appropriate class - the SingleLine option makes lets . match \n
-            Assert.IsTrue(Regex.Match(theResponse, "<div[^>]+id=[^>]+dna-ratingforum[^>]*>", RegexOptions.Singleline).Success == true);
-            // As it is new, the average must be zero
-            Assert.IsTrue(Regex.Match(theResponse, "average.*\">0<", RegexOptions.Singleline).Success == true);
-            // and there will be only one page
-            Assert.IsTrue(Regex.Match(theResponse, "Page 1 of 1", RegexOptions.Singleline).Success == true);
-
 
             Console.WriteLine("After formatParamTests - inXMLoutHTML");
         } // ends inXMLoutHTML

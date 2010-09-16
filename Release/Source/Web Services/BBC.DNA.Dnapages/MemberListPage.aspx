@@ -43,6 +43,7 @@
         </td></tr>
         </table>
         <br/>
+        <asp:Panel ID="panelForm" runat="server">
         <div style="padding:10px; float:left">
             <asp:Label ID="lblAction" runat="server" Font-Bold="True" Text="Moderation Action"/><br />
             <asp:DropDownList
@@ -58,11 +59,16 @@
                 <asp:ListItem Value="10080">1 week</asp:ListItem>
                 <asp:ListItem Value="20160">2 weeks</asp:ListItem>
                 <asp:ListItem Value="40320">1 month</asp:ListItem>
-            </asp:DropDownList>&nbsp;
+            </asp:DropDownList>
+            <asp:CheckBox ID="chkHideAllContent" Text="Hide all content" runat="server"/>
+            <br />
+            Reason for modification:<br />
+            <asp:TextBox Width="300" TextMode="MultiLine" Height="65" ID="txtReason" runat="server"></asp:TextBox>
+            <br />
             <asp:Button ID="ApplyAction" runat="server" OnClick="ApplyAction_Click"
                 Text="Apply action to marked accounts" Height="24px" />
         </div>
-        
+        </asp:Panel>
         <div style="padding:10px;float:right">
             <p>
             <asp:Button ID="ApplyNickNameReset" runat="server" OnClick="ApplyResetUserName_Click"

@@ -55,10 +55,11 @@ namespace FunctionalTests
             Assert.IsNull(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/OPENCLOSETIMES/OPENCLOSETIME"));
             // no times! Set daily repeating times for the site
             request.UseEditorAuthentication = true;
-            request.SignUserIntoSSOViaProfileAPI(DnaTestURLRequest.usertype.EDITOR);
+            request.SetCurrentUserEditor();
             request.RequestPage("messageboardschedule?action=update&updatetype=sameeveryday&recurrenteventopenhours=0&recurrenteventopenminutes=15&recurrenteventclosehours=23&recurrenteventcloseminutes=45&skin=purexml");
             request.UseEditorAuthentication = false;
 
+            Thread.Sleep(5000);
             // Now re-request the original page
            request.RequestPage("acs?skin=purexml");
            Assert.IsNotNull(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/OPENCLOSETIMES/OPENCLOSETIME"));
@@ -159,6 +160,8 @@ namespace FunctionalTests
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "1");
 
+            Thread.Sleep(5000);
+
             // Check to make sure that the dot net web app got the signal and that the xml reflects the fact!
             request.RequestPage("acs?skin=purexml");
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/SITECLOSED") != null);
@@ -168,6 +171,8 @@ namespace FunctionalTests
             request.RequestPage("messageboardschedule?action=opensite&confirm=1&skin=purexml");
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "0");
+
+            Thread.Sleep(5000);
 
             // Check to make sure that the dot net web app got the signal and that the xml reflects the fact!
             request.RequestPage("acs?skin=purexml");

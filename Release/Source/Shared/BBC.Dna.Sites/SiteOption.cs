@@ -1,10 +1,12 @@
 using System;
+using System.Runtime.Serialization;
 namespace BBC.Dna.Sites
 {
     /// <summary>
     /// Encapsulates a SiteOption
     /// </summary>
     [Serializable]
+    [DataContract(Name = "siteOption")]
     public class SiteOption
     {
         #region SiteOptionType enum
@@ -88,6 +90,7 @@ namespace BBC.Dna.Sites
         /// <summary>
         /// The type of this site option 
         /// </summary>
+        [DataMember(Name = ("type"))]
         public SiteOptionType OptionType { get; private set; }
 
         /// <summary>
@@ -100,27 +103,32 @@ namespace BBC.Dna.Sites
         /// Returns the section name of this site option
         /// </summary>
         /// <returns>the section name</returns>
+        [DataMember(Name = ("section"))]
         public string Section { get; private set; }
 
         /// <summary>
         /// Returns the name of this site option
         /// </summary>
         /// <returns>the name</returns>
+        [DataMember(Name = ("name"))]
         public string Name { get; private set; }
 
         /// <summary>
         /// Returns the descriptions of this site option
         /// </summary>
         /// <returns>the description</returns>
+        [DataMember(Name = ("description"))]
         public string Description { get; private set; }
 
         /// <summary>
         /// Is this option applied to a specific site, or is it a global default?
         /// This property will give you the answer
         /// </summary>
+        [DataMember(Name = ("isGlobal"))]
         public bool IsGlobal
         {
             get { return SiteId == 0; }
+            private set { }
         }
 
         /// <summary>
@@ -247,6 +255,14 @@ namespace BBC.Dna.Sites
         /// DO NOT USE!
         /// </summary>
         /// <returns></returns>
+        [DataMember(Name = ("value"))]
+        public string Value
+        {
+            get { return GetRawValue(); }
+            set { }
+        }
+
+
         public string GetRawValue()
         {
             switch (OptionType)

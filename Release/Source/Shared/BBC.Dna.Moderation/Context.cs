@@ -4,57 +4,26 @@ using System.Linq;
 using System.Web;
 using BBC.Dna.Utils;
 using BBC.Dna.Data;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Sites;
 
 namespace BBC.Dna.Moderation
 {
     public class Context
     {
-        protected IDnaDiagnostics _dnaDiagnostics=null;
-        public IDnaDiagnostics dnaDiagnostics
+        public IDnaDiagnostics DnaDiagnostics { get; private set; }
+        public ICacheManager CacheManager { get; private set; }
+        public IDnaDataReaderCreator DnaDataReaderCreator { get; private set; }
+        public ISiteList SiteList { get; private set; }
+
+        public Context() { }
+
+        public Context(IDnaDiagnostics dnaDiagnostics, IDnaDataReaderCreator dataReaderCreator, ICacheManager cacheManager, ISiteList siteList)
         {
-            get { return _dnaDiagnostics; }
-            set { _dnaDiagnostics = value; }
+            DnaDiagnostics = dnaDiagnostics;
+            DnaDataReaderCreator = dataReaderCreator;
+            CacheManager = cacheManager;
+            SiteList = siteList;
         }
-
-        protected string _connection;
-        public string Connection
-        {
-            get { return _connection; }
-        }
- 
-        /// <summary>
-        /// Constructor with dna diagnostic object
-        /// </summary>
-        /// <param name="dnaDiagnostics"></param>
-        public Context(IDnaDiagnostics dnaDiagnostics, string connection)
-        {
-            _dnaDiagnostics = dnaDiagnostics;
-            _connection = connection;
-        }
-
-        /// <summary>
-        /// Constructor without dna diagnostic object
-        /// </summary>
-        public Context()
-        {
-            //create one for this request only if not passed.
-            _dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
-        }
-
-
-        /// <summary>
-        /// Returns a data reader for database interactivity
-        /// </summary>
-        /// <param name="name">The sp name</param>
-        /// <returns>A valid data reader</returns>
-        public StoredProcedureReader CreateReader(string name)
-        {
-            if (String.IsNullOrEmpty(_connection))
-                return StoredProcedureReader.Create(name, dnaDiagnostics);
-            else
-                return StoredProcedureReader.Create(name, _connection, dnaDiagnostics);
-        }
-
-
     }
 }

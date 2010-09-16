@@ -33,7 +33,9 @@ namespace Tests
 
             AddTestEmailsToDatabase();
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
-            
+
+            Statistics.InitialiseIfEmpty();
+            AppContext.BannedCookies.Clear();
         }
 
         /// <summary>

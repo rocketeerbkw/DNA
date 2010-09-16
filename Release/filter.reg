@@ -171,7 +171,8 @@ REGEDIT4
 
 --"/ModeratorManagement"="/ripleyserver.dll?ModeratorManagement?"
 "/ModeratorManagement"="/dna/dnapages/ModeratorManagementPage.aspx?"
-"/ModerationEmailManagement"="/ripleyserver.dll?ModerationEmailManagement?"
+"/ModerationEmailManagement"="/dna/dnapages/ModerationEmailManagementPage.aspx?"
+"/ModerationEmailManagementold"="/ripleyserver.dll?ModerationEmailManagement?"
 "/ModerateMediaAssets"="/ripleyserver.dll?ModerateMediaAssets?"
 "/ManageFastMod"="/ripleyserver.dll?MODMANAGEFASTMOD?"
 
@@ -219,6 +220,7 @@ REGEDIT4
 
 "/UserSearch"="/dna/dnapages/UserSearchPage.aspx?"
 "/MemberList"="/dna/dnapages/MemberListPage.aspx?"
+"/UserList"="/dna/dnapages/UserList.aspx?"
 "/NameSpaceAdmin"="/dna/dnapages/NameSpaceAdminPage.aspx?"
 "/NewSearch"="/dna/dnapages/SearchPage.aspx?"
 

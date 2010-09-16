@@ -83,7 +83,7 @@ namespace BBC.Dna.Objects.Tests
         }
 
         /// <summary>
-        ///A test for RecommendationsTest
+        ///A test for GetSearch API call
         ///</summary>
         [TestMethod]
         public void CreateSearchTest()

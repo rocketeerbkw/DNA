@@ -46,8 +46,11 @@
           <xsl:when test="$now &gt; $open and $now &lt; $closed">
             <xsl:value-of select="false()"/>
           </xsl:when>
+          <xsl:when test="$open != 0 and $open &gt; $closed">
+          	<xsl:value-of select="false()"/>
+          </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="true()"/>
+           <xsl:value-of select="true()"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
