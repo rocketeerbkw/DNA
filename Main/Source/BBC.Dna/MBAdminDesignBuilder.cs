@@ -124,7 +124,7 @@ namespace BBC.Dna
                 element.FrontPageElement.Editkey = new Guid(InputContext.GetParamStringOrEmpty("fptopiceditkey", "fptopiceditkey"));
             }
 
-            element.FrontPageElement.Title = StringUtils.EscapeAllXml(InputContext.GetParamStringOrEmpty("fp_title", "fp_title"));
+            element.FrontPageElement.Title = HtmlUtils.RemoveAllHtmlTags(InputContext.GetParamStringOrEmpty("fp_title", "fp_title"));
             if (element.FrontPageElement.Title.Length == 0)
             {
                 return new Error("TopicElementTitleMissing", "No topic element title given.");
@@ -152,7 +152,7 @@ namespace BBC.Dna
                 element.FrontPageElement.ImageAltText = "";
                 element.FrontPageElement.Template = FrontPageTemplate.TextOnly;
             }
-            element.Title = StringUtils.EscapeAllXml(InputContext.GetParamStringOrEmpty("topictitle","topictitle"));
+            element.Title = HtmlUtils.RemoveAllHtmlTags(InputContext.GetParamStringOrEmpty("topictitle","topictitle"));
             if (element.Title.Length == 0)
             {
                 return new Error("TopicTitleMissing", "No topic title given.");

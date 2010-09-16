@@ -962,11 +962,13 @@ namespace FunctionalTests
         public void MBAdmin_CreateValidHTMLTopic_SuccessfullyMaintainsHTML()
         {
             var expectedType = "TopicCreateSuccessful";
-            var fpTitleValue = "fp title";
+            var fpTitleValue = "fp <p>title</p>";
+            var expectedFpTitleValue = "fp title";
             var fpText = "fp <b>text</b>";
             var fpImagename = "fp_imagename.jpg";
             var fpImagealttext = "fp_imagealttext";
-            var topicTitle = "topictitle";
+            var topicTitle = "topic <pre>title";
+            var expectedTopicTitle = "topic title";
             var topicText = "this is some html <div>topictext</div>";
 
             var request = new DnaTestURLRequest(_siteName);
@@ -991,8 +993,8 @@ namespace FunctionalTests
             Assert.AreEqual(1, xml.SelectNodes("//H2G2/TOPIC_PAGE").Count);
             Assert.AreEqual(fpText, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TEXT/GUIDE/BODY").InnerXml);
             Assert.AreEqual(topicText, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/DESCRIPTION/GUIDE/BODY").InnerXml);
-            Assert.AreEqual(topicTitle, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText);
-            Assert.AreEqual(fpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
+            Assert.AreEqual(expectedTopicTitle, HtmlUtils.RemoveAllHtmlTags(xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/TITLE").InnerText));
+            Assert.AreEqual(expectedFpTitleValue, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/TITLE").InnerText);
             Assert.AreEqual(fpImagename, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGENAME").InnerText);
             Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
         }
