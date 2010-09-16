@@ -140,6 +140,11 @@ namespace TestUtils.Mocks.Extentions
                 paramAndValues.Add(new KeyValuePair<string, object>(key + "-getstring", value));
             }
 
+            public void AddGetStringNULLAsEmptyColumnValue(string key, object value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key, value));
+            }
+
             public void AddGetDateTimeColumnValue(string key, object value)
             {
                 paramAndValues.Add(new KeyValuePair<string, object>(key, value));
