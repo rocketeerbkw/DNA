@@ -91,7 +91,7 @@ namespace BBC.Dna.Objects.Tests
 
             {
                 List<DataReaderFactory.TestDatabaseRow> databaseRows = new List<DataReaderFactory.TestDatabaseRow>();
-                databaseRows.Add(new RecentActivityForumTestDatabaseRow(123456789, 789456123, "Testing", "MostRecent", "Most Recent Comments", true, false));
+                databaseRows.Add(new RecentActivityForumTestDatabaseRow(123456789, 789456123, "Testing <b>with tags</b> &amp; encodings", "MostRecent", "Most Recent Comments", true, false));
 
                 DataReaderFactory.CreateMockedDataBaseObjects(mocks, "gettopfives2", out creator, out reader, databaseRows);
 
@@ -100,6 +100,7 @@ namespace BBC.Dna.Objects.Tests
                 XmlDocument doc = SerializeToXML(RecentActivity);
                 Assert.IsNotNull(doc.SelectSingleNode("RECENTACTIVITY"));
                 Assert.IsNotNull(doc.SelectSingleNode("RECENTACTIVITY/MOSTRECENTCONVERSATIONS/FORUM"));
+                Assert.AreEqual("Testing with tags &amp; encodings", RecentActivity.MostRecentConversations.topFiveForumList[0].Subject);
             }
 
             // Expire the cached RecentActivity

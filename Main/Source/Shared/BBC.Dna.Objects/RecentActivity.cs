@@ -177,7 +177,7 @@ namespace BBC.Dna.Objects
                 
 
                 topFiveForum.ForumID = reader.GetInt32NullAsZero("forumid");
-                topFiveForum.Subject = reader.GetStringNullAsEmpty("title");
+                topFiveForum.Subject = ThreadPost.FormatSubject(reader.GetStringNullAsEmpty("title"), BBC.Dna.Moderation.Utils.CommentStatus.Hidden.NotHidden);
                 topFiveForum.ThreadID = reader.GetInt32NullAsZero("threadid");
 
                 MostRecentConversations.topFiveForumList.Add(topFiveForum);
