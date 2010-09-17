@@ -177,6 +177,10 @@ namespace BBC.Dna.Objects
                     {
                         throw ApiException.GetError(ErrorType.AlreadyLinked);
                     }
+                    else
+                    {
+                        throw ex;
+                    }
                 }
             }
         }

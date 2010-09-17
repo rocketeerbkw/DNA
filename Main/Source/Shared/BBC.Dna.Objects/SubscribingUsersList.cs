@@ -19,13 +19,13 @@ namespace BBC.Dna.Objects
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable]
     [DesignerCategory("code")]
-    [XmlType(TypeName = "USERSUBSCRIPTIONSLIST")]
-    [DataContract(Name = "userSubscriptionsList")]
-    public class UserSubscriptionsList : CachableBase<UserSubscriptionsList>
+    [XmlType(TypeName = "SUBSCRIBINGUSERSLIST")]
+    [DataContract(Name = "subscribingUsersList")]
+    public class SubscribingUsersList : CachableBase<SubscribingUsersList>
     {
-        public UserSubscriptionsList()
+        public SubscribingUsersList()
         {
-           Users = new List<UserElement>();
+            Users = new List<UserElement>();
         }
 
         #region Properties
@@ -45,14 +45,14 @@ namespace BBC.Dna.Objects
         public int More { get; set; }
 
         /// <remarks/>
-        [XmlElement("SUBSCRIBERACCEPTSSUBSCRIPTIONS")]
-        [DataMember(Name = "subscriberAcceptsSubscriptions", Order = 4)]
-        public bool SubscriberAcceptsSubscriptions { get; set; }
+        [XmlElement("SUBSCRIBEDTOACCEPTSSUBSCRIPTIONS")]
+        [DataMember(Name = "subscribedToAcceptsSubscriptions", Order = 4)]
+        public bool SubscribedToAcceptsSubscriptions { get; set; }
 
         /// <remarks/>
-        [XmlElement("SUBSCRIBER")]
-        [DataMember(Name = "subscriber", Order = 5)]
-        public UserElement Subscriber { get; set; }
+        [XmlElement("SUBSCRIBEDTO")]
+        [DataMember(Name = "subscribedTo", Order = 5)]
+        public UserElement SubscribedTo { get; set; }
 
         /// <remarks/>
         [XmlElement("USERS", Form = XmlSchemaForm.Unqualified)]
@@ -77,11 +77,11 @@ namespace BBC.Dna.Objects
         /// <param name="skip"></param>
         /// <param name="show"></param>
         /// <returns></returns>
-        public static UserSubscriptionsList CreateUserSubscriptionsListFromDatabase(IDnaDataReaderCreator readerCreator, 
-                                                                        string identifier, 
-                                                                        int siteId, 
-                                                                        int skip, 
-                                                                        int show, 
+        public static SubscribingUsersList CreateSubscribingUsersListFromDatabase(IDnaDataReaderCreator readerCreator,
+                                                                        string identifier,
+                                                                        int siteId,
+                                                                        int skip,
+                                                                        int show,
                                                                         bool byDnaUserId)
         {
             int dnaUserId = 0;
@@ -109,9 +109,9 @@ namespace BBC.Dna.Objects
                 dnaUserId = Convert.ToInt32(identifier);
             }
 
-            UserSubscriptionsList userSubscriptions = new UserSubscriptionsList();
+            SubscribingUsersList userSubscriptions = new SubscribingUsersList();
             // fetch all the lovely intellectual property from the database
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("GetUsersSubscriptionList"))
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getsubscribingusers"))
             {
                 reader.AddParameter("userid", dnaUserId);
                 reader.AddParameter("siteid", siteId);
@@ -123,10 +123,10 @@ namespace BBC.Dna.Objects
                 //1st Result set gets user details.
                 if (reader.HasRows && reader.Read())
                 {
-                    userSubscriptions.Subscriber = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "Subscriber") };
+                    userSubscriptions.SubscribedTo = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "SubscribedTo") };
 
-                    userSubscriptions.SubscriberAcceptsSubscriptions = reader.GetBoolean("SubscriberAcceptSubscriptions");
-                    
+                    userSubscriptions.SubscribedToAcceptsSubscriptions = reader.GetBoolean("SubscribedToAcceptSubscriptions");
+
                     reader.NextResult();
 
                     //Paged List of Users Subscriptions.
@@ -135,7 +135,7 @@ namespace BBC.Dna.Objects
                     {
                         //Delegate creation of XML to User class.
                         userSubscriptions.Users.Add(new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) });
-           
+
                         ++count;
                     }
 
@@ -153,7 +153,7 @@ namespace BBC.Dna.Objects
             return userSubscriptions;
         }
         /// <summary>
-        /// Gets the user subscriptions from cache or db if not found in cache
+        /// Gets the subscribing users from cache or db if not found in cache
         /// </summary>
         /// <param name="cache"></param>
         /// <param name="readerCreator"></param>
@@ -161,17 +161,17 @@ namespace BBC.Dna.Objects
         /// <param name="identifier"></param>
         /// <param name="siteID"></param>
         /// <returns></returns>
-        public static UserSubscriptionsList CreateUserSubscriptionsList(ICacheManager cache,
+        public static SubscribingUsersList CreateSubscribingUsersList(ICacheManager cache,
                                                 IDnaDataReaderCreator readerCreator,
                                                 User viewingUser,
                                                 string identifier,
                                                 int siteId)
         {
-            return CreateUserSubscriptionsList(cache, readerCreator, viewingUser, identifier, siteId, 0, 20, false, false);
+            return CreateSubscribingUsersList(cache, readerCreator, viewingUser, identifier, siteId, 0, 20, false, false);
         }
-  
+
         /// <summary>
-        /// Gets the user subscriptions from cache or db if not found in cache
+        /// Gets the subscribing users from cache or db if not found in cache
         /// </summary>
         /// <param name="cache"></param>
         /// <param name="readerCreator"></param>
@@ -183,43 +183,43 @@ namespace BBC.Dna.Objects
         /// <param name="byDnaUserId"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        public static UserSubscriptionsList CreateUserSubscriptionsList(ICacheManager cache, 
-                                                IDnaDataReaderCreator readerCreator, 
+        public static SubscribingUsersList CreateSubscribingUsersList(ICacheManager cache,
+                                                IDnaDataReaderCreator readerCreator,
                                                 User viewingUser,
-                                                string identifier, 
-                                                int siteID, 
-                                                int skip, 
-                                                int show, 
+                                                string identifier,
+                                                int siteID,
+                                                int skip,
+                                                int show,
                                                 bool byDnaUserId,
                                                 bool ignoreCache)
         {
-            var userSubscriptionsList = new UserSubscriptionsList();
+            var subscribingUsersList = new SubscribingUsersList();
 
-            string key = userSubscriptionsList.GetCacheKey(identifier, siteID, skip, show, byDnaUserId);
+            string key = subscribingUsersList.GetCacheKey(identifier, siteID, skip, show, byDnaUserId);
             //check for item in the cache first
             if (!ignoreCache)
             {
                 //not ignoring cache
-                userSubscriptionsList = (UserSubscriptionsList)cache.GetData(key);
-                if (userSubscriptionsList != null)
+                subscribingUsersList = (SubscribingUsersList)cache.GetData(key);
+                if (subscribingUsersList != null)
                 {
                     //check if still valid with db...
-                    if (userSubscriptionsList.IsUpToDate(readerCreator))
+                    if (subscribingUsersList.IsUpToDate(readerCreator))
                     {
-                        return userSubscriptionsList;
+                        return subscribingUsersList;
                     }
                 }
             }
 
             //create from db
-            userSubscriptionsList = CreateUserSubscriptionsListFromDatabase(readerCreator, identifier, siteID, skip, show, byDnaUserId);
+            subscribingUsersList = CreateSubscribingUsersListFromDatabase(readerCreator, identifier, siteID, skip, show, byDnaUserId);
 
-            userSubscriptionsList.LastUpdated = DateTime.Now;
+            subscribingUsersList.LastUpdated = DateTime.Now;
 
             //add to cache
-            cache.Add(key, userSubscriptionsList);
+            cache.Add(key, subscribingUsersList);
 
-            return userSubscriptionsList;
+            return subscribingUsersList;
         }
 
         /// <summary>

@@ -50,6 +50,47 @@ namespace BBC.Dna.Services
             return user;
         }
 
+
+
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identityusername}")]
+        [WebHelp(Comment = "Get a user's info")]
+        [OperationContract]
+        public Stream GetUserInfo(string sitename, string identityusername)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty).ToUpper();
+            ISite site = GetSite(sitename);
+            BBC.Dna.Users.User userInfo = new BBC.Dna.Users.User(readerCreator, dnaDiagnostic, cacheManager);
+            bool foundUser = false;
+            try
+            {
+                if (userNameType == "DNAUSERID")
+                {
+                    int dnaUserID = Convert.ToInt32(identityusername);
+                    foundUser = userInfo.CreateUserFromDnaUserID(dnaUserID, site.SiteID);
+                }
+                else if (userNameType == "IDENTITYUSERID")
+                {
+                    foundUser = userInfo.CreateUserFromIdentityUserID(identityusername, site.SiteID);
+                }
+                else //identityusername
+                {
+                    foundUser = userInfo.CreateUserFromIdentityUserName(identityusername, site.SiteID);
+                }
+
+                if (!foundUser)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(userInfo);
+        }
+
         [WebGet(UriTemplate = "V1/site/{sitename}/users/{identityusername}/aboutme")]
         [WebHelp(Comment = "Get a user's aboutme article")]
         [OperationContract]
@@ -224,6 +265,66 @@ namespace BBC.Dna.Services
             return GetOutputStream(userSubscriptionsList);
         }
 
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/blockedusers")]
+        [WebHelp(Comment = "Get a user's blocked users list")]
+        [OperationContract]
+        public Stream GetUsersBlockedUserSubscriptions(string sitename, string identifier)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            ISite site = GetSite(sitename);
+
+            BlockedUserSubscriptionsList blockedUserSubscriptionsList;
+            try
+            {
+                blockedUserSubscriptionsList = BlockedUserSubscriptionsList.CreateBlockedUserSubscriptionsList(cacheManager,
+                    readerCreator,
+                    null,
+                    identifier,
+                    site.SiteID,
+                    startIndex,
+                    itemsPerPage,
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(blockedUserSubscriptionsList);
+        }
+
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/subscribingusers")]
+        [WebHelp(Comment = "Get a user's scribing users list")]
+        [OperationContract]
+        public Stream GetUsersSubscribingUsers(string sitename, string identifier)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            ISite site = GetSite(sitename);
+
+            SubscribingUsersList subscribingUsersList;
+            try
+            {
+                subscribingUsersList = SubscribingUsersList.CreateSubscribingUsersList(cacheManager,
+                    readerCreator,
+                    null,
+                    identifier,
+                    site.SiteID,
+                    startIndex,
+                    itemsPerPage,
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(subscribingUsersList);
+        }
+
         [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/articlesubscriptions")]
         [WebHelp(Comment = "Get a user's article subscriptions")]
         [OperationContract]
@@ -252,6 +353,38 @@ namespace BBC.Dna.Services
             }
 
             return GetOutputStream(articleSubscriptionsList);
+        }
+
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/linksubscriptions")]
+        [WebHelp(Comment = "Get a user's article subscriptions")]
+        [OperationContract]
+        public Stream GetUsersLinkSubscriptions(string sitename, string identifier)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+            var showPrivate = QueryStringHelper.GetQueryParameterAsBool("showprivate", false);
+
+            ISite site = GetSite(sitename);
+
+            LinkSubscriptionsList linkSubscriptionsList;
+            try
+            {
+                linkSubscriptionsList = LinkSubscriptionsList.CreateLinkSubscriptionsList(cacheManager,
+                    readerCreator,
+                    null,
+                    identifier,
+                    site.SiteID,
+                    startIndex,
+                    itemsPerPage,
+                    showPrivate,
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(linkSubscriptionsList);
         }
 
         [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}")]
@@ -286,6 +419,36 @@ namespace BBC.Dna.Services
         {
             return GetOutputStream(GetContributions(identityuserid, site, null));
         }
+
+        [WebGet(UriTemplate = "V1/site/{siteName}/users")]
+        [WebHelp(Comment = "Search the users in a given site")]
+        [OperationContract]
+        public Stream GetSearch(string siteName)
+        {
+            ISite site = Global.siteList.GetSite(siteName);
+            var search = new Search();
+            var querystring = QueryStringHelper.GetQueryParameterAsString("querystring", string.Empty);
+            var showApproved = QueryStringHelper.GetQueryParameterAsInt("showapproved", 1);
+            var showNormal = QueryStringHelper.GetQueryParameterAsInt("shownormal", 0);
+            var showSubmitted = QueryStringHelper.GetQueryParameterAsInt("showsubmitted", 0);
+            if (querystring != string.Empty)
+            {
+                search = Search.CreateSearch(cacheManager,
+                                                readerCreator,
+                                                site.SiteID,
+                                                querystring,
+                                                "USER",
+                                                showApproved == 1 ? true : false,
+                                                showNormal == 1 ? true : false,
+                                                showSubmitted == 1 ? true : false);
+            }
+            return GetOutputStream(search);
+        }
+
+
+
+
+
 
         private Contributions GetContributions(string identityuserid, string siteName, string siteType)
         {

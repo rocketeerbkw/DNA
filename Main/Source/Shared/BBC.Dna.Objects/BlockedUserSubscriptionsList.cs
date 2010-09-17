@@ -19,11 +19,11 @@ namespace BBC.Dna.Objects
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable]
     [DesignerCategory("code")]
-    [XmlType(TypeName = "USERSUBSCRIPTIONSLIST")]
-    [DataContract(Name = "userSubscriptionsList")]
-    public class UserSubscriptionsList : CachableBase<UserSubscriptionsList>
+    [XmlType(TypeName = "BLOCKEDUSERSUBSCRIPTIONSLIST")]
+    [DataContract(Name = "blockedUserSubscriptionsList")]
+    public class BlockedUserSubscriptionsList : CachableBase<BlockedUserSubscriptionsList>
     {
-        public UserSubscriptionsList()
+        public BlockedUserSubscriptionsList()
         {
            Users = new List<UserElement>();
         }
@@ -45,14 +45,14 @@ namespace BBC.Dna.Objects
         public int More { get; set; }
 
         /// <remarks/>
-        [XmlElement("SUBSCRIBERACCEPTSSUBSCRIPTIONS")]
-        [DataMember(Name = "subscriberAcceptsSubscriptions", Order = 4)]
-        public bool SubscriberAcceptsSubscriptions { get; set; }
+        [XmlElement("BLOCKERACCEPTSSUBSCRIPTIONS")]
+        [DataMember(Name = "blockerAcceptsSubscriptions", Order = 4)]
+        public bool BlockerAcceptsSubscriptions { get; set; }
 
         /// <remarks/>
-        [XmlElement("SUBSCRIBER")]
-        [DataMember(Name = "subscriber", Order = 5)]
-        public UserElement Subscriber { get; set; }
+        [XmlElement("BLOCKER")]
+        [DataMember(Name = "blocker", Order = 5)]
+        public UserElement Blocker { get; set; }
 
         /// <remarks/>
         [XmlElement("USERS", Form = XmlSchemaForm.Unqualified)]
@@ -69,7 +69,7 @@ namespace BBC.Dna.Objects
 
 
         /// <summary>
-        /// Creates the user subscriptions list from db
+        /// Creates the blocked user subscriptions list from db
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <param name="identifier"></param>
@@ -77,7 +77,7 @@ namespace BBC.Dna.Objects
         /// <param name="skip"></param>
         /// <param name="show"></param>
         /// <returns></returns>
-        public static UserSubscriptionsList CreateUserSubscriptionsListFromDatabase(IDnaDataReaderCreator readerCreator, 
+        public static BlockedUserSubscriptionsList CreateBlockedUserSubscriptionsListFromDatabase(IDnaDataReaderCreator readerCreator, 
                                                                         string identifier, 
                                                                         int siteId, 
                                                                         int skip, 
@@ -109,9 +109,9 @@ namespace BBC.Dna.Objects
                 dnaUserId = Convert.ToInt32(identifier);
             }
 
-            UserSubscriptionsList userSubscriptions = new UserSubscriptionsList();
+            BlockedUserSubscriptionsList blockedUserSubscriptions = new BlockedUserSubscriptionsList();
             // fetch all the lovely intellectual property from the database
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("GetUsersSubscriptionList"))
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getblockedusersubscriptions"))
             {
                 reader.AddParameter("userid", dnaUserId);
                 reader.AddParameter("siteid", siteId);
@@ -123,9 +123,9 @@ namespace BBC.Dna.Objects
                 //1st Result set gets user details.
                 if (reader.HasRows && reader.Read())
                 {
-                    userSubscriptions.Subscriber = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "Subscriber") };
+                    blockedUserSubscriptions.Blocker = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "Blocker") };
 
-                    userSubscriptions.SubscriberAcceptsSubscriptions = reader.GetBoolean("SubscriberAcceptSubscriptions");
+                    blockedUserSubscriptions.BlockerAcceptsSubscriptions = reader.GetBoolean("BlockerAcceptSubscriptions");
                     
                     reader.NextResult();
 
@@ -134,7 +134,7 @@ namespace BBC.Dna.Objects
                     while (reader.Read() && count < show)
                     {
                         //Delegate creation of XML to User class.
-                        userSubscriptions.Users.Add(new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) });
+                        blockedUserSubscriptions.Users.Add(new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) });
            
                         ++count;
                     }
@@ -142,7 +142,7 @@ namespace BBC.Dna.Objects
                     // Add More Attribute Indicating there are more rows.
                     if (reader.Read() && count > 0)
                     {
-                        userSubscriptions.More = 1;
+                        blockedUserSubscriptions.More = 1;
                     }
                 }
                 else
@@ -150,7 +150,7 @@ namespace BBC.Dna.Objects
                     throw ApiException.GetError(ErrorType.UserNotFound);
                 }
             }
-            return userSubscriptions;
+            return blockedUserSubscriptions;
         }
         /// <summary>
         /// Gets the user subscriptions from cache or db if not found in cache
@@ -161,13 +161,13 @@ namespace BBC.Dna.Objects
         /// <param name="identifier"></param>
         /// <param name="siteID"></param>
         /// <returns></returns>
-        public static UserSubscriptionsList CreateUserSubscriptionsList(ICacheManager cache,
+        public static BlockedUserSubscriptionsList CreateBlockedUserSubscriptionsList(ICacheManager cache,
                                                 IDnaDataReaderCreator readerCreator,
                                                 User viewingUser,
                                                 string identifier,
                                                 int siteId)
         {
-            return CreateUserSubscriptionsList(cache, readerCreator, viewingUser, identifier, siteId, 0, 20, false, false);
+            return CreateBlockedUserSubscriptionsList(cache, readerCreator, viewingUser, identifier, siteId, 0, 20, false, false);
         }
   
         /// <summary>
@@ -183,7 +183,7 @@ namespace BBC.Dna.Objects
         /// <param name="byDnaUserId"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        public static UserSubscriptionsList CreateUserSubscriptionsList(ICacheManager cache, 
+        public static BlockedUserSubscriptionsList CreateBlockedUserSubscriptionsList(ICacheManager cache, 
                                                 IDnaDataReaderCreator readerCreator, 
                                                 User viewingUser,
                                                 string identifier, 
@@ -193,33 +193,33 @@ namespace BBC.Dna.Objects
                                                 bool byDnaUserId,
                                                 bool ignoreCache)
         {
-            var userSubscriptionsList = new UserSubscriptionsList();
+            var blockedUserSubscriptionsList = new BlockedUserSubscriptionsList();
 
-            string key = userSubscriptionsList.GetCacheKey(identifier, siteID, skip, show, byDnaUserId);
+            string key = blockedUserSubscriptionsList.GetCacheKey(identifier, siteID, skip, show, byDnaUserId);
             //check for item in the cache first
             if (!ignoreCache)
             {
                 //not ignoring cache
-                userSubscriptionsList = (UserSubscriptionsList)cache.GetData(key);
-                if (userSubscriptionsList != null)
+                blockedUserSubscriptionsList = (BlockedUserSubscriptionsList)cache.GetData(key);
+                if (blockedUserSubscriptionsList != null)
                 {
                     //check if still valid with db...
-                    if (userSubscriptionsList.IsUpToDate(readerCreator))
+                    if (blockedUserSubscriptionsList.IsUpToDate(readerCreator))
                     {
-                        return userSubscriptionsList;
+                        return blockedUserSubscriptionsList;
                     }
                 }
             }
 
             //create from db
-            userSubscriptionsList = CreateUserSubscriptionsListFromDatabase(readerCreator, identifier, siteID, skip, show, byDnaUserId);
+            blockedUserSubscriptionsList = CreateBlockedUserSubscriptionsListFromDatabase(readerCreator, identifier, siteID, skip, show, byDnaUserId);
 
-            userSubscriptionsList.LastUpdated = DateTime.Now;
+            blockedUserSubscriptionsList.LastUpdated = DateTime.Now;
 
             //add to cache
-            cache.Add(key, userSubscriptionsList);
+            cache.Add(key, blockedUserSubscriptionsList);
 
-            return userSubscriptionsList;
+            return blockedUserSubscriptionsList;
         }
 
         /// <summary>

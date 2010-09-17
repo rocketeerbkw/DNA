@@ -566,10 +566,12 @@ namespace BBC.Dna.Objects
             {
                 user.UserName = "Member " + user.UserId.ToString();
             }
-            if (reader.Exists(prefix + "Email"))
+            /* NO NO not emails
+             * if (reader.Exists(prefix + "Email"))
             {
                 user.Email = reader.GetStringNullAsEmpty(prefix + "Email") ?? "";
             }
+             */
             
             if (reader.Exists(prefix + "SiteSuffix"))
             {

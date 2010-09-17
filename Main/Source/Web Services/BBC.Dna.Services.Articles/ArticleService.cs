@@ -136,7 +136,6 @@ namespace BBC.Dna.Services
             ISite site = Global.siteList.GetSite(siteName);
             var search = new Search();
             var querystring = QueryStringHelper.GetQueryParameterAsString("querystring", string.Empty);
-            var searchType = QueryStringHelper.GetQueryParameterAsString("searchtype", string.Empty);
             var showApproved = QueryStringHelper.GetQueryParameterAsInt("showapproved", 1);
             var showNormal = QueryStringHelper.GetQueryParameterAsInt("shownormal", 0);
             var showSubmitted = QueryStringHelper.GetQueryParameterAsInt("showsubmitted", 0);
@@ -146,7 +145,7 @@ namespace BBC.Dna.Services
                                                 readerCreator, 
                                                 site.SiteID, 
                                                 querystring, 
-                                                searchType, 
+                                                "ARTICLE", 
                                                 showApproved == 1 ? true : false,
                                                 showNormal == 1 ? true : false,
                                                 showSubmitted == 1 ? true : false);
@@ -209,6 +208,56 @@ namespace BBC.Dna.Services
             }
 
             return GetOutputStream(article);
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/submitforreview/")]
+        [WebHelp(Comment = "Submits the given article for a given site for review")]
+        [OperationContract]
+        public void SubmitArticleForReview(string siteName, string articleId)
+        {
+            var article = Article.CreateArticle(cacheManager, readerCreator, null, Int32.Parse(articleId), false, false);
+
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+            }
+
+            //Assume Peer Review reviewforumid 1
+            var reviewForumId = QueryStringHelper.GetQueryParameterAsInt("reviewforumid", 1);
+            var comments = QueryStringHelper.GetQueryParameterAsString("comments", "");
+
+            if (comments == String.Empty)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.EmptyText));
+            }
+
+            if (article.ArticleInfo.Submittable.Type != "YES" && !callingUser.IsUserA(UserTypes.Editor))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotForReview));
+            }
+
+            try
+            {
+                ReviewSubmission.SubmitArticle(readerCreator,
+                                        callingUser.UserID,
+                                        callingUser.UserName,
+                                        site,
+                                        Int32.Parse(articleId),
+                                        article.Subject,
+                                        article.ArticleInfo.PageAuthor.Editor.user.UserId,
+                                        article.ArticleInfo.PageAuthor.Editor.user.UserName,
+                                        reviewForumId,
+                                        comments);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
         }
 
     }

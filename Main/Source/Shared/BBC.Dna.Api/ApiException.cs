@@ -181,6 +181,15 @@ namespace BBC.Dna.Api
                     break;
                 case ErrorType.ArticleNotFound:
                     error = new ApiException("Article not found.", innerException);
+                    break;
+                case ErrorType.NoResults:
+                    error = new ApiException("No results.", innerException);
+                    break;
+                case ErrorType.NotForReview:
+                    error = new ApiException("Not for Review.", innerException);
+                    break;                   
+                case ErrorType.AddIntoReviewForumFailed:
+                    error = new ApiException("Failed to add into review forum.", innerException);
                     break;                   
 
                 default:
@@ -239,6 +248,9 @@ namespace BBC.Dna.Api
         ForumIDNotWellFormed,
         MaintenanceMode,
         AlreadyLinked,
-        ArticleNotFound
+        ArticleNotFound,
+        NoResults,
+        NotForReview,
+        AddIntoReviewForumFailed
     }
 }

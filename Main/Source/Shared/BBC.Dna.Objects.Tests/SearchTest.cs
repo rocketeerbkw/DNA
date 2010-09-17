@@ -10,6 +10,7 @@ using TestUtils.Mocks.Extentions;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Rhino.Mocks.Constraints;
 using TestUtils;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -86,17 +87,17 @@ namespace BBC.Dna.Objects.Tests
         ///A test for GetSearch API call
         ///</summary>
         [TestMethod]
-        public void CreateSearchTest()
+        public void CreateArticleSearchTest()
         {
             MockRepository mocks = new MockRepository();
             IDnaDataReader reader;
             IDnaDataReaderCreator creator;
 
-            SetupSearchMocks(out mocks, out creator, out reader);
+            SetupArticleSearchMocks(out mocks, out creator, out reader);
 
             Search search;
 
-            search = Search.CreateSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false);
+            search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false);
             Assert.AreNotEqual(null, search);
 
             XmlDocument xml = Serializer.SerializeToXml(search);
@@ -106,7 +107,7 @@ namespace BBC.Dna.Objects.Tests
         /// Tests if Search returns an empty list when there aren't any articles.
         /// </summary>
         [TestMethod()]
-        public void GetSearch_ReturnsEmptyList()
+        public void GetArticleSearch_ReturnsEmptyList()
         {
             // PREPARE THE TEST
             // setup the default mocks
@@ -114,23 +115,68 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReader reader;
             IDnaDataReaderCreator creator;
 
-            SetupEmptySearchMocks(out mocks, out creator, out reader);
+            SetupEmptyArticleSearchMocks(out mocks, out creator, out reader);
 
             Search search;
 
             try
             {
                 // EXECUTE THE TEST
-                search = Search.CreateSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false);
+                search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false);
             }
-            catch(Exception Ex)
+            catch (ApiException e)
             {
-                // VERIFY THE RESULTS
-                Assert.AreEqual(Ex.Message.Contains("No Search Results found"), true);
+                Assert.AreEqual(e.type, ErrorType.NoResults);
+            }
+        }
+        /// <summary>
+        ///A test for GetUserSearch API call
+        ///</summary>
+        [TestMethod]
+        public void CreateUserSearchTest()
+        {
+            MockRepository mocks = new MockRepository();
+            IDnaDataReader reader;
+            IDnaDataReaderCreator creator;
+
+            SetupUserSearchMocks(out mocks, out creator, out reader);
+
+            Search search;
+
+            search = Search.CreateUserSearchFromDatabase(creator, 1, "TestUser1", "USER", false);
+            Assert.AreNotEqual(null, search);
+
+            XmlDocument xml = Serializer.SerializeToXml(search);
+        }
+
+        /// <summary>
+        /// Tests if Search returns an empty list when there aren't any articles.
+        /// </summary>
+        [TestMethod()]
+        public void GetUserSearch_ReturnsEmptyList()
+        {
+            // PREPARE THE TEST
+            // setup the default mocks
+            MockRepository mocks = new MockRepository();
+            IDnaDataReader reader;
+            IDnaDataReaderCreator creator;
+
+            SetupEmptyUserSearchMocks(out mocks, out creator, out reader);
+
+            Search search;
+
+            try
+            {
+                // EXECUTE THE TEST
+                search = Search.CreateUserSearchFromDatabase(creator, 1, "TestUser1", "USER", false);
+            }
+            catch (ApiException e)
+            {
+                Assert.AreEqual(e.type, ErrorType.NoResults);
             }
         }
 
-        public static Search CreateSearch()
+        public static Search CreateArticleSearch()
         {
             Search target = new Search()
             {
@@ -153,9 +199,12 @@ namespace BBC.Dna.Objects.Tests
                         ShowApproved = 1,
                         ShowNormal = 0,
                         ShowSubmitted = 0
-                    }, 
+                    },
                     SearchForums = "",
-                    SearchUsers = "" 
+                    SearchUsers = new SearchUsers()
+                    {
+                        Selected = 0
+                    }
                 }
             };
             return target;
@@ -181,6 +230,14 @@ namespace BBC.Dna.Objects.Tests
             return articleResults;
         }
 
+        public static List<UserElement> CreateUserResults()
+        {
+            List<UserElement> userResults = new List<UserElement>();
+            userResults.Add( new UserElement() { user = UserTest.CreateTestUser() } );
+
+            return userResults;
+        }
+
         public static List<SearchTerm> CreateRecentSearches()
         {
             List<SearchTerm> searchTerms = new List<SearchTerm>();
@@ -196,15 +253,15 @@ namespace BBC.Dna.Objects.Tests
         }
 
 
-        private void SetupSearchMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader)
+        private void SetupArticleSearchMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader)
         {
             InitialiseMocks(out mocks, out readerCreator, out reader);
 
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(2);
 
-            AddSearchTestDatabaseRow(reader, 66466, 664661, "Dinosaurs of The Isle of Wight - Live From Dinosaur Island", 1);
-            AddSearchTestDatabaseRow(reader, 296918, 2969184, "Dinosaurs of The Isle of Wight", 1);
+            AddArticleSearchTestDatabaseRow(reader, 66466, 664661, "Dinosaurs of The Isle of Wight - Live From Dinosaur Island", 1);
+            AddArticleSearchTestDatabaseRow(reader, 296918, 2969184, "Dinosaurs of The Isle of Wight", 1);
 
             readerCreator.Stub(x => x.CreateDnaDataReader("searcharticlesadvanced")).Return(reader);
 
@@ -212,7 +269,7 @@ namespace BBC.Dna.Objects.Tests
 
         }
 
-        private void SetupEmptySearchMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader)
+        private void SetupEmptyArticleSearchMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader)
         {
             InitialiseMocks(out mocks, out readerCreator, out reader);
 
@@ -220,6 +277,34 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.Read()).Return(false) ;
 
             readerCreator.Stub(x => x.CreateDnaDataReader("searcharticlesadvanced")).Return(reader);
+
+            mocks.ReplayAll();
+
+        }
+        private void SetupUserSearchMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader)
+        {
+            InitialiseMocks(out mocks, out readerCreator, out reader);
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Times(2);
+
+            AddUserSearchTestDatabaseRow(reader, 1, "1092384623", "TestUser1");
+            AddUserSearchTestDatabaseRow(reader, 2, "7634278648", "TestUser2");
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("SearchUsersByNameOrEmail")).Return(reader);
+
+            mocks.ReplayAll();
+
+        }
+
+        private void SetupEmptyUserSearchMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader)
+        {
+            InitialiseMocks(out mocks, out readerCreator, out reader);
+
+            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.Read()).Return(false);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("SearchUsersByNameOrEmail")).Return(reader);
 
             mocks.ReplayAll();
 
@@ -235,7 +320,7 @@ namespace BBC.Dna.Objects.Tests
 
         }
 
-        private void AddSearchTestDatabaseRow(IDnaDataReader searchReader, 
+        private void AddArticleSearchTestDatabaseRow(IDnaDataReader searchReader, 
                                                 int entryId, 
                                                 int h2g2Id, 
                                                 string subject, 
@@ -253,6 +338,16 @@ namespace BBC.Dna.Objects.Tests
             searchReader.Stub(x => x.GetDouble(66)).Return(0.18).Repeat.Twice();
             searchReader.Stub(x => x.DoesFieldExist("siteid")).Return(true).Repeat.Twice();
             searchReader.Stub(x => x.GetInt32NullAsZero("siteid")).Return(1).Repeat.Once();            
+        }
+        private void AddUserSearchTestDatabaseRow(IDnaDataReader searchReader,
+                                               int userId,
+                                               string identityUserId,
+                                               string identityUserName)
+        {
+            searchReader.Stub(x => x.GetInt32NullAsZero("userID")).Return(userId);
+            searchReader.Stub(x => x.GetStringNullAsEmpty("identityUserId")).Return(identityUserId);
+            searchReader.Stub(x => x.GetStringNullAsEmpty("identityUserName")).Return(identityUserName);
+            searchReader.Stub(x => x.Exists("")).Return(true).Constraints(Is.Anything());
         }
     }
 }
