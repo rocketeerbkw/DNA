@@ -257,5 +257,38 @@ namespace BBC.Dna.Utils
         {
             return HttpUtility.HtmlEncode(text);
         }
+
+        /// <summary>
+        /// creates a xmlelement from html and tag to enclose it in
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="tagName"></param>
+        /// <returns></returns>
+        public static XmlElement ParseHtmlToXmlElement(string text, string tagName)
+        {
+            // Now run it through the xml parser
+            XmlDocument xDoc = new XmlDocument();
+            if (string.IsNullOrEmpty(text))
+            {
+                xDoc.LoadXml(string.Format("<{0} />", tagName));
+                return xDoc.DocumentElement;
+            }
+            text = EscapeNonEscapedAmpersands(text);
+            tagName = tagName.ToUpper();
+
+            
+            try
+            {
+                xDoc.LoadXml(string.Format("<{0}>{1}</{0}>", tagName, text));
+            }
+            catch
+            {
+                xDoc.LoadXml(string.Format("<{0} />", tagName));
+                xDoc.DocumentElement.InnerText = text;
+            }
+
+            return xDoc.DocumentElement;
+           
+        }
     }
 }

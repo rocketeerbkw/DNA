@@ -75,17 +75,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                XmlDocument doc = new XmlDocument();
-                try
-                {
-                    doc.LoadXml("<TEXT>" + _text + "</TEXT>");
-                }
-                catch
-                {
-                    doc.LoadXml("<TEXT/>");
-                    doc.DocumentElement.InnerText = _text;
-                }
-                return doc.DocumentElement;
+                return HtmlUtils.ParseHtmlToXmlElement(_text, "text");
             }
             set { }
         }

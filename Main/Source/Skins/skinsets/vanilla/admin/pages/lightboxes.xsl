@@ -212,7 +212,11 @@
 					<xsl:if test="/H2G2[@TYPE != 'ERROR']/ERROR[@TYPE='InvalidWelcomeMessage']">
             <span class="dna-error-text">Please add your welcome message</span>
           </xsl:if>
-          <input type="text" name="WELCOME_MESSAGE"  id="mbwelcome" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE}"/>
+          <input type="text" name="WELCOME_MESSAGE"  id="mbwelcome">
+            <xsl:attribute name="value">
+              <xsl:value-of disable-output-escaping="no" select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE"/>
+            </xsl:attribute>
+          </input>
           <span class="dna-fnote"><strong>Example:</strong> Welcome to the Strictly Messageboard</span>
         </p>
 
@@ -283,13 +287,13 @@
 				
         <p>
 					<label for="mbabouttext">Add the introductory text, which will give some brief information about the messageboard:</label>
-					<textarea name="ABOUT_MESSAGE" rows="5" cols="40" id="mbabouttext"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE"/></textarea>
+					<textarea name="ABOUT_MESSAGE" rows="5" cols="40" id="mbabouttext"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" disable-output-escaping="yes"/></textarea>
           <span class="dna-fnote"><strong>Example:</strong> This messageboard is the beating heart of the Strictly community where you talk to us and each other.</span>
 				</p>
 
         <p>
 					<label for="mbopeningtimes">Add the text, which will state the messageboards opening and closing times:</label>
-					<textarea name="OPENCLOSETIMES_TEXT" rows="2" cols="40" id="mbopeningtimes"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT"/></textarea>
+					<textarea name="OPENCLOSETIMES_TEXT" rows="2" cols="40" id="mbopeningtimes"><xsl:text>&#x0A;</xsl:text><xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT" disable-output-escaping="yes"/></textarea>
           <span class="dna-fnote"><strong>Example:</strong> Opening hours: 8am until 12pm every day</span>
         </p>
 

@@ -372,5 +372,35 @@ namespace BBC.Dna.Utils.Tests
 
         }
 
+        [TestMethod]
+        public void ParseHtmlToXmlElement_ValidXHtml_ReturnsCorrectObject()
+        {
+            var testStr = "this is my <b>test</b> string";
+            var nodeName = "mynode";
+            var expected = "<MYNODE>this is my <b>test</b> string</MYNODE>";
+
+            Assert.AreEqual(expected, HtmlUtils.ParseHtmlToXmlElement(testStr, nodeName).OuterXml);
+        }
+
+        [TestMethod]
+        public void ParseHtmlToXmlElement_ValidXHtmlAndEncodings_ReturnsCorrectObject()
+        {
+            var testStr = "this is my <b>test</b> with & string";
+            var nodeName = "mynode";
+            var expected = "<MYNODE>this is my <b>test</b> with &amp; string</MYNODE>";
+
+            Assert.AreEqual(expected, HtmlUtils.ParseHtmlToXmlElement(testStr, nodeName).OuterXml);
+        }
+
+        [TestMethod]
+        public void ParseHtmlToXmlElement_InvalidXHtml_ReturnsEscapedHtml()
+        {
+            var testStr = "this is my <b>test string";
+            var nodeName = "mynode";
+            var expected = "<MYNODE>this is my &lt;b&gt;test string</MYNODE>";
+
+            Assert.AreEqual(expected, HtmlUtils.ParseHtmlToXmlElement(testStr, nodeName).OuterXml);
+        }
+
     }
 }

@@ -198,24 +198,10 @@ namespace FunctionalTests
         {
             var expectedType = "SiteConfigUpdateSuccess";
             var updateType = "WELCOME_MESSAGE";
-            var updateValue = "welcome message";
+            var updateValue = "welcome <b>message</b>";
+            var expectedValue = "welcome &lt;b&gt;message&lt;/b&gt;";
 
-            var request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserEditor();
-            request.UseEditorAuthentication = true;
-            request.RequestPage("mbadmin?skin=purexml");
-
-            var editKey = CheckPageSchema(request.GetLastResponseAsXML());
-
-            var postParams = new Queue<KeyValuePair<string, string>>();
-            postParams.Enqueue(new KeyValuePair<string, string>("editkey", editKey));
-            postParams.Enqueue(new KeyValuePair<string, string>(updateType, updateValue));
-
-
-            request.RequestPage("mbadmin?cmd=UPDATEPREVIEW&skin=purexml", postParams);
-            CheckPageSchema(request.GetLastResponseAsXML());
-            CheckResult(request.GetLastResponseAsXML(), expectedType);
-            CheckV2Config(request.GetLastResponseAsXML(), updateType, updateValue);
+            UpdatePeviewValidRequest(expectedType, updateType, updateValue, updateType, expectedValue);
 
 
         }
@@ -273,9 +259,10 @@ namespace FunctionalTests
         {
             var expectedType = "SiteConfigUpdateSuccess";
             var updateType = "ABOUT_MESSAGE";
-            var updateValue = "welcome message";
+            var updateValue = "welcome <b>message</b>";
+            var expectedValue = "welcome &lt;b&gt;message&lt;/b&gt;";
 
-            UpdatePeviewValidRequest(expectedType, updateType, updateValue);
+            UpdatePeviewValidRequest(expectedType, updateType, updateValue, updateType, expectedValue);
 
 
         }
@@ -333,11 +320,10 @@ namespace FunctionalTests
         {
             var expectedType = "SiteConfigUpdateSuccess";
             var updateType = "OPENCLOSETIMES_TEXT";
-            var updateValue = "welcome message";
+            var updateValue = "open <marquee>close times</marquee>";
+            var expectedValue = "open &lt;marquee&gt;close times&lt;/marquee&gt;";
 
-            UpdatePeviewValidRequest(expectedType, updateType, updateValue);
-
-
+            UpdatePeviewValidRequest(expectedType, updateType, updateValue, updateType, expectedValue);
         }
 
         /// <summary/>
@@ -391,7 +377,7 @@ namespace FunctionalTests
             var updateType = "FOOTER_COLOUR";
             var updateValue = "red";
 
-            UpdatePeviewValidRequest(expectedType, updateType, updateValue, "FOOTER/COLOUR");
+            UpdatePeviewValidRequest(expectedType, updateType, updateValue, "FOOTER/COLOUR", updateValue);
 
 
         }
@@ -1038,10 +1024,10 @@ namespace FunctionalTests
             Assert.AreEqual(fpImagealttext, xml.SelectSingleNode("//H2G2/TOPIC_PAGE/TOPICLIST/TOPIC/FRONTPAGEELEMENT/IMAGEALTTEXT").InnerText);
         }
 
-        private void CheckV2Config(XmlDocument xml, string updateType, string updateValue)
+        private void CheckV2Config(XmlDocument xml, string updateType, string expectedValue)
         {
             Assert.IsNotNull(xml.SelectSingleNode("//H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/" + updateType.ToUpper()));
-            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/" + updateType.ToUpper()).InnerText = updateValue);
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/" + updateType.ToUpper()).InnerText = expectedValue);
         }
 
         private void CheckError(XmlDocument xml, string expectedType)
@@ -1099,10 +1085,10 @@ namespace FunctionalTests
 
         private void UpdatePeviewValidRequest(string expectedType, string updateType, string updateValue)
         {
-            UpdatePeviewValidRequest(expectedType, updateType, updateValue, updateType);
+            UpdatePeviewValidRequest(expectedType, updateType, updateValue, updateType, updateValue);
         }
 
-        private void UpdatePeviewValidRequest(string expectedType, string updateType, string updateValue, string xPath)
+        private void UpdatePeviewValidRequest(string expectedType, string updateType, string updateValue, string xPath, string expectedValue)
         {
             var request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserEditor();
@@ -1119,7 +1105,7 @@ namespace FunctionalTests
             request.RequestPage("mbadmin?cmd=UPDATEPREVIEW&skin=purexml", postParams);
             CheckPageSchema(request.GetLastResponseAsXML());
             CheckResult(request.GetLastResponseAsXML(), expectedType);
-            CheckV2Config(request.GetLastResponseAsXML(), xPath, updateValue);
+            CheckV2Config(request.GetLastResponseAsXML(), xPath, expectedValue);
         }
 
         private void CreateTopic()

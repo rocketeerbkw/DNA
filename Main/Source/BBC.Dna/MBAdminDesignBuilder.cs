@@ -200,12 +200,8 @@ namespace BBC.Dna
         private string ExtractHtmlInput(string querystringParam)
         {
             var paramStr = HtmlUtils.HtmlDecode(InputContext.GetParamStringOrEmpty(querystringParam, querystringParam));
-            var parsedStr = HtmlUtils.TryParseToValidHtml("<GUIDE><BODY>" + paramStr + "</BODY></GUIDE>");
-            if (parsedStr.IndexOf("<") != 0)
-            {//failed parsing
-                parsedStr = "<GUIDE><BODY>" + StringUtils.EscapeAllXml(paramStr) + "</BODY></GUIDE>";
-            }
-            return parsedStr;
+            return HtmlUtils.ParseHtmlToXmlElement("<BODY>" + paramStr + "</BODY>", "GUIDE").OuterXml;
+            
         }
 
         /// <summary>
@@ -266,7 +262,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("WELCOME_MESSAGE", "WELCOME_MESSAGE"))
             {
-                _siteConfig.V2Board.WelcomeMessage = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("WELCOME_MESSAGE", "WELCOME_MESSAGE"));
+                _siteConfig.V2Board.WelcomeMessage = HtmlUtils.ParseHtmlToXmlElement(InputContext.GetParamStringOrEmpty("WELCOME_MESSAGE", "WELCOME_MESSAGE"), "WELCOME_MESSAGE").InnerXml;
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.WelcomeMessage))
                 {
                     return new Error("InvalidWelcomeMessage", "Unable to update due to an invalid welcome message.");
@@ -275,7 +271,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("ABOUT_MESSAGE", "ABOUT_MESSAGE"))
             {
-                _siteConfig.V2Board.AboutMessage = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("ABOUT_MESSAGE", "ABOUT_MESSAGE"));
+                _siteConfig.V2Board.AboutMessage = HtmlUtils.ParseHtmlToXmlElement(InputContext.GetParamStringOrEmpty("ABOUT_MESSAGE", "ABOUT_MESSAGE"), "ABOUT_MESSAGE").InnerXml;
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.AboutMessage))
                 {
                     return new Error("InvalidAboutMessage", "Unable to update due to an invalid about message.");
@@ -284,7 +280,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT"))
             {
-                _siteConfig.V2Board.OpenclosetimesText = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT"));
+                _siteConfig.V2Board.OpenclosetimesText = HtmlUtils.ParseHtmlToXmlElement(InputContext.GetParamStringOrEmpty("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT"), "OPENCLOSETIMES_TEXT").InnerXml;
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.OpenclosetimesText))
                 {
                     return new Error("InvalidOpenCloseMessage", "Unable to update due to an invalid open/close message.");

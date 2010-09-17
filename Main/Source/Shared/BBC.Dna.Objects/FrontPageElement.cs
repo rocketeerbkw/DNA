@@ -158,7 +158,7 @@ namespace BBC.Dna.Objects
         [XmlElement(Order = 4, ElementName = "TITLE")]
         public string TitleElement
         {
-            get { return HtmlUtils.HtmlDecode(Title); }
+            get { return HtmlUtils.RemoveAllHtmlTags(HtmlUtils.HtmlDecode(Title)); }
             set { Title = value; }
         }
 

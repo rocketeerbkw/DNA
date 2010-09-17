@@ -140,11 +140,10 @@
           <div id="dna-preview-middle" class="dna-fl">
             <div class="dna-box-border">
               <h4>Welcome message</h4>
-             
               <xsl:choose>
                 <xsl:when test="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE != ''">
                   <p>
-                    <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE"/>
+                    <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/WELCOME_MESSAGE" disable-output-escaping="yes"/>
                   </p>
                   <p>
                     <a href="?s_mode=welcome#dna-preview-addwelcome" class="dna-link-overlay">+ Update your welcome message</a>
@@ -203,12 +202,12 @@
               
               <h5>About message:</h5>
               <p>
-                <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE"/>
+                <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" disable-output-escaping="yes"/>
               </p>
 
               <h5>Opening hours:</h5>
                <p>
-                 <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT"/>
+                 <xsl:value-of select="/H2G2/SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/OPENCLOSETIMES_TEXT" disable-output-escaping="yes"/>
               </p>
 
               <xsl:choose>
