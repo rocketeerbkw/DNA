@@ -79,7 +79,7 @@ namespace BBC.Dna.Objects.Tests
                 DateCreated = new DateElement(DateTime.Now),
                 LastUpdated = new DateElement(DateTime.Now),
                 ForumId = 2,
-                ModerationStatus = new ModerationStatus() { Id = 1, Value = "2" },
+                ModerationStatus =  BBC.Dna.Moderation.Utils.ModerationStatus.ArticleStatus.UnMod,
                 PageAuthor = ArticleInfoPageAuthorTest.CreatePageAuthor(),
                 PreProcessed = 1,
                 Site = new ArticleInfoSite() { Id = 1 },

@@ -84,8 +84,7 @@ namespace BBC.Dna.Objects.Tests
                 Editor = new UserElement()
                 {
                     user = UserTest.CreateTestUser()
-                },
-                ExtraInfo = ExtraInfoCreator.CreateExtraInfo(@"<test>extra</test>"),
+                },                
                 H2G2ID = 1,
                 LastUpdated = new DateElement(DateTime.Now),
                 Name = "Test",
@@ -122,8 +121,8 @@ namespace BBC.Dna.Objects.Tests
             getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("h2g2id")).Return(123);
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("subject")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("subject")).Return(_test_unstrippedname);
-            getarticlesinhierarchynodeReader.Stub(x => x.Exists("extrainfo")).Return(true);
-            getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("extrainfo")).Return("<ExtraInfoContainer>test displayname</ExtraInfoContainer>");
+            getarticlesinhierarchynodeReader.Stub(x => x.Exists("type")).Return(true);
+            getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("type")).Return(1);
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editor")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("editor")).Return(99);
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorName")).Return(true);
@@ -160,7 +159,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(123, actual.First().H2G2ID);
             Assert.AreEqual(_test_unstrippedname, actual.First().Name);
             Assert.AreEqual(_test_strippedname, actual.First().StrippedName);
-            Assert.AreEqual("<ExtraInfoContainer>test displayname</ExtraInfoContainer>", actual.First().ExtraInfo.OuterXml);
+            Assert.AreEqual(Article.ArticleType.Article, actual.First().Type);
             Assert.IsNotNull(actual.First().Editor);
             //Assert.AreEqual("First Names", actual.First().Editor.user.FirstNames);
             //Assert.AreEqual("Last Name", actual.First().Editor.user.LastName);
@@ -225,8 +224,8 @@ namespace BBC.Dna.Objects.Tests
             getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("subject")).Return("test subject");
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("DisplayName")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("DisplayName")).Return(_test_unstrippedname);
-            getarticlesinhierarchynodeReader.Stub(x => x.Exists("extrainfo")).Return(true);
-            getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("extrainfo")).Return("<ExtraInfoContainer>test displayname</ExtraInfoContainer>");
+            getarticlesinhierarchynodeReader.Stub(x => x.Exists("type")).Return(true);
+            getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("type")).Return(1);
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editor")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("editor")).Return(99);
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorName")).Return(true);

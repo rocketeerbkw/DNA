@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Diagnostics;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Runtime.Serialization;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Users
 {
@@ -39,7 +40,11 @@ namespace BBC.Dna.Users
         /// <summary>
         /// Notable user
         /// </summary>
-        Notable
+        Notable,
+        /// <summary>
+        /// Guardian user
+        /// </summary>
+        Guardian
     }
 
     public enum UserStatus
@@ -74,10 +79,12 @@ namespace BBC.Dna.Users
         
         protected string _databaseConnectionDetails = "";
         private int _status = -1;
+        private int _prefStatus;
         protected ICacheManager _cachingObject = null;
         protected IDnaDataReaderCreator _dnaDataReaderCreator = null;
         protected IDnaDiagnostics _dnaDiagnostics = null;
         private UserGroups _userGroupsManager;
+                
 
         [DataMember(Name = "groups")]
         public List<UserGroup> UsersListOfGroups { get; set; }
@@ -119,7 +126,6 @@ namespace BBC.Dna.Users
         //[DataMember(Name = "email")]
         public string Email  {get; set;}
 
-
         /// <summary>
         /// The get property for the user first names
         /// </summary>
@@ -132,6 +138,15 @@ namespace BBC.Dna.Users
         [DataMember(Name = "lastName")]
         public string LastName  { get; set;  }
 
+        /// <summary>
+        /// Accepts subscriptions?
+        /// </summary>
+        public bool AcceptSubscriptions { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int IsAutoSinBin { get; set; }
 
         public int Status
         {
@@ -155,6 +170,26 @@ namespace BBC.Dna.Users
                 _status = (int)stringAsEnum;
             }
         }
+
+        public int PrefStatus
+        {
+            get { return _prefStatus;}
+            set { _prefStatus = value;}
+        }
+
+        public string PrefStatusAsString
+        {
+            get
+            {
+                return Enum.GetName(typeof(ModerationStatus.UserStatus), _prefStatus);
+            }
+            set
+            {
+                ModerationStatus.UserStatus stringAsEnum = (ModerationStatus.UserStatus)Enum.Parse(typeof(ModerationStatus.UserStatus), value);
+                _prefStatus = (int)stringAsEnum;
+            }
+        }
+
 
         /// <summary>
         /// The get property for the siteid the user was created for
@@ -426,9 +461,10 @@ namespace BBC.Dna.Users
             IdentityUserName = reader.GetStringNullAsEmpty("IdentityUserName");
 
             _status = reader.GetInt32("status");
+            _prefStatus = reader.GetInt32("PrefStatus");
+            
             if (_status == 1)//normal global status
             {
-
                 if (reader.GetInt32("PrefStatus") == 4)//banned
                 {
                     _status = 0;
@@ -438,7 +474,15 @@ namespace BBC.Dna.Users
             Email = reader.GetString("email");
             SiteSuffix = reader.GetStringNullAsEmpty("SiteSuffix");
             LastSynchronisedDate = reader.GetDateTime("LastUpdatedDate");
-            TeamID = reader.GetInt32NullAsZero("teamid");
+            if (reader.Exists("AcceptSubscriptions"))
+            {
+                AcceptSubscriptions = reader.GetBoolean("AcceptSubscriptions");
+            }
+
+            if (reader.Exists("SinBin"))
+            {
+                IsAutoSinBin = reader.GetInt32NullAsZero("SinBin");
+            }
         }
 
         /// <summary>
@@ -523,7 +567,6 @@ namespace BBC.Dna.Users
             {
                 case UserTypes.BannedUser:
                     {
-                        
                         return _status == 0 || UsersListOfGroups.Exists(x => x.Name.ToLower() == "banned");
                     }
                 case UserTypes.Editor:
@@ -545,6 +588,10 @@ namespace BBC.Dna.Users
                 case UserTypes.Notable:
                     {
                         return UsersListOfGroups.Exists(x => x.Name.ToLower() == "notables");
+                    }
+                case UserTypes.Guardian:
+                    {
+                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "guardian");
                     }
             }
 
@@ -603,5 +650,65 @@ namespace BBC.Dna.Users
                 SiteSuffix = siteSuffix;
             }
         }
+
+        public bool HasSpecialEditPermissions(int h2g2id)
+        {
+            return (IsUserA(UserTypes.Editor) || (IsUserA(UserTypes.Moderator) && IsEntryLockedForModeration(h2g2id)));
+        }
+
+        bool IsEntryLockedForModeration(int ih2g2ID)
+        {
+            //StartStoredProcedure("checkuserhasentrylockedformoderation");
+            //AddParam("userid", iUserID);
+            //AddParam("h2g2id", ih2g2ID);
+            //ExecuteStoredProcedure();
+            //// check there is no error
+            //CTDVString sTemp;
+            //int iErrorCode;
+            //if (!GetLastError(&sTemp, iErrorCode))
+            //{
+            //    bLocked = GetBoolField("IsLocked");
+            //}
+            //return bLocked;
+            return false;
+        }
+
+
+        public void UpdateUserSubscriptions(IDnaDataReaderCreator dnaDataReaderCreator, int h2g2ID)
+        {
+            // Check to see if the current user accepts subscriptions
+            if (AcceptSubscriptions)
+            {
+                // Update users subscriptions witht his new article
+                using (IDnaDataReader reader = dnaDataReaderCreator.CreateDnaDataReader("addarticlesubscription"))
+                {
+                    reader.AddParameter("h2g2id", h2g2ID);
+                    reader.Execute();
+                }
+            }
+        }
+
+        /// <summary>
+        /// <see cref="IUser"/>
+        /// </summary>
+        public bool IsPreModerated
+        {
+            get
+            {
+                return _prefStatus == (int)ModerationStatus.UserStatus.Premoderated;
+            }
+        }
+
+        /// <summary>
+        /// <see cref="IUser"/>
+        /// </summary>
+        public bool IsPostModerated
+        {
+            get
+            {
+                return _prefStatus == (int)ModerationStatus.UserStatus.Postmoderated;
+            }
+        }
+
     }
 }

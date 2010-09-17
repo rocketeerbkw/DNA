@@ -68,6 +68,64 @@ namespace BBC.Dna.Moderation.Utils
             /// </summary>
             PreMod = 2
         }
+
+        public enum ArticleStatus : int
+        {
+
+            Undefined = 0,
+
+            UnMod = 1,
+
+            PostMod = 2,
+
+            PreMod = 3
+        }
+
+        /// <summary>
+        /// User Moderation Statuses.
+        /// </summary>
+        public enum UserStatus
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            Standard,
+            /// <summary>
+            /// 
+            /// </summary>
+            Premoderated,
+            /// <summary>
+            /// 
+            /// </summary>
+            Postmoderated,
+            /// <summary>
+            /// 
+            /// </summary>
+            SendForReview,
+            /// <summary>
+            /// 
+            /// </summary>
+            Restricted
+        }
+
+        /// <summary>
+        /// The various moderation triggers
+        /// </summary>
+        public enum ModerationTriggers
+        {
+            /// <summary>
+            /// Triggered by unknown user
+            /// </summary>
+            ByNoUser = 0,
+            /// <summary>
+            /// Triggered by profanities
+            /// </summary>
+            Profanities = 2,
+            /// <summary>
+            /// Triggered by automatic
+            /// </summary>
+            Automatic = 3
+        }
     }
 
 }

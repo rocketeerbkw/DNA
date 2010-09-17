@@ -128,7 +128,7 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReaderCreator creator;
 
             List<DataReaderFactory.TestDatabaseRow> databaseRows = new List<DataReaderFactory.TestDatabaseRow>();
-            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), "<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>", 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecent", "Most Recent Articles", true, false));
+            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), 1, 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecent", "Most Recent Articles", true, false));
 
             DataReaderFactory.CreateMockedDataBaseObjects(mocks, "gettopfives2", out creator, out reader, databaseRows);
 
@@ -148,9 +148,9 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReaderCreator creator;
 
             List<DataReaderFactory.TestDatabaseRow> databaseRows = new List<DataReaderFactory.TestDatabaseRow>();
-            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), "<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>", 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecent", "Most Recent Articles", true, false));
-            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), "<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>", 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "Updated", "Most Recent Articles", true, true));
-            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), "<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>", 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecentUser", "Most Recent User Articles", true, true));
+            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), 1, 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecent", "Most Recent Articles", true, false));
+            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), 1, 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "Updated", "Most Recent Articles", true, true));
+            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), 1, 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecentUser", "Most Recent User Articles", true, true));
             databaseRows.Add(new RecentActivityForumTestDatabaseRow(123456789, 789456123, "Testing", "MostRecentComments", "Most Recent Comments", true, true));
 
             DataReaderFactory.CreateMockedDataBaseObjects(mocks, "gettopfives2", out creator, out reader, databaseRows);
@@ -175,7 +175,7 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReaderCreator creator;
 
             List<DataReaderFactory.TestDatabaseRow> databaseRows = new List<DataReaderFactory.TestDatabaseRow>();
-            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), "<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>", 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecent", "Most Recent Articles", true, false));
+            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), 1, 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecent", "Most Recent Articles", true, false));
             databaseRows.Add(new RecentActivityUnkownDataaTypeTestDatabaseRow());
             databaseRows.Add(new RecentActivityForumTestDatabaseRow(123456789, 789456123, "Testing", "MostRecentComments", "Most Recent Comments", true, true));
 
@@ -201,10 +201,10 @@ namespace BBC.Dna.Objects.Tests
             List<DataReaderFactory.TestDatabaseRow> databaseRows = new List<DataReaderFactory.TestDatabaseRow>();
             databaseRows.Add(new RecentActivityForumTestDatabaseRow(123456789, 789456123, "Testing", "MostRecentConversations", "Most Recent Comments", true, false));
             databaseRows.Add(new RecentActivityForumTestDatabaseRow(4826159, 78787878, "Testing", "MostRecentConversations", "Most Recent Comments", false, false));
-            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), "<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>", 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecent", "Most Recent Articles", true, true));
-            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), "<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>", 456789, 0, "", 0, "Testing", 649713, "Second Testing User", "Second SiteSuffix", "MostRecent", "Most Recent Articles", false, false));
+            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), 1, 123456, 0, "", 0, "Testing", 517436, "Testing User", "my site suffix", "MostRecent", "Most Recent Articles", true, true));
+            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(1), 1, 456789, 0, "", 0, "Testing", 649713, "Second Testing User", "Second SiteSuffix", "MostRecent", "Most Recent Articles", false, false));
             databaseRows.Add(new RecentActivityForumTestDatabaseRow(456123789, 159487263, "Testing More", "MostRecentConversations", "Most Recent Posts", true, true));
-            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(2), "<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>", 15948, 0, "", 0, "Testing", 1063883681, "NewBod", "Newbods site suffix", "MostRecent", "Most Recent Articles", true, true));
+            databaseRows.Add(new RecentActivityArticleTestDatabaseRow(DateTime.Now, DateTime.Now.AddDays(2), 1, 15948, 0, "", 0, "Testing", 1063883681, "NewBod", "Newbods site suffix", "MostRecent", "Most Recent Articles", true, true));
 
             DataReaderFactory.CreateMockedDataBaseObjects(mocks, "gettopfives2", out creator, out reader, databaseRows);
 
@@ -256,7 +256,7 @@ namespace BBC.Dna.Objects.Tests
             RecentActivityArticle.EventDate.Date = new Date(eventDate);
             XmlDocument doc = new XmlDocument();
             doc.LoadXml("<EXTRAINFO><TYPE ID=\"1\" /></EXTRAINFO>");
-            RecentActivityArticle.ExtrainfoElement = (XmlElement)doc.FirstChild;
+            RecentActivityArticle.Type = Article.ArticleType.Article;
             RecentActivityArticle.H2G2ID = 123456789;
             RecentActivityArticle.LinkItemID = 789;
             RecentActivityArticle.LinkItemName = "The WEB";
@@ -270,7 +270,7 @@ namespace BBC.Dna.Objects.Tests
 
             RecentActivityArticle.User = user;
 
-            Assert.AreEqual(doc.FirstChild.OuterXml, RecentActivityArticle.ExtrainfoElement.OuterXml);
+            Assert.AreEqual(Article.ArticleType.Article, RecentActivityArticle.Type);
             Assert.AreEqual(123456789, RecentActivityArticle.H2G2ID);
             Assert.AreEqual(789, RecentActivityArticle.LinkItemID);
             Assert.AreEqual("The WEB", RecentActivityArticle.LinkItemName);
@@ -334,14 +334,14 @@ namespace BBC.Dna.Objects.Tests
 
     public class RecentActivityArticleTestDatabaseRow : DataReaderFactory.TestDatabaseRow
     {
-        public RecentActivityArticleTestDatabaseRow(DateTime dateUpdated, DateTime eventDate, string extraInfo, int h2g2ID, int linkItemID,
+        public RecentActivityArticleTestDatabaseRow(DateTime dateUpdated, DateTime eventDate, int type, int h2g2ID, int linkItemID,
                                              string linkItemName, int linkItemType, string subject, int userID, string userName, string siteSuffix,
                                              string groupName, string groupDescription, bool firstRowOfType, bool followsDifferentType)
         {
             AddGetDateTimeColumnValue("dateupdated", dateUpdated);
             AddGetDateTimeColumnValue("eventdate", eventDate);
-            AddIsDBNullCheck("eventdate", eventDate == null);
-            AddGetStringNULLAsEmptyColumnValue("extrainfo", extraInfo);
+            AddGetInt32NullAsZeroColumnValue("type", type);
+            AddIsDBNullCheck("eventdate", eventDate == null);            
             AddGetInt32NullAsZeroColumnValue("h2g2id", h2g2ID);
             AddGetInt32NullAsZeroColumnValue("linkitemid", linkItemID);
             AddGetStringNULLAsEmptyColumnValue("linkitemname", linkItemName);

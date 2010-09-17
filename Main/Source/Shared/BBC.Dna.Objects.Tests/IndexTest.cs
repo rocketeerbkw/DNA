@@ -386,7 +386,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetInt32NullAsZero("EntryID")).Return(2408815).Repeat.Twice();
             reader.Stub(x => x.GetInt32NullAsZero("h2g2ID")).Return(24088151).Repeat.Twice();
             reader.Stub(x => x.GetInt32NullAsZero("status")).Return(1).Repeat.Twice();
-
+            reader.Stub(x => x.GetInt32NullAsZero("type")).Return(1).Repeat.Twice();
             reader.Stub(x => x.GetDateTime("datecreated")).Return(DateTime.Now).Repeat.Twice();
         }
 #endregion

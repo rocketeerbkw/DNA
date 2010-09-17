@@ -81,6 +81,7 @@ namespace BBC.Dna.Objects
 
                     while (moreRows)
                     {
+                    
                         if (!reader.IsDBNull("h2g2id"))
                         {
                             moreRows = AddArticles(reader);
@@ -140,7 +141,8 @@ namespace BBC.Dna.Objects
                 {
                     topFiveArticle.EventDate.Date = new Date(reader.GetDateTime("eventdate"));
                 }
-                topFiveArticle.ExtraInfo = reader.GetStringNullAsEmpty("extrainfo");
+
+                topFiveArticle.Type = (Article.ArticleType)Enum.Parse(typeof(Article.ArticleType), reader.GetInt32NullAsZero("type").ToString());
                 topFiveArticle.H2G2ID = reader.GetInt32NullAsZero("h2g2id");
                 topFiveArticle.LinkItemID = reader.GetInt32NullAsZero("linkitemid");
                 topFiveArticle.LinkItemName = reader.GetStringNullAsEmpty("linkitemname");
@@ -153,8 +155,6 @@ namespace BBC.Dna.Objects
                 tempList.topFiveArticleList.Add(topFiveArticle);
                 moreRows = reader.Read();
             }
-
-            
 
             return moreRows;
         }
@@ -383,6 +383,15 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
+        [XmlElementAttribute(Order = 2, ElementName = "TYPE")]
+        [DataMember(Name = "type")]
+        public Article.ArticleType Type
+        {
+            get;
+            set;
+        }
+
+        /// <remarks/>
         [XmlIgnore]
         private string _extraInfo = string.Empty;
 
@@ -393,14 +402,8 @@ namespace BBC.Dna.Objects
             set { _extraInfo = value; }
         }
 
-        /// <remarks/>
-        [XmlAnyElement(Order = 2)]
-        [DataMember(Name = "extraInfo")]
-        public XmlElement ExtrainfoElement
-        {
-            get { return ExtraInfoCreator.CreateExtraInfo(ExtraInfo); }
-            set { ExtraInfo = value.OuterXml; }
-        }
+
+        
         
         /// <remarks/>
         [XmlElementAttribute("LINKITEMTYPE", Order = 3)]

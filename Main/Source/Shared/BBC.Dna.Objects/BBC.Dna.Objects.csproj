@@ -76,6 +76,7 @@
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="Contributions.cs" />
+    <Compile Include="ExtraInfo.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="LinksList.cs" />
@@ -119,7 +120,6 @@
     <Compile Include="CrumbTrailAncestor.cs" />
     <Compile Include="ArticleStatus.cs" />
     <Compile Include="Date.cs" />
-    <Compile Include="ExtraInfo.cs" />
     <Compile Include="Groups.cs" />
     <Compile Include="PostStyle.cs" />
     <Compile Include="ReviewForum.cs" />

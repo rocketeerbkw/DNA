@@ -17,7 +17,6 @@ namespace BBC.Dna.Objects
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "GUIDE")]
     public partial class GuideEntry
     {
-
         /// <summary>
         /// Creates the guide entry from the given text and relvant attributes
         /// </summary>
@@ -42,11 +41,10 @@ namespace BBC.Dna.Objects
                     switch (style)
                     {
                         case GuideEntryStyle.GuideML:
-                            var tempText = text.Replace("<GUIDE>", "").Replace("<BODY>", "").Replace("</GUIDE>", "").Replace("</BODY>", "");
-                            //tempText = Translator.TranslateText(tempText);
-                            tempText = HtmlUtils.ReplaceCRsWithBRs(tempText);
-                            tempText = Entities.ReplaceEntitiesWithNumericValues(tempText);
-                            doc.LoadXml("<GUIDE><BODY>" + tempText + "</BODY></GUIDE>");
+                            text = Entities.ReplaceEntitiesWithNumericValues(text);
+                            doc.PreserveWhitespace = true;
+                            doc.LoadXml(text);               
+                            doc["GUIDE"]["BODY"].InnerXml = HtmlUtils.ReplaceCRsWithBRs(doc["GUIDE"]["BODY"].InnerXml);
                             break;
 
                         case GuideEntryStyle.PlainText:
@@ -65,7 +63,7 @@ namespace BBC.Dna.Objects
                 catch(Exception e)
                 {
                     DnaDiagnostics.Default.WriteExceptionToLog(e);
-                    doc.LoadXml("<GUIDE><BODY></BODY></GUIDE>");
+                    throw;
                 }
 
 

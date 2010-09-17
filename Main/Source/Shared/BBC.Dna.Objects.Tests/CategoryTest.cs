@@ -360,7 +360,7 @@ namespace BBC.Dna.Objects.Tests
                 {
                     user = UserTest.CreateTestUser()
                 },
-                ExtraInfo = ExtraInfoCreator.CreateExtraInfo(@"<test>extra</test>"),
+                Type = Article.ArticleType.Article,
                 H2G2ID = 1,
                 LastUpdated = new DateElement(DateTime.Now),
                 Name = "Test",

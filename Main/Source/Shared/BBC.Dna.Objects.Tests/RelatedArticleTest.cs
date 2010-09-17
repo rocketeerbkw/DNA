@@ -84,7 +84,7 @@ namespace BBC.Dna.Objects.Tests
                 DateCreated = new DateElement(DateTime.Now),
                 LastUpdated = new DateElement(DateTime.Now),
                 Status = new ArticleStatus() { Type = 1, Value = "test" },
-                ExtraInfo = "<EXTRAINFO><TEST>test</TEST></EXTRAINFO>"
+                Type = Article.ArticleType.Article
             });
 
             return articles;

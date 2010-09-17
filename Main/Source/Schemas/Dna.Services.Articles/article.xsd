@@ -21,6 +21,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="type" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

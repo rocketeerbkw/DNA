@@ -33,7 +33,7 @@ BEGIN
 	WITH Articles AS
 	(
 		SELECT	a.EntryID, a.Subject, a.Status, a.UserID, a.SortSubject, 
-				g.DateCreated, g.LastUpdated, g.h2g2id, g.extrainfo
+				g.DateCreated, g.LastUpdated, g.h2g2id, g.extrainfo, g.type
 			FROM ArticleIndex a
 			INNER JOIN GuideEntries g ON a.EntryID = g.EntryID AND g.SiteID = @siteid
 			WHERE a.IndexChar = @char
@@ -60,6 +60,7 @@ BEGIN
 			s.extrainfo, 
 			s.DateCreated, 
 			s.LastUpdated, 
+			s.type,
 			siuidm.IdentityUserID, 
 			'IdentityUserName' = u.LoginName, 
 			u.UserName, 

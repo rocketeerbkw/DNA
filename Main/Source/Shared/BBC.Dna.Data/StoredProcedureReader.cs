@@ -162,6 +162,12 @@ namespace BBC.Dna.Data
                 value = 0;
                 return false;
             }
+            catch (NullReferenceException)
+            {
+                value = 0;
+                return false;
+
+            }
             return true;
         }
 

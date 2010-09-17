@@ -131,6 +131,9 @@ namespace BBC.Dna.Api
                 case ErrorType.InvalidPostStyle:
                     error = new ApiException("The postStyle must be of valid type.", innerException);
                     break;
+                case ErrorType.InvalidH2G2Id:
+                    error = new ApiException("H2G2 Id is not well formed", innerException);
+                    break;                    
                 case ErrorType.CommentNotFound:
                     error = new ApiException("The comment with the given id could not be found.", innerException);
                     break;
@@ -182,6 +185,12 @@ namespace BBC.Dna.Api
                 case ErrorType.ArticleNotFound:
                     error = new ApiException("Article not found.", innerException);
                     break;
+                case ErrorType.MissingSubject:
+                    error = new ApiException("Missing Subject.", innerException);
+                    break;
+                case ErrorType.MissingGuideML:
+                    error = new ApiException("Missing GuideML.", innerException);
+                    break;
                 case ErrorType.NoResults:
                     error = new ApiException("No results.", innerException);
                     break;
@@ -191,7 +200,6 @@ namespace BBC.Dna.Api
                 case ErrorType.AddIntoReviewForumFailed:
                     error = new ApiException("Failed to add into review forum.", innerException);
                     break;                   
-
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
                     break;
@@ -233,6 +241,7 @@ namespace BBC.Dna.Api
         InvalidRatingValue,
         InvalidPostStyle,
         InvalidThreadID,
+        InvalidH2G2Id,
         CommentNotFound,
         MinCharLimitNotReached,
         MissingUserList,
@@ -249,6 +258,8 @@ namespace BBC.Dna.Api
         MaintenanceMode,
         AlreadyLinked,
         ArticleNotFound,
+        MissingGuideML,
+        MissingSubject,
         NoResults,
         NotForReview,
         AddIntoReviewForumFailed
