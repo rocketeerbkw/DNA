@@ -31,6 +31,19 @@ BEGIN
 			return 1 -- User not found
 		END
 	END
+	ELSE IF @userNameType = 'dnauserid'
+	BEGIN
+		BEGIN TRY
+			SELECT @userid = CONVERT(int, @identityuserid)
+			IF NOT EXISTS( SELECT * FROM Users WHERE UserID = @userid) 
+			BEGIN
+				return 1 -- User not found
+			END
+		END TRY
+		BEGIN CATCH
+				return 1 -- error converting the string
+		END CATCH
+	END
 	ELSE
 	BEGIN --get dna id from identityusername
 		SELECT @userid = dbo.udf_getdnauseridfromloginname (@identityuserid)

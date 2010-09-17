@@ -460,16 +460,23 @@ namespace BBC.Dna.Services
                 siteTypeAsEnum = (SiteType)Enum.Parse(typeof(SiteType), siteType);
             }
 
-            return Contributions.GetUserContributions(cacheManager,
-                readerCreator,
-                siteName,
-                identityuserid,
-                itemsPerPage,
-                startIndex,
-                sortDirection,
-                siteTypeAsEnum,
-                userNameType,
-                false);
+            try
+            {
+                return Contributions.GetUserContributions(cacheManager,
+                    readerCreator,
+                    siteName,
+                    identityuserid,
+                    itemsPerPage,
+                    startIndex,
+                    sortDirection,
+                    siteTypeAsEnum,
+                    userNameType,
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
         }
 
     }
