@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<xs:include schemaLocation="extrainfo.xsd"/>
+  <xs:include schemaLocation="extrainfo.xsd"/>
 	<xs:element name="RELATEDCLUBS">
 		<xs:complexType>
 			<xs:sequence>
@@ -9,9 +9,9 @@
 						<xs:sequence>
 							<xs:element name="CLUBID" type="xs:unsignedShort" />
 							<xs:element name="NAME" type="xs:string" />
-							<xs:element ref="EXTRAINFO">
-							</xs:element>
-						</xs:sequence>
+              <xs:element name="TYPE" type="xs:string" minOccurs="0"/>
+              <xs:element ref="EXTRAINFO" minOccurs="0"></xs:element>
+            </xs:sequence>
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>

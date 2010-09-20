@@ -168,7 +168,7 @@ namespace BBC.Dna.Objects.Tests
                 Forum = new SubmittableForum(),
                 Post = new SubmittablePost(),
                 Thread = new SubmittableThread(),
-                ReviewForum = ReviewForumTest.CreateRevievForum()
+                ReviewForum = ReviewForumTest.CreateReviewForum()
             };
         }
     }

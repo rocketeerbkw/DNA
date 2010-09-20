@@ -69,7 +69,7 @@ namespace BBC.Dna.Objects
 
 
         /// <summary>
-        /// Creates the linkslist from db
+        /// Creates the user subscriptions list from db
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <param name="identifier"></param>

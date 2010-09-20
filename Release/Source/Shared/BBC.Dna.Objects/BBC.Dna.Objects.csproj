@@ -71,13 +71,16 @@
     <Compile Include="ArticleInfoReferencesExternalLink.cs" />
     <Compile Include="ArticleInfoSubmittable.cs" />
     <Compile Include="ArticleSubscriptionsList.cs" />
+    <Compile Include="BlockedUserSubscriptionsList.cs" />
     <Compile Include="Club.cs" />
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="Contributions.cs" />
+    <Compile Include="ExtraInfo.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="LinksList.cs" />
+    <Compile Include="LinkSubscriptionsList.cs" />
     <Compile Include="MessageBoardBackup.cs" />
     <Compile Include="FrontPageElement.cs" />
     <Compile Include="Category.cs" />
@@ -89,8 +92,10 @@
     <Compile Include="MessageBoardPublishError.cs" />
     <Compile Include="MonthSummary.cs" />
     <Compile Include="Recommendations.cs" />
+    <Compile Include="ReviewSubmission.cs" />
     <Compile Include="Search.cs" />
     <Compile Include="SmileyTranslator.cs" />
+    <Compile Include="SubscribingUsersList.cs" />
     <Compile Include="ThreadPostSummary.cs" />
     <Compile Include="ForumHelper.cs" />
     <Compile Include="OnlineUser.cs" />
@@ -115,7 +120,6 @@
     <Compile Include="CrumbTrailAncestor.cs" />
     <Compile Include="ArticleStatus.cs" />
     <Compile Include="Date.cs" />
-    <Compile Include="ExtraInfo.cs" />
     <Compile Include="Groups.cs" />
     <Compile Include="PostStyle.cs" />
     <Compile Include="ReviewForum.cs" />

@@ -29,6 +29,10 @@ namespace FunctionalTests.Services.Users
         private const string _schemaForumThreads = "Dna.Services.Forums\\forumThreads.xsd";
         private const string _schemaLinksList = "Dna.Services.Common\\linksList.xsd";
         private const string _schemaArticleSubscriptions = "Dna.Services.Common\\articleSubscriptionsList.xsd";
+        private const string _schemaUserSubscriptions = "Dna.Services.Common\\userSubscriptionsList.xsd";
+        private const string _schemaLinkSubscriptions = "Dna.Services.Common\\linkSubscriptionsList.xsd";
+        private const string _schemaBlockedUserSubscriptions = "Dna.Services.Common\\blockedUserSubscriptionsList.xsd";
+        private const string _schemaSubscribingUsers = "Dna.Services.Common\\subscribingUsersList.xsd";
 
         private string _server = DnaTestURLRequest.CurrentServer;
         private string _sitename = "h2g2";
@@ -39,8 +43,6 @@ namespace FunctionalTests.Services.Users
             callinguser_url_json = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=json";
             callinguser_url_withInvalidSite = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/unknownsite/users/callinguser?format=xml";
         }
-
-
 
         [TestMethod]
         public void GetCallingUserInfo_AsEditor_ReturnsEditorItemInGroup()
@@ -547,6 +549,118 @@ namespace FunctionalTests.Services.Users
             Console.WriteLine("After GetUsersArticleSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml");
         }
 
+        /// <summary>
+        /// Test GetUsersUserSubscriptions method from service
+        /// </summary>
+        [TestMethod]
+        public void GetUsersUserSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersUserSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml");
+
+            int[] userIds = { 6, 42, 284, 128652, 225620, 551837, 1090501859 };
+
+            foreach (var id in userIds)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+
+                Console.WriteLine("Validating Users User Subscriptions UserID:" + id);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/usersubscriptions?idtype=DNAUserId&format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaUserSubscriptions);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersUserSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml");
+        }
+
+        /// <summary>
+        /// Test GetUsersBlockedUserSubscriptions method from service
+        /// </summary>
+        [TestMethod]
+        public void GetUsersBlockedUserSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersBlockedUserSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml");
+
+            int[] userIds = { 6, 42, 284, 128652, 225620, 551837, 1090501859 };
+
+            foreach (var id in userIds)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+
+                Console.WriteLine("Validating Users Blocked User Subscriptions UserID:" + id);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers?idtype=DNAUserId&format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaBlockedUserSubscriptions);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersBlockedUserSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml");
+        }
+
+        /// <summary>
+        /// Test GetUsersSubscribingUsers method from service
+        /// </summary>
+        [TestMethod]
+        public void GetUsersSubscribingUsersByDNAUserId_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersSubscribingUsersByDNAUserId_ReadOnly_ReturnsValidXml");
+
+            int[] userIds = { 6, 42, 284, 128652, 225620, 551837, 1090501859 };
+
+            foreach (var id in userIds)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+
+                Console.WriteLine("Validating Users Subscribing Users UserID:" + id);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/subscribingusers?idtype=DNAUserId&format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaSubscribingUsers);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersSubscribingUsersByDNAUserId_ReadOnly_ReturnsValidXml");
+        }
+
+
+        /// <summary>
+        /// Test GetUsersLinkSubscriptions method from service
+        /// </summary>
+        [TestMethod]
+        public void GetUsersLinkSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersLinkSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml");
+
+            int[] userIds = { 6, 42, 284, 128652, 225620, 551837, 1090501859 };
+
+            foreach (var id in userIds)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+
+                Console.WriteLine("Validating Users Link Subscriptions UserID:" + id);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/linksubscriptions?idtype=DNAUserId&format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaLinkSubscriptions);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersLinkSubscriptionsByDNAUserId_ReadOnly_ReturnsValidXml");
+        }
+
+        //JSON
+        //JSON
+        //JSON
         //JSON
         /// <summary>
         /// Test GetUsersAboutMeArticle method from service 
@@ -882,6 +996,54 @@ namespace FunctionalTests.Services.Users
             Assert.AreEqual(ErrorType.UserNotFound.ToString(), errorData.Code);
 
             Console.WriteLine("After CreateUsersLinksListTestWithUnknownDNAUserId");
+        }
+
+        [TestMethod]
+        public void GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus()
+        {
+            Console.WriteLine("Before GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus");
+
+            string callinguser_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/DotNetSuperUser?format=xml";
+
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(callinguser_url);
+
+            BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
+
+            Assert.AreEqual("Super", user.StatusAsString);
+
+
+            Console.WriteLine("After GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus");
+        }
+
+        /// <summary>
+        /// Test GetUserInfo with an not known DNAUserId 
+        ///</summary>
+        [TestMethod]
+        public void GetUserInfoWithUnknownDNAUserId()
+        {
+            Console.WriteLine("Before GetUserInfoWithUnknownDNAUserId");
+
+            int dnaUserId = 9999999;
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNotLoggedInUser();
+            request.AssertWebRequestFailure = false;
+            try
+            {
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}?idtype=DNAUserId&format=xml", _sitename, dnaUserId);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+            }
+            catch (WebException)
+            {
+
+            }
+            Assert.AreEqual(HttpStatusCode.NotFound, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.UserNotFound.ToString(), errorData.Code);
+
+            Console.WriteLine("After GetUserInfoWithUnknownDNAUserId");
         }
     }
 }

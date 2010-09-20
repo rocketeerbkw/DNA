@@ -245,7 +245,7 @@
    				<xsl:if test="/H2G2/@TYPE = 'FRONTPAGE' and /H2G2/SITECONFIG">
    					<xsl:choose>
    						<xsl:when test="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE != ''">
-   							<h2><xsl:value-of select="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE" /></h2>
+   							<h2><xsl:value-of select="SITECONFIG/V2_BOARDS/WELCOME_MESSAGE" disable-output-escaping="yes"/></h2>
    						</xsl:when>
    						<xsl:otherwise><h2>Welcome</h2></xsl:otherwise>
    					</xsl:choose>

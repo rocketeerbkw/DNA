@@ -11,13 +11,14 @@
 				<xs:element ref="ARTICLEINFO" />
 				<xs:element name="SUBJECT" type="xs:string" />
 				<xs:element ref="GUIDE" />
-				<xs:element ref="EXTRAINFO" />
+        <xs:element ref="EXTRAINFO"  minOccurs="0"/>
 				<xs:element name="BOOKMARKCOUNT" type="xs:unsignedByte" minOccurs="0" />
 				<xs:element name="H2G2ID" type="xs:int" minOccurs="0" />
 			</xs:sequence>
+      <xs:attribute name="TYPE" type="xs:string" use="optional" />
 			<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
 			<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
-			<xs:attribute name="CANCHANGEPERMISSIONS" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANCHANGEPERMISSIONS" type="xs:unsignedByte" use="required" />      
 			<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
 			<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
 			<xs:attribute name="DEFAULTCANCHANGEPERMISSIONS" type="xs:unsignedByte" use="required" />

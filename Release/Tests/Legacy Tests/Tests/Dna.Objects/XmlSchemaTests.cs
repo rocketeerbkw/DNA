@@ -270,7 +270,7 @@ namespace Tests
             ForumSourceReviewForum target = new ForumSourceReviewForum();
             target.Type = ForumSourceType.Journal;
             target.Article = ArticleTest.CreateArticle();
-            target.ReviewForum = ReviewForumTest.CreateRevievForum();
+            target.ReviewForum = ReviewForumTest.CreateReviewForum();
 
             Serializer.ValidateObjectToSchema(target, "ForumSource.xsd");
         }
@@ -350,7 +350,7 @@ namespace Tests
         [TestMethod()]
         public void ReviewForumXmlTest()
         {
-            ReviewForum target = ReviewForumTest.CreateRevievForum();
+            ReviewForum target = ReviewForumTest.CreateReviewForum();
             Serializer.ValidateObjectToSchema(target, "reviewforum.xsd");
         }
 

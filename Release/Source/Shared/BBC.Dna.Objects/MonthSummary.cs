@@ -141,7 +141,7 @@ namespace BBC.Dna.Objects
                         ArticleSummary articleSummary = new ArticleSummary();
                         articleSummary.H2G2ID = reader.GetInt32NullAsZero("h2g2ID");
                         articleSummary.Name = reader.GetStringNullAsEmpty("Subject");
-
+                        articleSummary.Type = (Article.ArticleType)Enum.Parse(typeof(Article.ArticleType), reader.GetInt32NullAsZero("type").ToString());
                         articleSummary.DateCreated = new DateElement(reader.GetDateTime("datecreated"));
 
                         monthSummary.GuideEntries.Add(articleSummary);

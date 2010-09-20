@@ -16,6 +16,8 @@ namespace BBC.Dna.Objects
     public class ArticleInfo
     {
 
+        private BBC.Dna.Moderation.Utils.ModerationStatus.ArticleStatus _moderationStatus;
+
         #region Properties
         /// <remarks/>
         [XmlElementAttribute(Order = 0, ElementName = "STATUS")]
@@ -29,8 +31,16 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "status")]
         public string StatusValue
         {
-            get { return Status.Value; }
-            set { }
+            get 
+            { 
+                if (Status == null) { Status = new ArticleStatus(); }
+                return Status.Value; 
+            }
+            set 
+            {
+                if (Status == null) { Status = new ArticleStatus(); }
+                Status.Value = value;
+            }
         }
 
         /// <remarks/>
@@ -71,18 +81,24 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElementAttribute(Order = 5, ElementName = "MODERATIONSTATUS")]
-        public ModerationStatus ModerationStatus
+        public string ModerationStatusAsString
         {
-            get;
-            set;
+            get
+            {
+                return Enum.GetName(typeof(BBC.Dna.Moderation.Utils.ModerationStatus.ArticleStatus), _moderationStatus);
+            }
+            set
+            {
+                _moderationStatus = (BBC.Dna.Moderation.Utils.ModerationStatus.ArticleStatus)Enum.Parse(typeof(BBC.Dna.Moderation.Utils.ModerationStatus.ArticleStatus), value);
+            }
         }
 
-        [XmlIgnore]
+        [XmlIgnore()]
         [DataMember(Name = "moderationStatus")]
-        public string ModerationStatusValue
+        public BBC.Dna.Moderation.Utils.ModerationStatus.ArticleStatus ModerationStatus
         {
-            get { return this.ModerationStatus.Value; }
-            set {}
+            get { return _moderationStatus; }
+            set { _moderationStatus = value; }
         }
 
         /// <remarks/>
@@ -159,6 +175,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElementAttribute(Order = 13, ElementName = "SUBMITTABLE")]
+        [DataMember(Name = "submittable")]
         public ArticleInfoSubmittable Submittable
         {
             get;
@@ -199,11 +216,7 @@ namespace BBC.Dna.Objects
                         // Now start reading in all the values for the entry
                         articleInfo.H2g2Id = reader.GetInt32("h2g2ID");
                         articleInfo.ForumId = reader.GetInt32("ForumID");
-                        articleInfo.ModerationStatus = new ModerationStatus()
-                        {
-                            Id = articleInfo.H2g2Id,
-                            Value = reader.GetByteNullAsZero("ModerationStatus").ToString()
-                        };
+                        articleInfo.ModerationStatus = (BBC.Dna.Moderation.Utils.ModerationStatus.ArticleStatus)reader.GetInt32NullAsZero("ModerationStatus");
 
                         articleInfo.Status = ArticleStatus.GetStatus(reader.GetInt32("Status"));
                         articleInfo.DateCreated = new DateElement(reader.GetDateTime("DateCreated"));

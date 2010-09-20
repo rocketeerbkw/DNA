@@ -498,7 +498,7 @@ namespace BBC.Dna.Objects.Tests
             {
                 ArticleInfo = ArticleInfoTest.CreateArticleInfo(),
                 Subject = String.Empty,
-                ExtraInfo = "<EXTRAINFO><TEXT>test text</TEXT></EXTRAINFO>",
+                Type = Article.ArticleType.Article,
                 GuideMLAsString =  GuideEntryTest.CreateBlankEntry()
             };
         }

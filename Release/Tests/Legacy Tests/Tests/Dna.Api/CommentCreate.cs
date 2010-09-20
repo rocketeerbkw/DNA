@@ -356,7 +356,7 @@ namespace Tests
         {
             //set up test data
             string input = @"blahblahblah<a href=""http:" + "\r\n" + @""">Test Link</a>";
-            string expectedOutput = "blahblahblah<a href=\"http: \">Test Link</a>";
+            string expectedOutput = "blahblahblahTest Link";
 
             CommentInfo comment = new CommentInfo
             {
@@ -387,7 +387,7 @@ namespace Tests
             // DO NOT REFORMAT THE FOLLOWING TEST AS IT CONTAINS /r/n AS INTENDED!!!
             string input = @"blahblahblah2<b>NormalUser</b>
 with a carrage return.";
-            string expectedOutput = "blahblahblah2<b>NormalUser</b><BR />with a carrage return.";
+            string expectedOutput = "blahblahblah2<B>NormalUser</B><BR />with a carrage return.";
 
             CommentInfo comment = new CommentInfo
             {
@@ -460,7 +460,7 @@ return.";
             string input = @"blahblahblah2<b>NormalUser</b><a href=""
 www.bbc.co.uk/dna/h2g2"">fail you bugger</a>with a carrage
 return.";
-            string expectedOutput = @"blahblahblah2<b>NormalUser</b><a href="" www.bbc.co.uk/dna/h2g2"">fail you bugger</a>with a carrage<BR />return.";
+            string expectedOutput = @"blahblahblah2<B>NormalUser</B>fail you buggerwith a carrage<BR />return.";
 
             CommentInfo comment = new CommentInfo
             {

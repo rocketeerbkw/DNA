@@ -119,6 +119,12 @@ namespace BBC.Dna.Services
                 case ErrorType.MaintenanceMode: StatusCode = HttpStatusCode.ServiceUnavailable; break;  
                 case ErrorType.AlreadyLinked: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.ArticleNotFound: StatusCode = HttpStatusCode.NotFound; break;
+                case ErrorType.NoResults: StatusCode = HttpStatusCode.NotFound; break;
+                case ErrorType.NotForReview: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.AddIntoReviewForumFailed: StatusCode = HttpStatusCode.InternalServerError; break;
+                case ErrorType.InvalidH2G2Id: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.MissingGuideML: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.MissingSubject: StatusCode = HttpStatusCode.BadRequest; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 

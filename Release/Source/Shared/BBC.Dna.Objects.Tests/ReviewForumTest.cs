@@ -100,7 +100,7 @@ namespace BBC.Dna.Objects.Tests
 
         }
 
-        static public ReviewForum CreateRevievForum()
+        static public ReviewForum CreateReviewForum()
         {
             return new ReviewForum()
             {

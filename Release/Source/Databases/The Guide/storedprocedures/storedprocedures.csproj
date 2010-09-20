@@ -1277,8 +1277,10 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="fetchgroupsandmembersbysite.sql" />
+    <None Include="finduserfromidentityuserid.sql" />
     <None Include="finduserfromidentityusername.sql" />
     <None Include="cachegetlastpostdate.sql" />
+    <None Include="getcontributions.sql" />
     <None Include="getdnauseridfromidentityusername.sql" />
     <None Include="getemailinsertsbysite.sql" />
     <None Include="getemailinsertsbysite2.sql" />

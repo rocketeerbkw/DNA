@@ -133,7 +133,9 @@ namespace BBC.Dna.Objects
 
                             //Paged List of Article Subscriptions.
                             //Delegate creation of XML to Article class.
-                            articleSubscriptions.Articles.Add(Article.CreateArticleFromReader(readerCreator, reader, false));
+                            Article newArticle = Article.CreateArticleFromReader(readerCreator, reader, false);
+                            newArticle.Type = Article.ArticleType.Article;
+                            articleSubscriptions.Articles.Add(newArticle);
 
                         } while (reader.Read());
                     }

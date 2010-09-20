@@ -10,6 +10,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Xml;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 { 
@@ -86,8 +87,21 @@ namespace BBC.Dna.Objects
                 }
             }
             */
-            //create from db
-            search = CreateSearchFromDatabase(readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted);
+
+            if (searchType == "ARTICLE")
+            {
+                //create article search from db
+                search = CreateArticleSearchFromDatabase(readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted);
+            }
+            else //USER search
+            {
+                bool allowEmails = false;
+
+                
+                //create article search from db
+                search = CreateUserSearchFromDatabase(readerCreator, siteId, searchString, searchType, allowEmails);
+            }
+
             //add to cache
             //cache.Add(key, search);
 
@@ -117,11 +131,11 @@ namespace BBC.Dna.Objects
         }
 
         /// <summary>
-        /// Creates the search from db
+        /// Creates the article search from db
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <returns></returns>
-        public static Search CreateSearchFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted)
+        public static Search CreateArticleSearchFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted)
         {
             Search search = null;
             int count = 0;
@@ -145,7 +159,7 @@ namespace BBC.Dna.Objects
                 // Make sure we got something back
                 if (!reader.HasRows || !reader.Read())
                 {
-                    throw new Exception("No Search Results found");
+                    throw ApiException.GetError(ErrorType.NoResults);
                 }
                 else
                 {
@@ -193,6 +207,60 @@ namespace BBC.Dna.Objects
                         articleResult.ExtraInfo = new ExtraInfoCreator();
 
                         search.SearchResults.ArticleResults.Add(articleResult);
+                        count++;
+
+                    } while (reader.Read());
+                }
+                search.SearchResults.Count = count;
+            }
+            return search;
+        }
+        /// <summary>
+        /// Creates the article search from db
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <returns></returns>
+        public static Search CreateUserSearchFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool allowEmails)
+        {
+            Search search = null;
+            int count = 0;
+
+            string query = GenerateANDSearchQuery(searchString);
+
+            // fetch all the lovely intellectual property from the database
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("SearchUsersByNameOrEmail"))
+            {
+                reader.AddParameter("NameOrEmail", query);
+
+                if (allowEmails)
+                {
+                    reader.AddParameter("searchemails", 1);
+                }
+                else
+                {
+                    reader.AddParameter("searchemails", 0);
+                }
+
+                reader.AddParameter("SiteID", siteId);
+
+                reader.Execute();
+
+                // Make sure we got something back
+                if (!reader.HasRows || !reader.Read())
+                {
+                    throw ApiException.GetError(ErrorType.NoResults);
+                }
+                else
+                {
+                    search = new Search();
+                    search.SearchResults = new SearchResults();
+                    search.SearchResults.SearchTerm = searchString;
+                    search.SearchResults.Type = searchType;
+
+                    search.SearchResults.UserResults = new List<UserElement>();
+                    do
+                    {   UserElement user = new UserElement() { user = User.CreateUserFromReader(reader)} ;
+                        search.SearchResults.UserResults.Add(user);
                         count++;
 
                     } while (reader.Read());
@@ -269,11 +337,20 @@ namespace BBC.Dna.Objects
             get;
             set;
         }
-        
+
         /// <remarks/>
         [XmlElement("ARTICLERESULT")]
         [DataMember(Name = "articleResults")]
         public List<ArticleResult> ArticleResults
+        {
+            get;
+            set;
+        }
+
+        /// <remarks/>
+        [XmlElement("USERRESULT")]
+        [DataMember(Name = "userResults")]
+        public List<UserElement> UserResults
         {
             get;
             set;
@@ -470,7 +547,7 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [XmlElement(ElementName = "SEARCHUSERS")]
-        public string SearchUsers
+        public SearchUsers SearchUsers
         {
             get;
             set;
@@ -509,6 +586,22 @@ namespace BBC.Dna.Objects
             set;
         }
         
+        /// <remarks/>
+        [XmlAttribute(AttributeName = "SELECTED")]
+        public int Selected
+        {
+            get;
+            set;
+        }
+    }
+    /// <remarks/>
+    [GeneratedCode("System.Xml", "2.0.50727.3053")]
+    [Serializable]
+    [DesignerCategory("code")]
+    [XmlType(AnonymousType = true)]
+    [DataContract(Name = "searchUsers")]
+    public partial class SearchUsers
+    {
         /// <remarks/>
         [XmlAttribute(AttributeName = "SELECTED")]
         public int Selected

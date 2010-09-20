@@ -61,7 +61,7 @@ namespace BBC.Dna.Sites
         /// <remarks/>
         [XmlElement(Order = 5, ElementName = "TITLE")]
         public string Title{
-            get { return HtmlUtils.HtmlDecode(_title); }
+            get { return HtmlUtils.RemoveAllHtmlTags(HtmlUtils.HtmlDecode(_title)); }
             set { _title = value; }
         }
 

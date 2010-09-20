@@ -63,6 +63,14 @@ namespace BBC.Dna.Objects
             set;
         }
 
+        [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "TYPE")]
+        [DataMember(Name = "type")]
+        public Article.ArticleType Type
+        {
+            get;
+            set;
+        }  
+
         [XmlIgnore]
         [DataMember(Name = "status")]
         public string StatusValue
@@ -71,28 +79,9 @@ namespace BBC.Dna.Objects
             set { }
         }
 
-        /// <remarks/>
-        private string _extraInfo = string.Empty;
-        [XmlIgnore]
-        public string ExtraInfo
-        {
-            get { return _extraInfo; }
-            set { _extraInfo = value; }
-        }
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAnyElement(Order = 5)]
-        public XmlElement ExtraInfoElement
-        {
-            get
-            {
-                return ExtraInfoCreator.CreateExtraInfo(ExtraInfo);
-            }
-            set
-            {
-                ExtraInfo = value.OuterXml;
-            }
-        }
+      
+
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 6, ElementName = "DATECREATED")]
@@ -136,8 +125,8 @@ namespace BBC.Dna.Objects
                     article.StrippedName = StringUtils.StrippedName(article.Name);
                     article.Editor = new UserElement() { user = User.CreateUserFromReader(reader) };
                     article.Status = ArticleStatus.GetStatus(reader.GetInt32("Status"));
-                    article.ExtraInfo = reader.GetString("ExtraInfo") ?? "";
-
+                    article.Type = (Article.ArticleType)Enum.Parse(typeof(Article.ArticleType), reader.GetInt32NullAsZero("Type").ToString());
+                    
                     ///TODO: work out what the hell is going on here...
                     //int articleType = reader.GetInt32("Type");
                     //int articleHidden = 0;
