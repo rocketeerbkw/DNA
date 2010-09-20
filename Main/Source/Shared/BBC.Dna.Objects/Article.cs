@@ -297,7 +297,13 @@ namespace BBC.Dna.Objects
         /// <param name="reader"></param>
         public void UpdatePermissionsForViewingUser(BBC.Dna.Users.User user, IDnaDataReaderCreator readerCreator)
         {
-             UpdatePermissionsForViewingInternal(user.UserID, user.IsUserA(UserTypes.Editor), (user is CallingUser), user.IsUserA(UserTypes.SuperUser), readerCreator);
+            // Check to make sure we've got a logged in user
+            if (user == null)
+            {
+                // Nothing to update
+                return;
+            }
+            UpdatePermissionsForViewingInternal(user.UserID, user.IsUserA(UserTypes.Editor), (user is CallingUser), user.IsUserA(UserTypes.SuperUser), readerCreator);
         }
 
 
@@ -925,7 +931,7 @@ namespace BBC.Dna.Objects
         /// <param name="articleName"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        public static Article CreateNamedArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+        public static Article CreateNamedArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, BBC.Dna.Users.User viewingUser,
                                             int siteId, string articleName, bool ignoreCache, bool applySkin)
         {
             var article = new Article();
@@ -975,8 +981,8 @@ namespace BBC.Dna.Objects
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
         public static Article CreateRandomArticle(ICacheManager cache, 
-                                                    IDnaDataReaderCreator readerCreator, 
-                                                    User viewingUser,
+                                                    IDnaDataReaderCreator readerCreator,
+                                                    BBC.Dna.Users.User viewingUser,
                                                     int siteId, 
                                                     int status1,
                                                     int status2,
@@ -1041,7 +1047,7 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         public static Article CreateRandomArticle(ICacheManager cache, 
                                                     IDnaDataReaderCreator readerCreator, 
-                                                    User viewingUser,
+                                                    BBC.Dna.Users.User viewingUser,
                                                     int siteId, 
                                                     int status1,
                                                     int status2,
