@@ -20,6 +20,7 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
     [XmlType(AnonymousType = true, TypeName = "ARTICLE")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "ARTICLE")]
     [DataContract(Name="article")]
@@ -281,6 +282,7 @@ namespace BBC.Dna.Objects
         /// <param name="reader"></param>
         public void UpdatePermissionsForViewingUser(IUser viewingUser, IDnaDataReaderCreator readerCreator)
         {
+            ResetPermissions();
             // Check to make sure we've got a logged in user
             if (viewingUser == null || !viewingUser.UserLoggedIn)
             {
@@ -297,7 +299,14 @@ namespace BBC.Dna.Objects
         /// <param name="reader"></param>
         public void UpdatePermissionsForViewingUser(BBC.Dna.Users.User user, IDnaDataReaderCreator readerCreator)
         {
-             UpdatePermissionsForViewingInternal(user.UserID, user.IsUserA(UserTypes.Editor), (user is CallingUser), user.IsUserA(UserTypes.SuperUser), readerCreator);
+            ResetPermissions();
+            // Check to make sure we've got a logged in user
+            if (user == null)
+            {
+                // Nothing to update
+                return;
+            }
+            UpdatePermissionsForViewingInternal(user.UserID, user.IsUserA(UserTypes.Editor), (user is CallingUser), user.IsUserA(UserTypes.SuperUser), readerCreator);
         }
 
 
@@ -309,12 +318,6 @@ namespace BBC.Dna.Objects
         /// <param name="reader"></param>
         public void UpdatePermissionsForViewingInternal(int userid, bool isEditor, bool isLoggedn, bool isSuperUser, IDnaDataReaderCreator readerCreator)
         {
-
-
-            bool _canRead = true;
-            bool _canWrite = true;
-            bool _canChangePermissions = true;
-
             // Check to see if we're an editor
             if (!isEditor && !isSuperUser)
             {
@@ -333,18 +336,30 @@ namespace BBC.Dna.Objects
                     }
 
                     // Update the permissions from the results
-                    _canRead = reader.GetByteNullAsZero("CanRead") > 0;
-                    _canWrite = reader.GetByteNullAsZero("CanWrite") > 0;
-                    _canChangePermissions = reader.GetByteNullAsZero("CanChangePermissions") > 0;
+                    // Now update the articles can read / write and change permissions
+                    CanRead = reader.GetByteNullAsZero("CanRead");
+                    CanWrite = reader.GetByteNullAsZero("CanWrite");
+                    CanChangePermissions = reader.GetByteNullAsZero("CanChangePermissions");
                 }
             }
-            // Now update the articles can read / write and change permissions
-            CanRead = _canRead ? 1 : 0;
-            CanWrite = _canWrite ? 1 : 0;
-            CanChangePermissions = _canChangePermissions ? 1 : 0;
+            else
+            {
+                CanRead = 1;
+                CanWrite = 1;
+                CanChangePermissions = 1;
+            }
+            
         }
 
-
+        /// <summary>
+        /// Reset permission flags back to the default values
+        /// </summary>
+        public void ResetPermissions()
+        {
+            CanRead = DefaultCanRead;
+            CanWrite = DefaultCanWrite;
+            CanChangePermissions = DefaultCanChangePermissions;
+        }
 
         /// <summary>
         /// Sets the bookmark count in the object
@@ -756,6 +771,13 @@ namespace BBC.Dna.Objects
             return article;
         }
 
+        /// <summary>
+        /// Fills article object from reader.
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="reader"></param>
+        /// <param name="applySkin"></param>
+        /// <returns></returns>
         public static Article CreateArticleFromReader(IDnaDataReaderCreator readerCreator, IDnaDataReader reader, bool applySkin)
         {
             Article article = new Article();
@@ -843,7 +865,7 @@ namespace BBC.Dna.Objects
             {
 //not ignoring cache
 
-                article = (Article) cache.GetData(key);
+                article = (Article)cache.GetData(key);
                 if (article != null)
                 {
 //check if still valid with db...
@@ -925,7 +947,7 @@ namespace BBC.Dna.Objects
         /// <param name="articleName"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        public static Article CreateNamedArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
+        public static Article CreateNamedArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, BBC.Dna.Users.User viewingUser,
                                             int siteId, string articleName, bool ignoreCache, bool applySkin)
         {
             var article = new Article();
@@ -975,8 +997,8 @@ namespace BBC.Dna.Objects
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
         public static Article CreateRandomArticle(ICacheManager cache, 
-                                                    IDnaDataReaderCreator readerCreator, 
-                                                    User viewingUser,
+                                                    IDnaDataReaderCreator readerCreator,
+                                                    BBC.Dna.Users.User viewingUser,
                                                     int siteId, 
                                                     int status1,
                                                     int status2,
@@ -1041,7 +1063,7 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         public static Article CreateRandomArticle(ICacheManager cache, 
                                                     IDnaDataReaderCreator readerCreator, 
-                                                    User viewingUser,
+                                                    BBC.Dna.Users.User viewingUser,
                                                     int siteId, 
                                                     int status1,
                                                     int status2,

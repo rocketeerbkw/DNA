@@ -454,6 +454,7 @@ namespace FunctionalTests.Services.Users
             foreach (var name in identityUserNames)
             {
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
 
                 Console.WriteLine("Validating Users Article Subscriptions IdentityUserName:" + name);
                 string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/articlesubscriptions?format=xml", _sitename, name);
@@ -504,7 +505,7 @@ namespace FunctionalTests.Services.Users
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader("createguideinternal"))
             {
-                reader.ExecuteDEBUGONLY("exec createguideentry @subject='Test Entry by " + editor.ToString() + "', @bodytext='Test New Article', @extrainfo='<EXTRAINFO></EXTRAINFO>',@editor=" + editor.ToString() + ", @typeid=1, @status=1");
+                reader.ExecuteDEBUGONLY("exec createguideentry @subject='Test Entry by " + editor.ToString() + "', @bodytext='Test New Article', @extrainfo='<EXTRAINFO></EXTRAINFO>',@editor=" + editor.ToString() + ", @typeid=1, @status=1, @style=2");
                 if (reader.Read())
                 {
                     H2G2ID = reader.GetInt32NullAsZero("H2G2ID");

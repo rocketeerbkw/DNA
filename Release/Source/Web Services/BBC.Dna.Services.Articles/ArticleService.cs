@@ -386,7 +386,15 @@ namespace BBC.Dna.Services
             bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
             ISite site = GetSite(siteName);
 
-            CallingUser callingUser = GetCallingUser(site);
+            CallingUser callingUser = null;
+            try
+            {
+                callingUser = GetCallingUser(site);
+            }
+            catch (DnaWebProtocolException)
+            {
+                callingUser = null;
+            }
 
             Article article;
             int actualId = 0;
@@ -401,7 +409,7 @@ namespace BBC.Dna.Services
                 else
                 {
                     //if it's a string assume it's a named article and try to get the article by that
-                    article = Article.CreateNamedArticle(cacheManager, readerCreator, null, site.SiteID, articleId, false, applySkin);
+                    article = Article.CreateNamedArticle(cacheManager, readerCreator, callingUser, site.SiteID, articleId, false, applySkin);
                 }
             }
             catch (ApiException ex)
@@ -428,6 +436,17 @@ namespace BBC.Dna.Services
         public Stream GetRandomArticle(string siteName)
         {
             ISite site = GetSite(siteName);
+
+            CallingUser callingUser = null;
+            try
+            {
+                callingUser = GetCallingUser(site);
+            }
+            catch (DnaWebProtocolException)
+            {
+                callingUser = null;
+            }
+
             var randomType = QueryStringHelper.GetQueryParameterAsString("type", string.Empty);
             int status1 = 1;
             int status2 = -1;
@@ -455,7 +474,7 @@ namespace BBC.Dna.Services
 				status1 = 3;
 			}
 
-            var randomArticle = Article.CreateRandomArticle(cacheManager, readerCreator, null, 
+            var randomArticle = Article.CreateRandomArticle(cacheManager, readerCreator, callingUser, 
                                                             site.SiteID, status1, status2, status3, status4, status5, true);
 
             return GetOutputStream(randomArticle);
@@ -548,15 +567,25 @@ namespace BBC.Dna.Services
         [WebHelp(Comment = "Get the given article by articlename for a given site")]
         [OperationContract]
         public Stream GetNamedArticle(string siteName, string articlename)
-        {
-            
-
+        {          
             bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
             ISite site = GetSite(siteName);
+
+            CallingUser callingUser = null;
+            try
+            {
+                callingUser = GetCallingUser(site);
+            }
+            catch (DnaWebProtocolException)
+            {
+                callingUser = null;
+            }
+
+
             Article article;
             try
             {
-                article = Article.CreateNamedArticle(cacheManager, readerCreator, null, site.SiteID, articlename, false, applySkin);
+                article = Article.CreateNamedArticle(cacheManager, readerCreator, callingUser, site.SiteID, articlename, false, applySkin);
             }
             catch (ApiException ex)
             {
