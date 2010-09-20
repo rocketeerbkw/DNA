@@ -1238,6 +1238,60 @@ links: http://www.bbc.co.uk and other stuff";
             }
         }
 
+        [TestMethod]
+        public void Test42ForumPage_ArticleNotWrite_PermissionsValid()
+        {
+            try
+            {
+
+                var siteName = "mbiplayer";
+                var testPost = Guid.NewGuid().ToString();
+
+                var testContext = DnaMockery.CreateDatabaseInputContext();
+                using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("update guideentries set canwrite=0, lastupdated=getdate() where forumid=7325075");
+                }
+                var request = new DnaTestURLRequest(siteName);
+                request.RequestPage("NF7325075" + "?skin=purexml");
+                var doc = request.GetLastResponseAsXML();
+                Assert.AreEqual("0", doc.SelectSingleNode("//H2G2/FORUMSOURCE/ARTICLE/@CANWRITE").Value);
+
+
+                request.SetCurrentUserEditor();
+                request.RequestPage("NF7325075" + "?skin=purexml");
+                doc = request.GetLastResponseAsXML();
+                Assert.AreEqual("1", doc.SelectSingleNode("//H2G2/FORUMSOURCE/ARTICLE/@CANWRITE").Value);
+
+
+                request.SetCurrentUserNormal();
+                request.RequestPage("NF7325075" + "?skin=purexml");
+                doc = request.GetLastResponseAsXML();
+                Assert.AreEqual("0", doc.SelectSingleNode("//H2G2/FORUMSOURCE/ARTICLE/@CANWRITE").Value);
+
+                request.SetCurrentUserSuperUser();
+                request.RequestPage("NF7325075" + "?skin=purexml");
+                doc = request.GetLastResponseAsXML();
+                Assert.AreEqual("1", doc.SelectSingleNode("//H2G2/FORUMSOURCE/ARTICLE/@CANWRITE").Value);
+
+                //check to see if cached version being returned for no logged in user
+                request = new DnaTestURLRequest(siteName);
+                request.RequestPage("NF7325075" + "?skin=purexml");
+                doc = request.GetLastResponseAsXML();
+                Assert.AreEqual("0", doc.SelectSingleNode("//H2G2/FORUMSOURCE/ARTICLE/@CANWRITE").Value);
+
+
+            }
+            finally
+            {
+                var testContext = DnaMockery.CreateDatabaseInputContext();
+                using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("update guideentries set canwrite=1, lastupdated=getdate() where forumid=7325075");
+                }
+            }
+        }
+
 
 
         #region Private helper functions
