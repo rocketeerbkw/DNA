@@ -66,7 +66,7 @@ namespace BBC.Dna.Objects
                     String shorthand = dataReader.GetStringNullAsEmpty("tag");
                     
                     String replace = "<SMILEY TYPE='***' H2G2='Smiley#***'/>";
-                    //shorthand = StringUtils.EscapeAllXml(shorthand);
+                    shorthand = StringUtils.EscapeAllXml(shorthand);
                     Replacements.Add(shorthand, replace.Replace("***",name));
                 }
             }

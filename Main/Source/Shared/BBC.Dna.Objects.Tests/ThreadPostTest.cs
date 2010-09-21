@@ -61,6 +61,8 @@ namespace BBC.Dna.Objects.Tests
             testDataPlainText.Add(new[] { "This <quote>post</quote> is ok.", "This <QUOTE>post</QUOTE> is ok." });//with quote translation
             testDataPlainText.Add(new[] { "This http://www.bbc.co.uk/ is ok.", "This <LINK HREF=\"http://www.bbc.co.uk/\">http://www.bbc.co.uk/</LINK> is ok." });//with link translation
             testDataPlainText.Add(new[] { "This newline \r\n is ok.", "This newline <BR /> is ok." });//with newline translation
+            testDataPlainText.Add(new[] { "1 > 4 < 5", "1 &gt; 4 &lt; 5" });//translates < and > chars
+            testDataPlainText.Add(new[] { "jack & jill", "jack &amp; jill" });//translates & chars
 
 
             foreach (var data in testDataPlainText)

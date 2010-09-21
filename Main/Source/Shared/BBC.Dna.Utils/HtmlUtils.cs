@@ -153,6 +153,7 @@ namespace BBC.Dna.Utils
         private static string[] _dnaTags = { "quote", "smiley"};
         private static string[] _allowedHtmlTags= { "blockquote", "br", "em", "li", "p", "pre", "q", "strong", "ul", "b"};
         private static Regex StripHTMLExp = new Regex(@"(<\/?(?<tagname>[a-zA-Z0-9]+)[^>]*>)", RegexOptions.Compiled);
+        private static Regex StripHTMLEscapedExp = new Regex(@"(&lt;\/?(?<tagname>[a-zA-Z0-9]+)[^&]*&gt;)", RegexOptions.Compiled);
 
         /// <summary>
         /// removes all tag excepted for allowed tags
@@ -161,12 +162,22 @@ namespace BBC.Dna.Utils
         /// </summary>
         /// <param name="Input"></param>
         /// <returns></returns>
-        public static string CleanHtmlTags(string Input, bool stripHtmlTags)
+        public static string CleanHtmlTags(string Input, bool stripHtmlTags, bool textIsEscaped)
         {
             
             string Output = Input;
 
-            foreach (Match Tag in StripHTMLExp.Matches(Input))
+            MatchCollection tags = null;
+            if (textIsEscaped)
+            {
+                tags = StripHTMLEscapedExp.Matches(Input);
+            }
+            else
+            {
+                tags = StripHTMLExp.Matches(Input);
+            }
+
+            foreach (Match Tag in tags)
             {
                 string HTMLTag = Tag.Value.ToLower();
                 string tagName = Tag.Groups["tagname"].Value.ToLower();
@@ -178,12 +189,13 @@ namespace BBC.Dna.Utils
 
                 if (!stripHtmlTags && _allowedHtmlTags.Contains(tagName))
                 {
+                    var escapedTag = HtmlUtils.HtmlDecode(Tag.Value);
                     var newTag = string.Format("<{0}>",tagName.ToUpper());
-                    if (Tag.Value.IndexOf("</") == 0)
+                    if (escapedTag.IndexOf("</") == 0)
                     {
                         newTag = string.Format("</{0}>", tagName.ToUpper());
                     }
-                    if (Tag.Value.IndexOf("/>") > 0)
+                    if (escapedTag.IndexOf("/>") > 0)
                     {
                         newTag = string.Format("<{0}/>", tagName.ToUpper());
                     }
