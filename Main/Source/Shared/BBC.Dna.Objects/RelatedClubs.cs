@@ -49,7 +49,7 @@ namespace BBC.Dna.Objects
                     RelatedClubsMember member = new RelatedClubsMember();
                     member.ClubId = reader.GetInt32("ClubID");
                     member.Name = reader.GetString("Subject");
-                    member.Type = (Article.ArticleType)Enum.Parse(typeof(Article.ArticleType), reader.GetInt32NullAsZero("Type").ToString());
+                    member.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
 
                     
 

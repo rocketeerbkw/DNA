@@ -212,7 +212,7 @@ namespace BBC.Dna.Objects
                         articleSummary.Name = reader.GetStringNullAsEmpty("Subject");
                         articleSummary.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("subject")); 
                         articleSummary.Status = ArticleStatus.GetStatus(reader.GetInt32NullAsZero("status"));
-                        articleSummary.Type = (Article.ArticleType)Enum.Parse(typeof(Article.ArticleType), reader.GetInt32NullAsZero("type").ToString());
+                        articleSummary.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("type"));
                         articleSummary.Editor = new UserElement() { user = User.CreateUserFromReader(reader) };
 
                         articleSummary.DateCreated = new DateElement(reader.GetDateTime("datecreated"));

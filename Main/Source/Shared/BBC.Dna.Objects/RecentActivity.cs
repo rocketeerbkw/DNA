@@ -142,7 +142,7 @@ namespace BBC.Dna.Objects
                     topFiveArticle.EventDate.Date = new Date(reader.GetDateTime("eventdate"));
                 }
 
-                topFiveArticle.Type = (Article.ArticleType)Enum.Parse(typeof(Article.ArticleType), reader.GetInt32NullAsZero("type").ToString());
+                topFiveArticle.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("type"));
                 topFiveArticle.H2G2ID = reader.GetInt32NullAsZero("h2g2id");
                 topFiveArticle.LinkItemID = reader.GetInt32NullAsZero("linkitemid");
                 topFiveArticle.LinkItemName = reader.GetStringNullAsEmpty("linkitemname");
