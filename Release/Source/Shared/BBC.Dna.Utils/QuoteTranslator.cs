@@ -15,8 +15,8 @@ namespace BBC.Dna.Utils
     {
         // Simnple look for <quote> ...... </quote>
         // Expecting the incoming text to be escaped.
-        static Regex advancedOpenQuote = new Regex("<quote.*?>(?<!</quote>)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-        static Regex closeQuote = new Regex("</quote>", RegexOptions.IgnoreCase);
+        static Regex advancedOpenQuote = new Regex("&lt;quote.*?&gt;(?<!&lt;/quote&gt;)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        static Regex closeQuote = new Regex("&lt;/quote&gt;", RegexOptions.IgnoreCase);
 
         /*
             The following regex &lt;quote.*?&gt;(?<!&lt;/quote&gt;)(?!.*'[^']*&gt;[^']*'.*) tries to cope with > in user names, but doesn't
@@ -60,7 +60,7 @@ namespace BBC.Dna.Utils
                 // Go through all the open quotes and make sure they're in the right format
                 foreach (Match m in openQuotes)
                 {
-                    string newText = "<QUOTE" + m.Value.Substring("<quote".Length, m.Value.Length - "<quote>".Length) + ">";
+                    string newText = "<QUOTE" + m.Value.Substring("&lt;quote".Length, m.Value.Length - "&lt;quote&gt;".Length) + ">";
                     newText = newText.Replace("userid=", "USERID=");
                     newText = newText.Replace("user=", "USER=");
                     newText = newText.Replace("postid=", "POSTID=");
@@ -68,7 +68,7 @@ namespace BBC.Dna.Utils
                 }
 
                 // Now just replace the closing quotes
-                result = result.Replace("</quote>", "</QUOTE>");
+                result = result.Replace("&lt;/quote&gt;", "</QUOTE>").Replace("&lt;/QUOTE&gt;", "</QUOTE>");
             }
 
             return result;

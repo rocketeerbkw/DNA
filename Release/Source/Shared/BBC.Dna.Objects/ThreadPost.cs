@@ -267,6 +267,10 @@ namespace BBC.Dna.Objects
             //strip invalid xml chars
             inputText = StringUtils.StripInvalidXmlChars(inputText);
 
+            //converts all tags to &gt; or &lt;
+            inputText = StringUtils.EscapeAllXml(inputText);
+
+
             // Perform Smiley Translations
             inputText = SmileyTranslator.TranslateText(inputText);
 
@@ -274,7 +278,7 @@ namespace BBC.Dna.Objects
             inputText = QuoteTranslator.TranslateText(inputText);
 
             //Remove bad html tags and events
-            inputText = HtmlUtils.CleanHtmlTags(inputText, true);
+            inputText = HtmlUtils.CleanHtmlTags(inputText, true, true);
 
             // Expand Links 
             //Note this must happen after removal because <LINK>s will be removed in the CleanHtmlTags call 
@@ -282,7 +286,6 @@ namespace BBC.Dna.Objects
 
             //convert BRs to CRs
             inputText = HtmlUtils.ReplaceCRsWithBRs(inputText);
-            
 
             return inputText;
         }
