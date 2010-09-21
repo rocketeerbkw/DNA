@@ -29,16 +29,14 @@ namespace BBC.Dna.Objects
 
         public enum ArticleType : int 
         {
-            Article = 1,
-            Club = 1001,
-            ReviewForum = 2001,
-            UserPage = 3001,
-            CategoryPage = 4001
+            Article,
+            Club,
+            ReviewForum,
+            UserPage,
+            CategoryPage
         }
 
         #region Properties
-
-        private ArticleType _type;
 
         /// <remarks/>
         private string _extraInfo = string.Empty;
@@ -618,12 +616,14 @@ namespace BBC.Dna.Objects
             hashedContent = String.Format(hashedContent, Subject, GuideMLAsString, userid, siteId, Style, 0, 1);
             Guid hash = DnaHasher.GenerateHash(hashedContent);
 
+            
+
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("createguideentry"))
             {
                 reader.AddParameter("subject", Subject);
                 reader.AddParameter("bodytext", GuideMLAsString);
-                reader.AddParameter("extrainfo", ExtraInfoCreator.CreateExtraInfo((ArticleType)Enum.Parse(typeof(ArticleType), "1")));
+                reader.AddParameter("extrainfo", ExtraInfoCreator.CreateExtraInfo(GetArticleTypeFromInt(1)));
                 reader.AddParameter("editor", userid);
                 reader.AddParameter("style",  Style);
                 reader.AddParameter("status",  HiddenStatus);
@@ -645,6 +645,17 @@ namespace BBC.Dna.Objects
                     H2g2Id = reader.GetInt32("H2g2Id");
                 }
             }
+        }
+
+        public static ArticleType GetArticleTypeFromInt(int articleTypeAsInt)
+        {
+            if ((articleTypeAsInt > 0) && (articleTypeAsInt <= 1000)) { return ArticleType.Article; }
+            if ((articleTypeAsInt > 1000) && (articleTypeAsInt <= 2000)) { return ArticleType.Club; }
+            if ((articleTypeAsInt > 2000) && (articleTypeAsInt <= 3000)) { return ArticleType.ReviewForum; }
+            if ((articleTypeAsInt > 3000) && (articleTypeAsInt <= 4000)) { return ArticleType.UserPage; }
+            if ((articleTypeAsInt > 4000) && (articleTypeAsInt <= 5000)) { return ArticleType.CategoryPage; }
+            
+            return ArticleType.Article;  // default
         }
 
         public void UpdateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, int userid)
@@ -813,7 +824,7 @@ namespace BBC.Dna.Objects
             {
                 article.Style = GuideEntryStyle.GuideML;
             }
-            article.Type = (ArticleType)Enum.Parse(typeof(ArticleType), reader.GetInt32NullAsZero("Type").ToString());
+            article.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
 
             if (!reader.IsDBNull("HIdden"))
             {

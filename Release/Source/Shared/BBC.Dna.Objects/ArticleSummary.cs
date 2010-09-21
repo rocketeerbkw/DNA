@@ -92,8 +92,8 @@ namespace BBC.Dna.Objects
                         ArticleSummary childArticle = new ArticleSummary();
                         childArticle.H2G2ID = reader.GetInt32NullAsZero("h2g2id");
                         childArticle.Name = reader.GetStringNullAsEmpty("subject");
-                        childArticle.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("subject")); 
-                        childArticle.Type = (Article.ArticleType)Enum.Parse(typeof(Article.ArticleType), reader.GetInt32NullAsZero("Type").ToString());
+                        childArticle.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("subject"));
+                        childArticle.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
                         childArticle.Editor = new UserElement() { user = User.CreateUserFromReader(reader, "editor")} ;
                         childArticle.DateCreated = new DateElement(reader.GetDateTime("datecreated"));
                         childArticle.LastUpdated = new DateElement(reader.GetDateTime("lastupdated")); ;
