@@ -623,7 +623,7 @@ namespace BBC.Dna.Objects
             {
                 reader.AddParameter("subject", Subject);
                 reader.AddParameter("bodytext", GuideMLAsString);
-                reader.AddParameter("extrainfo", ExtraInfoCreator.CreateExtraInfo(GetArticleTypeFromInt(1)));
+                reader.AddParameter("extrainfo", ExtraInfoCreator.CreateExtraInfo(1));
                 reader.AddParameter("editor", userid);
                 reader.AddParameter("style",  Style);
                 reader.AddParameter("status",  HiddenStatus);
@@ -665,7 +665,7 @@ namespace BBC.Dna.Objects
             {
                 reader.AddParameter("subject", Subject);
                 reader.AddParameter("BodyText", GuideMLAsString);
-                reader.AddParameter("extraInfo", ExtraInfoCreator.CreateExtraInfo((ArticleType)Enum.Parse(typeof(ArticleType), "1")));
+                reader.AddParameter("extraInfo", ExtraInfoCreator.CreateExtraInfo(1));
                 reader.AddParameter("editor", userid);
                 reader.AddParameter("Style", Style);
                 reader.AddParameter("status", HiddenStatus);

@@ -15,7 +15,8 @@ SELECT DISTINCT u.UserName,
 				csu.score, 
 				u.Status, 
 				u.Active, 
-				'journal' = j.forumid 
+				'journal' = j.forumid, 
+				g.siteid
 FROM GuideEntries g WITH(NOLOCK) LEFT JOIN Researchers r WITH(NOLOCK) ON r.EntryID = g.EntryID
 LEFT JOIN Users u WITH(NOLOCK) ON u.UserID = r.UserID OR u.UserID = g.Editor 
 LEFT JOIN SignInUserIDMapping siuidm WITH(NOLOCK) ON u.UserID = siuidm.DnaUserID
