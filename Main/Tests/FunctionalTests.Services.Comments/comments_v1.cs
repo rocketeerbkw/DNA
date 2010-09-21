@@ -927,6 +927,51 @@ namespace FunctionalTests.Services.Comments
         /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
+        public void CreateComment_AsPlainTextWithHTMLLink_ReturnsTransformedLink()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string randomiser = Guid.NewGuid().ToString();
+            string text = "http://www.bbc.co.uk/" + randomiser + " in the post";
+            string expectedText = "<a href=\"http://www.bbc.co.uk/" + randomiser + "\">http://www.bbc.co.uk/" + randomiser + "</a> in the post";
+            PostStyle.Style postStyle = PostStyle.Style.plaintext;
+            string commentForumXml = String.Format("text={0}&poststyle={1}", text, postStyle);
+
+            // Setup the request url
+            string urlCreate = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm", _sitename, commentForum.Id);
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(urlCreate, commentForumXml, "application/x-www-form-urlencoded");
+
+            //get the forum back as xml
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);
+            nsmgr.AddNamespace("api", "BBC.Dna.Api");
+            XmlNode returnedText = xml.SelectSingleNode("api:commentForum/api:commentsList/api:comments/api:comment/api:text", nsmgr);
+
+            Assert.AreEqual(expectedText, returnedText.InnerText);
+
+            //get the forum back as json
+            request.RequestPageWithFullURL(url, null, "text/javascript");
+            CommentForum returnedForum = (CommentForum)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.IsTrue(returnedForum.commentList.comments[0].text == expectedText, "Expected:" + expectedText + " Actual:" + returnedForum.commentList.comments[0].text);
+
+
+        }
+
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
         public void CreateComment_InvalidPostStyle()
         {
             Console.WriteLine("Before CreateComment");
