@@ -125,8 +125,7 @@ namespace BBC.Dna.Objects
                     article.StrippedName = StringUtils.StrippedName(article.Name);
                     article.Editor = new UserElement() { user = User.CreateUserFromReader(reader) };
                     article.Status = ArticleStatus.GetStatus(reader.GetInt32("Status"));
-                    article.Type = (Article.ArticleType)Enum.Parse(typeof(Article.ArticleType), reader.GetInt32NullAsZero("Type").ToString());
-                    
+                    article.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));                    
                     ///TODO: work out what the hell is going on here...
                     //int articleType = reader.GetInt32("Type");
                     //int articleHidden = 0;
