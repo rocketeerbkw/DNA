@@ -266,6 +266,7 @@ namespace BBC.Dna.Utils
         /// <returns></returns>
         public static XmlElement ParseHtmlToXmlElement(string text, string tagName)
         {
+            tagName = tagName.ToUpper();
             // Now run it through the xml parser
             XmlDocument xDoc = new XmlDocument();
             if (string.IsNullOrEmpty(text))
@@ -274,7 +275,7 @@ namespace BBC.Dna.Utils
                 return xDoc.DocumentElement;
             }
             text = EscapeNonEscapedAmpersands(text);
-            tagName = tagName.ToUpper();
+            
 
             
             try

@@ -130,7 +130,7 @@ namespace BBC.Dna.Objects.Tests
         [TestMethod()]
         public void UpdatePermissionsForViewingUser_StandardUser_ReturnsModifiedCanRead()
         {
-            Article target = new Article() { CanRead = 1 };
+            Article target = new Article() { CanRead = 1, DefaultCanRead=1 };
             MockRepository mocks;
             IDnaDataReader reader;
             IDnaDataReaderCreator creator;
@@ -141,7 +141,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(0, target.CanRead);
 
             //has rows is false
-            target = new Article() { CanRead = 1 };
+            target = new Article() { CanRead = 1, DefaultCanRead = 1 };
             reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(false);
             reader.Stub(x => x.Read()).Return(true);
@@ -154,7 +154,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreEqual(1, target.CanRead);
             
             //has x.Read() is false
-            target = new Article() { CanRead = 1 };
+            target = new Article() { CanRead = 1, DefaultCanRead = 1 };
             reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(false);
@@ -174,7 +174,7 @@ namespace BBC.Dna.Objects.Tests
         [TestMethod()]
         public void UpdatePermissionsForViewingUser_HasRowsFalse_ReturnsSameCanRead()
         {
-            Article target = new Article() { CanRead = 1 };
+            Article target = new Article() { CanRead = 1, DefaultCanRead = 1 };
             MockRepository mocks;
             IDnaDataReader reader;
             IDnaDataReaderCreator creator;
@@ -183,7 +183,7 @@ namespace BBC.Dna.Objects.Tests
 
             
             //has rows is false
-            target = new Article() { CanRead = 1 };
+            target = new Article() { CanRead = 1, DefaultCanRead=1 };
             reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(false);
             reader.Stub(x => x.Read()).Return(true);
@@ -203,7 +203,7 @@ namespace BBC.Dna.Objects.Tests
         [TestMethod()]
         public void UpdatePermissionsForViewingUser_CanReadFalse_ReturnsSameCanRead()
         {
-            Article target = new Article() { CanRead = 1 };
+            Article target = new Article() { CanRead = 1, DefaultCanRead=1 };
             MockRepository mocks;
             IDnaDataReader reader;
             IDnaDataReaderCreator creator;
@@ -212,7 +212,7 @@ namespace BBC.Dna.Objects.Tests
 
 
             //has x.Read() is false
-            target = new Article() { CanRead = 1 };
+            target = new Article() { CanRead = 1, DefaultCanRead = 1 };
             reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(false);
@@ -235,6 +235,9 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetInt32NullAsZero("CanRead")).Return(0);
             reader.Stub(x => x.GetInt32NullAsZero("CanWrite")).Return(0);
             reader.Stub(x => x.GetInt32NullAsZero("CanChangePermissions")).Return(0);
+            reader.Stub(x => x.GetInt32NullAsZero("DefaultCanRead")).Return(0);
+            reader.Stub(x => x.GetInt32NullAsZero("DefaultCanWrite")).Return(0);
+            reader.Stub(x => x.GetInt32NullAsZero("DefaultCanChangePermissions")).Return(0);
 
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("GetArticlePermissionsForUser")).Return(reader);

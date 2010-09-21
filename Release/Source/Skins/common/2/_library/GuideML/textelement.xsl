@@ -16,6 +16,6 @@
     </doc:documentation>
     
     <xsl:template match="text()" mode="library_GuideML">
-            <xsl:value-of select="." disable-output-escaping="no"/>
+            <xsl:value-of select="."/>
     </xsl:template>
 </xsl:stylesheet>
