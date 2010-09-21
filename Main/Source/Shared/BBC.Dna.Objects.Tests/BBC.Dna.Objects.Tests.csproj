@@ -78,6 +78,7 @@
     <Compile Include="ArticleTest.cs" />
     <Compile Include="BlockedUserSubscriptionsListTest.cs" />
     <Compile Include="CategorySummaryTest.cs" />
+    <Compile Include="ExtraInfoCreatorTest.cs" />
     <Compile Include="ForumSourceTest.cs" />
     <Compile Include="IndexTest.cs" />
     <Compile Include="ContributionsTest.cs" />

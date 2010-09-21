@@ -11,10 +11,9 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     public partial class ExtraInfoCreator
     {
-
-        static public string CreateExtraInfo(Article.ArticleType type)
+        static public string CreateExtraInfo(int type)
         {
-            return String.Format(@"<EXTRAINFO><TYPE ID=""{0}"" NAME=""{1}""/></EXTRAINFO>", (int)type, type.ToString());
+            return String.Format(@"<EXTRAINFO><TYPE ID=""{0}"" NAME=""{1}""/></EXTRAINFO>", type, Article.GetArticleTypeFromInt(type).ToString());
         }
     }
 }
