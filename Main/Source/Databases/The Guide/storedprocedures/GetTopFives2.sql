@@ -35,7 +35,8 @@ SELECT
 	TopFive.DateUpdated,
 	'LinkItemType' = CASE WHEN TopFive.LinkItemType = '' THEN NULL ELSE TopFive.LinkItemType END,
 	TopFive.LinkItemID,
-	'LinkItemName' = CASE WHEN TopFive.LinkItemName = '' THEN NULL ELSE TopFive.LinkItemName END
+	'LinkItemName' = CASE WHEN TopFive.LinkItemName = '' THEN NULL ELSE TopFive.LinkItemName END,
+	TopFive.Type
 FROM
 (
 	SELECT ArticleTopFives.* FROM
@@ -76,7 +77,8 @@ FROM
 			'DateUpdated' = g.LastUpdated,	
 			'LinkItemType' = '',
 			'LinkItemID' = NULL,
-			'LinkItemName' = ''
+			'LinkItemName' = '',
+			'Type' = g.Type
 		FROM dbo.TopFives tf WITH(NOLOCK)
 		INNER JOIN dbo.GuideEntries g WITH(NOLOCK) ON g.h2g2ID = tf.h2g2id
 		INNER JOIN dbo.Users u WITH(NOLOCK) ON u.UserID = g.Editor
@@ -125,7 +127,8 @@ FROM
 			'DateUpdated' = t.LastUpdated,	
 			'LinkItemType' = CASE WHEN tf.GroupName = 'MostRecentCampaignDiaryEntries' THEN 'Campaign' ELSE '' END,
 			'LinkItemID' = CASE WHEN tf.GroupName = 'MostRecentCampaignDiaryEntries' THEN c.ClubID ELSE NULL END,
-			'LinkItemName' = CASE WHEN tf.GroupName = 'MostRecentCampaignDiaryEntries' THEN c.Name ELSE '' END
+			'LinkItemName' = CASE WHEN tf.GroupName = 'MostRecentCampaignDiaryEntries' THEN c.Name ELSE '' END,
+			'Type' = NULL
 		FROM dbo.TopFives tf WITH(NOLOCK)
 		INNER JOIN dbo.Forums f WITH(NOLOCK) ON f.ForumID = tf.ForumID
 		INNER JOIN dbo.Threads t WITH(NOLOCK) ON t.ThreadID = tf.ThreadID
@@ -179,7 +182,8 @@ FROM
 			'DateUpdated' = t.LastUpdated,	
 			'LinkItemType' = CASE WHEN c.clubid IS NOT NULL THEN 'Campaign' ELSE dbo.udf_getguideentrytype(g.Type) END,
 			'LinkItemID' = ISNULL(c.ClubID,g.h2g2ID),
-			'LinkItemName' = ISNULL(c.Name,g.Subject)
+			'LinkItemName' = ISNULL(c.Name,g.Subject),
+			'Type' = NULL
 		FROM dbo.TopFives tf WITH(NOLOCK)
 		INNER JOIN dbo.Forums f WITH(NOLOCK) ON f.ForumID = tf.ForumID
 		INNER JOIN dbo.Threads t WITH(NOLOCK) ON t.ThreadID = tf.ThreadID
@@ -233,7 +237,8 @@ FROM
 			'DateUpdated' = NULL,	
 			'LinkItemType' = '',
 			'LinkItemID' = NULL,
-			'LinkItemName' = ''
+			'LinkItemName' = '',
+			'Type' = NULL
 		FROM dbo.TopFives tf WITH(NOLOCK)
 		INNER JOIN dbo.Clubs c WITH(NOLOCK) ON c.ClubID = tf.ClubID
 		INNER JOIN dbo.GuideEntries g WITH(NOLOCK) ON c.h2g2ID = g.h2g2ID
@@ -243,7 +248,7 @@ FROM
 	
 	UNION ALL
 	
-	SELECT UserTopFIves.* FROM
+	SELECT UserTopFives.* FROM
 	(
 		-- Do all Users
 		SELECT TOP 500
@@ -281,7 +286,8 @@ FROM
 			'DateUpdated' = NULL,	
 			'LinkItemType' = '',
 			'LinkItemID' = NULL,
-			'LinkItemName' = ''
+			'LinkItemName' = '',
+			'Type' = NULL
 		FROM dbo.TopFives tf WITH(NOLOCK)
 		INNER JOIN dbo.Users u WITH(NOLOCK) ON u.UserID = tf.UserID
 		INNER JOIN dbo.Preferences p WITH(NOLOCK) ON p.UserID = u.UserID AND p.SiteID = @SiteID
@@ -329,7 +335,8 @@ FROM
 			'DateUpdated' = NULL,	
 			'LinkItemType' = '',
 			'LinkItemID' = NULL,
-			'LinkItemName' = ''
+			'LinkItemName' = '',
+			'Type' = NULL
 		FROM dbo.TopFives tf WITH(NOLOCK)
 		INNER JOIN dbo.Forums f WITH(NOLOCK) ON f.ForumID = tf.ForumID
 		LEFT JOIN dbo.Threads t WITH(NOLOCK) ON t.ThreadID = tf.ThreadID

@@ -563,3 +563,6 @@ Marcus - update the following assets folders:
 	dnaimages/dna_messageboard
 	
 	
+SPF - Add the line to the Web.Config in the appSettings directory for
+    <add key="guideMLXSLTSkinPath" value="D:\Inetpub\wwwroot\h2g2\Skins\skinsets\api\default\output.xsl" />
+	
