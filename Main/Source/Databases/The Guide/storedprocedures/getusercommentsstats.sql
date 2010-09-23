@@ -55,6 +55,6 @@ as
 	inner join Users u on u.UserID = @userid
 	inner join Forums f on f.ForumID = te.ForumID
 	inner join CommentForums cf on cf.ForumID = f.ForumID
-	inner join dbo.Preferences p on p.UserId = @userid AND p.SiteID = @SiteID
+	left join dbo.Preferences p on p.UserId = @userid AND p.SiteID = @SiteID
 	where (vc.rn BETWEEN (@firstindex+1) AND (@lastindex+1))
 	Order By vc.rn 
