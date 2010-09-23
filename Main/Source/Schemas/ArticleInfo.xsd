@@ -31,7 +31,15 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="SITEID" type="xs:unsignedByte" />
-				<xs:element name="MODERATIONSTATUS" type="xs:string" />
+				<xs:element name="MODERATIONSTATUS">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="ID" type="xs:int" use="optional" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
 				<xs:element ref="PAGEAUTHOR" />
 				<xs:element name="DATECREATED">
 					<xs:complexType>
