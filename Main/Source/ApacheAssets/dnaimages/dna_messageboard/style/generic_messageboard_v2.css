@@ -167,7 +167,7 @@ ul.forumthreadposts li blockquote, div.inreplyto blockquote {margin:0 7px 10px 7
 .inreplyto .itemdetail {margin:0 0 14px}
 .inreplyto .createdby  {font-size:0.9em;  border-bottom:1px dotted #ccc}
 a.editor, a.notable {font-style:italic}
-p#countdown {margin-left:10px}
+p.countdown {margin-left:10px}
 #blq-content .dna-boards p.dna-error {margin-left:10px; padding-left:15px; font-weight:bold; background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat center left}
 #blq-content .dna-moderation-wrap {background:url(/dnaimages/dna_messageboard/img/dna-mod-bottom-arrow.png) top right no-repeat}
 #blq-content .dna-moderation-wrap a {text-decoration:underline}
