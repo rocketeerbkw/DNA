@@ -39,6 +39,10 @@ namespace BBC.Dna.Objects.Tests
         private readonly string _test_commentforumurl = "test comment forum url";
         private readonly string _test_guideentry_subject = "test guide entry subject";
 
+        private readonly int _test_totalpostsonforum = 20;
+        private readonly int _test_author_user_id = 99;
+        private readonly string _test_author_username = "poster";
+
         private readonly string _test_cache_key = "BBC.Dna.Objects.Contribution, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|99|Blog|h2g2|Ascending|10|0|identityuserid|";
         
         public ContributionsTest()
@@ -126,6 +130,12 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return(_test_firstsubject);
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(_test_commentforumurl);
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(_test_guideentry_subject);
+
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum);
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id);
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username);
+
+
             
 
             readerCreator.Stub(x => x.CreateDnaDataReader("getusercontributions")).Return(getusercontributionsReader);
@@ -282,7 +292,7 @@ namespace BBC.Dna.Objects.Tests
             // first row is a blog
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Body")).Return("Blog Body").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetDateTime("TimeStamp")).Return(_test_timestamp).Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetInt32("PostIndex")).Return(0).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetLongNullAsZero("PostIndex")).Return(0).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Blog).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Blog Description").Repeat.Once();
@@ -292,11 +302,15 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Blog First Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(_test_commentforumurl).Repeat.Once(); ;
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(String.Empty).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
+
 
             // second row is a community
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Body")).Return("Community Body").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetDateTime("TimeStamp")).Return(_test_timestamp).Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetInt32("PostIndex")).Return(1).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetLongNullAsZero("PostIndex")).Return(1).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Community).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Community Description").Repeat.Once();
@@ -306,11 +320,15 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Community First Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once();;
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(_test_guideentry_subject).Repeat.Once();;
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
+
 
             // third row is a messageboard
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Body")).Return("Messageboard Body").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetDateTime("TimeStamp")).Return(_test_timestamp).Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetInt32("PostIndex")).Return(2).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetLongNullAsZero("PostIndex")).Return(2).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Messageboard).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Messageboard Description").Repeat.Once();
@@ -320,11 +338,15 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Messageboard First Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once();;
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(String.Empty).Repeat.Once();;
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
+
 
             // fourth row is a embedded comments
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Body")).Return("Comments Body").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetDateTime("TimeStamp")).Return(_test_timestamp).Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetInt32("PostIndex")).Return(3).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetLongNullAsZero("PostIndex")).Return(3).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.EmbeddedComments).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Comments Description").Repeat.Once();
@@ -334,6 +356,10 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Comments First Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once();;
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(String.Empty).Repeat.Once();;
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
+
 
             readerCreator.Stub(x => x.CreateDnaDataReader("getusercontributions")).Return(getusercontributionsReader);
 

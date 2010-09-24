@@ -104,7 +104,7 @@ namespace BBC.Dna.Objects
         /// To indicate if this is the first post in the thread
         /// </summary>
         [DataMember(Name = "postIndex")]
-        public int PostIndex { get; set; }
+        public long PostIndex { get; set; }
 
         [DataMember(Name = "siteDescription")]
         public string SiteDescription { get; set; }
@@ -123,6 +123,15 @@ namespace BBC.Dna.Objects
 
         [DataMember(Name = "guideEntrySubject")]
         public string GuideEntrySubject { get; set; }
+
+        [DataMember(Name = "totalPostsOnForum")]
+        public int TotalPostsOnForum { get; set; }
+
+        [DataMember(Name = "authorUserId")]
+        public int AuthorUserId { get; set; }
+
+        [DataMember(Name = "authorUsername")]
+        public string AuthorUsername { get; set; }
 
 
         public static Contribution CreateContribution(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
