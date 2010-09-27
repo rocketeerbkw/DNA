@@ -28,6 +28,7 @@ namespace BBC.Dna.Objects.Tests
         private readonly string _test_sitedescription = null;
         private readonly DateTime _test_timestamp = DateTime.Now.AddDays(-20);
         private readonly DateTime _test_instance_created_datetime = DateTime.Now;
+
         
         private readonly SortDirection _test_sortDirection;
         private readonly SiteType _test_siteType = SiteType.Blog;
@@ -273,6 +274,7 @@ namespace BBC.Dna.Objects.Tests
         [TestMethod]
         public void GetUserContributions_WithNoFilter_Returns3ValidMixedItems()
         {
+
             // PREPARE THE TEST
             // setup the default mocks
             MockRepository mocks;
@@ -386,7 +388,7 @@ namespace BBC.Dna.Objects.Tests
 
             // check the first ContributionItems member (Blog)
             Assert.AreEqual("Blog Body", actual.ContributionItems[0].Body);
-            Assert.AreEqual(_test_timestamp, actual.ContributionItems[0].Timestamp);
+            Assert.AreEqual(new DateTimeHelper(_test_timestamp).At, actual.ContributionItems[0].Timestamp.At);
             Assert.AreEqual(0, actual.ContributionItems[0].PostIndex);
             Assert.AreEqual("h2g2", actual.ContributionItems[0].SiteName);
             Assert.AreEqual(SiteType.Blog, actual.ContributionItems[0].SiteType);
@@ -400,7 +402,7 @@ namespace BBC.Dna.Objects.Tests
 
             // check the second ContributionItems member (Community)
             Assert.AreEqual("Community Body", actual.ContributionItems[1].Body);
-            Assert.AreEqual(_test_timestamp, actual.ContributionItems[1].Timestamp);
+            Assert.AreEqual(new DateTimeHelper(_test_timestamp).At, actual.ContributionItems[1].Timestamp.At);
             Assert.AreEqual(1, actual.ContributionItems[1].PostIndex);
             Assert.AreEqual("h2g2", actual.ContributionItems[1].SiteName);
             Assert.AreEqual(SiteType.Community, actual.ContributionItems[1].SiteType);
@@ -414,7 +416,7 @@ namespace BBC.Dna.Objects.Tests
 
             // check the third MessageBoard member (Forum)
             Assert.AreEqual("Messageboard Body", actual.ContributionItems[2].Body);
-            Assert.AreEqual(_test_timestamp, actual.ContributionItems[2].Timestamp);
+            Assert.AreEqual(new DateTimeHelper(_test_timestamp).At, actual.ContributionItems[2].Timestamp.At);
             Assert.AreEqual(2, actual.ContributionItems[2].PostIndex);
             Assert.AreEqual("h2g2", actual.ContributionItems[2].SiteName);
             Assert.AreEqual(SiteType.Messageboard, actual.ContributionItems[2].SiteType);
@@ -428,7 +430,7 @@ namespace BBC.Dna.Objects.Tests
 
             // check the fourth ContributionItems member (embedded comments)
             Assert.AreEqual("Comments Body", actual.ContributionItems[3].Body);
-            Assert.AreEqual(_test_timestamp, actual.ContributionItems[3].Timestamp);
+            Assert.AreEqual(new DateTimeHelper(_test_timestamp).At, actual.ContributionItems[3].Timestamp.At);
             Assert.AreEqual(3, actual.ContributionItems[3].PostIndex);
             Assert.AreEqual("h2g2", actual.ContributionItems[3].SiteName);
             Assert.AreEqual(SiteType.EmbeddedComments, actual.ContributionItems[3].SiteType);
@@ -545,7 +547,7 @@ namespace BBC.Dna.Objects.Tests
                          SiteType = BBC.Dna.Site.SiteType.Blog,
                          FirstSubject = "Test Instance Source Title",
                          Subject = "Test Instance Sub Title",
-                         Timestamp = DateTime.Now,
+                         Timestamp = new DateTimeHelper(DateTime.Now),
                          Title = "Test Instance Title"
                     },
                     new Contribution()
@@ -557,7 +559,7 @@ namespace BBC.Dna.Objects.Tests
                          SiteType = BBC.Dna.Site.SiteType.Messageboard,
                          FirstSubject = "Test Instance Source Title 2",
                          Subject = "Test Instance Sub Title 2",
-                         Timestamp = DateTime.Now,
+                         Timestamp = new DateTimeHelper(DateTime.Now),
                          Title = "Test Instance Title 2"
                     }
                 }

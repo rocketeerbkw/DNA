@@ -279,7 +279,7 @@ namespace BBC.Dna.Objects
                     contribution.SiteUrl = reader2.GetStringNullAsEmpty("UrlName");
                     contribution.FirstSubject = reader2.GetStringNullAsEmpty("FirstSubject");
                     contribution.Subject = reader2.GetStringNullAsEmpty("Subject");
-                    contribution.Timestamp = reader2.GetDateTime("TimeStamp");
+                    contribution.Timestamp = new DateTimeHelper(reader2.GetDateTime("TimeStamp"));
                     contribution.Title = reader2.GetStringNullAsEmpty("ForumTitle");
                     contribution.ThreadEntryID = reader2.GetInt32("ThreadEntryID");
                     contribution.CommentForumUrl = reader2.GetStringNullAsEmpty("CommentForumUrl");

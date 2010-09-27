@@ -10,6 +10,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Site;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {
@@ -74,7 +75,7 @@ namespace BBC.Dna.Objects
         /// The date when the entry was posted    
         /// </summary>
         [DataMember(Name = "timestamp")]
-        public DateTime Timestamp { get; set; }
+        public DateTimeHelper Timestamp { get; set; }
 
         /// <summary>
         /// The content of the actual post in _rich text_ format 
@@ -111,9 +112,6 @@ namespace BBC.Dna.Objects
 
         [DataMember(Name = "siteUrl")]
         public string SiteUrl { get; set; }
-
-        [DataMember(Name = "forumTitle")]
-        public string ForumTitle { get; set; }
 
         [DataMember(Name = "threadEntryID")]
         public int ThreadEntryID { get; set; }
