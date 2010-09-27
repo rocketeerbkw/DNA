@@ -70,7 +70,7 @@ namespace CodeExperiments
             var dataReader = MockRepository.GenerateStub<IDnaDataReader>();
 
 
-            var adapter = new OpenSocialActvivityDataReaderAdapter(dataReader);
+            var adapter = new OpenSocialActivityDataReaderAdapter(dataReader);
 
             OpenSocialActivity activity = adapter;
             

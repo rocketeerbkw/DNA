@@ -3,7 +3,7 @@ using DnaEventService.Common;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
-    class UnexpectedActivity : ActivityBase
+    public class UnexpectedActivity : ActivityBase
     {
         public override HttpStatusCode Send(IDnaHttpClient client)
         {

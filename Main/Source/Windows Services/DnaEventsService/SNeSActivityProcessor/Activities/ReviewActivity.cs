@@ -1,15 +1,21 @@
 ﻿using System.Net;
 using Dna.SnesIntegration.ActivityProcessor.Contracts;
 using DnaEventService.Common;
+using System;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
-    class ReviewActivity : CommentActivityBase
+    public class ReviewActivity : CommentActivityBase
     {
         public ReviewActivity(OpenSocialActivity activity, SnesActivityData eventData)
         {
             Contents = activity;
-            Contents.ActivityType = "review";
+            Contents.ActivityType = activity.CustomActivityType;
+            if (string.IsNullOrEmpty(Contents.ActivityType))
+            {
+                Contents.ActivityType = "review";
+            }
+            
             IdentityUserId = eventData.IdentityUserId;
             ActivityId = eventData.EventId;
         }
@@ -23,7 +29,24 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
 
         public override void SetTitle(OpenSocialActivity activity, SnesActivityData eventData)
         {
-            
+            try
+            {
+                Contents.Url = new Uri(activity.ContentPermaUrl, UriKind.RelativeOrAbsolute);
+            }
+            catch { }
+
+            if (String.IsNullOrEmpty(Contents.Url.ToString()))
+            {
+                if (eventData.BlogUrl.Length > 0)
+                {
+                    Contents.Url = new Uri(eventData.BlogUrl + "#P" + eventData.UrlBuilder.PostId, UriKind.RelativeOrAbsolute);
+                }
+
+            }
+
+
+            Contents.Title =
+                CreateTitleString(eventData, "posted", Contents.Url, eventData.BlogUrl);
         }
 
         public override void SetObjectTitle(OpenSocialActivity activity, SnesActivityData eventData)

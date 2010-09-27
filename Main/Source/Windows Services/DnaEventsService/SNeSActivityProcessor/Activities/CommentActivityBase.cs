@@ -5,7 +5,7 @@ using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
-    abstract class CommentActivityBase : ActivityBase
+    public abstract class CommentActivityBase : ActivityBase
     {
         private const string TitleTemplate =
             @"{0} a <a href= ""{1}"" > new comment </a> on the <a href = ""{2}"" > {3} </a>";

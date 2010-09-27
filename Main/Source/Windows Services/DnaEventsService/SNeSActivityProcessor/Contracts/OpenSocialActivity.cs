@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
+using BBC.Dna.Utils;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Contracts
 {
     [DataContract]
     public class OpenSocialActivity
     {
+        private const int MaxChars = 511;
+
         [DataMember(Name = "title")]
         public string Title
         {
@@ -14,11 +17,12 @@ namespace Dna.SnesIntegration.ActivityProcessor.Contracts
             set;
         }
 
+        private string _body = string.Empty;
         [DataMember(Name = "body")]
         public string Body
         {
-            get;
-            set;
+            get{ return _body;}
+            set { _body = value.FormatBody(); }
         }
 
         [DataMember(Name = "url")]
@@ -56,11 +60,12 @@ namespace Dna.SnesIntegration.ActivityProcessor.Contracts
             set;
         }
 
+        private string _objectDescription = string.Empty;
         [DataMember(Name = "objectDescription")]
         public string ObjectDescription
         {
-            get;
-            set;
+             get{ return _objectDescription;}
+            set { _objectDescription = value.FormatBody(); }
         }
 
         [DataMember(Name = "username")]
@@ -90,6 +95,13 @@ namespace Dna.SnesIntegration.ActivityProcessor.Contracts
             get{ return "PUBLIC";}
             set { }
         }
+
+        public string ContentPermaUrl
+        { get; set; }
+
+        public string CustomActivityType
+        { get; set; }
+            
     }
 
     [DataContract]

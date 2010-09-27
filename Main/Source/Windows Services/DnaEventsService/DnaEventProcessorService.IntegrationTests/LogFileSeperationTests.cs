@@ -11,6 +11,8 @@ using Microsoft.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
+using BBC.Dna.Utils;
+using Dna.SnesIntegration.ActivityProcessor.Activities;
 
 namespace DnaEventProcessorService.IntegrationTests
 {
@@ -20,34 +22,6 @@ namespace DnaEventProcessorService.IntegrationTests
     [TestClass]
     public class LogFileSeperationTests
     {
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext { get; set; }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
         [TestMethod]
         public void ProcessEvents_SeperateLogFilesGeneratedByAssemblyName()
         {
@@ -113,6 +87,7 @@ namespace DnaEventProcessorService.IntegrationTests
                 var title = "Test comment forum title";
                 var siteId = "h2g2";
 
+                SetupSiteOptions(creator, 1, true, "", "", "", false);
                 CreateCommentForum(creator, uid, url, title, siteId);
 
                 //Add comment to comment forum
@@ -135,7 +110,6 @@ namespace DnaEventProcessorService.IntegrationTests
                 StubHttpClientPostMethod(httpClient);
 
                 var logger = MockRepository.GenerateStub<IDnaLogger>();
-
                 mocks.ReplayAll();
 
                 var processor = CreateSnesActivityProcessor(creator, logger, httpClientCreator);
@@ -143,6 +117,104 @@ namespace DnaEventProcessorService.IntegrationTests
 
                 httpClient.AssertWasCalled(client => client.Post(new Uri("", UriKind.Relative), 
                     HttpContent.Create("")), op => op.Constraints(Is.Anything(),Is.Anything()));
+            }
+        }
+
+        [TestMethod]
+        public void Integration_CommentActivityEndToEndWithoutSiteOption_NoEventsSent()
+        {
+            using (new TransactionScope())
+            {
+                //Setup up a comment forum for test using createcommentforum sp
+                string connectionString = Properties.Settings.Default.guideConnectionString;
+                IDnaDataReaderCreator creator = new DnaDataReaderCreator(connectionString);
+
+                var uid = Guid.NewGuid().ToString();
+                var url = "http://www.bbc.co.uk/";
+                var title = "Test comment forum title";
+                var siteId = "h2g2";
+
+                SetupSiteOptions(creator, 1, false, "", "", "", false);
+                CreateCommentForum(creator, uid, url, title, siteId);
+
+                //Add comment to comment forum
+                var hash = Guid.NewGuid().ToString();
+                var content = "content";
+                var userId = 6;
+
+                CreateComment(creator, uid, userId, content, hash);
+
+                SetupTestData(creator);
+
+                ProcessEvents(creator);
+
+                var mocks = new MockRepository();
+                var httpClientCreator = mocks.Stub<IDnaHttpClientCreator>();
+                var httpClient = MockRepository.GenerateStub<IDnaHttpClient>();
+
+                SetupResult.For(httpClientCreator.CreateHttpClient()).Return(httpClient);
+
+                StubHttpClientPostMethod(httpClient);
+
+                var logger = MockRepository.GenerateStub<IDnaLogger>();
+                //logger.Stub(x => x.LogRequest("", "")).WhenCalled(x => ValidateActivityJson(x.Arguments[0], 1)).Constraints(Is.Anything(),Is.Anything());
+                //LogUtility.LogRequest(GetActivityJson(), GetUri().ToString());
+                mocks.ReplayAll();
+
+                var processor = CreateSnesActivityProcessor(creator, logger, httpClientCreator);
+                processor.ProcessEvents(null);
+
+                httpClient.AssertWasNotCalled(client => client.Post(new Uri("", UriKind.Relative),
+                    HttpContent.Create("")), op => op.Constraints(Is.Anything(), Is.Anything()));
+            }
+        }
+
+        [TestMethod]
+        public void Integration_CommentActivityEndToEndWithIsPrivate_NoEventsSent()
+        {
+            using (new TransactionScope())
+            {
+                //Setup up a comment forum for test using createcommentforum sp
+                string connectionString = Properties.Settings.Default.guideConnectionString;
+                IDnaDataReaderCreator creator = new DnaDataReaderCreator(connectionString);
+
+                var uid    = Guid.NewGuid().ToString();
+                var url    = "http://www.bbc.co.uk/";
+                var title  = "Test comment forum title";
+                var siteId = "h2g2";
+
+                SetupSiteOptions(creator, 1, true, "", "", "", true);
+                CreateCommentForum(creator, uid, url, title, siteId);
+
+                //Add comment to comment forum
+                var hash    = Guid.NewGuid().ToString();
+                var content = "content";
+                var userId  = 6;
+
+                CreateComment(creator, uid, userId, content, hash);
+
+                SetupTestData(creator);
+
+                ProcessEvents(creator);
+
+                var mocks = new MockRepository();
+                var httpClientCreator = mocks.Stub<IDnaHttpClientCreator>();
+                var httpClient = MockRepository.GenerateStub<IDnaHttpClient>();
+
+                SetupResult.For(httpClientCreator.CreateHttpClient()).Return(httpClient);
+
+                StubHttpClientPostMethod(httpClient);
+
+                var logger = MockRepository.GenerateStub<IDnaLogger>();
+                //logger.Stub(x => x.LogRequest("", "")).WhenCalled(x => ValidateActivityJson(x.Arguments[0], 1)).Constraints(Is.Anything(),Is.Anything());
+                //LogUtility.LogRequest(GetActivityJson(), GetUri().ToString());
+                mocks.ReplayAll();
+
+                var processor = CreateSnesActivityProcessor(creator, logger, httpClientCreator);
+                processor.ProcessEvents(null);
+
+                httpClient.AssertWasNotCalled(client => client.Post(new Uri("", UriKind.Relative),
+                    HttpContent.Create("")), op      => op.Constraints(Is.Anything(), Is.Anything()));
             }
         }
 
@@ -179,6 +251,7 @@ namespace DnaEventProcessorService.IntegrationTests
 
             Assert.IsNotNull(obj);
         }
+
 
         private static void ProcessEvents(IDnaDataReaderCreator creator)
         {
@@ -300,6 +373,92 @@ namespace DnaEventProcessorService.IntegrationTests
             //Expect.Call(reader.GetStringNullAsEmpty("BlogUrl")).Repeat.Times(2).Return("http://www.bbc.co.uk/blogs/test");
 
             return;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="creator"></param>
+        /// <param name="siteId"></param>
+        /// <param name="enabled"></param>
+        /// <param name="objectUriFormat"></param>
+        /// <param name="contentPermaUrl"></param>
+        /// <param name="customActivityType"></param>
+        private void SetupSiteOptions(IDnaDataReaderCreator creator, int siteId, bool enabled, string objectUriFormat,
+            string contentPermaUrl, string customActivityType, bool isPrivate)
+        {
+            using (var dataReader = creator.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY(string.Format("delete from siteoptions where siteid={0} and name='SiteIsPrivate'", siteId));
+            }
+
+
+            using (var dataReader = creator.CreateDnaDataReader("dbu_createsiteoption"))
+            {
+                dataReader.AddParameter("siteid", siteId);
+                dataReader.AddParameter("section", "General");
+                dataReader.AddParameter("name", "SiteIsPrivate");
+                dataReader.AddParameter("value", isPrivate ? "1" : "0");
+                dataReader.AddParameter("type", "1");
+                dataReader.AddParameter("description", "Whether to propogate content to SNeS - note SiteIsPrivate is also honoured");
+                dataReader.Execute();
+            }
+
+            using (var dataReader = creator.CreateDnaDataReader("dbu_createsiteoption"))
+            {
+                dataReader.AddParameter("siteid", siteId);
+                dataReader.AddParameter("section", "SNeS Integration");
+                dataReader.AddParameter("name", "Enabled");
+                dataReader.AddParameter("value", enabled ? "1" : "0");
+                dataReader.AddParameter("type", "1");
+                dataReader.AddParameter("description", "Whether to propogate content to SNeS - note SiteIsPrivate is also honoured");
+                dataReader.Execute();
+            }
+
+            if (!string.IsNullOrEmpty(objectUriFormat))
+            {
+                using (var dataReader = creator.CreateDnaDataReader("dbu_createsiteoption"))
+                {
+                    dataReader.AddParameter("siteid", siteId);
+                    dataReader.AddParameter("section", "SNeS Integration");
+                    dataReader.AddParameter("name", "ObjectUriFormat");
+                    dataReader.AddParameter("value", objectUriFormat);
+                    dataReader.AddParameter("type", "2");
+                    dataReader.AddParameter("description", "Format of the object URI sent to SNeS - supports {forumid}, {threadid}, {postid}, {sitename}, {parenturl} and {commentforumuid}");
+                    dataReader.Execute();
+                }
+
+            }
+
+            if (!string.IsNullOrEmpty(contentPermaUrl))
+            {
+                using (var dataReader = creator.CreateDnaDataReader("dbu_createsiteoption"))
+                {
+                    dataReader.AddParameter("siteid", siteId);
+                    dataReader.AddParameter("section", "SNeS Integration");
+                    dataReader.AddParameter("name", "ContentPermaUrl");
+                    dataReader.AddParameter("value", contentPermaUrl);
+                    dataReader.AddParameter("type", "2");
+                    dataReader.AddParameter("description", "Format of the permalink - supports {forumid}, {threadid}, {postid}, {sitename}, {parenturl} and {commentforumuid} - empty means standard dna url");
+                    dataReader.Execute();
+                }
+
+            }
+
+            if (!string.IsNullOrEmpty(customActivityType))
+            {
+                using (var dataReader = creator.CreateDnaDataReader("dbu_createsiteoption"))
+                {
+                    dataReader.AddParameter("siteid", siteId);
+                    dataReader.AddParameter("section", "SNeS Integration");
+                    dataReader.AddParameter("name", "CustomActivityType");
+                    dataReader.AddParameter("value", customActivityType);
+                    dataReader.AddParameter("type", "2");
+                    dataReader.AddParameter("description", "ActivityType sent through to SNeS - empty uses default value for type of content");
+                    dataReader.Execute();
+                }
+
+            }
         }
     }
 }

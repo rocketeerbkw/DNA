@@ -4,7 +4,7 @@ using DnaEventService.Common;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
-    class DeleteActivity : ActivityBase
+    public class DeleteActivity : ActivityBase
     {
         private string SnesId
         {
