@@ -82,6 +82,13 @@ namespace BBC.Dna.Component
         {
             foreach (string paramname in collectionParams)
             {
+#if DEBUG
+                //if d_identityuserid passed ignore it
+                if (paramname.ToUpper() == "D_IDENTITYUSERID")
+                {
+                    continue;
+                }
+#endif
                 count++;
                 switch (count)
                 {
