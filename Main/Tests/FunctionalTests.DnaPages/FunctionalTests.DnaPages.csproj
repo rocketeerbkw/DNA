@@ -151,7 +151,6 @@
     <Compile Include="MoreSubscribingUsersPageTests.cs" />
     <Compile Include="MoreUserSubscriptionsPageTests.cs" />
     <Compile Include="PageAuthorZeitgeistTest.cs" />
-    <Compile Include="ProfileAPITests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestParameterTests.cs" />
     <Compile Include="RestrictedUsersListPageTests.cs" />
