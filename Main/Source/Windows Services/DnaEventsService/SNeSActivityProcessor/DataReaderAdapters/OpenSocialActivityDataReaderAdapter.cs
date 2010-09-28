@@ -21,6 +21,8 @@ namespace Dna.SnesIntegration.ActivityProcessor.DataReaderAdapters
             ObjectTitle = dataReader.GetString("ObjectTitle");
             ObjectDescription =dataReader.GetString("Body");
             UserName = dataReader.GetString("Username");
+            ApplicationActivityObjectId = dataReader.GetInt32("PostID");
+
             var appName = dataReader.GetString("DnaUrl") ?? "";
 
             ObjectUri = (dataReader.GetString("ObjectUriFormat") ?? "").FormatReplacementStrings(dataReader.GetInt32("ForumID"), 

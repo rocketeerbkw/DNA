@@ -96,6 +96,14 @@ namespace Dna.SnesIntegration.ActivityProcessor.Contracts
             set { }
         }
 
+        [DataMember(Name = "applicationActivityObjectId")]
+        public int ApplicationActivityObjectId
+        {
+            get;
+            set;
+        }
+        
+
         public string ContentPermaUrl
         { get; set; }
 
