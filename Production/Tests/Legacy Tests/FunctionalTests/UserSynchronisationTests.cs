@@ -413,7 +413,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest("mbcbbc");
             request.SetCurrentUserAsNewIdentityUser(_userName, _password, _displayName, _email, _14YearsOld, TestUserCreator.IdentityPolicies.Kids, "mbcbbc", TestUserCreator.UserType.IdentityOnly);
             string cookie = request.CurrentCookie;
-            request.RequestPage("signal?action=recache-site&siteid=54&skin=purexml");
+            request.RequestPage("?_ns=1&skin=purexml");
             XmlDocument doc = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(doc.SelectSingleNode("//VIEWING-USER/USER/USERNAME"), "User name is not correct");
