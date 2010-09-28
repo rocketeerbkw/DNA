@@ -122,7 +122,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
-                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden);
+                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden, true);
             }
 
             post.User = BBC.Dna.Objects.User.CreateUserFromReader(reader, prefix);
