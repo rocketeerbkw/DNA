@@ -44,6 +44,11 @@ namespace BBC.Dna.Moderation.Utils
             /// </summary>
             Removed_UserDeleted = 7,
 
+            /// <summary>
+            /// Removed - user content removed - probably spammer
+            /// </summary>
+            Removed_UserContentRemoved = 8,
+
         };
     }
 

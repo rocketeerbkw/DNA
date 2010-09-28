@@ -15,11 +15,13 @@ SELECT
 	dbo.Users.Status AS userstatus, 
 	CASE WHEN groups.UserID IS NULL THEN 0 ELSE 1 END AS userIsEditor, 
 	dbo.ThreadEntries.lastupdated as lastupdated,
-	dbo.ForumReview.rating as rating
+	dbo.ForumReview.rating as rating,
+	dbo.Preferences.sitesuffix as 'SiteSpecificDisplayName'
 FROM         dbo.ThreadEntries 
                       INNER JOIN dbo.CommentForums ON dbo.CommentForums.ForumID = dbo.ThreadEntries.ForumID 
                       INNER JOIN dbo.ForumReview ON dbo.ForumReview.EntryID = dbo.ThreadEntries.entryid 
                       INNER JOIN dbo.Users ON dbo.Users.UserID = dbo.ThreadEntries.UserID 
+                      INNER JOIN dbo.Preferences on dbo.Preferences.userid = dbo.Users.UserID and  dbo.Preferences.siteid = dbo.CommentForums.siteid
                       left outer join
 					(SELECT     
 						dbo.GroupMembers.UserID, 

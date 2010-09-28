@@ -98,7 +98,7 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader("AddEMailToBannedList"))
             {
-                reader.AddParameter("Email", "damnyoureyes72+2@googlemail.com");
+                reader.AddParameter("Email", "mark.howitt@bbc.co.uk");
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);

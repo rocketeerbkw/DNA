@@ -126,6 +126,8 @@ namespace FunctionalTests
                 reader.AddParameter("SiteIDs", 1);
                 reader.AddParameter("PrefStatus", prefStatus);
                 reader.AddParameter("PrefStatusDuration", 0);
+                reader.AddParameter("reason", "reason");
+                reader.AddParameter("viewinguser", 6);
                 reader.Execute();
             }
         }

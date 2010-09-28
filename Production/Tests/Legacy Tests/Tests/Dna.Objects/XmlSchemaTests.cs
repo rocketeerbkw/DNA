@@ -270,7 +270,7 @@ namespace Tests
             ForumSourceReviewForum target = new ForumSourceReviewForum();
             target.Type = ForumSourceType.Journal;
             target.Article = ArticleTest.CreateArticle();
-            target.ReviewForum = ReviewForumTest.CreateRevievForum();
+            target.ReviewForum = ReviewForumTest.CreateReviewForum();
 
             Serializer.ValidateObjectToSchema(target, "ForumSource.xsd");
         }
@@ -326,8 +326,8 @@ namespace Tests
         {
             User target = UserTest.CreateTestUser();
 
-            target.Groups.Group.Add(new Group("EDITOR"));
-            target.Groups.Group.Add(new Group("MODERATOR"));
+            target.Groups.Add(new Group("EDITOR"));
+            target.Groups.Add(new Group("MODERATOR"));
             XmlDocument xml = Serializer.SerializeToXml(target);
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "user.xsd");
             validator.Validate();
@@ -350,7 +350,7 @@ namespace Tests
         [TestMethod()]
         public void ReviewForumXmlTest()
         {
-            ReviewForum target = ReviewForumTest.CreateRevievForum();
+            ReviewForum target = ReviewForumTest.CreateReviewForum();
             Serializer.ValidateObjectToSchema(target, "reviewforum.xsd");
         }
 

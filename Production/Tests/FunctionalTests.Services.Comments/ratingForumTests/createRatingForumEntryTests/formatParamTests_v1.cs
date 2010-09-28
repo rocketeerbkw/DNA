@@ -139,7 +139,7 @@ namespace FunctionalTests.Services.Comments
 
             // test variants
             string formatParam = "HTML";
-            HttpStatusCode expectedCode = HttpStatusCode.OK;
+            HttpStatusCode expectedCode = HttpStatusCode.NotImplemented;
 
             // working data
             int inputRating = 0;
@@ -152,16 +152,6 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(myRequest.CurrentWebResponse.StatusCode == expectedCode,
                 "Expecting " + expectedCode + " as response, got " + myRequest.CurrentWebResponse.StatusCode + "\n" + myRequest.CurrentWebResponse.StatusDescription
                 );
-
-            string theResponse = myRequest.GetLastResponseAsString();
-
-            // a div of the appropriate class - the SinglLine option makes lets . match \n
-            Assert.IsTrue(Regex.Match(theResponse, "<div[^>]+class=[^>]+dna-rating\\B..*>", RegexOptions.Singleline).Success == true);
-            // something with the class of rating value and the right number
-            Assert.IsTrue(Regex.Match(theResponse, "class=[^>]+dna-ratingValue..*>" + inputRating + "<", RegexOptions.Singleline).Success == true);
-            // sotheing the the class of rating with the right text in it
-            Assert.IsTrue(Regex.Match(theResponse, "class=[^>]+dna-rating[^V]..*>" + inputText + "<", RegexOptions.Singleline).Success == true);
-
             Console.WriteLine("After formatParamTests - inXMLoutHTML");
         }
 

@@ -67,7 +67,7 @@ namespace Tests
             Console.WriteLine("Before TestXSLTCaching");
             // First log the user into the system.
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
-            request.SignUserIntoSSOViaProfileAPI(DnaTestURLRequest.usertype.NORMALUSER);
+            request.SetCurrentUserEditor();
 
             // Now create the test skin to use
             StreamWriter test1file = new StreamWriter(_testXSLTFilename);

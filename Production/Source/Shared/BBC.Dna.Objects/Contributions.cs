@@ -59,6 +59,16 @@ namespace BBC.Dna.Objects
         /// </summary>        
         public string SiteName { get; set; }
 
+        /// <summary>
+        /// Total contributions for this query in db (not just page size)
+        /// </summary>
+        [DataMember(Name = "totalContributions")]
+        public int TotalContributions { get; set; }
+
+        /// <summary>
+        /// Whether we get via id or username.
+        /// </summary>
+        private string UserNameType { get; set; }
 
         /// <summary>
         /// This is used for as an identifier for caching purposes.
@@ -81,7 +91,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <returns></returns>
         public static Contributions GetUserContributions(ICacheManager cache, IDnaDataReaderCreator readerCreator, string siteName, string userid,
-            int itemsPerPage, int startIndex, SortDirection SortDirection, SiteType? filterBySiteType, bool ignoreCache)
+            int itemsPerPage, int startIndex, SortDirection SortDirection, SiteType? filterBySiteType, string userNameType, bool ignoreCache)
         {
             Contributions contributions = new Contributions()
             {
@@ -91,10 +101,21 @@ namespace BBC.Dna.Objects
                 SortDirection = SortDirection,
                 SiteType = filterBySiteType,
                 SiteName = siteName,
-                InstanceCreatedDateTime = DateTime.Now                
+                UserNameType = userNameType,
+                InstanceCreatedDateTime = DateTime.Now 
+               
             };
 
-            contributions = CreateContributionFromDatabase(cache, contributions, readerCreator, ignoreCache);
+            if (contributions.IdentityUserID == null)
+            {
+                contributions = CreateContributionFromDatabase(cache, contributions, readerCreator, ignoreCache);
+            }
+            else
+            {
+                contributions = CreateUserContributionFromDatabase(cache, contributions, readerCreator, ignoreCache);
+            }
+
+            
             return contributions;
         }
 
@@ -104,6 +125,8 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         public override bool IsUpToDate(IDnaDataReaderCreator readerCreator)
         {
+
+            if (this.IdentityUserID == null) { return false; }
 
             DateTime lastPostedDateTime = DateTime.MinValue;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("cachegetlastpostdate"))
@@ -127,14 +150,17 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                return GetCacheKey(IdentityUserID, SiteType, SiteName, SortDirection.ToString(), ItemsPerPage, StartIndex);
+                return GetCacheKey(IdentityUserID, SiteType, SiteName, SortDirection.ToString(), ItemsPerPage, StartIndex, UserNameType);
             }
         }
 
         /// <summary>
         /// Fills the contributions list (if not obtainable from cache) with the return of getusercontributions
         /// </summary>
-        private static Contributions CreateContributionFromDatabase(ICacheManager cache, Contributions contributionsFromCache, IDnaDataReaderCreator readerCreator, bool ignoreCache)
+        private static Contributions CreateUserContributionFromDatabase(ICacheManager cache, 
+                                                                    Contributions contributionsFromCache, 
+                                                                    IDnaDataReaderCreator readerCreator, 
+                                                                    bool ignoreCache)
         {
             // NOTE
             // contributionsFromCache is simply used to get the cache key
@@ -158,10 +184,10 @@ namespace BBC.Dna.Objects
                 SortDirection = contributionsFromCache.SortDirection,
                 SiteType = contributionsFromCache.SiteType,
                 SiteName = contributionsFromCache.SiteName,
+                UserNameType = contributionsFromCache.UserNameType,
                 InstanceCreatedDateTime = DateTime.Now
             };
 
-            
             using (IDnaDataReader reader2 = readerCreator.CreateDnaDataReader("getusercontributions"))
             {
                 // Add the entry id and execute
@@ -172,46 +198,113 @@ namespace BBC.Dna.Objects
                 reader2.AddParameter("sortDirection", returnedContributions.SortDirection.ToString().ToLower());
                 reader2.AddParameter("siteType", returnedContributions.SiteType);
                 reader2.AddParameter("siteName", returnedContributions.SiteName);
+                reader2.AddParameter("userNameType", returnedContributions.UserNameType);
+                reader2.AddIntOutputParameter("count");
                 reader2.Execute();
 
-                int returnValue = 0;
-                reader2.TryGetIntReturnValueNullAsZero(out returnValue);
- 
+                returnedContributions = CreateContributionInternal(returnedContributions, cache, reader2);
+            }
 
-                if (returnValue == 1)   // user wasn't found
+            return returnedContributions;
+        }
+
+        /// <summary>
+        /// Fills the contributions list (if not obtainable from cache) with the return of getusercontributions
+        /// </summary>
+        private static Contributions CreateContributionFromDatabase(ICacheManager cache,
+                                                                    Contributions contributionsFromCache,
+                                                                    IDnaDataReaderCreator readerCreator,
+                                                                    bool ignoreCache)
+        {
+            // NOTE
+            // contributionsFromCache is simply used to get the cache key
+            // returnedContributions is the actual instance in cache
+
+            Contributions returnedContributions = null;
+            if (!ignoreCache)
+            {
+                returnedContributions = (Contributions)cache.GetData(contributionsFromCache.ContributionsCacheKey);
+                if (returnedContributions != null && returnedContributions.IsUpToDate(readerCreator))
                 {
-                    throw ApiException.GetError(ErrorType.InvalidUserId);
-                }
-
-                // Make sure we got something back
-                if (reader2.HasRows)
-                {
-                    returnedContributions.ContributionItems.Clear();
-
-                    while (reader2.Read()) // Go though the results untill we get the main article
-                    {
-                        Contribution contribution = new Contribution();                        
-                        contribution.Body = reader2.GetStringNullAsEmpty("Body");                        
-                        contribution.PostIndex = reader2.GetInt32("PostIndex");
-                        contribution.SiteName = reader2.GetStringNullAsEmpty("SiteName");
-                        contribution.SiteType = (SiteType)Enum.Parse(typeof(SiteType), reader2.GetStringNullAsEmpty("SiteType"));
-                        contribution.SiteDescription = reader2.GetStringNullAsEmpty("SiteDescription");
-                        contribution.SiteUrl = reader2.GetStringNullAsEmpty("UrlName");
-                        contribution.FirstSubject = reader2.GetStringNullAsEmpty("FirstSubject");
-                        contribution.Subject = reader2.GetStringNullAsEmpty("Subject"); 
-                        contribution.Timestamp = reader2.GetDateTime("TimeStamp");
-                        contribution.Title = reader2.GetStringNullAsEmpty("ForumTitle");
-                        contribution.ThreadEntryID = reader2.GetInt32("ThreadEntryID");
-                        contribution.CommentForumUrl = reader2.GetStringNullAsEmpty("CommentForumUrl");
-                        contribution.GuideEntrySubject = reader2.GetStringNullAsEmpty("GuideEntrySubject");
-                        returnedContributions.ContributionItems.Add(contribution);
-                    }
+                    return returnedContributions;
                 }
             }
 
-            // wasn't in cache before, so add to cache now
-            cache.Add(returnedContributions.ContributionsCacheKey, returnedContributions);
+            returnedContributions = new Contributions()
+            {
+                IdentityUserID = contributionsFromCache.IdentityUserID,
+                ItemsPerPage = contributionsFromCache.ItemsPerPage,
+                StartIndex = contributionsFromCache.StartIndex,
+                SortDirection = contributionsFromCache.SortDirection,
+                SiteType = contributionsFromCache.SiteType,
+                SiteName = contributionsFromCache.SiteName,
+                UserNameType = contributionsFromCache.UserNameType,
+                InstanceCreatedDateTime = DateTime.Now
+            };
+
+            using (IDnaDataReader reader2 = readerCreator.CreateDnaDataReader("getcontributions"))
+            {
+                // Add the entry id and execute
+                reader2.AddIntReturnValue();
+                reader2.AddParameter("itemsPerPage", returnedContributions.ItemsPerPage);
+                reader2.AddParameter("startIndex", returnedContributions.StartIndex);
+                reader2.AddParameter("sortDirection", returnedContributions.SortDirection.ToString().ToLower());
+                reader2.AddParameter("siteType", returnedContributions.SiteType);
+                reader2.AddParameter("siteName", returnedContributions.SiteName);
+                reader2.AddIntOutputParameter("count");
+                reader2.Execute();
+
+                returnedContributions = CreateContributionInternal(returnedContributions, cache, reader2);
+            }
+
             return returnedContributions;
         }
+
+        private static Contributions CreateContributionInternal(Contributions returnedContributions, ICacheManager cache, IDnaDataReader reader2)
+        {
+            int returnValue = 0;
+            int countReturnValue;
+            reader2.TryGetIntReturnValueNullAsZero(out returnValue);                
+
+            if (returnValue == 1)   // user wasn't found
+            {
+                throw ApiException.GetError(ErrorType.InvalidUserId);
+            }
+
+            // Make sure we got something back
+            if (reader2.HasRows)
+            {
+                returnedContributions.ContributionItems.Clear();
+
+                while (reader2.Read()) // Go though the results untill we get the main article
+                {
+                    Contribution contribution = new Contribution();
+                    contribution.Body = reader2.GetStringNullAsEmpty("Body");
+                    contribution.PostIndex = reader2.GetInt32("PostIndex");
+                    contribution.SiteName = reader2.GetStringNullAsEmpty("SiteName");
+                    contribution.SiteType = (SiteType)Enum.Parse(typeof(SiteType), reader2.GetStringNullAsEmpty("SiteType"));
+                    contribution.SiteDescription = reader2.GetStringNullAsEmpty("SiteDescription");
+                    contribution.SiteUrl = reader2.GetStringNullAsEmpty("UrlName");
+                    contribution.FirstSubject = reader2.GetStringNullAsEmpty("FirstSubject");
+                    contribution.Subject = reader2.GetStringNullAsEmpty("Subject");
+                    contribution.Timestamp = reader2.GetDateTime("TimeStamp");
+                    contribution.Title = reader2.GetStringNullAsEmpty("ForumTitle");
+                    contribution.ThreadEntryID = reader2.GetInt32("ThreadEntryID");
+                    contribution.CommentForumUrl = reader2.GetStringNullAsEmpty("CommentForumUrl");
+                    contribution.GuideEntrySubject = reader2.GetStringNullAsEmpty("GuideEntrySubject");
+                    returnedContributions.ContributionItems.Add(contribution);
+                }
+            }
+
+            reader2.NextResult();                
+            reader2.TryGetIntOutputParameter("count", out countReturnValue);
+            returnedContributions.TotalContributions = countReturnValue;               
+            
+            // wasn't in cache before, so add to cache now
+            cache.Add(returnedContributions.ContributionsCacheKey, returnedContributions);            
+            return returnedContributions;
+        }
+
+
     }
 }

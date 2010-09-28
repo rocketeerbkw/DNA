@@ -57,7 +57,6 @@ namespace FunctionalTests
             radiolist.SelectedIndex = 0;
 
             ButtonTester search = new ButtonTester("Search", CurrentWebForm);
-            search.Click();
 
             LabelTester err = new LabelTester("lblError",CurrentWebForm);
             Assert.AreNotEqual("Insufficient permissions - Editor Status Required", err.Text);

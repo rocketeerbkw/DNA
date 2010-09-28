@@ -245,7 +245,7 @@ namespace BBC.Dna.Utils
                         setSuccess = _mc.Set(key, value, expiry);
                         if (!setSuccess)
                         {
-                            if (_mc.LastError.IndexOf("object too large for cache") >= 0)
+                            if (_mc.LastError != null && _mc.LastError.IndexOf("object too large for cache") >= 0)
                             {
                                 return;
                             }

@@ -235,7 +235,7 @@ namespace BBC.Dna.Objects
         /// <summary>
         /// 
         /// </summary>
-        Groups Groups { get; set; }
+        List<Group> Groups { get; set; }
 
         int Status { get; set; }
         int TaxonomyNode { get; set; }

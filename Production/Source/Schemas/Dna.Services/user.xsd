@@ -8,6 +8,7 @@
 				<xs:element name="editor" type="xs:boolean" />
 				<xs:element name="notable" type="xs:boolean" />
 				<xs:element name="bbcId" type="xs:string" nillable="true"/>
+        <xs:element name="siteSpecificDisplayName" type="xs:string" nillable="true"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+	<xs:include schemaLocation="../Dna.Services.Common/link.xsd"/>
+	<xs:element name="linkSubscriptionsList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="skip" type="xs:unsignedByte" />
+				<xs:element name="show" type="xs:unsignedByte" />
+				<xs:element name="more" type="xs:unsignedByte" />
+				<xs:element name="subscriber">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="user"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="links">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="link" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -72,7 +72,7 @@ namespace Tests
         public void Test4GetUserEmailTest()
         {
             Console.WriteLine("Before Test4GetUserEmailTest");
-            Assert.AreEqual(_testUser.Email, "damnyoureyes72+1@googlemail.com");
+            Assert.AreEqual(_testUser.Email, "james.conway@bbc.co.uk");
             Console.WriteLine("After Test4GetUserEmailTest");
         }
 

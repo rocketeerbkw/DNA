@@ -523,7 +523,7 @@ namespace FunctionalTests
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
 
-            string dodgyLink = @"<a href=""#" + "\r\n" + @""">Test Link</a>";
+            string dodgyLink = @"<a <href=""" + "\r\n" + @""">Test Link</a>";
             // Now check to make sure we can post to the comment box
             request.RequestSecurePage("acswithoutapi?skin=purexml&dnapoststyle=1&dnauid=" + uid + "&dnaaction=add&dnacomment=blahblahblah" + dodgyLink + "&dnahostpageurl=" + hosturl);
 
@@ -570,6 +570,52 @@ with a carrage return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexm
             validator.Validate();
 
             Assert.AreEqual(@"blahblahblah2<b>NormalUser</b><BR />with a carrage return.", xml.SelectSingleNode("//RICHPOST").InnerXml, "The rich post did not come back with the expected formatting.");
+
+            Console.WriteLine("After CommentBoxTests - TestRichTextPosts");
+        }
+
+        /// <summary>
+        /// Test to make sure that if we submit a richtext post that we display it correctly in the comment box list
+        /// </summary>
+        [TestMethod]
+        public void TestAjaxRichTextPosts_PostTwice_ReturnsLatestCommentOnly()
+        {
+            Console.WriteLine("Before CommentBoxTests - TestRichTextPosts");
+
+            DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string uid = Guid.NewGuid().ToString();
+            string title = "TestingCommentBox";
+            string hosturl = "http://" + _server + "/dna/haveyoursay/acs";
+
+            string url = "acswithoutapi?dnauid=" + uid + "&dnainitialtitle=" + title + "&dnahostpageurl=" + hosturl + "&dnaforumduration=0&dnainitialmodstatus=reactive&skin=purexml";
+
+            // now get the response
+            request.RequestPage(url);
+
+            // Add a comment to the list
+            // DO NOT REFORMAT THE FOLLOWING TEST AS IT CONTAINS /r/n AS INTENDED!!!
+            request.RequestSecurePage("acswithoutapi?dnauid=" + uid + @"&dnaaction=add&dnacomment=blahblahblah2<b>NormalUser</b>
+with a carrage return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml");
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
+            validator.Validate();
+
+            Assert.AreEqual(@"blahblahblah2<b>NormalUser</b><BR />with a carrage return.", xml.SelectSingleNode("//RICHPOST").InnerXml, "The rich post did not come back with the expected formatting.");
+
+            //post again - check for latest comment only
+            request.RequestSecurePage("acswithoutapi?dnauid=" + uid + @"&dnaaction=add&dnacomment=blahblahblah3<b>NormalUser</b>
+with a carrage return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml");
+            xml = request.GetLastResponseAsXML();
+            validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
+            validator.Validate();
+
+            var posts = xml.SelectNodes("//H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST");
+            Assert.AreEqual(2, posts.Count);
+            Assert.IsTrue(Int32.Parse(posts[0].Attributes["POSTID"].Value) > Int32.Parse(posts[1].Attributes["POSTID"].Value));
+            Assert.AreEqual(@"blahblahblah3<b>NormalUser</b><BR />with a carrage return.", xml.SelectSingleNode("//RICHPOST").InnerXml, "The rich post did not come back with the expected formatting.");
 
             Console.WriteLine("After CommentBoxTests - TestRichTextPosts");
         }

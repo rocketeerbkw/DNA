@@ -128,6 +128,27 @@ public partial class MemberListPage {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.DropDownList Duration;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected global::System.Web.UI.WebControls.Panel panelForm;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    protected global::System.Web.UI.WebControls.CheckBox chkHideAllContent;
+
+    
+
+    /// <summary>
+    /// Hide all posts control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.TextBox txtReason;
     
     /// <summary>
     /// ApplyAction control.

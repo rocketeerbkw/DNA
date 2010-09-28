@@ -557,3 +557,12 @@ Within apacheassets copy the following files:
 	moderation\includes\moderation_posts.js
 	moderation\includes\moderation_links.js
 	components\commentbox\commentbox.sssi
+
+============== v 3.5.45.0 =============
+Marcus - update the following assets folders:
+	dnaimages/dna_messageboard
+	
+	
+SPF - Add the line to the Web.Config in the appSettings directory for
+    <add key="guideMLXSLTSkinPath" value="D:\Inetpub\wwwroot\h2g2\Skins\skinsets\api\default\output.xsl" />
+	

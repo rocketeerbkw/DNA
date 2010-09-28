@@ -669,7 +669,7 @@ dna.comments = function (){
 					post.onError(responseObject);
 					
 				//Check this isn't a duplication (dna errors this silently)	
-				} else if ($('#comment' + responseObject.id)[0]) {
+				} /*else if ($('#comment' + responseObject.id)[0]) {
 					
 					//Remove the loading chrome animation
 					loader.remove();
@@ -680,7 +680,7 @@ dna.comments = function (){
 					//No need to run the countdown if the post was unsuccessful.
 					countdown.stop();
 					
-				} else {
+				}*/ else {
 					
 					//No errors, pass through response to update the dom 
 					updateDom(responseObject);
@@ -725,6 +725,9 @@ dna.comments = function (){
 				
 				//Post occurred successfully, stop the user from posting for a while.
 				countdown.start(countdown.seconds || defaultCountdown);
+				
+				//hack to refresh window after a post
+				window.location.reload();
 			}
 		};
 		

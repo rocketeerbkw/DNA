@@ -1,4 +1,4 @@
-CREATE PROCEDURE updatemodclassemailinsertbysiteid @siteid int, @name varchar(255), @group varchar(255), @text text
+CREATE PROCEDURE updatemodclassemailinsertbysiteid @siteid int, @name varchar(255), @group varchar(255), @text nvarchar(MAX)
 AS
 BEGIN
 	DECLARE @modclassid int

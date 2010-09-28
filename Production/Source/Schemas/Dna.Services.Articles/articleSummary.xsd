@@ -1,7 +1,6 @@
 ﻿<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
 	<xs:include schemaLocation="../Dna.Services.Common/date.xsd"/>
-	<xs:include schemaLocation="../Dna.Services.Common/extraInfo.xsd"/>
 	<xs:element name="articleSummary">
 		<xs:complexType>
 			<xs:sequence>
@@ -19,7 +18,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="extraInfo" />
+				
 				<xs:element name="h2g2id" type="xs:int" />
 				<xs:element name="lastUpdated">
 					<xs:complexType>
@@ -37,8 +36,9 @@
 							<xs:element name="value" type="xs:string" />
 						</xs:sequence>
 					</xs:complexType>
-				</xs:element>
+				</xs:element>        
 				<xs:element name="strippedName" type="xs:string" />
+        <xs:element name="type" type="xs:string" />
 				<!--<xs:element name="sortOrder" type="xs:int" minOccurs ="0" />-->
 			</xs:sequence>
 		</xs:complexType>

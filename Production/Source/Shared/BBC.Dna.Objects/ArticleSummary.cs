@@ -6,6 +6,7 @@ using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using System.Runtime.Serialization;
+using BBC.Dna.Objects;
 
 namespace BBC.Dna.Objects
 {
@@ -44,11 +45,13 @@ namespace BBC.Dna.Objects
         public ArticleStatus Status { get; set; }
 
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "EXTRAINFO")]
-        [DataMember(Name = "extraInfo")]
-        public XmlElement ExtraInfo { get; set; }
-
+        [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "TYPE")]
+        [DataMember(Name = "type")]
+        public Article.ArticleType Type
+        {
+            get;
+            set;
+        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 6, ElementName = "DATECREATED")]
@@ -65,9 +68,12 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "redirectNodeId")]
         public int RedirectNodeID { get; set; }
 
+
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute("SORTORDER")]
         public int SortOrder { get; set; }
+
+
 
 
         public static List<ArticleSummary> GetChildArticles(IDnaDataReaderCreator readerCreator, int nodeID, int siteID)
@@ -86,8 +92,8 @@ namespace BBC.Dna.Objects
                         ArticleSummary childArticle = new ArticleSummary();
                         childArticle.H2G2ID = reader.GetInt32NullAsZero("h2g2id");
                         childArticle.Name = reader.GetStringNullAsEmpty("subject");
-                        childArticle.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("subject")); ;
-                        childArticle.ExtraInfo = ExtraInfoCreator.CreateExtraInfo(reader.GetStringNullAsEmpty("extrainfo"));
+                        childArticle.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("subject"));
+                        childArticle.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
                         childArticle.Editor = new UserElement() { user = User.CreateUserFromReader(reader, "editor")} ;
                         childArticle.DateCreated = new DateElement(reader.GetDateTime("datecreated"));
                         childArticle.LastUpdated = new DateElement(reader.GetDateTime("lastupdated")); ;

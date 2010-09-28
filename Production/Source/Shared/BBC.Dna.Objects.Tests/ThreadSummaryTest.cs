@@ -40,7 +40,7 @@ namespace BBC.Dna.Objects.Tests
             ThreadSummary actual = ThreadSummary.CreateThreadSummaryFromReader(reader, 0, 0);
             Assert.AreEqual(actual.CanRead, 1);
             Assert.AreEqual(actual.CanWrite, 1);
-            Assert.AreEqual(actual.Subject, "test&gt;");
+            Assert.AreEqual(actual.Subject, "test>");
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace BBC.Dna.Objects.Tests
             ThreadSummary actual = ThreadSummary.CreateThreadSummaryFromReader(reader, 0, 0);
             Assert.AreEqual(actual.CanRead, 0);
             Assert.AreEqual(actual.CanWrite, 0);
-            Assert.AreEqual(actual.Subject, "test&gt;");
+            Assert.AreEqual(actual.Subject, "test>");
         }
 
 

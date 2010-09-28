@@ -131,6 +131,9 @@ namespace BBC.Dna.Api
                 case ErrorType.InvalidPostStyle:
                     error = new ApiException("The postStyle must be of valid type.", innerException);
                     break;
+                case ErrorType.InvalidH2G2Id:
+                    error = new ApiException("H2G2 Id is not well formed", innerException);
+                    break;                    
                 case ErrorType.CommentNotFound:
                     error = new ApiException("The comment with the given id could not be found.", innerException);
                     break;
@@ -156,9 +159,52 @@ namespace BBC.Dna.Api
                 case ErrorType.UserNotFound:
                     error = new ApiException("User not found.", innerException);
                     break;
+                case ErrorType.ForumOrThreadNotFound:
+                    error = new ApiException("Forum or Thread not found.", innerException);
+                    break;
+                case ErrorType.GuideMLTransformationFailed:
+                    error = new ApiException("GuideML Transformation Failed.", innerException);
+                    break;
+                case ErrorType.ThreadPostNotFound:
+                    error = new ApiException("Thread post not found.", innerException);
+                    break;
+                case ErrorType.ThreadNotFound:
+                    error = new ApiException("Thread not found.", innerException);
+                    break;
+                case ErrorType.ForumIDNotWellFormed:
+                    error = new ApiException("ForumID not well formed.", innerException);
+                    break;
+
+                case ErrorType.MaintenanceMode:
+                    error = new ApiException("Service under maintenance mode.", innerException);
+                    break;
+                    
+                case ErrorType.AlreadyLinked:
+                    error = new ApiException("Already linked.", innerException);
+                    break;
+                case ErrorType.ArticleNotFound:
+                    error = new ApiException("Article not found.", innerException);
+                    break;
+                case ErrorType.MissingSubject:
+                    error = new ApiException("Missing Subject.", innerException);
+                    break;
+                case ErrorType.MissingGuideML:
+                    error = new ApiException("Missing GuideML.", innerException);
+                    break;
+                case ErrorType.NoResults:
+                    error = new ApiException("No results.", innerException);
+                    break;
+                case ErrorType.NotForReview:
+                    error = new ApiException("Not for Review.", innerException);
+                    break;                   
+                case ErrorType.AddIntoReviewForumFailed:
+                    error = new ApiException("Failed to add into review forum.", innerException);
+                    break;                   
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
                     break;
+
+
             }
             error.type = type;
             return error;
@@ -195,6 +241,7 @@ namespace BBC.Dna.Api
         InvalidRatingValue,
         InvalidPostStyle,
         InvalidThreadID,
+        InvalidH2G2Id,
         CommentNotFound,
         MinCharLimitNotReached,
         MissingUserList,
@@ -202,6 +249,19 @@ namespace BBC.Dna.Api
         CategoryNotFound,
         MonthSummaryNotFound,
         IndexNotFound,
-        UserNotFound
+        UserNotFound,
+        ForumOrThreadNotFound,
+        GuideMLTransformationFailed,
+        ThreadPostNotFound,
+        ThreadNotFound,
+        ForumIDNotWellFormed,
+        MaintenanceMode,
+        AlreadyLinked,
+        ArticleNotFound,
+        MissingGuideML,
+        MissingSubject,
+        NoResults,
+        NotForReview,
+        AddIntoReviewForumFailed
     }
 }

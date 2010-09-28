@@ -15,8 +15,8 @@ namespace BBC.Dna.Utils
     { 
         static Regex regForumEx = new Regex(@"(\A|(?<=\s))F[1-9]\d+(\Z|(?=\s))");
         static Regex regArticleEx = new Regex(@"(\A|(?<=\s))A[0-9]+(\Z|(?=\s))");
-        static Regex regCategoryEx = new Regex(@"C[0-9]+");
-        static Regex regLinkEx = new Regex(@"((http|https):[A-Za-z0-9/](([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2})+(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?)[^.?\s<]");
+        static Regex regCategoryEx = new Regex(@"(\A|(?<=\s))C[0-9]+");
+        static Regex regLinkEx = new Regex(@"(\A|(?<=\s))((http|https):[A-Za-z0-9/](([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2})+(#([a-zA-Z0-9][a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?)[^.?\s<]");
         //static Regex regInternalLinkEx = new Regex(@"(\A|(?<=\s))&lt;[.]/&gt;\w+&lt;/[.]&gt;(\Z|(?=\s))"); // Match <./>A-Z</.>
         //static Regex regGroupEx = new Regex(@"(?<=\s)G[1-9]\d*(?=\s)");
         static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(\Z|(?=\s))");
@@ -55,11 +55,7 @@ namespace BBC.Dna.Utils
                 }
             }*/
 
-            if (regLinkEx.IsMatch(result))
-            {
-                String replace = "<LINK HREF=\"***\">***</LINK>";
-                result = ReplaceExLinks(result, replace);
-            }
+            result = TranslateTextLinks(result);
 
             if (regUserEx.IsMatch(result))
             {
@@ -153,6 +149,49 @@ namespace BBC.Dna.Utils
                     result = result.Insert(match.Index, replace.Replace("***", s));
                 }
             }*/
+            return result;
+        }
+
+        /// <summary>
+        /// Check the input string for matches.
+        /// If match found then expand into LINK XML .
+        /// Consider changing the Link XML so that all Links are of the same format.
+        /// </summary>
+        /// <param name="raw">The string to check if it is a valid email address</param>
+        /// <returns>True if it is a valid email address</returns>
+        public static string TranslateTextLinks(string raw)
+        {
+
+            String result = raw;
+
+            /*if (regInternalLinkEx.IsMatch(raw))
+            {
+                String replace = "<LINK HREF=\"***\">***</LINK>";
+                MatchCollection matches = regInternalLinkEx.Matches(raw);
+                Stack stack = new Stack();
+                foreach (Match match in matches)
+                {
+                    stack.Push(match);
+                }
+
+                foreach (Match match in stack)
+                {
+                    //Remove <./> and </.> from internal link
+                    String s = match.Value;
+                    s = s.Replace(@"&lt;./&gt;", "");
+                    s = s.Replace(@"&lt;/.&gt;", "");
+                    s = s.Trim();
+                    result = result.Remove(match.Index, match.Length);
+                    result = result.Insert(match.Index, replace.Replace("***", s));
+                }
+            }*/
+
+            if (regLinkEx.IsMatch(result))
+            {
+                String replace = "<LINK HREF=\"***\">***</LINK>";
+                result = ReplaceExLinks(result, replace);
+            }
+
             return result;
         }
 

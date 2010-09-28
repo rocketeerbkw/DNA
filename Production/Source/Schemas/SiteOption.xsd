@@ -55,10 +55,15 @@
             </xs:restriction>
           </xs:simpleType>
         </xs:element>
-        <xs:element name="DESCRIPTION" type="xs:string" minOccurs="0">
+        <xs:element name="DESCRIPTION" minOccurs="0">
           <xs:annotation>
             <xs:documentation>Description of the site option.</xs:documentation>
           </xs:annotation>
+          <xs:complexType mixed="true">
+            <xs:sequence>
+              <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"></xs:any>
+            </xs:sequence>
+          </xs:complexType>
         </xs:element>
       </xs:sequence>
       <xs:attribute name="GLOBAL" type="xs:boolean" use="optional">

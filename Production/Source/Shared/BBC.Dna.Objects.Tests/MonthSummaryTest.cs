@@ -79,9 +79,7 @@ namespace BBC.Dna.Objects.Tests
         {
             MonthSummary monthSummary = new MonthSummary();
             XmlDocument xml = Serializer.SerializeToXml(monthSummary);
-
             Assert.IsNotNull(xml.SelectSingleNode("MONTHSUMMARY"));
-
         }
 
         /// <summary>
@@ -364,7 +362,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return("Test Subject").Repeat.Twice();
             reader.Stub(x => x.GetInt32NullAsZero("EntryID")).Return(2408815).Repeat.Twice();
             reader.Stub(x => x.GetInt32NullAsZero("h2g2ID")).Return(24088151).Repeat.Twice();
-
+            reader.Stub(x => x.GetInt32NullAsZero("type")).Return(1).Repeat.Twice();
             reader.Stub(x => x.GetDateTime("datecreated")).Return(DateTime.Now).Repeat.Twice();
         }
 #endregion

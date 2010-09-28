@@ -16,7 +16,8 @@
     <xsl:template match="USER" mode="object_user_linked">
         
         <a href="U{USERID}" class="user linked">
-           <xsl:value-of select="USERNAME"/>  
+        	<!-- <xsl:value-of select="USERNAME"/> -->
+           <xsl:apply-templates select="." mode="object_user_username" />
         </a>
         
     </xsl:template>

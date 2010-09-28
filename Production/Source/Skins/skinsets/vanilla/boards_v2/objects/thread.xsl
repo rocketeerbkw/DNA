@@ -30,14 +30,11 @@
 					</xsl:if>
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
-			            	<xsl:choose>
-				            	<xsl:when test="string-length(SUBJECT) >= 72">
-				            		<xsl:value-of select="concat(substring(SUBJECT, 1, 72), '...')" />
-				            	</xsl:when>
-				            	<xsl:otherwise>
-				            		<xsl:value-of select="SUBJECT" />
-				            	</xsl:otherwise>
-			            	</xsl:choose>
+                          <xsl:call-template name="fixedLines">
+                            <xsl:with-param name="originalString" select="SUBJECT/text()" />
+                            <xsl:with-param name="charsPerLine" select="28" />
+                            <xsl:with-param name="lines" select="1" />
+                          </xsl:call-template>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:attribute name="class">
@@ -49,14 +46,11 @@
                 </a>
             </h3>
             <p>
-            	<xsl:choose>
-	            	<xsl:when test="string-length(FIRSTPOST/TEXT) >= 72">
-	            		<xsl:value-of select="concat(substring(FIRSTPOST/TEXT, 1, 62), '...')" />
-	            	</xsl:when>
-	            	<xsl:otherwise>
-	            		<xsl:value-of select="FIRSTPOST/TEXT" />
-	            	</xsl:otherwise>
-            	</xsl:choose>
+              <xsl:call-template name="fixedLines">
+                <xsl:with-param name="originalString" select="FIRSTPOST/TEXT" />
+                <xsl:with-param name="charsPerLine" select="33" />
+                <xsl:with-param name="lines" select="2" />
+              </xsl:call-template>
             </p>
          </td>
          <td class="replies">
@@ -69,29 +63,14 @@
 	             <span class="fn">
 	             	<!-- Split the string as it was destroying table layout -->
 	             	<xsl:variable name="firstpostuser">
-						<xsl:apply-templates select="FIRSTPOST/USER" mode="library_user_username" />
-					</xsl:variable>	             	
-	             	
-	             	<xsl:variable name="stringlimit">15</xsl:variable>
-	             	<xsl:choose>
-	             		<xsl:when test="string-length($firstpostuser) >= $stringlimit">
-	             			<xsl:variable name="stringlength">
-	             				<xsl:value-of select="string-length($firstpostuser)" />
-	             			</xsl:variable>	             			
-	             			<xsl:variable name="tempstring1">
-	             				<xsl:value-of select="substring($firstpostuser, 1, $stringlimit)" />
-	             			</xsl:variable>
-	             			<xsl:variable name="tempstring2">
-	             				<xsl:value-of select="substring($firstpostuser, $stringlimit+1, $stringlength)" />
-	             			</xsl:variable>	 
-	             			            		
-	             			<xsl:value-of select="$tempstring1" /><br /><xsl:value-of select="$tempstring2" />    
-	             			
-	             		</xsl:when>
-	             		<xsl:otherwise>
-	                 		<xsl:value-of select="$firstpostuser" />
-	                 	</xsl:otherwise>
-	                 </xsl:choose>
+						      <xsl:apply-templates select="FIRSTPOST/USER" mode="library_user_username" />
+					      </xsl:variable>
+
+                 <xsl:call-template name="fixedLines">
+                   <xsl:with-param name="originalString" select="$firstpostuser" />
+                   <xsl:with-param name="charsPerLine" select="12" />
+                   <xsl:with-param name="lines" select="2" />
+                 </xsl:call-template>
 	             </span>
 	         </span>         
          </td>
@@ -146,7 +125,7 @@
             <xsl:call-template name="library_listitem_stripe"/>
             
             <p class="threadtitle">
-            	<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/F', @FORUMID, '?thread=', @THREADID)}">
+            	<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID)}">
                     <xsl:choose>
                         <xsl:when test="SUBJECT/text()">
                             <xsl:value-of select="SUBJECT"/> 
@@ -162,7 +141,7 @@
             </p>
         	<p class="thread-additionalinfo">
         		<xsl:text>from </xsl:text>
-        		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/F', @FORUMID)}">
+        		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID)}">
         			<xsl:value-of select="FORUMTITLE"/>
         		</a>
         		<xsl:text> in </xsl:text>
@@ -183,11 +162,119 @@
             			<br/>
             		</xsl:if>
             		<xsl:text>Latest post: </xsl:text>
-            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/F', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#p', LASTUSERPOST/@POSTID)}">
+            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#p', LASTUSERPOST/@POSTID)}">
             			<xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>
             		</a>
             	</p>
             </div>                
         </li>
     </xsl:template>
+  
+  <xsl:template name="fixedLines">
+    <xsl:param name="originalString" />
+    <xsl:param name="charsPerLine" />
+    <xsl:param name="lines" select="1"/>
+    <xsl:param name="newString" select="''" />
+
+    <xsl:choose>
+      <xsl:when test="string-length($originalString) > $charsPerLine">
+        <xsl:choose>
+          <xsl:when test="$lines > 1">
+            <!-- get last space within char limit -->
+            <xsl:variable name="currentLineIndex">
+              <xsl:call-template name="lastIndexOf">
+                <xsl:with-param name="string" select="substring($originalString, 1, $charsPerLine -1)" />
+                <xsl:with-param name="char" select="' '" />
+              </xsl:call-template>
+            </xsl:variable>
+
+            <!-- call text to keep -->
+            <xsl:variable name="currentLineText">
+              <xsl:choose>
+                <xsl:when test="$currentLineIndex = 0">
+                  <xsl:value-of select="substring($originalString, 1, $charsPerLine)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="substring($originalString, 1, $currentLineIndex)"/>
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:variable>
+            
+            <xsl:variable name="newline"> </xsl:variable>
+
+            <xsl:variable name="newCurrentLineText">
+              <xsl:value-of disable-output-escaping="no" select="concat(concat($newString, $currentLineText), $newline)"/>
+            </xsl:variable>
+
+            <!-- call self to get next line -->
+            <xsl:call-template name="fixedLines">
+              <xsl:with-param name="originalString" select="substring-after($originalString, $currentLineText)" />
+              <xsl:with-param name="charsPerLine" select="$charsPerLine" />
+              <xsl:with-param name="lines" select="$lines -1" />
+              <xsl:with-param name="newString" select="$newCurrentLineText"/>
+            </xsl:call-template>
+            
+          </xsl:when>
+          <xsl:otherwise>
+            <!-- last line -->
+            <!-- get last space within char limit -->
+            <xsl:variable name="lastSpaceIndex">
+              <xsl:call-template name="lastIndexOf">
+                <xsl:with-param name="string" select="substring($originalString, 1, $charsPerLine -3)" />
+                <xsl:with-param name="char" select="' '" />
+              </xsl:call-template>
+            </xsl:variable>
+            
+            <!-- check if there is a space within max size-->
+            <xsl:variable name="lastLineIndex">
+              <xsl:choose>
+                <xsl:when test="$lastSpaceIndex = $charsPerLine">
+                  <xsl:value-of select="$charsPerLine - 3"/>
+                </xsl:when>
+                <xsl:when test="$lastSpaceIndex = 0">
+                  <xsl:value-of select="$charsPerLine - 3"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="$lastSpaceIndex" />
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:variable>
+            <!-- output string -->
+            <xsl:value-of disable-output-escaping="no" select="concat(concat($newString, substring($originalString, 1, $lastLineIndex)), '...')"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of disable-output-escaping="no" select="concat($newString, $originalString)"/>        
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
+    
+    <xsl:template name="lastIndexOf">
+    <!-- declare that it takes two parameters 
+	  - the string and the char -->
+    <xsl:param name="string" />
+    <xsl:param name="char" />
+    <xsl:param name="length" select="0" />
+    <xsl:choose>
+      
+      <!-- if the string contains the character... -->
+      <xsl:when test="contains($string, $char)">
+        <!-- call the template recursively... -->
+        <xsl:call-template name="lastIndexOf">
+          <!-- with the string being the string after the character-->
+          <xsl:with-param name="string" select="substring-after($string, $char)" />
+          <!-- and the character being the same as before -->
+          <xsl:with-param name="char" select="$char" />
+          <xsl:with-param name="length" select="$length + string-length(substring-before($string, $char)) + 1" />
+        </xsl:call-template>
+      </xsl:when>
+      <!-- otherwise, return the value of the string -->
+      <xsl:otherwise>
+        <xsl:value-of select="$length" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
 </xsl:stylesheet>

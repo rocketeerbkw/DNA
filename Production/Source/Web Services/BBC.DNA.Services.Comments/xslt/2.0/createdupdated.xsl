@@ -31,7 +31,6 @@
 	
 	<xsl:include href="formatDateTime.xsl"/>
 	
-	<xsl:variable name="now" select="current-dateTime()"/>
 	
 	<xsl:template match="created | updated">
 		<xsl:param name="context" select="."/>

@@ -1,3 +1,4 @@
+--depreciated storedprocedure
 create procedure updatetrackedmemberprofile 
 	@userid int, 
 	@siteid int, 

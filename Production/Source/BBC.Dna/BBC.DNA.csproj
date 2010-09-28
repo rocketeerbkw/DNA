@@ -124,6 +124,7 @@
     <Compile Include="MBBackupRestore.cs" />
     <Compile Include="MBAdminDesignBuilder.cs" />
     <Compile Include="ModerateHome.cs" />
+    <Compile Include="ModerationEmailManagementBuilder.cs" />
     <Compile Include="ModeratorInfo.cs" />
     <Compile Include="ModHomeParameters.cs" />
     <Compile Include="ModQueueStat.cs" />
@@ -137,7 +138,6 @@
     <Compile Include="ModerationDistressMessages.cs" />
     <Compile Include="ModerationHistory.cs" />
     <Compile Include="ModerationReasons.cs" />
-    <Compile Include="EmailTemplate.cs" />
     <Compile Include="ModerateNickNames.cs" />
     <Compile Include="ModerationUserStatuses.cs" />
     <Compile Include="ModeratorManagement.cs" />

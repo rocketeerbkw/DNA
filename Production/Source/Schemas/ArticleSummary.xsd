@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:include schemaLocation="user.xsd"/>
-	<xs:include schemaLocation="ExtraInfo.xsd"/>
+  <xs:include schemaLocation="ExtraInfo.xsd"/>
 	<xs:include schemaLocation="Date.xsd"/>
 	<xs:include schemaLocation="MediaAsset.xsd"/>
 	<xs:include schemaLocation="Phrases.xsd"/>
@@ -49,12 +49,12 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="STATUS" type="xs:int" minOccurs="0"/>
+				<xs:element name="STATUS" type="xs:int" minOccurs="0"/>       
 				<xs:element name="RECOMMENDATION-STATUS" type="xs:int" minOccurs="0"/>
 				<xs:element name="SUBBING-STATUS" type="xs:int" minOccurs="0"/>
 				<xs:element name="STYLE" type="xs:int" minOccurs="0"/>
 				<xs:element name="SUBJECT" type="xs:string" minOccurs="0"/>
-				<xs:element name="TYPE" type="xs:int" minOccurs="0"/>
+        <xs:element name="TYPE" type="xs:string" minOccurs="0"/>
 				<xs:element name="DATE-CREATED" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
@@ -97,7 +97,7 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element ref="EXTRAINFO" minOccurs="0"/>
+        <xs:element ref="EXTRAINFO" minOccurs="0"/>
 				<xs:element name="NUMBEROFPOSTS" type="xs:int" minOccurs="0"/>
 				<xs:element name="FORUMPOSTCOUNT" type="xs:int" minOccurs="0"/>
 				<xs:element name="FORUMPOSTLIMIT" type="xs:int" minOccurs="0"/>

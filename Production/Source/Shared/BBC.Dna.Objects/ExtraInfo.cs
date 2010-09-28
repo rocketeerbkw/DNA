@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using BBC.Dna.Objects;
 
 namespace BBC.Dna.Objects
 {
@@ -10,20 +11,9 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     public partial class ExtraInfoCreator
     {
-       
-        static public XmlElement CreateExtraInfo(string xml)
+        static public string CreateExtraInfo(int type)
         {
-            XmlElement el = null;
-            try
-            {
-                //strip the extrainfo tags
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xml);
-                el = doc.DocumentElement;
-            }
-            catch { }
-
-            return el;
+            return String.Format(@"<EXTRAINFO><TYPE ID=""{0}"" NAME=""{1}""/></EXTRAINFO>", type, Article.GetArticleTypeFromInt(type).ToString());
         }
     }
 }

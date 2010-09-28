@@ -19,6 +19,7 @@ using BBC.Dna.Utils;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using TestUtils;
 
 
 
@@ -926,6 +927,51 @@ namespace FunctionalTests.Services.Comments
         /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
+        public void CreateComment_AsPlainTextWithHTMLLink_ReturnsTransformedLink()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string randomiser = Guid.NewGuid().ToString();
+            string text = "http://www.bbc.co.uk/" + randomiser + " in the post";
+            string expectedText = "<a href=\"http://www.bbc.co.uk/" + randomiser + "\">http://www.bbc.co.uk/" + randomiser + "</a> in the post";
+            PostStyle.Style postStyle = PostStyle.Style.plaintext;
+            string commentForumXml = String.Format("text={0}&poststyle={1}", text, postStyle);
+
+            // Setup the request url
+            string urlCreate = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm", _sitename, commentForum.Id);
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(urlCreate, commentForumXml, "application/x-www-form-urlencoded");
+
+            //get the forum back as xml
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);
+            nsmgr.AddNamespace("api", "BBC.Dna.Api");
+            XmlNode returnedText = xml.SelectSingleNode("api:commentForum/api:commentsList/api:comments/api:comment/api:text", nsmgr);
+
+            Assert.AreEqual(expectedText, returnedText.InnerText);
+
+            //get the forum back as json
+            request.RequestPageWithFullURL(url, null, "text/javascript");
+            CommentForum returnedForum = (CommentForum)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.IsTrue(returnedForum.commentList.comments[0].text == expectedText, "Expected:" + expectedText + " Actual:" + returnedForum.commentList.comments[0].text);
+
+
+        }
+
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
         public void CreateComment_InvalidPostStyle()
         {
             Console.WriteLine("Before CreateComment");
@@ -1005,6 +1051,49 @@ namespace FunctionalTests.Services.Comments
 
 
             Console.WriteLine("After CreateComment");
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsDuplicate()
+        {
+            Console.WriteLine("Before CreateComment_AsDuplicate");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "</comment>", text);
+
+            // Setup the request url
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            try
+            {
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            }
+            catch { }
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.OK);
+
+            //try reposting same comment
+            try
+            {
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            }
+            catch { }
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.OK);
+
+
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            var returnedForum = (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.AreEqual(1, returnedForum.commentSummary.Total);
+            Console.WriteLine("After CreateComment_AsDuplicate");
         }
 
         /// <summary>
@@ -1137,6 +1226,110 @@ namespace FunctionalTests.Services.Comments
 
 
             Console.WriteLine("After CreateComment");
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_WithSiteSuffixSiteOption()
+        {
+            Console.WriteLine("Before CreateComment_WithSiteSuffix");
+            var siteId = 1;
+            var udng = "fluffybunnyslippers";
+            try
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+                //create the forum
+                CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+                string text = "Functiontest Title" + Guid.NewGuid().ToString();
+                string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                    "<text>{0}</text>" +
+                    "</comment>", text);
+
+                // Setup the request url
+                string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+                // now get the response
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+                validator.Validate();
+
+                //check the TextAsHtml element
+                //string textAsHtml = xml.DocumentElement.ChildNodes[2].InnerXml;
+                //Assert.IsTrue(textAsHtml == "<div class=\"dna-comment text\" xmlns=\"\">" + text + "</div>");
+
+                CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+                Assert.IsTrue(returnedComment.text == text);
+                Assert.IsNotNull(returnedComment.User);
+                Assert.AreEqual(string.Empty, returnedComment.User.SiteSpecificDisplayName);
+                Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+
+                ConfigureUDNG(siteId, udng, "1");
+
+                text = text + "with udng";
+                commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                    "<text>{0}</text>" +
+                    "</comment>", text);
+
+                // now get the response
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                xml = request.GetLastResponseAsXML();
+                validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+                validator.Validate();
+
+                returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+                Assert.IsTrue(returnedComment.text == text);
+                Assert.IsNotNull(returnedComment.User);
+                Assert.AreEqual(udng, returnedComment.User.SiteSpecificDisplayName);
+                Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+
+            }
+            finally
+            {
+                ConfigureUDNG(siteId, "", "0");
+            }
+
+            Console.WriteLine("After CreateComment_WithSiteSuffix");
+        }
+
+        private void ConfigureUDNG(int siteId, string udng, string siteSuffixValue)
+        {
+            using (FullInputContext _context = new FullInputContext(""))
+            {
+                if (siteSuffixValue == "1")
+                {
+                    using (IDnaDataReader dataReader = _context.CreateDnaDataReader("dbu_createsiteoption"))
+                    {
+                        dataReader.AddParameter("siteid",siteId);
+                        dataReader.AddParameter("section", "User");
+                        dataReader.AddParameter("Name", "UseSiteSuffix");
+                        dataReader.AddParameter("Value", siteSuffixValue);
+                        dataReader.AddParameter("Type", "1");
+                        dataReader.AddParameter("Description", "");
+                        dataReader.Execute();
+                    }
+                }
+                else
+                {
+                    using (IDnaDataReader dataReader = _context.CreateDnaDataReader(""))
+                    {
+                        dataReader.ExecuteDEBUGONLY("delete from siteoptions where siteid=" + siteId.ToString() + " and Name='UseSiteSuffix'");
+                    }
+                }
+
+                using (IDnaDataReader dataReader = _context.CreateDnaDataReader(""))
+                {
+                    dataReader.ExecuteDEBUGONLY("update preferences set sitesuffix='" + udng + "' where siteid=" + siteId.ToString() + " and userid=" + TestUserAccounts.GetNormalUserAccount.UserID);
+                }
+
+                DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+                myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site", "", "text/xml");
+            }
         }
 
 

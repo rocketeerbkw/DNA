@@ -93,6 +93,10 @@
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
+      <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
+      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
       <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
       <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
@@ -104,6 +108,10 @@
     <ProjectReference Include="..\..\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
       <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj">
+      <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
+      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
@@ -151,7 +159,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>39710</DevelopmentServerPort>
+          <DevelopmentServerPort>31658</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

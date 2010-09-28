@@ -1,6 +1,8 @@
 using BBC.Dna.Data;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
+using System;
 namespace BBC.Dna.Objects
 {
     
@@ -47,7 +49,9 @@ namespace BBC.Dna.Objects
                     RelatedClubsMember member = new RelatedClubsMember();
                     member.ClubId = reader.GetInt32("ClubID");
                     member.Name = reader.GetString("Subject");
-                    member.ExtraInfo = reader.GetString("ExtraInfo") ?? "";
+                    member.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
+
+                    
 
                     relatedClubs.ClubMember.Add(member);
                     //ExtraInfo clubExtraInfo = new ExtraInfo();
@@ -100,27 +104,13 @@ namespace BBC.Dna.Objects
             set;
         }
 
-        /// <remarks/>
-        private string _extraInfo = string.Empty;
-        [XmlIgnore]
-        public string ExtraInfo
+        [System.Xml.Serialization.XmlElementAttribute(Order = 2, ElementName = "TYPE")]
+        [DataMember(Name = "type")]
+        public Article.ArticleType Type
         {
-            get { return _extraInfo; }
-            set { _extraInfo = value; }
-        }
+            get;
+            set;
+        }  
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAnyElement(Order = 2)]
-        public XmlElement ExtraInfoElement
-        {
-            get
-            {
-                return ExtraInfoCreator.CreateExtraInfo(ExtraInfo);
-            }
-            set
-            {
-                ExtraInfo = value.OuterXml;
-            }
-        }
     }
 }

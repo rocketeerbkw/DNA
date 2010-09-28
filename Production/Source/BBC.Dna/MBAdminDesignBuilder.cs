@@ -124,7 +124,7 @@ namespace BBC.Dna
                 element.FrontPageElement.Editkey = new Guid(InputContext.GetParamStringOrEmpty("fptopiceditkey", "fptopiceditkey"));
             }
 
-            element.FrontPageElement.Title = StringUtils.EscapeAllXml(InputContext.GetParamStringOrEmpty("fp_title", "fp_title"));
+            element.FrontPageElement.Title = HtmlUtils.RemoveAllHtmlTags(InputContext.GetParamStringOrEmpty("fp_title", "fp_title"));
             if (element.FrontPageElement.Title.Length == 0)
             {
                 return new Error("TopicElementTitleMissing", "No topic element title given.");
@@ -152,7 +152,7 @@ namespace BBC.Dna
                 element.FrontPageElement.ImageAltText = "";
                 element.FrontPageElement.Template = FrontPageTemplate.TextOnly;
             }
-            element.Title = StringUtils.EscapeAllXml(InputContext.GetParamStringOrEmpty("topictitle","topictitle"));
+            element.Title = HtmlUtils.RemoveAllHtmlTags(InputContext.GetParamStringOrEmpty("topictitle","topictitle"));
             if (element.Title.Length == 0)
             {
                 return new Error("TopicTitleMissing", "No topic title given.");
@@ -200,12 +200,8 @@ namespace BBC.Dna
         private string ExtractHtmlInput(string querystringParam)
         {
             var paramStr = HtmlUtils.HtmlDecode(InputContext.GetParamStringOrEmpty(querystringParam, querystringParam));
-            var parsedStr = HtmlUtils.TryParseToValidHtml("<GUIDE><BODY>" + paramStr + "</BODY></GUIDE>");
-            if (parsedStr.IndexOf("<") != 0)
-            {//failed parsing
-                parsedStr = "<GUIDE><BODY>" + StringUtils.EscapeAllXml(paramStr) + "</BODY></GUIDE>";
-            }
-            return parsedStr;
+            return "<GUIDE>" + HtmlUtils.ParseHtmlToXmlElement(paramStr, "BODY").OuterXml + "</GUIDE>";
+            
         }
 
         /// <summary>
@@ -266,7 +262,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("WELCOME_MESSAGE", "WELCOME_MESSAGE"))
             {
-                _siteConfig.V2Board.WelcomeMessage = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("WELCOME_MESSAGE", "WELCOME_MESSAGE"));
+                _siteConfig.V2Board.WelcomeMessage = HtmlUtils.ParseHtmlToXmlElement(InputContext.GetParamStringOrEmpty("WELCOME_MESSAGE", "WELCOME_MESSAGE"), "WELCOME_MESSAGE").InnerXml;
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.WelcomeMessage))
                 {
                     return new Error("InvalidWelcomeMessage", "Unable to update due to an invalid welcome message.");
@@ -275,7 +271,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("ABOUT_MESSAGE", "ABOUT_MESSAGE"))
             {
-                _siteConfig.V2Board.AboutMessage = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("ABOUT_MESSAGE", "ABOUT_MESSAGE"));
+                _siteConfig.V2Board.AboutMessage = HtmlUtils.ParseHtmlToXmlElement(InputContext.GetParamStringOrEmpty("ABOUT_MESSAGE", "ABOUT_MESSAGE"), "ABOUT_MESSAGE").InnerXml;
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.AboutMessage))
                 {
                     return new Error("InvalidAboutMessage", "Unable to update due to an invalid about message.");
@@ -284,7 +280,7 @@ namespace BBC.Dna
 
             if (InputContext.DoesParamExist("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT"))
             {
-                _siteConfig.V2Board.OpenclosetimesText = HtmlUtils.TryParseToValidHtml(InputContext.GetParamStringOrEmpty("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT"));
+                _siteConfig.V2Board.OpenclosetimesText = HtmlUtils.ParseHtmlToXmlElement(InputContext.GetParamStringOrEmpty("OPENCLOSETIMES_TEXT", "OPENCLOSETIMES_TEXT"), "OPENCLOSETIMES_TEXT").InnerXml;
                 if (String.IsNullOrEmpty(_siteConfig.V2Board.OpenclosetimesText))
                 {
                     return new Error("InvalidOpenCloseMessage", "Unable to update due to an invalid open/close message.");

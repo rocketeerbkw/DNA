@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Xsl;
 using System.Xml.XPath;
-using Saxon.Api;
+
 
 namespace BBC.Dna.Utils
 {
@@ -14,8 +14,10 @@ namespace BBC.Dna.Utils
     /// </summary>
     public class XSLTransformer
     {
-        public static Processor processor = new Processor();
+        
         private static Dictionary<string, XslCompiledTransform> _cachedXslt = new Dictionary<string, XslCompiledTransform>();
+
+
         /// <summary>
         /// The MS Xslt transformer method
         /// </summary>
@@ -23,7 +25,7 @@ namespace BBC.Dna.Utils
         /// <param name="testXML">The xml to test against</param>
         /// <param name="numberOfErrors">A counter that will be incremented if an error occures</param>
         /// <returns>The result of the test. Possible results are XML errors, Xslt errors, File Errors and Success</returns>
-        private string TransformUsingXslt(string xslFile, XmlDocument testXML, ref int numberOfErrors)
+        public static string TransformUsingXslt(string xslFile, XmlDocument testXML, ref int numberOfErrors)
         {
             try
             {
@@ -106,8 +108,8 @@ namespace BBC.Dna.Utils
             }
         }
 
-        
-        private static Dictionary<string, XsltTransformer> _cachedSaxonXslt = new Dictionary<string, XsltTransformer>();
+        //public static Processor processor = new Processor();
+        //private static Dictionary<string, XsltTransformer> _cachedSaxonXslt = new Dictionary<string, XsltTransformer>();
         /// <summary>
         /// The Saxon xslt2.0 transformer method
         /// </summary>
@@ -117,65 +119,64 @@ namespace BBC.Dna.Utils
         /// <returns>A report of how the transform went</returns>
         public static string TransformUsingXslt2(string xslFile, XmlDocument testXML, ref int numberOfErrors)
         {
-            
-            List<StaticError> errors = new List<StaticError>();
-            try
-            {
-                string xml = testXML.InnerXml;
-                DocumentBuilder xmlDoc = processor.NewDocumentBuilder();
-                XdmNode xmlBaseNode = null;
-                if (testXML.FirstChild.OuterXml.IndexOf("<?xml") == 0)
-                {//ignore the header in the xml document if its present
-                    xmlBaseNode = xmlDoc.Build(testXML.FirstChild.NextSibling);
-                }
-                else
-                {
-                    xmlBaseNode = xmlDoc.Build(testXML.FirstChild);
-                }
+            //not using xslt2 transforming anymore....
+            return TransformUsingXslt(xslFile, testXML, ref numberOfErrors);
+            //List<StaticError> errors = new List<StaticError>();
+            //try
+            //{
+            //    string xml = testXML.InnerXml;
+            //    DocumentBuilder xmlDoc = processor.NewDocumentBuilder();
+            //    XdmNode xmlBaseNode = null;
+            //    if (testXML.FirstChild.OuterXml.IndexOf("<?xml") == 0)
+            //    {//ignore the header in the xml document if its present
+            //        xmlBaseNode = xmlDoc.Build(testXML.FirstChild.NextSibling);
+            //    }
+            //    else
+            //    {
+            //        xmlBaseNode = xmlDoc.Build(testXML.FirstChild);
+            //    }
 
                 
-                XsltTransformer transformer = null;
-                if (_cachedSaxonXslt.ContainsKey(xslFile))
-                {
-                    transformer = _cachedSaxonXslt[xslFile];
-                }
-                else
-                {
-                    DocumentBuilder xsltDoc = processor.NewDocumentBuilder();
-                    XdmNode xsltBaseNode = xsltDoc.Build(new Uri(xslFile));
+            //    XsltTransformer transformer = null;
+            //    if (_cachedSaxonXslt.ContainsKey(xslFile))
+            //    {
+            //        transformer = _cachedSaxonXslt[xslFile];
+            //    }
+            //    else
+            //    {
+            //        DocumentBuilder xsltDoc = processor.NewDocumentBuilder();
+            //        XdmNode xsltBaseNode = xsltDoc.Build(new Uri(xslFile));
 
-                    XsltCompiler compiler = processor.NewXsltCompiler();
-                    compiler.ErrorList = errors;
-                    XsltExecutable executable = compiler.Compile(xsltBaseNode);
-                    transformer = executable.Load();
-                    _cachedSaxonXslt.Add(xslFile, transformer);// caching seems to be causing a problem on repeat
-                }
+            //        XsltCompiler compiler = processor.NewXsltCompiler();
+            //        compiler.ErrorList = errors;
+            //        XsltExecutable executable = compiler.Compile(xsltBaseNode);
+            //        transformer = executable.Load();
+            //        _cachedSaxonXslt.Add(xslFile, transformer);// caching seems to be causing a problem on repeat
+            //    }
 
-                transformer.InitialContextNode = xmlBaseNode;
+            //    transformer.InitialContextNode = xmlBaseNode;
 
-                XdmDestination output = new XdmDestination();
-                transformer.Run(output);
+            //    XdmDestination output = new XdmDestination();
+            //    transformer.Run(output);
 
-                
+            //    return output.XdmNode.OuterXml;
+            //}
+            //catch (Exception ex)
+            //{
+            //    string errorMsg = ex.Message;
+            //    if (ex.InnerException != null)
+            //    {
+            //        errorMsg += " " + ex.InnerException.Message;
+            //    }
+            //    numberOfErrors++;
 
-                return output.XdmNode.OuterXml;
-            }
-            catch (Exception ex)
-            {
-                string errorMsg = ex.Message;
-                if (ex.InnerException != null)
-                {
-                    errorMsg += " " + ex.InnerException.Message;
-                }
-                numberOfErrors++;
-
-                foreach (StaticError error in errors)
-                {
-                    errorMsg += "\n\r" + error.Message + "\n\r" + error.ModuleUri + "\n\r";
-                    numberOfErrors++;
-                }
-                throw new Exception(errorMsg);
-            }
+            //    foreach (StaticError error in errors)
+            //    {
+            //        errorMsg += "\n\r" + error.Message + "\n\r" + error.ModuleUri + "\n\r";
+            //        numberOfErrors++;
+            //    }
+            //    throw new Exception(errorMsg);
+            //}
 
             
         }

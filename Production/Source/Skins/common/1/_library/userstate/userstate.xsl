@@ -20,8 +20,12 @@
         <xsl:param name="loggedin"/>
         <xsl:param name="unauthorised"/>
         <xsl:param name="loggedout"/>
-        
+        <xsl:param name="UDNGRequired"/>
+
         <xsl:choose>
+            <xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSiteSuffix']/VALUE = '1' and /H2G2/VIEWING-USER/USER[USERNAME]/USERID and (/H2G2/VIEWING-USER/USER/SITESUFFIX ='' or not(/H2G2/VIEWING-USER/USER/SITESUFFIX))">
+              <xsl:copy-of select="$UDNGRequired"/>
+            </xsl:when>
             <xsl:when test="/H2G2/VIEWING-USER/USER[USERNAME]/USERID">
                 <xsl:copy-of select="$loggedin"/>
             </xsl:when>

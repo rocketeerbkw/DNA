@@ -79,7 +79,7 @@ namespace BBC.Dna.Objects.Tests
                 ClubId = 1,
                 Name = "myclub"
             };
-            newRelatedClubsMember.ExtraInfo = "<EXTRAINFO><TEST>thisisatest</TEST></EXTRAINFO>";
+            newRelatedClubsMember.Type = Article.ArticleType.Club;
             clubs.ClubMember.Add(newRelatedClubsMember);
 
             newRelatedClubsMember = new RelatedClubsMember()
@@ -87,7 +87,7 @@ namespace BBC.Dna.Objects.Tests
                 ClubId = 2,
                 Name = "myclub2"
             };
-            newRelatedClubsMember.ExtraInfo = "<EXTRAINFO><TEST>thisisatest</TEST></EXTRAINFO>";
+            newRelatedClubsMember.Type = Article.ArticleType.Club;
             clubs.ClubMember.Add(newRelatedClubsMember);
             return clubs;
         }

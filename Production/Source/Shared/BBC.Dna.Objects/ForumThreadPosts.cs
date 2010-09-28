@@ -383,14 +383,17 @@ namespace BBC.Dna.Objects
                     if (activeRow)
                     {
 //possible that moving forward a result has hit end of reader or amount to read
-                        thread.FirstPostSubject = StringUtils.EscapeAllXml(reader.GetString("FirstPostSubject") ?? "");
-
+                        
                         int itemsDisplayed = 0;
                         do
                         {
 //cycle through remaing rows to add posts
                             thread.Post.Add(ThreadPost.CreateThreadPostFromReader(reader,
                                                                                   reader.GetInt32NullAsZero("EntryID")));
+                            if (thread.Post.Count == 1)
+                            {
+                                thread.FirstPostSubject = thread.Post[0].Subject;
+                            }
                             itemsDisplayed++;
                         } while (reader.Read() && itemsDisplayed < itemsPerPage);
 

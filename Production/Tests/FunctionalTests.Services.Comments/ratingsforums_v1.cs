@@ -404,10 +404,12 @@ namespace FunctionalTests.Services.Comments
             url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
 
             // now get the response
-            request.RequestPageWithFullURL(url, "", "text/html");
-            Assert.IsTrue(request.GetLastResponseAsString().IndexOf("<div") >= 0);
-
-
+            try
+            {
+                request.RequestPageWithFullURL(url, "", "text/html");
+            }
+            catch { }
+            Assert.AreEqual(HttpStatusCode.NotImplemented, request.CurrentWebResponse.StatusCode);
             Console.WriteLine("After GetReviewForumHTML");
         }
 
@@ -868,7 +870,7 @@ namespace FunctionalTests.Services.Comments
                 "</ratingForum>", id, title, parentUri, closeDate.ToString("yyyy-MM-dd"));
 
             // Setup the request url
-            string url = String.Format("https://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/", _sitename);
+            string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information

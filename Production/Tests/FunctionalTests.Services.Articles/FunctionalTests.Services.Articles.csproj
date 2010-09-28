@@ -7,8 +7,8 @@
     <ProjectGuid>{EDC6001A-89AF-443B-91DF-1FBF3AFC6F4E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BBC.Dna.Services.Comments.Functional.Tests</RootNamespace>
-    <AssemblyName>BBC.Dna.Services.Comments.Functional.Tests</AssemblyName>
+    <RootNamespace>FunctionalTests.Services.Articles</RootNamespace>
+    <AssemblyName>FunctionalTests.Services.Articles</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -79,6 +79,10 @@
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
       <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
       <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
+      <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
+      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>

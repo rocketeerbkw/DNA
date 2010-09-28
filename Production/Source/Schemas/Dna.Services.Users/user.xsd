@@ -4,7 +4,7 @@
   <xs:element name="user">
     <xs:complexType>
       <xs:sequence>
-        <xs:element name="email" type="xs:string" />
+		  <!--<xs:element name="email" type="xs:string" />-->
         <xs:element name="firstNames" nillable="true" />
         <xs:element name="groups">
           <xs:complexType>
@@ -20,8 +20,9 @@
         <xs:element name="lastSynchronisedDate" type="xs:dateTime" />
         <xs:element name="siteID" type="xs:unsignedByte" />
         <xs:element name="siteSuffix" type="xs:string" />
-        <xs:element name="ssoUserID" type="xs:unsignedByte" />
+        <xs:element name="ssoUserID" type="xs:int" />
         <xs:element name="status" type="xs:string" />
+        <xs:element name="teamID" type="xs:int" />
         <xs:element name="userName" type="xs:string" />
 	  </xs:sequence>
     </xs:complexType>

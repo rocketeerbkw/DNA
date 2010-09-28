@@ -73,20 +73,26 @@
     <Compile Include="ArticleInfoReferencesEntryLinkTest.cs" />
     <Compile Include="ArticleInfoSubmittableTest.cs" />
     <Compile Include="ArticleInfoTest.cs" />
+    <Compile Include="ArticleSubscriptionsListTest.cs" />
     <Compile Include="ArticleSummaryTest.cs" />
     <Compile Include="ArticleTest.cs" />
+    <Compile Include="BlockedUserSubscriptionsListTest.cs" />
     <Compile Include="CategorySummaryTest.cs" />
+    <Compile Include="ExtraInfoCreatorTest.cs" />
+    <Compile Include="ForumSourceTest.cs" />
     <Compile Include="IndexTest.cs" />
     <Compile Include="ContributionsTest.cs" />
     <Compile Include="CrumbTrailsTest.cs" />
     <Compile Include="DateTests.cs" />
     <Compile Include="EmailAlertGroupTest.cs" />
-    <Compile Include="ExtraInfoTest.cs" />
     <Compile Include="ForumHelperTest.cs" />
     <Compile Include="ForumThreadsTest.cs" />
     <Compile Include="FrontPageElementTest.cs" />
     <Compile Include="GuideEntryTest.cs" />
     <Compile Include="CategoryTest.cs" />
+    <Compile Include="LinksListTest.cs" />
+    <Compile Include="LinkSubscriptionsListTest.cs" />
+    <Compile Include="LinkTest.cs" />
     <Compile Include="MonthSummaryTest.cs" />
     <Compile Include="OnlineUsersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,9 +100,11 @@
     <Compile Include="RelatedArticleTest.cs" />
     <Compile Include="RelatedClubsTest.cs" />
     <Compile Include="ReviewForumTest.cs" />
+    <Compile Include="ReviewSubmissionTest.cs" />
     <Compile Include="SearchTest.cs" />
     <Compile Include="SubscribeResultTest.cs" />
     <Compile Include="SubscribeStateTest.cs" />
+    <Compile Include="SubscribingUsersListTest.cs" />
     <Compile Include="ThreadPostSummaryTest.cs" />
     <Compile Include="ThreadPostTest.cs" />
     <Compile Include="ThreadSummaryTest.cs" />
@@ -104,6 +112,7 @@
     <Compile Include="RecentActivityTests.cs" />
     <Compile Include="TopicElementTest.cs" />
     <Compile Include="TopicListEditTest.cs" />
+    <Compile Include="UserSubscriptionsListTest.cs" />
     <Compile Include="UserTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +128,10 @@
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Moderation.Utils.Tests\BBC.Dna.Moderation.Utils.Tests.csproj">
+      <Project>{CD50FF01-F604-4C12-BFE7-199CE495313F}</Project>
+      <Name>BBC.Dna.Moderation.Utils.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
       <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
       <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
@@ -130,6 +143,10 @@
     <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
       <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Users\BBC.Dna.Users.csproj">
+      <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
+      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>

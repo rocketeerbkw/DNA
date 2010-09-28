@@ -1,4 +1,4 @@
-CREATE PROCEDURE updatemodclassemailinsert @modclassid int, @name varchar(255), @group varchar(255), @text text, @reasondescription varchar(255)
+CREATE PROCEDURE updatemodclassemailinsert @modclassid int, @name varchar(255), @group varchar(255), @text nvarchar(MAX), @reasondescription varchar(255)
 AS
 UPDATE dbo.EmailInserts 
 SET InsertGroup = @group, InsertText = @text

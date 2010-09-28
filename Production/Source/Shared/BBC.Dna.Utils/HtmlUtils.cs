@@ -150,42 +150,62 @@ namespace BBC.Dna.Utils
             return textToFix;
         }
 
-        private static string[] _AllowedTags= { "a", "blockquote", "br", "em", "li", "link", "p", "pre", "q", "strong", "ul", "b"};
-        /// <summary>
-        /// Runs inputted text against code and only allows a selected set of tags
-        /// </summary>
-        /// <param name="textToFix">The text to run against</param>
-        /// <returns>The fixed string</returns>
-        public static string RemoveBadHtmlTags(string textToFix)
-        {
-            Regex StripHTMLExp = new Regex(@"(<\/?[^>]+>)");
-            string Output = textToFix;
+        private static string[] _dnaTags = { "quote", "smiley"};
+        private static string[] _allowedHtmlTags= { "blockquote", "br", "em", "li", "p", "pre", "q", "strong", "ul", "b"};
+        private static Regex StripHTMLExp = new Regex(@"(<\/?(?<tagname>[a-zA-Z0-9]+)[^>]*>)", RegexOptions.Compiled);
+        private static Regex StripHTMLEscapedExp = new Regex(@"(&lt;\/?(?<tagname>[a-zA-Z0-9]+)[^&]*&gt;)", RegexOptions.Compiled);
 
-            foreach (Match Tag in StripHTMLExp.Matches(textToFix))
+        /// <summary>
+        /// removes all tag excepted for allowed tags
+        /// uppercases all non-dna tags
+        /// ignores dnatags completely
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <returns></returns>
+        public static string CleanHtmlTags(string Input, bool stripHtmlTags, bool textIsEscaped)
+        {
+            
+            string Output = Input;
+
+            MatchCollection tags = null;
+            if (textIsEscaped)
+            {
+                tags = StripHTMLEscapedExp.Matches(Input);
+            }
+            else
+            {
+                tags = StripHTMLExp.Matches(Input);
+            }
+
+            foreach (Match Tag in tags)
             {
                 string HTMLTag = Tag.Value.ToLower();
-                bool IsAllowed = false;
+                string tagName = Tag.Groups["tagname"].Value.ToLower();
 
-                foreach (string AllowedTag in _AllowedTags)
+                if (_dnaTags.Contains(tagName))
                 {
-                    int offset = -1;
-
-                    // Determine if it is an allowed tag
-                    // "<tag>" , "<tag " and "</tag"
-                    if (offset != 0) offset = HTMLTag.IndexOf('<' + AllowedTag + '>');
-                    if (offset != 0) offset = HTMLTag.IndexOf('<' + AllowedTag + ' ');
-                    if (offset != 0) offset = HTMLTag.IndexOf("</" + AllowedTag + '>');
-
-                    // If it matched any of the above the tag is allowed
-                    if (offset == 0)
-                    {
-                        IsAllowed = true;
-                        break;
-                    }
+                    continue;
                 }
 
-                // Remove tags that are not allowed
-                if (!IsAllowed) Output = ReplaceFirst(Output, Tag.Value, "");
+                if (!stripHtmlTags && _allowedHtmlTags.Contains(tagName))
+                {
+                    var escapedTag = HtmlUtils.HtmlDecode(Tag.Value);
+                    var newTag = string.Format("<{0}>",tagName.ToUpper());
+                    if (escapedTag.IndexOf("</") == 0)
+                    {
+                        newTag = string.Format("</{0}>", tagName.ToUpper());
+                    }
+                    if (escapedTag.IndexOf("/>") > 0)
+                    {
+                        newTag = string.Format("<{0}/>", tagName.ToUpper());
+                    }
+                    Output = ReplaceFirst(Output, Tag.Value, newTag);
+                }
+                else
+                {
+                    // Remove tags that are not allowed
+                    Output = ReplaceFirst(Output, Tag.Value, "");
+                }
             }
 
             return Output;
@@ -198,6 +218,10 @@ namespace BBC.Dna.Utils
         /// <returns>The fixed string</returns>
         public static string RemoveAllHtmlTags(string textToFix)
         {
+            if (string.IsNullOrEmpty(textToFix))
+            {
+                return textToFix;
+            }
             Regex StripHTMLExp = new Regex(@"(<\/?[^>]+>)");
             return StripHTMLExp.Matches(textToFix).Cast<Match>().Aggregate(textToFix, (current, Tag) => current.Replace(Tag.Value, ""));
         }
@@ -212,30 +236,72 @@ namespace BBC.Dna.Utils
             return text.Replace("\r\n", "<BR />").Replace("\n", "<BR />");
         }
 
+        /// <summary>
+        /// Replaces the first instance only
+        /// </summary>
+        /// <param name="haystack"></param>
+        /// <param name="needle"></param>
+        /// <param name="replacement"></param>
+        /// <returns></returns>
         private static string ReplaceFirst(string haystack, string needle, string replacement)
         {
             int pos = haystack.IndexOf(needle);
             if (pos < 0) return haystack;
             return haystack.Substring(0, pos) + replacement + haystack.Substring(pos + needle.Length);
         }
-        private static string ReplaceAll(string haystack, string needle, string replacement)
-        {
-            int pos;
-            // Avoid a possible infinite loop
-            if (needle == replacement) return haystack;
-            while ((pos = haystack.IndexOf(needle)) > 0)
-                haystack = haystack.Substring(0, pos) + replacement + haystack.Substring(pos + needle.Length);
-            return haystack;
-        }
 
+        /// <summary>
+        /// Html decodes string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static string HtmlDecode(string text)
         {
             return HttpUtility.HtmlDecode(text);
         }
 
+        /// <summary>
+        /// Html encodes string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public static string HtmlEncode(string text)
         {
             return HttpUtility.HtmlEncode(text);
+        }
+
+        /// <summary>
+        /// creates a xmlelement from html and tag to enclose it in
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="tagName"></param>
+        /// <returns></returns>
+        public static XmlElement ParseHtmlToXmlElement(string text, string tagName)
+        {
+            tagName = tagName.ToUpper();
+            // Now run it through the xml parser
+            XmlDocument xDoc = new XmlDocument();
+            if (string.IsNullOrEmpty(text))
+            {
+                xDoc.LoadXml(string.Format("<{0} />", tagName));
+                return xDoc.DocumentElement;
+            }
+            text = EscapeNonEscapedAmpersands(text);
+            
+
+            
+            try
+            {
+                xDoc.LoadXml(string.Format("<{0}>{1}</{0}>", tagName, text));
+            }
+            catch
+            {
+                xDoc.LoadXml(string.Format("<{0} />", tagName));
+                xDoc.DocumentElement.InnerText = text;
+            }
+
+            return xDoc.DocumentElement;
+           
         }
     }
 }

@@ -60,6 +60,16 @@ namespace TestUtils.Mocks.Extentions
             foreach (KeyValuePair<string, Queue<object>> o in queuedData)
             {
                 string keyName = o.Key;
+
+                bool isDBNullCall = keyName.IndexOf("-isdbnull") > 0;
+                keyName = keyName.Replace("-isdbnull", "");
+
+                bool isGetStringCall = keyName.IndexOf("-getstring") > 0;
+                keyName = keyName.Replace("-getstring", "");
+
+                bool isGetInt32Call = keyName.IndexOf("-getint32") > 0;
+                keyName = keyName.Replace("-getint32", "");
+
                 Queue<object> queue = o.Value;
 
                 if (queue != null && queue.Count > 0)
@@ -67,10 +77,9 @@ namespace TestUtils.Mocks.Extentions
                     Console.WriteLine(string.Format("Adding queue for {0} with count of {1}", keyName, queue.Count));
                     if (queue.ElementAt(0).GetType() == typeof(bool))
                     {
-                        int index = keyName.IndexOf("-isdbnull");
-                        if (index > 0)
+                        if (isDBNullCall)
                         {
-                            reader.Stub(x => x.IsDBNull(keyName.Substring(0, index))).Return(true).WhenCalled(x => x.ReturnValue = queue.Dequeue());
+                            reader.Stub(x => x.IsDBNull(keyName)).Return(true).WhenCalled(x => x.ReturnValue = queue.Dequeue());
                         }
                         else
                         {
@@ -79,11 +88,25 @@ namespace TestUtils.Mocks.Extentions
                     }
                     else if (queue.ElementAt(0).GetType() == typeof(string))
                     {
-                        reader.Stub(x => x.GetStringNullAsEmpty(keyName)).Return("").WhenCalled(x => x.ReturnValue = queue.Dequeue());
+                        if (isGetStringCall)
+                        {
+                            reader.Stub(x => x.GetString(keyName)).Return("").WhenCalled(x => x.ReturnValue = queue.Dequeue());
+                        }
+                        else
+                        {
+                            reader.Stub(x => x.GetStringNullAsEmpty(keyName)).Return("").WhenCalled(x => x.ReturnValue = queue.Dequeue());
+                        }
                     }
                     else if (queue.ElementAt(0).GetType() == typeof(int))
                     {
-                        reader.Stub(x => x.GetInt32NullAsZero(keyName)).Return(0).WhenCalled(x => x.ReturnValue = queue.Dequeue());
+                        if (isGetInt32Call)
+                        {
+                            reader.Stub(x => x.GetInt32(keyName)).Return(0).WhenCalled(x => x.ReturnValue = queue.Dequeue());
+                        }
+                        else
+                        {
+                            reader.Stub(x => x.GetInt32NullAsZero(keyName)).Return(0).WhenCalled(x => x.ReturnValue = queue.Dequeue());
+                        }
                     }
                     else if (queue.ElementAt(0).GetType() == typeof(DateTime))
                     {
@@ -97,9 +120,44 @@ namespace TestUtils.Mocks.Extentions
         {
             public List<KeyValuePair<string, object>> paramAndValues = new List<KeyValuePair<string, object>>();
 
-            public void AddColumnValue(string key, object value)
+            private void AddColumnValue(string key, object value)
             {
                 paramAndValues.Add(new KeyValuePair<string, object>(key, value));
+            }
+
+            public void AddGetInt32ColumnValue(string key, object value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key + "-getint32", value));
+            }
+
+            public void AddGetInt32NullAsZeroColumnValue(string key, object value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key, value));
+            }
+
+            public void AddGetStringColumnValue(string key, object value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key + "-getstring", value));
+            }
+
+            public void AddGetStringNULLAsEmptyColumnValue(string key, object value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key, value));
+            }
+
+            public void AddGetDateTimeColumnValue(string key, object value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key, value));
+            }
+
+            public void AddGetBooleanColumnValue(string key, object value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key, value));
+            }
+
+            public void AddIsDBNullCheck(string key, object value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key + "-isdbnull", value));
             }
         }
     }

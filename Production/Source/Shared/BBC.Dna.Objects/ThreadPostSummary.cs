@@ -56,19 +56,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-               
-
-                XmlDocument doc = new XmlDocument();
-                try
-                {
-                    doc.LoadXml("<TEXT>" + Text + "</TEXT>");
-                }
-                catch
-                {
-                    doc.LoadXml("<TEXT/>");
-                    doc.DocumentElement.InnerText = Text;
-                }
-                return doc.DocumentElement;
+                return HtmlUtils.ParseHtmlToXmlElement(_text, "text");
             }
             set { _text = value.InnerXml; }
         }
@@ -126,7 +114,7 @@ namespace BBC.Dna.Objects
             
             if (reader.DoesFieldExist(prefix +"hidden"))
             {
-                post.Hidden = (byte)(reader.GetInt32NullAsZero(prefix +"hidden") == 1?1:0);
+                post.Hidden = (byte)reader.GetInt32NullAsZero(prefix +"hidden");
             }
             if (reader.DoesFieldExist("firstposting") && reader["firstposting"] != DBNull.Value)
             {

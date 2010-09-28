@@ -547,7 +547,6 @@
     <None Include="getemailinsert.sql" />
     <None Include="getemailinsertgroups.sql" />
     <None Include="getemailinsertsbyclass.sql" />
-    <None Include="getemailinsertsbysite.sql" />
     <None Include="getemaillistsforuser.sql" />
     <None Include="getemailtemplateidbyname.sql" />
     <None Include="getemailtemplatesbymodclassid.sql" />
@@ -1278,8 +1277,13 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="fetchgroupsandmembersbysite.sql" />
+    <None Include="finduserfromidentityuserid.sql" />
     <None Include="finduserfromidentityusername.sql" />
     <None Include="cachegetlastpostdate.sql" />
+    <None Include="getcontributions.sql" />
+    <None Include="getdnauseridfromidentityusername.sql" />
+    <None Include="getemailinsertsbysite.sql" />
+    <None Include="getemailinsertsbysite2.sql" />
     <None Include="getusercontributions.sql" />
     <None Include="GetAllGroups.sql" />
     <None Include="getuserfromidentityusername.sql" />

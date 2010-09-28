@@ -17,8 +17,9 @@ namespace FunctionalTests.Services.Users
     /// </summary>
     [TestClass]
     public class contributions
-    {
-        static string test_contributionsUrl;
+    {        
+        static string test_usercontributionsUrl;
+        static string test_allrecentcontributionsUrl;
         static string test_user_idString;
         static int test_dnauserid = 1090501859;
         static string test_identityuserid = "6042002"; // mapped to the associated test_dnauserid
@@ -57,7 +58,8 @@ namespace FunctionalTests.Services.Users
 
         public contributions()
         {
-            test_contributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/usercontributions/{user}";
+             test_allrecentcontributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/recentcontributions/type/{type}";
+             test_usercontributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/usercontributions/{user}";
         }
 
         private TestContext testContextInstance;
@@ -83,6 +85,11 @@ namespace FunctionalTests.Services.Users
         /// </summary>
         [ClassInitialize]
         public static void StartUp(TestContext testContext)
+        {
+            RefreshDatabase();
+        }
+
+        private static void RefreshDatabase()
         {
             SnapshotInitialisation.RestoreFromSnapshot();
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
@@ -219,7 +226,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsForSiteJSON_UserWithContributions_ReturnsValidJSON");
 
-            string contributions_for_site_json_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "/site/h2g2?format=json";
+            string contributions_for_site_json_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "/site/h2g2?format=json";
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(contributions_for_site_json_url);
@@ -239,7 +246,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsForSiteXML_UserWithContributions_ReturnsValidXML");
 
-            string contributions_for_site_xml_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "/site/h2g2?format=xml";
+            string contributions_for_site_xml_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "/site/h2g2?format=xml";
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(contributions_for_site_xml_url);
@@ -259,7 +266,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsJSON_UserWithContributions_ReturnsValidJSON");
 
-            string contributions_json_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "?format=json";
+            string contributions_json_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "?format=json";
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(contributions_json_url);
@@ -301,7 +308,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsXML_UserWithContributions_ReturnsValidXML");
 
-            string contributions_xml_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "?format=xml";
+            string contributions_xml_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "?format=xml";
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(contributions_xml_url);
@@ -340,9 +347,11 @@ namespace FunctionalTests.Services.Users
         [TestMethod]
         public void GetUserContributionsForAllTypesJSON_UserWithContributions_ReturnsValidJSON()
         {
+         
+
             Console.WriteLine("Before GetUserContributionsForAllTypesJSON_UserWithContributions_ReturnsValidJSON");
 
-            string contributions_for_type_json_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "?format=json";
+            string contributions_for_type_json_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "?format=json";
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(contributions_for_type_json_url);
@@ -357,6 +366,7 @@ namespace FunctionalTests.Services.Users
             Assert.AreEqual(true, containsMessageboard);
             Assert.AreEqual(true, containsCommunity);
             Assert.AreEqual(true, containsEmbeddedComments);
+            Assert.AreEqual(18, contributions.TotalContributions);
 
             Console.WriteLine("After GetUserContributionsForAllTypesJSON_UserWithContributions_ReturnsValidJSON");
         }
@@ -366,7 +376,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsForAllTypesWithPagingJSON_UserWithContributions_ReturnsValidJSON");
 
-            string contributions_for_type_json_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "?format=json";
+            string contributions_for_type_json_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "?format=json";
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(contributions_for_type_json_url);
@@ -381,9 +391,11 @@ namespace FunctionalTests.Services.Users
         [TestMethod]
         public void GetUserContributionsForAllTypesXML_UserWithContributions_ReturnsValidXML()
         {
+           
+
             Console.WriteLine("Before GetUserContributionsForAllTypesXML_UserWithContributions_ReturnsValidXML");
 
-            string contributions_for_type_xml_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "?format=xml";
+            string contributions_for_type_xml_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "?format=xml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
@@ -400,6 +412,7 @@ namespace FunctionalTests.Services.Users
             Assert.AreEqual(true, containsMessageboard);
             Assert.AreEqual(true, containsCommunity);
             Assert.AreEqual(true, containsEmbeddedComments);
+            Assert.AreEqual(18, contributions.TotalContributions);
 
 
             Console.WriteLine("After GetUserContributionsForAllTypesXML_UserWithContributions_ReturnsValidXML");
@@ -410,7 +423,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsForBlogTypeXML_UserWithContributions_ReturnsValidXML");
 
-            string contributions_for_type_xml_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "/type/Blog?format=xml";
+            string contributions_for_type_xml_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "/type/Blog?format=xml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
@@ -432,7 +445,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsForMessageBoardTypeXML_UserWithContributions_ReturnsValidXML");
 
-            string contributions_for_type_xml_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "/type/Messageboard?format=xml";
+            string contributions_for_type_xml_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "/type/Messageboard?format=xml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
@@ -444,6 +457,7 @@ namespace FunctionalTests.Services.Users
             {
                 Assert.AreEqual(SiteType.Messageboard, contribution.SiteType);
             }
+            Assert.AreEqual(2, contributions.TotalContributions);
 
             Console.WriteLine("After GetUserContributionsForMessageBoardTypeXML_UserWithContributions_ReturnsValidXML");
         }
@@ -453,7 +467,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsForTypeXML_UserWithContributions_ReturnsValidXML");
 
-            string contributions_for_type_xml_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "/type/Community?format=xml";
+            string contributions_for_type_xml_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "/type/Community?format=xml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
@@ -465,6 +479,8 @@ namespace FunctionalTests.Services.Users
             {
                 Assert.AreEqual(SiteType.Community, contribution.SiteType);
             }
+            Assert.AreEqual(14, contributions.TotalContributions);
+
             Console.WriteLine("After GetUserContributionsForCommunityTypeXML_UserWithContributions_ReturnsValidXML");
         }
 
@@ -473,7 +489,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserContributionsForEmbeddedCommentsTypeXML_UserWithContributions_ReturnsValidXML");
 
-            string contributions_for_type_xml_url = test_contributionsUrl.Replace("{user}", test_identityuserid) + "/type/EmbeddedComments?format=xml";
+            string contributions_for_type_xml_url = test_usercontributionsUrl.Replace("{user}", test_identityuserid) + "/type/EmbeddedComments?format=xml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
@@ -485,8 +501,31 @@ namespace FunctionalTests.Services.Users
             {
                 Assert.AreEqual(SiteType.EmbeddedComments, contribution.SiteType);
             }
+            Assert.AreEqual(1, contributions.TotalContributions);
 
             Console.WriteLine("After GetUserContributionsForEmbeddedCommentsTypeXML_UserWithContributions_ReturnsValidXML");
+        }
+
+
+        [TestMethod]
+        public void GetAllRecentContributionsXML_WithForBlogType_ReturnsValidXML()
+        {
+            Console.WriteLine("Before GetAllRecentContributionsXML_WithForBlogType_ReturnsValidXML");
+
+            test_allrecentcontributionsUrl = test_allrecentcontributionsUrl.Replace("{type}", SiteType.Blog.ToString());
+
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(test_allrecentcontributionsUrl);
+
+            Contributions contributions = (Contributions)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Contributions));
+
+            foreach (Contribution contribution in contributions.ContributionItems)
+            {
+                Assert.AreEqual(SiteType.Blog, contribution.SiteType);
+            }
+            Assert.AreEqual(1, contributions.TotalContributions);
+            Console.WriteLine("After GetAllRecentContributionsXML_WithForBlogType_ReturnsValidXML");
         }
 
     }

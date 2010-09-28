@@ -6,6 +6,7 @@ using BBC.Dna;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
+using BBC.Dna.Moderation;
 
 namespace BBC.Dna
 {
@@ -134,8 +135,7 @@ namespace BBC.Dna
             // do any necessary substitutions
             string emailSubject;
             string emailBody;
-            EmailTemplate emailTemplate = new EmailTemplate(InputContext);
-            emailTemplate.FetchEmailText(siteId, "NicknameResetEmail", out emailSubject, out emailBody);
+            EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "NicknameResetEmail", out emailSubject, out emailBody);
             emailSubject = emailSubject.Replace("++**nickname**++", oldNickName);
             emailBody = emailBody.Replace("++**nickname**++", oldNickName);
             emailSubject = emailSubject.Replace("++**userid**++", userId.ToString());

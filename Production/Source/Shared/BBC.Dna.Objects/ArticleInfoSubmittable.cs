@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
+using System.Runtime.Serialization;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    
+    [System.SerializableAttribute()]    
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "Submittable")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "SUBMITTABLE")]
+    [DataContract(Name = "articleInfoSubmittable")]
     public partial class ArticleInfoSubmittable
     {
         #region Properties
@@ -34,6 +35,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "TYPE")]
+        [DataMember(Name = "type")]
         public string Type { get; set; } 
         #endregion
 
