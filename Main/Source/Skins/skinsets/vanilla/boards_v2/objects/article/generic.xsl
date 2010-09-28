@@ -23,7 +23,13 @@
         <xsl:if test="GUIDE/BODY != ''">
 	        <div class="article text">
 	            <!-- Format the article body text -->
-	            <xsl:apply-templates select="GUIDE/BODY" mode="library_GuideML" />
+	            
+	            <xsl:choose>
+		            <xsl:when test="GUIDE/BODY/*">
+		            	<xsl:copy-of select="GUIDE/BODY" />
+		            </xsl:when>
+		            <xsl:otherwise><xsl:value-of select="GUIDE/BODY" disable-output-escaping="yes" /></xsl:otherwise>
+	            </xsl:choose>
 	        </div>
         </xsl:if>
         
