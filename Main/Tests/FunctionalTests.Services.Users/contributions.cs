@@ -356,6 +356,8 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(contributions_for_type_json_url);
 
+            Console.WriteLine(request.GetLastResponseAsString());
+
             Contributions contributions = (Contributions)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(Contributions));
             bool containsBlog = ((from c in contributions.ContributionItems where c.SiteType == SiteType.Blog select c).FirstOrDefault() != null);
             bool containsMessageboard = ((from c in contributions.ContributionItems where c.SiteType == SiteType.Messageboard select c).FirstOrDefault() != null);
