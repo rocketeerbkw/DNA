@@ -2,7 +2,7 @@
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
-    class SnesActivityData
+    public class SnesActivityData
     {
         public int EventId
         {

@@ -4,7 +4,7 @@ using DnaEventService.Common;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
-    class SnesActivitiesQuery : ActivityBase
+    public class SnesActivitiesQuery : ActivityBase
     {
         public string FilterOp
         {

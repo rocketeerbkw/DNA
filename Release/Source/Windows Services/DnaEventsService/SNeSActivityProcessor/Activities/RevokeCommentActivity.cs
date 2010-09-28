@@ -4,7 +4,7 @@ using DnaEventService.Common;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
-    class RevokeCommentActivity : ActivityBase
+    public class RevokeCommentActivity : ActivityBase
     {
         private long PostedTime
         {

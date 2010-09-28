@@ -136,7 +136,14 @@ namespace DnaIdentityWebServiceProxy
                 webRequest.CookieContainer = _cookieContainer;
                 X509Store store = new X509Store("My", StoreLocation.LocalMachine);
                 store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-                X509Certificate certificate = store.Certificates.Find(X509FindType.FindBySubjectName, _certificateName, false)[0];
+                X509Certificate certificate = null;
+                bool gotDevCert = false;
+                for (int i = 0; i <= 1 && !gotDevCert; i++)
+                {
+                    certificate = store.Certificates.Find(X509FindType.FindBySubjectName, _certificateName, false)[i];
+                    gotDevCert = certificate.Subject.ToLower().Contains("cn=" + _certificateName.ToLower() + ",");
+                }
+                //X509Certificate certificate = store.Certificates.Find(X509FindType.FindBySubjectName, _certificateName, false)[0];
                 webRequest.ClientCertificates.Add(certificate);
                 response = (HttpWebResponse)webRequest.GetResponse();
             }

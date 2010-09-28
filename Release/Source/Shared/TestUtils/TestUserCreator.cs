@@ -121,7 +121,13 @@ namespace TestUtils
         }
 
         //private static string _IdentityServerBaseUri = "https://api.stage.cwwtf.bbc.co.uk/idservices"; // <-- Watford data centre only
-        private static string _IdentityServerBaseUri = "https://api.stage.bbc.co.uk/idservices"; // Load balanced calls
+
+        //private static string _IdentityServerBaseUri = "https://api.stage.bbc.co.uk/idservices"; // Load balanced calls
+        //private static string _identityCookieDomain = "api.stage.bbc.co.uk";
+
+        private static string _IdentityServerBaseUri = "https://api.test.bbc.co.uk/idservices"; // Load balanced calls
+        private static string _identityCookieDomain = "api.test.bbc.co.uk";
+
 
         public static string SetBaseIdentityURL
         {
@@ -133,7 +139,8 @@ namespace TestUtils
         }
 
 
-        private static string _webServiceCertificationName = "dna live";
+        //private static string _webServiceCertificationName = "dna live";
+        private static string _webServiceCertificationName = "dna";
         private static string _proxy = "http://10.152.4.180:80";
 
         private static string _wrUserName = "username";
@@ -522,7 +529,7 @@ namespace TestUtils
         {
             Thread.Sleep(1001);
             List<Cookie> cookies = new List<Cookie>();
-            cookies.Add(new Cookie("IDENTITY", cookie, "/", "api.stage.bbc.co.uk"));
+            cookies.Add(new Cookie("IDENTITY", cookie, "/", _identityCookieDomain));
             Dictionary<string, string> reqParams = new Dictionary<string, string>();
 
             string identityAttrib = "";
@@ -572,7 +579,7 @@ namespace TestUtils
         {
             Thread.Sleep(1001);
             List<Cookie> cookies = new List<Cookie>();
-            cookies.Add(new Cookie("IDENTITY", cookie, "/", "api.stage.bbc.co.uk"));
+            cookies.Add(new Cookie("IDENTITY", cookie, "/", _identityCookieDomain));
             Dictionary<string, string> reqParams = new Dictionary<string, string>();
             reqParams.Add(attributeName, value);
 
@@ -599,7 +606,7 @@ namespace TestUtils
         {
             Thread.Sleep(1001); 
             List<Cookie> cookies = new List<Cookie>();
-            cookies.Add(new Cookie("IDENTITY", cookie, "/", "api.stage.bbc.co.uk"));
+            cookies.Add(new Cookie("IDENTITY", cookie, "/", _identityCookieDomain));
             Dictionary<string,string> reqParams = new Dictionary<string,string>();
 
             string identityAttrib = "";
@@ -749,7 +756,13 @@ namespace TestUtils
             // Add the cert for the request
             X509Store store = new X509Store("My", StoreLocation.LocalMachine);
             store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-            X509Certificate _certificate = store.Certificates.Find(X509FindType.FindBySubjectName, _webServiceCertificationName, false)[0];
+            X509Certificate _certificate = null;
+            bool gotDevCert = false;
+            for (int i = 0; i <= 1 && !gotDevCert; i++)
+            {
+                _certificate = store.Certificates.Find(X509FindType.FindBySubjectName, _webServiceCertificationName, false)[i];
+                gotDevCert = _certificate.Subject.ToLower().Contains("cn=" + _webServiceCertificationName.ToLower() + ",");
+            }
             webRequest.ClientCertificates.Add(_certificate);
 
             // Now setup the correct method depending on the post flag

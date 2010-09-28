@@ -111,11 +111,8 @@ namespace TheGuide.Database.UnitTests
                 using (IDnaDataReader reader = StoredProcedureReader.Create("", _connectionDetails))
                 {
                     reader.ExecuteDEBUGONLY(sql2.ToString());
-                    if (reader.Read() && reader.HasRows)
-                    {
-                        string s = reader.GetStringNullAsEmpty("SiteSuffix");
-                        s += "";
-                    }
+                    Assert.IsTrue(reader.Read() && reader.HasRows);
+                    Assert.AreEqual(siteSuffix, reader.GetStringNullAsEmpty("SiteSuffix"));
                 }
 
                 using (IDnaDataReader reader = StoredProcedureReader.Create("GetUserCommentsStats", _connectionDetails))
@@ -143,13 +140,9 @@ namespace TheGuide.Database.UnitTests
                     {
                         if (reader.GetInt32("SiteID") > 1)
                         {
-                            Assert.AreEqual("", reader.GetStringNullAsEmpty("sitesuffix"), "The users sitesuffix should be empty!");
                             testedNonh2g2Site = true;
                         }
-                        else
-                        {
-                            Assert.AreEqual(siteSuffix, reader.GetStringNullAsEmpty("sitesuffix"), "The users sitesuffix should be " + siteSuffix + "!");
-                        }
+                        Assert.AreEqual(siteSuffix, reader.GetStringNullAsEmpty("sitesuffix"), "The users sitesuffix should be " + siteSuffix + "!");
                     }
 
                     Assert.IsTrue(testedNonh2g2Site, "Failed to test a non h2g2 site for site suffixes!");

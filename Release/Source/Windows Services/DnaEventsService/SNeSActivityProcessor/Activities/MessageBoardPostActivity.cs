@@ -6,12 +6,16 @@ using DnaEventService.Common;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
-    class MessageBoardPostActivity : CommentActivityBase
+    public class MessageBoardPostActivity : CommentActivityBase
     {
         public MessageBoardPostActivity(OpenSocialActivity openSocialActivity, SnesActivityData eventData)
         {
             Contents = openSocialActivity;
-            Contents.ActivityType = "comment";
+            Contents.ActivityType = openSocialActivity.CustomActivityType;
+            if (string.IsNullOrEmpty(Contents.ActivityType))
+            {
+                Contents.ActivityType = "comment";
+            }
             IdentityUserId = eventData.IdentityUserId;
             ActivityId = eventData.EventId;
         }
@@ -23,8 +27,17 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
             int forumId = eventData.UrlBuilder.ForumId;
             int threadId = eventData.UrlBuilder.ThreadId;
             string activityHostNameUrl = "http://www.bbc.co.uk/dna/" + url;
-            Contents.Url = new Uri(activityHostNameUrl + "/F" + forumId + "?thread=" + threadId + "#p" + postId,
-                                   UriKind.RelativeOrAbsolute);
+            try
+            {
+                Contents.Url = new Uri(openSocialActivity.ContentPermaUrl, UriKind.RelativeOrAbsolute);
+            }
+            catch { }
+
+            if (String.IsNullOrEmpty(Contents.Url.ToString()))
+            {
+                Contents.Url = new Uri(activityHostNameUrl + "/F" + forumId + "?thread=" + threadId + "#p" + postId,
+                                       UriKind.RelativeOrAbsolute);
+            }
 
             Contents.Title = CreateTitleString(eventData, "posted", Contents.Url, activityHostNameUrl);
         }

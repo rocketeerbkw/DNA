@@ -4,11 +4,11 @@ using Dna.SnesIntegration.ActivityProcessor.DataReaderAdapters;
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
-    class SnesActivityFactory
+    public class SnesActivityFactory
     {
         public static ISnesActivity CreateSnesActivity(IDnaDataReader currentRow)
         {
-            var openSocialActivity = new OpenSocialActvivityDataReaderAdapter(currentRow);
+            var openSocialActivity = new OpenSocialActivityDataReaderAdapter(currentRow);
             var eventData = new SnesEventDataReaderAdapter(currentRow);
 
             ISnesActivity activity;

@@ -118,7 +118,7 @@ namespace BBC.Dna.Moderation.Tests
             EmailTemplates templates = EmailTemplates.GetEmailTemplates(readerCreator, EmailTemplateTypes.AllTemplates, -1);
 
             Assert.IsNotNull(templates.EmailTemplatesList);
-            Assert.AreEqual(3, templates.EmailTemplatesList.Count);
+            Assert.AreEqual(6, templates.EmailTemplatesList.Count);
         }
     }
 

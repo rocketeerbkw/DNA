@@ -215,7 +215,7 @@
 			<xsl:value-of select="/H2G2/POSTTHREADFORM/SECONDSBEFOREREPOST mod 60" />
 		</xsl:variable>
 		
-		<p id="countdown"><strong>You must wait  <span id="minuteValue"><xsl:value-of select="$minutestowait"/></span> minutes  <span id="secondValue"><xsl:value-of select="$secondsstowait"/></span> secs before you can post again</strong></p>
+		<p class="countdown"><strong>You must wait <span id="minuteValue"><xsl:value-of select="$minutestowait"/></span> minutes  <span id="secondValue"><xsl:value-of select="$secondsstowait"/></span> secs before you can post again</strong><span class="blq-hide">The total seconds are: </span><span id="totalSeconds" class="blq-hide"><xsl:value-of select="/H2G2/POSTTHREADFORM/SECONDSBEFOREREPOST" /></span></p>
 	</xsl:template>
 	
 	<xsl:template match="PREVIEWERROR">

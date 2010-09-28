@@ -8,6 +8,7 @@ IF @siteid = 0
 BEGIN
 SELECT
    'h2g2ID' = g.h2g2ID,
+   g.EntryID,
    'Subject' = CASE
 			WHEN g.Hidden IS NOT NULL THEN '' ELSE 
 			CASE g.Subject WHEN '' THEN 'No Subject' ELSE g.Subject END
@@ -61,8 +62,9 @@ END
 ELSE
 BEGIN
 SELECT
-   'h2g2ID' = g.h2g2ID,
-   'Subject' = CASE
+	'h2g2ID' = g.h2g2ID,
+	g.EntryID,
+    'Subject' = CASE
 			WHEN g.Hidden IS NOT NULL THEN '' ELSE 
 			CASE g.Subject WHEN '' THEN 'No Subject' ELSE g.Subject END
 			END,
