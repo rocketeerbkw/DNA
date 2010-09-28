@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
 using System.Collections.Generic;
+using BBC.Dna.Utils;
 
 
 namespace BBC.Dna.Objects.Tests
@@ -64,12 +65,20 @@ namespace BBC.Dna.Objects.Tests
             testDataPlainText.Add(new[] { "1 > 4 < 5", "1 &gt; 4 &lt; 5" });//translates < and > chars
             testDataPlainText.Add(new[] { "jack & jill", "jack &amp; jill" });//translates & chars
 
-
             foreach (var data in testDataPlainText)
             {
-                Assert.AreEqual(data[1], ThreadPost.FormatPost(data[0], CommentStatus.Hidden.NotHidden));
+                Assert.AreEqual(data[1], ThreadPost.FormatPost(data[0], CommentStatus.Hidden.NotHidden, true));
             }
 
+        }
+
+        [TestMethod]
+        public void FormatPost_FormatWithoutHTMLCleaningHTMLTags_ExpectFormattedWithHTMLTags()
+        {
+            var testText = "<b>Testing</b> bits & bobs <a href=\"http://thisisalink.com\">Dodgy link</a>\r\n is ok <ale>.";
+            var expected = "&lt;b&gt;Testing&lt;/b&gt; bits &amp; bobs &lt;a href=\"http://thisisalink.com\"&gt;Dodgy link&lt;/a&gt;<BR /> is ok <SMILEY TYPE='ale' H2G2='Smiley#ale'/>.";
+            var translated = ThreadPost.FormatPost(testText, CommentStatus.Hidden.NotHidden, false);
+            Assert.AreEqual(expected, translated);
         }
 
         [TestMethod()]
@@ -81,7 +90,7 @@ namespace BBC.Dna.Objects.Tests
             string actual;
 
 
-            actual = ThreadPost.FormatPost(testText, hidden);
+            actual = ThreadPost.FormatPost(testText, hidden, true);
             Assert.AreEqual(expected, actual);
 
 
@@ -94,7 +103,7 @@ namespace BBC.Dna.Objects.Tests
             var testText = "some text";
             var hidden = CommentStatus.Hidden.Hidden_AwaitingReferral;
 
-            var actual = ThreadPost.FormatPost(testText, hidden);
+            var actual = ThreadPost.FormatPost(testText, hidden, true);
             Assert.AreEqual(expected, actual);
 
         }
@@ -106,7 +115,7 @@ namespace BBC.Dna.Objects.Tests
             var testText = "some text";
             var hidden = CommentStatus.Hidden.Removed_EditorComplaintTakedown;
 
-            var actual = ThreadPost.FormatPost(testText, hidden);
+            var actual = ThreadPost.FormatPost(testText, hidden, true);
             Assert.AreEqual(expected, actual);
 
 
@@ -119,7 +128,7 @@ namespace BBC.Dna.Objects.Tests
             var testText = "some text";
             var hidden = CommentStatus.Hidden.Removed_FailedModeration;
 
-            var actual = ThreadPost.FormatPost(testText, hidden);
+            var actual = ThreadPost.FormatPost(testText, hidden, true);
             Assert.AreEqual(expected, actual);
 
 
@@ -133,7 +142,7 @@ namespace BBC.Dna.Objects.Tests
             var testText = "some text";
             var hidden = CommentStatus.Hidden.Removed_ForumRemoved;
 
-            var actual = ThreadPost.FormatPost(testText, hidden);
+            var actual = ThreadPost.FormatPost(testText, hidden, true);
             Assert.AreEqual(expected, actual);
         }
 
@@ -144,7 +153,7 @@ namespace BBC.Dna.Objects.Tests
             var testText = "some text";
             var hidden = CommentStatus.Hidden.Removed_UserDeleted;
 
-            var actual = ThreadPost.FormatPost(testText, hidden);
+            var actual = ThreadPost.FormatPost(testText, hidden, true);
             Assert.AreEqual(expected, actual);
 
         }
@@ -395,7 +404,7 @@ namespace BBC.Dna.Objects.Tests
             string expected = @"This is the <BR />default comment.";
             XmlElement actual;
             target.Text = ThreadPost.FormatPost(@"This is the 
-default comment.", CommentStatus.Hidden.NotHidden);
+default comment.", CommentStatus.Hidden.NotHidden, true);
             actual = target.TextElement;
             Assert.AreEqual(expected, actual.InnerXml);
         }
@@ -411,7 +420,7 @@ default comment.", CommentStatus.Hidden.NotHidden);
             target.Style = PostStyle.Style.richtext;
             string expected = @"This is the default comment.";
             XmlElement actual;
-            target.Text = ThreadPost.FormatPost("This is the <B>default</B> comment.", CommentStatus.Hidden.NotHidden);
+            target.Text = ThreadPost.FormatPost("This is the <B>default</B> comment.", CommentStatus.Hidden.NotHidden, true);
             actual = target.TextElement;
             Assert.AreEqual(expected, actual.InnerXml);
         }
