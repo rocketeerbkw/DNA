@@ -252,8 +252,10 @@ namespace BBC.Dna.Objects
         /// Formats the post
         /// </summary>
         /// <param name="inputText"></param>
+        /// <param name="hidden"></param>
+        /// <param name="cleanHTMLTags"></param>
         /// <returns></returns>
-        static public string FormatPost(string inputText, CommentStatus.Hidden hidden)
+        static public string FormatPost(string inputText, CommentStatus.Hidden hidden, bool cleanHTMLTags)
         {
             if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
             {
@@ -277,8 +279,11 @@ namespace BBC.Dna.Objects
             // Quote translator.
             inputText = QuoteTranslator.TranslateText(inputText);
 
-            //Remove bad html tags and events
-            inputText = HtmlUtils.CleanHtmlTags(inputText, true, true);
+            if (cleanHTMLTags)
+            {
+                //Remove bad html tags and events
+                inputText = HtmlUtils.CleanHtmlTags(inputText, true, true);
+            }
 
             // Expand Links 
             //Note this must happen after removal because <LINK>s will be removed in the CleanHtmlTags call 
@@ -429,7 +434,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
-                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden);
+                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden, true);
             }
             if (reader.DoesFieldExist(prefix +"hostpageurl"))
             {
