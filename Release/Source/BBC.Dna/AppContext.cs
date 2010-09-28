@@ -68,12 +68,10 @@ namespace BBC.Dna
             //load the smiley list
             SmileyTranslator.LoadSmileys(ReaderCreator);
 
-            DnaDiagnostics.Default.WriteToLog("OnDnaStartup", "About to choose memcache cache");
             ICacheManager cacheMemcachedManager = null;
             try
             {
                 cacheMemcachedManager = CacheFactory.GetCacheManager("Memcached");
-                DnaDiagnostics.Default.WriteToLog("OnDnaStartup", "Memcached chosen.");
             }
             catch (Exception error)
             {
