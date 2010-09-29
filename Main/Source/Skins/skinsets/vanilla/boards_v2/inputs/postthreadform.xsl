@@ -22,6 +22,12 @@
         </p>
     </xsl:template>
     
+    <xsl:template match="POSTTHREADFORM" mode="input_postthreadform_button" />
+    
+    <xsl:template match="POSTTHREADFORM[@PROFANITYTRIGGERED = 1]" mode="input_postthreadform_button">
+        <xsl:attribute name="id">dna-boards-cancel-blocked</xsl:attribute>
+    </xsl:template>    
+    
    <xsl:template match="POSTTHREADFORM[@CANWRITE = 0]" mode="input_postthreadform">
       <div>
           <xsl:call-template name="library_header_h2">
@@ -70,7 +76,16 @@
                     </textarea>
                 </p>
                 <xsl:apply-templates select="." mode="input_postthreadform_error" />
-                <ul class="blq-clearfix"><li><input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview dna-button"/></li><li><input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button"/></li><li><input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit dna-button"/></li></ul>
+                
+                <ul class="blq-clearfix">
+                	<li><input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview dna-button"/></li>
+                	<li>
+                		<input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button">
+                			<xsl:apply-templates select="." mode="input_postthreadform_button" />
+                		</input>
+                	</li>
+                	<li><input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit dna-button"/></li>
+                </ul>
                 
                 <xsl:apply-templates select="/H2G2/ERROR" mode="object_error" />
             	
@@ -158,7 +173,10 @@
                                 <xsl:apply-templates select="." mode="input_postthreadform_error" />
                                 <ul class="blq-clearfix">
                                     <li><input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview dna-button"/></li>
-                                    <li><input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button"/></li>
+                                    <li>
+                                    	<input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button"/>
+                                    	<xsl:apply-templates select="." mode="input_postthreadform_button" />
+                                    </li>
                                     <li><input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit dna-button"/></li>
                                 </ul>
                                 
