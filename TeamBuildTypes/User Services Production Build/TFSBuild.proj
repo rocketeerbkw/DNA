@@ -258,7 +258,10 @@
 		<DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
 		<CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.pdb"></CommentsApi>
 		<ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.pdb"></ModerationApi>
-		<Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
+    <CategoriesApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.pdb"></CategoriesApi>
+    <ForumsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.pdb"></ForumsApi>
+    <UsersApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Users\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Users\**\*.pdb"></UsersApi>
+    <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
 		<Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\DeploymentNotes.txt"></Documentation>
 	</ItemGroup>
 
