@@ -1,4 +1,4 @@
-CREATE PROCEDURE markthreadread @userid int, @threadid int, @postid int, @force int = 0
+CREATE PROCEDURE markthreadread @userid int, @threadid int, @postindex int, @force int = 0
 AS
 BEGIN TRANSACTION
 
@@ -9,12 +9,12 @@ BEGIN TRANSACTION
 
 	IF (@force = 0)
 	BEGIN
-		UPDATE dbo.ThreadPostings SET LastPostCountRead = @postid
-			WHERE UserID = @userid AND ThreadID = @threadid AND (LastPostCountRead IS NULL OR LastPostCountRead < @postid)
+		UPDATE dbo.ThreadPostings SET LastPostCountRead = @postindex
+			WHERE UserID = @userid AND ThreadID = @threadid AND (LastPostCountRead IS NULL OR LastPostCountRead < @postindex)
 	END
 	ELSE
 	BEGIN
-		UPDATE dbo.ThreadPostings SET LastPostCountRead = @postid
+		UPDATE dbo.ThreadPostings SET LastPostCountRead = @postindex
 			WHERE UserID = @userid AND ThreadID = @threadid
 	END
 	SELECT @ErrorCode = @@ERROR
@@ -31,7 +31,7 @@ BEGIN TRANSACTION
 		-- PostCount is updated as a queued/independent process.  
 		-- Only mark private message read if the processthreadpostings job has updated countposts and unreadprivatemessagecount
 		declare @postsread int, @readcount int
-		SET @postsread = CASE WHEN @postid > @CountPosts THEN @CountPosts ELSE @postid END
+		SET @postsread = CASE WHEN @postindex > @CountPosts THEN @CountPosts ELSE @postindex END
 		SET @readcount = CASE WHEN @postsread > @LastPostsRead THEN @postsread - @LastPostsRead ELSE 0 END	
 		
 		UPDATE dbo.Users

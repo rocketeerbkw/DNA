@@ -29,13 +29,11 @@ namespace FunctionalTests
             CleanRiplyCache();
         }
 
-        
-
         /// <summary>
         
         /// </summary>
         [TestMethod]
-        public void Test01GetH2G2ForumAndValidateSchemas()
+        public void ForumPageBuilder_01GetH2G2ForumAndValidateSchemas()
         {
             string siteName = "h2g2";
             GetAndValidateForumXml(siteName, 150);
@@ -47,7 +45,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test02Get606ForumAndValidateSchemas()
+        public void ForumPageBuilder_02Get606ForumAndValidateSchemas()
         {
             string siteName = "606";
             GetAndValidateForumXml(siteName, 7619351, false);
@@ -62,7 +60,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test03GetMBForumAndValidateSchemasUsingRipley()
+        public void ForumPageBuilder_03GetMBForumAndValidateSchemasUsingRipley()
         {
             string siteName = "mbiplayer";
             GetAndValidateForumXml(siteName, 7325075, true);
@@ -74,7 +72,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test04GetH2G2ForumThreadAndValidateSchemas()
+        public void ForumPageBuilder_04GetH2G2ForumThreadAndValidateSchemas()
         {
             string siteName = "h2g2";
             GetAndValidateForumThreadXml(siteName, 150, 33, true);
@@ -86,7 +84,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test05GetMBForumThreadAndValidateSchemas()
+        public void ForumPageBuilder_05GetMBForumThreadAndValidateSchemas()
         {
             string siteName = "mbiplayer";
             GetAndValidateForumThreadXml(siteName, 7325075, 34, true);
@@ -98,7 +96,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test06CloseOpenThreadUsingRipley()
+        public void ForumPageBuilder_06CloseOpenThreadUsingRipley()
         {
             CleanRiplyCache();
             string siteName = "mbiplayer";
@@ -177,7 +175,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test07CloseOpenThreadUsingCSharp()
+        public void ForumPageBuilder_07CloseOpenThreadUsingCSharp()
         {
             string siteName = "mbiplayer";
             //CLOSETHREAD first
@@ -253,7 +251,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test08OpenCloseOpenThreadNotAuthorisedRipley()
+        public void ForumPageBuilder_08OpenCloseOpenThreadNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
                         
@@ -277,7 +275,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test09OpenCloseOpenThreadNotAuthorisedCSharp()
+        public void ForumPageBuilder_09OpenCloseOpenThreadNotAuthorisedCSharp()
         {
             string siteName = "mbiplayer";
             
@@ -307,7 +305,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test10OpenCloseOpenThreadAsAuthorWithoutSiteOptionRipley()
+        public void ForumPageBuilder_10OpenCloseOpenThreadAsAuthorWithoutSiteOptionRipley()
         {
             string siteName = "h2g2";
 
@@ -333,7 +331,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test11OpenCloseOpenThreadAsAuthorWithoutSiteOptionCSharp()
+        public void ForumPageBuilder_11OpenCloseOpenThreadAsAuthorWithoutSiteOptionCSharp()
         {
             string siteName = "h2g2";
 
@@ -358,7 +356,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test12OpenCloseOpenThreadAsAuthorRipley()
+        public void ForumPageBuilder_12OpenCloseOpenThreadAsAuthorRipley()
         {
             string siteName = "h2g2";
 
@@ -403,7 +401,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test13OpenCloseOpenThreadAsAuthorCSharp()
+        public void ForumPageBuilder_13OpenCloseOpenThreadAsAuthorCSharp()
         {
             string siteName = "h2g2";
 
@@ -447,7 +445,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test14ChangePermissionsNotAuthorisedRipley()
+        public void ForumPageBuilder_14ChangePermissionsNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
 
@@ -465,7 +463,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test15ChangePermissionsNotAuthorisedCSharp()
+        public void ForumPageBuilder_15ChangePermissionsNotAuthorisedCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -483,7 +481,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test16ChangeForumPermissionsRipley()
+        public void ForumPageBuilder_16ChangeForumPermissionsRipley()
         {
             string siteName = "mbiplayer";
 
@@ -522,7 +520,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test17ChangeForumPermissionsCSharp()
+        public void ForumPageBuilder_17ChangeForumPermissionsCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -558,7 +556,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test18ChangeForumThreadPermissionsRipley()
+        public void ForumPageBuilder_18ChangeForumThreadPermissionsRipley()
         {
             string siteName = "mbiplayer";
 
@@ -592,7 +590,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
-        public void Test19ChangeForumThreadPermissionsCSharp()
+        public void ForumPageBuilder_19ChangeForumThreadPermissionsCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -624,7 +622,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test20ChangeModerationStatusNotAuthorisedRipley()
+        public void ForumPageBuilder_20ChangeModerationStatusNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
 
@@ -642,7 +640,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test21ChangeModerationStatusNotAuthorisedCSharp()
+        public void ForumPageBuilder_21ChangeModerationStatusNotAuthorisedCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -666,7 +664,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test22ChangeModerationStatusRipley()
+        public void ForumPageBuilder_22ChangeModerationStatusRipley()
         {
             string siteName = "mbiplayer";
 
@@ -696,7 +694,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test23ChangeModerationStatusCSharp()
+        public void ForumPageBuilder_23ChangeModerationStatusCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -725,7 +723,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test24HideThreadNotAuthorisedRipley()
+        public void ForumPageBuilder_24HideThreadNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
 
@@ -743,7 +741,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test25HideThreadNotAuthorisedCSharp()
+        public void ForumPageBuilder_25HideThreadNotAuthorisedCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -762,7 +760,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test26HideThreadAuthorisedRipley()
+        public void ForumPageBuilder_26HideThreadAuthorisedRipley()
         {
             string siteName = "mbiplayer";
 
@@ -794,7 +792,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test27HideThreadAuthorisedCSharp()
+        public void ForumPageBuilder_27HideThreadAuthorisedCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -826,7 +824,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test28UpdateAlertInstantlyNotAuthorisedRipley()
+        public void ForumPageBuilder_28UpdateAlertInstantlyNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
 
@@ -844,7 +842,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test29UpdateAlertInstantlyNotAuthorisedCSharp()
+        public void ForumPageBuilder_29UpdateAlertInstantlyNotAuthorisedCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -862,7 +860,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test30UpdateAlertInstantlyRipley()
+        public void ForumPageBuilder_30UpdateAlertInstantlyRipley()
         {
             CleanRiplyCache();
             string siteName = "mbiplayer";
@@ -893,7 +891,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test31UpdateAlertInstantlyCSharp()
+        public void ForumPageBuilder_31UpdateAlertInstantlyCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -923,7 +921,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test32SubscribeThreadRipley()
+        public void ForumPageBuilder_32SubscribeThreadRipley()
         {
             string siteName = "mbiplayer";
 
@@ -965,7 +963,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test33SubscribeThreadCSharp()
+        public void ForumPageBuilder_33SubscribeThreadCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -1007,7 +1005,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test34SubscribeForumRipley()
+        public void ForumPageBuilder_34SubscribeForumRipley()
         {
             string siteName = "mbiplayer";
 
@@ -1049,7 +1047,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test35SubscribeForumCSharp()
+        public void ForumPageBuilder_35SubscribeForumCSharp()
         {
             string siteName = "mbiplayer";
 
@@ -1091,7 +1089,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test36GetH2G2ForumAndValidateSmileyRelacement()
+        public void ForumPageBuilder_36GetH2G2ForumAndValidateSmileyRelacement()
         {
             string siteName = "h2g2";
             DnaTestURLRequest request = new DnaTestURLRequest(siteName);
@@ -1110,7 +1108,7 @@ namespace FunctionalTests
 
         /// </summary>
         [TestMethod]
-        public void Test37GetSameForumManyTimes()
+        public void ForumPageBuilder_37GetSameForumManyTimes()
         {
             var siteName = "mbiplayer";
             var testPost = @"this post contains newlines
@@ -1134,7 +1132,7 @@ links: http://www.bbc.co.uk and other stuff";
         }
 
         [TestMethod]
-        public void Test38ForumPageInPreviewMode()
+        public void ForumPageBuilder_38ForumPageInPreviewMode()
         {
 
             var siteConfig = "<SITECONFIG><TEST>OK</TEST></SITECONFIG>";
@@ -1161,7 +1159,7 @@ links: http://www.bbc.co.uk and other stuff";
         }
 
         [TestMethod]
-        public void Test39ForumPageForumNotFound()
+        public void ForumPageBuilder_39ForumPageForumNotFound()
         {
 
             var siteName = "mbiplayer";
@@ -1180,7 +1178,7 @@ links: http://www.bbc.co.uk and other stuff";
         }
 
         [TestMethod]
-        public void Test40ForumPageThreadNotFound()
+        public void ForumPageBuilder_40ForumPageThreadNotFound()
         {
 
             var siteName = "mbiplayer";
@@ -1199,7 +1197,7 @@ links: http://www.bbc.co.uk and other stuff";
         }
 
         [TestMethod]
-        public void Test41ForumPage_FirstPostReferred_HiddenInThreadsPage()
+        public void ForumPageBuilder_41ForumPage_FirstPostReferred_HiddenInThreadsPage()
         {
             try
             {
@@ -1239,7 +1237,7 @@ links: http://www.bbc.co.uk and other stuff";
         }
 
         [TestMethod]
-        public void Test42ForumPage_ArticleNotWrite_PermissionsValid()
+        public void ForumPageBuilder_42ForumPage_ArticleNotWrite_PermissionsValid()
         {
             try
             {
@@ -1292,7 +1290,38 @@ links: http://www.bbc.co.uk and other stuff";
             }
         }
 
+        [TestMethod]
+        public void ForumPageBuilder_43GetH2G2ForumAndMarkAsReadCorrect_VerifyCorrectMorePostEntries()
+        {
+            var siteName = "h2g2";
+            var testPost = @"this post contains newlines
+links: http://www.bbc.co.uk and other stuff";
+            var expectedString = "this post contains newlines<BR />links: <LINK HREF=\"http://www.bbc.co.uk\">http://www.bbc.co.uk</LINK> and other stuff";
 
+
+            PostToForum(33, 60, 150, testPost, siteName);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(siteName);
+            request.SetCurrentUserNormal();
+            request.RequestPage("NF150?thread=33&skin=purexml");
+            ValidateForumThreadSchema(request);
+            var doc = request.GetLastResponseAsXML();
+
+            var lastPost = doc.SelectSingleNode("//H2G2/FORUMTHREADS/THREAD/LASTPOST/TEXT");
+            var lastPostId = doc.SelectSingleNode("//H2G2/FORUMTHREADS/THREAD/LASTPOST/@POSTID").InnerText;
+            var lastPostIndex = doc.SelectSingleNode("//H2G2/FORUMTHREADPOSTS/POST[@POSTID='" + lastPostId + "']/@INDEX").InnerText;
+            Assert.IsNotNull(lastPost);
+            Assert.AreEqual(expectedString, lastPost.InnerXml);
+            Assert.AreNotEqual("0", lastPostIndex);//shouldn't be 0 - should be 1 or more
+
+            //call MP page
+            request.RequestPage("MP" + request.CurrentUserID.ToString() + "?skin=purexml");
+            doc = request.GetLastResponseAsXML();
+
+            var lastReadPostIndex = doc.SelectSingleNode("//H2G2/POSTS/POST-LIST/POST/THREAD[@THREADID='33']/../@LASTPOSTCOUNTREAD").InnerText;
+
+            Assert.AreEqual(lastPostIndex, lastReadPostIndex);
+        }
 
         #region Private helper functions
 

@@ -6,6 +6,8 @@ using BBC.Dna.Component;
 using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using BBC.Dna.Objects;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Component
 {
@@ -165,7 +167,7 @@ namespace BBC.Dna.Component
 				            }
 
 				            // Add the Subject 
-                            threadSubject = dataReader.GetStringNullAsEmpty("FirstSubject");
+                            threadSubject = ThreadPost.FormatSubject(dataReader.GetStringNullAsEmpty("FirstSubject"), CommentStatus.Hidden.NotHidden);
                             AddTextTag(thread, "SUBJECT", threadSubject);
                             
                             AddDateXml(dataReader, thread, "LastReply", "REPLYDATE");

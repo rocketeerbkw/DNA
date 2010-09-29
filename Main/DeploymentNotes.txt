@@ -566,3 +566,11 @@ Marcus - update the following assets folders:
 SPF - Add the line to the Web.Config in the appSettings directory for
     <add key="guideMLXSLTSkinPath" value="D:\Inetpub\wwwroot\h2g2\Skins\skinsets\api\default\output.xsl" />
 	
+============== v 3.5.46.0 =============
+Marcus - to fix the massive negative numbers run the following query on live db
+-
+update threadpostings
+set lastpostcountread =0
+where lastpostcountread > 1000000
+
+

@@ -212,7 +212,7 @@ namespace BBC.Dna
             {
 //update the last read post if the user is subscribed
                 _forumHelper.MarkThreadRead(InputContext.ViewingUser.UserID, _threadId,
-                                            thread.Post[thread.Post.Count - 1].PostId, true);
+                                            thread.Post[thread.Post.Count - 1].Index, true);
             }
         }
 

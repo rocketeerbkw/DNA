@@ -55,7 +55,8 @@ select @notablesgroup = GroupID FROM Groups WITH(NOLOCK) WHERE Name = 'Notables'
 			th.Type,
 			th.eventdate,
 			'threadlastupdate' = th.lastupdated,
-			te.postindex as 'replypostindex'
+			te.postindex as 'replypostindex',
+			t.postindex as 'postindex'
 	FROM ThreadEntries t WITH(NOLOCK)
 		LEFT JOIN ThreadEntries te on te.entryid=t.parent
 		INNER JOIN Users u WITH(NOLOCK) ON t.UserID = u.UserID
