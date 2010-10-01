@@ -164,6 +164,7 @@ namespace BBC.Dna.Objects
 
                         if (errorCount != 0)
                         {
+                            DnaDiagnostics.Default.WriteToLog("FailedTransform", transformedContent);
                             throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
                         }
 
@@ -819,9 +820,9 @@ namespace BBC.Dna.Objects
             }
             article.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
 
-            if (!reader.IsDBNull("HIdden"))
+            if (!reader.IsDBNull("Hidden"))
             {
-                article.HiddenStatus = reader.GetInt32("HIdden");
+                article.HiddenStatus = reader.GetInt32("Hidden");
             }
             article.DefaultCanRead = reader.GetTinyIntAsInt("CanRead");
             article.DefaultCanWrite = reader.GetTinyIntAsInt("CanWrite");

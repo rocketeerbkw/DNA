@@ -106,10 +106,19 @@ namespace BBC.Dna.Objects
             }
             else
             {
-                dnaUserId = Convert.ToInt32(identifier);
+                try
+                {
+                    dnaUserId = Convert.ToInt32(identifier);
+                }
+                catch (Exception)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
             }
 
-            SubscribingUsersList userSubscriptions = new SubscribingUsersList();
+            SubscribingUsersList subscribingUsers = new SubscribingUsersList();
+            subscribingUsers.Skip = skip;
+            subscribingUsers.Show = show;
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getsubscribingusers"))
             {
@@ -123,18 +132,18 @@ namespace BBC.Dna.Objects
                 //1st Result set gets user details.
                 if (reader.HasRows && reader.Read())
                 {
-                    userSubscriptions.SubscribedTo = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "SubscribedTo") };
+                    subscribingUsers.SubscribedTo = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "SubscribedTo") };
 
-                    userSubscriptions.SubscribedToAcceptsSubscriptions = reader.GetBoolean("SubscribedToAcceptSubscriptions");
+                    subscribingUsers.SubscribedToAcceptsSubscriptions = reader.GetBoolean("SubscribedToAcceptSubscriptions");
 
                     reader.NextResult();
 
-                    //Paged List of Users Subscriptions.
+                    //Paged List of Subscribing Users.
                     int count = 0;
                     while (reader.Read() && count < show)
                     {
                         //Delegate creation of XML to User class.
-                        userSubscriptions.Users.Add(new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) });
+                        subscribingUsers.Users.Add(new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) });
 
                         ++count;
                     }
@@ -142,7 +151,7 @@ namespace BBC.Dna.Objects
                     // Add More Attribute Indicating there are more rows.
                     if (reader.Read() && count > 0)
                     {
-                        userSubscriptions.More = 1;
+                        subscribingUsers.More = 1;
                     }
                 }
                 else
@@ -150,7 +159,7 @@ namespace BBC.Dna.Objects
                     throw ApiException.GetError(ErrorType.UserNotFound);
                 }
             }
-            return userSubscriptions;
+            return subscribingUsers;
         }
         /// <summary>
         /// Gets the subscribing users from cache or db if not found in cache

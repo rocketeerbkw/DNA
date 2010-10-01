@@ -6,6 +6,8 @@ BEGIN
 
 	SELECT 
 		@userid 'SubscriberID', 
+		siuidm1.IdentityUserID 'SubscriberIdentityUserID', 
+		u1.LoginName 'SubscriberIdentityUserName', 
 		u1.UserName 'SubscriberUserName',
 		u1.FirstNames 'SubscriberFirstNames',
 		u1.LastName 'SubscriberLastName',
@@ -20,9 +22,11 @@ BEGIN
 		u1.HideLocation 'SubscriberHideLocation',
 		u1.HideUserName 'SubscriberHideUserName',
 		u1.AcceptSubscriptions 'SubscriberAcceptSubscriptions',
-		ISNULL(csu1.Score, 0.0) AS 'SubscriberZeitgeistScore'
+		ISNULL(csu1.Score, 0.0) AS 'SubscriberZeitgeistScore',
+		@siteid 'siteID'
 	FROM dbo.Users u1
 	LEFT JOIN dbo.ContentSignifUser csu1 WITH(NOLOCK) ON u1.Userid = csu1.Userid AND csu1.SiteID = @siteid
+	INNER JOIN SignInUserIDMapping siuidm1 WITH(NOLOCK) ON u1.UserID = siuidm1.DnaUserID
 	WHERE u1.UserID = @userid ;
 	
 	--Second recordset containing the actual list of Subscribed To users
@@ -36,6 +40,9 @@ BEGIN
 	)
 	SELECT 
 	tmp.AuthorID AS 'subscribedToID',
+	siuidm.IdentityUserID, 
+	'IdentityUserName' = u.LoginName, 
+	u.UserID,
 	u.UserName,
 	u.FirstNames,
 	u.LastName,
@@ -50,10 +57,12 @@ BEGIN
 	u.HideLocation,
 	u.HideUserName,
 	u.AcceptSubscriptions,
-	ISNULL(csu.Score, 0.0) AS 'ZeitgeistScore'
+	ISNULL(csu.Score, 0.0) AS 'ZeitgeistScore',
+	@siteid 'siteID'
 	FROM CTE_USERLIST tmp WITH(NOLOCK) 
 	INNER JOIN dbo.Users u  WITH(NOLOCK) ON u.UserID = tmp.AuthorID
 	LEFT JOIN dbo.ContentSignifUser csu  WITH(NOLOCK) ON u.Userid = csu.Userid AND csu.SiteID = @siteid
+	INNER JOIN SignInUserIDMapping siuidm WITH(NOLOCK) ON u.UserID = siuidm.DnaUserID
 	WHERE n > @skip AND n <= @skip + @show
 	ORDER BY n
 

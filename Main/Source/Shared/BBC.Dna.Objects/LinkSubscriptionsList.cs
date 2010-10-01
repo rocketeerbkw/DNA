@@ -103,10 +103,19 @@ namespace BBC.Dna.Objects
             }
             else
             {
-                dnaUserId = Convert.ToInt32(identifier);
+                try
+                {
+                    dnaUserId = Convert.ToInt32(identifier);
+                }
+                catch (Exception)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
             }
 
             LinkSubscriptionsList linkSubscriptions = new LinkSubscriptionsList();
+            linkSubscriptions.Skip = skip;
+            linkSubscriptions.Show = show;
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getlinksubscriptionlist"))
             {
@@ -121,7 +130,7 @@ namespace BBC.Dna.Objects
                 //1st Result set gets user details.
                 if (reader.HasRows && reader.Read())
                 {
-                    linkSubscriptions.Subscriber = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "Subscriber") };
+                    linkSubscriptions.Subscriber = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "") };
 
                     reader.NextResult();
 

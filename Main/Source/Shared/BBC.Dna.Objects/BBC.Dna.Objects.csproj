@@ -70,6 +70,10 @@
     <Compile Include="ArticleInfoReferencesEntryLink.cs" />
     <Compile Include="ArticleInfoReferencesExternalLink.cs" />
     <Compile Include="ArticleInfoSubmittable.cs" />
+    <Compile Include="ArticleList.cs" />
+    <Compile Include="ArticleLocation.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ArticleSubscriptionsList.cs" />
     <Compile Include="BlockedUserSubscriptionsList.cs" />
     <Compile Include="Club.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="Link.cs" />
     <Compile Include="LinksList.cs" />
     <Compile Include="LinkSubscriptionsList.cs" />
+    <Compile Include="Location.cs" />
     <Compile Include="MessageBoardBackup.cs" />
     <Compile Include="FrontPageElement.cs" />
     <Compile Include="Category.cs" />
@@ -91,6 +96,9 @@
     <Compile Include="CategorySummarySubnode.cs" />
     <Compile Include="MessageBoardPublishError.cs" />
     <Compile Include="MonthSummary.cs" />
+    <Compile Include="Post.cs" />
+    <Compile Include="PostList.cs" />
+    <Compile Include="PostThreadInfo.cs" />
     <Compile Include="Recommendations.cs" />
     <Compile Include="ReviewSubmission.cs" />
     <Compile Include="Search.cs" />

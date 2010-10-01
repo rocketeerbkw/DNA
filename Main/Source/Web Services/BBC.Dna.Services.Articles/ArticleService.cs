@@ -538,14 +538,21 @@ namespace BBC.Dna.Services
             var showSubmitted = QueryStringHelper.GetQueryParameterAsInt("showsubmitted", 0);
             if (querystring != string.Empty)
             {
-                search = Search.CreateSearch(cacheManager, 
-                                                readerCreator, 
-                                                site.SiteID, 
-                                                querystring, 
-                                                "ARTICLE", 
-                                                showApproved == 1 ? true : false,
-                                                showNormal == 1 ? true : false,
-                                                showSubmitted == 1 ? true : false);
+                try
+                {
+                    search = Search.CreateSearch(cacheManager, 
+                                                    readerCreator, 
+                                                    site.SiteID, 
+                                                    querystring, 
+                                                    "ARTICLE", 
+                                                    showApproved == 1 ? true : false,
+                                                    showNormal == 1 ? true : false,
+                                                    showSubmitted == 1 ? true : false);
+                }
+                catch (ApiException ex)
+                {
+                    throw new DnaWebProtocolException(ex);
+                }
             }
             return GetOutputStream(search);
         }
