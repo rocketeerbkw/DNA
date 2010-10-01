@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using System.Linq;
 
 
 namespace BBC.Dna.Objects
@@ -13,18 +14,12 @@ namespace BBC.Dna.Objects
     /// <summary>
     /// Class to translate shorthand smiley text eg :-) into smiley XML elements.
     /// </summary>
-    public class SmileyTranslator 
+    static public class SmileyTranslator 
     {
-        public static Hashtable Replacements = new Hashtable();
+        public static Dictionary<string, string> Replacements = new Dictionary<string, string>();
+        public static Dictionary<string, string> TagReplacements = new Dictionary<string, string>();
         public static bool IsInitialised = false;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public SmileyTranslator()
-        {
-
-        }
 
         /// <summary>
         /// Expands smiley shorthand into <SMILEY> </SMILEY> XML tags
@@ -39,9 +34,14 @@ namespace BBC.Dna.Objects
             }
 
             String result = raw;
+            //do tag replacements first
+            foreach (string shortcut in TagReplacements.Keys)
+            {
+                result = result.Replace(shortcut, TagReplacements[shortcut]);
+            }
             foreach (string shortcut in Replacements.Keys)
             {
-                result = result.Replace(shortcut, (string)Replacements[shortcut]);
+                result = result.Replace(shortcut, Replacements[shortcut]);
             }
             return result; 
         }
@@ -55,6 +55,7 @@ namespace BBC.Dna.Objects
         public static void LoadSmileys(IDnaDataReaderCreator  creator)
         {
             Replacements.Clear();
+            TagReplacements.Clear();
             IsInitialised = false;
             String regex = String.Empty;
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("getsmileylist"))
@@ -67,9 +68,19 @@ namespace BBC.Dna.Objects
                     
                     String replace = "<SMILEY TYPE='***' H2G2='Smiley#***'/>";
                     shorthand = StringUtils.EscapeAllXml(shorthand);
-                    Replacements.Add(shorthand, replace.Replace("***",name));
+                    if (shorthand.IndexOf("&lt;") == 0)
+                    {
+                        TagReplacements.Add(shorthand, replace.Replace("***", name));
+                    }
+                    else
+                    {
+                        Replacements.Add(shorthand, replace.Replace("***", name));
+                    }
+
+                    
                 }
             }
+
             IsInitialised = true;
         }
     }
