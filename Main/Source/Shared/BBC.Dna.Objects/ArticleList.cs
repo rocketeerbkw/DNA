@@ -101,6 +101,13 @@ namespace BBC.Dna.Objects
 
                 if (reader.HasRows && reader.Read())
                 {
+                    if (skip > 0)
+                    {
+                        for (int i = 1; i < skip; i++)
+                        {
+                            reader.Read();
+                        }
+                    }
                     //The stored procedure returns one row for each article. 
                     do
                     {
@@ -108,7 +115,7 @@ namespace BBC.Dna.Objects
 
                         //Delegate creation of XML to Article class.
                         ArticleSummary articleSummary = ArticleSummary.CreateArticleSummaryFromReader(reader);
-                        if (articleSummary.Status == ArticleStatus.GetStatus(1))
+                        if (articleSummary.Status.Type == 1)
                         {
                             articleList.EditedArticles.Add(articleSummary);
                         }
