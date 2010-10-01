@@ -61,6 +61,7 @@
          <td class="startedby">
 	         <span class="vcard">
 	             <span class="fn">
+	             	<xsl:attribute name="class">fn<xsl:text> </xsl:text><xsl:apply-templates select="FIRSTPOST/USER/GROUPS/GROUP" mode="library_user_group" /></xsl:attribute>
 	             	<!-- Split the string as it was destroying table layout -->
 	             	<xsl:variable name="firstpostuser">
 						      <xsl:apply-templates select="FIRSTPOST/USER" mode="library_user_username" />

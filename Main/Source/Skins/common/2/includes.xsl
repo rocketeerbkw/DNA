@@ -92,6 +92,7 @@
             <xsl:include href="_library/itemdetail/user.xsl" />
     
     
+           	<xsl:include href="_library/user/group.xsl" />
             <xsl:include href="_library/user/linked.xsl" />
             <xsl:include href="_library/user/morecomments.xsl" />
             <xsl:include href="_library/user/notables.xsl" />
