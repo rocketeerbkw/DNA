@@ -573,4 +573,5 @@ update threadpostings
 set lastpostcountread =0
 where lastpostcountread > 1000000
 
+- To add support to missing smileys, copy smileylist.txt to h2g2 folder
 
