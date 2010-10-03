@@ -2,22 +2,37 @@
 TODO: TOP can't be given a variable value so need a hack to get round this, such
 as building the entire query as a string. For the time being always return TOP 10
 */
-CREATE Procedure getuserrecentandapprovedentrieswithguidetype @userid int, @siteid int = 0, @currentsiteid int=0,  @guidetype int = 0 
+CREATE Procedure getuserrecentandapprovedentrieswithguidetype @userid int, @siteid int = 0, @currentsiteid int=0,  @guidetype int = 0, @show int = 1000000  
 As
 IF @siteid = 0
 BEGIN
-SELECT
+SELECT TOP (@show )
    'h2g2ID' = g.h2g2ID,
    g.EntryID,
+   'IsMainArticle' = 1,
    'Subject' = CASE
 			WHEN g.Hidden IS NOT NULL THEN '' ELSE 
 			CASE g.Subject WHEN '' THEN 'No Subject' ELSE g.Subject END
 			END,
+   'Text' = CASE
+			WHEN g.Hidden IS NOT NULL THEN '' ELSE 
+			CASE g.Text WHEN '' THEN 'No Text' ELSE g.Text END
+			END,
    'Status' = g.Status,
+   g.ModerationStatus,
    'DateCreated' = g.DateCreated,
    g.LastUpdated,
+   g.ForumID,
    g.SiteID,
    g.Editor,
+   g.PreProcessed,
+   g.Submittable,
+   g.Style,
+   g.Type,
+   g.CanRead,
+   g.CanWrite,
+   g.CanChangePermissions,
+   g.Hidden,
    u.UserID,
    u.UserName,
    u.Area,
@@ -61,18 +76,33 @@ ORDER BY DateCreated DESC
 END
 ELSE
 BEGIN
-SELECT
+SELECT TOP (@show )
 	'h2g2ID' = g.h2g2ID,
 	g.EntryID,
+	'IsMainArticle' = 1,
     'Subject' = CASE
 			WHEN g.Hidden IS NOT NULL THEN '' ELSE 
 			CASE g.Subject WHEN '' THEN 'No Subject' ELSE g.Subject END
 			END,
+    'Text' = CASE
+			WHEN g.Hidden IS NOT NULL THEN '' ELSE 
+			CASE g.Text WHEN '' THEN 'No Text' ELSE g.Text END
+			END,
    'Status' = g.Status,
+   g.ModerationStatus,
    'DateCreated' = g.DateCreated,
    g.LastUpdated,
+   g.ForumID,
    g.SiteID,
    g.Editor,
+   g.PreProcessed,
+   g.Submittable,
+   g.Style,
+   g.Type,
+   g.CanRead,
+   g.CanWrite,
+   g.CanChangePermissions,
+   g.Hidden,
    u.UserID,
    u.UserName,
    u.Area,

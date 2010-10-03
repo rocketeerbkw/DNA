@@ -65,8 +65,16 @@ namespace BBC.Dna.Services
             {
                 if (userNameType == "DNAUSERID")
                 {
-                    int dnaUserID = Convert.ToInt32(identityusername);
-                    foundUser = userInfo.CreateUserFromDnaUserID(dnaUserID, site.SiteID);
+                    int dnaUserId = 0;
+                    try
+                    {
+                        dnaUserId = Convert.ToInt32(identityusername);
+                    }
+                    catch (Exception)
+                    {
+                        throw ApiException.GetError(ErrorType.UserNotFound);
+                    }
+                    foundUser = userInfo.CreateUserFromDnaUserID(dnaUserId, site.SiteID);
                 }
                 else if (userNameType == "IDENTITYUSERID")
                 {
@@ -433,14 +441,21 @@ namespace BBC.Dna.Services
             var showSubmitted = QueryStringHelper.GetQueryParameterAsInt("showsubmitted", 0);
             if (querystring != string.Empty)
             {
-                search = Search.CreateSearch(cacheManager,
-                                                readerCreator,
-                                                site.SiteID,
-                                                querystring,
-                                                "USER",
-                                                showApproved == 1 ? true : false,
-                                                showNormal == 1 ? true : false,
-                                                showSubmitted == 1 ? true : false);
+                try
+                {
+                    search = Search.CreateSearch(cacheManager,
+                                                    readerCreator,
+                                                    site.SiteID,
+                                                    querystring,
+                                                    "USER",
+                                                    showApproved == 1 ? true : false,
+                                                    showNormal == 1 ? true : false,
+                                                    showSubmitted == 1 ? true : false);
+                }
+                catch (ApiException ex)
+                {
+                    throw new DnaWebProtocolException(ex);
+                }
             }
             return GetOutputStream(search);
         }
@@ -477,6 +492,75 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ex);
             }
+        }
+
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/articles")]
+        [WebHelp(Comment = "Get a user's articles")]
+        [OperationContract]
+        public Stream GetUsersArticles(string sitename, string identifier)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            ISite site = GetSite(sitename);
+
+            ArticleList articleList;
+            try
+            {
+                articleList = ArticleList.CreateUsersArticleList(cacheManager,
+                    readerCreator,
+                    null,
+                    identifier,
+                    site.SiteID,
+                    startIndex,
+                    itemsPerPage,
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(articleList);
+        }
+
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/conversations")]
+        [WebHelp(Comment = "Get a user's conversations")]
+        [OperationContract]
+        public Stream GetUsersConversations(string sitename, string identifier)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            ISite site = GetSite(sitename);
+            CallingUser callingUser = null;
+            try
+            {
+                callingUser = GetCallingUser(site);
+            }
+            catch (DnaWebProtocolException)
+            {
+                callingUser = null;
+            }
+
+            PostList postList;
+            try
+            {
+                postList = PostList.CreateUsersConversationList(cacheManager,
+                    readerCreator,
+                    callingUser,
+                    site,
+                    identifier,
+                    startIndex,
+                    itemsPerPage,
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(postList);
         }
 
     }

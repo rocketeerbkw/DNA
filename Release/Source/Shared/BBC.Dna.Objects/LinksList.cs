@@ -103,7 +103,14 @@ namespace BBC.Dna.Objects
             }
             else
             {
-                dnaUserId = Convert.ToInt32(identityUserName);
+                try
+                {
+                    dnaUserId = Convert.ToInt32(identityUserName);
+                }
+                catch (Exception)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
             }
 
             LinksList links = new LinksList();

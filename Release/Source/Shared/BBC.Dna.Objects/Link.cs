@@ -74,6 +74,10 @@ namespace BBC.Dna.Objects
             link.TeamId =  reader.GetInt32NullAsZero("teamid");
             link.Relationship =  reader.GetStringNullAsEmpty("relationship");
             link.Private =  reader.GetTinyIntAsInt("private");
+            link.Description = reader.GetStringNullAsEmpty("linkdescription");
+            link.DateLinked = new DateElement(reader.GetDateTime("DateLinked"));
+
+            link.Submitter = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader, "submitter") };
 
             //Create appropriate URL from link type. 
             int destinationId = reader.GetInt32NullAsZero("DestinationID");

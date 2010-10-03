@@ -13,7 +13,7 @@ gloader.load(
 						bumper = glow.dom.get('p.countdown');
 					}
 	                    
-	                if (bumper != null)
+	                if (bumper != null)//remove null
 	                {
 						var speedBumpTimeLeft = glow.dom.get('span#totalSeconds').text();
 		        	   
@@ -56,6 +56,14 @@ gloader.load(
 			             	history.back();
 		                 }
                     );
+					
+					glow.events.addListener(
+		            	'#dna-boards-cancel-blocked',
+		                'click',
+		                 function () { 
+			             	history.go(-2);
+		                 }
+                    );					
                     
                     glow.events.addListener(
 						'a.close',
@@ -67,22 +75,6 @@ gloader.load(
 						}
 					);
                     
-                   /* glow.events.addListener(
-						'a.speedy',
-						'click',
-
-					);*/
-                    
-					glow.events.addListener(
-						'#countdown',
-						'load',
-					    function()
-					    {
-							alert('setspeedbump');
-					        
-					    }					    
-						
-					);
 					if (typeof identity !== 'undefined') {
 						glow.events.addListener(identity,'logout',function(){
 							(glow.dom.get('li#mydiscussions')) ? glow.dom.get('li#mydiscussions').hide() : '';

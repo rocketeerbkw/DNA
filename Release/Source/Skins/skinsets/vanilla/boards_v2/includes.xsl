@@ -128,6 +128,7 @@
     <xsl:include href="objects/user/inline.xsl" />
     <xsl:include href="objects/user/linked.xsl" />
     <xsl:include href="objects/user/listitem.xsl" />
+    <xsl:include href="objects/user/online.xsl" />
     <xsl:include href="objects/user/profile.xsl" />
     
 </xsl:stylesheet>

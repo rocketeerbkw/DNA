@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="../Dna.Services.Common/date.xsd"/>
+	<xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+	<xs:element name="post">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="countPosts" type="xs:int"/>
+				<xs:element name="editable" type="xs:long" />
+				<xs:element name="private" type="xs:int" />
+				<xs:element name="siteId" type="xs:int"/>
+				<xs:element name="hasReply" type="xs:int" />
+				<xs:element name="thread">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="forumId" type="xs:int" />
+							<xs:element name="threadId" type="xs:int" />
+							<xs:element name="type" type="xs:int" />
+							<xs:element name="firstPostId" type="xs:int" />
+							<xs:element name="dateFirstPosted">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="date" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="replyDate">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="date" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="subject" type="xs:string" />
+							<xs:element name="forumTitle" type="xs:string" />
+							<xs:element name="journal" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="user" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="firstPoster">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="user" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="yourLastPost" type="xs:int" />
+				<xs:element name="mostRecent">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="date" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="lastReply">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="date" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

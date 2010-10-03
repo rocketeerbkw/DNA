@@ -13,8 +13,12 @@ As
 		DECLARE @IncludeContentFromOtherSites INT
 		SELECT @IncludeContentFromOtherSites = dbo.udf_getsiteoptionsetting(@siteid, 'PersonalSpace', 'IncludeContentFromOtherSites');
 
-		SELECT	tpth.ThreadID, tpth.FirstSubject, tpth.ForumID, 
+		SELECT	tpth.ThreadID, 
+				tpth.FirstSubject, 
+				tpth.ForumID, 
 				u.UserName,
+				siuidm.IdentityUserID,
+				'IdentityUserName' = u.LoginName,
 				u.Area,
 				u.FirstNames,
 				u.LastName,
@@ -34,6 +38,7 @@ As
 				tpth.LastPostCountRead, 
 				'ForumTitle' = fo.Title,
 				'Journal' = u1.UserID, 
+				'JournalUserID' = u1.UserID, 
 				'JournalName' = u1.UserName, 
 				'JournalFirstNames' = u1.FirstNames,
 				'JournalLastName' = u1.LastName, 
@@ -42,6 +47,8 @@ As
 				'JournalSiteSuffix' = NULL,
 				'FirstPosterUserID' = u2.UserID, 
 				'FirstPosterUsername' = u2.UserName,
+				'FirstPosterIdentityUserID' = siuidm2.IdentityUserID, 
+				'FirstPosterIdentityUserName' = u2.LoginName, 
 				'FirstPosterFirstNames' = u2.FirstNames, 
 				'FirstPosterLastName' = u2.LastName,
 				'FirstPosterArea' = u2.Area,
@@ -76,6 +83,8 @@ As
 		LEFT JOIN Users u1 WITH(NOLOCK) ON fo.JournalOwner = u1.UserID
 		LEFT JOIN Preferences P WITH(NOLOCK) on (P.UserID = U.UserID) and (P.SiteID = fo.SiteID)
 		LEFT JOIN Preferences P2 WITH(NOLOCK) on (P2.UserID = U2.UserID) and (P2.SiteID = fo.SiteID)
+		INNER JOIN SignInUserIDMapping siuidm WITH(NOLOCK) ON u.UserID = siuidm.DnaUserID
+		INNER JOIN SignInUserIDMapping siuidm2 WITH(NOLOCK) ON u2.UserID = siuidm2.DnaUserID
 		--INNER JOIN dbo.Journals J1 WITH(NOLOCK) on J1.UserID = U.UserID and J1.SiteID = fo.SiteID
 		INNER JOIN dbo.Journals J2 WITH(NOLOCK) on J2.UserID = U2.UserID and J2.SiteID = fo.SiteID
 		ORDER BY LastReply DESC

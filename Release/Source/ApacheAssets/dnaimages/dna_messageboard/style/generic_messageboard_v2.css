@@ -147,6 +147,7 @@ ul.forumthreads p a.nosubject, ul.post-list p a.nosubject {font-style:italic; co
 ul.forumthreads li, ul.post-list li {padding:10px 0}
 ul.forumthreads li.stripe, ul.post-list li.stripe {background-color:#ebebed}
 ul.forumthreads li span.userid {display:none}
+table.forumthreads span.editor {font-style:italic}
 #blq-content.moreposts p, #blq-content.morecomments p, #blq-content.notfound p {margin:0 10px 5px 10px}
 #blq-content.moreposts p.morepostsintro {margin-bottom:20px}
 .noreplies {color:#bbb}
@@ -168,7 +169,7 @@ ul.forumthreadposts li blockquote, div.inreplyto blockquote {margin:0 7px 10px 7
 .inreplyto .createdby  {font-size:0.9em;  border-bottom:1px dotted #ccc}
 a.editor, a.notable {font-style:italic}
 p.countdown {margin-left:10px}
-#blq-content .dna-boards p.dna-error {margin-left:10px; padding-left:15px; font-weight:bold; background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat center left}
+#blq-content .dna-boards p.dna-error {margin-left:24px; padding:15px; font-weight:bold; background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat center left}
 #blq-content .dna-moderation-wrap {background:url(/dnaimages/dna_messageboard/img/dna-mod-bottom-arrow.png) top right no-repeat}
 #blq-content .dna-moderation-wrap a {text-decoration:underline}
 #blq-content .dna-moderation-wrap p.dna-boards-moderation {padding-left:10px}

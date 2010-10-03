@@ -138,8 +138,6 @@ namespace BBC.Dna.Objects
         }
 
 
-    
-
         /// <remarks/>
         [XmlAnyElement(Order = 2)]
         [DataMember(Name = "text")]       
@@ -150,8 +148,6 @@ namespace BBC.Dna.Objects
                 if (_guideMLAsXmlElement == null)
                 {
                     if (_guideMLAsString == null) { return null; }
-
-                    
 
                     _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
                                         
@@ -168,6 +164,7 @@ namespace BBC.Dna.Objects
 
                         if (errorCount != 0)
                         {
+                            DnaDiagnostics.Default.WriteToLog("FailedTransform", transformedContent);
                             throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
                         }
 
@@ -191,12 +188,6 @@ namespace BBC.Dna.Objects
                 }
             }
         }
-
-        //private XmlDocument GetTransformedGuideML()
-        //{
-
-        //}
-
 
         /// <remarks/>
         [XmlElement(Order = 3, ElementName = "BOOKMARKCOUNT")]
@@ -643,6 +634,9 @@ namespace BBC.Dna.Objects
                 if (reader.HasRows && reader.Read())
                 {
                     H2g2Id = reader.GetInt32("H2g2Id");
+                    EntryId = reader.GetInt32("EntryID");
+                    ArticleInfo.DateCreated = new DateElement(reader.GetDateTime("DateCreated"));
+                    ArticleInfo.ForumId = reader.GetInt32("ForumID");
                 }
             }
         }
@@ -826,9 +820,9 @@ namespace BBC.Dna.Objects
             }
             article.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
 
-            if (!reader.IsDBNull("HIdden"))
+            if (!reader.IsDBNull("Hidden"))
             {
-                article.HiddenStatus = reader.GetInt32("HIdden");
+                article.HiddenStatus = reader.GetInt32("Hidden");
             }
             article.DefaultCanRead = reader.GetTinyIntAsInt("CanRead");
             article.DefaultCanWrite = reader.GetTinyIntAsInt("CanWrite");

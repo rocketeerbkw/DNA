@@ -115,35 +115,37 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("h2g2ID", h2g2ID);
                 reader.AddParameter("CurrentSiteID", 0);
                 reader.Execute();
-
-                // Add each article in turn
-                while (reader.Read())
+                if (reader.HasRows)
                 {
-                    RelatedArticle article = new RelatedArticle();
-                    article.H2g2Id = h2g2ID;
-                    article.Name = reader.GetString("Subject") ?? "";
-                    article.StrippedName = StringUtils.StrippedName(article.Name);
-                    article.Editor = new UserElement() { user = User.CreateUserFromReader(reader) };
-                    article.Status = ArticleStatus.GetStatus(reader.GetInt32("Status"));
-                    article.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));                    
-                    ///TODO: work out what the hell is going on here...
-                    //int articleType = reader.GetInt32("Type");
-                    //int articleHidden = 0;
-                    //if (reader.Exists("Hidden") && !reader.IsDBNull("Hidden"))
-                    //{
-                    //    articleHidden = reader.GetInt32("Hidden");
-                    //}
-
-                    if (reader.Exists("DateCreated"))
+                    // Add each article in turn
+                    while (reader.Read())
                     {
-                        article.DateCreated = new DateElement(reader.GetDateTime("DateCreated"));
-                    }
-                    if (reader.Exists("Lastupdated"))
-                    {
-                        article.LastUpdated = new DateElement(reader.GetDateTime("Lastupdated"));
-                    }
+                        RelatedArticle article = new RelatedArticle();
+                        article.H2g2Id = reader.GetInt32NullAsZero("h2g2id");
+                        article.Name = reader.GetString("Subject") ?? "";
+                        article.StrippedName = StringUtils.StrippedName(article.Name);
+                        article.Editor = new UserElement() { user = User.CreateUserFromReader(reader) };
+                        article.Status = ArticleStatus.GetStatus(reader.GetInt32("Status"));
+                        article.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
+                        ///TODO: work out what the hell is going on here...
+                        //int articleType = reader.GetInt32("Type");
+                        //int articleHidden = 0;
+                        //if (reader.Exists("Hidden") && !reader.IsDBNull("Hidden"))
+                        //{
+                        //    articleHidden = reader.GetInt32("Hidden");
+                        //}
 
-                    articles.Add(article);
+                        if (reader.Exists("DateCreated"))
+                        {
+                            article.DateCreated = new DateElement(reader.GetDateTime("DateCreated"));
+                        }
+                        if (reader.Exists("Lastupdated"))
+                        {
+                            article.LastUpdated = new DateElement(reader.GetDateTime("Lastupdated"));
+                        }
+
+                        articles.Add(article);
+                    }
                 }
                 return articles;
             }

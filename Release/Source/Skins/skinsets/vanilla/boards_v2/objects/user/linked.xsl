@@ -43,5 +43,10 @@
         			</span></a>
         	</xsl:otherwise>
         </xsl:choose>
+        
+        <xsl:apply-templates select="/H2G2/ONLINEUSERS" mode="object_user_online">
+        	<xsl:with-param name="username" select="USERNAME" />
+        </xsl:apply-templates>
+        
     </xsl:template>
 </xsl:stylesheet>

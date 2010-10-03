@@ -252,11 +252,12 @@
 				The BBC iPlayer messageboard is primarily for you to discuss the service with other users. If you have a query you'd like the BBC to answer, please go to <a href="http://iplayerhelp.external.bbc.co.uk/" target="_blank" class="popup">our searchable FAQ</a> site to see if your question is already answered.
 			</p>
 			<p>
-				If you want to report a problem with a programme, first check that it's not a problem with your computer's setup then see <a href="http://iplayerhelp.external.bbc.co.uk/help/about_iplayer/tech_report" target="_blank" class="popup">this FAQ on how best to report a problem with a programme</a>.
-			</p>
+				<!--If you want to report a problem with a programme, first check that it's not a problem with your computer's setup then see <a href="http://iplayerhelp.external.bbc.co.uk/help/about_iplayer/tech_report" target="_blank" class="popup">this FAQ on how best to report a problem with a programme</a>.-->
+        In many cases <a href="http://iplayerhelp.external.bbc.co.uk/help/using_bbc_iplayer/clear_cache" target="_blank" class="popup">clearing the cache</a> will solve the problem. If you want to report a problem with a programme, first check that it's not a problem with your computer's setup then see this <a href="http://iplayerhelp.external.bbc.co.uk/help/using_bbc_iplayer/tech_report" target="_blank" class="popup">FAQ</a> on how best to report a problem with a programme.
+      </p>
 			<p>
-				If you do post here about a technical or programme issue, it helps if you provide as much information about the issue, including the programme details, your browser, your computer operating system, how you're trying to play it (Desktop, Real etc), your ISP and what the problem is.
-			</p>
+        If you do post here about a technical or programme issue, it helps if you provide as much information about the issue, including the programme details, your browser, your computer operating system or device, how you're trying to play it (Desktop, Streaming etc), your ISP and what the problem is.
+      </p>
 		</div>
 	</xsl:template>
 	

@@ -106,6 +106,10 @@
                 <xsl:when test="$autogenname_required = 'true'">
 	            	<!-- nowt again -->                
                 </xsl:when>
+                <xsl:when test="@CANWRITE = 0"><!-- nothing --></xsl:when>
+                <!--<xsl:when test="@CANWRITE = 0 or /H2G2/FORUMSOURCE/ARTICLE/@CANWRITE = 0">
+	            	 nowt again               
+                </xsl:when>  -->                
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
                         <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
@@ -166,13 +170,16 @@
             </xsl:apply-templates>
             
             <xsl:if test="@INREPLYTO">
+            	<xsl:variable name="skip">
+            		<xsl:value-of select="floor(@INREPLYTOINDEX div parent::FORUMTHREADPOSTS/@COUNT)*parent::FORUMTHREADPOSTS/@COUNT" />
+            	</xsl:variable>
               <p class="dna-boards-thisreplyto">
               <xsl:choose>
               	<xsl:when test="@INREPLYTOINDEX">
-                	This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}"> message <xsl:value-of select="@INREPLYTOINDEX+1" /></a>.
+                	This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '&amp;skip=', $skip, '#p', @INREPLYTO)}"> message <xsl:value-of select="@INREPLYTOINDEX+1" /></a>.
                 </xsl:when>
                 <xsl:otherwise>
-                	This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}"> this message</a>.
+                	This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '&amp;skip=', $skip, '#p', @INREPLYTO)}"> this message</a>.
                 </xsl:otherwise>
                </xsl:choose>
               </p>

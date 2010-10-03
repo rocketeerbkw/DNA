@@ -82,15 +82,15 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="threadId"></param>
-        /// <param name="postId"></param>
+        /// <param name="postIndex"></param>
         /// <param name="force"></param>
-        public void MarkThreadRead(int userId, int threadId, int postId, bool force)
+        public void MarkThreadRead(int userId, int threadId, int postIndex, bool force)
         {
             using (IDnaDataReader reader = _creator.CreateDnaDataReader("markthreadread"))
             {
                 reader.AddParameter("userid", userId);
                 reader.AddParameter("threadid", threadId);
-                reader.AddParameter("postid", postId);
+                reader.AddParameter("postindex", postIndex);
                 reader.AddParameter("force", force?1:0);
                 reader.Execute();
             }
