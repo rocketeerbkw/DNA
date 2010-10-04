@@ -177,6 +177,8 @@
     <xsl:param name="lines" select="1"/>
     <xsl:param name="newString" select="''" />
 
+
+
     <xsl:choose>
       <xsl:when test="string-length($originalString) > $charsPerLine">
         <xsl:choose>
@@ -200,8 +202,11 @@
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:variable>
-            
-            <xsl:variable name="newline"> </xsl:variable>
+
+            <xsl:variable name="newline">
+              <xsl:text> </xsl:text>
+            </xsl:variable>
+
 
             <xsl:variable name="newCurrentLineText">
               <xsl:value-of disable-output-escaping="no" select="concat(concat($newString, $currentLineText), $newline)"/>
