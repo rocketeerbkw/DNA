@@ -1,0 +1,292 @@
+<MESSAGEBOARDTRANSFER-BACKUP>
+  <BACKUPLOG>
+    <BACKUPLOGENTRY>Front Page</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic Element List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Forum Schedules</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Site Config</BACKUPLOGENTRY>
+  </BACKUPLOG>
+  <SITE ID="49">
+    <NAME>mbfood</NAME>
+    <DESCRIPTION>Food Messageboard</DESCRIPTION>
+    <SHORTNAME>Food</SHORTNAME>
+  </SITE>
+  <FRONTPAGEXML>
+    <ARTICLE>
+      <ARTICLEINFO>
+        <H2G2ID>73053155</H2G2ID>
+        <EDIT-KEY>9CF2018D-14D4-42B7-9A62-803D7B2F253C</EDIT-KEY>
+      </ARTICLEINFO>
+      <SUBJECT>frontpage</SUBJECT>
+      <FRONTPAGE>
+        <PAGE-LAYOUT>
+          <LAYOUT>3</LAYOUT>
+          <TEMPLATE>2</TEMPLATE>
+          <ELEMTEMPLATE>2</ELEMTEMPLATE>
+          <ELEMTEMPLATE-GUIDEML />
+        </PAGE-LAYOUT>
+      </FRONTPAGE>
+    </ARTICLE>
+  </FRONTPAGEXML>
+  <TOPICLIST STATUS="ACTIVE">
+    <TOPIC>
+      <TOPICID>590</TOPICID>
+      <H2G2ID>6105809</H2G2ID>
+      <SITEID>49</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>581</TOPICLINKID>
+      <TITLE>Food Q&amp;A</TITLE>
+      <FORUMID>2670471</FORUMID>
+      <FORUMPOSTCOUNT>1076808</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Ask fellow foodies for cookery advice on our messageboard. Share culinary problems and swap tips and tricks.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>1</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Wednesday" SECONDS="05" MINUTES="51" HOURS="10" DAY="12" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051012105105">
+            <LOCAL DAYNAME="Wednesday" SECONDS="05" MINUTES="51" HOURS="11" DAY="12" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051012115105" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Wednesday" SECONDS="05" MINUTES="51" HOURS="10" DAY="12" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051012105105">
+            <LOCAL DAYNAME="Wednesday" SECONDS="05" MINUTES="51" HOURS="11" DAY="12" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051012115105" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>424</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>4</FP_POSITION>
+      <FP_TITLE>Food Q&amp;A</FP_TITLE>
+      <EDITKEY>F56AD7AA-877C-4FF2-8621-67B8572BA57C</EDITKEY>
+    </TOPIC>
+  </TOPICLIST>
+  <TOPICELEMENTLIST STATUS="ACTIVE">
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>424</ELEMENTID>
+      <TITLE>Food Q&amp;A</TITLE>
+      <TEXT>Ask fellow foodies for cookery advice on our messageboard. </TEXT>
+      <SITEID>49</SITEID>
+      <FRONTPAGEPOSITION>4</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>food-chat.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Food Q&amp;A</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>757</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>663C2F11-6B4E-48F2-BAEA-C761E4DCF111</EDITKEY>
+      <TOPICID>590</TOPICID>
+      <FORUMPOSTCOUNT>1076808</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+  </TOPICELEMENTLIST>
+  <FORUMSCHEDULES>
+    <SCHEDULE>
+      <FORUM ID="2670471" />
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="10" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="10" MINUTES="00" />
+      </EVENT>
+    </SCHEDULE>
+  </FORUMSCHEDULES>
+  <SITECONFIG>
+    <BLQ-FOOTER-COLOR />
+    <BLQ-NAV-COLOR />
+    <SITEHOME />
+    <ASSETCOMPLAIN>complain.gif</ASSETCOMPLAIN>
+    <ASSETNEW />
+    <BARLEYSEARCHCOLOUR />
+    <BARLEYVARIANT>none</BARLEYVARIANT>
+    <BOARDNAME>Food</BOARDNAME>
+    <BOARDROOT>mbfood/</BOARDROOT>
+    <BOARDSSOLINK>mbfood</BOARDSSOLINK>
+    <CODEBANNER>
+      <IMG SRC="/food/dna_messageboards/images/banner/banner.gif" WIDTH="645" HEIGHT="90" ALT="" BORDER="0" USEMAP="#banner" />
+
+      <MAP NAME="banner">
+        <AREA ALT="TV and radio" COORDS="430,55,505,75" HREF="/lifestyle/tv_and_radio/" SHAPE="RECT" />
+        <AREA ALT="Directory A to Z" COORDS="520,55,590,75" HREF="/lifestyle/atoz.shtml" SHAPE="RECT" />
+        <AREA ALT="Talk" COORDS="605,55,640,75" HREF="/lifestyle/talk" SHAPE="RECT" />
+        <AREA ALT="Lifestyle" COORDS="553,16,641,44" HREF="/lifestyle/" SHAPE="RECT" />
+        <AREA ALT="Food homepage" COORDS="2,98,199,29" HREF="/food/" SHAPE="RECT" />
+      </MAP>
+    </CODEBANNER>
+    <CSSLOCATION>messageboard.css</CSSLOCATION>
+    <EMOTICONLOCATION>0</EMOTICONLOCATION>
+    <EXTERNALHOME />
+    <EXTERNALHOMEURL />
+    <EXTEXTBODY>To create paragraphs, just press Return on your keyboard when needed.</EXTEXTBODY>
+    <EXTEXTPREVIEW>If you are satisfied with your message, proceed by clicking on Post message.</EXTEXTPREVIEW>
+    <EXTEXTTITLE>Write a short snappy title to kick off a discussion.</EXTEXTTITLE>
+    <FEATURESMILEYS>1</FEATURESMILEYS>
+    <IMAGEBANNER />
+    <LINKPATH />
+    <NAVCRUMB />
+    <NAVLHN>
+      <DIV CLASS="toplevel">
+        <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="8" HEIGHT="12" />
+        <A HREF="/food">Food</A>
+      </DIV>
+      <DIV CLASS="lhnlevel1">
+        <IMG SRC="/lifestyle/dna_messageboards/images/nav_arrow.gif" ALT="" BORDER="0" WIDTH="6" HEIGHT="12" VSPACE="1" HSPACE="3" ALIGN="top" CLASS="navarrow" />
+        <A HREF="/dna/mbfood">Messageboard</A>
+      </DIV>
+
+      <DIV CLASS="lhnlevel2">
+        <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="16" HEIGHT="12" VSPACE="1" ALIGN="top" />
+        <TOPICLINK NAME="Food Q&amp;A">Food Q&amp;A</TOPICLINK>
+      </DIV>
+
+      <IMG SRC="/lifestyle/dna_messageboards/images/lhn_dots.gif" WIDTH="121" HEIGHT="3" ALT="" BORDER="0" VSPACE="7" />
+      <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" WIDTH="125">
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="/lifestyle/dna_messageboards/images/lhn_tl.gif" WIDTH="4" HEIGHT="4" ALT="" BORDER="0" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="113" HEIGHT="4" />
+          </TD>
+          <TD>
+            <IMG SRC="/lifestyle/dna_messageboards/images/lhn_tr.gif" WIDTH="4" HEIGHT="4" ALT="" BORDER="0" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <A HREF="/lifestyle/tv_and_radio">TV and radio</A>
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+        <TR>
+          <TD COLSPAN="5">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="1" HEIGHT="2" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <A HREF="/lifestyle/talk">Talk</A>
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+        <TR>
+          <TD COLSPAN="5">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="1" HEIGHT="2" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <A HREF="/lifestyle/newsletter/">Newsletter</A>
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="/lifestyle/dna_messageboards/images/lhn_bl.gif" WIDTH="4" HEIGHT="4" ALT="" BORDER="0" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="1" HEIGHT="4" />
+          </TD>
+          <TD>
+            <IMG SRC="/lifestyle/dna_messageboards/images/lhn_br.gif" WIDTH="4" HEIGHT="4" ALT="" BORDER="0" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+      </TABLE>
+    </NAVLHN>
+    <PATHDEV>http://ops-dev7.bu.bbc.co.uk/food/dna_messageboards/</PATHDEV>
+    <PATHLIVE>http://www.bbc.co.uk/food/dna_messageboards/</PATHLIVE>
+    <PATHSSOTYPE>0</PATHSSOTYPE>
+  </SITECONFIG>
+</MESSAGEBOARDTRANSFER-BACKUP>

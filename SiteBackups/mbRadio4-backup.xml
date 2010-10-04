@@ -1,0 +1,448 @@
+<MESSAGEBOARDTRANSFER-BACKUP>
+  <BACKUPLOG>
+    <BACKUPLOGENTRY>Front Page</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic Element List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Forum Schedules</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Site Config</BACKUPLOGENTRY>
+  </BACKUPLOG>
+  <SITE ID="61">
+    <NAME>mbradio4</NAME>
+    <DESCRIPTION>Radio 4 Messageboard</DESCRIPTION>
+    <SHORTNAME>Radio 4</SHORTNAME>
+  </SITE>
+  <FRONTPAGEXML>
+    <ARTICLE>
+      <ARTICLEINFO>
+        <H2G2ID>74008578</H2G2ID>
+        <EDIT-KEY>BC2AFC80-B472-4BB4-B6F7-A70D723D87ED</EDIT-KEY>
+      </ARTICLEINFO>
+      <SUBJECT>frontpage</SUBJECT>
+      <FRONTPAGE>
+        <PAGE-LAYOUT>
+          <LAYOUT>2</LAYOUT>
+          <TEMPLATE>1</TEMPLATE>
+          <ELEMTEMPLATE>6</ELEMTEMPLATE>
+          <ELEMTEMPLATE-GUIDEML />
+        </PAGE-LAYOUT>
+      </FRONTPAGE>
+    </ARTICLE>
+  </FRONTPAGEXML>
+  <TOPICLIST STATUS="ACTIVE">
+    <TOPIC>
+      <TOPICID>833</TOPICID>
+      <H2G2ID>6444326</H2G2ID>
+      <SITEID>61</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>807</TOPICLINKID>
+      <TITLE>Drama &amp; Readings</TITLE>
+      <FORUMID>2766771</FORUMID>
+      <FORUMPOSTCOUNT>20704</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>There's such a wealth on offer every week, let us know what you think.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>1</POSITION>
+      <CREATEDBY>
+        <USERNAME>Furry Geezer</USERNAME>
+        <USERID>517091</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="11" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027113218">
+            <LOCAL DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="12" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027123218" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Furry Geezer</USERNAME>
+        <USERID>517091</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="11" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027113218">
+            <LOCAL DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="12" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027123218" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>618</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>3</FP_POSITION>
+      <FP_TITLE />
+      <EDITKEY>866235D8-5FB3-447C-A5F2-815C55B16178</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>837</TOPICID>
+      <H2G2ID>6444362</H2G2ID>
+      <SITEID>61</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>811</TOPICLINKID>
+      <TITLE>Mornington Crescent</TITLE>
+      <FORUMID>2766775</FORUMID>
+      <FORUMPOSTCOUNT>241319</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Using the Marquess of Huffington's double-switchback manouevre as in the second edition published in 1938...</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>2</POSITION>
+      <CREATEDBY>
+        <USERNAME>Furry Geezer</USERNAME>
+        <USERID>517091</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="11" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027113218">
+            <LOCAL DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="12" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027123218" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Furry Geezer</USERNAME>
+        <USERID>517091</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="11" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027113218">
+            <LOCAL DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="12" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027123218" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>613</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>11</FP_POSITION>
+      <FP_TITLE />
+      <EDITKEY>20285BC8-0A95-4904-90EB-6947B0DAAF1C</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>836</TOPICID>
+      <H2G2ID>6444353</H2G2ID>
+      <SITEID>61</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>810</TOPICLINKID>
+      <TITLE>The Choice is Yours</TITLE>
+      <FORUMID>2766774</FORUMID>
+      <FORUMPOSTCOUNT>136895</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Talk about any of the programmes on Radio 4.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>3</POSITION>
+      <CREATEDBY>
+        <USERNAME>Furry Geezer</USERNAME>
+        <USERID>517091</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="11" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027113218">
+            <LOCAL DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="12" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027123218" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Furry Geezer</USERNAME>
+        <USERID>517091</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="11" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027113218">
+            <LOCAL DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="12" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027123218" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>612</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>10</FP_POSITION>
+      <FP_TITLE />
+      <EDITKEY>2EB4CD3D-0225-4C39-8731-C5735CAFA7CD</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>843</TOPICID>
+      <H2G2ID>6444425</H2G2ID>
+      <SITEID>61</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>817</TOPICLINKID>
+      <TITLE>Word of Mouth</TITLE>
+      <FORUMID>2766781</FORUMID>
+      <FORUMPOSTCOUNT>115056</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Language change - do you think English is getting better or worse? Join in the debate here!</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>4</POSITION>
+      <CREATEDBY>
+        <USERNAME>Furry Geezer</USERNAME>
+        <USERID>517091</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="11" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027113218">
+            <LOCAL DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="12" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027123218" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Furry Geezer</USERNAME>
+        <USERID>517091</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="11" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027113218">
+            <LOCAL DAYNAME="Thursday" SECONDS="18" MINUTES="32" HOURS="12" DAY="27" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051027123218" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>610</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>8</FP_POSITION>
+      <FP_TITLE />
+      <EDITKEY>4EEBDB43-B8CB-4777-8B31-1E330A367F1E</EDITKEY>
+    </TOPIC>
+  </TOPICLIST>
+  <TOPICELEMENTLIST STATUS="ACTIVE">
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>618</ELEMENTID>
+      <TEXT>
+        <TOPICLINK NAME="Drama &amp; Readings" CLASS="topicpromoimage">
+          <IMG SRC="http://www.bbc.co.uk/radio4/dna_messageboard/images/drama_reading.gif" WIDTH="195" HEIGHT="77" ALT="Drama &amp; Readings" TITLE="Drama &amp; Readings" BORDER="0" />
+        </TOPICLINK>
+        <H4>
+          <SPAN CLASS="dna">
+            <TOPICLINK NAME="Drama &amp; Readings" CLASS="topicpromotitle">Drama &amp; Readings</TOPICLINK>
+          </SPAN>
+        </H4>
+        <P>There's such a wealth on offer every week, let us know what you think.</P>
+      </TEXT>
+      <SITEID>61</SITEID>
+      <FRONTPAGEPOSITION>3</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1012</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>0EE81346-DC5C-496F-AFC4-ECBE1AAE81AF</EDITKEY>
+      <TOPICID>833</TOPICID>
+      <FORUMPOSTCOUNT>20704</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>612</ELEMENTID>
+      <TEXT>
+        <TOPICLINK NAME="The Choice is Yours" CLASS="topicpromoimage">
+          <IMG SRC="http://www.bbc.co.uk/radio4/dna_messageboard/images/the_choice_is_yours.gif" WIDTH="195" HEIGHT="77" ALT="The Choice is Yours" TITLE="The Choice is Yours" BORDER="0" />
+        </TOPICLINK>
+        <H4>
+          <SPAN CLASS="dna">
+            <TOPICLINK NAME="The Choice is Yours" CLASS="topicpromotitle">The Choice is Yours</TOPICLINK>
+          </SPAN>
+        </H4>
+        <P>Talk about programmes on Radio 4. </P>
+      </TEXT>
+      <SITEID>61</SITEID>
+      <FRONTPAGEPOSITION>10</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1019</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>E93931E0-255B-4BAD-B7A3-FA23728F4DCF</EDITKEY>
+      <TOPICID>836</TOPICID>
+      <FORUMPOSTCOUNT>136895</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>613</ELEMENTID>
+      <TEXT>
+        <TOPICLINK NAME="Mornington Crescent" CLASS="topicpromoimage">
+          <IMG SRC="http://www.bbc.co.uk/radio4/dna_messageboard/images/mornington_crescent.gif" WIDTH="195" HEIGHT="77" ALT="Mornington Crescent" TITLE="Mornington Crescent" BORDER="0" />
+        </TOPICLINK>
+        <H4>
+          <SPAN CLASS="dna">
+            <TOPICLINK NAME="Mornington Crescent" CLASS="topicpromotitle">Mornington Crescent</TOPICLINK>
+          </SPAN>
+        </H4>
+        <P>Using the Marquess of Huffington's double-switchback manoeuvre as in the second edition published in 1938...</P>
+      </TEXT>
+      <SITEID>61</SITEID>
+      <FRONTPAGEPOSITION>11</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1020</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>1C4344AE-7834-40A1-BAE2-D3832982953F</EDITKEY>
+      <TOPICID>837</TOPICID>
+      <FORUMPOSTCOUNT>241319</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>610</ELEMENTID>
+      <TEXT>
+        <TOPICLINK NAME="Word of Mouth" CLASS="topicpromoimage">
+          <IMG SRC="http://www.bbc.co.uk/radio4/dna_messageboard/images/word_of_mouth.gif" WIDTH="195" HEIGHT="77" ALT="Word of Mouth" TITLE="Word of Mouth" BORDER="0" />
+        </TOPICLINK>
+        <H4>
+          <SPAN CLASS="dna">
+            <TOPICLINK NAME="Word of Mouth" CLASS="topicpromotitle">Word of Mouth</TOPICLINK>
+          </SPAN>
+        </H4>
+        <P>Language change - do you think English is getting better or worse? Join in the debate here! </P>
+      </TEXT>
+      <SITEID>61</SITEID>
+      <FRONTPAGEPOSITION>8</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1017</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>EB834B22-4933-4CE1-8123-7D86AD10954F</EDITKEY>
+      <TOPICID>843</TOPICID>
+      <FORUMPOSTCOUNT>115056</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+  </TOPICELEMENTLIST>
+  <FORUMSCHEDULES>
+    <SCHEDULE>
+      <FORUM ID="2766771" />
+      <FORUM ID="2766774" />
+      <FORUM ID="2766775" />
+      <FORUM ID="2766781" />
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="10" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="10" MINUTES="00" />
+      </EVENT>
+    </SCHEDULE>
+  </FORUMSCHEDULES>
+  <SITECONFIG>
+    <ASSETCOMPLAIN>complain.gif</ASSETCOMPLAIN>
+    <ASSETNEW />
+    <BARLEYSEARCHCOLOUR>#ffffff</BARLEYSEARCHCOLOUR>
+    <BARLEYVARIANT>radio</BARLEYVARIANT>
+    <BOARDNAME>Radio 4</BOARDNAME>
+    <BOARDROOT>mbradio4/</BOARDROOT>
+    <BOARDSSOLINK>mbradio4</BOARDSSOLINK>
+    <CODEBANNER>
+      <TABLE WIDTH="620" CELLPADDING="0" CELLSPACING="0" BORDER="0">
+        <TR>
+          <TD>
+            <A HREF="/radio4/">
+              <IMG SRC="/radio4/dna_messageboard/images/left-banner.jpg" ALT="BBC Radio 4 - 92 to 94 FM and 198 Long Wave" WIDTH="250" HEIGHT="90" BORDER="0" />
+            </A>
+            <IMG SRC="/radio4/dna_messageboard/images/right-banner.jpg" ALT="Listen to Digital Radio, Digital TV and Online" WIDTH="425" HEIGHT="90" BORDER="0" USEMAP="#listen_live" />
+            <MAP NAME="listen_live">
+              <AREA SHAPE="rect" ALT="Listen on Digital Radio, Digital TV and Online" COORDS="10,50,260,70" HREF="/radio4/help/" />
+              <AREA ALT="Listen Live Here" COORDS="270,43,395,66" HREF="/radio/aod/radio4.shtml?fm" TARGET="aod" ONCLICK="aodpopup('/radio/aod/radio4.shtml?fm');return false;" />
+            </MAP>
+          </TD>
+        </TR>
+      </TABLE>
+    </CODEBANNER>
+    <CSSLOCATION>mb_radio5.css</CSSLOCATION>
+    <EMOTICONLOCATION>0</EMOTICONLOCATION>
+    <EXTERNALHOME />
+    <EXTERNALHOMEURL />
+    <EXTEXTBODY>Include links to the Radio 4 programmes you're posting about.</EXTEXTBODY>
+    <EXTEXTPREVIEW>If you are satisfied with your message, proceed by clicking on Post message.</EXTEXTPREVIEW>
+    <EXTEXTTITLE>Include the title of the Radio 4 programme here, if your posting is about a programme.</EXTEXTTITLE>
+    <FEATURESMILEYS>1</FEATURESMILEYS>
+    <IMAGEBANNER />
+    <LINKPATH />
+    <NAVCRUMB />
+    <NAVLHN>
+      <TABLE WIDTH="125" CELLPADDING="3" CELLSPACING="0" LEARBORDER="0">
+        <TR>
+          <TD BGCOLOR="#E7E7E7">
+            <A HREF="/radio4/" CLASS="navblue">
+              <STRONG>&raquo;Radio 4 Home</STRONG>
+            </A>
+          </TD>
+        </TR>
+      </TABLE>
+      <TABLE WIDTH="125" CELLPADDING="3" CELLSPACING="1" BORDER="0">
+        <TR>
+          <TD CLASS="progs">
+            <A HREF="/radio4/programmes" CLASS="navwhite">Programmes</A>
+          </TD>
+        </TR>
+        <TR>
+          <TD CLASS="progs">
+            <A HREF="/radio4/schedule/fm" CLASS="navwhite">Schedule</A>
+          </TD>
+        </TR>
+        <TR>
+          <TD CLASS="progs">
+            <A HREF="/radio4/podcasts/" CLASS="navwhite">Podcasts</A>
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" WIDTH="1" HEIGHT="5" ALT=" " TITLE="" BORDER="0" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" WIDTH="1" HEIGHT="5" ALT=" " TITLE="" BORDER="0" />
+          </TD>
+        </TR>
+        <TR>
+          <TD CLASS="dna_messboards">
+            <A HREF="/dna/mbradio4/">Message Board</A>
+          </TD>
+        </TR>
+      </TABLE>
+      <DIV CLASS="dna_lhn-container">
+        <P CLASS="dna_lhn-topic">
+          <A HREF="/dna/mbarchers">Archers</A>
+        </P>
+        <P CLASS="dna_lhn-topic">
+          <TOPICLINK NAME="Drama &amp; Readings">Drama &amp; Readings</TOPICLINK>
+        </P>
+        <P CLASS="dna_lhn-topic">
+          <TOPICLINK NAME="Mornington Crescent">Mornington Crescent</TOPICLINK>
+        </P>
+        <P CLASS="dna_lhn-topic">
+          <TOPICLINK NAME="The Choice is Yours">The Choice is Yours</TOPICLINK>
+        </P>
+        <P CLASS="dna_lhn-topic">
+          <TOPICLINK NAME="Word of Mouth">Word of Mouth</TOPICLINK>
+        </P>
+      </DIV>
+    </NAVLHN>
+    <PATHDEV>http://ops-dev7.bu.bbc.co.uk/radio4/dna_messageboard/</PATHDEV>
+    <PATHLIVE>http://www.bbc.co.uk/radio4/dna_messageboard/</PATHLIVE>
+    <PATHSSOTYPE>0</PATHSSOTYPE>
+  </SITECONFIG>
+</MESSAGEBOARDTRANSFER-BACKUP>

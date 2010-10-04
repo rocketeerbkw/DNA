@@ -1,0 +1,511 @@
+﻿<MESSAGEBOARDTRANSFER-BACKUP>
+  <BACKUPLOG>
+    <BACKUPLOGENTRY>Front Page</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic Element List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Forum Schedules</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Site Config</BACKUPLOGENTRY>
+  </BACKUPLOG>
+  <SITE ID="70">
+    <NAME>mbiplayer</NAME>
+    <DESCRIPTION>mbiplayer</DESCRIPTION>
+    <SHORTNAME>mbiplayer</SHORTNAME>
+  </SITE>
+  <FRONTPAGEXML>
+    <ARTICLE>
+      <ARTICLEINFO>
+        <H2G2ID>73889923</H2G2ID>
+        <EDIT-KEY>FDA9B939-62C3-4478-AD21-09107F30D5D2</EDIT-KEY>
+      </ARTICLEINFO>
+      <SUBJECT>frontpage</SUBJECT>
+      <FRONTPAGE>
+        <PAGE-LAYOUT>
+          <LAYOUT>2</LAYOUT>
+          <TEMPLATE>1</TEMPLATE>
+          <ELEMTEMPLATE>5</ELEMTEMPLATE>
+          <ELEMTEMPLATE-GUIDEML />
+        </PAGE-LAYOUT>
+      </FRONTPAGE>
+    </ARTICLE>
+  </FRONTPAGEXML>
+  <TOPICLIST STATUS="ACTIVE">
+    <TOPIC>
+      <TOPICID>1068</TOPICID>
+      <H2G2ID>22839005</H2G2ID>
+      <SITEID>70</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1062</TOPICLINKID>
+      <TITLE>Service updates</TITLE>
+      <FORUMID>7331803</FORUMID>
+      <FORUMPOSTCOUNT>252</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Check here for important messages from the BBC iPlayer team regarding the service, along with other news and updates.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>1</POSITION>
+      <CREATEDBY>
+        <USERNAME>U4266467</USERNAME>
+        <USERID>4266467</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Friday" SECONDS="03" MINUTES="43" HOURS="15" DAY="18" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070518154303">
+            <LOCAL DAYNAME="Friday" SECONDS="03" MINUTES="43" HOURS="16" DAY="18" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070518164303" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>U4266467</USERNAME>
+        <USERID>4266467</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Friday" SECONDS="03" MINUTES="43" HOURS="15" DAY="18" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070518154303">
+            <LOCAL DAYNAME="Friday" SECONDS="03" MINUTES="43" HOURS="16" DAY="18" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070518164303" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>754</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>1</FP_POSITION>
+      <FP_TITLE>Service updates</FP_TITLE>
+      <EDITKEY>682C8D61-C1EF-4F4C-9695-E4BA21FE50DB</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1071</TOPICID>
+      <H2G2ID>22839032</H2G2ID>
+      <SITEID>70</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1067</TOPICLINKID>
+      <TITLE>Suggestions</TITLE>
+      <FORUMID>7331806</FORUMID>
+      <FORUMPOSTCOUNT>8855</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>We are still developing BBC iPlayer - tell us what features you would like to see as the service improves. We may not necessarily respond to each one, but we are monitoring your suggestions posted here.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>2</POSITION>
+      <CREATEDBY>
+        <USERNAME>U4266467</USERNAME>
+        <USERID>4266467</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Friday" SECONDS="03" MINUTES="43" HOURS="15" DAY="18" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070518154303">
+            <LOCAL DAYNAME="Friday" SECONDS="03" MINUTES="43" HOURS="16" DAY="18" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070518164303" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>U4266467</USERNAME>
+        <USERID>4266467</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Friday" SECONDS="03" MINUTES="43" HOURS="15" DAY="18" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070518154303">
+            <LOCAL DAYNAME="Friday" SECONDS="03" MINUTES="43" HOURS="16" DAY="18" MONTH="05" MONTHNAME="May" YEAR="2007" SORT="20070518164303" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>753</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>6</FP_POSITION>
+      <FP_TITLE>Suggestions</FP_TITLE>
+      <EDITKEY>5340564B-AB85-42B3-B014-F46813369D00</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1132</TOPICID>
+      <H2G2ID>26095458</H2G2ID>
+      <SITEID>70</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1128</TOPICLINKID>
+      <TITLE>General Discussion</TITLE>
+      <FORUMID>8035762</FORUMID>
+      <FORUMPOSTCOUNT>22121</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Whatever you think of BBC iPlayer, share your views about it and related matters with other users here.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>3</POSITION>
+      <CREATEDBY>
+        <USERNAME>Jon iPlayer Host</USERNAME>
+        <USERID>8557168</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="37" MINUTES="16" HOURS="09" DAY="20" MONTH="08" MONTHNAME="August" YEAR="2007" SORT="20070820091637">
+            <LOCAL DAYNAME="Monday" SECONDS="37" MINUTES="16" HOURS="10" DAY="20" MONTH="08" MONTHNAME="August" YEAR="2007" SORT="20070820101637" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Jon iPlayer Host</USERNAME>
+        <USERID>8557168</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="37" MINUTES="16" HOURS="09" DAY="20" MONTH="08" MONTHNAME="August" YEAR="2007" SORT="20070820091637">
+            <LOCAL DAYNAME="Monday" SECONDS="37" MINUTES="16" HOURS="10" DAY="20" MONTH="08" MONTHNAME="August" YEAR="2007" SORT="20070820101637" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>810</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>7</FP_POSITION>
+      <FP_TITLE>General Discussion</FP_TITLE>
+      <EDITKEY>2CB997E3-3824-4793-A7CB-3107A8A8CE41</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1396</TOPICID>
+      <H2G2ID>52428981</H2G2ID>
+      <SITEID>70</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1391</TOPICLINKID>
+      <TITLE>TV</TITLE>
+      <FORUMID>13735683</FORUMID>
+      <FORUMPOSTCOUNT>7872</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            This is your place for technical discussion of BBC iPlayer's TV streams across the range of devices that can access BBC iPlayer, suggestions for the future and feedback about TV within BBC iPlayer.
+
+            We monitor the messageboard, but we can't guarantee to answer every query. This thread is mainly for you to talk with other users - if you need further help please see our <A HREF="http://iplayerhelp.external.bbc.co.uk/">searchable FAQ pages</A>. We can't help you with problems on specific programmes, so see <A HREF="http://iplayerhelp.external.bbc.co.uk/help/about_iplayer/tech_report">our guide on how to report a problem with a programme</A> instead.
+
+            If you do discuss technical problems, other users typically find the following information useful:
+
+            - The programme name, broadcast station, time and date and BBC iPlayer URL
+            - Your browser
+            - Your operating system or device
+            - Whether it's BBC iPlayer streaming, BBC iPlayer Desktop, or Windows Media Player downloads
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>4</POSITION>
+      <CREATEDBY>
+        <USERNAME>Jon iPlayer Host</USERNAME>
+        <USERID>8557168</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="11" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601110859">
+            <LOCAL DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="12" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601120859" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Jon iPlayer Host</USERNAME>
+        <USERID>8557168</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="11" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601110859">
+            <LOCAL DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="12" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601120859" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>943</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>18</FP_POSITION>
+      <FP_TITLE>TV</FP_TITLE>
+      <EDITKEY>216DA21A-EF5F-4490-BF97-6CBF97F9FB18</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1397</TOPICID>
+      <H2G2ID>52428990</H2G2ID>
+      <SITEID>70</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1392</TOPICLINKID>
+      <TITLE>Radio</TITLE>
+      <FORUMID>13735684</FORUMID>
+      <FORUMPOSTCOUNT>4656</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            This is your place for technical discussion of BBC iPlayer's Radio streams across the range of <A HREF="http://www.bbc.co.uk/iplayer/where_to_get_iplayer">devices that can access BBC iPlayer</A>, suggestions for the future and feedback about radio within BBC iPlayer, the Radio Console, and internet connected devices.
+
+            We monitor the messageboard, but we can't guarantee to answer every query. This thread is mainly for you to talk with other users - if you need further help please see <A HREF="http:/www.bbc.co.uk/iplayer/help/">our searchable FAQ pages</A>. We can't help you with problems on specific programmes, so see our <A HREF="http://iplayerhelp.external.bbc.co.uk/help/about_iplayer/tech_report">guide on how to report a problem with a programme</A> instead.
+
+            If you do discuss technical problems, other users typically find the following information useful:
+
+            - The programme name, broadcast station, time and date and BBC iPlayer URL
+            - Your browser
+            - Your operating system or device AND whether you are listening in the UK or overseas
+            - Whether it's Listen live or Listen again AND is it with Flash, Real or Windows Media
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>5</POSITION>
+      <CREATEDBY>
+        <USERNAME>Jon iPlayer Host</USERNAME>
+        <USERID>8557168</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="11" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601110859">
+            <LOCAL DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="12" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601120859" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Jon iPlayer Host</USERNAME>
+        <USERID>8557168</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="11" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601110859">
+            <LOCAL DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="12" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601120859" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>942</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>19</FP_POSITION>
+      <FP_TITLE>Radio</FP_TITLE>
+      <EDITKEY>B4280D4B-F3AD-4451-B443-9BA14A25EC54</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1398</TOPICID>
+      <H2G2ID>52429007</H2G2ID>
+      <SITEID>70</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1393</TOPICLINKID>
+      <TITLE>Archived threads</TITLE>
+      <FORUMID>13735685</FORUMID>
+      <FORUMPOSTCOUNT>1315</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>BBC iPlayer has changed a lot since it was first launched. Older posts relating to earlier versions or expired programmes have been archived here so please do not post new messages here.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>6</POSITION>
+      <CREATEDBY>
+        <USERNAME>Jon iPlayer Host</USERNAME>
+        <USERID>8557168</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="11" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601110859">
+            <LOCAL DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="12" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601120859" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Jon iPlayer Host</USERNAME>
+        <USERID>8557168</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="11" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601110859">
+            <LOCAL DAYNAME="Monday" SECONDS="59" MINUTES="08" HOURS="12" DAY="01" MONTH="06" MONTHNAME="June" YEAR="2009" SORT="20090601120859" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>944</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>20</FP_POSITION>
+      <FP_TITLE>Archived threads</FP_TITLE>
+      <EDITKEY>544CC1BB-CD02-48D9-B491-6E3E44C302D5</EDITKEY>
+    </TOPIC>
+  </TOPICLIST>
+  <TOPICELEMENTLIST STATUS="ACTIVE">
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>754</ELEMENTID>
+      <TITLE>Service updates</TITLE>
+      <TEXT>
+        <BR />Check here for important messages from the BBC iPlayer team regarding the service, along with other news and updates.<BR /><BR /><BR /><BR /><BR /><BR /><BR /><TOPICLINK NAME="Service updates">
+          <IMG SRC="http://www.bbc.co.uk/dnaimages/iplayer/dna_messageboard/images/go_to_topic.gif" BORDER="0" ALT="go to this topic" />
+        </TOPICLINK>
+      </TEXT>
+      <SITEID>70</SITEID>
+      <FRONTPAGEPOSITION>1</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1468</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>5C103AC0-0490-4294-85F1-A1DD1FB41E0F</EDITKEY>
+      <TOPICID>1068</TOPICID>
+      <FORUMPOSTCOUNT>252</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>753</ELEMENTID>
+      <TITLE>Suggestions</TITLE>
+      <TEXT>
+        <BR />We are always looking at ways to make BBC iPlayer even better - tell us what features you would like to see as the service improves. We may not necessarily respond to each one, but we are monitoring your suggestions posted here.<BR /><BR /><BR /><BR /><BR /><BR /><TOPICLINK NAME="Suggestions">
+          <IMG SRC="http://www.bbc.co.uk/dnaimages/iplayer/dna_messageboard/images/go_to_topic.gif" BORDER="0" ALT="Service updates" ALIGN="ABSBOTTOM" />
+        </TOPICLINK>
+      </TEXT>
+      <SITEID>70</SITEID>
+      <FRONTPAGEPOSITION>6</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1473</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>AD352205-883E-43BE-ABAF-CE174DAE0DE2</EDITKEY>
+      <TOPICID>1071</TOPICID>
+      <FORUMPOSTCOUNT>8855</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>810</ELEMENTID>
+      <TITLE>General Discussion</TITLE>
+      <TEXT>
+        <BR />Whatever you think of BBC iPlayer, share your views about it and related matters with other users here.<BR /> <BR /><BR /><BR /> <BR /><BR /><BR /><BR /><BR />
+        <TOPICLINK NAME="General Discussion">
+          <IMG SRC="http://www.bbc.co.uk/dnaimages/iplayer/dna_messageboard/images/go_to_topic.gif" BORDER="0" ALT="go to this topic" />
+        </TOPICLINK>
+      </TEXT>
+      <SITEID>70</SITEID>
+      <FRONTPAGEPOSITION>7</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1567</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>14F63B5D-2966-462B-825B-A9BA6DF04622</EDITKEY>
+      <TOPICID>1132</TOPICID>
+      <FORUMPOSTCOUNT>22121</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>894</ELEMENTID>
+      <TITLE>iPlayer Day</TITLE>
+      <TEXT>
+        On Friday 12th December, we're celebrating a year since iPlayer came out of beta and appeared in a form familiar to you, with streaming. A lot has changed since, so the BBC Internet Blogs will be going behind the scenes to lift the lid on it all. <BR />From 9am, we'll be posting at least every hour. You can look forward to video, guest posts, pictures, diagrams and anything we can lay our hands on as the day unfolds. We'll be talking to (and capturing) the BBC people who play a part in the iPlayer process.<BR /><BR />We also want to know how you, the audience, are using iPlayer and invite you to post to this thread to share what you're doing on iPlayer and discuss it.
+      </TEXT>
+      <SITEID>70</SITEID>
+      <FRONTPAGEPOSITION>12</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1840</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>2E18CE29-D672-437B-B636-11B3DFB5FB9D</EDITKEY>
+      <TOPICID>1332</TOPICID>
+      <FORUMPOSTCOUNT>0</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>943</ELEMENTID>
+      <TITLE>TV</TITLE>
+      <TEXT>Your place for technical discussion of BBC iPlayer's TV streams and downloads across the range of devices that can access BBC iPlayer.</TEXT>
+      <SITEID>70</SITEID>
+      <FRONTPAGEPOSITION>18</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1930</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>B95567F1-9B10-43C1-8EA1-9572BE8471DB</EDITKEY>
+      <TOPICID>1396</TOPICID>
+      <FORUMPOSTCOUNT>7872</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>942</ELEMENTID>
+      <TITLE>Radio</TITLE>
+      <TEXT>This is your place for technical discussion of BBC iPlayer's Radio streams across the range of devices that can access BBC iPlayer.</TEXT>
+      <SITEID>70</SITEID>
+      <FRONTPAGEPOSITION>19</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1931</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>388EF514-076D-4A67-9621-7FE3A90C2D76</EDITKEY>
+      <TOPICID>1397</TOPICID>
+      <FORUMPOSTCOUNT>4656</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>944</ELEMENTID>
+      <TITLE>Archived threads</TITLE>
+      <TEXT>BBC iPlayer has changed a lot since it was first launched. Older posts relating to earlier versions or expired programmes have been archived here so please do not post new messages here.</TEXT>
+      <SITEID>70</SITEID>
+      <FRONTPAGEPOSITION>20</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1932</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>3C3CBD98-87CE-4386-A1E8-7B9A2C244CBB</EDITKEY>
+      <TOPICID>1398</TOPICID>
+      <FORUMPOSTCOUNT>1315</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+  </TOPICELEMENTLIST>
+  <FORUMSCHEDULES>
+    <SCHEDULE />
+  </FORUMSCHEDULES>
+  <SITECONFIG>
+    <V2_BOARDS>
+      <HEADER_COLOUR />
+      <BANNER_SSI />
+      <HORIZONTAL_NAV_SSI />
+      <LEFT_NAV_SSI />
+      <WELCOME_MESSAGE />
+      <ABOUT_MESSAGE />
+      <OPENCLOSETIMES_TEXT />
+      <FOOTER>
+        <LINKS />
+      </FOOTER>
+      <MODULES>
+        <LINKS />
+      </MODULES>
+      <RECENTDISCUSSIONS>false</RECENTDISCUSSIONS>
+      <SOCIALTOOLBAR>false</SOCIALTOOLBAR>
+      <TOPICLAYOUT>2col</TOPICLAYOUT>
+      <CSS_LOCATION />
+      <EMOTICON_LOCATION />
+    </V2_BOARDS>
+    <ASSETCOMPLAIN>complain.gif</ASSETCOMPLAIN>
+    <ASSETNEW />
+    <BARLEYSEARCHCOLOUR>#000000</BARLEYSEARCHCOLOUR>
+    <BARLEYVARIANT>radio</BARLEYVARIANT>
+    <BOARDNAME>BBC iPlayer</BOARDNAME>
+    <BOARDROOT>mbiplayer/</BOARDROOT>
+    <BOARDSSOLINK>mbiplayer</BOARDSSOLINK>
+    <CODEBANNER>
+      <DIV ID="blq-main">
+        <DIV ID="blq-banner">
+          <DIV ID="blq-logo">
+            <A HREF="http://www.bbc.co.uk/iplayer/">
+              <IMG WIDTH="188" HEIGHT="36" ALT="BBC iPlayer" SRC="http://www.bbc.co.uk/dnaimages/iplayer/dna_messageboard/images/iplayer.gif" />
+            </A>
+          </DIV>
+          <P ID="bip-tagline">
+            Catch up on the last 7 days of BBC TV &amp; Radio
+            <A HREF="http://www.bbc.co.uk/iplayer/support/">about BBC iPlayer</A>
+          </P>
+        </DIV>
+      </DIV>
+    </CODEBANNER>
+    <CSSLOCATION>mb_iplayer.css</CSSLOCATION>
+    <EMOTICONLOCATION>0</EMOTICONLOCATION>
+    <EXTERNALHOME />
+    <EXTERNALHOMEURL />
+    <EXTEXTBODY>To create paragraphs, just press Return on your keyboard when needed.</EXTEXTBODY>
+    <EXTEXTPREVIEW>If you are satisfied with your message, proceed by clicking on Post message.</EXTEXTPREVIEW>
+    <EXTEXTTITLE>Write a short snappy title to kick off a discussion. e.g. What's the best gig you've been to?</EXTEXTTITLE>
+    <FEATURESMILEYS>1</FEATURESMILEYS>
+    <IMAGEBANNER>banner_iplayer.gif</IMAGEBANNER>
+    <LINKPATH />
+    <NAVCRUMB>
+      <BR />
+      <BR />
+    </NAVCRUMB>
+    <NAVLHN>
+      <DIV CLASS="leftNav">
+        <P>
+          <A HREF="http://www.bbc.co.uk/iplayer">Home</A>
+        </P>
+      </DIV>
+      <DIV CLASS="leftNav">
+        <P>
+          <A HREF="http://iplayerhelp.external.bbc.co.uk/help/">Help and FAQ</A>
+        </P>
+      </DIV>
+      <DIV CLASS="leftNav">
+        <P>
+          <A HREF="http://www.bbc.co.uk/dna/mbiplayer">Messageboard</A>
+        </P>
+      </DIV>
+    </NAVLHN>
+    <PATHDEV>http://ops-dev14.national.core.bbc.co.uk/dnaimages/iplayer/dna_messageboard/</PATHDEV>
+    <PATHLIVE>http://www.bbc.co.uk/dnaimages/iplayer/dna_messageboard/</PATHLIVE>
+    <PATHSSOTYPE>0</PATHSSOTYPE>
+  </SITECONFIG>
+</MESSAGEBOARDTRANSFER-BACKUP>
