@@ -222,6 +222,11 @@
     -->
   </ItemGroup>
 
+  <!-- not incremental -->
+  <PropertyGroup>
+    <IncrementalBuild>false</IncrementalBuild>
+  </PropertyGroup>
+
   <Target Name="AfterCompile">
     <!-- Condition=" '$(BuildBreak)'=='false' and '$(IsDesktopBuild)'!='true' " -->
 
