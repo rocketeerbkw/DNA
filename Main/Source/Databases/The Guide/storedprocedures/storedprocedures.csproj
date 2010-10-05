@@ -1276,6 +1276,7 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="getmoderationsummaryreport.sql" />
     <None Include="fetchgroupsandmembersbysite.sql" />
     <None Include="finduserfromidentityuserid.sql" />
     <None Include="finduserfromidentityusername.sql" />
