@@ -141,6 +141,9 @@
         <label for="mbbanner">URL:</label>
 				<input type="text" name="BANNER_SSI" value="{SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/BANNER_SSI}" id="mbbanner"/>
 				<span class="dna-fnote"><strong>Example:</strong> /includes/blq/include_blq_banner.ssi</span>
+        <span class="dna-fnote">
+            <strong>Note:</strong> For standard compliance, your banner should include an H1 tag.
+          </span>
         </p>
 
         <xsl:call-template name="submitbuttons">
