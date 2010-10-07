@@ -1282,7 +1282,6 @@
     <None Include="finduserfromidentityusername.sql" />
     <None Include="cachegetlastpostdate.sql" />
     <None Include="getbievents.sql" />
-    <None Include="getcontributions.sql" />
     <None Include="getrecentcontributions.sql" />
     <None Include="getdnauseridfromidentityusername.sql" />
     <None Include="getemailinsertsbysite.sql" />
