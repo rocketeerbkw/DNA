@@ -26,5 +26,6 @@ SELECT @ieventtype = CASE
 	WHEN (@eventtype = 'ET_EXMODERATIONDECISION')			THEN 18
 	WHEN (@eventtype = 'ET_POSTTOFORUM')					THEN 19
 	WHEN (@eventtype = 'ET_POSTREVOKE')						THEN 20
+	WHEN (@eventtype = 'ET_POSTNEEDSRISKASSESSMENT')		THEN 21
 	ELSE NULL
 END

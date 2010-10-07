@@ -323,11 +323,11 @@ namespace BBC.Dna.Objects.Tests
             {
                 AddIsDBNullCheck("forumid", false);
                 AddIsDBNullCheck("h2g2id", true);
-                AddGetStringNULLAsEmptyColumnValue("groupname", groupName);
+                //AddGetStringNULLAsEmptyColumnValue("groupname", groupName);
             }
             if (followsDifferentType)
             {
-                AddGetStringNULLAsEmptyColumnValue("groupname", groupName);
+                //AddGetStringNULLAsEmptyColumnValue("groupname", groupName);
             }
         }
     }
@@ -345,7 +345,7 @@ namespace BBC.Dna.Objects.Tests
             AddGetInt32NullAsZeroColumnValue("h2g2id", h2g2ID);
             AddGetInt32NullAsZeroColumnValue("linkitemid", linkItemID);
             AddGetStringNULLAsEmptyColumnValue("linkitemname", linkItemName);
-            AddGetStringNULLAsEmptyColumnValue("linkitemtype", linkItemType);
+            AddGetInt32NullAsZeroColumnValue("linkitemtype", linkItemType);
             AddGetInt32NullAsZeroColumnValue("userid", userID);
             AddGetStringNULLAsEmptyColumnValue("username", userName);
             AddGetStringNULLAsEmptyColumnValue("sitesuffix", siteSuffix);
@@ -353,12 +353,12 @@ namespace BBC.Dna.Objects.Tests
             AddGetStringNULLAsEmptyColumnValue("groupdescription", groupDescription);
             if (firstRowOfType)
             {
-                AddGetStringNULLAsEmptyColumnValue("groupname", groupName);
+                //AddGetStringNULLAsEmptyColumnValue("groupname", groupName);
                 AddIsDBNullCheck("h2g2id", false);
             }
             if (followsDifferentType)
             {
-                AddGetStringNULLAsEmptyColumnValue("groupname", groupName);
+                //AddGetStringNULLAsEmptyColumnValue("groupname", groupName);
             }
         }
     }

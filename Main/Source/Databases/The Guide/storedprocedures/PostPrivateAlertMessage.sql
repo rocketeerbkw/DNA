@@ -40,7 +40,10 @@ EXEC @Error = posttoforuminternal @SentFromUserID,		-- UserID
 									 NULL,					-- Is Premod Posting
 									 DEFAULT,				-- BBCUID
 									 DEFAULT,				-- @isnotable
-									 DEFAULT				-- @iscomment
+									 DEFAULT,				-- @iscomment
+									 NULL,					-- @modnotes
+									 0,						-- @isthreadedcomment
+									 0						-- @ignoreriskmoderation
 									 
 SELECT 'ReturnThreadID' = @ReturnThread, 'ReturnPostID' = @ReturnPost
 RETURN @Error

@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine="rem iisreset /stop&#x0D;&#x0A;rem Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;&#x0D;&#x0A;rem Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;\AdminRipleyServer.dll&#x0D;&#x0A;rem Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;\..\h2g2UnitTesting&#x0D;&#x0A;rem Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;\..\h2g2UnitTesting\AdminRipleyServer.dll&#x0D;&#x0A;rem echo Built RipleyServer.dll &gt; &quot;$(TargetDir)CustomBuildOutput.txt&quot;&#x0D;&#x0A;rem iisreset /start&#x0D;&#x0A;"
+				CommandLine="iisreset /stop&#x0D;&#x0A;Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;&#x0D;&#x0A;Copy &quot;$(TargetPath)&quot; &quot;$(RipleyServerPath)&quot;\..\h2g2UnitTesting&#x0D;&#x0A;echo Built RipleyServer.dll &gt; &quot;$(TargetDir)CustomBuildOutput.txt&quot;&#x0D;&#x0A;iisreset /start&#x0D;&#x0A;"
 				Outputs="$(TargetDir)CustomBuildOutput.txt"
 			/>
 			<Tool

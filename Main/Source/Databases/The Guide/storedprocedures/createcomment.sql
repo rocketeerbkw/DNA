@@ -62,7 +62,10 @@ BEGIN
 	DECLARE @ispremoderated INT
 	DECLARE @IsComment TINYINT
 	SELECT @IsComment = 1 -- User's do not want comments appearing on their MorePosts page. This flag controls if ThreadPostings is populated. != 0 equates to don't populate.
-	EXEC @returncode = posttoforuminternal @userid, @forumid, @inreplyto, @threadid, @subject, @content, @poststyle, @hash, NULL, NULL, @newthreadid OUTPUT, @newpostid OUTPUT, NULL, NULL, @forcemoderation, @forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, @ispremodposting OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment
+	EXEC @returncode = posttoforuminternal  @userid, @forumid, @inreplyto, @threadid, @subject, @content, @poststyle, @hash, NULL, NULL, @newthreadid OUTPUT, 
+											@newpostid OUTPUT, NULL, NULL, @forcemoderation, @forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, 
+											@ispremodposting OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment,
+											/*@modnotes*/ NULL,/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0
 
 	-- Find out if post was premoderated.
 	--DECLARE @premoderation INT

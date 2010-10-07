@@ -20,5 +20,6 @@ Select @iitemtype = CASE
 	WHEN (@itemtype = 'IT_CLUB_MEMBERS')	THEN 12
 	WHEN (@itemtype = 'IT_MODID')			THEN 13
 	WHEN (@itemtype = 'IT_ENTRYID')			THEN 14
+	WHEN (@itemtype = 'IT_RISKMODQUEUEID')	THEN 15
 	ELSE 2
 END
