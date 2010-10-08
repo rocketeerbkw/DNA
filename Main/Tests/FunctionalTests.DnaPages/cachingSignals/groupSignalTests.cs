@@ -64,16 +64,16 @@ namespace FunctionalTests
             // Step 4. Try creating a comment forum again, should succeed because now the test user is an editor on the globally named site
             testUserReq = createForum(testUserReq, HttpStatusCode.OK);
 
-            // Step 5. Use the Inspect User page (a C++ page) to update the user's groups
-            setEdStatusCplus(testUserReq, false);
+            //// Step 5. Use the Inspect User page (a C++ page) to update the user's groups
+            //setEdStatusCplus(testUserReq, false);
 
-            Thread.Sleep(5000);
+            ////Thread.Sleep(5000);
 
-            // Step 6. Remove trace of this from the database
-            clearFromDB(testUserReq);
+            //// Step 6. Remove trace of this from the database
+            //clearFromDB(testUserReq);
 
-            // Step 7. try creating a comment forum again, shuould succeed because now the test user is an editor on the globally named site
-            testUserReq = createForum(testUserReq, HttpStatusCode.Unauthorized); // will crash the test if it does not get the right status
+            //// Step 7. try creating a comment forum again, shuould succeed because now the test user is an editor on the globally named site
+            //testUserReq = createForum(testUserReq, HttpStatusCode.Unauthorized); // will crash the test if it does not get the right status
 
 
         }
