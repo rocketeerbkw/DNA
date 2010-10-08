@@ -43,7 +43,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskModOn_PubMethodB_Unmoderated_NewThread_internal(RiskModThreadEntryQueueInfo info)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
             {
@@ -101,7 +101,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_PostModerated_NewThread(string onOrOff, char publishMethod)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             bool isOn=OnOrOff(onOrOff);
 
@@ -149,7 +149,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_Premoderated_NewThread(string onOrOff, char publishMethod)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             bool isOn = OnOrOff(onOrOff);
 
@@ -198,7 +198,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_PremodPostings_NewThread(string onOrOff, char publishMethod)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             bool isOn = OnOrOff(onOrOff);
 
@@ -238,7 +238,7 @@ namespace TheGuide.Database.UnitTests
         [TestMethod]
         public void RiskModOn_PubMethodB_Unmoderated_InReplyTo()
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             using (new TransactionScope())
             {
@@ -291,7 +291,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_PostModerated_InReplyTo(string onOrOff, char publishMethod)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             bool isOn = OnOrOff(onOrOff);
 
@@ -343,7 +343,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_Premoderated_InReplyTo(string onOrOff, char publishMethod)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             bool isOn = OnOrOff(onOrOff);
 
@@ -396,7 +396,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_PremodPostings_InReplyTo(string onOrOff, char publishMethod)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             bool isOn = OnOrOff(onOrOff);
 
@@ -460,7 +460,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskModOn_PubMethodA_Unmoderated_NewThread_internal(RiskModThreadEntryQueueInfo info)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
             {
@@ -543,7 +543,7 @@ namespace TheGuide.Database.UnitTests
 
         void RiskModOn_PubMethodA_Unmoderated_InReplyTo_internal(RiskModThreadEntryQueueInfo info)
         {
-            CheckActiveTransactionExists();
+//            CheckActiveTransactionExists();
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
             {
@@ -1029,7 +1029,7 @@ namespace TheGuide.Database.UnitTests
                             declare @ret int, @newthreadentryid int 
                             exec @ret=riskmod_processriskassessmentforthreadentry @riskmodthreadentryqueueid={0}, @risky={1}, @newthreadentryid=@newthreadentryid OUTPUT
                             ", riskModId, RiskyOrNotRisky(isRisky));
-            reader.ExecuteDEBUGONLY(sql);
+            reader.ExecuteWithTransaction(sql);
             reader.Read();
 
             if (reader.DoesFieldExist("ThreadId"))
@@ -1045,12 +1045,12 @@ namespace TheGuide.Database.UnitTests
 
         void ProcessEventQueue(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY("exec processeventqueue");
+            reader.ExecuteWithTransaction("exec processeventqueue");
         }
 
         void GenerateBIEvents(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY(@"
+            reader.ExecuteWithTransaction(@"
 		                    DECLARE @TopEventID INT
 		                    SELECT @TopEventID = MAX(EventID) FROM dbo.EventQueue
                             EXEC dbo.generatebievents @TopEventID");
@@ -1059,7 +1059,7 @@ namespace TheGuide.Database.UnitTests
 
         void ClearBIEventQueue(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY("delete from bieventqueue");
+            reader.ExecuteWithTransaction("delete from bieventqueue");
         }
 
 
@@ -1072,7 +1072,7 @@ namespace TheGuide.Database.UnitTests
                     where EventType={0} and ItemID={1} and ItemType={2} and ItemID2={3} and ItemType2={4} and EventUserID={5}
             ", (int)EventType, ItemID, (int)ItemType, ItemID2, (int)ItemType2, EventUserID);
 
-            reader.ExecuteDEBUGONLY(sql);
+            reader.ExecuteWithTransaction(sql);
 
             return reader.HasRows;
         }
@@ -1091,7 +1091,7 @@ namespace TheGuide.Database.UnitTests
                     where EventType={0} and ItemID={1} and ItemType={2} and ItemID2={3} and ItemType2={4} and EventUserID={5}
             ", (int)EventType, ItemID, (int)ItemType, ItemID2, (int)ItemType2, EventUserID);
 
-            reader.ExecuteDEBUGONLY(sql);
+            reader.ExecuteWithTransaction(sql);
 
             return reader.HasRows;
         }
@@ -1122,13 +1122,13 @@ namespace TheGuide.Database.UnitTests
 
         void ClearEventQueue(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY("delete from eventqueue");
+            reader.ExecuteWithTransaction("delete from eventqueue");
             reader.Close();
         }
 
         int CountEventQueueEntries(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY("select count(*) as C from eventqueue");
+            reader.ExecuteWithTransaction("select count(*) as C from eventqueue");
             reader.Read();
             int c = reader.GetInt32("C");
             reader.Close();
@@ -1137,14 +1137,14 @@ namespace TheGuide.Database.UnitTests
 
         void ClearRiskModThreadEntryQueue(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY("delete from RiskModThreadEntryQueue");
+            reader.ExecuteWithTransaction("delete from RiskModThreadEntryQueue");
             reader.Close();
         }
 
         void SetSiteRiskModState(IDnaDataReader reader, int siteid, bool ison, char state)
         {
             string sql = string.Format("EXEC riskmod_setsitestate @siteid = {0}, @ison = {1}, @publishmethod = '{2}'", siteid, ison?1:0, state);
-            reader.ExecuteDEBUGONLY(sql);
+            reader.ExecuteWithTransaction(sql);
         }
 
         void SetSiteModStatus(IDnaDataReader reader, int siteid, string modStatus)
@@ -1159,7 +1159,7 @@ namespace TheGuide.Database.UnitTests
             }
 
             string sql = string.Format("UPDATE Sites SET premoderation={1}, unmoderated={2} WHERE siteid={0}", siteid, premoderation, unmoderated);
-            reader.ExecuteDEBUGONLY(sql);
+            reader.ExecuteWithTransaction(sql);
         }
 
         void SetSiteOptionInt(IDnaDataReader reader, int siteid, string section, string name, int val, int type)
@@ -1167,7 +1167,7 @@ namespace TheGuide.Database.UnitTests
             string sql =string.Format(@"  
                     delete siteoptions where siteid={0} and section='{1}' and name='{2}';
                     insert siteoptions(siteid,section,name,value,type) values ({0},'{1}','{2}','{3}',{4});", siteid,section,name,val,type);
-            reader.ExecuteDEBUGONLY(sql);
+            reader.ExecuteWithTransaction(sql);
         }
 
         void SetSiteOptionProcessPremod(IDnaDataReader reader, int siteid, bool on)
@@ -1177,7 +1177,7 @@ namespace TheGuide.Database.UnitTests
 
         void GetRiskModTestSiteAndForum(IDnaDataReader reader, out int siteid, out int forumid)
         {
-            reader.ExecuteDEBUGONLY(@"  select top 1 g.forumid,g.siteid 
+            reader.ExecuteWithTransaction(@"  select top 1 g.forumid,g.siteid 
                                                 from topics t
                                                 join guideentries g on g.h2g2id=t.h2g2id
                                                 order by topicid");
@@ -1240,7 +1240,7 @@ namespace TheGuide.Database.UnitTests
                                             content,
                                             testGUID.ToString());
 
-            reader.ExecuteDEBUGONLY(sql);
+            reader.ExecuteWithTransaction(sql);
             reader.Read();
             newthreadid = reader.GetNullableInt32("returnthread");
             newthreadentryid = reader.GetNullableInt32("returnpost");
@@ -1250,7 +1250,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckRiskModThreadEntryQueue(IDnaDataReader reader, int? ThreadEntryId, char PublishMethod, bool? IsRisky, int SiteId, int ForumId, int? ThreadId, int UserId, string UserName, int? InReplyTo, string Subject, string Text, byte PostStyle, string IPAddress, string BBCUID, DateTime EventDate, byte AllowEventEntries, int NodeId, int? QueueId, int ClubId, byte IsNotable, byte IsComment, string ModNotes, byte IsThreadedComment)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT rm.*
+            reader.ExecuteWithTransaction(@"SELECT rm.*
                                         FROM RiskModThreadEntryQueue rm
                                         WHERE RiskModThreadEntryQueueId=" + GetLatestRiskModThreadEntryQueueId(reader));
             reader.Read();
@@ -1298,7 +1298,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckLatestThread(IDnaDataReader reader, int threadid, int forumid, byte canRead, byte canWrite, int siteid)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT top 1 * FROM Threads order by ThreadID desc");
+            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM Threads order by ThreadID desc");
             reader.Read();
 
             Assert.AreEqual(threadid, reader.GetInt32("threadid"));
@@ -1310,7 +1310,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckLatestThreadEntry(IDnaDataReader reader, int threadid, int forumid, int userid, int? nextSibling, int? parent, int? prevSibling, int? firstChild, int entryID, int? hidden, int postIndex, byte postStyle, string text)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT top 1 * FROM ThreadEntries order by EntryID desc");
+            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM ThreadEntries order by EntryID desc");
             reader.Read();
 
             Assert.AreEqual(threadid, reader.GetInt32("threadid"));
@@ -1329,7 +1329,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckLatestThreadMod(IDnaDataReader reader, int forumid, int? threadid, int? postid, int? lockedby, int status, string notes, int siteid, byte isPremodPosting)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT top 1 * FROM ThreadMod order by ModId desc");
+            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM ThreadMod order by ModId desc");
             reader.Read();
 
             // Nasty tweak.  With PremodPostings, when it creates a thread mod entry, it sets threadid=null and postid=0
@@ -1348,7 +1348,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckLatestPremodPostings(IDnaDataReader reader, int modId, int userid, int forumid, int? threadid, int? inReplyTo, string body, int postStyle, int siteid, byte isComment, int? riskModThreadEntryQueueId)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT * FROM PremodPostings where ModId="+modId);
+            reader.ExecuteWithTransaction(@"SELECT * FROM PremodPostings where ModId="+modId);
             reader.Read();
 
             // Nasty tweak.  With PremodPostings, when it creates a thread mod entry, it sets threadid=null and postid=0
@@ -1376,7 +1376,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestThreadModId(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT top 1 * FROM ThreadMod order by ModId desc");
+            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM ThreadMod order by ModId desc");
             reader.Read();
 
             return reader.GetInt32("ModId");
@@ -1384,7 +1384,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestThreadId(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT top 1 * FROM Threads order by ThreadId desc");
+            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM Threads order by ThreadId desc");
             reader.Read();
 
             return reader.GetInt32("ThreadId");
@@ -1392,7 +1392,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestThreadEntryId(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT top 1 * FROM ThreadEntries order by EntryId desc");
+            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM ThreadEntries order by EntryId desc");
             reader.Read();
 
             return reader.GetInt32("EntryId");
@@ -1400,7 +1400,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestRiskModThreadEntryQueueId(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT top 1 * FROM RiskModThreadEntryQueue order by RiskModThreadEntryQueueId desc");
+            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM RiskModThreadEntryQueue order by RiskModThreadEntryQueueId desc");
             reader.Read();
 
             if (reader.HasRows)
@@ -1411,7 +1411,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestPremodPostingsModId(IDnaDataReader reader)
         {
-            reader.ExecuteDEBUGONLY(@"SELECT top 1 * FROM PremodPostings order by modid desc");
+            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM PremodPostings order by modid desc");
             reader.Read();
 
             if (reader.HasRows)
@@ -1455,10 +1455,16 @@ namespace TheGuide.Database.UnitTests
                 Assert.IsFalse(v.HasValue);
         }
 
-        /// <summary>
+
+
+    }
+
+    public static class IDnaDataReaderExtensions
+    {
+         /// <summary>
         /// This will throw an exception if there is not an active ambient transaction
         /// </summary>
-        void CheckActiveTransactionExists()
+        static void CheckActiveTransactionExists()
         {
             try
             {
@@ -1475,11 +1481,13 @@ namespace TheGuide.Database.UnitTests
             {
                 throw new Exception("There must be an active ambient transaction", ex);
             }
+        }       
+        
+        public static void ExecuteWithTransaction(this IDnaDataReader reader, string sql)
+        {
+            CheckActiveTransactionExists();
+
+            reader.ExecuteDEBUGONLY(sql);
         }
-
-    }
-
-    static class IDnaDataReaderExtensions
-    {
     }
 }
