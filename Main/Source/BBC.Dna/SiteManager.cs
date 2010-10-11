@@ -83,7 +83,7 @@ namespace BBC.Dna.Component
                     bool isOn = dataReader.GetNullableBooleanOutputParameter("@ison") ?? false;
                     string publishMethod = dataReader.GetNullableStringOutputParameter("@publishmethod") ?? "B";
 
-                    AddIntElement(xml, "RISKMODSTATE", isOn ? 1 : 0);
+                    AddIntElement(xml, "RISKMODONOFF", isOn ? 1 : 0);
                     AddTextElement(xml, "RISKMODPUBLISHMETHOD", publishMethod);
                 }
             }
@@ -242,7 +242,7 @@ namespace BBC.Dna.Component
                 }
             }
 
-            bool riskModState = InputContext.GetParamBoolOrFalse("RISKMODSTATE", "Risk Mod State");
+            bool riskModState = InputContext.GetParamBoolOrFalse("RISKMODONOFF", "Risk Mod On/Off flag");
             string riskModPublishMethod = InputContext.GetParamStringOrEmpty("RISKMODPUBLISHMETHOD", "Risk Mod Publish Method");
 
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("riskmod_setsitestate"))
