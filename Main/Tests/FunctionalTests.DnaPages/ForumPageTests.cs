@@ -24,7 +24,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void Setup()
         {
-            SnapshotInitialisation.ForceRestore();
+            SnapshotInitialisation.RestoreFromSnapshot();
             //clean ripley cache
             CleanRiplyCache();
         }
@@ -1204,7 +1204,6 @@ links: http://www.bbc.co.uk and other stuff";
                 var siteName = "mbiplayer";
                 var testPost = Guid.NewGuid().ToString();
 
-
                 var request = new DnaTestURLRequest(siteName);
                 request.RequestPage("NF7325075" + "?skin=purexml");
                 XmlDocument doc = request.GetLastResponseAsXML();
@@ -1321,6 +1320,7 @@ links: http://www.bbc.co.uk and other stuff";
             var lastReadPostIndex = doc.SelectSingleNode("//H2G2/POSTS/POST-LIST/POST/THREAD[@THREADID='33']/../@LASTPOSTCOUNTREAD").InnerText;
 
             Assert.AreEqual(lastPostIndex, lastReadPostIndex);
+            Assert.AreEqual(lastPostIndex, doc.SelectSingleNode("//H2G2/POSTS/POST-LIST/POST/THREAD[@THREADID='33']/../@COUNTPOSTS").InnerText);
         }
 
         #region Private helper functions
