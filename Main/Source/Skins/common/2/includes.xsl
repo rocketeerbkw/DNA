@@ -53,6 +53,7 @@
             <xsl:include href="_library/GuideML/pre.xsl" />
             <xsl:include href="_library/GuideML/span.xsl" />
             <xsl:include href="_library/GuideML/strong.xsl" />
+            <xsl:include href="_library/GuideML/searchresult.xsl" />
             <xsl:include href="_library/GuideML/textelement.xsl" />
             <xsl:include href="_library/GuideML/columns.xsl" />
 			<xsl:include href="_library/GuideML/footnote.xsl"/>
@@ -124,6 +125,7 @@
             <xsl:include href="_library/pagination/commentforumlist.xsl" />
             <xsl:include href="_library/pagination/forumthreads.xsl" />
             <xsl:include href="_library/pagination/forumthreadposts.xsl" />
+            <xsl:include href="_library/pagination/searchthreadposts.xsl" />
             <xsl:include href="_library/pagination/post-list.xsl" />
     
     
