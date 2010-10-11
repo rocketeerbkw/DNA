@@ -32,7 +32,7 @@
                         <xsl:when test="SUBJECT/text()">
                           <xsl:call-template name="fixedLines">
                             <xsl:with-param name="originalString" select="SUBJECT/text()" />
-                            <xsl:with-param name="charsPerLine" select="28" />
+                            <xsl:with-param name="charsPerLine" select="33" />
                             <xsl:with-param name="lines" select="1" />
                           </xsl:call-template>
                         </xsl:when>
@@ -48,7 +48,7 @@
             <p>
               <xsl:call-template name="fixedLines">
                 <xsl:with-param name="originalString" select="FIRSTPOST/TEXT" />
-                <xsl:with-param name="charsPerLine" select="33" />
+                <xsl:with-param name="charsPerLine" select="36" />
                 <xsl:with-param name="lines" select="2" />
               </xsl:call-template>
             </p>
