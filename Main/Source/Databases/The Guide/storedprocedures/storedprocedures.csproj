@@ -1296,7 +1296,6 @@
     <None Include="generatepremodposting.sql" />
     <None Include="GetAllGroups.sql" />
     <None Include="getuserfromidentityusername.sql" />
-    <None Include="searchthreadposts.sql" />
     <None Include="QueueThreadEntryForModeration.sql" />
     <None Include="removehandledbievents.sql" />
     <None Include="riskmod_getsitestate.sql" />
