@@ -102,6 +102,8 @@
     <Compile Include="ReviewForumTest.cs" />
     <Compile Include="ReviewSubmissionTest.cs" />
     <Compile Include="SearchTest.cs" />
+    <Compile Include="SearchThreadPostsTest.cs" />
+    <Compile Include="SearchThreadPostTest.cs" />
     <Compile Include="SubscribeResultTest.cs" />
     <Compile Include="SubscribeStateTest.cs" />
     <Compile Include="SubscribingUsersListTest.cs" />

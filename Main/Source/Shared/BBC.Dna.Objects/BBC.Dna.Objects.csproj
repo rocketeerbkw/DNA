@@ -80,6 +80,9 @@
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="Contributions.cs" />
+    <Compile Include="SearchThreadPost.cs">
+      <SubType>SEARCHTHREADPOST</SubType>
+    </Compile>
     <Compile Include="ExtraInfo.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="Link.cs" />
@@ -102,6 +105,7 @@
     <Compile Include="Recommendations.cs" />
     <Compile Include="ReviewSubmission.cs" />
     <Compile Include="Search.cs" />
+    <Compile Include="SearchThreadPosts.cs" />
     <Compile Include="SmileyTranslator.cs" />
     <Compile Include="SubscribingUsersList.cs" />
     <Compile Include="ThreadPostSummary.cs" />

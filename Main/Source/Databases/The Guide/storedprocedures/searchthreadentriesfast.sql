@@ -108,5 +108,6 @@ FROM searchresults sr
 	LEFT JOIN Preferences p WITH(NOLOCK) on (p.UserID = u.UserID) AND (p.SiteID = f.SiteID)
 	INNER JOIN Journals J with(nolock) on J.UserID = U.UserID and J.SiteID = f.SiteID
 where n > @startindex and n <= @startindex + @itemsperpage
+order by n
 								
 drop table #tempResults

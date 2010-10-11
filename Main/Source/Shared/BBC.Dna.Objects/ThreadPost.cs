@@ -366,6 +366,7 @@ namespace BBC.Dna.Objects
             }
         }
 
+
         /// <summary>
         /// Creates a threadpost from a given reader
         /// </summary>
@@ -373,7 +374,7 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         static public ThreadPost CreateThreadPostFromReader(IDnaDataReader reader, int postId)
         {
-            return ThreadPost.CreateThreadPostFromReader(reader, String.Empty, postId);
+            return ThreadPost.CreateThreadPostFromReader(reader, String.Empty, postId, null);
         }
 
         /// <summary>
@@ -382,9 +383,13 @@ namespace BBC.Dna.Objects
         /// <param name="reader"></param>
         /// <param name="prefix">The data base name prefix</param>
         /// <returns></returns>
-        static public ThreadPost CreateThreadPostFromReader(IDnaDataReader reader, string prefix, int postId)
+        static public ThreadPost CreateThreadPostFromReader(IDnaDataReader reader, string prefix, int postId, ThreadPost post)
         {
-            ThreadPost post = new ThreadPost() { PostId = postId };
+            if (post == null)
+            {
+                post = new ThreadPost() { PostId = postId };
+            }
+            
             if (reader.DoesFieldExist(prefix +"threadid"))
             {
                 post.ThreadId = reader.GetInt32NullAsZero(prefix +"threadid");
