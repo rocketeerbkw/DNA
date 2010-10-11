@@ -1276,12 +1276,17 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="createlinkedserver.sql" />
+    <None Include="CreateNewSiteSearchResources.sql" />
+    <None Include="DNASearch_searchthreadentriesfast.sql" />
+    <None Include="GetLatestThreadEntries.sql" />
     <None Include="getmoderationsummaryreport.sql" />
     <None Include="fetchgroupsandmembersbysite.sql" />
     <None Include="finduserfromidentityuserid.sql" />
     <None Include="finduserfromidentityusername.sql" />
     <None Include="cachegetlastpostdate.sql" />
     <None Include="getbievents.sql" />
+    <None Include="getnextthreadentriessearchbatch.sql" />
     <None Include="getrecentcontributions.sql" />
     <None Include="getdnauseridfromidentityusername.sql" />
     <None Include="getemailinsertsbysite.sql" />
@@ -1291,6 +1296,7 @@
     <None Include="generatepremodposting.sql" />
     <None Include="GetAllGroups.sql" />
     <None Include="getuserfromidentityusername.sql" />
+    <None Include="searchthreadposts.sql" />
     <None Include="QueueThreadEntryForModeration.sql" />
     <None Include="removehandledbievents.sql" />
     <None Include="riskmod_getsitestate.sql" />
