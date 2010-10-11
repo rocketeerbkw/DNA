@@ -347,8 +347,9 @@ namespace FunctionalTests
             Assert.AreEqual(_email, doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS").InnerText, "incorrect email");
             Assert.IsNull(doc.SelectSingleNode("//VIEWING-USER/USER/SITESUFFIX"), "Site suffix should not exist!");
 
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
             TestUserCreator.SetAppNamedSpacedAttribute(_userName, cookie, "cbbc_displayname", "This Is My SiteSuffix", "cbbc");
+            Thread.Sleep(2000);
 
             request.RequestPage("?skin=purexml");
 
