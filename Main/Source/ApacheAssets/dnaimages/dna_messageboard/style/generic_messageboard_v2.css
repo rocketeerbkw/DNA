@@ -1,5 +1,6 @@
 
-#blq-main {font-family:arial,helvetica,sans-serif; line-height:1.2}
+#blq-main {font-family:arial,helvetica,sans-serif; line-height:1.2;}
+/*#blq-main p {font-size:1.1em;}*/
 #blq-main #blq-local-nav a, #blq-main #blq-content a, #blq-main #dna-boardpromo a {color:#376dad}
 #blq-main #blq-content a:hover, #blq-main #dna-boardpromo a:hover {text-decoration:none}
 #blq-main #blq-content a:focus,#blq-main #blq-content a:active, #blq-main #dna-boardpromo a:focus,#blq-main #dna-boardpromo a:active {background-color:#376dad; color:#fff}
@@ -100,7 +101,7 @@ body.ie6 #blq-main #blq-content .pagination li {width:1px}
 #blq-content .topiclist li p {margin-top:5px; padding:0 10px; font-size:1.1em}
 #blq-content .topiclist li a:hover {text-decoration:none}
 
-#blq-content .topiclist li div.topicimage img {border:0; padding: 0 10px}
+#blq-content .topiclist li div.topicimage img {border:0; padding: 0 9px}
 #blq-main .multiposts h3 {padding-left:10px; font-size:1.1em; color:#000}
 ul.forumthreadposts, p.forumthreadposts {clear:both}
 ul.forumthreadposts {margin-top:10px}
