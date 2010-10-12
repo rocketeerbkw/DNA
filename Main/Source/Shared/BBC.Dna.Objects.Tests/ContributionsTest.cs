@@ -44,6 +44,7 @@ namespace BBC.Dna.Objects.Tests
         private readonly int _test_author_user_id = 99;
         private readonly string _test_author_username = "poster";
 
+
         private readonly string _test_cache_key = "BBC.Dna.Objects.Contribution, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|99|Blog|h2g2|Ascending|10|0|identityuserid|";
         
         public ContributionsTest()

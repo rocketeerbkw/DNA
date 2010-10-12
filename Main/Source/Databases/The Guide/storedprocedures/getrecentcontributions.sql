@@ -46,6 +46,7 @@ NumberedThreadEnrtries AS
 	where
 		te.dateposted > dateadd(week,-1,getdate())
 )
+
 select
 	cast(p.n as bigint) as PostIndex,
 	te.EntryID as ThreadEntryID,
@@ -79,5 +80,6 @@ from
 where
 	p.n >= @startindex and p.n < (@startindex+@itemsPerPage)	
 order by p.n		
+
 
 return 0

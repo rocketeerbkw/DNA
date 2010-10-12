@@ -182,16 +182,10 @@ namespace BBC.Dna.Data
             {
                 value = (int)_cmd.Parameters[name].Value;
             }
-            catch (InvalidCastException)
+            catch (Exception)
             {
                 value = 0;
                 return false;
-            }
-            catch (NullReferenceException)
-            {
-                value = 0;
-                return false;
-
             }
             return true;
         }

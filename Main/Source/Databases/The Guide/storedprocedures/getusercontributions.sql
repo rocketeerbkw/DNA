@@ -5,9 +5,12 @@ CREATE PROCEDURE getusercontributions
 						@sitetype int = null, 
 						@sitename varchar(50) = null,
 						@sortdirection varchar(20) = 'descending',
-						@usernametype varchar(40) = 'identityuserid'
+						@usernametype varchar(40) = 'identityuserid',
+						@count int OUTPUT
 
-as SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+as 
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
 declare @userid int 
 declare @siteid int
@@ -69,9 +72,24 @@ BEGIN
 			row_number() over(order by te.dateposted desc) n,			
 			te.EntryId
 		from 
-			dbo.threadentries as te 
+			threadentries as te 
+			inner join dbo.threads as t on te.threadid = t.threadid			
+			inner join dbo.sites as s on t.siteid  = s.siteid
+			left outer join dbo.siteoptions as so on s.siteid  = so.siteid AND so.section='General' AND so.[Name] = 'SiteType'
 		where
 			te.userid = @userid
+			and
+			(				
+				(@sitetype is null)
+				or 
+				((@sitetype is not null) and (so.[value] = @sitetype))
+			)
+			and
+			(
+				(@siteid is null)
+				or
+				((@siteid is not null) and (s.siteid = @siteid))
+			)
 	)
 	insert #PagedEntries select  n,entryid from NumberedThreadEnrtries
 END
@@ -83,14 +101,29 @@ BEGIN
 			row_number() over(order by te.dateposted asc) n,			
 			te.EntryId
 		from 
-			dbo.threadentries as te 
+			threadentries as te 
+			inner join dbo.threads as t on te.threadid = t.threadid			
+			inner join dbo.sites as s on t.siteid  = s.siteid
+			left outer join dbo.siteoptions as so on s.siteid  = so.siteid AND so.section='General' AND so.[Name] = 'SiteType'			
 		where
 			te.userid = @userid
+			and
+			(				
+				(@sitetype is null)
+				or 
+				((@sitetype is not null) and (so.[value] = @sitetype))
+			)
+			and
+			(
+				(@siteid is null)
+				or
+				((@siteid is not null) and (s.siteid = @siteid))
+			)			
 	)
 	insert #PagedEntries select  n,entryid from NumberedThreadEnrtries
 END
 
-
+SELECT @count = @@ROWCOUNT
 
 select
 	cast(p.n as bigint) as PostIndex,
@@ -122,19 +155,7 @@ from
 	left outer join dbo.commentforums as cf on cf.forumid  = f.forumid	
 	left outer join dbo.guideentries as ge on ge.forumid  = f.forumid	
 where
-	(				
-		(@sitetype is null)
-		or 
-		((@sitetype is not null) and (so.[value] = @sitetype))
-	)
-	and
-	(
-		(@siteid is null)
-		or
-		((@siteid is not null) and (s.siteid = @siteid))
-	)
-	and
-	p.n >= @startindex and p.n < (@startindex+@itemsPerPage)	
+	p.n >= @startindex and p.n < (@startindex+@itemsPerPage)
 order by PostIndex	
 
 return 0
