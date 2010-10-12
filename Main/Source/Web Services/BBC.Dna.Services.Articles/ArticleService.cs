@@ -707,8 +707,8 @@ namespace BBC.Dna.Services
 
             return GetOutputStream(scoutRecommendations);
         }
-
-        //[WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/scoutrecommends/")]
+        /*
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/scoutrecommends/")]
         [WebHelp(Comment = "Scout only function to recommend an article to the editors")]
         [OperationContract]
         public void ScoutRecommendsArticle(string siteName, string articleId)
@@ -736,7 +736,7 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ex);
             }
-        }
+        }*/
 
     }
 }
