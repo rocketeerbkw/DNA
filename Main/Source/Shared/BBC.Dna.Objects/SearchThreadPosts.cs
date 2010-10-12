@@ -168,16 +168,17 @@ namespace BBC.Dna.Objects
 
             //format search string for full text search
             var searchTextArray = searchText.Split(' ');
+            var tempSeachText = "";
             foreach (var term in searchTextArray)
             {
                 if (term != "&" && !string.IsNullOrEmpty(term))
                 {
-                    searchText += term + "&";
+                    tempSeachText += term + "&";
                 }
             }
-            if (searchText.LastIndexOf("&") == 0)
+            if (tempSeachText.LastIndexOf("&") == tempSeachText.Length-1)
             {
-                searchText = searchText.Substring(0, searchText.Length - 1);
+                tempSeachText = tempSeachText.Substring(0, searchText.Length);
             }
 
             //get posts from db
@@ -185,7 +186,7 @@ namespace BBC.Dna.Objects
             {
                 // Add the entry id and execute
                 reader.AddParameter("siteid", site.SiteID);
-                reader.AddParameter("condition", searchText);
+                reader.AddParameter("condition", tempSeachText);
                 reader.AddParameter("startIndex", startIndex <= 0 ? startIndex : startIndex - 1);
                 reader.AddParameter("itemsPerPage", itemsPerPage);
                 reader.Execute();
