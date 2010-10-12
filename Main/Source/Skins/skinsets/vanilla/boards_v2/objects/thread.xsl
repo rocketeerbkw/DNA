@@ -152,10 +152,12 @@
             <div class="itemdetail">
                 <p class="replydate">
                     <xsl:text>Last contribution: </xsl:text>
-                    <xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>
-                	<xsl:text> at </xsl:text>
-                	<xsl:apply-templates select="REPLYDATE/DATE" mode="library_time_shortformat"/>
-                	(<xsl:value-of select="REPLYDATE/DATE/@RELATIVE"/>)
+                    <a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;post=',LASTUSERPOST/@POSTID, '#p', LASTUSERPOST/@POSTID)}">
+	                    <xsl:apply-templates select="LASTUSERPOST/DATEPOSTED/DATE" mode="library_date_shortformat"/>
+	                	<xsl:text> at </xsl:text>
+	                	<xsl:apply-templates select="LASTUSERPOST/DATEPOSTED/DATE" mode="library_time_shortformat"/>
+                	</a>
+                	(<xsl:value-of select="LASTUSERPOST/DATEPOSTED/DATE/@RELATIVE"/>)
                 </p>
             	<p class="replies">
             		<xsl:if test="ancestor::POST-LIST/USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
@@ -163,7 +165,7 @@
             			<br/>
             		</xsl:if>
             		<xsl:text>Latest post: </xsl:text>
-            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#p', LASTUSERPOST/@POSTID)}">
+            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;latest=1')}">
             			<xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>
             		</a>
             	</p>
