@@ -49,7 +49,7 @@ WITH WatchedJournals AS
 WatchedJournalsPagination AS
 (
 	SELECT ROW_NUMBER() OVER(ORDER BY wj.UserName) AS 'n', wj.*
-	FROM CTE_WatchedJournals wj
+	FROM WatchedJournals wj
 )
 SELECT  'Total' = (select count(*) FROM WatchedJournals), 
 	wjp.*
