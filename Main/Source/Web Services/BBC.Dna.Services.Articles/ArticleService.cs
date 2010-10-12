@@ -547,7 +547,9 @@ namespace BBC.Dna.Services
                                                     "ARTICLE", 
                                                     showApproved == 1 ? true : false,
                                                     showNormal == 1 ? true : false,
-                                                    showSubmitted == 1 ? true : false);
+                                                    showSubmitted == 1 ? true : false,
+                                                    startIndex,
+                                                    itemsPerPage);
                 }
                 catch (ApiException ex)
                 {
@@ -669,6 +671,65 @@ namespace BBC.Dna.Services
                                         article.ArticleInfo.PageAuthor.Editor.user.UserId,
                                         article.ArticleInfo.PageAuthor.Editor.user.UserName,
                                         reviewForumId,
+                                        comments);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
+        [WebGet(UriTemplate = "V1/site/{siteName}/articles/scoutrecommendations")]
+        [WebHelp(Comment = "Get the scout recommendations of articles for a given site")]
+        [OperationContract]
+        public Stream GetScoutRecommendations(string siteName)
+        {
+            ISite site = GetSite(siteName);
+            ScoutRecommendations scoutRecommendations = null;
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(UserTypes.Editor)))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+            }
+
+            try
+            {
+                scoutRecommendations = ScoutRecommendations.CreateScoutRecommendations(cacheManager, 
+                                                                                        readerCreator,
+                                                                                        site.SiteID);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(scoutRecommendations);
+        }
+
+        //[WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/scoutrecommends/")]
+        [WebHelp(Comment = "Scout only function to recommend an article to the editors")]
+        [OperationContract]
+        public void ScoutRecommendsArticle(string siteName, string articleId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+            var comments = QueryStringHelper.GetQueryParameterAsString("comments", "");
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(UserTypes.Editor)) )
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+            }
+
+            try
+            {                
+                ScoutRecommendations.RecommendArticle(readerCreator,
+                                        site,
+                                        callingUser.UserID,
+                                        Int32.Parse(articleId),                                       
                                         comments);
             }
             catch (ApiException ex)

@@ -99,13 +99,33 @@ namespace BBC.Dna.Objects.Tests
 
             Index index;
 
-            index = Index.CreateIndexFromDatabase(creator, siteId, "A", true, false, false, "", 0);
+            index = Index.CreateIndexFromDatabase(creator, siteId, "A", true, false, false, "", 0, 0, 20);
             Assert.AreNotEqual(null, index);
 
             XmlDocument xml = Serializer.SerializeToXml(index);
 
         }
+        /// <summary>
+        ///A test for Pagination IndexTest
+        ///</summary>
+        [TestMethod]
+        public void CreatePaginationIndexTest()
+        {
+            int siteId = 1;
+            MockRepository mocks;
+            IDnaDataReader reader;
+            IDnaDataReaderCreator creator;
 
+            SetupIndexMocks(out mocks, out creator, out reader, 30);
+
+            Index index;
+
+            index = Index.CreateIndexFromDatabase(creator, siteId, "A", true, false, false, "", 0, 10, 20);
+            Assert.AreNotEqual(null, index);
+
+            Assert.AreEqual(20, index.Count);
+            Assert.AreEqual(83, index.Total);
+        }
         /// <summary>
         ///A test for . IndexTest
         ///</summary>
@@ -121,7 +141,7 @@ namespace BBC.Dna.Objects.Tests
 
             Index index;
 
-            index = Index.CreateIndexFromDatabase(creator, siteId, ".", true, false, false, "", 0);
+            index = Index.CreateIndexFromDatabase(creator, siteId, ".", true, false, false, "", 0, 0, 20);
             Assert.AreNotEqual(null, index);
 
             XmlDocument xml = Serializer.SerializeToXml(index);
@@ -148,7 +168,7 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 // EXECUTE THE TEST
-                index = Index.CreateIndexFromDatabase(creator, 1, "A", true, false, false, "", 0);
+                index = Index.CreateIndexFromDatabase(creator, 1, "A", true, false, false, "", 0, 0, 20);
             }
             catch (Exception Ex)
             {
@@ -179,7 +199,7 @@ namespace BBC.Dna.Objects.Tests
 
             mocks.ReplayAll();
 
-            Index actual = Index.CreateIndex(cache, creator, 1, "A", true, false, false, "", 0, ignoreCache);
+            Index actual = Index.CreateIndex(cache, creator, 1, "A", true, false, false, "", 0, 0, 20, ignoreCache);
             Assert.IsNotNull(actual);
         }
 
@@ -209,7 +229,7 @@ namespace BBC.Dna.Objects.Tests
 
             mocks.ReplayAll();
 
-            Index actual = Index.CreateIndex(cache, creator, 1, "A", true, false, false, "", 0, ignoreCache);
+            Index actual = Index.CreateIndex(cache, creator, 1, "A", true, false, false, "", 0, 0, 20, ignoreCache);
             Assert.IsNotNull(actual);
         }
 
@@ -245,7 +265,8 @@ namespace BBC.Dna.Objects.Tests
         [TestMethod()]
         public void CreateIndex_WithDoNotIgnoreCache_CacheIsNotIgnored()
         {
-            string indexCacheKey = "BBC.Dna.Objects.Index, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|1||True|False|False||0|";
+            string indexCacheKey = "BBC.Dna.Objects.Index, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|1||True|False|False||0|0|20|";
+            
             DateTime lastUpdated = DateTime.Now;
           
             // PREPARE THE TEST
@@ -387,6 +408,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetInt32NullAsZero("h2g2ID")).Return(24088151).Repeat.Twice();
             reader.Stub(x => x.GetInt32NullAsZero("status")).Return(1).Repeat.Twice();
             reader.Stub(x => x.GetInt32NullAsZero("type")).Return(1).Repeat.Twice();
+            reader.Stub(x => x.GetInt32NullAsZero("Count")).Return(83).Repeat.Twice();
             reader.Stub(x => x.GetDateTime("datecreated")).Return(DateTime.Now).Repeat.Twice();
         }
 #endregion

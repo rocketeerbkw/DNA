@@ -13,14 +13,15 @@ CREATE Procedure articlesinindex @char varchar(4),
 									@type8 int = NULL,
 									@type9 int = NULL,
 									@group varchar(32) = NULL,
-									@orderby int = NULL
+									@orderby int = NULL,
 									/*
 										OrderBy values...
 										NULL OR None of the below = Sort by Subject
 										1 = Sort by Date Created
 										2 = Sort By Last Updated
 									*/
-
+									@skip int = 0,
+									@show int = 1000000
 As
 
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
@@ -50,17 +51,22 @@ BEGIN
 				CASE WHEN @orderby=2 THEN a.LastUpdated END AS LastUpdated_Sort,
 				CASE WHEN ISNULL(@orderby,0)=0 THEN a.SortSubject END AS SortSubject_Sort
 			FROM Articles a
+	),
+	ArticlesPagination AS
+	(
+		SELECT ROW_NUMBER() OVER(ORDER BY swsc.DateCreated_Sort, swsc.LastUpdated_Sort DESC, swsc.SortSubject_Sort) AS 'n', swsc.*
+		FROM ArticlesWithSortCols swsc
 	)
-	SELECT 	'Count' = (select count(*) FROM Articles), 
-			s.Subject, 
-			s.EntryID, 
-			s.h2g2ID, 
-			s.Status, 
-			s.UserID, 
-			s.extrainfo, 
-			s.DateCreated, 
-			s.LastUpdated, 
-			s.type,
+	SELECT  'Count' = (select count(*) FROM Articles), 
+			ap.Subject, 
+			ap.EntryID, 
+			ap.h2g2ID, 
+			ap.Status, 
+			ap.UserID, 
+			ap.extrainfo, 
+			ap.DateCreated, 
+			ap.LastUpdated, 
+			ap.type,
 			siuidm.IdentityUserID, 
 			'IdentityUserName' = u.LoginName, 
 			u.UserName, 
@@ -70,10 +76,11 @@ BEGIN
 			u.Status, 
 			u.TaxonomyNode, 
 			u.Active
-		FROM ArticlesWithSortCols s
-		LEFT JOIN Users u ON u.UserID = s.UserID
+		FROM ArticlesPagination ap
+		LEFT JOIN Users u ON u.UserID = ap.UserID
 		LEFT JOIN SignInUserIDMapping siuidm WITH(NOLOCK) ON u.UserID = siuidm.DnaUserID
-		ORDER BY s.DateCreated_Sort, s.LastUpdated_Sort DESC, s.SortSubject_Sort
+		WHERE ap.n > @skip AND ap.n <= @skip + @show
+		ORDER BY n
 
 	RETURN 0;
 END
@@ -114,16 +121,21 @@ BEGIN
 				CASE WHEN @orderby=2 THEN a.LastUpdated END LastUpdated_Sort,
 				CASE WHEN ISNULL(@orderby,0)=0 THEN a.SortSubject END SortSubject_Sort
 			FROM Articles a
+	),
+	ArticlesPagination AS
+	(
+		SELECT ROW_NUMBER() OVER(ORDER BY swsc.DateCreated_Sort, swsc.LastUpdated_Sort DESC, swsc.SortSubject_Sort) AS 'n', swsc.*
+		FROM ArticlesWithSortCols swsc
 	)
 	SELECT 	'Count' = (select count(*) FROM Articles), 
-			s.Subject, 
-			s.EntryID, 
-			s.h2g2ID, 
-			s.Status, 
-			s.UserID, 
-			s.extrainfo, 
-			s.DateCreated, 
-			s.LastUpdated, 
+			ap.Subject, 
+			ap.EntryID, 
+			ap.h2g2ID, 
+			ap.Status, 
+			ap.UserID, 
+			ap.extrainfo, 
+			ap.DateCreated, 
+			ap.LastUpdated, 
 			siuidm.IdentityUserID, 
 			'IdentityUserName' = u.LoginName, 
 			u.UserName, 
@@ -133,10 +145,11 @@ BEGIN
 			u.Status, 
 			u.TaxonomyNode, 
 			u.Active
-		FROM ArticlesWithSortCols s
-		LEFT JOIN Users u ON u.UserID = s.UserID
+		FROM ArticlesPagination ap
+		LEFT JOIN Users u ON u.UserID = ap.UserID
 		LEFT JOIN SignInUserIDMapping siuidm ON u.UserID = siuidm.DnaUserID
-		ORDER BY s.DateCreated_Sort, s.LastUpdated_Sort DESC, s.SortSubject_Sort
+		WHERE ap.n > @skip AND ap.n <= @skip + @show
+		ORDER BY n
 
 	RETURN 0;
 END

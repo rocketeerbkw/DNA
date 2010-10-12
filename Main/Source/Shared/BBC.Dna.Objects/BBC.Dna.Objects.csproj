@@ -84,6 +84,7 @@
       <SubType>SEARCHTHREADPOST</SubType>
     </Compile>
     <Compile Include="ExtraInfo.cs" />
+    <Compile Include="FriendsList.cs" />
     <Compile Include="Index.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="LinksList.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="PostThreadInfo.cs" />
     <Compile Include="Recommendations.cs" />
     <Compile Include="ReviewSubmission.cs" />
+    <Compile Include="ScoutRecommendations.cs" />
     <Compile Include="Search.cs" />
     <Compile Include="SearchThreadPosts.cs" />
     <Compile Include="SmileyTranslator.cs" />

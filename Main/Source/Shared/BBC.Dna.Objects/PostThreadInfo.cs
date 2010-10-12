@@ -75,8 +75,14 @@ namespace BBC.Dna.Objects
             {
                 postThreadInfo.FirstPostId = reader.GetInt32NullAsZero("FirstPostId");
             }
-            postThreadInfo.DateFirstPosted = new DateElement(reader.GetDateTime("DateFirstPosted"));
-            postThreadInfo.ReplyDate = new DateElement(reader.GetDateTime("LastReply"));
+            if (reader["DateFirstPosted"] != DBNull.Value)
+            {
+                postThreadInfo.DateFirstPosted = new DateElement(reader.GetDateTime("DateFirstPosted"));
+            }
+            if (reader["LastReply"] != DBNull.Value)
+            {
+                postThreadInfo.ReplyDate = new DateElement(reader.GetDateTime("LastReply"));
+            }
 
             postThreadInfo.Subject = reader.GetStringNullAsEmpty("FirstSubject");
             postThreadInfo.ForumTitle = reader.GetStringNullAsEmpty("ForumTitle");

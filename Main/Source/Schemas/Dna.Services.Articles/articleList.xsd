@@ -7,14 +7,9 @@
 				<xs:element name="skip" type="xs:int" />
 				<xs:element name="show" type="xs:int" />
 				<xs:element name="count" type="xs:int" />
-				<xs:element name="editedArticles">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="articleSummary" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
-				<xs:element name="otherArticles">
+				<xs:element name="total" type="xs:int" />
+				<xs:element name="type" type="xs:string" />
+				<xs:element name="Articles">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="articleSummary" minOccurs="0" maxOccurs="unbounded"/>

@@ -76,6 +76,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "TOTALTHREADS")]
+        [DataMember(Name = ("totalThreads"))]
         public int TotalThreads { get; set; }
 
         /// <remarks/>

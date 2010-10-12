@@ -17,14 +17,14 @@
 							<xs:element name="threadId" type="xs:int" />
 							<xs:element name="type" type="xs:int" />
 							<xs:element name="firstPostId" type="xs:int" />
-							<xs:element name="dateFirstPosted">
+							<xs:element name="dateFirstPosted" nillable="true">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element ref="date" />
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
-							<xs:element name="replyDate">
+							<xs:element name="replyDate" nillable="true">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:element ref="date" />
@@ -51,14 +51,14 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="yourLastPost" type="xs:int" />
-				<xs:element name="mostRecent">
+				<xs:element name="mostRecent" nillable="true">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="date" />
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-				<xs:element name="lastReply">
+				<xs:element name="lastReply" nillable="true">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element ref="date" />

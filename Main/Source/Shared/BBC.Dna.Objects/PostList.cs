@@ -110,6 +110,7 @@ namespace BBC.Dna.Objects
                     }
                     postList.User = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) };
 
+                    bool more = true;
                     //The stored procedure returns one row for each post. 
                     do
                     {
@@ -134,10 +135,12 @@ namespace BBC.Dna.Objects
                         }
                         postList.Posts.Add(post);
 
-                    } while (reader.Read() && count < show);
+                        more = reader.Read();
+
+                    } while (more && count < show);
 
                     // Add More Attribute Indicating there are more rows.
-                    if (reader.Read() && count > 0)
+                    if (more && count > 0)
                     {
                         postList.More = 1;
                     }

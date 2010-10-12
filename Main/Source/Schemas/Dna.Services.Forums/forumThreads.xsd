@@ -66,9 +66,10 @@
           </xs:complexType>
         </xs:element>
 
-        <xs:element name="totalCount" type="xs:unsignedInt" />
-        
-      </xs:sequence>
+		<xs:element name="totalCount" type="xs:unsignedInt" />
+		<xs:element name="totalThreads" type="xs:unsignedInt" />
+
+	  </xs:sequence>
     </xs:complexType>
   </xs:element>
 </xs:schema>
