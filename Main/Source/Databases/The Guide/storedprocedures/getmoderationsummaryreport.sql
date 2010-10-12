@@ -1,4 +1,4 @@
-CREATE PROCEDURE [dbo].[getmoderationsummaryreport]
+CREATE PROCEDURE getmoderationsummaryreport
 @startdate datetime,
 @enddate datetime,
 @sitename varchar(50) -- url name
@@ -8,7 +8,7 @@ AS
 
 IF dbo.udf_tableexists ('ModerationSummaryReport') = 0
 BEGIN
-CREATE TABLE [dbo].[ModerationSummaryReport](
+CREATE TABLE ModerationSummaryReport (
 	[StartDate] [datetime] NULL,
 	[EndDate] [datetime] NULL,
 	[SiteName] [varchar](50)  NULL,
