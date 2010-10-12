@@ -134,7 +134,7 @@ ul.forumthreadposts li.stripe {background-color:#edf0f1}
 #blq-content table.forumthreads td h3 {margin: 0;}
 #blq-content table.forumthreads .stripe td {background-color:#e2e7e9}
 #blq-content table.forumthreads .stickypin td {background-color:#d4e2e6}
-
+#blq-content a.backtotop {float:right;margin:10px;}
 
 #blq-content .post-list h4 {margin:0 10px; font-size:1.2em}
 #blq-main #blq-content .forumthreads h4 a:hover {text-decoration:none}
