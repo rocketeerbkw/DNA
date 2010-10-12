@@ -35,6 +35,7 @@ namespace FunctionalTests.Services.Users
         private const string _schemaSubscribingUsers = "Dna.Services.Common\\subscribingUsersList.xsd";
         private const string _schemaArticleList = "Dna.Services.Articles\\articleList.xsd";
         private const string _schemaPostList = "Dna.Services.Common\\postList.xsd";
+        private const string _schemaFriendsList = @"Dna.Services.Users\friendsList.xsd";
 
         private string _server = DnaTestURLRequest.CurrentServer;
         private string _sitename = "h2g2";
@@ -1099,6 +1100,32 @@ namespace FunctionalTests.Services.Users
                 validator.Validate();
             }
             Console.WriteLine("After GetUsersConversationsByDNAUserId_ReadOnly_ReturnsValidXml");
+        }
+
+        /// <summary>
+        /// Test GetUsersFriends method from service
+        /// </summary>
+        [TestMethod]
+        public void GetUsersFriendsByDNAUserId_ReadOnly_ReturnsValidXml()
+        {
+            Console.WriteLine("Before GetUsersFriendsByDNAUserId_ReadOnly_ReturnsValidXml");
+
+            int[] userIds = { 6, 42, 128652, 225620, 551837, 1090501859 };
+
+            foreach (var id in userIds)
+            {
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+
+                Console.WriteLine("Validating Users Friends List UserID:" + id);
+                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends?idtype=DNAUserId&format=xml", _sitename, id);
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaFriendsList);
+                validator.Validate();
+            }
+            Console.WriteLine("After GetUsersFriendsByDNAUserId_ReadOnly_ReturnsValidXml");
         }
 
     }

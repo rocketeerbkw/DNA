@@ -46,17 +46,17 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "COUNT")]
-        [DataMember(Name = "count", Order = 3)]
+        [DataMember(Name = "count", Order = 4)]
         public int Count { get; set; }
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "TOTAL")]
-        [DataMember(Name = "total", Order = 3)]
+        [DataMember(Name = "total", Order = 5)]
         public int Total { get; set; }
 
         /// <remarks/>
         [XmlElement("FRIENDS", Form = XmlSchemaForm.Unqualified)]
-        [DataMember(Name = "friends", Order = 5)]
+        [DataMember(Name = "friends", Order = 6)]
         public List<UserElement> Friends { get; set; }
 
         /// <summary>
