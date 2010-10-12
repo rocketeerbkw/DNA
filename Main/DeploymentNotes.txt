@@ -578,3 +578,8 @@ where lastpostcountread > 1000000
 - To support search on MBs, follow the steps at:
 	https://confluence.dev.bbc.co.uk/display/DNA/Enabling+Search+for+DNA+services
 	This can be done after the publish at any time...
+
+
+Ali - update the following assets folders:
+	dnaimages/dna_messageboard
+	dnaimages/javascript/DNA.js
