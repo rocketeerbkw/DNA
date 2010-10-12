@@ -4,6 +4,7 @@ using BBC.Dna.Objects;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
+using Rhino.Mocks.Constraints;
 
 
 namespace BBC.Dna.Objects.Tests
@@ -17,55 +18,6 @@ namespace BBC.Dna.Objects.Tests
     [TestClass()]
     public class ThreadTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         
@@ -91,8 +43,15 @@ namespace BBC.Dna.Objects.Tests
         {
             int siteId=1;
             MockRepository mocks = new MockRepository();
+            ISite site = mocks.DynamicMock<ISite>();
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false).Constraints(Is.Anything());
+            
+            
             ISiteList siteList = mocks.DynamicMock<ISiteList>();
             siteList.Stub(x => x.GetSiteOptionValueInt(siteId, "Forum", "PostLimit")).Return(10);
+            siteList.Stub(x => x.GetSite(siteId)).Return(site);
+
 
             IUser user = mocks.DynamicMock<IUser>();
             user.Stub(x => x.UserId).Return(1);
