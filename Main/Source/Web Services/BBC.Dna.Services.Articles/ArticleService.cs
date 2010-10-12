@@ -103,7 +103,7 @@ namespace BBC.Dna.Services
         [WebHelp(Comment = "Creates an article")]
         [OperationContract]
         public Article CreateArticle(string siteName, Article inputArticle)
-        {
+        {         
             try
             {
                 ISite site = GetSite(siteName);
@@ -250,7 +250,7 @@ namespace BBC.Dna.Services
         {
             // populate the writable parts of the object graph with the input article
             article.GuideMLAsString = guideML;
-            article.ArticleInfo.GetReferences(readerCreator, article.GuideMLAsXmlElement);
+            article.ArticleInfo.GetReferences(readerCreator, article.OriginalGuideMLAsXmlElement);
 
             if (!article.IsGuideMLWellFormed) { throw new Exception("GuideML is badly formed"); }
 
@@ -398,7 +398,6 @@ namespace BBC.Dna.Services
                 moderateProfanities = true;
             }
         }
-
 
 
         [WebGet(UriTemplate = "V1/site/{siteName}/articles/{articleId}")]

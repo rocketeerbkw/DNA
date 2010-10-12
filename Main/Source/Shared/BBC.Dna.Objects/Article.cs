@@ -47,6 +47,8 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         private XmlElement _guideMLAsXmlElement;
 
+        private XmlElement  _originalGuideMLAsXmlElement;
+
         private string _subject = String.Empty;
 
 
@@ -134,6 +136,20 @@ namespace BBC.Dna.Objects
                     returnValue = false;
                 }
                 return returnValue;                
+            }
+        }
+
+        [XmlIgnore]        
+        public XmlElement OriginalGuideMLAsXmlElement
+        {
+            get
+            {
+                if (_originalGuideMLAsXmlElement == null)
+                {
+                    if (_guideMLAsString == null) { return null; }
+                    _originalGuideMLAsXmlElement  = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                }
+                return _originalGuideMLAsXmlElement;
             }
         }
 
@@ -835,9 +851,9 @@ namespace BBC.Dna.Objects
             article.GetBookmarkCount(readerCreator);
             article.GuideMLAsString = reader.GetString("text");
 
-           if (article.GuideMLAsString != null && article.GuideMLAsXmlElement != null)
+            if (article.GuideMLAsString != null && article.OriginalGuideMLAsXmlElement != null)
             {
-                article.ArticleInfo.GetReferences(readerCreator, article.GuideMLAsXmlElement);
+                article.ArticleInfo.GetReferences(readerCreator, article.OriginalGuideMLAsXmlElement);
             }
 
             //get forum style
