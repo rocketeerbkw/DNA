@@ -65,7 +65,8 @@ select
 		from forums
 		where forumid=(select forumid from threadentries where entryid=te.EntryID)) AS TotalPostsOnForum,
 	u.userid as AuthorUserId,
-	u.username as AuthorUsername
+	u.username as AuthorUsername,
+	u.loginname as AuthorIdentityUserName
 	
 from 	
 	NumberedThreadEnrtries p

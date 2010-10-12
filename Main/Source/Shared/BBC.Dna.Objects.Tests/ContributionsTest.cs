@@ -43,6 +43,7 @@ namespace BBC.Dna.Objects.Tests
         private readonly int _test_totalpostsonforum = 20;
         private readonly int _test_author_user_id = 99;
         private readonly string _test_author_username = "poster";
+        private readonly string _test_author_identityusername = "poster";
 
 
         private readonly string _test_cache_key = "BBC.Dna.Objects.Contribution, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|99|Blog|h2g2|Ascending|10|0|identityuserid|";
@@ -136,6 +137,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum);
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id);
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username);
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername);
 
 
             
@@ -308,6 +310,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername).Repeat.Once();
 
 
             // second row is a community
@@ -326,6 +329,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername).Repeat.Once();
 
 
             // third row is a messageboard
@@ -344,6 +348,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername).Repeat.Once();
 
 
             // fourth row is a embedded comments
@@ -362,6 +367,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername).Repeat.Once();
 
 
             readerCreator.Stub(x => x.CreateDnaDataReader("getusercontributions")).Return(getusercontributionsReader);

@@ -441,6 +441,13 @@ namespace BBC.Dna.Services
             return GetOutputStream(GetContributions(identityuserid, null, type));
         }
 
+        [WebGet(UriTemplate = "V1/recentcontributions/site/{site}")]
+        [WebHelp(Comment = "Get the contributions for the specified site in the format requested")]
+        [OperationContract]
+        public Stream GetRecentContributionsBySite(string site)
+        {
+            return GetOutputStream(GetContributions(null, site, null));
+        }
 
         [WebGet(UriTemplate = "V1/recentcontributions/type/{type}")]
         [WebHelp(Comment = "Get the given user's contributions for the specified type in the format requested")]

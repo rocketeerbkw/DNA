@@ -131,6 +131,8 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "authorUsername")]
         public string AuthorUsername { get; set; }
 
+        [DataMember(Name = "authorIdentityUsername")]
+        public string AuthorIdentityUsername { get; set; }
 
         public static Contribution CreateContribution(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
                                             int h2g2Id, bool ignoreCache)

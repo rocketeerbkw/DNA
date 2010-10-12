@@ -295,6 +295,7 @@ namespace BBC.Dna.Objects
                     contribution.TotalPostsOnForum = reader2.GetInt32NullAsZero("TotalPostsOnForum");
                     contribution.AuthorUserId = reader2.GetInt32NullAsZero("AuthorUserId");
                     contribution.AuthorUsername = reader2.GetStringNullAsEmpty("AuthorUsername");
+                    contribution.AuthorIdentityUsername = reader2.GetStringNullAsEmpty("AuthorIdentityUsername");
                     returnedContributions.ContributionItems.Add(contribution);
                 }
             }
