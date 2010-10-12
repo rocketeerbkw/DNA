@@ -53,11 +53,11 @@
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreadposts" />
         
-        <ul class="collections forumthreadposts">
+        <ul class="collections forumthreadposts" id="topofthreads">
             <xsl:apply-templates select="POST" mode="object_post" />
         </ul>
         
-        <a href="#" class="backtotop">Back to top</a>
+        <a href="#topofthreads" class="backtotop">Back to top</a>
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreadposts" />
         
