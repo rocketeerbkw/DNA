@@ -1,4 +1,4 @@
-CREATE PROCEDURE getmoderationsummaryreport
+CREATE PROCEDURE [dbo].[getmoderationsummaryreport]
 @startdate datetime,
 @enddate datetime,
 @sitename varchar(50) -- url name
@@ -20,7 +20,12 @@ CREATE TABLE [dbo].[ModerationSummaryReport](
 	[TotalComplaints] [int] NULL,
 	[UniqueUsers] [int] NULL,
 	[TotalNotablePosts] [int] NULL,
-	[TotalHostPosts] [int] NULL
+	[TotalHostPosts] [int] NULL,
+	[TotalPosts] [int] NULL,
+	[TotalExLinkModerations] [int] NULL,
+	[TotalExLinkReferrals] [int] NULL,
+	[TotalExLinkModPasses] [int] NULL,
+	[TotalExLinkModFails] [int] NULL
 ) ON [PRIMARY]
 END
 
@@ -85,7 +90,7 @@ BEGIN
 
 		(select  count(*) from threadentries te 
 		inner join users u on u.userid = te.userid		
-		inner join groupmembers gm on gm.userid = u.userid and  gm.GroupId = @notablesGroupId  and gm.siteid = @siteid
+		inner join groupmembers gm on gm.userid = u.userid and  gm.GroupId = @notablesGroupId  and gm.siteid = sites.siteid
 		inner join forums f on f.forumid = te.forumid
 		where 
 		f.SiteID = sites.siteid and	
@@ -93,11 +98,42 @@ BEGIN
 
 		(select  count(*) from threadentries te 
 		inner join users u on u.userid = te.userid		
-		inner join groupmembers gm on gm.userid = u.userid and  gm.GroupId = @HostsGroupId  and gm.siteid = @siteid
+		inner join groupmembers gm on gm.userid = u.userid and  gm.GroupId = @HostsGroupId  and gm.siteid = sites.siteid
 		inner join forums f on f.forumid = te.forumid
 		where 
 		f.SiteID = sites.siteid and	
-		DatePosted > @startDate and DatePosted < @endDate) as TotalHostPosts		
+		DatePosted > @startDate and DatePosted < @endDate) as TotalHostPosts,
+
+		(select  count(*) from threadentries te 
+		inner join forums f on f.forumid = te.forumid
+		where 
+		f.SiteID = sites.siteid and	
+		DatePosted > @startDate and DatePosted < @endDate) as TotalPosts,
+
+		(select count(*) from exlinkmod em
+		where 
+		em.SiteID = sites.siteid and	
+		DateQueued > @startDate and DateQueued < @endDate) as TotalExLinkModerations,		
+
+		(select count(*) from exlinkmod em
+		where 
+		em.SiteID = sites.siteid and	
+		em.ReferredBy IS NOT NULL and
+		DateQueued > @startDate and DateQueued < @endDate) as TotalExLinkReferrals,		
+
+		(select count(*) from exlinkmod em
+		where 
+		em.SiteID = sites.siteid and	
+		em.Status = 3 and
+		DateQueued > @startDate and DateQueued < @endDate) as TotalExLinkModPasses,
+
+		(select count(*) from exlinkmod em
+		where 
+		em.SiteID = sites.siteid and	
+		em.Status = 4 and
+		DateQueued > @startDate and DateQueued < @endDate) as TotalExLinkModFails
+
+		
 	from dbo.Sites sites
 	inner join BBCDivision div on sites.BBCDivisionID = div.BBCDivisionID
 END
@@ -109,3 +145,4 @@ WHERE
 	(@sitename IS NULL OR SiteName = @sitename)
 	AND
 	(StartDate = @startDate AND EndDate = @endDate)
+
