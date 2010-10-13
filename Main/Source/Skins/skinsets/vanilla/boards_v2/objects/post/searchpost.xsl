@@ -24,14 +24,9 @@
                 <xsl:with-param name="additional-classnames" select="$additional-classnames"/>
             </xsl:call-template>
           <div class="itemdetail">
-            <p>
-            <span class="dna-inivisble">
-              Posted by
-            </span>
+            <p><xsl:text>Posted by </xsl:text>
             <xsl:apply-templates select="USER" mode="library_user_linked"/>
               <xsl:apply-templates select="DATEPOSTED | DATECREATED" mode="library_itemdetail"/>
-              <br />
-              
             </p>
           </div>
 

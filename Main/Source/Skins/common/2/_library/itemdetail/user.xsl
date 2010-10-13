@@ -14,9 +14,7 @@
     </doc:documentation>
     
     <xsl:template match="USER" mode="library_itemdetail">
-        <span class="dna-inivisble">
-            Posted by
-        </span>
+        <xsl:text>Posted by </xsl:text>
         <xsl:apply-templates select="." mode="library_user_linked"/>
     </xsl:template>
 </xsl:stylesheet>
