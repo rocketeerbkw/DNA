@@ -26,12 +26,18 @@
     </xsl:template>
 	
 	<xsl:template match="POST" mode="library_itemdetail" >
-		
 		<div class="itemdetail">
-			<p>
+	    	<xsl:if test="not(parent::ARTICLEINFO)">
+		    	<p class="messagedetail">
+		    		<xsl:variable name="messagenumber" select="number(parent::FORUMTHREADPOSTS/@SKIPTO) + count(./preceding-sibling::POST)"></xsl:variable>
+			        <strong><xsl:value-of select="concat('Message ', $messagenumber + 1)"/></strong><xsl:if test="@INDEX='0'">.</xsl:if>
+			        <xsl:apply-templates select="@INREPLYTO" mode="library_itemdetail_replytomessage"/>
+			    </p>
+	    	</xsl:if>			
+			
+			<p>	
 				<xsl:apply-templates select="USER | PAGEAUTHOR/EDITOR/USER" mode="library_itemdetail"/>
 				<xsl:apply-templates select="DATEPOSTED | DATECREATED" mode="library_itemdetail"/>
-				<xsl:apply-templates select="@INDEX" mode="library_itemdetail"/>
 			</p>
 		</div>
 		
