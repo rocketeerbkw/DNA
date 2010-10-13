@@ -231,7 +231,7 @@ namespace BBC.Dna.Objects
         {
             int groupId = 0;
             EmailAlertGroup.HasGroupAlertOnItem(readerCreator, ref groupId, user.UserId, SiteId,
-                                                EventItemTypes.IT_THREAD, ThreadId);
+                                                EmailAlertList.IT_THREAD, ThreadId);
             GroupAlertId = groupId;
         }
 
