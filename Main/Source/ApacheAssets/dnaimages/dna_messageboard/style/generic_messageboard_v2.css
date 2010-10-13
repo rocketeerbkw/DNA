@@ -184,7 +184,8 @@ p.countdown {margin-left:10px}
 #blq-content .dna-boards-moderation .dna-invisible {display:none}
 #blq-main #blq-content .dna-boards-moderation a {padding-left:3px; color:#666}
 #blq-main #blq-content .dna-boards-moderation a:focus,#blq-main #blq-content .dna-boards-moderation a:active {color:#e2e2e2; background-color:#666}
-#blq-main .move-thread p {padding:10px} 
+#blq-main .move-thread p {padding:10px}
+#blq-content .itemdetail p.messagedetail {margin-bottom: 0}
 
 
 /* dna-boardpromo:about this board */
@@ -219,8 +220,10 @@ ul.breadcrumbs li.current {background:none}
 
 
 /**/
-p.flag {margin-top:15px}
+p.flag {margin-top:10px;text-align:right}
 p.flag a {padding: 2px 0 2px 20px; color:#999; background:url(/dnaimages/dna_messageboard/img/warning-triangle-5.gif) no-repeat top left}
+
+p.permalink {margin-top:15px;text-align:right}
 
 .dna-boards .collections {margin-left:216px}
 .dna-boards h3 {color:#000!important}
@@ -229,14 +232,14 @@ p.flag a {padding: 2px 0 2px 20px; color:#999; background:url(/dnaimages/dna_mes
 
 .dna-boards fieldset {border:1px solid #ccc}
 .dna-boards legend {margin-left:10px; padding:1em 10px; font-size:1.2em; color:#444}
-.dna-boards .text,.dna-boards select, .dna-boards .textarea {width:403px; margin:0 0 0 24px; padding:4px;  font-size:1em; font-family:arial,helevtica,sans-serif; border:1px solid #ccc}
+.dna-boards .text,.dna-boards select, .dna-boards .textarea {width:440px; margin:0 0 0 24px; padding:4px;  font-size:1em; font-family:arial,helevtica,sans-serif; border:1px solid #ccc}
 .dna-boards .textarea{height:242px; overflow:auto}
-.dna-boards .disabled {border:1px solid #999}
+.dna-boards .disabled {border:1px solid #999} 
 
 #blq-main #blq-content .dna-boards ul {margin:15px 0 10px 24px}
 #blq-main #blq-content .dna-boards ul li {float:left}
 #blq-main #blq-content .dna-boards input.dna-button {width:auto; overflow:visible; padding:2px 10px; color:#fff; font-size:0.9em; font-weight:bold; background-color:#376dad; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
-#blq-main #blq-content .dna-boards input.cancel {margin:0 158px 0 8px; background-color:#71aef1}
+#blq-main #blq-content .dna-boards input.cancel {margin:0 200px 0 8px; background-color:#71aef1}
 .dna-boards p.preview {margin:10px 0 0 24px; padding:0 10px}
 #blq-main #blq-content .dna-boards div#previewpost {margin:10px 24px 0 24px; padding:10px; background-color:#e8eced}
 #blq-main #blq-content .dna-boards div#previewpost h4 {margin-left: 0}
