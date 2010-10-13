@@ -90,6 +90,7 @@
             <xsl:include href="_library/itemdetail/dateposted.xsl" />
             <xsl:include href="_library/itemdetail/index.xsl" />
             <xsl:include href="_library/itemdetail/lastupdated.xsl" />
+            <xsl:include href="_library/itemdetail/replytomessage.xsl" />
             <xsl:include href="_library/itemdetail/user.xsl" />
     
     
