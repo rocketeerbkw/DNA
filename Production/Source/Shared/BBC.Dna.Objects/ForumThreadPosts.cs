@@ -158,29 +158,23 @@ namespace BBC.Dna.Objects
         /// </summary>
         public void ApplySiteOptions(IUser user, ISiteList siteList)
         {
-            if (user == null)
-            {
-                return;
-            }
-            bool isEditor = false;
-            if (user.IsEditor || user.IsSuperUser)
-            {
-//default as editor or super user
-                CanRead = 1;
-                CanWrite = 1;
-                isEditor = true;
-            }
 
             ISite site = siteList.GetSite(SiteId);
-            //check site is open
-            if (!isEditor && CanWrite == 1)
+            if (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now))
             {
-                if (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now))
-                {
-                    CanWrite = 0;
-                }
+                CanWrite = 0;
             }
 
+
+            if (user != null)
+            {
+                if (user.IsEditor || user.IsSuperUser)
+                {
+                    //default as editor or super user
+                    CanRead = 1;
+                    CanWrite = 1;
+                }
+            }
             ForumPostLimit = siteList.GetSiteOptionValueInt(SiteId, "Forum", "PostLimit");
         }
 
@@ -237,7 +231,7 @@ namespace BBC.Dna.Objects
         {
             int groupId = 0;
             EmailAlertGroup.HasGroupAlertOnItem(readerCreator, ref groupId, user.UserId, SiteId,
-                                                EmailAlertList.IT_THREAD, ThreadId);
+                                                EventItemTypes.IT_THREAD, ThreadId);
             GroupAlertId = groupId;
         }
 
@@ -290,9 +284,10 @@ namespace BBC.Dna.Objects
             
             if (!ignoreCache)
             {
-                forumThreadPosts = (ForumThreadPosts) cache.GetData(key);
+                forumThreadPosts = (ForumThreadPosts)cache.GetData(key);
                 if (forumThreadPosts != null && forumThreadPosts.IsUpToDate(readerCreator))
                 {
+                    forumThreadPosts = (ForumThreadPosts)forumThreadPosts.Clone();//ensure we dont mess with the cached object
                     forumThreadPosts.ApplyUserSettings(viewingUser, readerCreator);
                     forumThreadPosts.ApplySiteOptions(viewingUser, siteList);
                     return forumThreadPosts;
