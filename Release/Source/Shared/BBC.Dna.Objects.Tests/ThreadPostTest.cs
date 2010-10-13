@@ -355,7 +355,7 @@ I thought it was interesting that Rick Stein added the courgettes at the same ti
             mocks.ReplayAll();
 
             ThreadPost actual;
-            actual = ThreadPost.CreateThreadPostFromReader(reader, prefix, 0);
+            actual = ThreadPost.CreateThreadPostFromReader(reader, prefix, 0, null);
             Assert.AreEqual(actual.ThreadId, 1);
         }
 

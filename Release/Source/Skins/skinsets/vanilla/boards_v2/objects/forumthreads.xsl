@@ -22,7 +22,8 @@
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
         
         <h2 class="blq-hide">Threads for <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" /></h2>
-        <table class="forumthreads">
+        
+        <table class="forumthreads" id="topofthreads">
         	<thead>
 	        	<tr>
 	        		<th id="discussion">Discussion</th>
@@ -35,6 +36,8 @@
           		<xsl:apply-templates select="THREAD" mode="object_thread" />
           	</tbody>
         </table>
+        
+        <a href="#topofthreads" class="backtotop">Back to top</a>
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
         

@@ -82,8 +82,6 @@ namespace BBC.Dna.Services
             return GetForumThreadsWithPost(siteName, forumId, threadId, "0");
         }
 
-
-
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/post/{postId}")]
         [WebHelp(Comment = "Get the thread and posts for a given thread id")]
         [OperationContract]        
@@ -324,6 +322,38 @@ namespace BBC.Dna.Services
             post.Style = threadPost.Style;
 
             post.CreateForumPost(readerCreator, callingUser.UserID, forumIdAsInt, false, isNotable, _iPAddress, bbcUidCookie, false, false, forcePreModeration, forceModeration);
+        }
+
+
+        [WebInvoke(Method = "GET", UriTemplate = "V1/site/{siteName}/searchposts")]
+        [WebHelp(Comment = "Searches and returns posts within the site")]
+        [OperationContract]
+        public Stream SearchThreadPost(string siteName)
+        {
+            return SearchThreadPostWithForum(siteName, "0");
+        }
+
+        //[WebInvoke(Method = "GET", UriTemplate = "V1/site/{siteName}/forum/{forumId}/searchposts")]
+        //[WebHelp(Comment = "Searches and returns posts within the site and forum")]
+        //[OperationContract]
+        public Stream SearchThreadPostWithForum(string siteName, string forumId)
+        {
+            ISite site = GetSite(siteName);
+            Stream output = null;
+            try
+            {
+                int forumInt = Int32.Parse(forumId);
+                var searchText = QueryStringHelper.GetQueryParameterAsString("query", "");
+                var searchResults = SearchThreadPosts.GetSearchThreadPosts(readerCreator, cacheManager, site,
+                    forumInt, 0, itemsPerPage, startIndex, searchText, false);
+                output = GetOutputStream(searchResults);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return output;
         }
 
         private static void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration)

@@ -78,10 +78,17 @@ namespace BBC.Dna.Objects
             post.CountPosts = reader.GetInt32NullAsZero("CountPosts");
 
             post.Thread = PostThreadInfo.CreatePostThreadInfoFromReader(reader);
-
-            post.MostRecent = new DateElement(reader.GetDateTime("MostRecent"));
-
-            post.LastReply = new DateElement(reader.GetDateTime("LastReply"));
+            if (reader["LastReply"] != DBNull.Value)
+            {
+                post.LastReply = new DateElement(reader.GetDateTime("LastReply"));
+            }
+            if (post.YourLastPost > 0)
+            {
+                if (reader["MostRecent"] != DBNull.Value)
+                {
+                    post.MostRecent = new DateElement(reader.GetDateTime("MostRecent"));
+                }
+            }
 
             post.SiteId = reader.GetInt32NullAsZero("SiteId");
 

@@ -194,6 +194,9 @@ FROM
 		LEFT JOIN dbo.Clubs c WITH(NOLOCK) ON c.ClubID = tf.ClubID
 		LEFT JOIN dbo.GuideEntries g WITH(NOLOCK) ON g.ForumID = tf.ForumID
 		WHERE tf.SiteID = @SiteID AND tf.GroupName IN ('MostRecentComments','MostRecentConversations','PopularThreads') AND (t.VisibleTo = 0 OR t.VisibleTo IS NULL) AND (tf.GroupName = @groupname OR @groupname IS NULL)
+			AND NOT EXISTS (SELECT * FROM guideentries g
+							INNER JOIN topics tp ON tp.h2g2id=g.h2g2id
+							WHERE g.forumid=f.forumid AND tp.topicStatus <> 0) -- This clause removes forums from preview topics
 		ORDER BY tf.GroupName, tf.Rank
 	) AS CommentsAndConversationsTopFives
 	

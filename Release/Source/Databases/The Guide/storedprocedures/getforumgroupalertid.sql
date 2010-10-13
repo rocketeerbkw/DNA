@@ -1,4 +1,4 @@
-CREATE PROCEDURE getaforumgroupalertid @userid int, @siteid int, @forumid int
+CREATE PROCEDURE getforumgroupalertid @userid int, @siteid int, @forumid int
 as
 DECLARE @ItemType int
 EXEC SetItemTypeValInternal 'IT_FORUM', @ItemType OUTPUT

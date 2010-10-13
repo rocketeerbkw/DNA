@@ -29,16 +29,28 @@ namespace BBC.Dna.Objects
         }
 
         [XmlAttribute(AttributeName = "COUNT")]
-        [DataMember(Name = "count", Order=1)]
+        [DataMember(Name = "count", Order = 1)]
         public int Count { get; set; }
 
+        [XmlAttribute(AttributeName = "TOTAL")]
+        [DataMember(Name = "total", Order = 2)]
+        public int Total { get; set; }
+
+        [XmlAttribute(AttributeName = "SKIP")]
+        [DataMember(Name = "startIndex", Order = 3)]
+        public int StartIndex { get; set; }
+
+        [XmlAttribute(AttributeName = "SHOW")]
+        [DataMember(Name = "itemsPerPage", Order = 4)]
+        public int ItemsPerPage { get; set; }
+
         [XmlAttribute(AttributeName = "LETTER")]
-        [DataMember(Name = "letter", Order = 2)]
+        [DataMember(Name = "letter", Order = 5)]
         public string Letter { get; set; }
 
         [XmlArray(ElementName = "INDEXENTRIES")]
         [XmlArrayItem("ARTICLESUMMARY", IsNullable = false)]
-        [DataMember(Name = "indexEntries", Order = 3)]
+        [DataMember(Name = "indexEntries", Order = 6)]
         public List<ArticleSummary> IndexEntries { get; set; }
 
         /// <summary>
@@ -56,7 +68,7 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         public static Index CreateIndex(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId)
         {
-            return CreateIndex(cache, readerCreator, siteId, "", true, false, false, "", 0, false);
+            return CreateIndex(cache, readerCreator, siteId, "", true, false, false, "", 0, 0, 20, false);
         }
 
         /// <summary>
@@ -75,6 +87,8 @@ namespace BBC.Dna.Objects
         ///	(Empty)		= Sort By Subject		= 0
         ///	datecreated	= Sort by date created	= 1
         ///	lastupdated	= Sort by last updated	= 2</param>
+        /// <param name="startIndex"></param>
+        /// <param name="itemsPerPage"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
         public static Index CreateIndex(ICacheManager cache, 
@@ -86,6 +100,8 @@ namespace BBC.Dna.Objects
                                         bool showUnapproved, 
                                         string groups,
                                         int orderBy,
+                                        int startIndex,
+                                        int itemsPerPage,
                                         bool ignoreCache)
         {
             Index index = new Index();
@@ -103,7 +119,7 @@ namespace BBC.Dna.Objects
                 }
             }
 
-            string key = index.GetCacheKey(siteId, letter, showApproved, showSubmitted, showUnapproved, groups, orderBy);
+            string key = index.GetCacheKey(siteId, letter, showApproved, showSubmitted, showUnapproved, groups, orderBy, startIndex, itemsPerPage);
 
             //check for item in the cache first            
             if (!ignoreCache)
@@ -121,7 +137,7 @@ namespace BBC.Dna.Objects
             }
 
             //create from db
-            index = CreateIndexFromDatabase(readerCreator, siteId, letter, showApproved, showSubmitted, showUnapproved, groups, orderBy);
+            index = CreateIndexFromDatabase(readerCreator, siteId, letter, showApproved, showSubmitted, showUnapproved, groups, orderBy, startIndex, itemsPerPage);
 
             //add to cache
             cache.Add(key, index);
@@ -165,7 +181,16 @@ namespace BBC.Dna.Objects
         /// <param name="groups">groups filter</param>
         /// <param name="order by">sort order by clause</param>
         /// <returns></returns>
-        public static Index CreateIndexFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string letter, bool showApproved, bool showSubmitted, bool showUnapproved, string groups, int orderBy)
+        public static Index CreateIndexFromDatabase(IDnaDataReaderCreator readerCreator, 
+                                                    int siteId, 
+                                                    string letter, 
+                                                    bool showApproved, 
+                                                    bool showSubmitted, 
+                                                    bool showUnapproved, 
+                                                    string groups, 
+                                                    int orderBy,
+                                                    int startIndex,
+                                                    int itemsPerPage)
         {
             Index index = null;
             // fetch all the lovely intellectual property from the database
@@ -174,7 +199,8 @@ namespace BBC.Dna.Objects
                 // add the letter they asked for and the kinds of status we want to show
                 reader.AddParameter("char", letter);
                 reader.AddParameter("siteID", siteId);
-
+                reader.AddParameter("skip", startIndex);
+                reader.AddParameter("show", itemsPerPage);
                 reader.AddParameter("showApproved", showApproved);
                 reader.AddParameter("showSubmitted", showSubmitted);
                 reader.AddParameter("showUnapproved", showUnapproved);
@@ -201,8 +227,11 @@ namespace BBC.Dna.Objects
                 }
                 else
                 {
+                    int count = 0;
                     index = new Index();
-                    index.Count = reader.GetInt32NullAsZero("Count");
+                    index.StartIndex = startIndex;
+                    index.ItemsPerPage = itemsPerPage;
+                    index.Total = reader.GetInt32NullAsZero("Count");
                     index.Letter = letter;
                     index.IndexEntries = new List<ArticleSummary>();
                     do
@@ -219,8 +248,11 @@ namespace BBC.Dna.Objects
                         articleSummary.LastUpdated = new DateElement(reader.GetDateTime("lastupdated"));
 
                         index.IndexEntries.Add(articleSummary);
+                        count++;
 
-                    } while (reader.Read());
+                    } while (reader.Read() && count < itemsPerPage);
+
+                    index.Count = count;
                 }
             }
             return index;

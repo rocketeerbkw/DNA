@@ -72,6 +72,20 @@ namespace BBC.Dna.Component
                         AddTextElement(xml, "CURRENTIDENTITYPOLICY", dataReader.GetStringNullAsEmpty("IdentityPolicy"));
                     }
                 }
+
+                using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("riskmod_getsitestate"))
+                {
+                    dataReader.AddParameter("@siteid", siteId);
+                    dataReader.AddBooleanOutputParameter("@ison");
+                    dataReader.AddStringOutputParameter("@publishmethod");
+                    dataReader.Execute();
+
+                    bool isOn = dataReader.GetNullableBooleanOutputParameter("@ison") ?? false;
+                    string publishMethod = dataReader.GetNullableStringOutputParameter("@publishmethod") ?? "B";
+
+                    AddIntElement(xml, "RISKMODONOFF", isOn ? 1 : 0);
+                    AddTextElement(xml, "RISKMODPUBLISHMETHOD", publishMethod);
+                }
             }
             else
             {
@@ -226,6 +240,17 @@ namespace BBC.Dna.Component
                     AddErrorXml("UPDATE ERROR", "Unable to update site moderation class .", RootElement);
                     return false;
                 }
+            }
+
+            bool riskModState = InputContext.GetParamBoolOrFalse("RISKMODONOFF", "Risk Mod On/Off flag");
+            string riskModPublishMethod = InputContext.GetParamStringOrEmpty("RISKMODPUBLISHMETHOD", "Risk Mod Publish Method");
+
+            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("riskmod_setsitestate"))
+            {
+                dataReader.AddParameter("siteid", siteId);
+                dataReader.AddParameter("ison", riskModState?1:0);
+                dataReader.AddParameter("publishmethod", riskModPublishMethod[0]);
+                dataReader.Execute();
             }
 
             return true;

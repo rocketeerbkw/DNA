@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Web.Caching;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using System.Text;
 
 namespace BBC.Dna.Data
 {
@@ -146,6 +147,30 @@ namespace BBC.Dna.Data
         }
 
         /// <summary>
+        /// Add a char output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns></returns>
+        public IDnaDataReader AddStringOutputParameter(string name)
+        {
+            KeyValuePair<SqlDbType, object> key = new KeyValuePair<SqlDbType, object>(SqlDbType.VarChar, SqlDbType.VarChar);
+            _outputParams.Add(name, key);
+            return this;
+        }
+
+        /// <summary>
+        /// Add a boolean (bit) output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns></returns>
+        public IDnaDataReader AddBooleanOutputParameter(string name)
+        {
+            KeyValuePair<SqlDbType, object> key = new KeyValuePair<SqlDbType, object>(SqlDbType.Bit, new object());
+            _outputParams.Add(name, key);
+            return this;
+        }
+
+        /// <summary>
         /// Get the value of an specific integer output parameter
         /// </summary>
         /// <param name="name">Name of the output parameter</param>
@@ -157,18 +182,72 @@ namespace BBC.Dna.Data
             {
                 value = (int)_cmd.Parameters[name].Value;
             }
-            catch (InvalidCastException)
+            catch (Exception)
             {
                 value = 0;
                 return false;
-            }
-            catch (NullReferenceException)
-            {
-                value = 0;
-                return false;
-
             }
             return true;
+        }
+
+        /// <summary>
+        /// Get the value of an specific integer output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns>The output param value</returns>
+        public int GetIntOutputParameter(string name)
+        {
+            try
+            {
+                return (int)_cmd.Parameters[name].Value;
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("GetIntOutputParameter failed with param {0} for call to {1}", name, _name);
+                throw new Exception(msg, ex);
+            }
+        }
+
+        /// <summary>
+        /// Get the value of an specific boolean output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns>The output param value</returns>
+        public bool? GetNullableBooleanOutputParameter(string name)
+        {
+            try
+            {
+                if (DBNull.Value.Equals(_cmd.Parameters[name].Value))
+                    return null;
+
+                return (bool)_cmd.Parameters[name].Value;
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("GetIntOutputParameter failed with param {0} for call to {1}", name, _name);
+                throw new Exception(msg, ex);
+            }
+        }
+
+        /// <summary>
+        /// Get the value of a specific char output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns>The output param value</returns>
+        public string GetNullableStringOutputParameter(string name)
+        {
+            try
+            {
+                if (DBNull.Value.Equals(_cmd.Parameters[name].Value))
+                    return null;
+                
+                return (string)_cmd.Parameters[name].Value;
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("GetCharOutputParameter failed with param {0} for call to {1}", name, _name);
+                throw new Exception(msg, ex);
+            }
         }
 
         /// <summary>
@@ -203,9 +282,10 @@ namespace BBC.Dna.Data
         }
 
         /// <summary>
-        /// 
+        /// Gets the return value of the procedure call
         /// </summary>
-        /// <returns></returns>
+        /// <param name="value">output param to receive the value</param>
+        /// <returns>true if successful, false otherwise</returns>
         public bool TryGetIntReturnValue(out int value)
         {
             try
@@ -218,6 +298,24 @@ namespace BBC.Dna.Data
                 return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Gets the return value of the procedure call
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>The int return value</returns>
+        public int GetIntReturnValue()
+        {
+            try
+            {
+                return (int)_returnValue.Value;
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("GetIntReturnValue failed for call to {0}",_name);
+                throw new Exception(msg, ex);
+            }
         }
 
         /// <summary>
@@ -570,6 +668,17 @@ namespace BBC.Dna.Data
             //}
         }
 
+        public bool? GetNullableBoolean(string name)
+        {
+            if (!IsDBNull(name))
+            {
+                return GetBoolean(name);
+            }
+
+            return null;
+        }
+
+
         /// <summary>
         /// Get the value of the specified column as a byte.
         /// </summary>
@@ -654,6 +763,16 @@ namespace BBC.Dna.Data
         public string GetDataTypeName(int i)
         {
             return _dataReader.GetDataTypeName(i);
+        }
+
+        /// <summary>
+        /// Get the name of the source data type.
+        /// </summary>
+        /// <param name="name"><Name of column/param>
+        /// <returns>The data type information for the specified field.</returns>
+        public string GetDataTypeName(string name)
+        {
+            return _dataReader.GetDataTypeName(GetOrdinal(name));
         }
 
         /// <summary>
@@ -759,6 +878,21 @@ namespace BBC.Dna.Data
                 retval = GetInt32(name);
             }
             return retval;
+        }
+
+        /// <summary>
+        /// Get the value of the specified column as a Int32.
+        /// If it's NULL, then null is returned
+        /// </summary>
+        /// <param name="name">Name of the column.</param>
+        /// <returns>Int32 value of the column, or null</returns>
+        public int? GetNullableInt32(string name)
+        {
+            if (!IsDBNull(name))
+            {
+                return GetInt32(name);
+            }
+            return null;
         }
 
         /// <summary>

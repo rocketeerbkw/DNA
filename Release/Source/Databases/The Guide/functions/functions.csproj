@@ -59,5 +59,8 @@
     <None Include="udf_getguideentryfulltextcatalogname.sql" />
     <None Include="udf_getfulltextcatalogpopulatestatusdescription.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="udf_getthreadentryfulltextcatalogname.sql" />
+  </ItemGroup>
   <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
 </Project>

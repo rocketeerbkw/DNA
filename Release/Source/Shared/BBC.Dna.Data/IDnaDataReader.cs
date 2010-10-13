@@ -31,6 +31,20 @@ namespace BBC.Dna.Data
         IDnaDataReader AddIntOutputParameter(string paramName);
 
         /// <summary>
+        /// Add a char output parameter
+        /// </summary>
+        /// <param name="paramName">Name of the output parameter</param>
+        /// <returns></returns>
+        IDnaDataReader AddStringOutputParameter(string paramName);
+
+        /// <summary>
+        /// Add a boolean (bit) output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns></returns>
+        IDnaDataReader AddBooleanOutputParameter(string name);
+
+        /// <summary>
         /// Get the value of an specific integer output parameter
         /// </summary>
         /// <param name="name">Name of the output parameter</param>
@@ -38,6 +52,26 @@ namespace BBC.Dna.Data
         /// <returns>Returns true if successfully read, otherwise false</returns>
         bool TryGetIntOutputParameter(string name, out int value);
 
+        /// <summary>
+        /// Get the value of an specific integer output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns>The output param value</returns>
+        int GetIntOutputParameter(string name);
+
+        /// <summary>
+        /// Get the value of an specific boolean output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns>The output param value</returns>
+        bool? GetNullableBooleanOutputParameter(string name);
+
+        /// <summary>
+        /// Get the value of a specific char output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns>The output param value</returns>
+        string GetNullableStringOutputParameter(string name);
 
         /// <summary>
         /// Get the value of an specific string output parameter
@@ -54,11 +88,18 @@ namespace BBC.Dna.Data
         IDnaDataReader AddIntReturnValue();
 
         /// <summary>
-        /// 
+        /// Gets the return value of the procedure call
+        /// </summary>
+        /// <param name="value">output param to receive the value</param>
+        /// <returns>true if successful, false otherwise</returns>
+        bool TryGetIntReturnValue(out int value);
+
+        /// <summary>
+        /// Gets the return value of the procedure call
         /// </summary>
         /// <param name="value"></param>
-        /// <returns></returns>
-        bool TryGetIntReturnValue(out int value);
+        /// <returns>The int return value</returns>
+        int GetIntReturnValue();
 
         /// <summary>
         /// 
@@ -89,6 +130,13 @@ namespace BBC.Dna.Data
         /// <param name="name">Name of the column</param>
         /// <returns>bool value of the column.</returns>
         bool GetBoolean(string name);
+
+        /// <summary>
+        /// Gets the value of the column as a nullable Boolean
+        /// </summary>
+        /// <param name="name">Name of the column</param>
+        /// <returns>nullable bool value of the column.</returns>
+        bool? GetNullableBoolean(string name);
 
         /// <summary>
         /// Get the value of the specified column as Int32.
@@ -131,6 +179,14 @@ namespace BBC.Dna.Data
         /// <param name="name">Name of the column.</param>
         /// <returns>Int32 value of the column.</returns>
         int GetInt32NullAsZero(string name);
+
+        /// <summary>
+        /// Get the value of the specified column as a Int32.
+        /// If it's NULL, then null is returned
+        /// </summary>
+        /// <param name="name">Name of the column.</param>
+        /// <returns>Int32 value of the column, or null</returns>
+        int? GetNullableInt32(string name);
 
         /// <summary>
         /// Get the value of the specified column as Byte.
@@ -225,6 +281,13 @@ namespace BBC.Dna.Data
         /// <param name="name">The name of the column to get the value from</param>
         /// <returns>The Xml in string format</returns>
         string GetXmlAsString(string name);
+
+        /// <summary>
+        /// Gets the name of the data type of this column
+        /// </summary>
+        /// <param name="name">The name of the column you're interested in</param>
+        /// <returns>The name of the data type of that column </returns>
+        string GetDataTypeName(string name);
 
 		/// <summary>
 		/// Tells the reader to create a SqlCacheDependency object for caching purposes

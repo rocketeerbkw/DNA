@@ -18,12 +18,12 @@
         </doc:notes>
     </doc:documentation>
 
-    <xsl:include href="../../../common/configuration.xsl"/>
+    <xsl:include href="../common/configuration.xsl"/>
     <xsl:include href="../configuration.xsl"/>
     
     <xsl:variable name="configuration" select="msxsl:node-set($skin)/configuration" />
     
-    <xsl:include href="../../../common/1/includes.xsl" />
+    <xsl:include href="../common/1/includes.xsl" />
 
 	<xsl:template match="/">
 	  	<xsl:apply-templates select="GUIDE/BODY" mode="library_GuideML" />

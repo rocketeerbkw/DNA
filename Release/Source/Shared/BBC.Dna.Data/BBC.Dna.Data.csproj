@@ -102,6 +102,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DnaDataReaderCreator.cs" />
+    <Compile Include="EventItemTypes.cs" />
+    <Compile Include="EventTypes.cs" />
     <Compile Include="IDnaDataReader.cs" />
     <Compile Include="IDnaDataReaderCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -128,7 +128,7 @@ namespace BBC.Dna.Moderation.Tests
         {
             AddGetInt32ColumnValue("ModClassID", modClassID);
             AddIsDBNullCheck("AutoFormat", false);
-            AddGetBooleanColumnValue("AutoFormat", autoFormat ? 1 : 0);
+            AddGetBooleanColumnValue("AutoFormat", autoFormat);
             AddGetInt32ColumnValue("EmailTemplateID", templateID);
             AddGetStringColumnValue("Name",name);
             AddGetStringColumnValue("Subject", subject);

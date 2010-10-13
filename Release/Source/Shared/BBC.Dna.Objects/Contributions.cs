@@ -59,6 +59,12 @@ namespace BBC.Dna.Objects
         /// </summary>        
         public string SiteName { get; set; }
 
+        /// <summary>
+        /// Total contributions for this query in db (not just page size)
+        /// </summary>
+        [DataMember(Name = "totalContributions")]
+        public int TotalContributions { get; set; }
+
 
         /// <summary>
         /// Whether we get via id or username.
@@ -193,7 +199,8 @@ namespace BBC.Dna.Objects
                 reader2.AddParameter("sortDirection", returnedContributions.SortDirection.ToString().ToLower());
                 reader2.AddParameter("siteType", returnedContributions.SiteType);
                 reader2.AddParameter("siteName", returnedContributions.SiteName);
-                reader2.AddParameter("userNameType", returnedContributions.UserNameType);                
+                reader2.AddParameter("userNameType", returnedContributions.UserNameType);
+                reader2.AddIntOutputParameter("count"); 
                 reader2.Execute();
 
                 returnedContributions = CreateContributionInternal(returnedContributions, cache, reader2);
@@ -288,9 +295,16 @@ namespace BBC.Dna.Objects
                     contribution.TotalPostsOnForum = reader2.GetInt32NullAsZero("TotalPostsOnForum");
                     contribution.AuthorUserId = reader2.GetInt32NullAsZero("AuthorUserId");
                     contribution.AuthorUsername = reader2.GetStringNullAsEmpty("AuthorUsername");
+                    contribution.AuthorIdentityUsername = reader2.GetStringNullAsEmpty("AuthorIdentityUsername");
                     returnedContributions.ContributionItems.Add(contribution);
                 }
-            }           
+            }
+
+            reader2.NextResult();
+            if (reader2.TryGetIntOutputParameter("count", out countReturnValue))
+            {
+                returnedContributions.TotalContributions = countReturnValue;
+            }
             
             // wasn't in cache before, so add to cache now
             cache.Add(returnedContributions.ContributionsCacheKey, returnedContributions);            

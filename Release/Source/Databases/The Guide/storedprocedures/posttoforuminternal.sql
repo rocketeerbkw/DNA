@@ -45,7 +45,12 @@ CREATE PROCEDURE posttoforuminternal @userid int,
 										@isnotable tinyint = 0, 
 										@iscomment tinyint = 0,
 										@modnotes VARCHAR(255) = NULL,
-										@isthreadedcomment tinyint = 0
+										@isthreadedcomment tinyint = 0,
+										@ignoreriskmoderation bit = 0,
+										@forcepremodposting bit = 0,
+										@forcepremodpostingdate datetime = NULL,
+										@riskmodthreadentryqueueid int = NULL
+
 AS
 declare @curtime datetime
 DECLARE @privmsg 	INT
@@ -57,6 +62,7 @@ BEGIN
 	select @returnthread = 0, @returnpost = 0
 	return (0)
 END
+
 -- Get some info from the Forums table that we'll need later.
 declare @journalowner int, @siteid int
 SELECT @journalowner = JournalOwner, @siteid = siteid FROM Forums WITH(NOLOCK) WHERE ForumID = @forumid
@@ -168,7 +174,7 @@ VALUES(@hash, @curtime, @forumid, @threadid, @inreplyto, @userid)
 IF @@ROWCOUNT = 0
 BEGIN
 	ROLLBACK TRANSACTION
-	SELECT @returnthread = ThreadID, @returnpost = PostID FROM PostDuplicates WHERE HashValue = @hash
+	SELECT @returnthread = ThreadID, @returnpost = PostID FROM PostDuplicates WHERE HashValue = @hash AND UserId=@userid AND ForumId=@forumid
 	return(0)
 END
 
@@ -176,7 +182,7 @@ END TRY
 
 BEGIN CATCH
 	ROLLBACK TRANSACTION
-	SELECT @returnthread = ThreadID, @returnpost = PostID FROM PostDuplicates WHERE HashValue = @hash
+	SELECT @returnthread = ThreadID, @returnpost = PostID FROM PostDuplicates WHERE HashValue = @hash AND UserId=@userid AND ForumId=@forumid
 	--return ERROR_NUMBER()
 	return (0) -- This error is expected for duplicate posts.
 END CATCH
@@ -185,43 +191,68 @@ END CATCH
 	Check to see if the site has the process premod messages set. This basically means that the post will not
 	be inserted into the threads table untill it has passed moderation.
 */
-IF ( @premoderation = 1 AND EXISTS (SELECT * FROM dbo.SiteOptions so WHERE so.SiteID = @siteid AND so.Section = 'Moderation' AND so.Name = 'ProcessPreMod' AND so.Value = '1') )
+IF (@forcepremodposting=1 OR (@premoderation = 1 AND dbo.udf_getsiteoptionsetting (@siteid,'Moderation','ProcessPreMod') = '1') )
 BEGIN
-	-- Create a ThreadMod Entry and get it's ModID
-	DECLARE @ModID INT
-	INSERT INTO ThreadMod (ForumID, ThreadID, PostID, Status, NewPost, SiteID, IsPreModPosting)
-		VALUES (@forumid, @threadid, 0, 0, 1, @siteid, 1)
-	SELECT @ModID = @@IDENTITY
-	SELECT @ErrorCode = @@ERROR
-	IF (@ErrorCode <> 0)
-	BEGIN
+
+	BEGIN TRY
+		EXEC generatepremodposting		@siteid, @userid, @forumid, @inreplyto, @threadid, @subject, 
+										@content, @poststyle, @hash, @keywords, @nickname, @type, 
+										@eventdate, @clubid, @allowevententries, @nodeid, @ipaddress,
+										@bbcuid, @iscomment, @threadread, @threadwrite, @modnotes, @forcepremodpostingdate,
+										@riskmodthreadentryqueueid
+										
+		-- COMMIT and Now Set the IsPreModPosting flag and return
+		COMMIT TRANSACTION
+		SET @ispremodposting = 1
+		RETURN 0
+	    
+	END TRY
+	BEGIN CATCH
 		ROLLBACK TRANSACTION
+		SET @ErrorCode=ERROR_NUMBER()
 		EXEC Error @ErrorCode
 		RETURN @ErrorCode
-	END
-	
-	-- Now insert the values into the PreModPostings tables
-	INSERT INTO dbo.PreModPostings (ModID, UserID, ForumID, ThreadID, InReplyTo, Subject, Body,
-									PostStyle, Hash, Keywords, Nickname, Type, EventDate,
-									ClubID, NodeID, IPAddress, ThreadRead, ThreadWrite, SiteID, AllowEventEntries, BBCUID, IsComment)
-		VALUES (@ModID, @userid, @forumid, @threadid, @inreplyto, @subject, @content,
-				@poststyle, @hash, @keywords, @nickname, @type, @eventdate,
-				@clubid, @Nodeid, @ipaddress, @threadread, @threadwrite, @SiteID, @AllowEventEntries, @bbcuid, @IsComment)
-	SELECT @ErrorCode = @@ERROR
-	IF (@ErrorCode <> 0)
+	END CATCH
+END
+
+/*
+	Deal with risk moderation
+*/
+DECLARE @riskModQueueId int
+
+IF (@ignoreriskmoderation = 0 AND @unmoderated = 1 AND @premoderation = 0)  -- Is the post unmoderated at this point?
+BEGIN
+	DECLARE @ison bit, @publishmethod char(1)
+	EXEC riskmod_getsitestate @siteid ,@ison OUTPUT, @publishmethod OUTPUT
+	IF (@ison = 1) -- Is Risk Moderation turned on for this post?
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		BEGIN TRY
+			-- Record all the post details for risk assessment
+			INSERT RiskModThreadEntryQueue (ThreadEntryId, PublishMethod, SiteId, ForumID, ThreadID, UserID, UserName, InReplyTo, Subject,  [Text], DatePosted, PostStyle,[Hash],IPAddress, BBCUID, KeyWords, Type, EventDate, AllowEventEntries, NodeId, QueueId, ClubId, IsNotable, IsComment, ModNotes, IsThreadedComment)
+									VALUES (NULL,         @publishmethod,@siteid,@forumid,@threadid,@userid,@nickname,@inreplyto,@subject,@content,@curtime,   @poststyle,@hash,@ipaddress,@BBCUID,@keywords,@type,@eventdate,@allowevententries,@nodeid,@queueid,@clubid,@isnotable,@iscomment,@modnotes,@isthreadedcomment)
+			SET @riskModQueueId = SCOPE_IDENTITY()
+			
+			-- Record the event for the BI Event processor
+			EXEC addtoeventqueueinternal 'ET_POSTNEEDSRISKASSESSMENT', @riskModQueueId, 'IT_RISKMODQUEUEID', 0, 'IT_ALL', @userid
+		
+			IF @publishmethod = 'A' -- Publish after risk assessment
+			BEGIN
+				-- When publishing the post after risk moderation, we return at this point
+				
+				-- We need to delete the PostDuplicates entry, otherwise we won't be allowed to publish it for real later
+				DELETE FROM PostDuplicates WHERE HashValue = @hash AND UserId=@userid AND ForumId=@forumid
+
+				COMMIT TRANSACTION
+				RETURN 0
+			END
+		END TRY
+		BEGIN CATCH
+			ROLLBACK TRANSACTION
+			SET @ErrorCode=ERROR_NUMBER()
+			EXEC Error @ErrorCode
+			RETURN @ErrorCode
+		END CATCH
 	END
-	
-	-- mark that the user has posted already so that we don't have to do it in the createpremodentry proc
-	EXEC updateuserlastposted @userid,@siteid
-	-- COMMIT and Now Set the IsPreModPosting flag and return
-	COMMIT TRANSACTION
-    
-    SET @ispremodposting = 1
-    RETURN 0
 END
 
 
@@ -257,7 +288,7 @@ BEGIN
 		EXEC Error @ErrorCode
 		RETURN @ErrorCode
 	END
-	SELECT @threadid = @@IDENTITY
+	SELECT @threadid = SCOPE_IDENTITY()
 	-- Insert any necessary extra permissions
 	INSERT INTO ThreadPermissions (ThreadID, TeamID, CanRead, CanWrite, Priority)
 	SELECT @threadid, TeamID, CanRead, CanWrite, Priority FROM ForumPermissions
@@ -376,7 +407,7 @@ BEGIN
 END
 
 declare @entryid int
-SELECT @entryid = @@IDENTITY
+SELECT @entryid = SCOPE_IDENTITY()
 
 --increment the post by thread counter for the specific thread
 EXEC updatethreadpostcount @threadid, 1
@@ -548,15 +579,15 @@ END
 
 IF (@unmoderated = 0)
 BEGIN
-	INSERT INTO ThreadMod (ForumID, ThreadID, PostID, Status, NewPost, SiteID, Notes)
-		VALUES(@forumid, @threadid, @entryid, 0, 1, @siteid, @modnotes)
-	SET @ErrorCode = @@ERROR
-	IF (@ErrorCode <> 0)
-	BEGIN
+	BEGIN TRY
+		EXEC QueueThreadEntryForModeration @forumid, @threadid, @entryid, @siteid, @modnotes
+	END TRY
+	BEGIN CATCH
 		ROLLBACK TRANSACTION
+		SET @ErrorCode = ERROR_NUMBER()
 		EXEC Error @ErrorCode
 		RETURN @ErrorCode
-	END
+	END CATCH
 END
 
 /*
@@ -580,10 +611,16 @@ END
 */
 
 -- update the previously posted PostDuplicates table entry
-UPDATE PostDuplicates SET ThreadID = @threadid, PostID = @entryid WHERE HashValue = @hash
+UPDATE PostDuplicates SET ThreadID = @threadid, PostID = @entryid WHERE HashValue = @hash AND UserId=@userid AND ForumId = @forumid
 
 -- Add an entry to the queue to allow the processor to work
-INSERT INTO ThreadEntryQueue (EntryID) VALUES(@entryid)
+INSERT INTO ThreadPostingsQueue (EntryID) VALUES(@entryid)
+
+IF @riskModQueueId IS NOT NULL
+BEGIN
+	-- Hook up the risk mod record with the actual thread and thread entry that was created
+	UPDATE RiskModThreadEntryQueue SET ThreadId=@threadid, ThreadEntryId=@entryid WHERE RiskModThreadEntryQueueId = @riskModQueueId
+END
 
 COMMIT TRANSACTION
 

@@ -200,6 +200,8 @@ namespace BBC.Dna
         private string ExtractHtmlInput(string querystringParam)
         {
             var paramStr = HtmlUtils.HtmlDecode(InputContext.GetParamStringOrEmpty(querystringParam, querystringParam));
+
+            paramStr = paramStr.Replace("\r\n", "");
             return "<GUIDE>" + HtmlUtils.ParseHtmlToXmlElement(paramStr, "BODY").OuterXml + "</GUIDE>";
             
         }

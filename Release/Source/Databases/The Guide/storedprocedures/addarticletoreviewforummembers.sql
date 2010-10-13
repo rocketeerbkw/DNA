@@ -15,7 +15,8 @@ BEGIN
 	EXEC @ErrorCode = posttoforuminternal @submitterid, @forumid, NULL, 0, @subject, @content, 2, @hash, NULL, NULL, @threadid OUTPUT, @postid OUTPUT,
 						/*@type*/DEFAULT, /*@eventdate*/ DEFAULT, /*@forcemoderate*/DEFAULT,  /*@forcepremoderation*/DEFAULT, /*@ignoremoderation*/ DEFAULT, /*@allowevententries*/ DEFAULT,
 						/*@nodeid*/DEFAULT,/*@ipaddress*/DEFAULT, /*@queueid*/DEFAULT, /*@clubid*/ DEFAULT, /*@ispremodposting*/ null, /*@ispremoderated*/ null, /*@bbcuid*/ DEFAULT, 
-						/*@isnotable*/ DEFAULT, /*@iscomment*/ DEFAULT
+						/*@isnotable*/ DEFAULT, /*@iscomment*/ DEFAULT, /*@modnotes*/ DEFAULT, /*@isthreadedcomment*/ DEFAULT,/*@ignoreriskmoderation*/ DEFAULT
+
 	
 	IF @threadid = 0 OR @ErrorCode <> 0
 	BEGIN

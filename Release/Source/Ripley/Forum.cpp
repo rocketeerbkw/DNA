@@ -2539,6 +2539,8 @@ bool CForum::PostToForum(CUser* pPoster, int iForumID, int iReplyTo, int iThread
 				{
 					*pSecondsToWait = iSeconds;
 				}
+				//reset profanity message if set
+				*pbProfanityFound = false;
 				return false;
 			}
 		}

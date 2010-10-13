@@ -23,10 +23,17 @@ namespace BBC.Dna.Objects
     [DataContract(Name = "articleList")]
     public class ArticleList : CachableBase<ArticleList>
     {
+        public enum ArticleListType : int 
+        {
+            Normal = 1,
+            Approved = 2,
+            Cancelled = 3,
+            NormalAndApproved = 4
+        }
+
         public ArticleList()
         {
-            EditedArticles = new List<ArticleSummary>();
-            OtherArticles = new List<ArticleSummary>();
+            Articles = new List<ArticleSummary>();
         }
 
         #region Properties
@@ -46,14 +53,19 @@ namespace BBC.Dna.Objects
         public int Count { get; set; }
 
         /// <remarks/>
-        [XmlElement("EDITEDARTICLES", Form = XmlSchemaForm.Unqualified)]
-        [DataMember(Name = "editedArticles", Order = 4)]
-        public List<ArticleSummary> EditedArticles { get; set; }
+        [XmlAttribute(AttributeName = "TOTAL")]
+        [DataMember(Name = "total", Order = 4)]
+        public int Total { get; set; }
 
         /// <remarks/>
-        [XmlElement("OTHERARTICLES", Form = XmlSchemaForm.Unqualified)]
-        [DataMember(Name = "otherArticles", Order = 5)]
-        public List<ArticleSummary> OtherArticles { get; set; }
+        [XmlAttribute(AttributeName = "TYPE")]
+        [DataMember(Name = "type", Order = 5)]
+        public ArticleListType Type { get; set; }
+
+        /// <remarks/>
+        [XmlElement("ARTICLES", Form = XmlSchemaForm.Unqualified)]
+        [DataMember(Name = "Articles", Order = 6)]
+        public List<ArticleSummary> Articles { get; set; }
 
         /// <summary>
         /// Cache freshness variable
@@ -72,20 +84,36 @@ namespace BBC.Dna.Objects
         /// <param name="siteId"></param>
         /// <param name="skip"></param>
         /// <param name="show"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static ArticleList CreateUsersArticleListFromDatabase(IDnaDataReaderCreator readerCreator,
                                                                         int dnaUserId, 
                                                                         int siteId, 
                                                                         int skip, 
                                                                         int show, 
-                                                                        bool byDnaUserId)
+                                                                        ArticleListType type)
         {
             ArticleList articleList = new ArticleList();
             articleList.Skip = skip;
             articleList.Show = show;
+            articleList.Type = type;
 
-            string storedProcedure = "getuserrecentandapprovedentrieswithguidetype";
-
+            string storedProcedure = String.Empty;
+            switch (type)
+            {
+                case ArticleListType.Normal:
+                    storedProcedure = "getuserrecententrieswithguidetype";
+                break;
+                case ArticleListType.Approved:
+                    storedProcedure = "getuserrecentapprovedentrieswithguidetype";
+                break;
+                /*case ArticleListType.Cancelled:
+                    storedProcedure = "getusercancelledentrieswithguidetype";
+                break;*/
+                default:
+                    storedProcedure = "getuserrecentandapprovedentrieswithguidetype";
+                break;
+            }
 
             int count = 0;
             // fetch all the lovely intellectual property from the database
@@ -93,7 +121,8 @@ namespace BBC.Dna.Objects
             {
                 reader.AddParameter("userid", dnaUserId);
                 reader.AddParameter("siteid", siteId);
-                reader.AddParameter("show", skip + show);
+                reader.AddParameter("skip", skip );
+                reader.AddParameter("show", show);
                 reader.AddParameter("guidetype", 1);
                 reader.AddParameter("currentsiteid", 1);
 
@@ -101,13 +130,7 @@ namespace BBC.Dna.Objects
 
                 if (reader.HasRows && reader.Read())
                 {
-                    if (skip > 0)
-                    {
-                        for (int i = 1; i < skip; i++)
-                        {
-                            reader.Read();
-                        }
-                    }
+                    articleList.Total = reader.GetInt32NullAsZero("Total");
                     //The stored procedure returns one row for each article. 
                     do
                     {
@@ -115,14 +138,7 @@ namespace BBC.Dna.Objects
 
                         //Delegate creation of XML to Article class.
                         ArticleSummary articleSummary = ArticleSummary.CreateArticleSummaryFromReader(reader);
-                        if (articleSummary.Status.Type == 1)
-                        {
-                            articleList.EditedArticles.Add(articleSummary);
-                        }
-                        else
-                        {
-                            articleList.OtherArticles.Add(articleSummary);
-                        }
+                        articleList.Articles.Add(articleSummary);
 
                     } while (reader.Read());
                 }
@@ -145,7 +161,7 @@ namespace BBC.Dna.Objects
                                                 string identifier,
                                                 int siteId)
         {
-            return CreateUsersArticleList(cache, readerCreator, viewingUser, identifier, siteId, 0, 20, false, false);
+            return CreateUsersArticleList(cache, readerCreator, viewingUser, identifier, siteId, 0, 20, ArticleListType.NormalAndApproved, false, false);
         }
   
         /// <summary>
@@ -158,6 +174,7 @@ namespace BBC.Dna.Objects
         /// <param name="siteId"></param>
         /// <param name="skip"></param>
         /// <param name="show"></param>
+        /// <param name="type"></param>
         /// <param name="byDnaUserId"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
@@ -167,7 +184,8 @@ namespace BBC.Dna.Objects
                                                 string identifier, 
                                                 int siteId, 
                                                 int skip, 
-                                                int show, 
+                                                int show,
+                                                ArticleListType type,
                                                 bool byDnaUserId,
                                                 bool ignoreCache)
         {
@@ -205,7 +223,7 @@ namespace BBC.Dna.Objects
 
             var articleList = new ArticleList();
 
-            string key = articleList.GetCacheKey(dnaUserId, siteId, skip, show, byDnaUserId);
+            string key = articleList.GetCacheKey(dnaUserId, siteId, skip, show, type, byDnaUserId);
             //check for item in the cache first
             if (!ignoreCache)
             {
@@ -222,7 +240,7 @@ namespace BBC.Dna.Objects
             }
 
             //create from db
-            articleList = CreateUsersArticleListFromDatabase(readerCreator, dnaUserId, siteId, skip, show, byDnaUserId);
+            articleList = CreateUsersArticleListFromDatabase(readerCreator, dnaUserId, siteId, skip, show, type);
 
             articleList.LastUpdated = DateTime.Now;
 

@@ -336,3 +336,6 @@ REGEDIT4
 "/messageboardadmin_assets"="/dna/dnapages/MBAdminAssets.aspx?"
 "/messageboardbackuprestore"="/dna/dnapages/MBBackupRestore.aspx?"
 "/mbadmin"="/dna/dnapages/MBAdmin.aspx?"
+
+
+"/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"

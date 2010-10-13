@@ -54,9 +54,9 @@ namespace BBC.Dna.Objects
         /// <param name="cache"></param>
         /// <param name="readerCreator"></param>
         /// <returns></returns>
-        public static Search CreateSearch(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted)
+        public static Search CreateSearch(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, int startIndex, int itemsPerPage)
         {
-            return CreateSearch(cache, readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted, false);
+            return CreateSearch(cache, readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted, 0, 20, false);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace BBC.Dna.Objects
         /// <param name="readerCreator"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        public static Search CreateSearch(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, bool ignoreCache)
+        public static Search CreateSearch(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, int startIndex, int itemsPerPage, bool ignoreCache)
         {
             var search = new Search();
 
@@ -91,7 +91,7 @@ namespace BBC.Dna.Objects
             if (searchType == "ARTICLE")
             {
                 //create article search from db
-                search = CreateArticleSearchFromDatabase(readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted);
+                search = CreateArticleSearchFromDatabase(readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted, startIndex, itemsPerPage);
             }
             else //USER search
             {
@@ -99,7 +99,7 @@ namespace BBC.Dna.Objects
 
                 
                 //create article search from db
-                search = CreateUserSearchFromDatabase(readerCreator, siteId, searchString, searchType, allowEmails);
+                search = CreateUserSearchFromDatabase(readerCreator, siteId, searchString, searchType, allowEmails, startIndex, itemsPerPage);
             }
 
             //add to cache
@@ -135,7 +135,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <returns></returns>
-        public static Search CreateArticleSearchFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted)
+        public static Search CreateArticleSearchFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, int startIndex, int itemsPerPage)
         {
             Search search = null;
             int count = 0;
@@ -153,6 +153,7 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("showapproved", Convert.ToInt32(showApproved));
 
                 reader.AddParameter("primarysite", siteId);
+                reader.AddParameter("maxresults", startIndex + itemsPerPage);
 
                 reader.Execute();
 
@@ -163,10 +164,20 @@ namespace BBC.Dna.Objects
                 }
                 else
                 {
+                    if (startIndex > 0)
+                    {
+                        for (int i = 1; i < startIndex; i++)
+                        {
+                            reader.Read();
+                        }
+                    }
+
                     search = new Search();
                     search.SearchResults = new SearchResults();
                     search.SearchResults.SearchTerm = searchString;
                     search.SearchResults.Type = searchType;
+                    search.SearchResults.StartIndex = startIndex;
+                    search.SearchResults.ItemsPerPage = itemsPerPage;
 
                     search.SearchResults.ArticleResults = new List<ArticleResult>();
                     do
@@ -220,7 +231,7 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <returns></returns>
-        public static Search CreateUserSearchFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool allowEmails)
+        public static Search CreateUserSearchFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool allowEmails, int startIndex, int itemsPerPage)
         {
             Search search = null;
             int count = 0;
@@ -242,6 +253,8 @@ namespace BBC.Dna.Objects
                 }
 
                 reader.AddParameter("SiteID", siteId);
+                reader.AddParameter("skip", startIndex);
+                reader.AddParameter("show", itemsPerPage);
 
                 reader.Execute();
 
@@ -256,6 +269,9 @@ namespace BBC.Dna.Objects
                     search.SearchResults = new SearchResults();
                     search.SearchResults.SearchTerm = searchString;
                     search.SearchResults.Type = searchType;
+                    search.SearchResults.StartIndex = startIndex;
+                    search.SearchResults.ItemsPerPage = itemsPerPage;
+                    search.SearchResults.Total = reader.GetInt32NullAsZero("Total") ;
 
                     search.SearchResults.UserResults = new List<UserElement>();
                     do
@@ -367,6 +383,28 @@ namespace BBC.Dna.Objects
         [XmlAttribute(AttributeName = "COUNT")]
         [DataMember(Name = "count")]
         public int Count
+        {
+            get;
+            set;
+        }
+
+        /// <remarks/>
+        [DataMember(Name = "startIndex")]
+        public int StartIndex
+        {
+            get;
+            set;
+        }
+        /// <remarks/>
+        [DataMember(Name = "itemsPerPage")]
+        public int ItemsPerPage
+        {
+            get;
+            set;
+        }
+        /// <remarks/>
+        [DataMember(Name = "total")]
+        public int Total
         {
             get;
             set;

@@ -24,7 +24,7 @@ select 	TOP 1
 	@postcount = t.postindex,
 	@inreplyto = Parent,
 	@curtime = DatePosted
-	from ThreadEntryQueue q
+	from ThreadPostingsQueue q
 		join ThreadEntries t ON q.EntryID = t.EntryID
 		join threads th on t.ThreadID = th.ThreadID
 	order by q.ID
@@ -116,7 +116,7 @@ BEGIN
 	END
 END
 
-DELETE FROM ThreadEntryQueue WHERE ID = @queueid
+DELETE FROM ThreadPostingsQueue WHERE ID = @queueid
 
 END
 ELSE

@@ -46,6 +46,7 @@ NumberedThreadEnrtries AS
 	where
 		te.dateposted > dateadd(week,-1,getdate())
 )
+
 select
 	cast(p.n as bigint) as PostIndex,
 	te.EntryID as ThreadEntryID,
@@ -64,7 +65,8 @@ select
 		from forums
 		where forumid=(select forumid from threadentries where entryid=te.EntryID)) AS TotalPostsOnForum,
 	u.userid as AuthorUserId,
-	u.username as AuthorUsername
+	u.username as AuthorUsername,
+	u.loginname as AuthorIdentityUserName
 	
 from 	
 	NumberedThreadEnrtries p
@@ -79,5 +81,6 @@ from
 where
 	p.n >= @startindex and p.n < (@startindex+@itemsPerPage)	
 order by p.n		
+
 
 return 0

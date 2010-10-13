@@ -48,6 +48,7 @@
     <xsl:include href="pages/movethread.xsl" />
     <xsl:include href="pages/notfound.xsl" />
 	<xsl:include href="pages/servertoobusy.xsl"/>
+  <xsl:include href="pages/searchthreadposts.xsl" />
     <xsl:include href="pages/threads.xsl" />
     <xsl:include href="pages/userdetails.xsl" />
     <xsl:include href="pages/userpage.xsl" />
@@ -73,6 +74,7 @@
     <!--   ============================================================= Objects ===                      -->
     <xsl:include href="objects/post/first.xsl" />
     <xsl:include href="objects/post/generic.xsl" />
+    <xsl:include href="objects/post/searchpost.xsl" />
     <xsl:include href="objects/post/comment.xsl" />
     <xsl:include href="objects/post/recentcomments.xsl" />
     
@@ -85,6 +87,7 @@
     <xsl:include href="objects/commentforumlist.xsl" />
     <xsl:include href="objects/forumthreads.xsl" />
     <xsl:include href="objects/forumthreadposts.xsl" />
+  <xsl:include href="objects/searchthreadposts.xsl" />
     <xsl:include href="objects/group.xsl" />
     <xsl:include href="objects/groups-list.xsl" />
     <xsl:include href="objects/members.xsl" />

@@ -23750,13 +23750,13 @@ bool CStoredProcedure::GetNodeGroupAlertID(int iUserID, int iSiteID, int ihNodeI
 
 bool CStoredProcedure::GetForumGroupAlertID(int iUserID, int iSiteID, int iFroumID)
 {
-	StartStoredProcedure("getaforumgroupalertid");
+	StartStoredProcedure("getforumgroupalertid");
 	
 	AddParam("userid", iUserID);
 	AddParam("siteid", iSiteID);
 	AddParam("forumid", iFroumID);
 
-	if(!ExecuteStoredProcedure() || HandleError("getaforumgroupalertid"))
+	if(!ExecuteStoredProcedure() || HandleError("getforumgroupalertid"))
 	{
 		return false;
 	}
