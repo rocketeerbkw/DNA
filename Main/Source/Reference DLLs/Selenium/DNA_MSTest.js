@@ -172,6 +172,7 @@ options.header =
 	'using TestUtils;\n' +
 	'using BBC.Dna.Data;\n' +
 	'using BBC.Dna.Utils;\n' +
+	'using Tests;\n' +
 	'\n' +
 	'namespace Selenium.Tests\n' +
 	'{\n' +
