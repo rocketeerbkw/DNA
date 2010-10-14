@@ -89,25 +89,22 @@ namespace BBC.Dna.Objects
 
                 if (reader.HasRows && reader.Read())
                 {
-                    if (reader.Read())
+                    total = reader.GetInt32NullAsZero("Total");
+
+                    //The stored procedure returns one row for each article. 
+                    do
                     {
-                        total = reader.GetInt32NullAsZero("TOTAL");
+                        count++;
 
-                        //The stored procedure returns one row for each article. 
-                        do
-                        {
-                            count++;
+                        //Paged List of Solo Users and their Counts.
+                        //Delegate creation of XML to User class.
+                        SoloUser solo = new SoloUser();
 
-                            //Paged List of Solo Users and their Counts.
-                            //Delegate creation of XML to User class.
-                            SoloUser solo = new SoloUser();
+                        solo.User = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) };
+                        solo.Count = reader.GetInt32NullAsZero("Count");
+                        soloGuideEntries.SoloUsers.Add(solo);
 
-                            solo.User = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) };
-                            solo.Count = reader.GetInt32NullAsZero("Count");
-                            soloGuideEntries.SoloUsers.Add(solo);
-
-                        } while (reader.Read());
-                    }
+                    } while (reader.Read() && count < show);
                 }
             }
             soloGuideEntries.Count = count;
