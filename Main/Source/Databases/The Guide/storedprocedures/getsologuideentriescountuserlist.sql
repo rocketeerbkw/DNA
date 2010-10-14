@@ -16,7 +16,8 @@ as
 		GROUP BY s.userid
 		ORDER BY 'Count' Desc	
 	)
-	SELECT  
+	SELECT 
+		'Total' = (select count(*) FROM CTE_SOLOGUIDEENTRIES), 
 		tmp.UserID,
 		tmp.Count, 
 		u.FirstNames, 
@@ -25,9 +26,18 @@ as
 		u.Status,
 		u.TaxonomyNode,
 		u.Active,
-		'UserName' = CASE WHEN LTRIM(u.UserName) = '' THEN 'Researcher ' + CAST(u.UserID AS varchar) ELSE u.UserName END
+		'UserName' = CASE WHEN LTRIM(u.UserName) = '' THEN 'Researcher ' + CAST(u.UserID AS varchar) ELSE u.UserName END,
+		siuidm.IdentityUserID 'IdentityUserID', 
+		u.LoginName 'IdentityUserName', 
+		u.UnreadPublicMessageCount,
+		u.UnreadPrivateMessageCount,
+		u.Region,
+		u.HideLocation,
+		u.HideUserName,
+		1 'siteID'
 	FROM CTE_SOLOGUIDEENTRIES tmp
 		INNER JOIN Users u WITH(NOLOCK) ON tmp.UserID = u.UserID
+		INNER JOIN SignInUserIDMapping siuidm WITH(NOLOCK) ON u.UserID = siuidm.DnaUserID
 	WHERE Row > @skip AND Row <= @skip + @show
 	ORDER BY Row
 

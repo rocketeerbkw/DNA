@@ -524,6 +524,28 @@ namespace BBC.Dna.Services
             return GetOutputStream(monthSummary);
         }
 
+        [WebGet(UriTemplate = "V1/site/{siteName}/articles/solo")]
+        [WebHelp(Comment = "Get the list of users with their number of solo guide entries for a given site")]
+        [OperationContract]
+        public Stream GetSoloGuideEntries(string siteName)
+        {
+            ISite site = GetSite(siteName);
+            SoloGuideEntries solo = null;
+
+            try
+            {
+                solo = SoloGuideEntries.CreateSoloGuideEntries(cacheManager, 
+                                                                readerCreator, 
+                                                                site.SiteID);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(solo);
+        }
+
         [WebGet(UriTemplate = "V1/site/{siteName}/articles")]
         [WebHelp(Comment = "Search the articles in a given site")]
         [OperationContract]
@@ -706,7 +728,7 @@ namespace BBC.Dna.Services
 
             return GetOutputStream(scoutRecommendations);
         }
-        /*
+        
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/scoutrecommends/")]
         [WebHelp(Comment = "Scout only function to recommend an article to the editors")]
         [OperationContract]
@@ -728,6 +750,7 @@ namespace BBC.Dna.Services
                 ScoutRecommendations.RecommendArticle(readerCreator,
                                         site,
                                         callingUser.UserID,
+                                        callingUser.IsUserA(UserTypes.Editor),
                                         Int32.Parse(articleId),                                       
                                         comments);
             }
@@ -735,7 +758,7 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ex);
             }
-        }*/
+        }
 
     }
 }
