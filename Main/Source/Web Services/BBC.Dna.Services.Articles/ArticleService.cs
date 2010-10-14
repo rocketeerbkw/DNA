@@ -760,5 +760,26 @@ namespace BBC.Dna.Services
             }
         }
 
+        [WebGet(UriTemplate = "V1/site/{siteName}/info")]
+        [WebHelp(Comment = "Gets statistics about the articles")]
+        [OperationContract]
+        public Stream GetSiteStatistics(string siteName)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+            
+            SiteStatistics stats = null;
+            try
+            {
+               stats =  SiteStatistics.CreateSiteStatistics(readerCreator, site.SiteID);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(stats);
+        }
+
     }
 }

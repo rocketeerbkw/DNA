@@ -1329,6 +1329,36 @@ namespace FunctionalTests.Services.Articles
             Console.WriteLine("After SubmitArticleToIncorrectReviewForum");
         }
 
+        /// <summary>
+        /// Tests if the article stats for h2g2 can be retrieved and deserialized
+        /// </summary>
+        [TestMethod]
+        public void GetSiteStatisticsTest_ReturnsValidValues()
+        {
+            Console.WriteLine("Before GetSiteStatisticsTest_ReturnsValidValues");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            request.AssertWebRequestFailure = false;
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/info", _sitename);
+
+            try
+            {
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+            }
+            catch (WebException)
+            {
+
+            }
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+            
+            SiteStatistics returnedStats = (SiteStatistics)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(SiteStatistics));
+
+            Console.WriteLine("After GetSiteStatisticsTest_ReturnsValidValues");
+        }
+
 
         #region SetupFunctions
 
