@@ -277,6 +277,21 @@
 	      				<p>Find out more about this board's <a href="{$houserulesurl}" class="popup">House Rules</a></p>
 	      			</div>
 	      			
+		      		<!-- <xsl:if test="site option is set"> -->
+		      			<h3>Search this board</h3>
+		      			<div id="searchbox">
+							<form action="searchposts" method="get" id="dna-searchform">
+								<label for="searchtext" class="dna-invisible">Search</label>
+								<input id="searchtext" name="searchtext">
+									<xsl:attribute name="value">
+										<xsl:value-of select="/H2G2/SEARCHTHREADPOSTS/@SEARCHTERM"/>
+									</xsl:attribute>
+								</input>
+								<input type="submit" value="Go" class="dna-button" />
+							</form>
+						</div>
+		      		<!-- </xsl:if> -->	      			
+		      			
 	      			<!-- Recent Discussions -->
 	      			<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'true' and (/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS/FORUM or /H2G2/TOP-FIVES/TOP-FIVE)"> 
 	      				<h3>Recent Discussions</h3>

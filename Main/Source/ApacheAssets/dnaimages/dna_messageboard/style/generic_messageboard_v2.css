@@ -60,7 +60,7 @@ ul.admin {background-color:#e2e2e2}
 #blq-content .topiclist li {position:relative; float:left; width:241px}
 #blq-content .single-col-topics li {width:499px; min-height:120px}
 #blq-content .topiclistimage li {min-height:245px}
-#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {width:499px; margin-right:14px; padding-bottom:10px; border-right:1px solid #ccc; border-bottom:1px solid #ccc; border-left:1px solid #ccc}
+#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread, #blq-main .searchthreadposts  {width:499px; margin-right:14px; padding-bottom:10px; border-right:1px solid #ccc; border-bottom:1px solid #ccc; border-left:1px solid #ccc}
 #blq-main .addthread p.signin {padding:10px}
 .frontpage h2 {margin-right:14px}
 #blq-main #blq-content h2, #blq-main #dna-boardpromo h3 {padding:8px 10px; line-height:1em; font-size:1.4em; font-weight:normal; color:#fff; background-color:#376dad}
@@ -88,7 +88,7 @@ body.ie6 #blq-main #blq-content .pagination li {width:1px}
 #blq-main #blq-content .pagination li a:hover {text-decoration:underline}
 #blq-main #blq-content .pagination .arrow {display:none}
 
-/* topiclist, forumthreads, post-list */
+/* topiclist, forumthreads, post-list, searchthreadposts */
 #blq-content.frontpage {margin-left:14px; padding:0; background:none}
 #blq-content .topiclist br {display:none}
 #blq-content .topiclist {overflow:auto; padding:0}
@@ -186,6 +186,8 @@ p.countdown {margin-left:10px}
 #blq-main #blq-content .dna-boards-moderation a:focus,#blq-main #blq-content .dna-boards-moderation a:active {color:#e2e2e2; background-color:#666}
 #blq-main .move-thread p {padding:10px}
 #blq-content .itemdetail p.messagedetail {margin-bottom: 0}
+#blq-content .searchresult {color: #ff0000}
+#blq-main .searchthreadposts p.error-message {padding: 10px;}
 
 
 /* dna-boardpromo:about this board */
@@ -202,7 +204,7 @@ div#dna-boardpromo #dna-about-board .id-wrap, #blq-content .id-wrap  {margin:0; 
 #blq-content .id-wrap {margin-bottom:10px}
 div#dna-boardpromo #dna-about-board .id-wrap p, #blq-content .id-wrap p {line-height:2.1em}
 #blq-main #dna-boardpromo hr {margin:10px 8px 0 8px; line-height:1px; border-top:1px solid #ccc}
-
+#blq-main #dna-searchform {margin: 10px}
 
 /* unsure what the following are used for */
 div.breadcrumbs {margin-bottom:1.5em}
@@ -238,7 +240,7 @@ p.permalink {margin-top:15px;text-align:right}
 
 #blq-main #blq-content .dna-boards ul {margin:15px 0 10px 24px}
 #blq-main #blq-content .dna-boards ul li {float:left}
-#blq-main #blq-content .dna-boards input.dna-button {width:auto; overflow:visible; padding:2px 10px; color:#fff; font-size:0.9em; font-weight:bold; background-color:#376dad; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
+#blq-main #blq-content .dna-boards input.dna-button, #blq-main #dna-searchform input.dna-button  {width:auto; overflow:visible; padding:2px 10px; color:#fff; font-size:0.9em; font-weight:bold; background-color:#376dad; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
 #blq-main #blq-content .dna-boards input.cancel {margin:0 200px 0 8px; background-color:#71aef1}
 .dna-boards p.preview {margin:10px 0 0 24px; padding:0 10px}
 #blq-main #blq-content .dna-boards div#previewpost {margin:10px 24px 0 24px; padding:10px; background-color:#e8eced}

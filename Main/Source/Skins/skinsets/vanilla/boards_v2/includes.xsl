@@ -72,11 +72,12 @@
     <xsl:include href="inputs/commentbox.xsl" />
     
     <!--   ============================================================= Objects ===                      -->
-    <xsl:include href="objects/post/first.xsl" />
-    <xsl:include href="objects/post/generic.xsl" />
-    <xsl:include href="objects/post/searchpost.xsl" />
     <xsl:include href="objects/post/comment.xsl" />
+    <xsl:include href="objects/post/first.xsl" />
+    <xsl:include href="objects/post/forumtitle.xsl" />
+    <xsl:include href="objects/post/generic.xsl" />
     <xsl:include href="objects/post/recentcomments.xsl" />
+    <xsl:include href="objects/post/searchpost.xsl" />
     
     <xsl:include href="objects/article/generic.xsl" />
     <xsl:include href="objects/article/incomplete.xsl" />
@@ -87,13 +88,13 @@
     <xsl:include href="objects/commentforumlist.xsl" />
     <xsl:include href="objects/forumthreads.xsl" />
     <xsl:include href="objects/forumthreadposts.xsl" />
-  <xsl:include href="objects/searchthreadposts.xsl" />
     <xsl:include href="objects/group.xsl" />
     <xsl:include href="objects/groups-list.xsl" />
     <xsl:include href="objects/members.xsl" />
     <xsl:include href="objects/post-list.xsl" />
     <xsl:include href="objects/promo.xsl" />
     <xsl:include href="objects/recentcomments.xsl" />
+    <xsl:include href="objects/searchthreadposts.xsl" />
 	<xsl:include href="objects/textbox.xsl" />
     <xsl:include href="objects/watchinguserlist.xsl" />
     

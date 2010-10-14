@@ -15,33 +15,26 @@
     
     
     <xsl:template match="SEARCHTHREADPOSTS" mode="object_forumthreadposts">
-      <xsl:call-template name="library_header_h3">
-        <xsl:with-param name="text">
-          <xsl:text>Search Results:</xsl:text>
-        </xsl:with-param>
-      </xsl:call-template>
-        
         <xsl:apply-templates select="." mode="library_pagination_searchthreadposts" />
         
-        <ul class="collections forumthreadposts">
+        <ul class="collections forumthreadposts" id="topofthreads">
             <xsl:apply-templates select="POST" mode="object_post_search" />
         </ul>
         
         <xsl:apply-templates select="." mode="library_pagination_searchthreadposts" />
         
+        <a href="#topofthreads" class="backtotop">Back to top</a>
+        
     </xsl:template>
-    
     
     <xsl:template match="SEARCHTHREADPOSTS[@FROM and @TO][@FORUMPOSTCOUNT &lt; 1]" mode="object_forumthreadposts">
-        
         <p class="dna-commentbox-nocomments">There have been no comments made here yet.</p>
-        
     </xsl:template>
-        
         
     <xsl:template match="FORUMTHREADPOSTS[@FROM and @TO][@FORUMPOSTCOUNT > 0]" mode="object_forumthreadposts">
         
         <xsl:apply-templates select="." mode="library_pagination_commentbox" />
+        
         <ul class="collections forumthreadposts">
             <xsl:apply-templates select="POST[@INDEX > (parent::*/@FROM - 1) and @INDEX &lt; (parent::*/@TO + 1)]" mode="object_post_comment" >
                 <xsl:sort select="DATEPOSTED/DATE/@SORT" order="ascending"/>

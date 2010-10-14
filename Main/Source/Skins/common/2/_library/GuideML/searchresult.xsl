@@ -14,7 +14,7 @@
     </doc:documentation>
     
     <xsl:template match="SEARCHRESULT" mode="library_GuideML">
-        <span class="searchresult" style="color: red">
+        <span class="searchresult">
             <xsl:apply-templates  mode="library_GuideML"/>
         </span>
     </xsl:template>

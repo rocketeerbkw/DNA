@@ -19,34 +19,41 @@
         <xsl:param name="additional-classnames" />
         
         <li id="p{@POSTID}">
-            <!-- Add the stripe class -->
-            <xsl:call-template name="library_listitem_stripe">
-                <xsl:with-param name="additional-classnames" select="$additional-classnames"/>
-            </xsl:call-template>
+          <!-- Add the stripe class
+          <xsl:call-template name="library_listitem_stripe">
+              <xsl:with-param name="additional-classnames" select="$additional-classnames"/>
+          </xsl:call-template> -->
+          
+		<xsl:attribute name="class">
+			<xsl:if test="position() mod 2 = 1">
+				<xsl:text>stripe</xsl:text>
+			</xsl:if>                  
+		</xsl:attribute>          
+          
           <div class="itemdetail">
-            <p><xsl:text>Posted by </xsl:text>
-            <xsl:apply-templates select="USER" mode="library_user_linked"/>
-              <xsl:apply-templates select="DATEPOSTED | DATECREATED" mode="library_itemdetail"/>
+            <p>
+            	<xsl:text>Posted by </xsl:text>
+            	<xsl:apply-templates select="USER" mode="library_user_linked"/>
+            	<xsl:apply-templates select="DATEPOSTED | DATECREATED" mode="library_itemdetail"/>
             </p>
           </div>
 
           <p>
             <a href="{concat($root, '/NF', @FORUMID)}">
-              <xsl:value-of select="/H2G2/TOPICLIST/TOPIC[FORUMID = @FORUMID]/TITLE" />Forum
+              <xsl:apply-templates select="/H2G2/TOPICLIST" mode="objects_post_forumtitle">
+              	<xsl:with-param name="forumid" select="@FORUMID" />
+              </xsl:apply-templates>
             </a>
-            /
+            <xsl:text> / </xsl:text>
             <a href="{concat($root, '/NF', @FORUMID, '?thread=', @THREAD)}">
               <xsl:apply-templates select="SUBJECT" mode="library_GuideML" />
             </a>
-            <br/>
-            (Relevance: <xsl:value-of select="@RANK"/>%)
           </p>
             
-            <xsl:choose>
+          <xsl:choose>
                 <xsl:when test="@HIDDEN = 3 and USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
                     <!-- Hidden post for the owner -->
                     <p class="dna-boards-failedpost">
-                        <!-- <xsl:apply-templates select="/H2G2/SITECONFIG/DNACOMMENTTEXT/PREMODMESSAGE" mode="library_siteconfig_premodmessage" /> -->
                         <xsl:value-of select="TEXT" />
                     </p>
                 </xsl:when>
@@ -99,7 +106,7 @@
             </xsl:choose>
 
           <xsl:variable name="skip">
-            <xsl:value-of select="floor(@INDEX div 50) * 50" />
+            <xsl:value-of select="floor(@INDEX div parent::SEARCHTHREADPOSTS/@COUNT) * parent::SEARCHTHREADPOSTS/@COUNT" />
           </xsl:variable>
           <p class="dna-boards-thisreplyto">
             <a href="{concat($root, '/NF', @FORUMID, '?thread=', @THREAD, '&amp;skip=', $skip, '#p', @POSTID)}">Go to message</a>
