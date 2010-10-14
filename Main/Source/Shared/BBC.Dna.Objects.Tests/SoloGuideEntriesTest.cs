@@ -87,7 +87,7 @@ namespace BBC.Dna.Objects.Tests
         /// <summary>
         ///A test for SoloGuideEntriesTest
         ///</summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void CreateSoloGuideEntriesTest()
         {
             int siteId = 1;
@@ -134,7 +134,7 @@ namespace BBC.Dna.Objects.Tests
         /// <summary>
         /// Tests if CreateSoloGuideEntries actually ignores the cache when IgnoreCache = true
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void CreateSoloGuideEntries_IgnoreCache_CacheIsIgnored()
         {
             bool ignoreCache = true;
@@ -162,7 +162,7 @@ namespace BBC.Dna.Objects.Tests
         /// <summary>
         /// Tests if CreateSoloGuideEntries bypasses the cache when DoNotIgnoreCache = true but uptodate is false
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void CreateSoloGuideEntries_WithDontIgnoreCache_NotUpToDate_ReturnsValidObject()
         {
             bool ignoreCache = false;

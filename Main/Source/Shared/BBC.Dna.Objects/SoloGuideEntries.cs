@@ -195,7 +195,7 @@ namespace BBC.Dna.Objects
         public class SoloUser
         {
             /// <remarks/>
-            [XmlElement("USER", Order = 0)]
+            [XmlElement("USER", Order = 6)]
             [DataMember(Name = "user")]
             public UserElement User
             {
@@ -204,7 +204,7 @@ namespace BBC.Dna.Objects
             }
 
             /// <remarks/>
-            [XmlElement("COUNT")]
+            [XmlElement("COUNT", Order = 7)]
             [DataMember(Name = "count")]
             public int Count
             {
