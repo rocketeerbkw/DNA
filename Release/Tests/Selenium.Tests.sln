@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selenium.Tests", "Selenium.Tests\Selenium.Tests.csproj", "{E12ED49B-620B-427B-8ECE-7CA804174EE3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data", "..\Source\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj", "{F79CF818-D597-4C2F-A61D-87773951E234}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtils", "..\Source\Shared\TestUtils\TestUtils.csproj", "{E09BF891-7D4F-403E-B830-B9E2606D2C22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{41270ABB-D9F5-4D78-AAF0-2CC07AF018E6}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
+		SccProjectUniqueName0 = Selenium.Tests\\Selenium.Tests.csproj
+		SccProjectName0 = Selenium.Tests
+		SccAuxPath0 = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
+		SccLocalPath0 = Selenium.Tests
+		SccProvider0 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName1 = ..\\Source\\Shared\\BBC.Dna.Data\\BBC.Dna.Data.csproj
+		SccProjectTopLevelParentUniqueName1 = Selenium.Tests.sln
+		SccProjectName1 = ../Source/Shared/BBC.Dna.Data
+		SccAuxPath1 = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
+		SccLocalPath1 = ..\\Source\\Shared\\BBC.Dna.Data
+		SccProvider1 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccProjectUniqueName2 = ..\\Source\\Shared\\TestUtils\\TestUtils.csproj
+		SccProjectTopLevelParentUniqueName2 = Selenium.Tests.sln
+		SccProjectName2 = ../Source/Shared/TestUtils
+		SccAuxPath2 = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
+		SccLocalPath2 = ..\\Source\\Shared\\TestUtils
+		SccProvider2 = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DebugSmallGuide|Any CPU = DebugSmallGuide|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E12ED49B-620B-427B-8ECE-7CA804174EE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12ED49B-620B-427B-8ECE-7CA804174EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E12ED49B-620B-427B-8ECE-7CA804174EE3}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12ED49B-620B-427B-8ECE-7CA804174EE3}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{E12ED49B-620B-427B-8ECE-7CA804174EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E12ED49B-620B-427B-8ECE-7CA804174EE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F79CF818-D597-4C2F-A61D-87773951E234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F79CF818-D597-4C2F-A61D-87773951E234} = {41270ABB-D9F5-4D78-AAF0-2CC07AF018E6}
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {41270ABB-D9F5-4D78-AAF0-2CC07AF018E6}
+	EndGlobalSection
+EndGlobal

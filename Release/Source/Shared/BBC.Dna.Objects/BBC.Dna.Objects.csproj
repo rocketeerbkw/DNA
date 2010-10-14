@@ -109,6 +109,7 @@
     <Compile Include="Search.cs" />
     <Compile Include="SearchThreadPosts.cs" />
     <Compile Include="SmileyTranslator.cs" />
+    <Compile Include="SoloGuideEntries.cs" />
     <Compile Include="SubscribingUsersList.cs" />
     <Compile Include="ThreadPostSummary.cs" />
     <Compile Include="ForumHelper.cs" />

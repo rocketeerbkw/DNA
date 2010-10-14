@@ -35,7 +35,7 @@
 		   </div>
 		</xsl:if>
         
-        <p><xsl:apply-templates select="TEXT" /></p>
+        <p><xsl:value-of select="TEXT" disable-output-escaping="yes" /></p>
         
         <p class="replies">
             <xsl:choose>

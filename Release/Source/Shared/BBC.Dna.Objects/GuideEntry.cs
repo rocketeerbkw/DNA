@@ -31,20 +31,22 @@ namespace BBC.Dna.Objects
             XmlDocument doc = new XmlDocument();
             if (hiddenStatus > 0)
             {
-                doc.LoadXml("<GUIDE><BODY>This article has been hidden pending moderation</BODY></GUIDE>");
+                doc.LoadXml("<GUIDE><BODY>This article has been hidden pending moderation.</BODY></GUIDE>");
             }
             else
             {
-
                 try
                 {
                     switch (style)
                     {
                         case GuideEntryStyle.GuideML:
+                            text = text.Trim();
                             text = Entities.ReplaceEntitiesWithNumericValues(text);
+                            text = HtmlUtils.ReplaceCRsWithBRs(text);
+                            text = HtmlUtils.EscapeNonEscapedAmpersands(text);
                             doc.PreserveWhitespace = true;
                             doc.LoadXml(text);               
-                            doc["GUIDE"]["BODY"].InnerXml = HtmlUtils.ReplaceCRsWithBRs(doc["GUIDE"]["BODY"].InnerXml);
+                            //doc["GUIDE"]["BODY"].InnerXml = HtmlUtils.ReplaceCRsWithBRs(doc["GUIDE"]["BODY"].InnerXml);
                             break;
 
                         case GuideEntryStyle.PlainText:
@@ -62,8 +64,10 @@ namespace BBC.Dna.Objects
                 }
                 catch(Exception e)
                 {
+                    //If something has gone wrong log stuff
                     DnaDiagnostics.Default.WriteExceptionToLog(e);
-                    throw;
+
+                    doc.LoadXml("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>");
                 }
 
 
