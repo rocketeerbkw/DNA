@@ -15,10 +15,17 @@
     
     
     <xsl:template match="ERROR" mode="object_error">
-        <div class="error">
-            <h4>There has been a problem</h4>
-            <xsl:apply-templates select="ERRORMESSAGE" mode="object_error_errormessage" />
-        </div>        
+        <xsl:choose>
+        	<xsl:when test="/H2G2/@TYPE != 'SEARCHTHREADPOSTS'">
+		       	<div class="error">
+		            <h4>There has been a problem</h4>
+		            <xsl:apply-templates select="ERRORMESSAGE" mode="object_error_errormessage" />
+		        </div>
+		   </xsl:when>
+		   <xsl:otherwise><xsl:apply-templates select="ERRORMESSAGE" mode="object_error_errormessage" /></xsl:otherwise>
+        
+        </xsl:choose>
+        
     </xsl:template>
     
     <xsl:template match="ERROR[@TYPE = 'XmlParseError']" mode="object_error">

@@ -108,6 +108,7 @@
     <Compile Include="ScoutRecommendations.cs" />
     <Compile Include="Search.cs" />
     <Compile Include="SearchThreadPosts.cs" />
+    <Compile Include="SiteStatistics.cs" />
     <Compile Include="SmileyTranslator.cs" />
     <Compile Include="SoloGuideEntries.cs" />
     <Compile Include="SubscribingUsersList.cs" />

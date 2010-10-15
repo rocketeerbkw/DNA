@@ -136,6 +136,26 @@ namespace BBC.Dna.Objects.Tests
 
         }
 
+        [TestMethod()]
+        public void FormatSearchTerm_ValidTerms_FormatsCorrectString()
+        {
+            var searchTerms = new string[] { "term1", "term2" };
+            var expected = "term1&term2";
+
+            Assert.AreEqual(expected, SearchThreadPosts.FormatSearchTerm(searchTerms));
+        }
+
+        [TestMethod()]
+        public void FormatSearchTerm_ValidTermsWithBadChars_FormatsCorrectString()
+        {
+            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(new string[] { "te!rm1", "t!erm2" }));
+            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(new string[] { "term1&", "&term2" }));
+            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(new string[] { "\"term1\"", "term2" }));
+            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(new string[] { "term1", "(t)erm2" }));
+
+
+        }
+
 
 
         private SearchThreadPosts GetListOfSearchPosts(int siteId, int forumId, int threadId, string textToSearch, int count, DateTime lastUpdated)

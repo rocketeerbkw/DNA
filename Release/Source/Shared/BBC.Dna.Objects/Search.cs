@@ -153,7 +153,8 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("showapproved", Convert.ToInt32(showApproved));
 
                 reader.AddParameter("primarysite", siteId);
-                reader.AddParameter("maxresults", startIndex + itemsPerPage);
+                //Cap max results to 200 and then allow skip and show within that range
+                reader.AddParameter("maxresults", 200);
 
                 reader.Execute();
 

@@ -113,10 +113,23 @@ namespace BBC.Dna.Objects
             articleSummary.H2G2ID = reader.GetInt32NullAsZero("h2g2id");
             articleSummary.Name = reader.GetStringNullAsEmpty("subject");
             articleSummary.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("subject"));
-            articleSummary.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
-            articleSummary.Editor = new UserElement() { user = User.CreateUserFromReader(reader, "editor") };
+
+            if (reader.DoesFieldExist("Type"))
+            {
+                articleSummary.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
+            }
+
+            if (reader.DoesFieldExist("editor"))
+            {
+                articleSummary.Editor = new UserElement() { user = User.CreateUserFromReader(reader, "editor") };
+            }
+                        
             articleSummary.DateCreated = new DateElement(reader.GetDateTime("datecreated"));
-            articleSummary.LastUpdated = new DateElement(reader.GetDateTime("lastupdated")); ;
+
+            if (reader.DoesFieldExist("lastupdated"))
+            {
+                articleSummary.LastUpdated = new DateElement(reader.GetDateTime("lastupdated")); ;
+            }
 
             articleSummary.Status = ArticleStatus.GetStatus(reader.GetInt32NullAsZero("status"));
 

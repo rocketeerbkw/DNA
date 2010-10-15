@@ -28,9 +28,14 @@
                     <xsl:when test="@BIO">
 						<xsl:value-of select="$aerian-base-user"/><xsl:value-of select="@BIO"/>  
                     </xsl:when>
-                    <xsl:otherwise>
-						<xsl:value-of select="$aerian-base-entry"/><xsl:value-of select="@H2G2"/>
-                    </xsl:otherwise>
+					<xsl:when test="@H2G2">
+						<xsl:value-of select="$aerian-base-entry"/>
+						<xsl:value-of select="@H2G2"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$aerian-base-entry"/>
+						<xsl:value-of select="@h2g2"/>
+					</xsl:otherwise>
                 </xsl:choose>
             </xsl:attribute>
             <xsl:if test="@TITLE">

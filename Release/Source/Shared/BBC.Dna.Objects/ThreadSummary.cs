@@ -139,18 +139,50 @@ namespace BBC.Dna.Objects
             thread.ForumId = forumId;
             thread.Index = index;
             thread.Type = string.Empty; //TODO: remove as this is a legacy ripley element
-            thread.CanRead = (byte) (reader.GetBoolean("ThisCanRead") ? 1 : 0);
-            thread.CanWrite = (byte) (reader.GetBoolean("ThisCanWrite") ? 1 : 0);
-            thread.ThreadId = reader.GetInt32NullAsZero("ThreadID");
-            
-            thread.DateLastPosted = new DateElement(reader.GetDateTime("LastPosted"));
-            thread.TotalPosts = reader.GetInt32NullAsZero("cnt");
-            thread.FirstPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "FirstPost",
-                                                                            reader.GetInt32NullAsZero("firstpostentryid"));
-            thread.LastPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "LastPost",
-                                                                           reader.GetInt32NullAsZero("lastpostentryid"));
 
-            thread.Subject = ThreadPost.FormatSubject(reader.GetString("FirstSubject"), (CommentStatus.Hidden)thread.FirstPost.Hidden);
+
+            if (reader.DoesFieldExist("ThisCanRead"))
+            {
+                thread.CanRead = (byte)(reader.GetBoolean("ThisCanRead") ? 1 : 0);
+            }
+
+            if (reader.DoesFieldExist("ThisCanWrite"))
+            {
+                thread.CanWrite = (byte)(reader.GetBoolean("ThisCanWrite") ? 1 : 0);
+
+            }
+
+           
+            thread.ThreadId = reader.GetInt32NullAsZero("ThreadID");            
+            thread.DateLastPosted = new DateElement(reader.GetDateTime("LastPosted"));
+            if (reader.DoesFieldExist("cnt"))
+            {
+                thread.TotalPosts = reader.GetInt32NullAsZero("cnt");
+            }
+            
+            if (reader.DoesFieldExist("firstpostentryid"))
+            {
+                thread.FirstPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "FirstPost", reader.GetInt32NullAsZero("firstpostentryid"));
+            }
+
+            if (reader.DoesFieldExist("lastpostentryid"))
+            {
+                thread.LastPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "LastPost", reader.GetInt32NullAsZero("lastpostentryid"));
+            }
+
+            if (reader.DoesFieldExist("FirstSubject"))
+            {
+                if (thread.FirstPost != null)
+                {
+                    thread.Subject = ThreadPost.FormatSubject(reader.GetString("FirstSubject"), (CommentStatus.Hidden)thread.FirstPost.Hidden);
+                }
+                else
+                {
+                    thread.Subject = ThreadPost.FormatSubject(reader.GetString("FirstSubject"), CommentStatus.Hidden.NotHidden );
+                }
+            }
+
+
             if(reader.DoesFieldExist("IsSticky"))
             {//conditionally check if field exists..
                 thread.IsSticky = (reader.GetInt32NullAsZero("IsSticky")==1);

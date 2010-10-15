@@ -145,5 +145,10 @@
         <xsl:text>Move a discussion</xsl:text>
     </xsl:template>
     
+    <!-- Title for a search posts page -->
+    <xsl:template match="/H2G2[@TYPE = 'SEARCHTHREADPOSTS']" mode="head_title_page">
+        <xsl:text>Search results</xsl:text>
+    </xsl:template>    
+    
     
 </xsl:stylesheet>

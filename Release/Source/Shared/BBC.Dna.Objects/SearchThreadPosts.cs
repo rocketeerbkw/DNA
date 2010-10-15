@@ -168,18 +168,7 @@ namespace BBC.Dna.Objects
 
             //format search string for full text search
             var searchTextArray = searchText.Split(' ');
-            var tempSeachText = "";
-            foreach (var term in searchTextArray)
-            {
-                if (term != "&" && !string.IsNullOrEmpty(term))
-                {
-                    tempSeachText += term + "&";
-                }
-            }
-            if (tempSeachText.LastIndexOf("&") == tempSeachText.Length-1)
-            {
-                tempSeachText = tempSeachText.Substring(0, searchText.Length);
-            }
+            var tempSeachText = FormatSearchTerm(searchTextArray);
 
             //get posts from db
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("searchthreadentriesfast")) 
@@ -209,6 +198,38 @@ namespace BBC.Dna.Objects
             }
 
             return thread;
+        }
+
+        private static string[] BadSearchChars = { "!", "\"", "&", "(", ")", "[", "]", "~", ",", "|"};
+
+        /// <summary>
+        /// formats the search terms into & delimited terms
+        /// </summary>
+        /// <param name="searchTextArray"></param>
+        /// <returns></returns>
+        public static string FormatSearchTerm(string[] searchTextArray)
+        {
+            string tempSeachText = string.Empty;
+            foreach (var term in searchTextArray)
+            {
+
+                string tempTerm = term;
+                foreach (var badChar in BadSearchChars)
+                {
+                    tempTerm = tempTerm.Replace(badChar, "");
+                }
+                tempTerm = tempTerm.Trim();
+                if (!string.IsNullOrEmpty(tempTerm))
+                {
+                    tempSeachText += tempTerm + "&";
+                }
+            }
+            //strip any trailing & chars
+            if (tempSeachText.LastIndexOf("&") == tempSeachText.Length - 1)
+            {
+                tempSeachText = tempSeachText.Substring(0, tempSeachText.Length-1);
+            }
+            return tempSeachText;
         }
 
     }
