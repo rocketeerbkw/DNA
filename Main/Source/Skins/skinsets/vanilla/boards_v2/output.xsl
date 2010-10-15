@@ -277,18 +277,18 @@
 	      				<p>Find out more about this board's <a href="{$houserulesurl}" class="popup">House Rules</a></p>
 	      			</div>
 	      			
-		      		<xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'EnableSearch']/VALUE = '1'">
+		      		<xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'EnableSearch']/VALUE = '0'">
 		      			<h3>Search this board</h3>
 		      			<div id="searchbox">
 							<form action="searchposts" method="get" id="dna-searchform">
 								<fieldset>
 									<label for="searchtext" class="dna-invisible">Search</label>
-									<input id="searchtext" name="searchtext">
+									<input id="searchtext" name="searchtext" maxlength="100">
 										<xsl:attribute name="value">
 											<xsl:value-of select="/H2G2/SEARCHTHREADPOSTS/@SEARCHTERM"/>
 										</xsl:attribute>
 									</input>
-									<input type="submit" value="Go" class="dna-button" />
+									<input type="submit" value="Search" class="dna-button" />
 								</fieldset>
 							</form>
 						</div>
