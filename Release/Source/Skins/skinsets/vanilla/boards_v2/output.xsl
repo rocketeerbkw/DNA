@@ -277,7 +277,7 @@
 	      				<p>Find out more about this board's <a href="{$houserulesurl}" class="popup">House Rules</a></p>
 	      			</div>
 	      			
-		      		<xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'EnableSearch']/VALUE = '0'">
+		      		<xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'EnableSearch']/VALUE = '1'">
 		      			<h3>Search this board</h3>
 		      			<div id="searchbox">
 							<form action="searchposts" method="get" id="dna-searchform">
