@@ -449,8 +449,15 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetComingUp(string siteName)
         {
-            var recommendations = Recommendations.CreateRecommendations(cacheManager, readerCreator);
-
+            Recommendations recommendations = null;
+            try
+            {
+                recommendations = Recommendations.CreateRecommendations(cacheManager, readerCreator);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
             return GetOutputStream(recommendations);
         }
 
@@ -536,7 +543,10 @@ namespace BBC.Dna.Services
             {
                 solo = SoloGuideEntries.CreateSoloGuideEntries(cacheManager, 
                                                                 readerCreator, 
-                                                                site.SiteID);
+                                                                site.SiteID,
+                                                                startIndex,
+                                                                itemsPerPage,
+                                                                false);
             }
             catch (ApiException ex)
             {
@@ -719,7 +729,10 @@ namespace BBC.Dna.Services
             {
                 scoutRecommendations = ScoutRecommendations.CreateScoutRecommendations(cacheManager, 
                                                                                         readerCreator,
-                                                                                        site.SiteID);
+                                                                                        site.SiteID,
+                                                                                        startIndex,
+                                                                                        itemsPerPage,
+                                                                                        false);
             }
             catch (ApiException ex)
             {

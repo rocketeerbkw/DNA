@@ -1128,5 +1128,25 @@ namespace FunctionalTests.Services.Users
             Console.WriteLine("After GetUsersFriendsByDNAUserId_ReadOnly_ReturnsValidXml");
         }
 
+        /// <summary>
+        /// Test GetUsersFriends method from service
+        /// </summary>
+        [TestMethod]
+        public void UpdateUsersSiteSuffix()
+        {
+            Console.WriteLine("Before UpdateUsersSiteSuffix");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/userdetails?idtype=DNAUserId&format=xml", _sitename);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, "<sitesuffix>New Site Suffix</sitesuffix>", "text/xml");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After UpdateUsersSiteSuffix");
+        }
     }
 }

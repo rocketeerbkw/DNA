@@ -1330,6 +1330,26 @@ namespace FunctionalTests.Services.Articles
         }
 
         /// <summary>
+        /// Test GetSoloGuideEntries method from service
+        /// </summary>
+        [TestMethod]
+        public void GetSoloGuideEntries()
+        {
+            Console.WriteLine("Before GetSoloGuideEntries");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/solo?format=xml", _sitename);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            XmlDocument xml = request.GetLastResponseAsXML();
+
+            Console.WriteLine("After GetSoloGuideEntries");
+        }
+
+        /// <summary>
         /// Tests if the article stats for h2g2 can be retrieved and deserialized
         /// </summary>
         [TestMethod]
