@@ -206,6 +206,8 @@ div#dna-boardpromo #dna-about-board .id-wrap, #blq-content .id-wrap  {margin:0; 
 div#dna-boardpromo #dna-about-board .id-wrap p, #blq-content .id-wrap p {line-height:2.1em}
 #blq-main #dna-boardpromo hr {margin:10px 8px 0 8px; line-height:1px; border-top:1px solid #ccc}
 #blq-main #dna-searchform {margin: 10px}
+#blq-main #dna-searchform #searchtext {width: 175px}
+
 
 /* unsure what the following are used for */
 div.breadcrumbs {margin-bottom:1.5em}
