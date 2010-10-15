@@ -42,11 +42,11 @@ namespace BBC.Dna.Objects
                         case GuideEntryStyle.GuideML:
                             text = text.Trim();
                             text = Entities.ReplaceEntitiesWithNumericValues(text);
-                            text = HtmlUtils.ReplaceCRsWithBRs(text);
+                            //text = HtmlUtils.ReplaceCRsWithBRs(text);
                             text = HtmlUtils.EscapeNonEscapedAmpersands(text);
                             doc.PreserveWhitespace = true;
                             doc.LoadXml(text);               
-                            //doc["GUIDE"]["BODY"].InnerXml = HtmlUtils.ReplaceCRsWithBRs(doc["GUIDE"]["BODY"].InnerXml);
+                            doc["GUIDE"]["BODY"].InnerXml = HtmlUtils.ReplaceCRsWithBRs(doc["GUIDE"]["BODY"].InnerXml);
                             break;
 
                         case GuideEntryStyle.PlainText:
