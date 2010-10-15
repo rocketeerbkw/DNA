@@ -23,7 +23,7 @@
         
         <xsl:apply-templates select="." mode="library_pagination_searchthreadposts" />
         
-        <a href="#topofthreads" class="backtotop">Back to top</a>
+        <p class="backtotop"><a href="#topofthreads">Back to top</a></p>
         
     </xsl:template>
     
