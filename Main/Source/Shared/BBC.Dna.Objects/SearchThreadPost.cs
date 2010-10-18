@@ -98,7 +98,14 @@ namespace BBC.Dna.Objects
             }
             if (post.Length > 200)
             {
-                post = post.Substring(0, post.LastIndexOf(" ", 200)) + "...";
+                if (post.LastIndexOf(" ", 200) > 0 && post.Length > post.LastIndexOf(" ", 200))
+                {
+                    post = post.Substring(0, post.LastIndexOf(" ", 200)) + "...";
+                }
+                else
+                {
+                    post = post.Substring(0, 200) + "...";
+                }
             }
 
             foreach (var term in searchTerms)

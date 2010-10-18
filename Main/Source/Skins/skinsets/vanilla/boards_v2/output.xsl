@@ -280,7 +280,7 @@
 		      		<xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'EnableSearch']/VALUE = '1'">
 		      			<h3>Search this Board</h3>
 		      			<div id="searchbox">
-							<form action="searchposts" method="get" id="dna-searchform">
+							<form action="{$root}/searchposts" method="get" id="dna-searchform">
 								<fieldset>
 									<label for="searchtext" class="dna-invisible">Search</label>
 									<input id="searchtext" name="searchtext" maxlength="100">
