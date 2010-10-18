@@ -337,5 +337,7 @@ REGEDIT4
 "/messageboardbackuprestore"="/dna/dnapages/MBBackupRestore.aspx?"
 "/mbadmin"="/dna/dnapages/MBAdmin.aspx?"
 
+"/HostDashboard"="/dna/dnapages/HostDashboard.aspx?"
+
 
 "/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"
