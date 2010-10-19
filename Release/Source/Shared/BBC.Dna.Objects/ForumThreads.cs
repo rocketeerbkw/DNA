@@ -246,8 +246,14 @@ namespace BBC.Dna.Objects
                 // If we found the info, set the expiry date
                 if (reader.HasRows && reader.Read())
                 {
-                    threadLastUpdate = reader.GetDateTime("ThreadLastUpdated");
-                    forumLastUpdate = reader.GetDateTime("ForumLastUpdated");
+                    if (reader.DoesFieldExist("ThreadLastUpdated") && !reader.IsDBNull("ThreadLastUpdated"))
+                    {
+                        threadLastUpdate = reader.GetDateTime("ThreadLastUpdated");
+                    }
+                    if (reader.DoesFieldExist("ForumLastUpdated") && !reader.IsDBNull("ForumLastUpdated"))
+                    {
+                        forumLastUpdate = reader.GetDateTime("ForumLastUpdated");
+                    }
                 }
             }
             return threadLastUpdate <= LastThreadUpdated && forumLastUpdate <= LastForumUpdated;
@@ -470,11 +476,11 @@ namespace BBC.Dna.Objects
                     threads.ThreadCanRead = (byte) (reader.GetBoolean("ThreadCanRead") ? 1 : 0);
                     threads.ThreadCanWrite = (byte) (reader.GetBoolean("ThreadCanWrite") ? 1 : 0);
                     threads.AlertInstantly = (byte) (reader.GetInt32NullAsZero("AlertInstantly") == 1 ? 1 : 0);
-                    if (reader.DoesFieldExist("ThreadLastUpdated"))
+                    if (reader.DoesFieldExist("ThreadLastUpdated") && !reader.IsDBNull("ThreadLastUpdated"))
                     {
                         threads.LastThreadUpdated = reader.GetDateTime("ThreadLastUpdated");
                     }
-                    if (reader.DoesFieldExist("ForumLastUpdated"))
+                    if (reader.DoesFieldExist("ForumLastUpdated") && !reader.IsDBNull("ForumLastUpdated"))
                     {
                         threads.LastForumUpdated = reader.GetDateTime("ForumLastUpdated");
                     }

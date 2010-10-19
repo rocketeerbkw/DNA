@@ -252,7 +252,10 @@ namespace BBC.Dna.Objects
                 // If we found the info, set the expiry date
                 if (reader.HasRows && reader.Read())
                 {
-                    lastUpdate = reader.GetDateTime("LastUpdated");
+                    if (reader.DoesFieldExist("LastUpdated") && !reader.IsDBNull("LastUpdated"))
+                    {
+                        lastUpdate = reader.GetDateTime("LastUpdated");
+                    }
                 }
             }
             return lastUpdate <= LastUpdated;
@@ -365,7 +368,11 @@ namespace BBC.Dna.Objects
                     thread.SkipTo = startIndex;
                     thread.Count = itemsPerPage;
                     thread.Post = new List<ThreadPost>();
-                    thread.LastUpdated = reader.GetDateTime("threadlastupdate");
+
+                    if (reader.DoesFieldExist("threadlastupdate") && !reader.IsDBNull("threadlastupdate")) 
+                    {
+                        thread.LastUpdated = reader.GetDateTime("threadlastupdate");
+                    }
 
                     int prevIndex = reader.GetInt32NullAsZero("EntryID");
                     int firstPostOnNextPage = 0;
