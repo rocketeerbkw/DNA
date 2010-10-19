@@ -1292,6 +1292,12 @@ links: http://www.bbc.co.uk and other stuff";
         [TestMethod]
         public void ForumPageBuilder_43GetH2G2ForumAndMarkAsReadCorrect_VerifyCorrectMorePostEntries()
         {
+            var testContext = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY("update threadpostings set lastpostcountread =0");
+            }
+
             var siteName = "h2g2";
             var testPost = @"this post contains newlines
 links: http://www.bbc.co.uk and other stuff";
@@ -1312,7 +1318,6 @@ links: http://www.bbc.co.uk and other stuff";
             Assert.IsNotNull(lastPost);
             Assert.AreEqual(expectedString, lastPost.InnerXml);
             Assert.AreNotEqual("0", lastPostIndex);//shouldn't be 0 - should be 1 or more
-
             //call MP page
             request.RequestPage("MP" + request.CurrentUserID.ToString() + "?skin=purexml");
             doc = request.GetLastResponseAsXML();
@@ -1320,7 +1325,6 @@ links: http://www.bbc.co.uk and other stuff";
             var lastReadPostIndex = doc.SelectSingleNode("//H2G2/POSTS/POST-LIST/POST/THREAD[@THREADID='33']/../@LASTPOSTCOUNTREAD").InnerText;
 
             Assert.AreEqual(lastPostIndex, lastReadPostIndex);
-            Assert.AreEqual(lastPostIndex, doc.SelectSingleNode("//H2G2/POSTS/POST-LIST/POST/THREAD[@THREADID='33']/../@COUNTPOSTS").InnerText);
         }
 
         #region Private helper functions
