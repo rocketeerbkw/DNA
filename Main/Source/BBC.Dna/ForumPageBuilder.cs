@@ -211,8 +211,11 @@ namespace BBC.Dna
             if (subscribeState != null && subscribeState.Thread != 0 && thread != null && thread.Post.Count > 0)
             {
 //update the last read post if the user is subscribed, increment by 1 because its a 0 based index
-                _forumHelper.MarkThreadRead(InputContext.ViewingUser.UserID, _threadId,
-                                            thread.Post[thread.Post.Count - 1].Index+1, true);
+                if (subscribeState.LastPostCountRead < thread.Post[thread.Post.Count - 1].Index + 1)
+                {
+                    _forumHelper.MarkThreadRead(InputContext.ViewingUser.UserID, _threadId,
+                                                thread.Post[thread.Post.Count - 1].Index + 1, true);
+                }
             }
         }
 
