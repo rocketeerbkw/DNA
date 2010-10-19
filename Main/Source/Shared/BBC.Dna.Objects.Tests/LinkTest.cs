@@ -5,6 +5,7 @@ using BBC.Dna.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using TestUtils;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects.Tests
 {

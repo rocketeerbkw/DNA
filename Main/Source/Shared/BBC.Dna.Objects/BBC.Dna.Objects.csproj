@@ -135,7 +135,6 @@
     <Compile Include="CrumbTrail.cs" />
     <Compile Include="CrumbTrailAncestor.cs" />
     <Compile Include="ArticleStatus.cs" />
-    <Compile Include="Date.cs" />
     <Compile Include="Groups.cs" />
     <Compile Include="PostStyle.cs" />
     <Compile Include="ReviewForum.cs" />

@@ -6,6 +6,7 @@ using BBC.Dna.Data;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using BBC.Dna.Api;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

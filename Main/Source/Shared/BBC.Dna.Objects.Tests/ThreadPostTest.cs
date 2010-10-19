@@ -8,6 +8,7 @@ using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
 using System.Collections.Generic;
 using BBC.Dna.Utils;
+using BBC.Dna.Common;
 
 
 namespace BBC.Dna.Objects.Tests

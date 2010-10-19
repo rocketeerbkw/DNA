@@ -1,17 +1,16 @@
 using System;
 using BBC.Dna.Utils;
 using System.Runtime.Serialization;
-namespace BBC.Dna.Objects
+using System.Xml.Serialization;
+
+namespace BBC.Dna.Common
 {
-    
-    
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, TypeName="LOCALDATE")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false, ElementName="LOCALDATE")]
+    [XmlTypeAttribute(AnonymousType=true, TypeName="LOCALDATE")]
+    [XmlRootAttribute(Namespace="", IsNullable=false, ElementName="LOCALDATE")]
     [DataContract(Name = "LocalDate")]
     public class LocalDate
     {
@@ -25,7 +24,7 @@ namespace BBC.Dna.Objects
             _dateTime = dateTime;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         [DataMember(Name = ("dateTime"))]
         public DateTime DateTime
         {
@@ -34,7 +33,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="DAYNAME")]
+        [XmlAttributeAttribute(AttributeName="DAYNAME")]
         public string DayName
         {
             get { return _dateTime.DayOfWeek.ToString(); }
@@ -42,7 +41,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="SECONDS")]
+        [XmlAttributeAttribute(AttributeName="SECONDS")]
         public int Seconds
         {
             get{ return _dateTime.Second; }
@@ -50,7 +49,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="MINUTES")]
+        [XmlAttributeAttribute(AttributeName="MINUTES")]
         public int Minutes
         {
             get { return _dateTime.Minute; }
@@ -58,7 +57,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="HOURS")]
+        [XmlAttributeAttribute(AttributeName="HOURS")]
         public int Hours
         {
             get { return _dateTime.Hour; }
@@ -66,7 +65,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="DAY")]
+        [XmlAttributeAttribute(AttributeName="DAY")]
         public int Day
         {
             get { return _dateTime.Day; }
@@ -74,7 +73,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="MONTH")]
+        [XmlAttributeAttribute(AttributeName="MONTH")]
         public int Month
         {
             get { return _dateTime.Month; }
@@ -82,7 +81,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="MONTHNAME")]
+        [XmlAttributeAttribute(AttributeName="MONTHNAME")]
         public string MonthName
         {
             get { return GetMonthName(_dateTime.Month); }
@@ -90,7 +89,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="YEAR")]
+        [XmlAttributeAttribute(AttributeName="YEAR")]
         public int Year
         {
             get { return _dateTime.Year; }
@@ -98,7 +97,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName="SORT")]
+        [XmlAttributeAttribute(AttributeName="SORT")]
         public string Sort
         {
             get { return _dateTime.ToString("yyyyMMddHHmmss"); }
@@ -106,7 +105,7 @@ namespace BBC.Dna.Objects
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "RELATIVE")]
+        [XmlAttributeAttribute(AttributeName = "RELATIVE")]
         [DataMember(Name = ("ago"))]
         public string Relative
         {
@@ -145,8 +144,8 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, TypeName="DATE")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace="", IsNullable=false, ElementName="DATE")]
+    [XmlTypeAttribute(AnonymousType=true, TypeName="DATE")]
+    [XmlRootAttribute(Namespace="", IsNullable=false, ElementName="DATE")]
     [DataContract(Name = "Date")]
     public class Date : LocalDate
     {
@@ -158,7 +157,7 @@ namespace BBC.Dna.Objects
         }
 
     /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, Order = 0, ElementName = "LOCAL")]
+        [XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, Order = 0, ElementName = "LOCAL")]
         [DataMember(Name = ("local"))]
         public LocalDate Local
         {
@@ -170,8 +169,8 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "DATE")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "DATE")]
+    [XmlTypeAttribute(AnonymousType = true, TypeName = "DATE")]
+    [XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "DATE")]
     [DataContract(Name = "DateElement")]
     public class DateElement 
     {
@@ -183,7 +182,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, Order = 0, ElementName = "DATE")]
+        [XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, Order = 0, ElementName = "DATE")]
         [DataMember(Name = ("date"))]
         public Date Date
         {

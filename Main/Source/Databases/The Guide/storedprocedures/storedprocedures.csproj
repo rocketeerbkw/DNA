@@ -1276,6 +1276,8 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="fetchmoderationstatisticsbysite.sql" />
+    <None Include="FetchModerationStatisticsByType.sql" />
     <None Include="createlinkedserver.sql" />
     <None Include="CreateNewSiteSearchResources.sql" />
     <None Include="DNASearch_searchthreadentriesfast.sql" />

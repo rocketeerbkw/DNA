@@ -18,6 +18,7 @@ using BBC.DNA.Moderation.Utils;
 using System.Collections.Generic;
 using BBC.Dna.Data;
 using System.Linq;
+using BBC.Dna.Common;
 
 
 namespace BBC.Dna.Services

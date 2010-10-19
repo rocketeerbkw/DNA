@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using System.Collections.Generic;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

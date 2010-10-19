@@ -7,6 +7,7 @@ using BBC.Dna.Utils;
 using ISite = BBC.Dna.Sites.ISite;
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

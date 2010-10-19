@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna.Data;
 using System;
 using Rhino.Mocks;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects.Tests
 {

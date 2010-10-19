@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

@@ -2,7 +2,7 @@ using BBC.Dna;
 using BBC.Dna.Page;
 
 
-public partial class HostDashboard : DnaWebPage
+public partial class HostDashboard : BBC.Dna.Page.DnaWebPage
     {
         public override string PageType
         {
@@ -16,6 +16,7 @@ public partial class HostDashboard : DnaWebPage
         /// </summary>
         public override void OnPageLoad()
         {
+            AddComponent(new HostDashboardBuilder(_basePage));
         }
         public override bool IsHtmlCachingEnabled()
         {

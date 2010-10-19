@@ -85,7 +85,6 @@
     <Compile Include="IndexTest.cs" />
     <Compile Include="ContributionsTest.cs" />
     <Compile Include="CrumbTrailsTest.cs" />
-    <Compile Include="DateTests.cs" />
     <Compile Include="EmailAlertGroupTest.cs" />
     <Compile Include="ForumHelperTest.cs" />
     <Compile Include="ForumThreadsTest.cs" />

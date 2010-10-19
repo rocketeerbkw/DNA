@@ -9,7 +9,7 @@ using System.Diagnostics;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation.Utils;
-using BBC.Dna.Site;
+using BBC.Dna.Sites;
 using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects

@@ -14,7 +14,7 @@ using BBC.Dna.Api;
 using System.Xml;
 using BBC.Dna.Users;
 using System.Runtime.Serialization;
-using BBC.Dna.Site;
+using BBC.Dna.Sites;
 
 
 namespace BBC.Dna.Services
