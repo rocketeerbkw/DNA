@@ -26,7 +26,8 @@ function initialiseForm() {
     }
 	
 	addEventToClass("type", "change", decisionChange, false)
-	addEventToClass("failReason", "change", failChange, false);
+	//removed to fix multiple items bug #1850
+	//addEventToClass("failReason", "change", failChange, false);
 
 	
 
