@@ -10,7 +10,7 @@ using BBC.Dna.Sites;
 using BBC.Dna.Api;
 using BBC.Dna.Moderation.Utils;
 using Rhino.Mocks.Constraints;
-using BBC.Dna.Site;
+using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 
 namespace BBC.Dna.Objects.Tests
@@ -551,7 +551,7 @@ namespace BBC.Dna.Objects.Tests
                          ModerationStatus = CommentStatus.Hidden.NotHidden,
                          PostIndex = 0,
                          SiteName = "h2g2",
-                         SiteType = BBC.Dna.Site.SiteType.Blog,
+                         SiteType = BBC.Dna.Sites.SiteType.Blog,
                          FirstSubject = "Test Instance Source Title",
                          Subject = "Test Instance Sub Title",
                          Timestamp = new DateTimeHelper(DateTime.Now),
@@ -563,7 +563,7 @@ namespace BBC.Dna.Objects.Tests
                          ModerationStatus = CommentStatus.Hidden.NotHidden,
                          PostIndex = 1,
                          SiteName = "h2g2",
-                         SiteType = BBC.Dna.Site.SiteType.Messageboard,
+                         SiteType = BBC.Dna.Sites.SiteType.Messageboard,
                          FirstSubject = "Test Instance Source Title 2",
                          Subject = "Test Instance Sub Title 2",
                          Timestamp = new DateTimeHelper(DateTime.Now),
