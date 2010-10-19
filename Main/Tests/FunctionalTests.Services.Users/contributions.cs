@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
-using BBC.Dna.Site;
+using BBC.Dna.Sites;
 using BBC.Dna;
 using BBC.Dna.Data;
 
