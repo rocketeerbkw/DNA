@@ -1276,6 +1276,8 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="getsitedailysummaryreportbytype.sql" />
+    <None Include="getsitedailysummaryreportbysite.sql" />
     <None Include="fetchmoderationstatisticsbysite.sql" />
     <None Include="FetchModerationStatisticsByType.sql" />
     <None Include="createlinkedserver.sql" />
@@ -1304,6 +1306,7 @@
     <None Include="riskmod_postriskmodthreadentrytoforum.sql" />
     <None Include="riskmod_processriskassessmentforthreadentry.sql" />
     <None Include="riskmod_setsitestate.sql" />
+    <None Include="createsitedailysummaryreport.sql" />
     <None Include="updatesitedefaultskin.sql" />
     <None Include="getindexofcomment.sql" />
     <None Include="EditTopic2.sql" />

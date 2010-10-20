@@ -583,3 +583,17 @@ where lastpostcountread > 1000000
 Ali - update the following assets folders:
 	dnaimages/dna_messageboard
 	dnaimages/javascript/DNA.js
+	
+	
+============== v 3.5.48.0 ============
+Marcus
+	Run DBScripts\SQLAgentJobs\createsitesummaryJob.sql and customise to run at 1:00am (or when apprioriate)
+	Exec createsitedailysummaryreport with a @startdate of 30 days from date published - leave @enddate=null
+	
+	i.e
+	exec createsitedailysummaryreport
+	@startdate = dateadd(d, -30, getdate()),
+	@enddate =null,
+	@siteid =0
+	
+	(Query took 26s on newguide)

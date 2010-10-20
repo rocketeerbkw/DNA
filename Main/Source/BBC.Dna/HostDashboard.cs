@@ -18,6 +18,7 @@ namespace BBC.Dna
         private int _siteId = 0;
         private SiteType _type = SiteType.Undefined;
         private int _userId = 0;
+        private int _days = 0;
 
 
         /// <summary>
@@ -42,26 +43,49 @@ namespace BBC.Dna
                 return;
             }
             GetQueryParameters();
+
+            //get site stats
+            DateTime startDate = DateTime.MinValue, endDate = DateTime.MinValue;
+            GetDateRange(_days, ref startDate, ref endDate);
+
             //get moderator stats
             var moderatorInfo = ModeratorInfo.GetModeratorInfo(AppContext.ReaderCreator, _userId, InputContext.TheSiteList);
             var modStats = new ModStats(){Moderator = moderatorInfo};
+            SiteSummaryStats stats;
             if (_siteId != 0)
             {
                 modStats = ModStats.FetchModStatsBySite(AppContext.ReaderCreator, _userId, _siteId,
                     moderatorInfo, InputContext.ViewingUser.IsReferee, false);
+
+                stats = SiteSummaryStats.GetStatsBySite(AppContext.ReaderCreator, _siteId, startDate, endDate);
             }
             else
             {
                 modStats = ModStats.FetchModStatsBySiteType(AppContext.ReaderCreator, _userId, _type,
                    moderatorInfo, true, false);
+
+                stats = SiteSummaryStats.GetStatsByType(AppContext.ReaderCreator, _type, _userId, startDate, endDate);
             }
             SerialiseAndAppend(modStats, "");
+            SerialiseAndAppend(stats, "");
 
             //get sitelist
             SiteXmlBuilder siteXml = new SiteXmlBuilder(InputContext);
             siteXml.CreateXmlSiteList(InputContext.TheSiteList);
             RootElement.AppendChild(ImportNode(siteXml.RootElement.FirstChild));
 
+
+            SerialiseAndAppend(SiteTypeEnumList.GetSiteTypes(), "");
+
+
+        }
+
+        private void GetDateRange(int days, ref DateTime startDate, ref DateTime endDate)
+        {
+            days = days == 0 ? 1 : days;
+
+            endDate = DateTime.Now;
+            startDate = endDate.AddDays(days * -1);
         }
 
         /// <summary>
@@ -71,6 +95,7 @@ namespace BBC.Dna
         {
             _siteId = InputContext.GetParamIntOrZero("s_siteid", "siteid to display");
             _type = (SiteType)InputContext.GetParamIntOrZero("s_type", "type to display");
+            _days = InputContext.GetParamIntOrZero("s_days", "days of stats to display");
 
             _userId = InputContext.ViewingUser.UserID;
             if (InputContext.ViewingUser.IsSuperUser)
