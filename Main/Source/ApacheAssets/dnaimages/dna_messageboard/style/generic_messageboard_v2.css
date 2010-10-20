@@ -237,7 +237,7 @@ p.permalink {margin-top:15px;text-align:right}
 
 .dna-boards fieldset {border:1px solid #ccc}
 .dna-boards legend {margin-left:10px; padding:1em 10px; font-size:1.2em; color:#444}
-.dna-boards .text,.dna-boards select, .dna-boards .textarea {width:440px; margin:0 0 0 24px; padding:4px;  font-size:1em; font-family:arial,helevtica,sans-serif; border:1px solid #ccc}
+.dna-boards .text,.dna-boards select, .dna-boards .textarea {width:400px; margin:0 0 0 24px; padding:4px;  font-size:1em; font-family:arial,helevtica,sans-serif; border:1px solid #ccc}
 .dna-boards .textarea{height:242px; overflow:auto}
 .dna-boards .disabled {border:1px solid #999} 
 
@@ -245,7 +245,7 @@ p.permalink {margin-top:15px;text-align:right}
 #blq-main #blq-content .dna-boards ul li {float:left}
 #blq-main #blq-content .dna-boards input.dna-button {width:auto; overflow:visible; padding:2px 10px; color:#fff; font-size:0.9em; font-weight:bold; background-color:#376dad; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
 #blq-main #dna-searchform input.dna-button {width:auto; overflow:visible; padding:2px 10px; color:#000; font-size:0.9em; background-color:#f1f1f1; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
-#blq-main #blq-content .dna-boards input.cancel {margin:0 200px 0 8px; background-color:#71aef1}
+#blq-main #blq-content .dna-boards input.cancel {margin:0 160px 0 8px; background-color:#71aef1}
 .dna-boards p.preview {margin:10px 0 0 24px; padding:0 10px}
 #blq-main #blq-content .dna-boards div#previewpost {margin:10px 24px 0 24px; padding:10px; background-color:#e8eced}
 #blq-main #blq-content .dna-boards div#previewpost h4 {margin-left: 0}
