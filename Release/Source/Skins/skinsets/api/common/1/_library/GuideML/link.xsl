@@ -15,9 +15,6 @@
         </doc:notes>
     </doc:documentation>
 
-	<xsl:variable name="aerian-base-entry">/h2g2/beta/entry/</xsl:variable>
-	<xsl:variable name="aerian-base-user">/h2g2/beta/user/</xsl:variable>
-
 	<xsl:template match="LINK" mode="library_GuideML">
         <a>
             <xsl:attribute name="href">
