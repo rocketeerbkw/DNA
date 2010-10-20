@@ -15,12 +15,14 @@
     </doc:documentation>
     
     <xsl:template match="BR" mode="library_GuideML">
-         <br />
+		<xsl:if test="preceding-sibling::*[1][local-name()='BR']">
+			<br />
+		</xsl:if>
     </xsl:template>
 	
 	<xsl:template match="BR" mode="library_GuideML_rss">
 		<xsl:text>		
-</xsl:text>
+		</xsl:text>
 	</xsl:template>
 	
 </xsl:stylesheet>
