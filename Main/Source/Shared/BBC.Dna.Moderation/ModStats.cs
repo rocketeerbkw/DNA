@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
 using BBC.Dna.Sites;
+using BBC.Dna.Objects;
 
 namespace BBC.Dna.Moderation
 {

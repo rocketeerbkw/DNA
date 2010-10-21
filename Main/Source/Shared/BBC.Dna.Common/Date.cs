@@ -3,14 +3,15 @@ using BBC.Dna.Utils;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace BBC.Dna.Common
+//TODO: fix namespacing issue in xml serialisation
+namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [XmlTypeAttribute(AnonymousType=true, TypeName="LOCALDATE")]
-    [XmlRootAttribute(Namespace="", IsNullable=false, ElementName="LOCALDATE")]
+    [XmlRootAttribute(IsNullable=false, ElementName="LOCALDATE")]
     [DataContract(Name = "LocalDate")]
     public class LocalDate
     {
@@ -145,7 +146,7 @@ namespace BBC.Dna.Common
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [XmlTypeAttribute(AnonymousType=true, TypeName="DATE")]
-    [XmlRootAttribute(Namespace="", IsNullable=false, ElementName="DATE")]
+    [XmlRootAttribute(IsNullable = false, ElementName = "DATE")]
     [DataContract(Name = "Date")]
     public class Date : LocalDate
     {
@@ -170,7 +171,7 @@ namespace BBC.Dna.Common
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [XmlTypeAttribute(AnonymousType = true, TypeName = "DATE")]
-    [XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "DATE")]
+    [XmlRootAttribute(IsNullable = false, ElementName = "DATE")]
     [DataContract(Name = "DateElement")]
     public class DateElement 
     {
