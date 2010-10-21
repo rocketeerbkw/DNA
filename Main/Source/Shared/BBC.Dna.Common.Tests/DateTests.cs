@@ -6,6 +6,7 @@ using System.Xml;
 using BBC.Dna.Common;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BBC.Dna.Objects;
 
 
 
