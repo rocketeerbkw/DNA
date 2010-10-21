@@ -48,6 +48,7 @@
 	<xsl:include href="_library/GuideML/img.xsl" />
 	<xsl:include href="_library/GuideML/li.xsl" />
 	<xsl:include href="_library/GuideML/link.xsl" />
+	<xsl:include href="_library/GuideML/marquee.xsl" />
 	<xsl:include href="_library/GuideML/ol.xsl" />
     <xsl:include href="_library/GuideML/p.xsl" />
 	<xsl:include href="_library/GuideML/picture.xsl" />

@@ -16,23 +16,49 @@
 	<xsl:template match="PICTURE" mode="library_GuideML">
     	<xsl:variable name="pictureTag">
     		<img src="{$blobs-root}{@H2G2IMG}" alt="{@ALT}" title="{@ALT}">
-	        	<xsl:if test="@HEIGHT"><xsl:attribute name="height"><xsl:value-of select="@HEIGHT"/></xsl:attribute></xsl:if>
-	        	<xsl:if test="@WIDTH"><xsl:attribute name="width"><xsl:value-of select="@WIDTH"/></xsl:attribute></xsl:if>
-	        </img>
+				<xsl:if test="@HEIGHT">
+					<xsl:attribute name="height">
+						<xsl:value-of select="@HEIGHT"/>
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="@WIDTH">
+					<xsl:attribute name="width">
+						<xsl:value-of select="@WIDTH"/>
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="@EMBED">
+					<xsl:attribute name="class">
+						<xsl:value-of select="@EMBED"/>
+					</xsl:attribute>
+				</xsl:if>
+			</img>
     	</xsl:variable>
-		<xsl:copy-of select="$pictureTag"/>
 
-		<!--    	<xsl:choose>
-    		<xsl:when test="@H2G2IMG and @H2G2IMG != ''">
-    			<a href="{$root}{@H2G2IMG}" class="imageLink">
-    				<xsl:copy-of select="$pictureTag"/>
-    			</a>
-    		</xsl:when>
+		<xsl:choose>
+    		<xsl:when test="@BLOB and @BLOB != ''">
+				<img src="{$blobs-root}{@BLOB}white" alt="{@ALT}" title="{@ALT}">
+					<xsl:if test="@HEIGHT">
+						<xsl:attribute name="height">
+							<xsl:value-of select="@HEIGHT"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@WIDTH">
+						<xsl:attribute name="width">
+							<xsl:value-of select="@WIDTH"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@EMBED">
+						<xsl:attribute name="class">
+							<xsl:value-of select="@EMBED"/>
+						</xsl:attribute>
+					</xsl:if>
+				</img>
+			</xsl:when>
     		<xsl:otherwise>
     			<xsl:copy-of select="$pictureTag"/>
     		</xsl:otherwise>
     	</xsl:choose>
--->
+		
     </xsl:template>
 	
 	<xsl:template match="PICTURE" mode="library_GuideML_rss">

@@ -17,7 +17,9 @@
     <xsl:template match="BR" mode="library_GuideML">
 		<xsl:if test="preceding-sibling::*[1][local-name()='BR']">
 			<xsl:if test="not(parent::*[1][local-name()='UL'])">
-				<br />
+<!--				<xsl:if test="not(position()=1)">-->
+					<br />
+<!--				</xsl:if>-->
 			</xsl:if>
 		</xsl:if>
     </xsl:template>

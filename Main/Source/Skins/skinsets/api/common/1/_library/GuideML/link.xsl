@@ -15,7 +15,7 @@
         </doc:notes>
     </doc:documentation>
 
-	<xsl:template match="LINK" mode="library_GuideML">
+	<xsl:template match="LINK | link" mode="library_GuideML">
         <a>
             <xsl:attribute name="href">
 				<xsl:choose>
@@ -26,9 +26,9 @@
 						<xsl:value-of select="$aerian-base-user"/>
 						<xsl:value-of select="@BIO | @bio"/>
 					</xsl:when>
-					<xsl:when test="@H2G2 | @h2g2">
+					<xsl:when test="@H2G2 | @h2g2 | @H2g2">
 						<xsl:value-of select="$aerian-base-entry"/>
-						<xsl:value-of select="@H2G2 | @h2g2"/>
+						<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$aerian-base-entry"/>
@@ -59,7 +59,7 @@
         </a>
     </xsl:template>
 	
-	<xsl:template match="LINK" mode="library_GuideML_rss">
+	<xsl:template match="LINK | link" mode="library_GuideML_rss">
 		<xsl:apply-templates mode="library_GuideML_rss"/>
 		<xsl:text> (</xsl:text>
 		<xsl:choose>

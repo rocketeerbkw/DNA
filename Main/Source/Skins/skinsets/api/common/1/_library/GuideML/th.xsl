@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="TH" mode="library_GuideML">
+    <xsl:template match="TH | th" mode="library_GuideML">
         <th>
             <xsl:apply-templates mode="library_GuideML"/>
         </th>

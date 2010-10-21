@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="QUOTE" mode="library_GuideML">
+    <xsl:template match="QUOTE | quote" mode="library_GuideML">
         <blockquote>
             <xsl:if test="@CLASS">
                 <xsl:attribute name="class">

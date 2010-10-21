@@ -13,18 +13,18 @@
 		</doc:notes>
 	</doc:documentation>
 	
-	<xsl:template match="FOOTNOTE" mode="library_GuideML">
+	<xsl:template match="FOOTNOTE | footnote" mode="library_GuideML">
 		<a href="#{@INDEX}"><span id="footnote-number"><xsl:value-of select="@INDEX"/></span></a>
 	</xsl:template>
 	
-	<xsl:template match="FOOTNOTE" mode="library_footnotes">
+	<xsl:template match="FOOTNOTE | footnote" mode="library_footnotes">
 		<li id="footnote-{@INDEX}">
 			<span><xsl:value-of select="@INDEX"/>. </span>
 			<xsl:apply-templates/>
 		</li>
 	</xsl:template>
 	
-	<xsl:template match="FOOTNOTE" mode="library_GuideML_rss">
+	<xsl:template match="FOOTNOTE | footnote" mode="library_GuideML_rss">
 		(<xsl:value-of select="@INDEX"/>: <xsl:apply-templates/>)
 	</xsl:template>
 	

@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-        <xsl:template match="PRE" mode="library_GuideML">
+        <xsl:template match="PRE | pre" mode="library_GuideML">
         <pre>
             <xsl:if test="@CLASS">
                 <xsl:attribute name="class">

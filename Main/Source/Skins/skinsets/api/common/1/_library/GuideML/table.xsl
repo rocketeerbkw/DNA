@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="TABLE" mode="library_GuideML">
+    <xsl:template match="TABLE | table" mode="library_GuideML">
         <table>
 			<xsl:if test="@BORDER=1">
 				<xsl:attribute name="class">border1</xsl:attribute>
