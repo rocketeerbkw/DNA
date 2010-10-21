@@ -55,14 +55,14 @@ namespace BBC.Dna
             if (_siteId != 0)
             {
                 modStats = ModStats.FetchModStatsBySite(AppContext.ReaderCreator, _userId, _siteId,
-                    moderatorInfo, InputContext.ViewingUser.IsReferee, false);
+                    moderatorInfo, true, true);
 
                 stats = SiteSummaryStats.GetStatsBySite(AppContext.ReaderCreator, _siteId, startDate, endDate);
             }
             else
             {
                 modStats = ModStats.FetchModStatsBySiteType(AppContext.ReaderCreator, _userId, _type,
-                   moderatorInfo, true, false);
+                   moderatorInfo, true, true);
 
                 stats = SiteSummaryStats.GetStatsByType(AppContext.ReaderCreator, _type, _userId, startDate, endDate);
             }
