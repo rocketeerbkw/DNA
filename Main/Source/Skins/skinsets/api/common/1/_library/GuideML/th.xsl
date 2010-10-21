@@ -3,7 +3,7 @@
     
     <doc:documentation>
         <doc:purpose>
-            Coverts TABLE nodes to HTML table
+            Coverts TH nodes to HTML th
         </doc:purpose>
         <doc:context>
             Applied by _common/_library/GuideML.xsl
@@ -13,13 +13,10 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="TABLE" mode="library_GuideML">
-        <table>
-			<xsl:if test="@BORDER=1">
-				<xsl:attribute name="class">border1</xsl:attribute>
-			</xsl:if>
-			<xsl:apply-templates mode="library_GuideML"/>
-        </table>
+    <xsl:template match="TH" mode="library_GuideML">
+        <th>
+            <xsl:apply-templates mode="library_GuideML"/>
+        </th>
     </xsl:template>
 		
 </xsl:stylesheet>

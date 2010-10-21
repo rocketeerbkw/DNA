@@ -61,6 +61,7 @@
 	<xsl:include href="_library/GuideML/table.xsl" />
 	<xsl:include href="_library/GuideML/td.xsl" />
 	<xsl:include href="_library/GuideML/textelement.xsl" />
+	<xsl:include href="_library/GuideML/th.xsl" />
 	<xsl:include href="_library/GuideML/tr.xsl" />
 	<xsl:include href="_library/GuideML/ul.xsl" />
 
