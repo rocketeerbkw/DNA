@@ -18,7 +18,7 @@ namespace BBC.Dna
         private int _siteId = 0;
         private SiteType _type = SiteType.Undefined;
         private int _userId = 0;
-        private int _days = 0;
+        private int _days = 7;//default to 7 days
 
 
         /// <summary>
@@ -95,7 +95,10 @@ namespace BBC.Dna
         {
             _siteId = InputContext.GetParamIntOrZero("s_siteid", "siteid to display");
             _type = (SiteType)InputContext.GetParamIntOrZero("s_type", "type to display");
-            _days = InputContext.GetParamIntOrZero("s_days", "days of stats to display");
+            if(InputContext.DoesParamExist("s_days", "days of stats to display"))
+            {
+                _days = InputContext.GetParamIntOrZero("s_days", "days of stats to display");
+            }
 
             _userId = InputContext.ViewingUser.UserID;
             if (InputContext.ViewingUser.IsSuperUser)
