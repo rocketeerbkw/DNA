@@ -88,6 +88,7 @@ namespace BBC.Dna.Moderation
         public static ModStats FetchModStatsBySiteType(IDnaDataReaderCreator creator, int userID, SiteType type, ModeratorInfo moderatorInfo, bool referrals, bool isFastMod)
         {
             var modStats = new ModStats() { Moderator = moderatorInfo, UserId = userID, IsReferee = (byte)(referrals?1:0) };
+            modStats.CreateBlankModQueueStat(referrals, isFastMod, 0);
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("fetchmoderationstatisticsbytype"))
             {
                 dataReader.AddParameter("userID", userID);
@@ -114,8 +115,13 @@ namespace BBC.Dna.Moderation
 
                     if (total != 0)
                     {
-                        modStats.ModerationQueues.Add(new ModQueueStat(state, objectType, minDateQueued,
-                            fastMod, 0, timeLeft, total));
+                        var item = modStats.ModerationQueues.Find(x => (x.ObjectType.ToUpper() == objectType.ToUpper() && x.State.ToUpper() == state.ToUpper()));
+                        if(item != null)
+                        {
+                            item.TimeLeft = timeLeft;
+                            item.Total = total;
+                            item.MinDateQueued = new Date(minDateQueued);
+                        }
                     }
                 }
             }
@@ -135,6 +141,7 @@ namespace BBC.Dna.Moderation
         public static ModStats FetchModStatsBySite(IDnaDataReaderCreator creator, int userID, int siteId, ModeratorInfo moderatorInfo, bool referrals, bool isFastMod)
         {
             var modStats = new ModStats() { Moderator = moderatorInfo, UserId = userID, IsReferee = (byte)(referrals ? 1 : 0) };
+            modStats.CreateBlankModQueueStat(referrals, isFastMod, 0);
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("fetchmoderationstatisticsbysite"))
             {
                 dataReader.AddParameter("userID", userID);
@@ -161,8 +168,13 @@ namespace BBC.Dna.Moderation
 
                     if (total != 0)
                     {
-                        modStats.ModerationQueues.Add(new ModQueueStat(state, objectType, minDateQueued,
-                            fastMod, 0, timeLeft, total));
+                        var item = modStats.ModerationQueues.Find(x => (x.ObjectType.ToUpper() == objectType.ToUpper() && x.State.ToUpper() == state.ToUpper()));
+                        if(item != null)
+                        {
+                            item.TimeLeft = timeLeft;
+                            item.Total = total;
+                            item.MinDateQueued = new Date(minDateQueued);
+                        }
                     }
                 }
             }
@@ -230,48 +242,53 @@ namespace BBC.Dna.Moderation
             {
                 int modClassID = moderatorInfo.Classes[i];
 
-                //forum posts and complaints
-                ModerationQueues.Add(new ModQueueStat("queued", "forum", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("locked", "forum", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("queued", "forumcomplaint", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("locked", "forumcomplaint", fastMod, modClassID));
-
-                if (referrals)
-                {
-                    //referred forum posts and complaints
-                    ModerationQueues.Add(new ModQueueStat("queuedreffered", "forum", fastMod, modClassID));
-                    ModerationQueues.Add(new ModQueueStat("lockedreffered", "forum", fastMod, modClassID));
-                    ModerationQueues.Add(new ModQueueStat("queuedreffered", "forumcomplaint", fastMod, modClassID));
-                    ModerationQueues.Add(new ModQueueStat("lockedreffered", "forumcomplaint", fastMod, modClassID));
-                }
-
-                //entries and complaints
-                ModerationQueues.Add(new ModQueueStat("queued", "entry", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("locked", "entry", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("queued", "entrycomplaint", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("locked", "entrycomplaint", fastMod, modClassID));
-
-                if (referrals)
-                {
-                    //referred entries and complaints
-                    ModerationQueues.Add(new ModQueueStat("queuedreffered", "entry", fastMod, modClassID));
-                    ModerationQueues.Add(new ModQueueStat("lockedreffered", "entry", fastMod, modClassID));
-                    ModerationQueues.Add(new ModQueueStat("queuedreffered", "entrycomplaint", fastMod, modClassID));
-                    ModerationQueues.Add(new ModQueueStat("lockedreffered", "entrycomplaint", fastMod, modClassID));
-                }
-
-                //nickname queues
-                ModerationQueues.Add(new ModQueueStat("queued", "nickname", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("locked", "nickname", fastMod, modClassID));
-
-                //general complaints
-                ModerationQueues.Add(new ModQueueStat("queued", "generalcomplaint", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("locked", "generalcomplaint", fastMod, modClassID));
-
-                //referred general complaints
-                ModerationQueues.Add(new ModQueueStat("queuedreffered", "generalcomplaint", fastMod, modClassID));
-                ModerationQueues.Add(new ModQueueStat("lockedreffered", "generalcomplaint", fastMod, modClassID));
+                CreateBlankModQueueStat(referrals, fastMod, modClassID);
             }
+        }
+
+        private void CreateBlankModQueueStat(bool referrals, bool fastMod, int modClassID)
+        {
+            //forum posts and complaints
+            ModerationQueues.Add(new ModQueueStat("queued", "forum", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("locked", "forum", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("queued", "forumcomplaint", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("locked", "forumcomplaint", fastMod, modClassID));
+
+            if (referrals)
+            {
+                //referred forum posts and complaints
+                ModerationQueues.Add(new ModQueueStat("queuedreffered", "forum", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("lockedreffered", "forum", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("queuedreffered", "forumcomplaint", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("lockedreffered", "forumcomplaint", fastMod, modClassID));
+            }
+
+            //entries and complaints
+            ModerationQueues.Add(new ModQueueStat("queued", "entry", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("locked", "entry", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("queued", "entrycomplaint", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("locked", "entrycomplaint", fastMod, modClassID));
+
+            if (referrals)
+            {
+                //referred entries and complaints
+                ModerationQueues.Add(new ModQueueStat("queuedreffered", "entry", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("lockedreffered", "entry", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("queuedreffered", "entrycomplaint", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("lockedreffered", "entrycomplaint", fastMod, modClassID));
+            }
+
+            //nickname queues
+            ModerationQueues.Add(new ModQueueStat("queued", "nickname", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("locked", "nickname", fastMod, modClassID));
+
+            //general complaints
+            ModerationQueues.Add(new ModQueueStat("queued", "generalcomplaint", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("locked", "generalcomplaint", fastMod, modClassID));
+
+            //referred general complaints
+            ModerationQueues.Add(new ModQueueStat("queuedreffered", "generalcomplaint", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("lockedreffered", "generalcomplaint", fastMod, modClassID));
         }
     }
 
