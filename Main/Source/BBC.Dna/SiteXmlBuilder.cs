@@ -38,6 +38,7 @@ namespace BBC.Dna
                 AddTextTag(sitexml, "DESCRIPTION", site.Description);
                 AddTextTag(sitexml, "SHORTNAME", site.ShortName);
                 AddTextTag(sitexml, "SSOSERVICE", site.SSOService);
+                AddTextTag(sitexml, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
             }
         }
         /// <summary>
