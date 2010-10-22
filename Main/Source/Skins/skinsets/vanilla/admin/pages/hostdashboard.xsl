@@ -28,8 +28,9 @@
 		    <form method="get" action="hostdashboard" class="dna-fr"> 
 		    	<fieldset>
 		    		<input type="hidden" name="s_type" value="{/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE}" />
-		    		<input type="hidden" name="s_userid" value="6" />
-		    		
+            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
+		    		  <input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
+            </xsl:if>
 			    	<select name="s_siteid" id="s_siteid">
 			    		<option disabled="disabled" selected="selected">Please select a <xsl:value-of select="$dashboardtype" /></option>
 			    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />

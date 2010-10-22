@@ -125,25 +125,54 @@
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '1'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
-									<a href="{$root}/hostdashboard?s_type=1&amp;s_userid=6">Blogs</a>
+                  <xsl:choose>
+                    <xsl:when test="PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']" >
+                      <a href="{$root}/hostdashboard?s_type=1&amp;s_userid={PARAMS/PARAM[NAME = 's_userid']/VALUE}">Blogs</a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <a href="{$root}/hostdashboard?s_type=1">Blogs</a>
+                    </xsl:otherwise>
+                  </xsl:choose>
+									
 								</li>
 								<li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '2'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
-									<a href="{$root}/hostdashboard?s_type=2&amp;s_userid=6">Boards</a>
+                  <xsl:choose>
+                    <xsl:when test="PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']" >
+                      <a href="{$root}/hostdashboard?s_type=2&amp;s_userid={PARAMS/PARAM[NAME = 's_userid']/VALUE}">Boards</a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <a href="{$root}/hostdashboard?s_type=2">Boards</a>
+                    </xsl:otherwise>
+                  </xsl:choose>
 								</li>
 								<li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '3'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
-									<a href="{$root}/hostdashboard?s_type=3&amp;s_userid=6">Communities</a>
+                  <xsl:choose>
+                    <xsl:when test="PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']" >
+                      <a href="{$root}/hostdashboard?s_type=3&amp;s_userid={PARAMS/PARAM[NAME = 's_userid']/VALUE}">Communities</a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <a href="{$root}/hostdashboard?s_type=3">Communities</a>
+                    </xsl:otherwise>
+                  </xsl:choose>
 								</li>
 								<li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '4'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
-									<a href="{$root}/hostdashboard?s_type=4&amp;s_userid=6">Stories</a>
+                  <xsl:choose>
+                    <xsl:when test="PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']" >
+                      <a href="{$root}/hostdashboard?s_type=4&amp;s_userid={PARAMS/PARAM[NAME = 's_userid']/VALUE}">Stories</a>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <a href="{$root}/hostdashboard?s_type=4">Stories</a>
+                    </xsl:otherwise>
+                  </xsl:choose>
 								</li>																
 							</xsl:otherwise>
 						</xsl:choose>
