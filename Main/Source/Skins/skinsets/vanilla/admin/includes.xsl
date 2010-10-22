@@ -16,28 +16,39 @@
     
     
     <!-- =================================================================================== Required === --> 
-    <xsl:include href="../../../common/configuration.xsl"/>
-    <xsl:include href="../configuration.xsl"/>
-
-  <xsl:variable name="configuration" select="msxsl:node-set($skin)/configuration" />
-
-  <xsl:include href="../../../common/2/includes.xsl" />
-
-  <xsl:include href="pages/messageboardadmin.xsl"/>
-  <xsl:include href="pages/mbbackuprestore.xsl"/>
-  <xsl:include href="pages/messageboardadmin_design.xsl"/>
-  <xsl:include href="pages/messageboardadmin_assets.xsl"/>
-  <xsl:include href="pages/topicbuilder.xsl"/>
-  <!-- xsl:include href="pages/frontpagelayout.xsl"/ -->
-  <xsl:include href="pages/lightboxes.xsl"/>
-  <xsl:include href="pages/error.xsl"/>
-  <xsl:include href="pages/messageboardschedule.xsl"/>
-  <xsl:include href="pages/commentforumlist.xsl"/>
-  <xsl:include href="pages/UserList.xsl"/>
-  <xsl:include href="pages/memberdetails.xsl"/>
-  
-  
-
-  <xsl:include href="objects/topiclist.xsl"/>
+    <xsl:variable name="configuration" select="msxsl:node-set($skin)/configuration" />
     
+   	<!-- common and configuration -->
+    <xsl:include href="../configuration.xsl"/>
+    <xsl:include href="../../../common/configuration.xsl"/>
+  	<xsl:include href="../../../common/2/includes.xsl" />
+
+	<!-- objects -->
+	<xsl:include href="objects/user/welcome.xsl"/>
+	
+	<xsl:include href="objects/links/admin.xsl"/>
+	<xsl:include href="objects/links/usermanagement.xsl"/>
+	<xsl:include href="objects/links/useful.xsl"/>
+	
+	<xsl:include href="objects/moderator/queues.xsl"/>
+	<xsl:include href="objects/moderator/sites.xsl"/>
+	<xsl:include href="objects/moderator/sitesummarystats.xsl"/>
+	<xsl:include href="objects/moderator/queuesummary.xsl"/>
+	
+	<xsl:include href="objects/topiclist.xsl"/>	
+	
+	<!-- pages -->
+	<xsl:include href="pages/commentforumlist.xsl"/>
+	<xsl:include href="pages/error.xsl"/>
+	<xsl:include href="pages/hostdashboard.xsl"/>
+	<xsl:include href="pages/lightboxes.xsl"/>
+	<xsl:include href="pages/memberdetails.xsl"/>
+	<xsl:include href="pages/messageboardadmin.xsl"/>
+	<xsl:include href="pages/messageboardadmin_assets.xsl"/>
+	<xsl:include href="pages/messageboardadmin_design.xsl"/>
+	<xsl:include href="pages/messageboardschedule.xsl"/>
+	<xsl:include href="pages/mbbackuprestore.xsl"/>
+	<xsl:include href="pages/topicbuilder.xsl"/>
+	<xsl:include href="pages/userlist.xsl"/>
+  
 </xsl:stylesheet>

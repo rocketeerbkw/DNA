@@ -27,7 +27,9 @@
     .dna-main-right {width:23.6em; margin:0}
     .dna-main-right div {margin-bottom:20px}
     .dna-main-full  {width:100%; margin:0}
+    .dna-main-threequarter {width:69%; margin:0}
     .dna-half {width:49.4%}
+    .dna-dashboard .dna-half {width:49.4%}
     .dna-main p,.glowNoMask  p{margin:10px}
 
     /* headings  */
@@ -51,6 +53,7 @@
     .dna-center {text-align:center}
 
     .dna-mall {margin:10px}
+    .dna-dashboard .dna-boxspace {margin-right:10px;}
 
     .dna-box {position:relative; margin-bottom:10px; background:#fff; height:1%; border:1px solid #ccc}
     .dna-box-border {padding:3px; margin-bottom:10px; background:#fff; border:1px dashed #ccc}
@@ -297,6 +300,15 @@
     .dna-memberdetails .postItems th{color: white;padding: 5px;background-color:black}
     .dna-memberdetails .postItems td{border: solid 1px grey;padding: 5px;word-wrap:break-word;}
     .dna-memberdetails .memberDetails { clear:both;}
+    
+    /*dashboard*/
+    .dna-dashboard .dna-box div {padding: 10px}
+    .dna-dashboard form {padding: 3px 0}
+    .dna-dashboard form select#s_siteid {width: 18.8em}
+    .dna-dashboard table {width:100%;table-layout:fixed}
+    .dna-dashboard table th, .dna-dashboard table td {padding: 10px}
+    .dna-dashboard table td {text-align:right}
+	.dna-dashboard tr.odd {background-color:#ebebd6}    
     
 }
 
