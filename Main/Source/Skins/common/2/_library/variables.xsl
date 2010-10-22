@@ -223,4 +223,24 @@
 		</xsl:choose>
     </xsl:variable>
     
+    <xsl:variable name="dashboardtype">
+    	<xsl:choose>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE = 1">blog</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE = 2">messageboard</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE = 3">community</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE = 4">story</xsl:when>
+    	</xsl:choose>
+    </xsl:variable>
+    
+    <xsl:variable name="dashboardtypename">
+    	<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/NAME" />
+    </xsl:variable>
+    
+    <xsl:variable name="dashboardposttype">
+    	<xsl:choose>
+    		<xsl:when test="$dashboardtype = 'blog' or $dashboardtype = 'story'">comment</xsl:when>
+    		<xsl:when test="$dashboardtype = 'messageboard' or $dashboardtype = 'community'">post</xsl:when>
+    	</xsl:choose>    	
+    </xsl:variable>
+    
 </xsl:stylesheet>
