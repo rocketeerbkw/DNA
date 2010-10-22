@@ -36,7 +36,7 @@
 
 		<xsl:choose>
     		<xsl:when test="@BLOB and @BLOB != ''">
-				<img src="{$blobs-root}{@BLOB}white" alt="{@ALT}" title="{@ALT}">
+				<img src="{$blob-gif-root}{@BLOB}white.gif" alt="{@ALT}" title="{@ALT}">
 					<xsl:if test="@HEIGHT">
 						<xsl:attribute name="height">
 							<xsl:value-of select="@HEIGHT"/>

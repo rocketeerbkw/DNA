@@ -15,7 +15,17 @@
     
     <xsl:template match="TD | td" mode="library_GuideML">
         <td>
-            <xsl:apply-templates mode="library_GuideML"/>
+			<xsl:if test="@BGCOLOR | @bgcolor">
+				<xsl:attribute name="bgcolor">
+					<xsl:value-of select="@BGCOLOR | @bgcolor"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@WIDTH | @width">
+				<xsl:attribute name="width">
+					<xsl:value-of select="@WIDTH | @width"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates mode="library_GuideML"/>
         </td>
     </xsl:template>
 		

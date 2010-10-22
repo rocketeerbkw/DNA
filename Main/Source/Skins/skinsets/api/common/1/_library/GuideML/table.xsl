@@ -18,6 +18,26 @@
 			<xsl:if test="@BORDER=1">
 				<xsl:attribute name="class">border1</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@WIDTH | @width">
+				<xsl:attribute name="width">
+					<xsl:value-of select="@WIDTH | @width"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@BGCOLOR | @bgcolor">
+				<xsl:attribute name="bgcolor">
+					<xsl:value-of select="@BGCOLOR | @bgcolor"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@CELLPADDING | @cellpadding">
+				<xsl:attribute name="cellpadding">
+					<xsl:value-of select="@CELLPADDING | @cellpadding"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@CELLSPACING | @cellspacing">
+				<xsl:attribute name="cellspacing">
+					<xsl:value-of select="@CELLSPACING | @cellspacing"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates mode="library_GuideML"/>
         </table>
     </xsl:template>
