@@ -14,7 +14,7 @@ namespace BBC.Dna.Utils
     /// <summary>
     /// Utility class for escaping and unescaping strings.
     /// </summary>
-    public class StringUtils
+    static public class StringUtils
     {
         /// <summary>
         /// Escapes the text so that it can be inserted into an XML tag
@@ -26,26 +26,26 @@ namespace BBC.Dna.Utils
         {
             if (text != null)
             {
-				//text = text.Replace("&", "&amp;");
-				//text = text.Replace("<", "&lt;");
-				//text = text.Replace(">", "&gt;");
-				XmlDocument doc = new XmlDocument();
-				XmlText plaintext = doc.CreateTextNode(text);
-				text = plaintext.OuterXml;
-			}
+                //text = text.Replace("&", "&amp;");
+                //text = text.Replace("<", "&lt;");
+                //text = text.Replace(">", "&gt;");
+                XmlDocument doc = new XmlDocument();
+                XmlText plaintext = doc.CreateTextNode(text);
+                text = plaintext.OuterXml;
+            }
 
             return text;
         }
 
         static string _pattern = @"&#x(0[0-8BCE-F]|1[0-9A-F])?;|&#(0[0-8]|1[1-24-9]|2[0-9]|3[01])?;|[^\u0009\u000A\u000D\u0020-\uFFFF]";
-        
+
         static Regex _regex = new Regex(_pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        
+
         /// <summary>
-		/// Strips out any illegal characters (below 32 except CR, LF and tab)
-		/// </summary>
-		/// <param name="text">string to process</param>
-		/// <returns>sanitised text</returns>
+        /// Strips out any illegal characters (below 32 except CR, LF and tab)
+        /// </summary>
+        /// <param name="text">string to process</param>
+        /// <returns>sanitised text</returns>
         public static string StripInvalidXmlChars(string text)
         {
             if (_regex.IsMatch(text))
@@ -63,7 +63,7 @@ namespace BBC.Dna.Utils
         public static string StripInvalidXmlChars2(string text)
         {
             char[] textchars = text.ToCharArray();
-            for(int i = 0; i < textchars.Length;i++)
+            for (int i = 0; i < textchars.Length; i++)
             {
                 if (textchars[i] < 32)
                 {
@@ -148,7 +148,7 @@ namespace BBC.Dna.Utils
         public static string StripFormattingFromText(string text)
         {
             Regex regTags = new Regex("(<([^>]+)>)");
-            text = regTags.Replace(text,"");
+            text = regTags.Replace(text, "");
 
             Regex regSpaces = new Regex("/s");
             text = regSpaces.Replace(text, "");
@@ -163,12 +163,12 @@ namespace BBC.Dna.Utils
         /// <returns>Converted string.</returns>
         public static string UnescapeString(string text)
         {
-			return Uri.UnescapeDataString(text.Replace('+',' '));
-			//String unescapedString = Uri.UnescapeDataString(text);
+            return Uri.UnescapeDataString(text.Replace('+', ' '));
+            //String unescapedString = Uri.UnescapeDataString(text);
 
-			//String plusString = unescapedString.Replace('+', ' ');
+            //String plusString = unescapedString.Replace('+', ' ');
 
-			//return plusString; 
+            //return plusString; 
         }
 
 
@@ -180,9 +180,9 @@ namespace BBC.Dna.Utils
         public static string MakeStringFileNameSafe(string text)
         {
             string safeText = text;
-            foreach ( char disallowed in System.IO.Path.GetInvalidFileNameChars())
+            foreach (char disallowed in System.IO.Path.GetInvalidFileNameChars())
             {
-                safeText = safeText.Replace(disallowed.ToString(), ""); 
+                safeText = safeText.Replace(disallowed.ToString(), "");
             }
             foreach (char disallowed in System.IO.Path.GetInvalidPathChars())
             {
@@ -537,7 +537,49 @@ namespace BBC.Dna.Utils
             return ns;
         }
 
+        /// <summary>
+        /// Extension to replace case insensitive strings
+        /// </summary>
+        /// <param name="original"></param>
+        /// <param name="oldValue"></param>
+        /// <param name="newValue"></param>
+        /// <param name="comparisionType"></param>
+        /// <returns></returns>
+        public static string ReplaceCaseInsensitive(this string original, string oldValue, string newValue, StringComparison comparisionType)
+        {
+            if (oldValue == null)
+            {
+                throw new ArgumentNullException("oldValue");
+            }
+            if (newValue == null)
+            {
+                throw new ArgumentNullException("newValue");
+            }
+
+            var result = original;
+
+            if (oldValue != newValue)
+            {
+                int index = -1;
+                int lastIndex = 0;
+
+                var buffer = new StringBuilder();
+
+                while ((index = original.IndexOf(oldValue, index + 1, comparisionType)) >= 0)
+                {
+                    buffer.Append(original, lastIndex, index - lastIndex);
+                    buffer.Append(newValue);
+
+                    lastIndex = index + oldValue.Length;
+                }
+                buffer.Append(original, lastIndex, original.Length - lastIndex);
+
+                result = buffer.ToString();
+            }
+            return result;
+        }
     }
+
 
     public class StringWriterWithEncoding : StringWriter
     {

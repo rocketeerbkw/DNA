@@ -131,6 +131,7 @@ namespace FunctionalTests
             _dnarequest.UseEditorAuthentication = true;
             string relativePath = @"/dna/haveyoursay/MemberList";
             _dnarequest.RequestNUnitASPPage(relativePath, Browser);
+            CurrentWebForm.Variables.Add("d_identityuserid", "dotneteditor");
 
             TextBoxTester entry = new TextBoxTester("txtEntry", CurrentWebForm);
             Assert.AreEqual(entry.Visible, true);
@@ -194,9 +195,11 @@ namespace FunctionalTests
         {
             Console.WriteLine("Before Test05MemberListSearchByEmailPage");
             _dnarequest.SetCurrentUserEditor();
+            
             _dnarequest.UseEditorAuthentication = true;
             string relativePath = @"/dna/haveyoursay/MemberList";
             _dnarequest.RequestNUnitASPPage(relativePath, Browser);
+            CurrentWebForm.Variables.Add("d_identityuserid", "dotneteditor");
 
             TextBoxTester entry = new TextBoxTester("txtEntry", CurrentWebForm);
             Assert.AreEqual(entry.Visible, true);

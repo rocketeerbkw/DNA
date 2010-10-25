@@ -106,10 +106,20 @@ namespace BBC.Dna.Objects
             }
             else
             {
-                dnaUserId = Convert.ToInt32(identifier);
+                try
+                {
+                    dnaUserId = Convert.ToInt32(identifier);
+                }
+                catch (Exception)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
             }
 
             UserSubscriptionsList userSubscriptions = new UserSubscriptionsList();
+            userSubscriptions.Skip = skip;
+            userSubscriptions.Show = show;
+
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("GetUsersSubscriptionList"))
             {

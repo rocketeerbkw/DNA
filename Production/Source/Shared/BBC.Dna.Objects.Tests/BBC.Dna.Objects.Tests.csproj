@@ -73,6 +73,7 @@
     <Compile Include="ArticleInfoReferencesEntryLinkTest.cs" />
     <Compile Include="ArticleInfoSubmittableTest.cs" />
     <Compile Include="ArticleInfoTest.cs" />
+    <Compile Include="ArticleListTest.cs" />
     <Compile Include="ArticleSubscriptionsListTest.cs" />
     <Compile Include="ArticleSummaryTest.cs" />
     <Compile Include="ArticleTest.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="CategorySummaryTest.cs" />
     <Compile Include="ExtraInfoCreatorTest.cs" />
     <Compile Include="ForumSourceTest.cs" />
+    <Compile Include="FriendsListTest.cs" />
     <Compile Include="IndexTest.cs" />
     <Compile Include="ContributionsTest.cs" />
     <Compile Include="CrumbTrailsTest.cs" />
@@ -101,7 +103,12 @@
     <Compile Include="RelatedClubsTest.cs" />
     <Compile Include="ReviewForumTest.cs" />
     <Compile Include="ReviewSubmissionTest.cs" />
+    <Compile Include="ScoutRecommendationsTest.cs" />
     <Compile Include="SearchTest.cs" />
+    <Compile Include="SearchThreadPostsTest.cs" />
+    <Compile Include="SearchThreadPostTest.cs" />
+    <Compile Include="SiteStatisticsTest.cs" />
+    <Compile Include="SoloGuideEntriesTest.cs" />
     <Compile Include="SubscribeResultTest.cs" />
     <Compile Include="SubscribeStateTest.cs" />
     <Compile Include="SubscribingUsersListTest.cs" />

@@ -14,16 +14,7 @@
     </doc:documentation>
     
     <xsl:template match="USER" mode="library_itemdetail">
-    	<xsl:if test="not(ancestor::ARTICLEINFO)">
-    		<xsl:variable name="messagenumber" select="number(ancestor::FORUMTHREADPOSTS/@SKIPTO) + count(parent::POST/preceding-sibling::POST)"></xsl:variable>
-    		
-	          <xsl:value-of select="concat('Message ', $messagenumber + 1, '. ')"/>
-	       
-    	</xsl:if>
-        
-        <span class="dna-inivisble">
-            Posted by
-        </span>
+        <xsl:text>Posted by </xsl:text>
         <xsl:apply-templates select="." mode="library_user_linked"/>
     </xsl:template>
 </xsl:stylesheet>

@@ -99,7 +99,7 @@ namespace BBC.Dna.Users
                                 lastSiteID = currentSiteID;
                             }
                             // Add the group name to the list
-                            groups.AddUserGroup(reader.GetInt32("userid"), reader.GetString("name"));
+                            groups.AddUserGroup(reader.GetInt32("userid"), reader.GetString("name").ToUpper());
                         }
                     }
 

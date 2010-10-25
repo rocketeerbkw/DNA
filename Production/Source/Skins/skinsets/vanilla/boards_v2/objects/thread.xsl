@@ -32,7 +32,7 @@
                         <xsl:when test="SUBJECT/text()">
                           <xsl:call-template name="fixedLines">
                             <xsl:with-param name="originalString" select="SUBJECT/text()" />
-                            <xsl:with-param name="charsPerLine" select="28" />
+                            <xsl:with-param name="charsPerLine" select="33" />
                             <xsl:with-param name="lines" select="1" />
                           </xsl:call-template>
                         </xsl:when>
@@ -48,7 +48,7 @@
             <p>
               <xsl:call-template name="fixedLines">
                 <xsl:with-param name="originalString" select="FIRSTPOST/TEXT" />
-                <xsl:with-param name="charsPerLine" select="33" />
+                <xsl:with-param name="charsPerLine" select="36" />
                 <xsl:with-param name="lines" select="2" />
               </xsl:call-template>
             </p>
@@ -61,6 +61,7 @@
          <td class="startedby">
 	         <span class="vcard">
 	             <span class="fn">
+	             	<xsl:attribute name="class">fn<xsl:text> </xsl:text><xsl:apply-templates select="FIRSTPOST/USER/GROUPS/GROUP" mode="library_user_group" /></xsl:attribute>
 	             	<!-- Split the string as it was destroying table layout -->
 	             	<xsl:variable name="firstpostuser">
 						      <xsl:apply-templates select="FIRSTPOST/USER" mode="library_user_username" />
@@ -151,10 +152,12 @@
             <div class="itemdetail">
                 <p class="replydate">
                     <xsl:text>Last contribution: </xsl:text>
-                    <xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>
-                	<xsl:text> at </xsl:text>
-                	<xsl:apply-templates select="REPLYDATE/DATE" mode="library_time_shortformat"/>
-                	(<xsl:value-of select="REPLYDATE/DATE/@RELATIVE"/>)
+                    <a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;post=',LASTUSERPOST/@POSTID, '#p', LASTUSERPOST/@POSTID)}">
+	                    <xsl:apply-templates select="LASTUSERPOST/DATEPOSTED/DATE" mode="library_date_shortformat"/>
+	                	<xsl:text> at </xsl:text>
+	                	<xsl:apply-templates select="LASTUSERPOST/DATEPOSTED/DATE" mode="library_time_shortformat"/>
+                	</a>
+                	(<xsl:value-of select="LASTUSERPOST/DATEPOSTED/DATE/@RELATIVE"/>)
                 </p>
             	<p class="replies">
             		<xsl:if test="ancestor::POST-LIST/USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
@@ -162,7 +165,7 @@
             			<br/>
             		</xsl:if>
             		<xsl:text>Latest post: </xsl:text>
-            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#p', LASTUSERPOST/@POSTID)}">
+            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;latest=1')}">
             			<xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>
             		</a>
             	</p>
@@ -175,6 +178,8 @@
     <xsl:param name="charsPerLine" />
     <xsl:param name="lines" select="1"/>
     <xsl:param name="newString" select="''" />
+
+
 
     <xsl:choose>
       <xsl:when test="string-length($originalString) > $charsPerLine">
@@ -199,8 +204,11 @@
                 </xsl:otherwise>
               </xsl:choose>
             </xsl:variable>
-            
-            <xsl:variable name="newline"> </xsl:variable>
+
+            <xsl:variable name="newline">
+              <xsl:text> </xsl:text>
+            </xsl:variable>
+
 
             <xsl:variable name="newCurrentLineText">
               <xsl:value-of disable-output-escaping="no" select="concat(concat($newString, $currentLineText), $newline)"/>

@@ -14,9 +14,7 @@
     </doc:documentation>
     
     <xsl:template match="DATEPOSTED" mode="library_itemdetail">
-        <span class="dna-invisible">
-            on 
-        </span>
+        <span><xsl:text> on </xsl:text></span>
         <xsl:apply-templates select="DATE" mode="library_date_longformat">
             <xsl:with-param name="longformat_label">Posted on </xsl:with-param>
         </xsl:apply-templates>

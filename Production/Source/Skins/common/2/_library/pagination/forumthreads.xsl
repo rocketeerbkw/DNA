@@ -104,16 +104,17 @@
         <xsl:param name="totalPages" select="floor(@TOTALTHREADS div @COUNT) + 1"/>
         <xsl:param name="counter" select="floor(@SKIPTO div @COUNT)-5" />
         <xsl:param name="currentPage" select="floor(@SKIPTO div @COUNT) + 1" />
-      <xsl:if test="($totalPages > 1) and ($counter > 0) and ($counter > ($currentPage - 5) ) and ($counter &lt; ($currentPage + 5) )">
-            <li>
-                <xsl:if test="$currentPage = $counter">
-                    <xsl:attribute name="class">current</xsl:attribute>
-                </xsl:if>
-                <a href="{$root}/NF{@FORUMID}?skip={@COUNT * ($counter - 1)}">
-                    <xsl:value-of select="$counter"/>
-                </a>
-            </li>
-        </xsl:if>
+        
+	    <xsl:if test="($totalPages > 1) and ($counter > 0) and ($counter > ($currentPage - 5) ) and ($counter &lt; ($currentPage + 5)) and ($counter &lt;= $totalPages)">
+	          <li>
+	              <xsl:if test="$currentPage = $counter">
+	                  <xsl:attribute name="class">current</xsl:attribute>
+	              </xsl:if>
+	              <a href="{$root}/NF{@FORUMID}?skip={@COUNT * ($counter - 1)}">
+	                  <xsl:value-of select="$counter"/>
+	              </a>
+	          </li>
+	    </xsl:if>
         
         <xsl:if test="$counter &lt; ($currentPage + 5)">
             <xsl:apply-templates select="." mode="library_pagination_pagelist">

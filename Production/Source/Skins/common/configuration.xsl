@@ -31,7 +31,7 @@
             </sso>
         -->
        <identity>
-            <url>https://id.stage.bbc.co.uk</url>
+            <url>https://id.test.bbc.co.uk</url>
         </identity>
         <!-- live 
         	<identity>

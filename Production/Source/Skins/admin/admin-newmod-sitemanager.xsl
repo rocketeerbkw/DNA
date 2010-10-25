@@ -250,6 +250,10 @@
         <tr>
           <td align="right">Queue Postings:</td>
           <td>
+            <!--
+            Post queuing will not work at the , and if accidently turned on could cause
+            problems.
+            Disabling it here and in the database to avert catastophe!
             <input type="radio" name="queuepostings" value="1">
               <xsl:if test="QUEUEPOSTINGS=1">
                 <xsl:attribute name="checked"/>
@@ -260,6 +264,8 @@
                 <xsl:attribute name="checked"/>
               </xsl:if>
             </input> No
+            -->
+            Not currently supported
           </td>
         </tr>
         <tr>
@@ -298,6 +304,56 @@
             <xsl:apply-templates select="/H2G2/SITEMANAGER/IDENTITYPOLICIES" mode="select"/>
           </td>
         </tr>
+
+        <tr>
+          <td align="right">Risk Mod State:</td>
+          <td>
+            <select name="riskModState">
+              <option value="0">
+                <xsl:if test="RISKMODSTATE=0">
+                  <xsl:attribute name="selected"/>
+                </xsl:if>
+                Off
+              </option>
+              <option value="1">
+                <xsl:if test="RISKMODSTATE=1">
+                  <xsl:attribute name="selected"/>
+                </xsl:if>
+                On
+              </option>
+            </select>
+            
+            <select name="riskModPublishMethod">
+              <option value="A">
+                <xsl:if test="RISKMODPUBLISHMETHOD='A'">
+                  <xsl:attribute name="selected"/>
+                </xsl:if>
+                Publish After Risk Assessment
+              </option>
+              <option value="B">
+                <xsl:if test="RISKMODPUBLISHMETHOD='B'">
+                  <xsl:attribute name="selected"/>
+                </xsl:if>
+                Publish Before Risk Assessment
+              </option>
+            </select>
+            value:<xsl:value-of select="RISKMODPUBLISHMETHOD"/>
+            <xsl:if test="RISKMODPUBLISHMETHOD='A'">
+              A
+            </xsl:if>
+            <xsl:if test="RISKMODPUBLISHMETHOD='B'">
+              B
+            </xsl:if>
+            <xsl:if test="RISKMODSTATE=0">
+              Off
+            </xsl:if>
+            <xsl:if test="RISKMODSTATE=1">
+              On
+            </xsl:if>
+          </td>
+        </tr>
+
+
         <tr>
           <td>
           </td>

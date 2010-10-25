@@ -29,7 +29,10 @@
             <assetPaths>
                 <css>/_assets/css/</css>
                 <images>/_assets/img/</images>
-                <smileys>http://www.bbc.co.uk/h2g2/skins/Alabaster/images/Smilies/f_</smileys>
+                <xsl:choose>
+                	<xsl:when test="/H2G2/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION != ''"><smileys><xsl:value-of select="/H2G2/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION" /></smileys></xsl:when>
+                	<xsl:otherwise><smileys>http://www.bbc.co.uk/dnaimages/boards/images/emoticons/f_</smileys></xsl:otherwise>
+                </xsl:choose>
                 <javascript>/_assets/js/</javascript>
             </assetPaths>
             <xsl:copy-of select="$globalconfiguration"/>

@@ -59,27 +59,21 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserSuperUser();
-
-            DnaTestURLRequest request2 = new DnaTestURLRequest("moderation");
-            request2.SetCurrentUserNormal();
-
             request.UseEditorAuthentication = true;
-            request.RequestPage(String.Format("ModeratorManagement?manage=editor&giveaccess=1&userid={0}&siteid={1}&skin=purexml",request2.CurrentUserID,_siteId) );
+            request.RequestPage(String.Format("ModeratorManagement?manage=editor&giveaccess=1&userid={0}&siteid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, _siteId));
 
             //Check user is editor of site concerned.
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='editor']"));
-            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]",request2.CurrentUserID,_siteId) );
+            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, _siteId));
             Assert.IsNotNull(node);
 
-            
             CheckUserPermissions("EDITOR");
-            
 
             //Remove Access
-            request.RequestPage(String.Format("ModeratorManagement?manage=editor&removeaccess=1&userid={0}&siteid={1}&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=editor&removeaccess=1&userid={0}&siteid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             xml = request.GetLastResponseAsXML();
-            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", request2.CurrentUserID, 1));
+            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNull(node);
         }
 
@@ -88,17 +82,13 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserSuperUser();
-
-            DnaTestURLRequest request2 = new DnaTestURLRequest("moderation");
-            request2.SetCurrentUserNormal();
-
             request.UseEditorAuthentication = true;
-            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&giveaccess=1&userid={0}&siteid={1}&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&giveaccess=1&userid={0}&siteid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
 
             //Check user is editor of site concerned.
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='moderator']"));
-            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", request2.CurrentUserID, 1));
+            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNotNull(node);
 
             
@@ -106,9 +96,9 @@ namespace FunctionalTests
             CheckUserPermissions("MODERATOR");
 
             //Remove Access
-            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&removeaccess=1&userid={0}&siteid={1}&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&removeaccess=1&userid={0}&siteid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             xml = request.GetLastResponseAsXML();
-            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", request2.CurrentUserID, 1));
+            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNull(node);
         }
 
@@ -117,26 +107,22 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserSuperUser();
-
-            DnaTestURLRequest request2 = new DnaTestURLRequest("moderation");
-            request2.SetCurrentUserNormal();
-
             request.UseEditorAuthentication = true;
-            request.RequestPage(String.Format("ModeratorManagement?manage=notables&giveaccess=1&userid={0}&siteid={1}&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=notables&giveaccess=1&userid={0}&siteid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
 
             //Check user is editor of site concerned.
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='notables']"));
-            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", request2.CurrentUserID, 1));
+            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNotNull(node);
 
             
             CheckUserPermissions("NOTABLES");
 
             //Remove Access
-            request.RequestPage(String.Format("ModeratorManagement?manage=notables&removeaccess=1&userid={0}&siteid={1}&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=notables&removeaccess=1&userid={0}&siteid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             xml = request.GetLastResponseAsXML();
-            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", request2.CurrentUserID, 1));
+            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNull(node);
         }
 
@@ -145,25 +131,21 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserSuperUser();
-
-            DnaTestURLRequest request2 = new DnaTestURLRequest("moderation");
-            request2.SetCurrentUserNormal();
-
             request.UseEditorAuthentication = true;
-            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&giveaccess=1&userid={0}&classid={1}&skin=purexml", request2.CurrentUserID, _modClassId));
+            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&giveaccess=1&userid={0}&classid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
 
             //Check user is editor of site concerned.
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='moderator']"));
-            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", request2.CurrentUserID, _modClassId));
+            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             Assert.IsNotNull(node);
 
             CheckUserPermissions("MODERATOR");
 
             //Remove Access
-            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&removeaccess=1&userid={0}&classid={1}&skin=purexml", request2.CurrentUserID, _modClassId));
+            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&removeaccess=1&userid={0}&classid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             xml = request.GetLastResponseAsXML();
-            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", request2.CurrentUserID, _modClassId));
+            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             Assert.IsNull(node);
         }
 
@@ -172,25 +154,21 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserSuperUser();
-
-            DnaTestURLRequest request2 = new DnaTestURLRequest("moderation");
-            request2.SetCurrentUserNormal();
-
             request.UseEditorAuthentication = true;
-            request.RequestPage(String.Format("ModeratorManagement?manage=editor&giveaccess=1&userid={0}&classid={1}&skin=purexml", request2.CurrentUserID, _modClassId));
+            request.RequestPage(String.Format("ModeratorManagement?manage=editor&giveaccess=1&userid={0}&classid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
 
             //Check user is editor of site concerned.
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='editor']"));
-            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", request2.CurrentUserID, _modClassId));
+            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             Assert.IsNotNull(node);
 
             CheckUserPermissions("EDITOR");
 
             //Remove Access
-            request.RequestPage(String.Format("ModeratorManagement?manage=editor&removeaccess=1&userid={0}&classid={1}&skin=purexml", request2.CurrentUserID, _modClassId));
+            request.RequestPage(String.Format("ModeratorManagement?manage=editor&removeaccess=1&userid={0}&classid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             xml = request.GetLastResponseAsXML();
-            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", request2.CurrentUserID, _modClassId));
+            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             Assert.IsNull(node);
         }
 
@@ -199,25 +177,21 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserSuperUser();
-
-            DnaTestURLRequest request2 = new DnaTestURLRequest("moderation");
-            request2.SetCurrentUserNormal();
-
             request.UseEditorAuthentication = true;
-            request.RequestPage(String.Format("ModeratorManagement?manage=notables&giveaccess=1&userid={0}&classid={1}&skin=purexml", request2.CurrentUserID, _modClassId));
+            request.RequestPage(String.Format("ModeratorManagement?manage=notables&giveaccess=1&userid={0}&classid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
 
             //Check user is editor of site concerned.
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='notables']"));
-            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", request2.CurrentUserID, _modClassId));
+            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             Assert.IsNotNull(node);
 
             CheckUserPermissions("NOTABLES");
 
             //Remove Access
-            request.RequestPage(String.Format("ModeratorManagement?manage=notables&removeaccess=1&userid={0}&classid={1}&skin=purexml", request2.CurrentUserID, _modClassId));
+            request.RequestPage(String.Format("ModeratorManagement?manage=notables&removeaccess=1&userid={0}&classid={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             xml = request.GetLastResponseAsXML();
-            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", request2.CurrentUserID, _modClassId));
+            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             Assert.IsNull(node);
         }
 
@@ -226,24 +200,20 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserSuperUser();
-
-            DnaTestURLRequest request2 = new DnaTestURLRequest("moderation");
-            request2.SetCurrentUserNormal();
-
             request.UseEditorAuthentication = true;
 
             //Check user is not moderator ro site beforehand.
-            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='moderator']"));
-            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", request2.CurrentUserID, 1));
+            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNull(node);
 
             //Update user and chack user is now moderator
-            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&updateuser=1&userid={0}&tosite={1}&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&updateuser=1&userid={0}&tosite={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='moderator']"));
-            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", request2.CurrentUserID, 1));
+            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNotNull(node);
 
         }
@@ -253,24 +223,20 @@ namespace FunctionalTests
         {
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserSuperUser();
-
-            DnaTestURLRequest request2 = new DnaTestURLRequest("moderation");
-            request2.SetCurrentUserNormal();
-
             request.UseEditorAuthentication = true;
 
             //Check User isn't already editor to class
-            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='moderator']"));
-            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", request2.CurrentUserID, 1));
+            XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNull(node);
 
             //Update user so user is editor for class and check XML.
-            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&updateuser=1&userid={0}&toclass={1}&skin=purexml", request2.CurrentUserID, 1));
+            request.RequestPage(String.Format("ModeratorManagement?manage=moderator&updateuser=1&userid={0}&toclass={1}&skin=purexml", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             xml = request.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("/H2G2/MODERATOR-LIST[@GROUPNAME='moderator']"));
-            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", request2.CurrentUserID, 1));
+            node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNotNull(node);
 
         }

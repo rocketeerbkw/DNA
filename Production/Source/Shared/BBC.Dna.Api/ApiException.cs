@@ -199,7 +199,31 @@ namespace BBC.Dna.Api
                     break;                   
                 case ErrorType.AddIntoReviewForumFailed:
                     error = new ApiException("Failed to add into review forum.", innerException);
-                    break;                   
+                    break;
+                case ErrorType.UserDoesNotHavePermissionToEditArticle:
+                    error = new ApiException("User does not have permission to edit article", innerException);
+                    break;
+
+                case ErrorType.ArticleContainsURLs:
+                    error = new ApiException("Article contains URLs", innerException);
+                    break;
+
+                case ErrorType.ArticleContainsEmailAddress:
+                    error = new ApiException("Article contains email addresses", innerException);
+                    break;
+                case ErrorType.WrongStatus:
+                    error = new ApiException("Entry is not a public user entry", innerException);
+                    break;
+                case ErrorType.AlreadyRecommended:
+                    error = new ApiException("Entry has already been recommended", innerException);
+                    break;
+                case ErrorType.OwnEntry:
+                    error = new ApiException("Recommender is author", innerException);
+                    break;
+                case ErrorType.NotInReview:
+                    error = new ApiException("Not in appropriate review forum", innerException);
+                    break;                    
+
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
                     break;
@@ -262,6 +286,13 @@ namespace BBC.Dna.Api
         MissingSubject,
         NoResults,
         NotForReview,
-        AddIntoReviewForumFailed
+        AddIntoReviewForumFailed,
+        UserDoesNotHavePermissionToEditArticle,
+        ArticleContainsURLs,
+        ArticleContainsEmailAddress,
+        WrongStatus,
+        AlreadyRecommended,
+        OwnEntry,
+        NotInReview
     }
 }

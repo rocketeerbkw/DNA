@@ -106,6 +106,7 @@
                 <xsl:when test="$autogenname_required = 'true'">
 	            	<!-- nowt again -->                
                 </xsl:when>
+                <xsl:when test="@CANWRITE = 0"><!-- nothing --></xsl:when>
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
                         <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
@@ -146,6 +147,8 @@
                 </xsl:with-param>
             </xsl:call-template>
             
+            <xsl:apply-templates select="@INDEX" mode="library_itemdetail"/>
+            
             <xsl:apply-templates select="USER" mode="library_userstate_editor">
                 <xsl:with-param name="false">
                     <p class="flag">
@@ -164,19 +167,6 @@
                     </p>
                 </xsl:with-param>
             </xsl:apply-templates>
-            
-            <xsl:if test="@INREPLYTO">
-              <p class="dna-boards-thisreplyto">
-              <xsl:choose>
-              	<xsl:when test="@INREPLYTOINDEX">
-                	This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}"> message <xsl:value-of select="@INREPLYTOINDEX+1" /></a>.
-                </xsl:when>
-                <xsl:otherwise>
-                	This is a reply to <a href="{concat($root, '/NF', parent::FORUMTHREADPOSTS/@FORUMID, '?thread=', parent::FORUMTHREADPOSTS/@THREADID, '#p', @INREPLYTO)}"> this message</a>.
-                </xsl:otherwise>
-               </xsl:choose>
-              </p>
-            </xsl:if>
             
         </li>
         

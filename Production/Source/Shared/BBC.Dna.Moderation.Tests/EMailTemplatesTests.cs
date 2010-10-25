@@ -118,7 +118,7 @@ namespace BBC.Dna.Moderation.Tests
             EmailTemplates templates = EmailTemplates.GetEmailTemplates(readerCreator, EmailTemplateTypes.AllTemplates, -1);
 
             Assert.IsNotNull(templates.EmailTemplatesList);
-            Assert.AreEqual(3, templates.EmailTemplatesList.Count);
+            Assert.AreEqual(6, templates.EmailTemplatesList.Count);
         }
     }
 
@@ -128,7 +128,7 @@ namespace BBC.Dna.Moderation.Tests
         {
             AddGetInt32ColumnValue("ModClassID", modClassID);
             AddIsDBNullCheck("AutoFormat", false);
-            AddGetBooleanColumnValue("AutoFormat", autoFormat ? 1 : 0);
+            AddGetBooleanColumnValue("AutoFormat", autoFormat);
             AddGetInt32ColumnValue("EmailTemplateID", templateID);
             AddGetStringColumnValue("Name",name);
             AddGetStringColumnValue("Subject", subject);

@@ -65,6 +65,7 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "totalContributions")]
         public int TotalContributions { get; set; }
 
+
         /// <summary>
         /// Whether we get via id or username.
         /// </summary>
@@ -199,7 +200,7 @@ namespace BBC.Dna.Objects
                 reader2.AddParameter("siteType", returnedContributions.SiteType);
                 reader2.AddParameter("siteName", returnedContributions.SiteName);
                 reader2.AddParameter("userNameType", returnedContributions.UserNameType);
-                reader2.AddIntOutputParameter("count");
+                reader2.AddIntOutputParameter("count"); 
                 reader2.Execute();
 
                 returnedContributions = CreateContributionInternal(returnedContributions, cache, reader2);
@@ -242,16 +243,14 @@ namespace BBC.Dna.Objects
                 InstanceCreatedDateTime = DateTime.Now
             };
 
-            using (IDnaDataReader reader2 = readerCreator.CreateDnaDataReader("getcontributions"))
+            using (IDnaDataReader reader2 = readerCreator.CreateDnaDataReader("getrecentcontributions"))
             {
                 // Add the entry id and execute
                 reader2.AddIntReturnValue();
                 reader2.AddParameter("itemsPerPage", returnedContributions.ItemsPerPage);
                 reader2.AddParameter("startIndex", returnedContributions.StartIndex);
-                reader2.AddParameter("sortDirection", returnedContributions.SortDirection.ToString().ToLower());
                 reader2.AddParameter("siteType", returnedContributions.SiteType);
                 reader2.AddParameter("siteName", returnedContributions.SiteName);
-                reader2.AddIntOutputParameter("count");
                 reader2.Execute();
 
                 returnedContributions = CreateContributionInternal(returnedContributions, cache, reader2);
@@ -280,25 +279,32 @@ namespace BBC.Dna.Objects
                 {
                     Contribution contribution = new Contribution();
                     contribution.Body = reader2.GetStringNullAsEmpty("Body");
-                    contribution.PostIndex = reader2.GetInt32("PostIndex");
+                    contribution.PostIndex = reader2.GetLongNullAsZero("PostIndex");
                     contribution.SiteName = reader2.GetStringNullAsEmpty("SiteName");
                     contribution.SiteType = (SiteType)Enum.Parse(typeof(SiteType), reader2.GetStringNullAsEmpty("SiteType"));
                     contribution.SiteDescription = reader2.GetStringNullAsEmpty("SiteDescription");
                     contribution.SiteUrl = reader2.GetStringNullAsEmpty("UrlName");
                     contribution.FirstSubject = reader2.GetStringNullAsEmpty("FirstSubject");
                     contribution.Subject = reader2.GetStringNullAsEmpty("Subject");
-                    contribution.Timestamp = reader2.GetDateTime("TimeStamp");
+                    contribution.Timestamp = new DateTimeHelper(reader2.GetDateTime("TimeStamp"));
                     contribution.Title = reader2.GetStringNullAsEmpty("ForumTitle");
                     contribution.ThreadEntryID = reader2.GetInt32("ThreadEntryID");
                     contribution.CommentForumUrl = reader2.GetStringNullAsEmpty("CommentForumUrl");
                     contribution.GuideEntrySubject = reader2.GetStringNullAsEmpty("GuideEntrySubject");
+
+                    contribution.TotalPostsOnForum = reader2.GetInt32NullAsZero("TotalPostsOnForum");
+                    contribution.AuthorUserId = reader2.GetInt32NullAsZero("AuthorUserId");
+                    contribution.AuthorUsername = reader2.GetStringNullAsEmpty("AuthorUsername");
+                    contribution.AuthorIdentityUsername = reader2.GetStringNullAsEmpty("AuthorIdentityUsername");
                     returnedContributions.ContributionItems.Add(contribution);
                 }
             }
 
-            reader2.NextResult();                
-            reader2.TryGetIntOutputParameter("count", out countReturnValue);
-            returnedContributions.TotalContributions = countReturnValue;               
+            reader2.NextResult();
+            if (reader2.TryGetIntOutputParameter("count", out countReturnValue))
+            {
+                returnedContributions.TotalContributions = countReturnValue;
+            }
             
             // wasn't in cache before, so add to cache now
             cache.Add(returnedContributions.ContributionsCacheKey, returnedContributions);            

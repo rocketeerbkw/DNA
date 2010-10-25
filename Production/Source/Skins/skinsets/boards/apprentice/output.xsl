@@ -83,11 +83,11 @@
         
         <xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
       
-      <script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"></script>
-      <script type="text/javascript" src="/dnaimages/javascript/DNA.js"></script>
+      <script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
+      <script type="text/javascript" src="/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
       
-      <link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/apprentice/styles/apprentice.css"/>
-      <link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/apprentice/style/apprentice_messageboard.css"/>
+      <link type="text/css" media="screen" rel="stylesheet" href="http://www.bbc.co.uk/apprentice/styles/apprentice.css"/>
+      <link type="text/css" media="screen" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/apprentice/style/apprentice_messageboard.css"/>
       
       
       <xsl:text disable-output-escaping="yes">
@@ -124,17 +124,17 @@
     <xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
           <div id="header">
                <h1 id="logo">
-                
+               <xsl:text> </xsl:text>
                </h1>
                <div id="app-content">
                 <xsl:comment>#include virtual="/apprentice/series5/includes/mb_localnav.sssi"</xsl:comment>
                </div>
                
-              <div id="membership-top"></div>
+              <div id="membership-top"><xsl:text> </xsl:text></div>
               <div id="membership">
                 <xsl:apply-templates select="VIEWING-USER" mode="library_memberservice_status" />
               </div>
-              <div id="membership-bottom"></div>
+              <div id="membership-bottom"><xsl:text> </xsl:text></div>
               
             <div id="tagline">
               <p> Opening hours: 8am until 12pm everyday (The message board is <a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" target="_blank">reactively moderated</a>)</p>
@@ -147,7 +147,7 @@
         </div>
         
         <div id="blq-local-nav">
-          <div class="app-right-pod-top"></div>
+          <div class="app-right-pod-top"><xsl:text> </xsl:text></div>
           <ul class="navigation">
               <li>
                 <a href="{$root}">
@@ -163,9 +163,9 @@
                 </ul>
               </li>
             </ul>
-          <div class="app-right-pod-foot"></div>
+          <div class="app-right-pod-foot"><xsl:text> </xsl:text></div>
             
-          <div class="app-right-pod-top"></div>
+          <div class="app-right-pod-top"><xsl:text> </xsl:text></div>
             <ul class="navigation">
               <xsl:if test="/H2G2/VIEWING-USER/USER">
                 <li>
@@ -185,7 +185,7 @@
                 </a>
               </li>
             </ul>
-          <div class="app-right-pod-foot"></div>
+          <div class="app-right-pod-foot"><xsl:text> </xsl:text></div>
             
            
             <xsl:call-template name="library_userstate_editor">

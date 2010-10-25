@@ -59,8 +59,9 @@ BEGIN
 	EXEC @returncode = posttoforuminternal @userid, @forumid, @inreplyto, @threadid, @subject, @content, 
 	@poststyle, @hash, NULL, NULL, @newthreadid OUTPUT, @newpostid OUTPUT, NULL, NULL, @forcemoderation, 
 	@forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, @ispremodposting OUTPUT, 
-	@ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment
-	
+	@ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment,
+	/*@modnotes*/ NULL,/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0
+
 DECLARE @threadcount int
 SELECT @threadcount = ThreadPostCount FROM Threads th WITH(NOLOCK) 
 	WHERE th.threadid = @newthreadid

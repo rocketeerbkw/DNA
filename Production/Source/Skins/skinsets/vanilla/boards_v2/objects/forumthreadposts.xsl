@@ -42,6 +42,7 @@
 	                </p>
                 </div>
             </xsl:with-param>
+            
         </xsl:call-template>
     	
     	<xsl:if test="@CANWRITE = 0">
@@ -52,9 +53,11 @@
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreadposts" />
         
-        <ul class="collections forumthreadposts">
+        <ul class="collections forumthreadposts" id="topofthreads">
             <xsl:apply-templates select="POST" mode="object_post" />
         </ul>
+        
+        <p class="backtotop"><a href="#topofthreads">Back to top</a></p>
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreadposts" />
         

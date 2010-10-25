@@ -128,6 +128,7 @@
     <None Include="Club.xsd" />
     <None Include="ContentSignifSettings.xsd" />
     <None Include="Dna.Services.Articles\articleInfo.xsd" />
+    <None Include="Dna.Services.Articles\articleList.xsd" />
     <None Include="Dna.Services.Articles\articleSummary.xsd" />
     <None Include="Dna.Services.Categories\index.xsd" />
     <None Include="Dna.Services.Common\articleSubscriptionsList.xsd" />
@@ -137,12 +138,15 @@
     <None Include="Dna.Services.Common\link.xsd" />
     <None Include="Dna.Services.Common\linksList.xsd" />
     <None Include="Dna.Services.Common\linkSubscriptionsList.xsd" />
+    <None Include="Dna.Services.Common\post.xsd" />
+    <None Include="Dna.Services.Common\postList.xsd" />
     <None Include="Dna.Services.Common\site.xsd" />
     <None Include="Dna.Services.Common\siteOption.xsd" />
     <None Include="Dna.Services.Common\siteOptions.xsd" />
     <None Include="Dna.Services.Common\subscribingUsersList.xsd" />
     <None Include="Dna.Services.Common\userSubscriptionsList.xsd" />
     <None Include="Dna.Services.Forums\forumSource.xsd" />
+    <None Include="Dna.Services.Users\friendsList.xsd" />
     <None Include="Dna.Services.Users\group.xsd" />
     <None Include="Dna.Services.Users\user.xsd" />
     <None Include="SiteManager.xsd" />

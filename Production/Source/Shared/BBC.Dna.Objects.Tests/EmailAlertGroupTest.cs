@@ -76,7 +76,7 @@ namespace BBC.Dna.Objects.Tests
             int groupIdExpected = 112;
             int UserId = 0;
             int siteId = 0;
-            EmailAlertList itemType = EmailAlertList.IT_THREAD;
+            EventItemTypes itemType = EventItemTypes.IT_THREAD;
             int itemId = 0;
 
             MockRepository mocks;
@@ -96,7 +96,7 @@ namespace BBC.Dna.Objects.Tests
             int groupIdExpected = 112;
             int UserId = 0;
             int siteId = 0;
-            EmailAlertList itemType = EmailAlertList.IT_THREAD;
+            EventItemTypes itemType = EventItemTypes.IT_THREAD;
             int itemId = 0;
 
             MockRepository mocks;
@@ -108,7 +108,7 @@ namespace BBC.Dna.Objects.Tests
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("getforumgroupalertid")).Return(reader);
             mocks.ReplayAll();
-            itemType = EmailAlertList.IT_FORUM;
+            itemType = EventItemTypes.IT_FORUM;
 
             EmailAlertGroup.HasGroupAlertOnItem(creator, ref groupId, UserId, siteId, itemType, itemId);
             Assert.AreEqual(groupIdExpected, groupId);
@@ -122,7 +122,7 @@ namespace BBC.Dna.Objects.Tests
             int groupIdExpected = 112;
             int UserId = 0;
             int siteId = 0;
-            EmailAlertList itemType = EmailAlertList.IT_THREAD;
+            EventItemTypes itemType = EventItemTypes.IT_THREAD;
             int itemId = 0;
 
             MockRepository mocks;
@@ -134,7 +134,7 @@ namespace BBC.Dna.Objects.Tests
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("getclubgroupalertid")).Return(reader);
             mocks.ReplayAll();
-            itemType = EmailAlertList.IT_CLUB;
+            itemType = EventItemTypes.IT_CLUB;
 
             EmailAlertGroup.HasGroupAlertOnItem(creator, ref groupId, UserId, siteId, itemType, itemId);
             Assert.AreEqual(groupIdExpected, groupId);
@@ -148,7 +148,7 @@ namespace BBC.Dna.Objects.Tests
             int groupIdExpected = 112;
             int UserId = 0;
             int siteId = 0;
-            EmailAlertList itemType = EmailAlertList.IT_THREAD;
+            EventItemTypes itemType = EventItemTypes.IT_THREAD;
             int itemId = 0;
 
             MockRepository mocks;
@@ -160,7 +160,7 @@ namespace BBC.Dna.Objects.Tests
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("getarticlegroupalertid")).Return(reader);
             mocks.ReplayAll();
-            itemType = EmailAlertList.IT_H2G2;
+            itemType = EventItemTypes.IT_H2G2;
 
             EmailAlertGroup.HasGroupAlertOnItem(creator, ref groupId, UserId, siteId, itemType, itemId);
             Assert.AreEqual(groupIdExpected, groupId);
@@ -173,7 +173,7 @@ namespace BBC.Dna.Objects.Tests
             int groupIdExpected = 112;
             int UserId = 0;
             int siteId = 0;
-            EmailAlertList itemType = EmailAlertList.IT_THREAD;
+            EventItemTypes itemType = EventItemTypes.IT_THREAD;
             int itemId = 0;
 
             MockRepository mocks;
@@ -186,7 +186,7 @@ namespace BBC.Dna.Objects.Tests
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("getnodegroupalertid")).Return(reader);
             mocks.ReplayAll();
-            itemType = EmailAlertList.IT_NODE;
+            itemType = EventItemTypes.IT_NODE;
 
             EmailAlertGroup.HasGroupAlertOnItem(creator, ref groupId, UserId, siteId, itemType, itemId);
             Assert.AreEqual(groupIdExpected, groupId);
@@ -200,7 +200,7 @@ namespace BBC.Dna.Objects.Tests
             int groupIdExpected = 112;
             int UserId = 0;
             int siteId = 0;
-            EmailAlertList itemType = EmailAlertList.IT_THREAD;
+            EventItemTypes itemType = EventItemTypes.IT_THREAD;
             int itemId = 0;
 
             MockRepository mocks;
@@ -213,7 +213,7 @@ namespace BBC.Dna.Objects.Tests
             creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("getarticlegroupalertid")).Return(reader);
             mocks.ReplayAll();
-            itemType = EmailAlertList.IT_POST;
+            itemType = EventItemTypes.IT_POST;
 
             try
             {
@@ -250,7 +250,7 @@ namespace BBC.Dna.Objects.Tests
             int groupIdExpected = 0;
             int UserId = 0;
             int siteId = 0;
-            EmailAlertList itemType = EmailAlertList.IT_THREAD;
+            EventItemTypes itemType = EventItemTypes.IT_THREAD;
             int itemId = 0;
 
             MockRepository mocks = new MockRepository();

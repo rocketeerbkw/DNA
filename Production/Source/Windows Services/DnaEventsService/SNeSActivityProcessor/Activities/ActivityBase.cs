@@ -6,13 +6,13 @@ using Microsoft.Http;
 
 namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
-    enum ActivityType
+    public enum ActivityType
     {
         PublishActivity = 19,
         RevokeActivity = 20,    
     }
 
-    abstract class ActivityBase : MarshalByRefObject, ISnesActivity
+    public abstract class ActivityBase : MarshalByRefObject, ISnesActivity
     {
         #region ISnesActivity Members
 

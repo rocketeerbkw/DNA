@@ -1,6 +1,6 @@
 ﻿namespace Dna.SnesIntegration.ActivityProcessor
 {
-    class Rating
+    public class Rating
     {
         public int Value
         {

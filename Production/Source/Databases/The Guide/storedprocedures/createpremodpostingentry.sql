@@ -10,7 +10,8 @@ END
 DECLARE @UserID int, @ForumID int, @InreplyTo int, @Subject nvarchar(255),
 		@PostStyle tinyint, @Hash uniqueidentifier, @Keywords varchar(255), @Nickname nvarchar(255), @Type int, @EventDate datetime,
 		@ClubID int, @NodeID int, @IPAddress varchar(15), @DatePosted datetime, @ThreadRead tinyint, @ThreadWrite tinyint, @SiteID int,
-		@AllowEventEntries tinyint,	@CurTime datetime, @ErrorCode int, @bbcuid uniqueidentifier, @IsComment tinyint
+		@AllowEventEntries tinyint,	@CurTime datetime, @ErrorCode int, @bbcuid uniqueidentifier, @IsComment tinyint,
+		@riskmodthreadentryqueueid int
 
 -- Get the values from the PreModPostings table for the given mod post.
 SELECT	@CurTime = GetDate(),
@@ -34,7 +35,8 @@ SELECT	@CurTime = GetDate(),
 		@SiteID = SiteID,
 		@AllowEventEntries = AllowEventEntries,
 		@bbcuid = BBCUID,
-		@IsComment = IsComment
+		@IsComment = IsComment,
+		@riskmodthreadentryqueueid = RiskModThreadEntryQueueId
 	FROM dbo.PreModPostings WITH(NOLOCK)
 	WHERE ModID = @ModID
 
@@ -69,7 +71,7 @@ BEGIN
 		SELECT @ForumID, @Keywords, '', 1, ThreadCanRead, ThreadCanWrite, @Type, @EventDate, @CurTime, @CurTime
 			FROM Forums WITH(NOLOCK) WHERE ForumID = @ForumID
 	SELECT @ErrorCode = @@ERROR
-	SELECT @ThreadID = @@IDENTITY
+	SELECT @ThreadID = SCOPE_IDENTITY()
 	IF (@ErrorCode <> 0)
 	BEGIN
 		EXEC Error @ErrorCode
@@ -156,7 +158,7 @@ INSERT INTO dbo.ThreadEntries ( ThreadID, blobid, text, ForumID, UserID, Subject
 		SELECT @ThreadID, 0, Body, ForumID, UserID, Subject, Nickname, DatePosted, 3, @PostCount, PostStyle, @CurTime
 			FROM dbo.PreModPostings WITH(NOLOCK) WHERE ModID = @ModID
 SELECT @ErrorCode = @@ERROR
-SELECT @EntryID = @@IDENTITY
+SELECT @EntryID = SCOPE_IDENTITY()
 IF (@ErrorCode <> 0)
 BEGIN
 	EXEC Error @ErrorCode
@@ -268,7 +270,7 @@ END
 UPDATE dbo.PostDuplicates SET ThreadID = @ThreadID, PostID = @EntryID WHERE HashValue = @Hash
 
 -- Add an entry to the queue to allow the processor to work
-INSERT INTO ThreadEntryQueue (EntryID) VALUES(@entryid)
+INSERT INTO ThreadPostingsQueue (EntryID) VALUES(@entryid)
 
 -- Update the users last posted
 -- BUGFIX: Don't do this here, as it could be hours since the user actually posted
@@ -328,6 +330,13 @@ BEGIN
 												@threadid = @threadid, 
 												@forumid = @forumid, 
 												@clubid	= @clubid
+END
+
+-- If this was created via the riskmod system, update the RiskModThreadEntryQueue row so it ties up with
+-- the new post
+IF @riskmodthreadentryqueueid IS NOT NULL
+BEGIN
+	UPDATE RiskModThreadEntryQueue SET ThreadID=@threadid, ThreadEntryId=@EntryID WHERE RiskModThreadEntryQueueId=@riskmodthreadentryqueueid
 END
 
 -- If we got here, then everything went ok, return success!

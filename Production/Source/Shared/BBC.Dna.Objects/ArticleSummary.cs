@@ -105,6 +105,36 @@ namespace BBC.Dna.Objects
             }
             return childArticles;
         }
+        public static ArticleSummary CreateArticleSummaryFromReader(IDnaDataReader reader)
+        {
+
+            ArticleSummary articleSummary = new ArticleSummary();
+
+            articleSummary.H2G2ID = reader.GetInt32NullAsZero("h2g2id");
+            articleSummary.Name = reader.GetStringNullAsEmpty("subject");
+            articleSummary.StrippedName = StringUtils.StrippedName(reader.GetStringNullAsEmpty("subject"));
+
+            if (reader.DoesFieldExist("Type"))
+            {
+                articleSummary.Type = Article.GetArticleTypeFromInt(reader.GetInt32NullAsZero("Type"));
+            }
+
+            if (reader.DoesFieldExist("editor"))
+            {
+                articleSummary.Editor = new UserElement() { user = User.CreateUserFromReader(reader, "editor") };
+            }
+                        
+            articleSummary.DateCreated = new DateElement(reader.GetDateTime("datecreated"));
+
+            if (reader.DoesFieldExist("lastupdated"))
+            {
+                articleSummary.LastUpdated = new DateElement(reader.GetDateTime("lastupdated")); ;
+            }
+
+            articleSummary.Status = ArticleStatus.GetStatus(reader.GetInt32NullAsZero("status"));
+
+            return articleSummary;
+        }
 
     }
 }

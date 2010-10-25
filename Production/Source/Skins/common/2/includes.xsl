@@ -53,6 +53,7 @@
             <xsl:include href="_library/GuideML/pre.xsl" />
             <xsl:include href="_library/GuideML/span.xsl" />
             <xsl:include href="_library/GuideML/strong.xsl" />
+            <xsl:include href="_library/GuideML/searchresult.xsl" />
             <xsl:include href="_library/GuideML/textelement.xsl" />
             <xsl:include href="_library/GuideML/columns.xsl" />
 			<xsl:include href="_library/GuideML/footnote.xsl"/>
@@ -89,9 +90,11 @@
             <xsl:include href="_library/itemdetail/dateposted.xsl" />
             <xsl:include href="_library/itemdetail/index.xsl" />
             <xsl:include href="_library/itemdetail/lastupdated.xsl" />
+            <xsl:include href="_library/itemdetail/replytomessage.xsl" />
             <xsl:include href="_library/itemdetail/user.xsl" />
     
     
+           	<xsl:include href="_library/user/group.xsl" />
             <xsl:include href="_library/user/linked.xsl" />
             <xsl:include href="_library/user/morecomments.xsl" />
             <xsl:include href="_library/user/notables.xsl" />
@@ -123,6 +126,7 @@
             <xsl:include href="_library/pagination/commentforumlist.xsl" />
             <xsl:include href="_library/pagination/forumthreads.xsl" />
             <xsl:include href="_library/pagination/forumthreadposts.xsl" />
+            <xsl:include href="_library/pagination/searchthreadposts.xsl" />
             <xsl:include href="_library/pagination/post-list.xsl" />
     
     

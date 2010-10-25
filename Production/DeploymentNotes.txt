@@ -566,3 +566,20 @@ Marcus - update the following assets folders:
 SPF - Add the line to the Web.Config in the appSettings directory for
     <add key="guideMLXSLTSkinPath" value="D:\Inetpub\wwwroot\h2g2\Skins\skinsets\api\default\output.xsl" />
 	
+============== v 3.5.46.0 =============
+Marcus - to fix the massive negative numbers run the following query on live db
+-
+update threadpostings
+set lastpostcountread =0
+where lastpostcountread > 1000000
+
+- To add support to missing smileys, copy smileylist.txt to h2g2 folder
+
+- To support search on MBs, follow the steps at:
+	https://confluence.dev.bbc.co.uk/display/DNA/Enabling+Search+for+DNA+services
+	This can be done after the publish at any time...
+
+
+Ali - update the following assets folders:
+	dnaimages/dna_messageboard
+	dnaimages/javascript/DNA.js

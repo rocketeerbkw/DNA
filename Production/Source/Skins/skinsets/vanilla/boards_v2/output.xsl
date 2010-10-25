@@ -43,7 +43,7 @@
 		<xsl:apply-templates select="/H2G2" mode="head_title_page"/>
 	</xsl:variable>
 	
-	<xsl:variable name="socialbookmark_title" select="concat('BBC - ', /H2G2/SITECONFIG/BOARDNAME, ' messageboards - ', $page_title)"/>
+	<xsl:variable name="socialbookmark_title" select="concat('BBC - ', /H2G2/SITECONFIG/BOARDNAME, ' Messageboard - ', $page_title)"/>
 	
 	<xsl:template match="H2G2[PARAMS/PARAM[NAME = 's_partial']/VALUE = 1]">
 		<xsl:apply-templates select="." mode="page"/>
@@ -87,7 +87,7 @@
       				<xsl:comment>#set var="blq_nav_color" value="blue"</xsl:comment>
       			</xsl:otherwise>
       		</xsl:choose>
-      		
+
       		<xsl:if test="SITECONFIG/V2_BOARDS/FOOTER/COLOUR">
       			<xsl:comment>#set var="blq_footer_color" value="<xsl:value-of select="SITECONFIG/V2_BOARDS/FOOTER/COLOUR"/>"</xsl:comment>
       		</xsl:if>
@@ -265,18 +265,35 @@
 	      				<xsl:call-template name="boardtimes"/>
 	      				<xsl:choose>
 	      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 1">
-	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">post-moderated</a>.</p>
+	      						<p>This messageboard is <a href="{$moderationinfourl}" class="popup">post-moderated</a>.</p>
 	      					</xsl:when>
 	      					<xsl:when test="/H2G2/SITE/MODERATIONSTATUS = 2">
-	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">pre-moderated</a>.</p>
+	      						<p>This messageboard is <a href="{$moderationinfourl}" class="popup">pre-moderated</a>.</p>
 	      					</xsl:when>
 	      					<xsl:otherwise>
-	      						<p>This message board is <a href="{$moderationinfourl}" class="popup">reactively moderated</a>.</p>
+	      						<p>This messageboard is <a href="{$moderationinfourl}" class="popup">reactively moderated</a>.</p>
 	      					</xsl:otherwise>
 	      				</xsl:choose>
 	      				<p>Find out more about this board's <a href="{$houserulesurl}" class="popup">House Rules</a></p>
 	      			</div>
 	      			
+		      		<xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'EnableSearch']/VALUE = '1'">
+		      			<h3>Search this Board</h3>
+		      			<div id="searchbox">
+							<form action="{$root}/searchposts" method="get" id="dna-searchform">
+								<fieldset>
+									<label for="searchtext" class="dna-invisible">Search</label>
+									<input id="searchtext" name="searchtext" maxlength="100">
+										<xsl:attribute name="value">
+											<xsl:value-of select="/H2G2/SEARCHTHREADPOSTS/@SEARCHTERM"/>
+										</xsl:attribute>
+									</input>
+									<input type="submit" value="Search" class="dna-button" />
+								</fieldset>
+							</form>
+						</div>
+		      		</xsl:if>      			
+		      			
 	      			<!-- Recent Discussions -->
 	      			<xsl:if test="/H2G2/SITECONFIG/V2_BOARDS/RECENTDISCUSSIONS = 'true' and (/H2G2/RECENTACTIVITY/MOSTRECENTCONVERSATIONS/FORUM or /H2G2/TOP-FIVES/TOP-FIVE)"> 
 	      				<h3>Recent Discussions</h3>

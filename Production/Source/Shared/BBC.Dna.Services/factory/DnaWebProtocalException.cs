@@ -125,6 +125,13 @@ namespace BBC.Dna.Services
                 case ErrorType.InvalidH2G2Id: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.MissingGuideML: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.MissingSubject: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.UserDoesNotHavePermissionToEditArticle: StatusCode = HttpStatusCode.Unauthorized; break;
+                case ErrorType.ArticleContainsURLs: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.ArticleContainsEmailAddress: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.WrongStatus: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.AlreadyRecommended: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.OwnEntry: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.NotInReview: StatusCode = HttpStatusCode.BadRequest; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 

@@ -276,6 +276,10 @@ namespace FunctionalTests
             postData.Add(new KeyValuePair<string, string>("queuePostings", xml.SelectSingleNode("/H2G2/SITEMANAGER/QUEUEPOSTINGS").InnerText));
             postData.Add(new KeyValuePair<string, string>("identitypolicy", xml.SelectSingleNode("/H2G2/SITEMANAGER/CURRENTIDENTITYPOLICY").InnerText));
 
+            postData.Add(new KeyValuePair<string, string>("riskmodonoff", xml.SelectSingleNode("/H2G2/SITEMANAGER/RISKMODONOFF").InnerText));
+            postData.Add(new KeyValuePair<string, string>("riskmodpublishmethod", xml.SelectSingleNode("/H2G2/SITEMANAGER/RISKMODPUBLISHMETHOD").InnerText));
+
+
             return postData;
         }
 

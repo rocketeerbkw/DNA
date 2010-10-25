@@ -102,6 +102,7 @@ namespace SnesActivityProcessorTests
                 currentRow.Expect(x => x.GetString("DnaUrl")).Return("iplayerTv");
                 currentRow.Expect(x => x.GetString("ObjectUri")).Return("aaaa");
                 currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
+                currentRow.Stub(x => x.GetString("ObjectUriFormat")).Return("bbc:programme:{commentforumuid}");
                 
             }
 
@@ -112,7 +113,7 @@ namespace SnesActivityProcessorTests
             }
 
             //Assert.AreEqual("mooks", activity.DisplayName);
-            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"bbc:programme:aaaa:0\""));
+            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"bbc:programme:aaaa\""));
         }
 
         [TestMethod]
@@ -127,6 +128,7 @@ namespace SnesActivityProcessorTests
                 currentRow.Expect(x => x.GetString("DnaUrl")).Return("h2g2");
                 currentRow.Expect(x => x.GetString("ObjectUri")).Return("aaaa");
                 currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
+                currentRow.Stub(x => x.GetString("ObjectUriFormat")).Return("bbc:dna:{commentforumuid}:{threadid}:{postid}");
                 
             }
 
@@ -137,7 +139,7 @@ namespace SnesActivityProcessorTests
             }
 
             //Assert.AreEqual("mooks", activity.DisplayName);
-            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"bbc:dna:aaaa:0\""));
+            Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"bbc:dna:aaaa:0:0\""));
         }
 
         [TestMethod]
@@ -152,6 +154,7 @@ namespace SnesActivityProcessorTests
                 currentRow.Expect(x => x.GetString("DnaUrl")).Return("h2g2");
                 currentRow.Expect(x => x.GetInt32("ForumID")).Return(1);
                 currentRow.Stub(x => x.GetInt32("ActivityType")).Return(19);
+                currentRow.Stub(x => x.GetString("ObjectUriFormat")).Return("bbc:dna:{forumid}:{threadid}:{postid}");
 
             }
 

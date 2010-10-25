@@ -44,7 +44,11 @@ namespace BBC.Dna.Users
         /// <summary>
         /// Guardian user
         /// </summary>
-        Guardian
+        Guardian,
+        /// <summary>
+        /// Scout user
+        /// </summary>
+        Scout
     }
 
     public enum UserStatus
@@ -592,6 +596,10 @@ namespace BBC.Dna.Users
                 case UserTypes.Guardian:
                     {
                         return UsersListOfGroups.Exists(x => x.Name.ToLower() == "guardian");
+                    }
+                case UserTypes.Scout:
+                    {
+                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "scout");
                     }
             }
 

@@ -23,9 +23,9 @@ using System.Runtime.InteropServices;
 [assembly: Guid("df19c52a-99dd-4f40-bb56-f2cc3d2c8f84")]
 
 // The following declaration is to support unit testing
-[assembly: InternalsVisibleTo("SnesActivityProcessorTests")]
-[assembly: InternalsVisibleTo("DnaEventProcessorService.IntegrationTests")]
-[assembly: InternalsVisibleTo("CodeExperiments")]
+//[assembly: InternalsVisibleTo("SnesActivityProcessorTests")]
+//[assembly: InternalsVisibleTo("DnaEventProcessorService.IntegrationTests")]
+//[assembly: InternalsVisibleTo("CodeExperiments")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -39,5 +39,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.*")]
 [assembly: AssemblyFileVersion("1.0.0.*")]
-
-[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("TestProject1")]

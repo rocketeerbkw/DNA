@@ -1,6 +1,6 @@
 ﻿namespace Dna.SnesIntegration.ActivityProcessor
 {
-    class DnaApplicationInfo
+    public class DnaApplicationInfo
     {
         public string AppId
         { 

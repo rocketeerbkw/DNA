@@ -28,16 +28,22 @@ namespace BBC.Dna.Objects.Tests
             Queue<string> tags = new Queue<string>();
             tags.Enqueue("<2cents>");
             tags.Enqueue("<ale>");
+            tags.Enqueue("<yikes>");
+            tags.Enqueue(";)");
+            
 
             Queue<string> tagTranslation = new Queue<string>();
             tagTranslation.Enqueue("2cents");
             tagTranslation.Enqueue("ale");
+            tagTranslation.Enqueue("yikes");
+            tagTranslation.Enqueue("winkeye");
+            
             
 
             MockRepository mocks = new MockRepository();
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(true);
-            reader.Stub(x => x.Read()).Return(true).Repeat.Times(2);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Times(4);
             reader.Stub(x => x.GetStringNullAsEmpty("name")).Return("").WhenCalled(x => x.ReturnValue = tagTranslation.Dequeue());
             reader.Stub(x => x.GetStringNullAsEmpty("tag")).Return("").WhenCalled(x => x.ReturnValue = tags.Dequeue());
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
@@ -64,6 +70,11 @@ namespace BBC.Dna.Objects.Tests
             testDataPlainText.Add(new[] { "This newline \r\n is ok.", "This newline <BR /> is ok." });//with newline translation
             testDataPlainText.Add(new[] { "1 > 4 < 5", "1 &gt; 4 &lt; 5" });//translates < and > chars
             testDataPlainText.Add(new[] { "jack & jill", "jack &amp; jill" });//translates & chars
+            testDataPlainText.Add(new[] { @"I agree that Rick Stein's Soup au Pistou looked delicious, and it's a recipe I've been meaning to try for ages - every time I see the clip!  Must get round to it!  And James' tomatoes were a feast on a plate!
+
+I thought it was interesting that Rick Stein added the courgettes at the same time as the potatoes, saying that as everything was going to be a bit overcooked anyway it didn't matter, and then later in the programme when James was making that lovely simple tomato soup, it was mentioned that people boil veg for far too long in soups and you might as well drink the veg water instead!    Dick was a brilliant guest - I've loved his eccentricity since his Scrapheap Challenge days (gosh - was that really 10 years ago <yikes>), and it was lovely to see someone so blatantly into their food.", "I agree that Rick Stein's Soup au Pistou looked delicious, and it's a recipe I've been meaning to try for ages - every time I see the clip!  Must get round to it!  And James' tomatoes were a feast on a plate!<BR /><BR />I thought it was interesting that Rick Stein added the courgettes at the same time as the potatoes, saying that as everything was going to be a bit overcooked anyway it didn't matter, and then later in the programme when James was making that lovely simple tomato soup, it was mentioned that people boil veg for far too long in soups and you might as well drink the veg water instead!    Dick was a brilliant guest - I've loved his eccentricity since his Scrapheap Challenge days (gosh - was that really 10 years ago <SMILEY TYPE='yikes' H2G2='Smiley#yikes'/>), and it was lovely to see someone so blatantly into their food." });//http://www.bbc.co.uk/dna/mbfood/NF2670471?thread=7721885&nbsp#p100078293
+
+            
 
             foreach (var data in testDataPlainText)
             {
@@ -344,7 +355,7 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
 
             ThreadPost actual;
-            actual = ThreadPost.CreateThreadPostFromReader(reader, prefix, 0);
+            actual = ThreadPost.CreateThreadPostFromReader(reader, prefix, 0, null);
             Assert.AreEqual(actual.ThreadId, 1);
         }
 

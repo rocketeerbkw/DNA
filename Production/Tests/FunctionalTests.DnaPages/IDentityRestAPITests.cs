@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
 using TestUtils;
+using DnaIdentityWebServiceProxy;
 
 namespace FunctionalTests
 {
@@ -85,6 +86,15 @@ namespace FunctionalTests
             HttpWebResponse response = TestUserCreator.CallIdentityRestAPI("/authorization", _postParams, _cookies, TestUserCreator.RequestVerb.GET);
             Assert.IsTrue(response != null, TestUserCreator.GetLastError);
             XmlDocument xDoc = GetLastResponseAsXML(response);
+        }
+
+        [TestMethod]
+        public void DNAIdentityWebServiceProxy_TrySetUserWithValidCookie_ExpectOk()
+        {
+            IDnaIdentityWebServiceProxy proxy = new IdentityRestSignIn();
+            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80;logging", "");
+            bool ok = proxy.TrySecureSetUserViaCookies(_identityUserCookie.Value, "");
+            Assert.IsTrue(ok);
         }
         
         /// <summary>

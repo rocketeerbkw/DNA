@@ -90,6 +90,8 @@ namespace BBC.Dna.Services
                     showUnapproved == 1 ? true : false,
                     "",
                     orderBy,
+                    startIndex,
+                    itemsPerPage, 
                     false);
             }
             catch (ApiException ex)

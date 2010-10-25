@@ -20,6 +20,7 @@ namespace FunctionalTests.Services.Users
     {        
         static string test_usercontributionsUrl;
         static string test_allrecentcontributionsUrl;
+        static string test_allrecentcontributionsbySiteUrl;
         static string test_user_idString;
         static int test_dnauserid = 1090501859;
         static string test_identityuserid = "6042002"; // mapped to the associated test_dnauserid
@@ -60,6 +61,7 @@ namespace FunctionalTests.Services.Users
         {
              test_allrecentcontributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/recentcontributions/type/{type}";
              test_usercontributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/usercontributions/{user}";
+             test_allrecentcontributionsbySiteUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/recentcontributions/site/{site}";
         }
 
         private TestContext testContextInstance;
@@ -356,6 +358,8 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(contributions_for_type_json_url);
 
+            Console.WriteLine(request.GetLastResponseAsString());
+
             Contributions contributions = (Contributions)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(Contributions));
             bool containsBlog = ((from c in contributions.ContributionItems where c.SiteType == SiteType.Blog select c).FirstOrDefault() != null);
             bool containsMessageboard = ((from c in contributions.ContributionItems where c.SiteType == SiteType.Messageboard select c).FirstOrDefault() != null);
@@ -366,7 +370,6 @@ namespace FunctionalTests.Services.Users
             Assert.AreEqual(true, containsMessageboard);
             Assert.AreEqual(true, containsCommunity);
             Assert.AreEqual(true, containsEmbeddedComments);
-            Assert.AreEqual(18, contributions.TotalContributions);
 
             Console.WriteLine("After GetUserContributionsForAllTypesJSON_UserWithContributions_ReturnsValidJSON");
         }
@@ -412,7 +415,6 @@ namespace FunctionalTests.Services.Users
             Assert.AreEqual(true, containsMessageboard);
             Assert.AreEqual(true, containsCommunity);
             Assert.AreEqual(true, containsEmbeddedComments);
-            Assert.AreEqual(18, contributions.TotalContributions);
 
 
             Console.WriteLine("After GetUserContributionsForAllTypesXML_UserWithContributions_ReturnsValidXML");
@@ -457,7 +459,7 @@ namespace FunctionalTests.Services.Users
             {
                 Assert.AreEqual(SiteType.Messageboard, contribution.SiteType);
             }
-            Assert.AreEqual(2, contributions.TotalContributions);
+            
 
             Console.WriteLine("After GetUserContributionsForMessageBoardTypeXML_UserWithContributions_ReturnsValidXML");
         }
@@ -479,7 +481,6 @@ namespace FunctionalTests.Services.Users
             {
                 Assert.AreEqual(SiteType.Community, contribution.SiteType);
             }
-            Assert.AreEqual(14, contributions.TotalContributions);
 
             Console.WriteLine("After GetUserContributionsForCommunityTypeXML_UserWithContributions_ReturnsValidXML");
         }
@@ -501,7 +502,6 @@ namespace FunctionalTests.Services.Users
             {
                 Assert.AreEqual(SiteType.EmbeddedComments, contribution.SiteType);
             }
-            Assert.AreEqual(1, contributions.TotalContributions);
 
             Console.WriteLine("After GetUserContributionsForEmbeddedCommentsTypeXML_UserWithContributions_ReturnsValidXML");
         }
@@ -523,9 +523,28 @@ namespace FunctionalTests.Services.Users
             foreach (Contribution contribution in contributions.ContributionItems)
             {
                 Assert.AreEqual(SiteType.Blog, contribution.SiteType);
-            }
-            Assert.AreEqual(1, contributions.TotalContributions);
+            }            
             Console.WriteLine("After GetAllRecentContributionsXML_WithForBlogType_ReturnsValidXML");
+        }
+
+        [TestMethod]
+        public void GetAllRecentContributionsXML_WithForASite_ReturnsValidXML()
+        {
+            Console.WriteLine("Before GetAllRecentContributionsXML_WithForASite_ReturnsValidXML");
+
+            test_allrecentcontributionsbySiteUrl = test_allrecentcontributionsbySiteUrl.Replace("{site}", "h2g2");
+
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(test_allrecentcontributionsbySiteUrl);
+
+            Contributions contributions = (Contributions)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Contributions));
+
+            foreach (Contribution contribution in contributions.ContributionItems)
+            {
+                Assert.AreEqual("h2g2", contribution.SiteName);
+            }
+            Console.WriteLine("After GetAllRecentContributionsXML_WithForASite_ReturnsValidXML");
         }
 
     }

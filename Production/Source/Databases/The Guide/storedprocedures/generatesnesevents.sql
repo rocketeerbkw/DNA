@@ -17,10 +17,12 @@ BEGIN
 	and EQ.EventID <= @TopEventID
 	and EXISTS(select *
 		from ThreadEntries TE 
-        INNER JOIN Forums F on F.ForumID = TE.ForumID
-        where TE.EntryID = EQ.ItemID2 AND f.siteid in 
-			( select siteid from sites where urlname = 'iplayertv' or urlname = 'iplayerradio')
-        )
+		INNER JOIN Forums F on F.ForumID = TE.ForumID
+		where TE.EntryID = EQ.ItemID2 
+			AND dbo.udf_GetSiteOptionSetting(f.siteid, 'SNeS Integration', 'Enabled') ='1'
+			AND dbo.udf_GetSiteOptionSetting(f.siteid, 'General', 'SiteIsPrivate') ='0'
+			
+		)
 END
 
 RETURN 0;

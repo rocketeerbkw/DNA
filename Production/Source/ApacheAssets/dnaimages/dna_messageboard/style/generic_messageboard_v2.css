@@ -1,5 +1,6 @@
 
-#blq-main {font-family:arial,helvetica,sans-serif; line-height:1.2}
+#blq-main {font-family:arial,helvetica,sans-serif; line-height:1.2;}
+/*#blq-main p {font-size:1.1em;}*/
 #blq-main #blq-local-nav a, #blq-main #blq-content a, #blq-main #dna-boardpromo a {color:#376dad}
 #blq-main #blq-content a:hover, #blq-main #dna-boardpromo a:hover {text-decoration:none}
 #blq-main #blq-content a:focus,#blq-main #blq-content a:active, #blq-main #dna-boardpromo a:focus,#blq-main #dna-boardpromo a:active {background-color:#376dad; color:#fff}
@@ -59,7 +60,7 @@ ul.admin {background-color:#e2e2e2}
 #blq-content .topiclist li {position:relative; float:left; width:223px}
 #blq-content .single-col-topics li {width:463px; min-height:120px}
 #blq-content .topiclistimage li {min-height:245px}
-#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread  {width:463px; margin-right:14px; padding-bottom:10px; border-right:1px solid #ccc; border-bottom:1px solid #ccc; border-left:1px solid #ccc}
+#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread, #blq-main .searchthreadposts  {width:463px; margin-right:14px; padding-bottom:10px; border-right:1px solid #ccc; border-bottom:1px solid #ccc; border-left:1px solid #ccc}
 #blq-main .addthread p.signin {padding:10px}
 .frontpage h2 {margin-right:14px}
 #blq-main #blq-content h2, #blq-main #dna-boardpromo h3 {padding:8px 10px; line-height:1em; font-size:1.4em; font-weight:normal; color:#fff; background-color:#376dad}
@@ -72,7 +73,7 @@ ul.admin {background-color:#e2e2e2}
 #blq-main p.closed {padding:10px}
 
 /* pagination */
-#blq-main #blq-content .pagination {float:right; width:auto ;margin:5px 9px 10px 9px; clear:both}
+#blq-main #blq-content .pagination {float:right; width:auto;margin:5px 9px 10px 9px; clear:both;}
 #blq-main #blq-content .pagination li {float:left; width:auto; margin-right:1px; font-family:verdana,arial,helvetica,sans serif}
 body.ie6 #blq-main #blq-content .pagination li {width:1px}
 #blq-main #blq-content .pagination li a, #blq-main #blq-content .pagination li span {display:block; height:10px; margin:0 1px 0 0; padding:3px 5px 7px 5px; font-size:0.9em}
@@ -87,7 +88,7 @@ body.ie6 #blq-main #blq-content .pagination li {width:1px}
 #blq-main #blq-content .pagination li a:hover {text-decoration:underline}
 #blq-main #blq-content .pagination .arrow {display:none}
 
-/* topiclist, forumthreads, post-list */
+/* topiclist, forumthreads, post-list, searchthreadposts */
 #blq-content.frontpage {margin-left:14px; padding:0; background:none}
 #blq-content .topiclist br {display:none}
 #blq-content .topiclist {overflow:auto; padding:0}
@@ -100,7 +101,7 @@ body.ie6 #blq-main #blq-content .pagination li {width:1px}
 #blq-content .topiclist li p {margin-top:5px; padding:0 10px; font-size:1.1em}
 #blq-content .topiclist li a:hover {text-decoration:none}
 
-#blq-content .topiclist li div.topicimage img {border:0}
+#blq-content .topiclist li div.topicimage img {border:0;}
 #blq-main .multiposts h3 {padding-left:10px; font-size:1.1em; color:#000}
 ul.forumthreadposts, p.forumthreadposts {clear:both}
 ul.forumthreadposts {margin-top:10px}
@@ -133,7 +134,8 @@ ul.forumthreadposts li.stripe {background-color:#edf0f1}
 #blq-content table.forumthreads td h3 {margin: 0;}
 #blq-content table.forumthreads .stripe td {background-color:#e2e7e9}
 #blq-content table.forumthreads .stickypin td {background-color:#d4e2e6}
-
+#blq-content p.backtotop {width: 100%; text-align: right; padding:10px;}
+#blq-content p.backtotop a {padding-right: 20px;}
 
 #blq-content .post-list h4 {margin:0 10px; font-size:1.2em}
 #blq-main #blq-content .forumthreads h4 a:hover {text-decoration:none}
@@ -147,6 +149,7 @@ ul.forumthreads p a.nosubject, ul.post-list p a.nosubject {font-style:italic; co
 ul.forumthreads li, ul.post-list li {padding:10px 0}
 ul.forumthreads li.stripe, ul.post-list li.stripe {background-color:#ebebed}
 ul.forumthreads li span.userid {display:none}
+table.forumthreads span.editor {font-style:italic}
 #blq-content.moreposts p, #blq-content.morecomments p, #blq-content.notfound p {margin:0 10px 5px 10px}
 #blq-content.moreposts p.morepostsintro {margin-bottom:20px}
 .noreplies {color:#bbb}
@@ -168,7 +171,8 @@ ul.forumthreadposts li blockquote, div.inreplyto blockquote {margin:0 7px 10px 7
 .inreplyto .createdby  {font-size:0.9em;  border-bottom:1px dotted #ccc}
 a.editor, a.notable {font-style:italic}
 p#countdown {margin-left:10px}
-#blq-content .dna-boards p.dna-error {margin-left:10px; padding-left:15px; font-weight:bold; background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat center left}
+p.countdown {margin-left:10px}
+#blq-content .dna-boards p.dna-error {margin-left:24px; padding:15px; font-weight:bold; background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat center left}
 #blq-content .dna-moderation-wrap {background:url(/dnaimages/dna_messageboard/img/dna-mod-bottom-arrow.png) top right no-repeat}
 #blq-content .dna-moderation-wrap a {text-decoration:underline}
 #blq-content .dna-moderation-wrap p.dna-boards-moderation {padding-left:10px}
@@ -181,7 +185,10 @@ p#countdown {margin-left:10px}
 #blq-content .dna-boards-moderation .dna-invisible {display:none}
 #blq-main #blq-content .dna-boards-moderation a {padding-left:3px; color:#666}
 #blq-main #blq-content .dna-boards-moderation a:focus,#blq-main #blq-content .dna-boards-moderation a:active {color:#e2e2e2; background-color:#666}
-#blq-main .move-thread p {padding:10px} 
+#blq-main .move-thread p {padding:10px}
+#blq-content .itemdetail p.messagedetail {margin-bottom: 0}
+#blq-content .searchresult {color: #ff0000}
+#blq-main .searchthreadposts p.error-message {padding: 10px;}
 
 
 /* dna-boardpromo:about this board */
@@ -198,6 +205,8 @@ div#dna-boardpromo #dna-about-board .id-wrap, #blq-content .id-wrap  {margin:0; 
 #blq-content .id-wrap {margin-bottom:10px}
 div#dna-boardpromo #dna-about-board .id-wrap p, #blq-content .id-wrap p {line-height:2.1em}
 #blq-main #dna-boardpromo hr {margin:10px 8px 0 8px; line-height:1px; border-top:1px solid #ccc}
+#blq-main #dna-searchform {margin: 10px}
+#blq-main #dna-searchform #searchtext {width: 175px}
 
 
 /* unsure what the following are used for */
@@ -216,8 +225,10 @@ ul.breadcrumbs li.current {background:none}
 
 
 /**/
-p.flag {margin-top:15px}
+p.flag {margin-top:10px;text-align:right}
 p.flag a {padding: 2px 0 2px 20px; color:#999; background:url(/dnaimages/dna_messageboard/img/warning-triangle-5.gif) no-repeat top left}
+
+p.permalink {margin-top:15px;text-align:right}
 
 .dna-boards .collections {margin-left:216px}
 .dna-boards h3 {color:#000!important}
@@ -226,14 +237,15 @@ p.flag a {padding: 2px 0 2px 20px; color:#999; background:url(/dnaimages/dna_mes
 
 .dna-boards fieldset {border:1px solid #ccc}
 .dna-boards legend {margin-left:10px; padding:1em 10px; font-size:1.2em; color:#444}
-.dna-boards .text,.dna-boards select, .dna-boards .textarea {width:403px; margin:0 0 0 24px; padding:4px;  font-size:1em; font-family:arial,helevtica,sans-serif; border:1px solid #ccc}
+.dna-boards .text,.dna-boards select, .dna-boards .textarea {width:440px; margin:0 0 0 24px; padding:4px;  font-size:1em; font-family:arial,helevtica,sans-serif; border:1px solid #ccc}
 .dna-boards .textarea{height:242px; overflow:auto}
-.dna-boards .disabled {border:1px solid #999}
+.dna-boards .disabled {border:1px solid #999} 
 
 #blq-main #blq-content .dna-boards ul {margin:15px 0 10px 24px}
 #blq-main #blq-content .dna-boards ul li {float:left}
 #blq-main #blq-content .dna-boards input.dna-button {width:auto; overflow:visible; padding:2px 10px; color:#fff; font-size:0.9em; font-weight:bold; background-color:#376dad; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
-#blq-main #blq-content .dna-boards input.cancel {margin:0 158px 0 8px; background-color:#71aef1}
+#blq-main #dna-searchform input.dna-button {width:auto; overflow:visible; padding:2px 10px; color:#000; font-size:0.9em; background-color:#f1f1f1; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
+#blq-main #blq-content .dna-boards input.cancel {margin:0 200px 0 8px; background-color:#71aef1}
 .dna-boards p.preview {margin:10px 0 0 24px; padding:0 10px}
 #blq-main #blq-content .dna-boards div#previewpost {margin:10px 24px 0 24px; padding:10px; background-color:#e8eced}
 #blq-main #blq-content .dna-boards div#previewpost h4 {margin-left: 0}
@@ -277,3 +289,8 @@ div#logintrouble {float:right; width:auto; margin-right:10px; font-size:1.2em; c
 
 /* CLEAR HACKS */
 .forummodstatus:after {content:".";  display:block; height:0; clear:both; visibility:hidden}
+
+/* IE 6 */
+body.ie6 #blq-content .topiclist li div.topicimage img {border:0;}
+body.ie6 #blq-content p.backtotop {width: 100%; text-align: right; padding:10px 0;}
+body.ie6 #blq-content p.backtotop a {padding-right: 10px;}

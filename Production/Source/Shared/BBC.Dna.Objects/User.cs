@@ -638,7 +638,7 @@ namespace BBC.Dna.Objects
                 var groupList = userGroups.GetUsersGroupsForSite(user.UserId, siteId);
                 foreach (var group in groupList)
                 {
-                    user.Groups.Add(new Group(){Name = group.Name});
+                    user.Groups.Add(new Group(){Name = group.Name.ToUpper()});
                 }
             }
             else

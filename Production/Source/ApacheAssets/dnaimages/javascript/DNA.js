@@ -4,6 +4,42 @@ gloader.load(
 			async: true,
 			onLoad: function(glow) {
 				glow.ready(function() {
+					
+					//speed bump countdown
+					var bumper;
+					
+					if (glow.dom.get('p').hasClass('countdown'))
+					{
+						bumper = glow.dom.get('p.countdown');
+					}
+	                    
+	                if (bumper != null)//remove null
+	                {
+						var speedBumpTimeLeft = glow.dom.get('span#totalSeconds').text();
+		        	   
+				        speedBumpTime = setInterval(function() 
+			            {
+			        		--speedBumpTimeLeft;
+			        		
+			        		var speedBumpMinsLeft = Math.floor(speedBumpTimeLeft/60);
+			        		var speedBumpSecsLeft = speedBumpTimeLeft % 60;
+			        		var minsText = 'minutes';
+			        		
+			        		if (speedBumpMinsLeft == 1)
+			        		{
+			        			minsText = 'minute';
+			        		}
+			                
+			                bumper.html('<strong>You must wait ' + speedBumpMinsLeft + ' ' + minsText + ' ' + speedBumpSecsLeft + ' secs before you can post again</strong>');
+			                
+			                if (speedBumpTimeLeft == 0)
+			                {
+			                    clearInterval(self.speedBumpTime);
+			                    bumper.empty();
+			                }
+			                
+			            }, 1000);
+                    }
 					glow.events.addListener(
 						'.popup',
 						'click',
@@ -20,6 +56,14 @@ gloader.load(
 			             	history.back();
 		                 }
                     );
+					
+					glow.events.addListener(
+		            	'#dna-boards-cancel-blocked',
+		                'click',
+		                 function () { 
+			             	history.go(-2);
+		                 }
+                    );					
                     
                     glow.events.addListener(
 						'a.close',
@@ -30,28 +74,7 @@ gloader.load(
 							return false;
 						}
 					);
-					
-					glow.events.addListener(
-						'#countdown',
-						'load',
-						function() {
-							minutesSpan = glow.dom.get('#minuteValue');
-							secondsSpan = glow.dom.get('#secondValue')
-							minutes = minutesSpan.text;
-						    seconds = secondsSpan.text;
-						    inSeconds = (minutes*60) + seconds;
-						    timeNow = inSeconds - 1;
-						    
-						    if (timeNow > 0){
-						      scratchPad = timeNow / 60;
-						      minutesNow = Math.floor(scratchPad);
-						      secondsNow = (timeNow - (minutesNow * 60));
-						      
-						      minutesSpan.text(minutesNow);
-						      secondsSpan.text(secondsNow);
-						    }
-						}
-					);
+                    
 					if (typeof identity !== 'undefined') {
 						glow.events.addListener(identity,'logout',function(){
 							(glow.dom.get('li#mydiscussions')) ? glow.dom.get('li#mydiscussions').hide() : '';

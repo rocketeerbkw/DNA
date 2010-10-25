@@ -136,6 +136,21 @@
               <strong>Below are the assets you have defined for your messageboard.</strong>
             </p>
 
+            <h4>Emoticons</h4>
+           
+            <xsl:choose>
+              <xsl:when test="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION != ''">
+                <p>Emoticons currently being used:</p>
+                <p class="dna-fnote">
+                  <strong>File: </strong>
+                  <xsl:value-of select="SITECONFIGPREVIEW/SITECONFIG/V2_BOARDS/EMOTICON_LOCATION" />
+                </p>
+              </xsl:when>
+              <xsl:otherwise>
+                <p class="dna-fnote">You are using the default emoticon location - click the Edit button to add a custom one. </p>
+              </xsl:otherwise>
+            </xsl:choose>
+
             <h4>Stylesheet</h4>
 
             <xsl:choose>

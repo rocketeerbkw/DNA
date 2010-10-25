@@ -2,7 +2,7 @@
 
 namespace Dna.SnesIntegration.ActivityProcessor
 {
-    class RatingDataReaderAdapter : Rating
+    public class RatingDataReaderAdapter : Rating
     {
         public RatingDataReaderAdapter(IDnaDataReader dataReader)
         {

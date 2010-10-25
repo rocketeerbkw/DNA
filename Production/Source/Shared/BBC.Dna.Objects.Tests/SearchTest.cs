@@ -97,7 +97,7 @@ namespace BBC.Dna.Objects.Tests
 
             Search search;
 
-            search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false);
+            search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false,0, 20);
             Assert.AreNotEqual(null, search);
 
             XmlDocument xml = Serializer.SerializeToXml(search);
@@ -122,7 +122,7 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 // EXECUTE THE TEST
-                search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false);
+                search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false,0, 20);
             }
             catch (ApiException e)
             {
@@ -143,7 +143,7 @@ namespace BBC.Dna.Objects.Tests
 
             Search search;
 
-            search = Search.CreateUserSearchFromDatabase(creator, 1, "TestUser1", "USER", false);
+            search = Search.CreateUserSearchFromDatabase(creator, 1, "TestUser1", "USER", false, 0, 20);
             Assert.AreNotEqual(null, search);
 
             XmlDocument xml = Serializer.SerializeToXml(search);
@@ -168,7 +168,7 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 // EXECUTE THE TEST
-                search = Search.CreateUserSearchFromDatabase(creator, 1, "TestUser1", "USER", false);
+                search = Search.CreateUserSearchFromDatabase(creator, 1, "TestUser1", "USER", false, 0, 20);
             }
             catch (ApiException e)
             {

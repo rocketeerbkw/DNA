@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="../Dna.Services.Common/post.xsd"/>
+	<xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+	<xs:element name="postList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="skip" type="xs:int" />
+				<xs:element name="show" type="xs:int" />
+				<xs:element name="count" type="xs:int" />
+				<xs:element name="more" type="xs:int" />
+				<xs:element name="posts">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="post" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="user" nillable="true">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="user" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

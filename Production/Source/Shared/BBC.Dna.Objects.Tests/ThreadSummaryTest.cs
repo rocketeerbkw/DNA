@@ -28,8 +28,11 @@ namespace BBC.Dna.Objects.Tests
             var reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.DoesFieldExist("ThisCanRead")).Return(true);
             reader.Stub(x => x.GetBoolean("ThisCanRead")).Return(true);
+            reader.Stub(x => x.DoesFieldExist("ThisCanWrite")).Return(true);
             reader.Stub(x => x.GetBoolean("ThisCanWrite")).Return(true);
+            reader.Stub(x => x.DoesFieldExist("FirstSubject")).Return(true);
             reader.Stub(x => x.GetString("FirstSubject")).Return("test>");
             reader.Stub(x => x.DoesFieldExist("FirstPostthreadid")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("FirstPostthreadid")).Return(1);
@@ -55,6 +58,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetBoolean("ThisCanRead")).Return(false);
             reader.Stub(x => x.GetBoolean("ThisCanWrite")).Return(false);
+            reader.Stub(x => x.DoesFieldExist("FirstSubject")).Return(true);
             reader.Stub(x => x.GetString("FirstSubject")).Return("test>");
             reader.Stub(x => x.DoesFieldExist("FirstPostthreadid")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("FirstPostthreadid")).Return(1);
