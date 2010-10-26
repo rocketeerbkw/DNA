@@ -142,16 +142,36 @@ namespace BBC.Dna.Objects.Tests
             var searchTerms = new string[] { "term1", "term2" };
             var expected = "term1&term2";
 
-            Assert.AreEqual(expected, SearchThreadPosts.FormatSearchTerm(searchTerms));
+            Assert.AreEqual(expected, SearchThreadPosts.FormatSearchTerm(ref searchTerms));
         }
 
         [TestMethod()]
         public void FormatSearchTerm_ValidTermsWithBadChars_FormatsCorrectString()
         {
-            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(new string[] { "te!rm1", "t!erm2" }));
-            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(new string[] { "term1&", "&term2" }));
-            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(new string[] { "\"term1\"", "term2" }));
-            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(new string[] { "term1", "(t)erm2" }));
+            var temp = new string[] { "te!rm1", "t!erm2" };
+            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(ref temp));
+            Assert.AreEqual("term1", temp[0]);
+            Assert.AreEqual("term2", temp[1]);
+
+            temp = new string[] { "term1&", "&term2" };
+            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(ref temp));
+            Assert.AreEqual("term1", temp[0]);
+            Assert.AreEqual("term2", temp[1]);
+            
+            temp = new string[] { "\"term1\"", "term2" };
+            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(ref temp));
+            Assert.AreEqual("term1", temp[0]);
+            Assert.AreEqual("term2", temp[1]);
+
+            temp = new string[] { "\"term1\"", "term2" };
+            Assert.AreEqual("term1&term2", SearchThreadPosts.FormatSearchTerm(ref temp));
+            Assert.AreEqual("term1", temp[0]);
+            Assert.AreEqual("term2", temp[1]);
+
+            temp = new string[] { "term1", "the" };
+            Assert.AreEqual("term1", SearchThreadPosts.FormatSearchTerm(ref temp));
+            Assert.AreEqual("term1", temp[0]);
+            Assert.AreEqual(1, temp.Length);
 
 
         }
