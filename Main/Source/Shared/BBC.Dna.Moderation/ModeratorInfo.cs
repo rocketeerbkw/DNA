@@ -51,6 +51,10 @@ namespace BBC.Dna.Moderation
             set;
         }
 
+        [XmlArrayAttribute(Order = 3, ElementName = "ACTIONITEMS")]
+        [XmlArrayItemAttribute("ACTIONITEM", IsNullable = false)]
+        public List<ModeratorActionItem> ActionItems { get; set; }
+
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName = "ISMODERATOR")]
         public int IsModerator
@@ -118,12 +122,49 @@ namespace BBC.Dna.Moderation
                                 curSiteID = siteID;
                             }
                         } while (dataReader.Read());
+
+                        moderatorInfo.ActionItems = GetModeratorActionItems(creator, userID);
+
                     }
                 }
             }
             return moderatorInfo;
         }
 
+        /// <summary>
+        /// Creates the action items for the given user.
+        /// </summary>
+        /// <param name="creator"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        static private List<ModeratorActionItem> GetModeratorActionItems(IDnaDataReaderCreator creator, int userId)
+        {
+            List<ModeratorActionItem> items = new List<ModeratorActionItem>();
+            using (IDnaDataReader dataReader = creator.CreateDnaDataReader("fetchmoderationstatisticsperuserbytype"))
+            {
+                dataReader.AddParameter("userID", userId);
+                dataReader.Execute();
+                if (dataReader.HasRows)
+                {
+                    while (dataReader.Read())
+                    {
+                        int total = dataReader.GetInt32NullAsZero("total");
+                        SiteType type = (SiteType)Enum.Parse(typeof(SiteType), dataReader.GetStringNullAsEmpty("sitetype"), true);
+
+                        var item = items.Find(x => x.Type == type);
+                        if (item == null)
+                        {
+                            items.Add(new ModeratorActionItem(){Total = total, Type = type});
+                        }
+                        else
+                        {
+                            item.Total += total;
+                        }
+                    }
+                }
+            }
+            return items;
+        }
 
 
     }

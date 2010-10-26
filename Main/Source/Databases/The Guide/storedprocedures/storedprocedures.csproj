@@ -1276,6 +1276,7 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="FetchModerationStatisticsPerUserByType.sql" />
     <None Include="getsitedailysummaryreportbytype.sql" />
     <None Include="getsitedailysummaryreportbysite.sql" />
     <None Include="fetchmoderationstatisticsbysite.sql" />

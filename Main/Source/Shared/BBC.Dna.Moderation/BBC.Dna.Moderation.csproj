@@ -92,6 +92,7 @@
     <Compile Include="BannedEmailsList.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Contracts\ModerationItem.cs" />
+    <Compile Include="ModeratorActionItem.cs" />
     <Compile Include="EmailInserts.cs" />
     <Compile Include="EmailTemplate.cs" />
     <Compile Include="ExternalLinkModeration.cs" />

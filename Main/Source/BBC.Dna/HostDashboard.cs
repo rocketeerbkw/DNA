@@ -16,7 +16,7 @@ namespace BBC.Dna
     public class HostDashboardBuilder : DnaInputComponent
     {
         private int _siteId = 0;
-        private SiteType _type = SiteType.Undefined;
+        private SiteType _type = SiteType.Messageboard;
         private int _userId = 0;
         private int _days = 7;//default to 7 days
 
@@ -94,7 +94,10 @@ namespace BBC.Dna
         private void GetQueryParameters()
         {
             _siteId = InputContext.GetParamIntOrZero("s_siteid", "siteid to display");
-            _type = (SiteType)InputContext.GetParamIntOrZero("s_type", "type to display");
+            if (InputContext.DoesParamExist("s_type", "type to display"))
+            {
+                _type = (SiteType)InputContext.GetParamIntOrZero("s_type", "type to display");
+            }
             if(InputContext.DoesParamExist("s_days", "days of stats to display"))
             {
                 _days = InputContext.GetParamIntOrZero("s_days", "days of stats to display");
