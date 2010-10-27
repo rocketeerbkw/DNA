@@ -171,6 +171,11 @@ namespace BBC.Dna.Objects
             var searchTextArray = searchText.Split(' ');
             var tempSeachText = FormatSearchTerm(ref searchTextArray);
 
+            if (string.IsNullOrEmpty(tempSeachText))
+            {
+                return thread;
+            }
+
             //get posts from db
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("searchthreadentriesfast")) 
             {
@@ -355,6 +360,11 @@ namespace BBC.Dna.Objects
                     goodTerms.Add(tempTerm);
                     tempSeachText += tempTerm + "&";
                 }
+            }
+
+            if (String.IsNullOrEmpty(tempSeachText))
+            {
+                return tempSeachText;
             }
             //strip any trailing & chars
             if (tempSeachText.LastIndexOf("&") == tempSeachText.Length - 1)
