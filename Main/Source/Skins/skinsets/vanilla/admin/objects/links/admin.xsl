@@ -24,7 +24,7 @@
 		</xsl:variable>
 		
 		<ul class="dna-list-links">
-			<xsl:if test="$dashboardtype = 'blog' or $dashboardtype = 'other'">
+			<xsl:if test="$dashboardtype = 'blog' or $dashboardtype = 'story'">
 				<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Comment forum list</a></li>
 			</xsl:if>
 			<xsl:if test="$dashboardtype = 'messageboard'">

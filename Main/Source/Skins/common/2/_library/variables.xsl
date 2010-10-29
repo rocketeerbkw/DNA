@@ -223,12 +223,20 @@
 		</xsl:choose>
     </xsl:variable>
     
+    
+    <!-- DASHBOARD variables -->
+    <xsl:variable name="dashboardtypeid">
+    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
+    		<xsl:text>s_type=</xsl:text><xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE" />
+    	</xsl:if>
+    </xsl:variable>       
+    
     <xsl:variable name="dashboardtype">
     	<xsl:choose>
-    		<xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE = 1">blog</xsl:when>
-    		<xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE = 2">messageboard</xsl:when>
-    		<xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE = 3">community</xsl:when>
-    		<xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE = 4">story</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 1">blog</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 2">messageboard</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 3">community</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">story</xsl:when>
     	</xsl:choose>
     </xsl:variable>
     
@@ -241,6 +249,18 @@
     		<xsl:when test="$dashboardtype = 'blog' or $dashboardtype = 'story'">comment</xsl:when>
     		<xsl:when test="$dashboardtype = 'messageboard' or $dashboardtype = 'community'">post</xsl:when>
     	</xsl:choose>    	
+    </xsl:variable>
+    
+    <xsl:variable name="dashboarddays">
+    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_days']/VALUE">
+    		<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_days']/VALUE" />
+    	</xsl:if>  	
+    </xsl:variable>    
+    
+    <xsl:variable name="dashboardsiteuser">
+    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_userid']/VALUE">
+    		<xsl:text>&amp;s_userid=</xsl:text><xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_userid']/VALUE" />
+    	</xsl:if>
     </xsl:variable>
     
 </xsl:stylesheet>

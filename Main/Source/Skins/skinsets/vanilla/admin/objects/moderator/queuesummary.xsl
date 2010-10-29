@@ -11,9 +11,9 @@
 		<xsl:variable name="referraltype">
 	    	<xsl:choose>
 	    		<xsl:when test="OBJECTTYPE = 'forum'">post</xsl:when>
-	    		<xsl:when test="OBJECTTYPE = 'entry'">entry post</xsl:when>
+	    		<xsl:when test="OBJECTTYPE = 'entry'">article</xsl:when>
 	    		<xsl:when test="OBJECTTYPE = 'forumcomplaint'">alert</xsl:when>
-	    		<xsl:when test="OBJECTTYPE = 'entrycomplaint'">entry alert</xsl:when>
+	    		<xsl:when test="OBJECTTYPE = 'entrycomplaint'">article alert</xsl:when>
 	    		<xsl:when test="OBJECTTYPE = 'generalcomplaint'">general complaint</xsl:when>
 	    		<xsl:when test="OBJECTTYPE = 'nickname'">nickname</xsl:when>
 	    	</xsl:choose>
@@ -23,26 +23,25 @@
 	    </xsl:variable> 
 		<xsl:if test="STATE = 'queuedreffered' or STATE = 'queued'">
 			<xsl:if test="(OBJECTTYPE != 'entry' and OBJECTTYPE != 'entrycomplaint') or $dashboardtype='community' ">
-  
-		    <tr>
-				<th>
-					<xsl:if test="STATE = 'queuedreffered'">
-						<xsl:call-template name="moderationsummarylink">
-							<xsl:with-param name="referraltype" select="$referraltype" />
-						</xsl:call-template>
-					</xsl:if>
-					<xsl:if test="STATE = 'queued'">
-						<xsl:call-template name="moderationsummary">
-							<xsl:with-param name="referraltype" select="$referraltype" />
-						</xsl:call-template>
-					</xsl:if>					
-				</th>
-				<td>
-					<xsl:if test="DATE/@YEAR != 1">
-						<xsl:value-of select="DATE/LOCAL/@RELATIVE" />
-					</xsl:if>
-				</td> 
-			</tr>
+			    <tr>
+					<th>
+						<xsl:if test="STATE = 'queuedreffered'">
+							<xsl:call-template name="moderationsummarylink">
+								<xsl:with-param name="referraltype" select="$referraltype" />
+							</xsl:call-template>
+						</xsl:if>
+						<xsl:if test="STATE = 'queued'">
+							<xsl:call-template name="moderationsummary">
+								<xsl:with-param name="referraltype" select="$referraltype" />
+							</xsl:call-template>
+						</xsl:if>					
+					</th>
+					<td>
+						<xsl:if test="DATE/@YEAR != 1">
+							<xsl:value-of select="DATE/LOCAL/@RELATIVE" />
+						</xsl:if>
+					</td> 
+				</tr>
 			</xsl:if>
 		</xsl:if>
 		

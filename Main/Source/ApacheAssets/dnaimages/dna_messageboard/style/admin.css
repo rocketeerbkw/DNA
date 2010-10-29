@@ -308,7 +308,9 @@
     .dna-dashboard table {width:100%;table-layout:fixed}
     .dna-dashboard table th, .dna-dashboard table td {padding: 10px}
     .dna-dashboard table td {text-align:right}
-	.dna-dashboard tr.odd {background-color:#ebebd6}    
+	.dna-dashboard tr.odd {background-color:#ebebd6}
+	.dna-dashboard ul.dna-date-links {padding: 5px 10px}    
+	.dna-dashboard ul.dna-date-links li {float: left; margin-right: 5px}
     
 }
 

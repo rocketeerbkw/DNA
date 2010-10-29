@@ -119,60 +119,34 @@
 									<a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
 								</li>
 							</xsl:when>
-							<!-- host dashboard tabs -->
+							<!-- 
+								host dashboard tabs 
+								do test around these if user can/cannot see the dashboard type for selected value or show/hide tabs?
+							-->
 							<xsl:otherwise>
 								<li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '1'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
-                  <xsl:choose>
-                    <xsl:when test="PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']" >
-                      <a href="{$root}/hostdashboard?s_type=1&amp;s_userid={PARAMS/PARAM[NAME = 's_userid']/VALUE}">Blogs</a>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <a href="{$root}/hostdashboard?s_type=1">Blogs</a>
-                    </xsl:otherwise>
-                  </xsl:choose>
-									
+						            <a href="{$root}/hostdashboard?s_type=1{$dashboardsiteuser}">Blogs <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Blog']" mode="objects_moderator_actionitemtotal"/></a>
 								</li>
 								<li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '2'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
-                  <xsl:choose>
-                    <xsl:when test="PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']" >
-                      <a href="{$root}/hostdashboard?s_type=2&amp;s_userid={PARAMS/PARAM[NAME = 's_userid']/VALUE}">Boards</a>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <a href="{$root}/hostdashboard?s_type=2">Boards</a>
-                    </xsl:otherwise>
-                  </xsl:choose>
+									<a href="{$root}/hostdashboard?s_type=2{$dashboardsiteuser}">Boards <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']" /></a>
 								</li>
 								<li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '3'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
-                  <xsl:choose>
-                    <xsl:when test="PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']" >
-                      <a href="{$root}/hostdashboard?s_type=3&amp;s_userid={PARAMS/PARAM[NAME = 's_userid']/VALUE}">Communities</a>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <a href="{$root}/hostdashboard?s_type=3">Communities</a>
-                    </xsl:otherwise>
-                  </xsl:choose>
+									<a href="{$root}/hostdashboard?s_type=3{$dashboardsiteuser}">Communities <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Community']" /></a>
 								</li>
 								<li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '4'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
-                  <xsl:choose>
-                    <xsl:when test="PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']" >
-                      <a href="{$root}/hostdashboard?s_type=4&amp;s_userid={PARAMS/PARAM[NAME = 's_userid']/VALUE}">Stories</a>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <a href="{$root}/hostdashboard?s_type=4">Stories</a>
-                    </xsl:otherwise>
-                  </xsl:choose>
+									<a href="{$root}/hostdashboard?s_type=4{$dashboardsiteuser}">Stories <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'EmbeddedComments']" /></a>
 								</li>																
 							</xsl:otherwise>
 						</xsl:choose>

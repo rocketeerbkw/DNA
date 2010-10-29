@@ -11,6 +11,9 @@
 			<xsl:when test="not(MODERATION-QUEUE-SUMMARY)">
 				<p>There are no referred items.</p>
 			</xsl:when>
+			<xsl:when test="parent::MODERATORHOME/@ISREFEREE != '1'">
+				<p>You are not a referee for this <xsl:value-of select="$dashboardtype" /></p>
+			</xsl:when>
 			<xsl:otherwise>
 				<p>These items require your attention.</p>
 				<div>
@@ -22,9 +25,6 @@
 				</div>				
 			</xsl:otherwise>
 		</xsl:choose>
-		
-
-
 	</xsl:template>
 	
 </xsl:stylesheet>

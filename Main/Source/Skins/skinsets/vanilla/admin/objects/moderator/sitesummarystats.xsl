@@ -6,7 +6,22 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="doc">
 
+    <doc:documentation>
+        <doc:purpose>
+            Used to pull in the 'Activity' module site statistics for the host dashboard
+        </doc:purpose>
+        <doc:context>
+            n/a
+        </doc:context>
+        <doc:notes>
+            
+        </doc:notes>
+    </doc:documentation>
+
 	<xsl:template match="SITESUMMARYSTATS" mode="objects_moderator_queuesummary">
+		
+		<xsl:call-template name="objects_links_timeframe" />
+	
 		<ul class="dna-list-links">
 			<li><xsl:value-of select="TOTALPOSTS" /> submitted <xsl:value-of select="$dashboardposttype" /><xsl:if test="TOTALPOSTS != 1">s</xsl:if></li>
 			<li><xsl:value-of select="TOTALCOMPLAINTS" /> complaint<xsl:if test="TOTALCOMPLAINTS != 1">s</xsl:if></li>

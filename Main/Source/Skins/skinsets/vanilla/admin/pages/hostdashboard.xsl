@@ -28,9 +28,11 @@
 		    <form method="get" action="hostdashboard" class="dna-fr"> 
 		    	<fieldset>
 		    		<input type="hidden" name="s_type" value="{/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE}" />
-            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
-		    		  <input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
-            </xsl:if>
+		            
+		            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
+				    	<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
+		            </xsl:if>
+		            
 			    	<select name="s_siteid" id="s_siteid">
 			    		<option disabled="disabled" selected="selected">Please select a <xsl:value-of select="$dashboardtype" /></option>
 			    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
@@ -44,7 +46,6 @@
 			<div class="dna-fl dna-main-threequarter">
 				<div class="dna-box">
 					<h3>Moderation referrals <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">for <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if></h3>
-					<!-- test to see if user is a referee -->
 					<xsl:apply-templates select="MODERATORHOME/MODERATIONQUEUES" mode="objects_moderator_queues" />
 				</div>
 			</div>
@@ -62,6 +63,7 @@
 				<div class="dna-box">
 					<h3><xsl:value-of select="$dashboardtype" /> admin links</h3>
 					<xsl:choose>
+						<!-- if an option is selected then show admin links -->
 						<xsl:when test="SITESUMMARYSTATS/@SITEID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"> 
 							<xsl:call-template name="objects_links_admin" />
 						</xsl:when>

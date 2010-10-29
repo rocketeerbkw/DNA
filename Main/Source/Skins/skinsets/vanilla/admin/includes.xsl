@@ -27,14 +27,15 @@
 	<xsl:include href="objects/user/welcome.xsl"/>
 	
 	<xsl:include href="objects/links/admin.xsl"/>
+	<xsl:include href="objects/links/timeframe.xsl"/>
 	<xsl:include href="objects/links/usermanagement.xsl"/>
 	<xsl:include href="objects/links/useful.xsl"/>
 	
+	<xsl:include href="objects/moderator/actionitemtotal.xsl"/>
 	<xsl:include href="objects/moderator/queues.xsl"/>
+	<xsl:include href="objects/moderator/queuesummary.xsl"/>
 	<xsl:include href="objects/moderator/sites.xsl"/>
 	<xsl:include href="objects/moderator/sitesummarystats.xsl"/>
-	<xsl:include href="objects/moderator/queuesummary.xsl"/>
-	
 	<xsl:include href="objects/topiclist.xsl"/>	
 	
 	<!-- pages -->
