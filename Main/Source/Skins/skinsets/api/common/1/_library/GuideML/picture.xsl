@@ -15,41 +15,41 @@
 	
 	<xsl:template match="PICTURE" mode="library_GuideML">
     	<xsl:variable name="pictureTag">
-    		<img src="{$blobs-root}{@H2G2IMG}" alt="{@ALT}" title="{@ALT}">
-				<xsl:if test="@HEIGHT">
+    		<img src="{$blobs-root}{@H2G2IMG}" alt="{@ALT|@alt}" title="{@ALT|@alt}">
+				<xsl:if test="@HEIGHT | @height">
 					<xsl:attribute name="height">
-						<xsl:value-of select="@HEIGHT"/>
+						<xsl:value-of select="@HEIGHT | @height"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="@WIDTH">
+				<xsl:if test="@WIDTH | @width">
 					<xsl:attribute name="width">
-						<xsl:value-of select="@WIDTH"/>
+						<xsl:value-of select="@WIDTH | @width"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="@EMBED">
+				<xsl:if test="@EMBED | @embed">
 					<xsl:attribute name="class">
-						<xsl:value-of select="@EMBED"/>
+						<xsl:value-of select="@EMBED | @embed"/>
 					</xsl:attribute>
 				</xsl:if>
 			</img>
     	</xsl:variable>
 
 		<xsl:choose>
-    		<xsl:when test="@BLOB and @BLOB != ''">
-				<img src="{$blob-gif-root}{@BLOB}white.gif" alt="{@ALT}" title="{@ALT}">
-					<xsl:if test="@HEIGHT">
+    		<xsl:when test="((@BLOB and @BLOB != '') or (@blob and @blob != ''))">
+				<img src="{$blob-gif-root}{@BLOB|@blob}white.gif" alt="{@ALT|@alt}" title="{@ALT|@alt}">
+					<xsl:if test="@HEIGHT | @height">
 						<xsl:attribute name="height">
-							<xsl:value-of select="@HEIGHT"/>
+							<xsl:value-of select="@HEIGHT | @height"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="@WIDTH">
+					<xsl:if test="@WIDTH | @width">
 						<xsl:attribute name="width">
-							<xsl:value-of select="@WIDTH"/>
+							<xsl:value-of select="@WIDTH | @width"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="@EMBED">
+					<xsl:if test="@EMBED | @embed">
 						<xsl:attribute name="class">
-							<xsl:value-of select="@EMBED"/>
+							<xsl:value-of select="@EMBED | @embed"/>
 						</xsl:attribute>
 					</xsl:if>
 				</img>

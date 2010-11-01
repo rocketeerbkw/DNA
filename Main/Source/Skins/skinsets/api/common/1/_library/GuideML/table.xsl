@@ -18,6 +18,11 @@
 			<xsl:if test="@BORDER=1">
 				<xsl:attribute name="class">border1</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@STYLE | @style">
+				<xsl:attribute name="style">
+					<xsl:value-of select="@STYLE | @style"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="@WIDTH | @width">
 				<xsl:attribute name="width">
 					<xsl:value-of select="@WIDTH | @width"/>
