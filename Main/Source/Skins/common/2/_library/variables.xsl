@@ -142,20 +142,30 @@
                 <xsl:variable name="now" select="number(concat(format-number(/H2G2/DATE/@HOURS, '00'), format-number(/H2G2/DATE/@MINUTES, '00')))"/>
                 <xsl:variable name="open" select="number(concat(format-number(/H2G2/SITE/OPENCLOSETIMES/EVENT[@ACTION = 0][TIME/@DAYTYPE = $dayOfWeek]/TIME/@HOURS, '00'), format-number(/H2G2/SITE/OPENCLOSETIMES/EVENT[@ACTION = 0][TIME/@DAYTYPE = $dayOfWeek]/TIME/@MINUTES, '00')))"/>
                 <xsl:variable name="closed" select="number(concat(format-number(/H2G2/SITE/OPENCLOSETIMES/EVENT[@ACTION = 1][TIME/@DAYTYPE = $dayOfWeek]/TIME/@HOURS, '00'), format-number(/H2G2/SITE/OPENCLOSETIMES/EVENT[@ACTION = 1][TIME/@DAYTYPE = $dayOfWeek]/TIME/@MINUTES, '00')))"/>
-                <xsl:choose>
-                    <!-- I don't know WHY I have to do this... will figure out later -->
-                    <xsl:when test="(string($open) = 'NaN') or (string($closed) = 'NaN')">
-                        <xsl:value-of select="false()"/>
-                    </xsl:when>
-                    <xsl:when test="$open = 0 and $closed = 0">
-                        <xsl:value-of select="true()"/>
-                    </xsl:when>
-                    <xsl:when test="$now &gt; $open and $now &lt; $closed">
-                        <xsl:value-of select="false()"/>
+                <xsl:variable name="adjustedclosed">
+                  <xsl:choose>
+                    <xsl:when test="$closed = 0">
+                      <xsl:value-of select="2400"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="true()"/>
+                      <xsl:value-of select="$closed"/>
                     </xsl:otherwise>
+                  </xsl:choose>
+                </xsl:variable>
+                <xsl:choose>
+                  <!-- I don't know WHY I have to do this... will figure out later -->
+                  <xsl:when test="(string($open) = 'NaN') or (string($adjustedclosed) = 'NaN')">
+                    <xsl:value-of select="false()"/>
+                  </xsl:when>
+                  <xsl:when test="$open = 0 and $adjustedclosed = 0">
+                    <xsl:value-of select="true()"/>
+                  </xsl:when>
+                  <xsl:when test="$now &gt; $open and $now &lt; $adjustedclosed">
+                    <xsl:value-of select="false()"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="true()"/>
+                  </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
