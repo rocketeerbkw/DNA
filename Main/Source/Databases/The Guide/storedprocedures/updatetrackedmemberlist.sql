@@ -44,6 +44,8 @@ BEGIN TRY
 	FROM #usersiteidpairs usids
 	WHERE preferences.userid = usids.userid AND preferences.siteid = usids.siteid
 
+	EXEC addtoeventqueueinternal 'ET_USERMODERATION', @auditId, 'IT_USERAUDIT', @prefstatus, 'IT_USERPREFSTATUS', @viewinguser
+
 	COMMIT TRANSACTION
 END TRY
 BEGIN CATCH

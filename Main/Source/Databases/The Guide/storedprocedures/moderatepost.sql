@@ -1,9 +1,11 @@
 CREATE PROCEDURE moderatepost @forumid int, @threadid int, @postid int, 
-	@modid int, @status int, @notes varchar(2000), @referto int, @referredby int, @moderationstatus int = 0
+	@modid int, @status int, @notes varchar(2000), @referto int, @referredby int, @moderationstatus int = 0, 
+	@emailtype varchar(50)=''
 As
 -- if @referto is zero then this is the same as it being null
 if @referto = 0 set @referto = null
 
+declare @reasonid int
 declare @realStatus int
 declare @datereferred datetime
 declare @datecompleted datetime
@@ -14,6 +16,8 @@ set @processed = 0
 
 select @realStatus = CASE @status WHEN 6 THEN 4 ELSE @status END
 select @realStatus = CASE @status WHEN 8 THEN 3 ELSE @status END
+select @reasonid = reasonid  from modreason where emailname=@emailtype
+
 
 IF @realStatus = 2
 BEGIN
@@ -42,8 +46,29 @@ UPDATE ThreadMod
 		LockedBy = CASE WHEN @realStatus = 2 THEN @referto ELSE LockedBy END,
 		ReferredBy = CASE WHEN @realStatus = 2 THEN @referredby ELSE ReferredBy END
 	WHERE ModID = @modid 
-	
 SET @processed = @@ROWCOUNT
+
+--add thread mod history
+insert into dbo.ThreadModHistory
+           ([ModID]
+           ,[LockedBy]
+           ,[Status]
+           ,[ReasonId]
+           ,[Notes]
+           ,[ReferredBy])
+	 select
+		 modid,
+		 lockedby,
+		 status,
+		 @reasonid,
+		 notes,
+		 referredby
+	from ThreadMod
+	where modid=@modid
+	
+declare @modhistoryid int
+select @modhistoryid = max(HistoryModID)from dbo.ThreadModHistory where modid=@modid
+
 
 IF ( @@ERROR <> 0 OR @processed = 0 )
 BEGIN
@@ -335,7 +360,8 @@ BEGIN
 	END
 END
 
-
+ -- add event
+ EXEC addtoeventqueueinternal 'ET_MODERATIONDECISION_POST', @modhistoryid, 'IT_MODHISTORYID', @postid, 'IT_POST', @referredby
 
 
 COMMIT TRANSACTION

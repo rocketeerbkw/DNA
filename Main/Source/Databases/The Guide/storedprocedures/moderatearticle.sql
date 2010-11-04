@@ -60,6 +60,7 @@ BEGIN
 		select @ErrorCode = @@ERROR; if @ErrorCode = 0 select @ErrorCode = @ExecError
 		if (@ErrorCode <> 0) goto HandleError;
 	
+		
 		--remove original record if it is not the same as found one (happens when
 		--referee refers item to himself
 --		IF @ModID <> @RefModID
@@ -112,7 +113,7 @@ BEGIN
 	  FROM dbo.Forums f
 		   INNER JOIN dbo.GuideEntries ge on ge.ForumID = f.ForumID
 	 WHERE ge.h2g2ID = @h2g2ID;
-
+	 
 	select @ErrorCode = @@ERROR; if (@ErrorCode <> 0) goto HandleError;
 
 	exec @ExecError = addarticlemodhistory @modid, NULL, 
@@ -187,6 +188,9 @@ BEGIN
 	select @ErrorCode = @@ERROR; if @ErrorCode = 0 select @ErrorCode = @ExecError
 	if (@ErrorCode <> 0) goto HandleError;
 END
+
+ -- add event
+ EXEC addtoeventqueueinternal 'ET_MODERATIONDECISION_ARTICLE', @modid, 'IT_MODID', @realStatus, 'IT_MODSTATUS', @referredby
 
 COMMIT TRANSACTION
 

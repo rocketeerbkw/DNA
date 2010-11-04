@@ -16,7 +16,8 @@ namespace BBC.Dna.Moderation
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute(AnonymousType = true, TypeName = "ModeratorInfo")]
+    [XmlTypeAttribute(AnonymousType = true, TypeName = "MODERATORINFO")]
+    [XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "MODERATORINFO")]
     public class ModeratorInfo
     {
         public ModeratorInfo()

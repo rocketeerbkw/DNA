@@ -17,6 +17,9 @@ BEGIN
 
 		-- Update the BIEventQueue with the events relevent to BI
 		EXEC dbo.generatebievents @TopEventID
+		
+		-- Update the generatesiteevents with the events
+		EXEC dbo.generatesiteevents @TopEventID
 
 		-- Clear the EventQueue
 		DELETE FROM dbo.EventQueue WHERE EventID <= @TopEventID

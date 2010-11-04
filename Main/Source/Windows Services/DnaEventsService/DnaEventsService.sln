@@ -37,9 +37,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeExperiments", "CodeExpe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BIEventProcessor", "BIEventProcessor\BIEventProcessor.csproj", "{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteEventProcessor", "SiteEventProcessor\SiteEventProcessor.csproj", "{493A1688-A503-46F2-B0F0-8D96BC45323C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation", "..\..\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj", "{ED8FAD29-DC4F-40DC-A275-45D215591FA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Moderation.Utils", "..\..\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj", "{8EB8245F-927C-469B-9DBB-4BAED2A9F420}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteActivityProcessor.Tests", "SiteActivityProcessor.Tests\SiteActivityProcessor.Tests.csproj", "{1602E3CC-025E-482F-9781-8C93F272142E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Common", "..\..\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj", "{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 17
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection
 		SccLocalPath0 = .
@@ -89,6 +99,25 @@ Global
 		SccProjectUniqueName11 = BIEventProcessor\\BIEventProcessor.csproj
 		SccProjectName11 = BIEventProcessor
 		SccLocalPath11 = BIEventProcessor
+		SccProjectUniqueName12 = SiteEventProcessor\\SiteEventProcessor.csproj
+		SccProjectName12 = SiteEventProcessor
+		SccLocalPath12 = SiteEventProcessor
+		SccProjectUniqueName13 = ..\\..\\Shared\\BBC.Dna.Moderation\\BBC.Dna.Moderation.csproj
+		SccProjectTopLevelParentUniqueName13 = DnaEventsService.sln
+		SccProjectName13 = ../../Shared/BBC.Dna.Moderation
+		SccLocalPath13 = ..\\..\\Shared\\BBC.Dna.Moderation
+		SccProjectUniqueName14 = ..\\..\\Shared\\BBC.Dna.Moderation.Utils\\BBC.DNA.Moderation.Utils.csproj
+		SccProjectTopLevelParentUniqueName14 = DnaEventsService.sln
+		SccProjectName14 = ../../Shared/BBC.Dna.Moderation.Utils
+		SccLocalPath14 = ..\\..\\Shared\\BBC.Dna.Moderation.Utils
+		SccProjectUniqueName15 = SiteActivityProcessor.Tests\\SiteActivityProcessor.Tests.csproj
+		SccProjectTopLevelParentUniqueName15 = DnaEventsService.sln
+		SccProjectName15 = SiteActivityProcessor.Tests
+		SccLocalPath15 = SiteActivityProcessor.Tests
+		SccProjectUniqueName16 = ..\\..\\Shared\\BBC.Dna.Common\\BBC.Dna.Common.csproj
+		SccProjectTopLevelParentUniqueName16 = DnaEventsService.sln
+		SccProjectName16 = ../../Shared/BBC.Dna.Common
+		SccLocalPath16 = ..\\..\\Shared\\BBC.Dna.Common
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DnaEventsService.vsmdi
@@ -163,6 +192,36 @@ Global
 		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
 		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{493A1688-A503-46F2-B0F0-8D96BC45323C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{493A1688-A503-46F2-B0F0-8D96BC45323C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{493A1688-A503-46F2-B0F0-8D96BC45323C}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{493A1688-A503-46F2-B0F0-8D96BC45323C}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{493A1688-A503-46F2-B0F0-8D96BC45323C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{493A1688-A503-46F2-B0F0-8D96BC45323C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED8FAD29-DC4F-40DC-A275-45D215591FA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EB8245F-927C-469B-9DBB-4BAED2A9F420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EB8245F-927C-469B-9DBB-4BAED2A9F420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EB8245F-927C-469B-9DBB-4BAED2A9F420}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
+		{8EB8245F-927C-469B-9DBB-4BAED2A9F420}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
+		{8EB8245F-927C-469B-9DBB-4BAED2A9F420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EB8245F-927C-469B-9DBB-4BAED2A9F420}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1602E3CC-025E-482F-9781-8C93F272142E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1602E3CC-025E-482F-9781-8C93F272142E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1602E3CC-025E-482F-9781-8C93F272142E}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{1602E3CC-025E-482F-9781-8C93F272142E}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{1602E3CC-025E-482F-9781-8C93F272142E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1602E3CC-025E-482F-9781-8C93F272142E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,7 +230,11 @@ Global
 		{F79CF818-D597-4C2F-A61D-87773951E234} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
 		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
 		{4770D032-9B06-450D-8B00-7200D8330397} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{ED8FAD29-DC4F-40DC-A275-45D215591FA2} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{8EB8245F-927C-469B-9DBB-4BAED2A9F420} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
+		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9} = {D1380547-12A9-4DD5-9028-9C4F0D998768}
+		{1602E3CC-025E-482F-9781-8C93F272142E} = {D1380547-12A9-4DD5-9028-9C4F0D998768}
 		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7} = {5D5C1ADB-0418-4156-9E4C-98BBAA2E45AB}
 		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C} = {E8170D91-811A-435C-9C65-B2CD5B21E535}
 	EndGlobalSection

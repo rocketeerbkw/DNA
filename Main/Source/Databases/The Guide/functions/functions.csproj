@@ -63,6 +63,7 @@
     <None Include="udf_getthreadentryfulltextcatalogname.sql" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="udf_GetUsername.sql" />
     <None Include="udf_dateonly.sql">
       <SubType>Component</SubType>
     </None>

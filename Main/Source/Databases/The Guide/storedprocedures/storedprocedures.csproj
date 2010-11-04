@@ -1276,6 +1276,16 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="getsiteevents.sql" />
+    <None Include="getsiteevents_newuser.sql" />
+    <None Include="getsiteevents_usermoderation.sql" />
+    <None Include="getsiteevents_complaintarticle.sql" />
+    <None Include="getsiteevents_complaintpost.sql" />
+    <None Include="removesiteevents.sql" />
+    <None Include="getsiteevents_postmoderationdecision.sql" />
+    <None Include="insertSiteActivityItem.sql" />
+    <None Include="getsiteevents_articlemoderationdecision.sql" />
+    <None Include="generatesiteevents.sql" />
     <None Include="FetchModerationStatisticsPerUserByType.sql" />
     <None Include="getsitedailysummaryreportbytype.sql" />
     <None Include="getsitedailysummaryreportbysite.sql" />

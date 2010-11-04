@@ -143,6 +143,10 @@
       <Project>{F2C46478-2092-4D90-AEB2-46FD54FF6053}</Project>
       <Name>ExModerationProcessor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SiteEventProcessor\SiteEventProcessor.csproj">
+      <Project>{493A1688-A503-46F2-B0F0-8D96BC45323C}</Project>
+      <Name>SiteEventProcessor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SNeSActivityProcessor\SnesActivityProcessor.csproj">
       <Project>{B2ECD482-BF9E-42D5-ABDF-51BE487DD627}</Project>
       <Name>SnesActivityProcessor</Name>
@@ -194,6 +198,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

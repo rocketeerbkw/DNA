@@ -407,6 +407,7 @@ namespace BBC.Dna.Component
                 dataReader.AddParameter("referto", referId);
                 dataReader.AddParameter("referredby", InputContext.ViewingUser.UserID);
                 dataReader.AddParameter("moderationstatus", threadModStatus);
+                dataReader.AddParameter("emailType", emailType);
 
                 dataReader.Execute();
 

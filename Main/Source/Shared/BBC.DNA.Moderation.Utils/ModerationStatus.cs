@@ -89,23 +89,28 @@ namespace BBC.Dna.Moderation.Utils
             /// <summary>
             /// 
             /// </summary>
-            Standard,
+            Standard=0,
             /// <summary>
             /// 
             /// </summary>
-            Premoderated,
+            Premoderated=1,
             /// <summary>
             /// 
             /// </summary>
-            Postmoderated,
+            Postmoderated=2,
             /// <summary>
             /// 
             /// </summary>
-            SendForReview,
+            SendForReview=3,
             /// <summary>
             /// 
             /// </summary>
-            Restricted
+            Restricted=4,
+            /// <summary>
+            /// 
+            /// </summary>
+            Deactivated=5,
+
         }
 
         /// <summary>

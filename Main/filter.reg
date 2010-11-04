@@ -338,6 +338,7 @@ REGEDIT4
 "/mbadmin"="/dna/dnapages/MBAdmin.aspx?"
 
 "/HostDashboard"="/dna/dnapages/HostDashboard.aspx?"
+"/HostDashboardActivity"="/dna/dnapages/HostDashboardActivity.aspx?"
 
 
 "/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"

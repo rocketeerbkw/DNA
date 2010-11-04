@@ -128,6 +128,7 @@
             <xsl:include href="_library/pagination/forumthreadposts.xsl" />
             <xsl:include href="_library/pagination/searchthreadposts.xsl" />
             <xsl:include href="_library/pagination/post-list.xsl" />
+            <xsl:include href="_library/pagination/siteevents.xsl" />
     
     
             <xsl:include href="_library/sso/loginurl.xsl" />

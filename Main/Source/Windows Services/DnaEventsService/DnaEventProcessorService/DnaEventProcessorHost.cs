@@ -8,6 +8,7 @@ using Dna.SnesIntegration.ActivityProcessor;
 using Dna.SnesIntegration.ExModerationProcessor;
 using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
+using Dna.SiteEventProcessor;
 
 namespace DnaEventProcessorService
 {
@@ -15,7 +16,8 @@ namespace DnaEventProcessorService
     {
         private SnesActivityProcessor snesActivityProcessor;
         private ExModerationProcessor exModerationProcessor;
-        private Timer activityTimer, exModerationTimer;
+        private Dna.SiteEventProcessor.SiteEventsProcessor siteEventProcessor;
+        private Timer activityTimer, exModerationTimer, siteEventTimer;
         private int timerPeriod;
         private string guideConnectionString;
         private string certificateName;
@@ -27,8 +29,10 @@ namespace DnaEventProcessorService
 
         protected override void OnStart(string[] args)
         {
+            //System.Diagnostics.Debugger.Break();
             CreateActivityTimer();
             CreateExModerationEventTimer();
+            CreateSiteEventTimer();
         }
 
         private string GetCertificateName(string type)
@@ -76,6 +80,19 @@ namespace DnaEventProcessorService
 
             timerPeriod = Properties.Settings.Default.activityProcessingPeriod;
             exModerationTimer = new Timer(exModerationProcessor.ProcessEvents, null, 0, timerPeriod);
+
+        }
+
+        private void CreateSiteEventTimer()
+        {
+            guideConnectionString = Properties.Settings.Default.guideConnectionString;
+
+            siteEventProcessor = PolicyInjection.Create<SiteEventsProcessor>(
+                new DnaDataReaderCreator(guideConnectionString),
+                new DnaLogger());
+
+            timerPeriod = Properties.Settings.Default.activityProcessingPeriod;
+            siteEventTimer = new Timer(siteEventProcessor.ProcessEvents, null, 0, timerPeriod);
 
         }
 
