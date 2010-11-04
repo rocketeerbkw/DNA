@@ -29,9 +29,9 @@ namespace DnaEventProcessorService
 
         protected override void OnStart(string[] args)
         {
-            System.Diagnostics.Debugger.Break();
-            //CreateActivityTimer();
-            //CreateExModerationEventTimer();
+            //System.Diagnostics.Debugger.Break();
+            CreateActivityTimer();
+            CreateExModerationEventTimer();
             CreateSiteEventTimer();
         }
 
