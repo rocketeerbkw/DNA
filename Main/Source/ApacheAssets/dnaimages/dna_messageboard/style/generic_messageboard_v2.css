@@ -159,7 +159,8 @@ ul.forumthreads .itemdetail, ul.more-posts .itemdetail, ul.post-list .itemdetail
 .replies {margin-right:10px; text-align:right}
 .replies .dna-invisible {display:none}
 ul.post-list .replydate {display:block}
-ul.forumthreadposts li blockquote, div.inreplyto blockquote {margin:0 7px 10px 7px; font-style:italic}
+ul.forumthreadposts li span.quote {display:block; padding:10px 7px 0 7px; font-style:italic};
+ul.forumthreadposts li blockquote, div.inreplyto blockquote {margin:0 7px 10px 7px; font-style:italic;}
 .dna-boards-startanewdiscussion, .dna-boards-inreplyto {margin-bottom:15px}
 #blq-content .dna-boards-startanewdiscussion {padding-left:8px}
 .dna-boards-thisreplyto {margin-top:10px; text-align:right}
