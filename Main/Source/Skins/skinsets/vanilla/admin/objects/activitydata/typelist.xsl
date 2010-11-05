@@ -2,16 +2,16 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:doc="http://www.bbc.co.uk/dna/documentation"  exclude-result-prefixes="doc">
     
   <xsl:template match="SELECTEDTYPES" mode="library_activitydata_typelist" >
-    <ul>
+    <ul class="dna-dashboard-links blq-clearfix">
       <li>
-        <input type="checkbox" name="s_type" value="0">
+        <input type="checkbox" name="s_type" id="all" value="0">
           <xsl:if test="TYPEID[text() = 0] or count(TYPEID) = 0">
             <xsl:attribute name="checked">
               <xsl:text>checked</xsl:text>
             </xsl:attribute>
           </xsl:if>
         </input>
-        All
+       All
       </li>
       <li>
         <input type="checkbox" name="s_type" value="1">

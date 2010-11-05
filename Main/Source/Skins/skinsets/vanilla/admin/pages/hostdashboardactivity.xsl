@@ -23,21 +23,29 @@
 	<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 	    
 	    <div class="dna-fl dna-main-full">
-		    <form method="get" action="hostdashboardactivity" class="dna-fl"> 
+		    <form method="get" action="hostdashboardactivity"> 
 		    	<fieldset>
-
-            Start Date: <input type="text" name="s_startdate" /> (Format:YYYY-MM-DD)<br/>
-            <xsl:apply-templates select="SITEEVENTLIST/SELECTEDTYPES" mode="library_activitydata_typelist" />
-
-            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
-		    		  <input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
-            </xsl:if>
-			    	<select name="s_siteid" id="s_siteid">
-			    		<option disabled="disabled" selected="selected">Please select a site</option>
-			    		<xsl:apply-templates select="MODERATORINFO/SITES/SITE" mode="objects_moderator_sites" />
-			    	</select>
+		            
+		            <label for="s_startdate">Start Date:</label>
+		            <input type="text" name="s_startdate" id="s_startdate" /> (Format:YYYY-MM-DD)<br/>
+		        </fieldset>
+		        <fieldset>
+		            <xsl:apply-templates select="SITEEVENTLIST/SELECTEDTYPES" mode="library_activitydata_typelist" />
+		
+		            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
+				    	<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
+		            </xsl:if>
+		           </fieldset>
+		           <fieldset>
+		            <!-- put in library -->
+		            <div class="dna-fr dna-main-right dna-clear">
+				    	<select name="s_siteid" id="s_siteid">
+				    		<option disabled="disabled" selected="selected">Please select a site</option>
+				    		<xsl:apply-templates select="MODERATORINFO/SITES/SITE" mode="objects_moderator_sites" />
+				    	</select>
+				    	<input type="submit" value="go" />
+				    </div>
 		    	</fieldset>
-          <input type="submit" value="go" />
 		    </form>	
 	    </div>
 
@@ -46,26 +54,20 @@
         <h3>Activity</h3>
 
         <div class="dna-fr">
-          <xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
+        	<xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
         </div>
         <div class="dna-fl dna-main-full">
-          <table>
+          <table class="dna-dashboard-activity">
             <thead>
               <tr>
-                <td>Date</td>
-                <td>Activity</td>
-                <td>Type</td>
+                <th class="date">Date</th>
+                <th class="activity">Activity</th>
+                <th class="type">Type</th>
               </tr>
             </thead>
             <tbody>
               <xsl:apply-templates select="SITEEVENTLIST/SITEEVENTS/SITEEVENT" mode="objects_moderator_siteevent" />
             </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="3">&#160;</td>
-              </tr>
-
-            </tfoot>
           </table>
         </div>
         <div class="dna-fr">

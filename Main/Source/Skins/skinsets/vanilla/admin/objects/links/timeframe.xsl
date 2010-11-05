@@ -7,7 +7,7 @@
 	exclude-result-prefixes="doc">
 
 	<xsl:template name="objects_links_timeframe">
-		<ul class="dna-date-links blq-clearfix">
+		<ul class="dna-dashboard-links blq-clearfix">
 			<li>				
 				<xsl:choose>
 					<xsl:when test="$dashboarddays = 1">

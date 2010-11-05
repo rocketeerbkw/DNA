@@ -308,9 +308,15 @@
     .dna-dashboard table {width:100%;table-layout:fixed}
     .dna-dashboard table th, .dna-dashboard table td {padding: 10px}
     .dna-dashboard table td {text-align:right}
+    .dna-dashboard table.dna-dashboard-activity th.date {width: 24%}
+    .dna-dashboard table.dna-dashboard-activity {width: 98%}
+    .dna-dashboard table.dna-dashboard-activity th.type {width:8%;}
+    .dna-dashboard table.dna-dashboard-activity td {text-align:left;line-height: 1.4em}
 	.dna-dashboard tr.odd {background-color:#ebebd6}
-	.dna-dashboard ul.dna-date-links {padding: 5px 10px}    
-	.dna-dashboard ul.dna-date-links li {float: left; margin-right: 5px}
+	.dna-dashboard ul.dna-dashboard-links {padding: 5px 10px}    
+	.dna-dashboard ul.dna-dashboard-links li {float: left; margin-right: 5px}
+	.dna-dashboard ul.pagination li {float: left; margin-right: 5px}
+	.dna-dashboard #s_startdate {width:30%}
     
 }
 
