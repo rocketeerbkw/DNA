@@ -32,7 +32,7 @@
 		            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
 				    	<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
 		            </xsl:if>
-		            
+            
 			    	<select name="s_siteid" id="s_siteid">
 			    		<option disabled="disabled" selected="selected">Please select a <xsl:value-of select="$dashboardtype" /></option>
 			    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
@@ -53,7 +53,7 @@
 			<div class="dna-fr dna-main-right">
 				<div class="dna-box">
 					<h3>Activity</h3>
-					<xsl:apply-templates select="SITESUMMARYSTATS " mode="objects_moderator_queuesummary" />
+          <xsl:apply-templates select="SITESUMMARYSTATS " mode="objects_moderator_queuesummary"></xsl:apply-templates>
 				</div>
 			</div>			
 		</div>

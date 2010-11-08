@@ -42,7 +42,7 @@
 						<xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0' and not(@TYPE = 'HOSTDASHBOARD')">
 							DNA Site Admin - <xsl:value-of select="SITE/SHORTNAME"/>
 						</xsl:when>
-						<xsl:when test="@TYPE = 'HOSTDASHBOARD'">
+						<xsl:when test="@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE'">
 							Host Dashboard
 						</xsl:when>
 						<xsl:otherwise>
@@ -80,7 +80,7 @@
 			<body>
 				<xsl:attribute name="class">
 					<xsl:choose>
-						<xsl:when test="not(@TYPE = 'HOSTDASHBOARD')">
+						<xsl:when test="not(@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE')">
 							<xsl:text>boardsadmin</xsl:text> 
 						</xsl:when>
 						<xsl:otherwise>dna-dashboard</xsl:otherwise>
@@ -105,7 +105,7 @@
 					<ul>
 						<!-- admin tool tabs -->
 						<xsl:choose>
-							<xsl:when test="not(@TYPE = 'HOSTDASHBOARD')">
+							<xsl:when test="not(@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE')">
 								<li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
 										<xsl:attribute name="class">selected</xsl:attribute>
@@ -124,7 +124,15 @@
 								do test around these if user can/cannot see the dashboard type for selected value or show/hide tabs?
 							-->
 							<xsl:otherwise>
-								<li>
+                <li>
+                  <xsl:if test="not(PARAMS/PARAM[NAME = 's_type']/VALUE )">
+                    <xsl:attribute name="class">selected</xsl:attribute>
+                  </xsl:if>
+                  <a href="{$root}/hostdashboard?{$dashboardsiteuser}">
+                    All <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS" mode="objects_moderator_actionitemtotal"/>
+                  </a>
+                </li>
+                <li>
 									<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '1'">
 										<xsl:attribute name="class">selected</xsl:attribute>
 									</xsl:if>
@@ -154,7 +162,7 @@
 				</div>
    
 				<div id="blq-content">
-					<xsl:if test="not(/H2G2[@TYPE='ERROR' or @TYPE = 'FRONTPAGE' or @TYPE = 'HOSTDASHBOARD'])">
+					<xsl:if test="not(/H2G2[@TYPE='ERROR' or @TYPE = 'FRONTPAGE' or @TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE'])">
 						<xsl:choose>
 							<xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
 								<xsl:call-template name="emergency-stop"><xsl:with-param name="type" select="'SITE'" /></xsl:call-template>

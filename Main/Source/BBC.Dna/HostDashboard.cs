@@ -16,8 +16,8 @@ namespace BBC.Dna
     public class HostDashboardBuilder : DnaInputComponent
     {
         private int _siteId = 0;
-        private SiteType _type = SiteType.Messageboard;
-        private int _userId = 0;
+        private SiteType _type = 0;
+        private int _userId = 0;//all
         private int _days = 7;//default to 7 days
 
 
@@ -44,6 +44,8 @@ namespace BBC.Dna
             }
             GetQueryParameters();
 
+            
+
             //get site stats
             DateTime startDate = DateTime.MinValue, endDate = DateTime.MinValue;
             GetDateRange(_days, ref startDate, ref endDate);
@@ -64,7 +66,13 @@ namespace BBC.Dna
                 modStats = ModStats.FetchModStatsBySiteType(AppContext.ReaderCreator, _userId, _type,
                    moderatorInfo, true, true);
 
-                stats = SiteSummaryStats.GetStatsByType(AppContext.ReaderCreator, _type, _userId, startDate, endDate);
+                var statsUserId = _userId;
+                if (InputContext.ViewingUser.IsSuperUser && statsUserId == InputContext.ViewingUser.UserID)
+                {//use default user
+                    statsUserId = 0;
+                }
+
+                stats = SiteSummaryStats.GetStatsByType(AppContext.ReaderCreator, _type, statsUserId, startDate, endDate);
             }
             SerialiseAndAppend(modStats, "");
             SerialiseAndAppend(stats, "");

@@ -8,6 +8,7 @@ using BBC.Dna.Data;
 using System.Xml.Serialization;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
+using BBC.Dna.Sites;
 
 
 namespace BBC.Dna.Moderation
@@ -59,8 +60,8 @@ namespace BBC.Dna.Moderation
         /// <param name="startDate"></param>
         /// <param name="readerCreator"></param>
         /// <returns></returns>
-        static public SiteEventList GetSiteEventList(int[] siteIds, int[] typeIds, int startIndex, int itemsPerPage, 
-            DateTime startDate, IDnaDataReaderCreator readerCreator, bool isSuperUser)
+        static public SiteEventList GetSiteEventList(int[] siteIds, int[] typeIds, int startIndex, int itemsPerPage,
+            DateTime startDate, IDnaDataReaderCreator readerCreator, bool isSuperUser, SiteType siteType)
         {
             var siteEventList = new SiteEventList()
             {
@@ -80,6 +81,7 @@ namespace BBC.Dna.Moderation
             {
                 reader.AddParameter("itemsperpage", itemsPerPage);
                 reader.AddParameter("startindex", startIndex);
+                reader.AddParameter("sitetype", siteType);
                 if(startDate != DateTime.MinValue)
                 {
                     reader.AddParameter("startdate", startDate);

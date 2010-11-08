@@ -16,7 +16,8 @@ namespace BBC.Dna
     public class HostDashboardActivityFeed : DnaInputComponent
     {
         private int[] _siteId = null;
-        private int[] _type = null;
+        private int[] _eventType = null;
+        private SiteType _type = 0;
         private int _userId = 0;
         private DateTime _startDate;
         private int _startIndex = 0;
@@ -70,13 +71,13 @@ namespace BBC.Dna
             }
 
             //show all if 0 in type list
-            if (_type.Contains(0))
+            if (_eventType.Contains(0))
             {
-                _type = new int[0];
+                _eventType = new int[0];
             }
 
-            var siteEventList = SiteEventList.GetSiteEventList(_siteId, _type, _startIndex,
-                _itemsPerPage, _startDate, AppContext.ReaderCreator, InputContext.ViewingUser.IsSuperUser);
+            var siteEventList = SiteEventList.GetSiteEventList(_siteId, _eventType, _startIndex,
+                _itemsPerPage, _startDate, AppContext.ReaderCreator, InputContext.ViewingUser.IsSuperUser, _type);
             SerialiseAndAppend(siteEventList, "");
 
             //get sitelist
@@ -107,15 +108,19 @@ namespace BBC.Dna
                     _siteId[i] = InputContext.GetParamIntOrZero("s_siteid", i, "s_siteid");
                 }
             }
-
-            _type = new int[0];
             if (InputContext.DoesParamExist("s_type", "type to display"))
             {
-                var typeCount = InputContext.GetParamCountOrZero("s_type", "type to display");
-                _type = new int[typeCount];
+                _type = (SiteType)InputContext.GetParamIntOrZero("s_type", "type to display");
+            }
+
+            _eventType = new int[0];
+            if (InputContext.DoesParamExist("s_eventtype", "type to display"))
+            {
+                var typeCount = InputContext.GetParamCountOrZero("s_eventtype", "type to display");
+                _eventType = new int[typeCount];
                 for (int i = 0; i < typeCount; i++)
                 {
-                    _type[i] = InputContext.GetParamIntOrZero("s_type", i, "s_type");
+                    _eventType[i] = InputContext.GetParamIntOrZero("s_eventtype", i, "s_type");
                 }
             }
             

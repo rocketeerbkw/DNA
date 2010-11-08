@@ -12,7 +12,6 @@
 		    	<xsl:attribute name="class">odd</xsl:attribute>
 	    	</xsl:if>
 			<td>
-				<xsl:text>At </xsl:text>
 				<xsl:apply-templates select="DATE" mode="library_time_shortformat" />
 				<xsl:text> on </xsl:text>
 				<span class="date">
