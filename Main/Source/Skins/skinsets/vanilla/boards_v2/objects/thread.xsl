@@ -138,7 +138,7 @@
                             <xsl:text>no subject</xsl:text>
                         </xsl:otherwise>
                     </xsl:choose>
-                </a> - (<xsl:value-of select="parent::POST/@COUNTPOSTS" /> messages)
+                </a> - (<xsl:value-of select="parent::POST/@COUNTPOSTS" /> message<xsl:if test="parent::POST/@COUNTPOSTS &gt; 1">s</xsl:if>)
             </p>
         	<p class="thread-additionalinfo">
         		<xsl:text>from </xsl:text>
