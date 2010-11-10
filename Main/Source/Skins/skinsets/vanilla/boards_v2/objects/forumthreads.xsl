@@ -21,8 +21,8 @@
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreads" />
         
-        <h2 class="blq-hide">Threads for <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" /></h2>
-        
+        <h2 class="blq-hide">Threads for <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" /></h2><br />
+        <div class="numDiscussions"><strong>Discussions: </strong><xsl:value-of select="/H2G2/FORUMTHREADS/@SKIPTO + 1" /><xsl:text> - </xsl:text><xsl:value-of select="/H2G2/FORUMTHREADS/@SKIPTO + /H2G2/FORUMTHREADS/@COUNT" /> of <xsl:value-of select="/H2G2/FORUMTHREADS/@TOTALTHREADS" /></div>
         <table class="forumthreads" id="topofthreads">
         	<thead>
 	        	<tr>

@@ -106,7 +106,7 @@ body.ie6 #blq-main #blq-content .pagination li {width:1px}
 ul.forumthreadposts, p.forumthreadposts {clear:both}
 ul.forumthreadposts {margin-top:10px}
 ul.forumthreadposts li {padding:10px}
-ul.forumthreadposts li p {margin-bottom:10px}
+ul.forumthreadposts li p {margin-bottom:10px; font-size:1.1em}
 #blq-main .addthread .article {margin-top:0.8em}
 .addthread ul.forumthreadposts li.firstpost {margin:0 25px; padding:10px 15px; line-height:1.3em; background-color:#e8eced}
 #blq-main .addthread li.firstpost .itemdetail, #blq-main .addthread li .itemdetail {margin-bottom:10px}
@@ -114,6 +114,7 @@ ul.forumthreadposts li p {margin-bottom:10px}
 ul.forumthreadposts li.stripe {background-color:#edf0f1}
 #blq-content .forumthreads {clear: both; margin-top:10px; font-size:1.1em; color:#000;table-layout:fixed}
 #blq-content .forumthreads h3 {margin:0 10px; padding:0; font-size:1em}
+#blq-content .numDiscussions {padding: 0 0 5px 9px;clear:both}
 #blq-content table.forumthreads a {text-decoration:none}
 #blq-content table.forumthreads a:hover {text-decoration:underline}
 #blq-content table.forumthreads tr.stickypin {border:1px solid #a5a5a5}
