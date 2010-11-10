@@ -25,14 +25,14 @@
 		
 		<ul class="dna-list-links">
 			<xsl:if test="$dashboardtype = 'blog' or $dashboardtype = 'story'">
-				<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Comment forum list</a></li>
+				<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your entries/stories</a></li>
 			</xsl:if>
 			<xsl:if test="$dashboardtype = 'messageboard'">
-				<li><a href="/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Messageboard admin tool</a></li>
+				<li><a href="/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
 			</xsl:if>			
-			<li><a href="/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Open / close</a></li>
+			<li><a href="/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
 			<li><xsl:value-of select="$dashboardmodstatus" /><br /><br />
-				To change your moderation status, contact the Moderation Services team.
+				To change your moderation status, contact the <a href="bbccommunities@bbc.co.uk">Moderation Services team</a>.
 			</li>
 		</ul>
 	</xsl:template>

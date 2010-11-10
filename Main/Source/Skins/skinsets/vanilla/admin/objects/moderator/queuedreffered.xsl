@@ -6,7 +6,7 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="doc">
 
-	<xsl:template match="MODERATIONQUEUES" mode="objects_moderator_queues">
+	<xsl:template match="MODERATIONQUEUES" mode="objects_moderator_queuedreffered">
 		<xsl:choose>
 			<xsl:when test="not(MODERATION-QUEUE-SUMMARY)">
 				<p>There are no referred items.</p>
@@ -19,7 +19,7 @@
 				<div>
 					<table>
 						<tbody>
-							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY" mode="objects_moderator_queuesummary" />
+							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'queuedreffered']" mode="objects_moderator_queuesummary" />
 						</tbody>
 					</table>
 				</div>				

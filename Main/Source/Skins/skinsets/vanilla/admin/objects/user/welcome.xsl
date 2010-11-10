@@ -8,7 +8,16 @@
 
 	<xsl:template match="USER" mode="objects_user_welcome">
 		<div class="dna-fl dna-main-left">
-			<p>Hello, <xsl:value-of select="USERNAME" />! Which <xsl:value-of select="$dashboardtype" /> do you want to see?</p>
+				<p>Hello, <xsl:value-of select="USERNAME" />! 
+				<xsl:choose>
+					<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
+						Which <xsl:value-of select="$dashboardtype" /> do you want to see?
+					</xsl:when>
+					<xsl:otherwise>
+						<!-- not sure -->
+					</xsl:otherwise>
+				</xsl:choose>
+			</p>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

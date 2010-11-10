@@ -18,65 +18,70 @@
 		</doc:notes>
 	</doc:documentation>
 
-  <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="page">
-    
-	<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
-	    
-	    <div class="dna-fl dna-main-full">
-		    <form method="get" action="hostdashboardactivity"> 
-		    	<fieldset>
-		            
-		            <label for="s_startdate">Start Date:</label>
-		            <input type="text" name="s_startdate" id="s_startdate" /> (Format:YYYY-MM-DD)<br/>
-		        </fieldset>
-		        <fieldset>
-		            <xsl:apply-templates select="SITEEVENTLIST/SELECTEDTYPES" mode="library_activitydata_typelist" />
-		
-		            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
-				    	<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
-		            </xsl:if>
-		           </fieldset>
-		           <fieldset>
-		            <!-- put in library -->
-		            <div class="dna-fr dna-main-right dna-clear">
-				    	<select name="s_siteid" id="s_siteid">
-				    		<option disabled="disabled" selected="selected">Please select a site</option>
-				    		<xsl:apply-templates select="MODERATORINFO/SITES/SITE" mode="objects_moderator_sites" />
-				    	</select>
-				    	<input type="submit" value="go" />
-				    </div>
-		    	</fieldset>
-		    </form>	
-	    </div>
-
-    <div class="dna-fl dna-main-full">
-      <div class="dna-box">
-        <h3>Activity</h3>
-
-        <div class="dna-fr">
-        	<xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
-        </div>
-        <div class="dna-fl dna-main-full">
-          <table class="dna-dashboard-activity">
-            <thead>
-              <tr>
-                <th class="date">Date</th>
-                <th class="activity">Activity</th>
-                <th class="type">Type</th>
-              </tr>
-            </thead>
-            <tbody>
-              <xsl:apply-templates select="SITEEVENTLIST/SITEEVENTS/SITEEVENT" mode="objects_moderator_siteevent" />
-            </tbody>
-          </table>
-        </div>
-        <div class="dna-fr">
-          <xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
-        </div>
-      </div>
-    </div>
-	</div>
-	
-  </xsl:template>
+	<xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="page">
+		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
+			<div class="dna-fl dna-main-full">
+				<form method="get" action="hostdashboardactivity"> 
+					<fieldset>
+						<label for="s_startdate">Start Date:</label>
+						<input type="text" name="s_startdate" id="s_startdate" /> (Format:YYYY-MM-DD)<br/>
+					</fieldset>
+					<fieldset>
+						<xsl:apply-templates select="SITEEVENTLIST/SELECTEDTYPES" mode="objects_activitydata_typelist" />
+						
+						<xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
+							<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
+						</xsl:if>
+					</fieldset>
+					<fieldset>
+						<!-- put in library -->
+						<div class="dna-fr dna-main-right dna-clear">
+							<select name="s_siteid" id="s_siteid">
+								<option selected="selected" value="0">Please select a site</option>
+								<xsl:apply-templates select="MODERATORINFO/SITES/SITE" mode="objects_moderator_sites" />
+							</select>
+							<input type="submit" value="go" />
+						</div>
+					</fieldset>
+				</form>	
+			</div>
+			
+			<div class="dna-fl dna-main-full">
+				<div class="dna-box">
+					<h3>Activity for <xsl:value-of select="$dashboardtype" />s</h3>
+					
+					<xsl:choose>
+						<xsl:when test="SITEEVENTLIST/SITEEVENTS/SITEEVENT != ''">
+							<xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
+							
+							<div class="dna-fl dna-main-full">
+								<table class="dna-dashboard-activity">
+									<thead>
+										<tr>
+											<th class="date">Date</th>
+											<th class="activity">Activity</th>
+											<th class="type">Type</th>
+										</tr>
+									</thead>
+									<tbody>
+										<xsl:apply-templates select="SITEEVENTLIST/SITEEVENTS/SITEEVENT" mode="objects_moderator_siteevent" />
+									</tbody>
+								</table>
+							</div>
+							<div class="dna-fr">
+								<xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
+							</div>
+						</xsl:when>
+						<xsl:otherwise>
+							<div class="dna-fl dna-main-full">
+								<p>There is no activity.</p>
+							</div>							
+						</xsl:otherwise>
+					</xsl:choose>
+				</div>
+			</div>
+		</div>
+				
+	</xsl:template>
 	
 </xsl:stylesheet>

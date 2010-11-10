@@ -11,10 +11,8 @@
 	</xsl:template>
 
   <xsl:template match="ACTIONITEMS" mode="objects_moderator_allactionitemtotal">
-    <xsl:variable name="total" select="ACTIONITEM[TYPE = 'EmbeddedComments']/TOTAL + ACTIONITEM[TYPE = 'Community']/TOTAL + ACTIONITEM[TYPE = 'Messageboard']/TOTAL + ACTIONITEM[TYPE = 'Blog']/TOTAL" />
-    <span class="dna-actionitem-total">
-      (<xsl:value-of select="$total" />)
-    </span>
+  	<xsl:variable name="total" select="ACTIONITEM[TYPE = 'EmbeddedComments']/TOTAL + ACTIONITEM[TYPE = 'Community']/TOTAL + ACTIONITEM[TYPE = 'Messageboard']/TOTAL + ACTIONITEM[TYPE = 'Blog']/TOTAL" />
+  	<span class="dna-actionitem-total">(<xsl:value-of select="$total" />)</span>
   </xsl:template>
 
   

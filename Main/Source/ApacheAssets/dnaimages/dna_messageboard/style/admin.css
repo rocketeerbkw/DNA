@@ -27,7 +27,6 @@
     .dna-main-right {width:23.6em; margin:0}
     .dna-main-right div {margin-bottom:20px}
     .dna-main-full  {width:100%; margin:0}
-    .dna-main-threequarter {width:69%; margin:0}
     .dna-half {width:49.4%}
     .dna-dashboard .dna-half {width:49.4%}
     .dna-main p,.glowNoMask  p{margin:10px}
@@ -302,11 +301,15 @@
     .dna-memberdetails .memberDetails { clear:both;}
     
     /*dashboard*/
+    .dna-dashboard .dna-main-right {width:311px}
+    .dna-dashboard .dna-main-left {width:52em}
+    .dna-dashboard .dna-main-threequarter {width:632px}
+    .dna-dashboard .dna-box {min-height:20em}
     .dna-dashboard .dna-box div {padding: 10px}
     .dna-dashboard form {padding: 3px 0}
     .dna-dashboard form select#s_siteid {width: 18.8em}
     .dna-dashboard table {width:100%;table-layout:fixed}
-    .dna-dashboard table th, .dna-dashboard table td {padding: 10px}
+    .dna-dashboard table th, .dna-dashboard table td {padding:10px;}
     .dna-dashboard table td {text-align:right}
     .dna-dashboard table.dna-dashboard-activity th.date {width: 24%}
     .dna-dashboard table.dna-dashboard-activity {width: 98%}
@@ -315,6 +318,9 @@
 	.dna-dashboard tr.odd {background-color:#ebebd6}
 	.dna-dashboard ul.dna-dashboard-links {padding: 5px 10px}    
 	.dna-dashboard ul.dna-dashboard-links li {float: left; margin-right: 5px}
+	.dna-dashboard form ul.dna-dashboard-links li {margin:10px 10px 0 0}
+	.dna-dashboard .dna-main form label {display:inline}
+	.dna-dashboard ul.pagination {float: right; margin-right: 5px}
 	.dna-dashboard ul.pagination li {float: left; margin-right: 5px}
 	.dna-dashboard #s_startdate {width:30%}
     

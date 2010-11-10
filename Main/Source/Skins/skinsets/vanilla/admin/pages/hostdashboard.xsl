@@ -32,12 +32,14 @@
 		            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
 				    	<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
 		            </xsl:if>
-            
-			    	<select name="s_siteid" id="s_siteid">
-			    		<option disabled="disabled" selected="selected">Please select a <xsl:value-of select="$dashboardtype" /></option>
-			    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
-			    	</select>
-			    	<input type="submit" value="go" />
+            		
+            		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
+				    	<select name="s_siteid" id="s_siteid">
+				    		<option selected="selected" value="all">All <xsl:value-of select="$dashboardtype" />s</option>
+				    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
+				    	</select>
+				    	<input type="submit" value="go" />
+			    	</xsl:if>
 		    	</fieldset>
 		    </form>	
 	    </div>
@@ -45,15 +47,22 @@
 		<div class="dna-fl dna-main-full">
 			<div class="dna-fl dna-main-threequarter">
 				<div class="dna-box">
-					<h3>Moderation referrals <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">for <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if></h3>
-					<xsl:apply-templates select="MODERATORHOME/MODERATIONQUEUES" mode="objects_moderator_queues" />
+					<h3>Referrals <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">for <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if></h3>
+					<xsl:apply-templates select="MODERATORHOME/MODERATIONQUEUES" mode="objects_moderator_queuedreffered" />
 				</div>
 			</div>
 			
 			<div class="dna-fr dna-main-right">
 				<div class="dna-box">
 					<h3>Activity</h3>
-          <xsl:apply-templates select="SITESUMMARYSTATS " mode="objects_moderator_queuesummary"></xsl:apply-templates>
+          			<xsl:apply-templates select="SITESUMMARYSTATS " mode="objects_moderator_queuesummary" />
+				</div>
+			</div>			
+			
+			<div class="dna-fl dna-main-threequarter">
+				<div class="dna-box">
+					<h3>Moderation statistics <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">on <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if></h3>
+					<xsl:apply-templates select="MODERATORHOME/MODERATIONQUEUES" mode="objects_moderator_queued" />
 				</div>
 			</div>			
 		</div>
@@ -66,6 +75,9 @@
 						<!-- if an option is selected then show admin links -->
 						<xsl:when test="SITESUMMARYSTATS/@SITEID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"> 
 							<xsl:call-template name="objects_links_admin" />
+						</xsl:when>
+						<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 0 or not(/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE)">
+							<p>Please select a site type.</p>
 						</xsl:when>
 						<xsl:otherwise><p>Please select a <xsl:value-of select="$dashboardtype" /> from the drop down menu above.</p></xsl:otherwise>
 					</xsl:choose>
