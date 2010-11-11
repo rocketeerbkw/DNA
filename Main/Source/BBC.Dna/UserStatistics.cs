@@ -198,7 +198,7 @@ namespace BBC.Dna.Component
                             }
                             if (style == 1)
                             {
-                                body = ThreadPost.FormatPost(body, BBC.Dna.Moderation.Utils.CommentStatus.Hidden.NotHidden, true);
+                                body = ThreadPost.FormatPost(body, BBC.Dna.Moderation.Utils.CommentStatus.Hidden.NotHidden, true, false);
                                 string temp = "<RICHPOST>" + body + "</RICHPOST>";
                                 Regex regex = new Regex(@"(<[^<>]+)<BR \/>");
                                 while (regex.Match(temp).Success)
