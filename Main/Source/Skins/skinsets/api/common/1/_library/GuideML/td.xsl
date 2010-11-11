@@ -35,6 +35,11 @@
 					<xsl:value-of select="@HEIGHT | @height"/>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@ROWSPAN | @rowspan">
+				<xsl:attribute name="rowspan">
+					<xsl:value-of select="@ROWSPAN | @rowspan"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates mode="library_GuideML"/>
         </td>
     </xsl:template>

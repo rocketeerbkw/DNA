@@ -14,7 +14,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="BR" mode="library_GuideML">
+    <xsl:template match="BR | br" mode="library_GuideML">
 		<xsl:if test="preceding-sibling::*[1][local-name()='BR']">
 			<xsl:if test="not(parent::*[1][local-name()='UL'])">
 <!--				<xsl:if test="not(position()=1)">-->
@@ -24,7 +24,7 @@
 		</xsl:if>
     </xsl:template>
 	
-	<xsl:template match="BR" mode="library_GuideML_rss">
+	<xsl:template match="BR | br" mode="library_GuideML_rss">
 		<xsl:text>		
 		</xsl:text>
 	</xsl:template>

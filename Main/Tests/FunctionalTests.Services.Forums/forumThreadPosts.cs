@@ -128,7 +128,8 @@ namespace FunctionalTests.Services.Forums
 
 
             Assert.AreEqual(@"Doe the stuff that buys me beer!", threadPost.Subject);
-            Assert.AreEqual(@"Dough.. the $tuff that buys me beer,<BR />Ray.. the guy who sells me beer, *<BR />Me.. the guy who drinks the beer,<BR />Fa(r).. the distance to my beer,<BR />So.. I think I'll have a beer,<BR />La.. la la la la la beer,<BR />Tea.. no thanks I'm drinking beer!<BR /><BR />That will bring us back to .... [looks at empty glass] d'oh! <BR /><BR />", threadPost.Text);
+            Assert.AreEqual(@"Dough.. the $tuff that buys me beer,<BR />Ray.. the guy who sells me beer, *<BR />Me.. the guy who drinks the beer,<BR />Fa(r).. the distance to my beer,<BR />So.. I think I'll have a beer,<BR />La.. la la la la la beer,<BR />Tea.. no thanks I'm drinking beer!<BR /><BR />That will bring us back to .... [looks at empty glass] d'oh! <BR /><BR /><SMILEY TYPE='kiss' H2G2='Smiley#kiss'/><SMILEY TYPE='kiss' H2G2='Smiley#kiss'/>", threadPost.Text);
+            
             Assert.AreEqual(60, threadPost.PostId);
 
             Console.WriteLine("Before GetThreadPostXml_ReadOnly_ReturnsValidXml");

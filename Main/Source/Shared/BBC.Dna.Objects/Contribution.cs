@@ -15,7 +15,7 @@ using BBC.Dna.Api;
 namespace BBC.Dna.Objects
 {
 
-    [DataContract(Name = "contribution")]    
+    [DataContract(Name = "contribution")]
     public class Contribution
     {
         private SiteType _siteType;
@@ -134,11 +134,78 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "authorIdentityUsername")]
         public string AuthorIdentityUsername { get; set; }
 
-        public static Contribution CreateContribution(ICacheManager cache, IDnaDataReaderCreator readerCreator, User viewingUser,
-                                            int h2g2Id, bool ignoreCache)
+        [DataMember(Name = ("isClosed"))]
+        public bool isClosed
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("forumCloseDate"))]
+        public DateTimeHelper ForumCloseDate
+        {
+            get;
+            set;
+        }
+
+        public static Contribution CreateContribution(IDnaDataReaderCreator readerCreator, int threadEntryId)
         {
             Contribution contribution = new Contribution();
-            
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getcontribution"))
+            {
+                // Add the entry id and execute
+                reader.AddParameter("threadentryid", threadEntryId);
+                reader.Execute();
+
+                contribution = CreateContributionInternal(reader);
+            }
+
+            return contribution;
+        }
+
+        private static Contribution CreateContributionInternal(IDnaDataReader reader)
+        {
+            Contribution contribution = new Contribution();
+
+            // Make sure we got something back
+            if (reader.HasRows && reader.Read()) 
+            {
+                contribution.Body = reader.GetStringNullAsEmpty("Body");
+                contribution.PostIndex = reader.GetLongNullAsZero("PostIndex");
+                contribution.SiteName = reader.GetStringNullAsEmpty("SiteName");
+                contribution.SiteType = (SiteType)Enum.Parse(typeof(SiteType), reader.GetStringNullAsEmpty("SiteType"));
+                contribution.SiteDescription = reader.GetStringNullAsEmpty("SiteDescription");
+                contribution.SiteUrl = reader.GetStringNullAsEmpty("UrlName");
+                contribution.FirstSubject = reader.GetStringNullAsEmpty("FirstSubject");
+                contribution.Subject = reader.GetStringNullAsEmpty("Subject");
+                contribution.Timestamp = new DateTimeHelper(reader.GetDateTime("TimeStamp"));
+                contribution.Title = reader.GetStringNullAsEmpty("ForumTitle");
+                contribution.ThreadEntryID = reader.GetInt32("ThreadEntryID");
+                contribution.CommentForumUrl = reader.GetStringNullAsEmpty("CommentForumUrl");
+                contribution.GuideEntrySubject = reader.GetStringNullAsEmpty("GuideEntrySubject");
+
+                contribution.TotalPostsOnForum = reader.GetInt32NullAsZero("TotalPostsOnForum");
+                contribution.AuthorUserId = reader.GetInt32NullAsZero("AuthorUserId");
+                contribution.AuthorUsername = reader.GetStringNullAsEmpty("AuthorUsername");
+                contribution.AuthorIdentityUsername = reader.GetStringNullAsEmpty("AuthorIdentityUsername");
+
+                bool forumCanWrite = reader.GetByteNullAsZero("ForumCanWrite") == 1;
+                bool isEmergencyClosed = reader.GetInt32NullAsZero("SiteEmergencyClosed") == 1;
+                //bool isSiteScheduledClosed = reader2.GetByteNullAsZero("SiteScheduledClosed") == 1;
+
+                DateTime closingDate = DateTime.MaxValue;
+                if (reader.DoesFieldExist("forumclosedate") && !reader.IsDBNull("forumclosedate"))
+                {
+                    closingDate = reader.GetDateTime("forumclosedate");
+                    contribution.ForumCloseDate = new DateTimeHelper(closingDate);
+                }
+                contribution.isClosed = (!forumCanWrite || isEmergencyClosed || (closingDate != null && DateTime.Now > closingDate));
+            }
+            else
+            {
+                throw ApiException.GetError(ErrorType.ThreadPostNotFound);
+            }
 
             return contribution;
         }

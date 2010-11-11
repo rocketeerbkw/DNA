@@ -1276,6 +1276,8 @@
     <None Include="addthreadtostickylist.sql" />
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
+    <None Include="getcontribution.sql" />
+    <None Include="getrecentcontributions.sql" />
     <None Include="getsiteevents.sql" />
     <None Include="getsiteevents_newuser.sql" />
     <None Include="getsiteevents_usermoderation.sql" />
@@ -1302,7 +1304,6 @@
     <None Include="cachegetlastpostdate.sql" />
     <None Include="getbievents.sql" />
     <None Include="getnextthreadentriessearchbatch.sql" />
-    <None Include="getrecentcontributions.sql" />
     <None Include="getdnauseridfromidentityusername.sql" />
     <None Include="getemailinsertsbysite.sql" />
     <None Include="getemailinsertsbysite2.sql" />

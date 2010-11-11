@@ -296,6 +296,20 @@ namespace BBC.Dna.Objects
                     contribution.AuthorUserId = reader2.GetInt32NullAsZero("AuthorUserId");
                     contribution.AuthorUsername = reader2.GetStringNullAsEmpty("AuthorUsername");
                     contribution.AuthorIdentityUsername = reader2.GetStringNullAsEmpty("AuthorIdentityUsername");
+
+                    bool forumCanWrite = reader2.GetByteNullAsZero("ForumCanWrite") == 1;
+                    bool isEmergencyClosed = reader2.GetInt32NullAsZero("SiteEmergencyClosed") == 1;
+                    //bool isSiteScheduledClosed = reader2.GetByteNullAsZero("SiteScheduledClosed") == 1;
+
+                    DateTime closingDate = DateTime.MaxValue;
+                    if (reader2.DoesFieldExist("forumclosedate") && !reader2.IsDBNull("forumclosedate"))
+                    {
+                        closingDate = reader2.GetDateTime("forumclosedate");
+                        contribution.ForumCloseDate = new DateTimeHelper(closingDate);
+                    }
+                    contribution.isClosed = (!forumCanWrite || isEmergencyClosed || (closingDate != null && DateTime.Now > closingDate));
+                    
+                    
                     returnedContributions.ContributionItems.Add(contribution);
                 }
             }

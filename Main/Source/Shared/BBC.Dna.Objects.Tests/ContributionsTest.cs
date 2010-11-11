@@ -10,7 +10,6 @@ using BBC.Dna.Sites;
 using BBC.Dna.Api;
 using BBC.Dna.Moderation.Utils;
 using Rhino.Mocks.Constraints;
-using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 
 namespace BBC.Dna.Objects.Tests

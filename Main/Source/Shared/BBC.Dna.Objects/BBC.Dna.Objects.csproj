@@ -80,6 +80,7 @@
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="Contributions.cs" />
+    <Compile Include="FollowersList.cs" />
     <Compile Include="SearchThreadPost.cs">
       <SubType>SEARCHTHREADPOST</SubType>
     </Compile>

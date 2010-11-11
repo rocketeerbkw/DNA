@@ -17,11 +17,11 @@ using BBC.Dna.Users;
 namespace BBC.Dna.Objects.Tests
 {
     /// <summary>
-    ///This is a test class for FriendsListTest and is intended
-    ///to contain all FriendsListTest Unit Tests
+    ///This is a test class for FollowersListTest and is intended
+    ///to contain all FollowersListTest Unit Tests
     ///</summary>
     [TestClass]
-    public class FriendsListTest
+    public class FollowersListTest
     {
         private TestContext testContextInstance;
 
@@ -73,46 +73,23 @@ namespace BBC.Dna.Objects.Tests
 
 
         /// <summary>
-        ///A test for FriendsList Constructor
+        ///A test for FollowersList Constructor
         ///</summary>
         [TestMethod]
-        public void FriendsListXmlTest()
+        public void FollowersListXmlTest()
         {
-            FriendsList friends = new FriendsList();
-            XmlDocument xml = Serializer.SerializeToXml(friends);
+            FollowersList followers = new FollowersList();
+            XmlDocument xml = Serializer.SerializeToXml(followers);
 
-            Assert.IsNotNull(xml.SelectSingleNode("FRIENDSLIST"));
+            Assert.IsNotNull(xml.SelectSingleNode("FOLLOWERSLIST"));
 
         }
 
         /// <summary>
-        ///A test for FriendsListTest
+        ///A test for FollowersListTest
         ///</summary>
         [TestMethod]
-        public void CreateFriendsListTest()
-        {
-            int siteId = 1;
-            string identityusername = "DotNetNormalUser";
-            MockRepository mocks;
-            IDnaDataReader reader;
-            IDnaDataReader reader2;
-            IDnaDataReaderCreator creator;
-
-            SetupFriendsListMocks(out mocks, out creator, out reader, out reader2, 2);
-
-            FriendsList friends;
-
-            friends = FriendsList.CreateFriendsListFromDatabase(creator, identityusername, siteId, 0, 20, false);
-            Assert.AreNotEqual(null, friends);
-
-            XmlDocument xml = Serializer.SerializeToXml(friends);
-        }
-
-        /// <summary>
-        ///A test for AddFriendTest
-        ///</summary>
-        [TestMethod]
-        public void AddFriendTest()
+        public void CreateFollowersListTest()
         {
             int siteId = 1;
             string identityusername = "DotNetNormalUser";
@@ -120,70 +97,22 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReader reader;
             IDnaDataReader reader2;
             IDnaDataReaderCreator creator;
-            ISite site;
-            ICallingUser viewingUser;
-            ICacheManager cache;
 
-            SetupAddFriendMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2);
+            SetupFollowersListMocks(out mocks, out creator, out reader, out reader2, 2);
 
-            FriendsList.AddFriend(creator, viewingUser, identityusername, siteId, 1090497224, false);
+            FollowersList followers;
+
+            followers = FollowersList.CreateFollowersListFromDatabase(creator, identityusername, siteId, 0, 20, false);
+            Assert.AreNotEqual(null, followers);
+
+            XmlDocument xml = Serializer.SerializeToXml(followers);
         }
 
         /// <summary>
-        ///A test for DeleteFriendTest
-        ///</summary>
-        [TestMethod]
-        public void DeleteFriendTest()
-        {
-            int siteId = 1;
-            string identityusername = "DotNetNormalUser";
-            MockRepository mocks;
-            IDnaDataReader reader;
-            IDnaDataReader reader2;
-            IDnaDataReaderCreator creator;
-            ISite site;
-            ICallingUser viewingUser;
-            ICacheManager cache;
-
-            SetupAddFriendMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2);
-
-            FriendsList.DeleteFriend(creator, viewingUser, identityusername, siteId, 1090497224, false);
-        }
-
-        /// <summary>
-        ///A test for AddFriendsTest
-        ///</summary>
-        [TestMethod]
-        public void TryAddFriendForSomebodyElse_FailsTest()
-        {
-            int siteId = 1;
-            string identityusername = "DotNetNormalUser";
-            MockRepository mocks;
-            IDnaDataReader reader;
-            IDnaDataReader reader2;
-            IDnaDataReaderCreator creator;
-            ISite site;
-            ICallingUser viewingUser;
-            ICacheManager cache;
-
-            SetupAddFriendMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2);
-
-            try
-            {
-                FriendsList.AddFriend(creator, viewingUser, identityusername, siteId, 6, false);
-            }
-            catch (Api.ApiException ex)
-            {
-                Assert.IsTrue(ex.type == BBC.Dna.Api.ErrorType.NotAuthorized, "Wrong error returned ");
-            }
-
-        }
-
-        /// <summary>
-        /// Tests if FriendsList returns an empty list when there aren't any friends.
+        /// Tests if FollowersList returns an empty list when there aren't any followers.
         /// </summary>
         [TestMethod]
-        public void GetFriendsList_ReturnsEmptyList()
+        public void GetFollowersList_ReturnsEmptyList()
         {
             // PREPARE THE TEST
             // setup the default mocks
@@ -195,21 +124,21 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReader reader2;
             IDnaDataReaderCreator creator;
 
-            SetupFriendsListMocks(out mocks, out creator, out reader, out reader2, 0);
+            SetupFollowersListMocks(out mocks, out creator, out reader, out reader2, 0);
 
-            FriendsList friends;
+            FollowersList followers;
 
             // EXECUTE THE TEST
-            friends = FriendsList.CreateFriendsListFromDatabase(creator, identityusername, siteId, 0, 20, false);
+            followers = FollowersList.CreateFollowersListFromDatabase(creator, identityusername, siteId, 0, 20, false);
 
-            Assert.IsTrue(friends.Friends.Count == 0, "Friends found - should be empty");
+            Assert.IsTrue(followers.Followers.Count == 0, "Followers found - should be empty");
         }
 
         /// <summary>
-        /// Tests if CreateFriendsList actually ignores the cache when IgnoreCache = true
+        /// Tests if CreateFollowersList actually ignores the cache when IgnoreCache = true
         /// </summary>
         [TestMethod]
-        public void CreateFriendsList_IgnoreCache_CacheIsIgnored()
+        public void CreateFollowersList_IgnoreCache_CacheIsIgnored()
         {
             bool ignoreCache = true;
 
@@ -222,7 +151,7 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReader reader2;
             IDnaDataReaderCreator creator;
 
-            SetupFriendsListMocks(out mocks, out creator, out reader, out reader2, 2);
+            SetupFollowersListMocks(out mocks, out creator, out reader, out reader2, 2);
 
             var cache = mocks.DynamicMock<ICacheManager>();
             cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(null).Throw(new Exception("GetData should not be called"));
@@ -230,15 +159,15 @@ namespace BBC.Dna.Objects.Tests
 
             mocks.ReplayAll();
 
-            FriendsList actual = FriendsList.CreateFriendsList(cache, creator, null, identityusername, siteId, 0, 20, false, ignoreCache);
+            FollowersList actual = FollowersList.CreateFollowersList(cache, creator, null, identityusername, siteId, 0, 20, false, ignoreCache);
             Assert.IsNotNull(actual);
         }
 
         /// <summary>
-        /// Tests if CreateFriendsList bypasses the cache when DoNotIgnoreCache = true but uptodate is false
+        /// Tests if CreateFollowersList bypasses the cache when DoNotIgnoreCache = true but uptodate is false
         /// </summary>
         [TestMethod]
-        public void CreateFriendsList_WithDontIgnoreCache_NotUpToDate_ReturnsValidObject()
+        public void CreateFollowersList_WithDontIgnoreCache_NotUpToDate_ReturnsValidObject()
         {
             bool ignoreCache = false;
 
@@ -251,19 +180,19 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReader reader2;
             IDnaDataReaderCreator creator;
 
-            SetupFriendsListMocks(out mocks, out creator, out reader, out reader2, 2);
+            SetupFollowersListMocks(out mocks, out creator, out reader, out reader2, 2);
 
-            var friends = mocks.DynamicMock<FriendsList>();
-            friends.Stub(x => x.IsUpToDate(null)).Constraints(Is.Anything()).Return(false);
+            var followers = mocks.DynamicMock<FollowersList>();
+            followers.Stub(x => x.IsUpToDate(null)).Constraints(Is.Anything()).Return(false);
 
 
             var cache = mocks.DynamicMock<ICacheManager>();
-            cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(friends);
+            cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(followers);
             cache.Stub(x => x.Add("", null)).Constraints(Is.Anything(), Is.Anything()).Repeat.Once();
 
             mocks.ReplayAll();
 
-            FriendsList actual = FriendsList.CreateFriendsList(cache, creator, null, identityusername, siteId, 0, 20, false, ignoreCache);
+            FollowersList actual = FollowersList.CreateFollowersList(cache, creator, null, identityusername, siteId, 0, 20, false, ignoreCache);
             Assert.IsNotNull(actual);
             Assert.IsNotNull(actual);
         }
@@ -272,15 +201,15 @@ namespace BBC.Dna.Objects.Tests
         ///A test for IsUpToDate
         ///</summary>
         [TestMethod]
-        public void IsUpToDate_FriendsListOutOfDate_ReturnsCorrect()
+        public void IsUpToDate_FollowersListOutOfDate_ReturnsCorrect()
         {
             // PREPARE THE TEST
             // setup the default mocks
             MockRepository mocks = new MockRepository();
 
-            var target = new FriendsList()
+            var target = new FollowersList()
             {
-                Friends = new List<UserElement> { new UserElement() { user = UserTest.CreateTestUser() } }
+                Followers = new List<UserElement> { new UserElement() { user = UserTest.CreateTestUser() } }
             };
 
             var reader = mocks.DynamicMock<IDnaDataReader>();
@@ -299,35 +228,35 @@ namespace BBC.Dna.Objects.Tests
         [TestMethod]
         public void GetCacheKeyTest()
         {
-            var friends = new FriendsList();
-            string expected = string.Format("{0}|0|0|0|0|True|0|", typeof(FriendsList).AssemblyQualifiedName);
-            string actual = friends.GetCacheKey(0, 0, 0, 0, true, 0);
+            var followers = new FollowersList();
+            string expected = string.Format("{0}|0|0|0|0|True|0|", typeof(FollowersList).AssemblyQualifiedName);
+            string actual = followers.GetCacheKey(0, 0, 0, 0, true, 0);
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// Returns a test FriendsList
+        /// Returns a test FollowersList
         /// </summary>
         /// <returns></returns>
-        public static FriendsList CreateTestFriendsList()
+        public static FollowersList CreateTestFollowersList()
         {
-            var friends = new FriendsList()
+            var followers = new FollowersList()
             {
-                Friends = new List<UserElement> { new UserElement() { user = UserTest.CreateTestUser() } }
+                Followers = new List<UserElement> { new UserElement() { user = UserTest.CreateTestUser() } }
             };
-            return friends;
+            return followers;
         }
 
 #region MockSetup
 
         /// <summary>
-        /// Helper function to set up parameters for CreateFriendsList call
+        /// Helper function to set up parameters for CreateFollowersList call
         /// </summary>
         /// <param name="mocks"></param>
         /// <param name="cache"></param>
         /// <param name="readerCreator"></param>
         /// <param name="viewingUser"></param>
-        public void CreateFriendsList_SetupDefaultMocks(out MockRepository mocks, out ICacheManager cache, out IDnaDataReaderCreator readerCreator, out User viewingUser, out ISite site)
+        public void CreateFollowersList_SetupDefaultMocks(out MockRepository mocks, out ICacheManager cache, out IDnaDataReaderCreator readerCreator, out User viewingUser, out ISite site)
         {
             mocks = new MockRepository();
             cache = mocks.DynamicMock<ICacheManager>();
@@ -362,7 +291,7 @@ namespace BBC.Dna.Objects.Tests
             reader = mocks.DynamicMock<IDnaDataReader>();
             reader2 = mocks.DynamicMock<IDnaDataReader>();
 
-            AddFriendsListUserDatabaseRows(reader, "");
+            AddFollowersListUserDatabaseRows(reader, "");
 
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true);
@@ -377,7 +306,7 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
         }
 
-        private void SetupFriendsListMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader, out IDnaDataReader reader2, int rowsToReturn)
+        private void SetupFollowersListMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader, out IDnaDataReader reader2, int rowsToReturn)
         {
             InitialiseMocks(out mocks, out readerCreator, out reader, out reader2);
 
@@ -385,7 +314,7 @@ namespace BBC.Dna.Objects.Tests
             {
                 reader.Stub(x => x.HasRows).Return(true);
                 reader.Stub(x => x.Read()).Return(true);
-                AddFriendsListUserDatabaseRows(reader, "");
+                AddFollowersListUserDatabaseRows(reader, "");
 
                 reader2.Stub(x => x.HasRows).Return(false);
                 reader2.Stub(x => x.Read()).Return(false);
@@ -398,19 +327,19 @@ namespace BBC.Dna.Objects.Tests
                 reader2.Stub(x => x.HasRows).Return(true);
                 reader2.Stub(x => x.Read()).Return(true);
 
-                AddFriendsListUserDatabaseRows(reader, "");
+                AddFollowersListUserDatabaseRows(reader, "");
 
-                AddFriendsListUserDatabaseRows(reader2, "");
-                AddFriendsListUserDatabaseRows(reader2, "");
+                AddFollowersListUserDatabaseRows(reader2, "");
+                AddFollowersListUserDatabaseRows(reader2, "");
 
             }
             readerCreator.Stub(x => x.CreateDnaDataReader("getdnauseridfromidentityusername")).Return(reader);
-            readerCreator.Stub(x => x.CreateDnaDataReader("fetchwatchedjournals")).Return(reader2);
+            readerCreator.Stub(x => x.CreateDnaDataReader("watchingusers")).Return(reader2);
 
             mocks.ReplayAll();
         }
 
-        private void AddFriendsListUserDatabaseRows(IDnaDataReader reader, string suffix)
+        private void AddFollowersListUserDatabaseRows(IDnaDataReader reader, string suffix)
         {
             reader.Stub(x => x.Exists(suffix + "userID")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero(suffix + "userID")).Return(1090497224).Repeat.Once();

@@ -112,18 +112,48 @@ namespace BBC.Dna.Objects
             }
             if (authorised)
             {//do work
-                using (IDnaDataReader reader = _creator.CreateDnaDataReader("closethread"))
-                {
-                    reader.AddParameter("threadid", threadId);
-                    reader.AddParameter("hidethread", false);
-                    reader.Execute();
-                }
+                CallCloseThreadSP(threadId);
             }
             else
             {
                 LastError = new Error {Type = "CloseThread", ErrorMessage="Logged in user is not authorised to close threads"};
             }
 
+        }
+
+        /// <summary>
+        /// Closes a thread with a CallingUser IsSuperUser check
+        /// </summary>
+        /// <param name="currentSiteId"></param>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
+        public void CloseThreadWithCallingUser(int currentSiteId, int forumId, int threadId, BBC.Dna.Users.ICallingUser user, ISiteList siteList)
+        {
+            bool authorised = (user.IsUserA(BBC.Dna.Users.UserTypes.Editor) || user.IsUserA(BBC.Dna.Users.UserTypes.SuperUser));
+
+            if (!authorised && siteList.GetSiteOptionValueBool(currentSiteId, "Forum", "ArticleAuthorCanCloseThreads"))
+            {//check if author can  modify forum thread.
+                authorised = IsUserAuthorForArticle(forumId);
+            }
+            if (authorised)
+            {//do work
+                CallCloseThreadSP(threadId);
+            }
+            else
+            {
+                throw new BBC.Dna.Api.ApiException("Unable to close thread", BBC.Dna.Api.ErrorType.NotAuthorized);
+            }
+
+        }
+
+        private void CallCloseThreadSP(int threadId)
+        {
+            using (IDnaDataReader reader = _creator.CreateDnaDataReader("closethread"))
+            {
+                reader.AddParameter("threadid", threadId);
+                reader.AddParameter("hidethread", false);
+                reader.Execute();
+            }
         }
 
         /// <summary>
@@ -164,6 +194,42 @@ namespace BBC.Dna.Objects
         }
 
         /// <summary>
+        /// Reopens a thread with a CallingUser IsEditor | IsSuperUser check
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
+        public void ReOpenThreadWithCallingUser(int forumId, int threadId, BBC.Dna.Users.ICallingUser user)
+        {
+            if (user.IsUserA(BBC.Dna.Users.UserTypes.Editor) || user.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {//do work
+                using (IDnaDataReader reader = _creator.CreateDnaDataReader("SetThreadVisibletoUsers"))
+                {
+                    reader.AddParameter("threadid", threadId);
+                    reader.AddParameter("forumid", forumId);
+                    reader.AddParameter("Visible", true);
+                    reader.Execute();
+
+                    if (reader.Read())
+                    {
+                        if (reader.GetInt32NullAsZero("ThreadBelongsToForum") != 1)
+                        {
+                            throw new BBC.Dna.Api.ApiException("Unable to unhide thread, doesn't belong to the Forum.", BBC.Dna.Api.ErrorType.UnableToHideUnHideThread);
+                        }
+                    }
+                    else
+                    {
+                        throw new BBC.Dna.Api.ApiException("Unable to unhide thread", BBC.Dna.Api.ErrorType.UnableToHideUnHideThread);
+                    }
+
+                }
+            }
+            else
+            {
+                throw new BBC.Dna.Api.ApiException("Unable to unhide thread", BBC.Dna.Api.ErrorType.NotAuthorized);
+            }
+        }
+
+        /// <summary>
         /// Hides a thread
         /// </summary>
         /// <param name="forumId"></param>
@@ -197,6 +263,42 @@ namespace BBC.Dna.Objects
                 LastError = new Error("HideThread", "Logged in user is not authorised to hide threads");
             }
 
+        }
+
+        /// <summary>
+        /// Hides a thread with a CallingUser IsSuperUser check
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
+        /// <param name="user">Calling User</param>
+        public void HideThreadWithCallingUser(int forumId, int threadId, BBC.Dna.Users.ICallingUser user)
+        {
+            if (user.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {//do work
+                using (IDnaDataReader reader = _creator.CreateDnaDataReader("SetThreadVisibletoUsers"))
+                {
+                    reader.AddParameter("threadid", threadId);
+                    reader.AddParameter("forumid", forumId);
+                    reader.AddParameter("Visible", false);
+                    reader.Execute();
+
+                    if (reader.Read())
+                    {
+                        if (reader.GetInt32NullAsZero("ThreadBelongsToForum") != 1)
+                        {
+                            throw new BBC.Dna.Api.ApiException("Unable to hide thread, doesn't belong to the Forum.", BBC.Dna.Api.ErrorType.UnableToHideUnHideThread);
+                        }
+                    }
+                    else
+                    {
+                        throw new BBC.Dna.Api.ApiException("Unable to hide thread", BBC.Dna.Api.ErrorType.UnableToHideUnHideThread);
+                    }
+                }
+            }
+            else
+            {
+                throw new BBC.Dna.Api.ApiException("Unable to hide thread", BBC.Dna.Api.ErrorType.NotAuthorized);
+            }
         }
 
         /// <summary>

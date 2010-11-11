@@ -188,5 +188,64 @@ namespace BBC.Dna.Objects
                 }
             }
         }
+        /// <summary>
+        /// Delete a link
+        /// </summary>
+        /// <param name="readerCreator">DataReader Creator</param>
+        /// <param name="linkId">Link to delete</param>
+        /// <param name="identifier">User ID or id username involved</param>
+        /// <param name="siteID">Site ID involved</param>
+        /// <param name="byDnaUserId"></param>
+        public static void DeleteLink(IDnaDataReaderCreator readerCreator,
+                                        BBC.Dna.Users.CallingUser viewingUser,
+                                        string identifier,
+                                        int siteID,
+                                        int linkId,
+                                        bool byDnaUserId)
+        {
+            int dnaUserId = 0;
+            if (!byDnaUserId)
+            {
+                // fetch all the lovely intellectual property from the database
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getdnauseridfromidentityusername"))
+                {
+                    reader.AddParameter("identityusername", identifier);
+                    reader.Execute();
+
+                    if (reader.HasRows && reader.Read())
+                    {
+                        dnaUserId = reader.GetInt32NullAsZero("userid");
+                    }
+                    else
+                    {
+                        throw ApiException.GetError(ErrorType.UserNotFound);
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    dnaUserId = Convert.ToInt32(identifier);
+                }
+                catch (Exception)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
+            }
+            //You can't delete someone else's links (unless you're an editor or superuser)
+            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
+            }
+            
+            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("deletelink"))
+            {
+                dataReader.AddParameter("linkid", linkId);
+                dataReader.AddParameter("userID", dnaUserId);
+                dataReader.AddParameter("siteID", siteID);
+                dataReader.Execute();
+            }
+        }
     }
 }

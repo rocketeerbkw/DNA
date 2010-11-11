@@ -21,7 +21,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 0, ElementName = "ENTRIES")]
         [System.Xml.Serialization.XmlArrayItemAttribute("ENTRYLINK", IsNullable = false)]
-        [DataMember (Name="entries")]
+        [DataMember (Name="entries", Order=1)]
         public System.Collections.Generic.List<ArticleInfoReferencesEntryLink> Entries
         {
             get;
@@ -31,7 +31,7 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 1, ElementName = "EXTERNAL")]
         [System.Xml.Serialization.XmlArrayItemAttribute("EXTERNALLINK", IsNullable = false)]
-        [DataMember(Name = "externalLinks")]
+        [DataMember(Name = "externalLinks", Order = 2)]
         public System.Collections.Generic.List<ArticleInfoReferencesExternalLink> External
         {
             get;
@@ -41,8 +41,18 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [System.Xml.Serialization.XmlArrayAttribute(Order = 2, ElementName = "USERS")]
         [System.Xml.Serialization.XmlArrayItemAttribute("USERLINK", IsNullable = false)]
-        [DataMember(Name = "users")]
+        [DataMember(Name = "users", Order = 3)]
         public System.Collections.Generic.List<ArticleInfoReferencesUser> Users
+        {
+            get;
+            set;
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(Order = 3, ElementName = "BBC")]
+        [System.Xml.Serialization.XmlArrayItemAttribute("BBCLINK", IsNullable = false)]
+        [DataMember(Name = "BBCLinks", Order = 4)]
+        public System.Collections.Generic.List<ArticleInfoReferencesExternalLink> BBC
         {
             get;
             set;
@@ -55,7 +65,8 @@ namespace BBC.Dna.Objects
             {
                 Entries = new List<ArticleInfoReferencesEntryLink>(),
                 External = new List<ArticleInfoReferencesExternalLink>(),
-                Users = new List<ArticleInfoReferencesUser>()
+                Users = new List<ArticleInfoReferencesUser>(),
+                BBC = new List<ArticleInfoReferencesExternalLink>()
             };
 
 
@@ -116,7 +127,14 @@ namespace BBC.Dna.Objects
                     {
                         exLink.Title = linkNode.Attributes["TITLE"].Value;
                     }
-                    references.External.Add(exLink);
+                    if (exLink.OffSite.StartsWith("http://www.bbc.co.uk") || exLink.OffSite.StartsWith("www.bbc.co.uk"))
+                    {
+                        references.BBC.Add(exLink);
+                    }
+                    else
+                    {
+                        references.External.Add(exLink);
+                    }
                     uniqueIndex++;
                 }
             }

@@ -75,9 +75,7 @@ namespace BBC.Dna.Objects
                     else
                     {
                         Replacements.Add(shorthand, replace.Replace("***", name));
-                    }
-
-                    
+                    }                   
                 }
             }
 

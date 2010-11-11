@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using System.Web;
 using System.Net;
 using BBC.Dna;
 using BBC.Dna.Api;
@@ -11,6 +12,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
 using System.Xml;
+using System.Collections.Specialized;
 
 namespace FunctionalTests.Services.Users
 {
@@ -1129,7 +1131,7 @@ namespace FunctionalTests.Services.Users
         }
 
         /// <summary>
-        /// Test GetUsersFriends method from service
+        /// Test UpdateUsersSiteSuffix method from service
         /// </summary>
         [TestMethod]
         public void UpdateUsersSiteSuffix()
@@ -1138,15 +1140,189 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
+            string siteSuffix = "New Site Suffix";
 
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/userdetails?idtype=DNAUserId&format=xml", _sitename);
+            string postData = String.Format("siteSuffix={0}",
+                 HttpUtility.HtmlEncode(siteSuffix));
 
-            // now get the response
-            request.RequestPageWithFullURL(url, "<sitesuffix>New Site Suffix</sitesuffix>", "text/xml");
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/userdetails/create.htm", _sitename);
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", null, localHeaders);
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
+            request.RequestPageWithFullURL(callinguser_url);
+            // Check to make sure that the page returned with the correct information
+            BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
+
+            Assert.AreEqual(siteSuffix, user.SiteSuffix);
+
             Console.WriteLine("After UpdateUsersSiteSuffix");
+        }
+        /// <summary>
+        /// Test UpdateUsersAcceptSubscriptions method from service
+        /// </summary>
+        [TestMethod]
+        public void UpdateUsersAcceptSubscriptions()
+        {
+            Console.WriteLine("Before UpdateUsersAcceptSubscriptions");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/acceptsubscriptions", _sitename);
+            string postData = "No data to send";
+
+            request.RequestPageWithFullURL(url, postData, "text/xml");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            request.RequestPageWithFullURL(callinguser_url);
+            // Check to make sure that the page returned with the correct information
+            BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
+
+            Assert.AreEqual(true, user.AcceptSubscriptions);
+
+            url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/acceptsubscriptions/remove", _sitename);
+
+            request.RequestPageWithFullURL(url, postData, "text/xml");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            request.RequestPageWithFullURL(callinguser_url);
+            // Check to make sure that the page returned with the correct information
+            user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
+
+            Assert.AreEqual(false, user.AcceptSubscriptions);
+
+            Console.WriteLine("After UpdateUsersAcceptSubscriptions");
+        }
+
+        /// <summary>
+        /// Test AddFriend method from service
+        /// </summary>
+        [TestMethod]
+        public void AddFriendTest()
+        {
+            Console.WriteLine("Before AddFriendTest");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            int dnaUserId = 1090501859;
+            int friendId = 6;
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}?idtype=dnauserid", _sitename, dnaUserId, friendId);
+            string postData = "No data to send";
+
+            // now get the response
+            request.RequestPageWithFullURL(url, postData, "text/xml", "PUT");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After AddFriendTest");
+        }
+        /// <summary>
+        /// Test DeleteFriend method from service
+        /// </summary>
+        [TestMethod]
+        public void DeleteFriendTest()
+        {
+            Console.WriteLine("Before DeleteFriendTest");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            int dnaUserId = 1090501859;
+            int friendId = 6;
+
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}/?idtype=dnauserid", _sitename, dnaUserId, friendId);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, String.Empty, String.Empty, "DELETE");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After DeleteFriendTest");
+        }
+        /// <summary>
+        /// Test DeleteLink method from service
+        /// </summary>
+        [TestMethod]
+        public void DeleteLinkTest()
+        {
+            Console.WriteLine("Before DeleteLinkTest");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            string link = "1";
+            string name = "DotNetNormalUser";
+
+            //Get the links
+            //string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?format=xml", _sitename, name);
+            // now get the response
+            //request.RequestPageWithFullURL(url, null, "text/xml");
+
+
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links/{2}/", _sitename, name, link);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, String.Empty, String.Empty, "DELETE");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After DeleteLinkTest");
+        }
+        /// <summary>
+        /// Test BlockUserTest method from service
+        /// </summary>
+        [TestMethod]
+        public void BlockUserTest()
+        {
+            Console.WriteLine("Before BlockUserTest");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            int dnaUserId = 1090501859;
+            int blockId = 6;
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/?idtype=dnauserid", _sitename, dnaUserId, blockId);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, "No data to Send", "text/xml", "PUT");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After BlockUserTest");
+        }
+        /// <summary>
+        /// Test UnblockUserTest method from service
+        /// </summary>
+        [TestMethod]
+        public void UnblockUserTest()
+        {
+            Console.WriteLine("Before UnblockUserTest");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            int dnaUserId = 1090501859;
+            int unblockId = 6;
+
+            //Block user 6 first
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/?idtype=dnauserid", _sitename, dnaUserId, unblockId);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, "No data to Send", "text/xml", "PUT");
+
+            //Unblock 
+            url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/?idtype=dnauserid", _sitename, dnaUserId, unblockId);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, String.Empty, String.Empty, "DELETE");
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After UnblockUserTest");
         }
     }
 }

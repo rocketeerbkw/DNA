@@ -144,7 +144,11 @@ select
 		where forumid=(select forumid from threadentries where entryid=te.EntryID)) AS TotalPostsOnForum,
 	u.userid as AuthorUserId,
 	u.username as AuthorUsername,
-	u.loginname as AuthorIdentityUserName
+	u.loginname as AuthorIdentityUserName,
+	f.CanWrite as ForumCanWrite,
+	s.SiteEmergencyClosed as SiteEmergencyClosed,
+	cf.ForumCloseDate as ForumCloseDate
+
 from
 	#PagedEntries p
 	inner join dbo.threadentries as te on p.entryid = te.entryid

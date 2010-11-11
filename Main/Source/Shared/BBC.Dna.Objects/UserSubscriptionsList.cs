@@ -84,37 +84,7 @@ namespace BBC.Dna.Objects
                                                                         int show, 
                                                                         bool byDnaUserId)
         {
-            int dnaUserId = 0;
-            if (!byDnaUserId)
-            {
-                // fetch all the lovely intellectual property from the database
-                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getdnauseridfromidentityusername"))
-                {
-                    reader.AddParameter("identityusername", identifier);
-                    reader.Execute();
-
-                    if (reader.HasRows && reader.Read())
-                    {
-                        //1st Result set gets user details.
-                        dnaUserId = reader.GetInt32NullAsZero("userid");
-                    }
-                    else
-                    {
-                        throw ApiException.GetError(ErrorType.UserNotFound);
-                    }
-                }
-            }
-            else
-            {
-                try
-                {
-                    dnaUserId = Convert.ToInt32(identifier);
-                }
-                catch (Exception)
-                {
-                    throw ApiException.GetError(ErrorType.UserNotFound);
-                }
-            }
+            int dnaUserId = GetDnaUserIdFromIdentitifier(readerCreator, identifier, byDnaUserId);
 
             UserSubscriptionsList userSubscriptions = new UserSubscriptionsList();
             userSubscriptions.Skip = skip;
@@ -241,6 +211,132 @@ namespace BBC.Dna.Objects
         {
             // not used always get a new one for now
             return false;
+        }
+        /// <summary>
+        /// Unsubscribe From a User
+        /// </summary>
+        /// <param name="readerCreator">DataReader Creator</param>
+        /// <param name="viewingUser">User making the request</param>
+        /// <param name="identifier">User ID or id username involved</param>
+        /// <param name="siteID">Site ID involved</param>
+        /// <param name="userId">User to unsubscribe from</param>
+        /// <param name="byDnaUserId"></param>
+        public static void UnsubscribeFromUser(IDnaDataReaderCreator readerCreator,
+                                        BBC.Dna.Users.CallingUser viewingUser,
+                                        string identifier,
+                                        int siteID,
+                                        int userId,
+                                        bool byDnaUserId)
+        {
+            int dnaUserId = GetDnaUserIdFromIdentitifier(readerCreator, identifier, byDnaUserId);
+
+            //You can't unsubscribe someone else's users (unless you're an editor or superuser)
+            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
+            }
+
+            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("unsubscribefromuser"))
+            {
+                dataReader.AddParameter("userID", dnaUserId);
+                dataReader.AddParameter("subscribedtoid", userId);
+                dataReader.Execute();
+            }
+        }
+
+        /// <summary>
+        /// Subscribe To a User
+        /// </summary>
+        /// <param name="readerCreator">DataReader Creator</param>
+        /// <param name="viewingUser">User making the request</param>
+        /// <param name="identifier">User ID or id username involved</param>
+        /// <param name="siteID">Site ID involved</param>
+        /// <param name="subscribedToID">User to subscribe toe</param>
+        /// <param name="byDnaUserId"></param>
+        public static void SubscribeToUser(IDnaDataReaderCreator readerCreator,
+                                            BBC.Dna.Users.CallingUser viewingUser, 
+                                            string identifier,
+                                            int siteID,
+                                            int subscribedToId,
+                                            bool byDnaUserId)
+        {
+            int dnaUserId = GetDnaUserIdFromIdentitifier(readerCreator, identifier, byDnaUserId);
+
+            //You can't unsubscribe someone else's users (unless you're an editor or superuser)
+            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
+            }
+            //You can't subscribe to yourself
+            if (dnaUserId == subscribedToId)
+            {
+                throw ApiException.GetError(ErrorType.InvalidUserId);
+            }
+            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("subscribetouser"))
+            {
+                dataReader.AddParameter("userID", dnaUserId);
+                dataReader.AddParameter("authorid", subscribedToId);
+                dataReader.AddParameter("siteid", siteID);
+                dataReader.Execute();
+                if (!dataReader.HasRows)
+                {
+                    dataReader.Close();
+                    int returnValue;
+                    dataReader.TryGetIntReturnValue(out returnValue);
+
+                    //User has blocked all subscriptions
+                    if (returnValue == 1)
+                    {
+                        throw ApiException.GetError(ErrorType.UserBlockedSubscriptions);
+                    }
+                    else
+                    {
+                        throw ApiException.GetError(ErrorType.CantSubscribe);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the dnauserid from the identitifier
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="identifier"></param>
+        /// <param name="byDnaUserId"></param>
+        /// <returns></returns>
+        private static int GetDnaUserIdFromIdentitifier(IDnaDataReaderCreator readerCreator, string identifier, bool byDnaUserId)
+        {
+            int dnaUserId = 0;
+            if (!byDnaUserId)
+            {
+                // fetch all the lovely intellectual property from the database
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getdnauseridfromidentityusername"))
+                {
+                    reader.AddParameter("identityusername", identifier);
+                    reader.Execute();
+
+                    if (reader.HasRows && reader.Read())
+                    {
+                        dnaUserId = reader.GetInt32NullAsZero("userid");
+                    }
+                    else
+                    {
+                        throw ApiException.GetError(ErrorType.UserNotFound);
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    dnaUserId = Convert.ToInt32(identifier);
+                }
+                catch (Exception)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
+            }
+            return dnaUserId;
         }
     }
 }

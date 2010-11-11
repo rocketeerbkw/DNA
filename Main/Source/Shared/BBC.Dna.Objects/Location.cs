@@ -115,7 +115,6 @@ namespace BBC.Dna.Objects
             location.Description = reader.GetStringNullAsEmpty("description");
             location.Title = reader.GetStringNullAsEmpty("title");
 
-
             location.LocationId = reader.GetInt32NullAsZero("locationid");
             location.OwnerID = reader.GetInt32NullAsZero("ownerid");
             location.SiteID = reader.GetInt32NullAsZero("siteid");

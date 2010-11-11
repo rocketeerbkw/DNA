@@ -74,12 +74,15 @@
     <Compile Include="ArticleInfoSubmittableTest.cs" />
     <Compile Include="ArticleInfoTest.cs" />
     <Compile Include="ArticleListTest.cs" />
+    <Compile Include="ArticleLocationTest.cs" />
     <Compile Include="ArticleSubscriptionsListTest.cs" />
     <Compile Include="ArticleSummaryTest.cs" />
     <Compile Include="ArticleTest.cs" />
     <Compile Include="BlockedUserSubscriptionsListTest.cs" />
     <Compile Include="CategorySummaryTest.cs" />
+    <Compile Include="ContributionTest.cs" />
     <Compile Include="ExtraInfoCreatorTest.cs" />
+    <Compile Include="FollowersListTest.cs" />
     <Compile Include="ForumSourceTest.cs" />
     <Compile Include="FriendsListTest.cs" />
     <Compile Include="IndexTest.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="LinksListTest.cs" />
     <Compile Include="LinkSubscriptionsListTest.cs" />
     <Compile Include="LinkTest.cs" />
+    <Compile Include="LocationTest.cs" />
     <Compile Include="MonthSummaryTest.cs" />
     <Compile Include="OnlineUsersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

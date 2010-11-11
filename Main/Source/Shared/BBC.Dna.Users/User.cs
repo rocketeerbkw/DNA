@@ -145,6 +145,7 @@ namespace BBC.Dna.Users
         /// <summary>
         /// Accepts subscriptions?
         /// </summary>
+        [DataMember(Name = "acceptSubscriptions")]
         public bool AcceptSubscriptions { get; set; }
 
         /// <summary>
@@ -656,6 +657,26 @@ namespace BBC.Dna.Users
                 }
 
                 SiteSuffix = siteSuffix;
+            }
+        }
+
+        /// <summary>
+        /// Synchronises a users accept subscription with the given one
+        /// </summary>
+        /// <param name="acceptSubscriptions">Whetherto accept subscriptions or not to sync against</param>
+        public void SynchroniseAcceptSubscriptions(bool acceptSubscriptions)
+        {
+            if (acceptSubscriptions != AcceptSubscriptions)
+            {
+                using (IDnaDataReader dataReader = CreateStoreProcedureReader("updateuser2"))
+                {
+                    dataReader.AddParameter("UserID", UserID);
+                    dataReader.AddParameter("SiteID", SiteID);
+                    dataReader.AddParameter("acceptsubscriptions", acceptSubscriptions);
+                    dataReader.Execute();
+                }
+
+                AcceptSubscriptions = acceptSubscriptions;
             }
         }
 
