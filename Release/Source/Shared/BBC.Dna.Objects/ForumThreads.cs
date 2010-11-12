@@ -13,6 +13,7 @@ using System.Runtime.Serialization;
 using ISite = BBC.Dna.Sites.ISite;
 using BBC.Dna.Common;
 using BBC.Dna.Api;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace BBC.Dna.Objects
 {
@@ -196,29 +197,28 @@ namespace BBC.Dna.Objects
         /// <param name="site">The current site</param>
         public void ApplyUserSettings(IUser user, ISite site)
         {
-            if (user == null)
+            //reset permissions
+            CanRead = DefaultCanRead;
+            CanWrite = DefaultCanWrite;
+
+            if (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now))
             {
-                return;
+                CanWrite = 0;
             }
-            bool isEditor = false;
-            if (user.IsEditor || user.IsSuperUser)
+
+            if (user != null)
             {
-//default as editor or super user
-                CanRead = 1;
-                CanWrite = 1;
-                //ripley doesn't grant thread permissions for some reason..
-                //ThreadCanRead = 1;
-                //ThreadCanWrite = 1;
-                isEditor = true;
-            }
-            //check site is open
-            if (!isEditor && CanWrite == 1)
-            {
-                if (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now))
+                if (user.IsEditor || user.IsSuperUser)
                 {
-                    CanWrite = 0;
+                    //default as editor or super user
+                    CanRead = 1;
+                    CanWrite = 1;
+                    //ripley doesn't grant thread permissions for some reason..
+                    //ThreadCanRead = 1;
+                    //ThreadCanWrite = 1;
                 }
             }
+
             //update individual posts
             if (Thread != null)
             {
@@ -288,7 +288,7 @@ namespace BBC.Dna.Objects
                 var forumThreadsCache = (CachableBase<ForumThreads>)cache.GetData(key);
                 if (forumThreadsCache != null && forumThreadsCache.IsUpToDate(readerCreator))
                 {
-                    forumThreads = (ForumThreads) forumThreadsCache;
+                    forumThreads = (ForumThreads) forumThreadsCache.Clone();
                     forumThreads.ApplyUserSettings(viewingUser, siteList.GetSite(forumThreads.SiteId));
                     return forumThreads;
                 }
@@ -299,7 +299,7 @@ namespace BBC.Dna.Objects
                                                           overFlow, threadOrder);
 
             //add to cache
-            cache.Add(key, forumThreads.Clone());
+            cache.Add(key, forumThreads.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(5)));
 
             //apply user settings
             if (viewingUser != null)

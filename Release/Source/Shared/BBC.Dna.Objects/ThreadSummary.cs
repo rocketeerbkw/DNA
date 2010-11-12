@@ -7,6 +7,7 @@ using BBC.Dna.Utils;
 using ISite = BBC.Dna.Sites.ISite;
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {
@@ -115,9 +116,12 @@ namespace BBC.Dna.Objects
         /// <param name="site">The current site</param>
         public void ApplyUserSettings(IUser user, ISite site)
         {
-            if (user.IsEditor || user.IsSuperUser)
+            if (user != null)
             {
-                return;
+                if (user.IsEditor || user.IsSuperUser)
+                {
+                    return;
+                }
             }
             //check site is open
             if (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now))
