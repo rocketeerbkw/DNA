@@ -122,12 +122,12 @@
     
     <!-- Title for a More posts (messageboard profile page) -->
     <xsl:template match="/H2G2[@TYPE = 'MOREPOSTS']" mode="head_title_page">
-        Profile for <xsl:value-of select="POSTS/POST-LIST/USER/USERNAME"/>
+        Profile for <xsl:apply-templates select="POSTS/POST-LIST/USER" mode="library_user_username" />
     </xsl:template>
     
     <!-- Title for a More comments (messageboard profile page) -->
     <xsl:template match="/H2G2[@TYPE = 'MORECOMMENTS']" mode="head_title_page">
-        Profile for <xsl:value-of select="MORECOMMENTS/COMMENTS-LIST/USER/USERNAME"/>
+        Profile for <xsl:apply-templates select="MORECOMMENTS/COMMENTS-LIST/USER" mode="library_user_username" />
     </xsl:template>
     
     <!-- Title for a User information page -->
