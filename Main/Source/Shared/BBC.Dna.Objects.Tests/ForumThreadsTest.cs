@@ -721,7 +721,7 @@ namespace BBC.Dna.Objects.Tests
             Mocks.ReplayAll();
 
             // 2) execute the test
-            ThreadPost threadPost = ThreadPost.FetchPostFromDatabase(creator, postid);
+            ThreadPost threadPost = ThreadPost.FetchPostFromDatabase(creator, postid, false);
 
             // 3) verify the results
             Assert.AreEqual(postid, threadPost.PostId);
@@ -754,7 +754,7 @@ namespace BBC.Dna.Objects.Tests
             ThreadPost threadPost;
             try
             {
-                threadPost = ThreadPost.FetchPostFromDatabase(readerCreator, postid);
+                threadPost = ThreadPost.FetchPostFromDatabase(readerCreator, postid, false);
             }
             catch (ApiException e)
             {

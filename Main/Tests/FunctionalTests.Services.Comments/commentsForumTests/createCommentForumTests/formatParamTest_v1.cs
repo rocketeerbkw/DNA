@@ -153,7 +153,6 @@ namespace FunctionalTests.Services.Comments
             // working data
             int newSiteCount = 0;
             DnaTestURLRequest request;
-            String response;
 
             request = makeRequest(formatParam, filename, postXML, mimeType);
 

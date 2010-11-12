@@ -322,7 +322,7 @@ namespace BBC.Dna.Objects.Tests
 
             ForumThreadPosts actual;
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId, 
-                orderByDatePostedDesc);
+                orderByDatePostedDesc, false);
             Assert.AreEqual(actual.Post.Count, itemsPerPage);
             Assert.AreEqual(actual.More, 1);
 
@@ -340,7 +340,7 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
 
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId,
-                orderByDatePostedDesc);
+                orderByDatePostedDesc, false);
             Assert.AreEqual(actual.Post.Count, itemsPerPage);
             Assert.AreEqual(actual.More, 1);
             Assert.AreEqual(actual.Post[actual.Post.Count - 1].NextIndex, entryId);
@@ -382,7 +382,7 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
 
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId,
-                orderByDatePostedDesc);
+                orderByDatePostedDesc, false);
             Assert.AreEqual(actual.Post.Count, itemsPerPage);
             Assert.AreEqual(1, actual.More);
             Assert.AreEqual(actual.Post[actual.Post.Count - 1].NextIndex, entryId);
@@ -442,7 +442,7 @@ namespace BBC.Dna.Objects.Tests
 
             ForumThreadPosts actual;
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId,
-                orderByDatePostedDesc);
+                orderByDatePostedDesc, false);
             Assert.AreEqual(actual.Post.Count, smallerItemsPerPage);
             Assert.AreEqual(1, actual.More);
         }
@@ -478,7 +478,7 @@ namespace BBC.Dna.Objects.Tests
 
             ForumThreadPosts actual;
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId,
-                orderByDatePostedDesc);
+                orderByDatePostedDesc, false);
             Assert.AreEqual(actual.Post.Count, itemsPerPage);
             Assert.AreEqual(1, actual.More);
         }
@@ -513,7 +513,7 @@ namespace BBC.Dna.Objects.Tests
 
             ForumThreadPosts actual;
             actual = ForumThreadPosts.CreateThreadFromDatabase(creator, siteId, forumId, threadId, itemsPerPage, startIndex, postId,
-                orderByDatePostedDesc);
+                orderByDatePostedDesc, false);
             Assert.AreEqual(actual.Post.Count, totalItems);
             Assert.AreEqual(actual.More, 0);
         }
