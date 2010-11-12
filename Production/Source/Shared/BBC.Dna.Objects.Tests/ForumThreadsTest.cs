@@ -140,8 +140,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             IDnaDataReaderCreator creator;
             ISiteList siteList;
+            int siteId = 0;
             CreateForumThreadsFromDatabaseTestSetup(out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out creator, out siteList);
+                                                    out threadOrder, out overFlow, out creator, out siteList, out siteId);
 
             ForumThreads actual;
             actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
@@ -173,8 +174,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             IDnaDataReaderCreator creator;
             ISiteList siteList;
+            int siteId = 0;
             CreateForumThreadsFromDatabaseTestSetup(out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out creator, out siteList);
+                                                    out threadOrder, out overFlow, out creator, out siteList, out siteId);
 
             ForumThreads actual;
             //try desc
@@ -439,6 +441,8 @@ namespace BBC.Dna.Objects.Tests
             var target = new ForumThreads
                              {
                                  Thread = new List<ThreadSummary> {ThreadSummaryTest.CreateThreadSummaryTest()}
+                                 , CanWrite=0
+                                 ,DefaultCanWrite=0
                              };
 
 
@@ -461,7 +465,7 @@ namespace BBC.Dna.Objects.Tests
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Constraints(Is.Anything()).Return(false);
             Mocks.ReplayAll();
 
-            var target = new ForumThreads();
+            var target = new ForumThreads(){ CanWrite=0,DefaultCanWrite=0};
             target.ApplyUserSettings(user, site);
             Assert.AreEqual(1, target.CanWrite);
         }
@@ -481,7 +485,7 @@ namespace BBC.Dna.Objects.Tests
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Constraints(Is.Anything()).Return(false);
             Mocks.ReplayAll();
 
-            var target = new ForumThreads {CanWrite = 1};
+            var target = new ForumThreads {CanWrite = 1, DefaultCanWrite=1};
             target.ApplyUserSettings(user, site);
             Assert.AreEqual(0, target.CanWrite);
         }
@@ -501,7 +505,65 @@ namespace BBC.Dna.Objects.Tests
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Constraints(Is.Anything()).Return(true);
             Mocks.ReplayAll();
 
-            var target = new ForumThreads {CanWrite = 1};
+            var target = new ForumThreads {CanWrite = 1,DefaultCanWrite=1};
+            target.ApplyUserSettings(user, site);
+            Assert.AreEqual(0, target.CanWrite);
+        }
+
+        /// <summary>
+        ///A test for ApplyUserSettings
+        ///</summary>
+        [TestMethod]
+        public void ApplyUserSettings_CanWriteIsZeroSiteOpen_ReturnsCannotWrite()
+        {
+            var user = Mocks.DynamicMock<IUser>();
+            user.Stub(x => x.IsEditor).Return(false);
+            user.Stub(x => x.IsSuperUser).Return(false);
+
+            var site = Mocks.DynamicMock<ISite>();
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Constraints(Is.Anything()).Return(false);
+            Mocks.ReplayAll();
+
+            var target = new ForumThreads { CanWrite = 0, DefaultCanWrite = 0 };
+            target.ApplyUserSettings(user, site);
+            Assert.AreEqual(0, target.CanWrite);
+        }
+
+        /// <summary>
+        ///A test for ApplyUserSettings
+        ///</summary>
+        [TestMethod]
+        public void ApplyUserSettings_NormalUserWithCanWriteIsOneAndDefaultIsZero_ReturnsCannotWrite()
+        {
+            var user = Mocks.DynamicMock<IUser>();
+            user.Stub(x => x.IsEditor).Return(false);
+            user.Stub(x => x.IsSuperUser).Return(false);
+
+            var site = Mocks.DynamicMock<ISite>();
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Constraints(Is.Anything()).Return(false);
+            Mocks.ReplayAll();
+
+            var target = new ForumThreads { CanWrite = 1, DefaultCanWrite =0 };
+            target.ApplyUserSettings(user, site);
+            Assert.AreEqual(0, target.CanWrite);
+        }
+
+        /// <summary>
+        ///A test for ApplyUserSettings
+        ///</summary>
+        [TestMethod]
+        public void ApplyUserSettings_NullUserWithCanWriteIsOneAndDefaultIsZero_ReturnsCannotWrite()
+        {
+            IUser user = null;
+
+            var site = Mocks.DynamicMock<ISite>();
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Constraints(Is.Anything()).Return(false);
+            Mocks.ReplayAll();
+
+            var target = new ForumThreads { CanWrite = 1, DefaultCanWrite = 0 };
             target.ApplyUserSettings(user, site);
             Assert.AreEqual(0, target.CanWrite);
         }
@@ -547,9 +609,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = false;
-
+            int siteId = 0;
             CreateForumThreadsFromDatabaseTestSetup(out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
             var viewingUser = Mocks.DynamicMock<IUser>();
             viewingUser.Stub(x => x.IsEditor).Return(false);
             viewingUser.Stub(x => x.IsSuperUser).Return(false);
@@ -581,9 +643,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = true;
-
+            int siteId = 0;
             CreateForumThreadsFromDatabaseTestSetup(out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
             var viewingUser = Mocks.DynamicMock<IUser>();
             viewingUser.Stub(x => x.IsEditor).Return(false);
             viewingUser.Stub(x => x.IsSuperUser).Return(false);
@@ -615,9 +677,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = false;
-
+            int siteId = 0;
             CreateForumThreadsFromDatabaseTestSetup(out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
             var viewingUser = Mocks.DynamicMock<IUser>();
             viewingUser.Stub(x => x.IsEditor).Return(false);
             viewingUser.Stub(x => x.IsSuperUser).Return(false);
@@ -644,7 +706,6 @@ namespace BBC.Dna.Objects.Tests
         public void CreateForumThreads_UpToDate_ReturnsValidObject()
         {
             IDnaDataReaderCreator readerCreator;
-            ISiteList siteList;
             int forumId;
             int itemsPerPage;
             int startIndex;
@@ -652,9 +713,12 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = false;
+            ISiteList siteList = null;
+            int siteId = 0;
 
             CreateForumThreadsFromDatabaseTestSetup(out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList,
+                                                    out siteId);
 
            
             var viewingUser = Mocks.DynamicMock<IUser>();
@@ -664,8 +728,8 @@ namespace BBC.Dna.Objects.Tests
             var forumThreads = new ForumThreads()
                                    {
                                        LastForumUpdated = DateTime.MaxValue,
-                                       LastThreadUpdated = DateTime.MaxValue
-
+                                       LastThreadUpdated = DateTime.MaxValue,
+                                       SiteId = siteId
                                    };
             var cache = Mocks.DynamicMock<ICacheManager>();
             cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(forumThreads);
@@ -721,7 +785,7 @@ namespace BBC.Dna.Objects.Tests
             Mocks.ReplayAll();
 
             // 2) execute the test
-            ThreadPost threadPost = ThreadPost.FetchPostFromDatabase(creator, postid);
+            ThreadPost threadPost = ThreadPost.FetchPostFromDatabase(creator, postid, false);
 
             // 3) verify the results
             Assert.AreEqual(postid, threadPost.PostId);
@@ -754,7 +818,7 @@ namespace BBC.Dna.Objects.Tests
             ThreadPost threadPost;
             try
             {
-                threadPost = ThreadPost.FetchPostFromDatabase(readerCreator, postid);
+                threadPost = ThreadPost.FetchPostFromDatabase(readerCreator, postid, false);
             }
             catch (ApiException e)
             {
@@ -991,9 +1055,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = true;
-
+            int siteId = 0;
             CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
             var viewingUser = Mocks.DynamicMock<IUser>();
             viewingUser.Stub(x => x.IsEditor).Return(false);
             viewingUser.Stub(x => x.IsSuperUser).Return(false);
@@ -1038,9 +1102,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = false;
-
+            int siteId = 0;
             CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
             var viewingUser = Mocks.DynamicMock<IUser>();
             viewingUser.Stub(x => x.IsEditor).Return(false);
             viewingUser.Stub(x => x.IsSuperUser).Return(false);
@@ -1088,9 +1152,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = false;
-
+            int siteId = 0;
             CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
 
 
             var viewingUser = Mocks.DynamicMock<IUser>();
@@ -1100,7 +1164,8 @@ namespace BBC.Dna.Objects.Tests
             var forumThreads = new ForumThreads()
             {
                 LastForumUpdated = DateTime.MaxValue,
-                LastThreadUpdated = DateTime.MaxValue
+                LastThreadUpdated = DateTime.MaxValue,
+                SiteId = siteId
 
             };
             var cache = Mocks.DynamicMock<ICacheManager>();
@@ -1143,9 +1208,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = true;
-
+            int siteId = 0;
             CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
             var viewingUser = Mocks.DynamicMock<IUser>();
             viewingUser.Stub(x => x.IsEditor).Return(false);
             viewingUser.Stub(x => x.IsSuperUser).Return(false);
@@ -1190,9 +1255,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = false;
-
+            int siteId = 0;
             CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
             var viewingUser = Mocks.DynamicMock<IUser>();
             viewingUser.Stub(x => x.IsEditor).Return(false);
             viewingUser.Stub(x => x.IsSuperUser).Return(false);
@@ -1229,9 +1294,9 @@ namespace BBC.Dna.Objects.Tests
             bool overFlow;
             ThreadOrder threadOrder;
             bool ignoreCache = false;
-
+            int siteId = 0;
             CreateJournalTestSetup(out userId, out identityUserName, out forumId, out threadId, out itemsPerPage, out startIndex,
-                                                    out threadOrder, out overFlow, out readerCreator, out siteList);
+                                                    out threadOrder, out overFlow, out readerCreator, out siteList, out siteId);
 
 
             var viewingUser = Mocks.DynamicMock<IUser>();
@@ -1241,8 +1306,8 @@ namespace BBC.Dna.Objects.Tests
             var forumThreads = new ForumThreads()
             {
                 LastForumUpdated = DateTime.MaxValue,
-                LastThreadUpdated = DateTime.MaxValue
-
+                LastThreadUpdated = DateTime.MaxValue,
+                SiteId = siteId
             };
             var cache = Mocks.DynamicMock<ICacheManager>();
             cache.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(forumThreads);
@@ -1297,10 +1362,10 @@ namespace BBC.Dna.Objects.Tests
                                                                    out int itemsPerPage, out int startIndex,
                                                                    out ThreadOrder threadOrder, out bool overFlow,
                                                                    out IDnaDataReaderCreator creator,
-                                                                   out ISiteList siteList)
+                                                                   out ISiteList siteList, out int siteId)
         {
             var mocks = new MockRepository();
-            int siteId = 1;
+            siteId = 1;
             forumId = 1;
             threadId = 0;
             itemsPerPage = 10;
@@ -1330,9 +1395,11 @@ namespace BBC.Dna.Objects.Tests
 
             var site = mocks.DynamicMock<ISite>();
             site.Stub(x => x.SiteID).Return(siteId);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Constraints(Is.Anything()).Return(false);
 
             siteList = mocks.DynamicMock<ISiteList>();
-            siteList.Stub(x => x.GetSite(siteId)).Return(site);
+            siteList.Stub(x => x.GetSite(1)).Return(site);
             mocks.ReplayAll();
         }
 
@@ -1340,10 +1407,10 @@ namespace BBC.Dna.Objects.Tests
                                                            out int itemsPerPage, out int startIndex,
                                                            out ThreadOrder threadOrder, out bool overFlow,
                                                            out IDnaDataReaderCreator creator,
-                                                           out ISiteList siteList)
+                                                           out ISiteList siteList, out int siteId)
         {
             var mocks = new MockRepository();
-            int siteId = 1;
+            siteId = 1;
             userId = 6;
             identityUserName = "Damnyoureyes";
             forumId = 7;
@@ -1378,7 +1445,7 @@ namespace BBC.Dna.Objects.Tests
             site.Stub(x => x.SiteID).Return(siteId);
 
             siteList = mocks.DynamicMock<ISiteList>();
-            siteList.Stub(x => x.GetSite(siteId)).Return(site);
+            siteList.Stub(x => x.GetSite(1)).Return(site);
             mocks.ReplayAll();
         }
 
