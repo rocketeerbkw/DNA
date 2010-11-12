@@ -39,6 +39,18 @@
 				    	<xsl:text>register</xsl:text>
 			    	</a>&#160;<xsl:value-of select="$signin-text" /></p>
     			</xsl:when>
+    			<xsl:when test="IDENTITY and not(USER)">
+	            	<p class="completereg">
+		            	<a>
+		            		<xsl:attribute name="href">
+					            <xsl:apply-templates select="." mode="library_identity_policyurl">
+					                <xsl:with-param name="ptrt" select="$idptrt" />
+					            </xsl:apply-templates>
+				            </xsl:attribute>
+				            <xsl:text>Please complete your registration</xsl:text>	
+			            </a>	
+		            </p>    			
+    			</xsl:when>    			
     			<xsl:when test="$autogenname_required = 'true'">
 	            	<p class="completereg">
 	            		<xsl:text>You need to  </xsl:text>
@@ -52,23 +64,7 @@
 		            </p>    				
     			</xsl:when>
 	            <xsl:otherwise>
-	            	<xsl:choose>
-		            	<xsl:when test="USER">
-							<xsl:comment>do nothing</xsl:comment>
-			            </xsl:when>
-			            <xsl:otherwise>
-			            	<p class="completereg">
-				            	<a>
-				            		<xsl:attribute name="href">
-							            <xsl:apply-templates select="." mode="library_identity_policyurl">
-							                <xsl:with-param name="ptrt" select="$idptrt" />
-							            </xsl:apply-templates>
-						            </xsl:attribute>
-						            <xsl:text>Please complete your registration</xsl:text>	
-					            </a>	
-				            </p>			            
-			            </xsl:otherwise>
-		            </xsl:choose>	            
+					<xsl:comment>do nothing</xsl:comment>
 	            </xsl:otherwise>
             </xsl:choose>		    	
     	</div>
