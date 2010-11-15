@@ -571,6 +571,7 @@ namespace BBC.Dna.Services
                     sortDirection,
                     siteTypeAsEnum,
                     userNameType,
+                    false,
                     false);
             }
             catch (ApiException ex)

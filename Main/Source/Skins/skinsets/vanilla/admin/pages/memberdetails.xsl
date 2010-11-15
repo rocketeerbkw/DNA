@@ -41,6 +41,8 @@
     <div id="memberDetails">
       <div style="float:right" align="right">
         <p>
+          <a href="usercontributions?s_userid={$userid}">View contributions</a>
+          <br/>
           <a href="MemberDetails?userid={$userid}">Find Alternate Identities using Email</a>
           <BR/>
           <a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find Alternate Identities using BBCUID</a>
@@ -178,7 +180,7 @@
         <xsl:value-of select="POSTFAILEDCOUNT"/>
       </td>
       <td align="center">
-        <a href="/dna/{SITE/URLNAME}/MP{$userid}" target="_blank">
+        <a href="usercontributions?s_userid={$userid}&amp;s_siteid={SITE/@ID}">
           <xsl:value-of select="POSTTOTALCOUNT"/>
         </a>
       </td>

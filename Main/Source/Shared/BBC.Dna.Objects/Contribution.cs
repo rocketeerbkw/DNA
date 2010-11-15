@@ -11,27 +11,30 @@ using System.Runtime.Serialization;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Api;
+using System.Xml.Serialization;
 
 namespace BBC.Dna.Objects
 {
 
     [DataContract(Name = "contribution")]
+    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "CONTRIBUTIONS")]
     public class Contribution
     {
         private SiteType _siteType;
-        private CommentStatus.Hidden _moderationStatus;
 
 
         /// <summary>
         /// DNA's id for where the post came from 
         /// </summary>
         [DataMember(Name="site")]
+        [System.Xml.Serialization.XmlElement(ElementName = "SITE")]
         public string SiteName {get; set; }
         
         /// <summary>
         /// Whether it came from a blog, messageboard etc. 
         /// </summary>
         [DataMember(Name = "siteType")]
+        [System.Xml.Serialization.XmlElement(ElementName = "SITETYPE")]
         public string SiteTypeAsString
         {
             get
@@ -47,6 +50,7 @@ namespace BBC.Dna.Objects
         /// <summary>
         /// Unknown sites are undefined.
         /// </summary>
+        [XmlIgnore]
         public SiteType SiteType 
         {
             get { return _siteType; }
@@ -57,84 +61,142 @@ namespace BBC.Dna.Objects
         /// A flag to show if it was removed by moderators 
         /// </summary>
         [DataMember(Name = "moderationStatus")]
+        [XmlIgnore]
         public string ModerationStatusAsString
         {
             get
             {
-                return Enum.GetName(typeof(CommentStatus.Hidden), _moderationStatus);
+                return Enum.GetName(typeof(CommentStatus.Hidden), ModerationStatus);
             }
             set
             {
-                _moderationStatus = (CommentStatus.Hidden)Enum.Parse(typeof(CommentStatus.Hidden), value);                 
+                ModerationStatus = (CommentStatus.Hidden)Enum.Parse(typeof(CommentStatus.Hidden), value);                 
             }
         }
 
+        [System.Xml.Serialization.XmlElement(ElementName = "MODERATIONSTATUS")]
+        public int ModerationStatusAsInt
+        {
+            get
+            {
+                return (int)ModerationStatus;
+            }
+            set
+            {
+                ModerationStatus = (CommentStatus.Hidden)value;
+            }
+        }
+
+        [XmlIgnore]
         public CommentStatus.Hidden ModerationStatus { get; set; }
         
         /// <summary>
         /// The date when the entry was posted    
         /// </summary>
         [DataMember(Name = "timestamp")]
+        [XmlIgnore]
         public DateTimeHelper Timestamp { get; set; }
+
+        [System.Xml.Serialization.XmlElement(ElementName = "DATEPOST")]
+        public Date DatePost
+        {
+            get
+            {
+                if(Timestamp != null)
+                {
+                    return new Date(Timestamp.DateTime);
+                }
+                return null;
+            }
+            set
+            {
+                Timestamp = new DateTimeHelper(value.DateTime);
+            }
+
+        }
 
         /// <summary>
         /// The content of the actual post in _rich text_ format 
         /// </summary>
         [DataMember(Name = "body")]
+        [System.Xml.Serialization.XmlElement(ElementName = "TEXT")]
         public string Body { get; set; }
 
         /// <summary>
         /// The human-readable toplevel site name (e.g. "The Archers Messageboard" or "BBC Internet Blog")  
         /// </summary>
         [DataMember(Name = "sourceTitle")]
+        [System.Xml.Serialization.XmlElement(ElementName = "SOURCETITLE")]
         public string FirstSubject { get; set; }
 
         /// <summary>
         /// Title of the page or blog post (e.g. "Going Social with the iPlayer Beta" from http://www.bbc.co.uk/blogs/bbcinternet/2010/06/going_social_with_bbc_iplayer.html, or "Discuss the Archers" from http://www.bbc.co.uk/dna/mbarchers/F2693940 
         /// </summary>
         [DataMember(Name = "title")]
+        [System.Xml.Serialization.XmlElement(ElementName = "TITLE")]
         public string Title { get; set; }
 
         /// <summary>
         /// Title of the messageboard thread (e.g. "Am I The Only One??" on http://www.bbc.co.uk/dna/mbarchers/F2693940?thread=7557282) 
         /// </summary>
         [DataMember(Name = "subTitle")]
+        [System.Xml.Serialization.XmlElement(ElementName = "SUBTITLE")]
         public string Subject { get; set; }
 
         /// <summary>
         /// To indicate if this is the first post in the thread
         /// </summary>
         [DataMember(Name = "postIndex")]
+        [System.Xml.Serialization.XmlElement(ElementName = "POSTINDEX")]
         public long PostIndex { get; set; }
 
         [DataMember(Name = "siteDescription")]
+        [System.Xml.Serialization.XmlElement(ElementName = "SITEDESCRIPTION")]
         public string SiteDescription { get; set; }
 
         [DataMember(Name = "siteUrl")]
+        [System.Xml.Serialization.XmlElement(ElementName = "SITEURL")]
         public string SiteUrl { get; set; }
 
         [DataMember(Name = "threadEntryID")]
+        [System.Xml.Serialization.XmlElement(ElementName = "THREADENTRYID")]
         public int ThreadEntryID { get; set; }
 
         [DataMember(Name = "commentForumUrl")]
+        [System.Xml.Serialization.XmlElement(ElementName = "COMMENTFORUMURL")]
         public string CommentForumUrl { get; set; }
 
         [DataMember(Name = "guideEntrySubject")]
+        [System.Xml.Serialization.XmlElement(ElementName = "GUIDEENTRYSUBJECT")]
         public string GuideEntrySubject { get; set; }
 
         [DataMember(Name = "totalPostsOnForum")]
+        [System.Xml.Serialization.XmlElement(ElementName = "TOTALPOSTSONFORUM")]
         public int TotalPostsOnForum { get; set; }
 
         [DataMember(Name = "authorUserId")]
+        [System.Xml.Serialization.XmlElement(ElementName = "AUTHORUSERID")]
         public int AuthorUserId { get; set; }
 
         [DataMember(Name = "authorUsername")]
+        [System.Xml.Serialization.XmlElement(ElementName = "AUTHORUSERNAME")]
         public string AuthorUsername { get; set; }
 
         [DataMember(Name = "authorIdentityUsername")]
+        [XmlIgnore]
         public string AuthorIdentityUsername { get; set; }
 
+        [DataMember(Name = "threadID")]
+        [System.Xml.Serialization.XmlElement(ElementName = "THREADID")]
+        public int ThreadID { get; set; }
+
+        [DataMember(Name = "forumID")]
+        [System.Xml.Serialization.XmlElement(ElementName = "FORUMID")]
+        public int ForumID { get; set; }
+
+        
         [DataMember(Name = ("isClosed"))]
+        [System.Xml.Serialization.XmlElement(ElementName = "ISCLOSED")]
         public bool isClosed
         {
             get;
@@ -142,6 +204,7 @@ namespace BBC.Dna.Objects
         }
 
         [DataMember(Name = ("forumCloseDate"))]
+        [XmlIgnore]
         public DateTimeHelper ForumCloseDate
         {
             get;
@@ -149,7 +212,7 @@ namespace BBC.Dna.Objects
         }
 
         public static Contribution CreateContribution(IDnaDataReaderCreator readerCreator, int threadEntryId)
-        {
+       {
             Contribution contribution = new Contribution();
 
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getcontribution"))

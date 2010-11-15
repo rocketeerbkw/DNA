@@ -35,6 +35,7 @@
 	<xsl:variable name="smileys" select="''"/>
     
 	<xsl:template match="H2G2">
+
 		<html xml:lang="en-GB" lang="en-GB">
 			<head profile="http://dublincore.org/documents/dcq-html/">
 				<title>

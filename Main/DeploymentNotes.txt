@@ -592,8 +592,8 @@ Marcus
 	
 	i.e
 	exec createsitedailysummaryreport
-	@startdate = dateadd(d, -30, getdate()),
-	@enddate =null,
+	@startdate = '{date 30 days ago}',
+	@enddate ='{todays date}',
 	@siteid =0
 	
 	(Query took 26s on newguide)

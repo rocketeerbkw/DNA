@@ -121,6 +121,7 @@
     <Compile Include="ContentSignifAdminBuilder.cs" />
     <Compile Include="ContentSignifSettings.cs" />
     <Compile Include="ContentSignifSettingsParameters.cs" />
+    <Compile Include="UserContributions.cs" />
     <Compile Include="HostDashboardActivityFeed.cs" />
     <Compile Include="HostDashboard.cs" />
     <Compile Include="SearchThreadPostPageBuilder.cs" />

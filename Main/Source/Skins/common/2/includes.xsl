@@ -129,8 +129,10 @@
             <xsl:include href="_library/pagination/searchthreadposts.xsl" />
             <xsl:include href="_library/pagination/post-list.xsl" />
             <xsl:include href="_library/pagination/siteevents.xsl" />
-    
-    
+            <xsl:include href="_library/pagination/contributions.xsl" />
+  
+
+
             <xsl:include href="_library/sso/loginurl.xsl" />
             <xsl:include href="_library/sso/logouturl.xsl" />
             <xsl:include href="_library/sso/policyurl.xsl" />

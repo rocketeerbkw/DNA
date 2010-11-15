@@ -45,6 +45,7 @@ NumberedThreadEnrtries AS
 		inner join TheSites ts on ts.siteid=f.siteid
 	where
 		te.dateposted > dateadd(week,-1,getdate())
+		and te.hidden is null
 )
 
 select
@@ -66,6 +67,10 @@ select
 		where forumid=(select forumid from threadentries where entryid=te.EntryID)) AS TotalPostsOnForum,
 	u.userid as AuthorUserId,
 	u.username as AuthorUsername,
+	u.loginname as AuthorIdentityUserName,
+	0 as hidden,
+	t.ThreadId as ThreadId,
+	f.ForumId as ForumId,
 	u.loginname as AuthorIdentityUserName,
 	f.CanWrite as ForumCanWrite,
 	s.SiteEmergencyClosed as SiteEmergencyClosed,

@@ -47,14 +47,25 @@
 	<xsl:include href="objects/moderator/siteevent.xsl"/>
 	<xsl:include href="objects/moderator/sites.xsl"/>
 	<xsl:include href="objects/moderator/sitesummarystats.xsl"/>
-	
+  <xsl:include href="objects/moderator/siteevent.xsl"/>
+  <xsl:include href="objects/activitydata/activitydata.xsl"/>
+  <xsl:include href="objects/activitydata/site.xsl"/>
+  <xsl:include href="objects/activitydata/user.xsl"/>
+  <xsl:include href="objects/activitydata/post.xsl"/>
+  <xsl:include href="objects/activitydata/notes.xsl"/>
+  <xsl:include href="objects/activitydata/typeicon.xsl"/>
+  <xsl:include href="objects/activitydata/typelist.xsl"/>
+  <xsl:include href="objects/contributions/contribution.xsl"/>
+
+
 	<xsl:include href="objects/topiclist.xsl"/>	
 	
 	<!-- pages -->
 	<xsl:include href="pages/commentforumlist.xsl"/>
 	<xsl:include href="pages/error.xsl"/>
 	<xsl:include href="pages/hostdashboard.xsl"/>
-	<xsl:include href="pages/hostdashboardactivity.xsl"/>
+  <xsl:include href="pages/usercontributions.xsl"/>
+  <xsl:include href="pages/hostdashboardactivity.xsl"/>
 	<xsl:include href="pages/lightboxes.xsl"/>
 	<xsl:include href="pages/memberdetails.xsl"/>
 	<xsl:include href="pages/messageboardadmin.xsl"/>

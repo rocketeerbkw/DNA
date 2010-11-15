@@ -108,6 +108,10 @@ namespace BBC.Dna
                     _siteId[i] = InputContext.GetParamIntOrZero("s_siteid", i, "s_siteid");
                 }
             }
+            if (_siteId.Length == 1 && _siteId[0] == 0)
+            {
+                _siteId = new int[0];
+            }
             if (InputContext.DoesParamExist("s_type", "type to display"))
             {
                 _type = (SiteType)InputContext.GetParamIntOrZero("s_type", "type to display");
