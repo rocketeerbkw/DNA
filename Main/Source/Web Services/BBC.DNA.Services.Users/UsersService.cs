@@ -572,6 +572,8 @@ namespace BBC.Dna.Services
                     siteTypeAsEnum,
                     userNameType,
                     false,
+                    false,
+                    null,
                     false);
             }
             catch (ApiException ex)
