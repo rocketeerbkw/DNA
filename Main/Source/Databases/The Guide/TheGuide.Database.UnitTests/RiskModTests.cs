@@ -9,6 +9,18 @@ using BBC.Dna.Data;
 
 namespace TheGuide.Database.UnitTests
 {
+    class TestDate
+    {
+        public DateTime TestDateTime { get; set; }
+
+        public bool CheckDate(DateTime dateToCheckAgainst)
+        {
+            // if the times are within a certain tolerance, we give it the OK!
+            TimeSpan ts = TestDateTime - dateToCheckAgainst;
+            return (Math.Abs(ts.TotalSeconds) < 10);
+        }
+    }
+
     [TestClass]
     public class RiskModTests
     {
@@ -43,8 +55,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskModOn_PubMethodB_Unmoderated_NewThread_internal(RiskModThreadEntryQueueInfo info)
         {
-//            CheckActiveTransactionExists();
-
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
             {
                 int siteid, forumid;
@@ -57,9 +67,9 @@ namespace TheGuide.Database.UnitTests
                 string postText = "RiskModOn_PubMethodB_Unmoderated_NewThread";
 
                 int? threadid, threadEntryId;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId, false);
 
-                CheckRiskModThreadEntryQueue(reader, threadEntryId, 'B', null, siteid, forumid, threadid, 42, "the furry one", null, "The Cabinet", postText, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                CheckRiskModThreadEntryQueue(reader, threadEntryId, 'B', null, null, siteid, forumid, threadid, 42, "the furry one", null, "The Cabinet", postText, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                 CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
 
@@ -101,8 +111,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_PostModerated_NewThread(string onOrOff, char publishMethod)
         {
-//            CheckActiveTransactionExists();
-
             bool isOn=OnOrOff(onOrOff);
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
@@ -117,7 +125,7 @@ namespace TheGuide.Database.UnitTests
                 string postText = "RiskModOn_PostModerated_NewThread_internal Publish Method:"+publishMethod;
 
                 int? threadid, threadEntryId;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId, false);
 
                 CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
 
@@ -149,8 +157,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_Premoderated_NewThread(string onOrOff, char publishMethod)
         {
-//            CheckActiveTransactionExists();
-
             bool isOn = OnOrOff(onOrOff);
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
@@ -166,7 +172,7 @@ namespace TheGuide.Database.UnitTests
                 string postText = "RiskModOn_PubMethodB_Premoderated_NewThread";
 
                 int? threadid, threadEntryId;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId, false);
 
                 CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
 
@@ -198,8 +204,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_PremodPostings_NewThread(string onOrOff, char publishMethod)
         {
-//            CheckActiveTransactionExists();
-
             bool isOn = OnOrOff(onOrOff);
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
@@ -218,7 +222,7 @@ namespace TheGuide.Database.UnitTests
                 string postText = "RiskModOn_PubMethodB_PremodPostings_NewThread";
 
                 int? threadid, threadEntryId;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId, false);
 
                 CheckLatestThreadMod(reader, forumid, threadid, threadEntryId, null, 0, null, siteid, 1);
 
@@ -238,8 +242,6 @@ namespace TheGuide.Database.UnitTests
         [TestMethod]
         public void RiskModOn_PubMethodB_Unmoderated_InReplyTo()
         {
-//            CheckActiveTransactionExists();
-
             using (new TransactionScope())
             {
                 using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
@@ -255,12 +257,12 @@ namespace TheGuide.Database.UnitTests
 
                     // Get a thread entry to reply to
                     int? threadid, threadEntryId, inReplyTo;
-                    RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out inReplyTo);
+                    RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out inReplyTo, false);
 
                     postText = "replying to prev post";
-                    RiskModTestPostHelper(reader, forumid, threadid, inReplyTo, 42, postText, out threadid, out threadEntryId);
+                    RiskModTestPostHelper(reader, forumid, threadid, inReplyTo, 42, postText, out threadid, out threadEntryId, false);
 
-                    CheckRiskModThreadEntryQueue(reader, threadEntryId, 'B', null, siteid, forumid, threadid, 42, "the furry one", inReplyTo, "The Cabinet", postText, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    CheckRiskModThreadEntryQueue(reader, threadEntryId, 'B', null, null, siteid, forumid, threadid, 42, "the furry one", inReplyTo, "The Cabinet", postText, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
 
@@ -291,8 +293,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_PostModerated_InReplyTo(string onOrOff, char publishMethod)
         {
-//            CheckActiveTransactionExists();
-
             bool isOn = OnOrOff(onOrOff);
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
@@ -308,10 +308,10 @@ namespace TheGuide.Database.UnitTests
 
                 // Get a thread entry to reply to
                 int? threadid, threadEntryId, inReplyTo;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out inReplyTo);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out inReplyTo, false);
 
                 postText = "replying to prev post";
-                RiskModTestPostHelper(reader, forumid, threadid, inReplyTo, 42, postText, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, threadid, inReplyTo, 42, postText, out threadid, out threadEntryId, false);
 
                 CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
 
@@ -343,8 +343,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_Premoderated_InReplyTo(string onOrOff, char publishMethod)
         {
-//            CheckActiveTransactionExists();
-
             bool isOn = OnOrOff(onOrOff);
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
@@ -361,10 +359,10 @@ namespace TheGuide.Database.UnitTests
 
                 // Get a thread entry to reply to
                 int? threadid, threadEntryId, inReplyTo;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out inReplyTo);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out inReplyTo, false);
 
                 postText = "replying to prev post";
-                RiskModTestPostHelper(reader, forumid, threadid, inReplyTo, 42, postText, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, threadid, inReplyTo, 42, postText, out threadid, out threadEntryId, false);
 
                 CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
 
@@ -396,8 +394,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskMod_PremodPostings_InReplyTo(string onOrOff, char publishMethod)
         {
-//            CheckActiveTransactionExists();
-
             bool isOn = OnOrOff(onOrOff);
 
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
@@ -419,7 +415,7 @@ namespace TheGuide.Database.UnitTests
 
                 // Get a thread entry to reply to
                 int? threadid, threadEntryId, inReplyToThread, inReplyTo;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out inReplyToThread, out inReplyTo);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out inReplyToThread, out inReplyTo, false);
 
                 // Now switch to premoderated with premodposting
                 SetSiteModStatus(reader, siteid, "premoderated");
@@ -427,7 +423,7 @@ namespace TheGuide.Database.UnitTests
                 int latestEventQueueCount = CountEventQueueEntries(reader);
 
                 postText = "replying to prev post";
-                RiskModTestPostHelper(reader, forumid, inReplyToThread, inReplyTo, 42, postText, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, inReplyToThread, inReplyTo, 42, postText, out threadid, out threadEntryId, false);
 
                 CheckLatestThreadMod(reader, forumid, inReplyToThread, threadEntryId, null, 0, null, siteid, 1);
 
@@ -460,8 +456,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskModOn_PubMethodA_Unmoderated_NewThread_internal(RiskModThreadEntryQueueInfo info)
         {
-//            CheckActiveTransactionExists();
-
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
             {
                 int siteid, forumid;
@@ -478,9 +472,9 @@ namespace TheGuide.Database.UnitTests
                 string postText = "RiskModOn_PubMethodA_Unmoderated_NewThread";
 
                 int? threadid, threadEntryId;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId, false);
 
-                CheckRiskModThreadEntryQueue(reader, threadEntryId, 'A', null, siteid, forumid, threadid, 42, "the furry one", null, "The Cabinet", postText, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                CheckRiskModThreadEntryQueue(reader, threadEntryId, 'A', null, null, siteid, forumid, threadid, 42, "the furry one", null, "The Cabinet", postText, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                 // Check that no new rows have been created in the other tables
                 Assert.AreEqual(latestThreadEntryId, GetLatestThreadEntryId(reader));
@@ -543,8 +537,6 @@ namespace TheGuide.Database.UnitTests
 
         void RiskModOn_PubMethodA_Unmoderated_InReplyTo_internal(RiskModThreadEntryQueueInfo info)
         {
-//            CheckActiveTransactionExists();
-
             using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
             {
                 int siteid, forumid;
@@ -560,15 +552,15 @@ namespace TheGuide.Database.UnitTests
 
                 // Get a thread entry to reply to
                 int? threadid, threadEntryId, inReplyToThread, inReplyTo;
-                RiskModTestPostHelper(reader, forumid, null, null, 42, postText1, out inReplyToThread, out inReplyTo);
+                RiskModTestPostHelper(reader, forumid, null, null, 42, postText1, out inReplyToThread, out inReplyTo, false);
 
                 // Turn on risk mod, to test inReplyTo behaviour
                 SetSiteRiskModState(reader, siteid, true, 'A');
 
                 string postText2 = "replying to prev post";
-                RiskModTestPostHelper(reader, forumid, inReplyToThread, inReplyTo, 42, postText2, out threadid, out threadEntryId);
+                RiskModTestPostHelper(reader, forumid, inReplyToThread, inReplyTo, 42, postText2, out threadid, out threadEntryId, false);
 
-                CheckRiskModThreadEntryQueue(reader, threadEntryId, 'A', null, siteid, forumid, inReplyToThread, 42, "the furry one", inReplyTo, "The Cabinet", postText2, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                CheckRiskModThreadEntryQueue(reader, threadEntryId, 'A', null, null, siteid, forumid, inReplyToThread, 42, "the furry one", inReplyTo, "The Cabinet", postText2, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                 CheckLatestThread(reader, (int)inReplyToThread, forumid, 1, 1, siteid);
 
@@ -648,7 +640,7 @@ namespace TheGuide.Database.UnitTests
                     string postText = "RiskModOff_Unmoderated_NewThread";
 
                     int? threadid, threadEntryId;
-                    RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId);
+                    RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId, false);
 
                     CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
 
@@ -720,10 +712,10 @@ namespace TheGuide.Database.UnitTests
 
                     // Get a thread entry to reply to
                     int? threadid, threadEntryId, inReplyTo;
-                    RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out inReplyTo);
+                    RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out inReplyTo, false);
 
                     postText = "replying to prev post";
-                    RiskModTestPostHelper(reader, forumid, threadid, inReplyTo, 42, postText, out threadid, out threadEntryId);
+                    RiskModTestPostHelper(reader, forumid, threadid, inReplyTo, 42, postText, out threadid, out threadEntryId, false);
 
                     CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
 
@@ -797,7 +789,7 @@ namespace TheGuide.Database.UnitTests
                     Assert.IsTrue(CheckEventET_POSTNEEDSRISKASSESSMENTIsInBIEventQueue(reader, riskModId, 42));
 
                     bool? isRisky = null;
-                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'B', isRisky, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'B', isRisky, null, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     int latestThreadModId = GetLatestThreadModId(reader);
 
@@ -808,7 +800,8 @@ namespace TheGuide.Database.UnitTests
                     Assert.IsNull(newThreadEntryId);
 
                     isRisky = false;
-                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'B', isRisky, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    TestDate td = new TestDate() { TestDateTime = DateTime.Now };
+                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'B', isRisky, td, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     // check no mod queue entry was created
                     Assert.AreEqual(latestThreadModId, GetLatestThreadModId(reader));
@@ -835,7 +828,7 @@ namespace TheGuide.Database.UnitTests
                     Assert.IsTrue(CheckEventET_POSTNEEDSRISKASSESSMENTIsInBIEventQueue(reader, riskModId, 42));
 
                     bool? isRisky = null;
-                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'B', isRisky, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'B', isRisky, null, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     int? newThreadId, newThreadEntryId;
                     RiskMod_ProcessRiskAssessmentForThreadEntry(reader, riskModId, "Risky", out newThreadId, out newThreadEntryId);
@@ -844,7 +837,8 @@ namespace TheGuide.Database.UnitTests
                     Assert.IsNull(newThreadEntryId);
 
                     isRisky = true;
-                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'B', isRisky, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    TestDate td = new TestDate() { TestDateTime = DateTime.Now };
+                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'B', isRisky, td, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     // Check that an entry ended up in the thread mod queue
                     CheckLatestThreadMod(reader, info.forumid, info.threadid, info.threadentryid, null, 0, "[The post was published before being queued by risk moderation]", info.siteid, 0);
@@ -871,7 +865,7 @@ namespace TheGuide.Database.UnitTests
                     Assert.IsTrue(CheckEventET_POSTNEEDSRISKASSESSMENTIsInBIEventQueue(reader, riskModId, 42));
 
                     bool? isRisky = null;
-                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'A', isRisky, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'A', isRisky, null, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     int latestThreadModId = GetLatestThreadModId(reader);
 
@@ -879,7 +873,8 @@ namespace TheGuide.Database.UnitTests
                     RiskMod_ProcessRiskAssessmentForThreadEntry(reader, riskModId, "NotRisky", out newThreadId, out newThreadEntryId);
 
                     isRisky = false;
-                    CheckRiskModThreadEntryQueue(reader, newThreadEntryId, 'A', isRisky, info.siteid, info.forumid, newThreadId, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    TestDate td = new TestDate() { TestDateTime = DateTime.Now };
+                    CheckRiskModThreadEntryQueue(reader, newThreadEntryId, 'A', isRisky, td, info.siteid, info.forumid, newThreadId, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     CheckLatestThreadEntry(reader, (int)newThreadId, info.forumid, 42, null, null, null, null, (int)newThreadEntryId, null, 0, 1, info.posttext);
 
@@ -910,7 +905,7 @@ namespace TheGuide.Database.UnitTests
                     Assert.IsTrue(CheckEventET_POSTNEEDSRISKASSESSMENTIsInBIEventQueue(reader, riskModId, 42));
 
                     bool? isRisky = null;
-                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'A', isRisky, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'A', isRisky, null, info.siteid, info.forumid, info.threadid, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     int latestThreadId = GetLatestThreadId(reader);
                     int latestThreadEntryId = GetLatestThreadEntryId(reader);
@@ -919,9 +914,10 @@ namespace TheGuide.Database.UnitTests
                     RiskMod_ProcessRiskAssessmentForThreadEntry(reader, riskModId, "Risky", out newThreadId, out newThreadEntryId);
 
                     isRisky = true;
-                    CheckRiskModThreadEntryQueue(reader, newThreadEntryId, 'A', isRisky, info.siteid, info.forumid, newThreadId, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    TestDate td = new TestDate() { TestDateTime = DateTime.Now };
+                    CheckRiskModThreadEntryQueue(reader, newThreadEntryId, 'A', isRisky, td, info.siteid, info.forumid, newThreadId, 42, "the furry one", null, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
-                    CheckLatestThreadMod(reader, info.forumid, newThreadId, newThreadEntryId, null, 0, "[The post will be published after passing moderation. Queued by risk moderation]", info.siteid, 1);
+                    CheckLatestThreadMod(reader, info.forumid, newThreadId, newThreadEntryId, null, 0, "[The post will be published after moderation. Queued by risk moderation]", info.siteid, 1);
 
                     int modId = GetLatestThreadModId(reader);
                     CheckLatestPremodPostings(reader, modId, 42, info.forumid, newThreadId, null, info.posttext, 1, info.siteid, 0, riskModId);
@@ -952,7 +948,7 @@ namespace TheGuide.Database.UnitTests
                     Assert.IsTrue(CheckEventET_POSTNEEDSRISKASSESSMENTIsInBIEventQueue(reader, riskModId, 42));
 
                     bool? isRisky = null;
-                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'A', isRisky, info.siteid, info.forumid, info.inReplyToThread, 42, "the furry one", info.inReplyTo, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'A', isRisky, null, info.siteid, info.forumid, info.inReplyToThread, 42, "the furry one", info.inReplyTo, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     int latestThreadModId = GetLatestThreadModId(reader);
 
@@ -960,7 +956,8 @@ namespace TheGuide.Database.UnitTests
                     RiskMod_ProcessRiskAssessmentForThreadEntry(reader, riskModId, "NotRisky", out newThreadId, out newThreadEntryId);
 
                     isRisky = false;
-                    CheckRiskModThreadEntryQueue(reader, newThreadEntryId, 'A', isRisky, info.siteid, info.forumid, newThreadId, 42, "the furry one", info.inReplyTo, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    TestDate td = new TestDate() { TestDateTime = DateTime.Now };
+                    CheckRiskModThreadEntryQueue(reader, newThreadEntryId, 'A', isRisky, td, info.siteid, info.forumid, newThreadId, 42, "the furry one", info.inReplyTo, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     CheckLatestThreadEntry(reader, (int)newThreadId, info.forumid, 42, null, info.inReplyTo, null, null, (int)newThreadEntryId, null, 1, 1, info.posttext);
 
@@ -991,7 +988,7 @@ namespace TheGuide.Database.UnitTests
                     Assert.IsTrue(CheckEventET_POSTNEEDSRISKASSESSMENTIsInBIEventQueue(reader, riskModId, 42));
 
                     bool? isRisky = null;
-                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'A', isRisky, info.siteid, info.forumid, info.inReplyToThread, 42, "the furry one", info.inReplyTo, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    CheckRiskModThreadEntryQueue(reader, info.threadentryid, 'A', isRisky, null, info.siteid, info.forumid, info.inReplyToThread, 42, "the furry one", info.inReplyTo, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
                     int latestThreadId = GetLatestThreadId(reader);
                     int latestThreadEntryId = GetLatestThreadEntryId(reader);
@@ -1000,9 +997,10 @@ namespace TheGuide.Database.UnitTests
                     RiskMod_ProcessRiskAssessmentForThreadEntry(reader, riskModId, "Risky", out newThreadId, out newThreadEntryId);
 
                     isRisky = true;
-                    CheckRiskModThreadEntryQueue(reader, newThreadEntryId, 'A', isRisky, info.siteid, info.forumid, info.inReplyToThread, 42, "the furry one", info.inReplyTo, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
+                    TestDate td = new TestDate() { TestDateTime = DateTime.Now };
+                    CheckRiskModThreadEntryQueue(reader, newThreadEntryId, 'A', isRisky, td, info.siteid, info.forumid, info.inReplyToThread, 42, "the furry one", info.inReplyTo, "The Cabinet", info.posttext, 1, "testip", testGUID.ToString(), DateTime.Now, 1, 0, null, 0, 0, 0, null, 0);
 
-                    CheckLatestThreadMod(reader, info.forumid, info.inReplyToThread, newThreadEntryId, null, 0, "[The post will be published after passing moderation. Queued by risk moderation]", info.siteid, 1);
+                    CheckLatestThreadMod(reader, info.forumid, info.inReplyToThread, newThreadEntryId, null, 0, "[The post will be published after moderation. Queued by risk moderation]", info.siteid, 1);
 
                     int modId = GetLatestThreadModId(reader);
                     CheckLatestPremodPostings(reader, modId, 42, info.forumid, info.inReplyToThread, info.inReplyTo, info.posttext, 1, info.siteid, 0, riskModId);
@@ -1016,6 +1014,51 @@ namespace TheGuide.Database.UnitTests
 
 #endregion
 
+#region Risk Mod On but ignoremoderation set to 1
+
+        [TestMethod]
+        public void RiskModOn_PubMethodB_Unmoderated_NewThread_IgnoreModerationOn()
+        {
+            using (new TransactionScope())
+            {
+                using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
+                {
+                    int siteid, forumid;
+                    GetRiskModTestSiteAndForum(reader, out siteid, out forumid);
+                    SetSiteModStatus(reader, siteid, "unmoderated");
+                    SetSiteRiskModState(reader, siteid, true, 'B');  // Risk mod is on
+                    ClearEventQueue(reader);
+
+                    int latestRiskModId = GetLatestRiskModThreadEntryQueueId(reader);
+                    int latestThreadModId = GetLatestThreadModId(reader);
+                    int latestPremodPostingsModId = GetLatestPremodPostingsModId(reader);
+
+                    string postText = "RiskModOn_PubMethodB_Unmoderated_NewThread_IgnoreModerationOn";
+
+                    int? threadid, threadEntryId;
+                    RiskModTestPostHelper(reader, forumid, null, null, 42, postText, out threadid, out threadEntryId, true);  // Ingnore Moderation is true
+
+                    CheckLatestThread(reader, (int)threadid, forumid, 1, 1, siteid);
+
+                    CheckLatestThreadEntry(reader, (int)threadid, forumid, 42, null, null, null, null, (int)threadEntryId, null, 0, 1, postText);
+
+                    // Check that no new rows have been created in the these tables:
+                    Assert.AreEqual(latestRiskModId, GetLatestRiskModThreadEntryQueueId(reader));
+                    Assert.AreEqual(latestThreadModId, GetLatestThreadModId(reader));
+                    Assert.AreEqual(latestPremodPostingsModId, GetLatestPremodPostingsModId(reader));
+
+                    int rmId = GetLatestRiskModThreadEntryQueueId(reader);
+
+                    Assert.IsFalse(CheckEventET_POSTNEEDSRISKASSESSMENTIsInQueue(reader, rmId, 42));
+                    Assert.IsTrue(CheckEventET_FORUMEDITEDIsInInQueue(reader, forumid, (int)threadid, 42));
+                    Assert.IsTrue(CheckEventET_POSTNEWTHREADIsInQueue(reader, forumid, (int)threadid, 42));
+                    Assert.IsTrue(CheckEventET_POSTTOFORUMIsInQueue(reader, forumid, (int)threadEntryId, 42));
+                }
+            }
+        }
+
+#endregion
+        
         int RiskyOrNotRisky(string riskyOrNotRisky)
         {
             var a = new[] { new { s = "Risky", v = 1 }, new { s = "NotRisky", v = 0 } };
@@ -1026,10 +1069,10 @@ namespace TheGuide.Database.UnitTests
         void RiskMod_ProcessRiskAssessmentForThreadEntry(IDnaDataReader reader, int riskModId, string isRisky, out int? newThreadId, out int? newThreadEntryId)
         {
             string sql = string.Format(@"
-                            declare @ret int, @newthreadentryid int 
-                            exec @ret=riskmod_processriskassessmentforthreadentry @riskmodthreadentryqueueid={0}, @risky={1}, @newthreadentryid=@newthreadentryid OUTPUT
+                            declare @ret int
+                            exec @ret=riskmod_processriskassessmentforthreadentry @riskmodthreadentryqueueid={0}, @risky={1}
                             ", riskModId, RiskyOrNotRisky(isRisky));
-            reader.ExecuteWithTransaction(sql);
+            reader.ExecuteWithinATransaction(sql);
             reader.Read();
 
             if (reader.DoesFieldExist("ThreadId"))
@@ -1045,12 +1088,12 @@ namespace TheGuide.Database.UnitTests
 
         void ProcessEventQueue(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction("exec processeventqueue");
+            reader.ExecuteWithinATransaction("exec processeventqueue");
         }
 
         void GenerateBIEvents(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction(@"
+            reader.ExecuteWithinATransaction(@"
 		                    DECLARE @TopEventID INT
 		                    SELECT @TopEventID = MAX(EventID) FROM dbo.EventQueue
                             EXEC dbo.generatebievents @TopEventID");
@@ -1059,7 +1102,7 @@ namespace TheGuide.Database.UnitTests
 
         void ClearBIEventQueue(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction("delete from bieventqueue");
+            reader.ExecuteWithinATransaction("delete from bieventqueue");
         }
 
 
@@ -1072,7 +1115,7 @@ namespace TheGuide.Database.UnitTests
                     where EventType={0} and ItemID={1} and ItemType={2} and ItemID2={3} and ItemType2={4} and EventUserID={5}
             ", (int)EventType, ItemID, (int)ItemType, ItemID2, (int)ItemType2, EventUserID);
 
-            reader.ExecuteWithTransaction(sql);
+            reader.ExecuteWithinATransaction(sql);
 
             return reader.HasRows;
         }
@@ -1091,7 +1134,7 @@ namespace TheGuide.Database.UnitTests
                     where EventType={0} and ItemID={1} and ItemType={2} and ItemID2={3} and ItemType2={4} and EventUserID={5}
             ", (int)EventType, ItemID, (int)ItemType, ItemID2, (int)ItemType2, EventUserID);
 
-            reader.ExecuteWithTransaction(sql);
+            reader.ExecuteWithinATransaction(sql);
 
             return reader.HasRows;
         }
@@ -1122,13 +1165,13 @@ namespace TheGuide.Database.UnitTests
 
         void ClearEventQueue(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction("delete from eventqueue");
+            reader.ExecuteWithinATransaction("delete from eventqueue");
             reader.Close();
         }
 
         int CountEventQueueEntries(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction("select count(*) as C from eventqueue");
+            reader.ExecuteWithinATransaction("select count(*) as C from eventqueue");
             reader.Read();
             int c = reader.GetInt32("C");
             reader.Close();
@@ -1137,14 +1180,14 @@ namespace TheGuide.Database.UnitTests
 
         void ClearRiskModThreadEntryQueue(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction("delete from RiskModThreadEntryQueue");
+            reader.ExecuteWithinATransaction("delete from RiskModThreadEntryQueue");
             reader.Close();
         }
 
         void SetSiteRiskModState(IDnaDataReader reader, int siteid, bool ison, char state)
         {
             string sql = string.Format("EXEC riskmod_setsitestate @siteid = {0}, @ison = {1}, @publishmethod = '{2}'", siteid, ison?1:0, state);
-            reader.ExecuteWithTransaction(sql);
+            reader.ExecuteWithinATransaction(sql);
         }
 
         void SetSiteModStatus(IDnaDataReader reader, int siteid, string modStatus)
@@ -1159,7 +1202,7 @@ namespace TheGuide.Database.UnitTests
             }
 
             string sql = string.Format("UPDATE Sites SET premoderation={1}, unmoderated={2} WHERE siteid={0}", siteid, premoderation, unmoderated);
-            reader.ExecuteWithTransaction(sql);
+            reader.ExecuteWithinATransaction(sql);
         }
 
         void SetSiteOptionInt(IDnaDataReader reader, int siteid, string section, string name, int val, int type)
@@ -1167,7 +1210,7 @@ namespace TheGuide.Database.UnitTests
             string sql =string.Format(@"  
                     delete siteoptions where siteid={0} and section='{1}' and name='{2}';
                     insert siteoptions(siteid,section,name,value,type) values ({0},'{1}','{2}','{3}',{4});", siteid,section,name,val,type);
-            reader.ExecuteWithTransaction(sql);
+            reader.ExecuteWithinATransaction(sql);
         }
 
         void SetSiteOptionProcessPremod(IDnaDataReader reader, int siteid, bool on)
@@ -1177,7 +1220,7 @@ namespace TheGuide.Database.UnitTests
 
         void GetRiskModTestSiteAndForum(IDnaDataReader reader, out int siteid, out int forumid)
         {
-            reader.ExecuteWithTransaction(@"  select top 1 g.forumid,g.siteid 
+            reader.ExecuteWithinATransaction(@"  select top 1 g.forumid,g.siteid 
                                                 from topics t
                                                 join guideentries g on g.h2g2id=t.h2g2id
                                                 order by topicid");
@@ -1189,7 +1232,7 @@ namespace TheGuide.Database.UnitTests
 
         Guid testGUID = Guid.NewGuid();
 
-        void RiskModTestPostHelper(IDnaDataReader reader, int forumid, int? threadid, int? inreplyto, int userid, string content, out int? newthreadid, out int? newthreadentryid)
+        void RiskModTestPostHelper(IDnaDataReader reader, int forumid, int? threadid, int? inreplyto, int userid, string content, out int? newthreadid, out int? newthreadentryid, bool ignoremoderation)
         {
             string sql = string.Format(@"
                 
@@ -1215,7 +1258,7 @@ namespace TheGuide.Database.UnitTests
 										    @eventdate = NULL,
 										    @forcemoderate = 0, 
 										    @forcepremoderation = 0,
-										    @ignoremoderation = 0, 
+										    @ignoremoderation = {6}, 
 										    @allowevententries = 1, 
 										    @nodeid = 0, 
 										    @ipaddress = 'testip',
@@ -1238,9 +1281,10 @@ namespace TheGuide.Database.UnitTests
                                             inreplyto.HasValue ? inreplyto.ToString() : "NULL",
                                             userid,
                                             content,
-                                            testGUID.ToString());
+                                            testGUID.ToString(),
+                                            ignoremoderation ? 1 : 0);
 
-            reader.ExecuteWithTransaction(sql);
+            reader.ExecuteWithinATransaction(sql);
             reader.Read();
             newthreadid = reader.GetNullableInt32("returnthread");
             newthreadentryid = reader.GetNullableInt32("returnpost");
@@ -1248,9 +1292,9 @@ namespace TheGuide.Database.UnitTests
         }
 
 
-        void CheckRiskModThreadEntryQueue(IDnaDataReader reader, int? ThreadEntryId, char PublishMethod, bool? IsRisky, int SiteId, int ForumId, int? ThreadId, int UserId, string UserName, int? InReplyTo, string Subject, string Text, byte PostStyle, string IPAddress, string BBCUID, DateTime EventDate, byte AllowEventEntries, int NodeId, int? QueueId, int ClubId, byte IsNotable, byte IsComment, string ModNotes, byte IsThreadedComment)
+        void CheckRiskModThreadEntryQueue(IDnaDataReader reader, int? ThreadEntryId, char PublishMethod, bool? IsRisky, TestDate DateAssessed, int SiteId, int ForumId, int? ThreadId, int UserId, string UserName, int? InReplyTo, string Subject, string Text, byte PostStyle, string IPAddress, string BBCUID, DateTime EventDate, byte AllowEventEntries, int NodeId, int? QueueId, int ClubId, byte IsNotable, byte IsComment, string ModNotes, byte IsThreadedComment)
         {
-            reader.ExecuteWithTransaction(@"SELECT rm.*
+            reader.ExecuteWithinATransaction(@"SELECT rm.*
                                         FROM RiskModThreadEntryQueue rm
                                         WHERE RiskModThreadEntryQueueId=" + GetLatestRiskModThreadEntryQueueId(reader));
             reader.Read();
@@ -1265,6 +1309,8 @@ namespace TheGuide.Database.UnitTests
             TestPublishMethod(reader, PublishMethod);
 
             TestNullableBoolField(reader, "IsRisky", IsRisky);
+
+            TestNullableDateField(reader, "DateAssessed", DateAssessed);
 
             Assert.AreEqual(SiteId,reader.GetInt32("SiteId"));
             Assert.AreEqual(ForumId,reader.GetInt32("ForumId"));
@@ -1298,7 +1344,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckLatestThread(IDnaDataReader reader, int threadid, int forumid, byte canRead, byte canWrite, int siteid)
         {
-            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM Threads order by ThreadID desc");
+            reader.ExecuteWithinATransaction(@"SELECT top 1 * FROM Threads order by ThreadID desc");
             reader.Read();
 
             Assert.AreEqual(threadid, reader.GetInt32("threadid"));
@@ -1310,7 +1356,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckLatestThreadEntry(IDnaDataReader reader, int threadid, int forumid, int userid, int? nextSibling, int? parent, int? prevSibling, int? firstChild, int entryID, int? hidden, int postIndex, byte postStyle, string text)
         {
-            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM ThreadEntries order by EntryID desc");
+            reader.ExecuteWithinATransaction(@"SELECT top 1 * FROM ThreadEntries order by EntryID desc");
             reader.Read();
 
             Assert.AreEqual(threadid, reader.GetInt32("threadid"));
@@ -1329,7 +1375,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckLatestThreadMod(IDnaDataReader reader, int forumid, int? threadid, int? postid, int? lockedby, int status, string notes, int siteid, byte isPremodPosting)
         {
-            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM ThreadMod order by ModId desc");
+            reader.ExecuteWithinATransaction(@"SELECT top 1 * FROM ThreadMod order by ModId desc");
             reader.Read();
 
             // Nasty tweak.  With PremodPostings, when it creates a thread mod entry, it sets threadid=null and postid=0
@@ -1348,7 +1394,7 @@ namespace TheGuide.Database.UnitTests
 
         void CheckLatestPremodPostings(IDnaDataReader reader, int modId, int userid, int forumid, int? threadid, int? inReplyTo, string body, int postStyle, int siteid, byte isComment, int? riskModThreadEntryQueueId)
         {
-            reader.ExecuteWithTransaction(@"SELECT * FROM PremodPostings where ModId="+modId);
+            reader.ExecuteWithinATransaction(@"SELECT * FROM PremodPostings where ModId="+modId);
             reader.Read();
 
             // Nasty tweak.  With PremodPostings, when it creates a thread mod entry, it sets threadid=null and postid=0
@@ -1376,7 +1422,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestThreadModId(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM ThreadMod order by ModId desc");
+            reader.ExecuteWithinATransaction(@"SELECT top 1 * FROM ThreadMod order by ModId desc");
             reader.Read();
 
             return reader.GetInt32("ModId");
@@ -1384,7 +1430,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestThreadId(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM Threads order by ThreadId desc");
+            reader.ExecuteWithinATransaction(@"SELECT top 1 * FROM Threads order by ThreadId desc");
             reader.Read();
 
             return reader.GetInt32("ThreadId");
@@ -1392,7 +1438,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestThreadEntryId(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM ThreadEntries order by EntryId desc");
+            reader.ExecuteWithinATransaction(@"SELECT top 1 * FROM ThreadEntries order by EntryId desc");
             reader.Read();
 
             return reader.GetInt32("EntryId");
@@ -1400,7 +1446,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestRiskModThreadEntryQueueId(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM RiskModThreadEntryQueue order by RiskModThreadEntryQueueId desc");
+            reader.ExecuteWithinATransaction(@"SELECT top 1 * FROM RiskModThreadEntryQueue order by RiskModThreadEntryQueueId desc");
             reader.Read();
 
             if (reader.HasRows)
@@ -1411,7 +1457,7 @@ namespace TheGuide.Database.UnitTests
 
         int GetLatestPremodPostingsModId(IDnaDataReader reader)
         {
-            reader.ExecuteWithTransaction(@"SELECT top 1 * FROM PremodPostings order by modid desc");
+            reader.ExecuteWithinATransaction(@"SELECT top 1 * FROM PremodPostings order by modid desc");
             reader.Read();
 
             if (reader.HasRows)
@@ -1426,6 +1472,14 @@ namespace TheGuide.Database.UnitTests
             Assert.AreEqual(expectedPublishMethod, pm[0]);
             Assert.IsTrue(pm.Length == 1);
             Assert.IsTrue(pm[0] == 'A' || pm[0] == 'B');
+        }
+
+        void TestNullableDateField(IDnaDataReader reader, string fieldName, TestDate expected)
+        {
+            if (reader.IsDBNull(fieldName))
+                Assert.IsNull(expected);
+            else
+                Assert.IsTrue(expected.CheckDate(reader.GetDateTime(fieldName)));
         }
 
 
@@ -1464,7 +1518,7 @@ namespace TheGuide.Database.UnitTests
          /// <summary>
         /// This will throw an exception if there is not an active ambient transaction
         /// </summary>
-        static void CheckActiveTransactionExists()
+        private static void CheckActiveTransactionExists()
         {
             try
             {
@@ -1483,7 +1537,7 @@ namespace TheGuide.Database.UnitTests
             }
         }       
         
-        public static void ExecuteWithTransaction(this IDnaDataReader reader, string sql)
+        public static void ExecuteWithinATransaction(this IDnaDataReader reader, string sql)
         {
             CheckActiveTransactionExists();
 

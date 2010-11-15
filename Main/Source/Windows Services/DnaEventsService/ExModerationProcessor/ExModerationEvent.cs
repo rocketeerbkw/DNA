@@ -3,7 +3,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
 
-namespace Dna.SnesIntegration.ExModerationProcessor
+namespace Dna.ExModerationProcessor
 {
     class ExModerationEvent : MarshalByRefObject
     {

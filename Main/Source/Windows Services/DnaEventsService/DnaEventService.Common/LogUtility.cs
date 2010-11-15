@@ -4,52 +4,113 @@ using System.Net;
 using System.Reflection;
 using Microsoft.Http;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace DnaEventService.Common
 {
-    public class LogUtility
+    public static class LogUtility
     {
-        public static IDnaLogger Logger { get; set; }
-
-        public static void LogResponse(HttpStatusCode httpStatusCode, HttpResponseMessage httpResponse)
+        public static void LogResponse(this IDnaLogger logger,HttpStatusCode httpStatusCode, HttpResponseMessage httpResponse)
         {
-            if (Logger == null)
-                return;
-
-            string assemblyName = Assembly.GetCallingAssembly().GetName().Name;
-
-            var entry = new LogEntry();
-            entry.Categories.Add(assemblyName + ".Responses");
-            entry.Severity = httpStatusCode == HttpStatusCode.OK ? TraceEventType.Information : TraceEventType.Error;
-            entry.ExtendedProperties.Add("Result: ", httpStatusCode.ToString());
-            entry.ExtendedProperties.Add("Uri: ", httpResponse.Uri.ToString());
-            entry.ExtendedProperties.Add("Content: ", httpResponse.Content.ReadAsString());
-            Logger.Write(entry);
+            var props = new Dictionary<string, object>() 
+            { 
+                { "Result", httpStatusCode.ToString()},
+                { "Uri", httpResponse.Uri.ToString()},
+                { "Content", httpResponse.Content.ReadAsString()}
+            };
+            string category = Assembly.GetCallingAssembly().GetName().Name + ".Responses";
+            logger.LogGeneral(TraceEventType.Information, category, "", DateTime.MaxValue, props);
         }
 
-        public static void LogRequest(string postData, string requestUri)
+        public static void LogRequest(this IDnaLogger logger, string postData, string requestUri)
         {
-            if (Logger == null)
-                return;
+            var props = new Dictionary<string, object>() 
+            { 
+                { "POST Data",    postData },
+                { "Activity Uri", requestUri}
+            };
 
-            string assemblyName = Assembly.GetCallingAssembly().GetName().Name;
-            var entry = new LogEntry { Severity = TraceEventType.Information };
-            entry.Categories.Add(assemblyName + ".Requests");
-            entry.ExtendedProperties.Add("POST Data:", postData);
-            entry.ExtendedProperties.Add("Activity Uri:", requestUri);
-            Logger.Write(entry);
+            string category = Assembly.GetCallingAssembly().GetName().Name + ".Requests";
+            logger.LogGeneral(TraceEventType.Information, category, "", DateTime.MaxValue, props);
         }
 
-        public static void LogException(Exception ex)
+        public static void LogException(this IDnaLogger logger, Exception ex)
         {
-            if (Logger == null)
-                return;
+            var props = new Dictionary<string, object>();
 
-            var entry = new LogEntry { Severity = TraceEventType.Error, Message = ex.Message };
             if (ex.InnerException != null)
-                entry.ExtendedProperties.Add("Inner Exception: ", ex.InnerException.Message);
+                props.Add("Inner Exception", ex.InnerException.Message);
 
-            Logger.Write(entry);
+            props.Add("Stack Trace", ex.StackTrace);
+
+            string category = Assembly.GetCallingAssembly().GetName().Name+".Exceptions";
+            logger.LogGeneral(TraceEventType.Error, category, ex.Message, DateTime.MaxValue, props);
+        }
+
+
+        public static void LogInformation(this IDnaLogger logger, string message, Dictionary<string, object> props)
+        {
+            string category = Assembly.GetCallingAssembly().GetName().Name;
+            logger.LogGeneral(TraceEventType.Information, category, message, DateTime.MaxValue, props);
+        }
+
+        public static void LogInformation(this IDnaLogger logger, string message, params object[] p)
+        {
+            string category = Assembly.GetCallingAssembly().GetName().Name;
+            logger.LogGeneral(TraceEventType.Information, category, message, DateTime.MaxValue, p);
+        }
+
+        public static void LogInformation(this IDnaLogger logger, string message, DateTime startTime, Dictionary<string, object> props)
+        {
+            string category = Assembly.GetCallingAssembly().GetName().Name;
+            logger.LogGeneral(TraceEventType.Information, category, message, startTime, props);
+        }
+
+        public static void LogInformation(this IDnaLogger logger, string message, DateTime startTime, params object[] p)
+        {
+            string category = Assembly.GetCallingAssembly().GetName().Name;
+            logger.LogGeneral(TraceEventType.Information, category, message, startTime, p);
+        }
+
+        private static void LogGeneral(this IDnaLogger logger, TraceEventType traceEventType, string category, string message, DateTime startTime, params object[] p)
+        {
+            var props = new Dictionary<string, object>();
+            int i = 0;
+            string key = "";
+            foreach (object o in p)
+            {
+                if (i++ % 2 == 0)
+                    key = (string)o;
+                else
+                    props.Add(key, o);
+            }
+
+            logger.LogGeneral(traceEventType, category, message, startTime, props);
+        }
+
+        private static void LogGeneral(this IDnaLogger logger, TraceEventType traceEventType, string category, string message, DateTime startTime, Dictionary<string, object> props)
+        {
+            if (logger == null)
+                return;
+
+            var entry = new LogEntry { Severity = traceEventType };
+
+            entry.Categories.Add(category);
+            entry.Message = message;
+
+            foreach (var kv in props)
+            {
+                if (kv.Value != null)
+                    entry.ExtendedProperties.Add(kv.Key, kv.Value);
+                else
+                    entry.ExtendedProperties.Add(kv.Key, "NULL");
+            }
+
+            if (startTime != null && startTime != DateTime.MaxValue)
+                entry.ExtendedProperties.Add("Time Taken", (DateTime.Now-startTime).TotalSeconds);
+
+            logger.Write(entry);
         }
     }
 }

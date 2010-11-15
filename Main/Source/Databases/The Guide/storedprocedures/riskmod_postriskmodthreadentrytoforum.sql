@@ -1,5 +1,6 @@
-CREATE PROCEDURE riskmod_postriskmodthreadentrytoforum @riskmodthreadentryqueueid int, @forcepremodposting bit, @newmodnotes varchar(255) = NULL, @newthreadentryid int OUTPUT
+CREATE PROCEDURE riskmod_postriskmodthreadentrytoforum @riskmodthreadentryqueueid int, @forcepremodposting bit, @newmodnotes varchar(255) = NULL
 AS
+
 /*
 	IMPORTANT!!!
 	This Stored procedure should never be called directly as it doesn't do any TRANSACTION calls!
@@ -31,10 +32,13 @@ SELECT  @userid = UserID, @forumid = ForumID, @inreplyto = InReplyTo, @threadid 
 IF @newmodnotes IS NOT NULL
 BEGIN
 	-- The caller wants to override the stored mod notes
-	SET @modnotes = @newmodnotes
+	IF @modnotes IS NOT NULL AND LEN(@modnotes) > 0
+		SET @modnotes = @newmodnotes + CHAR(13) + CHAR(10) + 'Old Notes: '+@modnotes
+	ELSE
+		SET @modnotes = @newmodnotes
 END
 
-declare @returnthreadid int, @ispremodposting int, @ispremoderated int
+declare @returnthreadid int, @ispremodposting int, @ispremoderated int, @newthreadentryid int
 SET @ispremodposting = 0
 DECLARE @ReturnCode INT 
 

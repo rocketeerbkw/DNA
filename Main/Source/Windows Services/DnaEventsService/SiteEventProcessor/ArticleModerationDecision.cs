@@ -79,7 +79,7 @@ namespace Dna.SiteEventProcessor
             catch(Exception e)
             {
                 siteEventArticleModerationDecision = null;
-                LogUtility.LogException(e);
+                SiteEventsProcessor.SiteEventLogger.LogException(e);
             }
 
             if (siteEventArticleModerationDecision != null)

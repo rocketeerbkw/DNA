@@ -103,7 +103,7 @@ namespace Dna.SiteEventProcessor
             catch(Exception e)
             {
                 siteEvent = null;
-                LogUtility.LogException(e);
+                SiteEventsProcessor.SiteEventLogger.LogException(e);
             }
 
             if (siteEvent != null)

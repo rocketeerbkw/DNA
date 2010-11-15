@@ -4,6 +4,7 @@ using Dna.SnesIntegration.ActivityProcessor;
 using Dna.SnesIntegration.ActivityProcessor.Activities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
+using DnaEventService.Common;
 
 namespace SnesActivityProcessorTests
 {
@@ -46,6 +47,7 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             IDnaDataReader currentRow = CreateDataReaderDynamicMock(mocks);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             using (mocks.Record())
             {
@@ -56,7 +58,7 @@ namespace SnesActivityProcessorTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(logger, currentRow);
             }
 
             //Related assertions
@@ -73,6 +75,7 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             IDnaDataReader currentRow = CreateDataReaderDynamicMock(mocks);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             using (mocks.Record())
             {
@@ -83,7 +86,7 @@ namespace SnesActivityProcessorTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(logger, currentRow);
             }
 
             //Assert.AreEqual("mooks", activity.DisplayName);
@@ -95,6 +98,7 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             var currentRow = mocks.DynamicMock<IDnaDataReader>();
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             using (mocks.Record())
             {
@@ -109,7 +113,7 @@ namespace SnesActivityProcessorTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(logger, currentRow);
             }
 
             //Assert.AreEqual("mooks", activity.DisplayName);
@@ -121,6 +125,7 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             var currentRow = mocks.DynamicMock<IDnaDataReader>();
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             using (mocks.Record())
             {
@@ -135,7 +140,7 @@ namespace SnesActivityProcessorTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(logger, currentRow);
             }
 
             //Assert.AreEqual("mooks", activity.DisplayName);
@@ -147,6 +152,7 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             var currentRow = mocks.DynamicMock<IDnaDataReader>();
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             using (mocks.Record())
             {
@@ -161,7 +167,7 @@ namespace SnesActivityProcessorTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(logger,currentRow);
             }
 
             //Assert.AreEqual("mooks", activity.DisplayName);
@@ -175,6 +181,7 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             IDnaDataReader currentRow = CreateDataReaderDynamicMock(mocks);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             using (mocks.Record())
             {
@@ -185,7 +192,7 @@ namespace SnesActivityProcessorTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(logger,currentRow);
             }
 
             //Assert.AreEqual("moo'ks", activity.DisplayName);
@@ -198,6 +205,7 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             IDnaDataReader currentRow = CreateDataReaderDynamicMock(mocks);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             using (mocks.Record())
             {
@@ -208,7 +216,7 @@ namespace SnesActivityProcessorTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(logger, currentRow);
             }
             
             string expected = @"posted a <a href= ""http://www.bbc.co.uk/blogs/test#P1"" > new comment </a> on the <a href = ""http://www.bbc.co.uk/blogs/test"" > iPlayer </a>";
@@ -222,6 +230,7 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             IDnaDataReader currentRow = CreateDataReaderDynamicMock(mocks);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             using (mocks.Record())
             {
@@ -232,7 +241,7 @@ namespace SnesActivityProcessorTests
             ISnesActivity activity;
             using (mocks.Playback())
             {
-                activity = SnesActivityFactory.CreateSnesActivity(currentRow);
+                activity = SnesActivityFactory.CreateSnesActivity(logger, currentRow);
             }
 
             //string expected = @"here is some text";
@@ -246,13 +255,14 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             var reader = mocks.DynamicMock<IDnaDataReader>();
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             reader.Stub(x => x.GetString("Body")).Return("some text' with apostrophe");
             reader.Stub(x => x.GetInt32("ActivityType")).Return(19);
 
             mocks.ReplayAll();
 
-            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(reader);
+            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(logger, reader);
 
             Assert.IsTrue(activity.GetActivityJson().Contains("\"objectDescription\":\"some text&#39 with apostrophe\""));
         }
@@ -263,13 +273,14 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             var reader = mocks.DynamicMock<IDnaDataReader>();
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             reader.Stub(x => x.GetInt32("ActivityType")).Return(19);
             reader.Stub(x => x.IsDBNull("BlogUrl")).Return(true);
 
             mocks.ReplayAll();
 
-            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(reader);
+            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(logger, reader);
 
             Assert.IsTrue(activity.GetActivityJson().Contains("\"objectUri\":\"/dna//F0?thread=0#p0\""));
         }
@@ -280,13 +291,14 @@ namespace SnesActivityProcessorTests
         {
             var mocks = new MockRepository();
             var reader = mocks.DynamicMock<IDnaDataReader>();
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             reader.Stub(x => x.GetInt32("IdentityUserId")).Return(12345);
             reader.Stub(x => x.GetInt32("ActivityType")).Return(19);
 
             mocks.ReplayAll();
 
-            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(reader);
+            ISnesActivity activity = SnesActivityFactory.CreateSnesActivity(logger, reader);
 
             Assert.IsTrue(activity.GetActivityJson().Contains("\"username\":\"12345\""));
         }
@@ -299,8 +311,9 @@ namespace SnesActivityProcessorTests
             var body = @"'quoted' and ""quoted"" text";
             reader.Stub(x => x.GetString("Body")).Return(body);
 
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
-            var commentActivity = SnesActivityFactory.CreateSnesActivity(reader);
+            var commentActivity = SnesActivityFactory.CreateSnesActivity(logger, reader);
 
             var json = commentActivity.GetActivityJson();
 

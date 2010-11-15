@@ -121,19 +121,24 @@
     <Compile Include="DnaEventProcessorServiceInstaller.Designer.cs">
       <DependentUpon>DnaEventProcessorServiceInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="DnaEventProcessorHost.cs">
+    <Compile Include="DnaEventProcessorServiceHost.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DnaEventProcessorHost.Designer.cs">
-      <DependentUpon>DnaEventProcessorHost.cs</DependentUpon>
+    <Compile Include="DnaEventProcessorServiceHost.Designer.cs">
+      <DependentUpon>DnaEventProcessorServiceHost.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BIEventProcessor\BIEventProcessor.csproj">
+      <Project>{62069631-68F4-4E8D-B9D4-3835A7BEF4F9}</Project>
+      <Name>BIEventProcessor</Name>
     </ProjectReference>
     <ProjectReference Include="..\DnaEventService.Common\DnaEventService.Common.csproj">
       <Project>{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}</Project>
@@ -153,7 +158,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="BBC.Dna.snk" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -213,4 +220,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PreBuildEvent>sc stop dnaeventprocessorservice</PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

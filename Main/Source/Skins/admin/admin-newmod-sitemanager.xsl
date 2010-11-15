@@ -308,15 +308,15 @@
         <tr>
           <td align="right">Risk Mod State:</td>
           <td>
-            <select name="riskModState">
+            <select name="RISKMODONOFF">
               <option value="0">
-                <xsl:if test="RISKMODSTATE=0">
+                <xsl:if test="RISKMODONOFF=0">
                   <xsl:attribute name="selected"/>
                 </xsl:if>
                 Off
               </option>
               <option value="1">
-                <xsl:if test="RISKMODSTATE=1">
+                <xsl:if test="RISKMODONOFF=1">
                   <xsl:attribute name="selected"/>
                 </xsl:if>
                 On
@@ -344,10 +344,10 @@
             <xsl:if test="RISKMODPUBLISHMETHOD='B'">
               B
             </xsl:if>
-            <xsl:if test="RISKMODSTATE=0">
+            <xsl:if test="RISKMODONOFF=0">
               Off
             </xsl:if>
-            <xsl:if test="RISKMODSTATE=1">
+            <xsl:if test="RISKMODONOFF=1">
               On
             </xsl:if>
           </td>

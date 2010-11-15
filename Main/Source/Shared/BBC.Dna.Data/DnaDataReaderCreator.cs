@@ -16,10 +16,10 @@ namespace BBC.Dna.Data
         /// <summary>
         /// Database connection string
         /// </summary>
-        private string ConnectionString
+        public string ConnectionString
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>

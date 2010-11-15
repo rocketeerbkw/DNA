@@ -3,6 +3,7 @@ using Dna.SnesIntegration.ActivityProcessor;
 using Dna.SnesIntegration.ActivityProcessor.Activities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
+using DnaEventService.Common;
 
 namespace SnesActivityProcessorTests
 {
@@ -44,10 +45,11 @@ namespace SnesActivityProcessorTests
         public void CreateSnesActivity_ActivityType19_ReturnsCommentActivity()
         {
             var dataReader = MockRepository.GenerateStub<IDnaDataReader>();
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             dataReader.Stub(x => x.GetInt32("ActivityType")).Return(19);
 
-            var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
+            var activity = SnesActivityFactory.CreateSnesActivity(logger, dataReader);
 
             Assert.IsTrue(activity is CommentActivityBase);
         }
@@ -57,8 +59,9 @@ namespace SnesActivityProcessorTests
         {
             var dataReader = MockRepository.GenerateStub<IDnaDataReader>();
             dataReader.Stub(x => x.GetInt32("ActivityType")).Return(20);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
-            var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
+            var activity = SnesActivityFactory.CreateSnesActivity(logger, dataReader);
             Assert.IsTrue(activity is RevokeCommentActivity);
         }
 
@@ -67,8 +70,9 @@ namespace SnesActivityProcessorTests
         {
             var dataReader = MockRepository.GenerateStub<IDnaDataReader>();
             dataReader.Stub(x => x.GetInt32("ActivityType")).Return(100);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
-            var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
+            var activity = SnesActivityFactory.CreateSnesActivity(logger, dataReader);
             Assert.IsTrue(activity is UnexpectedActivity);
         }
 
@@ -79,8 +83,9 @@ namespace SnesActivityProcessorTests
             dataReader.Stub(x => x.GetInt32("ActivityType")).Return(19);
             dataReader.Stub(x => x.GetString("BlogUrl")).Return("http://localhost");
             dataReader.Stub(x => x.IsDBNull("Rating")).Return(true);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
-            var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
+            var activity = SnesActivityFactory.CreateSnesActivity(logger, dataReader);
             Assert.IsTrue(activity is CommentForumActivity);
         }
 
@@ -90,8 +95,9 @@ namespace SnesActivityProcessorTests
             var dataReader = MockRepository.GenerateStub<IDnaDataReader>();
             dataReader.Stub(x => x.GetInt32("ActivityType")).Return(19);
             dataReader.Stub(x => x.IsDBNull("BlogUrl")).Return(true);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
-            var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
+            var activity = SnesActivityFactory.CreateSnesActivity(logger, dataReader);
             Assert.IsTrue(activity is MessageBoardPostActivity);
         }
 
@@ -104,8 +110,9 @@ namespace SnesActivityProcessorTests
             dataReader.Stub(x => x.GetString("BlogUrl")).Return("http://localhost");
             dataReader.Stub(x => x.IsDBNull("Rating")).Return(false);
             dataReader.Stub(x => x.GetTinyIntAsInt("Rating")).Return(1);
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
-            var activity = SnesActivityFactory.CreateSnesActivity(dataReader);
+            var activity = SnesActivityFactory.CreateSnesActivity(logger, dataReader);
             Assert.IsTrue(activity is ReviewActivity);
         }
     }

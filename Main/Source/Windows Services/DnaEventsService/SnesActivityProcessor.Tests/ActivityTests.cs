@@ -5,6 +5,8 @@ using Dna.SnesIntegration.ActivityProcessor;
 using Dna.SnesIntegration.ActivityProcessor.Activities;
 using Dna.SnesIntegration.ActivityProcessor.Contracts;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DnaEventService.Common;
+using Rhino.Mocks;
 
 namespace SnesActivityProcessorTests
 {
@@ -82,6 +84,7 @@ namespace SnesActivityProcessorTests
             eventData.Rating = new Rating { MaxValue = 5, Value = 4 };
             eventData.UrlBuilder = new DnaUrlBuilder { DnaUrl = "iplayer", ForumId = 1, PostId = 1, ThreadId = 1 };
 
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
 
             var activity = CommentActivityBase.CreateActivity(openSocialActivity, eventData);
 

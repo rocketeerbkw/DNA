@@ -19,13 +19,27 @@ namespace TestUtils.Mocks.Extentions
         /// <param name="testRowData">A list of test row data to load the reader with</param>
         static public void CreateMockedDataBaseObjects(MockRepository mocks, string procedureName, out IDnaDataReaderCreator creator, out IDnaDataReader reader, List<TestDatabaseRow> testRowData)
         {
-            reader = mocks.DynamicMock<IDnaDataReader>();
+            reader = CreateMockedIDnaDataReader(mocks, testRowData);
+            creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader(procedureName)).Return(reader);
+            mocks.ReplayAll();
+        }
+
+        static public void AddMockedDataReader(MockRepository mocks, string procedureName, IDnaDataReaderCreator creator, out IDnaDataReader reader, List<TestDatabaseRow> testRowData)
+        {
+            reader = CreateMockedIDnaDataReader(mocks, testRowData);
+            creator.Stub(x => x.CreateDnaDataReader(procedureName)).Return(reader);
+        }
+
+        static public IDnaDataReader CreateMockedIDnaDataReader(MockRepository mocks, List<TestDatabaseRow> testRowData)
+        {
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
 
             if (testRowData != null)
             {
                 Dictionary<string, Queue<RowQueueItem>> queuedData = new Dictionary<string, Queue<RowQueueItem>>();
 
-                reader.Stub(x => x.HasRows).Return(true).WhenCalled(x => x.ReturnValue = queuedData.Where(y=>y.Value.Count() > 0).Count() > 0);
+                reader.Stub(x => x.HasRows).Return(true).WhenCalled(x => x.ReturnValue = queuedData.Where(y => y.Value.Count() > 0).Count() > 0);
 
                 bool firstread = true;
                 reader.Stub(x => x.Read()).Return(true).WhenCalled(x =>
@@ -48,10 +62,10 @@ namespace TestUtils.Mocks.Extentions
                     }
                     firstread = false;
                     // If we still have at least 1 non-empty queue, return true
-                    x.ReturnValue = queuedData.Where(y=>y.Value.Count() > 0).Count() >= 1;
+                    x.ReturnValue = queuedData.Where(y => y.Value.Count() > 0).Count() >= 1;
                 });
 
-                int row=1;
+                int row = 1;
                 foreach (TestDatabaseRow o in testRowData)
                 {
                     foreach (KeyValuePair<string, object> kv in o.paramAndValues)
@@ -64,7 +78,7 @@ namespace TestUtils.Mocks.Extentions
                             queuedData.Add(keyName, new Queue<RowQueueItem>());
                         }
 
-                        queuedData[keyName].Enqueue(new RowQueueItem { Row = row, ObjectValue = objectValue } );
+                        queuedData[keyName].Enqueue(new RowQueueItem { Row = row, ObjectValue = objectValue });
                     }
                     row++;
                 }
@@ -72,9 +86,7 @@ namespace TestUtils.Mocks.Extentions
                 QueueValuesToDataReaderCalls(reader, queuedData);
             }
 
-            creator = mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader(procedureName)).Return(reader);
-            mocks.ReplayAll();
+            return reader;
         }
 
         private class RowQueueItem
@@ -100,15 +112,34 @@ namespace TestUtils.Mocks.Extentions
                 bool isGetInt32Call = keyName.IndexOf("-getint32") > 0;
                 keyName = keyName.Replace("-getint32", "");
 
+                bool isGetNullableInt32Call = keyName.IndexOf("-getnullableint32") > 0;
+                keyName = keyName.Replace("-getnullableint32", "");
+
+                bool isGetNullableBooleanCall = keyName.IndexOf("-getnullableboolean") > 0;
+                keyName = keyName.Replace("-getnullableboolean", "");
+
                 if (queue != null && queue.Count > 0)
                 {
                     Console.WriteLine(string.Format("Adding queue for {0} with count of {1}", keyName, queue.Count));
                     System.Diagnostics.Debug.WriteLine(string.Format("Adding queue for {0} with count of {1}", keyName, queue.Count));
-                    if (queue.ElementAt(0).ObjectValue.GetType() == typeof(bool))
+
+                    if (isGetNullableBooleanCall)
+                    {
+                        reader.Stub(x => x.GetNullableBoolean(keyName)).Return(false).WhenCalled(x => x.ReturnValue = queue.Peek().ObjectValue);
+                    }
+                    else if (isGetNullableInt32Call)
+                    {
+                        reader.Stub(x => x.GetNullableInt32(keyName)).Return(0).WhenCalled(x => x.ReturnValue = queue.Peek().ObjectValue);
+                    }
+                    else if (queue.ElementAt(0).ObjectValue.GetType() == typeof(bool))
                     {
                         if (isDBNullCall)
                         {
                             reader.Stub(x => x.IsDBNull(keyName)).Return(true).WhenCalled(x => x.ReturnValue = queue.Peek().ObjectValue);
+                        }
+                        else
+                        {
+                            reader.Stub(x => x.GetBoolean(keyName)).Return(true).WhenCalled(x => x.ReturnValue = queue.Peek().ObjectValue);
                         }
                     }
                     else if (queue.ElementAt(0).ObjectValue.GetType() == typeof(string))
@@ -156,6 +187,11 @@ namespace TestUtils.Mocks.Extentions
                 paramAndValues.Add(new KeyValuePair<string, object>(key + "-getint32", value));
             }
 
+            public void AddGetNullableInt32ColumnValue(string key, int? value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key + "-getnullableint32", value));
+            }
+
             public void AddGetInt32NullAsZeroColumnValue(string key, int value)
             {
                 paramAndValues.Add(new KeyValuePair<string, object>(key, value));
@@ -179,6 +215,11 @@ namespace TestUtils.Mocks.Extentions
             public void AddGetBooleanColumnValue(string key, bool value)
             {
                 paramAndValues.Add(new KeyValuePair<string, object>(key, value));
+            }
+
+            public void AddGetNullableBooleanColumnValue(string key, bool? value)
+            {
+                paramAndValues.Add(new KeyValuePair<string, object>(key + "-getnullableboolean", value));
             }
 
             public void AddIsDBNullCheck(string key, bool value)

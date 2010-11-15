@@ -16,6 +16,8 @@ namespace Dna.SiteEventProcessor
     {
         static private bool processing = false;
 
+        public static IDnaLogger SiteEventLogger { get; private set; }
+
         private IDnaDataReaderCreator DataReaderCreator { get; set; }
 
         public SiteEventsProcessor()
@@ -26,7 +28,7 @@ namespace Dna.SiteEventProcessor
             IDnaLogger logger)
         {
             DataReaderCreator = dataReaderCreator;
-            LogUtility.Logger = logger;
+            SiteEventLogger = logger;
         }
 
         public void ProcessEvents(object state)
@@ -51,7 +53,7 @@ namespace Dna.SiteEventProcessor
             }
             catch (Exception ex)
             {
-                LogUtility.LogException(ex);
+                SiteEventLogger.LogException(ex);
             }
             finally
             {
