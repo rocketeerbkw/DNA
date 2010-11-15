@@ -15,7 +15,17 @@
     
     <xsl:template match="TR | tr" mode="library_GuideML">
         <tr>
-            <xsl:apply-templates mode="library_GuideML"/>
+			<xsl:if test="@ALIGN | @align">
+				<xsl:attribute name="align">
+					<xsl:value-of select="@ALIGN | @align"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@VALIGN | @valign">
+				<xsl:attribute name="valign">
+					<xsl:value-of select="@VALIGN | @valign"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates mode="library_GuideML"/>
         </tr>
     </xsl:template>
 		

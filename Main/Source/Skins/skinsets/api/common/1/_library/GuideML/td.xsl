@@ -40,6 +40,21 @@
 					<xsl:value-of select="@ROWSPAN | @rowspan"/>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@COLSPAN | @colspan">
+				<xsl:attribute name="colspan">
+					<xsl:value-of select="@COLSPAN | @colspan"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@ALIGN | @align">
+				<xsl:attribute name="align">
+					<xsl:value-of select="@ALIGN | @align"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@VALIGN | @valign">
+				<xsl:attribute name="valign">
+					<xsl:value-of select="@VALIGN | @valign"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:apply-templates mode="library_GuideML"/>
         </td>
     </xsl:template>

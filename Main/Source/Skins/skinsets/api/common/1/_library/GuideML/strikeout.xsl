@@ -3,7 +3,7 @@
     
     <doc:documentation>
         <doc:purpose>
-            Converts QUOTE nodes to HTML blockquotes
+            Coverts S/STRIKE nodes to HTML strike/s
         </doc:purpose>
         <doc:context>
             Applied by _common/_library/GuideML.xsl
@@ -13,14 +13,9 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="QUOTE | quote" mode="library_GuideML">
-        <blockquote>
-            <xsl:if test="@CLASS">
-                <xsl:attribute name="class">
-                    <xsl:value-of select="@CLASS"/>
-                </xsl:attribute>
-            </xsl:if>
+    <xsl:template match="s | S | strike | STRIKE" mode="library_GuideML">
+        <s>
             <xsl:apply-templates mode="library_GuideML"/>
-        </blockquote>
+        </s>
     </xsl:template>
 </xsl:stylesheet>

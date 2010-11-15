@@ -15,6 +15,11 @@
     
     <xsl:template match="MARQUEE | marquee" mode="library_GuideML">
 		<marquee>
+			<xsl:if test="@BGCOLOR | @bgcolor">
+				<xsl:attribute name="bgcolor">
+					<xsl:value-of select="@BGCOLOR | @bgcolor"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="@BEHAVIOR | @behavior">
 				<xsl:attribute name="behavior">
 					<xsl:value-of select="@BEHAVIOR | @behavior"/>
