@@ -132,7 +132,16 @@
 	
 	<xsl:variable name="idURL">
 		<xsl:choose>
-			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'or (not(contains(/H2G2/SERVERNAME, 'NARTHUR')) and not(contains(/H2G2/SERVERNAME, 'NMSDNA0')))">
+      <xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='signinurl']">
+        <xsl:value-of select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='signinurl']/VALUE"/>
+      </xsl:when>
+			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB1' or /H2G2/SERVERNAME = 'VP-DEV-DNA-WEB3'">
+				<xsl:text>https://id.int.bbc.co.uk/</xsl:text>
+			</xsl:when>
+      <xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB2' or /H2G2/SERVERNAME = 'VP-DEV-DNA-WEB4'">
+				<xsl:text>https://id.test.bbc.co.uk/</xsl:text>
+			</xsl:when>
+      <xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'or (not(contains(/H2G2/SERVERNAME, 'NARTHUR')) and not(contains(/H2G2/SERVERNAME, 'NMSDNA0')))">
 				<xsl:text>https://id.stage.bbc.co.uk/</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
@@ -163,13 +172,13 @@
 			<xsl:when test="/H2G2/SERVERNAME = 'PC-S052330'">
 				<xsl:text>http%3A%2F%2Fops-dev14.national.core.bbc.co.uk%3A6666</xsl:text>
 			</xsl:when>
-			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB1'">
+			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB1' or /H2G2/SERVERNAME = 'VP-DEV-DNA-WEB3'">
 				<xsl:text>http%3A%2F%2Fdnaint.national.core.bbc.co.uk</xsl:text>
 			</xsl:when>			
 			<xsl:when test="/H2G2/SERVERNAME = 'OPS-DNA1'">
 				<xsl:text>http%3A%2F%2Fdnarelease.national.core.bbc.co.uk</xsl:text>
 			</xsl:when>
-			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB2'">
+			<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB2' or /H2G2/SERVERNAME = 'VP-DEV-DNA-WEB4'">
 				<xsl:text>http%3A%2F%2Fdnatest.national.core.bbc.co.uk</xsl:text>
 			</xsl:when>			
 			<xsl:when test="/H2G2/SERVERNAME = 'NMSDNA0'">
