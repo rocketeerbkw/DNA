@@ -13,6 +13,7 @@
         <xs:element name="maxAge" type="xs:unsignedByte" />
         <xs:element name="minAge" type="xs:unsignedByte" />
         <xs:element name="modClassID" type="xs:unsignedByte" />
+        <xs:element name="moderationStatus" type="xs:string" />
         <xs:element name="moderatorsEmail" type="xs:string" />
         <xs:element name="openCloseTimes">
           <xs:complexType>
