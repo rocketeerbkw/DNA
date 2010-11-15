@@ -16,12 +16,15 @@ SELECT
 	CASE WHEN groups.UserID IS NULL THEN 0 ELSE 1 END AS userIsEditor, 
 	dbo.ThreadEntries.lastupdated as lastupdated,
 	dbo.ForumReview.rating as rating,
-	dbo.Preferences.sitesuffix as 'SiteSpecificDisplayName'
+	dbo.Preferences.sitesuffix as 'SiteSpecificDisplayName',
+	case when threadentryeditorpicks.entryid is not null then 1 else 0 end as 'IsEditorPick',
+	ThreadEntries.PostIndex as 'Index'
 FROM         dbo.ThreadEntries 
                       INNER JOIN dbo.CommentForums ON dbo.CommentForums.ForumID = dbo.ThreadEntries.ForumID 
                       INNER JOIN dbo.ForumReview ON dbo.ForumReview.EntryID = dbo.ThreadEntries.entryid 
                       INNER JOIN dbo.Users ON dbo.Users.UserID = dbo.ThreadEntries.UserID 
                       INNER JOIN dbo.Preferences on dbo.Preferences.userid = dbo.Users.UserID and  dbo.Preferences.siteid = dbo.CommentForums.siteid
+                      left join threadentryeditorpicks  on ThreadEntries.entryid = threadentryeditorpicks.entryid
                       left outer join
 					(SELECT     
 						dbo.GroupMembers.UserID, 
@@ -31,4 +34,5 @@ FROM         dbo.ThreadEntries
 					dbo.GroupMembers ON dbo.GroupMembers.GroupID = Groups_1.GroupID
 					WHERE  Groups_1.Name = 'EDITOR'					) 
 					AS groups ON groups.UserID = dbo.Users.UserID and dbo.CommentForums.siteid= groups.siteid
+					
                       

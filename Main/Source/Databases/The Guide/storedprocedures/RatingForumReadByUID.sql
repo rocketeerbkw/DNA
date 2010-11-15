@@ -20,6 +20,7 @@ AS
 			canWrite, 
 			lastposted, 
 			average
+			, editorpickcount
 	from dbo.VRatingForums 
 	where uid = @uid
 	and siteid = @siteid

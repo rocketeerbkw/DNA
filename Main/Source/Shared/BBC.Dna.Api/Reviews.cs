@@ -483,7 +483,8 @@ namespace BBC.Dna.Api
             RatingForum.ratingsSummary = new RatingsSummary
             {
                 Total = reader.GetInt32NullAsZero("ForumPostCount"),
-                Average = reader.GetInt32NullAsZero("average")
+                Average = reader.GetInt32NullAsZero("average"),
+                EditorPicksTotal = reader.GetInt32NullAsZero("editorpickcount")
             };
             RatingForum.ForumID = reader.GetInt32NullAsZero("forumid");
             RatingForum.isClosed = !RatingForum.CanWrite || site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now) || (closingDate != null && DateTime.Now > closingDate);
@@ -541,7 +542,10 @@ namespace BBC.Dna.Api
             {
                 ratingInfo.PostStyle = (PostStyle.Style)reader.GetTinyIntAsInt("poststyle");
             }
-            
+
+            ratingInfo.IsEditorPick = reader.GetBoolean("IsEditorPick");
+            ratingInfo.Index = reader.GetInt32NullAsZero("Index");
+
             //get complainant
             Dictionary<string, string> replacement = new Dictionary<string, string>();
             replacement.Add("sitename", site.SiteName);

@@ -59,6 +59,7 @@ AS
 	vcf.canRead, 
 	vcf.canWrite, 
 	vcf.lastposted
+	, vcf.editorpickcount
 	from CTE_TOTAL cte WITH(NOLOCK) 
 	inner join VCommentForums vcf on vcf.forumid = cte.forumID
 	where n > @startindex and n <= @startindex + @itemsperpage

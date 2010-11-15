@@ -91,6 +91,19 @@ namespace BBC.Dna.Api
         [DataMember(Name = ("status"), Order = 9)]
         public CommentStatus.Hidden hidden = CommentStatus.Hidden.NotHidden;
 
+        [DataMember(Name = ("isEditorPick"), Order = 10)]
+        public bool IsEditorPick
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("index"), Order = 11)]
+        public int Index
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Is the comment premod

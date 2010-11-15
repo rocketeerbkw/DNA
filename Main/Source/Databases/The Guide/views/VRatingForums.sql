@@ -9,6 +9,7 @@ SELECT     cf.UID, s.URLName AS sitename, cf.Url, f.Title, f.ForumPostCount +
                             f.lastposted AS LastPosted, 
                       0 AS totalResults, 0 AS startindex, 0 AS itemsperpage, cf.SiteID AS siteId, cf.ForumID AS forumId,
                       f.canread as canRead, f.canWrite as canWrite
+                      , case when ep.editorpickcount is null then 0 else ep.editorpickcount end as 'editorpickcount'
 					FROM         
 					dbo.CommentForums AS cf WITH (NOLOCK) 
                       INNER JOIN dbo.Forums AS f WITH (NOLOCK) ON cf.ForumID = f.ForumID 
@@ -21,4 +22,5 @@ SELECT     cf.UID, s.URLName AS sitename, cf.Url, f.Title, f.ForumPostCount +
 						from dbo.ForumReview
 						group by forumid) ter  ON ter.forumid = f.ForumID 
 						INNER JOIN dbo.Sites AS s ON s.SiteID = f.SiteID
+						left outer join (select count(*) as'editorpickcount', forumid from dbo.ThreadEntryEditorPicks group by forumid) ep on ep.forumid = cf.forumid
 
