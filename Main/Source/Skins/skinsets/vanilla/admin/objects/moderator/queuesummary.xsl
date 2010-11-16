@@ -49,12 +49,40 @@
 	
 	<xsl:template name="moderationsummarylink">
 		<xsl:param name="referraltype" />
-		
-		<a href="/dna/moderation/moderateposts">
-			<xsl:value-of select="@TOTAL" />&#160;
-			<xsl:text> referred </xsl:text>
-			<xsl:value-of select="$referraltype" />
-		</a>	
+    <xsl:choose>
+      <xsl:when test="@TOTAL > 0">
+        <a>
+          <xsl:attribute name="href">
+            <xsl:choose>
+              <xsl:when test="$referraltype = 'posts'">
+                <xsl:text>/dna/moderation/moderateposts?referrals=1</xsl:text>
+              </xsl:when>
+              <xsl:when test="$referraltype = 'alerts'">
+                <xsl:text>/dna/moderation/moderateposts?referrals=1&amp;alerts=1</xsl:text>
+              </xsl:when>
+              <xsl:when test="$referraltype = 'articles'">
+                <xsl:text>/dna/moderation/moderatearticles?referrals=1</xsl:text>
+              </xsl:when>
+              <xsl:when test="$referraltype = 'article alerts'">
+                <xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
+              </xsl:when>
+              <xsl:when test="$referraltype = 'general complaints'">
+                <xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:attribute>
+          <xsl:value-of select="@TOTAL" />&#160;
+          <xsl:text> referred </xsl:text>
+          <xsl:value-of select="$referraltype" />
+        </a>
+
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="@TOTAL" />&#160;
+        <xsl:text> referred </xsl:text>
+        <xsl:value-of select="$referraltype" />
+      </xsl:otherwise>
+    </xsl:choose>
 	</xsl:template>
 	
 	<xsl:template name="moderationsummary">
