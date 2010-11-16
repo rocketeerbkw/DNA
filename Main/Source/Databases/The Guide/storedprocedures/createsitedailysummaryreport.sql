@@ -133,7 +133,14 @@ begin
 		(select count(*) from Nicknamemod em
 		where 
 		em.SiteID = sites.siteid and	
-		DateQueued > @startDate and DateQueued < @tmpenddate) as 'TotalNickNamesModerations'
+		DateQueued > @startDate and DateQueued < @tmpenddate) as 'TotalNickNamesModerations',
+		
+		(select count(*) from dbo.Preferences p
+		where
+		prefstatus<>0 and --3 = banned
+		p.SiteID = sites.siteid and	
+		PrefStatusChangedDate > @startDate and PrefStatusChangedDate < @tmpenddate) as 'TotalRestrictedUsers'
+		
 	from dbo.Sites sites
 	where (@siteid=0 or sites.siteid = @siteid)
 

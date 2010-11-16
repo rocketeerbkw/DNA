@@ -157,7 +157,6 @@ namespace BBC.Dna.Objects
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("cachegetlastpostdate"))
             {
                 reader.AddParameter("identityuserid", IdentityUserID);
-                reader.AddParameter("usernametype", UserNameType);
                 reader.Execute();
         
                 if (reader.HasRows && reader.Read())

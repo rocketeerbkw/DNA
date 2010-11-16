@@ -63,6 +63,9 @@ namespace BBC.Dna.Moderation
         [XmlElement("TOTALNICKNAMESMODERATIONS")]
         public int TotalNickNamesModerations { get; set; }
 
+        [XmlElement("TOTALRESTRICTEDUSERS")]
+        public int TotalRestrictedUsers { get; set; }
+
         [XmlAttributeAttribute("SITEID")]
         public int SiteId{ get; set; }
 
@@ -116,6 +119,7 @@ namespace BBC.Dna.Moderation
                     siteSummaryStats.TotalNewUsers = dataReader.GetInt32NullAsZero("TotalNewUsers");
                     siteSummaryStats.TotalBannedUsers = dataReader.GetInt32NullAsZero("TotalBannedUsers");
                     siteSummaryStats.TotalNickNamesModerations = dataReader.GetInt32NullAsZero("TotalNickNamesModerations");
+                    siteSummaryStats.TotalRestrictedUsers = dataReader.GetInt32NullAsZero("TotalRestrictedUsers");
                 }
             }
             return siteSummaryStats;
@@ -160,6 +164,7 @@ namespace BBC.Dna.Moderation
                     siteSummaryStats.TotalNewUsers = dataReader.GetInt32NullAsZero("TotalNewUsers");
                     siteSummaryStats.TotalBannedUsers = dataReader.GetInt32NullAsZero("TotalBannedUsers");
                     siteSummaryStats.TotalNickNamesModerations = dataReader.GetInt32NullAsZero("TotalNickNamesModerations");
+                    siteSummaryStats.TotalRestrictedUsers = dataReader.GetInt32NullAsZero("TotalRestrictedUsers");
                 }
             }
             return siteSummaryStats;

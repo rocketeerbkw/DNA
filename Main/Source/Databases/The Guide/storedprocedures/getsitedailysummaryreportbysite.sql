@@ -36,7 +36,8 @@ SELECT
       sum(TotalPostsFailed) as TotalPostsFailed,
       sum(TotalNewUsers) as TotalNewUsers,
       sum(TotallBannedUsers) as TotalBannedUsers,
-      sum(TotalNickNamesModerations) as TotalNickNamesModerations
+      sum(TotalNickNamesModerations) as TotalNickNamesModerations,
+      sum(TotalRestrictedUsers) as TotalRestrictedUsers
  FROM dbo.SiteDailySummaryReport sdsr
  inner join sites s on s.siteid = sdsr.siteid
  where
