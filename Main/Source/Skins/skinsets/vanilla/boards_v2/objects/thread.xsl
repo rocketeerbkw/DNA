@@ -150,6 +150,7 @@
         	</p>
             
             <div class="itemdetail">
+              <xsl:if test="LASTUSERPOST">
                 <p class="replydate">
                     <xsl:text>Last contribution: </xsl:text>
                     <a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;post=',LASTUSERPOST/@POSTID, '#p', LASTUSERPOST/@POSTID)}">
@@ -159,6 +160,7 @@
                 	</a>
                 	(<xsl:value-of select="LASTUSERPOST/DATEPOSTED/DATE/@RELATIVE"/>)
                 </p>
+              </xsl:if>
             	<p class="replies">
             		<xsl:if test="ancestor::POST-LIST/USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
 			            <xsl:text>New posts: </xsl:text><xsl:value-of select="number(parent::POST/@COUNTPOSTS) - number(parent::POST/@LASTPOSTCOUNTREAD)"/>

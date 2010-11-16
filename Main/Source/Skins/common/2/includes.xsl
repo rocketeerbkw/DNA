@@ -201,8 +201,8 @@
             <xsl:include href="_moderation/cta/viewalluserposts.xsl" />
             <xsl:include href="_moderation/cta/makethreadsticky.xsl" />
             <xsl:include href="_moderation/cta/removethreadsticky.xsl" />
+            <xsl:include href="_moderation/cta/subscribetothread.xsl" />
             <xsl:include href="_moderation/cta/addthreadstickypin.xsl" />
-        
             <xsl:include href="_moderation/cta/boardsadmin/editpost.xsl" />
             <xsl:include href="_moderation/cta/boardsadmin/moderationhistory.xsl" />
         
