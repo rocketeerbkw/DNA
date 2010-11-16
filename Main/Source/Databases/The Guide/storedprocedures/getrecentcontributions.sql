@@ -74,8 +74,8 @@ select
 	u.loginname as AuthorIdentityUserName,
 	f.CanWrite as ForumCanWrite,
 	s.SiteEmergencyClosed as SiteEmergencyClosed,
-	cf.ForumCloseDate as ForumCloseDate
-	
+	cf.ForumCloseDate as ForumCloseDate,
+	@startindex as 'startindex'
 from 	
 	NumberedThreadEnrtries p
 	inner join dbo.threadentries as te on p.entryid = te.entryid
