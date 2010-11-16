@@ -1314,7 +1314,7 @@ links: http://www.bbc.co.uk and other stuff";
 
             var lastPost = doc.SelectSingleNode("//H2G2/FORUMTHREADS/THREAD/LASTPOST/TEXT");
             var lastPostId = doc.SelectSingleNode("//H2G2/FORUMTHREADS/THREAD/LASTPOST/@POSTID").InnerText;
-            var lastPostIndex = doc.SelectSingleNode("//H2G2/FORUMTHREADPOSTS/POST[@POSTID='" + lastPostId + "']/@INDEX").InnerText;
+            var lastPostIndex = Int32.Parse(doc.SelectSingleNode("//H2G2/FORUMTHREADPOSTS/POST[@POSTID='" + lastPostId + "']/@INDEX").InnerText);
             Assert.IsNotNull(lastPost);
             Assert.AreEqual(expectedString, lastPost.InnerXml);
             Assert.AreNotEqual("0", lastPostIndex);//shouldn't be 0 - should be 1 or more
@@ -1324,7 +1324,7 @@ links: http://www.bbc.co.uk and other stuff";
 
             var lastReadPostIndex = doc.SelectSingleNode("//H2G2/POSTS/POST-LIST/POST/THREAD[@THREADID='33']/../@LASTPOSTCOUNTREAD").InnerText;
 
-            Assert.AreEqual(lastPostIndex, lastReadPostIndex);
+            Assert.AreEqual((lastPostIndex+1).ToString(), lastReadPostIndex);
         }
 
         #region Private helper functions
