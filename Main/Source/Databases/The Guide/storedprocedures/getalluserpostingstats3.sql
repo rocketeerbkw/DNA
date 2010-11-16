@@ -1,4 +1,4 @@
-CREATE PROCEDURE getalluserpostingstats3 @userid int, @startindex int =20, @itemsperpage int=0, @siteid int
+CREATE PROCEDURE getalluserpostingstats3 @userid int, @maxresults int, @siteid int
 As
 
 -- @maxresults is used to limit the number of results returned for popular values
@@ -13,25 +13,9 @@ As
 		DECLARE @IncludeContentFromOtherSites INT
 		SELECT @IncludeContentFromOtherSites = dbo.udf_getsiteoptionsetting(@siteid, 'PersonalSpace', 'IncludeContentFromOtherSites');
 
-
-		;with CTE_POSTINGS AS
-		(
-			select 
-				row_number() over(order by tp.lastposting desc) n,			
-				tp.userid, tp.threadid, tp.forumid
-			from 
-				threadpostings tp
-			where
-				tp.userid = @userid
-		)
-		,
-		CTE_TOTAL AS
-		(
-			SELECT (SELECT CAST(MAX(n) AS INT) FROM CTE_EVENTS) AS 'total', * FROM CTE_POSTINGS
-		)
-		SELECT	tp.ThreadID, 
-				tp.FirstSubject, 
-				tp.ForumID, 
+		SELECT	tpth.ThreadID, 
+				tpth.FirstSubject, 
+				tpth.ForumID, 
 				u.UserName,
 				siuidm.IdentityUserID,
 				'IdentityUserName' = u.LoginName,
@@ -44,14 +28,14 @@ As
 				u.Active,
 				P.Title,
 				P.SiteSuffix,
-				'MostRecent' = tp.LastUserPosting,
-				'LastReply' = tp.LastPosting, 
-				tp.Replies, 
-				'YourLastPost' = tp.LastUserPostID,
+				'MostRecent' = tpth.LastUserPosting,
+				'LastReply' = tpth.LastPosting, 
+				tpth.Replies, 
+				'YourLastPost' = tpth.LastUserPostID,
 				fo.SiteID, 
-				'Private' = CASE WHEN th.CanRead = 0 THEN 1 ELSE 0 END,
-				tp.CountPosts, 
-				tp.LastPostCountRead, 
+				tpth.Private,
+				tpth.CountPosts, 
+				tpth.LastPostCountRead, 
 				'ForumTitle' = fo.Title,
 				'Journal' = u1.UserID, 
 				'JournalUserID' = u1.UserID, 
@@ -74,16 +58,27 @@ As
 				'FirstPosterActive' = u2.Active,
 				'FirstPosterTitle'= P2.Title,
 				'FirstPosterSiteSuffix' = P2.SiteSuffix,
-				th.Type,
-				th.EventDate,
+				tpth.Type,
+				tpth.EventDate,
 				'DateFirstPosted' = te.DatePosted, 
 				CASE WHEN (so.SiteID IS NULL AND fo.SiteID<>@siteid) THEN 0 ELSE 1 END AS 'IsPostingFromVisibleSite'
-		FROM threadpostings tp WITH(NOLOCK)
-		INNER JOIN Threads th WITH(NOLOCK) ON th.threadid = tp.threadid AND th.VisibleTo IS NULL		
+		-- NOTE: 1 is added to TOP to tell DNA there is more results, if there is indeed more
+		FROM (SELECT TOP (@maxresults+1) tp.ThreadID, tp.LastPosting, tp.LastUserPosting, tp.LastUserPostID, tp.ForumID, 
+					tp.Replies,
+					tp.CountPosts,
+					tp.LastPostCountRead,
+					th.FirstSubject,
+					'Private' = CASE WHEN th.CanRead = 0 THEN 1 ELSE 0 END,
+					th.Type, th.EventDate
+				FROM threadpostings tp WITH(NOLOCK)
+				INNER JOIN Threads th WITH(NOLOCK) ON th.threadid = tp.threadid AND th.VisibleTo IS NULL
+				WHERE tp.userid=@userid
+				ORDER BY tp.LastPosting DESC) AS tpth
+				
 		INNER JOIN Users u WITH(NOLOCK) ON u.UserID = @userid
-		INNER JOIN ThreadEntries te WITH(NOLOCK) ON te.ThreadID = tp.ThreadID AND te.PostIndex = 0
-		INNER JOIN Users u2 WITH(NOLOCK) ON u2.UserID = te.userid 
-		INNER JOIN Forums fo WITH(NOLOCK) ON fo.ForumID = th.ForumID
+		INNER JOIN ThreadEntries te WITH(NOLOCK) ON te.ThreadID = tpth.ThreadID AND te.PostIndex = 0
+		INNER JOIN Users u2 WITH(NOLOCK) ON te.UserID = u2.UserID
+		INNER JOIN Forums fo WITH(NOLOCK) ON fo.ForumID = tpth.ForumID
 		LEFT JOIN SiteOptions so ON so.SiteID= fo.SiteID AND so.Section = 'General' AND so.Name = 'SiteIsPrivate' AND so.value='0' AND @IncludeContentFromOtherSites = 1 -- i.e. All public sites if current site includes content from other sites. 
 		LEFT JOIN Users u1 WITH(NOLOCK) ON fo.JournalOwner = u1.UserID
 		LEFT JOIN Preferences P WITH(NOLOCK) on (P.UserID = U.UserID) and (P.SiteID = fo.SiteID)
@@ -92,7 +87,4 @@ As
 		INNER JOIN SignInUserIDMapping siuidm2 WITH(NOLOCK) ON u2.UserID = siuidm2.DnaUserID
 		--INNER JOIN dbo.Journals J1 WITH(NOLOCK) on J1.UserID = U.UserID and J1.SiteID = fo.SiteID
 		INNER JOIN dbo.Journals J2 WITH(NOLOCK) on J2.UserID = U2.UserID and J2.SiteID = fo.SiteID
-		where 
-		n > @startindex and n <= @startindex + @itemsperpage
-		ORDER BY n
-		
+		ORDER BY LastReply DESC
