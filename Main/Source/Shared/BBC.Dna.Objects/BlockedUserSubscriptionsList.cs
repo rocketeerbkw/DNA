@@ -240,7 +240,7 @@ namespace BBC.Dna.Objects
                 using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("unblockusersubscription"))
                 {
                     dataReader.AddParameter("authorid", dnaUserId);
-                    dataReader.AddParameter("user", unblockUserId);
+                    dataReader.AddParameter("userid", unblockUserId);
                     dataReader.Execute();
                 }
             }
