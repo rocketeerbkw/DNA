@@ -12,6 +12,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Api;
 using System.Xml.Serialization;
+using System.Xml;
 
 namespace BBC.Dna.Objects
 {
@@ -119,8 +120,30 @@ namespace BBC.Dna.Objects
         /// The content of the actual post in _rich text_ format 
         /// </summary>
         [DataMember(Name = "body")]
-        [System.Xml.Serialization.XmlElement(ElementName = "TEXT")]
+        [XmlIgnore]
         public string Body { get; set; }
+
+        [XmlAnyElement]
+        public XmlElement BodyXml
+        {
+            get
+            {
+                var xmlDoc = new XmlDocument();
+                try
+                {
+                    xmlDoc.LoadXml("<TEXT>" + Body + "</TEXT>");
+                }
+                catch 
+                {
+                    xmlDoc.LoadXml("<TEXT>" + HtmlUtils.HtmlEncode(Body) + "</TEXT>");
+                }
+
+                return xmlDoc.DocumentElement;
+            }
+
+            set { Body = value.InnerXml; }
+        }
+
 
         /// <summary>
         /// The human-readable toplevel site name (e.g. "The Archers Messageboard" or "BBC Internet Blog")  
