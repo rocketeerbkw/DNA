@@ -544,7 +544,7 @@ namespace BBC.Dna.Api
             }
 
             ratingInfo.IsEditorPick = reader.GetBoolean("IsEditorPick");
-            ratingInfo.Index = reader.GetInt32NullAsZero("Index");
+            ratingInfo.Index = reader.GetInt32NullAsZero("PostIndex");
 
             //get complainant
             Dictionary<string, string> replacement = new Dictionary<string, string>();
