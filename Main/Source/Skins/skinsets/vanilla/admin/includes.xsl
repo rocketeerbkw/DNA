@@ -26,12 +26,6 @@
 	<!-- objects -->
 	<xsl:include href="objects/user/welcome.xsl"/>
 	
-	<xsl:include href="objects/links/admin.xsl"/>
-	<xsl:include href="objects/links/tabs.xsl"/>
-	<xsl:include href="objects/links/timeframe.xsl"/>
-	<xsl:include href="objects/links/usermanagement.xsl"/>
-	<xsl:include href="objects/links/useful.xsl"/>
-	
 	<xsl:include href="objects/activitydata/activitydata.xsl"/>
 	<xsl:include href="objects/activitydata/notes.xsl"/>
 	<xsl:include href="objects/activitydata/post.xsl"/>
@@ -39,6 +33,13 @@
 	<xsl:include href="objects/activitydata/typeicon.xsl"/>
 	<xsl:include href="objects/activitydata/typelist.xsl"/>	
 	<xsl:include href="objects/activitydata/user.xsl"/>
+		
+	<xsl:include href="objects/links/admin.xsl"/>
+	<xsl:include href="objects/links/breadcrumb.xsl"/>
+	<xsl:include href="objects/links/tabs.xsl"/>
+	<xsl:include href="objects/links/timeframe.xsl"/>
+	<xsl:include href="objects/links/usermanagement.xsl"/>
+	<xsl:include href="objects/links/useful.xsl"/>
 	
 	<xsl:include href="objects/moderator/actionitemtotal.xsl"/>
 	<xsl:include href="objects/moderator/queued.xsl"/>
@@ -47,17 +48,18 @@
 	<xsl:include href="objects/moderator/siteevent.xsl"/>
 	<xsl:include href="objects/moderator/sites.xsl"/>
 	<xsl:include href="objects/moderator/sitesummarystats.xsl"/>
-  <xsl:include href="objects/moderator/siteevent.xsl"/>
-  <xsl:include href="objects/activitydata/activitydata.xsl"/>
-  <xsl:include href="objects/activitydata/site.xsl"/>
-  <xsl:include href="objects/activitydata/user.xsl"/>
-  <xsl:include href="objects/activitydata/post.xsl"/>
-  <xsl:include href="objects/activitydata/notes.xsl"/>
-  <xsl:include href="objects/activitydata/typeicon.xsl"/>
-  <xsl:include href="objects/activitydata/typelist.xsl"/>
-  <xsl:include href="objects/contributions/contribution.xsl"/>
+  
+	<xsl:include href="objects/moderator/siteevent.xsl"/>
+	<xsl:include href="objects/activitydata/activitydata.xsl"/>
+	<xsl:include href="objects/activitydata/site.xsl"/>
+	<xsl:include href="objects/activitydata/user.xsl"/>
+	<xsl:include href="objects/activitydata/post.xsl"/>
+	<xsl:include href="objects/activitydata/notes.xsl"/>
+	<xsl:include href="objects/activitydata/typeicon.xsl"/>
+	<xsl:include href="objects/activitydata/typelist.xsl"/>
+	<xsl:include href="objects/contributions/contribution.xsl"/>
 
-
+	<xsl:include href="objects/title.xsl"/>
 	<xsl:include href="objects/topiclist.xsl"/>	
 	
 	<!-- pages -->

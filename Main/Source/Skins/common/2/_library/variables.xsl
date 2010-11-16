@@ -241,6 +241,7 @@
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 2">messageboard</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 3">community</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">story</xsl:when>
+    		<xsl:otherwise>all</xsl:otherwise>
     	</xsl:choose>
     </xsl:variable>
     

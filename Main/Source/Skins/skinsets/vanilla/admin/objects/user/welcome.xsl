@@ -7,7 +7,7 @@
 	exclude-result-prefixes="doc">
 
 	<xsl:template match="USER" mode="objects_user_welcome">
-		<div class="dna-fl dna-main-left">
+		<div class="dna-fl">
 				<p>Hello, <xsl:value-of select="USERNAME" />! 
 				<xsl:choose>
 					<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">

@@ -20,30 +20,32 @@
 
   <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARD']" mode="page">
     
-	<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
-  
-	    <xsl:apply-templates select="VIEWING-USER/USER" mode="objects_user_welcome" />
-	    
-	    <div class="dna-fr dna-main-right">
-		    <form method="get" action="hostdashboard" class="dna-fr"> 
+    <div class="dna-mb-intro blq-clearfix">
+    	<xsl:apply-templates select="VIEWING-USER/USER" mode="objects_user_welcome" />
+	    <div class="dna-fr">
+		    <form method="get" action="hostdashboard"> 
 		    	<fieldset>
 		    		<input type="hidden" name="s_type" value="{/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE}" />
 		            
 		            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
 				    	<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
 		            </xsl:if>
-            		
-            		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
+	           		
+	           		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
 				    	<select name="s_siteid" id="s_siteid">
 				    		<option selected="selected" value="all">All <xsl:value-of select="$dashboardtype" />s</option>
 				    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
 				    	</select>
-				    	<input type="submit" value="go" />
+				    	<div class="dna-buttons">
+				    		<input type="submit" value="go" />
+				    	</div>
 			    	</xsl:if>
 		    	</fieldset>
-		    </form>	
-	    </div>
-	    
+		    </form>
+	    </div>	
+    </div>    
+	
+	<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 		<div class="dna-fl dna-main-full">
 			<div class="dna-fl dna-main-threequarter">
 				<div class="dna-box">
@@ -86,7 +88,7 @@
 			
 			<div class="dna-fl dna-main-right dna-boxspace">
 				<div class="dna-box">
-					<h3>User management</h3>
+					<h3>User management links</h3>
 					<xsl:call-template name="objects_links_usermanagement" />
 				</div>
 			</div>

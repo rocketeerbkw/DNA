@@ -35,7 +35,6 @@
 	<xsl:variable name="smileys" select="''"/>
     
 	<xsl:template match="H2G2">
-
 		<html xml:lang="en-GB" lang="en-GB">
 			<head profile="http://dublincore.org/documents/dcq-html/">
 				<title>
@@ -81,7 +80,7 @@
 			<body>
 				<xsl:attribute name="class">
 					<xsl:choose>
-						<xsl:when test="not(@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE')">
+						<xsl:when test="not(@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS')">
 							<xsl:text>boardsadmin</xsl:text> 
 						</xsl:when>
 						<xsl:otherwise>dna-dashboard</xsl:otherwise>
@@ -90,23 +89,14 @@
 				<xsl:comment>#include virtual="/includes/blq/include/blq_body_first.sssi"</xsl:comment>
 				
 				<div id="blq-local-nav" class="nav blq-clearfix">
-					<xsl:choose>
-						<xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0' and not(@TYPE = 'HOSTDASHBOARD')">
-							<h1>DNA Site Admin <span><xsl:value-of select="SITE/SHORTNAME"/></span></h1>
-						</xsl:when>
-						<xsl:when test="@TYPE = 'HOSTDASHBOARD'">
-							<h1>Host Dashboard</h1>
-						</xsl:when>
-						<xsl:otherwise>
-							<h1>Messageboard Admin <span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span></h1>
-						</xsl:otherwise>
-					</xsl:choose>
-					
+					<xsl:apply-templates select="." mode="objects_title"/>
+					<xsl:call-template name="objects_title" />
 					<xsl:call-template name="objects_links_tabs" />
 				</div>
    
 				<div id="blq-content">
-					<xsl:if test="not(/H2G2[@TYPE='ERROR' or @TYPE = 'FRONTPAGE' or @TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE'])">
+					<!--  this is starting to get messy... -->
+					<xsl:if test="not(/H2G2[@TYPE='ERROR' or @TYPE = 'FRONTPAGE' or @TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS'])">
 						<xsl:choose>
 							<xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
 								<xsl:call-template name="emergency-stop"><xsl:with-param name="type" select="'SITE'" /></xsl:call-template>

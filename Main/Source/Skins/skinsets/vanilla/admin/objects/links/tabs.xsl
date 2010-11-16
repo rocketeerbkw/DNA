@@ -11,7 +11,7 @@
 		<ul>
 			<!-- admin tool tabs -->
 			<xsl:choose>
-				<xsl:when test="not(@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE')">
+				<xsl:when test="not(@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS')">
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
 							<xsl:attribute name="class">selected</xsl:attribute>
@@ -25,10 +25,10 @@
 						<a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
 					</li>
 				</xsl:when>
-				<!-- 
-					host dashboard tabs 
-					do test around these if user can/cannot see the dashboard type for selected value or show/hide tabs?
-				-->
+				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS'">
+					<!-- no tabs for the host dashboard activity page -->
+					<li>&#160;</li>
+				</xsl:when>
 				<xsl:otherwise>
 					<li>
 						<xsl:if test="not(PARAMS/PARAM[NAME = 's_type']/VALUE )">
@@ -48,7 +48,7 @@
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '2'">
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
-						<a href="{$root}/hostdashboard?s_type=2{$dashboardsiteuser}">Boards <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']" /></a>
+						<a href="{$root}/hostdashboard?s_type=2{$dashboardsiteuser}">Messageboards <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']" /></a>
 					</li>
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '3'">

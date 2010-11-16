@@ -18,83 +18,49 @@
 		</doc:notes>
 	</doc:documentation>
 
-  <xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="page">
-
-    <div class="dna-fl dna-main-left">
-      <h3>User Contributions</h3>
-      <p>Below is a list of a users contributions across DNA services</p>
-      <form method="get" action="usercontributions" class="dna-fl">
-        <fieldset>
-          <p>
-          User Id: <input type="text" name="s_userid" value="{/H2G2/CONTRIBUTIONS/@USERID}"/> <a href="userlist">Find more users</a>
-          </p>
-          <p>
-            Start Date: <input type="text" name="s_startdate" value=""/> (Format: YYYY-MM-DD)
-          </p>
-          <p>
-            <input type="submit" value ="Get Posts"/>
-          </p>
-        </fieldset>
-      </form>
-    </div>
-    <div class="dna-fl dna-box">
-      <div id="blq-local-nav" class="nav blq-clearfix">
-
-        <ul>
-          <li>
-            <xsl:if test="not(PARAMS/PARAM[NAME = 's_type']/VALUE )">
-              <xsl:attribute name="class">selected</xsl:attribute>
-            </xsl:if>
-            <a href="{$root}/usercontributions?{$dashboardsiteuser}">
-              All <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS" mode="objects_moderator_actionitemtotal"/>
-            </a>
-          </li>
-          <li>
-            <xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '1'">
-              <xsl:attribute name="class">selected</xsl:attribute>
-            </xsl:if>
-            <a href="{$root}/usercontributions?s_type=1{$dashboardsiteuser}">
-              Blogs <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Blog']" mode="objects_moderator_actionitemtotal"/>
-            </a>
-          </li>
-          <li>
-            <xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '2'">
-              <xsl:attribute name="class">selected</xsl:attribute>
-            </xsl:if>
-            <a href="{$root}/usercontributions?s_type=2{$dashboardsiteuser}">
-              Boards <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']" />
-            </a>
-          </li>
-          <li>
-            <xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '3'">
-              <xsl:attribute name="class">selected</xsl:attribute>
-            </xsl:if>
-            <a href="{$root}/usercontributions?s_type=3{$dashboardsiteuser}">
-              Communities <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Community']" />
-            </a>
-          </li>
-          <li>
-            <xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '4'">
-              <xsl:attribute name="class">selected</xsl:attribute>
-            </xsl:if>
-            <a href="{$root}/usercontributions?s_type=4{$dashboardsiteuser}">
-              Stories <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'EmbeddedComments']" />
-            </a>
-          </li>
-        </ul>
-
-      </div>
-
-    <div class="dna-main dna-main-full">
-      
-      <xsl:apply-templates select="CONTRIBUTIONS" mode="library_pagination_forumthreadposts" />
-        
-      <xsl:apply-templates mode="object_post_generic" select="/H2G2/CONTRIBUTIONS/CONTRIBUTIONITEMS/CONTRIBUTIONITEM"></xsl:apply-templates>
-      
-      <xsl:apply-templates select="CONTRIBUTIONS" mode="library_pagination_forumthreadposts" />
-    </div>
-
-    </div>
-  </xsl:template>
+	<xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="page">
+		
+		<xsl:call-template name="objects_links_breadcrumb">
+			<xsl:with-param name="pagename" >user contributions for <xsl:value-of select="/H2G2/CONTRIBUTIONS/@USERID" /></xsl:with-param>
+		</xsl:call-template>	
+	
+		<div class="dna-mb-intro blq-clearfix">
+			<p>Below is a list of a users contributions across DNA services</p>
+			<form method="get" action="usercontributions">
+				<fieldset>
+					<label for="s_userid">User Id:</label> <input type="text" name="s_userid" id="s_userid" value="{/H2G2/CONTRIBUTIONS/@USERID}"/> <a href="userlist">Find more users</a>
+					<br /><br />
+					<label for="s_startdate">Start Date:</label> <input type="text" name="s_startdate" id="s_startdate" value=""/> (Format: YYYY-MM-DD)
+				</fieldset>
+				<div class="dna-buttons dna-fr">
+					<input type="submit" value ="Get Posts"/>
+				</div>				
+			</form>
+		</div>
+		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
+			<div class="dna-main dna-main-full">
+				<div class="dna-box">
+					<h3>User contributions for <xsl:value-of select="/H2G2/CONTRIBUTIONS/@USERID" /></h3>
+					<xsl:apply-templates select="CONTRIBUTIONS" mode="library_pagination_forumthreadposts" />
+					<div class="dna-fl dna-main-full">
+						<table class="dna-dashboard-activity dna-dashboard-contributions">
+							<thead>
+								<tr>
+									<th class="date">Date</th>
+									<th>Post details</th>
+									<th>Post</th>
+									<th class="type">Reason</th>
+								</tr>
+							</thead>
+							<tbody>
+								<xsl:apply-templates select="/H2G2/CONTRIBUTIONS/CONTRIBUTIONITEMS/CONTRIBUTIONITEM" mode="objects_contributions_contribution" />
+							</tbody>
+						</table>
+					</div>
+					<xsl:apply-templates select="CONTRIBUTIONS" mode="library_pagination_forumthreadposts" />
+				</div>
+			</div>
+		</div>
+	</xsl:template>
 	
 </xsl:stylesheet>
