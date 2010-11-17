@@ -38,13 +38,13 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'THREADS']" mode="library_memberservice_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/F', FORUMTHREADS/@FORUMID, '%3Fs_sync=1')"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, '%3Fs_sync=1')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'MULTIPOSTS']" mode="library_memberservice_ptrt">
 		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/F', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID, '%3Fs_sync=1')"/>
+			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID, '%3Fs_sync=1')"/>
 		</xsl:call-template>
 	</xsl:template>
 	
