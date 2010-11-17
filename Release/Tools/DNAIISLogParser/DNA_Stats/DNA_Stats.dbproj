@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Default</Configuration>
+    <Name>"DatabaseProject"</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{98f92ebc-ccaf-4340-bde1-491c5cbbf26a}</ProjectGuid>
+    <ShowWizard>False</ShowWizard>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <DefaultSchemaForUnqualifiedObjects>dbo</DefaultSchemaForUnqualifiedObjects>
+    <EnableCLRIntegration>False</EnableCLRIntegration>
+    <DefaultFileStructure>BySchemaType</DefaultFileStructure>
+    <IncludeSchemaNameInFilename>True</IncludeSchemaNameInFilename>
+    <DoNotUseAlterAssemblyStatementsToUpdateCLRTypes>False</DoNotUseAlterAssemblyStatementsToUpdateCLRTypes>
+    <ProjectVersion>4.0</ProjectVersion>
+    <DefaultDataPath>Undefined</DefaultDataPath>
+    <DefaultSchema>dbo</DefaultSchema>
+    <RootNamespace>DNA_Stats</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccProvider>
+    </SccProvider>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <PreviousProjectVersion>4.0</PreviousProjectVersion>
+    <DSP>Microsoft.Data.Schema.Sql.Sql90DatabaseSchemaProvider</DSP>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <DeployToDatabaseAddToServerExplorer>True</DeployToDatabaseAddToServerExplorer>
+    <DeployToScript>True</DeployToScript>
+    <CatalogPropertiesFile>Properties\Database.sqlsettings</CatalogPropertiesFile>
+    <AllowServerObjects>False</AllowServerObjects>
+    <AllowDatabaseObjects>True</AllowDatabaseObjects>
+    <ModelCollation>1033,CS</ModelCollation>
+    <PostUpgradeAddToSCC>;D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\Schema Objects\Storage\Files\PrimaryFileName.sqlfile.sql;D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\Schema Objects\Storage\Files\PrimaryLogFileName.sqlfile.sql</PostUpgradeAddToSCC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Default' ">
+    <OutputPath>.\sql\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TargetConnectionString>Data Source=.;Integrated Security=True;Pooling=False</TargetConnectionString>
+    <TargetDatabase>
+    </TargetDatabase>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <SuppressWarnings>
+    </SuppressWarnings>
+    <DeploymentConfigFile>Properties\Database.sqldeployment</DeploymentConfigFile>
+    <SqlCommandVariablesFile>Properties\Database.sqlcmdvars</SqlCommandVariablesFile>
+    <DeployToDatabase>True</DeployToDatabase>
+  </PropertyGroup>
+  <!--Import the settings-->
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\TeamData\Microsoft.Data.Schema.SqlTasks.targets" />
+  <PropertyGroup>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Schema Objects" />
+    <Folder Include="Schema Objects\Assemblies" />
+    <Folder Include="Schema Objects\Database Triggers" />
+    <Folder Include="Schema Objects\Functions" />
+    <Folder Include="Schema Objects\Security" />
+    <Folder Include="Schema Objects\Security\Roles" />
+    <Folder Include="Schema Objects\Security\Roles\Application Roles" />
+    <Folder Include="Schema Objects\Security\Roles\Database Roles" />
+    <Folder Include="Schema Objects\Security\Schemas" />
+    <Folder Include="Schema Objects\Security\Users" />
+    <Folder Include="Schema Objects\Service Broker" />
+    <Folder Include="Schema Objects\Service Broker\Contracts" />
+    <Folder Include="Schema Objects\Service Broker\Event Notifications" />
+    <Folder Include="Schema Objects\Service Broker\Message Types" />
+    <Folder Include="Schema Objects\Service Broker\Queues" />
+    <Folder Include="Schema Objects\Service Broker\Remote Service Binding" />
+    <Folder Include="Schema Objects\Service Broker\Routes" />
+    <Folder Include="Schema Objects\Service Broker\Services" />
+    <Folder Include="Schema Objects\Storage" />
+    <Folder Include="Schema Objects\Storage\Full Text Catalogs" />
+    <Folder Include="Schema Objects\Storage\Partition Functions" />
+    <Folder Include="Schema Objects\Storage\Partition Schemes" />
+    <Folder Include="Schema Objects\Stored Procedures" />
+    <Folder Include="Schema Objects\Synonyms" />
+    <Folder Include="Schema Objects\Tables" />
+    <Folder Include="Schema Objects\Tables\Constraints" />
+    <Folder Include="Schema Objects\Tables\Indexes" />
+    <Folder Include="Schema Objects\Tables\Keys" />
+    <Folder Include="Schema Objects\Tables\Statistics" />
+    <Folder Include="Schema Objects\Tables\Triggers" />
+    <Folder Include="Schema Objects\Types" />
+    <Folder Include="Schema Objects\Types\User defined Data Types" />
+    <Folder Include="Schema Objects\Types\User defined Types CLR" />
+    <Folder Include="Schema Objects\Types\XML Schema Collections" />
+    <Folder Include="Schema Objects\Views" />
+    <Folder Include="Schema Objects\Views\Indexes" />
+    <Folder Include="Schema Objects\Views\Statistics" />
+    <Folder Include="Schema Objects\Views\Triggers" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\Pre-Deployment" />
+    <Folder Include="Scripts\Post-Deployment" />
+    <Folder Include="Data Generation Plans" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Scripts\Pre-Deployment\Script.PreDeployment.sql">
+      <SubType>Code</SubType>
+    </PreDeploy>
+    <PostDeploy Include="Scripts\Post-Deployment\Script.PostDeployment.sql">
+      <SubType>Code</SubType>
+    </PostDeploy>
+    <NotInBuild Include="Scripts\Post-Deployment\DatabaseObjectOptions.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Post-Deployment\Permissions.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Post-Deployment\RoleMemberships.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Post-Deployment\RulesAndDefaults.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Post-Deployment\Signatures.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Pre-Deployment\CustomErrors.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Pre-Deployment\EncryptionKeysAndCertificates.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Pre-Deployment\LinkedServers.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\Pre-Deployment\Logins.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+    <NotInBuild Include="Scripts\ScriptsIgnoredOnImport.sql">
+      <SubType>NotInBuild</SubType>
+    </NotInBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Schema Objects\Stored Procedures\dbo.http_methodget.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.http_statusget.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.impressionswrite.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.machine_nameget.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.perfMonWrite.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.perf_counterget.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.perf_instanceget.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.perf_typeget.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.siteget.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Stored Procedures\dbo.urlget.proc.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.http_method.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.http_status.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.impressions.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.machine_name.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.perfMon.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.perf_counter.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.perf_instance.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.perf_type.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.site.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\dbo.url.table.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.http_method.PK_http_method.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.http_status.PK_http_status.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.impressions.FK_impressions_http_method.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.impressions.FK_impressions_http_status.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.impressions.FK_impressions_machine_name.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.impressions.FK_impressions_site.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.impressions.FK_impressions_url.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.impressions.PK_impressions.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.machine_name.PK_machine_name.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.perfMon.FK_perfMon_machine_name.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.perfMon.FK_perfMon_perf_counter.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.perfMon.FK_perfMon_perf_instance.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.perfMon.FK_perfMon_perf_type.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.perfMon.PK_perfMon.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.perf_counter.PK_perf_counter.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.perf_instance.PK_perf_instance.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.perf_type.PK_perf_type.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.site.PK_site.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Tables\Keys\dbo.url.PK_url.pkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <PropertiesFile Include="Properties\Database.sqlsettings" />
+    <Build Include="Properties\Database.sqlpermissions">
+      <ModelBuilderType>Permissions</ModelBuilderType>
+    </Build>
+    <PropertiesFile Include="Properties\Database.sqldeployment" />
+    <PropertiesFile Include="Properties\Database.sqlcmdvars" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Schema Objects\Storage\Filegroups" />
+    <Folder Include="Schema Objects\Storage\Files" />
+    <Build Include="Schema Objects\Storage\Files\PrimaryFileName.sqlfile.sql" />
+    <Build Include="Schema Objects\Storage\Files\PrimaryLogFileName.sqlfile.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <BuildContributorArgument Include="OutDir=$(OutDir)" />
+  </ItemGroup>
+</Project>

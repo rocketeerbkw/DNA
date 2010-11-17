@@ -27,7 +27,7 @@ namespace BBC.Dna.Utils.Tests
         [TestMethod]
         public void ReplaceEntitiesWithNumericValues_StringContainsEntity_ReturnsReplacedEntities()
         {
-            var text = "this contains &nbsp text entities";
+            var text = "this contains &nbsp; text entities";
             var expected = "this contains &#160; text entities";
             Assert.AreEqual(expected, Entities.ReplaceEntitiesWithNumericValues(text));
         }

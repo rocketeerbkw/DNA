@@ -36,47 +36,7 @@ namespace BBC.Dna.Api
         {
             get
             {
-                
-                if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration ||
-                    hidden == CommentStatus.Hidden.Hidden_AwaitingReferral)
-                {
-                    return "This post is awaiting moderation.";
-                }
-                if (hidden != CommentStatus.Hidden.NotHidden)
-                {
-                    return "This post has been removed.";
-                }
-                string _text = text;
-                switch (PostStyle)
-                {
-                    case Api.PostStyle.Style.plaintext:
-                        _text = HtmlUtils.RemoveAllHtmlTags(_text);
-                        _text = HtmlUtils.ReplaceCRsWithBRs(_text);
-                        _text = LinkTranslator.TranslateExLinksToHtml(_text);
-                        break;
-
-                    case Api.PostStyle.Style.richtext:
-                        _text = HtmlUtils.CleanHtmlTags(_text, false, false);
-                        _text = HtmlUtils.ReplaceCRsWithBRs(_text);
-                        //<dodgey>
-                        var temp = "<RICHPOST>" + _text + "</RICHPOST>";
-                        temp = HtmlUtils.TryParseToValidHtml(temp);
-                        _text = temp.Replace("<RICHPOST>", "").Replace("</RICHPOST>", "");
-                        //</dodgey>
-
-                        _text = LinkTranslator.TranslateExLinksToHtml(_text);
-                        break;
-
-                    case Api.PostStyle.Style.rawtext:
-                        //do nothing
-                        break;
-
-                    case Api.PostStyle.Style.unknown:
-                        //do nothing
-                        break;
-                }
-
-                return _text;
+                return FormatComment(text, PostStyle, hidden);
             }
             set { text = value; }
         }
@@ -131,6 +91,19 @@ namespace BBC.Dna.Api
         [DataMember(Name = ("status"), Order = 9)]
         public CommentStatus.Hidden hidden = CommentStatus.Hidden.NotHidden;
 
+        [DataMember(Name = ("isEditorPick"), Order = 10)]
+        public bool IsEditorPick
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("index"), Order = 11)]
+        public int Index
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Is the comment premod
@@ -142,6 +115,56 @@ namespace BBC.Dna.Api
         /// </summary>
         public bool IsPreModPosting = false;
 
+
+        /// <summary>
+        /// Formats the comment string
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="style"></param>
+        /// <param name="hidden"></param>
+        /// <returns></returns>
+        public static string FormatComment(string text, PostStyle.Style style, CommentStatus.Hidden hidden)
+        {
+            if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration ||
+                hidden == CommentStatus.Hidden.Hidden_AwaitingReferral)
+            {
+                return "This post is awaiting moderation.";
+            }
+            if (hidden != CommentStatus.Hidden.NotHidden)
+            {
+                return "This post has been removed.";
+            }
+            string _text = text;
+            switch (style)
+            {
+                case Api.PostStyle.Style.plaintext:
+                    _text = HtmlUtils.RemoveAllHtmlTags(_text);
+                    _text = HtmlUtils.ReplaceCRsWithBRs(_text);
+                    _text = LinkTranslator.TranslateExLinksToHtml(_text);
+                    break;
+
+                case Api.PostStyle.Style.richtext:
+                    _text = HtmlUtils.CleanHtmlTags(_text, false, false);
+                    _text = HtmlUtils.ReplaceCRsWithBRs(_text);
+                    //<dodgey>
+                    var temp = "<RICHPOST>" + _text + "</RICHPOST>";
+                    temp = HtmlUtils.TryParseToValidHtml(temp);
+                    _text = temp.Replace("<RICHPOST>", "").Replace("</RICHPOST>", "");
+                    //</dodgey>
+
+                    _text = LinkTranslator.TranslateExLinksToHtml(_text);
+                    break;
+
+                case Api.PostStyle.Style.rawtext:
+                    //do nothing
+                    break;
+
+                case Api.PostStyle.Style.unknown:
+                    //do nothing
+                    break;
+            }
+            return _text;
+        }
 
     }
 }

@@ -824,7 +824,7 @@ namespace BBC.Dna
                     }
                     if (postStyle != 1)
                     {
-                        text = ThreadPost.FormatPost(text, (CommentStatus.Hidden)hidden, true);
+                        text = ThreadPost.FormatPost(text, (CommentStatus.Hidden)hidden, true, false);
 
                         //text = StringUtils.ConvertPlainText(text);
                     }

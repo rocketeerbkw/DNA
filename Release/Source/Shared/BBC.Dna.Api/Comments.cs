@@ -935,7 +935,8 @@ namespace BBC.Dna.Api
             commentForum.Created = new DateTimeHelper(reader.GetDateTime("DateCreated"));
             commentForum.commentSummary = new CommentsSummary
                                               {
-                                                  Total = reader.GetInt32NullAsZero("ForumPostCount")
+                                                  Total = reader.GetInt32NullAsZero("ForumPostCount"),
+                                                  EditorPicksTotal = reader.GetInt32NullAsZero("editorpickcount")
                                               };
             commentForum.ForumID = reader.GetInt32NullAsZero("forumid");
             commentForum.isClosed = !commentForum.CanWrite || site.IsEmergencyClosed ||
@@ -1011,6 +1012,9 @@ namespace BBC.Dna.Api
             {
                 commentInfo.PostStyle = (PostStyle.Style) reader.GetTinyIntAsInt("poststyle");
             }
+
+            commentInfo.IsEditorPick = reader.GetBoolean("IsEditorPick");
+            commentInfo.Index = reader.GetInt32NullAsZero("PostIndex");
 
             //get complainant
             var replacement = new Dictionary<string, string>();

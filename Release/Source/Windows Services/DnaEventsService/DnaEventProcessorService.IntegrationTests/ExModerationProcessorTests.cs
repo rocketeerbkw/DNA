@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Dna.SnesIntegration.ExModerationProcessor;
+using Dna.ExModerationProcessor;
 using BBC.Dna.Data;
 using DnaEventService.Common;
 

@@ -12,6 +12,7 @@ using Rhino.Mocks.Constraints;
 using TestUtils;
 using BBC.Dna.Sites;
 using BBC.Dna.Common;
+using BBC.Dna.Users;
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -105,6 +106,77 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreNotEqual(null, friends);
 
             XmlDocument xml = Serializer.SerializeToXml(friends);
+        }
+
+        /// <summary>
+        ///A test for AddFriendTest
+        ///</summary>
+        [TestMethod]
+        public void AddFriendTest()
+        {
+            int siteId = 1;
+            string identityusername = "DotNetNormalUser";
+            MockRepository mocks;
+            IDnaDataReader reader;
+            IDnaDataReader reader2;
+            IDnaDataReaderCreator creator;
+            ISite site;
+            ICallingUser viewingUser;
+            ICacheManager cache;
+
+            SetupAddFriendMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2);
+
+            FriendsList.AddFriend(creator, viewingUser, identityusername, siteId, 1090497224, false);
+        }
+
+        /// <summary>
+        ///A test for DeleteFriendTest
+        ///</summary>
+        [TestMethod]
+        public void DeleteFriendTest()
+        {
+            int siteId = 1;
+            string identityusername = "DotNetNormalUser";
+            MockRepository mocks;
+            IDnaDataReader reader;
+            IDnaDataReader reader2;
+            IDnaDataReaderCreator creator;
+            ISite site;
+            ICallingUser viewingUser;
+            ICacheManager cache;
+
+            SetupAddFriendMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2);
+
+            FriendsList.DeleteFriend(creator, viewingUser, identityusername, siteId, 1090497224, false);
+        }
+
+        /// <summary>
+        ///A test for AddFriendsTest
+        ///</summary>
+        [TestMethod]
+        public void TryAddFriendForSomebodyElse_FailsTest()
+        {
+            int siteId = 1;
+            string identityusername = "DotNetNormalUser";
+            MockRepository mocks;
+            IDnaDataReader reader;
+            IDnaDataReader reader2;
+            IDnaDataReaderCreator creator;
+            ISite site;
+            ICallingUser viewingUser;
+            ICacheManager cache;
+
+            SetupAddFriendMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2);
+
+            try
+            {
+                FriendsList.AddFriend(creator, viewingUser, identityusername, siteId, 6, false);
+            }
+            catch (Api.ApiException ex)
+            {
+                Assert.IsTrue(ex.type == BBC.Dna.Api.ErrorType.NotAuthorized, "Wrong error returned ");
+            }
+
         }
 
         /// <summary>
@@ -269,9 +341,40 @@ namespace BBC.Dna.Objects.Tests
             mocks = new MockRepository();
             readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
 
-            // mock the search response
+            // mock the response
             reader = mocks.DynamicMock<IDnaDataReader>();
             reader2 = mocks.DynamicMock<IDnaDataReader>();
+        }
+
+        private void SetupAddFriendMocks(out MockRepository mocks, out ICacheManager cache, out IDnaDataReaderCreator readerCreator, out ICallingUser viewingUser, out ISite site, out IDnaDataReader reader, out IDnaDataReader reader2)
+        {
+            mocks = new MockRepository();
+            cache = mocks.DynamicMock<ICacheManager>();
+            readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            site = mocks.DynamicMock<ISite>();
+            viewingUser = mocks.DynamicMock<ICallingUser>();
+            
+            // mock the response
+            viewingUser.Stub(x => x.UserID).Return(1090497224);
+            viewingUser.Stub(x => x.IsUserA(BBC.Dna.Users.UserTypes.Editor)).Return(false);
+            viewingUser.Stub(x => x.IsUserA(BBC.Dna.Users.UserTypes.SuperUser)).Return(false);
+
+            reader = mocks.DynamicMock<IDnaDataReader>();
+            reader2 = mocks.DynamicMock<IDnaDataReader>();
+
+            AddFriendsListUserDatabaseRows(reader, "");
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+
+            reader2.Stub(x => x.HasRows).Return(true);
+            reader2.Stub(x => x.Read()).Return(true);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("getdnauseridfromidentityusername")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("watchuserjournal")).Return(reader2);
+            readerCreator.Stub(x => x.CreateDnaDataReader("deletewatchedusers")).Return(reader2);
+
+            mocks.ReplayAll();
         }
 
         private void SetupFriendsListMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator, out IDnaDataReader reader, out IDnaDataReader reader2, int rowsToReturn)
@@ -301,7 +404,6 @@ namespace BBC.Dna.Objects.Tests
                 AddFriendsListUserDatabaseRows(reader2, "");
 
             }
-
             readerCreator.Stub(x => x.CreateDnaDataReader("getdnauseridfromidentityusername")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("fetchwatchedjournals")).Return(reader2);
 

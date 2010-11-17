@@ -48,7 +48,7 @@ namespace DnaEventProcessorService.IntegrationTests
         [TestMethod]
         public void RevokeCommentActivity_SubmitActivityAndRevoke_Success()
         {
-            LogUtility.Logger = MockRepository.GenerateStub<IDnaLogger>();
+            var logger = MockRepository.GenerateStub<IDnaLogger>();
             
             DateTime now = DateTime.Now;
             

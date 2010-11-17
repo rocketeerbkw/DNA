@@ -25,8 +25,8 @@ namespace BBC.Dna.Objects
     {
         public enum ArticleListType : int 
         {
-            Normal = 1,
-            Approved = 2,
+            Approved = 1,
+            Normal = 2,
             Cancelled = 3,
             NormalAndApproved = 4
         }

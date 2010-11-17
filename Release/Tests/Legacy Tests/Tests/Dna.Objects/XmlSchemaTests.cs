@@ -7,6 +7,7 @@ using BBC.Dna.Objects;
 using BBC.Dna.Objects.Tests;
 using TestUtils;
 using System.Xml;
+using BBC.Dna.Common;
 
 namespace Tests
 {

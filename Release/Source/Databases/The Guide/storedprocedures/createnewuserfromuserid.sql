@@ -90,6 +90,10 @@ BEGIN
 	EXEC @Err = SetDefaultPreferencesForUser @UserID, @SiteID
 	SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
 
+-- add event 
+EXEC addtoeventqueueinternal 'ET_NEWUSERTOSITE', @UserID, 'IT_USER', @SiteID, 'IT_SITE', @UserID
+
+
 	IF @DateJoined IS NOT NULL
 	BEGIN
 		UPDATE dbo.Preferences SET datejoined = GETDATE(), AutoSinBin = @AutoSinBin

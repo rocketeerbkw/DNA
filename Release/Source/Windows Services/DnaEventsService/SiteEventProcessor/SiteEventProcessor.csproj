@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{493A1688-A503-46F2-B0F0-8D96BC45323C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SiteEventProcessor</RootNamespace>
+    <AssemblyName>SiteEventProcessor</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>BBC.Dna.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.PolicyInjection, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArticleModerationDecision.cs" />
+    <Compile Include="ComplaintPostEvent.cs" />
+    <Compile Include="ComplaintArticleEvent.cs" />
+    <Compile Include="NewUserEvent.cs" />
+    <Compile Include="UserModeratedEvent.cs" />
+    <Compile Include="PostModerationDecision.cs" />
+    <Compile Include="SiteEventProcessor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj">
+      <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
+      <Name>BBC.Dna.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
+      <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
+      <Name>BBC.Dna.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
+      <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
+      <Name>BBC.DNA.Moderation.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
+      <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
+      <Name>BBC.Dna.Moderation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
+      <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
+      <Name>BBC.Dna.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DnaEventService.Common\DnaEventService.Common.csproj">
+      <Project>{8A8A0013-4D42-46FF-A0F9-5B844BBF42CE}</Project>
+      <Name>DnaEventService.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BBC.Dna.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

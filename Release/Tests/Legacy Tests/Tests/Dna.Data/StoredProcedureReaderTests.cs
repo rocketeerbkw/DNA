@@ -219,7 +219,6 @@ namespace Tests
         /// Test for output paramters
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(IndexOutOfRangeException))]
         public void OutputParameterTest()
         {
             Console.WriteLine("Before OutputParameterTest");
@@ -233,7 +232,7 @@ namespace Tests
                     dataReader.AddIntOutputParameter("@seconds");
                     dataReader.Execute();
                     int output;
-                    dataReader.TryGetIntOutputParameter("@fred", out output);
+                    Assert.IsFalse(dataReader.TryGetIntOutputParameter("@fred", out output));
                 }
             }
             catch (IndexOutOfRangeException ex)

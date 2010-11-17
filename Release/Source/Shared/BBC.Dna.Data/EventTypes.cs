@@ -28,6 +28,11 @@
         ET_EXMODERATIONDECISION         = 18,
         ET_POSTTOFORUM                  = 19,
         ET_POSTREVOKE                   = 20,
-        ET_POSTNEEDSRISKASSESSMENT      = 21
+        ET_POSTNEEDSRISKASSESSMENT      = 21,
+        ET_MODERATIONDECISION_ARTICLE   = 22,
+	    ET_MODERATIONDECISION_POST      = 23,
+        ET_USERMODERATION               = 24,
+        ET_NEWUSERTOSITE                = 25,
+        ET_COMPLAINTRECIEVED            = 26,
     }
 }

@@ -1,0 +1,3 @@
+﻿ALTER TABLE [dbo].[site] ADD CONSTRAINT [PK_site] PRIMARY KEY CLUSTERED  ([id]) ON [PRIMARY]
+
+

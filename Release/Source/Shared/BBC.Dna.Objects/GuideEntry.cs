@@ -45,8 +45,9 @@ namespace BBC.Dna.Objects
                             //text = HtmlUtils.ReplaceCRsWithBRs(text);
                             text = HtmlUtils.EscapeNonEscapedAmpersands(text);
                             doc.PreserveWhitespace = true;
-                            doc.LoadXml(text);               
-                            doc["GUIDE"]["BODY"].InnerXml = HtmlUtils.ReplaceCRsWithBRs(doc["GUIDE"]["BODY"].InnerXml);
+                            doc.LoadXml(text);
+                            AdjustFootnotes(doc);
+                            //doc["GUIDE"]["BODY"].InnerXml = HtmlUtils.ReplaceCRsWithBRs(doc["GUIDE"]["BODY"].InnerXml);
                             break;
 
                         case GuideEntryStyle.PlainText:
@@ -74,6 +75,17 @@ namespace BBC.Dna.Objects
             }
 
             return doc.DocumentElement;
+        }
+
+        private static void AdjustFootnotes(XmlDocument doc)
+        {
+            XmlNodeList footnotes = doc.SelectNodes("//FOOTNOTE");
+            int index = 1;
+            foreach (XmlNode footnote in footnotes)
+            {
+                ((XmlElement)footnote).SetAttribute("INDEX", index.ToString());
+                index++;
+            }
         }
     }
 

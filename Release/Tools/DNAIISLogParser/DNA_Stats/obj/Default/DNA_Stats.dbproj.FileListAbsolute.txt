@@ -1,0 +1,8 @@
+D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\sql\DNA_Stats_Script.PreDeployment.sql
+D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\sql\DNA_Stats_Script.PostDeployment.sql
+D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\sql\DNA_Stats_Database.sqlsettings
+D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\sql\DNA_Stats_Database.sqldeployment
+D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\sql\DNA_Stats_Database.sqlcmdvars
+D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\sql\DNA_Stats.deploymanifest
+D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\sql\DNA_Stats.dbschema
+D:\vp-dev-dna-1\User Services\Main\Tools\DNAIISLogParser\DNA_Stats\obj\Default\DNA_Stats.dbschema

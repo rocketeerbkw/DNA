@@ -123,6 +123,9 @@ begin
 		if (@ErrorCode <> 0) goto HandleError;	
 	END
 	
+	-- add event 
+	EXEC addtoeventqueueinternal 'ET_COMPLAINTRECIEVED', @ModID, 'IT_MODID', @h2g2id, 'IT_H2G2', 0
+	
 	commit transaction
 end
 

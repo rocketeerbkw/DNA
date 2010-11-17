@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="SPAN" mode="library_GuideML">
+    <xsl:template match="SPAN | span" mode="library_GuideML">
         <span>
             <xsl:if test="@CLASS">
                 <xsl:attribute name="class">

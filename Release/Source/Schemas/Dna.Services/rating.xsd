@@ -15,7 +15,10 @@
 				<xs:element name="complaintUri" type="xs:string" />
 				<xs:element name="forumUri" type="xs:string" />
 				<xs:element name="status" type="xs:string" />
-				<xs:element name="rating" type="xs:unsignedByte" />
+        <xs:element name="isEditorPick" type="xs:boolean" />
+        <xs:element name="index" type="xs:int" />
+        <xs:element name="rating" type="xs:unsignedByte" />
+        
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

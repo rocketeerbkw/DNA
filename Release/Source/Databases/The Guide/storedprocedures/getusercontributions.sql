@@ -6,6 +6,7 @@ CREATE PROCEDURE getusercontributions
 						@sitename varchar(50) = null,
 						@sortdirection varchar(20) = 'descending',
 						@usernametype varchar(40) = 'identityuserid',
+						@startdate datetime = null,
 						@count int OUTPUT
 
 as 
@@ -55,6 +56,38 @@ BEGIN
 END
 
 select @siteid = SiteID from dbo.Sites where UrlName = @sitename
+
+if @startdate is not null
+BEGIN
+
+select 
+	@startindex = count(*) 
+from 
+	threadentries as te 
+	inner join dbo.threads as t on te.threadid = t.threadid			
+	inner join dbo.sites as s on t.siteid  = s.siteid
+	left outer join dbo.siteoptions as so on s.siteid  = so.siteid AND so.section='General' AND so.[Name] = 'SiteType'
+where
+	te.userid = @userid
+	and
+	(				
+		(@sitetype is null)
+		or 
+		((@sitetype is not null) and (so.[value] = @sitetype))
+	)
+	and
+	(
+		(@siteid is null)
+		or
+		((@siteid is not null) and (s.siteid = @siteid))
+	)
+	and 
+		(
+		(@sortDirection = 'descending'  and te.dateposted > @startdate)
+		or
+		(@sortDirection = 'ascending'  and te.dateposted < @startdate)
+		)
+END
 
 
 create table #PagedEntries
@@ -144,7 +177,15 @@ select
 		where forumid=(select forumid from threadentries where entryid=te.EntryID)) AS TotalPostsOnForum,
 	u.userid as AuthorUserId,
 	u.username as AuthorUsername,
-	u.loginname as AuthorIdentityUserName
+	u.loginname as AuthorIdentityUserName,
+	f.CanWrite as ForumCanWrite,
+	s.SiteEmergencyClosed as SiteEmergencyClosed,
+	cf.ForumCloseDate as ForumCloseDate,
+	u.loginname as AuthorIdentityUserName,
+	te.hidden,
+	@startindex as 'startindex',
+	t.ThreadId as ThreadId,
+	f.ForumId as ForumId
 from
 	#PagedEntries p
 	inner join dbo.threadentries as te on p.entryid = te.entryid

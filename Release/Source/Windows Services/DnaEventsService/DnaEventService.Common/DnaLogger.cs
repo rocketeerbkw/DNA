@@ -8,7 +8,7 @@ namespace DnaEventService.Common
 
         void IDnaLogger.Write(LogEntry log)
         {
-            Logger.Write(log);
+            Microsoft.Practices.EnterpriseLibrary.Logging.Logger.Write(log);
         }
 
         #endregion

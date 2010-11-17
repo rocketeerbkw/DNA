@@ -150,8 +150,15 @@ select @threadread = CanRead, @threadwrite = CanWrite
 	FROM Threads WITH(NOLOCK) WHERE ThreadID = @threadid
 END
 
+-- First see if we have a duplicate post.  If we do, just return
+IF EXISTS (SELECT * FROM PostDuplicates WHERE HashValue = @hash AND UserId=@userid AND ForumId=@forumid)
+BEGIN
+	SELECT @returnthread = ThreadID, @returnpost = PostID FROM PostDuplicates WHERE HashValue = @hash AND UserId=@userid AND ForumId=@forumid
+	RETURN 0
+END
 
 BEGIN TRANSACTION
+
 --declare @dummy int
 --select @dummy = ForumID from forums WITH(UPDLOCK) where ForumID = @forumid
 
@@ -165,27 +172,11 @@ UPDATE ThreadEntries
 END
 */
 
-BEGIN TRY
 
--- First see if we can insert the hash at all
+-- Create PostDuplicate entry
 -- later we have to update it with the actual values (like ThreadID etc.)
 INSERT INTO PostDuplicates (HashValue, DatePosted, ForumID, ThreadID, Parent, UserID)
-VALUES(@hash, @curtime, @forumid, @threadid, @inreplyto, @userid)
-IF @@ROWCOUNT = 0
-BEGIN
-	ROLLBACK TRANSACTION
-	SELECT @returnthread = ThreadID, @returnpost = PostID FROM PostDuplicates WHERE HashValue = @hash AND UserId=@userid AND ForumId=@forumid
-	return(0)
-END
-
-END TRY
-
-BEGIN CATCH
-	ROLLBACK TRANSACTION
-	SELECT @returnthread = ThreadID, @returnpost = PostID FROM PostDuplicates WHERE HashValue = @hash AND UserId=@userid AND ForumId=@forumid
-	--return ERROR_NUMBER()
-	return (0) -- This error is expected for duplicate posts.
-END CATCH
+	VALUES(@hash, @curtime, @forumid, @threadid, @inreplyto, @userid)
 
 /*
 	Check to see if the site has the process premod messages set. This basically means that the post will not
@@ -208,10 +199,8 @@ BEGIN
 	    
 	END TRY
 	BEGIN CATCH
-		ROLLBACK TRANSACTION
 		SET @ErrorCode=ERROR_NUMBER()
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END CATCH
 END
 
@@ -220,8 +209,12 @@ END
 */
 DECLARE @riskModQueueId int
 
-IF (@ignoreriskmoderation = 0 AND @unmoderated = 1 AND @premoderation = 0)  -- Is the post unmoderated at this point?
+IF (@ignoremoderation = 0 AND @ignoreriskmoderation = 0 AND @unmoderated = 1 AND @premoderation = 0)  
 BEGIN
+	-- We are at this point because:
+	--	The post is unmoderated
+	--	AND we are not ignoring moderation all together, e.g. because it's an editor posting
+	--	AND we are not ignoring risk moderation, e.g. because it's part of a publish after a risk mod assessment
 	DECLARE @ison bit, @publishmethod char(1)
 	EXEC riskmod_getsitestate @siteid ,@ison OUTPUT, @publishmethod OUTPUT
 	IF (@ison = 1) -- Is Risk Moderation turned on for this post?
@@ -242,15 +235,15 @@ BEGIN
 				-- We need to delete the PostDuplicates entry, otherwise we won't be allowed to publish it for real later
 				DELETE FROM PostDuplicates WHERE HashValue = @hash AND UserId=@userid AND ForumId=@forumid
 
+				-- Let the caller know that the post has been queued like a premoderated post
+				SET @ispremoderated = 1
 				COMMIT TRANSACTION
 				RETURN 0
 			END
 		END TRY
 		BEGIN CATCH
-			ROLLBACK TRANSACTION
 			SET @ErrorCode=ERROR_NUMBER()
-			EXEC Error @ErrorCode
-			RETURN @ErrorCode
+			GOTO RollbackAndReturnErrorCode
 		END CATCH
 	END
 END
@@ -284,9 +277,7 @@ BEGIN
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 	SELECT @threadid = SCOPE_IDENTITY()
 	-- Insert any necessary extra permissions
@@ -296,9 +287,7 @@ BEGIN
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 	
 	-- Now see if the posting user requires special permission to read/write the thread
@@ -316,9 +305,7 @@ BEGIN
 			SELECT @ErrorCode = @@ERROR
 			IF (@ErrorCode <> 0)
 			BEGIN
-				ROLLBACK TRANSACTION
-				EXEC Error @ErrorCode
-				RETURN @ErrorCode
+				GOTO RollbackAndReturnErrorCode
 			END
 
 		END
@@ -332,9 +319,7 @@ UPDATE Threads SET LastPosted = @curtime, LastUpdated = @curtime
 SELECT @ErrorCode = @@ERROR
 IF (@ErrorCode <> 0)
 BEGIN
-	ROLLBACK TRANSACTION
-	EXEC Error @ErrorCode
-	RETURN @ErrorCode
+	GOTO RollbackAndReturnErrorCode
 END
 
 declare @lastreply int, @parent int
@@ -348,9 +333,7 @@ BEGIN
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 END
 -- note the -1 below - this is because we've already added the new post, so COUNT(*)
@@ -368,9 +351,7 @@ SELECT @postcount = MAX(PostIndex)+1 FROM ThreadEntries WITH(UPDLOCK)
 SELECT @ErrorCode = @@ERROR
 IF (@ErrorCode <> 0)
 BEGIN
-	ROLLBACK TRANSACTION
-	EXEC Error @ErrorCode
-	RETURN @ErrorCode
+	GOTO RollbackAndReturnErrorCode
 END
 END
 
@@ -384,9 +365,7 @@ BEGIN
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 END
 ELSE
@@ -400,9 +379,7 @@ BEGIN
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 END
 
@@ -414,9 +391,7 @@ EXEC updatethreadpostcount @threadid, 1
 SELECT @ErrorCode = @@ERROR
 IF (@ErrorCode <> 0)
 BEGIN
-	ROLLBACK TRANSACTION
-	EXEC Error @ErrorCode
-	RETURN @ErrorCode
+	GOTO RollbackAndReturnErrorCode
 END
 
 --Increment relevent ForumPostCount by 1
@@ -424,9 +399,7 @@ EXEC updateforumpostcount @forumid, NULL, 1
 SELECT @ErrorCode = @@ERROR
 IF (@ErrorCode <> 0)
 BEGIN
-	ROLLBACK TRANSACTION
-	EXEC Error @ErrorCode
-	RETURN @ErrorCode
+	GOTO RollbackAndReturnErrorCode
 END
 
 IF (@ipaddress IS NOT NULL)
@@ -451,18 +424,14 @@ BEGIN
 		SELECT @ErrorCode = @@ERROR
 		IF (@ErrorCode <> 0)
 		BEGIN
-			ROLLBACK TRANSACTION
-			EXEC Error @ErrorCode
-			RETURN @ErrorCode
+			GOTO RollbackAndReturnErrorCode
 		END
 
 		UPDATE ThreadEntries SET FirstChild = @entryid WHERE EntryID = @inreplyto
 		SELECT @ErrorCode = @@ERROR
 		IF (@ErrorCode <> 0)
 		BEGIN
-			ROLLBACK TRANSACTION
-			EXEC Error @ErrorCode
-			RETURN @ErrorCode
+			GOTO RollbackAndReturnErrorCode
 		END
 	END
 	ELSE
@@ -472,18 +441,14 @@ BEGIN
 		SELECT @ErrorCode = @@ERROR
 		IF (@ErrorCode <> 0)
 		BEGIN
-			ROLLBACK TRANSACTION
-			EXEC Error @ErrorCode
-			RETURN @ErrorCode
+			GOTO RollbackAndReturnErrorCode
 		END
 
 		UPDATE ThreadEntries SET NextSibling = @entryid WHERE EntryID = @lastreply
 		SELECT @ErrorCode = @@ERROR
 		IF (@ErrorCode <> 0)
 		BEGIN
-			ROLLBACK TRANSACTION
-			EXEC Error @ErrorCode
-			RETURN @ErrorCode
+			GOTO RollbackAndReturnErrorCode
 		END
 	END
 END
@@ -493,9 +458,7 @@ INSERT INTO ForumLastUpdated (ForumID, LastUpdated) VALUES(@forumid, @curtime)
 SELECT @ErrorCode = @@ERROR
 IF (@ErrorCode <> 0)
 BEGIN
-	ROLLBACK TRANSACTION
-	EXEC Error @ErrorCode
-	RETURN @ErrorCode
+	GOTO RollbackAndReturnErrorCode
 END
 
 /*
@@ -511,9 +474,7 @@ BEGIN
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 /*
 	INSERT INTO ThreadPostings (UserID, ThreadID, LastPosting, LastUserPosting, 
@@ -527,9 +488,7 @@ BEGIN
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 */
 END
@@ -545,9 +504,7 @@ BEGIN
 		SELECT @ErrorCode = @@ERROR
 		IF (@ErrorCode <> 0)
 		BEGIN
-			ROLLBACK TRANSACTION
-			EXEC Error @ErrorCode
-			RETURN @ErrorCode
+			GOTO RollbackAndReturnErrorCode
 		END
 	END
 END
@@ -559,9 +516,7 @@ END
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 
 	UPDATE ThreadPostings
@@ -570,9 +525,7 @@ END
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
-		ROLLBACK TRANSACTION
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END
 
 */
@@ -583,10 +536,8 @@ BEGIN
 		EXEC QueueThreadEntryForModeration @forumid, @threadid, @entryid, @siteid, @modnotes
 	END TRY
 	BEGIN CATCH
-		ROLLBACK TRANSACTION
 		SET @ErrorCode = ERROR_NUMBER()
-		EXEC Error @ErrorCode
-		RETURN @ErrorCode
+		GOTO RollbackAndReturnErrorCode
 	END CATCH
 END
 
@@ -602,9 +553,7 @@ END
 		SELECT @ErrorCode = @@ERROR
 		IF (@ErrorCode <> 0)
 		BEGIN
-			ROLLBACK TRANSACTION
-			EXEC Error @ErrorCode
-			RETURN @ErrorCode
+			GOTO RollbackAndReturnErrorCode
 		END
 	END
 
@@ -697,3 +646,8 @@ END
 SELECT @returnthread = @threadid, @returnpost = @entryid
 
 RETURN 0
+
+RollbackAndReturnErrorCode:
+	ROLLBACK TRANSACTION
+	EXEC Error @ErrorCode
+	RETURN @ErrorCode

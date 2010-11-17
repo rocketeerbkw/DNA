@@ -82,6 +82,7 @@ CREATE PROCEDURE commentforumsreadbysitename	@siteurlname varchar(30) = null,
 	vcf.canRead, 
 	vcf.canWrite, 
 	vcf.lastposted
+	, vcf.editorpickcount
 	from cte_commentforum cte 
 	inner join VCommentForums vcf on vcf.forumid = cte.forumID
 	where n > @startindex and n <= @startindex + @itemsperpage

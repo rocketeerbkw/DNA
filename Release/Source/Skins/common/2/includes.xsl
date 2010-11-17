@@ -128,8 +128,11 @@
             <xsl:include href="_library/pagination/forumthreadposts.xsl" />
             <xsl:include href="_library/pagination/searchthreadposts.xsl" />
             <xsl:include href="_library/pagination/post-list.xsl" />
-    
-    
+            <xsl:include href="_library/pagination/siteevents.xsl" />
+            <xsl:include href="_library/pagination/contributions.xsl" />
+  
+
+
             <xsl:include href="_library/sso/loginurl.xsl" />
             <xsl:include href="_library/sso/logouturl.xsl" />
             <xsl:include href="_library/sso/policyurl.xsl" />
@@ -198,8 +201,8 @@
             <xsl:include href="_moderation/cta/viewalluserposts.xsl" />
             <xsl:include href="_moderation/cta/makethreadsticky.xsl" />
             <xsl:include href="_moderation/cta/removethreadsticky.xsl" />
+            <xsl:include href="_moderation/cta/subscribetothread.xsl" />
             <xsl:include href="_moderation/cta/addthreadstickypin.xsl" />
-        
             <xsl:include href="_moderation/cta/boardsadmin/editpost.xsl" />
             <xsl:include href="_moderation/cta/boardsadmin/moderationhistory.xsl" />
         

@@ -26,28 +26,29 @@ namespace DnaEventProcessorService.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2000")]
-        public int activityProcessingPeriod {
+        public int SnesActivityProcessor_Interval {
             get {
-                return ((int)(this["activityProcessingPeriod"]));
+                return ((int)(this["SnesActivityProcessor_Interval"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("DNA")]
-        public string SnesActivityProcessor_certificateName {
+        public string SnesActivityProcessor_CertificateName {
             get {
-                return ((string)(this["SnesActivityProcessor_certificateName"]));
+                return ((string)(this["SnesActivityProcessor_CertificateName"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\sqlserver2005;Initial Catalog=smallGuide;Integrated Security=True")]
-        public string guideConnectionString {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=theGuide;Integrated Security=True;Application Name=" +
+            "DnaEventProcessorService")]
+        public string ConnectionString_TheGuide {
             get {
-                return ((string)(this["guideConnectionString"]));
+                return ((string)(this["ConnectionString_TheGuide"]));
             }
         }
         
@@ -73,9 +74,83 @@ namespace DnaEventProcessorService.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("DNA")]
-        public string ExModerationProcessor_certificateName {
+        public string ExModerationProcessor_CertificateName {
             get {
-                return ((string)(this["ExModerationProcessor_certificateName"]));
+                return ((string)(this["ExModerationProcessor_CertificateName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=RiskMod;Integrated Security=True;Application Name=D" +
+            "naEventProcessorService")]
+        public string ConnectionString_RiskMod {
+            get {
+                return ((string)(this["ConnectionString_RiskMod"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SnesOn {
+            get {
+                return ((bool)(this["SnesOn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExModOn {
+            get {
+                return ((bool)(this["ExModOn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool BIEventsOn {
+            get {
+                return ((bool)(this["BIEventsOn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        public int BIEventsProcessor_Interval {
+            get {
+                return ((int)(this["BIEventsProcessor_Interval"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BIEventsProcessor_DisableRiskMod {
+            get {
+                return ((bool)(this["BIEventsProcessor_DisableRiskMod"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SiteEventsOn {
+            get {
+                return ((bool)(this["SiteEventsOn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DebugOn {
+            get {
+                return ((bool)(this["DebugOn"]));
             }
         }
     }

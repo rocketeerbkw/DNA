@@ -58,6 +58,8 @@ begin
 	UPDATE ComplaintDuplicates SET ModId = @ModID WHERE hashvalue = @hash
 end
 
+-- add event 
+EXEC addtoeventqueueinternal 'ET_COMPLAINTRECIEVED', @ModID, 'IT_MODID', @siteid, 'IT_SITE', 0
 
 -- return the moderation ID of the column inserted, or null if something bad happened
 select 'ModID' = @ModID

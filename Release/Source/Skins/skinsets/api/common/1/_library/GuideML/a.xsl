@@ -3,7 +3,7 @@
     
     <doc:documentation>
         <doc:purpose>
-            Coverts P nodes to HTML paragraphs
+            Coverts A nodes to HTML anchor tags
         </doc:purpose>
         <doc:context>
             Applied by _common/_library/GuideML.xsl

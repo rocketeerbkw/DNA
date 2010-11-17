@@ -715,7 +715,7 @@ namespace BBC.Dna.Objects
                 // Make sure we got something back
                 if (!reader.HasRows || !reader.Read())
                 {
-                    throw new Exception("Article not found");
+                    throw ApiException.GetError(ErrorType.ArticleNotFound);
                 }
                 else
                 {
@@ -733,7 +733,7 @@ namespace BBC.Dna.Objects
                     //not created so scream
                     if (article == null)
                     {
-                        throw new Exception("Article not found");
+                        throw ApiException.GetError(ErrorType.ArticleNotFound);
                     }
                 }
             }
@@ -919,6 +919,7 @@ namespace BBC.Dna.Objects
         /// <param name="viewingUser"></param>
         /// <param name="h2g2Id"></param>
         /// <param name="ignoreCache"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
         public static Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, BBC.Dna.Users.User viewingUser,
                                             int h2g2Id, bool ignoreCache, bool applySkin)

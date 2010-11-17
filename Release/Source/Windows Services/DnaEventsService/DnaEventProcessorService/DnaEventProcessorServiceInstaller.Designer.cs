@@ -35,6 +35,7 @@
             // 
             // serviceInstaller1
             // 
+            this.serviceInstaller1.DisplayName = "DnaEventProcessorService";
             this.serviceInstaller1.ServiceName = "DnaEventProcessorService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 

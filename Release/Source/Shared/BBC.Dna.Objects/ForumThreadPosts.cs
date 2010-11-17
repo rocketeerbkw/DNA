@@ -276,14 +276,15 @@ namespace BBC.Dna.Objects
         /// <param name="postId"></param>
         /// <param name="orderByDatePostedDesc"></param>
         /// <param name="ignoreCache"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
         public static ForumThreadPosts CreateThreadPosts(IDnaDataReaderCreator readerCreator, ICacheManager cache,
                                                          IUser viewingUser, ISiteList siteList, int siteId, int forumId,
                                                          int threadId, int itemsPerPage, int startIndex, int postId,
-                                                         bool orderByDatePostedDesc, bool ignoreCache)
+                                                         bool orderByDatePostedDesc, bool ignoreCache, bool applySkin)
         {
             var forumThreadPosts = new ForumThreadPosts();
-            string key = forumThreadPosts.GetCacheKey(forumId, itemsPerPage, startIndex, threadId, postId, orderByDatePostedDesc);
+            string key = forumThreadPosts.GetCacheKey(forumId, itemsPerPage, startIndex, threadId, postId, orderByDatePostedDesc, applySkin);
             
             if (!ignoreCache)
             {
@@ -298,7 +299,7 @@ namespace BBC.Dna.Objects
             }
             //create from db
             forumThreadPosts = CreateThreadFromDatabase(readerCreator, siteId, forumId, threadId, itemsPerPage,
-                                                        startIndex, postId, orderByDatePostedDesc);
+                                                        startIndex, postId, orderByDatePostedDesc, applySkin);
             //add to cache
             cache.Remove(key);
             cache.Add(key, forumThreadPosts.Clone());
@@ -320,10 +321,11 @@ namespace BBC.Dna.Objects
         /// <param name="startIndex"></param>
         /// <param name="postId"></param>
         /// <param name="orderByDatePostedDesc"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
         public static ForumThreadPosts CreateThreadFromDatabase(IDnaDataReaderCreator readerCreator, int siteId,
                                                                 int forumId, int threadId, int itemsPerPage,
-                                                                int startIndex, int postId, bool orderByDatePostedDesc)
+                                                                int startIndex, int postId, bool orderByDatePostedDesc, bool applySkin)
         {
 
             //max return count is 200
@@ -391,7 +393,7 @@ namespace BBC.Dna.Objects
                         {
 //cycle through remaing rows to add posts
                             thread.Post.Add(ThreadPost.CreateThreadPostFromReader(reader,
-                                                                                  reader.GetInt32NullAsZero("EntryID")));
+                                                                                  reader.GetInt32NullAsZero("EntryID"), applySkin));
                             if (thread.Post.Count == 1)
                             {
                                 thread.FirstPostSubject = thread.Post[0].Subject;

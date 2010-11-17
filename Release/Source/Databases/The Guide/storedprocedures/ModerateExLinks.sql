@@ -4,7 +4,11 @@ As
 IF @decision = 2
 BEGIN
 	UPDATE ExLinkMod 
-	SET datereferred = CURRENT_TIMESTAMP, referredby = @userid, lockedby = CASE WHEN @referto = 0 THEN NULL ELSE @referto END, status = @decision, notes = @notes
+	SET datereferred = CURRENT_TIMESTAMP, 
+	datelocked = CURRENT_TIMESTAMP, 
+	referredby = @userid, 
+	lockedby = CASE WHEN @referto = 0 THEN NULL ELSE @referto END, 
+	status = @decision, notes = @notes
 	WHERE modid = @modid
 END
 ELSE

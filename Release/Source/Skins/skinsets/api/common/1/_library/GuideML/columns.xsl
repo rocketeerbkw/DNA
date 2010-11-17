@@ -22,13 +22,13 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="COLUMNS" mode="library_GuideML">
+    <xsl:template match="COLUMNS | columns" mode="library_GuideML">
         <div class="span-{count( child::COLUMN)}">
             <xsl:apply-templates mode="library_GuideML"/>
         </div>
     </xsl:template>
     
-    <xsl:template match="COLUMN" mode="library_GuideML">
+    <xsl:template match="COLUMN | columns" mode="library_GuideML">
         <div class="column">
             <xsl:apply-templates mode="library_GuideML"/>
         </div>

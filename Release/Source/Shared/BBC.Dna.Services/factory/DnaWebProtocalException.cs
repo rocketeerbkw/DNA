@@ -132,6 +132,10 @@ namespace BBC.Dna.Services
                 case ErrorType.AlreadyRecommended: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.OwnEntry: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.NotInReview: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.UserBlockedSubscriptions: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.CantSubscribe: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.UnableToHideUnHideThread: StatusCode = HttpStatusCode.BadRequest; break;
+                case ErrorType.NotAuthorized: StatusCode = HttpStatusCode.Unauthorized; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using BBC.Dna.Moderation;
 
 namespace BBC.Dna.Component
 {
@@ -164,9 +165,8 @@ namespace BBC.Dna.Component
 
         private void GenerateModStatsXml(XmlElement parent, ModHomeParameters modHomeParams, bool isRefereeForAnySite)
         {
-            ModeratorInfo moderatorInfo = new ModeratorInfo(InputContext);
-            moderatorInfo.GetModeratorInfo(modHomeParams.OwnerID);
-            AddInside(parent, moderatorInfo);
+            var moderatorInfo = ModeratorInfo.GetModeratorInfo(AppContext.ReaderCreator, modHomeParams.OwnerID, InputContext.TheSiteList);
+            SerialiseAndAppend(moderatorInfo, parent.Name);
 
             bool referrals = InputContext.ViewingUser.IsSuperUser;
 	        if ( !referrals )
@@ -175,27 +175,8 @@ namespace BBC.Dna.Component
 	        }
 
             XmlElement modQueues = AddElementTag(parent, "MODERATION-QUEUES");
-            ModStats modStats = new ModStats();
-            modStats.Fetch(modHomeParams.OwnerID, moderatorInfo, referrals, modHomeParams.FastMod != 0);
-            foreach (ModQueueStat modQueueStat in modStats.Stats)
-            {
-                XmlElement modQueueSummary = AddElementTag(modQueues, "MODERATION-QUEUE-SUMMARY");
-                AddAttribute(modQueueSummary, "FASTMOD", modQueueStat.IsFastMod);
-                AddAttribute(modQueueSummary, "CLASSID", modQueueStat.ModClassId);
-                AddAttribute(modQueueSummary, "TIMELEFT", modQueueStat.TimeLeft);
-                AddAttribute(modQueueSummary, "TOTAL", modQueueStat.Total);
-                AddTextTag(modQueueSummary, "OBJECT-TYPE", modQueueStat.ObjectType);
-                AddTextTag(modQueueSummary, "STATE", modQueueStat.State);
-                modQueueSummary.AppendChild(DnaDateTime.GetDateTimeAsElement(RootElement.OwnerDocument, modQueueStat.MinDateQueued));
-
-                //AddDateXml(modQueueStat.MinDateQueued, modQueueSummary, "MIN-DATE-QUEUED");
-            }
-            /* OLD IF NEWSTYLE==0 NOT NEEDED
-            if (m_InputContext.GetParamInt("newstyle") == 0 && pViewer->GetIsSuperuser())
-            {
-                bSuccess = bSuccess && GetQueuedModPerSiteXml(iOwnerID, *psFormXML);
-            }
-            */
+            ModStats modStats = ModStats.FetchModStatsByModClass(AppContext.ReaderCreator, modHomeParams.OwnerID, moderatorInfo, referrals, modHomeParams.FastMod != 0);
+            SerialiseAndAppend(modStats, parent.Name);
         }
 
         private bool CheckRefereeForAnySite()

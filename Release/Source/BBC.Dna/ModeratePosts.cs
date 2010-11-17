@@ -217,7 +217,7 @@ namespace BBC.Dna.Component
                         AddTextTag(post, "SUBJECT", dataReader.GetStringNullAsEmpty("subject"));
 
                         AddTextTag(post, "RAWTEXT", dataReader.GetStringNullAsEmpty("text"));
-                        String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, false);
+                        String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, false, false);
                         //translated = translated.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "TEXT", translated );
 
@@ -407,6 +407,7 @@ namespace BBC.Dna.Component
                 dataReader.AddParameter("referto", referId);
                 dataReader.AddParameter("referredby", InputContext.ViewingUser.UserID);
                 dataReader.AddParameter("moderationstatus", threadModStatus);
+                dataReader.AddParameter("emailType", emailType);
 
                 dataReader.Execute();
 

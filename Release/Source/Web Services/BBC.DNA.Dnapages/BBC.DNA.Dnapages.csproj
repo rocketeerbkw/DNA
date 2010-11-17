@@ -129,6 +129,27 @@
     <Compile Include="ContentSignifPage.aspx.designer.cs">
       <DependentUpon>ContentSignifPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="UserContributions.aspx.cs">
+      <DependentUpon>UserContributions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserContributions.aspx.designer.cs">
+      <DependentUpon>UserContributions.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HostDashboardActivity.aspx.cs">
+      <DependentUpon>HostDashboardActivity.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostDashboardActivity.aspx.designer.cs">
+      <DependentUpon>HostDashboardActivity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HostDashboard.aspx.cs">
+      <DependentUpon>HostDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HostDashboard.aspx.designer.cs">
+      <DependentUpon>HostDashboard.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SearchThreadPostPage.aspx.cs">
       <DependentUpon>SearchThreadPostPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -869,6 +890,9 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="UserContributions.aspx" />
+    <Content Include="HostDashboardActivity.aspx" />
+    <Content Include="HostDashboard.aspx" />
     <Content Include="SearchThreadPostPage.aspx" />
     <Content Include="UserList.aspx" />
     <Content Include="MBBackupRestore.aspx" />

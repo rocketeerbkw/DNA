@@ -15,5 +15,7 @@ SELECT 	Id,
 		userstatus, 
 		userIsEditor, 
 		lastupdated as lastupdated,
-		rating as rating
+		rating as rating,
+		IsEditorPick,
+		PostIndex as 'PostIndex'
 FROM VRatings WHERE id = @postid

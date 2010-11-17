@@ -48,6 +48,21 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
+				<xs:element name="BBC" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="BBCLINK"  minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OFFSITE" type="xs:string" />
+										<xs:element name="TITLE" type="xs:string" />
+									</xs:sequence>
+									<xs:attribute name="UINDEX" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

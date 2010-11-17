@@ -3,8 +3,10 @@
 	<xs:element name="commentsSummary">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="total" type="xs:int" />
+        <xs:element name="editorPicksTotal" type="xs:int" />
+        <xs:element name="total" type="xs:int" />
 				<xs:element name="uri" type="xs:string" />
+        
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

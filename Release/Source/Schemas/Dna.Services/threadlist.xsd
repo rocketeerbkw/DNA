@@ -13,6 +13,7 @@
 				<xs:element name="ratingsSummary">
 					<xs:complexType>
 						<xs:sequence>
+              <xs:element name="editorPicksTotal" type="xs:int" />
 							<xs:element name="total" type="xs:unsignedByte" />
 							<xs:element name="uri" nillable="true" />
 							<xs:element name="average" type="xs:unsignedByte" />

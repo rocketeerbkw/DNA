@@ -583,7 +583,8 @@ namespace BBC.Dna.Utils
         {
             foreach (var entity in EntityDictionary)
             {
-                text = text.Replace("&" + entity.Key, entity.Value);
+                text = text.Replace("&" + entity.Key + ";", entity.Value);
+                //text = text.Replace("&" + entity.Key, entity.Value);
             }
             return text;
         }

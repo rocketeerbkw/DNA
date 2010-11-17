@@ -262,6 +262,7 @@ namespace BBC.Dna.Sites
         ///     1 = postmoderated
         ///     2 = premoderated
         /// </summary>
+        [DataMember(Name = ("moderationStatus"))]
         public ModerationStatus.SiteStatus ModerationStatus
         {
             get
@@ -277,6 +278,7 @@ namespace BBC.Dna.Sites
                 }
                 return Moderation.Utils.ModerationStatus.SiteStatus.PostMod; // Implied postmoderated
             }
+            set { }
         }
 
         /// <summary>
