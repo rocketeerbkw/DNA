@@ -51,7 +51,7 @@
 		<xsl:param name="referraltype" />
     <xsl:choose>
       <xsl:when test="@TOTAL > 0">
-        <a>
+        <a target="_blank">
           <xsl:attribute name="href">
             <xsl:choose>
               <xsl:when test="$referraltype = 'posts'">
