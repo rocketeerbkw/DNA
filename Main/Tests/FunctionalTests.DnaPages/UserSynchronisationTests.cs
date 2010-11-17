@@ -319,7 +319,8 @@ namespace FunctionalTests
             Assert.AreEqual(_newEmail, doc.SelectSingleNode("//VIEWING-USER/USER/EMAIL-ADDRESS").InnerText, "incorrect email");
         }
 
-        [TestMethod]
+        //ignored due to test harness not updating ripley versions
+        [Ignore]
         public void CBBCUDNG_SyncAutoGenNameFromIdentityViaRipley_DNASiteSuffixMatchesIdentityValue()
         {
             using (IDnaDataReader reader = DnaMockery.CreateDatabaseInputContext().CreateDnaDataReader(""))

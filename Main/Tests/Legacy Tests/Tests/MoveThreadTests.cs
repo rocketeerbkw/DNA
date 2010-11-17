@@ -110,7 +110,7 @@ namespace Tests
 
             // Mock the current site
             ISite mockedSite = DnaMockery.CurrentMockery.NewMock<ISite>();
-            Stub.On(mockedSite).GetProperty("AutoMessageUserID").Will(Return.Value(194));
+            Stub.On(mockedSite).GetProperty("AutoMessageUserID").Will(Return.Value(6));
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml("<TOPIC-LIST />");

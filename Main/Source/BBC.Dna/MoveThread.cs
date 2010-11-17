@@ -430,7 +430,14 @@ namespace BBC.Dna.Component
             using (IDnaDataReader reader = InputContext.CreateDnaDataReader("PostToEndOfThread"))
             {
                 reader.AddParameter("UserID", userID);
-                reader.AddParameter("ThreadID", _threadID);
+                if (_threadModID > 0)
+                {
+                    reader.AddParameter("ThreadID", _threadModID);
+                }
+                else
+                {
+                    reader.AddParameter("ThreadID", _threadID);
+                }
                 reader.AddParameter("Subject", subject);
                 reader.AddParameter("Content", body);
                 reader.AddParameter("Hash", DnaHasher.GenerateHash(hashString));
