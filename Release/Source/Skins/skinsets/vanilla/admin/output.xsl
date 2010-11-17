@@ -52,9 +52,19 @@
 				</title>
 				
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+       
+
 				<xsl:if test="/H2G2/@TYPE = 'FRONTPAGE'">
-					<meta http-equiv="refresh" content="0;url={$host}{$root}/mbadmin?s_mode=admin" />
-				</xsl:if>
+          <xsl:choose>
+            <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
+              <meta http-equiv="refresh" content="0;url={$host}{$root}/hostdashboard" />
+            </xsl:when>
+            <xsl:otherwise>
+              <meta http-equiv="refresh" content="0;url={$host}{$root}/mbadmin?s_mode=admin" />
+            </xsl:otherwise>
+          </xsl:choose>
+
+        </xsl:if>
 				<meta name="description" content="" />
 				<meta name="keywords" content="" />
 				<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />

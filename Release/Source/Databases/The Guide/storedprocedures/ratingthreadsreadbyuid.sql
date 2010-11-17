@@ -22,7 +22,7 @@ AS
 			CASE WHEN groups.UserID IS NULL THEN 0 ELSE 1 END AS userIsEditor,
 			te.lastupdated as lastupdated,
 			case when teep.entryid is not null then 1 else 0 end as 'IsEditorPick',
-			te.PostIndex as 'Index'   
+			te.PostIndex as 'PostIndex'   
 	FROM dbo.threads th
 	INNER JOIN dbo.threadentries te ON te.threadid = th.threadid
 	INNER JOIN dbo.forumreview fr ON fr.entryid = te.entryid
