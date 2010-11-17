@@ -112,7 +112,7 @@
     <xsl:call-template name="library_string_urlencode">
       <xsl:with-param name="string" select="concat($host, $root)"/>
     </xsl:call-template>
-    <xsl:text>%2Fmbadmin%3Fs_mode=admin</xsl:text>
+    <xsl:text>/</xsl:text>
   </xsl:template>
 	
 </xsl:stylesheet>

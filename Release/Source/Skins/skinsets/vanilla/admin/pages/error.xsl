@@ -21,7 +21,16 @@
   
 	<xsl:template match="H2G2[@TYPE = 'ERROR']" mode="page">
     <div class="dna-error-box dna-main dna-main-bg dna-main-pad blq-clearfix">
-      <h2>Welcome to the Messageboard Admin Tool</h2>
+
+      <xsl:choose>
+        <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
+          <h2>Welcome to the Host Dashboard</h2>
+        </xsl:when>
+        <xsl:otherwise>
+          <h2>Welcome to the Messageboard Admin Tool</h2>
+        </xsl:otherwise>
+      </xsl:choose>
+      
 
       <div class="dna-box">
 
@@ -31,9 +40,19 @@
           </xsl:with-param>
         </xsl:apply-templates>
 
-        <p>
-          You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please refer to our <a href="https://confluence.dev.bbc.co.uk/display/DNA/Messageboards+Admin+Tool+-+User+Guide" class="dna-openNewWindow">user guide</a> or contact your <strong>social media representative</strong>.
-        </p>
+        <xsl:choose>
+          <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
+            <p>
+              You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please contact your <strong>social media representative</strong>.
+            </p>
+          </xsl:when>
+          <xsl:otherwise>
+            <p>
+              You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please refer to our <a href="https://confluence.dev.bbc.co.uk/display/DNA/Messageboards+Admin+Tool+-+User+Guide" class="dna-openNewWindow">user guide</a> or contact your <strong>social media representative</strong>.
+            </p>
+          </xsl:otherwise>
+        </xsl:choose>
+        
       </div>
     </div>
   </xsl:template>
