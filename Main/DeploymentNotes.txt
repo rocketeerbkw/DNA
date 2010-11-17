@@ -597,3 +597,6 @@ Marcus
 	@siteid =0
 	
 	(Query took 26s on newguide)
+	
+
+Install latest release of DNA Event Service, ensure that new config is inplace and siteevents are turned on.
