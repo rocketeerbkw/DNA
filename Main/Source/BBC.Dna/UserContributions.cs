@@ -59,6 +59,7 @@ namespace BBC.Dna
                 BBC.Dna.Api.SortDirection.Descending, _type, "dnauserid",
                 InputContext.ViewingUser.IsEditor || InputContext.ViewingUser.IsSuperUser, _ignoreCache, _startDate, false);
 
+
             SerialiseAndAppend(userContributions, "");
 
 
@@ -94,9 +95,9 @@ namespace BBC.Dna
             }
 
             _userId = InputContext.ViewingUser.UserID;
-            if (InputContext.DoesParamExist("s_userid", "test userid"))
+            if (InputContext.DoesParamExist("s_user", "test userid"))
             {
-                _userId = InputContext.GetParamIntOrZero("s_userid", "test userid");
+                _userId = InputContext.GetParamIntOrZero("s_user", "test userid");
             }
 
             if (InputContext.DoesParamExist("s_startindex", "startindex"))

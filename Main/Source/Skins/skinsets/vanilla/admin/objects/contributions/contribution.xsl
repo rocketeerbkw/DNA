@@ -21,7 +21,7 @@
 								<xsl:value-of select="concat('/dna/', SITEURL, '/F', FORUMID)"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="COMMENTFORUMURL"/>
+								<xsl:value-of select="COMMENTFORUMURL" disable-output-escaping="yes"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
@@ -30,10 +30,10 @@
 							<xsl:value-of select="TITLE"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="SOURCETITLE"/>
+							<xsl:value-of select="SOURCETITLE" disable-output-escaping="yes"/>
 						</xsl:otherwise>
 					</xsl:choose>
-				</a>
+				</a><br/>
 				from
 				<a>
 					<xsl:attribute name="href">
@@ -46,8 +46,8 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					<xsl:value-of select="TITLE"/>
-				</a>
+					<xsl:value-of select="TITLE" disable-output-escaping="yes"/>
+				</a><br/>
 				in
 				<a>
 					<xsl:attribute name="href">
@@ -64,7 +64,7 @@
 				</a>
 			</td>
 			<td>
-				<xsl:value-of select="TEXT" disable-output-escaping="yes"/>
+				<xsl:apply-templates select="TEXT" mode="library_GuideML"/>
 			</td>
 			<td>
 				<xsl:if test="/H2G2/CONTRIBUTIONS/@USERID != /H2G2/VIEWING-USER/USER/USERID">
@@ -78,7 +78,7 @@
 						<xsl:when test="MODERATIONSTATUS = 2 or MODERATIONSTATUS = 6 or MODERATIONSTATUS=1">
 							<!-- Referred post for any user -->
 							<p class="dna-boards-failedpost">
-								<a href="/dna/{SITEURL}/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post Failed</a>
+								<a href="/dna/moderation/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post Failed</a>
 							</p>
 						</xsl:when>
 						<xsl:otherwise>

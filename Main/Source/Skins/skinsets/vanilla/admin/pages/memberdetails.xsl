@@ -31,7 +31,7 @@
 <div id="memberDetails">
 <div style="float:right" align="right">
 <ul class="dna-list-links">
-<li><a href="usercontributions?s_userid={$userid}">View contributions</a></li>
+<li><a href="usercontributions?s_user={$userid}">View contributions</a></li>
 <li><a href="MemberDetails?userid={$userid}">Find Alternate Identities using Email</a></li>
 <li><a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find Alternate Identities using BBCUID</a></li>
 </ul>
@@ -163,7 +163,7 @@
 <xsl:value-of select="POSTFAILEDCOUNT"/>
 </td>
 <td align="center">
-<a href="usercontributions?s_userid={$userid}&amp;s_siteid={SITE/@ID}">
+<a href="usercontributions?s_user={$userid}&amp;s_siteid={SITE/@ID}">
 <xsl:value-of select="POSTTOTALCOUNT"/>
   </a>
 </td>

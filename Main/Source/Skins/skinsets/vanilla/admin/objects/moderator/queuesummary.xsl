@@ -50,7 +50,7 @@
 	<xsl:template name="moderationsummarylink">
 		<xsl:param name="referraltype" />
     <xsl:choose>
-      <xsl:when test="@TOTAL > 0">
+      <xsl:when test="@TOTAL = 0">
         <a target="_blank">
           <xsl:attribute name="href">
             <xsl:choose>
