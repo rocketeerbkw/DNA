@@ -69,6 +69,8 @@
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreadposts" />
         
+        <div class="numDiscussions"><strong>Messages: </strong><xsl:value-of select="@SKIPTO + 1" /><xsl:text> - </xsl:text><xsl:value-of select="/H2G2/FORUMTHREADPOSTS/POST[last()]/@INDEX+1" /> of <xsl:value-of select="/H2G2/FORUMTHREADPOSTS/@TOTALPOSTCOUNT" /></div>
+        
         <ul class="collections forumthreadposts" id="topofthreads">
             <xsl:apply-templates select="POST" mode="object_post" />
         </ul>
@@ -90,6 +92,7 @@
     <xsl:template match="FORUMTHREADPOSTS[@FROM and @TO][@FORUMPOSTCOUNT > 0]" mode="object_forumthreadposts">
         
         <xsl:apply-templates select="." mode="library_pagination_commentbox" />
+       
         <ul class="collections forumthreadposts">
             <xsl:apply-templates select="POST[@INDEX > (parent::*/@FROM - 1) and @INDEX &lt; (parent::*/@TO + 1)]" mode="object_post_comment" >
                 <xsl:sort select="DATEPOSTED/DATE/@SORT" order="ascending"/>
