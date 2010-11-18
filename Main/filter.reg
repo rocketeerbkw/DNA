@@ -8,6 +8,7 @@ REGEDIT4
 "/A"="/Ripleyserver.dll?article?id="
 "/T"="/RipleyServer.dll?Forum?thread="
 "/F"="/ripleyserver.dll?Forum?id="
+"/OF"="/ripleyserver.dll?Forum?id="
 "/NF"="/dna/dnapages/ForumPage.aspx?id="
 "/TP"="/ripleyserver.dll?Forum?post="
 "/FT"="/ripleyserver.dll?Forum?id="
