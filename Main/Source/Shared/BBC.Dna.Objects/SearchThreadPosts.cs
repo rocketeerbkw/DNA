@@ -12,6 +12,7 @@ using ISite = BBC.Dna.Sites.ISite;
 using BBC.Dna.Common;
 using System.Linq;
 using System.Collections;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace BBC.Dna.Objects
 {
@@ -130,8 +131,7 @@ namespace BBC.Dna.Objects
             searchThreadPosts = CreateThreadFromDatabase(readerCreator, site, forumId, threadId, itemsPerPage, 
                 startIndex, searchText);
             //add to cache
-            cache.Remove(key);
-            cache.Add(key, searchThreadPosts.Clone());
+            cache.Add(key, searchThreadPosts.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(searchThreadPosts.CacheSlidingWindow)));
 
             return searchThreadPosts;
         }

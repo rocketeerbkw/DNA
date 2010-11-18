@@ -10,7 +10,7 @@ namespace BBC.Dna.Api
     public class Context
     {
         protected const string CacheLastupdated = "|LASTUPDATED";
-        protected const int Cacheexpiryminutes = 60;
+        protected const int Cacheexpiryminutes = 10;
 
         private readonly ICacheManager _cacheManager;
         private readonly IDnaDataReaderCreator _dnaDataReaderCreator;
