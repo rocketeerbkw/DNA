@@ -35,7 +35,7 @@
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
 						<a href="{$root}/hostdashboard?{$dashboardsiteuser}">
-							All <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS" mode="objects_moderator_actionitemtotal"/>
+							All <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS" mode="objects_moderator_allactionitemtotal"/>
 						</a>
 					</li>
 					<li>
