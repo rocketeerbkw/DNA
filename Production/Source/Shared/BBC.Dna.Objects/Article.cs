@@ -14,6 +14,7 @@ using System.IO;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace BBC.Dna.Objects
 {
@@ -715,7 +716,7 @@ namespace BBC.Dna.Objects
                 // Make sure we got something back
                 if (!reader.HasRows || !reader.Read())
                 {
-                    throw new Exception("Article not found");
+                    throw ApiException.GetError(ErrorType.ArticleNotFound);
                 }
                 else
                 {
@@ -733,7 +734,7 @@ namespace BBC.Dna.Objects
                     //not created so scream
                     if (article == null)
                     {
-                        throw new Exception("Article not found");
+                        throw ApiException.GetError(ErrorType.ArticleNotFound);
                     }
                 }
             }
@@ -889,6 +890,7 @@ namespace BBC.Dna.Objects
                 article = (Article)cache.GetData(key);
                 if (article != null)
                 {
+                    
 //check if still valid with db...
                     if (article.IsUpToDate(readerCreator))
                     {
@@ -902,7 +904,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateArticleFromDatabase(readerCreator, entryId, applySkin);
             //add to cache
-            cache.Add(key, article);
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow())));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 
@@ -919,6 +921,7 @@ namespace BBC.Dna.Objects
         /// <param name="viewingUser"></param>
         /// <param name="h2g2Id"></param>
         /// <param name="ignoreCache"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
         public static Article CreateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, BBC.Dna.Users.User viewingUser,
                                             int h2g2Id, bool ignoreCache, bool applySkin)
@@ -952,7 +955,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateArticleFromDatabase(readerCreator, entryId, applySkin);
             //add to cache
-            cache.Add(key, article);
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow())));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 
@@ -995,7 +998,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateNamedArticleFromDatabase(readerCreator, articleName, siteId, applySkin);
             //add to cache
-            cache.Add(key, article);
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow())));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 

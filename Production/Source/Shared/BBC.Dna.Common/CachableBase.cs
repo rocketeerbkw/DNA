@@ -4,12 +4,37 @@ using BBC.Dna.Data;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using BBC.Dna.Api;
+using System.Configuration;
+using System.Xml.Serialization;
 
 namespace BBC.Dna.Common
 {
     [Serializable]
     public abstract class CachableBase<T> : ICloneable
     {
+        //minutes to cache for a sliding window
+        [NonSerialized]
+        private int _cacheSlidingWindow = 5;
+
+        public int CacheSlidingWindow() 
+        {
+            if (_cacheSlidingWindow == 0)
+            {
+                _cacheSlidingWindow = 5;
+            }
+            return _cacheSlidingWindow; 
+        }
+
+
+
+        public CachableBase()
+        {
+            if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["CacheSlidingWindow"]))
+            {
+                Int32.TryParse(ConfigurationManager.AppSettings["CacheSlidingWindow"], out _cacheSlidingWindow);
+            }
+        }
+
         /// <summary>
         /// Check if the object is cachable
         /// </summary>

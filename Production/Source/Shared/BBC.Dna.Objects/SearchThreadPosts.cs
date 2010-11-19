@@ -11,6 +11,8 @@ using System.Runtime.Serialization;
 using ISite = BBC.Dna.Sites.ISite;
 using BBC.Dna.Common;
 using System.Linq;
+using System.Collections;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace BBC.Dna.Objects
 {
@@ -129,8 +131,7 @@ namespace BBC.Dna.Objects
             searchThreadPosts = CreateThreadFromDatabase(readerCreator, site, forumId, threadId, itemsPerPage, 
                 startIndex, searchText);
             //add to cache
-            cache.Remove(key);
-            cache.Add(key, searchThreadPosts.Clone());
+            cache.Add(key, searchThreadPosts.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(searchThreadPosts.CacheSlidingWindow())));
 
             return searchThreadPosts;
         }
@@ -168,7 +169,12 @@ namespace BBC.Dna.Objects
 
             //format search string for full text search
             var searchTextArray = searchText.Split(' ');
-            var tempSeachText = FormatSearchTerm(searchTextArray);
+            var tempSeachText = FormatSearchTerm(ref searchTextArray);
+
+            if (string.IsNullOrEmpty(tempSeachText))
+            {
+                return thread;
+            }
 
             //get posts from db
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("searchthreadentriesfast")) 
@@ -201,15 +207,145 @@ namespace BBC.Dna.Objects
         }
 
         private static string[] BadSearchChars = { "!", "\"", "&", "(", ")", "[", "]", "~", ",", "|"};
+        private static List<string> NoiseWords;
+
+        private static List<string> GetNoiseWords()
+        {
+            if (NoiseWords != null)
+            {
+                return NoiseWords;
+            }
+
+            NoiseWords = new List<string>();
+            NoiseWords.Add("about");
+            NoiseWords.Add("after");
+            NoiseWords.Add("all");
+            NoiseWords.Add("also");
+            NoiseWords.Add("an");
+            NoiseWords.Add("and");
+            NoiseWords.Add("another");
+            NoiseWords.Add("any");
+            NoiseWords.Add("are");
+            NoiseWords.Add("as");
+            NoiseWords.Add("at");
+            NoiseWords.Add("be");
+            NoiseWords.Add("because");
+            NoiseWords.Add("been");
+            NoiseWords.Add("before");
+            NoiseWords.Add("being");
+            NoiseWords.Add("between");
+            NoiseWords.Add("both");
+            NoiseWords.Add("but");
+            NoiseWords.Add("by");
+            NoiseWords.Add("came");
+            NoiseWords.Add("can");
+            NoiseWords.Add("come");
+            NoiseWords.Add("could");
+            NoiseWords.Add("did");
+            NoiseWords.Add("do");
+            NoiseWords.Add("does");
+            NoiseWords.Add("each");
+            NoiseWords.Add("else");
+            NoiseWords.Add("for");
+            NoiseWords.Add("from");
+            NoiseWords.Add("get");
+            NoiseWords.Add("got");
+            NoiseWords.Add("has");
+            NoiseWords.Add("had");
+            NoiseWords.Add("he");
+            NoiseWords.Add("have");
+            NoiseWords.Add("her");
+            NoiseWords.Add("here");
+            NoiseWords.Add("him");
+            NoiseWords.Add("himself");
+            NoiseWords.Add("his");
+            NoiseWords.Add("how");
+            NoiseWords.Add("if");
+            NoiseWords.Add("in");
+            NoiseWords.Add("into");
+            NoiseWords.Add("is");
+            NoiseWords.Add("it");
+            NoiseWords.Add("its");
+            NoiseWords.Add("just");
+            NoiseWords.Add("like");
+            NoiseWords.Add("make");
+            NoiseWords.Add("many");
+            NoiseWords.Add("me");
+            NoiseWords.Add("might");
+            NoiseWords.Add("more");
+            NoiseWords.Add("most");
+            NoiseWords.Add("much");
+            NoiseWords.Add("must");
+            NoiseWords.Add("my");
+            NoiseWords.Add("never");
+            NoiseWords.Add("no");
+            NoiseWords.Add("now");
+            NoiseWords.Add("of");
+            NoiseWords.Add("on");
+            NoiseWords.Add("only");
+            NoiseWords.Add("or");
+            NoiseWords.Add("other");
+            NoiseWords.Add("our");
+            NoiseWords.Add("out");
+            NoiseWords.Add("over");
+            NoiseWords.Add("re");
+            NoiseWords.Add("said");
+            NoiseWords.Add("same");
+            NoiseWords.Add("see");
+            NoiseWords.Add("should");
+            NoiseWords.Add("since");
+            NoiseWords.Add("so");
+            NoiseWords.Add("some");
+            NoiseWords.Add("still");
+            NoiseWords.Add("such");
+            NoiseWords.Add("take");
+            NoiseWords.Add("than");
+            NoiseWords.Add("that");
+            NoiseWords.Add("the");
+            NoiseWords.Add("their");
+            NoiseWords.Add("them");
+            NoiseWords.Add("then");
+            NoiseWords.Add("there");
+            NoiseWords.Add("these");
+            NoiseWords.Add("they");
+            NoiseWords.Add("this");
+            NoiseWords.Add("those");
+            NoiseWords.Add("through");
+            NoiseWords.Add("to");
+            NoiseWords.Add("too");
+            NoiseWords.Add("under");
+            NoiseWords.Add("up");
+            NoiseWords.Add("use");
+            NoiseWords.Add("very");
+            NoiseWords.Add("want");
+            NoiseWords.Add("was");
+            NoiseWords.Add("way");
+            NoiseWords.Add("we");
+            NoiseWords.Add("well");
+            NoiseWords.Add("were");
+            NoiseWords.Add("what");
+            NoiseWords.Add("when");
+            NoiseWords.Add("where");
+            NoiseWords.Add("which");
+            NoiseWords.Add("while");
+            NoiseWords.Add("who");
+            NoiseWords.Add("will");
+            NoiseWords.Add("with");
+            NoiseWords.Add("would");
+            NoiseWords.Add("you");
+            NoiseWords.Add("your");
+            return NoiseWords;
+        }
 
         /// <summary>
         /// formats the search terms into & delimited terms
         /// </summary>
         /// <param name="searchTextArray"></param>
         /// <returns></returns>
-        public static string FormatSearchTerm(string[] searchTextArray)
+        public static string FormatSearchTerm(ref string[] searchTextArray)
         {
             string tempSeachText = string.Empty;
+            List<string> goodTerms = new List<string>();
             foreach (var term in searchTextArray)
             {
 
@@ -219,16 +355,24 @@ namespace BBC.Dna.Objects
                     tempTerm = tempTerm.Replace(badChar, "");
                 }
                 tempTerm = tempTerm.Trim();
-                if (!string.IsNullOrEmpty(tempTerm))
+                if (!string.IsNullOrEmpty(tempTerm) && !GetNoiseWords().Contains(tempTerm) && tempTerm.Length> 1)
                 {
+                    goodTerms.Add(tempTerm);
                     tempSeachText += tempTerm + "&";
                 }
+            }
+
+            if (String.IsNullOrEmpty(tempSeachText))
+            {
+                return tempSeachText;
             }
             //strip any trailing & chars
             if (tempSeachText.LastIndexOf("&") == tempSeachText.Length - 1)
             {
                 tempSeachText = tempSeachText.Substring(0, tempSeachText.Length-1);
             }
+
+            searchTextArray = goodTerms.ToArray();
             return tempSeachText;
         }
 
