@@ -17,7 +17,11 @@ namespace BBC.Dna.Common
         private int _cacheSlidingWindow = 5;
 
         public int CacheSlidingWindow() 
-        { 
+        {
+            if (_cacheSlidingWindow == 0)
+            {
+                _cacheSlidingWindow = 5;
+            }
             return _cacheSlidingWindow; 
         }
 
