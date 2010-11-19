@@ -13,6 +13,7 @@ namespace BBC.Dna.Common
     public abstract class CachableBase<T> : ICloneable
     {
         //minutes to cache for a sliding window
+        [NonSerialized]
         private int _cacheSlidingWindow = 5;
 
         public int CacheSlidingWindow() 
