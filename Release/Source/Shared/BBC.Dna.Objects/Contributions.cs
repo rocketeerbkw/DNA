@@ -375,6 +375,11 @@ namespace BBC.Dna.Objects
                 }
             }
 
+            if (returnedContributions.StartIndex == 1)
+            {//sql pagination starts at item 1 - we want 0 based
+                returnedContributions.StartIndex = 0;
+            }
+
             reader2.NextResult();
             if (reader2.TryGetIntOutputParameter("count", out countReturnValue))
             {

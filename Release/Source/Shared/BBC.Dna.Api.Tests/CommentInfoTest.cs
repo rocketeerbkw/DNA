@@ -26,6 +26,9 @@ namespace BBC.Dna.Api.Tests
             testDataPlainText.Add(new[] { "test\r\nnewline", "test<BR />newline" });
             testDataPlainText.Add(new[] { "<a href=\"testurl\">test</a>", "test" });
             testDataPlainText.Add(new[] { "another test http://www.bbc.co.uk/ url", "another test <a href=\"http://www.bbc.co.uk/\">http://www.bbc.co.uk/</a> url" });
+            testDataPlainText.Add(new[] { @"123
+
+http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf\">http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf</a>" });
 
             testDataRichText = new List<string[]>();
             testDataRichText.Add(new[] { "test", "test" });

@@ -27,7 +27,7 @@
       <xsl:variable name="itemcount" select="count(CONTRIBUTIONITEMS/CONTRIBUTIONITEM)" />
       <xsl:variable name="typeid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">&amp;s_type=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE" /></xsl:if></xsl:variable>
       <xsl:variable name="siteid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE">&amp;s_siteid=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE" /></xsl:if></xsl:variable>
-      <xsl:variable name="userid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_userid']/VALUE">&amp;s_userid=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_userid']/VALUE" /></xsl:if></xsl:variable>
+      <xsl:variable name="userid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_user']/VALUE">&amp;s_user=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_user']/VALUE" /></xsl:if></xsl:variable>
       <xsl:variable name="querystring"><xsl:value-of select="$typeid"/><xsl:value-of select="$siteid"/><xsl:value-of select="$userid"/></xsl:variable>
       <div>
       <xsl:text></xsl:text>
