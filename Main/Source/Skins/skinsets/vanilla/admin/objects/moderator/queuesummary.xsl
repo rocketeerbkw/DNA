@@ -21,7 +21,8 @@
 	    		<xsl:text>s</xsl:text>
 	    	</xsl:if>
 	    </xsl:variable> 
-		<xsl:if test="STATE = 'queuedreffered' or STATE = 'queued'">
+	    
+		<xsl:if test="STATE = 'queuedreffered' or STATE = 'queued' or STATE = 'lockedreffered'">
 			<xsl:if test="(OBJECTTYPE != 'entry' and OBJECTTYPE != 'entrycomplaint') or $dashboardtype='community' ">
 			    <tr>
 					<th>
@@ -34,7 +35,13 @@
 							<xsl:call-template name="moderationsummary">
 								<xsl:with-param name="referraltype" select="$referraltype" />
 							</xsl:call-template>
-						</xsl:if>					
+						</xsl:if>	
+						<xsl:if test="STATE = 'lockedreffered'">
+							<xsl:call-template name="moderationsummarylink">
+								<xsl:with-param name="referraltype" select="$referraltype" />
+								<xsl:with-param name="islocked"> locked </xsl:with-param>
+							</xsl:call-template>
+						</xsl:if>	
 					</th>
 					<td>
 						<xsl:if test="DATE/@YEAR != 1">
@@ -49,40 +56,43 @@
 	
 	<xsl:template name="moderationsummarylink">
 		<xsl:param name="referraltype" />
-    <xsl:choose>
-      <xsl:when test="@TOTAL = 0">
-        <a target="_blank">
-          <xsl:attribute name="href">
-            <xsl:choose>
-              <xsl:when test="$referraltype = 'posts'">
-                <xsl:text>/dna/moderation/moderateposts?referrals=1</xsl:text>
-              </xsl:when>
-              <xsl:when test="$referraltype = 'alerts'">
-                <xsl:text>/dna/moderation/moderateposts?referrals=1&amp;alerts=1</xsl:text>
-              </xsl:when>
-              <xsl:when test="$referraltype = 'articles'">
-                <xsl:text>/dna/moderation/moderatearticles?referrals=1</xsl:text>
-              </xsl:when>
-              <xsl:when test="$referraltype = 'article alerts'">
-                <xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
-              </xsl:when>
-              <xsl:when test="$referraltype = 'general complaints'">
-                <xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
-              </xsl:when>
-            </xsl:choose>
-          </xsl:attribute>
-          <xsl:value-of select="@TOTAL" />&#160;
-          <xsl:text> referred </xsl:text>
-          <xsl:value-of select="$referraltype" />
-        </a>
-
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="@TOTAL" />&#160;
-        <xsl:text> referred </xsl:text>
-        <xsl:value-of select="$referraltype" />
-      </xsl:otherwise>
-    </xsl:choose>
+		<xsl:param name="islocked" />
+		
+		<xsl:choose>
+			<xsl:when test="@TOTAL = 0">
+				<a target="_blank">
+					<xsl:attribute name="href">
+						<xsl:choose>
+							<xsl:when test="$referraltype = 'posts'">
+								<xsl:text>/dna/moderation/moderateposts?referrals=1</xsl:text>
+							</xsl:when>
+							<xsl:when test="$referraltype = 'alerts'">
+								<xsl:text>/dna/moderation/moderateposts?referrals=1&amp;alerts=1</xsl:text>
+							</xsl:when>
+							<xsl:when test="$referraltype = 'articles'">
+								<xsl:text>/dna/moderation/moderatearticles?referrals=1</xsl:text>
+							</xsl:when>
+							<xsl:when test="$referraltype = 'article alerts'">
+								<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
+							</xsl:when>
+							<xsl:when test="$referraltype = 'general complaints'">
+								<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
+							</xsl:when>
+						</xsl:choose>
+					</xsl:attribute>
+					<xsl:value-of select="@TOTAL" />&#160;
+					<xsl:text> referred </xsl:text>
+					<xsl:value-of select="$islocked" />
+					<xsl:value-of select="$referraltype" />
+				</a>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="@TOTAL" />&#160;
+				<xsl:text> referred </xsl:text>
+				<xsl:value-of select="$islocked" />
+				<xsl:value-of select="$referraltype" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<xsl:template name="moderationsummary">

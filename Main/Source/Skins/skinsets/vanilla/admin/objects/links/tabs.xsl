@@ -7,11 +7,11 @@
 	exclude-result-prefixes="doc">
 
 	<xsl:template name="objects_links_tabs">
-		<!-- must be a better way of doing the following -->
+		<!-- put all these in apply templates sometime soon -->
 		<ul>
 			<!-- admin tool tabs -->
 			<xsl:choose>
-				<xsl:when test="not(@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS')">
+				<xsl:when test="@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN' or @TYPE = 'ERROR'">
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
 							<xsl:attribute name="class">selected</xsl:attribute>
@@ -25,7 +25,7 @@
 						<a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
 					</li>
 				</xsl:when>
-				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS'">
+				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS' or @TYPE = 'COMMENTFORUMLIST'">
 					<!-- no tabs for the host dashboard activity page -->
 					<li>&#160;</li>
 				</xsl:when>
@@ -48,19 +48,19 @@
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '2'">
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
-						<a href="{$root}/hostdashboard?s_type=2{$dashboardsiteuser}">Messageboards <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']" /></a>
+						<a href="{$root}/hostdashboard?s_type=2{$dashboardsiteuser}">Messageboards <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']" mode="objects_moderator_actionitemtotal" /></a>
 					</li>
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '3'">
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
-						<a href="{$root}/hostdashboard?s_type=3{$dashboardsiteuser}">Communities <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Community']" /></a>
+						<a href="{$root}/hostdashboard?s_type=3{$dashboardsiteuser}">Communities <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Community']" mode="objects_moderator_actionitemtotal" /></a>
 					</li>
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '4'">
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
-						<a href="{$root}/hostdashboard?s_type=4{$dashboardsiteuser}">Stories <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'EmbeddedComments']" /></a>
+						<a href="{$root}/hostdashboard?s_type=4{$dashboardsiteuser}">Stories <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'EmbeddedComments']" mode="objects_moderator_actionitemtotal" /></a>
 					</li>																
 				</xsl:otherwise>
 			</xsl:choose>

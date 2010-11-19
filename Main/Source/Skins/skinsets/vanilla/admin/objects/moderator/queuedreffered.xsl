@@ -19,7 +19,7 @@
 				<div>
 					<table>
 						<tbody>
-							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'queuedreffered']" mode="objects_moderator_queuesummary" />
+							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'queuedreffered' or STATE = 'lockedreffered']" mode="objects_moderator_queuesummary" />
 						</tbody>
 					</table>
 				</div>				

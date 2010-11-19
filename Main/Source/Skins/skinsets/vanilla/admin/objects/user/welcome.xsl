@@ -7,8 +7,16 @@
 	exclude-result-prefixes="doc">
 
 	<xsl:template match="USER" mode="objects_user_welcome">
+		<h2>
+			<xsl:choose>
+				<xsl:when test="$dashboardtype = 'all'">
+					This is a summary of all your social sites.
+				</xsl:when>
+				<xsl:otherwise>Manage your social sites and users here.</xsl:otherwise>
+			</xsl:choose>
+		</h2>	
 		<div class="dna-fl">
-				<p>Hello, <xsl:value-of select="USERNAME" />! 
+			<p>Hello, <xsl:value-of select="USERNAME" />! 
 				<xsl:choose>
 					<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
 						Which <xsl:value-of select="$dashboardtype" /> do you want to see?
@@ -18,6 +26,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</p>
+			
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

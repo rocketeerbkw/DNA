@@ -301,12 +301,16 @@
     .dna-memberdetails .memberDetails { clear:both;}
     
     /*dashboard*/
+    .blog .dna-main h3 {background-color:#58608e}
+    .messageboard .dna-main h3 {background-color:#38464e}
+    .community .dna-main h3 {background-color:#5f7a59}
+    .story .dna-main h3 {background-color:#b48540}
+    .dna-dashboard .capitalize {text-transform:capitalize}
     .dna-dashboard .dna-main-right {width:311px}
     .dna-dashboard .dna-main-left {width:52em}
     .dna-dashboard .dna-mb-intro {width: 100%;margin-bottom:0}
     .dna-dashboard .dna-main-threequarter {width:632px}
     .dna-dashboard .dna-buttons {display:inline;padding: 0 10px 10px 0}
-    /*.dna-dashboard .dna-box {min-height:20em}*/
     .dna-dashboard .dna-box div {padding: 10px}
     .dna-dashboard form {padding: 3px 20px 3px 0}
     .dna-dashboard form select#s_siteid {width: 18.8em}
@@ -316,14 +320,14 @@
     .dna-dashboard table.dna-dashboard-activity th.date {width: 19%}
     .dna-dashboard table.dna-dashboard-contributions th.date {width: 10%}
     .dna-dashboard table.dna-dashboard-activity {width: 98%}
-    .dna-dashboard table.dna-dashboard-activity th.type {width:8%;}
+    .dna-dashboard table.dna-dashboard-activity .type {width:8%;}
     .dna-dashboard table.dna-dashboard-activity td {text-align:left;line-height: 1.4em}
+    .dna-dashboard table.dna-dashboard-activity td p {margin-left:0}
     .dna-dashboard table.dna-dashboard-contributions td {vertical-align:top}
 	.dna-dashboard tr.odd {background-color:#ebebd6}
 	.dna-dashboard ul.dna-dashboard-links {padding: 5px 10px}    
 	.dna-dashboard ul.dna-dashboard-links li {float: left; margin-right: 5px}
 	.dna-dashboard form ul.dna-dashboard-links li {margin:10px 10px 0 0}
-	/* change bgcolour for this */
 	.dna-dashboard .dna-breadcrumb {padding-bottom:10px;background-color:#ebebd6}
 	.dna-dashboard .dna-typelist ul {width:19em;margin:10px 0}
 	.dna-dashboard .dna-typelist ul li {margin:5px 0}

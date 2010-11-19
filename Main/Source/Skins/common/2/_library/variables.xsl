@@ -248,6 +248,11 @@
     <xsl:variable name="dashboardtypename">
     	<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/NAME" />
     </xsl:variable>
+
+    <xsl:variable name="dashboardtypedescription">
+    	<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION " />
+    </xsl:variable>    
+   
     
     <xsl:variable name="dashboardposttype">
     	<xsl:choose>
