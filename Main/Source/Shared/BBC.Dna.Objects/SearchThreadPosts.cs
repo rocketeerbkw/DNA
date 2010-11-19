@@ -131,7 +131,7 @@ namespace BBC.Dna.Objects
             searchThreadPosts = CreateThreadFromDatabase(readerCreator, site, forumId, threadId, itemsPerPage, 
                 startIndex, searchText);
             //add to cache
-            cache.Add(key, searchThreadPosts.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(searchThreadPosts.CacheSlidingWindow)));
+            cache.Add(key, searchThreadPosts.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(searchThreadPosts.CacheSlidingWindow())));
 
             return searchThreadPosts;
         }

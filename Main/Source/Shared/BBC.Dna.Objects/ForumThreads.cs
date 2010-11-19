@@ -299,7 +299,7 @@ namespace BBC.Dna.Objects
                                                           overFlow, threadOrder);
 
             //add to cache
-            cache.Add(key, forumThreads.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(forumThreads.CacheSlidingWindow)));
+            cache.Add(key, forumThreads.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(forumThreads.CacheSlidingWindow())));
 
             //apply user settings
             if (viewingUser != null)

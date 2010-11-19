@@ -13,19 +13,20 @@ namespace BBC.Dna.Common
     public abstract class CachableBase<T> : ICloneable
     {
         //minutes to cache for a sliding window
-        [XmlIgnore]
-        public int CacheSlidingWindow {get;set;}
+        private int _cacheSlidingWindow = 5;
+
+        public int CacheSlidingWindow() 
+        { 
+            return _cacheSlidingWindow; 
+        }
+
+
+
         public CachableBase()
         {
-            CacheSlidingWindow = 5;
             if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["CacheSlidingWindow"]))
             {
-                int value = 0;
-                Int32.TryParse(ConfigurationManager.AppSettings["CacheSlidingWindow"], out value);
-                if (value > 0)
-                {
-                    CacheSlidingWindow = value;
-                }
+                Int32.TryParse(ConfigurationManager.AppSettings["CacheSlidingWindow"], out _cacheSlidingWindow);
             }
         }
 

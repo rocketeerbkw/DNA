@@ -904,7 +904,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateArticleFromDatabase(readerCreator, entryId, applySkin);
             //add to cache
-            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow)));
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow())));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 
@@ -955,7 +955,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateArticleFromDatabase(readerCreator, entryId, applySkin);
             //add to cache
-            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow)));
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow())));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 
@@ -998,7 +998,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateNamedArticleFromDatabase(readerCreator, articleName, siteId, applySkin);
             //add to cache
-            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow)));
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow())));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 
