@@ -90,7 +90,7 @@ namespace BBC.Dna.Services
             ISite site = Global.siteList.GetSite(siteName);
 
             return GetOutputStream(ForumThreadPosts.CreateThreadPosts(readerCreator, cacheManager, null, siteList, site.SiteID,
-                Int32.Parse(forumId), Int32.Parse(threadId), itemsPerPage, startIndex, Int32.Parse(postId), (SortBy.Created == sortBy), false));
+                Int32.Parse(forumId), Int32.Parse(threadId), itemsPerPage, startIndex, Int32.Parse(postId), (SortBy.Created == sortBy), false, false));
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/posts/{postId}")]
