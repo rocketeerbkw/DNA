@@ -302,7 +302,7 @@ namespace BBC.Dna.Objects
             forumThreadPosts = CreateThreadFromDatabase(readerCreator, siteId, forumId, threadId, itemsPerPage,
                                                         startIndex, postId, orderByDatePostedDesc, applySkin);
             //add to cache
-            cache.Add(key, forumThreadPosts.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(forumThreadPosts.CacheSlidingWindow)));
+            cache.Add(key, forumThreadPosts.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(forumThreadPosts.CacheSlidingWindow())));
             //apply user settings
             forumThreadPosts.ApplySiteOptions(viewingUser, siteList);
             forumThreadPosts.ApplyUserSettings(viewingUser, readerCreator);

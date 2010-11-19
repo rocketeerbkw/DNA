@@ -56,7 +56,7 @@
 			
 			<div class="dna-fr dna-main-right">
 				<div class="dna-box">
-					<h3>Activity</h3>
+					<h3>Activity <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">for <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if></h3>
           			<xsl:apply-templates select="SITESUMMARYSTATS " mode="objects_moderator_queuesummary" />
 				</div>
 			</div>			

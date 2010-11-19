@@ -48,8 +48,16 @@
 		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 			<div class="dna-fl dna-main-full">
 				<div class="dna-box">
-					<h3>Activity for <xsl:value-of select="$dashboardtype" /><xsl:if test="not($dashboardtype = 'all')">s</xsl:if></h3>
-					
+					<h3>Activity for 
+						<xsl:choose>
+							<xsl:when test="$dashboardtypedescription != ''">
+								<xsl:value-of select="$dashboardtypedescription" />
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="$dashboardtype" /><xsl:if test="not($dashboardtype = 'all')">s</xsl:if>
+							</xsl:otherwise>
+						</xsl:choose>
+					</h3>
 					<xsl:choose>
 						<xsl:when test="SITEEVENTLIST/SITEEVENTS/SITEEVENT != ''">
 							<xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
@@ -74,7 +82,7 @@
 						</xsl:when>
 						<xsl:otherwise>
 							<div class="dna-fl dna-main-full">
-								<p>There is no activity.</p>
+								<p>There is no activity to display. Please choose or change your start date and activity.</p>
 							</div>							
 						</xsl:otherwise>
 					</xsl:choose>

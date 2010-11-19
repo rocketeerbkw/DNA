@@ -59,6 +59,7 @@
 	<xsl:include href="objects/activitydata/typelist.xsl"/>
 	<xsl:include href="objects/contributions/contribution.xsl"/>
 
+	<xsl:include href="objects/stripe.xsl"/>
 	<xsl:include href="objects/title.xsl"/>
 	<xsl:include href="objects/topiclist.xsl"/>	
 	
@@ -66,8 +67,8 @@
 	<xsl:include href="pages/commentforumlist.xsl"/>
 	<xsl:include href="pages/error.xsl"/>
 	<xsl:include href="pages/hostdashboard.xsl"/>
-  <xsl:include href="pages/usercontributions.xsl"/>
-  <xsl:include href="pages/hostdashboardactivity.xsl"/>
+ 	<xsl:include href="pages/usercontributions.xsl"/>
+  	<xsl:include href="pages/hostdashboardactivity.xsl"/>
 	<xsl:include href="pages/lightboxes.xsl"/>
 	<xsl:include href="pages/memberdetails.xsl"/>
 	<xsl:include href="pages/messageboardadmin.xsl"/>
