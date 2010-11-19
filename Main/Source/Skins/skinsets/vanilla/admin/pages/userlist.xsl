@@ -19,6 +19,11 @@
 	</doc:documentation>
 	
 	<xsl:template match="H2G2[@TYPE = 'USERLIST']" mode="page">
+    
+		<xsl:call-template name="objects_links_breadcrumb">
+			<xsl:with-param name="pagename" >user list</xsl:with-param>
+		</xsl:call-template>    
+    
     <div class="dna-mb-intro">
       <h2>DNA Member List</h2>
       Search for users of your site below and view details as well as modify their moderation status.
