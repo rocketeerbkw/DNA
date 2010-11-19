@@ -8,6 +8,7 @@ using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
 using System.Runtime.Serialization;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace BBC.Dna.Objects
 {
@@ -90,7 +91,7 @@ namespace BBC.Dna.Objects
                 //add to cache, first strip article as it is cached on its own
                 var sourceCopy = (ForumSource)source.Clone();
                 sourceCopy.Article = null;
-                cache.Add(key, sourceCopy);
+                cache.Add(key, sourceCopy, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(sourceCopy.CacheSlidingWindow)));
                 source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
             }
             

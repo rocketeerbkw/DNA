@@ -10,6 +10,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Runtime.Serialization;
 using ISite = BBC.Dna.Sites.ISite;
 using BBC.Dna.Common;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace BBC.Dna.Objects
 {
@@ -301,8 +302,7 @@ namespace BBC.Dna.Objects
             forumThreadPosts = CreateThreadFromDatabase(readerCreator, siteId, forumId, threadId, itemsPerPage,
                                                         startIndex, postId, orderByDatePostedDesc, applySkin);
             //add to cache
-            cache.Remove(key);
-            cache.Add(key, forumThreadPosts.Clone());
+            cache.Add(key, forumThreadPosts.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(forumThreadPosts.CacheSlidingWindow)));
             //apply user settings
             forumThreadPosts.ApplySiteOptions(viewingUser, siteList);
             forumThreadPosts.ApplyUserSettings(viewingUser, readerCreator);

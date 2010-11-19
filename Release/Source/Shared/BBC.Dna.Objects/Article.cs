@@ -14,6 +14,7 @@ using System.IO;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 
 namespace BBC.Dna.Objects
 {
@@ -889,6 +890,7 @@ namespace BBC.Dna.Objects
                 article = (Article)cache.GetData(key);
                 if (article != null)
                 {
+                    
 //check if still valid with db...
                     if (article.IsUpToDate(readerCreator))
                     {
@@ -902,7 +904,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateArticleFromDatabase(readerCreator, entryId, applySkin);
             //add to cache
-            cache.Add(key, article);
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow)));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 
@@ -953,7 +955,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateArticleFromDatabase(readerCreator, entryId, applySkin);
             //add to cache
-            cache.Add(key, article);
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow)));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 
@@ -996,7 +998,7 @@ namespace BBC.Dna.Objects
             //create from db
             article = CreateNamedArticleFromDatabase(readerCreator, articleName, siteId, applySkin);
             //add to cache
-            cache.Add(key, article);
+            cache.Add(key, article, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(article.CacheSlidingWindow)));
             //update with viewuser info
             article.UpdatePermissionsForViewingUser(viewingUser, readerCreator);
 
