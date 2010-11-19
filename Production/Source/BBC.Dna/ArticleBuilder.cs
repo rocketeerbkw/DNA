@@ -50,7 +50,7 @@ namespace BBC.Dna
                     // Get the posts for the forum
                     articleForum.ForumThreadPosts = ForumThreadPosts.CreateThreadPosts(creator, cache, viewingUser,
                         InputContext.TheSiteList, article.ArticleInfo.SiteId,article.ArticleInfo.ForumId, 0, 10, 0, 0, 
-                        true, false);
+                        true,false, false);
                 }
                 else
                 {

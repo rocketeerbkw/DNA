@@ -196,7 +196,7 @@ namespace BBC.Dna
                                                                          InputContext.TheSiteList,
                                                                          InputContext.CurrentSite.SiteID, _forumId,
                                                                          _threadId, POSTSTOSHOW, _skip, _postId,
-                                                                         _orderByDatePostedDesc, _ignoreCache);
+                                                                         _orderByDatePostedDesc, _ignoreCache, false);
 
             if (thread == null)
             {

@@ -393,7 +393,7 @@ namespace BBC.Dna.Objects
                         {
 //cycle through remaing rows to add posts
                             thread.Post.Add(ThreadPost.CreateThreadPostFromReader(reader,
-                                                                                  reader.GetInt32NullAsZero("EntryID"), applySkin));
+                                                                                  reader.GetInt32NullAsZero("EntryID")));
                             if (thread.Post.Count == 1)
                             {
                                 thread.FirstPostSubject = thread.Post[0].Subject;
