@@ -49,6 +49,10 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "h2g2Id")]
         public int ArticleH2G2Id { get; set; }
 
+        /// <remarks/>
+        [XmlIgnore]
+        [DataMember(Name = "actualForumId")]
+        public int ActualForumId { get; set; }
 
         /// <summary>
         /// Creates the forum source from the cache or db
@@ -213,6 +217,7 @@ namespace BBC.Dna.Objects
                     }
 
                     source.ArticleH2G2Id = dataReader.GetInt32NullAsZero("h2g2ID");
+                    source.ActualForumId = dataReader.GetInt32NullAsZero("forumID");
                 }
                 return source;
             }

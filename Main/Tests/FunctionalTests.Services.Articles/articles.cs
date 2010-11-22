@@ -633,44 +633,54 @@ namespace FunctionalTests.Services.Articles
 
 
         [TestMethod]
-        public void CreateArticle_With_UrlInText()
+        public void CreateArticle_With_UrlInTextFails_WhenSiteOptionDoesNotAllowURLs()
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.AssertWebRequestFailure = false;
             request.SetCurrentUserNormal();
 
-            string style = "GuideML";
-            string subject = "Subject";
-            string guideML = @"<GUIDE xmlns="""">
-    <BODY><a href=""http://www.atestlink.com"">This is a link</a></BODY>
-  </GUIDE>";
-            string submittable = "YES";
-
-            string serializedData = String.Format(@"<?xml version=""1.0"" encoding=""utf-8""?>
-<article xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://schemas.datacontract.org/2004/07/BBC.Dna.Objects"">
-<articleInfo><submittable><type>{0}</type></submittable></articleInfo>
-<style>{1}</style>
-<subject>{2}</subject>
-<text>{3}</text>
-</article>",
-            submittable,
-             style,
-             subject,
-             guideML);
-
-
-            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles", _sitename);
+            AddNotAllowURLsonH2G2SiteOption();
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                string style = "GuideML";
+                string subject = "Subject";
+                string guideML = @"<GUIDE xmlns="""">
+        <BODY><a href=""http://www.atestlink.com"">This is a link</a></BODY>
+      </GUIDE>";
+                string submittable = "YES";
+
+                string serializedData = String.Format(@"<?xml version=""1.0"" encoding=""utf-8""?>
+    <article xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://schemas.datacontract.org/2004/07/BBC.Dna.Objects"">
+    <articleInfo><submittable><type>{0}</type></submittable></articleInfo>
+    <style>{1}</style>
+    <subject>{2}</subject>
+    <text>{3}</text>
+    </article>",
+                submittable,
+                 style,
+                 subject,
+                 guideML);
+
+
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles", _sitename);
+
+                try
+                {
+                    request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                }
+                catch (Exception)
+                {
+                }
+
+                Assert.AreEqual(HttpStatusCode.BadRequest, request.CurrentWebResponse.StatusCode);
+                ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+                Assert.AreEqual(ErrorType.ArticleContainsURLs.ToString(), errorData.Code);
             }
-            catch (Exception)
+            finally
             {
+                RemoveNotAllowURLsonH2G2SiteOption();
             }
-            Assert.AreEqual(HttpStatusCode.BadRequest, request.CurrentWebResponse.StatusCode);
-            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
-            Assert.AreEqual(ErrorType.ArticleContainsURLs.ToString(), errorData.Code);
         }
 
         [TestMethod, Ignore]
@@ -1632,12 +1642,49 @@ namespace FunctionalTests.Services.Articles
         /// <param name="value"></param>
         private void RemoveNotAllowURLsonH2G2SiteOption()
         {
-            //set max char option
             using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
                     reader.ExecuteDEBUGONLY("delete from siteoptions where name='IsURLFiltered' and siteid=1");
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site&siteid=1", "", "text/xml");
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        private void AddNotAllowURLsonH2G2SiteOption()
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    var sql = String.Format("select * from siteoptions where siteid={0} and name='IsURLFiltered' and Value=1", 1);
+                    reader.ExecuteDEBUGONLY(sql);
+                    if (reader.HasRows)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        sql = String.Format("select * from siteoptions where siteid={0} and name='IsURLFiltered' and Value=0", 1);
+                        reader.ExecuteDEBUGONLY(sql);
+                        if (reader.HasRows)
+                        {
+                            sql = String.Format("update siteoptions set Value=1 where siteid={0} and name='IsURLFiltered'", 1);
+                            reader.ExecuteDEBUGONLY(sql);
+                        }
+                        else
+                        {
+                            sql = String.Format("insert into siteoptions values ('General', 1,  'IsURLFiltered', 1, 1, 'Turns on and off allow URL in articles functionality')");
+                            reader.ExecuteDEBUGONLY(sql);
+                        }
+                    }
                 }
             }
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);

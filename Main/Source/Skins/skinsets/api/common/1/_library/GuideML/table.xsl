@@ -23,6 +23,11 @@
 					<xsl:value-of select="@STYLE | @style"/>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@HEIGHT | @height">
+				<xsl:attribute name="height">
+					<xsl:value-of select="@HEIGHT | @height"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="@WIDTH | @width">
 				<xsl:attribute name="width">
 					<xsl:value-of select="@WIDTH | @width"/>
