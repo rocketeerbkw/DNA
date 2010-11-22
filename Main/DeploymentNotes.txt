@@ -600,3 +600,18 @@ Marcus
 	
 
 Install latest release of DNA Event Service, ensure that new config is inplace and siteevents are turned on.
+
+Marcus
+	- To ensure all relevant sites have a type within the DB - run the following updates:
+	update siteoptions set value=3 where SiteID=8 and Name='SiteType' -- URL:hub
+	update siteoptions set value=3 where SiteID=22 and Name='SiteType' -- URL:communities
+	update siteoptions set value=3 where SiteID=42 and Name='SiteType' -- URL:42
+	update siteoptions set value=3 where SiteID=67 and Name='SiteType' -- URL:606
+	update siteoptions set value=4 where SiteID=208 and Name='SiteType' -- URL:lastmanstanding
+	update siteoptions set value=4 where SiteID=258 and Name='SiteType' -- URL:U2attheBBC
+	update siteoptions set value=4 where SiteID=314 and Name='SiteType' -- URL:cambridgefolkfestival09
+	update siteoptions set value=4 where SiteID=334 and Name='SiteType' -- URL:stephennolan
+	update siteoptions set value=4 where SiteID=447 and Name='SiteType' -- URL:joeydunlop
+	update siteoptions set value=4 where SiteID=469 and Name='SiteType' -- URL:cbbctmifriday
+	update siteoptions set value=4 where SiteID=470 and Name='SiteType' -- URL:cbbclivendeadly
+	
