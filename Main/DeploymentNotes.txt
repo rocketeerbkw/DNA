@@ -614,4 +614,6 @@ Marcus
 	update siteoptions set value=4 where SiteID=447 and Name='SiteType' -- URL:joeydunlop
 	update siteoptions set value=4 where SiteID=469 and Name='SiteType' -- URL:cbbctmifriday
 	update siteoptions set value=4 where SiteID=470 and Name='SiteType' -- URL:cbbclivendeadly
-	
+
+Marcus:
+	Copy moderation and dna_messageboard from apacheassets to live dnaimages
