@@ -261,7 +261,7 @@
     /* CLEAR HACKS */
     .dna-main:after,.dna-half:after,.dna-box:after,.dna-buttons:after,#mbpreview-content:after,.dna-box-border:after,.dna-list-topic li:after {content:".";  display:block; height:0; clear:both; visibility:hidden}
 
-	/* Comment forum list - remove when it is safe to */
+	/* Comment forum list */
 	.dna-cfl p {padding: 5px 0; margin: 0;}
 	.dna-cfl .cfl-skip-show li {float:left; margin:2px; padding:2px; border:1px solid #000033; list-style:none;}
 	.dna-cfl #commentforumlist {font-size:80%; margin-top: 20px;}
@@ -309,18 +309,11 @@
     .dna-dashboard .dna-main-right {width:311px}
     .dna-dashboard .dna-main-left {width:52em}
     .dna-dashboard .dna-mb-intro {width: 100%;margin-bottom:0}
-    .dna-dashboard .dna-main-threequarter {width:472px}
+    .dna-dashboard .dna-main-threequarter {width:632px}
     .dna-dashboard .dna-buttons {display:inline;padding: 0 10px 10px 0}
     .dna-dashboard .dna-box div {padding: 10px}
-    
     .dna-dashboard form {padding: 3px 20px 3px 0}
     .dna-dashboard form select#s_siteid {width: 18.8em}
-    .dna-dashboard form ul.dna-dashboard-links li {margin:10px 10px 0 0}
-    .dna-dashboard .dna-mb-intro form label {display:inline;font-weight:bold}
-    /*.dna-dashboard .dna-mb-intro form input {width:16em}*/
-    .dna-dashboard .dna-dashboard-cfl form label {display:inline}
-    .dna-dashboard .dna-mb-intro form .dna-buttons input {width:auto !important;}
-    
     .dna-dashboard table {width:100%;table-layout:fixed}
     .dna-dashboard table th, .dna-dashboard table td {padding:10px;}
     .dna-dashboard table td {text-align:right}
@@ -328,27 +321,21 @@
     .dna-dashboard table.dna-dashboard-contributions th.date {width: 10%}
     .dna-dashboard table.dna-dashboard-activity {width: 98%}
     .dna-dashboard table.dna-dashboard-activity .type {width:8%;}
-    .dna-dashboard table td.time {width:22%} 
     .dna-dashboard table.dna-dashboard-activity td {text-align:left;line-height: 1.4em}
     .dna-dashboard table.dna-dashboard-activity td p {margin-left:0}
-    .dna-dashboard table.dna-dashboard-contributions td,  .dna-dashboard table.dna-dashboard-cfl td{vertical-align:top}
+    .dna-dashboard table.dna-dashboard-contributions td {vertical-align:top}
 	.dna-dashboard tr.odd {background-color:#ebebd6}
-	
 	.dna-dashboard ul.dna-dashboard-links {padding: 5px 10px}    
 	.dna-dashboard ul.dna-dashboard-links li {float: left; margin-right: 5px}
-	
+	.dna-dashboard form ul.dna-dashboard-links li {margin:10px 10px 0 0}
 	.dna-dashboard .dna-breadcrumb {padding-bottom:10px;background-color:#ebebd6}
 	.dna-dashboard .dna-typelist ul {width:19em;margin:10px 0}
 	.dna-dashboard .dna-typelist ul li {margin:5px 0}
-	
+	.dna-dashboard .dna-mb-intro form label {display:inline;font-weight:bold}
 	.dna-dashboard ul.pagination {float: right; margin-right: 5px}
 	.dna-dashboard ul.pagination li {float: left; margin-right: 5px}
 	.dna-dashboard ul.pagination li.current a {text-decoration:none !important;font-weight:bold}
 	.dna-dashboard #s_startdate {width:30%}
-	
-	.dna-dashboard .dna-dashboard-cfl, .dna-dashboard .dna-dashboard-cfl th, .dna-dashboard .dna-dashboard-cfl td {border:1px solid #CCCCCC}
-	.dna-dashboard .dna-dashboard-cfl span.dna-buttons {margin-left:0}
-	.dna-dashboard .dna-dashboard-cfl li {line-height:1.6em}
     
 }
 
