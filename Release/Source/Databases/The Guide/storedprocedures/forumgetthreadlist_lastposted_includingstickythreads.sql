@@ -104,7 +104,7 @@ as
 				LEFT JOIN Preferences p1 WITH(NOLOCK) ON u1.UserID = p1.UserID AND f.SiteID = p1.SiteID
 				LEFT JOIN GroupMembers gm WITH(NOLOCK) ON gm.UserID = te.UserID AND gm.SiteID = f.SiteID AND gm.GroupID = @notablesgroup
 				LEFT JOIN GroupMembers gm1 WITH(NOLOCK) ON gm1.UserID = te1.UserID AND gm1.SiteID = f.SiteID AND gm1.GroupID = @notablesgroup
-				INNER JOIN Journals J with(nolock) on j.userid = u.UserID and j.siteid = f.siteid
+				LEFT JOIN Journals J with(nolock) on j.userid = u.UserID and j.siteid = f.siteid
 				LEFT JOIN StickyThreads st WITH(NOLOCK) ON st.forumid = t.ForumID AND st.threadid = t.ThreadID
 		--	WHERE
 			--AND t.ForumID = @forumid
