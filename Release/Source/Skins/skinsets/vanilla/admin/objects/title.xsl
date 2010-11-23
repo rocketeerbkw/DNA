@@ -58,7 +58,7 @@
 	</xsl:template>	
 	
 	<xsl:template name="objects_title">
-		<xsl:if test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0' and @TYPE='ERROR' or @TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN'">
+		<xsl:if test="@TYPE='ERROR' or @TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN'">
 			<h1>DNA Site Admin <span><xsl:value-of select="SITE/SHORTNAME"/></span></h1>
 		</xsl:if>	
 	</xsl:template>

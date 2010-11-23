@@ -83,11 +83,11 @@ namespace BBC.Dna.Services
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/post/{postId}")]
-        [WebHelp(Comment = "Get the thread and posts for a given thread id")]
+        [WebHelp(Comment = "Get the thread and post for a given thread id and post")]
         [OperationContract]        
         public Stream GetForumThreadsWithPost(string siteName, string forumId, string threadId, string postId)
         {
-            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
             
             ISite site = Global.siteList.GetSite(siteName);
 
@@ -100,7 +100,7 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetThreadPost(string siteName, string postId)
         {
-            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
 
             int postIdAsInt = Convert.ToInt32(postId);
             Stream output;
@@ -110,6 +110,45 @@ namespace BBC.Dna.Services
             {
                 returnedPost = ThreadPost.FetchPostFromDatabase(readerCreator, postIdAsInt, applySkin);
                 output = GetOutputStream(returnedPost);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return output;
+        }
+        [WebGet(UriTemplate = "V1/site/{siteName}/threads/{threadId}")]
+        [WebHelp(Comment = "Gets a thread by id")]
+        [OperationContract]
+        public Stream GetThread(string siteName, string threadId)
+        {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
+
+            int threadIdAsInt = Convert.ToInt32(threadId);
+            Stream output;
+            ForumThreadPosts returnedThread = null;
+            ISite site = GetSite(siteName);
+            try
+            {
+                ForumSource forumSource = ForumSource.CreateForumSource(cacheManager,
+                                                                    readerCreator,
+                                                                    null,
+                                                                    0,
+                                                                    Int32.Parse(threadId),
+                                                                    site.SiteID,
+                                                                    true,
+                                                                    false,
+                                                                    true);
+                if (forumSource == null)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumOrThreadNotFound));
+                }
+
+                
+                returnedThread = ForumThreadPosts.CreateThreadPosts(readerCreator, cacheManager, null, siteList, site.SiteID,
+                forumSource.ActualForumId, Int32.Parse(threadId), itemsPerPage, startIndex, 0, (SortBy.Created == sortBy), false, applySkin);
+                output = GetOutputStream(returnedThread);
             }
             catch (ApiException ex)
             {
@@ -148,7 +187,7 @@ namespace BBC.Dna.Services
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads/create.htm")]
-        [WebHelp(Comment = "Creates a thread post from Html form")]
+        [WebHelp(Comment = "Creates a new thread and 1st post from Html form")]
         [OperationContract]
         public void CreateThreadHtml(string siteName, string forumId, NameValueCollection formsData)
         {
@@ -156,7 +195,7 @@ namespace BBC.Dna.Services
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads")]
-        [WebHelp(Comment = "Creates a thread post")]
+        [WebHelp(Comment = "Creates a new thread and 1st post")]
         [OperationContract]
         public void CreateThread(string siteName, string forumId, ThreadPost threadPost)
         {

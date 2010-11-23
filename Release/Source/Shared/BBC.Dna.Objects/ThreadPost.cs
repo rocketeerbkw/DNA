@@ -298,15 +298,15 @@ namespace BBC.Dna.Objects
             if (applySkin)
             {
                 string apiGuideSkin = ConfigurationSettings.AppSettings["guideMLXSLTSkinPath"];
-                string startGuideML = "<GUIDE><BODY>";
-                string endGuideML = "</BODY></GUIDE>";
+                string startH2G2Post = "<H2G2POST>";
+                string endH2G2Post = "</H2G2POST>";
 
                 int errorCount = 0;
                 XmlDocument doc = new XmlDocument();
                 doc.PreserveWhitespace = true;
 
                 // reassign string and element after transformation     
-                string textAsGuideML = startGuideML + inputText + endGuideML;
+                string textAsGuideML = startH2G2Post + inputText + endH2G2Post;
                 doc.LoadXml(textAsGuideML);
                 
                 string transformedContent = XSLTransformer.TransformUsingXslt(apiGuideSkin, doc, ref errorCount);
@@ -320,6 +320,7 @@ namespace BBC.Dna.Objects
                     DnaDiagnostics.Default.WriteToLog("FailedTransform", transformedContent);
                     throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
                 }
+                inputText = transformedContent;
             }
 
             return inputText;

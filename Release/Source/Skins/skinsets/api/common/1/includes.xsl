@@ -94,7 +94,14 @@
     <xsl:include href="_library/Richtext/pre.xsl" />
     <xsl:include href="_library/Richtext/q.xsl" />
     <xsl:include href="_library/Richtext/ul.xsl" />
-    <!-- 
+
+	<xsl:include href="_library/Richtext/Richtext.xsl" />
+
+	<xsl:include href="_library/Post/Post.xsl" />
+	<xsl:include href="_library/Post/link.xsl" />
+	<xsl:include href="_library/Post/smiley.xsl" />
+
+	<!-- 
      -->
     
 

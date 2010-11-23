@@ -43,7 +43,8 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
-                    <xs:element name="isSticky" type="xs:boolean" />
+					<xs:element name="forumId" type="xs:unsignedInt" />
+					<xs:element name="isSticky" type="xs:boolean" />
                     <xs:element name="lastPost">
                       <xs:complexType>
                         <xs:sequence>

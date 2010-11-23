@@ -150,7 +150,7 @@ namespace BBC.Dna.Moderation
                     while (dataReader.Read())
                     {
                         int total = dataReader.GetInt32NullAsZero("total");
-                        SiteType type = (SiteType)Enum.Parse(typeof(SiteType), dataReader.GetStringNullAsEmpty("sitetype"), true);
+                        SiteType type = (SiteType)dataReader.GetInt32NullAsZero("sitetype");
 
                         var item = items.Find(x => x.Type == type);
                         if (item == null)
