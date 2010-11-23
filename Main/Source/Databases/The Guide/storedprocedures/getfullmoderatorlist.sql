@@ -9,7 +9,7 @@ as
 DECLARE @groupid INT
 SELECT @groupid = groupid FROM Groups WHERE name = @groupname
 
-select TOP 500 u.*, 
+select u.*, 
 	cm.ModClassID, 
 	gm.SiteID 
 from users u
