@@ -494,7 +494,7 @@ namespace Tests
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.FormatttedText.IndexOf(illegalTags) < 0);//illegal char stripped
+            Assert.IsTrue(result.text.IndexOf(illegalTags) < 0);//illegal char stripped
         }
 
         /// <summary>
@@ -524,7 +524,7 @@ namespace Tests
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.text);//illegal char stripped
         }
 
         /// <summary>
@@ -553,7 +553,7 @@ with a carrage return.";
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.text);//illegal char stripped
         }
 
         /// <summary>
@@ -627,7 +627,7 @@ return.";
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.text);//illegal char stripped
         }
 
         /// <summary>
@@ -656,7 +656,7 @@ return.";
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);//should be valid post ID 
-            Assert.AreEqual("This post is awaiting moderation.", result.FormatttedText);
+            Assert.AreEqual("This post is awaiting moderation.", result.text);
 
             //check if post in mod queue table
             using (FullInputContext inputcontext = new FullInputContext(""))
