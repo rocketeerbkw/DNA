@@ -4,6 +4,7 @@ using System.Web;
 using System.Xml;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Api.Tests
 {
@@ -133,7 +134,7 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
             var target = new CommentInfo
             {
                 PostStyle = style,
-                text = input
+                text = CommentInfo.FormatComment(input, style, CommentStatus.Hidden.NotHidden)
             };
             expected = StringUtils.SerializeToXml(expected);
             var docExpected = new XmlDocument();
@@ -150,7 +151,7 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
             var target = new CommentInfo()
             {
                 PostStyle = style,
-                text = input
+                text = CommentInfo.FormatComment(input, style, CommentStatus.Hidden.NotHidden)
             };
             var doc = target.ToJson();
 

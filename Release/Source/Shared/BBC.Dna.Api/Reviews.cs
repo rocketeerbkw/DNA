@@ -526,7 +526,6 @@ namespace BBC.Dna.Api
         {
             RatingInfo ratingInfo = new RatingInfo
             {
-                text = reader.GetString("text"),
                 Created = new DateTimeHelper(DateTime.Parse(reader.GetDateTime("Created").ToString())),
                 User = base.UserReadById(reader, site),
                 ID = reader.GetInt32NullAsZero("id"),
@@ -572,7 +571,7 @@ namespace BBC.Dna.Api
                     Response = editorsPick.Result
                 };
             }*/
-
+            ratingInfo.text = CommentInfo.FormatComment(reader.GetString("text"), ratingInfo.PostStyle, ratingInfo.hidden);
             return ratingInfo;
         }
 
