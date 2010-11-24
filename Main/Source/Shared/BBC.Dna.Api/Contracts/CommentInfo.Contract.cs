@@ -26,19 +26,10 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = "text", Order = 2)]
         public string text
         {
             get; set;
-        }
-
-        [DataMember(Name = "text", Order = 2)]
-        public string FormatttedText
-        {
-            get
-            {
-                return FormatComment(text, PostStyle, hidden);
-            }
-            set { text = value; }
         }
 
         [DataMember(Name = ("created"), Order = 3)]
