@@ -376,6 +376,15 @@ namespace BBC.Dna.Services
             return GetOutputStream(commentInfo);
         }
 
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/preview")]
+        [WebHelp(Comment = "Create a new comment for the comment forum")]
+        [OperationContract]
+        public Stream CreateCommentPreview(string commentForumId, string siteName, CommentInfo comment)
+        {
+            comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden);
+            return GetOutputStream(comment);
+        }
+
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/create.htm")]
         [WebHelp(Comment = "Create a new comment for the comment forum")]
         [OperationContract]
