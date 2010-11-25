@@ -1071,8 +1071,8 @@ namespace FunctionalTests.Services.Articles
         /// Needs guide entry cat on smallguide created
         /// </summary>
                    
-        [TestMethod, Ignore]
-        public void GetSearchArticles()
+        [TestMethod]
+        public void GetSearchArticles_VariousTerms_ReturnsValidResults()
         {
             SetupFullTextIndex();
             
@@ -1081,12 +1081,19 @@ namespace FunctionalTests.Services.Articles
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
 
-            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles?querystring=dinosaur&showapproved=1&searchtype=ARTICLE&format=xml", _sitename);
+            var testData = new string[]{ "dinosaur", "cats and dogs", "the is a bad stop word", "The Hitchhiker's Guide to the Galaxy"  };
 
-            // now get the response
-            request.RequestPageWithFullURL(url, null, "text/xml");
-            XmlDocument xml = request.GetLastResponseAsXML();
+            foreach (var term in testData)
+            {
+                string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles?querystring={1}&showapproved=1&searchtype=ARTICLE&format=xml", _sitename, term);
 
+                // now get the response
+                request.RequestPageWithFullURL(url, null, "text/xml");
+                BBC.Dna.Objects.Search returnedSearch = (BBC.Dna.Objects.Search)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Objects.Search));
+
+                Assert.IsTrue(returnedSearch.SearchResults.Count > 0);
+                Assert.AreEqual(term, returnedSearch.SearchResults.SearchTerm);
+            }
             Console.WriteLine("After GetSearchArticles");
         }
 

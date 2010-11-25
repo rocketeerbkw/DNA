@@ -206,7 +206,7 @@ namespace BBC.Dna.Objects
             return thread;
         }
 
-        private static string[] BadSearchChars = { "!", "\"", "&", "(", ")", "[", "]", "~", ",", "|"};
+        private static string[] BadSearchChars = { "!", "\"", "&", "(", ")", "[", "]", "~", ",", "|", "'"};
         private static List<string> NoiseWords;
 
         private static List<string> GetNoiseWords()
@@ -355,7 +355,7 @@ namespace BBC.Dna.Objects
                     tempTerm = tempTerm.Replace(badChar, "");
                 }
                 tempTerm = tempTerm.Trim();
-                if (!string.IsNullOrEmpty(tempTerm) && !GetNoiseWords().Contains(tempTerm) && tempTerm.Length> 1)
+                if (!string.IsNullOrEmpty(tempTerm) && !GetNoiseWords().Contains(tempTerm.ToLower()) && tempTerm.Length> 1)
                 {
                     goodTerms.Add(tempTerm);
                     tempSeachText += tempTerm + "&";
