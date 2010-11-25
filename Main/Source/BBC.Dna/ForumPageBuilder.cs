@@ -94,7 +94,7 @@ namespace BBC.Dna
                 threads = ForumThreads.CreateForumThreads(_cache, _creator, InputContext.TheSiteList,
                                                                        _forumId,
                                                                        THREADSTOSHOW, _skip, _threadId, false,
-                                                                       ThreadOrder.LatestPost, _viewingUser, _ignoreCache);
+                                                                       ThreadOrder.LatestPost, _viewingUser, _ignoreCache, false);
                 SerialiseAndAppend(threads, String.Empty);
             }
 

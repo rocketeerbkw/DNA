@@ -231,16 +231,18 @@ namespace BBC.Dna.Objects
             int dnaUserId = GetDnaUserIdFromIdentitifier(readerCreator, identifier, byDnaUserId);
 
             //You can't unsubscribe someone else's users (unless you're an editor or superuser)
-            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            if (viewingUser.UserID == dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("unsubscribefromuser"))
+                {
+                    dataReader.AddParameter("userID", dnaUserId);
+                    dataReader.AddParameter("subscribedtoid", userId);
+                    dataReader.Execute();
+                }
+            }
+            else
             {
                 throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-
-            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("unsubscribefromuser"))
-            {
-                dataReader.AddParameter("userID", dnaUserId);
-                dataReader.AddParameter("subscribedtoid", userId);
-                dataReader.Execute();
             }
         }
 
@@ -262,38 +264,41 @@ namespace BBC.Dna.Objects
         {
             int dnaUserId = GetDnaUserIdFromIdentitifier(readerCreator, identifier, byDnaUserId);
 
-            //You can't unsubscribe someone else's users (unless you're an editor or superuser)
-            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            //You can't subscribe someone else's users (unless you're an editor or superuser)
+            if (viewingUser.UserID == dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
             {
-                throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-            //You can't subscribe to yourself
-            if (dnaUserId == subscribedToId)
-            {
-                throw ApiException.GetError(ErrorType.InvalidUserId);
-            }
-            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("subscribetouser"))
-            {
-                dataReader.AddParameter("userID", dnaUserId);
-                dataReader.AddParameter("authorid", subscribedToId);
-                dataReader.AddParameter("siteid", siteID);
-                dataReader.Execute();
-                if (!dataReader.HasRows)
+                //You can't subscribe to yourself
+                if (dnaUserId == subscribedToId)
                 {
-                    dataReader.Close();
-                    int returnValue;
-                    dataReader.TryGetIntReturnValue(out returnValue);
+                    throw ApiException.GetError(ErrorType.InvalidUserId);
+                }
+                using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("subscribetouser"))
+                {
+                    dataReader.AddParameter("userID", dnaUserId);
+                    dataReader.AddParameter("authorid", subscribedToId);
+                    dataReader.AddParameter("siteid", siteID);
+                    dataReader.Execute();
+                    if (!dataReader.HasRows)
+                    {
+                        dataReader.Close();
+                        int returnValue;
+                        dataReader.TryGetIntReturnValue(out returnValue);
 
-                    //User has blocked all subscriptions
-                    if (returnValue == 1)
-                    {
-                        throw ApiException.GetError(ErrorType.UserBlockedSubscriptions);
-                    }
-                    else
-                    {
-                        throw ApiException.GetError(ErrorType.CantSubscribe);
+                        //User has blocked all subscriptions
+                        if (returnValue == 1)
+                        {
+                            throw ApiException.GetError(ErrorType.UserBlockedSubscriptions);
+                        }
+                        else
+                        {
+                            throw ApiException.GetError(ErrorType.CantSubscribe);
+                        }
                     }
                 }
+            }
+            else
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
             }
         }
 

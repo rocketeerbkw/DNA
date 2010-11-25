@@ -108,8 +108,10 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="prefix">The data base name prefix</param>
+        /// <param name="postId">The post Id</param>
+        /// <param name="applySkin">whether we need to format the post</param>
         /// <returns></returns>
-        static public ThreadPostSummary CreateThreadPostFromReader(IDnaDataReader reader, string prefix, int postId)
+        static public ThreadPostSummary CreateThreadPostFromReader(IDnaDataReader reader, string prefix, int postId, bool applySkin)
         {
             ThreadPostSummary post = new ThreadPostSummary() { PostId = postId };
             
@@ -123,7 +125,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
-                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden, true, false);
+                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden, true, applySkin);
             }
 
             post.User = BBC.Dna.Objects.User.CreateUserFromReader(reader, prefix);

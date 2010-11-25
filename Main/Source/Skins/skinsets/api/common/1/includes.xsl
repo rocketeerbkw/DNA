@@ -39,6 +39,7 @@
 	<xsl:include href="_library/GuideML/center.xsl" />
 	<xsl:include href="_library/GuideML/code.xsl" />
 	<xsl:include href="_library/GuideML/columns.xsl" />
+	<xsl:include href="_library/GuideML/entity.xsl" />
 	<xsl:include href="_library/GuideML/footnote.xsl"/>
 	<xsl:include href="_library/GuideML/font.xsl"/>
 	<xsl:include href="_library/GuideML/form.xsl"/>
@@ -98,6 +99,7 @@
 	<xsl:include href="_library/Richtext/Richtext.xsl" />
 
 	<xsl:include href="_library/Post/Post.xsl" />
+	<xsl:include href="_library/Post/br.xsl" />
 	<xsl:include href="_library/Post/link.xsl" />
 	<xsl:include href="_library/Post/smiley.xsl" />
 

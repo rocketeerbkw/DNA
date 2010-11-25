@@ -146,6 +146,7 @@
     <None Include="Dna.Services.Common\subscribingUsersList.xsd" />
     <None Include="Dna.Services.Common\userSubscriptionsList.xsd" />
     <None Include="Dna.Services.Forums\forumSource.xsd" />
+    <None Include="Dna.Services.Forums\reviewForumPage.xsd" />
     <None Include="Dna.Services.Users\friendsList.xsd" />
     <None Include="Dna.Services.Users\group.xsd" />
     <None Include="Dna.Services.Users\user.xsd" />

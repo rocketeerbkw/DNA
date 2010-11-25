@@ -147,7 +147,7 @@ namespace BBC.Dna.Objects.Tests
             ForumThreads actual;
             actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                  threadId,
-                                                                 overFlow, threadOrder);
+                                                                 overFlow, threadOrder, false);
             Assert.AreEqual(actual.Thread.Count, itemsPerPage);
             Assert.AreEqual(actual.More, "1");
 
@@ -155,7 +155,7 @@ namespace BBC.Dna.Objects.Tests
             overFlow = false;
             actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                  threadId,
-                                                                 overFlow, threadOrder);
+                                                                 overFlow, threadOrder, false);
             Assert.AreEqual(actual.Thread.Count, itemsPerPage);
             Assert.AreEqual(actual.More, "1");
         }
@@ -183,7 +183,7 @@ namespace BBC.Dna.Objects.Tests
             overFlow = false;
             actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                  threadId,
-                                                                 overFlow, threadOrder);
+                                                                 overFlow, threadOrder, false);
             Assert.AreEqual(actual.Thread.Count, itemsPerPage);
             Assert.AreEqual(actual.More, "1");
         }
@@ -227,7 +227,7 @@ namespace BBC.Dna.Objects.Tests
             ForumThreads actual;
             actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                  threadId,
-                                                                 true, threadOrder);
+                                                                 true, threadOrder, false);
             Assert.AreEqual(actual.Thread.Count, smallerItemsPerPage);
             Assert.AreEqual(actual.More, "1");
         }
@@ -271,7 +271,7 @@ namespace BBC.Dna.Objects.Tests
             ForumThreads actual;
             actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                  threadId,
-                                                                 true, threadOrder);
+                                                                 true, threadOrder, false);
             Assert.AreEqual(actual.Thread.Count, itemsPerPage);
             Assert.AreEqual(actual.More, "1");
         }
@@ -316,7 +316,7 @@ namespace BBC.Dna.Objects.Tests
             ForumThreads actual;
             actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                  threadId,
-                                                                 true, threadOrder);
+                                                                 true, threadOrder, false);
             Assert.AreEqual(actual.Thread.Count, totalItems - 1);
             //number of reader.read calls is decremented by other call
             Assert.AreEqual("0", actual.More);
@@ -374,7 +374,7 @@ namespace BBC.Dna.Objects.Tests
             startIndex = 1;
             ForumThreads actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                               threadId,
-                                                                              overFlow, threadOrder);
+                                                                              overFlow, threadOrder, false);
             Assert.AreEqual(actual.Thread.Count, itemsPerPage);
             Assert.AreEqual("0", actual.More);
 
@@ -417,7 +417,7 @@ namespace BBC.Dna.Objects.Tests
             startIndex = 1;
             ForumThreads actual = ForumThreads.CreateForumThreadsFromDatabase(creator, siteList, forumId, itemsPerPage, startIndex,
                                                                               threadId,
-                                                                              overFlow, threadOrder);
+                                                                              overFlow, threadOrder, false);
             Assert.AreEqual(0, actual.Thread.Count);
             Assert.AreEqual("0", actual.More);
 
@@ -623,7 +623,7 @@ namespace BBC.Dna.Objects.Tests
             Mocks.ReplayAll();
 
             ForumThreads actual = ForumThreads.CreateForumThreads(cache, readerCreator, siteList, forumId, itemsPerPage, startIndex,
-                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache);
+                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache, false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -657,7 +657,7 @@ namespace BBC.Dna.Objects.Tests
             Mocks.ReplayAll();
 
             ForumThreads actual = ForumThreads.CreateForumThreads(cache, readerCreator, siteList, forumId, itemsPerPage, startIndex,
-                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache);
+                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache, false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -694,7 +694,7 @@ namespace BBC.Dna.Objects.Tests
             Mocks.ReplayAll();
 
             ForumThreads actual = ForumThreads.CreateForumThreads(cache, readerCreator, siteList, forumId, itemsPerPage, startIndex,
-                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache);
+                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache, false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -738,7 +738,7 @@ namespace BBC.Dna.Objects.Tests
             Mocks.ReplayAll();
 
             ForumThreads actual = ForumThreads.CreateForumThreads(cache, readerCreator, siteList, forumId, itemsPerPage, startIndex,
-                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache);
+                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache, false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -1080,7 +1080,8 @@ namespace BBC.Dna.Objects.Tests
                                                             threadOrder, 
                                                             viewingUser,
                                                             false,
-                                                            ignoreCache);
+                                                            ignoreCache, 
+                                                            false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -1130,7 +1131,8 @@ namespace BBC.Dna.Objects.Tests
                                                             threadOrder, 
                                                             viewingUser,
                                                             false,
-                                                            ignoreCache);
+                                                            ignoreCache,
+                                                            false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -1186,7 +1188,8 @@ namespace BBC.Dna.Objects.Tests
                                                             threadOrder,
                                                             viewingUser,
                                                             false,
-                                                            ignoreCache);
+                                                            ignoreCache,
+                                                            false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -1233,7 +1236,8 @@ namespace BBC.Dna.Objects.Tests
                                                             threadOrder,
                                                             viewingUser,
                                                             true,
-                                                            ignoreCache);
+                                                            ignoreCache,
+                                                            false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -1272,7 +1276,7 @@ namespace BBC.Dna.Objects.Tests
             Mocks.ReplayAll();
 
             ForumThreads actual = ForumThreads.CreateForumThreads(cache, readerCreator, siteList, forumId, itemsPerPage, startIndex,
-                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache);
+                                                                  threadId, overFlow, threadOrder, viewingUser, ignoreCache, false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
@@ -1327,7 +1331,8 @@ namespace BBC.Dna.Objects.Tests
                                                             threadOrder,
                                                             viewingUser,
                                                             true,
-                                                            ignoreCache);
+                                                            ignoreCache,
+                                                            false);
             Assert.IsNotNull(actual);
             //Assert.Inconclusive("Verify the correctness of this test method.");
         }
