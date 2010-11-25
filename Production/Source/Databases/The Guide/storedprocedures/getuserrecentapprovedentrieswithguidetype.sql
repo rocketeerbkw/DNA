@@ -125,7 +125,7 @@ BEGIN
 					 UNION
 					 SELECT EntryID FROM GuideEntries WITH(NOLOCK) WHERE Editor = @userid
 					)
-			   ) AND g.type = @guidetype
+			   ) AND g.Status = 1 AND g.type = @guidetype
 	)
 	,
 	UserArticlesPaginationSiteX AS

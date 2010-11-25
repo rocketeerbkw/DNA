@@ -115,6 +115,10 @@
       <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
       <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
+      <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
+      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
       <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
       <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>

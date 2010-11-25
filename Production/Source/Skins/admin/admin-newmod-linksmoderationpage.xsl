@@ -89,19 +89,22 @@
     </xsl:variable>
     <div class="toolBox">
       <h2>Moderation Action</h2>
-      <div class="postForm" id="form{@MODERATIONID}">
+      <div class="postForm" id="form{@MODID}">
         <label class="hiddenLabel" for="Decision">Moderation decision for the link</label>
-        <select class="type" name="Decision" id="Decision">
+        <select class="type" name="Decision">
+          <xsl:attribute name="id">
+            Decision<xsl:number/>
+          </xsl:attribute>
           <xsl:choose>
             <xsl:when test="../@ALERTS = 1">
-              <option value="3" class="{@MODERATIONID}">Reject Alert &amp; Pass </option>
-              <option value="4" class="{@MODERATIONID}">Uphold Alert &amp; Fail </option>
-              <option value="2" class="{@MODERATIONID}">Refer</option>
+              <option value="3" class="{@MODID}">Reject Alert &amp; Pass </option>
+              <option value="4" class="{@MODID}">Uphold Alert &amp; Fail </option>
+              <option value="2" class="{@MODID}">Refer</option>
             </xsl:when>
             <xsl:otherwise>
-              <option value="3" class="{@MODERATIONID}">Pass</option>
-              <option value="4" class="{@MODERATIONID}">Fail</option>
-              <option value="2" class="{@MODERATIONID}">Refer</option>
+              <option value="3" class="{@MODID}">Pass</option>
+              <option value="4" class="{@MODID}">Fail</option>
+              <option value="2" class="{@MODID}">Refer</option>
             </xsl:otherwise>
           </xsl:choose>
         </select>
@@ -111,10 +114,10 @@
             <xsl:attribute name="id">
               ReferTo<xsl:number/>
             </xsl:attribute>
-            <option class="{$modid}">or Refer to</option>
+            <option class="{@MODID}">or Refer to</option>
             <xsl:for-each select="/H2G2/REFEREE-LIST/REFEREE">
               <xsl:if test="SITEID = $currentSite">
-                <option class="{$modid}" value="{USER/USERID}">
+                <option class="{@MODID}" value="{USER/USERID}">
                   <xsl:value-of select="USER/USERNAME"/>
                 </option>
               </xsl:if>
@@ -122,19 +125,14 @@
           </select>
         </div>
         <div class="fail">
-          <label class="hiddenLabel">
-            <xsl:attribute name="for">
-              EmailType<xsl:number/>
-            </xsl:attribute>
+          <label class="hiddenLabel" for="EmailType">
             This link has been failed for
           </label>
           <select class="failReason" name="EmailType">
-            <xsl:attribute name="id">
-              EmailType<xsl:number/>
-            </xsl:attribute>
-            <option class="{$modid}">or Select failure reason</option>
+            <xsl:attribute name="id">EmailType<xsl:number/></xsl:attribute>
+            <option class="{@MODID}">or Select failure reason</option>
                 <xsl:for-each select="/H2G2/MOD-REASONS/MOD-REASON">
-                  <option class="{$modid}" value="{@EMAILNAME}">
+                  <option class="{@MODID}" value="{@EMAILNAME}">
                     <xsl:value-of select="@DISPLAYNAME"/>
                   </option>
                 </xsl:for-each>

@@ -23,6 +23,9 @@
 	    			<xsl:with-param name="signin-text"><xsl:value-of select="$signin-discussion-text" /></xsl:with-param>
 	    		</xsl:apply-templates>
 	    	</xsl:when>
+	    	<xsl:when test="/H2G2/FORUMSOURCE/ARTICLE/GUIDE/BODY/EDITORONLY and not(/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME = 'EDITOR'])">
+	    		<!-- if the editoronly tag is flagged and the user is not an editor then do not show start new discussion link -->
+	    	</xsl:when>
 	    	<!--  this is a duplication - need to optimise this when have more time -->
    			<xsl:when test="$autogenname_required = 'true'">
             	<p class="article text">

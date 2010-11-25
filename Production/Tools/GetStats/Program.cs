@@ -15,7 +15,7 @@ namespace GetStats
 			WebRequests req = new WebRequests();
 
 			XmlDocument configxml = new XmlDocument();
-			string filename = @"GetStats.config";
+			string filename = @"GetStats.conf";//config";
 			try
 			{
 				using (StreamReader reader = new StreamReader(filename))

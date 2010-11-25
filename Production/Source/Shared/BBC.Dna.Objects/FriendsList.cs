@@ -234,5 +234,131 @@ namespace BBC.Dna.Objects
             // not used always get a new one for now
             return false;
         }
+
+
+        /// <summary>
+        /// Deletes a friend from their friends list
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="identifier"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteId"></param>
+        /// <param name="friendId"></param>
+        /// <param name="byDnaUserId"></param>
+        /// <returns></returns>
+        public static void DeleteFriend(IDnaDataReaderCreator readerCreator,
+                                        BBC.Dna.Users.ICallingUser viewingUser,
+                                        string identifier,
+                                        int siteId,
+                                        int friendId,
+                                        bool byDnaUserId)
+        {
+            int dnaUserId = 0;
+            if (!byDnaUserId)
+            {
+                // fetch all the lovely intellectual property from the database
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getdnauseridfromidentityusername"))
+                {
+                    reader.AddParameter("identityusername", identifier);
+                    reader.Execute();
+
+                    if (reader.HasRows && reader.Read())
+                    {
+                        dnaUserId = reader.GetInt32NullAsZero("userid");
+                    }
+                    else
+                    {
+                        throw ApiException.GetError(ErrorType.UserNotFound);
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    dnaUserId = Convert.ToInt32(identifier);
+                }
+                catch (Exception)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
+            }
+            //You can't delete someone else's friends (unless you're an editor or superuser)
+            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA( BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
+            }            
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("deletewatchedusers"))
+            {
+                reader.AddParameter("userid", dnaUserId);
+                reader.AddParameter("currentsiteid", siteId);
+                reader.AddParameter("watch1", friendId);
+
+                reader.Execute();
+            }
+        }
+        /// <summary>
+        /// Adds a friend to their friends list
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="identifier"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteId"></param>
+        /// <param name="newFriendId"></param>
+        /// <param name="byDnaUserId"></param>
+        /// <returns></returns>
+        public static void AddFriend(IDnaDataReaderCreator readerCreator,
+                                        BBC.Dna.Users.ICallingUser viewingUser,
+                                        string identifier,
+                                        int siteId,
+                                        int newFriendId,
+                                        bool byDnaUserId)
+        {
+            int dnaUserId = 0;
+            if (!byDnaUserId)
+            {
+                // fetch all the lovely intellectual property from the database
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getdnauseridfromidentityusername"))
+                {
+                    reader.AddParameter("identityusername", identifier);
+                    reader.Execute();
+
+                    if (reader.HasRows && reader.Read())
+                    {
+                        dnaUserId = reader.GetInt32NullAsZero("userid");
+                    }
+                    else
+                    {
+                        throw ApiException.GetError(ErrorType.UserNotFound);
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    dnaUserId = Convert.ToInt32(identifier);
+                }
+                catch (Exception)
+                {
+                    throw ApiException.GetError(ErrorType.UserNotFound);
+                }
+            }
+            //You can't add someone else's friends (unless you're an editor or superuser)
+            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
+            }
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("watchuserjournal"))
+            {
+                reader.AddParameter("userid", dnaUserId);
+                reader.AddParameter("watcheduserid", newFriendId);
+                reader.AddParameter("siteid", siteId);
+
+                reader.Execute();
+            }
+        }
     }
 }

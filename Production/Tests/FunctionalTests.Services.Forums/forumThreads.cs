@@ -141,5 +141,62 @@ namespace FunctionalTests.Services.Forums
 
             Console.WriteLine("After CreateForumPost_WithValidXMLValues_ReturnsSuccess");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void SubscribeToUnsubscribeFromForum_ReturnsSuccess()
+        {
+            Console.WriteLine("Before SubscribeToUnsubscribeFromForum_ReturnsSuccess");
+
+            string forum = "7619338";
+
+            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/subscribe", _sitename, forum);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("No data");
+
+            request.RequestPageWithFullURL(url, postData, "text/data");
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/unsubscribe", _sitename, forum);
+
+            request.RequestPageWithFullURL(url, postData, "text/xml");
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After SubscribeToUnsubscribeFromForum_ReturnsSuccess");
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void SubscribeToUnsubscribeFromThread_ReturnsSuccess()
+        {
+            Console.WriteLine("Before SubscribeToUnsubscribeFromForum_ReturnsSuccess");
+
+            string forum = "7619338";
+            string thread = "31";
+
+            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/subscribe", _sitename, forum, thread);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("No data");
+
+            request.RequestPageWithFullURL(url, postData, "text/data");
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/unsubscribe", _sitename, forum, thread);
+
+            request.RequestPageWithFullURL(url, postData, "text/xml");
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After SubscribeToUnsubscribeFromForum_ReturnsSuccess");
+        }
     }
 }

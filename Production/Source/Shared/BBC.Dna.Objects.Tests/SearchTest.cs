@@ -11,6 +11,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Rhino.Mocks.Constraints;
 using TestUtils;
 using BBC.Dna.Api;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects.Tests
 {

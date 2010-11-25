@@ -972,6 +972,35 @@ namespace FunctionalTests.Services.Comments
         /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
+        public void PreviewComment_AsPlainTextWithHTMLLink_ReturnsTransformedLink()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string randomiser = Guid.NewGuid().ToString();
+            string text = "http://www.bbc.co.uk/" + randomiser + " in the post";
+            string expectedText = "<a href=\"http://www.bbc.co.uk/" + randomiser + "\">http://www.bbc.co.uk/" + randomiser + "</a> in the post";
+
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text><poststyle>plaintext</poststyle>" +
+                "</comment>", text);
+
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/preview", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+            Assert.IsTrue(returnedComment.text == expectedText);
+
+        }
+
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
         public void CreateComment_InvalidPostStyle()
         {
             Console.WriteLine("Before CreateComment");

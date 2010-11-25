@@ -22,6 +22,11 @@
         IT_CLUB_MEMBERS     = 12,
         IT_MODID            = 13,
         IT_ENTRYID          = 14,
-        IT_RISKMODQUEUEID   = 15
+        IT_RISKMODQUEUEID   = 15,
+        IT_USERAUDIT        = 16,
+	    IT_SITE             = 17,
+        IT_USERPREFSTATUS   = 18,
+        IT_MODSTATUS        = 19,
+        
     }
 }

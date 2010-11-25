@@ -6,6 +6,8 @@ using BBC.Dna.Data;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
 using BBC.Dna.Api;
+using BBC.Dna.Common;
+using System.Configuration;
 
 namespace BBC.Dna.Objects
 {
@@ -254,8 +256,9 @@ namespace BBC.Dna.Objects
         /// <param name="inputText"></param>
         /// <param name="hidden"></param>
         /// <param name="cleanHTMLTags"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
-        static public string FormatPost(string inputText, CommentStatus.Hidden hidden, bool cleanHTMLTags)
+        static public string FormatPost(string inputText, CommentStatus.Hidden hidden, bool cleanHTMLTags, bool applySkin)
         {
             if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration || hidden == CommentStatus.Hidden.Hidden_AwaitingReferral) // 3 means premoderated! - hidden!
             {
@@ -292,6 +295,34 @@ namespace BBC.Dna.Objects
             //convert BRs to CRs
             inputText = HtmlUtils.ReplaceCRsWithBRs(inputText);
 
+            if (applySkin)
+            {
+                string apiGuideSkin = ConfigurationSettings.AppSettings["guideMLXSLTSkinPath"];
+                string startH2G2Post = "<H2G2POST>";
+                string endH2G2Post = "</H2G2POST>";
+
+                int errorCount = 0;
+                XmlDocument doc = new XmlDocument();
+                doc.PreserveWhitespace = true;
+
+                // reassign string and element after transformation     
+                string textAsGuideML = startH2G2Post + inputText + endH2G2Post;
+                doc.LoadXml(textAsGuideML);
+                
+                string transformedContent = XSLTransformer.TransformUsingXslt(apiGuideSkin, doc, ref errorCount);
+
+                // strip out the xml header and namespaces
+                transformedContent = transformedContent.Replace(@"<?xml version=""1.0"" encoding=""utf-16""?>", "");
+                transformedContent = transformedContent.Replace(@"xmlns=""http://www.w3.org/1999/xhtml""", "");
+
+                if (errorCount != 0)
+                {
+                    DnaDiagnostics.Default.WriteToLog("FailedTransform", transformedContent);
+                    throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
+                }
+                inputText = transformedContent;
+            }
+
             return inputText;
         }
 
@@ -323,8 +354,9 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <param name="postId"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
-        static public ThreadPost CreateThreadPostFromDatabase(IDnaDataReaderCreator readerCreator, int postId)
+        static public ThreadPost CreateThreadPostFromDatabase(IDnaDataReaderCreator readerCreator, int postId, bool applySkin)
         {
             using(IDnaDataReader reader = readerCreator.CreateDnaDataReader("getpostsinthread"))
             {
@@ -333,7 +365,7 @@ namespace BBC.Dna.Objects
 
                 if (reader.HasRows && reader.Read())
                 {
-                    return ThreadPost.CreateThreadPostFromReader(reader, postId);
+                    return ThreadPost.CreateThreadPostFromReader(reader, postId, applySkin);
                 }
                 else
                 {
@@ -347,8 +379,9 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <param name="postId"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
-        static public ThreadPost FetchPostFromDatabase(IDnaDataReaderCreator readerCreator, int postId)
+        static public ThreadPost FetchPostFromDatabase(IDnaDataReaderCreator readerCreator, int postId, bool applySkin)
         {
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("fetchpostdetails"))
             {
@@ -357,7 +390,7 @@ namespace BBC.Dna.Objects
 
                 if (reader.HasRows && reader.Read())
                 {
-                    return ThreadPost.CreateThreadPostFromReader(reader, postId);
+                    return ThreadPost.CreateThreadPostFromReader(reader, postId, applySkin);
                 }
                 else
                 {
@@ -371,10 +404,12 @@ namespace BBC.Dna.Objects
         /// Creates a threadpost from a given reader
         /// </summary>
         /// <param name="reader"></param>
+        /// <param name="postId">postId to get</param>
+        /// <param name="applySkin">Whether we need to process the text into html for output</param>
         /// <returns></returns>
-        static public ThreadPost CreateThreadPostFromReader(IDnaDataReader reader, int postId)
+        static public ThreadPost CreateThreadPostFromReader(IDnaDataReader reader, int postId, bool applySkin)
         {
-            return ThreadPost.CreateThreadPostFromReader(reader, String.Empty, postId, null);
+            return ThreadPost.CreateThreadPostFromReader(reader, String.Empty, postId, null, applySkin);
         }
 
         /// <summary>
@@ -382,8 +417,15 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="prefix">The data base name prefix</param>
+        /// <param name="postId">postId to get</param>
+        /// <param name="post">The post in question to load with data</param>
+        /// <param name="applySkin">Whether we need to process the text into html for output</param>
         /// <returns></returns>
-        static public ThreadPost CreateThreadPostFromReader(IDnaDataReader reader, string prefix, int postId, ThreadPost post)
+        static public ThreadPost CreateThreadPostFromReader(IDnaDataReader reader, 
+                                                            string prefix, 
+                                                            int postId, 
+                                                            ThreadPost post, 
+                                                            bool applySkin)
         {
             if (post == null)
             {
@@ -439,7 +481,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
-                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden, true);
+                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden, true, applySkin);
             }
             if (reader.DoesFieldExist(prefix +"hostpageurl"))
             {
@@ -476,6 +518,38 @@ namespace BBC.Dna.Objects
             #endregion
 
             return post;
+        }
+
+        /// <summary>
+        /// Hides a Thread Post
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="postId"></param>
+        /// <param name="hiddenStatus"></param>
+        /// <returns></returns>
+        static public void HideThreadPost(IDnaDataReaderCreator readerCreator, int postId, BBC.Dna.Moderation.Utils.CommentStatus.Hidden hiddenStatus)
+        {
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("HidePost"))
+            {
+                reader.AddParameter("PostID", postId);
+                reader.AddParameter("HiddenID", hiddenStatus);
+                reader.Execute();
+            }
+        }
+
+        /// <summary>
+        /// Unhides a Thread Post
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="postId"></param>
+        /// <returns></returns>
+        static public void UnhideThreadPost(IDnaDataReaderCreator readerCreator, int postId)
+        {
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("UnhidePost"))
+            {
+                reader.AddParameter("PostID", postId);
+                reader.Execute();
+            }
         }
 
         /// <summary>

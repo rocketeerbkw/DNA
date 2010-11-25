@@ -13,23 +13,23 @@ namespace BBC.Dna.Api
     [Serializable] [DataContract(Namespace = "BBC.Dna.Api")]
     public partial class DateTimeHelper : baseContract
     {
-        private DateTime _dateTime;
+        public DateTime DateTime;
         public DateTimeHelper(DateTime dateTime){
             //convert to current daylight savings time
-            _dateTime = dateTime;
+            DateTime = dateTime;
         }
 
         [DataMember(Name = "at", Order = 1)]
         public string At
         {
-            get { return BBC.Dna.Utils.TimeZoneInfo.GetTimeZoneInfo().ConvertUtcToTimeZone(_dateTime).ToString("dd/MM/yyyy HH:mm:ss"); }
+            get { return BBC.Dna.Utils.TimeZoneInfo.GetTimeZoneInfo().ConvertUtcToTimeZone(DateTime).ToString("dd/MM/yyyy HH:mm:ss"); }
             set{}
         }
 
         [DataMember(Name = "ago", Order = 2)]
         public string Ago
         {
-            get { return DnaDateTime.TryGetRelativeValueForPastDate(_dateTime.ToUniversalTime()); }
+            get { return DnaDateTime.TryGetRelativeValueForPastDate(DateTime.ToUniversalTime()); }
             set{}
         }
     }

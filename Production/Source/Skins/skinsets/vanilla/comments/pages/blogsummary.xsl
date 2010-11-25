@@ -24,7 +24,7 @@
                 <xsl:apply-templates select="COMMENTFORUMLIST" mode="object_commentforumlist" />
             </xsl:variable>
         
-            <xsl:apply-templates select="BLOGSUMMARY/COMMENTFORUMLIST/COMMENTFORUM" mode="object_commentforum_blogsummary" />
+            <xsl:apply-templates select="COMMENTFORUMLIST/COMMENTFORUM" mode="object_commentforum_blogsummary" />
     
             <xsl:call-template name="library_ssi_escaped">
                 <xsl:with-param name="statement">

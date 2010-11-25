@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="SUBHEADER" mode="library_GuideML">
+    <xsl:template match="SUBHEADER | subheader" mode="library_GuideML">
         <h4>
             <xsl:apply-templates mode="library_GuideML"/>
         </h4>

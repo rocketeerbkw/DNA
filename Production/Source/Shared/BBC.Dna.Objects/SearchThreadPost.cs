@@ -54,7 +54,7 @@ namespace BBC.Dna.Objects
         {
 
             SearchThreadPost searchPost = new SearchThreadPost() { PostId = postId };
-            ThreadPost.CreateThreadPostFromReader(reader, string.Empty, postId, (SearchThreadPost)searchPost);
+            ThreadPost.CreateThreadPostFromReader(reader, string.Empty, postId, (SearchThreadPost)searchPost, false);
             if (reader.DoesFieldExist("rank"))
             {
                 searchPost.Rank = reader.GetInt32NullAsZero("rank");
@@ -80,7 +80,7 @@ namespace BBC.Dna.Objects
         /// <returns></returns>
         static public string FormatSearchPost(string post, string[] searchTerms)
         {
-            post = ThreadPost.FormatPost(post, CommentStatus.Hidden.NotHidden, true);
+            post = ThreadPost.FormatPost(post, CommentStatus.Hidden.NotHidden, true, false);
             post = HtmlUtils.RemoveAllHtmlTags(post);
             int pos=0;
             foreach(var term in searchTerms)

@@ -14,13 +14,13 @@
     </doc:documentation>
     
     <xsl:template match="QUOTE" mode="library_GuideML">
-        <blockquote>
+        <span class="quote">
             <xsl:if test="@CLASS">
                 <xsl:attribute name="class">
                     <xsl:value-of select="@CLASS"/>
                 </xsl:attribute>
             </xsl:if>
-            <xsl:apply-templates mode="library_GuideML"/>
-        </blockquote>
+            <em><xsl:text>"</xsl:text><xsl:apply-templates mode="library_GuideML"/><xsl:text>"</xsl:text></em>
+        </span>
     </xsl:template>
 </xsl:stylesheet>

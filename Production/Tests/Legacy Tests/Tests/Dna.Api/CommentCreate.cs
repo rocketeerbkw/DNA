@@ -345,7 +345,7 @@ namespace Tests
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.FormatttedText.IndexOf(illegalTags) < 0);//illegal char stripped
+            Assert.IsTrue(result.text.IndexOf(illegalTags) < 0);//illegal char stripped
         }
 
         /// <summary>
@@ -375,7 +375,7 @@ namespace Tests
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.text);//illegal char stripped
         }
 
         /// <summary>
@@ -404,7 +404,7 @@ with a carrage return.";
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.AreEqual(expectedOutput, result.FormatttedText); //illegal char stripped
+            Assert.AreEqual(expectedOutput, result.text); //illegal char stripped
         }
 
         /// <summary>
@@ -478,7 +478,7 @@ return.";
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
-            Assert.AreEqual(expectedOutput, result.FormatttedText);//illegal char stripped
+            Assert.AreEqual(expectedOutput, result.text);//illegal char stripped
         }
 
         /// <summary>
@@ -507,7 +507,7 @@ return.";
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);//should be valid post ID 
-            Assert.AreEqual("This post is awaiting moderation.", result.FormatttedText);
+            Assert.AreEqual("This post is awaiting moderation.", result.text);
 
             //check if post in mod queue table
             using (FullInputContext inputcontext = new FullInputContext(""))
@@ -568,7 +568,7 @@ return.";
 
                 Assert.IsTrue(result != null);
                 Assert.IsTrue(result.ID == 0);//should be have no post ID
-                Assert.IsTrue(result.FormatttedText == "This post is awaiting moderation.");
+                Assert.IsTrue(result.text == "This post is awaiting moderation.");
 
                 //check if post in PreModPostings queue table
                 using (FullInputContext inputcontext = new FullInputContext(""))

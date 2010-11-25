@@ -66,6 +66,6 @@ select @notablesgroup = GroupID FROM Groups WITH(NOLOCK) WHERE Name = 'Notables'
 		LEFT JOIN Preferences p WITH(NOLOCK) on (p.UserID = u.UserID) AND (p.SiteID = f.SiteID)
 		LEFT JOIN GroupMembers gm WITH(NOLOCK) ON gm.UserID = t.UserID AND gm.SiteID = f.SiteID AND gm.GroupID = @editgroup
 		LEFT JOIN GroupMembers gm2 WITH(NOLOCK) ON gm2.UserID = t.UserID AND gm2.SiteID = f.SiteID AND gm2.GroupID = @notablesgroup
-		INNER JOIN Journals J with(nolock) on J.UserID = U.UserID and J.SiteID = f.SiteID
+		LEFT JOIN Journals J with(nolock) on J.UserID = U.UserID and J.SiteID = f.SiteID
 	WHERE t.ThreadID = @threadid AND t.PostIndex >= @start AND t.PostIndex <= @end AND th.VisibleTo IS NULL -- AND (t.Hidden IS NULL) 
 	ORDER BY t.PostIndex DESC 

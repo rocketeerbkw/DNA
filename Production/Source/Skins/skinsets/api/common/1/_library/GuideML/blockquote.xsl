@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="BLOCKQUOTE" mode="library_GuideML">
+    <xsl:template match="BLOCKQUOTE | blockquote" mode="library_GuideML">
         <blockquote>
 			<xsl:apply-templates mode="library_GuideML"/>
 		</blockquote>

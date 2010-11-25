@@ -21,5 +21,10 @@ Select @iitemtype = CASE
 	WHEN (@itemtype = 'IT_MODID')			THEN 13
 	WHEN (@itemtype = 'IT_ENTRYID')			THEN 14
 	WHEN (@itemtype = 'IT_RISKMODQUEUEID')	THEN 15
+	WHEN (@itemtype = 'IT_USERAUDIT')		THEN 16
+	WHEN (@itemtype = 'IT_SITE')			THEN 17
+	WHEN (@itemtype = 'IT_USERPREFSTATUS')	THEN 18
+	WHEN (@itemtype = 'IT_MODSTATUS')		THEN 19
+	WHEN (@itemtype = 'IT_MODHISTORYID')	THEN 20
 	ELSE 2
 END

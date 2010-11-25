@@ -11,7 +11,7 @@ namespace BBC.Dna.Data
     /// </summary>
     public interface IDnaDataReaderCreator
     {
+        string ConnectionString { get; }
         IDnaDataReader CreateDnaDataReader(string name);
-        
     }
 }

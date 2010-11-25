@@ -8,6 +8,7 @@ REGEDIT4
 "/A"="/Ripleyserver.dll?article?id="
 "/T"="/RipleyServer.dll?Forum?thread="
 "/F"="/ripleyserver.dll?Forum?id="
+"/OF"="/ripleyserver.dll?Forum?id="
 "/NF"="/dna/dnapages/ForumPage.aspx?id="
 "/TP"="/ripleyserver.dll?Forum?post="
 "/FT"="/ripleyserver.dll?Forum?id="
@@ -337,5 +338,9 @@ REGEDIT4
 "/messageboardbackuprestore"="/dna/dnapages/MBBackupRestore.aspx?"
 "/mbadmin"="/dna/dnapages/MBAdmin.aspx?"
 
+"/HostDashboard"="/dna/dnapages/HostDashboard.aspx?"
+"/HostDashboardActivity"="/dna/dnapages/HostDashboardActivity.aspx?"
+
 
 "/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"
+"/usercontributions" = "/dna/dnapages/usercontributions.aspx?"

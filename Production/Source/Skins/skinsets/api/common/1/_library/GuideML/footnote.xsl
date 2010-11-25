@@ -3,7 +3,7 @@
 	
 	<doc:documentation>
 		<doc:purpose>
-			Coverts HR to horizontal rule
+			Coverts FOOTNOTE to a html footnote 
 		</doc:purpose>
 		<doc:context>
 			Applied by _common/_library/GuideML.xsl
@@ -12,19 +12,71 @@
 			
 		</doc:notes>
 	</doc:documentation>
+
+	<xsl:attribute-set name="textfont">
+		<xsl:attribute name="face">Trebuchet MS, arial, helvetica, sans-serif</xsl:attribute>
+		<xsl:attribute name="size">2</xsl:attribute>
+		<xsl:attribute name="color">#ffffff</xsl:attribute>
+		<xsl:attribute name="class">postxt</xsl:attribute>
+	</xsl:attribute-set>
 	
-	<xsl:template match="FOOTNOTE" mode="library_GuideML">
-		<a href="#{@INDEX}"><span id="footnote-number"><xsl:value-of select="@INDEX"/></span></a>
+	<xsl:attribute-set name="mainfont">
+		<xsl:attribute name="face">arial,helvetica,sans-serif</xsl:attribute>
+		<xsl:attribute name="size">2</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:template match="FOOTNOTE | footnote" mode="library_GuideML">
+		<a>
+			<xsl:attribute name="class">footnote</xsl:attribute>
+			<xsl:attribute name="title"><xsl:call-template name="renderfootnotetext"/></xsl:attribute>
+			<xsl:attribute name="name">back<xsl:value-of select="@INDEX"/></xsl:attribute>
+			<xsl:attribute name="href">#footnote<xsl:value-of select="@INDEX"/></xsl:attribute>
+			<xsl:apply-templates select="@INDEX" mode="Footnote"/>
+		</a>
 	</xsl:template>
 	
-	<xsl:template match="FOOTNOTE" mode="library_footnotes">
-		<li id="footnote-{@INDEX}">
-			<span><xsl:value-of select="@INDEX"/>. </span>
+	<xsl:template match="@INDEX" mode="Footnote">
+		<font xsl:use-attribute-sets="mainfont">
+			<sup>
+				<xsl:value-of select="."/>
+			</sup>
+		</font>
+	</xsl:template>
+
+	<xsl:template name="renderfootnotetext">
+		<xsl:for-each select="*|text()">
+			<xsl:choose>
+				<xsl:when test="self::text()">
+					<xsl:value-of select="."/>
+				</xsl:when>
+				<xsl:when test="name()!=string('FOOTNOTE')">
+					<xsl:choose>
+						<xsl:when test="self::text()">
+							<xsl:value-of select="."/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:call-template name="renderfootnotetext"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:for-each>
+	</xsl:template>
+	
+	<xsl:template match="FOOTNOTE | footnote" mode="library_footnotes">
+		<span>		
+			<a><xsl:attribute name="class">footnotebottom</xsl:attribute>
+				<xsl:attribute name="title"><xsl:call-template name="renderfootnotetext"/></xsl:attribute>
+				<xsl:attribute name="name">footnote<xsl:value-of select="@INDEX"/></xsl:attribute>
+				<xsl:attribute name="href">#back<xsl:value-of select="@INDEX"/></xsl:attribute>
+				<xsl:apply-templates select="@INDEX" mode="Footnote"/>
+			</a>
 			<xsl:apply-templates/>
-		</li>
+		</span>
+		<br/>
 	</xsl:template>
 	
-	<xsl:template match="FOOTNOTE" mode="library_GuideML_rss">
+	<xsl:template match="FOOTNOTE | footnote" mode="library_GuideML_rss">
 		(<xsl:value-of select="@INDEX"/>: <xsl:apply-templates/>)
 	</xsl:template>
 	

@@ -60,6 +60,13 @@ namespace BBC.Dna.Data
         int GetIntOutputParameter(string name);
 
         /// <summary>
+        /// Get the value of an specific int output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns>The output param value</returns>
+        int? GetNullableIntOutputParameter(string name);
+
+        /// <summary>
         /// Get the value of an specific boolean output parameter
         /// </summary>
         /// <param name="name">Name of the output parameter</param>

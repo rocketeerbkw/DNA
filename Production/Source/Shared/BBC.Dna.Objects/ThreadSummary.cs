@@ -71,6 +71,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlAttribute(AttributeName = "FORUMID")]
+        [DataMember(Name = ("forumId"))]
         public int ForumId { get; set; }
 
         /// <remarks/>

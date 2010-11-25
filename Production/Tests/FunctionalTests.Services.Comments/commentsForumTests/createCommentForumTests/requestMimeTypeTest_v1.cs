@@ -95,7 +95,6 @@ namespace FunctionalTests.Services.Comments
             // working data
             DnaTestURLRequest request;
             int newSiteCount = 0;
-            string respStr = "";
 
             request = doIt(postData, mimeType, expectedResponseCode, fileName);
 

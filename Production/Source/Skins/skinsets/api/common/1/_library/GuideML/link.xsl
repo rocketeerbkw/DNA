@@ -15,19 +15,20 @@
         </doc:notes>
     </doc:documentation>
 
-	<xsl:template match="LINK" mode="library_GuideML">
+	<xsl:template match="LINK | link" mode="library_GuideML">
         <a>
             <xsl:attribute name="href">
 				<xsl:choose>
-                    <xsl:when test="@HREF">
-						<xsl:value-of select="@HREF"/>  
-                    </xsl:when>
-                    <xsl:when test="@BIO">
-						<xsl:value-of select="$aerian-base-user"/><xsl:value-of select="@BIO"/>  
-                    </xsl:when>
-					<xsl:when test="@H2G2">
+					<xsl:when test="@HREF | @href">
+						<xsl:value-of select="@HREF | @href"/>
+					</xsl:when>
+					<xsl:when test="@BIO | @bio">
+						<xsl:value-of select="$aerian-base-user"/>
+						<xsl:value-of select="@BIO | @bio"/>
+					</xsl:when>
+					<xsl:when test="@H2G2 | @h2g2 | @H2g2">
 						<xsl:value-of select="$aerian-base-entry"/>
-						<xsl:value-of select="@H2G2"/>
+						<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$aerian-base-entry"/>
@@ -35,10 +36,11 @@
 					</xsl:otherwise>
                 </xsl:choose>
             </xsl:attribute>
-            <xsl:if test="@TITLE">
-                <xsl:attribute name="title"><xsl:value-of select="@TITLE"/></xsl:attribute>                
+            <xsl:if test="@TITLE | @title">
+                <xsl:attribute name="title"><xsl:value-of select="@TITLE | @title"/></xsl:attribute>                
             </xsl:if>
-        	<xsl:choose>
+			<xsl:apply-templates mode="library_GuideML"/>
+			<!--        	<xsl:choose>
         		<xsl:when test="not(*) and string-length(.) &gt; 23">
         			<xsl:choose>
         				<xsl:when test="starts-with(., 'http://')">
@@ -53,10 +55,11 @@
         			<xsl:apply-templates mode="library_GuideML"/>
         		</xsl:otherwise>
         	</xsl:choose>
+			-->
         </a>
     </xsl:template>
 	
-	<xsl:template match="LINK" mode="library_GuideML_rss">
+	<xsl:template match="LINK | link" mode="library_GuideML_rss">
 		<xsl:apply-templates mode="library_GuideML_rss"/>
 		<xsl:text> (</xsl:text>
 		<xsl:choose>

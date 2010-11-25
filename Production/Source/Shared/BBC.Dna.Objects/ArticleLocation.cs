@@ -91,21 +91,18 @@ namespace BBC.Dna.Objects
 
                 if (reader.HasRows && reader.Read())
                 {
-                    if (reader.Read())
+                    total = reader.GetInt32NullAsZero("TOTAL");
+
+                    //The stored procedure returns one row for each article. 
+                    do
                     {
-                        total = reader.GetInt32NullAsZero("TOTAL");
+                        count++;
 
-                        //The stored procedure returns one row for each article. 
-                        do
-                        {
-                            count++;
+                        //Delegate creation of XML to Location class.
+                        Location location = Location.CreateLocationFromReader(reader);
+                        articleLocations.Locations.Add(location);
 
-                            //Delegate creation of XML to Location class.
-                            Location location = Location.CreateLocationFromReader(reader);
-                            articleLocations.Locations.Add(location);
-
-                        } while (reader.Read());
-                    }
+                    } while (reader.Read() && count < show);
                 }
             }
             articleLocations.Count = count;

@@ -68,7 +68,6 @@
       		<link type="image/x-icon" href="/favicon.ico" rel="icon"/>
       		<meta name="DCTERMS.created" content="2006-09-15T12:00:00Z" />
       		<meta name="DCTERMS.modified" content="2006-09-15T12:35:00Z" />
-      		<meta name="Author"><xsl:attribute name="content"><xsl:value-of select="$configuration/general/skinAuthor"/></xsl:attribute></meta>
       		
       		<xsl:choose>
       			<xsl:when test="SITE/IDENTITYSIGNIN = 1">
@@ -188,6 +187,21 @@
 		      					<li id="mydiscussions">
 		      						<a href="{$root}/MP{/H2G2/VIEWING-USER/USER/USERID}">My Discussions</a>
 		      					</li>
+		      					<!-- <xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSystemMessages']/VALUE = '1'">
+		      						<xsl:variable name="sitename">
+						                <xsl:choose>
+						                    <xsl:when test="/H2G2/SITE/NAME">
+						                        <xsl:value-of select="/H2G2/SITE/NAME"/>
+						                    </xsl:when>
+						                    <xsl:otherwise>
+						                        <xsl:value-of select="/H2G2/CURRENTSITEURLNAME"/>
+						                    </xsl:otherwise>
+						                </xsl:choose>		      						
+		      						</xsl:variable>
+			      					<li>
+			      						<a href="/dna/{$sitename}/boards-admin/SMM{VIEWING-USER/USER/USERID}">Moderation notifications</a>
+			      					</li>		      					
+		      					</xsl:if> -->
 		      				</xsl:if>
 		      				<li>
 		      					<a href="{$houserulesurl}" class="popup">House Rules</a>

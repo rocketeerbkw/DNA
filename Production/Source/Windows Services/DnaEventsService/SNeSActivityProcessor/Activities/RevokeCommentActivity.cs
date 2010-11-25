@@ -36,11 +36,19 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
             {
                 var activities = query.Content.ObjectFromJson<OpenSocialActivities>();
                 
-                if (activities != null && activities.TotalResults == 1)
+                if (activities != null)
                 {
-                    var deleteActivity = 
-                        new DeleteActivity(activities.Entries[0].Id, ApplicationId, IdentityUserId);
-                    return deleteActivity.Send(client);
+                    if (activities.TotalResults > 0)
+                    {
+                        var deleteActivity =
+                            new DeleteActivity(activities.Entries[0].Id, ApplicationId, IdentityUserId);
+                        return deleteActivity.Send(client);
+                    }
+                    else
+                    {//nothing to find so dont retry....
+                        return HttpStatusCode.OK;
+                    }
+
                 }
             }
             return HttpStatusCode.BadRequest;

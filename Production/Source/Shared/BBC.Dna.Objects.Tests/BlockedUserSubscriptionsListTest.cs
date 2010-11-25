@@ -12,6 +12,7 @@ using Rhino.Mocks.Constraints;
 using TestUtils;
 using BBC.Dna.Sites;
 using BBC.Dna.Common;
+using BBC.Dna.Users;
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -81,6 +82,93 @@ namespace BBC.Dna.Objects.Tests
             XmlDocument xml = Serializer.SerializeToXml(blockedUserSubscriptions);
 
             Assert.IsNotNull(xml.SelectSingleNode("BLOCKEDUSERSUBSCRIPTIONSLIST"));
+
+        }
+
+        /// <summary>
+        ///A test for BlockUser
+        ///</summary>
+        [TestMethod]
+        public void BlockUserTest_ReturnsSuccess()
+        {
+            int siteId = 1;
+            string identityusername = "DotNetNormalUser";
+            MockRepository mocks;
+            IDnaDataReader reader;
+            IDnaDataReader reader2;
+            IDnaDataReaderCreator creator;
+            ISite site;
+            ICallingUser viewingUser;
+            ICacheManager cache;
+
+            int viewingUserId = 1090497224;
+
+            SetupBlockUnblockUserMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2, viewingUserId);
+
+            BlockedUserSubscriptionsList.BlockUser(creator, viewingUser, identityusername, siteId, 6, false);
+        }
+
+        /// <summary>
+        ///A test for TryBlockUserForSomebodyElse_FailsTest
+        ///</summary>
+        [TestMethod]
+        public void TryBlockYourself_FailsTest()
+        {
+            int siteId = 1;
+            string identityusername = "DotNetNormalUser";
+            MockRepository mocks;
+            IDnaDataReader reader;
+            IDnaDataReader reader2;
+            IDnaDataReaderCreator creator;
+            ISite site;
+            ICallingUser viewingUser;
+            ICacheManager cache;
+
+            int viewingUserId = 1090497224;
+
+            SetupBlockUnblockUserMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2, viewingUserId);
+
+            try
+            {
+                BlockedUserSubscriptionsList.BlockUser(creator, viewingUser, identityusername, siteId, 1090497224, false);
+            }
+            catch (Api.ApiException ex)
+            {
+                Assert.IsTrue(ex.type == BBC.Dna.Api.ErrorType.InvalidUserId, "Wrong error returned.");
+            }
+
+        }
+
+        /// <summary>
+        ///A test for TryBlockUserForSomebodyElse_FailsTest
+        ///</summary>
+        [TestMethod]
+        public void TryBlockAUserForSomeone_FailsTest()
+        {
+            int siteId = 1;
+            string identityusername = "DotNetNormalUser";
+            MockRepository mocks;
+            IDnaDataReader reader;
+            IDnaDataReader reader2;
+            IDnaDataReaderCreator creator;
+            ISite site;
+            ICallingUser viewingUser;
+            ICacheManager cache;
+            int viewingUserId = 6;
+
+            SetupBlockUnblockUserMocks(out mocks, out cache, out creator, out viewingUser, out site, out reader, out reader2, viewingUserId);
+            
+            
+            mocks.ReplayAll();
+
+            try
+            {
+                BlockedUserSubscriptionsList.BlockUser(creator, viewingUser, identityusername, siteId, 21, false);
+            }
+            catch (Api.ApiException ex)
+            {
+                Assert.IsTrue(ex.type == BBC.Dna.Api.ErrorType.NotAuthorized, "Wrong error returned.");
+            }
 
         }
 
@@ -319,6 +407,45 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
         }
 
+        private void SetupBlockUnblockUserMocks(out MockRepository mocks, 
+                                        out ICacheManager cache, 
+                                        out IDnaDataReaderCreator readerCreator, 
+                                        out ICallingUser viewingUser, 
+                                        out ISite site, 
+                                        out IDnaDataReader reader, 
+                                        out IDnaDataReader reader2,
+                                        int viewingUserId)
+        {
+            mocks = new MockRepository();
+            cache = mocks.DynamicMock<ICacheManager>();
+            readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            site = mocks.DynamicMock<ISite>();
+            viewingUser = mocks.DynamicMock<ICallingUser>();
+
+            // mock the response
+            viewingUser.Stub(x => x.UserID).Return(viewingUserId);
+            viewingUser.Stub(x => x.IsUserA(BBC.Dna.Users.UserTypes.Editor)).Return(false);
+            viewingUser.Stub(x => x.IsUserA(BBC.Dna.Users.UserTypes.SuperUser)).Return(false);
+
+            reader = mocks.DynamicMock<IDnaDataReader>();
+            reader2 = mocks.DynamicMock<IDnaDataReader>();
+
+            AddBlockedUserSubscriptionsListUserDatabaseRows(reader, "");
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+
+            reader2.Stub(x => x.HasRows).Return(true);
+            reader2.Stub(x => x.Read()).Return(true);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("getdnauseridfromidentityusername")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("blockusersubscription")).Return(reader2);
+            readerCreator.Stub(x => x.CreateDnaDataReader("unblockusersubscription")).Return(reader2);
+
+            mocks.ReplayAll();
+        }
+
+        
         private void AddBlockedUserSubscriptionsListUserDatabaseRows(IDnaDataReader reader, string suffix)
         {
             reader.Stub(x => x.Exists(suffix + "userID")).Return(true);

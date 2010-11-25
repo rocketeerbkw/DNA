@@ -42,6 +42,7 @@
                   <KeyFile path="D:\vp-dev-dna-1\User Services\Main\BBC.Dna.snk" />
                 </CodeCoverageItem>
                 <CodeCoverageItem binaryFile="SNeSActivityProcessor\bin\Debug\SnesActivityProcessor.dll" pdbFile="SNeSActivityProcessor\bin\Debug\SnesActivityProcessor.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="SiteEventProcessor\bin\Debug\SiteEventProcessor.dll" pdbFile="SiteEventProcessor\bin\Debug\SiteEventProcessor.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>

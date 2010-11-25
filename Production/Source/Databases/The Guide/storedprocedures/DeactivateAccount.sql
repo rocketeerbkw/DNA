@@ -57,6 +57,9 @@ where UserID = @userid
 -- be checked if necessary
 select 'RowsUpdated' = @@rowcount
 
+-- add event 
+EXEC addtoeventqueueinternal 'ET_USERMODERATION', @auditId, 'IT_USERAUDIT', 0, 'IT_ALL', @viewinguser
+
 COMMIT TRANSACTION
 END TRY
 BEGIN CATCH

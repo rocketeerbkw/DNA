@@ -18,19 +18,21 @@ namespace Dna.SnesIntegration.ActivityProcessor
 
         private static bool _processing;
 
+        public static IDnaLogger SnesActivityLogger { get; set; }
+
         public SnesActivityProcessor(IDnaDataReaderCreator dataReaderCreator,
             IDnaLogger logger,
             IDnaHttpClientCreator httpClientCreator,
             int batchSize)
         {
             DataReaderCreator = dataReaderCreator;
-            LogUtility.Logger = logger;
             HttpClientCreator = httpClientCreator;
             BatchSize = batchSize;
+            SnesActivityLogger = logger;
         }
 
         public SnesActivityProcessor(IDnaDataReaderCreator dataReaderCreator,
-            IDnaLogger logger,
+            IDnaLogger logger, 
             IDnaHttpClientCreator httpClientCreator)
             : this(dataReaderCreator, logger, httpClientCreator, 100)
         {
@@ -41,7 +43,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
             if (_processing)
                 return;
 
-            _processing = true;
+            _processing = true; 
             try
             {
                 IEnumerable<ISnesActivity> snesEvents;
@@ -55,7 +57,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
             }
             catch (Exception ex)
             {
-                LogUtility.LogException(ex);
+                SnesActivityProcessor.SnesActivityLogger.LogException(ex);
             }
             finally
             {
@@ -71,7 +73,7 @@ namespace Dna.SnesIntegration.ActivityProcessor
             {
                 while (reader.Read())
                 {
-                    activities.Add(SnesActivityFactory.CreateSnesActivity(reader));
+                    activities.Add(SnesActivityFactory.CreateSnesActivity(SnesActivityLogger, reader));
                 }
             }
             return activities;

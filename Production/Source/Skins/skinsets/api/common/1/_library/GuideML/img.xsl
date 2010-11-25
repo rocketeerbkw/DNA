@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="IMG" mode="library_GuideML">
+    <xsl:template match="IMG | img" mode="library_GuideML">
     	<xsl:variable name="imgTag">
     		<img src="{$root}{@NAME}" alt="{@ALT}" title="{@ALT}">
 	        	<xsl:if test="@HEIGHT"><xsl:attribute name="height"><xsl:value-of select="@HEIGHT"/></xsl:attribute></xsl:if>

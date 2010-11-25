@@ -4,6 +4,7 @@ using System.Xml;
 using BBC.Dna.Api;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using BBC.Dna.Utils;
 
 
 
@@ -201,6 +202,51 @@ namespace FunctionalTests.Services.Comments
             nsmgr.AddNamespace("api", "BBC.Dna.Api");
             response = xml.SelectSingleNode(String.Format("api:commentsList/api:comments/api:comment[api:id={0}]", _commentInfo.ID), nsmgr);
             Assert.IsNull(response);
+        }
+
+
+        /// <summary>
+        /// Test that an editors pick may be created.
+        /// </summary>
+        [TestMethod]
+        public void CreateEditorsPick_CheckStandardCalls_ReturnsCommentandEditorPickCount()
+        {
+            //First get a comment.
+            CommentsTests_V1 comments = new CommentsTests_V1();
+            CommentForumTests_V1 commentForums = new CommentForumTests_V1();
+
+            var uid = commentForums.CommentForumCreateHelper().Id;
+            _commentInfo = comments.CreateCommentHelper(uid);
+
+            Assert.IsNotNull(_commentInfo, "Unable to Create Comment");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserEditor();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/comments/{1}/editorpicks/", _sitename, _commentInfo.ID);
+
+            request.RequestPageWithFullURL(url, String.Empty, "text/xml", "POST");
+
+            //Check for Editors Pick presence.
+            url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/comments/?filterBy=EditorPicks", _sitename);
+            request.RequestPageWithFullURL(url);
+
+            XmlDocument xml = request.GetLastResponseAsXML();
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);
+            nsmgr.AddNamespace("api", "BBC.Dna.Api");
+
+            String xPath = String.Format("api:commentsList/api:comments/api:comment[api:id='{0}']", _commentInfo.ID);
+            XmlNode pick = xml.SelectSingleNode(xPath, nsmgr);
+            Assert.IsNotNull(pick);
+
+            //get normal list of comments
+            url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
+            request.RequestPageWithFullURL(url);
+
+            var returnedForum = (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.AreEqual(1, returnedForum.commentSummary.EditorPicksTotal);
+            Assert.IsTrue(returnedForum.commentList.comments[0].IsEditorPick);
         }
     }
 

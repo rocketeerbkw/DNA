@@ -118,6 +118,21 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
+							<xs:element name="BBCLinks" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" minOccurs="0" name="referencesExternalLink">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="index" type="xs:unsignedByte" />
+													<xs:element name="offSite" type="xs:string" />
+													<xs:element name="title" type="xs:string" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

@@ -1,7 +1,7 @@
-CREATE PROCEDURE getrecentcontributions   @startindex int = null, 
-												 @itemsperpage int = null, 
-												 @sitetype int = null, 
-												 @sitename varchar(50) = null
+CREATE PROCEDURE getrecentcontributions @startindex int = null, 
+										@itemsperpage int = null, 
+										@sitetype int = null, 
+										@sitename varchar(50) = null
 			
 AS
 
@@ -45,6 +45,7 @@ NumberedThreadEnrtries AS
 		inner join TheSites ts on ts.siteid=f.siteid
 	where
 		te.dateposted > dateadd(week,-1,getdate())
+		and te.hidden is null
 )
 
 select
@@ -66,8 +67,15 @@ select
 		where forumid=(select forumid from threadentries where entryid=te.EntryID)) AS TotalPostsOnForum,
 	u.userid as AuthorUserId,
 	u.username as AuthorUsername,
-	u.loginname as AuthorIdentityUserName
-	
+	u.loginname as AuthorIdentityUserName,
+	0 as hidden,
+	t.ThreadId as ThreadId,
+	f.ForumId as ForumId,
+	u.loginname as AuthorIdentityUserName,
+	f.CanWrite as ForumCanWrite,
+	s.SiteEmergencyClosed as SiteEmergencyClosed,
+	cf.ForumCloseDate as ForumCloseDate,
+	@startindex as 'startindex'
 from 	
 	NumberedThreadEnrtries p
 	inner join dbo.threadentries as te on p.entryid = te.entryid
@@ -83,4 +91,4 @@ where
 order by p.n		
 
 
-return 0
+return 0

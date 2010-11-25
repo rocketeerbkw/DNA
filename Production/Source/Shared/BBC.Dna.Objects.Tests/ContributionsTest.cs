@@ -10,7 +10,6 @@ using BBC.Dna.Sites;
 using BBC.Dna.Api;
 using BBC.Dna.Moderation.Utils;
 using Rhino.Mocks.Constraints;
-using BBC.Dna.Site;
 using BBC.Dna.Utils;
 
 namespace BBC.Dna.Objects.Tests
@@ -53,45 +52,6 @@ namespace BBC.Dna.Objects.Tests
             _test_sortDirection = SortDirection.Ascending;
         }
 
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
 
          public void CreateContributions_SetupDefaultMocks(out MockRepository mocks, out ICacheManager cache, out IDnaDataReaderCreator readerCreator)
         {
@@ -155,7 +115,8 @@ namespace BBC.Dna.Objects.Tests
                 _test_sortDirection,
                 _test_siteType,
                 "identityuserid",
-                true);
+                false,
+                true, null, false);
 
             // VERIFY THE RESULTS
             // we were only testing the 'ignoreCache' parameter from the previous call
@@ -206,7 +167,8 @@ namespace BBC.Dna.Objects.Tests
                 _test_sortDirection,
                 _test_siteType,
                 "identityuserid",
-                false);
+                false,
+                false, null, false);
 
             // VERIFY THE RESULTS
             // we were only testing the 'ignoreCache' parameter from the previous call
@@ -261,7 +223,8 @@ namespace BBC.Dna.Objects.Tests
                 _test_sortDirection,
                 _test_siteType,
                 "identityuserid",
-                false);
+                false,
+                false, null, false);
 
             // VERIFY THE RESULTS            
             // check that the cache was accessed, that lastpostdate was called and the cache instace refreshed
@@ -311,7 +274,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername).Repeat.Once();
-
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("Hidden")).Return(0).Repeat.Once();
 
             // second row is a community
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Body")).Return("Community Body").Repeat.Once();
@@ -330,7 +293,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername).Repeat.Once();
-
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("Hidden")).Return(0).Repeat.Once();
 
             // third row is a messageboard
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Body")).Return("Messageboard Body").Repeat.Once();
@@ -349,7 +312,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername).Repeat.Once();
-
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("Hidden")).Return(0).Repeat.Once();
 
             // fourth row is a embedded comments
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Body")).Return("Comments Body").Repeat.Once();
@@ -368,7 +331,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername).Repeat.Once();
-
+            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("Hidden")).Return(0).Repeat.Once();
 
             readerCreator.Stub(x => x.CreateDnaDataReader("getusercontributions")).Return(getusercontributionsReader);
 
@@ -383,7 +346,8 @@ namespace BBC.Dna.Objects.Tests
                 _test_sortDirection,
                 _test_siteType,
                 "identityuserid",
-                false);
+                false,
+                false, null, false);
 
             // VERIFY THE RESULTS
             // check the Contributions instance has all the original data
@@ -484,7 +448,8 @@ namespace BBC.Dna.Objects.Tests
                 _test_sortDirection,
                 SiteType.Undefined,
                 "identityuserid",
-                false);
+                false,
+                false, null, false);
 
             // VERIFY THE RESULTS            
             Assert.AreEqual(0, actual.ContributionItems.Count);
@@ -524,7 +489,8 @@ namespace BBC.Dna.Objects.Tests
                     _test_sortDirection,
                     SiteType.Undefined,
                     "identityuserid",
-                    false);
+                    false,
+                    false, null, false);
             }
             catch (ApiException e)
             {
@@ -551,7 +517,7 @@ namespace BBC.Dna.Objects.Tests
                          ModerationStatus = CommentStatus.Hidden.NotHidden,
                          PostIndex = 0,
                          SiteName = "h2g2",
-                         SiteType = BBC.Dna.Site.SiteType.Blog,
+                         SiteType = BBC.Dna.Sites.SiteType.Blog,
                          FirstSubject = "Test Instance Source Title",
                          Subject = "Test Instance Sub Title",
                          Timestamp = new DateTimeHelper(DateTime.Now),
@@ -563,7 +529,7 @@ namespace BBC.Dna.Objects.Tests
                          ModerationStatus = CommentStatus.Hidden.NotHidden,
                          PostIndex = 1,
                          SiteName = "h2g2",
-                         SiteType = BBC.Dna.Site.SiteType.Messageboard,
+                         SiteType = BBC.Dna.Sites.SiteType.Messageboard,
                          FirstSubject = "Test Instance Source Title 2",
                          Subject = "Test Instance Sub Title 2",
                          Timestamp = new DateTimeHelper(DateTime.Now),

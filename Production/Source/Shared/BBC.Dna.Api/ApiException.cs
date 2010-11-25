@@ -222,6 +222,18 @@ namespace BBC.Dna.Api
                     break;
                 case ErrorType.NotInReview:
                     error = new ApiException("Not in appropriate review forum", innerException);
+                    break;
+                case ErrorType.UserBlockedSubscriptions:
+                    error = new ApiException("This user has blocked all subscriptions.", innerException);
+                    break;
+                case ErrorType.CantSubscribe:
+                    error = new ApiException("You cannot subscribe to this user.", innerException);
+                    break;
+                case ErrorType.UnableToHideUnHideThread:
+                    error = new ApiException("Unable to hide/unhide thread.", innerException);
+                    break;
+                case ErrorType.NotAuthorized:
+                    error = new ApiException("User does not have permission.", innerException);
                     break;                    
 
                 default:
@@ -293,6 +305,10 @@ namespace BBC.Dna.Api
         WrongStatus,
         AlreadyRecommended,
         OwnEntry,
-        NotInReview
+        NotInReview,
+        UserBlockedSubscriptions,
+        CantSubscribe,
+        UnableToHideUnHideThread,
+        NotAuthorized
     }
 }

@@ -24,10 +24,11 @@
     <xsl:variable name="configuration" select="msxsl:node-set($skin)/configuration" />
     
     <xsl:include href="../common/1/includes.xsl" />
-
+	
 	<xsl:template match="/">
-	  	<xsl:apply-templates select="GUIDE/BODY" mode="library_GuideML" />
+		<xsl:apply-templates select="H2G2POST" mode="library_Post" />
+		<xsl:apply-templates select="GUIDE/BODY" mode="library_GuideML" />
 	</xsl:template>
-  	
+
 
 </xsl:stylesheet>

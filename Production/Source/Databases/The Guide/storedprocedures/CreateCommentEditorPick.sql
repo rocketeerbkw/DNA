@@ -9,7 +9,8 @@ BEGIN
 	RETURN 0
 END
 
-INSERT INTO threadentryeditorpicks ( entryid ) VALUES ( @entryid )
+INSERT INTO threadentryeditorpicks 
+select @entryid, forumid from threadentries where entryid=@entryid
 SELECT @ErrorCode = @@ERROR
 IF (@ErrorCode <> 0)
 BEGIN

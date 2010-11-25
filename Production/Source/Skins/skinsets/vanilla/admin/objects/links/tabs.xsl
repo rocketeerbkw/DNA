@@ -25,7 +25,7 @@
 						<a href="{$root}/messageboardadmin_design?s_mode=design">Design</a>
 					</li>
 				</xsl:when>
-				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS' or @TYPE = 'COMMENTFORUMLIST'">
+				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS' or @TYPE = 'COMMENTFORUMLIST'  or @TYPE = 'USERLIST'">
 					<!-- no tabs for the host dashboard activity page -->
 					<li>&#160;</li>
 				</xsl:when>
@@ -35,7 +35,7 @@
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
 						<a href="{$root}/hostdashboard?{$dashboardsiteuser}">
-							All <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS" mode="objects_moderator_actionitemtotal"/>
+							All <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS" mode="objects_moderator_allactionitemtotal"/>
 						</a>
 					</li>
 					<li>

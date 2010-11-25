@@ -10,6 +10,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Xml;
 using System.Runtime.Serialization;
 using System.Diagnostics;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 { 

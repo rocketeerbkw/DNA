@@ -28,5 +28,12 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = "editorPicksTotal", Order = 1)]
+        public int EditorPicksTotal
+        {
+            get;
+            set;
+        }
+
     }
 }

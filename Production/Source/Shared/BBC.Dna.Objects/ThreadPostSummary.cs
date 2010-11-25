@@ -5,6 +5,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Data;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {
@@ -122,7 +123,7 @@ namespace BBC.Dna.Objects
             }
             if (reader.DoesFieldExist(prefix +"text"))
             {
-                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden, true);
+                post.Text = ThreadPost.FormatPost(reader.GetStringNullAsEmpty(prefix + "text"), (CommentStatus.Hidden)post.Hidden, true, false);
             }
 
             post.User = BBC.Dna.Objects.User.CreateUserFromReader(reader, prefix);

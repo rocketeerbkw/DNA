@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Dna.SnesIntegration.ExModerationProcessor
+namespace Dna.ExModerationProcessor
 {
     [KnownType(typeof(ModerationDecisionItem))]
     [DataContract(Name = "moderationitem", Namespace = "BBC.Dna.Moderation")]

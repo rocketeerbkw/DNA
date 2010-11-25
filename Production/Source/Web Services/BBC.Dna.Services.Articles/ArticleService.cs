@@ -18,6 +18,7 @@ using BBC.DNA.Moderation.Utils;
 using System.Collections.Generic;
 using BBC.Dna.Data;
 using System.Linq;
+using BBC.Dna.Common;
 
 
 namespace BBC.Dna.Services
@@ -121,6 +122,34 @@ namespace BBC.Dna.Services
                     inputArticle.HiddenStatus);    
             
                 return SaveArticle(site, callingUser, article, siteName, true, 0);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/preview")]
+        [WebHelp(Comment = "Previews an article")]
+        [OperationContract]
+        public Article PreviewArticle(string siteName, Article inputArticle)
+        {
+            try
+            {
+                ISite site = GetSite(siteName);
+
+                CallingUser callingUser = GetCallingUser(site);
+
+
+                // create the default article object graph
+                Article article = BuildNewArticleObject(site.SiteID,
+                    callingUser.UserID,
+                    inputArticle.Style,
+                    inputArticle.Subject,
+                    inputArticle.GuideMLAsString,
+                    inputArticle.ArticleInfo.Submittable.Type,
+                    inputArticle.HiddenStatus);
+
+                return article;
             }
             catch (ApiException ex)
             {
@@ -603,7 +632,7 @@ namespace BBC.Dna.Services
             CallingUser callingUser = GetCallingUser(site);            
             if (callingUser == null || callingUser.UserID == 0)
             {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
 
             var article = Article.CreateArticle(cacheManager, readerCreator, callingUser, Int32.Parse(articleId), false, false);
@@ -672,7 +701,7 @@ namespace BBC.Dna.Services
             CallingUser callingUser = GetCallingUser(site);
             if (callingUser == null || callingUser.UserID == 0)
             {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
 
             var article = Article.CreateArticle(cacheManager, readerCreator, callingUser, Int32.Parse(articleId), false, false);
@@ -722,7 +751,7 @@ namespace BBC.Dna.Services
             CallingUser callingUser = GetCallingUser(site);
             if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(UserTypes.Editor)))
             {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
 
             try
@@ -755,7 +784,7 @@ namespace BBC.Dna.Services
             CallingUser callingUser = GetCallingUser(site);
             if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(UserTypes.Editor)) )
             {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
 
             try

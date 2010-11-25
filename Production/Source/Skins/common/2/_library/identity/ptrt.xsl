@@ -73,6 +73,18 @@
 		</xsl:call-template>
 	</xsl:template>
 	
+	<xsl:template match="H2G2[@TYPE = 'MOREPOSTS']" mode="library_identity_ptrt">
+    	<xsl:variable name="userId">
+    		<xsl:choose>
+    			<xsl:when test="POSTS/POST-LIST/USER/USERID"><xsl:value-of select="POSTS/POST-LIST/USER/USERID"/></xsl:when>
+    			<xsl:otherwise><xsl:value-of select="POSTS/@USERID"/></xsl:otherwise>
+    		</xsl:choose>
+    	</xsl:variable>	
+		<xsl:call-template name="library_string_urlencode">
+			<xsl:with-param name="string" select="concat($host, $root, '/MP', $userId, $cbbc)"/>
+		</xsl:call-template>
+	</xsl:template>	
+	
 	<xsl:template match="H2G2[@TYPE = 'USERDETAILS']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
 			<xsl:with-param name="string" select="concat($host, $root, '/', $cbbc)"/>
@@ -100,7 +112,7 @@
     <xsl:call-template name="library_string_urlencode">
       <xsl:with-param name="string" select="concat($host, $root)"/>
     </xsl:call-template>
-    <xsl:text>%2Fmbadmin%3Fs_mode=admin</xsl:text>
+    <xsl:text>/</xsl:text>
   </xsl:template>
 	
 </xsl:stylesheet>

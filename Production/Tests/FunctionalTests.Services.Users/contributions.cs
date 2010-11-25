@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
-using BBC.Dna.Site;
+using BBC.Dna.Sites;
 using BBC.Dna;
 using BBC.Dna.Data;
 
@@ -21,6 +21,8 @@ namespace FunctionalTests.Services.Users
         static string test_usercontributionsUrl;
         static string test_allrecentcontributionsUrl;
         static string test_allrecentcontributionsbySiteUrl;
+        static string test_getcontribution;
+
         static string test_user_idString;
         static int test_dnauserid = 1090501859;
         static string test_identityuserid = "6042002"; // mapped to the associated test_dnauserid
@@ -62,6 +64,7 @@ namespace FunctionalTests.Services.Users
              test_allrecentcontributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/recentcontributions/type/{type}";
              test_usercontributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/usercontributions/{user}";
              test_allrecentcontributionsbySiteUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/recentcontributions/site/{site}";
+             test_getcontribution = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/contributions/{threadentryid}";
         }
 
         private TestContext testContextInstance;
@@ -545,6 +548,24 @@ namespace FunctionalTests.Services.Users
                 Assert.AreEqual("h2g2", contribution.SiteName);
             }
             Console.WriteLine("After GetAllRecentContributionsXML_WithForASite_ReturnsValidXML");
+        }
+
+        [TestMethod]
+        public void GetContributionXML_ReturnsValidXML()
+        {
+            Console.WriteLine("Before GetContributionXML_ReturnsValidXML");
+
+            test_getcontribution = test_getcontribution.Replace("{threadentryid}", "60");
+
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(test_getcontribution);
+
+            Contribution contribution = (Contribution)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Contribution));
+
+            Assert.AreEqual("h2g2", contribution.SiteName);
+
+            Console.WriteLine("After GetContributionXML_ReturnsValidXML");
         }
 
     }

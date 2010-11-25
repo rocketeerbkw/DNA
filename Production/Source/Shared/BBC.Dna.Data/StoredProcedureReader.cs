@@ -209,6 +209,27 @@ namespace BBC.Dna.Data
         }
 
         /// <summary>
+        /// Get the value of an specific int output parameter
+        /// </summary>
+        /// <param name="name">Name of the output parameter</param>
+        /// <returns>The output param value</returns>
+        public int? GetNullableIntOutputParameter(string name)
+        {
+            try
+            {
+                if (DBNull.Value.Equals(_cmd.Parameters[name].Value))
+                    return null;
+
+                return (int)_cmd.Parameters[name].Value;
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("GetNullableIntOutputParameter failed with param {0} for call to {1}", name, _name);
+                throw new Exception(msg, ex);
+            }
+        }
+
+        /// <summary>
         /// Get the value of an specific boolean output parameter
         /// </summary>
         /// <param name="name">Name of the output parameter</param>
@@ -224,7 +245,7 @@ namespace BBC.Dna.Data
             }
             catch (Exception ex)
             {
-                string msg = string.Format("GetIntOutputParameter failed with param {0} for call to {1}", name, _name);
+                string msg = string.Format("GetNullableBooleanOutputParameter failed with param {0} for call to {1}", name, _name);
                 throw new Exception(msg, ex);
             }
         }
@@ -245,7 +266,7 @@ namespace BBC.Dna.Data
             }
             catch (Exception ex)
             {
-                string msg = string.Format("GetCharOutputParameter failed with param {0} for call to {1}", name, _name);
+                string msg = string.Format("GetNullableStringOutputParameter failed with param {0} for call to {1}", name, _name);
                 throw new Exception(msg, ex);
             }
         }
@@ -374,7 +395,14 @@ namespace BBC.Dna.Data
                 foreach (KeyValuePair<string, object> param in _parameters)
                 {
                     Logger.Write(new LogEntry() { Message = String.Format("Adding Parameter:{0} Value:{1}", param.Key, param.Value), Severity = TraceEventType.Verbose });
-                    _cmd.Parameters.Add(new SqlParameter(param.Key, param.Value));
+                    var sqlParam = new SqlParameter(param.Key, param.Value);
+
+                    if (param.Value == null)
+                    {
+                        sqlParam.Value = DBNull.Value;
+                    }
+
+                    _cmd.Parameters.Add(sqlParam);
                 }
 
                 foreach (KeyValuePair<string, KeyValuePair<SqlDbType, object>> outParam in _outputParams)

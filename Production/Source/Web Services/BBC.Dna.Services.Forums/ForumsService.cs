@@ -83,14 +83,16 @@ namespace BBC.Dna.Services
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/post/{postId}")]
-        [WebHelp(Comment = "Get the thread and posts for a given thread id")]
+        [WebHelp(Comment = "Get the thread and post for a given thread id and post")]
         [OperationContract]        
         public Stream GetForumThreadsWithPost(string siteName, string forumId, string threadId, string postId)
         {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
+            
             ISite site = Global.siteList.GetSite(siteName);
 
             return GetOutputStream(ForumThreadPosts.CreateThreadPosts(readerCreator, cacheManager, null, siteList, site.SiteID,
-                Int32.Parse(forumId), Int32.Parse(threadId), itemsPerPage, startIndex, Int32.Parse(postId), (SortBy.Created == sortBy), false, false));
+                Int32.Parse(forumId), Int32.Parse(threadId), itemsPerPage, startIndex, Int32.Parse(postId), (SortBy.Created == sortBy), false, applySkin));
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/posts/{postId}")]
@@ -98,13 +100,15 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetThreadPost(string siteName, string postId)
         {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
+
             int postIdAsInt = Convert.ToInt32(postId);
             Stream output;
             ThreadPost returnedPost = null;
             ISite site = GetSite(siteName);
             try
             {
-                returnedPost = ThreadPost.FetchPostFromDatabase(readerCreator, postIdAsInt);
+                returnedPost = ThreadPost.FetchPostFromDatabase(readerCreator, postIdAsInt, applySkin);
                 output = GetOutputStream(returnedPost);
             }
             catch (ApiException ex)
@@ -114,10 +118,76 @@ namespace BBC.Dna.Services
 
             return output;
         }
+        [WebGet(UriTemplate = "V1/site/{siteName}/threads/{threadId}")]
+        [WebHelp(Comment = "Gets a thread by id")]
+        [OperationContract]
+        public Stream GetThread(string siteName, string threadId)
+        {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
 
+            int threadIdAsInt = Convert.ToInt32(threadId);
+            Stream output;
+            ForumThreadPosts returnedThread = null;
+            ISite site = GetSite(siteName);
+            try
+            {
+                ForumSource forumSource = ForumSource.CreateForumSource(cacheManager,
+                                                                    readerCreator,
+                                                                    null,
+                                                                    0,
+                                                                    Int32.Parse(threadId),
+                                                                    site.SiteID,
+                                                                    true,
+                                                                    false,
+                                                                    true);
+                if (forumSource == null)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumOrThreadNotFound));
+                }
+
+                
+                returnedThread = ForumThreadPosts.CreateThreadPosts(readerCreator, cacheManager, null, siteList, site.SiteID,
+                forumSource.ActualForumId, Int32.Parse(threadId), itemsPerPage, startIndex, 0, (SortBy.Created == sortBy), false, applySkin);
+                output = GetOutputStream(returnedThread);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return output;
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/posts/{postId}/hide")]
+        [WebHelp(Comment = "Hides a thread post by id")]
+        [OperationContract]
+        public void HidePost(string siteName, string postId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Editor) || callingUser.IsUserA(UserTypes.SuperUser)))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            int postIdInt = 0;
+            Int32.TryParse(postId, out postIdInt);
+
+            try
+            {
+                ThreadPost.HideThreadPost(readerCreator, postIdInt, BBC.Dna.Moderation.Utils.CommentStatus.Hidden.Removed_FailedModeration);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads/create.htm")]
-        [WebHelp(Comment = "Creates a thread post from Html form")]
+        [WebHelp(Comment = "Creates a new thread and 1st post from Html form")]
         [OperationContract]
         public void CreateThreadHtml(string siteName, string forumId, NameValueCollection formsData)
         {
@@ -125,7 +195,7 @@ namespace BBC.Dna.Services
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads")]
-        [WebHelp(Comment = "Creates a thread post")]
+        [WebHelp(Comment = "Creates a new thread and 1st post")]
         [OperationContract]
         public void CreateThread(string siteName, string forumId, ThreadPost threadPost)
         {
@@ -183,7 +253,7 @@ namespace BBC.Dna.Services
             CallingUser callingUser = GetCallingUser(site);            
             if (callingUser == null || callingUser.UserID == 0)
             {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
             bool isNotable = callingUser.IsUserA(UserTypes.Notable);
 
@@ -331,6 +401,224 @@ namespace BBC.Dna.Services
         public Stream SearchThreadPost(string siteName)
         {
             return SearchThreadPostWithForum(siteName, "0");
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumId}/subscribe")]
+        [WebHelp(Comment = "Subscribes to the given forum for a given site")]
+        [OperationContract]
+        public Stream SubscribeToForum(string siteName, string forumId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            Stream output = null;
+            try
+            {
+                int forumIdInt = Int32.Parse(forumId);
+
+                var subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, false);
+
+                output = GetOutputStream(subscribeResult);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return output;
+
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumId}/unsubscribe")]
+        [WebHelp(Comment = "Unsubscribes from the given forum for a given site")]
+        [OperationContract]
+        public Stream UnsubscribeFromForum(string siteName, string forumId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            Stream output = null;
+            try
+            {
+                int forumIdInt = Int32.Parse(forumId);
+
+                var subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, true);
+
+                output = GetOutputStream(subscribeResult);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return output;
+
+        }
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/subscribe")]
+        [WebHelp(Comment = "Subscribes to the given thread for a given site")]
+        [OperationContract]
+        public Stream SubscribeToThread(string siteName, string forumId, string threadId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            Stream output = null;
+            try
+            {
+                int forumIdInt = Int32.Parse(forumId);
+                int threadIdInt = Int32.Parse(threadId);
+
+                var subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, forumIdInt, threadIdInt, false);
+
+                output = GetOutputStream(subscribeResult);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return output;
+
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/unsubscribe")]
+        [WebHelp(Comment = "Unsubscribes from the given thread for a given site")]
+        [OperationContract]
+        public Stream UnsubscribeFromThread(string siteName, string forumId, string threadId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            Stream output = null;
+            try
+            {
+                int forumIdInt = Int32.Parse(forumId);
+                int threadIdInt = Int32.Parse(threadId);
+
+                var subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, forumIdInt, threadIdInt, true);
+
+                output = GetOutputStream(subscribeResult);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return output;
+
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/hide")]
+        [WebHelp(Comment = "Hides given thread for a given site")]
+        [OperationContract]
+        public void HideThread(string siteName, string forumId, string threadId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0 || !callingUser.IsUserA(UserTypes.SuperUser))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            try
+            {
+                int forumIdInt = Int32.Parse(forumId);
+                int threadIdInt = Int32.Parse(threadId);
+                ForumHelper forumHelper = new ForumHelper(readerCreator);
+
+                forumHelper.HideThreadWithCallingUser(forumIdInt, threadIdInt, callingUser);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/unhide")]
+        [WebHelp(Comment = "Unhides/Reopens given thread for a given site")]
+        [OperationContract]
+        public void UnhideThread(string siteName, string forumId, string threadId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0 || !callingUser.IsUserA(UserTypes.SuperUser))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            try
+            {
+                int forumIdInt = Int32.Parse(forumId);
+                int threadIdInt = Int32.Parse(threadId);
+                ForumHelper forumHelper = new ForumHelper(readerCreator);
+
+                forumHelper.ReOpenThreadWithCallingUser(forumIdInt, threadIdInt, callingUser);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}/close")]
+        [WebHelp(Comment = "Closes given thread for a given site")]
+        [OperationContract]
+        public void CloseThread(string siteName, string forumId, string threadId)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0 || !callingUser.IsUserA(UserTypes.SuperUser))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            try
+            {
+                int forumIdInt = Int32.Parse(forumId);
+                int threadIdInt = Int32.Parse(threadId);
+                ForumHelper forumHelper = new ForumHelper(readerCreator);
+
+                forumHelper.CloseThreadWithCallingUser(site.SiteID, forumIdInt, threadIdInt, callingUser, siteList);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
         }
 
         //[WebInvoke(Method = "GET", UriTemplate = "V1/site/{siteName}/forum/{forumId}/searchposts")]

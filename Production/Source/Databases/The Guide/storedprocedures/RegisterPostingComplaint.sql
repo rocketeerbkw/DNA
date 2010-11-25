@@ -73,6 +73,9 @@ begin
 	BEGIN
 		insert into ThreadModIPAddress (ThreadModID, IPAddress, BBCUID) VALUES(@ModID, @ipaddress, @bbcuid)
 	END
+	
+	-- add event 
+	EXEC addtoeventqueueinternal 'ET_COMPLAINTRECIEVED', @ModID, 'IT_MODID', @PostID, 'IT_POST', 0
 END
 
 DECLARE @BanGroup INT

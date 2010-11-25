@@ -20,7 +20,19 @@
 
   <xsl:template match="H2G2[@TYPE = 'FRONTPAGE']" mode="page">
     <div>
-      <p class="dna-error"><a href="{$host}{$root}/mbadmin?s_mode=admin">Redirecting...</a></p>
+      <xsl:choose>
+        <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
+          <p class="dna-error">
+            <a href="{$host}{$root}/hostdashboard">Redirecting...</a>
+          </p>
+        </xsl:when>
+        <xsl:otherwise>
+          <p class="dna-error">
+            <a href="{$host}{$root}/mbadmin?s_mode=admin">Redirecting...</a>
+          </p>
+        </xsl:otherwise>
+      </xsl:choose>
+      
     </div>
   </xsl:template>
 

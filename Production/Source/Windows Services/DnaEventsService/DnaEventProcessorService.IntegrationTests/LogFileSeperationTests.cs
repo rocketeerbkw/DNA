@@ -23,13 +23,11 @@ namespace DnaEventProcessorService.IntegrationTests
     public class LogFileSeperationTests
     {
         [TestMethod]
-        public void ProcessEvents_SeperateLogFilesGeneratedByAssemblyName()
+        public void ProcessEvents_SingleLogFileGenerated()
         {
-            if (File.Exists("snesactivityprocessor.responses.log"))
-                File.Delete("snesactivityprocessor.responses.log");
+            string logFile = @"Logs\SnesActivityProcessor\snesactivityprocessor.log";
 
-            if (File.Exists("snesactivityprocessor.requests.log"))
-                File.Delete("snesactivityprocessor.requests.log");
+            Assert.IsFalse(File.Exists(logFile));
 
             var mocks = new MockRepository();
 
@@ -46,7 +44,7 @@ namespace DnaEventProcessorService.IntegrationTests
             
             var dataReaderCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
 
-            IDnaLogger logger = new DnaLogger();          
+            IDnaLogger logger = new DnaLogger();
 
             var httpClientCreator = MockRepository.GenerateStub<IDnaHttpClientCreator>();
             
@@ -69,8 +67,27 @@ namespace DnaEventProcessorService.IntegrationTests
                 processor.ProcessEvents(null);
             }
 
-            Assert.IsTrue(File.Exists("snesactivityprocessor.responses.log"));
-            Assert.IsTrue(File.Exists("snesactivityprocessor.requests.log"));
+            Assert.IsTrue(File.Exists(logFile));
+
+            File.Copy(logFile, logFile + ".copy");  // We have to copy it in order to read it, otherwise we get a share violation
+            var lines = File.ReadAllLines(logFile + ".copy");
+
+            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines,"Category: SnesActivityProcessor.Requests"));
+            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "Category: SnesActivityProcessor.Responses"));
+            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "POST Data"));
+            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "Activity Uri"));
+            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "Uri"));
+            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "Content"));
+        }
+
+        private bool ArrayContainsLineThatStartsWith(string[] lines, string startsWith)
+        {
+            foreach (string s in lines)
+            {
+                if (s.StartsWith(startsWith))
+                    return true;
+            }
+            return false;
         }
 
         [TestMethod]
@@ -97,13 +114,13 @@ namespace DnaEventProcessorService.IntegrationTests
 
                 CreateComment(creator, uid, userId, content, hash);
 
-                SetupTestData(creator);
+                SetupTestData(creator, siteId);
                 
                 ProcessEvents(creator);
 
                 var mocks = new MockRepository();
                 var httpClientCreator = mocks.Stub<IDnaHttpClientCreator>();
-                var httpClient = MockRepository.GenerateStub<IDnaHttpClient>();
+                var httpClient = mocks.Stub<IDnaHttpClient>();
 
                 SetupResult.For(httpClientCreator.CreateHttpClient()).Return(httpClient);
                 
@@ -144,7 +161,7 @@ namespace DnaEventProcessorService.IntegrationTests
 
                 CreateComment(creator, uid, userId, content, hash);
 
-                SetupTestData(creator);
+                SetupTestData(creator,siteId);
 
                 ProcessEvents(creator);
 
@@ -193,7 +210,7 @@ namespace DnaEventProcessorService.IntegrationTests
 
                 CreateComment(creator, uid, userId, content, hash);
 
-                SetupTestData(creator);
+                SetupTestData(creator,siteId);
 
                 ProcessEvents(creator);
 
@@ -261,18 +278,95 @@ namespace DnaEventProcessorService.IntegrationTests
             }
         }
 
-        private static void SetupTestData(IDnaDataReaderCreator creator)
+        private static void SetupTestData(IDnaDataReaderCreator creator, string urlname)
+        {
+            using (var adhoc = creator.CreateDnaDataReader(""))
+            {/*
+                adhoc.ExecuteDEBUGONLY(
+                    "update signinuseridmapping set identityuserid = 6 where dnauserid = 6");
+                adhoc.ExecuteDEBUGONLY("delete from snesapplicationmetadata where urlname = '"+urlname+"'");
+                adhoc.ExecuteDEBUGONLY(
+                    "declare @siteid int; select @siteid=siteid from sites where urlname = '"+urlname+"';"+
+                    "insert into snesapplicationmetadata(siteid, applicationid, applicationname) values " +
+                    "(@siteid, 'iplayertv', 'Hitchhiker''s guide to the Galaxy')");
+                adhoc.ExecuteDEBUGONLY("update users set loginname = 'Test' where userid = 6");
+                */
+                string sql = string.Format(@"
+                            declare @siteid int; 
+                            select @siteid=siteid from sites where urlname = '{0}';
+                            update signinuseridmapping set identityuserid = 6 where dnauserid = 6
+                            delete from snesapplicationmetadata where siteid = @siteid
+                            insert into snesapplicationmetadata(siteid, applicationid, applicationname) 
+                                values (@siteid, '{0}', 'Hitchhiker''s guide to the Galaxy')", urlname);
+
+                adhoc.ExecuteDEBUGONLY(sql);
+
+            }
+        }
+
+        private static int SetupSite(IDnaDataReaderCreator creator, string urlname)
         {
             using (var adhoc = creator.CreateDnaDataReader(""))
             {
-                adhoc.ExecuteDEBUGONLY(
-                    "update signinuseridmapping set identityuserid = 6 where dnauserid = 6");
-                adhoc.ExecuteDEBUGONLY("delete from snesapplicationmetadata where siteid = 1");
-                adhoc.ExecuteDEBUGONLY(
-                    "insert into snesapplicationmetadata(siteid, applicationid, applicationname) values " +
-                    "(1, 'iplayertv', 'Hitchhiker''s guide to the Galaxy')");
-                adhoc.ExecuteDEBUGONLY("update users set loginname = 'Test' where userid = 6");
+                if (!SiteExists(adhoc, urlname))
+                {
+                    return CreateNewSite(adhoc, urlname);
+                }
             }
+
+            throw new Exception("Unable to set up site");
+        }
+
+        private static bool SiteExists(IDnaDataReader reader,string urlname)
+        {
+            using (IDnaDataReader r = reader.ExecuteDEBUGONLY("select * from sites where urlname='"+urlname+"'"))
+            {
+                while (r.Read())
+                {
+                    if (r.GetString("urlname") == urlname)
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static int CreateNewSite(IDnaDataReader reader, string urlname)
+        {
+            string sql = @"exec createnewsite	 @urlname = '"+urlname+"',"+
+									            "@shortname = '"+urlname+"',"+
+									            "@description = '"+urlname+"',"+
+									            "@defaultskin = 'default',"+
+									            "@skindescription = '',"+
+									            "@skinset ='boards',"+
+									            "@useframes =0,"+
+									            "@premoderation = 0,"+
+									            "@noautoswitch =0,"+
+									            "@customterms = 0,"+
+									            "@moderatorsemail = 'a@b.c',"+
+									            "@editorsemail = 'a@b.c',"+
+									            "@feedbackemail = 'a@b.c',"+
+									            "@automessageuserid = 245,"+
+									            "@passworded = 0,"+
+									            "@unmoderated = 0,"+
+									            "@articleforumstyle =0,"+
+									            "@threadorder =1,"+
+									            "@threadedittimelimit = 0,"+
+									            "@eventemailsubject = '',"+
+									            "@eventalertmessageuserid = 254,"+ 
+									            "@includecrumbtrail  = 0,"+
+									            "@allowpostcodesinsearch = 0,"+ 
+									            "@ssoservice = null,"+
+									            "@siteemergencyclosed = 0,"+
+									            "@allowremovevote = 0,"+
+									            "@queuepostings = 0,"+
+									            "@modclassid = 1,"+
+									            "@identitypolicy = 'http://identity/policies/dna/adult'";
+
+            reader.ExecuteDEBUGONLY(sql);
+            reader.Read();
+            int siteid = reader.GetInt32("siteid");
+            return siteid;
         }
 
         private static void StubHttpClientPostMethod(IDnaHttpClient httpClient)
@@ -334,12 +428,12 @@ namespace DnaEventProcessorService.IntegrationTests
         }
 
         private static SnesActivityProcessor CreateSnesActivityProcessor(IDnaDataReaderCreator dataReaderCreator, 
-            IDnaLogger logger, 
+            IDnaLogger logger,
             IDnaHttpClientCreator httpClientCreator)
         {
             return new SnesActivityProcessor(
                 dataReaderCreator, 
-                logger, 
+                logger,
                 httpClientCreator);
         }
 

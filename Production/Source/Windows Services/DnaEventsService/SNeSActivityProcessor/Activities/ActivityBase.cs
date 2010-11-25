@@ -37,37 +37,34 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
 
         protected HttpStatusCode Send(Func<Uri, HttpResponseMessage> func)
         {
-            LogUtility.LogRequest(GetActivityJson(), GetUri().ToString());
+            SnesActivityProcessor.SnesActivityLogger.LogRequest(GetActivityJson(), GetUri().ToString());
             using (var response = func(GetUri()))
             {
                 response.Content.LoadIntoBuffer();
                 Content = response.Content.ReadAsString();
-                return LogResponse(response);
+                LogResponse(response);
+                return response.StatusCode;
             }
         }
 
         protected HttpStatusCode Send(Func<Uri, HttpContent, HttpResponseMessage> func)
         {
-            LogUtility.LogRequest(GetActivityJson(), GetUri().ToString());
+            SnesActivityProcessor.SnesActivityLogger.LogRequest(GetActivityJson(), GetUri().ToString());
             var activityJson = GetActivityJson();
             var content = HttpContent.Create(activityJson, Encoding.UTF8, "application/json");
             using (var response = func(GetUri(), content))
             {
                 response.Content.LoadIntoBuffer();
                 Content = response.Content.ReadAsString();
-                return LogResponse(response);
+                LogResponse(response);
+                return response.StatusCode;
             }
         }
 
-        #endregion
-
-        #region Static Methods
-
-        private static HttpStatusCode LogResponse(HttpResponseMessage response)
+        private void LogResponse(HttpResponseMessage response)
         {
             var statusCode = response.StatusCode;
-            LogUtility.LogResponse(statusCode, response);
-            return statusCode;
+            SnesActivityProcessor.SnesActivityLogger.LogResponse(statusCode, response);
         }
 
         #endregion

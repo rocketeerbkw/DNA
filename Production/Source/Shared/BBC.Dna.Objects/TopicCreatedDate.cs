@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects
 {

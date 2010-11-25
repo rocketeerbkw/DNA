@@ -40,6 +40,8 @@
 	<xsl:include href="_library/GuideML/code.xsl" />
 	<xsl:include href="_library/GuideML/columns.xsl" />
 	<xsl:include href="_library/GuideML/footnote.xsl"/>
+	<xsl:include href="_library/GuideML/font.xsl"/>
+	<xsl:include href="_library/GuideML/form.xsl"/>
 	<xsl:include href="_library/GuideML/header.xsl" />
     <xsl:include href="_library/GuideML/h4.xsl" />
     <xsl:include href="_library/GuideML/h3.xsl" />
@@ -48,21 +50,29 @@
 	<xsl:include href="_library/GuideML/img.xsl" />
 	<xsl:include href="_library/GuideML/li.xsl" />
 	<xsl:include href="_library/GuideML/link.xsl" />
+	<xsl:include href="_library/GuideML/marquee.xsl" />
 	<xsl:include href="_library/GuideML/ol.xsl" />
     <xsl:include href="_library/GuideML/p.xsl" />
 	<xsl:include href="_library/GuideML/picture.xsl" />
 	<xsl:include href="_library/GuideML/pre.xsl" />
+	<xsl:include href="_library/GuideML/pullquote.xsl" />
 	<xsl:include href="_library/GuideML/quote.xsl" />
 	<xsl:include href="_library/GuideML/smiley.xsl" />
 	<xsl:include href="_library/GuideML/small.xsl" />
 	<xsl:include href="_library/GuideML/span.xsl" />
-    <xsl:include href="_library/GuideML/strong.xsl" />
+	<xsl:include href="_library/GuideML/strong.xsl" />
+	<xsl:include href="_library/GuideML/strikeout.xsl" />
 	<xsl:include href="_library/GuideML/subheader.xsl" />
+	<xsl:include href="_library/GuideML/sub.xsl" />
+	<xsl:include href="_library/GuideML/sup.xsl" />
 	<xsl:include href="_library/GuideML/table.xsl" />
 	<xsl:include href="_library/GuideML/td.xsl" />
+	<xsl:include href="_library/GuideML/textarea.xsl" />
 	<xsl:include href="_library/GuideML/textelement.xsl" />
+	<xsl:include href="_library/GuideML/th.xsl" />
 	<xsl:include href="_library/GuideML/tr.xsl" />
 	<xsl:include href="_library/GuideML/ul.xsl" />
+	<xsl:include href="_library/GuideML/youtubeurl.xsl" />
 
 	<!-- 
     <xsl:include href="_library/Sumer/Sumer.xsl" />
@@ -84,7 +94,14 @@
     <xsl:include href="_library/Richtext/pre.xsl" />
     <xsl:include href="_library/Richtext/q.xsl" />
     <xsl:include href="_library/Richtext/ul.xsl" />
-    <!-- 
+
+	<xsl:include href="_library/Richtext/Richtext.xsl" />
+
+	<xsl:include href="_library/Post/Post.xsl" />
+	<xsl:include href="_library/Post/link.xsl" />
+	<xsl:include href="_library/Post/smiley.xsl" />
+
+	<!-- 
      -->
     
 

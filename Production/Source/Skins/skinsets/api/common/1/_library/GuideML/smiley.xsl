@@ -15,9 +15,12 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="SMILEY" mode="library_GuideML">
+    <xsl:template match="SMILEY | smiley" mode="library_GuideML">
         <img alt="smiley - {@TYPE}" title="{@TYPE}">
-            <xsl:attribute name="src">
+			<xsl:attribute name="class">
+				<xsl:text>smiley</xsl:text>
+			</xsl:attribute>
+			<xsl:attribute name="src">
                 <xsl:value-of select="$configuration/assetPaths/smileys"/>
                 <xsl:value-of select="@TYPE"/>
                 <xsl:text>.gif</xsl:text>

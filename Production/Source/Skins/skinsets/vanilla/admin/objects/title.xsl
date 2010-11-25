@@ -36,7 +36,11 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'COMMENTFORUMLIST']" mode="objects_title">
 		<h1>Manage entries/stories<span><xsl:value-of select="SITE/SHORTNAME" /></span></h1>
-	</xsl:template>		
+	</xsl:template>	
+	
+	<xsl:template match="H2G2[@TYPE = 'USERLIST']" mode="objects_title">
+		<h1>User list</h1>
+	</xsl:template>	
 	
 	<xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="objects_title">
 		<h1>
@@ -54,7 +58,7 @@
 	</xsl:template>	
 	
 	<xsl:template name="objects_title">
-		<xsl:if test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0' and @TYPE='ERROR' or @TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN'">
+		<xsl:if test="@TYPE='ERROR' or @TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN'">
 			<h1>DNA Site Admin <span><xsl:value-of select="SITE/SHORTNAME"/></span></h1>
 		</xsl:if>	
 	</xsl:template>

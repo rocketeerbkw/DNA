@@ -28,6 +28,21 @@
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
+              <xs:element name="ACTIONITEMS">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="ACTIONITEM">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="TYPE" type="xs:string" />
+                          <xs:element name="TYPEINT" type="xs:unsignedByte" />
+                          <xs:element name="TOTAL" type="xs:unsignedByte" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
 						</xs:sequence>
 						<xs:attribute name="ISMODERATOR" type="xs:unsignedByte" use="required" />
 					</xs:complexType>

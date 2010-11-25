@@ -75,7 +75,7 @@ SELECT	tm.ModID,
 		CASE WHEN gmhosts.GroupId = @hostgroup THEN 1 ELSE 0 END 'host'
 		
 FROM ThreadMod tm WITH (UPDLOCK)
-INNER JOIN Sites s WITH (NOLOCK) ON s.SiteId = tm.SiteId AND s.ModClassId = ISNULL(@modclassid,s.ModClassId)
+INNER JOIN Sites s WITH (NOLOCK) ON s.SiteId = tm.SiteId AND (@modclassid = 0 or s.ModClassId = ISNULL(@modclassid,s.ModClassId))
 INNER JOIN Forums f WITH(NOLOCK) ON f.ForumId = tm.ForumId 
 
 LEFT JOIN GroupMembers gmeditors WITH (NOLOCK) ON gmeditors.UserId = @userid AND gmeditors.SiteId = s.SiteId AND gmeditors.groupid = @editorgroup		--check user is editor

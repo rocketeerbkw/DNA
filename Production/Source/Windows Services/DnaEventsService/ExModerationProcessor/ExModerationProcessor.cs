@@ -10,8 +10,9 @@ using System.Diagnostics;
 
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers;
+using System.Timers;
 
-namespace Dna.SnesIntegration.ExModerationProcessor
+namespace Dna.ExModerationProcessor
 {
     [LogCallHandler]
     public class ExModerationProcessor : MarshalByRefObject
@@ -22,6 +23,7 @@ namespace Dna.SnesIntegration.ExModerationProcessor
         private IDnaDataReaderCreator DataReaderCreator { get; set; }
         private IDnaHttpClientCreator HttpClientCreator { get; set; }
 
+        internal IDnaLogger ExModLogger { get; private set; }
 
         public ExModerationProcessor()
         {
@@ -33,7 +35,7 @@ namespace Dna.SnesIntegration.ExModerationProcessor
         {
             DataReaderCreator = dataReaderCreator;
             HttpClientCreator = httpClientCreator;
-            LogUtility.Logger = logger;
+            ExModLogger = logger;
         }
 
         public void ProcessEvents(object state)
@@ -57,7 +59,7 @@ namespace Dna.SnesIntegration.ExModerationProcessor
             }
             catch (Exception ex)
             {
-                LogUtility.LogException(ex);
+                ExModLogger.LogException(ex);
             }
             finally
             {
@@ -104,7 +106,7 @@ namespace Dna.SnesIntegration.ExModerationProcessor
             String  activityAsJSON = activity.ToJSON();
 
 
-            LogUtility.LogRequest(activityAsJSON, activity.CallBackUri);
+            ExModLogger.LogRequest(activityAsJSON, activity.CallBackUri);
 
             HttpContent content =
                 HttpContent.Create(activityAsJSON, "application/json");
@@ -114,7 +116,7 @@ namespace Dna.SnesIntegration.ExModerationProcessor
 
                 using (HttpResponseMessage response = client.Post(new Uri("", UriKind.Relative), content))
                 {
-                    LogUtility.LogResponse(response.StatusCode, response);
+                    ExModLogger.LogResponse(response.StatusCode, response);
                     return response.StatusCode;
                 }
             }
@@ -128,7 +130,7 @@ namespace Dna.SnesIntegration.ExModerationProcessor
                 else
                 {
                     //Other errors need to be handled and the item marked for reprocessing
-                    LogUtility.LogException(e);
+                    ExModLogger.LogException(e);
                     return HttpStatusCode.InternalServerError;
                 }
             }

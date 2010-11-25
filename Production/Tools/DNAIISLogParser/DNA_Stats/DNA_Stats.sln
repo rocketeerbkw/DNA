@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{C8D11400-126E-41CD-887F-60BD40844F9E}") = "DNA_Stats", "DNA_Stats.dbproj", "{98F92EBC-CCAF-4340-BDE1-491C5CBBF26A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Default|Any CPU = Default|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98F92EBC-CCAF-4340-BDE1-491C5CBBF26A}.Default|Any CPU.ActiveCfg = Default|Any CPU
+		{98F92EBC-CCAF-4340-BDE1-491C5CBBF26A}.Default|Any CPU.Build.0 = Default|Any CPU
+		{98F92EBC-CCAF-4340-BDE1-491C5CBBF26A}.Default|Any CPU.Deploy.0 = Default|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

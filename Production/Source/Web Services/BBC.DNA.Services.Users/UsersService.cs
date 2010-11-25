@@ -14,8 +14,7 @@ using BBC.Dna.Api;
 using System.Xml;
 using BBC.Dna.Users;
 using System.Runtime.Serialization;
-using BBC.Dna.Site;
-
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Services
 {
@@ -425,6 +424,58 @@ namespace BBC.Dna.Services
             return GetOutputStream(friendsList);
         }
 
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/{identifier}/followers")]
+        [WebHelp(Comment = "Get a user's followers")]
+        [OperationContract]
+        public Stream GetUsersFollowers(string sitename, string identifier)
+        {
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            ISite site = GetSite(sitename);
+
+            FollowersList followersList;
+            try
+            {
+                followersList = FollowersList.CreateFollowersList(cacheManager,
+                    readerCreator,
+                    null,
+                    identifier,
+                    site.SiteID,
+                    startIndex,
+                    itemsPerPage,
+                    userNameType.ToUpper() == "DNAUSERID",
+                    false);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(followersList);
+        }
+
+        [WebGet(UriTemplate = "V1/contributions/{threadentryid}")]
+        [WebHelp(Comment = "Get the given contribution in the format requested")]
+        [OperationContract]
+        public Stream GetContribution(string threadentryid)
+        {
+            Contribution contribution;
+            try
+            {
+                int threadEntryId = 0;
+                Int32.TryParse(threadentryid, out threadEntryId);
+
+                contribution = Contribution.CreateContribution(readerCreator,
+                                                                    threadEntryId);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(contribution);
+        }
+
         [WebGet(UriTemplate = "V1/usercontributions/{identityuserid}")]
         [WebHelp(Comment = "Get the given user's contributions in the format requested")]
         [OperationContract]
@@ -520,6 +571,9 @@ namespace BBC.Dna.Services
                     sortDirection,
                     siteTypeAsEnum,
                     userNameType,
+                    false,
+                    false,
+                    null,
                     false);
             }
             catch (ApiException ex)
@@ -549,6 +603,18 @@ namespace BBC.Dna.Services
                     articleListType = ArticleList.ArticleListType.Cancelled;
                 break;
                 case "4":
+                    articleListType = ArticleList.ArticleListType.NormalAndApproved;
+                break;
+                case "normal":
+                    articleListType = ArticleList.ArticleListType.Normal;
+                break;
+                case "approved":
+                    articleListType = ArticleList.ArticleListType.Approved;
+                break;
+                case "cancelled":
+                    articleListType = ArticleList.ArticleListType.Cancelled;
+                break;
+                case "normalandapproved":
                     articleListType = ArticleList.ArticleListType.NormalAndApproved;
                 break;
                 default:
@@ -624,7 +690,7 @@ namespace BBC.Dna.Services
 
             return GetOutputStream(postList);
         }
-/*
+
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/callinguser/userdetails/create.htm")]
         [WebHelp(Comment = "Update user details SSDN")]
         [OperationContract]
@@ -637,7 +703,7 @@ namespace BBC.Dna.Services
             CallingUser callingUser = GetCallingUser(site);
             if (callingUser == null || callingUser.UserID == 0 || callingUser.IsUserA(UserTypes.BannedUser))
             {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
 
             try
@@ -667,6 +733,342 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
         }
-*/       
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/users/{identifier}/friends/{friend}")]
+        [WebHelp(Comment = "Add a users friend")]
+        [OperationContract]
+        public void AddFriend(string siteName, string identifier, string friend)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            try
+            {
+                int friendId = 0;
+                Int32.TryParse(friend, out friendId);
+
+                if (friendId > 0)
+                {
+                    FriendsList.AddFriend(readerCreator,
+                        callingUser,
+                        identifier,
+                        site.SiteID,
+                        friendId,
+                        userNameType.ToUpper() == "DNAUSERID");
+                }
+                else
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidUserId));
+                }
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+        
+        [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/friends/{friend}/")]
+        [WebHelp(Comment = "Remove a users friend")]
+        [OperationContract]
+        public void DeleteFriend(string siteName, string identifier, string friend)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            try
+            {
+                int friendId = 0;
+                Int32.TryParse(friend, out friendId);
+
+                if (friendId > 0)
+                {
+                    FriendsList.DeleteFriend(readerCreator,
+                        callingUser,
+                        identifier,
+                        site.SiteID,
+                        friendId,
+                        userNameType.ToUpper() == "DNAUSERID");
+                }
+                else
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidUserId));
+                }
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
+
+
+        [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/links/{link}/")]
+        [WebHelp(Comment = "Remove a users friend")]
+        [OperationContract]
+        public void DeleteLink(string siteName, string identifier, string link)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            try
+            {
+                int linkId = 0;
+                Int32.TryParse(link, out linkId);
+
+                if (linkId > 0)
+                {
+                    Link.DeleteLink(readerCreator,
+                        callingUser,
+                        identifier,
+                        site.SiteID,
+                        linkId,
+                        userNameType.ToUpper() == "DNAUSERID");
+                }
+                else
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidUserId));
+                }
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+        [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/usersubscriptions/{user}/")]
+        [WebHelp(Comment = "Unsubscribe from a user")]
+        [OperationContract]
+        public void UnsubscribeFromUser(string siteName, string identifier, string user)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            try
+            {
+                int userId = 0;
+                Int32.TryParse(user, out userId);
+
+                if (userId > 0)
+                {
+                    UserSubscriptionsList.UnsubscribeFromUser(readerCreator,
+                        callingUser,
+                        identifier,
+                        site.SiteID,
+                        userId,
+                        userNameType.ToUpper() == "DNAUSERID");
+                }
+                else
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidUserId));
+                }
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/users/{identifier}/usersubscriptions/{user}/")]
+        [WebHelp(Comment = "Subscribe to a user")]
+        [OperationContract]
+        public void SubscribeToUser(string siteName, string identifier, string user)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            try
+            {
+                int userId = 0;
+                Int32.TryParse(user, out userId);
+
+                if (userId > 0)
+                {
+                    UserSubscriptionsList.SubscribeToUser(readerCreator,
+                        callingUser,
+                        identifier,
+                        site.SiteID,
+                        userId,
+                        userNameType.ToUpper() == "DNAUSERID");
+                }
+                else
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidUserId));
+                }
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
+
+        [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/blockedusers/{user}/")]
+        [WebHelp(Comment = "Unblock a user")]
+        [OperationContract]
+        public void UnblockUser(string siteName, string identifier, string user)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            try
+            {
+                int userId = 0;
+                Int32.TryParse(user, out userId);
+
+                if (userId > 0)
+                {
+                    BlockedUserSubscriptionsList.UnblockUser(readerCreator,
+                        callingUser,
+                        identifier,
+                        site.SiteID,
+                        userId,
+                        userNameType.ToUpper() == "DNAUSERID");
+                }
+                else
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidUserId));
+                }
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/users/{identifier}/blockedusers/{user}/")]
+        [WebHelp(Comment = "Block a user")]
+        [OperationContract]
+        public void BlockUser(string siteName, string identifier, string user)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty);
+
+            try
+            {
+                int userId = 0;
+                Int32.TryParse(user, out userId);
+
+                if (userId > 0)
+                {
+                    BlockedUserSubscriptionsList.BlockUser(readerCreator,
+                        callingUser,
+                        identifier,
+                        site.SiteID,
+                        userId,
+                        userNameType.ToUpper() == "DNAUSERID");
+                }
+                else
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidUserId));
+                }
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/callinguser/acceptsubscriptions/remove")]
+        [WebHelp(Comment = "Sets the calling users AcceptSubscriptions to false. blocks subscriptions")]
+        [OperationContract]
+        public void BlockSubscriptions(string siteName)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0 || callingUser.IsUserA(UserTypes.BannedUser))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+            callingUser.SynchroniseAcceptSubscriptions(false);
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/callinguser/acceptsubscriptions")]
+        [WebHelp(Comment = "Sets the calling users AcceptSubscriptions to true. accepts subscriptions")]
+        [OperationContract]
+        public void AcceptSubscriptions(string siteName)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || callingUser.UserID == 0 || callingUser.IsUserA(UserTypes.BannedUser))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+            callingUser.SynchroniseAcceptSubscriptions(true);
+        }
+
     }
 }

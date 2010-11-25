@@ -457,6 +457,7 @@ namespace BBC.Dna.Api
                         comment.hidden = (comment.IsPreModerated
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
                                               : CommentStatus.Hidden.NotHidden);
+                        comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden);
                         comment.User = UserReadByCallingUser(site);
                         comment.Created = new DateTimeHelper(DateTime.Now);
 
@@ -802,6 +803,8 @@ namespace BBC.Dna.Api
                                                                                         UriDiscoverability.UriType.
                                                                                             CommentForumById,
                                                                                         replacement);
+
+                            comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden);
                         }
                         else
                         {
@@ -935,7 +938,8 @@ namespace BBC.Dna.Api
             commentForum.Created = new DateTimeHelper(reader.GetDateTime("DateCreated"));
             commentForum.commentSummary = new CommentsSummary
                                               {
-                                                  Total = reader.GetInt32NullAsZero("ForumPostCount")
+                                                  Total = reader.GetInt32NullAsZero("ForumPostCount"),
+                                                  EditorPicksTotal = reader.GetInt32NullAsZero("editorpickcount")
                                               };
             commentForum.ForumID = reader.GetInt32NullAsZero("forumid");
             commentForum.isClosed = !commentForum.CanWrite || site.IsEmergencyClosed ||
@@ -995,7 +999,6 @@ namespace BBC.Dna.Api
         {
             var commentInfo = new CommentInfo
                                   {
-                                      text = reader.GetString("text"),
                                       Created =
                                           new DateTimeHelper(DateTime.Parse(reader.GetDateTime("Created").ToString())),
                                       User = UserReadById(reader, site),
@@ -1011,6 +1014,9 @@ namespace BBC.Dna.Api
             {
                 commentInfo.PostStyle = (PostStyle.Style) reader.GetTinyIntAsInt("poststyle");
             }
+
+            commentInfo.IsEditorPick = reader.GetBoolean("IsEditorPick");
+            commentInfo.Index = reader.GetInt32NullAsZero("PostIndex");
 
             //get complainant
             var replacement = new Dictionary<string, string>();
@@ -1033,6 +1039,8 @@ namespace BBC.Dna.Api
             commentInfo.Uri = UriDiscoverability.GetUriWithReplacments(BasePath, UriDiscoverability.UriType.Comment,
                                                                        replacement);
 
+
+            commentInfo.text = CommentInfo.FormatComment(reader.GetString("text"), commentInfo.PostStyle, commentInfo.hidden);
             return commentInfo;
         }
 

@@ -3,7 +3,7 @@
     
     <doc:documentation>
         <doc:purpose>
-            Coverts QUOTE nodes to HTML blockquotes
+            Converts QUOTE nodes to HTML blockquotes
         </doc:purpose>
         <doc:context>
             Applied by _common/_library/GuideML.xsl
@@ -13,7 +13,7 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="QUOTE" mode="library_GuideML">
+    <xsl:template match="QUOTE | quote" mode="library_GuideML">
         <blockquote>
             <xsl:if test="@CLASS">
                 <xsl:attribute name="class">

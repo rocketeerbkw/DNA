@@ -39,7 +39,23 @@
 	                    	<xsl:with-param name="label" select="'Move discussion'" />
                         <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId]/SUBJECT"/>
 	                    </xsl:apply-templates>
-	                </p>
+                    <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@THREAD = '0']" mode="moderation_cta_subscribethread">
+                      <xsl:with-param name="label" select="'Subscribe to discussion'" />
+                      <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@THREAD = '1']" mode="moderation_cta_unsubscribethread">
+                      <xsl:with-param name="label" select="'Unsubscribe to discussion'" />
+                      <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@FROMTHREADID = $threadId]" mode="moderation_cta_unsubscribethreadresult">
+                      <xsl:with-param name="label" select="'Subscribe to discussion'" />
+                      <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
+                    </xsl:apply-templates>
+                    <xsl:apply-templates select="/H2G2/SUBSCRIBE-RESULT[@TOTHREADID = $threadId]" mode="moderation_cta_unsubscribethreadresult">
+                      <xsl:with-param name="label" select="'Unsubscribe to discussion'" />
+                      <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
+                    </xsl:apply-templates>
+                  </p>
                 </div>
             </xsl:with-param>
             
@@ -52,6 +68,8 @@
     	</xsl:if>
         
         <xsl:apply-templates select="." mode="library_pagination_forumthreadposts" />
+        
+        <div class="numDiscussions"><strong>Messages: </strong><xsl:value-of select="@SKIPTO + 1" /><xsl:text> - </xsl:text><xsl:value-of select="/H2G2/FORUMTHREADPOSTS/POST[last()]/@INDEX+1" /> of <xsl:value-of select="/H2G2/FORUMTHREADPOSTS/@TOTALPOSTCOUNT" /></div>
         
         <ul class="collections forumthreadposts" id="topofthreads">
             <xsl:apply-templates select="POST" mode="object_post" />
@@ -74,6 +92,7 @@
     <xsl:template match="FORUMTHREADPOSTS[@FROM and @TO][@FORUMPOSTCOUNT > 0]" mode="object_forumthreadposts">
         
         <xsl:apply-templates select="." mode="library_pagination_commentbox" />
+       
         <ul class="collections forumthreadposts">
             <xsl:apply-templates select="POST[@INDEX > (parent::*/@FROM - 1) and @INDEX &lt; (parent::*/@TO + 1)]" mode="object_post_comment" >
                 <xsl:sort select="DATEPOSTED/DATE/@SORT" order="ascending"/>

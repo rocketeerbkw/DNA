@@ -372,7 +372,7 @@ namespace BBC.Dna.Objects.Tests
             }
             catch (Exception e)
             {
-                Assert.AreEqual("Article not found", e.Message);
+                Assert.AreEqual("Article not found.", e.Message);
             }
         }
 

@@ -13,13 +13,13 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="I" mode="library_GuideML">
+    <xsl:template match="I | i" mode="library_GuideML">
         <i>
             <xsl:apply-templates mode="library_GuideML"/>
         </i>
     </xsl:template>
 	
-	<xsl:template match="I" mode="library_GuideML_rss">
+	<xsl:template match="I | i" mode="library_GuideML_rss">
 		<xsl:apply-templates mode="library_GuideML_rss"/>
 	</xsl:template>
 	
