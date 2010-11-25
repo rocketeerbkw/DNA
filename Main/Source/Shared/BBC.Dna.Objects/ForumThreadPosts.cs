@@ -334,15 +334,18 @@ namespace BBC.Dna.Objects
                                                          bool orderByDatePostedDesc, bool ignoreCache, bool applySkin)
         {
             User viewingUser = null;
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("finduserfromid"))
+            if (callingUser != null && callingUser.UserID > 0)
             {
-                reader.AddParameter("@userid", callingUser.UserID);
-                reader.AddParameter("@h2g2id", DBNull.Value);
-                reader.AddParameter("@siteid", siteId);
-                reader.Execute();
-                if (reader.HasRows && reader.Read())
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("finduserfromid"))
                 {
-                    viewingUser = User.CreateUserFromReader(reader);
+                    reader.AddParameter("@userid", callingUser.UserID);
+                    reader.AddParameter("@h2g2id", DBNull.Value);
+                    reader.AddParameter("@siteid", siteId);
+                    reader.Execute();
+                    if (reader.HasRows && reader.Read())
+                    {
+                        viewingUser = User.CreateUserFromReader(reader);
+                    }
                 }
             }
 
