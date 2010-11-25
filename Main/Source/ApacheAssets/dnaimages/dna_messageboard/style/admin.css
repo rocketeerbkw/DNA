@@ -319,17 +319,20 @@
     .dna-dashboard .dna-mb-intro form label {display:inline;font-weight:bold}
     /*.dna-dashboard .dna-mb-intro form input {width:16em}*/
     .dna-dashboard .dna-dashboard-cfl form label {display:inline}
+    .dna-dashboard .dna-mb-intro form .dna-typelist li label {float:right;display:block;padding:2px;width:16.4em;text-align:left}
+    .dna-dashboard .dna-mb-intro form .dna-typelist li input {float:left;}
     .dna-dashboard .dna-mb-intro form .dna-buttons input {width:auto !important;}
     
     .dna-dashboard table {width:100%;table-layout:fixed}
     .dna-dashboard table th, .dna-dashboard table td {padding:10px;}
+    .dna-dashboard .dna-mod-stats table th {font-weight:normal}
     .dna-dashboard table td {text-align:right}
     .dna-dashboard table.dna-dashboard-activity th.date {width: 19%}
     .dna-dashboard table.dna-dashboard-contributions th.date {width: 10%}
     .dna-dashboard table.dna-dashboard-activity {width: 98%}
     .dna-dashboard table.dna-dashboard-activity .type {width:8%;}
     .dna-dashboard table td.time {width:22%} 
-    .dna-dashboard table.dna-dashboard-activity td {text-align:left;line-height: 1.4em}
+    .dna-dashboard table.dna-dashboard-activity td {vertical-align:top;text-align:left;line-height: 1.4em}
     .dna-dashboard table.dna-dashboard-activity td p {margin-left:0}
     .dna-dashboard table.dna-dashboard-contributions td,  .dna-dashboard table.dna-dashboard-cfl td{vertical-align:top}
 	.dna-dashboard tr.odd {background-color:#ebebd6}

@@ -19,7 +19,7 @@
 			<p>Hello, <xsl:value-of select="USERNAME" />! 
 				<xsl:choose>
 					<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
-						Which <xsl:value-of select="$dashboardtype" /> do you want to see?
+						To view an individual <xsl:value-of select="$dashboardtype" /> please choose from the drop down options.
 					</xsl:when>
 					<xsl:otherwise>
 						<!-- not sure -->

@@ -33,15 +33,7 @@
 	           		
 	           		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
 				    	<select name="s_siteid" id="s_siteid">
-
-                <option selected="selected" value="all">
-                  All
-                  <xsl:choose>
-                    <xsl:when test="$dashboardtype = 'community'">communities</xsl:when>
-                    <xsl:when test="$dashboardtype = 'story'">stories</xsl:when>
-                    <xsl:otherwise><xsl:value-of select="$dashboardtype" />s</xsl:otherwise>
-                  </xsl:choose> 
-                </option>
+				    		<option selected="selected" value="all">All <xsl:value-of select="$dashboardtypeplural" /></option>
 				    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
 				    	</select>
 				    	<div class="dna-buttons">
@@ -57,21 +49,14 @@
 		<div class="dna-fl dna-main-full">
 			<div class="dna-fl dna-main-threequarter">
 				<div class="dna-box">
-					<h3>Referrals <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">for <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if></h3>
+					<h3>Referrals <xsl:call-template name="objects_subheading" /></h3>
 					<xsl:apply-templates select="MODERATORHOME/MODERATIONQUEUES" mode="objects_moderator_queuedreffered" />
 				</div>
 			</div>
 			
-			<div class="dna-fr dna-main-right">
-				<div class="dna-box">
-					<h3>Activity <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">for <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if></h3>
-          			<xsl:apply-templates select="SITESUMMARYSTATS " mode="objects_moderator_queuesummary" />
-				</div>
-			</div>			
-			
-			<div class="dna-fl dna-main-threequarter">
-				<div class="dna-box">
-					<h3>Moderation statistics <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">on <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if></h3>
+			<div class="dna-fr dna-main-threequarter">
+				<div class="dna-box dna-mod-stats">
+					<h3>Moderation statistics  <xsl:call-template name="objects_subheading" /></h3>
 					<xsl:apply-templates select="MODERATORHOME/MODERATIONQUEUES" mode="objects_moderator_queued" />
 				</div>
 			</div>			
@@ -80,35 +65,38 @@
 		<div class="dna-fl dna-main-full">
 			<div class="dna-fl dna-main-right dna-boxspace">
 				<div class="dna-box">
-					<h3><xsl:value-of select="$dashboardtype" /> admin links</h3>
-					<xsl:choose>
-						<!-- if an option is selected then show admin links -->
-						<xsl:when test="SITESUMMARYSTATS/@SITEID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"> 
-							<xsl:call-template name="objects_links_admin" />
-						</xsl:when>
-						<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 0 or not(/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE)">
-							<p>Please select a site type.</p>
-						</xsl:when>
-						<xsl:otherwise><p>Please select a <xsl:value-of select="$dashboardtype" /> from the drop down menu above.</p></xsl:otherwise>
-					</xsl:choose>
+					<h3>Activity  <xsl:call-template name="objects_subheading" /></h3>
+          			<xsl:apply-templates select="SITESUMMARYSTATS " mode="objects_moderator_queuesummary" />
 				</div>
-			</div>
+			</div>				
 			
 			<div class="dna-fl dna-main-right dna-boxspace">
 				<div class="dna-box">
-					<h3>User management links</h3>
-					<xsl:call-template name="objects_links_usermanagement" />
+					<h3>site admin &amp; user management</h3>
+					<ul class="dna-list-links">
+						<xsl:choose>
+							<!-- if an option is selected then show admin links -->
+							<xsl:when test="SITESUMMARYSTATS/@SITEID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"> 
+								<xsl:call-template name="objects_links_admin" />
+							</xsl:when>
+							<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 0 or not(/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE)">
+								<p>To perform site admin please choose a site type from the tabs above</p>
+							</xsl:when>
+							<xsl:otherwise><p>To perform site admin please choose a <xsl:value-of select="$dashboardtype" /> from the drop down above.</p></xsl:otherwise>
+						</xsl:choose>
+						<li><a href="/dna/moderation/admin/userlist?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}">Look up user</a></li>
+						<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2"><li><a href="{$moderationemail}">To add user status, email Moderation Services Team</a></li></xsl:if>								
+					</ul>
 				</div>
 			</div>
 				
 			<div class="dna-fl dna-main-right">
 				<div class="dna-box">
-					<h3>Useful links</h3>
+					<h3>Useful links <xsl:call-template name="objects_subheading" /></h3>
 					<xsl:call-template name="objects_links_useful" />
 				</div>
 			</div>
 		</div>		
-		
 	</div>
 	
   </xsl:template>

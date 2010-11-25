@@ -12,6 +12,7 @@
 		    	<xsl:attribute name="class">odd</xsl:attribute>
 	    	</xsl:if>
 			<td>
+				<h4 class="blq-hide">Event number <xsl:value-of select="position() + ancestor::SITEEVENTLIST/@STARTINDEX " /> </h4>
 				<xsl:apply-templates select="DATE" mode="library_time_shortformat" />
 				<xsl:text> on </xsl:text>
 				<span class="date">

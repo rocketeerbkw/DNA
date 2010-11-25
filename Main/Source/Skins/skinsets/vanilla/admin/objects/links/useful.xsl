@@ -22,7 +22,7 @@
 				<li><a href="http://www.bbc.co.uk//messageboards">Messageboard help pages</a></li>
 			</xsl:otherwise>
 			</xsl:choose>	
-			<li><a href="mailto:bbccommunities@bbc.co.uk">Contact Moderation Services team</a></li>		
+			<li><a href="{$moderationemail}">Contact Moderation Services team</a></li>		
 			<li><a href="https://confluence.dev.bbc.co.uk/display/DNA/DNA">DNA team wiki</a></li> <!-- or http://wikis.gateway.bbc.co.uk/confluence/display/DNA/DNA? -->
 			<li><a href="http://wikis.gateway.bbc.co.uk/confluence/pages/viewpageattachments.action?pageId=159711330">DNA Hosts' handbooks</a></li>
 		</ul>

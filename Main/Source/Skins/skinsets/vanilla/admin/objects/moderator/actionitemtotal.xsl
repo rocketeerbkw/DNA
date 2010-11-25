@@ -7,14 +7,11 @@
 	exclude-result-prefixes="doc">
 
 	<xsl:template match="ACTIONITEM" mode="objects_moderator_actionitemtotal">
-		<span class="dna-actionitem-total">(<xsl:value-of select="TOTAL" />)</span>
+		<span class="dna-actionitem-total">(<xsl:value-of select="TOTAL" /> <span class="blq-hide"> actions flagged</span>)</span>
 	</xsl:template>
 
-  <xsl:template match="ACTIONITEMS" mode="objects_moderator_allactionitemtotal">
-  	<xsl:variable name="total" select="ACTIONITEM[TYPE = 'EmbeddedComments']/TOTAL + ACTIONITEM[TYPE = 'Community']/TOTAL + ACTIONITEM[TYPE = 'Messageboard']/TOTAL + ACTIONITEM[TYPE = 'Blog']/TOTAL" />
-  	<span class="dna-actionitem-total">(<xsl:value-of select="$total" />)</span>
-  </xsl:template>
-
-  
+	<xsl:template match="ACTIONITEMS" mode="objects_moderator_allactionitemtotal">
+		(<xsl:value-of select="sum(ACTIONITEM/TOTAL)" /> <span class="blq-hide"> actions flagged</span>)
+	</xsl:template>
 	
 </xsl:stylesheet>

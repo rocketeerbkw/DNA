@@ -43,7 +43,7 @@
 							</xsl:call-template>
 						</xsl:if>	
 					</th>
-					<td>
+					<td class="time">
 						<xsl:if test="DATE/@YEAR != 1">
 							<xsl:value-of select="DATE/LOCAL/@RELATIVE" />
 						</xsl:if>

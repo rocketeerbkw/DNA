@@ -47,8 +47,8 @@
 			Activity Page 
 			<xsl:if test="$dashboardtype != 'all'">
 				<!-- put in apply -->
-				<span class="capitalize"><xsl:value-of select="$dashboardtype" /></span>
-				<span><xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></span>
+				<span class="capitalize"><xsl:value-of select="$dashboardtypeplural" /></span>
+				<xsl:if test="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION"><span><xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></span></xsl:if>
 			</xsl:if>
 		</h1>
 	</xsl:template>	

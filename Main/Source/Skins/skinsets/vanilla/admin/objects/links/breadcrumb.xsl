@@ -12,7 +12,7 @@
 		<div class="dna-breadcrumb blq-clearfix">
 			<ul class="dna-dashboard-links">
 				<li><a href="{$root}/hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}">Dashboard</a></li>
-				<li> &gt; <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" />&#160;<xsl:value-of select="$pagename" /> </li>
+				<li> &gt; <xsl:call-template name="objects_subheading"><xsl:with-param name="objecttype">breadcrumb</xsl:with-param></xsl:call-template><xsl:value-of select="$pagename" /> </li>
 			</ul>
 		</div>
 	</xsl:template>
