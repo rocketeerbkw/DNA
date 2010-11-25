@@ -537,5 +537,60 @@ namespace BBC.Dna.Services
             
             return GetOutputStream(siteObject);
         }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumUid}/comment/{commentId}/rate/up")]
+        [WebHelp(Comment = "Increase the nero rating of a comment")]
+        [OperationContract]
+        public Stream NeroRatingIncrease(string sitename, string commentForumUid, string commentId)
+        {
+            return ApplyNeroRating(sitename, commentForumUid, commentId, 1);
+        }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumUid}/comment/{commentId}/rate/down")]
+        [WebHelp(Comment = "Decrease the nero rating of a comment")]
+        [OperationContract]
+        public Stream NeroRatingDecrease(string sitename, string commentForumUid, string commentId)
+        {
+            return ApplyNeroRating(sitename, commentForumUid, commentId, -1);
+        }
+
+        /// <summary>
+        /// Validates call and processes nero rating
+        /// </summary>
+        /// <param name="sitename"></param>
+        /// <param name="commentForumId"></param>
+        /// <param name="commentId"></param>
+        /// <param name="value"></param>
+        /// <returns>The new aggregate value for the given comment</returns>
+        private Stream ApplyNeroRating(string sitename, string commentForumUid, string commentIdStr, int value)
+        {
+            ISite site = GetSite(sitename);
+            var userId = 0;
+            try
+            {
+                _commentObj.CallingUser = GetCallingUser(site);
+                userId = _commentObj.CallingUser.UserID;
+            }
+            catch
+            { //anonymous call...
+                userId = 0;
+            }
+
+            if (userId == 0 && (bbcUidCookie == Guid.Empty || string.IsNullOrEmpty(_iPAddress)))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserAttributes));
+            }
+            try
+            {
+                var commentId = Int32.Parse(commentIdStr);
+            }
+            catch
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.CommentNotFound));
+            }
+
+            //_commentObj.RateComment(site, commentForumUid, commentId, value, userId);
+            return GetOutputStream(0);
+        }
     }
 }

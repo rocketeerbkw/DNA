@@ -234,17 +234,19 @@ namespace BBC.Dna.Objects
                 }
             }
             //You can't delete someone else's links (unless you're an editor or superuser)
-            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            if (viewingUser.UserID == dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("deletelink"))
+                {
+                    dataReader.AddParameter("linkid", linkId);
+                    dataReader.AddParameter("userID", dnaUserId);
+                    dataReader.AddParameter("siteID", siteID);
+                    dataReader.Execute();
+                }
+            }
+            else
             {
                 throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-            
-            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("deletelink"))
-            {
-                dataReader.AddParameter("linkid", linkId);
-                dataReader.AddParameter("userID", dnaUserId);
-                dataReader.AddParameter("siteID", siteID);
-                dataReader.Execute();
             }
         }
     }

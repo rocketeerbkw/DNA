@@ -90,7 +90,7 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
 
             ThreadPostSummary actual;
-            actual = ThreadPostSummary.CreateThreadPostFromReader(reader, string.Empty, 0);
+            actual = ThreadPostSummary.CreateThreadPostFromReader(reader, string.Empty, 0, false);
             Assert.AreNotEqual(null, actual);
         }
 

@@ -56,7 +56,7 @@ namespace BBC.Dna
                 {
                     //get the threads for the article
                     articleForum.ForumThreads = ForumThreads.CreateForumThreads(cache, creator, InputContext.TheSiteList,
-                        article.ArticleInfo.ForumId, 10, 0, 0, false, ThreadOrder.CreateDate, viewingUser, false);
+                        article.ArticleInfo.ForumId, 10, 0, 0, false, ThreadOrder.CreateDate, viewingUser, false, false);
                 }
                 if (articleForum != null)
                 {

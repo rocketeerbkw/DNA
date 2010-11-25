@@ -131,6 +131,8 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetUsersJournal(string sitename, string identityusername)
         {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
+
             ThreadOrder threadOrder = ThreadOrder.CreateDate;
             if (sortBy == SortBy.LastPosted)
             {
@@ -155,7 +157,8 @@ namespace BBC.Dna.Services
                                                             threadOrder, 
                                                             null,
                                                             userNameType.ToUpper()=="DNAUSERID",
-                                                            false);
+                                                            false,
+                                                            applySkin);
             }
             catch (ApiException ex)
             {
@@ -170,6 +173,8 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetUsersMessages(string sitename, string identityusername)
         {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
+
             ThreadOrder threadOrder = ThreadOrder.CreateDate;
             if (sortBy == SortBy.LastPosted)
             {
@@ -201,7 +206,8 @@ namespace BBC.Dna.Services
                                                                 true,
                                                                 threadOrder,
                                                                 null,
-                                                                false);
+                                                                false,
+                                                                applySkin);
             }
             catch (ApiException ex)
             {
@@ -823,7 +829,7 @@ namespace BBC.Dna.Services
 
 
         [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/links/{link}/")]
-        [WebHelp(Comment = "Remove a users friend")]
+        [WebHelp(Comment = "Remove a users link/bookmark")]
         [OperationContract]
         public void DeleteLink(string siteName, string identifier, string link)
         {

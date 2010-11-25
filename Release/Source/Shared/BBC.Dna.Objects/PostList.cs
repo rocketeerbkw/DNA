@@ -123,6 +123,8 @@ namespace BBC.Dna.Objects
                         }
                         else
                         {
+                            //If the owner of the page is the viewer
+                            post.LastPostCountRead = reader.GetInt32NullAsZero("LastPostCountRead");
                             if (post.YourLastPost > 0)
                             {
                                 post.Editable = GetPostEditableAttribute(dnaUserId, viewingUserId, site.ThreadEditTimeLimit, post.MostRecent.Date.DateTime);

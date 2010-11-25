@@ -88,6 +88,7 @@
     <Compile Include="Contribution.cs" />
     <Compile Include="Contributions.cs" />
     <Compile Include="FollowersList.cs" />
+    <Compile Include="ReviewForumPage.cs" />
     <Compile Include="SearchThreadPost.cs">
       <SubType>SEARCHTHREADPOST</SubType>
     </Compile>

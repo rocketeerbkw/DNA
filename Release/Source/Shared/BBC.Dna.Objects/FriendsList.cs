@@ -284,19 +284,21 @@ namespace BBC.Dna.Objects
                 }
             }
             //You can't delete someone else's friends (unless you're an editor or superuser)
-            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA( BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            if (viewingUser.UserID == dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("deletewatchedusers"))
+                {
+                    reader.AddParameter("userid", dnaUserId);
+                    reader.AddParameter("currentsiteid", siteId);
+                    reader.AddParameter("watch1", friendId);
+
+                    reader.Execute();
+                }
+            }
+            else
             {
                 throw ApiException.GetError(ErrorType.NotAuthorized);
             }            
-
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("deletewatchedusers"))
-            {
-                reader.AddParameter("userid", dnaUserId);
-                reader.AddParameter("currentsiteid", siteId);
-                reader.AddParameter("watch1", friendId);
-
-                reader.Execute();
-            }
         }
         /// <summary>
         /// Adds a friend to their friends list
@@ -346,18 +348,20 @@ namespace BBC.Dna.Objects
                 }
             }
             //You can't add someone else's friends (unless you're an editor or superuser)
-            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            if (viewingUser.UserID == dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("watchuserjournal"))
+                {
+                    reader.AddParameter("userid", dnaUserId);
+                    reader.AddParameter("watcheduserid", newFriendId);
+                    reader.AddParameter("siteid", siteId);
+
+                    reader.Execute();
+                }
+            }
+            else
             {
                 throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("watchuserjournal"))
-            {
-                reader.AddParameter("userid", dnaUserId);
-                reader.AddParameter("watcheduserid", newFriendId);
-                reader.AddParameter("siteid", siteId);
-
-                reader.Execute();
             }
         }
     }
