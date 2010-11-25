@@ -96,6 +96,13 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = ("neroRatingValue"), Order = 12)]
+        public int NeroRatingValue
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Is the comment premod
         /// </summary>

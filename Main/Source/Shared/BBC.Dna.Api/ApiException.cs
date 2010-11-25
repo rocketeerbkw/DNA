@@ -234,7 +234,12 @@ namespace BBC.Dna.Api
                     break;
                 case ErrorType.NotAuthorized:
                     error = new ApiException("User does not have permission.", innerException);
-                    break;                    
+                    break;
+
+                case ErrorType.MissingUserAttributes:
+                    error = new ApiException("Unable to access client IP or BBC Uid value.", innerException);
+                    break;        
+                    
 
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
@@ -309,6 +314,7 @@ namespace BBC.Dna.Api
         UserBlockedSubscriptions,
         CantSubscribe,
         UnableToHideUnHideThread,
-        NotAuthorized
+        NotAuthorized,
+        MissingUserAttributes
     }
 }
