@@ -120,15 +120,7 @@ namespace BBC.Dna.Objects
             DnaStringParser stringparser = new DnaStringParser(searchQuery, delimiters, true, true, false);
             string[] queries = stringparser.Parse();
 
-            string search = string.Empty;
-            for (int i = 0; i < queries.GetLength(0) - 1; i++)
-            {
-                search += "\"" + queries[i] + "\"" + " AND ";
-            }
-
-            search += "\"" + queries[queries.GetLength(0) - 1] + "\"";
-
-            return search;
+            return SearchThreadPosts.FormatSearchTerm(ref queries);
         }
 
         /// <summary>
@@ -176,7 +168,7 @@ namespace BBC.Dna.Objects
 
                     search = new Search();
                     search.SearchResults = new SearchResults();
-                    search.SearchResults.SearchTerm = searchString;
+                    search.SearchResults.SearchTerm = HtmlUtils.HtmlDecode(searchString);
                     search.SearchResults.Type = searchType;
                     search.SearchResults.StartIndex = startIndex;
                     search.SearchResults.ItemsPerPage = itemsPerPage;
