@@ -49,6 +49,12 @@ namespace BBC.Dna.Moderation
         [XmlAttribute(AttributeName = "ITEMSPERPAGE")]
         public int ItemsPerPage { get; set; }
 
+        [XmlElement(ElementName = "STARTDATE", Order = 4)]
+        public DateElement StartDate { get; set; }
+
+        [XmlElement(ElementName = "ENDDATE", Order = 5)]
+        public DateElement EndDate { get; set; }
+
 
         /// <summary>
         /// 
@@ -61,7 +67,7 @@ namespace BBC.Dna.Moderation
         /// <param name="readerCreator"></param>
         /// <returns></returns>
         static public SiteEventList GetSiteEventList(int[] siteIds, int[] typeIds, int startIndex, int itemsPerPage,
-            DateTime startDate, IDnaDataReaderCreator readerCreator, bool isSuperUser, SiteType siteType)
+            DateTime startDate, DateTime endDate, IDnaDataReaderCreator readerCreator, bool isSuperUser, SiteType siteType)
         {
             var siteEventList = new SiteEventList()
             {
@@ -86,6 +92,11 @@ namespace BBC.Dna.Moderation
                 {
                     reader.AddParameter("startdate", startDate);
                 }
+                if(endDate != DateTime.MaxValue)
+                {
+                    reader.AddParameter("enddate", endDate);
+                }
+            
                 if (siteIds.Length > 0)
                 {
                     reader.AddParameter("siteids", siteIdsDelimited);
@@ -102,6 +113,14 @@ namespace BBC.Dna.Moderation
                     siteEventList.TotalItems = reader.GetInt32NullAsZero("total");
                     siteEventList.StartIndex = reader.GetLongNullAsZero("n")-1;
                     siteEventList.ItemsPerPage = itemsPerPage;
+                    if (startDate != DateTime.MinValue)
+                    {
+                        siteEventList.StartDate = new DateElement(startDate);
+                    }
+                    if (endDate != DateTime.MaxValue)
+                    {
+                        siteEventList.EndDate = new DateElement(endDate);
+                    }
 
                     XmlDocument doc = new XmlDocument();
                     do
