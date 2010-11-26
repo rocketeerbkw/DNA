@@ -63,19 +63,19 @@
 				<a target="_blank">
 					<xsl:attribute name="href">
 						<xsl:choose>
-							<xsl:when test="$referraltype = 'posts'">
+							<xsl:when test="$referraltype = 'post' or $referraltype = 'posts'">
 								<xsl:text>/dna/moderation/moderateposts?referrals=1</xsl:text>
 							</xsl:when>
-							<xsl:when test="$referraltype = 'alerts'">
+							<xsl:when test="$referraltype = 'alert' or $referraltype = 'alerts'">
 								<xsl:text>/dna/moderation/moderateposts?referrals=1&amp;alerts=1</xsl:text>
 							</xsl:when>
-							<xsl:when test="$referraltype = 'articles'">
+							<xsl:when test="$referraltype = 'article' or $referraltype = 'articles'">
 								<xsl:text>/dna/moderation/moderatearticles?referrals=1</xsl:text>
 							</xsl:when>
-							<xsl:when test="$referraltype = 'article alerts'">
+							<xsl:when test="$referraltype = 'article alert' or $referraltype = 'article alerts'">
 								<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
 							</xsl:when>
-							<xsl:when test="$referraltype = 'general complaints'">
+							<xsl:when test="$referraltype = 'general complaint' or $referraltype = 'general complaints'">
 								<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
 							</xsl:when>
 						</xsl:choose>
