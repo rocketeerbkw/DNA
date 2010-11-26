@@ -5,7 +5,6 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Selenium;
 using System.Configuration;
-using TestUtils;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using Tests;
