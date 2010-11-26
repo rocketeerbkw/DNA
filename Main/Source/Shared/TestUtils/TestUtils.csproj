@@ -117,7 +117,6 @@
     <Compile Include="DataReaderFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomStringGenerator.cs" />
-    <Compile Include="SeleniumTestHarness.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="SnapshotInitialisation.cs">
       <SubType>Code</SubType>
@@ -161,10 +160,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BBC.Dna\BBC.DNA.csproj">
-      <Project>{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}</Project>
-      <Name>BBC.DNA %28Source\BBC.Dna\BBC.DNA%29</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
       <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
       <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
