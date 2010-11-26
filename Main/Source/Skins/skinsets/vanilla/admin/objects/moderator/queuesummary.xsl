@@ -22,8 +22,9 @@
 	    	</xsl:if>
 	    </xsl:variable> 
 	    
-		<xsl:if test="STATE = 'queuedreffered' or STATE = 'queued' or STATE = 'lockedreffered'">
-			<xsl:if test="(OBJECTTYPE != 'entry' and OBJECTTYPE != 'entrycomplaint') or $dashboardtype='community' ">
+	    <!-- STATE = 'queuedreffered' -->
+		<xsl:if test="STATE = 'queued' or STATE = 'lockedreffered'">
+			<xsl:if test="(OBJECTTYPE != 'entry' and OBJECTTYPE != 'entrycomplaint') or $dashboardtype='community' or $dashboardtype = 'all'">
 			    <tr>
 					<th>
 						<xsl:if test="STATE = 'queuedreffered'">
@@ -81,16 +82,14 @@
 						</xsl:choose>
 					</xsl:attribute>
 					<xsl:value-of select="@TOTAL" />&#160;
-					<xsl:text> referred </xsl:text>
-					<xsl:value-of select="$islocked" />
 					<xsl:value-of select="$referraltype" />
+					<xsl:text> referred for your decision</xsl:text>
 				</a>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="@TOTAL" />&#160;
-				<xsl:text> referred </xsl:text>
-				<xsl:value-of select="$islocked" />
 				<xsl:value-of select="$referraltype" />
+				<xsl:text> referred for your decision</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
