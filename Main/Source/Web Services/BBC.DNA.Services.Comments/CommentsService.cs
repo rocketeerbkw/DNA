@@ -119,20 +119,15 @@ namespace BBC.Dna.Services
                 }
 
 
-                if (
-                    !GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentForumGetLastUpdate),
-                                        new object[] {commentForumId, site.SiteID}))
-                {
-                    Statistics.AddHTMLCacheMiss();
-                    commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
+                commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
 
-                    //if null then send back 404
-                    if (commentForumData == null)
-                    {
-                        throw ApiException.GetError(ErrorType.ForumUnknown);
-                    }
-                    output = GetOutputStream(commentForumData, commentForumData.LastUpdate);
+                //if null then send back 404
+                if (commentForumData == null)
+                {
+                    throw ApiException.GetError(ErrorType.ForumUnknown);
                 }
+                output = GetOutputStream(commentForumData, commentForumData.LastUpdate);
+
             }
             catch (ApiException ex)
             {
@@ -205,18 +200,9 @@ namespace BBC.Dna.Services
             Stream output = null;
             try
             {
-
-
-                //_commentObj.CommentListGetLastUpdate(site.SiteID, prefix)
-                if (
-                    !GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentListGetLastUpdate),
-                                        new object[] {site.SiteID, prefix}))
-                {
-                    Statistics.AddHTMLCacheMiss();
-
-                    commentList = String.IsNullOrEmpty(prefix) ? _commentObj.GetCommentsListBySite(site) : _commentObj.GetCommentsListBySite(site, prefix);
-                    output = GetOutputStream(commentList, commentList.LastUpdate);
-                }
+                commentList = String.IsNullOrEmpty(prefix) ? _commentObj.GetCommentsListBySite(site) : _commentObj.GetCommentsListBySite(site, prefix);
+                output = GetOutputStream(commentList, commentList.LastUpdate);
+            
             }
             catch (ApiException ex)
             {

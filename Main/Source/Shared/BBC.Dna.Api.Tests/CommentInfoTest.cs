@@ -5,6 +5,8 @@ using System.Xml;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna.Moderation.Utils;
+using System.Text;
+using System.IO;
 
 namespace BBC.Dna.Api.Tests
 {
@@ -136,13 +138,12 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
                 PostStyle = style,
                 text = CommentInfo.FormatComment(input, style, CommentStatus.Hidden.NotHidden)
             };
-            expected = StringUtils.SerializeToXml(expected);
             var docExpected = new XmlDocument();
-            docExpected.LoadXml(expected);
+            docExpected.Load(StringUtils.SerializeToXml(expected));
             expected = docExpected.DocumentElement.InnerXml;
 
             var doc = new XmlDocument();
-            doc.LoadXml(target.ToXml());
+            doc.Load(target.ToXml());
             Assert.AreEqual(expected, doc.DocumentElement["text"].InnerXml);
         }
 
@@ -153,20 +154,22 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
                 PostStyle = style,
                 text = CommentInfo.FormatComment(input, style, CommentStatus.Hidden.NotHidden)
             };
-            var doc = target.ToJson();
 
-            expected = StringUtils.SerializeToJson(expected);
-            expected = expected.Substring(1, expected.Length - 2);//strips quotes from around text
+            MemoryStream stream = (MemoryStream)StringUtils.SerializeToJson(target);
+            var doc = Encoding.UTF8.GetString(stream.ToArray());
 
-           
-            var regText = new Regex("\"text\"\\:\"(.*)\",");
-            Assert.IsTrue(regText.IsMatch(doc));
-            MatchCollection matches = regText.Matches(doc);
-            foreach (Match match in matches)
-            {
-                var actual = match.Value.Substring(8, match.Value.Length - 10);
-                Assert.AreEqual(expected, actual);
-            }
+            var returnedObject = (CommentInfo)StringUtils.DeserializeJSONObject(doc, target.GetType());
+            Assert.AreEqual(expected, returnedObject.text);
+            //var regText = new Regex("\"text\"\\:\"(.*)\",");
+            //Assert.IsTrue(regText.IsMatch(doc));
+            //MatchCollection matches = regText.Matches(doc);
+            //foreach (Match match in matches)
+            //{
+            //    var actual = match.Value.Substring(8, match.Value.Length - 10);
+            //    actual = actual.Replace("\\/", "/");
+            //    actual = actual.Replace("/\\", "/");
+            //    Assert.AreEqual(expected, actual);
+            //}
             
         }
     }

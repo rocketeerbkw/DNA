@@ -3,6 +3,7 @@ using System.Xml;
 using BBC.Dna.Utils;
 using System.Runtime.Serialization;
 using System;
+using System.IO;
 
 namespace BBC.Dna.Api
 {
@@ -13,7 +14,7 @@ namespace BBC.Dna.Api
         /// Serializes object to XML
         /// </summary>
         /// <returns>String of XML</returns>
-        public string ToXml()
+        public Stream ToXml()
         {
             return StringUtils.SerializeToXml(this);
         }
@@ -22,7 +23,7 @@ namespace BBC.Dna.Api
         /// Serializes object to JSON
         /// </summary>
         /// <returns>String of JSON</returns>
-        public string ToJson()
+        public Stream ToJson()
         {
             return StringUtils.SerializeToJson(this);
         }
@@ -35,13 +36,7 @@ namespace BBC.Dna.Api
         /// <returns>The HTML output</returns>
         public string ToHtml(string xsltFile, ref int error)
         {
-            string rawXml = StringUtils.SerializeToXml(this);
-            rawXml = rawXml.Replace("&lt;", "<");
-            rawXml = rawXml.Replace("&gt;", ">");
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(rawXml);
-            
-            return XSLTransformer.TransformUsingXslt2(xsltFile, xmlDoc, ref error);
+            throw new NotImplementedException("HTML is not supported at this time");
         }
 
         /// <summary>
