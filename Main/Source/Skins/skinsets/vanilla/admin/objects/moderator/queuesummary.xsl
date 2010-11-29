@@ -40,7 +40,6 @@
 						<xsl:if test="STATE = 'lockedreffered'">
 							<xsl:call-template name="moderationsummarylink">
 								<xsl:with-param name="referraltype" select="$referraltype" />
-								<xsl:with-param name="islocked"> locked </xsl:with-param>
 							</xsl:call-template>
 						</xsl:if>	
 					</th>
@@ -57,7 +56,6 @@
 	
 	<xsl:template name="moderationsummarylink">
 		<xsl:param name="referraltype" />
-		<xsl:param name="islocked" />
 		
 		<xsl:choose>
 			<xsl:when test="@TOTAL > 0">
