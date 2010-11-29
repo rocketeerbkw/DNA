@@ -62,7 +62,7 @@
 			</div>			
 		</div>
 		
-		<div class="dna-fl dna-main-full">
+		<div class="dna-fl dna-main-full dna-dashboard-box">
 			<div class="dna-fl dna-main-right dna-boxspace">
 				<div class="dna-box">
 					<h3>Activity  <xsl:call-template name="objects_subheading" /></h3>
