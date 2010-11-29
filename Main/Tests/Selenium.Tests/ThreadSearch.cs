@@ -12,44 +12,44 @@ using Tests;
 
 namespace Selenium.Tests
 {
-	[TestClass]
-	public class ThreadSearch : SeleniumTestHarness
-	{
-		private ISelenium selenium;
-		private StringBuilder verificationErrors;
-		
-		[TestInitialize]
-		public void SetupTest()
-		{
-			base.StartServer();
-			selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["baseUrl"]);
-			selenium.Start();
-			verificationErrors = new StringBuilder();
-		}
-		
-		[TestCleanup]
-		public void TeardownTest()
-		{
-			try
-			{
-				selenium.Stop();
-			}
-			catch (Exception)
-			{
-				// Ignore errors if unable to close the browser
-			}
-			base.StopServer();
-			Assert.AreEqual("", verificationErrors.ToString());
-		}
-		
+    [TestClass]
+    public class ThreadSearch : SeleniumTestHarness
+    {
+        private ISelenium selenium;
+        private StringBuilder verificationErrors;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            base.StartServer();
+            selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["baseUrl"]);
+            selenium.Start();
+            verificationErrors = new StringBuilder();
+        }
+
+        [TestCleanup]
+        public void TeardownTest()
+        {
+            try
+            {
+                selenium.Stop();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+            base.StopServer();
+            Assert.AreEqual("", verificationErrors.ToString());
+        }
+
         // assumes that mbarchers does not have the search site option set
-		[TestMethod]
-		public void ThreadSearch_NoSiteOption_GoodMessageNoMatches()
-		{
-	        selenium.Open("/dna/mbarchers/searchposts");
+        [TestMethod]
+        public void ThreadSearch_NoSiteOption_GoodMessageNoMatches()
+        {
+            selenium.Open("/dna/mbarchers/searchposts");
 
             Assert.IsFalse(selenium.IsTextPresent("Search has not been configured for this application."));
-		}
+        }
 
 
         //Not sure if this one will work, can type do a null string?
@@ -67,14 +67,14 @@ namespace Selenium.Tests
 
         [TestMethod]
         public void ThreadSearch_NoMatchingTerm_GoodMessageNoMatches()
-		{
-		    selenium.Open("/dna/mbiplayer/searchposts");
-		    selenium.Type("searchtext", "noresults");
-		    selenium.Click("//input[@value='Search']");
-		    selenium.WaitForPageToLoad("30000");
+        {
+            selenium.Open("/dna/mbiplayer/searchposts");
+            selenium.Type("searchtext", "noresults");
+            selenium.Click("//input[@value='Search']");
+            selenium.WaitForPageToLoad("30000");
 
             validate_MessageNoItems();
-		}
+        }
 
         [TestMethod]
         public void ThreadSearch_JunkTermLowerCase_GoodMessageNoMatches()
@@ -153,13 +153,13 @@ namespace Selenium.Tests
 
         // Assumes that the search term pulls back more than 1 page so that previous from last will not get you back to first and next after first does not get you to last
         [TestMethod]
-		public void ThreadSearch_MultipleMatches_PaginatesCorrectly()
-		{
-		
-            selenium.Open("/dna/mbiplayer/searchposts");		
+        public void ThreadSearch_MultipleMatches_PaginatesCorrectly()
+        {
+
+            selenium.Open("/dna/mbiplayer/searchposts");
             selenium.Type("searchtext", "radio");
-		    selenium.Click("//input[@value='Search']");
-		    selenium.WaitForPageToLoad("30000");
+            selenium.Click("//input[@value='Search']");
+            selenium.WaitForPageToLoad("30000");
 
             // if not on this page, no point in checking the rest
             Assert.AreEqual("BBC - BBC iPlayer Messageboard - Search results", selenium.GetTitle());
@@ -197,7 +197,7 @@ namespace Selenium.Tests
 
 
             selenium.Click("link=« Previous");
-		    selenium.WaitForPageToLoad("30000");
+            selenium.WaitForPageToLoad("30000");
 
             // if not on this page, no point in checking the rest
             Assert.AreEqual("BBC - BBC iPlayer Messageboard - Search results", selenium.GetTitle());
@@ -216,7 +216,7 @@ namespace Selenium.Tests
 
 
             selenium.Click("link=Last");
-		    selenium.WaitForPageToLoad("30000");
+            selenium.WaitForPageToLoad("30000");
 
             // if not on this page, no point in checking the rest
             Assert.AreEqual("BBC - BBC iPlayer Messageboard - Search results", selenium.GetTitle());
@@ -234,8 +234,8 @@ namespace Selenium.Tests
             validate_ItemPresent("//ul[@class='pagination']/li[2]", "« Previous", true);
 
 
-		    selenium.Click("link=First");
-		    selenium.WaitForPageToLoad("30000");
+            selenium.Click("link=First");
+            selenium.WaitForPageToLoad("30000");
 
             // if not on this page, no point in checking the rest
             Assert.AreEqual("BBC - BBC iPlayer Messageboard - Search results", selenium.GetTitle());
@@ -251,7 +251,7 @@ namespace Selenium.Tests
             // first and previous should lose their links
             validate_ItemPresent("//ul[@class='pagination']/li[1]", "First", false);
             validate_ItemPresent("//ul[@class='pagination']/li[2]", "« Previous", false);
-		}
+        }
 
         private void validate_NoMessageSomeItems()
         {
@@ -358,7 +358,7 @@ namespace Selenium.Tests
 
             try
             {
-                if( asLink )
+                if (asLink)
                     Assert.IsTrue(selenium.IsElementPresent(path + "/a"));
                 else
                     Assert.IsFalse(selenium.IsElementPresent(path + "/a"));
@@ -373,7 +373,7 @@ namespace Selenium.Tests
         {
             try
             {
-                if( isCurrent)
+                if (isCurrent)
                     Assert.IsTrue(selenium.IsElementPresent(path));
                 else
                     Assert.IsFalse(selenium.IsElementPresent(path));
@@ -382,6 +382,6 @@ namespace Selenium.Tests
             {
                 verificationErrors.Append(e.Message);
             }
+        }
     }
-
 }
