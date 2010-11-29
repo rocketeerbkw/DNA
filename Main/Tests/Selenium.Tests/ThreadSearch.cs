@@ -345,7 +345,7 @@ namespace Selenium.Tests
             }
         }
 
-        private void validate_ItemPresent(string path, string text, boolean asLink)
+        private void validate_ItemPresent(string path, string text, Boolean asLink)
         {
             try
             {
@@ -369,7 +369,7 @@ namespace Selenium.Tests
             }
         }
 
-        private void validate_ItemMarkedCurrent(string path, boolean isCurrent)
+        private void validate_ItemMarkedCurrent(string path, Boolean isCurrent)
         {
             try
             {
