@@ -638,7 +638,7 @@
 	
 	<xsl:template name="global-template">
 		<xsl:if test="/H2G2/@TYPE = 'SITEOPTIONS'"> 
-			<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/admin.css"/>
+			<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
 		</xsl:if>
 		<style type="text/css">
 			<xsl:text>@import '/includes/tbenh.css';</xsl:text>

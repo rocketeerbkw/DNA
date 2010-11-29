@@ -156,13 +156,13 @@ body {
 /* Code for page layout */
 #adminBody {font-family:verdana, arial, helvetica, sans;font-size:80%;background:#ffffff; margin:0px;padding:0px;}
 
-#topNav {height:28px;background:#999999 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/topnav_bg.gif);width:770px;padding-top:3px;font-family:Trebuchet MS, arial, helvetica, sans;} #topNav h2 {display:inline;font-size:140%;font-weight:normal;padding-left:25px;color:#ffffff;}
+#topNav {height:28px;background:#999999 url(/dnaimages/adminsystem/images/topnav_bg.gif);width:770px;padding-top:3px;font-family:Trebuchet MS, arial, helvetica, sans;} #topNav h2 {display:inline;font-size:140%;font-weight:normal;padding-left:25px;color:#ffffff;}
 #bbcLogo {margin:10px 5px 5px 10px;display:inline;}     
           
 #subNav {height:58px;width:770px;border-bottom:1px dotted #666666;}
     
 #subNavText h1 {display:inline;color:#cc6600;}
-#subNavText {font-weight:bold;font-family:Trebuchet MS, arial, helvetica, sans;font-size:160%;margin-left:60px;padding:5px;border-left:1px dotted #666666;height:48px;background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/dna_logo.gif) right no-repeat;}
+#subNavText {font-weight:bold;font-family:Trebuchet MS, arial, helvetica, sans;font-size:160%;margin-left:60px;padding:5px;border-left:1px dotted #666666;height:48px;background:url(/dnaimages/adminsystem/images/dna_logo.gif) right no-repeat;}
  /* IE Hack */
  * html  #subNavText {height:58px;}
       
@@ -176,10 +176,10 @@ body {
       
 .inputBG {background:#fcf3ec;}
       
-#contentArea {width:765px;background:#ffffff url(http://www.bbc.co.uk/dnaimages/adminsystem/images/left.gif) repeat-y;border:1px solid #666666;margin-left:5px;}
-.header {background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/t_r.gif) top right no-repeat;width:765px;}
-.centralAreaRight {background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/right.gif)  top right repeat-y;width:765px;}
-.footer {background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/b_r.gif)  bottom right no-repeat;width:765px;}
+#contentArea {width:765px;background:#ffffff url(/dnaimages/adminsystem/images/left.gif) repeat-y;border:1px solid #666666;margin-left:5px;}
+.header {background:url(/dnaimages/adminsystem/images/t_r.gif) top right no-repeat;width:765px;}
+.centralAreaRight {background:url(/dnaimages/adminsystem/images/right.gif)  top right repeat-y;width:765px;}
+.footer {background:url(/dnaimages/adminsystem/images/b_r.gif)  bottom right no-repeat;width:765px;}
 #topLine {width:630px;height:3px;border-width:0px;border-top:3px solid #d58434;}
 .scheduleTitle {font-weight:bold;padding-left:10px;color:#333333;}
       
@@ -191,7 +191,7 @@ body {
 .buttonRightA {float:right;margin:5px 20px 0px 0px;}
 * html .buttonRightA {margin-top:0px;}
 
-.buttonThreeD {background:#cecece url(http://www.bbc.co.uk/dnaimages/adminsystem/images/button_bg2.gif) 0px 0px repeat-x;height:28px;border:2px solid #666666;color:#666666;display:inline;margin:0px 5px;padding:4px 10px;}
+.buttonThreeD {background:#cecece url(/dnaimages/adminsystem/images/button_bg2.gif) 0px 0px repeat-x;height:28px;border:2px solid #666666;color:#666666;display:inline;margin:0px 5px;padding:4px 10px;}
 * html .buttonThreeD {height:30px;}
 * html .buttonThreeD a {vertical-align:bottom;}
 * html input.buttonThreeD {margin-bottom:1px;}      
@@ -200,7 +200,7 @@ input.buttonThreeD {font-size:70%;font-weight:bold;}
 .buttonThreeD a:link, .buttonThreeD a:visited, .buttonThreeD a:active {color:#666666;text-decoration:none;}
 .buttonThreeD a:hover, .buttonThreeD a:hover  {color:#666666;text-decoration:none;}
       
-.shadedDivider {width:740px;background: url(http://www.bbc.co.uk/dnaimages/adminsystem/images/shaded_line.gif) repeat-x center;height : 20px;margin-left:10px;border-style:none;}
+.shadedDivider {width:740px;background: url(/dnaimages/adminsystem/images/shaded_line.gif) repeat-x center;height : 20px;margin-left:10px;border-style:none;}
 .shadedDivider hr {display:none;}
 	
 #headingHighlight {font-weight:bold;color:#cc6600;font-size:100%;font-family:verdana, arial, helvetica, sans;}
@@ -231,7 +231,7 @@ input.buttonThreeD {font-size:70%;font-weight:bold;}
 .adminMenu th {padding:5px;text-align:left;font-weight:bold;color:#666666;background:transparent;font-size:120%;}
 .adminMenuTime {border-left:10px solid #ffffff;border-right:10px solid #ffffff;text-align:center;}
 .adminMenuStatus {border-left:10px solid #ffffff;text-align:center;}
-.adminSecondHeader td {background:url(http://www.bbc.co.uk/dnaimages/adminsystem/images/adminmenu_bg.gif) bottom repeat-x;height:41px;padding-top:17px;}
+.adminSecondHeader td {background:url(/dnaimages/adminsystem/images/adminmenu_bg.gif) bottom repeat-x;height:41px;padding-top:17px;}
 .adminMenuBottom td {padding-bottom:10px;border-bottom:1px dotted #000000;}
 .adminMenuDone {text-align:center;}
 

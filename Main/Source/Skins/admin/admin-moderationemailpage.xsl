@@ -4,9 +4,9 @@
 <xsl:stylesheet exclude-result-prefixes="msxsl local s dt" version="1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" xmlns:local="#local-functions" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:s="urn:schemas-microsoft-com:xml-data" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
   <xsl:template name="MOD-EMAIL-MANAGEMENT_CSS">
 		<style type="text/css"> 
-			@import "http://www.bbc.co.uk/dnaimages/boards/includes/fonts.css" ;
+			@import "/dnaimages/boards/includes/fonts.css" ;
 		</style>
-		<link href="http://www.bbc.co.uk/dnaimages/adminsystem/includes/dna_admin.css" rel="stylesheet" type="text/css"/>
+		<link href="/dnaimages/adminsystem/includes/dna_admin.css" rel="stylesheet" type="text/css"/>
 		<script type="text/javascript"><![CDATA[
 			var insertTarget; // variable flag used to set last focused form control
 			function hilightStep(targetFormControl){

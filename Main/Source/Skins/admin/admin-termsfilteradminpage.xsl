@@ -36,9 +36,9 @@
 	-->
 	<xsl:template name="TERMSFILTERADMIN_CSS">
 		<style type="text/css"> 
-			@import "http://www.bbc.co.uk/dnaimages/boards/includes/fonts.css" ;
+			@import "/dnaimages/boards/includes/fonts.css" ;
 		</style>
-		<link href="http://www.bbc.co.uk/dnaimages/adminsystem/includes/dna_admin.css" rel="stylesheet" type="text/css"/>
+		<link href="/dnaimages/adminsystem/includes/dna_admin.css" rel="stylesheet" type="text/css"/>
 		<style type="text/css">
 			#lhn {width: 190px; float:left;}
 			#lhn {padding: 5px; margin:3px;}

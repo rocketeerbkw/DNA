@@ -5,7 +5,7 @@
 
 <xsl:variable name="CURRENTSITE"><xsl:value-of select="/H2G2/PROCESSINGSITE/SITE/@ID"/></xsl:variable><!-- N.B. CURRENTSITE is the site being changed -->
 <xsl:variable name="CURRENTSITEURLNAME"><xsl:value-of select="/H2G2/PROCESSINGSITE/SITE/SHORTNAME"/></xsl:variable>
-<xsl:variable name="adminimagesource">http://www.bbc.co.uk/dnaimages/adminsystem/images/</xsl:variable>
+<xsl:variable name="adminimagesource">/dnaimages/adminsystem/images/</xsl:variable>
 
 	<xsl:template name="SITEOPTIONS_JAVASCRIPT">
 		<script type="text/javascript">
