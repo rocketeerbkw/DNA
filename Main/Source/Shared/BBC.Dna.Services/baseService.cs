@@ -202,21 +202,24 @@ namespace BBC.Dna.Services
         /// <returns>A output stream</returns>
         protected Stream GetOutputStream(object data, DateTime lastUpdated)
         {
-            WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
+            
             string output = String.Empty;
             switch (format)
             {
                 case WebFormat.format.XML:
+                    WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
+                    WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
                     return StringUtils.SerializeToXml(data);
                     //output = output.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Entities.GetEntities());
                     break;
 
                 case WebFormat.format.JSON:
+                    WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
+                    WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
                     return StringUtils.SerializeToJson(data);
                     break;
 
-                case WebFormat.format.HTML:
+                //case WebFormat.format.HTML:
                     //string xsltFile = String.Format("{0}/{1}.xsl", ConfigurationManager.AppSettings["xslt_directory"], data.GetType().Name);
                     //int errorCount = 0;
                     //output = ((baseContract)data).ToHtml(xsltFile, ref errorCount);
@@ -224,8 +227,8 @@ namespace BBC.Dna.Services
                     //{
                     //    throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, "Error during xslt transformation", new Exception(output));
                     //}
-                    throw new DnaWebProtocolException(System.Net.HttpStatusCode.NotImplemented, "Not implemented yet", null);
-                    break;
+               //     throw new DnaWebProtocolException(System.Net.HttpStatusCode.Unauthorized, "Not implemented yet", null);
+               //     break;
 
                     //TODO Convert to streams
                 case WebFormat.format.RSS:
@@ -252,7 +255,8 @@ namespace BBC.Dna.Services
 
             }
             //get output stream
-            
+            WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
             MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output));
             XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
 
