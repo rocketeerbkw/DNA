@@ -444,6 +444,18 @@ namespace BBC.Dna.Utils
         }
 
         /// <summary>
+        /// Serialise and converts to string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string SerializeToJsonReturnAsString(object obj)
+        {
+            MemoryStream stream = (MemoryStream)StringUtils.SerializeToJson(obj);
+            return Encoding.UTF8.GetString(stream.ToArray());
+            
+        }
+
+        /// <summary>
         /// Takes a syndication feed and returns an RSS string
         /// </summary>
         /// <param name="feed">Syndication Feed</param>

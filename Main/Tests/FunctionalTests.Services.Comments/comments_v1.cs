@@ -459,7 +459,7 @@ namespace FunctionalTests.Services.Comments
 
             string text = "Functiontest Title" + Guid.NewGuid().ToString();
             CommentInfo inputComment = new CommentInfo() { text = text };
-            string jsonComment = StringUtils.SerializeToJson(inputComment);
+            string jsonComment = StringUtils.SerializeToJsonReturnAsString(inputComment);
 
 
             // Setup the request url
@@ -498,7 +498,7 @@ namespace FunctionalTests.Services.Comments
 
             string text = "Functiontest\r\nTitle" + Guid.NewGuid().ToString();
             CommentInfo inputComment = new CommentInfo() { text = text };
-            string jsonComment = StringUtils.SerializeToJson(inputComment);
+            string jsonComment = StringUtils.SerializeToJsonReturnAsString(inputComment);
 
 
             // Setup the request url
@@ -550,7 +550,7 @@ namespace FunctionalTests.Services.Comments
             request.SetCurrentUserNormal();
             string text = "Functiontest Title" + Guid.NewGuid().ToString();
             CommentInfo inputComment = new CommentInfo() { text = text };
-            string jsonComment = StringUtils.SerializeToJson(inputComment);
+            string jsonComment = StringUtils.SerializeToJsonReturnAsString(inputComment);
 
 
             // Setup the request url
