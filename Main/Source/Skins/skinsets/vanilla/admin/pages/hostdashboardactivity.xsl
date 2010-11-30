@@ -23,7 +23,7 @@
 		<a href="#activity" class="blq-hide">Skip to activity</a>
 		
 		<xsl:call-template name="objects_links_breadcrumb">
-			<xsl:with-param name="pagename" >activity page</xsl:with-param>
+			<xsl:with-param name="pagename" > activity page</xsl:with-param>
 		</xsl:call-template>
 		
 		<div class="dna-mb-intro blq-clearfix">
