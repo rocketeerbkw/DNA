@@ -27,10 +27,11 @@ BEGIN
 				AND a.NewArticle = @newentries
 				AND (case when a.ComplainantID is null then 0 else 1 end) = @complaints
 				AND a.LockedBy IS NULL
-		ORDER BY a.ModID
+		ORDER BY a.DateQueued asc, a.ModID asc
 
 	if (@ModID is not null)	
 	BEGIN
+	--is this transaction in the wrong place?
 		BEGIN TRANSACTION		
 			UPDATE ArticleMod SET LockedBy = @userid, DateLocked = getdate()
 				WHERE ModID = @ModId
@@ -62,7 +63,7 @@ WHERE	AM.Status = 2
 		AND NewArticle = @newentries
 		AND (case when AM.ComplainantID is null then 0 else 1 end) = @complaints
 		AND AM.LockedBy = @userid
-ORDER BY AM.ModID
+ORDER BY am.DateQueued asc, am.ModID asc
 
 return 0
 
