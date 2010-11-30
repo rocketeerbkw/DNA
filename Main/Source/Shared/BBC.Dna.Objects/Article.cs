@@ -164,7 +164,10 @@ namespace BBC.Dna.Objects
             {
                 if (_guideMLAsXmlElement == null)
                 {
-                    if (_guideMLAsString == null) { return null; }
+                    if (_guideMLAsString == null) 
+                    { 
+                        return null; 
+                    }
 
                     _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
                                         
@@ -185,8 +188,11 @@ namespace BBC.Dna.Objects
                             throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
                         }
 
-                        // reassign string and element after transformation     
-                        transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
+                        // reassign string and element after transformation   
+                        if (Style == GuideEntryStyle.GuideML)
+                        {
+                            transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
+                        }
                         _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
                     }                    
                 }
