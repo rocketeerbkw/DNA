@@ -151,7 +151,7 @@
                     <p class="flag">
                         <a class="popup">
                             <xsl:attribute name="href">
-                                <xsl:value-of select="concat($root, '/comments/UserComplaintPage?PostID=' , @POSTID, '&amp;s_start=1&amp;s_ptrt=')" />
+                                <xsl:value-of select="concat('/dna/', /H2G2/SITE/NAME, '/comments/UserComplaintPage?PostID=' , @POSTID, '&amp;s_start=1&amp;s_ptrt=')" />
                                 <xsl:call-template name="library_serialise_ptrt_in">
                                     <xsl:with-param name="string">
                                         <xsl:apply-templates select="/H2G2" mode="library_memberservice_ptrt" />
