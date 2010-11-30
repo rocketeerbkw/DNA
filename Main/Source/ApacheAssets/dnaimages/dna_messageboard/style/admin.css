@@ -301,15 +301,34 @@
     .dna-memberdetails .memberDetails { clear:both;}
     
     /*dashboard*/
+    
+    .blog #blq-local-nav {background:#58608e url(/dnaimages/dna_messageboard/img/bg-header-blogs.gif) repeat-x 0 100%}
     .blog .dna-main h3 {background-color:#58608e}
+    .blog .dna-buttons input {border:1px solid #50546d;background:#58608e url(/dnaimages/dna_messageboard/img/bg-btn-blog.gif) repeat-x 0 100%;}
+    #blq-local-nav li a.blogs {color:#58608e}
+    
+    .messageboard #blq-local-nav {background:#38464e url(/dnaimages/dna_messageboard/img/bg-header-mb.gif) repeat-x 0 100%}
     .messageboard .dna-main h3 {background-color:#38464e}
+    .messageboard .dna-buttons input {border:1px solid #36444c;background:#38464e url(/dnaimages/dna_messageboard/img/bg-btn-mb.gif) repeat-x 0 100%;}
+    #blq-local-nav li a.messageboards {color:#38464e}
+    
+    .community #blq-local-nav {background:#5f7a59 url(/dnaimages/dna_messageboard/img/bg-header-community.gif) repeat-x 0 100%}
     .community .dna-main h3 {background-color:#5f7a59}
+    .community .dna-buttons input {border:1px solid #5a6a56;background:#5f7a59 url(/dnaimages/dna_messageboard/img/bg-btn-community.gif) repeat-x 0 100%;}
+    #blq-local-nav li a.communities {color:#5f7a59}
+    
+    .story #blq-local-nav {background:#b48540 url(/dnaimages/dna_messageboard/img/bg-header-story.gif) repeat-x 0 100%}
     .story .dna-main h3 {background-color:#b48540}
+    .story .dna-buttons input {border:1px solid #897455;background:#b48540 url(/dnaimages/dna_messageboard/img/bg-btn-story.gif) repeat-x 0 100%;}
+    #blq-local-nav li a.stories {color:#b48540}
+    
+    .dna-dashboard .dna-dashboard-box .dna-box {margin-top:0.8em;min-height: 20em} 
     .dna-dashboard .capitalize {text-transform:capitalize}
     .dna-dashboard .dna-main-right {width:311px}
     .dna-dashboard .dna-main-left {width:52em}
     .dna-dashboard .dna-mb-intro {width: 100%;margin-bottom:0}
-    .dna-dashboard .dna-main-threequarter {width:472px}
+    .dna-dashboard .dna-main-threequarter {width:472px;}
+    .dna-dashboard .dna-main-threequarter .dna-box {min-height:23em}
     .dna-dashboard .dna-buttons {display:inline;padding: 0 10px 10px 0}
     .dna-dashboard .dna-box div {padding: 10px}
     
@@ -331,7 +350,7 @@
     .dna-dashboard table.dna-dashboard-contributions th.date {width: 10%}
     .dna-dashboard table.dna-dashboard-activity {width: 98%}
     .dna-dashboard table.dna-dashboard-activity .type {width:8%;}
-    .dna-dashboard table td.time {width:22%} 
+    .dna-dashboard table td.time {width:26%} 
     .dna-dashboard table.dna-dashboard-activity td {vertical-align:top;text-align:left;line-height: 1.4em}
     .dna-dashboard table.dna-dashboard-activity td p {margin-left:0}
     .dna-dashboard table.dna-dashboard-contributions td,  .dna-dashboard table.dna-dashboard-cfl td{vertical-align:top}
