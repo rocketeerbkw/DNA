@@ -255,6 +255,7 @@ namespace BBC.Dna.Services
 
             }
             //get output stream
+            //NOTE as soon as these are set - the output status is set and cannot be overwritten!
             WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
             WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
             MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output));

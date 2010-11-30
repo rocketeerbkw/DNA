@@ -1,7 +1,7 @@
 CREATE PROCEDURE commentthreadcreate @commentforumid NVARCHAR(255), @userid INT, @content NVARCHAR(MAX), @hash uniqueidentifier, 
 	@forcemoderation tinyint = 0, @forcepremoderation tinyint = 0 , @ignoremoderation tinyint = 0, 
 	@isnotable tinyint = 0, @ipaddress varchar(50) = null, @bbcuid uniqueidentifier = null,
-	@poststyle int =1--default to guideml
+	@poststyle int =1, @modnotes varchar(255) = NULL 
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -63,7 +63,7 @@ BEGIN
 	EXEC @returncode = posttoforuminternal @userid, @forumid, NULL, NULL, @subject, @content, 
 	@poststyle, @hash, NULL, NULL, @newthreadid OUTPUT, @newpostid OUTPUT, NULL, NULL, @forcemoderation, 
 	@forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, @ispremodposting OUTPUT, 
-	@ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment, NULL, @IsThreadedComment,
+	@ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment, @modnotes, @IsThreadedComment,
 	/*@ignoreriskmoderation*/ 0
 
 DECLARE @threadcount int
