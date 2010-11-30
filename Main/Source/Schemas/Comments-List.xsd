@@ -24,6 +24,7 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
+                    <xs:element name="POSTID" type="xs:int" />
                     <xs:element name="FORUMID" type="xs:int" />
                     <xs:element name="FORUMTITLE" type="xs:string" />
 					<xs:element name="FORUMPOSTCOUNT" type="xs:int" />

@@ -76,6 +76,7 @@ namespace BBC.Dna.Component
                         AddDateXml(dataReader, comment, "DatePosted", "DatePosted");
 
                         // Get the forumid and title
+                        AddIntElement(comment, "POSTID", dataReader.GetInt32NullAsZero("EntryID"));
                         AddIntElement(comment, "ForumID", dataReader.GetInt32NullAsZero("ForumID"));
                         AddXmlTextTag(comment, "ForumTitle", dataReader.GetStringNullAsEmpty("ForumTitle"));
                         AddIntElement(comment, "ForumPostCount", dataReader.GetInt32NullAsZero("ForumPostCount"));
