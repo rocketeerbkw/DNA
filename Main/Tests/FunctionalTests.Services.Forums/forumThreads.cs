@@ -200,6 +200,52 @@ namespace FunctionalTests.Services.Forums
 
             Console.WriteLine("After SubscribeToUnsubscribeFromForum_ReturnsSuccess");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void SubscribeToUnsubscribeFromThread_ReturnsFailure()
+        {
+            Console.WriteLine("Before SubscribeToUnsubscribeFromThread_ReturnsFailure");
+
+            string forum = "31";
+            string thread = "7619338";
+
+            string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/subscribe", _sitename, forum, thread);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("No data");
+            try
+            {
+                request.RequestPageWithFullURL(url, postData, "text/data");
+            }
+            catch (WebException)
+            {
+            }
+            Assert.AreEqual(HttpStatusCode.Unauthorized, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.NotAuthorized.ToString(), errorData.Code);            
+
+
+
+            url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/unsubscribe", _sitename, forum, thread);
+
+            try
+            {
+                request.RequestPageWithFullURL(url, postData, "text/data");
+            }
+            catch (WebException)
+            {
+            }
+            Assert.AreEqual(HttpStatusCode.Unauthorized, request.CurrentWebResponse.StatusCode);
+            errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.NotAuthorized.ToString(), errorData.Code);            
+
+            Console.WriteLine("After SubscribeToUnsubscribeFromThread_ReturnsFailure");
+        }
 
         /// <summary>
         /// 
