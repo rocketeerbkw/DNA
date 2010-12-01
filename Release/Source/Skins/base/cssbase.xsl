@@ -7709,15 +7709,15 @@ Created: 21/03/2000
         <xsl:when test="/H2G2/FORUMTHREADPOSTS/@DEFAULTCANWRITE = 1">
           <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME='EDITOR')  or ($superuser = 1)">
             <a href="{$root}F{/H2G2/FORUMTHREADPOSTS/@FORUMID}?thread={/H2G2/FORUMTHREADPOSTS/@THREADID}&amp;cmd=closethread">
-              <img src="http://www.bbc.co.uk/dnaimages/boards/images/button_close.gif" alt="Close this thread" width="137" height="23" border="0" vspace="5" hspace="5"/>
+              <img src="/dnaimages/boards/images/button_close.gif" alt="Close this thread" width="137" height="23" border="0" vspace="5" hspace="5"/>
             </a>
           </xsl:if>
         </xsl:when>
         <xsl:when test="/H2G2/FORUMTHREADPOSTS/@DEFAULTCANWRITE = 0">
-          <img src="http://www.bbc.co.uk/dnaimages/boards/images/button_closed.gif" alt="This thread has been closed" width="183" height="23" border="0" vspace="5" hspace="5"/>
+          <img src="/dnaimages/boards/images/button_closed.gif" alt="This thread has been closed" width="183" height="23" border="0" vspace="5" hspace="5"/>
           <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME='EDITOR')  or ($superuser = 1)">
             <a href="{$root}F{/H2G2/FORUMTHREADPOSTS/@FORUMID}?thread={/H2G2/FORUMTHREADPOSTS/@THREADID}&amp;cmd=reopenthread">
-              <img src="http://www.bbc.co.uk/dnaimages/boards/images/button_open.gif" alt="Open this thread" width="139" height="23" border="0" vspace="5" hspace="0"/>
+              <img src="/dnaimages/boards/images/button_open.gif" alt="Open this thread" width="139" height="23" border="0" vspace="5" hspace="0"/>
             </a>
             <br clear="all"/>
             <p>
@@ -23891,7 +23891,7 @@ Call:		<xsl:apply-templates select="@USERID" mode="NewerEntries"/>
         <tr>
           <td>
             <xsl:if test="@PROFANITYTRIGGERED = 1">
-              <p style=" font-weight:bold; padding-left:20px; background-image: url(http://www.bbc.co.uk/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This entry has been blocked as it contains a word which other users may find offensive. Please edit your entry and post it again.</p>
+              <p style=" font-weight:bold; padding-left:20px; background-image: url(/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This entry has been blocked as it contains a word which other users may find offensive. Please edit your entry and post it again.</p>
             </xsl:if>
             <!-- article subject -->
             <span class="articleeditsubject">
@@ -24127,7 +24127,7 @@ Call:		<xsl:apply-templates select="POSTTHREADFORM" mode="Post">
           <TD>
             <span xsl:use-attribute-sets="mPOSTTHREADFORM_Subj">
               <xsl:if test="/H2G2/POSTTHREADFORM/@PROFANITYTRIGGERED = 1">
-                <p style="font-weight:bold; padding-left:20px; background-image: url(http://www.bbc.co.uk/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">
+                <p style="font-weight:bold; padding-left:20px; background-image: url(/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">
                   This message has been blocked as it contains a word which other users may find offensive. Please edit your message and post it again.<br/>&nbsp;<br/>
                 </p>
               </xsl:if>

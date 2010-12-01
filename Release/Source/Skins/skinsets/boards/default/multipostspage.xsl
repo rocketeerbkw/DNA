@@ -176,15 +176,15 @@
 								<xsl:when test="/H2G2/FORUMTHREADPOSTS/@DEFAULTCANWRITE = 1">
 									<xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR)  or ($superuser = 1)">
 										<a href="{$root}F{/H2G2/FORUMTHREADPOSTS/@FORUMID}?thread={/H2G2/FORUMTHREADPOSTS/@THREADID}&amp;cmd=closethread">
-											<img src="http://www.bbc.co.uk/dnaimages/boards/images/button_close.gif" alt="Close this thread" width="137" height="23" border="0" vspace="5" hspace="5"/>
+											<img src="/dnaimages/boards/images/button_close.gif" alt="Close this thread" width="137" height="23" border="0" vspace="5" hspace="5"/>
 										</a>
 									</xsl:if>
 								</xsl:when>
 								<xsl:when test="/H2G2/FORUMTHREADPOSTS/@DEFAULTCANWRITE = 0">
-									<img src="http://www.bbc.co.uk/dnaimages/boards/images/button_closed.gif" alt="This thread has been closed" width="183" height="23" border="0" vspace="5" hspace="5"/>
+									<img src="/dnaimages/boards/images/button_closed.gif" alt="This thread has been closed" width="183" height="23" border="0" vspace="5" hspace="5"/>
 									<xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR)  or ($superuser = 1)">
 										<a href="{$root}F{/H2G2/FORUMTHREADPOSTS/@FORUMID}?thread={/H2G2/FORUMTHREADPOSTS/@THREADID}&amp;cmd=reopenthread">
-											<img src="http://www.bbc.co.uk/dnaimages/boards/images/button_open.gif" alt="Open this thread" width="139" height="23" border="0" vspace="5" hspace="0"/>
+											<img src="/dnaimages/boards/images/button_open.gif" alt="Open this thread" width="139" height="23" border="0" vspace="5" hspace="0"/>
 										</a>
 										<br clear="all"/>
 										<p>(If you are an editor you will still see the reply buttons) &nbsp;</p>
@@ -303,11 +303,11 @@
 											<tr>
 												<td class="blockSide"/>
 												<td class="blockMain">
-													<img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_involved.gif" width="15" height="15" alt="Getting Involved help:" title="Getting Involved help:" align="top" border="0"/>
+													<img src="/dnaimages/boards/images/help_icon_involved.gif" width="15" height="15" alt="Getting Involved help:" title="Getting Involved help:" align="top" border="0"/>
 													<xsl:text> How to </xsl:text>
 													<a href="http://www.bbc.co.uk/messageboards/newguide/popup_reply_message.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_reply_message.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
 														<xsl:text>reply to messages</xsl:text>
-														<img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+														<img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
 													</a>
 												</td>
 												<td class="blockShadow"/>
@@ -329,11 +329,11 @@
 											<tr>
 												<td class="blockSide"/>
 												<td class="blockMain">
-													<img src="http://www.bbc.co.uk/dnaimages/boards/images/complain_icon_small.gif" width="23" height="16" alt="Complain help:" title="Complain help:" align="top" border="0"/>
+													<img src="/dnaimages/boards/images/complain_icon_small.gif" width="23" height="16" alt="Complain help:" title="Complain help:" align="top" border="0"/>
 													<xsl:text> </xsl:text>
 													<a href="http://www.bbc.co.uk/messageboards/newguide/popup_complaints.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_complaints.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
 														<xsl:text>Alert us about a message</xsl:text>
-														<img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+														<img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
 													</a>
 												</td>
 												<td class="blockShadow"/>
@@ -355,11 +355,11 @@
 											<tr>
 												<td class="blockSide"/>
 												<td class="blockMain">
-													<img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_safety.gif" width="15" height="15" alt="Online Safety help:" title="Online Safety help:" align="top" border="0"/>
+													<img src="/dnaimages/boards/images/help_icon_safety.gif" width="15" height="15" alt="Online Safety help:" title="Online Safety help:" align="top" border="0"/>
 													<xsl:text> Are you being </xsl:text>
 													<a href="http://www.bbc.co.uk/messageboards/newguide/popup_online_safety.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_online_safety.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return;false;" target="popwin">
 														<xsl:text>safe online?</xsl:text>
-														<img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+														<img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
 													</a>
 												</td>
 												<td class="blockShadow"/>

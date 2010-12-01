@@ -527,7 +527,11 @@ namespace BBC.Dna.Services
             {
                 int forumIdInt = Int32.Parse(forumId);
 
-                var subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, false);
+                SubscribeResult subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, false);
+                if (subscribeResult.Failed == 3)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+                }
 
                 output = GetOutputStream(subscribeResult);
             }
@@ -560,7 +564,11 @@ namespace BBC.Dna.Services
             {
                 int forumIdInt = Int32.Parse(forumId);
 
-                var subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, true);
+                SubscribeResult subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, true);
+                if (subscribeResult.Failed == 3)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+                }
 
                 output = GetOutputStream(subscribeResult);
             }
@@ -593,7 +601,11 @@ namespace BBC.Dna.Services
                 int forumIdInt = Int32.Parse(forumId);
                 int threadIdInt = Int32.Parse(threadId);
 
-                var subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, forumIdInt, threadIdInt, false);
+                SubscribeResult subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, threadIdInt, forumIdInt, false);
+                if (subscribeResult.Failed == 5)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+                }
 
                 output = GetOutputStream(subscribeResult);
             }
@@ -627,7 +639,11 @@ namespace BBC.Dna.Services
                 int forumIdInt = Int32.Parse(forumId);
                 int threadIdInt = Int32.Parse(threadId);
 
-                var subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, forumIdInt, threadIdInt, true);
+                SubscribeResult subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, threadIdInt, forumIdInt, true);
+                if (subscribeResult.Failed == 5)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+                }
 
                 output = GetOutputStream(subscribeResult);
             }

@@ -426,8 +426,9 @@ namespace BBC.Dna.Api
             ISite site = SiteList.GetSite(commentForum.SiteName);
             bool ignoreModeration;
             bool forceModeration;
+            var notes = string.Empty;
 
-            ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration);
+            ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration, out notes);
 
             //create unique comment hash
             Guid guid = DnaHasher.GenerateCommentHashValue(comment.text, commentForum.Id, CallingUser.UserID);
@@ -448,6 +449,10 @@ namespace BBC.Dna.Api
                     reader.AddParameter("bbcuid", BbcUid);
                     reader.AddIntReturnValue();
                     reader.AddParameter("poststyle", (int) comment.PostStyle);
+                    if (!String.IsNullOrEmpty(notes))
+                    {
+                        reader.AddParameter("modnotes", notes);
+                    }
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
@@ -514,7 +519,7 @@ namespace BBC.Dna.Api
         /// <param name="ignoreModeration"></param>
         /// <param name="forceModeration"></param>
         public void ValidateComment(Forum commentForum, CommentInfo comment, ISite site, 
-            out bool ignoreModeration, out bool forceModeration)
+            out bool ignoreModeration, out bool forceModeration, out string notes)
         {
             if (CallingUser == null || CallingUser.UserID == 0)
             {
@@ -602,7 +607,8 @@ namespace BBC.Dna.Api
                 }
             }
             //run against profanity filter
-            CheckForProfanities(site, comment.text, out forceModeration);
+            notes = string.Empty;
+            CheckForProfanities(site, comment.text, out forceModeration, out notes);
             forceModeration = forceModeration ||
                               (commentForum.ModerationServiceGroup > ModerationStatus.ForumStatus.Reactive);
                 //force moderation if anything greater than reactive
@@ -748,8 +754,8 @@ namespace BBC.Dna.Api
             var site = SiteList.GetSite(commentForum.SiteName);
             bool ignoreModeration;
             bool forceModeration;
-
-            ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration);
+            var notes = string.Empty;
+            ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration, out notes);
 
             //create unique comment hash
             var guid = DnaHasher.GenerateCommentHashValue(comment.text, commentForum.Id, CallingUser.UserID);
@@ -771,6 +777,10 @@ namespace BBC.Dna.Api
                     reader.AddParameter("bbcuid", BbcUid);
                     reader.AddIntReturnValue();
                     reader.AddParameter("poststyle", (int) comment.PostStyle);
+                    if (!String.IsNullOrEmpty(notes))
+                    {
+                        reader.AddParameter("modnotes", notes);
+                    }
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
@@ -1053,9 +1063,9 @@ namespace BBC.Dna.Api
         /// <param name="site">the current site</param>
         /// <param name="textToCheck">The text to check</param>
         /// <param name="forceModeration">Whether to force moderation or not</param>
-        private static void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration)
+        private static void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity)
         {
-            string matchingProfanity;
+            matchingProfanity = string.Empty;
             forceModeration = false;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
                                                                                     out matchingProfanity);

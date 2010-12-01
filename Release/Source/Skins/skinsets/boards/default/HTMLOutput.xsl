@@ -103,7 +103,7 @@
 	</xsl:variable>
 	<xsl:variable name="imagesource">
 		<xsl:value-of select="$boardpath"/>images/</xsl:variable>
-	<xsl:variable name="adminimagesource">http://www.bbc.co.uk/dnaimages/adminsystem/images/</xsl:variable>
+	<xsl:variable name="adminimagesource">/dnaimages/adminsystem/images/</xsl:variable>
 	<xsl:variable name="root">
 		<xsl:choose>
 			<xsl:when test="/H2G2/SITECONFIG/BOARDROOT/node()">
@@ -127,7 +127,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
-	<xsl:variable name="houserulesurl">http://www.bbc.co.uk/dnaimages/boards/houserules.html</xsl:variable>
+	<xsl:variable name="houserulesurl">/dnaimages/boards/houserules.html</xsl:variable>
 	<!--<xsl:variable name="skinname">
 		<xsl:copy-of select="/H2G2/SITECONFIG/BOARDSKIN/node()"/>
 	</xsl:variable>-->
@@ -164,7 +164,7 @@
 	<xsl:variable name="adminCSS">
 		<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
 		<!--<link type="text/css" rel="stylesheet" href="http://sandbox0.bu.bbc.co.uk/new_messageboards/includes/admin.css"/>-->
-		<!-- LINK TYPE="text/css" REL="stylesheet" HREF="http://www.bbc.co.uk/dnaimages/boards/includes/messageboards.css"/ -->
+		<!-- LINK TYPE="text/css" REL="stylesheet" HREF="/dnaimages/boards/includes/messageboards.css"/ -->
 		<xsl:choose>
 			<xsl:when test="/H2G2/BOARDPROMOPAGE/SITECONFIG/CSSLOCATION">
 				<LINK TYPE="text/css" REL="stylesheet" HREF="{$boardpath}includes/{/H2G2/BOARDPROMOPAGE/SITECONFIG/CSSLOCATION/node()}"/>
@@ -183,7 +183,7 @@
 			</xsl:when>
 		</xsl:choose>
 		<style type="text/css"> 
-			@import "http://www.bbc.co.uk/dnaimages/boards/includes/fonts.css" ;
+			@import "/dnaimages/boards/includes/fonts.css" ;
 		</style>
 	</xsl:variable>
 	<!--===============Message Board Admin System=====================-->
@@ -194,13 +194,13 @@
 				<xsl:copy-of select="$adminCSS"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<LINK TYPE="text/css" REL="stylesheet" HREF="http://www.bbc.co.uk/dnaimages/boards/includes/messageboards.css"/>
+				<LINK TYPE="text/css" REL="stylesheet" HREF="/dnaimages/boards/includes/messageboards.css"/>
 				<!--<LINK TYPE="text/css" REL="stylesheet" HREF="http://sandbox0.bu.bbc.co.uk/new_messageboards/includes/messageboards.css"/>-->
 				<xsl:if test="string(/H2G2/SITECONFIG/CSSLOCATION)">
 					<LINK TYPE="text/css" REL="stylesheet" HREF="{$boardpath}includes/{/H2G2/SITECONFIG/CSSLOCATION/node()}"/>
 				</xsl:if>
 				<style type="text/css"> 
-					@import "http://www.bbc.co.uk/dnaimages/boards/includes/fonts.css" ;
+					@import "/dnaimages/boards/includes/fonts.css" ;
 				</style>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -328,7 +328,7 @@
 						<xsl:attribute name="id">adminBody</xsl:attribute>
 						<div id="topNav">
 							<div id="bbcLogo">
-								<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/bbc_logo.gif" alt="BBC"/>
+								<img src="/dnaimages/adminsystem/images/bbc_logo.gif" alt="BBC"/>
 							</div>
 							<h2>Message boards admin - <xsl:value-of select="/H2G2/SITECONFIG/BOARDNAME/node()"/>
 							</h2>
@@ -638,7 +638,7 @@
 				<xsl:text>emoticons/</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>http://www.bbc.co.uk/dnaimages/boards/images/emoticons/</xsl:text>
+				<xsl:text>/dnaimages/boards/images/emoticons/</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>

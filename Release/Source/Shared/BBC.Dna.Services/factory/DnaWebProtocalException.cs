@@ -214,8 +214,8 @@ namespace BBC.Dna.Services
                         break;
 
                     default:
-                        string output = StringUtils.SerializeToXml(errorData);
-                        XElement element = XElement.Load(new StringReader(output));
+                        XmlDocument element = new XmlDocument();
+                        element.Load(StringUtils.SerializeToXml(errorData));
                         element.WriteTo(writer);
                         break;
                 }

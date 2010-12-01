@@ -217,7 +217,7 @@ namespace BBC.Dna.Component
                         AddTextTag(post, "SUBJECT", dataReader.GetStringNullAsEmpty("subject"));
 
                         AddTextTag(post, "RAWTEXT", dataReader.GetStringNullAsEmpty("text"));
-                        String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, false, false);
+                        String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, true, false);
                         //translated = translated.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "TEXT", translated );
 

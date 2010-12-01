@@ -207,15 +207,19 @@ namespace BBC.Dna.Services
             switch (format)
             {
                 case WebFormat.format.XML:
-                    output = StringUtils.SerializeToXml(data);
+                    WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
+                    WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
+                    return StringUtils.SerializeToXml(data);
                     //output = output.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Entities.GetEntities());
                     break;
 
                 case WebFormat.format.JSON:
-                    output = StringUtils.SerializeToJson(data);
+                    WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
+                    WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
+                    return StringUtils.SerializeToJson(data);
                     break;
 
-                case WebFormat.format.HTML:
+                //case WebFormat.format.HTML:
                     //string xsltFile = String.Format("{0}/{1}.xsl", ConfigurationManager.AppSettings["xslt_directory"], data.GetType().Name);
                     //int errorCount = 0;
                     //output = ((baseContract)data).ToHtml(xsltFile, ref errorCount);
@@ -223,9 +227,10 @@ namespace BBC.Dna.Services
                     //{
                     //    throw new DnaWebProtocolException(System.Net.HttpStatusCode.InternalServerError, "Error during xslt transformation", new Exception(output));
                     //}
-                    throw new DnaWebProtocolException(System.Net.HttpStatusCode.NotImplemented, "Not implemented yet", null);
-                    break;
+               //     throw new DnaWebProtocolException(System.Net.HttpStatusCode.Unauthorized, "Not implemented yet", null);
+               //     break;
 
+                    //TODO Convert to streams
                 case WebFormat.format.RSS:
 
                     SyndicationFeed feed = ((baseContract)data).ToFeed();
@@ -250,84 +255,14 @@ namespace BBC.Dna.Services
 
             }
             //get output stream
+            //NOTE as soon as these are set - the output status is set and cannot be overwritten!
             WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
+            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
             MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(output));
             XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
 
-            WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
-            //add to cache
-            AddOutputToCache(output, GetCacheKey(), lastUpdated);
+            
             return xmlTextWriter.BaseStream;
-        }
-
-        /// <summary>
-        /// Adds the current output to the cache
-        /// </summary>
-        /// <param name="output"></param>
-        /// <param name="lastUpdated"></param>
-        /// <returns></returns>
-        private bool AddOutputToCache(string output, string cacheKey, DateTime lastUpdated)
-        {
-            if (WebOperationContext.Current.IncomingRequest.Method.ToUpper() != "GET")
-            {//only cache for GET's nothing else
-                return true;
-            }
-            if (lastUpdated != DateTime.MinValue)
-            {//dont add if no update value
-                //ICacheItemExpiration expiry = SlidingTime.
-                cacheManager.Add(cacheKey + CacheLastupdated, lastUpdated, CacheItemPriority.Normal,
-                null, new SlidingTime(TimeSpan.FromMinutes(Cacheexpiryminutes)));
-
-                cacheManager.Add(cacheKey, output, CacheItemPriority.Normal,
-                null, new SlidingTime(TimeSpan.FromMinutes(Cacheexpiryminutes)));
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Returns the cached data from cache
-        /// </summary>
-        /// <param name="output">The output stream reference</param>
-        /// <param name="method">A delegate method which takes params and returns a datetime of lastupdate.
-        /// A Null method means not to check the db for cache key.</param>
-        /// <param name="args">The args for the delegate</param>
-        /// <returns>True if cache ok</returns>
-        protected bool GetOutputFromCache(ref Stream output, Delegate method, params object[]args)
-        {
-            string cacheKey = GetCacheKey();
-            object tempLastUpdated = cacheManager.GetData(cacheKey + CacheLastupdated);
-
-            if (tempLastUpdated == null)
-            {//not found
-                output = null;
-                return false;
-            }
-            DateTime lastUpdated = (DateTime)tempLastUpdated;
-            //check if cache is up to date
-            if (method != null)
-            {
-                if (DateTime.Compare(lastUpdated, (DateTime)method.DynamicInvoke(new Object[]{args})) != 0)
-                {//cache out of date so delete
-                    output = null;
-                    return false;
-                }
-            }
-            //get actual cached object
-            string outputStr = (string)cacheManager.GetData(cacheKey);
-            if (outputStr == null)
-            {//cache out of date so delete
-                output = null;
-                return false;
-            }
-            WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
-            MemoryStream memoryStream = new MemoryStream(StringUtils.StringToUTF8ByteArray(outputStr));
-            
-            XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
-            output = xmlTextWriter.BaseStream;
-            Statistics.AddHTMLCacheHit();
-            
-            return true;
         }
 
         /// <summary>

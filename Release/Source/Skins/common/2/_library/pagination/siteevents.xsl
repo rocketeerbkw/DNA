@@ -24,10 +24,31 @@
 		</doc:documentation>
 		
 		<xsl:template match="SITEEVENTLIST" mode="library_pagination_forumthreadposts">
-      <xsl:param name="querystring">
-        
-        
-      </xsl:param>
+      <xsl:variable name="queryeventtype">
+        <xsl:if test="SELECTEDTYPES/TYPEID">
+          <xsl:apply-templates select="SELECTEDTYPES/TYPEID" mode="library_pagination_querystring"/>
+        </xsl:if>
+      </xsl:variable>
+      <xsl:variable name="querystart">
+        <xsl:if test="STARTDATE">
+          <xsl:value-of select="concat('&amp;s_startdate=', STARTDATE/DATE/@YEAR,'-',STARTDATE/DATE/@MONTH,'-',STARTDATE/DATE/@DAY)"/>
+        </xsl:if>
+      </xsl:variable>
+      <xsl:variable name="queryend">
+        <xsl:if test="ENDDATE">
+          <xsl:value-of select="concat('&amp;s_enddate=', ENDDATE/DATE/@YEAR,'-',ENDDATE/DATE/@MONTH,'-',ENDDATE/DATE/@DAY)"/>
+        </xsl:if>
+      </xsl:variable>
+      <xsl:variable name="querysite">
+        <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != ''">
+          <xsl:value-of select="concat('&amp;s_type=', /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE)"/>
+        </xsl:if>
+      </xsl:variable>
+
+      <xsl:variable name="querystring">
+          <xsl:value-of select="concat($queryeventtype,$querystart, $queryend, $querysite)"/>
+      </xsl:variable>
+
       <xsl:variable name="itemcount" select="count(SITEEVENTS/SITEEVENT)" />
 
       <div>
@@ -50,7 +71,7 @@
 						<li class="first dna-button">
 								<xsl:choose>
 											<xsl:when test="@STARTINDEX > 0">
-													<a href="{$root}/hostdashboardactivity?s_startindex=0">
+													<a href="{$root}/hostdashboardactivity?s_startindex=0{$querystring}">
 															<xsl:text>First </xsl:text>
 													</a>
 											</xsl:when>
@@ -64,7 +85,7 @@
 							<li class="previous dna-button">
 									<xsl:choose>
 											<xsl:when test="@STARTINDEX > 0">
-													<a href="{$root}/hostdashboardactivity?s_startindex={@STARTINDEX - $itemcount}">
+													<a href="{$root}/hostdashboardactivity?s_startindex={@STARTINDEX - $itemcount}{$querystring}">
 															<span class="arrow">
 																	<xsl:text disable-output-escaping="yes"><![CDATA[&laquo;]]></xsl:text>
 															</span>
@@ -81,11 +102,14 @@
 											</xsl:otherwise>
 									</xsl:choose>
 							</li>
-							<xsl:apply-templates select="." mode="library_pagination_pagelist" />
+            <xsl:apply-templates select="." mode="library_pagination_pagelist">
+              <xsl:with-param name="querystring" select="$querystring"/>
+            </xsl:apply-templates>
+                                   >
 							<li class="next dna-button">
 									<xsl:choose>
 											<xsl:when test="@TOTALITEMS > @STARTINDEX + $itemcount">
-													<a href="{$root}/hostdashboardactivity?s_startindex={(@STARTINDEX + $itemcount)}">
+													<a href="{$root}/hostdashboardactivity?s_startindex={(@STARTINDEX + $itemcount)}{$querystring}">
 															<xsl:text>Next </xsl:text>
 															<span class="arrow">
 																	<xsl:text disable-output-escaping="yes"><![CDATA[&raquo;]]></xsl:text>
@@ -107,12 +131,12 @@
 											<xsl:when test="@TOTALITEMS > @STARTINDEX + $itemcount">
 												<xsl:choose>
 													<xsl:when test="@TOTALITEMS mod $itemcount =0">
-														<a href="{$root}/hostdashboardactivity?s_startindex={(floor(@TOTALITEMS div $itemcount)-1) * $itemcount}">
+														<a href="{$root}/hostdashboardactivity?s_startindex={(floor(@TOTALITEMS div $itemcount)-1) * $itemcount}{$querystring}">
 															<xsl:text> Last</xsl:text>
 														</a>
 													</xsl:when>
 													<xsl:otherwise>
-														<a href="{$root}/hostdashboardactivity?s_startindex={(floor(@TOTALITEMS div $itemcount) * $itemcount)}">
+														<a href="{$root}/hostdashboardactivity?s_startindex={(floor(@TOTALITEMS div $itemcount) * $itemcount)}{$querystring}">
 															<xsl:text> Last</xsl:text>
 														</a>
 													</xsl:otherwise>
@@ -130,6 +154,7 @@
 		</xsl:template>
 		
 		<xsl:template match="SITEEVENTLIST" mode="library_pagination_pagelist">
+      <xsl:param name="querystring" />
       <xsl:param name="itemcount" select="count(SITEEVENTS/SITEEVENT)" />
       <xsl:param name="totalPages">
         <!--ceil by floor() + 1-->
@@ -153,7 +178,7 @@
 								<xsl:if test="$currentPage = $counter">
 										<xsl:attribute name="class">current</xsl:attribute>
 								</xsl:if>
-								<a href="{$root}/hostdashboardactivity?s_startindex={$itemcount * ($counter - 1)}">
+								<a href="{$root}/hostdashboardactivity?s_startindex={$itemcount * ($counter - 1)}{$querystring}">
 										<xsl:value-of select="$counter"/>
 								</a>
 						</li>
@@ -161,6 +186,7 @@
 				
 				<xsl:if test="$counter &lt; $totalPages">
 						<xsl:apply-templates select="." mode="library_pagination_pagelist">
+              <xsl:with-param name="querystring" select="$querystring" />
 								<xsl:with-param name="counter" select="$counter + 1" />
 								<xsl:with-param name="totalPages" select="$totalPages" />
 								<xsl:with-param name="currentPage" select="$currentPage" />
@@ -169,11 +195,9 @@
 					 
 		</xsl:template>
 
-  <!-- xsl:template MATCH="TYPEID" mode="library_pagination_querystring">
-    <xsl:param name="querystring" />
+  <xsl:template match="TYPEID" mode="library_pagination_querystring">
     
-    
-    
-  </xsl:template -->
+    <xsl:value-of select="concat('&amp;s_eventtype=', .)"/>
+  </xsl:template>
 		
 </xsl:stylesheet>

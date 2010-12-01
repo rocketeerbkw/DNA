@@ -51,11 +51,11 @@ th {font-weight:normal;padding:5px;margin:0px;background:#b3bdc1;vertical-align:
 
 .instructional {font-style : italic;font-weight:normal;}
 
-.countdown {font-weight:bold; color:#000000;	background-image : url(http://www.bbc.co.uk/dnaimages/boards/images/countdown.gif); background-repeat : no-repeat; padding-left : 22px;}
+.countdown {font-weight:bold; color:#000000;	background-image : url(/dnaimages/boards/images/countdown.gif); background-repeat : no-repeat; padding-left : 22px;}
 
 .countdown #minuteValue, .countdown #secondValue {font-weight:bold; color:#000000;}
 
-.countdownWarning {font-weight:bold; color:#fe0208; background-image : url(http://www.bbc.co.uk/dnaimages/boards/images/countdown_warning.gif); background-repeat : no-repeat; padding-left : 22px;}
+.countdownWarning {font-weight:bold; color:#fe0208; background-image : url(/dnaimages/boards/images/countdown_warning.gif); background-repeat : no-repeat; padding-left : 22px;}
 
 .countdownWarning #minuteValue, .countdownWarning #secondValue {font-weight:bold; color:#fe0208;}
 
@@ -124,7 +124,7 @@ th {font-weight:normal;padding:5px;margin:0px;background:#b3bdc1;vertical-align:
 .post, .postPreview {background:#fffcf1;border-top:1px solid #e3e8e9;border-bottom:1px solid #e3e8e9;padding:5px;}
 .postContentOne {background:#faf5e5;border:1px solid #f6edcd;width:488px;padding:5px;margin-top:5px;}
 .postContentTwo {background:#f9eee4;border:1px solid #ffcc99;width:488px;padding:5px;margin-top:5px;}
-.postBottom {background:#e3e8e9;background-image : url(http://www.bbc.co.uk/dnaimages/boards/images/multiposts_line.gif);}
+.postBottom {background:#e3e8e9;background-image : url(/dnaimages/boards/images/multiposts_line.gif);}
 .postBottom td {border-bottom:10px solid #b3bdc1;padding:3px;}
 
 /* Quotes within posts */
@@ -229,14 +229,14 @@ th {font-weight:normal;padding:5px;margin:0px;background:#b3bdc1;vertical-align:
  *	Identity Styling                          *
  *	----------------------------------------- */
 
-#identitylogin {overflow: hidden; width: 635px; padding: 5px 5px 0 5px; margin: 10px 0 0 0; background: url(http://www.bbc.co.uk/dnaimages/boards/images/idlogin_top.gif) top left no-repeat; font-family: arial,sans-serif;}
-#identityloginend {overflow: hidden; width: 635px; height: 4px; margin: 0 0 7px 0; padding: 0; background: url(http://www.bbc.co.uk/dnaimages/boards/images/idlogin_bottom.gif) top left no-repeat;}
+#identitylogin {overflow: hidden; width: 635px; padding: 5px 5px 0 5px; margin: 10px 0 0 0; background: url(/dnaimages/boards/images/idlogin_top.gif) top left no-repeat; font-family: arial,sans-serif;}
+#identityloginend {overflow: hidden; width: 635px; height: 4px; margin: 0 0 7px 0; padding: 0; background: url(/dnaimages/boards/images/idlogin_bottom.gif) top left no-repeat;}
 #identitylogin p  {padding: 2px 0 0 0; margin: 0; font-size: 75% !important;}
 #identitylogin a  {color: #5da6c7;}
 #identitylogin a:hover  {text-decoration: none;}	
-#identitylogin a.id-signin {float: left; display: block; background: url(http://www.bbc.co.uk/blogs/mt-static/themes/bbc/images/identity/blue_100x20.png) top left no-repeat; width: 100px; height: 1%; margin: 0 2px 0 0; padding: 2px 0 5px 0; font-size: 75% !important; font-weight: bold; color: white; text-decoration: none;}  
+#identitylogin a.id-signin {float: left; display: block; background: url(https://www.bbc.co.uk/blogs/mt-static/themes/bbc/images/identity/blue_100x20.png) top left no-repeat; width: 100px; height: 1%; margin: 0 2px 0 0; padding: 2px 0 5px 0; font-size: 75% !important; font-weight: bold; color: white; text-decoration: none;}  
 #identitylogin a.id-signin span {margin: 0 0 0 30px; font-size: 100%; color: white;}
-#identitylogin a.id-signin:hover {background: url(http://www.bbc.co.uk/blogs/mt-static/themes/bbc/images/identity/blue_100x20_mouseover.png) no-repeat top left; color: #fff !important; text-decoration: none !important;}	
+#identitylogin a.id-signin:hover {background: url(https://www.bbc.co.uk/blogs/mt-static/themes/bbc/images/identity/blue_100x20_mouseover.png) no-repeat top left; color: #fff !important; text-decoration: none !important;}	
 #identitylogin a.id-signin:hover span {text-decoration: none !important; color: #fff !important;}
 #identitylogin img  {float: left; margin-right: 2px;}
 #identitylogin ul  {margin: 0; padding: 1px 0 0 0;}

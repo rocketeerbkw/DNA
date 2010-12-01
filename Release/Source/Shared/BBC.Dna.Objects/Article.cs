@@ -164,7 +164,10 @@ namespace BBC.Dna.Objects
             {
                 if (_guideMLAsXmlElement == null)
                 {
-                    if (_guideMLAsString == null) { return null; }
+                    if (_guideMLAsString == null) 
+                    { 
+                        return null; 
+                    }
 
                     _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
                                         
@@ -185,8 +188,11 @@ namespace BBC.Dna.Objects
                             throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
                         }
 
-                        // reassign string and element after transformation     
-                        transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
+                        // reassign string and element after transformation   
+                        if (Style == GuideEntryStyle.GuideML)
+                        {
+                            transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
+                        }
                         _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
                     }                    
                 }
@@ -624,8 +630,12 @@ namespace BBC.Dna.Objects
             hashedContent = String.Format(hashedContent, Subject, GuideMLAsString, userid, siteId, Style, 0, 1);
             Guid hash = DnaHasher.GenerateHash(hashedContent);
 
-            
-
+            int submittable = 0;
+            if (ArticleInfo.Submittable.Type == "YES")
+            {
+                submittable = 1;
+            }
+           
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("createguideentry"))
             {
@@ -634,13 +644,13 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("extrainfo", ExtraInfoCreator.CreateExtraInfo(1));
                 reader.AddParameter("editor", userid);
                 reader.AddParameter("style",  Style);
-                reader.AddParameter("status",  HiddenStatus);
+                reader.AddParameter("status", ArticleInfo.Status.Type);
                 reader.AddParameter("typeid", 1);
                 reader.AddParameter("keywords", null);
                 reader.AddParameter("researcher", userid);
                 reader.AddParameter("siteid",  siteId);
-                reader.AddParameter("submittable", 0);
-                reader.AddParameter("preprocessed", 0);
+                reader.AddParameter("submittable", submittable);
+                reader.AddParameter("preprocessed", 1);
                 reader.AddParameter("canread",  CanRead);
                 reader.AddParameter("canwrite", CanWrite);
                 reader.AddParameter("canchangepermissions", CanChangePermissions);
@@ -671,6 +681,12 @@ namespace BBC.Dna.Objects
 
         public void UpdateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, int userid)
         {
+            int submittable = 0;
+            if (ArticleInfo.Submittable.Type == "YES")
+            {
+                submittable = 1;
+            }
+
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("updateguideentry"))
             {
@@ -679,9 +695,9 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("extraInfo", ExtraInfoCreator.CreateExtraInfo(1));
                 reader.AddParameter("editor", userid);
                 reader.AddParameter("Style", Style);
-                reader.AddParameter("status", HiddenStatus);
-                reader.AddParameter("Submittable", 0);
-                reader.AddParameter("PreProcessed", 0);
+                reader.AddParameter("status", ArticleInfo.Status.Type);
+                reader.AddParameter("Submittable", submittable);
+                reader.AddParameter("PreProcessed", ArticleInfo.PreProcessed);
                 reader.AddParameter("canread", CanRead);
                 reader.AddParameter("canwrite", CanWrite);
                 reader.AddParameter("canchangepermissions", CanChangePermissions);

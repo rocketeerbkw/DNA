@@ -51,7 +51,7 @@ namespace BBC.Dna.Objects
                             break;
 
                         case GuideEntryStyle.PlainText:
-                            doc.LoadXml("<GUIDE><BODY>" + StringUtils.PlainTextToGuideML(text) + "</BODY></GUIDE>");
+                            doc.LoadXml(StringUtils.PlainTextToGuideML(text));
                             break;
 
                         case GuideEntryStyle.Html:

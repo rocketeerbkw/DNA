@@ -94,8 +94,8 @@
 	
 		<xsl:call-template name="insert-css"/>
 		
-		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
-		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
+		<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login.css"/>
+		<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login2.css"/>
 	</xsl:variable>
 	<!--===============CSS=====================-->
 	<!--===============Attribute-sets Settings=====================-->

@@ -245,6 +245,16 @@
     	</xsl:choose>
     </xsl:variable>
     
+    <xsl:variable name="dashboardtypeplural">
+    	<xsl:choose>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 1">blogs</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 2">messageboards</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 3">communities</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">stories</xsl:when>
+    		<xsl:otherwise>all sites</xsl:otherwise>
+    	</xsl:choose>
+    </xsl:variable>    
+    
     <xsl:variable name="dashboardtypename">
     	<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/NAME" />
     </xsl:variable>
@@ -282,6 +292,10 @@
     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_userid']/VALUE">
     		<xsl:text>&amp;s_userid=</xsl:text><xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_userid']/VALUE" />
     	</xsl:if>
+    </xsl:variable>
+    
+    <xsl:variable name="moderationemail">
+    	<xsl:text>mailto:bbccommunities@bbc.co.uk</xsl:text>
     </xsl:variable>
     
 </xsl:stylesheet>

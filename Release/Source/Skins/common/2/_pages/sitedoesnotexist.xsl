@@ -36,17 +36,17 @@
               </li>
               <li class="sitelink">
                 <a href="/dna/filmnetwork">
-                  <img src="http://www.bbc.co.uk/dnaimages/filmnetwork/bbcfilmnetwork_wht_medium.gif" alt="BBC Film Network" title="BBC Film Network" width="139" height="49"/>
+                  <img src="/dnaimages/filmnetwork/bbcfilmnetwork_wht_medium.gif" alt="BBC Film Network" title="BBC Film Network" width="139" height="49"/>
                 </a>
               </li>
               <li class="sitelink">
                 <a href="/dna/606">
-                  <img src="http://www.bbc.co.uk/dnaimages/606/606_logo_nborder.jpg" alt="BBC 606" title="BBC 606" height="40" width="140"/>
+                  <img src="/dnaimages/606/606_logo_nborder.jpg" alt="BBC 606" title="BBC 606" height="40" width="140"/>
                 </a>
               </li>
               <li class="sitelink">
                 <a href="/messageboards/newguide/">
-                  <img src="http://www.bbc.co.uk/dnaimages/messageboards_logo.gif" alt="BBC DNA Messageboards" title="BBC DNA Messageboards" width="291" height="40"/>
+                  <img src="/dnaimages/messageboards_logo.gif" alt="BBC DNA Messageboards" title="BBC DNA Messageboards" width="291" height="40"/>
                 </a>
               </li>
             </ul>

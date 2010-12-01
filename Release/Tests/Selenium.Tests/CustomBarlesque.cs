@@ -125,7 +125,7 @@ namespace Selenium.Tests
             selenium.WaitForPageToLoad("30000");
         }
 
-        private void helper_goAndcheckPage(string iPlayerLink, string TvLink, boolean scopeOn, boolean scopeValue)
+        private void helper_goAndcheckPage(string iPlayerLink, string TvLink, Boolean scopeOn, Boolean scopeValue)
         {
 
             selenium.Open("/dna/mbfood/NF8650210");

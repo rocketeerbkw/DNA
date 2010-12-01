@@ -374,21 +374,17 @@ namespace BBC.Dna.Utils
         /// </summary>
         /// <param name="obj">The object to serialize</param>
         /// <returns>XML string</returns>
-        public static string SerializeToXml(object obj)
+        public static Stream SerializeToXml(object obj)
         {
-            using (StringWriterWithEncoding writer = new StringWriterWithEncoding(Encoding.UTF8))
+            MemoryStream stream = new MemoryStream();
+            using (XmlWriter writer = XmlWriter.Create(stream, new XmlWriterSettings { Encoding = Encoding.UTF8 }))
             {
-                DataContractSerializer dcSerializer = new DataContractSerializer(obj.GetType());
-                XmlWriterSettings settings = new XmlWriterSettings();
-                settings.Encoding = new UTF8Encoding(false);
-
-                using (XmlWriter xWriter = XmlWriter.Create(writer, settings))
-                {
-                    dcSerializer.WriteObject(xWriter, obj);
-                    xWriter.Flush();
-                    return writer.ToString();
-                }
+                DataContractSerializer dcs = new DataContractSerializer(obj.GetType());
+                dcs.WriteObject(writer, obj);
             }
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return stream;
         }
 
         /// <summary>
@@ -437,16 +433,26 @@ namespace BBC.Dna.Utils
         /// </summary>
         /// <param name="obj">The object to serialize</param>
         /// <returns>json string</returns>
-        public static string SerializeToJson(object obj)
+        public static Stream SerializeToJson(object obj)
         {
+            MemoryStream ms = new MemoryStream();
             DataContractJsonSerializer ser = new DataContractJsonSerializer(obj.GetType());
-            using (MemoryStream ms = new MemoryStream())
-            {
-                ser.WriteObject(ms, obj);
+            ser.WriteObject(ms, obj);
+            ms.Seek(0, SeekOrigin.Begin);
 
-                string json = Encoding.UTF8.GetString(ms.ToArray());
-                return json;
-            }
+            return ms;
+        }
+
+        /// <summary>
+        /// Serialise and converts to string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string SerializeToJsonReturnAsString(object obj)
+        {
+            MemoryStream stream = (MemoryStream)StringUtils.SerializeToJson(obj);
+            return Encoding.UTF8.GetString(stream.ToArray());
+            
         }
 
         /// <summary>
@@ -591,23 +597,18 @@ namespace BBC.Dna.Utils
             }
         }
 
-        private Encoding myEncoding;
         public Encoding MyEncoding
         {
-            get
-            {
-                return myEncoding;
-            }
-            set
-            {
-                myEncoding = value;
-            }
+            get;
+            set;
         }
+
+        
 
         public StringWriterWithEncoding(Encoding enc)
             : base()
         {
-            myEncoding = enc;
+            MyEncoding = enc;
         }
     }
 }

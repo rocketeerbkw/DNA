@@ -43,8 +43,8 @@
 	<!--===============Global Template (Header Stuff)=====================-->
 	<xsl:template name="global-template">	
 		
-		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
-		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
+		<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login.css"/>
+		<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login2.css"/>
 		
 		<xsl:comment>#set var="bbcpage_bgcolor" value="<xsl:value-of select="$bbcpage_bgcolor"/>" </xsl:comment>
 		<xsl:comment>#set var="bbcpage_nav" value="<xsl:value-of select="$bbcpage_nav"/>" </xsl:comment>
@@ -90,7 +90,7 @@
 			<xsl:comment>#endif </xsl:comment>
 		</xsl:if>	
 		<xsl:if test="/H2G2/@TYPE = 'SITEOPTIONS'"> 
-			<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/admin.css"/>
+			<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
 		</xsl:if>
 		
 		<xsl:choose>
@@ -1066,7 +1066,7 @@
 						<xsl:attribute name="id">adminBody</xsl:attribute>
 						<div id="topNav">
 							<div id="bbcLogo">
-								<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/bbc_logo.gif" alt="BBC"/>
+								<img src="/dnaimages/adminsystem/images/bbc_logo.gif" alt="BBC"/>
 							</div>
 							<h2>Message boards admin - <xsl:value-of select="/H2G2/SITECONFIG/BOARDNAME/node()"/>
 							</h2>

@@ -33,7 +33,7 @@ namespace BBC.Dna.Services
         }
 
 
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/create.htm")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/create.htm")]
         [WebHelp(Comment = "Creates an article from Html form")]
         [OperationContract]
         public void CreateArticleHtml(string siteName, NameValueCollection formsData)
@@ -63,7 +63,7 @@ namespace BBC.Dna.Services
             }
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/create.htm/{h2g2id}")]
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/create.htm/{h2g2id}")]
         [WebHelp(Comment = "Updates an article")]
         [OperationContract]
         public void UpdateArticleHtml(string siteName, string h2g2id, NameValueCollection formsData)
@@ -92,6 +92,11 @@ namespace BBC.Dna.Services
                     formsData["guideML"],
                     formsData["researcherUserIds"]);
 
+                if (formsData["hidden"] == "1" || formsData["hidden"] == "true")
+                {
+                    article.HiddenStatus = 1;
+                }
+
                 SaveArticle(site, callingUser, article, siteName, false, h2g2idAsInt);
             }
             catch (ApiException ex)
@@ -100,7 +105,7 @@ namespace BBC.Dna.Services
             }
         }
 
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles")]
         [WebHelp(Comment = "Creates an article")]
         [OperationContract]
         public Article CreateArticle(string siteName, Article inputArticle)
@@ -128,7 +133,7 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
         }
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/preview")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/preview")]
         [WebHelp(Comment = "Previews an article")]
         [OperationContract]
         public Article PreviewArticle(string siteName, Article inputArticle)
@@ -157,7 +162,7 @@ namespace BBC.Dna.Services
             }
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{h2g2id}")]
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/{h2g2id}")]
         [WebHelp(Comment = "Updates an article")]
         [OperationContract]
         public Article UpdateArticle(string siteName, string h2g2id, Article inputArticle)
@@ -247,7 +252,12 @@ namespace BBC.Dna.Services
             article.ArticleInfo.Submittable = new ArticleInfoSubmittable();
             article.ArticleInfo.Submittable.Type = submittable;
 
-
+            article.CanRead = 1;
+            article.DefaultCanRead = 1;
+            article.CanWrite = 0;
+            article.DefaultCanWrite = 0;
+            article.CanChangePermissions = 0;
+            article.DefaultCanChangePermissions = 0;
 
             article.HiddenStatus = hidden;
 

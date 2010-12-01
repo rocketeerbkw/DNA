@@ -131,8 +131,8 @@ namespace BBC.Dna.Api
 
             bool ignoreModeration;
             bool forceModeration;
-
-            commentsObj.ValidateComment(forum, rating, site, out ignoreModeration, out forceModeration);
+            var notes = string.Empty;
+            commentsObj.ValidateComment(forum, rating, site, out ignoreModeration, out forceModeration, out notes);
 
             //create unique comment hash
             Guid guid = DnaHasher.GenerateCommentHashValue(rating.text, forum.Id, CallingUser.UserID);
@@ -153,6 +153,10 @@ namespace BBC.Dna.Api
                     reader.AddParameter("bbcuid", BbcUid);
                     reader.AddIntReturnValue();
                     reader.AddParameter("poststyle", (int) rating.PostStyle);
+                    if (!String.IsNullOrEmpty(notes))
+                    {
+                        reader.AddParameter("modnotes", notes);
+                    }
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {

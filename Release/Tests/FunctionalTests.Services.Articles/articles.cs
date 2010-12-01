@@ -71,6 +71,7 @@ namespace FunctionalTests.Services.Articles
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
             string submittable = "YES";
+            string hidden = "0";
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm", _sitename);
 
@@ -82,13 +83,14 @@ namespace FunctionalTests.Services.Articles
                  HttpUtility.HtmlEncode(style),
                  HttpUtility.HtmlEncode(subject),
                  HttpUtility.HtmlEncode(guideML),
-                 HttpUtility.HtmlEncode(submittable));
+                 HttpUtility.HtmlEncode(submittable),
+                 HttpUtility.HtmlEncode(hidden));
 
             NameValueCollection localHeaders = new NameValueCollection();
             localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
             string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
 
-            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
 
             // it's not really easy to assert the if the item was created... but we cover this in the xml based tests
         }
@@ -119,7 +121,7 @@ namespace FunctionalTests.Services.Articles
             localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
             string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
 
-            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", null, localHeaders);
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
 
             // we cover the testing of the return values in the xml based tests
         }
@@ -153,7 +155,7 @@ namespace FunctionalTests.Services.Articles
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles", _sitename);
 
-            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
 
             // test deserializiation
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
@@ -210,7 +212,7 @@ namespace FunctionalTests.Services.Articles
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles", _sitename);
 
-            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
 
             // test deserializiation
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
@@ -269,7 +271,7 @@ namespace FunctionalTests.Services.Articles
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles", _sitename);
 
-            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
 
             // test deserializiation
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
@@ -311,7 +313,7 @@ namespace FunctionalTests.Services.Articles
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}", _sitename, h2g2id);
 
-            request.RequestPageWithFullURL(url, serializedData, "text/xml");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
 
             // test deserializiation
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
@@ -366,7 +368,7 @@ namespace FunctionalTests.Services.Articles
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}", _sitename, h2g2id);
 
-            request.RequestPageWithFullURL(url, serializedData, "text/xml");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
 
             // test deserializiation
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
@@ -414,7 +416,7 @@ namespace FunctionalTests.Services.Articles
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
             }
             catch(Exception)
             {
@@ -455,7 +457,7 @@ namespace FunctionalTests.Services.Articles
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
             }
             catch (Exception)
             {
@@ -498,7 +500,7 @@ namespace FunctionalTests.Services.Articles
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}", _sitename, h2g2id);
 
 
-                request.RequestPageWithFullURL(url, serializedData, "text/xml");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
         }
 
         /// <summary>
@@ -537,7 +539,7 @@ namespace FunctionalTests.Services.Articles
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
             }
             catch (Exception)
             {
@@ -579,7 +581,7 @@ namespace FunctionalTests.Services.Articles
             
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
             }
             catch (Exception)
             {
@@ -621,7 +623,7 @@ namespace FunctionalTests.Services.Articles
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
             }
             catch (Exception)
             {
@@ -667,7 +669,7 @@ namespace FunctionalTests.Services.Articles
 
                 try
                 {
-                    request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                    request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
                 }
                 catch (Exception)
                 {
@@ -713,7 +715,7 @@ namespace FunctionalTests.Services.Articles
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
             }
             catch (Exception)
             {
@@ -753,7 +755,7 @@ namespace FunctionalTests.Services.Articles
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
             }
             catch (Exception)
             {
@@ -793,7 +795,7 @@ namespace FunctionalTests.Services.Articles
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
             }
             catch (Exception)
             {
@@ -837,7 +839,7 @@ namespace FunctionalTests.Services.Articles
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles", _sitename);
             
-            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
 
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
 
@@ -883,7 +885,7 @@ namespace FunctionalTests.Services.Articles
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles", _sitename);
 
-            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
 
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
 
@@ -1488,7 +1490,7 @@ namespace FunctionalTests.Services.Articles
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/preview", _sitename);
 
-            request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
 
             // test deserializiation
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
@@ -1538,7 +1540,7 @@ namespace FunctionalTests.Services.Articles
 
             try
             {
-                request.RequestPageWithFullURL(url, serializedData, "text/xml", "PUT");
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
             }
             catch (WebException)
             {

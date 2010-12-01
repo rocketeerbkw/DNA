@@ -4,10 +4,10 @@
 ]>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:local="#local-functions" xmlns:s="urn:schemas-	microsoft-com:xml-data" xmlns:dt="urn:schemas-microsoft-com:datatypes" exclude-result-prefixes="msxsl local s dt">
 	<xsl:template name="TEXTBOXELEMENTPAGE_JAVASCRIPT">
-		<script language="JavaScript" src="http://www.bbc.co.uk/dnaimages/adminsystem/includes/textboxapp.js"/>
+		<script language="JavaScript" src="/dnaimages/adminsystem/includes/textboxapp.js"/>
 		<script type="text/javascript">
 		function openSamplePreview(type) {
-			openPreview('http://www.bbc.co.uk/dnaimages/boards/images/' + type + '_sample.gif', 400, 400);	
+			openPreview('/dnaimages/boards/images/' + type + '_sample.gif', 400, 400);	
 			return false;	
 		}
 		</script>
@@ -218,7 +218,7 @@
 							<xsl:if test="TEXTBOXTYPE=3">
 								<xsl:attribute name="checked">checked</xsl:attribute>
 							</xsl:if>GuideML
-							<a href="http://www.bbc.co.uk/dnaimages/boards/guideml_popup.html" target="_blank" onclick="openPreview('http://www.bbc.co.uk/dnaimages/boards/guideml_popup.html', 600, 400); return false;">
+							<a href="/dnaimages/boards/guideml_popup.html" target="_blank" onclick="openPreview('/dnaimages/boards/guideml_popup.html', 600, 400); return false;">
 								<img src="{$adminimagesource}questionmark.gif" alt="Whats this?" width="20" height="20" border="0" hspace="5"/>
 							</a>
 						</input>
@@ -340,7 +340,7 @@
 						<br/>
 						(calculated on total number of messages in the last 12 hours)
 						<p class="small">
-										<a href="http://www.bbc.co.uk/dnaimages/boards/images/busiest_sample.gif" onclick="return openSamplePreview('busiest');" target="_blank">See sample preview</a>
+										<a href="/dnaimages/boards/images/busiest_sample.gif" onclick="return openSamplePreview('busiest');" target="_blank">See sample preview</a>
 									</p>
 								</div>
 								<div style="display:inline;margin:0px 40px;">
@@ -353,7 +353,7 @@
 						<br/>
 						(calculated on discussions started in the last 1 hour)		
 						<p class="small">
-										<a href="http://www.bbc.co.uk/dnaimages/boards/images/recent_sample.gif" onclick="return openSamplePreview('recent');" target="_blank">See sample preview</a>
+										<a href="/dnaimages/boards/images/recent_sample.gif" onclick="return openSamplePreview('recent');" target="_blank">See sample preview</a>
 									</p>
 								</div>
 								<div style="display:inline;margin-left:40px;">
@@ -366,7 +366,7 @@
 						<br/>
 						(calculated on total number of messages in the last 1 hour)
 						<p class="small">
-										<a href="http://www.bbc.co.uk/dnaimages/boards/images/busiest_hour_sample.gif" onclick="return openSamplePreview('busiest_hour');" target="_blank">See sample preview</a>
+										<a href="/dnaimages/boards/images/busiest_hour_sample.gif" onclick="return openSamplePreview('busiest_hour');" target="_blank">See sample preview</a>
 									</p>
 								</div>
 							</xsl:when>
@@ -489,7 +489,7 @@
 											Title text
 										</a>
 									</div>
-									<a href="http://www.bbc.co.uk/dnaimages/boards/titletext_popup.html" target="_blank" onclick="openPreview('http://www.bbc.co.uk/dnaimages/boards/titletext_popup.html', 600, 400); return false;">
+									<a href="/dnaimages/boards/titletext_popup.html" target="_blank" onclick="openPreview('/dnaimages/boards/titletext_popup.html', 600, 400); return false;">
 										<img src="{$adminimagesource}questionmark.gif" alt="Whats this?" width="20" height="20" border="0" hspace="5"/>
 									</a>
 									<br/>

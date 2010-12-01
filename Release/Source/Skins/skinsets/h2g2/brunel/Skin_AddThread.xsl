@@ -36,7 +36,7 @@
 					<td>
 						<font xsl:use-attribute-sets="subheaderfont"><b> 	
 							<xsl:if test="/H2G2/POSTTHREADFORM/@PROFANITYTRIGGERED = 1">
-								<p style="color:#ffffff; font-weight:bold; padding-left:20px; background-image: url(http://www.bbc.co.uk/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This message has been blocked as it contains a word which other users may find offensive. Please edit your message and post it again.</p>
+								<p style="color:#ffffff; font-weight:bold; padding-left:20px; background-image: url(/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This message has been blocked as it contains a word which other users may find offensive. Please edit your message and post it again.</p>
 							</xsl:if>		
 							<xsl:choose>
 								<xsl:when test="/H2G2/POSTTHREADFORM/@THREADID = 0">

@@ -1214,11 +1214,11 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             int dnaUserId = 1090501859;
             int friendId = 6;
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}?idtype=dnauserid", _sitename, dnaUserId, friendId);
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}/add?idtype=dnauserid", _sitename, dnaUserId, friendId);
             string postData = "No data to send";
 
             // now get the response
-            request.RequestPageWithFullURL(url, postData, "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, postData, "text/xml", "POST");
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
@@ -1236,11 +1236,12 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             int dnaUserId = 1090501859;
             int friendId = 6;
+            string postData = "No data to send";
 
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}/?idtype=dnauserid", _sitename, dnaUserId, friendId);
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}/delete?idtype=dnauserid", _sitename, dnaUserId, friendId);
 
             // now get the response
-            request.RequestPageWithFullURL(url, String.Empty, String.Empty, "DELETE");
+            request.RequestPageWithFullURL(url, postData, "text/xml", "POST");
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
@@ -1258,6 +1259,7 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             string link = "1";
             string name = "DotNetNormalUser";
+            string postData = "No data to send";
 
             //Get the links
             //string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?format=xml", _sitename, name);
@@ -1265,10 +1267,10 @@ namespace FunctionalTests.Services.Users
             //request.RequestPageWithFullURL(url, null, "text/xml");
 
 
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links/{2}/", _sitename, name, link);
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links/{2}/delete", _sitename, name, link);
 
             // now get the response
-            request.RequestPageWithFullURL(url, String.Empty, String.Empty, "DELETE");
+            request.RequestPageWithFullURL(url, postData, "text/xml", "POST");
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
@@ -1286,10 +1288,10 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             int dnaUserId = 1090501859;
             int blockId = 6;
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/?idtype=dnauserid", _sitename, dnaUserId, blockId);
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/block?idtype=dnauserid", _sitename, dnaUserId, blockId);
 
             // now get the response
-            request.RequestPageWithFullURL(url, "No data to Send", "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, "No data to Send", "text/xml", "POST");
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
@@ -1309,16 +1311,16 @@ namespace FunctionalTests.Services.Users
             int unblockId = 6;
 
             //Block user 6 first
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/?idtype=dnauserid", _sitename, dnaUserId, unblockId);
+            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/block?idtype=dnauserid", _sitename, dnaUserId, unblockId);
 
             // now get the response
-            request.RequestPageWithFullURL(url, "No data to Send", "text/xml", "PUT");
+            request.RequestPageWithFullURL(url, "No data to Send", "text/xml", "POST");
 
             //Unblock 
-            url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/?idtype=dnauserid", _sitename, dnaUserId, unblockId);
+            url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/unblock?idtype=dnauserid", _sitename, dnaUserId, unblockId);
 
             // now get the response
-            request.RequestPageWithFullURL(url, String.Empty, String.Empty, "DELETE");
+            request.RequestPageWithFullURL(url, String.Empty, String.Empty, "POST");
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 

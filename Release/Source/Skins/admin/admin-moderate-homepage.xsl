@@ -21,8 +21,8 @@
 						</title>
 						<link type="text/css" rel="stylesheet" href="{$asset-root}moderation/includes/moderation.css"/>
 						<link type="text/css" rel="stylesheet" href="{$asset-root}moderation/includes/moderation_only.css"/>
-						<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
-						<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
+						<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login.css"/>
+						<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login2.css"/>
 
 					</head>
 					<body id="modHomepage">
@@ -1877,7 +1877,7 @@ function confirmUnlockOnOtherUser()
 	<!--===========================================================================-->
 	<xsl:template match="DATE" mode="mod_home">
 		<xsl:choose>
-			<xsl:when test="@SORT = /H2G2/DATE/@SORT">
+			<xsl:when test="../../@TOTAL > 0 and @YEAR = /H2G2/DATE/@YEAR and @MONTH = /H2G2/DATE/@MONTH and @DAY = /H2G2/DATE/@DAY ">
 				<xsl:text>from </xsl:text>
 				<xsl:value-of select="@HOURS"/>
 				<xsl:text>:</xsl:text>

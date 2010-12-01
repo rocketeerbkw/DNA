@@ -23,9 +23,11 @@
 			</xsl:choose>
 		</xsl:variable>
 		
-		<ul class="dna-list-links">
-			<xsl:if test="$dashboardtype = 'blog' or $dashboardtype = 'story'">
-				<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your entries/stories</a></li>
+			<xsl:if test="$dashboardtype = 'blog'">
+				<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your entries</a></li>
+			</xsl:if>
+			<xsl:if test="$dashboardtype = 'story'">
+				<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your stories</a></li>
 			</xsl:if>
 			<xsl:if test="$dashboardtype = 'messageboard'">
 				<li><a href="/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
@@ -34,7 +36,7 @@
 			<li><xsl:value-of select="$dashboardmodstatus" /><br /><br />
 				To change your moderation status, contact the <a href="bbccommunities@bbc.co.uk">Moderation Services team</a>.
 			</li>
-		</ul>
+
 	</xsl:template>
 	
 </xsl:stylesheet>

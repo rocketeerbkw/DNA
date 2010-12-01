@@ -8,10 +8,11 @@
 
 	<xsl:template name="objects_links_timeframe">
 		<ul class="dna-dashboard-links blq-clearfix">
-			<li>				
+			<li>	
+				<span class="blq-hide"> In the last </span>			
 				<xsl:choose>
 					<xsl:when test="$dashboarddays = 1">
-						<xsl:text>24 hours</xsl:text>
+						 <span class="blq-hide"> In the last </span><xsl:text>24 hours</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<a href="{$root}/hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}&amp;s_days=1">24 hours</a>
@@ -21,6 +22,7 @@
 			<li> | </li>
 			<!-- 7 days is currently the default -->
 			<li>
+				<span class="blq-hide"> In the last </span>
 				<xsl:choose>
 					<xsl:when test="$dashboarddays = 7 or $dashboarddays = ''">
 						<xsl:text>7 days</xsl:text>
@@ -32,6 +34,7 @@
 			</li>
 			<li> | </li>
 			<li>
+				<span class="blq-hide"> In the last </span>
 				<xsl:choose>
 					<xsl:when test="$dashboarddays = 30">
 						<xsl:text>30 days</xsl:text>

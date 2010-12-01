@@ -2366,7 +2366,7 @@
 				</xsl:if>
 			</input>
 				Or code your own in GuideML...
-				<a href="http://www.bbc.co.uk/dnaimages/boards/guideml_popup.html" target="_blank" onclick="openPreview('http://www.bbc.co.uk/dnaimages/boards/guideml_popup.html', 600, 400); return false;">
+				<a href="/dnaimages/boards/guideml_popup.html" target="_blank" onclick="openPreview('/dnaimages/boards/guideml_popup.html', 600, 400); return false;">
 				<img src="{$adminimagesource}questionmark.gif" alt="Whats this?" width="20" height="20" border="0"/>
 			</a>
 			<br/>
@@ -2629,7 +2629,7 @@
 					</xsl:if>
 				</input>
 				Code your own in GuideML...
-				<a href="http://www.bbc.co.uk/dnaimages/boards/guideml_popup.html" target="_blank" onclick="openPreview('http://www.bbc.co.uk/dnaimages/boards/guideml_popup.html', 600, 400); return false;">
+				<a href="/dnaimages/boards/guideml_popup.html" target="_blank" onclick="openPreview('/dnaimages/boards/guideml_popup.html', 600, 400); return false;">
 					<img src="{$adminimagesource}questionmark.gif" alt="Whats this?" width="20" height="20" border="0"/>
 				</a>
 			</div>

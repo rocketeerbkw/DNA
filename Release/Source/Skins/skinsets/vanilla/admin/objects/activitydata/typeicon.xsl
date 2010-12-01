@@ -25,10 +25,10 @@
           <img src="/dnaimages/dna_messageboard/img/icons/help.png" width="30" height="31" alt="referred"  />
         </xsl:when>
         <xsl:when test="text() = 'UserModeratedPremod'">
-          <img src="/dnaimages/dna_messageboard/img/icons/cheeky_monkey.png" width="30" height="27" alt="cheeky monkey"  />
+          <img src="/dnaimages/dna_messageboard/img/icons/cheeky_monkey.png" width="30" height="27" alt="pre-moderated"  />
         </xsl:when>
         <xsl:when test="text() = 'UserModeratedPostMod'">
-          <img src="/dnaimages/dna_messageboard/img/icons/cheeky_monkey.png" width="30" height="27" alt="cheeky monkey" />
+          <img src="/dnaimages/dna_messageboard/img/icons/cheeky_monkey.png" width="30" height="27" alt="post-moderated" />
         </xsl:when>
         <xsl:when test="text() = 'UserModeratedBanned'">
           <img src="/dnaimages/dna_messageboard/img/icons/devil.png" width="30" height="27" alt="banned" />

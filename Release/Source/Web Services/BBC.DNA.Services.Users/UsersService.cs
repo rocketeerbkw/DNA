@@ -740,7 +740,7 @@ namespace BBC.Dna.Services
             }
         }
 
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/users/{identifier}/friends/{friend}")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/{identifier}/friends/{friend}/add")]
         [WebHelp(Comment = "Add a users friend")]
         [OperationContract]
         public void AddFriend(string siteName, string identifier, string friend)
@@ -783,7 +783,7 @@ namespace BBC.Dna.Services
             }
         }
         
-        [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/friends/{friend}/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/{identifier}/friends/{friend}/delete")]
         [WebHelp(Comment = "Remove a users friend")]
         [OperationContract]
         public void DeleteFriend(string siteName, string identifier, string friend)
@@ -828,7 +828,7 @@ namespace BBC.Dna.Services
 
 
 
-        [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/links/{link}/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/{identifier}/links/{link}/delete")]
         [WebHelp(Comment = "Remove a users link/bookmark")]
         [OperationContract]
         public void DeleteLink(string siteName, string identifier, string link)
@@ -870,7 +870,7 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
         }
-        [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/usersubscriptions/{user}/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/{identifier}/usersubscriptions/{user}/unsubscribe")]
         [WebHelp(Comment = "Unsubscribe from a user")]
         [OperationContract]
         public void UnsubscribeFromUser(string siteName, string identifier, string user)
@@ -912,7 +912,7 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
         }
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/users/{identifier}/usersubscriptions/{user}/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/{identifier}/usersubscriptions/{user}/subscribe")]
         [WebHelp(Comment = "Subscribe to a user")]
         [OperationContract]
         public void SubscribeToUser(string siteName, string identifier, string user)
@@ -956,7 +956,7 @@ namespace BBC.Dna.Services
         }
 
 
-        [WebInvoke(Method = "DELETE", UriTemplate = "V1/site/{siteName}/users/{identifier}/blockedusers/{user}/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/{identifier}/blockedusers/{user}/unblock")]
         [WebHelp(Comment = "Unblock a user")]
         [OperationContract]
         public void UnblockUser(string siteName, string identifier, string user)
@@ -1000,7 +1000,7 @@ namespace BBC.Dna.Services
         }
 
 
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/users/{identifier}/blockedusers/{user}/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/{identifier}/blockedusers/{user}/block")]
         [WebHelp(Comment = "Block a user")]
         [OperationContract]
         public void BlockUser(string siteName, string identifier, string user)

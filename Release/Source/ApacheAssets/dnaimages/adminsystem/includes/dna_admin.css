@@ -62,7 +62,7 @@ h3{
 */
 #topNav{
 	height:28px;
-	background:#999 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/topnav_bg.gif);
+	background:#999 url(/dnaimages/adminsystem/images/topnav_bg.gif);
 	width:996px;
 	padding-top:3px;
 	font-family:Trebuchet MS, arial, helvetica, sans;
@@ -106,7 +106,7 @@ h3{
 	color:#c60;
 }
 #subNavText{
-	background: url(http://www.bbc.co.uk/dnaimages/adminsystem/images/dna_logo2.gif) right no-repeat;
+	background: url(/dnaimages/adminsystem/images/dna_logo2.gif) right no-repeat;
 	font:bold 160% Trebuchet MS, arial, helvetica, sans;
 	margin-left:60px;
 	padding:5px;
@@ -120,7 +120,7 @@ h3{
 	---BUTTONS---
 */
 .buttonThreeD{
-	background:#cecece url(http://www.bbc.co.uk/dnaimages/adminsystem/images/button_bg2.gif) 0 0 repeat-x;
+	background:#cecece url(/dnaimages/adminsystem/images/button_bg2.gif) 0 0 repeat-x;
 	height:28px;
 	border:2px solid #666;
 	color:#666;
@@ -210,7 +210,7 @@ caption{
 	padding-left:5px;
 }
 
-#activeClass {background:#6f9050 url('http://www.bbc.co.uk/dnaimages/adminsystem/images/open_tree.gif') no-repeat 149px .6em;
+#activeClass {background:#6f9050 url('/dnaimages/adminsystem/images/open_tree.gif') no-repeat 149px .6em;
 	width:187px;
 }
 #activeClass li a,#activeClass2 li a{
@@ -225,7 +225,7 @@ caption{
 	width:183px;
 }
 #activeClass2{
-	background:#fff url('http://www.bbc.co.uk/dnaimages/adminsystem/images/open_tree2.gif') no-repeat 149px .6em;
+	background:#fff url('/dnaimages/adminsystem/images/open_tree2.gif') no-repeat 149px .6em;
 	width:187px;
 }
 #activeClass ul li,#activeClass2 ul li{

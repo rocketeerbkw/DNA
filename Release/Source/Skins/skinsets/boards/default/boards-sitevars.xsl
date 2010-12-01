@@ -22,7 +22,7 @@
 	<xsl:variable name="imagesource">
 		<xsl:choose>
 			<xsl:when test="$isAdmin = 1">
-				http://www.bbc.co.uk/dnaimages/boards/images/			
+				/dnaimages/boards/images/			
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:copy-of select="/H2G2/SITECONFIG/IMGSRC/node()"/>

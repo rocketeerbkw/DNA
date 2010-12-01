@@ -242,11 +242,11 @@
                           <tr>
                             <td class="blockSide"/>
                             <td class="blockMain">
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_involved.gif" width="15" height="15" alt="Getting Involved help:" title="Getting Involved help:" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/help_icon_involved.gif" width="15" height="15" alt="Getting Involved help:" title="Getting Involved help:" align="top" border="0"/>
                               <xsl:text> How to </xsl:text>
                               <a href="http://www.bbc.co.uk/messageboards/newguide/popup_start_discussion.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_start_discussion.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
                                 <xsl:text>start a discussion</xsl:text>
-                                <img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+                                <img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
                               </a>
                             </td>
                             <td class="blockShadow"/>
@@ -269,11 +269,11 @@
                         <tr>
                           <td class="blockSide"/>
                           <td class="blockMain">
-                            <img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_writing.gif" width="15" height="15" alt="Writing messages help:" title="Writing messages help:" align="top" border="0"/>
+                            <img src="/dnaimages/boards/images/help_icon_writing.gif" width="15" height="15" alt="Writing messages help:" title="Writing messages help:" align="top" border="0"/>
                             <xsl:text> </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_rules_guidelines.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_rules_guidelines.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
                               <xsl:text>Rules and guidelines</xsl:text>
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
                             </a>
                           </td>
                           <td class="blockShadow"/>
@@ -295,15 +295,15 @@
                         <tr>
                           <td class="blockSide"/>
                           <td class="blockMain">
-                            <img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_features.gif" width="15" height="15" alt="Message boards Features help:" title="Message boards Features help:" align="top" border="0"/>
+                            <img src="/dnaimages/boards/images/help_icon_features.gif" width="15" height="15" alt="Message boards Features help:" title="Message boards Features help:" align="top" border="0"/>
                             <xsl:text> Add </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
                               <xsl:text>smileys </xsl:text>
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/f_biggrin.gif" width="16" height="16" alt="smiley" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/f_biggrin.gif" width="16" height="16" alt="smiley" align="top" border="0"/>
                             </a>
                             <xsl:text> to messages </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
                             </a>
                           </td>
                           <td class="blockShadow"/>
@@ -325,14 +325,14 @@
                         <tr>
                           <td class="blockSide"/>
                           <td class="blockMain">
-                            <img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_features.gif" width="15" height="15" alt="Message boards Features help:" title="Message boards Features help:" align="top" border="0"/>
+                            <img src="/dnaimages/boards/images/help_icon_features.gif" width="15" height="15" alt="Message boards Features help:" title="Message boards Features help:" align="top" border="0"/>
                             <xsl:text> Add </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
                               <xsl:text>web links</xsl:text>
                             </a>
                             <xsl:text> to messages </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
                             </a>
                           </td>
                           <td class="blockShadow"/>
@@ -361,11 +361,11 @@
                         <tr>
                           <td class="blockSide"/>
                           <td class="blockMain">
-                            <img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_involved.gif" width="15" height="15" alt="Getting Involved help:" title="Getting Involved help:" align="top" border="0"/>
+                            <img src="/dnaimages/boards/images/help_icon_involved.gif" width="15" height="15" alt="Getting Involved help:" title="Getting Involved help:" align="top" border="0"/>
                             <xsl:text> How to </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_reply_message.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_reply_message.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
                               <xsl:text>reply to messages</xsl:text>
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
                             </a>
                           </td>
                           <td class="blockShadow"/>
@@ -387,15 +387,15 @@
                         <tr>
                           <td class="blockSide"/>
                           <td class="blockMain">
-                            <img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_features.gif" width="15" height="15" alt="Message boards Features help:" title="Message boards Features help:" align="top" border="0"/>
+                            <img src="/dnaimages/boards/images/help_icon_features.gif" width="15" height="15" alt="Message boards Features help:" title="Message boards Features help:" align="top" border="0"/>
                             <xsl:text> Add </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
                               <xsl:text>smileys </xsl:text>
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/f_biggrin.gif" width="16" height="16" alt="smiley" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/f_biggrin.gif" width="16" height="16" alt="smiley" align="top" border="0"/>
                             </a>
                             <xsl:text> to messages </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
                             </a>
                           </td>
                           <td class="blockShadow"/>
@@ -417,14 +417,14 @@
                         <tr>
                           <td class="blockSide"/>
                           <td class="blockMain">
-                            <img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_features.gif" width="15" height="15" alt="Message boards Features help:" title="Message boards Features help:" align="top" border="0"/>
+                            <img src="/dnaimages/boards/images/help_icon_features.gif" width="15" height="15" alt="Message boards Features help:" title="Message boards Features help:" align="top" border="0"/>
                             <xsl:text> Add </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
                               <xsl:text>web links</xsl:text>
                             </a>
                             <xsl:text> to messages </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
                             </a>
                           </td>
                           <td class="blockShadow"/>
@@ -446,11 +446,11 @@
                         <tr>
                           <td class="blockSide"/>
                           <td class="blockMain">
-                            <img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_writing.gif" width="15" height="15" alt="Writing messages help:" title="Writing messages help:" align="top" border="0"/>
+                            <img src="/dnaimages/boards/images/help_icon_writing.gif" width="15" height="15" alt="Writing messages help:" title="Writing messages help:" align="top" border="0"/>
                             <xsl:text> </xsl:text>
                             <a href="http://www.bbc.co.uk/messageboards/newguide/popup_rules_guidelines.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_rules_guidelines.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
                               <xsl:text>Rules and guidelines</xsl:text>
-                              <img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+                              <img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
                             </a>
                           </td>
                           <td class="blockShadow"/>
@@ -662,13 +662,13 @@
           <tr>
             <td>
               <xsl:if test="@PROFANITYTRIGGERED = 1">
-                <p style="color:#000000; font-weight:bold; padding-left:20px; background-image: url(http://www.bbc.co.uk/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">Your message contains a word, phrase or website address which is blocked from being posted on this website. Please edit your message before trying to post again.</p>
+                <p style="color:#000000; font-weight:bold; padding-left:20px; background-image: url(/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">Your message contains a word, phrase or website address which is blocked from being posted on this website. Please edit your message before trying to post again.</p>
               </xsl:if>
               <xsl:if test="@NONALLOWEDURLSTRIGGERED = 1">
-                <p style="color:#000000; font-weight:bold; padding-left:20px; background-image: url(http://www.bbc.co.uk/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This message has been blocked as it contains a URL. Please edit your message and post it again.</p>
+                <p style="color:#000000; font-weight:bold; padding-left:20px; background-image: url(/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This message has been blocked as it contains a URL. Please edit your message and post it again.</p>
               </xsl:if>
               <xsl:if test="@NONALLOWEDEMAILSTRIGGERED = 1">
-                <p style="color:#000000; font-weight:bold; padding-left:20px; background-image: url(http://www.bbc.co.uk/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This message has been blocked as it contains an email address. Please edit your message and post it again.</p>
+                <p style="color:#000000; font-weight:bold; padding-left:20px; background-image: url(/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This message has been blocked as it contains an email address. Please edit your message and post it again.</p>
               </xsl:if>
               <xsl:if test="@INREPLYTO = 0">
                 <br/>
