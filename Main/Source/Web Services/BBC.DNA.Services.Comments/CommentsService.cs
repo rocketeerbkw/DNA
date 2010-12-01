@@ -367,7 +367,15 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream CreateCommentPreview(string commentForumId, string siteName, CommentInfo comment)
         {
-            comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden);
+            bool isEditor = false;
+            try
+            {
+                ISite site = GetSite(siteName);
+                _commentObj.CallingUser = GetCallingUser(site);
+                isEditor = _commentObj.CallingUser.IsUserA(UserTypes.Editor);
+            }
+            catch{}
+            comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden, isEditor);
             return GetOutputStream(comment);
         }
 

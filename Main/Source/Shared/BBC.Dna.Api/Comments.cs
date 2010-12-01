@@ -462,7 +462,7 @@ namespace BBC.Dna.Api
                         comment.hidden = (comment.IsPreModerated
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
                                               : CommentStatus.Hidden.NotHidden);
-                        comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden);
+                        comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden, CallingUser.IsUserA(UserTypes.Editor));
                         comment.User = UserReadByCallingUser(site);
                         comment.Created = new DateTimeHelper(DateTime.Now);
 
@@ -814,7 +814,7 @@ namespace BBC.Dna.Api
                                                                                             CommentForumById,
                                                                                         replacement);
 
-                            comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden);
+                            comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden, comment.User.Editor);
                         }
                         else
                         {
@@ -1050,7 +1050,7 @@ namespace BBC.Dna.Api
                                                                        replacement);
 
 
-            commentInfo.text = CommentInfo.FormatComment(reader.GetString("text"), commentInfo.PostStyle, commentInfo.hidden);
+            commentInfo.text = CommentInfo.FormatComment(reader.GetString("text"), commentInfo.PostStyle, commentInfo.hidden, commentInfo.User.Editor);
             return commentInfo;
         }
 
