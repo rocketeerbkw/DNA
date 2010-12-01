@@ -11,7 +11,7 @@
 		<ul>
 			<!-- admin tool tabs -->
 			<xsl:choose>
-				<xsl:when test="@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN' or @TYPE = 'ERROR'">
+				<xsl:when test="@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN' or @TYPE = 'ERROR' or @TYPE = 'MESSAGEBOARDSCHEDULE' or @TYPE = 'TOPICBUILDER' or @TYPE = 'MBADMINASSETS' or @TYPE = 'FRONTPAGE'">
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
 							<xsl:attribute name="class">selected</xsl:attribute>

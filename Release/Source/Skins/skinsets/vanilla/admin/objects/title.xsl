@@ -22,8 +22,8 @@
 		<!-- catch all -->
 	</xsl:template>
 
-	<xsl:template match="H2G2[@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN']" mode="objects_title">
-		<h1>Messageboard Admin <span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span></h1>
+	<xsl:template match="H2G2[@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN' or @TYPE = 'MESSAGEBOARDSCHEDULE' or @TYPE = 'TOPICBUILDER' or @TYPE = 'MBADMINASSETS' or @TYPE = 'FRONTPAGE']" mode="objects_title">
+		<h1>DNA Site Admin <span><xsl:value-of select="SITECONFIG/BOARDNAME"/></span></h1>
 	</xsl:template>
 
 	<xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARD']" mode="objects_title">
@@ -58,7 +58,7 @@
 	</xsl:template>	
 	
 	<xsl:template name="objects_title">
-		<xsl:if test="@TYPE='ERROR' or @TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN'">
+		<xsl:if test="@TYPE='ERROR'">
 			<h1>DNA Site Admin <span><xsl:value-of select="SITE/SHORTNAME"/></span></h1>
 		</xsl:if>	
 	</xsl:template>

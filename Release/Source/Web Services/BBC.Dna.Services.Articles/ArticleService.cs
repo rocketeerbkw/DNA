@@ -82,7 +82,7 @@ namespace BBC.Dna.Services
                 }
 
                 // load the original article
-                Article article = Article.CreateArticle(cacheManager, readerCreator, callingUser, h2g2idAsInt, true);
+                Article article = Article.CreateArticle(cacheManager, readerCreator, callingUser, h2g2idAsInt, false);
 
                 // assign the supplied parmss
                 article = SetWritableArticleProperties(article,
@@ -182,7 +182,7 @@ namespace BBC.Dna.Services
                 }
 
                 // load the original article
-                Article article = Article.CreateArticle(cacheManager, readerCreator, callingUser, h2g2idAsInt, true);
+                Article article = Article.CreateArticle(cacheManager, readerCreator, callingUser, h2g2idAsInt, false);
   
                 inputArticle = SetWritableArticleProperties(article,
                      inputArticle.Style,
