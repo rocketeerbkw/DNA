@@ -631,7 +631,7 @@ namespace BBC.Dna.Objects
             Guid hash = DnaHasher.GenerateHash(hashedContent);
 
             int submittable = 0;
-            if (ArticleInfo.Submittable.Type == "YES")
+            if (ArticleInfo.Submittable != null && ArticleInfo.Submittable.Type == "YES")
             {
                 submittable = 1;
             }
@@ -682,7 +682,7 @@ namespace BBC.Dna.Objects
         public void UpdateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, int userid)
         {
             int submittable = 0;
-            if (ArticleInfo.Submittable.Type == "YES")
+            if (ArticleInfo.Submittable != null && ArticleInfo.Submittable.Type == "YES")
             {
                 submittable = 1;
             }
