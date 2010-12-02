@@ -66,8 +66,9 @@ namespace FunctionalTests.Services.Articles
         public void CreateNewArticleWithHTML()
         {
             string style = "GuideML";
-            string subject = "Test Subject";            
-            string guideML = HttpUtility.UrlEncode(@"<GUIDE xmlns="""">
+            string subject = "Test Subject";
+            //string guideML = HttpUtility.UrlEncode(@"<GUIDE xmlns="""">
+            string guideML = HttpUtility.UrlEncode(@"<GUIDE>
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
             string submittable = "YES";
@@ -79,7 +80,7 @@ namespace FunctionalTests.Services.Articles
             request.AssertWebRequestFailure = false;
             request.SetCurrentUserNormal();
 
-            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}",
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
                  HttpUtility.HtmlEncode(style),
                  HttpUtility.HtmlEncode(subject),
                  HttpUtility.HtmlEncode(guideML),
@@ -125,6 +126,42 @@ namespace FunctionalTests.Services.Articles
 
             // we cover the testing of the return values in the xml based tests
         }
+
+        [TestMethod]
+        public void PreviewArticleWithHTML()
+        {
+            string style = "GuideML";
+            string subject = "Test Subject";
+            string guideML = HttpUtility.UrlEncode(@"<GUIDE>
+    <BODY>Sample Article Content</BODY>
+  </GUIDE>");
+            string submittable = "YES";
+            string hidden = "0";
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/preview/create.htm", _sitename);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
+                 HttpUtility.HtmlEncode(style),
+                 HttpUtility.HtmlEncode(subject),
+                 HttpUtility.HtmlEncode(guideML),
+                 HttpUtility.HtmlEncode(submittable),
+                 HttpUtility.HtmlEncode(hidden));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            // test deserializiation
+            Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+        }
+
 
         [TestMethod]
         public void CreateNewArticleWithXml()

@@ -36,7 +36,7 @@ namespace BBC.Dna.Services
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/create.htm")]
         [WebHelp(Comment = "Creates an article from Html form")]
         [OperationContract]
-        public void CreateArticleHtml(string siteName, NameValueCollection formsData)
+        public Article CreateArticleHtml(string siteName, NameValueCollection formsData)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace BBC.Dna.Services
                     formsData["submittable"],
                     hiddenStatusAsInt);
 
-                SaveArticle(site, callingUser, article, siteName, true, 0);
+                return SaveArticle(site, callingUser, article, siteName, true, 0);
             }
             catch (ApiException ex)
             {
@@ -66,7 +66,7 @@ namespace BBC.Dna.Services
         [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/create.htm/{h2g2id}")]
         [WebHelp(Comment = "Updates an article")]
         [OperationContract]
-        public void UpdateArticleHtml(string siteName, string h2g2id, NameValueCollection formsData)
+        public Article UpdateArticleHtml(string siteName, string h2g2id, NameValueCollection formsData)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace BBC.Dna.Services
                     article.HiddenStatus = 1;
                 }
 
-                SaveArticle(site, callingUser, article, siteName, false, h2g2idAsInt);
+                return SaveArticle(site, callingUser, article, siteName, false, h2g2idAsInt);
             }
             catch (ApiException ex)
             {
@@ -115,7 +115,6 @@ namespace BBC.Dna.Services
                 ISite site = GetSite(siteName);
 
                 CallingUser callingUser = GetCallingUser(site);
-
 
                 // create the default article object graph
                 Article article = BuildNewArticleObject(site.SiteID, 
@@ -153,6 +152,36 @@ namespace BBC.Dna.Services
                     inputArticle.GuideMLAsString,
                     inputArticle.ArticleInfo.Submittable.Type,
                     inputArticle.HiddenStatus);
+
+                return article;
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/preview/create.htm")]
+        [WebHelp(Comment = "Previews an article from Html form")]
+        [OperationContract]
+        public Article PreviewArticleHtml(string siteName, NameValueCollection formsData)
+        {
+            try
+            {
+                ISite site = GetSite(siteName);
+
+                CallingUser callingUser = GetCallingUser(site);
+
+                int hiddenStatusAsInt = 0;
+                if (!String.IsNullOrEmpty(formsData["hidden"])) { hiddenStatusAsInt = Convert.ToInt32(formsData["hidden"]); }
+
+                Article article = BuildNewArticleObject(site.SiteID,
+                    callingUser.UserID,
+                    (GuideEntryStyle)Enum.Parse(typeof(GuideEntryStyle), formsData["style"]),
+                    formsData["subject"],
+                    formsData["guideML"],
+                    formsData["submittable"],
+                    hiddenStatusAsInt);
 
                 return article;
             }
