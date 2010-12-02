@@ -34,7 +34,6 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</a><br/>
-				from
 				<a>
 					<xsl:attribute name="href">
 						<xsl:choose>
