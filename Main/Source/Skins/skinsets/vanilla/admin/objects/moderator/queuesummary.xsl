@@ -81,7 +81,7 @@
 									<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
 								</xsl:when>
 								<xsl:when test="$referraltype = 'general complaint' or $referraltype = 'general complaints'">
-									<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
+									<xsl:text>/dna/moderation/ModerateGeneral?referrals=1&amp;alerts=1</xsl:text>
 								</xsl:when>
 							</xsl:choose>
 						</xsl:attribute>
