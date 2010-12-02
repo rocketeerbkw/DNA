@@ -927,6 +927,51 @@ namespace FunctionalTests.Services.Comments
         /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
+        public void CreateComment_AsEditorWithHTMLTags_ReturnsUntouchedTags()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserEditor();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+
+            string text = "<script>Functiontest Title" + Guid.NewGuid().ToString() + "</script>";
+            string expectedText = text;
+            PostStyle.Style postStyle = PostStyle.Style.richtext;
+            string commentForumXml = String.Format("text={0}&poststyle={1}", text, postStyle);
+
+            // Setup the request url
+            string urlCreate = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/create.htm", _sitename, commentForum.Id);
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(urlCreate, commentForumXml, "application/x-www-form-urlencoded");
+
+            //get the forum back as xml
+            request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);
+            nsmgr.AddNamespace("api", "BBC.Dna.Api");
+            XmlNode returnedText = xml.SelectSingleNode("api:commentForum/api:commentsList/api:comments/api:comment/api:text", nsmgr);
+
+            Assert.AreEqual(expectedText, returnedText.InnerText);
+
+            //get the forum back as json
+            request.RequestPageWithFullURL(url, null, "text/javascript");
+            CommentForum returnedForum = (CommentForum)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.IsTrue(returnedForum.commentList.comments[0].text == expectedText, "Expected:" + expectedText + " Actual:" + returnedForum.commentList.comments[0].text);
+
+
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
         public void CreateComment_AsPlainTextWithHTMLLink_ReturnsTransformedLink()
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
@@ -982,6 +1027,34 @@ namespace FunctionalTests.Services.Comments
             string randomiser = Guid.NewGuid().ToString();
             string text = "http://www.bbc.co.uk/" + randomiser + " in the post";
             string expectedText = "<a href=\"http://www.bbc.co.uk/" + randomiser + "\">http://www.bbc.co.uk/" + randomiser + "</a> in the post";
+
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text><poststyle>plaintext</poststyle>" +
+                "</comment>", text);
+
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/preview", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+            Assert.IsTrue(returnedComment.text == expectedText);
+
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void PreviewComment_AsEditorWithHTMLLink_ReturnsTransformedLink()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserEditor();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string randomiser = Guid.NewGuid().ToString();
+            string text = "http://www.bbc.co.uk/" + randomiser + " in the post &lt;script&gt;hello&lt;/script&gt;";
+            string expectedText = "<a href=\"http://www.bbc.co.uk/" + randomiser + "\">http://www.bbc.co.uk/" + randomiser + "</a> in the post <script>hello</script>";
 
             string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
                 "<text>{0}</text><poststyle>plaintext</poststyle>" +

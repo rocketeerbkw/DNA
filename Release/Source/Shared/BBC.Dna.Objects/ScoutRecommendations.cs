@@ -78,7 +78,7 @@ namespace BBC.Dna.Objects
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("StoreScoutRecommendation"))
             {
                 reader.AddParameter("ScoutID", scoutId);
-                reader.AddParameter("EntryID", articleId);
+                reader.AddParameter("EntryID", entryId);
                 if (comments != String.Empty)
                 {
                     reader.AddParameter("Comments", comments);

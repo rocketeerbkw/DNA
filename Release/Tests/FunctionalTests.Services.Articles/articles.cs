@@ -66,8 +66,9 @@ namespace FunctionalTests.Services.Articles
         public void CreateNewArticleWithHTML()
         {
             string style = "GuideML";
-            string subject = "Test Subject";            
-            string guideML = HttpUtility.UrlEncode(@"<GUIDE xmlns="""">
+            string subject = "Test Subject";
+            //string guideML = HttpUtility.UrlEncode(@"<GUIDE xmlns="""">
+            string guideML = HttpUtility.UrlEncode(@"<GUIDE>
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
             string submittable = "YES";
@@ -79,7 +80,7 @@ namespace FunctionalTests.Services.Articles
             request.AssertWebRequestFailure = false;
             request.SetCurrentUserNormal();
 
-            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}",
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
                  HttpUtility.HtmlEncode(style),
                  HttpUtility.HtmlEncode(subject),
                  HttpUtility.HtmlEncode(guideML),
@@ -125,6 +126,42 @@ namespace FunctionalTests.Services.Articles
 
             // we cover the testing of the return values in the xml based tests
         }
+
+        [TestMethod]
+        public void PreviewArticleWithHTML()
+        {
+            string style = "GuideML";
+            string subject = "Test Subject";
+            string guideML = HttpUtility.UrlEncode(@"<GUIDE>
+    <BODY>Sample Article Content</BODY>
+  </GUIDE>");
+            string submittable = "YES";
+            string hidden = "0";
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/preview/create.htm", _sitename);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
+                 HttpUtility.HtmlEncode(style),
+                 HttpUtility.HtmlEncode(subject),
+                 HttpUtility.HtmlEncode(guideML),
+                 HttpUtility.HtmlEncode(submittable),
+                 HttpUtility.HtmlEncode(hidden));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            // test deserializiation
+            Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+        }
+
 
         [TestMethod]
         public void CreateNewArticleWithXml()
@@ -1310,14 +1347,68 @@ namespace FunctionalTests.Services.Articles
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
 
-            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/570935/submitforreview/?comments=thisisforreview", _sitename);
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/570935/submitforreview/create.htm", _sitename);
 
-            // now get the response
-            request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+            string postData = String.Format("reviewforumid={0}&comments={1}",
+                 HttpUtility.HtmlEncode("1"),
+                 HttpUtility.HtmlEncode("thisisforreview"));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
             Console.WriteLine("After SubmitArticleForReview");
+        }
+
+        /// <summary>
+        /// Test ScoutRecommendArticle method from service
+        /// </summary>
+        [TestMethod]
+        public void ScoutRecommendArticle()
+        {
+            Console.WriteLine("Before ScoutRecommendArticle");
+
+            SnapshotInitialisation.RestoreFromSnapshot();
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserSuperUser();
+
+            //First submit an article for review
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/1319456/submitforreview/create.htm", _sitename);
+
+            string postData = String.Format("reviewforumid={0}&comments={1}",
+                 HttpUtility.HtmlEncode("1"),
+                 HttpUtility.HtmlEncode("thisisforreview"));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+
+            //then scout recommend it
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/1319456/scoutrecommends/create.htm", _sitename);
+
+            postData = String.Format("comments={0}",
+                 HttpUtility.HtmlEncode("thisisscoutrecommended"));
+
+            localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            // now get the response
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After ScoutRecommendArticle");
         }
 
         /// <summary>
@@ -1332,12 +1423,19 @@ namespace FunctionalTests.Services.Articles
             request.SetCurrentUserNormal();
             request.AssertWebRequestFailure = false;
 
-            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/570935/submitforreview/", _sitename);
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/570935/submitforreview/create.htm", _sitename);
 
             try
             {
                 // now get the response
-                request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+                string postData = String.Format("reviewforumid={0}",
+                     HttpUtility.HtmlEncode("1"));
+
+                NameValueCollection localHeaders = new NameValueCollection();
+                localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+                string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+                request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
             }
             catch (WebException)
             {
@@ -1362,12 +1460,20 @@ namespace FunctionalTests.Services.Articles
             request.SetCurrentUserNormal();
             request.AssertWebRequestFailure = false;
 
-            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/712216/submitforreview/?comments=thisisforreview", _sitename);
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/712216/submitforreview/create.htm", _sitename);
 
             try
             {
                 // now get the response
-                request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+                string postData = String.Format("reviewforumid={0}&comments={1}",
+                     HttpUtility.HtmlEncode("1"),
+                     HttpUtility.HtmlEncode("thisisforreview"));
+
+                NameValueCollection localHeaders = new NameValueCollection();
+                localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+                string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+                request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
             }
             catch (WebException)
             {
@@ -1392,12 +1498,21 @@ namespace FunctionalTests.Services.Articles
             request.SetCurrentUserNormal();
             request.AssertWebRequestFailure = false;
 
-            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/171659/submitforreview/?comments=thisisforreview&reviewforumid=0", _sitename);
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/171659/submitforreview/create.htm", _sitename);
 
             try
             {
                 // now get the response
-                request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
+                string postData = String.Format("reviewforumid={0}&comments={1}",
+                     HttpUtility.HtmlEncode("0"),
+                     HttpUtility.HtmlEncode("thisisforreview"));
+
+                NameValueCollection localHeaders = new NameValueCollection();
+                localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+                string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+                request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
             }
             catch (WebException)
             {

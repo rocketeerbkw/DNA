@@ -1140,7 +1140,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
-            string siteSuffix = "New Site Suffix";
+            string siteSuffix = "New Site Suffix" + DateTime.Now.ToShortDateString();
 
             string postData = String.Format("siteSuffix={0}",
                  HttpUtility.HtmlEncode(siteSuffix));

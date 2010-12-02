@@ -412,7 +412,10 @@ namespace BBC.Dna.Component
                         AddTextTag(userAccount, "PREFSTATUS", dataReader.GetInt32NullAsZero("PREFSTATUS"));
                         AddTextTag(userAccount, "PREFSTATUSDURATION", dataReader.GetInt32NullAsZero("PREFSTATUSDURATION"));
                         AddTextTag(userAccount, "USERSTATUSDESCRIPTION", dataReader.GetStringNullAsEmpty("USERSTATUSDESCRIPTION"));
-
+                        if (!dataReader.IsDBNull("DATEJOINED"))
+                        {
+                            AddDateXml(dataReader.GetDateTime("DATEJOINED"), userAccount, "DATEJOINED");
+                        }
                         if (!dataReader.IsDBNull("PREFSTATUSCHANGEDDATE"))
                         {
                             DateTime prefStatusChangedDate = dataReader.GetDateTime("PREFSTATUSCHANGEDDATE");

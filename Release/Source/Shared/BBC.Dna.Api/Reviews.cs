@@ -571,7 +571,7 @@ namespace BBC.Dna.Api
                     Response = editorsPick.Result
                 };
             }*/
-            ratingInfo.text = CommentInfo.FormatComment(reader.GetString("text"), ratingInfo.PostStyle, ratingInfo.hidden);
+            ratingInfo.text = CommentInfo.FormatComment(reader.GetString("text"), ratingInfo.PostStyle, ratingInfo.hidden, ratingInfo.User.Editor);
             return ratingInfo;
         }
 
