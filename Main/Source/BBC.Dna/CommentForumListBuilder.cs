@@ -330,7 +330,7 @@ namespace BBC.Dna
             }
 
             hostpageurl = InputContext.GetParamStringOrEmpty("dnahostpageurl", @"Hostpageurl filter of all the Comment Forums to return");
-            int defaultShow = InputContext.GetSiteOptionValueInt("CommentForum", "DefaultShow");
+            int defaultShow = 20;// InputContext.GetSiteOptionValueInt("CommentForum", "DefaultShow");
 
             dnaUidCount = InputContext.GetParamCountOrZero("u", "0, 1 or more dnauids");
                         
