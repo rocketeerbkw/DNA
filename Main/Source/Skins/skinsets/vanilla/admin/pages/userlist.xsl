@@ -132,6 +132,7 @@
 						<th>Moderation status</th>
 						<th>Identity user ID</th>
 						<th>Active</th>
+						<th>Date Joined</th>
 					</tr>
 				</thead>
 				<tbody>	
@@ -182,6 +183,16 @@
 					<xsl:when test="ACTIVE = '0'"><xsl:text>no</xsl:text></xsl:when>
 				</xsl:choose>
 			</td>
+			<td>
+				<xsl:choose>
+					<xsl:when test="DATEJOINED">
+						<xsl:value-of select="concat(DATEJOINED/DATE/@DAY, '/',DATEJOINED/DATE/@MONTH,'/',DATEJOINED/DATE/@YEAR)"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>-</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</td>			
 		</tr>
 	</xsl:template>
 	
