@@ -161,7 +161,7 @@ namespace FunctionalTests.Services.Forums
 
             string postData = String.Format("No data");
 
-            request.RequestPageWithFullURL(url, postData, "text/data");
+            request.RequestPageWithFullURL(url, postData, "text/xml");
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
             url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/unsubscribe", _sitename, forum);
@@ -190,7 +190,7 @@ namespace FunctionalTests.Services.Forums
 
             string postData = String.Format("No data");
 
-            request.RequestPageWithFullURL(url, postData, "text/data");
+            request.RequestPageWithFullURL(url, postData, "text/xml");
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
             url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/unsubscribe", _sitename, forum, thread);
@@ -220,7 +220,7 @@ namespace FunctionalTests.Services.Forums
             string postData = String.Format("No data");
             try
             {
-                request.RequestPageWithFullURL(url, postData, "text/data");
+                request.RequestPageWithFullURL(url, postData, "text/xml");
             }
             catch (WebException)
             {

@@ -699,10 +699,10 @@ namespace BBC.Dna.Services
             return GetOutputStream(article);
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/submitforreview/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/submitforreview/create.htm")]
         [WebHelp(Comment = "Submits the given article for a given site for review")]
         [OperationContract]
-        public void SubmitArticleForReview(string siteName, string articleId)
+        public void SubmitArticleForReview(string siteName, string articleId, NameValueCollection formsData)
         {
             // Check 1) get the site and check if it exists
             ISite site = GetSite(siteName);
@@ -717,10 +717,15 @@ namespace BBC.Dna.Services
             var article = Article.CreateArticle(cacheManager, readerCreator, callingUser, Int32.Parse(articleId), false, false);
 
             //Assume Peer Review reviewforumid 1
-            var reviewForumId = QueryStringHelper.GetQueryParameterAsInt("reviewforumid", 1);
-            var comments = QueryStringHelper.GetQueryParameterAsString("comments", "");
+            int reviewForumId = 1;
+            if (!String.IsNullOrEmpty(formsData["reviewforumid"])) 
+            { 
+                reviewForumId = Convert.ToInt32(formsData["reviewforumid"]); 
+            }
 
-            if (comments == String.Empty)
+            string comments = formsData["comments"];
+
+            if (String.IsNullOrEmpty(comments))
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.EmptyText));
             }
@@ -781,14 +786,14 @@ namespace BBC.Dna.Services
             return GetOutputStream(scoutRecommendations);
         }
         
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/scoutrecommends/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/scoutrecommends/create.htm")]
         [WebHelp(Comment = "Scout only function to recommend an article to the editors")]
         [OperationContract]
-        public void ScoutRecommendsArticle(string siteName, string articleId)
+        public void ScoutRecommendsArticle(string siteName, string articleId, NameValueCollection formsData)
         {
             // Check 1) get the site and check if it exists
             ISite site = GetSite(siteName);
-            var comments = QueryStringHelper.GetQueryParameterAsString("comments", "");
+            string comments = formsData["comments"];
 
             // Check 2) get the calling user             
             CallingUser callingUser = GetCallingUser(site);
