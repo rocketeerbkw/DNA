@@ -21,16 +21,16 @@
 	<xsl:template name="objects_subheading">
 		<xsl:param name="objecttype" />
 		
-		<xsl:if test="$objecttype != 'breadcrumb'">for</xsl:if> 
+		<xsl:if test="$objecttype != 'breadcrumb'"><xsl:text>for </xsl:text></xsl:if> 
 		<xsl:choose> 
 			<xsl:when test="$dashboardtype = 'all'">
-				all your sites
+				<xsl:text>all your sites</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">
-				&#160;<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" />
+				<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" />
 			</xsl:when>
 			<xsl:otherwise>
-				all your <xsl:value-of select="$dashboardtypeplural" />
+				<xsl:text>all your </xsl:text><xsl:value-of select="$dashboardtypeplural" />
 			</xsl:otherwise>
 		</xsl:choose>	
 	</xsl:template>

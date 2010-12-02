@@ -59,6 +59,7 @@
 	<xsl:include href="objects/activitydata/typelist.xsl"/>
 	<xsl:include href="objects/contributions/contribution.xsl"/>
 
+	<xsl:include href="objects/browsertitle.xsl"/>
 	<xsl:include href="objects/stripe.xsl"/>
 	<xsl:include href="objects/subheading.xsl"/>
 	<xsl:include href="objects/title.xsl"/>
