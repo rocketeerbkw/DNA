@@ -143,6 +143,7 @@
             <th>Site</th>
             <th>Identity User ID</th>
             <th>Active</th>
+            <th>Date Joined</th>
           </tr>
           <xsl:apply-templates select="/H2G2/MEMBERLIST/USERACCOUNTS/USERACCOUNT" />
           <tfoot>
@@ -270,6 +271,17 @@
       </td>
       <td align="center">
         <xsl:value-of  select="ACTIVE"/>
+      </td>
+      <td align="center">
+        <xsl:choose>
+          <xsl:when test="DATEJOINED">
+            <xsl:value-of select="concat(DATEJOINED/DATE/@DAY, '/',DATEJOINED/DATE/@MONTH,'/',DATEJOINED/DATE/@YEAR)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>-</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+        
       </td>
     </tr>
   </xsl:template>

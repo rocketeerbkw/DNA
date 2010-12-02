@@ -40,7 +40,8 @@ BEGIN
 				s.urlname,
 				sm.SSOUserID,
 				sm.IdentityUserID,
-				u.Status as 'Status'
+				u.Status as 'Status',
+				p.DateJoined
 			FROM Users u WITH(NOLOCK)
 			INNER JOIN Preferences p WITH(NOLOCK) ON p.UserID = u.UserID
 			INNER JOIN Mastheads m WITH(NOLOCK) ON m.UserID = u.UserID AND m.SiteID = p.SiteID
@@ -67,7 +68,8 @@ BEGIN
 				s.urlname,
 				sm.SSOUserID,
 				sm.IdentityUserID,
-				u.Status as 'Status'	
+				u.Status as 'Status',
+				p.DateJoined	
 			FROM Users u WITH(NOLOCK)
 			INNER JOIN Preferences p WITH(NOLOCK) ON p.UserID = u.UserID
 			INNER JOIN Mastheads m WITH(NOLOCK) ON m.UserID = u.UserID AND m.SiteID = p.SiteID
