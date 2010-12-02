@@ -66,25 +66,25 @@
 			<div class="dna-fl dna-main-right dna-boxspace">
 				<div class="dna-box">
 					<h3>Activity  <xsl:call-template name="objects_subheading" /></h3>
-          			<xsl:apply-templates select="SITESUMMARYSTATS " mode="objects_moderator_queuesummary" />
+          			<xsl:apply-templates select="SITESUMMARYSTATS" mode="objects_moderator_queuesummary" />
 				</div>
 			</div>				
 			
 			<div class="dna-fl dna-main-right dna-boxspace">
 				<div class="dna-box">
 					<h3>site admin &amp; user management</h3>
+					<xsl:choose>
+						<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 0 or not(/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE)">
+							<p>To perform site admin please choose a site type from the tabs above</p>
+						</xsl:when>
+						<xsl:otherwise><p>To perform site admin please choose a <xsl:value-of select="$dashboardtype" /> from the drop down above.</p></xsl:otherwise>
+					</xsl:choose>						
 					<ul class="dna-list-links">
-						<xsl:choose>
-							<!-- if an option is selected then show admin links -->
-							<xsl:when test="SITESUMMARYSTATS/@SITEID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"> 
-								<xsl:call-template name="objects_links_admin" />
-							</xsl:when>
-							<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 0 or not(/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE)">
-								<p>To perform site admin please choose a site type from the tabs above</p>
-							</xsl:when>
-							<xsl:otherwise><p>To perform site admin please choose a <xsl:value-of select="$dashboardtype" /> from the drop down above.</p></xsl:otherwise>
-						</xsl:choose>
-						<li><a href="/dna/moderation/admin/userlist?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}">Look up user</a></li>
+						<!-- if an option is selected then show admin links -->
+						<xsl:if test="SITESUMMARYSTATS/@SITEID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"> 
+							<xsl:call-template name="objects_links_admin" />
+						</xsl:if>
+						<li><a href="/dna/moderation/admin/userlist?{$dashboardsiteuser}">Look up user</a></li>
 						<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2"><li><a href="{$moderationemail}">To add user status, email Moderation Services Team</a></li></xsl:if>								
 					</ul>
 				</div>
