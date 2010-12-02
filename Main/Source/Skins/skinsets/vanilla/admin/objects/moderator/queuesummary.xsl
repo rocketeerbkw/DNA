@@ -57,37 +57,52 @@
 	<xsl:template name="moderationsummarylink">
 		<xsl:param name="referraltype" />
 		
+		<!-- this is messy need to re-factor -->
 		<xsl:choose>
 			<xsl:when test="@TOTAL > 0">
-				<a target="_blank">
-					<xsl:attribute name="href">
-						<xsl:choose>
-							<xsl:when test="$referraltype = 'post' or $referraltype = 'posts'">
-								<xsl:text>/dna/moderation/moderateposts?referrals=1</xsl:text>
-							</xsl:when>
-							<xsl:when test="$referraltype = 'alert' or $referraltype = 'alerts'">
-								<xsl:text>/dna/moderation/moderateposts?referrals=1&amp;alerts=1</xsl:text>
-							</xsl:when>
-							<xsl:when test="$referraltype = 'article' or $referraltype = 'articles'">
-								<xsl:text>/dna/moderation/moderatearticles?referrals=1</xsl:text>
-							</xsl:when>
-							<xsl:when test="$referraltype = 'article alert' or $referraltype = 'article alerts'">
-								<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
-							</xsl:when>
-							<xsl:when test="$referraltype = 'general complaint' or $referraltype = 'general complaints'">
-								<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
-							</xsl:when>
-						</xsl:choose>
-					</xsl:attribute>
-					<xsl:value-of select="@TOTAL" />&#160;
-					<xsl:value-of select="$referraltype" />
-					<xsl:text> referred for your decision</xsl:text>
-				</a>
+				<xsl:choose>
+					<xsl:when test="contains($referraltype,'general') and (not($dashboardtype = 'all') and not($dashboardtype = 'community'))">
+						<!-- don't show anything -->
+					</xsl:when>
+					<xsl:otherwise>
+					<a target="_blank">
+						<xsl:attribute name="href">
+							<xsl:choose>
+								<xsl:when test="$referraltype = 'post' or $referraltype = 'posts'">
+									<xsl:text>/dna/moderation/moderateposts?referrals=1</xsl:text>
+								</xsl:when>
+								<xsl:when test="$referraltype = 'alert' or $referraltype = 'alerts'">
+									<xsl:text>/dna/moderation/moderateposts?referrals=1&amp;alerts=1</xsl:text>
+								</xsl:when>
+								<xsl:when test="$referraltype = 'article' or $referraltype = 'articles'">
+									<xsl:text>/dna/moderation/moderatearticles?referrals=1</xsl:text>
+								</xsl:when>
+								<xsl:when test="$referraltype = 'article alert' or $referraltype = 'article alerts'">
+									<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
+								</xsl:when>
+								<xsl:when test="$referraltype = 'general complaint' or $referraltype = 'general complaints'">
+									<xsl:text>/dna/moderation/moderatearticles?referrals=1&amp;alerts=1</xsl:text>
+								</xsl:when>
+							</xsl:choose>
+						</xsl:attribute>
+						<xsl:value-of select="@TOTAL" />&#160;
+						<xsl:value-of select="$referraltype" />
+						<xsl:text> referred for your decision</xsl:text>
+					</a>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="@TOTAL" />&#160;
-				<xsl:value-of select="$referraltype" />
-				<xsl:text> referred for your decision</xsl:text>
+				<xsl:choose>
+					<xsl:when test="contains($referraltype,'general') and (not($dashboardtype = 'all') and not($dashboardtype = 'community'))">
+						<!-- don't show anything -->
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="@TOTAL" />&#160;
+						<xsl:value-of select="$referraltype" />
+						<xsl:text> referred for your decision</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
