@@ -18,7 +18,7 @@
 										<xs:element name="PREFSTATUS" type="xs:unsignedByte" />
 										<xs:element name="PREFSTATUSDURATION" type="xs:int" />
 										<xs:element name="USERSTATUSDESCRIPTION" type="xs:string" />
-                    <xs:element name="DATEJOINED">
+                    <xs:element name="DATEJOINED" minOccurs="0">
                       <xs:complexType>
                         <xs:sequence minOccurs="0">
                           <xs:element ref="DATE"/>
