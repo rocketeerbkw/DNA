@@ -28,7 +28,7 @@
 			<p>List of contributions for user number <xsl:value-of select="/H2G2/CONTRIBUTIONS/@USERID" /> across all DNA sites</p>
 			<form method="get" action="usercontributions">
 				<fieldset>
-					<label for="s_userid">User Id:</label> <input type="text" name="s_user" id="s_user" value="{/H2G2/CONTRIBUTIONS/@USERID}"/> <a href="userlist">Find more users</a>
+					<label for="s_user">User Id:</label> <input type="text" name="s_user" id="s_user" value="{/H2G2/CONTRIBUTIONS/@USERID}"/> <a href="userlist">Find more users</a>
 					<br /><br />
 					<label for="s_startdate">Start Date:</label> <input type="text" name="s_startdate" id="s_startdate" value=""/> (Format: YYYY-MM-DD)
 				</fieldset>
