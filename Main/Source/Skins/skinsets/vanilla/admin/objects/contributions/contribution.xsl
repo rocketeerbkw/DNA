@@ -7,6 +7,7 @@
 		    	<xsl:attribute name="class">odd</xsl:attribute>
 	    	</xsl:if>		
 			<td>
+				<h4 class="blq-hide">Contribution number <xsl:value-of select="position() + ancestor::CONTRIBUTIONS/@STARTINDEX" /></h4>
 				<xsl:apply-templates select="DATEPOST" mode="library_time_shortformat" />
 				<span class="date">
 					<xsl:apply-templates select="DATEPOST" mode="library_date_shortformat" />
@@ -79,6 +80,11 @@
 							<p class="dna-boards-failedpost">
 								<a href="/dna/moderation/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post Failed</a>
 							</p>
+							<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
+								<p>
+									<a href="/dna/moderation/EditPost?PostId={THREADENTRYID}" target="_blank">Edit Post</a>
+								</p>
+							</xsl:if>
 						</xsl:when>
 						<xsl:otherwise>
 							<a class="popup">
