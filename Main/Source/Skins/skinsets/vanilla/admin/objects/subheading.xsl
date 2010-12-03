@@ -24,7 +24,7 @@
 		<xsl:if test="$objecttype != 'breadcrumb'"><xsl:text>for </xsl:text></xsl:if> 
 		<xsl:choose> 
 			<xsl:when test="$dashboardtype = 'all'">
-				<xsl:text>all your sites</xsl:text>
+				<xsl:text>all your sites </xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']">
 				<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" />
