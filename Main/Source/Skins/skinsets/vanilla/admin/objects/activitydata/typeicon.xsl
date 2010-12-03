@@ -7,7 +7,7 @@
           <img src="/dnaimages/dna_messageboard/img/icons/new_user.png" width="30" height="30" alt="new user" />
         </xsl:when>
         <xsl:when test="text() = 'ModeratePostFailed'">
-          <img src="/dnaimages/dna_messageboard/img/icons/post_FAILED.png" width="30" height="33" alt="post failed" />
+          <img src="/dnaimages/dna_messageboard/img/icons/post_FAILED.png" width="30" height="30" alt="post failed" />
         </xsl:when>
         <xsl:when test="text() = 'ModerateArticleFailed'">
           <img src="/dnaimages/dna_messageboard/img/icons/article_FAILED.png" width="30" height="30" alt="article failed" />
