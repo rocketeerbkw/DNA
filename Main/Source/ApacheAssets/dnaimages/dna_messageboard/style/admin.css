@@ -368,6 +368,8 @@
 	.dna-dashboard .dna-search-userlist {padding:8px 10px 10px 0}
 	.dna-dashboard .dna-userlist h5 {width:10%;padding:10px}
 	
+	.dna-dashboard .cfl-pagination {padding:10px;}
+	.dna-dashboard .cfl-pagination li.pagenum {margin-right:1em}
 	.dna-dashboard .dna-dashboard-cfl, .dna-dashboard .dna-dashboard-cfl th, .dna-dashboard .dna-dashboard-cfl td {border:1px solid #CCCCCC}
 	.dna-dashboard .dna-dashboard-cfl span.dna-buttons {margin-left:0}
 	.dna-dashboard .dna-dashboard-cfl li {line-height:1.6em}
