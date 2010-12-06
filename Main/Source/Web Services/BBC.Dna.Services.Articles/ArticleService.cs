@@ -137,12 +137,13 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Article PreviewArticle(string siteName, Article inputArticle)
         {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+
             try
             {
                 ISite site = GetSite(siteName);
 
                 CallingUser callingUser = GetCallingUser(site);
-
 
                 // create the default article object graph
                 Article article = BuildNewArticleObject(site.SiteID,
@@ -152,6 +153,8 @@ namespace BBC.Dna.Services
                     inputArticle.GuideMLAsString,
                     inputArticle.ArticleInfo.Submittable.Type,
                     inputArticle.HiddenStatus);
+
+                article.ApplySkinOnGuideML = applySkin;
 
                 return article;
             }
@@ -166,6 +169,8 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Article PreviewArticleHtml(string siteName, NameValueCollection formsData)
         {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+
             try
             {
                 ISite site = GetSite(siteName);
@@ -175,13 +180,17 @@ namespace BBC.Dna.Services
                 int hiddenStatusAsInt = 0;
                 if (!String.IsNullOrEmpty(formsData["hidden"])) { hiddenStatusAsInt = Convert.ToInt32(formsData["hidden"]); }
 
+                string guideML = formsData["guideML"];
+
                 Article article = BuildNewArticleObject(site.SiteID,
                     callingUser.UserID,
                     (GuideEntryStyle)Enum.Parse(typeof(GuideEntryStyle), formsData["style"]),
                     formsData["subject"],
-                    formsData["guideML"],
+                    guideML,
                     formsData["submittable"],
                     hiddenStatusAsInt);
+
+                article.ApplySkinOnGuideML = applySkin;
 
                 return article;
             }
@@ -793,7 +802,9 @@ namespace BBC.Dna.Services
 
             // Check 2) get the calling user             
             CallingUser callingUser = GetCallingUser(site);
-            if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(UserTypes.Editor)))
+            bool authorised = callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
+
+            if (callingUser.UserID == 0 || !authorised)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
@@ -826,7 +837,9 @@ namespace BBC.Dna.Services
 
             // Check 2) get the calling user             
             CallingUser callingUser = GetCallingUser(site);
-            if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(UserTypes.Editor)) )
+            bool authorised = callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
+
+            if (callingUser.UserID == 0 || !authorised)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }

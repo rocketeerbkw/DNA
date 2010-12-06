@@ -281,8 +281,8 @@ namespace BBC.Dna.Objects
                 }
                 using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("blockusersubscription"))
                 {
-                    dataReader.AddParameter("authorid", blockUserId);
-                    dataReader.AddParameter("userID", dnaUserId);
+                    dataReader.AddParameter("authorid", dnaUserId);
+                    dataReader.AddParameter("userID", blockUserId);
                     dataReader.Execute();
                 }
             }
