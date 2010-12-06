@@ -34,7 +34,7 @@
 	           		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
 				    	<select name="s_siteid" id="s_siteid">
 				    		<option selected="selected" value="all">All <xsl:value-of select="$dashboardtypeplural" /></option>
-				    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
+				    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
 				    	</select>
 				    	<div class="dna-buttons">
 				    		<input type="submit" value="go" />
