@@ -134,7 +134,7 @@ namespace FunctionalTests.Services.Articles
             string h2g2id = "586";
             string style = "GuideML";
             string subject = "Test Subject";
-            string guideML = HttpUtility.UrlEncode(@"<GUIDE xmlns="""">
+            string guideML = String.Format(@"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
 
@@ -165,7 +165,7 @@ namespace FunctionalTests.Services.Articles
             string h2g2id = "586";
             string style = "GuideML";
             string subject = "Test Subject";
-            string guideML = HttpUtility.UrlEncode(@"<GUIDE xmlns="""">
+            string guideML = String.Format(@"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
 
@@ -306,7 +306,7 @@ namespace FunctionalTests.Services.Articles
 
             string style = "GuideML";
             string subject = "Test Subject";
-            string guideML = @"<GUIDE>
+            string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
             string submittable = "YES";
