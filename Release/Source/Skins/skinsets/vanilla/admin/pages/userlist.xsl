@@ -28,7 +28,7 @@
 					<fieldset class="dna-typelist">
 						<ul class="dna-fl">
 							<li>
-								<label for="searchType_0">User ID</label>
+								<label for="searchType_0">DNA user number</label>
 								<input id="searchType_0" type="radio" name="usersearchtype" value="0">
 									<xsl:attribute name="checked">checked</xsl:attribute>
 								</input>
@@ -42,7 +42,7 @@
 								</input>
 							</li>
 							<li>
-								<label for="searchType_2">User Name</label>
+								<label for="searchType_2">Display name</label>
 								<input id="searchType_2" type="radio" name="usersearchtype" value="2">
 									<xsl:if test="/H2G2/MEMBERLIST/@USERSEARCHTYPE = '2'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
@@ -60,7 +60,7 @@
 								</input>
 							</li>
 							<li>
-								<label for="searchType_4">BBCUID</label>
+								<label for="searchType_4">Identity user ID</label>
 								<input id="searchType_4" type="radio" name="usersearchtype" value="4">
 									<xsl:if test="/H2G2/MEMBERLIST/@USERSEARCHTYPE = '4'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
@@ -68,7 +68,7 @@
 								</input>
 							</li>
 							<li>
-								<label for="searchType_5">Login Name</label>
+								<label for="searchType_5">Username</label>
 								<input id="searchType_5" type="radio" name="usersearchtype" value="5">
 									<xsl:if test="/H2G2/MEMBERLIST/@USERSEARCHTYPE = '5'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
@@ -90,12 +90,12 @@
 				</xsl:if>			
 			</div>
 		</div>
-
+	
 		<xsl:choose>
 			<xsl:when test="/H2G2/MEMBERLIST/@SEARCHTEXT != ''">
 				<xsl:choose>
 					<xsl:when test="/H2G2/MEMBERLIST/@COUNT != '0'">
-						<form action="UserList?searchText={@SEARCHTEXT}&amp;usersearchType={@USERSEARCHTYPE}" method="post" id="modStatusForm" class="dna-fl dna-main-full">		
+						<form action="UserList?searchText={/H2G2/MEMBERLIST/@SEARCHTEXT}&amp;usersearchType={/H2G2/MEMBERLIST/@USERSEARCHTYPE}" method="post" id="modStatusForm" class="dna-fl dna-main-full">		
 							<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 								<div class="dna-fl dna-main-full">
 									<div class="dna-box">

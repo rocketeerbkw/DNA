@@ -169,7 +169,25 @@ namespace BBC.Dna.Objects
                         return null; 
                     }
 
-                    _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                    try
+                    {
+                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                    }
+                    catch (ApiException e)
+                    {
+                        if (e.InnerException != null)
+                        {
+                            _xmlError = e.Message + " by " + e.InnerException.Message;
+                        }
+                        else
+                        {
+                            _xmlError = e.Message;
+                        }
+
+                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                        //Return the error no need to transform
+                        return _guideMLAsXmlElement;
+                    }
                                         
                     if (_applySkinOnGuideML) //transformation required?
                     {
@@ -193,7 +211,23 @@ namespace BBC.Dna.Objects
                         {
                             transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
                         }
-                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
+                        try
+                        {
+                            _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
+                        }
+                        catch (ApiException e)
+                        {
+                            if (e.InnerException != null)
+                            {
+                                _xmlError = e.Message + e.InnerException.Message;
+                            }
+                            else
+                            {
+                                _xmlError = e.Message;
+                            }
+
+                            GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                        }
                     }                    
                 }
                 return _guideMLAsXmlElement;
@@ -276,8 +310,6 @@ namespace BBC.Dna.Objects
         [XmlIgnore]
         public int ForumStyle { get; set; }
 
-        #endregion
-
         /// <summary>
         /// Status 7 = deleted
         /// </summary>
@@ -286,6 +318,18 @@ namespace BBC.Dna.Objects
         {
             get { return ArticleInfo.Status.Type == 7; }
         }
+
+        private string _xmlError = String.Empty;
+        [XmlIgnore]
+        [DataMember(Name = ("xmlError"))]
+        public string XmlError
+        {
+            get { return _xmlError; }
+            set { _xmlError = value; }
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Updates the article based on the viewing user

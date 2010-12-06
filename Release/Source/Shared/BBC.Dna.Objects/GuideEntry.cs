@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using BBC.Dna.Utils;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Objects
 {
@@ -63,15 +64,13 @@ namespace BBC.Dna.Objects
                         //throw new NotImplementedException("Don't know what type of entry we've got here!");
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     //If something has gone wrong log stuff
                     DnaDiagnostics.Default.WriteExceptionToLog(e);
 
-                    doc.LoadXml("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>");
+                    throw new ApiException("GuideML Transform Failed", e);
                 }
-
-
             }
 
             return doc.DocumentElement;

@@ -23,19 +23,19 @@
 			</xsl:choose>
 		</xsl:variable>
 		
-			<xsl:if test="$dashboardtype = 'blog'">
-				<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your entries</a></li>
-			</xsl:if>
-			<xsl:if test="$dashboardtype = 'story'">
-				<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your stories</a></li>
-			</xsl:if>
-			<xsl:if test="$dashboardtype = 'messageboard'">
-				<li><a href="/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
-			</xsl:if>			
-			<li><a href="/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
-			<li><xsl:value-of select="$dashboardmodstatus" /><br /><br />
-				To change your moderation status, contact the <a href="bbccommunities@bbc.co.uk">Moderation Services team</a>.
-			</li>
+		<xsl:if test="$dashboardtype = 'blog'">
+			<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your entries</a></li>
+		</xsl:if>
+		<xsl:if test="$dashboardtype = 'story'">
+			<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your stories</a></li>
+		</xsl:if>
+		<xsl:if test="$dashboardtype = 'messageboard'">
+			<li><a href="/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
+		</xsl:if>			
+		<li><a href="/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
+		<li><xsl:value-of select="$dashboardmodstatus" /><br /><br />
+			To change your moderation status, contact the <a href="bbccommunities@bbc.co.uk">Moderation Services team</a>.
+		</li>
 
 	</xsl:template>
 	

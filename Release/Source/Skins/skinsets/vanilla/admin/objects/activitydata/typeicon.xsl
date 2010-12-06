@@ -4,35 +4,38 @@
   <xsl:template match="TYPE" mode="library_activitydata" >
       <xsl:choose>
         <xsl:when test="text() = 'NewUserToSite'">
-          <img src="/dnaimages/dna_messageboard/img/icons/smiley.png" width="30" height="32" alt="new user" />
+          <img src="/dnaimages/dna_messageboard/img/icons/new_user.png" width="30" height="30" alt="new user" />
         </xsl:when>
         <xsl:when test="text() = 'ModeratePostFailed'">
-          <img src="/dnaimages/dna_messageboard/img/icons/failed.png" width="30" height="33" alt="post failed" />
+          <img src="/dnaimages/dna_messageboard/img/icons/post_FAILED.png" width="30" height="30" alt="post failed" />
         </xsl:when>
         <xsl:when test="text() = 'ModerateArticleFailed'">
-          <img src="/dnaimages/dna_messageboard/img/icons/failed.png" width="30" height="33" alt="article failed" />
+          <img src="/dnaimages/dna_messageboard/img/icons/article_FAILED.png" width="30" height="30" alt="article failed" />
         </xsl:when>
         <xsl:when test="text() = 'ComplaintPost'">
-          <img src="/dnaimages/dna_messageboard/img/icons/alert_triangle.png" width="30" height="33" alt="alert" />
+          <img src="/dnaimages/dna_messageboard/img/icons/post_ALERT.png" width="30" height="30" alt="post alert" />
         </xsl:when>
         <xsl:when test="text() = 'ComplaintArticle'">
-          <img src="/dnaimages/dna_messageboard/img/icons/alert_triangle.png" width="30" height="33" alt="alert"  />
+          <img src="/dnaimages/dna_messageboard/img/icons/article_ALERT.png" width="30" height="30" alt="article alert"  />
         </xsl:when>
         <xsl:when test="text() = 'ModeratePostReferred'">
-          <img src="/dnaimages/dna_messageboard/img/icons/help.png" width="30" height="31" alt="referred" />
+          <img src="/dnaimages/dna_messageboard/img/icons/post_REFERRED.png" width="30" height="30" alt="post referred" />
         </xsl:when>
         <xsl:when test="text() = 'ModerateArticleReferred'">
-          <img src="/dnaimages/dna_messageboard/img/icons/help.png" width="30" height="31" alt="referred"  />
+          <img src="/dnaimages/dna_messageboard/img/icons/article_REFERRED.png" width="30" height="30" alt="article referred"  />
         </xsl:when>
         <xsl:when test="text() = 'UserModeratedPremod'">
-          <img src="/dnaimages/dna_messageboard/img/icons/cheeky_monkey.png" width="30" height="27" alt="pre-moderated"  />
+          <img src="/dnaimages/dna_messageboard/img/icons/pre-mod_user.png" width="30" height="30" alt="pre-moderated user"  />
         </xsl:when>
         <xsl:when test="text() = 'UserModeratedPostMod'">
-          <img src="/dnaimages/dna_messageboard/img/icons/cheeky_monkey.png" width="30" height="27" alt="post-moderated" />
+          <img src="/dnaimages/dna_messageboard/img/icons/post-mod_user.png" width="30" height="30" alt="post-moderated user" />
         </xsl:when>
         <xsl:when test="text() = 'UserModeratedBanned'">
-          <img src="/dnaimages/dna_messageboard/img/icons/devil.png" width="30" height="27" alt="banned" />
+          <img src="/dnaimages/dna_messageboard/img/icons/banned_user.png" width="30" height="30" alt="banned user" />
         </xsl:when>
+        <xsl:when test="text() = 'UserModeratedDeactivated'">
+          <img src="/dnaimages/dna_messageboard/img/icons/deactivated_user.png" width="30" height="30" alt="deactivated user" />
+        </xsl:when>        
         
         <xsl:otherwise>
           <xsl:value-of select="text()"/>

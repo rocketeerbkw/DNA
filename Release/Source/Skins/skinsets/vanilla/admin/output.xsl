@@ -39,11 +39,9 @@
 			<head profile="http://dublincore.org/documents/dcq-html/">
 				<title>
 					<xsl:choose>
-						<xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0' and not(@TYPE = 'HOSTDASHBOARD')">
-							DNA Site Admin - <xsl:value-of select="SITE/SHORTNAME"/>
-						</xsl:when>
-						<xsl:when test="@TYPE = 'HOSTDASHBOARD' or @TYPE = 'HOSTDASHBOARDACTIVITYPAGE'">
-							Host Dashboard
+						<xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
+							<xsl:apply-templates select="." mode="objects_browsertitle"/>
+							<xsl:call-template name="objects_browsertitle" />
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="concat('BBC - ', /H2G2/SITECONFIG/BOARDNAME, ' messageboards - Boards Admin')"/>
