@@ -38,7 +38,7 @@ select	u.UserID,
 		cm.ModClassID,
 		'SiteClassID' = s.ModClassID,
 		NULL,
-		,null
+		null
 from users u
 inner join Moderators m on u.userid = m.userid
 left join ModerationClassMembers cm on u.UserID = cm.UserID
