@@ -73,7 +73,6 @@
 			</a>
 			<xsl:apply-templates/>
 		</span>
-		<br/>
 	</xsl:template>
 	
 	<xsl:template match="FOOTNOTE | footnote" mode="library_GuideML_rss">

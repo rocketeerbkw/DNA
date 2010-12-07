@@ -802,12 +802,8 @@ namespace BBC.Dna.Services
 
             // Check 2) get the calling user             
             CallingUser callingUser = GetCallingUser(site);
-            bool authorised = callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
-
-            if (callingUser.UserID == 0 || !authorised)
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
-            }
+            //Only allow Scouts
+            ScoutsOnly(callingUser);
 
             try
             {
@@ -837,12 +833,9 @@ namespace BBC.Dna.Services
 
             // Check 2) get the calling user             
             CallingUser callingUser = GetCallingUser(site);
-            bool authorised = callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
 
-            if (callingUser.UserID == 0 || !authorised)
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
-            }
+            //Only allow Scouts
+            ScoutsOnly(callingUser);
 
             try
             {                
@@ -856,6 +849,16 @@ namespace BBC.Dna.Services
             catch (ApiException ex)
             {
                 throw new DnaWebProtocolException(ex);
+            }
+        }
+
+        private static void ScoutsOnly(CallingUser callingUser)
+        {
+            bool authorised = callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
+
+            if (!authorised)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
         }
 

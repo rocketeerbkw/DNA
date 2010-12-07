@@ -64,7 +64,7 @@ namespace BBC.Dna.Objects
                         //throw new NotImplementedException("Don't know what type of entry we've got here!");
                     }
                 }
-                catch (Exception e)
+                catch (XmlException e)
                 {
                     //If something has gone wrong log stuff
                     DnaDiagnostics.Default.WriteExceptionToLog(e);

@@ -178,6 +178,13 @@ namespace BBC.Dna.Objects
                         if (e.InnerException != null)
                         {
                             _xmlError = e.Message + " by " + e.InnerException.Message;
+                            Type exceptionType = e.InnerException.GetType();
+                            if (exceptionType.Name == "XmlException")
+                            {
+                                XmlException xmlE = (XmlException)e.InnerException;
+                                _xmlErrorLineNumber = xmlE.LineNumber;
+                                _xmlErrorLinePosition = xmlE.LinePosition;
+                            }
                         }
                         else
                         {
@@ -219,7 +226,14 @@ namespace BBC.Dna.Objects
                         {
                             if (e.InnerException != null)
                             {
-                                _xmlError = e.Message + e.InnerException.Message;
+                                _xmlError = e.Message + " by " + e.InnerException.Message;
+                                Type exceptionType = e.InnerException.GetType();
+                                if (exceptionType.Name == "XmlException")
+                                {
+                                    XmlException xmlE = (XmlException)e.InnerException;
+                                    _xmlErrorLineNumber = xmlE.LineNumber;
+                                    _xmlErrorLinePosition = xmlE.LinePosition;
+                                }
                             }
                             else
                             {
@@ -326,6 +340,24 @@ namespace BBC.Dna.Objects
         {
             get { return _xmlError; }
             set { _xmlError = value; }
+        }
+
+        private int _xmlErrorLineNumber = 0;
+        [XmlIgnore]
+        [DataMember(Name = ("xmlErrorLineNumber"))]
+        public int XmlErrorLineNumber
+        {
+            get { return _xmlErrorLineNumber; }
+            set { _xmlErrorLineNumber = value; }
+        }
+
+        private int _xmlErrorLinePosition = 0;
+        [XmlIgnore]
+        [DataMember(Name = ("xmlErrorLinePosition"))]
+        public int XmlErrorLinePosition
+        {
+            get { return _xmlErrorLinePosition; }
+            set { _xmlErrorLinePosition = value; }
         }
 
         #endregion
@@ -745,9 +777,9 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("canread", CanRead);
                 reader.AddParameter("canwrite", CanWrite);
                 reader.AddParameter("canchangepermissions", CanChangePermissions);
-                reader.AddParameter("entryid", H2g2Id);
+                reader.AddParameter("entryid", EntryId);
                 reader.AddParameter("editinguser", userid);
-                reader.AddParameter("updatedatecreated", true);
+                reader.AddParameter("updatedatecreated", false);
                 reader.AddParameter("groupnumber", DBNull.Value);
                 reader.Execute();
             }

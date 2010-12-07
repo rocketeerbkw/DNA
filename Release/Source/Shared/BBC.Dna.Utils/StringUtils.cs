@@ -388,6 +388,18 @@ namespace BBC.Dna.Utils
         }
 
         /// <summary>
+        /// Serialise and converts to string
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string SerializeToXmlReturnAsString(object obj)
+        {
+            MemoryStream stream = (MemoryStream)StringUtils.SerializeToXml(obj);
+            return Encoding.UTF8.GetString(stream.ToArray());
+
+        }
+
+        /// <summary>
         /// Takes an object, type and namespace and outputs xml
         /// </summary>
         /// <param name="obj">The object to serialize</param>

@@ -19,18 +19,22 @@ namespace BBC.Dna.Objects
         #region Properties
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "REVIEWFORUM")]
+        [DataMember(Name = "reviewForum")]
         public ReviewForum ReviewForum { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "FORUM")]
+        [DataMember(Name = "forum")]
         public SubmittableForum Forum { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 2, ElementName = "THREAD")]
+        [DataMember(Name = "thread")]
         public SubmittableThread Thread { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "POST")]
+        [DataMember(Name = "post")]
         public SubmittablePost Post { get; set; }
 
         /// <remarks/>
@@ -75,10 +79,12 @@ namespace BBC.Dna.Objects
     
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "SubmittableFORUM")]
+    [DataContract(Name = "submittableForum")]
     public partial class SubmittableForum
     {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "ID")]
+        [DataMember(Name = "id")]
         public int Id { get; set; }
     }
 
@@ -88,10 +94,12 @@ namespace BBC.Dna.Objects
     
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "SubmittableTHREAD")]
+    [DataContract(Name = "submittableThread")]
     public partial class SubmittableThread
     {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "ID")]
+        [DataMember(Name = "id")]
         public int Id { get; set; }
     }
 
@@ -101,10 +109,12 @@ namespace BBC.Dna.Objects
     
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "SubmittablePOST")]
+    [DataContract(Name = "submittablePost")]
     public partial class SubmittablePost
     {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "ID")]
+        [DataMember(Name = "id")]
         public int Id
         {
             get;

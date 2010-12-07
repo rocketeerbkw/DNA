@@ -8,6 +8,8 @@ using Dna.BIEventSystem;
 using BBC.Dna.Data;
 using TestUtils.Mocks.Extentions;
 using System.Data.SqlClient;
+using DnaEventService.Common;
+using Microsoft.Practices.EnterpriseLibrary;
 
 namespace BIEventProcessorTests
 {
@@ -217,6 +219,86 @@ namespace BIEventProcessorTests
             Assert.Fail("Shouldn't get this far");
         }
 
+        [TestMethod]
+        public void TheGuideSystem_TestRecordRiskModDecisionsOnPosts_RiskyAndProcessed_CheckTheParamsAreCorrect()
+        {
+            Helper_TheGuideSystem_TestRecordRiskModDecisionsOnPosts_Processed_CheckTheParamsAreCorrect(true,true);
+        }
+
+        [TestMethod]
+        public void TheGuideSystem_TestRecordRiskModDecisionsOnPosts_NotRiskyAndProcessed_CheckTheParamsAreCorrect()
+        {
+            Helper_TheGuideSystem_TestRecordRiskModDecisionsOnPosts_Processed_CheckTheParamsAreCorrect(true, false);
+        }
+
+        [TestMethod]
+        public void TheGuideSystem_TestRecordRiskModDecisionsOnPosts_NoRiskyValueAndProcessed_CheckTheParamsAreCorrect()
+        {
+            Helper_TheGuideSystem_TestRecordRiskModDecisionsOnPosts_Processed_CheckTheParamsAreCorrect(true, null);
+        }
+
+        [TestMethod]
+        public void TheGuideSystem_TestRecordRiskModDecisionsOnPosts_RiskyValueAndNotProcessed_CheckTheParamsAreCorrect()
+        {
+            Helper_TheGuideSystem_TestRecordRiskModDecisionsOnPosts_Processed_CheckTheParamsAreCorrect(false, true);
+        }
+
+        [TestMethod]
+        public void TheGuideSystem_TestRecordRiskModDecisionsOnPosts_NoRiskyValueAndNotProcessed_CheckTheParamsAreCorrect()
+        {
+            Helper_TheGuideSystem_TestRecordRiskModDecisionsOnPosts_Processed_CheckTheParamsAreCorrect(false, null);
+        }
+
+        private void Helper_TheGuideSystem_TestRecordRiskModDecisionsOnPosts_Processed_CheckTheParamsAreCorrect(bool process, bool? RiskyValue)
+        {
+            DataReaderFactory.CreateMockedDataBaseObjects(_mocks, "riskmod_recordriskmoddecisionforthreadentry", out _mockcreator, out _mockreader, null);
+            var mockreader = _mockreader;
+            TheGuideSystem g = new TheGuideSystem(_mockcreator, null);
+
+            var logger = new TestDnaLogger();
+            BIEventProcessor.BIEventLogger = logger;
+
+            // We need a IRiskModSystem do we can "Process" the event
+            var rm = _mocks.Stub<IRiskModSystem>();
+            bool? dummyrisky;
+            rm.Stub(x => x.RecordPostToForumEvent(null, out dummyrisky)).IgnoreArguments().OutRef(RiskyValue).Return(true);
+
+            // Create an event and process it
+            var evList = new List<BIPostToForumEvent>();
+            var ev = MakeTestBIPostToForumEvent(42, rm);
+            if (process)
+                ev.Process();
+            evList.Add(ev);
+
+            // Record the decision in TheGuide system 
+            g.RecordRiskModDecisionsOnPosts(evList);
+
+            if (process && RiskyValue.HasValue)
+            {
+                // Check the logging
+                Assert.IsNotNull(logger.logList.Find(x => x.Message == "RecordRiskModDecisionsOnPost() end"));
+                Assert.AreEqual(logger.logList[0].ExtendedProperties["SiteId"], 74);
+                Assert.AreEqual(logger.logList[0].ExtendedProperties["ForumId"], 75);
+                Assert.AreEqual(logger.logList[0].ExtendedProperties["ThreadEntryId"], 42);
+                Assert.AreEqual(logger.logList[0].ExtendedProperties["Risky"], RiskyValue);
+
+                // Check the params sent to the sp
+                mockreader.AssertWasCalled(x => x.AddParameter("siteid", 74));
+                mockreader.AssertWasCalled(x => x.AddParameter("forumid", 75));
+                mockreader.AssertWasCalled(x => x.AddParameter("threadentryid", 42));
+                mockreader.AssertWasCalled(x => x.AddParameter("risky", RiskyValue));
+
+                mockreader.AssertWasCalled(x => x.Execute());
+            }
+            else
+            {
+                Assert.IsTrue(logger.logList.Count == 0);
+
+                mockreader.AssertWasNotCalled(x => x.Execute());
+            }
+        }
+
+        
         private BIPostNeedsRiskAssessmentEvent MakeTestBIPostNeedsRiskAssessmentEvent(int threadEntryId)
         {
             var rows = new List<DataReaderFactory.TestDatabaseRow>();
@@ -400,7 +482,7 @@ namespace BIEventProcessorTests
         }
 
         [TestMethod]
-        public void RiskModSystem_TestDisabledResults()
+        public void RiskModSystem_When_Disabled_Check_IsRisky_Returns_True()
         {
             // Create with "Disabled" is true
             var rm = new RiskModSystem(null, true);
@@ -408,10 +490,25 @@ namespace BIEventProcessorTests
             var postAssessEvent = new BIPostNeedsRiskAssessmentEvent(null, null);
             bool risky = rm.IsRisky(postAssessEvent);
             Assert.IsTrue(risky);
+        }
+
+        [TestMethod]
+        public void RiskModSystem_When_Disabled_Check_RecordPostToForumEvent_Returns_False()
+        {
+            // Create with "Disabled" is true
+            var rm = new RiskModSystem(null, true);
 
             var postEvent = new BIPostToForumEvent(null);
-            bool recPost = rm.RecordPostToForumEvent(postEvent);
+            bool? risky;
+            bool recPost = rm.RecordPostToForumEvent(postEvent, out risky);
             Assert.IsFalse(recPost);
+        }
+
+        [TestMethod]
+        public void RiskModSystem_When_Disabled_Check_RecordPostModerationDecision_Returns_False()
+        {
+            // Create with "Disabled" is true
+            var rm = new RiskModSystem(null, true);
 
             var postModDecisionEvent = new BIPostModerationDecisionEvent(null);
             bool recModDec = rm.RecordPostModerationDecision(postModDecisionEvent);
@@ -455,7 +552,7 @@ namespace BIEventProcessorTests
         {
             var mockCreator = _mocks.Stub<IDnaDataReaderCreator>();
 
-            BIEventProcessor bep = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false);
+            BIEventProcessor bep = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false);
 
             var evRisk = _mocks.DynamicMock<BIPostNeedsRiskAssessmentEvent>(null,null);
             var evPost = _mocks.DynamicMock<BIPostToForumEvent>(new object[] { null });
@@ -477,8 +574,8 @@ namespace BIEventProcessorTests
         {
             var mockCreator = _mocks.Stub<IDnaDataReaderCreator>();
 
-            BIEventProcessor bep1 = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false);
-            BIEventProcessor bep2 = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false);
+            BIEventProcessor bep1 = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false);
+            BIEventProcessor bep2 = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false);
 
             Assert.AreNotEqual(bep1,bep2);
         }
@@ -494,7 +591,7 @@ namespace BIEventProcessorTests
 
             IDnaDataReaderCreator creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
             
-            IDnaDataReader getbieventsReader, predictNoEntryIdReader, processReader, predictReader, removeReader, moderationReader;
+            IDnaDataReader getbieventsReader, predictNoEntryIdReader, processReader, predictReader, removeReader, moderationReader, recordDecisionReader;
 
             DataReaderFactory.AddMockedDataReader(_mocks, "getbievents", creator, out getbieventsReader, biEventRows);
             DataReaderFactory.AddMockedDataReader(_mocks, "predict_withoutentryid", creator, out predictNoEntryIdReader, null);
@@ -502,10 +599,11 @@ namespace BIEventProcessorTests
             DataReaderFactory.AddMockedDataReader(_mocks, "predict", creator, out predictReader, null);
             DataReaderFactory.AddMockedDataReader(_mocks, "removehandledbievents", creator, out removeReader, null);
             DataReaderFactory.AddMockedDataReader(_mocks, "moderation", creator, out moderationReader, null);
+            DataReaderFactory.AddMockedDataReader(_mocks, "riskmod_recordriskmoddecisionforthreadentry", creator, out recordDecisionReader, null);
 
             _mocks.ReplayAll();
 
-            var bep = BIEventProcessor.CreateBIEventProcessor(null, creator, creator, 1, false);
+            var bep = BIEventProcessor.CreateBIEventProcessor(null, creator, creator, 1, false, true);
 
             bep.Start();
             System.Threading.Thread.Sleep(200);
@@ -518,9 +616,24 @@ namespace BIEventProcessorTests
             creator.AssertWasCalled(x => x.CreateDnaDataReader("predict"));
             creator.AssertWasCalled(x => x.CreateDnaDataReader("removehandledbievents"));
             creator.AssertWasCalled(x => x.CreateDnaDataReader("moderation"));
+            creator.AssertWasCalled(x => x.CreateDnaDataReader("riskmod_recordriskmoddecisionforthreadentry"));
 
             // We can't test that any methods are called in "bep" because it is not a mocked object.
             // However this test should ensure 100% code coverage, so at least it exercises the code
         }
+    }
+
+    class TestDnaLogger : IDnaLogger
+    {
+        #region IDnaLogger Members
+
+        public List<Microsoft.Practices.EnterpriseLibrary.Logging.LogEntry> logList = new List<Microsoft.Practices.EnterpriseLibrary.Logging.LogEntry>();
+
+        public void Write(Microsoft.Practices.EnterpriseLibrary.Logging.LogEntry log)
+        {
+            logList.Add(log);
+        }
+
+        #endregion
     }
 }

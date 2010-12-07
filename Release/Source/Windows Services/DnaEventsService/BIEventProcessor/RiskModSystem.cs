@@ -18,9 +18,9 @@ namespace Dna.BIEventSystem
         /// </summary>
         private bool Disabled { get; set; }
 
-        public RiskModSystem(IDnaDataReaderCreator dataReaderCreator, bool disableRiskMod)
+        public RiskModSystem(IDnaDataReaderCreator riskModDataReaderCreator, bool disableRiskMod)
         {
-            RiskModDataReaderCreator = dataReaderCreator;
+            RiskModDataReaderCreator = riskModDataReaderCreator;
             Disabled = disableRiskMod;
         }
 
@@ -63,8 +63,10 @@ namespace Dna.BIEventSystem
             }
         }
 
-        public bool RecordPostToForumEvent(BIPostToForumEvent ev)
+        public bool RecordPostToForumEvent(BIPostToForumEvent ev, out bool? risky)
         {
+            risky = null;
+
             // When disabled, don't record this event
             if (Disabled)
                 return false;
@@ -88,9 +90,13 @@ namespace Dna.BIEventSystem
                 reader.AddParameter("text", ev.Text);
                 reader.AddIntOutputParameter("moderation");
                 reader.Execute();
-            }
 
-            BIEventProcessor.BIEventLogger.LogInformation("RecordPostToForumEvent() end", startTime,"ThreadEntryId", ev.ThreadEntryId);
+                int moderationResult = reader.GetIntOutputParameter("moderation");
+
+                BIEventProcessor.BIEventLogger.LogInformation("RecordPostToForumEvent() end", startTime, "ThreadEntryId", ev.ThreadEntryId, "ModerationResult", moderationResult);
+
+                risky = moderationResult > 0;
+            }
 
             return true;
         }

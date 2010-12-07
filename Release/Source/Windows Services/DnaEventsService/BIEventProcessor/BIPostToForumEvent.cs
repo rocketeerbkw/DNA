@@ -21,6 +21,11 @@ namespace Dna.BIEventSystem
         public DateTime DatePosted { get; private set; }
         public string Text { get; private set; }
 
+        /// <summary>
+        /// Risky can get set through a call to RecordPostToForumEvent in the RiskMod system
+        /// </summary>
+        public bool? Risky { get; private set; }
+
         IRiskModSystem RiskModSys { get; set; }
 
         public BIPostToForumEvent(IRiskModSystem riskModSys)
@@ -48,8 +53,13 @@ namespace Dna.BIEventSystem
 
         public override void Process()
         {
-            if (RiskModSys.RecordPostToForumEvent(this))
+            bool? risky;
+
+            if (RiskModSys.RecordPostToForumEvent(this, out risky))
+            {
+                this.Risky = risky;
                 Processed = true;
+            }
         }
     }
 }

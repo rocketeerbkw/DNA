@@ -52,7 +52,7 @@ namespace Dna.ExModerationProcessor
             item.Uri = Uri;
             item.DateCompleted = DateCompleted.ToString();
 
-            return StringUtils.SerializeToXml(item);
+            return StringUtils.SerializeToXmlReturnAsString(item);
         }
 
         public String ToJSON()
@@ -64,7 +64,7 @@ namespace Dna.ExModerationProcessor
             item.Uri = Uri;
             item.DateCompleted = DateCompleted.ToString();
 
-            return StringUtils.SerializeToJson(item);
+            return StringUtils.SerializeToJsonReturnAsString(item);
 
         }
 

@@ -12,7 +12,7 @@ namespace SnesActivityProcessorTests
     {
         public static string SerializeToJson(this object source)
         {
-            return StringUtils.SerializeToJson(source);
+            return StringUtils.SerializeToJsonReturnAsString(source);
         }
     }
 

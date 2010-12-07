@@ -120,26 +120,24 @@
 
 	<xsl:template match="MEMBERLIST">
 		<div class="dna-fl dna-main-full">
-			<p><strong><xsl:value-of select="/H2G2/MEMBERLIST/@COUNT"/> users found.</strong></p>
+			<p><strong><xsl:value-of select="/H2G2/MEMBERLIST/@COUNT"/> instances found.</strong></p>
 			<table class="dna-dashboard-activity dna-userlist">
 				<thead>
 					<tr>
-						<th><label for="applyToAll">All</label><input type="checkbox" name="applyToAll" id="applyToAll" /></th>
-						<th>DNA user number</th>
+						<th class="narrow"><label for="applyToAll">All</label><input type="checkbox" name="applyToAll" id="applyToAll" /></th>
+						<th>User numbers</th>
 						<th>Display name</th>
 						<th>Username</th>
 						<th>Email</th>
-						<th>Moderation status</th>
-						<th>Identity user ID</th>
-						<th>Active</th>
-						<th>Date Joined</th>
+						<th class="mid">Moderation status</th>
+						<th class="mid">Date joined</th>
 					</tr>
 				</thead>
 				<tbody>	
 					<xsl:apply-templates select="/H2G2/MEMBERLIST/USERACCOUNTS/USERACCOUNT" />
 				</tbody>
 			</table>
-			<p><strong><xsl:value-of select="/H2G2/MEMBERLIST/@COUNT"/> users found.</strong></p>
+			<p><strong><xsl:value-of select="/H2G2/MEMBERLIST/@COUNT"/> instances found.</strong></p>
 		</div>
 	</xsl:template>
 	
@@ -147,18 +145,24 @@
 		<tr>
 			<xsl:call-template name="objects_stripe" />	
 			<td>
+				<h4 class="blq-hide">Instance number <xsl:value-of select="position()" /></h4>
 				<input type="checkbox" name="applyTo|{@USERID}|{SITEID}" id="applyTo|{@USERID}|{SITEID}" class="applyToCheckBox"/>
 			</td>
-			<td><xsl:value-of select="@USERID"/></td>
+			<td>
+				<p><strong>DNA user number:</strong><br />
+				<xsl:value-of select="@USERID"/></p>
+				<p><strong>Identity user ID:</strong><br />
+				<xsl:value-of  select="IDENTITYUSERID"/></p>
+			</td>
 			<td>
 				<a href="MemberDetails?userid={@USERID}" title="View users details"><xsl:value-of  select="USERNAME"/></a>
 			</td>
 			<td><xsl:value-of select="LOGINNAME"/></td>
 			<td><xsl:value-of  select="EMAIL"/></td>
-			<td>
+			<td class="mod">
 				<xsl:choose>
 					<xsl:when test="ACTIVE = '1'">
-						<img alt="{USERSTATUSDESCRIPTION}" src="/dnaimages/moderation/images/icons/status{PREFSTATUS}.gif" />
+						<xsl:apply-templates select="USERSTATUSDESCRIPTION" mode="objects_user_typeicon" />
 						<xsl:choose>
 							<xsl:when test="PREFSTATUSDURATION != '0'">
 								<br />
@@ -172,15 +176,8 @@
 						</xsl:choose>
 					</xsl:when>
 					<xsl:otherwise>
-						<img alt="Inactive" src="/dnaimages/moderation/images/icons/status4.gif" />
+						<xsl:apply-templates select="USERSTATUSDESCRIPTION" mode="objects_user_typeicon" />
 					</xsl:otherwise>
-				</xsl:choose>
-			</td>
-			<td><xsl:value-of  select="IDENTITYUSERID"/></td>
-			<td>
-				<xsl:choose>
-					<xsl:when test="ACTIVE = '1'"><xsl:text>yes</xsl:text></xsl:when>
-					<xsl:when test="ACTIVE = '0'"><xsl:text>no</xsl:text></xsl:when>
 				</xsl:choose>
 			</td>
 			<td>
@@ -200,7 +197,7 @@
 		<h3>Moderation Actions</h3>
 		<fieldset class="dna-fl dna-search-userlist">
 			<div>
-				<label for="userStatusDescription">Moderation Status</label>
+				<label for="userStatusDescription">Moderation status:  </label>
 				<select id="userStatusDescription" name="userStatusDescription">
 					<option value="Standard" selected="selected">Standard</option>
 					<option value="Premoderate">Premoderate</option>
@@ -222,7 +219,7 @@
 				</select>
 			</div>
 			<div id="hideAllPostsContainer">
-				<label for="hideAllPosts">Hide all content</label>
+				<label for="hideAllPosts">Hide all content: </label>
 				<input type="checkbox" name="hideAllPosts" id="hideAllPosts" /> 
 			</div>
 			<div>
@@ -233,14 +230,14 @@
 			</div>
 		</fieldset>
 		<fieldset class="dna-fl dna-search-userlist">
-			<ul>
+			<ul class="blq-clearfix">
 				<li class="dna-fl">
 					<span class="dna-buttons">
 						<input type="submit" value="Apply action to marked accounts" id="ApplyAction" name="ApplyAction"></input>
 					</span>
 				</li>
-				<li class="dna-fl">
-					Alternatively:
+				<li class="dna-fl reset-display-name">
+					<strong>Alternatively:</strong>
 					<span class="dna-buttons">
 						<input type="submit" id="ApplyNickNameReset" value="Reset display name" name="ApplyNickNameReset" />
 					</span>

@@ -111,15 +111,6 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BIEventsOn {
-            get {
-                return ((bool)(this["BIEventsOn"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("2000")]
         public int BIEventsProcessor_Interval {
             get {
@@ -138,19 +129,37 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool SiteEventsOn {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DebugOn {
             get {
-                return ((bool)(this["SiteEventsOn"]));
+                return ((bool)(this["DebugOn"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DebugOn {
+        public bool BIEventsProcessor_RecordRiskModDecisionsOnPost {
             get {
-                return ((bool)(this["DebugOn"]));
+                return ((bool)(this["BIEventsProcessor_RecordRiskModDecisionsOnPost"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool BIEventsOn {
+            get {
+                return ((bool)(this["BIEventsOn"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SiteEventsOn {
+            get {
+                return ((bool)(this["SiteEventsOn"]));
             }
         }
     }

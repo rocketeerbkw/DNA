@@ -36,7 +36,9 @@
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="type" type="xs:string" />
-							<xs:element name="xmlError" type="xs:string" />
+							<xs:element name="xmlError" type="xs:string" minOccurs="0" />
+							<xs:element name="xmlErrorLineNumber" type="xs:int"  minOccurs="0" />
+							<xs:element name="xmlErrorLinePosition" type="xs:int" minOccurs="0"  />
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>

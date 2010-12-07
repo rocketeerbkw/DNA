@@ -25,7 +25,7 @@
 				<xsl:apply-templates select="ACTIVITYDATA" mode="library_activitydata" />
 			</td>
 			<td>
-				<xsl:apply-templates select="TYPE" mode="library_activitydata" />
+				<xsl:apply-templates select="TYPE" mode="objects_user_typeicon" />
 			</td>
 	    </tr>
 	</xsl:template>
