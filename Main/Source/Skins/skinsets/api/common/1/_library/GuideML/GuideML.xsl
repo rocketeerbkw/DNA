@@ -22,9 +22,9 @@
     <xsl:template match="TEXT | BODY | RICHPOST | PREVIEWBODY" mode="library_GuideML" >
         <xsl:apply-templates select="* | text()" mode="library_GuideML" />
     	<xsl:if test="descendant::FOOTNOTE">
-    		<ol class="footnotes">
+    		<div class="footnotes">
     			<xsl:apply-templates select="descendant::FOOTNOTE" mode="library_footnotes"/>
-    		</ol>
+    		</div>
     	</xsl:if>
     </xsl:template>
 	

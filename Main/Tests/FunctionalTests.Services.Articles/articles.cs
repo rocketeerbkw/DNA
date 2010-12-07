@@ -159,6 +159,45 @@ namespace FunctionalTests.Services.Articles
         }
 
         [TestMethod]
+        public void UpdateArticle_WithHTML_AndCheckItsReturnedWithAFreshGet()
+        {
+            string h2g2id = "586";
+            string style = "GuideML";
+            string subject = "Test SubjectXXX";
+            string guideML = String.Format(@"<GUIDE xmlns="""">
+    <BODY>Sample Article ContentXXX</BODY>
+  </GUIDE>");
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, h2g2id);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserSuperUser();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+
+            // test deserializiation
+            Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, h2g2id);
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            Article getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            Assert.IsTrue(getArticle.Subject == savedArticle.Subject, "Article not saved correctly");
+
+        }
+
+        [TestMethod]
         public void UpdateArticle_WithResearchers_WithHTML()
         {
             string researchers = "276, 1422";
