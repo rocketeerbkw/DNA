@@ -8,5 +8,7 @@ namespace Dna.BIEventSystem
         List<BIEvent> GetBIEvents();
 
         void ProcessPostRiskAssessment(BIPostNeedsRiskAssessmentEvent bIPostNeedsRiskAssessmentEvent, bool risky);
+
+        void RecordRiskModDecisionsOnPosts(IEnumerable<BIPostToForumEvent> events);
     }
 }

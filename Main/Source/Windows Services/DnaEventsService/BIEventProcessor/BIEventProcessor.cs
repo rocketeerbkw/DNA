@@ -16,10 +16,11 @@ namespace Dna.BIEventSystem
         private static IDnaDataReaderCreator RiskModDataReaderCreator { get; set; }
         private static bool                  DisableRiskMod { get; set; }
         private static int                   TickCounter { get; set; }
+        private static bool                  RecRiskModDecOnThreadEntries { get; set; }
 
-        public static IDnaLogger BIEventLogger { get; private set; }
+        public static IDnaLogger BIEventLogger { get; set; }
 
-        public static BIEventProcessor CreateBIEventProcessor(IDnaLogger logger, IDnaDataReaderCreator theGuideDataReaderCreator, IDnaDataReaderCreator riskModDataReaderCreator, int interval, bool disableRiskMod)
+        public static BIEventProcessor CreateBIEventProcessor(IDnaLogger logger, IDnaDataReaderCreator theGuideDataReaderCreator, IDnaDataReaderCreator riskModDataReaderCreator, int interval, bool disableRiskMod, bool recRiskModDecOnThreadEntries)
         {
             BIEventLogger = logger;
 
@@ -34,15 +35,17 @@ namespace Dna.BIEventSystem
             TheGuideDataReaderCreator = theGuideDataReaderCreator;
             RiskModDataReaderCreator = riskModDataReaderCreator;
             DisableRiskMod = disableRiskMod;
+            RecRiskModDecOnThreadEntries = recRiskModDecOnThreadEntries;
 
             BIEventProcessorInstance = new BIEventProcessor(interval);
 
             var props = new Dictionary<string, object>() 
             { 
-                { "TheGuide connection string", theGuideDataReaderCreator.ConnectionString },
-                { "RiskMod connection string",  riskModDataReaderCreator.ConnectionString },
-                { "Interval",                   interval },
-                { "DisableRiskMod",             disableRiskMod }
+                { "TheGuide connection string",   TheGuideDataReaderCreator != null ? TheGuideDataReaderCreator.ConnectionString : "NULL" },
+                { "RiskMod connection string",    RiskModDataReaderCreator !=null ? RiskModDataReaderCreator.ConnectionString : "NULL" },
+                { "Interval",                     interval },
+                { "DisableRiskMod",               DisableRiskMod },
+                { "RecRiskModDecOnThreadEntries", RecRiskModDecOnThreadEntries }
             };
             BIEventLogger.LogInformation("Created BIEventProcessor with these params", props);
 
@@ -87,10 +90,13 @@ namespace Dna.BIEventSystem
                     riskModSys = new RiskModSystem(RiskModDataReaderCreator, DisableRiskMod);
                     theGuideSys = new TheGuideSystem(TheGuideDataReaderCreator, riskModSys);
 
-                    events = theGuideSys.GetBIEvents();    
+                    events = theGuideSys.GetBIEvents();
 
                     if (events.Count > 0)
                         ProcessEvents(events);
+
+                    if (RecRiskModDecOnThreadEntries)
+                        RecordRiskModDecisionsOnThreadEntries(theGuideSys, events);
                 }
                 catch (Exception ex)
                 {
@@ -135,6 +141,15 @@ namespace Dna.BIEventSystem
                 BIEventLogger.LogBIEvent("Processing Event", ev);
                 ev.Process();
             }
+        }
+
+        private void RecordRiskModDecisionsOnThreadEntries(ITheGuideSystem theGuideSys, List<BIEvent> events)
+        {
+            // Find all the processed BIPostToForumEvents that have a non-null Risky value
+            IEnumerable<BIPostToForumEvent> biPostEvents = events.Where(ev => ev is BIPostToForumEvent).Cast<BIPostToForumEvent>();
+
+            // Record the decision in TheGuide system
+            theGuideSys.RecordRiskModDecisionsOnPosts(biPostEvents);
         }
     }
 }

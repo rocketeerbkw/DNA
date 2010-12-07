@@ -23,7 +23,7 @@ namespace DnaEventProcessorService.IntegrationTests
             string logFile = @"Logs\BIEventProcessor\BIEventProcessor.log";
             Assert.IsFalse(File.Exists(logFile));
 
-            BIEventProcessor bep = BIEventProcessor.CreateBIEventProcessor(logger, null, null, 1, false);
+            BIEventProcessor bep = BIEventProcessor.CreateBIEventProcessor(logger, null, null, 1, false, false);
 
             var evRisk = _mocks.DynamicMock<BIPostNeedsRiskAssessmentEvent>(null, null);
             var evPost = _mocks.DynamicMock<BIPostToForumEvent>(new object[] { null });
@@ -44,10 +44,6 @@ namespace DnaEventProcessorService.IntegrationTests
             Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "Category: BIEventProcessor"));
             Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "EventId"));
             Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "EventType"));
-            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "RiskModThreadEntryQueueId"));
-            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "UserId"));
-            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "ThreadEntryId"));
-            Assert.IsTrue(ArrayContainsLineThatStartsWith(lines, "Text"));
         }
 
         private bool ArrayContainsLineThatStartsWith(string[] lines, string startsWith)

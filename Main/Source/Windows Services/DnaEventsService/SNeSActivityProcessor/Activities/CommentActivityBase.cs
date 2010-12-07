@@ -44,7 +44,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
 
         public override string GetActivityJson()
         {
-            return StringUtils.SerializeToJson(Contents);
+            return StringUtils.SerializeToJsonReturnAsString(Contents);
         }
 
         public override Uri GetUri()

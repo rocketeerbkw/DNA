@@ -1317,6 +1317,7 @@
     <None Include="riskmod_getsitestate.sql" />
     <None Include="riskmod_postriskmodthreadentrytoforum.sql" />
     <None Include="riskmod_processriskassessmentforthreadentry.sql" />
+    <None Include="riskmod_recordriskmoddecisionforthreadentry.sql" />
     <None Include="riskmod_setsitestate.sql" />
     <None Include="createsitedailysummaryreport.sql" />
     <None Include="updatesitedefaultskin.sql" />
