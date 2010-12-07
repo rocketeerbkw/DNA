@@ -287,7 +287,7 @@
 	.dna-cfl table#commentforumlist td#cfl-cell-closedate label {width: 55px;}
 	.dna-cfl table#commentforumlist td .cfl-cell-input {width: 60px}
 	
-	/* User list */
+	/* User list - can these be removed? */
 	.dna-userlist .searchTypeRadio{float:left;padding: 5px;text-align: center}
     .dna-userlist .userListTable{border: solid 1px black;padding-top: 10px;padding-bottom: 10px;width:100%}
     .dna-userlist .userListTable th{color: white;padding: 5px;background-color:black}
@@ -367,6 +367,13 @@
 
 	.dna-dashboard .dna-search-userlist {padding:8px 10px 10px 0}
 	.dna-dashboard .dna-userlist h5 {width:10%;padding:10px}
+	.dna-dashboard .dna-userlist th {padding:5px;}
+	.dna-dashboard .dna-userlist th.narrow {width:3%}
+	.dna-dashboard .dna-userlist th.mid {width:9%}
+	.dna-dashboard .dna-userlist td {padding:5px;word-wrap:break-word}
+	.dna-dashboard .dna-userlist td.mod {text-align:center}
+	.dna-dashboard .dna-userlist td p {margin-top:0}
+	.dna-dashboard .reset-display-name {padding-left:24em}
 	
 	.dna-dashboard .cfl-pagination {padding:10px;}
 	.dna-dashboard .cfl-pagination li.pagenum {margin-right:1em}

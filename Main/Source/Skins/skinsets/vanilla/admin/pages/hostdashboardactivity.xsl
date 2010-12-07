@@ -32,25 +32,25 @@
 				<form method="get" action="hostdashboardactivity"> 
 					<fieldset>
 						<label for="s_startdate">Start date:</label> <small> (Format:YYYY-MM-DD)</small>
-            <input type="text" name="s_startdate" id="s_startdate">
-              <xsl:attribute name="value">
-                <xsl:if test="SITEEVENTLIST/STARTDATE">
-                  <xsl:value-of select="concat(SITEEVENTLIST/STARTDATE/DATE/@YEAR,'-',SITEEVENTLIST/STARTDATE/DATE/@MONTH,'-',SITEEVENTLIST/STARTDATE/DATE/@DAY)"/>
-                </xsl:if>
-              </xsl:attribute>
-            </input>
+						<input type="text" name="s_startdate" id="s_startdate">
+							<xsl:attribute name="value">
+								<xsl:if test="SITEEVENTLIST/STARTDATE">
+									<xsl:value-of select="concat(SITEEVENTLIST/STARTDATE/DATE/@YEAR,'-',SITEEVENTLIST/STARTDATE/DATE/@MONTH,'-',SITEEVENTLIST/STARTDATE/DATE/@DAY)"/>
+								</xsl:if>
+							</xsl:attribute>
+						</input>
 					</fieldset>
-          <fieldset>
-            <label for="s_enddate">End date:</label>
-            <small> (Format:YYYY-MM-DD)</small>
-            <input type="text" name="s_enddate" id="s_enddate">
-              <xsl:attribute name="value">
-                <xsl:if test="SITEEVENTLIST/ENDDATE">
-                  <xsl:value-of select="concat(SITEEVENTLIST/ENDDATE/DATE/@YEAR,'-',SITEEVENTLIST/ENDDATE/DATE/@MONTH,'-',SITEEVENTLIST/ENDDATE/DATE/@DAY)"/>
-                </xsl:if>
-              </xsl:attribute>
-            </input>
-          </fieldset>
+					<fieldset>
+						<label for="s_enddate">End date:</label>
+						<small> (Format:YYYY-MM-DD)</small>
+						<input type="text" name="s_enddate" id="s_enddate">
+							<xsl:attribute name="value">
+								<xsl:if test="SITEEVENTLIST/ENDDATE">
+									<xsl:value-of select="concat(SITEEVENTLIST/ENDDATE/DATE/@YEAR,'-',SITEEVENTLIST/ENDDATE/DATE/@MONTH,'-',SITEEVENTLIST/ENDDATE/DATE/@DAY)"/>
+								</xsl:if>
+							</xsl:attribute>
+						</input>
+					</fieldset>
 					<fieldset class="dna-typelist">
 						<xsl:apply-templates select="SITEEVENTLIST/SELECTEDTYPES" mode="objects_activitydata_typelist" />
 						
