@@ -92,7 +92,7 @@
 				
 			<div class="dna-fl dna-main-right">
 				<div class="dna-box">
-					<h3>Useful links <xsl:call-template name="objects_subheading" /></h3>
+					<h3>Useful links</h3>
 					<xsl:call-template name="objects_links_useful" />
 				</div>
 			</div>
