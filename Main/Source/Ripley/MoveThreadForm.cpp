@@ -203,6 +203,10 @@ bool CMoveThreadForm::CreateFromThreadAndForumIDs(CUser* pViewer, int iThreadID,
 	m_pSP->GetField("OldForumTitle", sOldForumTitle);
 	m_pSP->GetField("NewForumTitle", sNewForumTitle);
 
+	CXMLObject::EscapeXMLText(&sThreadSubject);
+	CXMLObject::EscapeXMLText(&sOldForumTitle);
+	CXMLObject::EscapeXMLText(&sNewForumTitle);
+
 	sFormXML << "<THREAD-ID>" << iThreadID << "</THREAD-ID>";
 	sFormXML << "<THREAD-SUBJECT>" << sThreadSubject << "</THREAD-SUBJECT>";
 	sFormXML << "<OLD-FORUM-ID>" << iOldForumID << "</OLD-FORUM-ID>";
@@ -394,6 +398,10 @@ bool CMoveThreadForm::MoveThread(CUser* pViewer, int iThreadID, int iForumID, co
 			bSuccess = bSuccess && AddInside("MOVE-THREAD-FORM", "<ERROR TYPE='SAME-FORUM'>Destination was the same as current location</ERROR>");
 		}
 	}
+	CXMLObject::EscapeXMLText(&sThreadSubject);
+	CXMLObject::EscapeXMLText(&sOldForumTitle);
+	CXMLObject::EscapeXMLText(&sNewForumTitle);
+
 	// add the XML for the thread and forum IDs
 	sXML = "";
 	sXML << "<THREAD-ID>" << iThreadID << "</THREAD-ID>";
@@ -494,6 +502,11 @@ bool CMoveThreadForm::UndoThreadMove(CUser* pViewer, int iThreadID, int iPostID,
 	{
 		bSuccess = bSuccess && AddInside("MOVE-THREAD-FORM", "<SUCCESS>0</SUCCESS>");
 	}
+
+	CXMLObject::EscapeXMLText(&sThreadSubject);
+	CXMLObject::EscapeXMLText(&sCurrentForumTitle);
+	CXMLObject::EscapeXMLText(&sOriginalForumTitle);
+
 	// add the XML for the thread and forum IDs
 	sXML = "";
 	sXML << "<THREAD-ID>" << iThreadID << "</THREAD-ID>";
