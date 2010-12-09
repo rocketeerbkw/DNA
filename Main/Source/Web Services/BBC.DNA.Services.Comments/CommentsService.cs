@@ -574,17 +574,25 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserAttributes));
             }
+            var commentId = 0;
             try
             {
-                var commentId = Int32.Parse(commentIdStr);
+                commentId = Int32.Parse(commentIdStr);
             }
             catch
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.CommentNotFound));
             }
 
+            var commentForumData = _commentObj.GetCommentForumByUid(commentForumUid, site);
+            if (commentForumData == null)
+            {
+                throw ApiException.GetError(ErrorType.ForumUnknown);
+            }
+
+            var newValue = _commentObj.CreateCommentRating(commentForumData, site, commentId, userId, value);
             //_commentObj.RateComment(site, commentForumUid, commentId, value, userId);
-            return GetOutputStream(0);
+            return GetOutputStream(newValue);
         }
     }
 }
