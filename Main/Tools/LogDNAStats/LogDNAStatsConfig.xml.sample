@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+			  <config>
+			 		<settings>
+			 			<username>DnaUser</username>
+						<password>authpassword</password>
+			 			<editorpassword>password</editorpassword>
+			 			<proxy>gatef-rth.mh.bbc.co.uk</proxy>
+			 			<port>80</port>
+			 			<useproxy>true</useproxy>
+			 			<dbserver>ops-dna1\sql2005</dbserver>
+			 			<dbname>Stats</dbname>
+			 			<dbuser>stats</dbuser>
+			 			<dbpassword>numb3rs</dbpassword>
+						<pages>
+							<page name='narthur1'  csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur1/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur2'  csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur2/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur3'  csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur3/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur4'  csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur4/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur8'  csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur8/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur9'  csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur9/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur10' csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur10/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur11' csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur11/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur12' csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur12/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur13' csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur13/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur14' csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur14/h2g2/purexml/status-n?interval=1</page>
+							<page name='narthur15' csharp='1'>http://www.bbc.co.uk/h2g2/servers/narthur15/h2g2/purexml/status-n?interval=1</page>
+
+							<page name='narthur1'  csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur1/h2g2/purexml/status?interval=1</page>
+							<page name='narthur2'  csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur2/h2g2/purexml/status?interval=1</page>
+							<page name='narthur3'  csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur3/h2g2/purexml/status?interval=1</page>
+							<page name='narthur4'  csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur4/h2g2/purexml/status?interval=1</page>
+							<page name='narthur8'  csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur8/h2g2/purexml/status?interval=1</page>
+							<page name='narthur9'  csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur9/h2g2/purexml/status?interval=1</page>
+							<page name='narthur10' csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur10/h2g2/purexml/status?interval=1</page>
+							<page name='narthur11' csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur11/h2g2/purexml/status?interval=1</page>
+							<page name='narthur12' csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur12/h2g2/purexml/status?interval=1</page>
+							<page name='narthur13' csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur13/h2g2/purexml/status?interval=1</page>
+							<page name='narthur14' csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur14/h2g2/purexml/status?interval=1</page>
+							<page name='narthur15' csharp='0'>http://www.bbc.co.uk/h2g2/servers/narthur15/h2g2/purexml/status?interval=1</page>
+						</pages>							 			
+			 		</settings>
+			  </config>
