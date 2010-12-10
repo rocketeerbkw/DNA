@@ -319,7 +319,14 @@ namespace BBC.Dna.Objects
                     {
                         internalHidden = 0;
                     }
-                    contribution.SiteType = (SiteType)Enum.Parse(typeof(SiteType), reader2.GetStringNullAsEmpty("SiteType"));
+                    try
+                    {
+                        contribution.SiteType = (SiteType)Enum.Parse(typeof(SiteType), reader2.GetStringNullAsEmpty("SiteType"));
+                    }
+                    catch 
+                    {
+                        contribution.SiteType = Sites.SiteType.Undefined;
+                    }
                     contribution.Subject = reader2.GetStringNullAsEmpty("Subject");
                     switch ((BBC.Dna.Sites.SiteType)contribution.SiteType)
                     {
