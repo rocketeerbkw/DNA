@@ -66,6 +66,7 @@
     <Compile Include="commentsForumTests\TestUtils_commentsAPI.cs" />
     <Compile Include="CommentsList.cs" />
     <Compile Include="comments_v1.cs" />
+    <Compile Include="CommentsNeroRatings_v1.cs" />
     <Compile Include="editorsPicks_v1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ratingForumTests\createRatingForumEntryTests\duplicationTests_v1.cs" />

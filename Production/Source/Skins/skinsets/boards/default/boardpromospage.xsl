@@ -25,10 +25,10 @@
 	*******************************************************************************************
 	-->
 	<xsl:template name="MESSAGEBOARDPROMOPAGE_JAVASCRIPT">
-		<script language="JavaScript" src="http://www.bbc.co.uk/dnaimages/adminsystem/includes/textboxapp.js"/>
+		<script language="JavaScript" src="/dnaimages/adminsystem/includes/textboxapp.js"/>
 		<script type="text/javascript">
 		function openSamplePreview(type) {
-			openPreview('http://www.bbc.co.uk/dnaimages/boards/images/' + type + '_sample.gif', 400, 400);	
+			openPreview('/dnaimages/boards/images/' + type + '_sample.gif', 400, 400);	
 			return false;	
 		}
 		
@@ -480,7 +480,7 @@
 								</xsl:if>
 							</input>
 							<span style="font-weight:bold;" class="adminText">Code your own in GuideML</span>
-							<a href="http://www.bbc.co.uk/dnaimages/boards/guideml_popup.html" target="_blank" onclick="openPreview('http://www.bbc.co.uk/dnaimages/boards/guideml_popup.html', 600, 400); return false;">
+							<a href="/dnaimages/boards/guideml_popup.html" target="_blank" onclick="openPreview('/dnaimages/boards/guideml_popup.html', 600, 400); return false;">
 								<img src="{$adminimagesource}questionmark.gif" alt="Whats this?" width="20" height="20" border="0" hspace="5"/>
 							</a>
 							<br/>
@@ -608,7 +608,7 @@
 									<br/>
 									(calculated on total number of messages in the last 12 hours)
 									<p class="small">
-										<a href="http://www.bbc.co.uk/dnaimages/boards/images/busiest_sample.gif" onclick="return openSamplePreview('busiest');" target="_blank">See sample preview</a>
+										<a href="/dnaimages/boards/images/busiest_sample.gif" onclick="return openSamplePreview('busiest');" target="_blank">See sample preview</a>
 									</p>
 								</p>
 								<br/>
@@ -622,7 +622,7 @@
 									<br/>
 									(calculated on discussions started in the last 1 hour)	
 									<p class="small">
-										<a href="http://www.bbc.co.uk/dnaimages/boards/images/recent_sample.gif" onclick="return openSamplePreview('recent');" target="_blank">See sample preview</a>
+										<a href="/dnaimages/boards/images/recent_sample.gif" onclick="return openSamplePreview('recent');" target="_blank">See sample preview</a>
 									</p>
 								</p>
 								<br/>
@@ -636,7 +636,7 @@
 									<br/>
 									(calculated on total number of messages in the last 1 hour)
 									<p class="small">
-										<a href="http://www.bbc.co.uk/dnaimages/boards/images/busiest_hour_sample.gif" onclick="return openSamplePreview('busiest_hour');" target="_blank">See sample preview</a>
+										<a href="/dnaimages/boards/images/busiest_hour_sample.gif" onclick="return openSamplePreview('busiest_hour');" target="_blank">See sample preview</a>
 									</p>
 								</p>
 							</xsl:when>
@@ -762,7 +762,7 @@
 											Title text
 										</a>
 									</div>
-									<a href="http://www.bbc.co.uk/dnaimages/boards/titletext_popup.html" target="_blank" onclick="openPreview('http://www.bbc.co.uk/dnaimages/boards/titletext_popup.html', 600, 400); return false;">
+									<a href="/dnaimages/boards/titletext_popup.html" target="_blank" onclick="openPreview('/dnaimages/boards/titletext_popup.html', 600, 400); return false;">
 										<img src="{$adminimagesource}questionmark.gif" alt="Whats this?" width="20" height="20" border="0" hspace="5"/>
 									</a>
 									<br/>

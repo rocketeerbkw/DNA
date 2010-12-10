@@ -31,42 +31,46 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "countPosts", Order = 1)]
         public int CountPosts { get; set; }
 
+        [XmlAttribute(AttributeName = "LASTPOSTCOUNTREAD")]
+        [DataMember(Name = "lastPostCountRead", Order = 2)]
+        public int LastPostCountRead { get; set; }
+
         [XmlAttribute(AttributeName = "EDITABLE")]
-        [DataMember(Name = "editable", Order = 2)]
+        [DataMember(Name = "editable", Order = 3)]
         public long Editable { get; set; }
 
         [XmlAttribute(AttributeName = "PRIVATE")]
-        [DataMember(Name = "private", Order = 3)]
+        [DataMember(Name = "private", Order = 4)]
         public int Private { get; set; }
 
         [XmlElement(Order = 1, ElementName = "SITEID")]
-        [DataMember(Name = "siteId", Order = 4)]
+        [DataMember(Name = "siteId", Order = 5)]
         public int SiteId { get; set; }
 
         [XmlElement(Order = 2, ElementName = "HAS-REPLY")]
-        [DataMember(Name = "hasReply", Order = 5)]
+        [DataMember(Name = "hasReply", Order = 6)]
         public int HasReply { get; set; }
 
         [XmlElement(Order = 3, ElementName = "THREAD")]
-        [DataMember(Name = "thread", Order = 6)]
+        [DataMember(Name = "thread", Order = 7)]
         public PostThreadInfo Thread { get; set; }
 
         [XmlElement(Order = 4, ElementName = "FIRSTPOSTER")]
-        [DataMember(Name = "firstPoster", Order = 7)]
+        [DataMember(Name = "firstPoster", Order = 8)]
         public UserElement FirstPoster { get; set; }
 
         [XmlElement(Order = 5, ElementName = "YOURLASTPOST")]
-        [DataMember(Name = "yourLastPost", Order = 8)]
+        [DataMember(Name = "yourLastPost", Order = 9)]
         public int YourLastPost { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 6, ElementName = "MOSTRECENT")]
-        [DataMember(Name = "mostRecent", Order = 9)]
+        [DataMember(Name = "mostRecent", Order = 10)]
         public DateElement MostRecent { get; set; }
 
         /// <remarks/>
         [XmlElement(Order = 7, ElementName = "LASTREPLY")]
-        [DataMember(Name = "lastReply", Order = 10)]
+        [DataMember(Name = "lastReply", Order = 11)]
         public DateElement LastReply { get; set; }
 
         #endregion

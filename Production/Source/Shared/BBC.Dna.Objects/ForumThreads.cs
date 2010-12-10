@@ -273,12 +273,13 @@ namespace BBC.Dna.Objects
         /// <param name="threadOrder"></param>
         /// <param name="viewingUser"></param>
         /// <param name="ignoreCache"></param>
+        /// <param name="applySkin">whether we need to format the post</param>
         /// <returns></returns>
         public static ForumThreads CreateForumThreads(ICacheManager cache, IDnaDataReaderCreator readerCreator,
                                                       ISiteList siteList,
                                                       int forumId, int itemsPerPage, int startIndex, int threadId,
                                                       bool overFlow, ThreadOrder threadOrder, IUser viewingUser,
-                                                      bool ignoreCache)
+                                                      bool ignoreCache, bool applySkin)
         {
             var forumThreads = new ForumThreads();
             string key = forumThreads.GetCacheKey(forumId,itemsPerPage,startIndex,threadId,overFlow,threadOrder);
@@ -296,7 +297,7 @@ namespace BBC.Dna.Objects
             //create from db
             forumThreads = CreateForumThreadsFromDatabase(readerCreator, siteList, forumId, itemsPerPage, startIndex,
                                                           threadId,
-                                                          overFlow, threadOrder);
+                                                          overFlow, threadOrder, applySkin);
 
             //add to cache
             cache.Add(key, forumThreads.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(forumThreads.CacheSlidingWindow())));
@@ -326,6 +327,7 @@ namespace BBC.Dna.Objects
         /// <param name="viewingUser"></param>
         /// <param name="byDnaUserId"></param>
         /// <param name="ignoreCache"></param>
+        /// <param name="applySkin">whether we need to format the post</param>
         /// <returns></returns>
         public static ForumThreads CreateUsersJournal(ICacheManager cache, IDnaDataReaderCreator readerCreator,
                                                             ISiteList siteList,
@@ -338,12 +340,13 @@ namespace BBC.Dna.Objects
                                                             ThreadOrder threadOrder, 
                                                             IUser viewingUser, 
                                                             bool byDnaUserId, 
-                                                            bool ignoreCache)
+                                                            bool ignoreCache,
+                                                            bool applySkin)
         {
             int forumId = GetUsersJournalForumData(readerCreator, identityUserName, siteId, byDnaUserId);
 
             return CreateForumThreads(cache, readerCreator, siteList, forumId,
-                itemsPerPage, startIndex, threadId, overFlow, threadOrder, viewingUser, ignoreCache);
+                itemsPerPage, startIndex, threadId, overFlow, threadOrder, viewingUser, ignoreCache, applySkin);
         }
 
 
@@ -408,11 +411,13 @@ namespace BBC.Dna.Objects
         /// <param name="threadId"></param>
         /// <param name="overFlow"></param>
         /// <param name="threadOrder"></param>
+        /// <param name="threadOrder"></param>
+        /// <param name="applySkin">whether we need to format the post</param>
         /// <returns></returns>
         public static ForumThreads CreateForumThreadsFromDatabase(IDnaDataReaderCreator readerCreator,
                                                                   ISiteList siteList, int forumId, int itemsPerPage,
                                                                   int startIndex, int threadId, bool overFlow,
-                                                                  ThreadOrder threadOrder)
+                                                                  ThreadOrder threadOrder, bool applySkin)
         {
             //max return count is 200
             itemsPerPage = itemsPerPage > 200 ? 200 : itemsPerPage;
@@ -501,7 +506,7 @@ namespace BBC.Dna.Objects
                         do
                         {
                             threads.Thread.Add(ThreadSummary.CreateThreadSummaryFromReader(reader, threads.ForumId,
-                                                                                           itemsDisplayed));
+                                                                                           itemsDisplayed, applySkin));
                             itemsDisplayed++;
                         } while (reader.Read() && itemsDisplayed < itemsPerPage);
                     }

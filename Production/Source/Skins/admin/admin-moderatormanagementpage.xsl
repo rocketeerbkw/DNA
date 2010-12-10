@@ -18,7 +18,7 @@
   </xsl:variable>
   <xsl:template name="MODERATOR-MANAGEMENT_CSS">
 		<style type="text/css"> 
-			@import "http://www.bbc.co.uk/dnaimages/boards/includes/fonts.css" ;
+			@import "/dnaimages/boards/includes/fonts.css" ;
 		</style>
 		<link href="{$assetroot}dna_admin.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">

@@ -65,6 +65,7 @@ namespace BBC.Dna.Objects
         /// <param name="siteId"></param>
         /// <param name="includeArticle"></param>
         /// <param name="ignoreCache"></param>
+        /// <param name="applySkin"></param>
         /// <returns></returns>
         public static ForumSource CreateForumSource(ICacheManager cache, IDnaDataReaderCreator creator, User viewingUser,
                                                     int forumId, int threadId, int siteId, bool includeArticle,
@@ -80,8 +81,11 @@ namespace BBC.Dna.Objects
                 source = (ForumSource) cache.GetData(key);
                 if (source != null)
                 {
-//add article back to object
-                    source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
+                    if (includeArticle)
+                    {
+                        //add article back to object
+                        source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
+                    }
                     return source;
                 }
             }
@@ -96,7 +100,10 @@ namespace BBC.Dna.Objects
                 var sourceCopy = (ForumSource)source.Clone();
                 sourceCopy.Article = null;
                 cache.Add(key, sourceCopy, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(sourceCopy.CacheSlidingWindow())));
-                source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
+                if (includeArticle)
+                {
+                    source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
+                }
             }
             
             return source;

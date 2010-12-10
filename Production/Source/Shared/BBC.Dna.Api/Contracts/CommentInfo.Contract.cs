@@ -17,7 +17,10 @@ namespace BBC.Dna.Api
     [Serializable] [DataContract(Name = "comment", Namespace = "BBC.Dna.Api")]
     public partial class CommentInfo : baseContract
     {
-        public CommentInfo() { }
+        public CommentInfo() 
+        {
+            User = new User();
+        }
 
         [DataMember(Name = ("uri"), Order = 1)]
         public string Uri
@@ -96,6 +99,13 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = ("neroRatingValue"), Order = 12)]
+        public int NeroRatingValue
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Is the comment premod
         /// </summary>
@@ -114,7 +124,7 @@ namespace BBC.Dna.Api
         /// <param name="style"></param>
         /// <param name="hidden"></param>
         /// <returns></returns>
-        public static string FormatComment(string text, PostStyle.Style style, CommentStatus.Hidden hidden)
+        public static string FormatComment(string text, PostStyle.Style style, CommentStatus.Hidden hidden, bool isEditor)
         {
             if (hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration ||
                 hidden == CommentStatus.Hidden.Hidden_AwaitingReferral)
@@ -129,13 +139,19 @@ namespace BBC.Dna.Api
             switch (style)
             {
                 case Api.PostStyle.Style.plaintext:
-                    _text = HtmlUtils.RemoveAllHtmlTags(_text);
+                    if (!isEditor)
+                    {
+                        _text = HtmlUtils.RemoveAllHtmlTags(_text);
+                    }
                     _text = HtmlUtils.ReplaceCRsWithBRs(_text);
                     _text = LinkTranslator.TranslateExLinksToHtml(_text);
                     break;
 
                 case Api.PostStyle.Style.richtext:
-                    _text = HtmlUtils.CleanHtmlTags(_text, false, false);
+                    if (!isEditor)
+                    {
+                        _text = HtmlUtils.CleanHtmlTags(_text, false, false);
+                    }
                     _text = HtmlUtils.ReplaceCRsWithBRs(_text);
                     //<dodgey>
                     var temp = "<RICHPOST>" + _text + "</RICHPOST>";

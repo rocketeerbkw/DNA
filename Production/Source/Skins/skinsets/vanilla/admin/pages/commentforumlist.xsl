@@ -51,20 +51,18 @@
 			<div class="dna-fl dna-main-full">
 				<div class="dna-box">
 					<xsl:if test="/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT != 0">
-						
-						<ul>
+						<ul class="pagination cfl-pagination">
 							<xsl:call-template name="cfl-skip-show"/>
 						</ul>
-						
 						<div class="dna-fl dna-main-full">
-							<table class="dna-dashboard-activity">
+							<table class="dna-dashboard-activity dna-dashboard-cfl">
 								<xsl:apply-templates select="/H2G2/COMMENTFORUMLIST/COMMENTFORUM" />
 							</table>
 						</div>
-						
-						<ul>
+						<ul class="pagination cfl-pagination">
 							<xsl:call-template name="cfl-skip-show"/>
 						</ul>
+						
 					</xsl:if>
 				</div>
 			</div>
@@ -72,186 +70,174 @@
 	</xsl:template>
 
 	<xsl:template match="COMMENTFORUM">
-	
-		<thead>
-			<tr>
-				<xsl:call-template name="objects_stripe" />			
-				<th>Host Page URL</th>
-				<td colspan="4">
-					<a target="_blank">
-						<xsl:attribute name="href">
-							<xsl:value-of select="HOSTPAGEURL"/>
-						</xsl:attribute>
+		<tr>
+			<xsl:call-template name="objects_stripe" />			
+			<th>Host Page URL:</th>
+			<td colspan="4">
+				<a target="_blank">
+					<xsl:attribute name="href">
 						<xsl:value-of select="HOSTPAGEURL"/>
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<xsl:call-template name="objects_stripe" />	
-				<th>Details</th>
-				<th>Mod Status</th>
-				<th>Open/Close</th>
-				<th>Close Date</th>
-				<th>Fast Moderation</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<xsl:call-template name="objects_stripe" />	   
-				<td class="cfl-cell">
-					<ul class="cfl-details">
-						<li><strong>Title: </strong><xsl:value-of select="TITLE"/></li>
-						<li><strong>Forum ID: </strong><xsl:value-of select="@FORUMID"/></li>
-						<li><strong>UID: </strong><xsl:value-of select="@UID"/></li>
-						<li><strong>Comment count: </strong><xsl:value-of select="@FORUMPOSTCOUNT"/></li>
-					</ul>
-				</td>
-				<td class="cfl-cell-modstatus">
-					<form action="commentforumlist" method="get">
-						<fieldset>
-							<input type="hidden" name="dnauid" value="{@UID}" />
-							<input type="hidden" name="dnaaction" value="update" />
-							
-							<div class="cfl-wrap">
-								<ul class="cfl-list">
-									<li>
-										<label for="dnanewmodstatus1{@UID}">Reactive</label>
-										<input type="radio" name="dnanewmodstatus" value="reactive" id="dnanewmodstatus1{@UID}">
-											<xsl:if test="MODSTATUS=1">
-												<xsl:attribute name="checked">checked</xsl:attribute>
-											</xsl:if>
-										</input>
-									</li>
-									<li>
-										<label for="dnanewmodstatus2{@UID}">Post Moderated</label>
-										<input type="radio" name="dnanewmodstatus" value="postmod" id="dnanewmodstatus2{@UID}">
-											<xsl:if test="MODSTATUS=2">
-												<xsl:attribute name="checked">checked</xsl:attribute>
-											</xsl:if>
-										</input> 
-									</li>
-									<li>
-										<label for="dnanewmodstatus3{@UID}">Pre Moderated</label>
-										<input type="radio" name="dnanewmodstatus" value="premod" id="dnanewmodstatus3{@UID}">
-											<xsl:if test="MODSTATUS=3">
-												<xsl:attribute name="checked">checked</xsl:attribute>
-											</xsl:if>
-										</input>
-									</li>
-								</ul> 
-								
-								<input type="hidden" name="dnasiteid" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
-								<input type="hidden" name="dnahostpageurl" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
-								<input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
-								<input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
-								
-							</div>
-							<p>
-								<span class="dna-buttons">
-									<input type="submit" value="update" />
-								</span>
-							</p>
-						</fieldset>
-					</form>
-				</td>
-				<td>
-					<form action="commentforumlist" method="get">
-						<fieldset>
-							<input type="hidden" name="dnauid" value="{@UID}" />
-							<input type="hidden" name="dnaaction" value="update" />
-							
-							<div class="cfl-wrap">
-								<label for="dnanewforumclosedate{@UID}">Format: YYYYMMDD</label>
-								<input type="text" name="dnanewforumclosedate" id="dnanewforumclosedate{@UID}" class="cfl-cell-input" value="{CLOSEDATE/DATE/@YEAR}{CLOSEDATE/DATE/@MONTH}{CLOSEDATE/DATE/@DAY}" />
-								
-								<input type="hidden" name="dnasiteid" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
-								<input type="hidden" name="dnahostpageurl" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
-								<input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
-								<input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
-							
-							</div>
-							<p>
-								<span class="dna-buttons">
-									<input type="submit" value="update" />
-								</span>
-							</p>
-						</fieldset>
-					</form>
-				</td>
-				<td class="cfl-cell-closedate">
-					<form action="commentforumlist" method="get">
-						<fieldset>
-							<input type="hidden" name="dnauid" value="{@UID}" />
-							<input type="hidden" name="dnaaction" value="update" />
-							
-							<div class="cfl-wrap">
-								<ul class="cfl-list">
-									<li>
-										<label for="dnanewcanwrite1{@UID}">Open</label>
-										<input type="radio" name="dnanewcanwrite" value="1" id="dnanewcanwrite1{@UID}">
-											<xsl:if test="@CANWRITE=1">
-												<xsl:attribute name="checked">checked</xsl:attribute>
-											</xsl:if>
-										</input>
-									</li>
-									<li>
-										<label for="dnanewcanwrite0{@UID}">Close</label>
-										<input type="radio" name="dnanewcanwrite" value="0" id="dnanewcanwrite0{@UID}">
-											<xsl:if test="@CANWRITE=0">
-												<xsl:attribute name="checked">checked</xsl:attribute>
-											</xsl:if>
-										</input>
-									</li>
-								</ul>
-							</div>
-							
-							<input type="hidden" name="dnasiteid" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
-							<input type="hidden" name="dnahostpageurl" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
-							<input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
-							<input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
-							
-							<p>
-								<span class="dna-buttons">
-									<input type="submit" value="update" />
-								</span>
-							</p>
-						</fieldset>
-					</form>
-				</td>
-				<td>
-					<form action="commentforumlist" method="get">
-						<fieldset>
-							<input type="hidden" name="dnauid" value="{@UID}" />
-							<input type="hidden" name="dnaaction" value="update" />
-							
-							<div class="cfl-wrap">
-								<label for="dnafastmod{@UID}" class="blq-hide">Fast Moderation</label>
-								<select name="dnafastmod" id="dnafastmod{@UID}">
-									<xsl:if test="FASTMOD='1'">
-										<option value="enabled"><xsl:attribute name="selected">selected</xsl:attribute>Enabled</option>
-										<option value="disabled">Disabled</option>
+					</xsl:attribute>
+					<xsl:value-of select="HOSTPAGEURL"/>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<xsl:call-template name="objects_stripe" />	
+			<th>Details</th>
+			<th>Mod Status</th>
+			<th>Close Date</th>
+			<th>Open/Close</th>
+			<th>Fast Moderation</th>
+		</tr>
+		<tr>
+			<xsl:call-template name="objects_stripe" />	   
+			<td>
+				<h4 class="blq-hide">Entry number <xsl:value-of select="position() + ancestor::COMMENTFORUMLIST/@SKIP " /> </h4>
+				<ul>
+					<li><strong>Title: </strong><xsl:value-of select="TITLE"/></li>
+					<li><strong>Forum ID: </strong><xsl:value-of select="@FORUMID"/></li>
+					<li><strong>UID: </strong><xsl:value-of select="@UID"/></li>
+					<li><strong>Comment count: </strong><xsl:value-of select="@FORUMPOSTCOUNT"/></li>
+				</ul>
+			</td>
+			<td>
+				<form action="commentforumlist" method="get">
+					<fieldset>
+						<input type="hidden" name="dnauid" value="{@UID}" />
+						<input type="hidden" name="dnaaction" value="update" />
+						
+						<ul>
+							<li>
+								<label for="dnanewmodstatus1{@UID}">Reactive</label>
+								<input type="radio" name="dnanewmodstatus" value="reactive" id="dnanewmodstatus1{@UID}">
+									<xsl:if test="MODSTATUS=1">
+										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
-									<xsl:if test="FASTMOD='0'">
-										<option value="enabled">Enabled</option>
-										<option value="disabled"><xsl:attribute name="selected">selected</xsl:attribute>Disabled</option>
+								</input>
+							</li>
+							<li>
+								<label for="dnanewmodstatus2{@UID}">Post Moderated</label>
+								<input type="radio" name="dnanewmodstatus" value="postmod" id="dnanewmodstatus2{@UID}">
+									<xsl:if test="MODSTATUS=2">
+										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
-								</select>
-								
-								<input type="hidden" name="dnasiteid" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
-								<input type="hidden" name="dnahostpageurl" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
-								<input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
-								<input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
-							</div>
-							<p>
-								<span class="dna-buttons">
-									<input type="submit" value="update" />
-								</span>
-							</p>
-						</fieldset>
-					</form>
-				</td>
-			</tr>
-		</tbody>
+								</input> 
+							</li>
+							<li>
+								<label for="dnanewmodstatus3{@UID}">Pre Moderated</label>
+								<input type="radio" name="dnanewmodstatus" value="premod" id="dnanewmodstatus3{@UID}">
+									<xsl:if test="MODSTATUS=3">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
+							</li>
+						</ul> 
+						
+						<input type="hidden" name="dnasiteid" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
+						<input type="hidden" name="dnahostpageurl" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
+						<input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
+						<input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
+							
+						<p>
+							<span class="dna-buttons">
+								<input type="submit" value="update" />
+							</span>
+						</p>
+					</fieldset>
+				</form>
+			</td>
+			<td>
+				<form action="commentforumlist" method="get">
+					<fieldset>
+						<input type="hidden" name="dnauid" value="{@UID}" />
+						<input type="hidden" name="dnaaction" value="update" />
+						
+						<label for="dnanewforumclosedate{@UID}">Format: YYYYMMDD</label>
+						<input type="text" name="dnanewforumclosedate" id="dnanewforumclosedate{@UID}" class="cfl-cell-input" value="{CLOSEDATE/DATE/@YEAR}{CLOSEDATE/DATE/@MONTH}{CLOSEDATE/DATE/@DAY}" />
+						
+						<input type="hidden" name="dnasiteid" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
+						<input type="hidden" name="dnahostpageurl" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
+						<input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
+						<input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
+						
+						<p>
+							<span class="dna-buttons">
+								<input type="submit" value="update" />
+							</span>
+						</p>
+					</fieldset>
+				</form>
+			</td>
+			<td>
+				<form action="commentforumlist" method="get">
+					<fieldset>
+						<input type="hidden" name="dnauid" value="{@UID}" />
+						<input type="hidden" name="dnaaction" value="update" />
+						
+						<ul>
+							<li>
+								<label for="dnanewcanwrite1{@UID}">Open</label>
+								<input type="radio" name="dnanewcanwrite" value="1" id="dnanewcanwrite1{@UID}">
+									<xsl:if test="@CANWRITE=1">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
+							</li>
+							<li>
+								<label for="dnanewcanwrite0{@UID}">Close</label>
+								<input type="radio" name="dnanewcanwrite" value="0" id="dnanewcanwrite0{@UID}">
+									<xsl:if test="@CANWRITE=0">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
+							</li>
+						</ul>
+						
+						<input type="hidden" name="dnasiteid" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
+						<input type="hidden" name="dnahostpageurl" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
+						<input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
+						<input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
+						
+						<p>
+							<span class="dna-buttons">
+								<input type="submit" value="update" />
+							</span>
+						</p>
+					</fieldset>
+				</form>
+			</td>
+			<td>
+				<form action="commentforumlist" method="get">
+					<fieldset>
+						<input type="hidden" name="dnauid" value="{@UID}" />
+						<input type="hidden" name="dnaaction" value="update" />
+						
+						<label for="dnafastmod{@UID}" class="blq-hide">Fast Moderation</label>
+						<select name="dnafastmod" id="dnafastmod{@UID}">
+							<xsl:if test="FASTMOD='1'">
+								<option value="enabled"><xsl:attribute name="selected">selected</xsl:attribute>Enabled</option>
+								<option value="disabled">Disabled</option>
+							</xsl:if>
+							<xsl:if test="FASTMOD='0'">
+								<option value="enabled">Enabled</option>
+								<option value="disabled"><xsl:attribute name="selected">selected</xsl:attribute>Disabled</option>
+							</xsl:if>
+						</select>
+						
+						<input type="hidden" name="dnasiteid" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
+						<input type="hidden" name="dnahostpageurl" value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
+						<input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
+						<input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
+						<p>
+							<span class="dna-buttons">
+								<input type="submit" value="update" />
+							</span>
+						</p>
+					</fieldset>
+				</form>
+			</td>
+		</tr>
 	 </xsl:template>
 
 	<xsl:template name="cfl-skip-show">
@@ -271,9 +257,8 @@
 		<xsl:variable name="nav_end" select="$nav_start + $nav_range"/>
 		
 		<xsl:if test="$page_label = 1">
-			<p>Page <strong><xsl:value-of select="$current_page"/></strong> of <strong><xsl:value-of select="$page_count_total"/></strong></p>
+			<li class="pagenum">Page <strong><xsl:value-of select="$current_page"/></strong> of <strong><xsl:value-of select="$page_count_total"/></strong></li>
 		</xsl:if> 
-		
 		<xsl:if test="$page_label = 1">
 			<li>
 				<xsl:choose>
@@ -291,7 +276,7 @@
 						<a href="commentforumlist?dnaskip={$skip - $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">previous page</a>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:text>previous page</xsl:text>
+						<xsl:text>&lt; previous page</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
@@ -299,11 +284,11 @@
 				<xsl:choose>
 					<xsl:when test="$current_page > $nav_range">
 						<a href="commentforumlist?dnaskip={($nav_start - 1) * $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">
-							<xsl:value-of select="concat('previous ',$nav_range)" />
+							&lt;&lt; <xsl:value-of select="concat('previous ',$nav_range)" />
 						</a>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="concat('previous ',$nav_range)" />
+						&lt;&lt; <xsl:value-of select="concat('previous ',$nav_range)" />
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
@@ -342,7 +327,7 @@
 						<a href="commentforumlist?dnaskip={$current_page * $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">next page</a>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:text>next page</xsl:text>
+						<xsl:text>next page &gt;</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
@@ -350,11 +335,11 @@
 				<xsl:choose>
 					<xsl:when test="$page_count_total > $nav_end">
 						<a href="commentforumlist?dnaskip={$nav_end * $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">
-							<xsl:value-of select="concat('next ',$nav_range)" />
+							<xsl:value-of select="concat('next ',$nav_range)" /> &gt;&gt;
 						</a>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="concat('next ',$nav_range)" />
+						<xsl:value-of select="concat('next ',$nav_range)" /> &gt;&gt;
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>

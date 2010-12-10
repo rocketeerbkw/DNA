@@ -9,20 +9,18 @@
 	<xsl:template name="objects_links_useful">
 		<!-- all live links -->
 		<ul class="dna-list-links">
-			<xsl:if test="$dashboardtype = 'blog'">
+			<xsl:if test="$dashboardtype = 'blog' or $dashboardtype = 'all'">
 				<li><a href="https://confluence.dev.bbc.co.uk/display/blogs/Blogs+Platform">Blogs team wiki</a></li>
-			</xsl:if>	
+			</xsl:if>
 			<li><a href="http://wikis.gateway.bbc.co.uk/confluence/display/mod/Moderation+Services">Moderation services wiki</a></li>
 			<li><a href="http://www.bbc.co.uk/guidelines/editorialguidelines/page/guidance-moderation-summary">Editorial policy guidance for hosts</a></li>	
-			<xsl:choose>
-			<xsl:when test="$dashboardtype = 'blog'">
-				<li><a href="http://www.bbc.co.uk/blogs">Help pages</a></li>
-			</xsl:when>
-			<xsl:otherwise>
+			<xsl:if test="$dashboardtype = 'blog' or $dashboardtype = 'all'">
+				<li><a href="http://www.bbc.co.uk/blogs">Blogs help pages</a></li>
+			</xsl:if>
+			<xsl:if test="$dashboardtype = 'messageboard' or $dashboardtype = 'all'">
 				<li><a href="http://www.bbc.co.uk//messageboards">Messageboard help pages</a></li>
-			</xsl:otherwise>
-			</xsl:choose>	
-			<li><a href="mailto:bbccommunities@bbc.co.uk">Contact Moderation Services team</a></li>		
+			</xsl:if>
+			<li><a href="{$moderationemail}">Contact Moderation Services team</a></li>		
 			<li><a href="https://confluence.dev.bbc.co.uk/display/DNA/DNA">DNA team wiki</a></li> <!-- or http://wikis.gateway.bbc.co.uk/confluence/display/DNA/DNA? -->
 			<li><a href="http://wikis.gateway.bbc.co.uk/confluence/pages/viewpageattachments.action?pageId=159711330">DNA Hosts' handbooks</a></li>
 		</ul>

@@ -201,7 +201,7 @@
           <p>
             Date Completed: <xsl:apply-templates select="DATE-COMPLETED/DATE" mode="absolute"/>
           </p>
-          <xsl:if test ="COMPLAINT">
+          <xsl:if test ="COMPLAINT/COMPLAINT-TEXT != ''">
             <p class="alertUserBar">
               <xsl:apply-templates select="COMPLAINT/USER/STATUS" mode="user_pref_status"/>
               <xsl:apply-templates select="COMPLAINT/USER/GROUPS" mode="user_groups"/>

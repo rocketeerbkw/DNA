@@ -12,9 +12,9 @@ namespace Dna.BIEventSystem
         IDnaDataReaderCreator TheGuideDataReaderCreator { get; set; }
         IRiskModSystem RiskModSystem { get; set; }
 
-        public TheGuideSystem(IDnaDataReaderCreator srcDataReaderCreator, IRiskModSystem riskMod)
+        public TheGuideSystem(IDnaDataReaderCreator theGuideDataReaderCreator, IRiskModSystem riskMod)
         {
-            TheGuideDataReaderCreator = srcDataReaderCreator;
+            TheGuideDataReaderCreator = theGuideDataReaderCreator;
             RiskModSystem = riskMod;
         }
 
@@ -89,6 +89,26 @@ namespace Dna.BIEventSystem
             }
 
             BIEventProcessor.BIEventLogger.LogInformation("ProcessPostRiskAssessment() end", startTime, "RiskModThreadEntryQueueId", ev.RiskModThreadEntryQueueId);
+        }
+
+        public void RecordRiskModDecisionsOnPosts(IEnumerable<BIPostToForumEvent> biPostEvents)
+        {
+            // Process all the BIPostToForumEvents that have a value for Risky, and have been processed
+            foreach (var ev in biPostEvents.Where(ev => ev.Risky.HasValue && ev.Processed))
+            {
+                DateTime startTime = DateTime.Now;
+
+                using (IDnaDataReader reader = TheGuideDataReaderCreator.CreateDnaDataReader("riskmod_recordriskmoddecisionforthreadentry"))
+                {
+                    reader.AddParameter("siteid", ev.SiteId);
+                    reader.AddParameter("forumid", ev.ForumId);
+                    reader.AddParameter("threadentryid", ev.ThreadEntryId);
+                    reader.AddParameter("risky", ev.Risky.Value);
+                    reader.Execute();
+                }
+
+                BIEventProcessor.BIEventLogger.LogInformation("RecordRiskModDecisionsOnPost() end", startTime, "SiteId", ev.SiteId, "ForumId", ev.ForumId, "ThreadEntryId", ev.ThreadEntryId, "Risky", ev.Risky.Value);
+            }
         }
     }
 }

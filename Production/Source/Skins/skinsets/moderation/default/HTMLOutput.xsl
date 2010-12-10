@@ -60,7 +60,7 @@
 	<!--===============Javascript=====================-->
 	<!--===============Variable Settings=====================-->
 	<xsl:variable name="sso_assets">
-		<xsl:text>http://www.bbc.co.uk/pov/messageboard/sso_resources</xsl:text>
+		<xsl:text>https://www.bbc.co.uk/pov/messageboard/sso_resources</xsl:text>
 	</xsl:variable>
 	<xsl:variable name="sso_serviceid_link">
 		<xsl:text>moderation</xsl:text>
@@ -89,8 +89,8 @@
 	<!--===============CSS=====================-->
 	<xsl:variable name="csslink">
 		<xsl:call-template name="insert-css"/>
-		<link rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css" type="text/css" />
-		<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
+		<link rel="stylesheet" href="/dnaimages/boards/includes/login.css" type="text/css" />
+		<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login2.css"/>
 	</xsl:variable>
 	<!--===============CSS=====================-->
 	<!--===============Banner Template (Banner Area Stuff)=====================-->
@@ -156,8 +156,8 @@
 	<xsl:template name="primary-template">
 		<html>
 			<xsl:call-template name="insert-header"/>
-			<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
-			<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
+			<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login.css"/>
+			<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login2.css"/>
 			<body>
 				<div>
 					<xsl:call-template name="sso_statusbar-admin"/>
@@ -354,7 +354,7 @@
 				<xsl:text>emoticons/</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>http://www.bbc.co.uk/dnaimages/boards/images/emoticons/</xsl:text>
+				<xsl:text>/dnaimages/boards/images/emoticons/</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>

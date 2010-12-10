@@ -13,6 +13,7 @@
 			<meta http-equiv="Cache-Control" content="no cache"/>
 			<meta http-equiv="Pragma" content="no cache"/>
 			<meta http-equiv="Expires" content="0"/>
+      <meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type" />
 			<META NAME="robots" CONTENT="{$robotsetting}"/>
 			<title>h2g2 Moderation: Edit Post</title>
 			<style type="text/css">

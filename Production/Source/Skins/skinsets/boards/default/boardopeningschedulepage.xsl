@@ -36,7 +36,7 @@
 	Purpose:	 The Javascript for the blocking out unselected areas of the form (later addition the script to change the "open for..." bits)
 	-->
 	<xsl:template name="MESSAGEBOARDSCHEDULE_JAVASCRIPT">
-		<script src="http://www.bbc.co.uk/dnaimages/boards/includes/openclose.js"/>
+		<script src="/dnaimages/boards/includes/openclose.js"/>
 		<script type="text/javascript">
 			<xsl:comment>
 				function closeAllDay(eventObj)
@@ -72,13 +72,13 @@
 		<xsl:choose>
 			<xsl:when test="EVENT[@ACTIVE=0]">
 				<a href="{$root}MessageBoardSchedule?action=setactive">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/emergency_reopen.gif" width="131" height="46" alt="Board re-opened" border="0"/>
+					<img src="/dnaimages/adminsystem/images/emergency_reopen.gif" width="131" height="46" alt="Board re-opened" border="0"/>
 				</a>
 				<br/>
 			</xsl:when>
 			<xsl:otherwise>
 				<a href="{$root}MessageBoardSchedule?action=setinactive">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/emergency_stop.gif" width="131" height="46" alt="Stop the board - emergency closure" border="0"/>
+					<img src="/dnaimages/adminsystem/images/emergency_stop.gif" width="131" height="46" alt="Stop the board - emergency closure" border="0"/>
 				</a>
 				<br/>
 			</xsl:otherwise>
@@ -94,13 +94,13 @@
 		<xsl:choose>
 			<xsl:when test=".=1">
 				<a href="{$root}MessageBoardSchedule?action=setsitetopicsactive">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/emergency_reopen.gif" width="131" height="46" alt="Board re-opened" border="0"/>
+					<img src="/dnaimages/adminsystem/images/emergency_reopen.gif" width="131" height="46" alt="Board re-opened" border="0"/>
 				</a>
 				<br/>
 			</xsl:when>
 			<xsl:otherwise>
 				<a href="{$root}MessageBoardSchedule?action=setsitetopicsinactive">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/emergency_stop.gif" width="131" height="46" alt="Stop the board - emergency closure" border="0"/>
+					<img src="/dnaimages/adminsystem/images/emergency_stop.gif" width="131" height="46" alt="Stop the board - emergency closure" border="0"/>
 				</a>
 				<br/>
 			</xsl:otherwise>
@@ -147,7 +147,7 @@
 		</xsl:choose>
 	</xsl:template>
 	<xsl:template match="SCHEDULE" mode="processcreate_sitetopicsschedule">
-		<div id="subNav" style="background:#f4ebe4 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
+		<div id="subNav" style="background:#f4ebe4 url(/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
 			<div id="subNavText">
 				<h1>Opening Times / Edit opening times</h1>
 			</div>
@@ -156,7 +156,7 @@
 		<div id="contentArea">
 			<div class="centralAreaRight">
 				<div class="header">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/t_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/t_l.gif" alt=""/>
 				</div>
 				<div class="centralArea">
 					<xsl:apply-templates select="." mode="setactivelink"/>
@@ -178,7 +178,7 @@
 							<xsl:apply-templates select="." mode="backtosettings"/>
 						</div>
 					</div>
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/b_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/b_l.gif" alt=""/>
 				</div>
 			</div>
 		</div>
@@ -302,7 +302,7 @@
 		</xsl:choose>
 	</xsl:template>
 	<xsl:template match="SCHEDULE" mode="confirmsitetopicsinactive_boardschedule">
-		<div id="subNav" style="background:#f4ebe4 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
+		<div id="subNav" style="background:#f4ebe4 url(/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
 			<div id="subNavText">
 				<h1>Opening Times / Emergency closure</h1>
 			</div>
@@ -311,7 +311,7 @@
 		<div id="contentArea">
 			<div class="centralAreaRight">
 				<div class="header">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/t_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/t_l.gif" alt=""/>
 				</div>
 				<div class="centralArea" id="openingWarning">
 					<span id="headingHighlight">Are you sure you want to stop users from posting to the message boards immediately?</span>
@@ -339,13 +339,13 @@
 					</span>
 					<br/>
 					<br/>
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/b_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/b_l.gif" alt=""/>
 				</div>
 			</div>
 		</div>
 	</xsl:template>
 	<xsl:template match="SCHEDULE" mode="setsitetopicsinactive_boardschedule">
-		<div id="subNav" style="background:#f4ebe4 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
+		<div id="subNav" style="background:#f4ebe4 url(/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
 			<div id="subNavText">
 				<h1>Opening Times / Emergency closure</h1>
 			</div>
@@ -354,7 +354,7 @@
 		<div id="contentArea">
 			<div class="centralAreaRight">
 				<div class="header">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/t_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/t_l.gif" alt=""/>
 				</div>
 				<div class="centralArea" id="openingWarning">
 					The board has been closed
@@ -369,13 +369,13 @@
 							<xsl:apply-templates select="." mode="backtosettings"/>
 						</div>
 					</div>
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/b_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/b_l.gif" alt=""/>
 				</div>
 			</div>
 		</div>
 	</xsl:template>
 	<xsl:template match="SCHEDULE" mode="confirmsitetopicsactive_boardschedule">
-		<div id="subNav" style="background:#f4ebe4 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
+		<div id="subNav" style="background:#f4ebe4 url(/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
 			<div id="subNavText">
 				<h1>Opening Times / Emergency closure</h1>
 			</div>
@@ -384,7 +384,7 @@
 		<div id="contentArea">
 			<div class="centralAreaRight">
 				<div class="header">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/t_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/t_l.gif" alt=""/>
 				</div>
 				<div class="centralArea" id="openingWarning">
 		Are you sure you want to reopen the board for posting?		
@@ -406,13 +406,13 @@
 					</span>
 					<br/>
 					<br/>
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/b_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/b_l.gif" alt=""/>
 				</div>
 			</div>
 		</div>
 	</xsl:template>
 	<xsl:template match="SCHEDULE" mode="setsitetopicsactive_boardschedule">
-		<div id="subNav" style="background:#f4ebe4 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
+		<div id="subNav" style="background:#f4ebe4 url(/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
 			<div id="subNavText">
 				<h1>Opening Times / Emergency closure</h1>
 			</div>
@@ -421,7 +421,7 @@
 		<div id="contentArea">
 			<div class="centralAreaRight">
 				<div class="header">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/t_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/t_l.gif" alt=""/>
 				</div>
 				<div class="centralArea" id="openingWarning">
 					The board has been re-opened
@@ -435,7 +435,7 @@
 							<xsl:apply-templates select="." mode="backtosettings"/>
 						</div>
 					</div>
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/b_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/b_l.gif" alt=""/>
 				</div>
 			</div>
 		</div>
@@ -457,7 +457,7 @@
 	Purpose:	 Produces the form that allows you to set the opening and closing times for the forums
 	-->
 	<xsl:template match="SCHEDULE" mode="display_sitetopicsschedule">
-		<div id="subNav" style="background:#f4ebe4 url(http://www.bbc.co.uk/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
+		<div id="subNav" style="background:#f4ebe4 url(/dnaimages/adminsystem/images/icon_opening.gif) 0px 2px no-repeat;">
 			<div id="subNavText">
 				<h1>Opening Times / Edit opening times</h1>
 			</div>
@@ -466,7 +466,7 @@
 		<div id="contentArea">
 			<div class="centralAreaRight">
 				<div class="header">
-					<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/t_l.gif" alt=""/>
+					<img src="/dnaimages/adminsystem/images/t_l.gif" alt=""/>
 				</div>
 				<div class="centralArea">
 					<div id="emergency">
@@ -591,7 +591,7 @@
 							<input type="submit" name="submit" value="Save Opening Times &gt;&gt;" class="buttonThreeD" id="buttonRightInput"/>
 							<br/>
 							<br/>
-							<img src="http://www.bbc.co.uk/dnaimages/adminsystem/images/b_l.gif" alt=""/>
+							<img src="/dnaimages/adminsystem/images/b_l.gif" alt=""/>
 						</div>
 					</form>
 				</div>

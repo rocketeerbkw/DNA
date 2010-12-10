@@ -38,7 +38,8 @@ BEGIN
 				@ipaddress,
 				sm.SSOUserID,
 				sm.IdentityUserID,
-				u.Status as 'Status'
+				u.Status as 'Status',
+				p.DateJoined	
 			FROM CTE_DistinctUsers ctedu
 			INNER JOIN Users u WITH(NOLOCK) ON u.UserID = ctedu.UserID
 			INNER JOIN Preferences p WITH(NOLOCK) ON p.UserID = u.UserID
@@ -77,7 +78,8 @@ BEGIN
 				@ipaddress,
 				sm.SSOUserID,
 				sm.IdentityUserID,
-				u.Status as 'Status'
+				u.Status as 'Status',
+				p.DateJoined	
 			FROM CTE_DistinctUsers ctedu
 			INNER JOIN Users u WITH(NOLOCK) ON u.UserID = ctedu.UserID
 			INNER JOIN Preferences p WITH(NOLOCK) ON p.UserID = u.UserID

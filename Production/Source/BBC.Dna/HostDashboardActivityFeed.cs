@@ -20,6 +20,7 @@ namespace BBC.Dna
         private SiteType _type = 0;
         private int _userId = 0;
         private DateTime _startDate;
+        private DateTime _endDate = DateTime.MaxValue;
         private int _startIndex = 0;
         private int _itemsPerPage = 100;
 
@@ -46,8 +47,6 @@ namespace BBC.Dna
                 return;
             }
             GetQueryParameters();
-
-
 
             //get moderator stats
             var moderatorInfo = ModeratorInfo.GetModeratorInfo(AppContext.ReaderCreator, _userId, InputContext.TheSiteList);
@@ -77,7 +76,7 @@ namespace BBC.Dna
             }
 
             var siteEventList = SiteEventList.GetSiteEventList(_siteId, _eventType, _startIndex,
-                _itemsPerPage, _startDate, AppContext.ReaderCreator, InputContext.ViewingUser.IsSuperUser, _type);
+                _itemsPerPage, _startDate, _endDate, AppContext.ReaderCreator, InputContext.ViewingUser.IsSuperUser, _type);
             SerialiseAndAppend(siteEventList, "");
 
             //get sitelist
@@ -138,6 +137,16 @@ namespace BBC.Dna
                 }
             }
 
+            if (InputContext.DoesParamExist("s_enddate", "date to start display"))
+            {
+                var endDateStr = InputContext.GetParamStringOrEmpty("s_enddate", "days of stats to display");
+                if (!DateTime.TryParse(endDateStr, out _endDate))
+                {
+                    _endDate = DateTime.Now;
+                }
+            }
+            
+
             _userId = InputContext.ViewingUser.UserID;
             if (InputContext.ViewingUser.IsSuperUser)
             {
@@ -150,6 +159,16 @@ namespace BBC.Dna
             if (InputContext.DoesParamExist("s_startindex", "startindex"))
             {
                 _startIndex = InputContext.GetParamIntOrZero("s_startindex", "s_startindex");
+            }
+
+            if(InputContext.DoesParamExist("s_days", "amount of days to view"))
+            {
+                var days = InputContext.GetParamIntOrZero("s_days", "amount of days to view");
+                if (days > 0)
+                {
+                    _endDate = DateTime.Now;
+                    _startDate = _endDate.AddDays(days * -1);
+                }
             }
         }
     }

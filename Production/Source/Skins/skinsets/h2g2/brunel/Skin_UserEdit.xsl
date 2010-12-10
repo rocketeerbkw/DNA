@@ -158,7 +158,7 @@
 				<td>
 				<xsl:if test="@PROFANITYTRIGGERED = 1">
           <font xsl:use-attribute-sets="mainfont" class="postxt">
-            <p style="padding-left:20px;background-image: url(http://www.bbc.co.uk/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This entry has been blocked as it contains a word which other users may find offensive. Please edit your entry and post it again.</p>
+            <p style="padding-left:20px;background-image: url(/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This entry has been blocked as it contains a word which other users may find offensive. Please edit your entry and post it again.</p>
           </font>
         </xsl:if>	
 <!-- IL start -->

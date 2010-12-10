@@ -230,24 +230,27 @@ namespace BBC.Dna.Objects
             int dnaUserId = GetDnaUserIdFromIdentitifier(readerCreator, identifier, byDnaUserId);
 
             //You can't unsubscribe someone else's users (unless you're an editor or superuser)
-            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            if (viewingUser.UserID == dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                try
+                {
+                    using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("unblockusersubscription"))
+                    {
+                        dataReader.AddParameter("authorid", dnaUserId);
+                        dataReader.AddParameter("userid", unblockUserId);
+                        dataReader.Execute();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ApiException.GetError(ErrorType.InvalidUserId, ex);
+                }
+            }
+            else
             {
                 throw ApiException.GetError(ErrorType.NotAuthorized);
             }
 
-            try
-            {
-                using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("unblockusersubscription"))
-                {
-                    dataReader.AddParameter("authorid", dnaUserId);
-                    dataReader.AddParameter("userid", unblockUserId);
-                    dataReader.Execute();
-                }
-            }
-            catch(Exception ex)
-            {
-                throw ApiException.GetError(ErrorType.InvalidUserId, ex);
-            }
         }
 
         /// <summary>
@@ -269,21 +272,24 @@ namespace BBC.Dna.Objects
             int dnaUserId = GetDnaUserIdFromIdentitifier(readerCreator, identifier, byDnaUserId);
 
             //You can't unsubscribe someone else's users (unless you're an editor or superuser)
-            if (viewingUser.UserID != dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            if (viewingUser.UserID == dnaUserId || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || viewingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser))
+            {
+                //You can't block yourself
+                if (dnaUserId == blockUserId)
+                {
+                    throw ApiException.GetError(ErrorType.InvalidUserId);
+                }
+                using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("blockusersubscription"))
+                {
+                    dataReader.AddParameter("authorid", dnaUserId);
+                    dataReader.AddParameter("userID", blockUserId);
+                    dataReader.Execute();
+                }
+            }
+            else
             {
                 throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-            //You can't block yourself
-            if (dnaUserId == blockUserId)
-            {
-                throw ApiException.GetError(ErrorType.InvalidUserId);
-            }
-            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("blockusersubscription"))
-            {
-                dataReader.AddParameter("authorid", blockUserId);
-                dataReader.AddParameter("userID", dnaUserId);
-                dataReader.Execute();
-            }
+            }            
         }
 
         /// <summary>

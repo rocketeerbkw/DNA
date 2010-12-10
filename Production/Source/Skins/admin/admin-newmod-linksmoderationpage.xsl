@@ -49,6 +49,11 @@
             <xsl:value-of select="URI"/>
           </a>
         </p>
+        <p>
+          NOTES: <br/>
+            <xsl:value-of select="NOTES"/>
+
+        </p>
         <xsl:apply-templates select="ALERTS" mode="complaint_info"/>
       </div>
       <div class="tools">

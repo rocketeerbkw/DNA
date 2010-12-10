@@ -12,6 +12,7 @@
 		    	<xsl:attribute name="class">odd</xsl:attribute>
 	    	</xsl:if>
 			<td>
+				<h4 class="blq-hide">Event number <xsl:value-of select="position() + ancestor::SITEEVENTLIST/@STARTINDEX " /> </h4>
 				<xsl:apply-templates select="DATE" mode="library_time_shortformat" />
 				<xsl:text> on </xsl:text>
 				<span class="date">
@@ -24,7 +25,7 @@
 				<xsl:apply-templates select="ACTIVITYDATA" mode="library_activitydata" />
 			</td>
 			<td>
-				<xsl:apply-templates select="TYPE" mode="library_activitydata" />
+				<xsl:apply-templates select="TYPE" mode="objects_user_typeicon" />
 			</td>
 	    </tr>
 	</xsl:template>

@@ -119,20 +119,15 @@ namespace BBC.Dna.Services
                 }
 
 
-                if (
-                    !GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentForumGetLastUpdate),
-                                        new object[] {commentForumId, site.SiteID}))
-                {
-                    Statistics.AddHTMLCacheMiss();
-                    commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
+                commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
 
-                    //if null then send back 404
-                    if (commentForumData == null)
-                    {
-                        throw ApiException.GetError(ErrorType.ForumUnknown);
-                    }
-                    output = GetOutputStream(commentForumData, commentForumData.LastUpdate);
+                //if null then send back 404
+                if (commentForumData == null)
+                {
+                    throw ApiException.GetError(ErrorType.ForumUnknown);
                 }
+                output = GetOutputStream(commentForumData, commentForumData.LastUpdate);
+
             }
             catch (ApiException ex)
             {
@@ -205,18 +200,9 @@ namespace BBC.Dna.Services
             Stream output = null;
             try
             {
-
-
-                //_commentObj.CommentListGetLastUpdate(site.SiteID, prefix)
-                if (
-                    !GetOutputFromCache(ref output, new CheckCacheDelegate(_commentObj.CommentListGetLastUpdate),
-                                        new object[] {site.SiteID, prefix}))
-                {
-                    Statistics.AddHTMLCacheMiss();
-
-                    commentList = String.IsNullOrEmpty(prefix) ? _commentObj.GetCommentsListBySite(site) : _commentObj.GetCommentsListBySite(site, prefix);
-                    output = GetOutputStream(commentList, commentList.LastUpdate);
-                }
+                commentList = String.IsNullOrEmpty(prefix) ? _commentObj.GetCommentsListBySite(site) : _commentObj.GetCommentsListBySite(site, prefix);
+                output = GetOutputStream(commentList, commentList.LastUpdate);
+            
             }
             catch (ApiException ex)
             {
@@ -381,7 +367,15 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream CreateCommentPreview(string commentForumId, string siteName, CommentInfo comment)
         {
-            comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden);
+            bool isEditor = false;
+            try
+            {
+                ISite site = GetSite(siteName);
+                _commentObj.CallingUser = GetCallingUser(site);
+                isEditor = _commentObj.CallingUser.IsUserA(UserTypes.Editor);
+            }
+            catch{}
+            comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden, isEditor);
             return GetOutputStream(comment);
         }
 
@@ -536,6 +530,61 @@ namespace BBC.Dna.Services
 
             
             return GetOutputStream(siteObject);
+        }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumUid}/comment/{commentId}/rate/up")]
+        [WebHelp(Comment = "Increase the nero rating of a comment")]
+        [OperationContract]
+        public Stream NeroRatingIncrease(string sitename, string commentForumUid, string commentId)
+        {
+            return ApplyNeroRating(sitename, commentForumUid, commentId, 1);
+        }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumUid}/comment/{commentId}/rate/down")]
+        [WebHelp(Comment = "Decrease the nero rating of a comment")]
+        [OperationContract]
+        public Stream NeroRatingDecrease(string sitename, string commentForumUid, string commentId)
+        {
+            return ApplyNeroRating(sitename, commentForumUid, commentId, -1);
+        }
+
+        /// <summary>
+        /// Validates call and processes nero rating
+        /// </summary>
+        /// <param name="sitename"></param>
+        /// <param name="commentForumId"></param>
+        /// <param name="commentId"></param>
+        /// <param name="value"></param>
+        /// <returns>The new aggregate value for the given comment</returns>
+        private Stream ApplyNeroRating(string sitename, string commentForumUid, string commentIdStr, int value)
+        {
+            ISite site = GetSite(sitename);
+            var userId = 0;
+            try
+            {
+                _commentObj.CallingUser = GetCallingUser(site);
+                userId = _commentObj.CallingUser.UserID;
+            }
+            catch
+            { //anonymous call...
+                userId = 0;
+            }
+
+            if (userId == 0 && (bbcUidCookie == Guid.Empty || string.IsNullOrEmpty(_iPAddress)))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserAttributes));
+            }
+            try
+            {
+                var commentId = Int32.Parse(commentIdStr);
+            }
+            catch
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.CommentNotFound));
+            }
+
+            //_commentObj.RateComment(site, commentForumUid, commentId, value, userId);
+            return GetOutputStream(0);
         }
     }
 }

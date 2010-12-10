@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
 using System.Xml;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna
 {
@@ -139,7 +140,7 @@ namespace BBC.Dna
                     AddTextElement(complaint, "BBCUID", reader.GetGuidAsStringOrEmpty("bbcuid").ToString());
                     AddTextElement(complaint, "EMAIL-ADDRESS", reader.GetStringNullAsEmpty("correspondenceemail"));
 
-                    AddTextElement(moderation, "NOTES", reader.GetStringNullAsEmpty("notes"));
+                    AddTextElement(moderation, "NOTES", HtmlUtils.ReplaceCRsWithBRs(reader.GetStringNullAsEmpty("notes")));
 
                     AddDateXml(reader.GetDateTime("datequeued"), moderation, "DATE-QUEUED");
                     if (!reader.IsDBNull("datelocked"))

@@ -119,7 +119,7 @@ function initButtons () {
 	}				
 		
 						</script>
-				<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/admin.css"/>
+				<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
 			</head>
 			<body bgColor="ffffff" onLoad="initButtons();">
 				<font size="2">
@@ -242,7 +242,7 @@ function initButtons () {
 					}
 				// </xsl:comment>
 				</script>
-				<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/admin.css"/>
+				<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
 			</head>
 			<body xsl:use-attribute-sets="body" onLoad="initButtons();">
 				<font size="2">

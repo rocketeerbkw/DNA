@@ -99,8 +99,8 @@
       		<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
       		
       		<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
-      		<script type="text/javascript" src="http://www.bbc.co.uk/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
-      		<script type="text/javascript" src="http://www.bbc.co.uk/dnaimages/javascript/previewmode.js"><xsl:text> </xsl:text></script>
+      		<script type="text/javascript" src="/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
+      		<script type="text/javascript" src="/dnaimages/javascript/previewmode.js"><xsl:text> </xsl:text></script>
       		
       		<!-- disable Identity JavaScript for now -->
       		<script type="text/javascript">
@@ -109,7 +109,7 @@
       			}
       		</script>
       		
-      		<link type="text/css" media="screen" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/dna_messageboard/style/generic_messageboard.css"/>
+      		<link type="text/css" media="screen" rel="stylesheet" href="/dnaimages/dna_messageboard/style/generic_messageboard.css"/>
       		<xsl:if test="SITECONFIG/CSSLOCATION and SITECONFIG/CSSLOCATION != ''">
       			<xsl:choose>
       				<xsl:when test="starts-with(SITECONFIG/CSSLOCATION, '/dnaimages/')">

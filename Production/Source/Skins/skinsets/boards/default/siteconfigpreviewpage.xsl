@@ -5,12 +5,12 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" xmlns:local="#local-functions" xmlns:s="urn:schemas-microsoft-com:xml-data" xmlns:dt="urn:schemas-microsoft-com:datatypes" exclude-result-prefixes="msxsl local s dt">
 	<xsl:import href="../../../base/base-siteconfigpreviewpage.xsl"/>
 	<xsl:template name="SITECONFIGPREVIEW-EDITOR_CSS">
-		<LINK TYPE="text/css" REL="stylesheet" HREF="http://www.bbc.co.uk/dnaimages/boards/includes/messageboards.css"/>
+		<LINK TYPE="text/css" REL="stylesheet" HREF="/dnaimages/boards/includes/messageboards.css"/>
 		<xsl:if test="string(/H2G2/SITECONFIG/CSSLOCATION)">
 			<LINK TYPE="text/css" REL="stylesheet" HREF="{$boardpath}includes/{/H2G2/SITECONFIG/CSSLOCATION/node()}"/>
 		</xsl:if>
 		<style type="text/css"> 
-			@import "http://www.bbc.co.uk/dnaimages/boards/includes/fonts.css" ;
+			@import "/dnaimages/boards/includes/fonts.css" ;
 		</style>
 	</xsl:template>
 		<!--
@@ -750,7 +750,7 @@
 						<img src="{$adminimagesource}t_l.gif" alt=""/>
 					</div>
 					<div class="centralArea">
-						<h3 class="adminFormHeader">Icons</h3> &nbsp;<a href="http://www.bbc.co.uk/dnaimages/boards/standards_popup.html" target="_blank" onclick="openPreview('http://www.bbc.co.uk/dnaimages/boards/standards_popup.html', 600, 400); return false;" style="color:#333333;">View style guide for icons</a>
+						<h3 class="adminFormHeader">Icons</h3> &nbsp;<a href="/dnaimages/boards/standards_popup.html" target="_blank" onclick="openPreview('/dnaimages/boards/standards_popup.html', 600, 400); return false;" style="color:#333333;">View style guide for icons</a>
 						<p><strong>Note: </strong> If you are using Vanilla skins, this icon will not be used. Please set your Complain image using CSS.</p>
 						<br/>
 						<br/>
@@ -1312,7 +1312,7 @@
 										<xsl:text>emoticons/</xsl:text>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:text>http://www.bbc.co.uk/dnaimages/boards/images/emoticons/</xsl:text>
+										<xsl:text>/dnaimages/boards/images/emoticons/</xsl:text>
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:variable>
@@ -1736,7 +1736,7 @@
 										<xsl:text>emoticons/</xsl:text>
 									</xsl:when>
 									<xsl:otherwise>
-										<xsl:text>http://www.bbc.co.uk/dnaimages/boards/images/emoticons/</xsl:text>
+										<xsl:text>/dnaimages/boards/images/emoticons/</xsl:text>
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:variable>

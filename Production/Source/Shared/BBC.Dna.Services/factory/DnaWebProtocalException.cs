@@ -136,6 +136,7 @@ namespace BBC.Dna.Services
                 case ErrorType.CantSubscribe: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.UnableToHideUnHideThread: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.NotAuthorized: StatusCode = HttpStatusCode.Unauthorized; break;
+                case ErrorType.MissingUserAttributes: StatusCode = HttpStatusCode.Unauthorized; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 
@@ -213,8 +214,8 @@ namespace BBC.Dna.Services
                         break;
 
                     default:
-                        string output = StringUtils.SerializeToXml(errorData);
-                        XElement element = XElement.Load(new StringReader(output));
+                        XmlDocument element = new XmlDocument();
+                        element.Load(StringUtils.SerializeToXml(errorData));
                         element.WriteTo(writer);
                         break;
                 }

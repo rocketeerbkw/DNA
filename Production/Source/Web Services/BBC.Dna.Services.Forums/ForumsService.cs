@@ -41,13 +41,15 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetForum(string siteName, string forumId)
         {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
+
             ThreadOrder threadOrder = ThreadOrder.CreateDate;
             if (sortBy == SortBy.LastPosted)
             {
                 threadOrder = ThreadOrder.LatestPost;
             }
             return GetOutputStream(ForumThreads.CreateForumThreads(cacheManager, readerCreator, Global.siteList, Int32.Parse(forumId),
-                        itemsPerPage, startIndex, 0, true, threadOrder, null, false));
+                        itemsPerPage, startIndex, 0, true, threadOrder, null, false, applySkin));
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadid}/forumsource")]
@@ -74,6 +76,55 @@ namespace BBC.Dna.Services
             return GetOutputStream(forumSource);
         }
 
+        [WebGet(UriTemplate = "V1/site/{siteName}/reviewforums/{reviewForumId}")]
+        [WebHelp(Comment = "Get the review forum")]
+        [OperationContract]
+        public Stream GetReviewForum(string siteName, string reviewForumId)
+        {
+            ISite site = Global.siteList.GetSite(siteName);
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", false);
+
+            ThreadOrder threadOrder = ThreadOrder.CreateDate;
+            if (sortBy == SortBy.LastPosted)
+            {
+                threadOrder = ThreadOrder.LatestPost;
+            }
+
+            ReviewForumPage reviewForumPage = null;
+
+            try
+            {
+                int reviewForumIdInt = 0;
+                Int32.TryParse(reviewForumId, out reviewForumIdInt);
+                if (reviewForumIdInt > 0)
+                {
+                    reviewForumPage = ReviewForumPage.CreateReviewForumPage(cacheManager,
+                                                                            readerCreator,
+                                                                            Global.siteList,
+                                                                            null,
+                                                                            reviewForumIdInt,
+                                                                            site.SiteID,
+                                                                            true,
+                                                                            itemsPerPage,
+                                                                            startIndex,
+                                                                            threadOrder,
+                                                                            true,
+                                                                            applySkin);
+                }
+                else
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumOrThreadNotFound));
+                }
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+
+            return GetOutputStream(reviewForumPage);
+        }
+
+
         [WebGet(UriTemplate = "V1/site/{siteName}/forums/{forumId}/threads/{threadId}")]
         [WebHelp(Comment = "Get the thread and posts for a given thread id")]
         [OperationContract]
@@ -91,8 +142,53 @@ namespace BBC.Dna.Services
             
             ISite site = Global.siteList.GetSite(siteName);
 
-            return GetOutputStream(ForumThreadPosts.CreateThreadPosts(readerCreator, cacheManager, null, siteList, site.SiteID,
-                Int32.Parse(forumId), Int32.Parse(threadId), itemsPerPage, startIndex, Int32.Parse(postId), (SortBy.Created == sortBy), false, applySkin));
+            ForumThreadPosts forumThreadPosts = null;
+
+            CallingUser callingUser = null;
+            try
+            {
+                callingUser = GetCallingUser(site);
+            }
+            catch (DnaWebProtocolException)
+            {
+                callingUser = null;
+            }
+
+            int fourmIdInt = Int32.Parse(forumId);
+            int threadIdInt = Int32.Parse(threadId);
+
+            forumThreadPosts = ForumThreadPosts.CreateThreadPostsByCallingUser(readerCreator, cacheManager, callingUser, siteList, site.SiteID,
+                Int32.Parse(forumId), Int32.Parse(threadId), itemsPerPage, startIndex, Int32.Parse(postId), (SortBy.Created == sortBy), false, applySkin);
+            
+            try
+            {
+                if (callingUser.UserID > 0)
+                {
+                    //get subscriptions
+                    SubscribeState subscribeState = SubscribeState.GetSubscriptionState(readerCreator,
+                                                                                        callingUser.UserID,
+                                                                                        threadIdInt, 
+                                                                                        fourmIdInt);
+
+                    if (subscribeState != null && subscribeState.Thread != 0 && forumThreadPosts != null && forumThreadPosts.Post.Count > 0)
+                    {
+                        //update the last read post if the user is subscribed, increment by 1 because its a 0 based index
+                        if (subscribeState.LastPostCountRead < forumThreadPosts.Post[forumThreadPosts.Post.Count - 1].Index + 1)
+                        {
+                            ForumHelper forumHelper = new ForumHelper(readerCreator);
+
+                            forumHelper.MarkThreadRead(callingUser.UserID, threadIdInt,
+                                                        forumThreadPosts.Post[forumThreadPosts.Post.Count - 1].Index + 1, true);
+                        }
+                    }
+
+                }
+            }
+            catch
+            {
+            }
+
+            return GetOutputStream(forumThreadPosts);
         }
 
         [WebGet(UriTemplate = "V1/site/{siteName}/posts/{postId}")]
@@ -245,12 +341,12 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumIDNotWellFormed));
             }
-            
+
             // Check 1) get the site and check if it exists
             ISite site = GetSite(siteName);
-            
+
             // Check 2) get the calling user             
-            CallingUser callingUser = GetCallingUser(site);            
+            CallingUser callingUser = GetCallingUser(site);
             if (callingUser == null || callingUser.UserID == 0)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
@@ -270,7 +366,7 @@ namespace BBC.Dna.Services
             if (threadIdAsInt != 0)
             {
                 bool canReadThread = false;
-                bool canWriteThread = false;                
+                bool canWriteThread = false;
                 helper.GetThreadPermissions(callingUser.UserID, threadIdAsInt, ref canReadThread, ref canWriteThread);
                 if (!canReadThread)
                 {
@@ -288,7 +384,7 @@ namespace BBC.Dna.Services
             helper.GetForumPermissions(callingUser.UserID, forumIdAsInt, ref canReadForum, ref canWriteForum);
             if (!canReadForum)
             {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumUnknown));                
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumUnknown));
             }
 
             // Check 6) check if the posting is secure
@@ -320,7 +416,7 @@ namespace BBC.Dna.Services
             // Check 10) check for MaxCommentCharacterLength
             try
             {
-                
+
                 int maxCharCount = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "MaxCommentCharacterLength");
                 string tmpText = StringUtils.StripFormattingFromText(threadPost.Text);
                 if (maxCharCount != 0 && tmpText.Length > maxCharCount)
@@ -383,6 +479,8 @@ namespace BBC.Dna.Services
                 }
             }
 
+            ForumSource forumSource = ForumSource.CreateForumSource(cacheManager, readerCreator, null, forumIdAsInt, threadIdAsInt, site.SiteID, false, false, false);
+
             // save the Post in the database
             ThreadPost post = new ThreadPost();
             post.InReplyTo = threadPost.InReplyTo;
@@ -391,9 +489,15 @@ namespace BBC.Dna.Services
             post.Text = threadPost.Text;
             post.Style = threadPost.Style;
 
-            post.CreateForumPost(readerCreator, callingUser.UserID, forumIdAsInt, false, isNotable, _iPAddress, bbcUidCookie, false, false, forcePreModeration, forceModeration);
+            if (forumSource.Type == ForumSourceType.Journal && threadIdAsInt == 0)
+            {
+                post.CreateJournalPost(readerCreator, site.SiteID, callingUser.UserID, callingUser.UserName, forumIdAsInt, false, _iPAddress, bbcUidCookie, forceModeration);
+            }
+            else
+            {
+                post.CreateForumPost(readerCreator, callingUser.UserID, forumIdAsInt, false, isNotable, _iPAddress, bbcUidCookie, false, false, forcePreModeration, forceModeration);
+            }
         }
-
 
         [WebInvoke(Method = "GET", UriTemplate = "V1/site/{siteName}/searchposts")]
         [WebHelp(Comment = "Searches and returns posts within the site")]
@@ -423,7 +527,11 @@ namespace BBC.Dna.Services
             {
                 int forumIdInt = Int32.Parse(forumId);
 
-                var subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, false);
+                SubscribeResult subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, false);
+                if (subscribeResult.Failed == 3)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+                }
 
                 output = GetOutputStream(subscribeResult);
             }
@@ -456,7 +564,11 @@ namespace BBC.Dna.Services
             {
                 int forumIdInt = Int32.Parse(forumId);
 
-                var subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, true);
+                SubscribeResult subscribeResult = SubscribeResult.SubscribeToForum(readerCreator, callingUser.UserID, forumIdInt, true);
+                if (subscribeResult.Failed == 3)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+                }
 
                 output = GetOutputStream(subscribeResult);
             }
@@ -489,7 +601,11 @@ namespace BBC.Dna.Services
                 int forumIdInt = Int32.Parse(forumId);
                 int threadIdInt = Int32.Parse(threadId);
 
-                var subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, forumIdInt, threadIdInt, false);
+                SubscribeResult subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, threadIdInt, forumIdInt, false);
+                if (subscribeResult.Failed == 5)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+                }
 
                 output = GetOutputStream(subscribeResult);
             }
@@ -523,7 +639,11 @@ namespace BBC.Dna.Services
                 int forumIdInt = Int32.Parse(forumId);
                 int threadIdInt = Int32.Parse(threadId);
 
-                var subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, forumIdInt, threadIdInt, true);
+                SubscribeResult subscribeResult = SubscribeResult.SubscribeToThread(readerCreator, callingUser.UserID, threadIdInt, forumIdInt, true);
+                if (subscribeResult.Failed == 5)
+                {
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+                }
 
                 output = GetOutputStream(subscribeResult);
             }

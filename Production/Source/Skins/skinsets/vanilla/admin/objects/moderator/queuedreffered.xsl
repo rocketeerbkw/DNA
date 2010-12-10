@@ -15,16 +15,30 @@
 				<p>You are not a referee for this <xsl:value-of select="$dashboardtype" /></p>
 			</xsl:when>
 			<xsl:otherwise>
-				<p>These items require your attention.</p>
+				<xsl:variable name="queuetotal"><xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered']" mode="objects_moderator_queueitems" /></xsl:variable>
+				<p>
+					<xsl:choose>
+						<xsl:when test="$queuetotal = 0">
+							There are no items requiring your attention.
+						</xsl:when>
+						<xsl:otherwise>
+							These items require your attention.
+						</xsl:otherwise>
+					</xsl:choose>
+				</p>
 				<div>
 					<table>
 						<tbody>
-							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'queuedreffered' or STATE = 'lockedreffered']" mode="objects_moderator_queuesummary" />
+							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered']" mode="objects_moderator_queuesummary" />
 						</tbody>
 					</table>
 				</div>				
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template match="MODERATION-QUEUE-SUMMARY" mode="objects_moderator_queueitems">
+		<xsl:value-of select="sum(@TOTAL)" />
 	</xsl:template>
 	
 </xsl:stylesheet>

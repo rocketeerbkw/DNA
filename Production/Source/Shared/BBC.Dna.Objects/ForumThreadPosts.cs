@@ -310,6 +310,71 @@ namespace BBC.Dna.Objects
             return forumThreadPosts;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="cache"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteList"></param>
+        /// <param name="siteId"></param>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
+        /// <param name="itemsPerPage"></param>
+        /// <param name="startIndex"></param>
+        /// <param name="postId"></param>
+        /// <param name="orderByDatePostedDesc"></param>
+        /// <param name="ignoreCache"></param>
+        /// <param name="applySkin">whether we need to format the post</param>
+        /// <returns></returns>
+        public static ForumThreadPosts CreateThreadPostsByCallingUser(IDnaDataReaderCreator readerCreator, ICacheManager cache,
+                                                         BBC.Dna.Users.ICallingUser callingUser, ISiteList siteList, int siteId, int forumId,
+                                                         int threadId, int itemsPerPage, int startIndex, int postId,
+                                                         bool orderByDatePostedDesc, bool ignoreCache, bool applySkin)
+        {
+            User viewingUser = null;
+            if (callingUser != null && callingUser.UserID > 0)
+            {
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("finduserfromid"))
+                {
+                    reader.AddParameter("@userid", callingUser.UserID);
+                    reader.AddParameter("@h2g2id", DBNull.Value);
+                    reader.AddParameter("@siteid", siteId);
+                    reader.Execute();
+                    if (reader.HasRows && reader.Read())
+                    {
+                        viewingUser = User.CreateUserFromReader(reader);
+                    }
+                }
+            }
+
+            var forumThreadPosts = new ForumThreadPosts();
+            string key = forumThreadPosts.GetCacheKey(forumId, itemsPerPage, startIndex, threadId, postId, orderByDatePostedDesc, applySkin);
+
+            if (!ignoreCache)
+            {
+                forumThreadPosts = (ForumThreadPosts)cache.GetData(key);
+                if (forumThreadPosts != null && forumThreadPosts.IsUpToDate(readerCreator))
+                {
+                    forumThreadPosts = (ForumThreadPosts)forumThreadPosts.Clone();//ensure we dont mess with the cached object
+                    forumThreadPosts.ApplyUserSettings(viewingUser, readerCreator);
+                    forumThreadPosts.ApplySiteOptions(viewingUser, siteList);
+                    return forumThreadPosts;
+                }
+            }
+            //create from db
+            forumThreadPosts = CreateThreadFromDatabase(readerCreator, siteId, forumId, threadId, itemsPerPage,
+                                                        startIndex, postId, orderByDatePostedDesc, applySkin);
+            //add to cache
+            cache.Add(key, forumThreadPosts.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(forumThreadPosts.CacheSlidingWindow())));
+            //apply user settings
+            forumThreadPosts.ApplySiteOptions(viewingUser, siteList);
+            forumThreadPosts.ApplyUserSettings(viewingUser, readerCreator);
+
+            return forumThreadPosts;
+        }
+
         /// <summary>
         /// 
         /// </summary>

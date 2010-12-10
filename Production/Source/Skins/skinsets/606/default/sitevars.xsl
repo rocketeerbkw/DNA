@@ -29,7 +29,7 @@
 	<xsl:variable name="cpshome" select="'http://news.bbc.co.uk/sport1/hi/606/default.stm'"/>
 	<xsl:variable name="smileysource" select="concat($imagesource, 'smileys/')"/>
 	<!--
-	<xsl:variable name="smileysource" select="'http://www.bbc.co.uk/dnaimages/boards/images/emoticons/'"/>
+	<xsl:variable name="smileysource" select="'/dnaimages/boards/images/emoticons/'"/>
 	-->
 	<!-- for smileys see: http://www.bbc.co.uk/messageboards/newguide/popup_smiley.html -->
 	

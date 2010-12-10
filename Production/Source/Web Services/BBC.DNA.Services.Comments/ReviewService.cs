@@ -125,20 +125,16 @@ namespace BBC.Dna.Services
             {
                 ISite site = GetSite(siteName);
                 //_ratingObj.RatingForumGetLastUpdate(uid, site.SiteID)
-                if (!GetOutputFromCache(ref output, new CheckCacheDelegate(_ratingObj.RatingForumGetLastUpdate), new object[2] { reviewForumId, site.SiteID }))
+                RatingForumData = _ratingObj.RatingForumReadByUID(reviewForumId, site);
+                
+                //if null then send back 404
+                if (RatingForumData == null)
                 {
-                    Statistics.AddHTMLCacheMiss();
-                    RatingForumData = _ratingObj.RatingForumReadByUID(reviewForumId, site);
-                    
-                    //if null then send back 404
-                    if (RatingForumData == null)
-                    {
-                        throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumUnknown));
-                    }
-                    else
-                    {
-                        output = GetOutputStream(RatingForumData, RatingForumData.LastUpdate);
-                    }
+                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumUnknown));
+                }
+                else
+                {
+                    output = GetOutputStream(RatingForumData, RatingForumData.LastUpdate);
                 }
             }
             catch (ApiException ex)

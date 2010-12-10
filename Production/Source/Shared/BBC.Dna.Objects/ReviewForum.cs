@@ -1,48 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Runtime.Serialization;
 using BBC.Dna.Data;
 
 namespace BBC.Dna.Objects
 {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute()]
-    
+    [System.SerializableAttribute()]   
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "REVIEWFORUM")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "REVIEWFORUM")]
+    [DataContract(Name = "reviewForum")]
     public partial class ReviewForum
     {
         #region Properties
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "FORUMNAME")]
+        [DataMember(Name = "forumName", Order = 1)]
         public string ForumName { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "URLFRIENDLYNAME")]
+        [DataMember(Name = "urlFriendlyName", Order = 2)]
         public string UrlFriendlyName { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 2, ElementName = "RECOMMENDABLE")]
+        [DataMember(Name = "recommendable", Order = 3)]
         public byte Recommendable { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 3, ElementName = "H2G2ID")]
+        [DataMember(Name = "h2g2Id", Order = 4)]
         public int H2g2Id { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 4, ElementName = "SITEID")]
+        [DataMember(Name = "siteId", Order = 5)]
         public int SiteId { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "INCUBATETIME")]
+        [DataMember(Name = "incubateTime", Order = 6)]
         public int IncubateTime { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "ID")]
+        [DataMember(Name = "id", Order = 7)]
         public int Id { get; set; }
         
         #endregion
@@ -77,11 +81,8 @@ namespace BBC.Dna.Objects
                     forum.IncubateTime = reader.GetInt32NullAsZero("IncubateTime");
                     forum.Recommendable= reader.GetByteNullAsZero("recommend");
                 }
-
             }
-
             return forum;
         }
-
     }
 }

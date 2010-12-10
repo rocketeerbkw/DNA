@@ -226,11 +226,11 @@
 												<tr>
 													<td class="blockSide"/>
 													<td class="blockMain">
-														<img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_registration.gif" width="15" height="15" alt="Membership and Nickname help:" title="Membership and Nickname help:" align="top" border="0"/>
+														<img src="/dnaimages/boards/images/help_icon_registration.gif" width="15" height="15" alt="Membership and Nickname help:" title="Membership and Nickname help:" align="top" border="0"/>
 														<xsl:text> </xsl:text>
 														<a href="http://www.bbc.co.uk/messageboards/newguide/popup_membership.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_membership.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
 															<xsl:text>Register for membership</xsl:text>
-															<img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+															<img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
 														</a>
 													</td>
 													<td class="blockShadow"/>
@@ -253,11 +253,11 @@
 													<tr>
 														<td class="blockSide"/>
 														<td class="blockMain">
-															<img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_involved.gif" width="15" height="15" alt="Getting Involved help:" title="Getting Involved help:" align="top" border="0"/>
+															<img src="/dnaimages/boards/images/help_icon_involved.gif" width="15" height="15" alt="Getting Involved help:" title="Getting Involved help:" align="top" border="0"/>
 															<xsl:text> How to </xsl:text>
 															<a href="http://www.bbc.co.uk/messageboards/newguide/popup_start_discussion.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_start_discussion.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
 																<xsl:text>start a discussion</xsl:text>
-																<img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+																<img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
 															</a>
 														</td>
 														<td class="blockShadow"/>
@@ -280,11 +280,11 @@
 												<tr>
 													<td class="blockSide"/>
 													<td class="blockMain">
-														<img src="http://www.bbc.co.uk/dnaimages/boards/images/help_icon_registration.gif" width="15" height="15" alt="Membership and Nickname help:" title="Membership and Nickname help:" align="top" border="0"/>
+														<img src="/dnaimages/boards/images/help_icon_registration.gif" width="15" height="15" alt="Membership and Nickname help:" title="Membership and Nickname help:" align="top" border="0"/>
 														<xsl:text> How to </xsl:text>
 														<a href="http://www.bbc.co.uk/messageboards/newguide/popup_nicknames.html" onclick="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_nicknames.html', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" target="popwin">
 															<xsl:text>change your nickname</xsl:text>
-															<img src="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
+															<img src="/dnaimages/boards/images/popup.gif" width="20" height="15" alt="This link opens in a new popup window" title="" align="top" border="0"/>
 														</a>
 													</td>
 													<td class="blockShadow"/>

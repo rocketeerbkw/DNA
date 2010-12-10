@@ -1242,7 +1242,7 @@
 			          	</xsl:when>
 			            <!-- User has not accepted T&Cs -->
 			            <xsl:otherwise>
-			            	<img src="http://www.bbc.co.uk/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
+			            	<img src="/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
 			            	<p class="idtransitional"><a>
 			            		<xsl:attribute name="href">
 			          				<xsl:value-of select="$signinlink" />
@@ -1253,7 +1253,7 @@
 			          </xsl:choose> 
 		          </xsl:when>         
 		          <xsl:otherwise>
-		          	<img src="http://www.bbc.co.uk/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
+		          	<img src="/dnaimages/boards/images/identity_logo.gif" width="20" height="17" alt="" />
 			          <xsl:choose>
 		          		<!-- alert user that no site suffix has not been entered if it is required. unless it is H2G2 -->
 			          	<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSiteSuffix']/VALUE = '1' and not(/H2G2/VIEWING-USER/USER/SITESUFFIX) and $sitesuffixoptional = 'false'">

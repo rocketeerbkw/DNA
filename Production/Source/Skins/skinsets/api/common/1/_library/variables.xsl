@@ -191,5 +191,7 @@
 	<xsl:variable name="aerian-base-user">/h2g2/beta/user/</xsl:variable>
 	<xsl:variable name="blobs-root">http://www.bbc.co.uk/h2g2/blobs/</xsl:variable>
 	<xsl:variable name="blob-gif-root">http://www.bbc.co.uk/dna/h2g2/brunel/</xsl:variable>
+	<xsl:variable name="smilies-post-root">http://www.bbc.co.uk/dna/h2g2/blobs/smileys/post</xsl:variable>
+	<xsl:variable name="smilies-buttons-root">http://www.bbc.co.uk/dna/h2g2/blobs/smileys/buttons</xsl:variable>
 
 </xsl:stylesheet>

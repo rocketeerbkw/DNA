@@ -137,8 +137,9 @@ namespace BBC.Dna.Objects
         /// <param name="reader"></param>
         /// <param name="forumId"></param>
         /// <param name="index"></param>
+        /// <param name="applySkin">whether we need to apply the transform to the post</param>
         /// <returns></returns>
-        public static ThreadSummary CreateThreadSummaryFromReader(IDnaDataReader reader, int forumId, int index)
+        public static ThreadSummary CreateThreadSummaryFromReader(IDnaDataReader reader, int forumId, int index, bool applySkin)
         {
             var thread = new ThreadSummary();
             thread.ForumId = forumId;
@@ -167,12 +168,12 @@ namespace BBC.Dna.Objects
             
             if (reader.DoesFieldExist("firstpostentryid"))
             {
-                thread.FirstPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "FirstPost", reader.GetInt32NullAsZero("firstpostentryid"));
+                thread.FirstPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "FirstPost", reader.GetInt32NullAsZero("firstpostentryid"), applySkin);
             }
 
             if (reader.DoesFieldExist("lastpostentryid"))
             {
-                thread.LastPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "LastPost", reader.GetInt32NullAsZero("lastpostentryid"));
+                thread.LastPost = ThreadPostSummary.CreateThreadPostFromReader(reader, "LastPost", reader.GetInt32NullAsZero("lastpostentryid"), applySkin);
             }
 
             if (reader.DoesFieldExist("FirstSubject"))

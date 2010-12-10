@@ -10,6 +10,7 @@ using BBC.Dna.Utils;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using System.IO;
 
 
 namespace FunctionalTests.Services.Comments
@@ -173,10 +174,7 @@ namespace FunctionalTests.Services.Comments
 
             var rating = new RatingInfo() { text = inputText, rating = byte.Parse(inputRating) };
 
-
-            var postData = StringUtils.SerializeToJson(rating);
-                
-            return postData;
+            return StringUtils.SerializeToJsonReturnAsString(rating);
         }
 
         /// <summary>

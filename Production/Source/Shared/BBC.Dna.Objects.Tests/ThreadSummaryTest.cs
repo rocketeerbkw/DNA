@@ -41,7 +41,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetInt32NullAsZero("LastPostthreadid")).Return(2);
             mocks.ReplayAll();
 
-            ThreadSummary actual = ThreadSummary.CreateThreadSummaryFromReader(reader, 0, 0);
+            ThreadSummary actual = ThreadSummary.CreateThreadSummaryFromReader(reader, 0, 0, false);
             Assert.AreEqual(actual.CanRead, 1);
             Assert.AreEqual(actual.CanWrite, 1);
             Assert.AreEqual(actual.Subject, "test>");
@@ -67,7 +67,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetInt32NullAsZero("LastPostthreadid")).Return(2);
             mocks.ReplayAll();
 
-            ThreadSummary actual = ThreadSummary.CreateThreadSummaryFromReader(reader, 0, 0);
+            ThreadSummary actual = ThreadSummary.CreateThreadSummaryFromReader(reader, 0, 0, false);
             Assert.AreEqual(actual.CanRead, 0);
             Assert.AreEqual(actual.CanWrite, 0);
             Assert.AreEqual(actual.Subject, "test>");

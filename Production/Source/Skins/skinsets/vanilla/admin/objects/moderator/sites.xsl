@@ -9,8 +9,8 @@
 	<xsl:template match="SITE" mode="objects_moderator_sites">
 		<xsl:variable name="modsiteid" select="@SITEID" />
 		
-		<option value="{/H2G2/SITE-LIST/SITE[@ID = $modsiteid]/@ID}">
-			<xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_siteid']/VALUE = $modsiteid"> 
+		<option value="{$modsiteid}">
+			<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE = $modsiteid"> 
 				<xsl:attribute name="selected">selected</xsl:attribute>
 			</xsl:if>
 			<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = $modsiteid]/DESCRIPTION" />

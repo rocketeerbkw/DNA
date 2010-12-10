@@ -164,9 +164,37 @@ namespace BBC.Dna.Objects
             {
                 if (_guideMLAsXmlElement == null)
                 {
-                    if (_guideMLAsString == null) { return null; }
+                    if (_guideMLAsString == null) 
+                    { 
+                        return null; 
+                    }
 
-                    _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                    try
+                    {
+                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                    }
+                    catch (ApiException e)
+                    {
+                        if (e.InnerException != null)
+                        {
+                            _xmlError = e.Message + " by " + e.InnerException.Message;
+                            Type exceptionType = e.InnerException.GetType();
+                            if (exceptionType.Name == "XmlException")
+                            {
+                                XmlException xmlE = (XmlException)e.InnerException;
+                                _xmlErrorLineNumber = xmlE.LineNumber;
+                                _xmlErrorLinePosition = xmlE.LinePosition;
+                            }
+                        }
+                        else
+                        {
+                            _xmlError = e.Message;
+                        }
+
+                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                        //Return the error no need to transform
+                        return _guideMLAsXmlElement;
+                    }
                                         
                     if (_applySkinOnGuideML) //transformation required?
                     {
@@ -185,9 +213,35 @@ namespace BBC.Dna.Objects
                             throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
                         }
 
-                        // reassign string and element after transformation     
-                        transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
-                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
+                        // reassign string and element after transformation   
+                        if (Style == GuideEntryStyle.GuideML)
+                        {
+                            transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
+                        }
+                        try
+                        {
+                            _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
+                        }
+                        catch (ApiException e)
+                        {
+                            if (e.InnerException != null)
+                            {
+                                _xmlError = e.Message + " by " + e.InnerException.Message;
+                                Type exceptionType = e.InnerException.GetType();
+                                if (exceptionType.Name == "XmlException")
+                                {
+                                    XmlException xmlE = (XmlException)e.InnerException;
+                                    _xmlErrorLineNumber = xmlE.LineNumber;
+                                    _xmlErrorLinePosition = xmlE.LinePosition;
+                                }
+                            }
+                            else
+                            {
+                                _xmlError = e.Message;
+                            }
+
+                            GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                        }
                     }                    
                 }
                 return _guideMLAsXmlElement;
@@ -270,8 +324,6 @@ namespace BBC.Dna.Objects
         [XmlIgnore]
         public int ForumStyle { get; set; }
 
-        #endregion
-
         /// <summary>
         /// Status 7 = deleted
         /// </summary>
@@ -280,6 +332,36 @@ namespace BBC.Dna.Objects
         {
             get { return ArticleInfo.Status.Type == 7; }
         }
+
+        private string _xmlError = String.Empty;
+        [XmlIgnore]
+        [DataMember(Name = ("xmlError"))]
+        public string XmlError
+        {
+            get { return _xmlError; }
+            set { _xmlError = value; }
+        }
+
+        private int _xmlErrorLineNumber = 0;
+        [XmlIgnore]
+        [DataMember(Name = ("xmlErrorLineNumber"))]
+        public int XmlErrorLineNumber
+        {
+            get { return _xmlErrorLineNumber; }
+            set { _xmlErrorLineNumber = value; }
+        }
+
+        private int _xmlErrorLinePosition = 0;
+        [XmlIgnore]
+        [DataMember(Name = ("xmlErrorLinePosition"))]
+        public int XmlErrorLinePosition
+        {
+            get { return _xmlErrorLinePosition; }
+            set { _xmlErrorLinePosition = value; }
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Updates the article based on the viewing user
@@ -624,8 +706,12 @@ namespace BBC.Dna.Objects
             hashedContent = String.Format(hashedContent, Subject, GuideMLAsString, userid, siteId, Style, 0, 1);
             Guid hash = DnaHasher.GenerateHash(hashedContent);
 
-            
-
+            int submittable = 0;
+            if (ArticleInfo.Submittable != null && ArticleInfo.Submittable.Type == "YES")
+            {
+                submittable = 1;
+            }
+           
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("createguideentry"))
             {
@@ -634,13 +720,13 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("extrainfo", ExtraInfoCreator.CreateExtraInfo(1));
                 reader.AddParameter("editor", userid);
                 reader.AddParameter("style",  Style);
-                reader.AddParameter("status",  HiddenStatus);
+                reader.AddParameter("status", ArticleInfo.Status.Type);
                 reader.AddParameter("typeid", 1);
                 reader.AddParameter("keywords", null);
                 reader.AddParameter("researcher", userid);
                 reader.AddParameter("siteid",  siteId);
-                reader.AddParameter("submittable", 0);
-                reader.AddParameter("preprocessed", 0);
+                reader.AddParameter("submittable", submittable);
+                reader.AddParameter("preprocessed", 1);
                 reader.AddParameter("canread",  CanRead);
                 reader.AddParameter("canwrite", CanWrite);
                 reader.AddParameter("canchangepermissions", CanChangePermissions);
@@ -671,6 +757,12 @@ namespace BBC.Dna.Objects
 
         public void UpdateArticle(ICacheManager cache, IDnaDataReaderCreator readerCreator, int userid)
         {
+            int submittable = 0;
+            if (ArticleInfo.Submittable != null && ArticleInfo.Submittable.Type == "YES")
+            {
+                submittable = 1;
+            }
+
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("updateguideentry"))
             {
@@ -679,15 +771,15 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("extraInfo", ExtraInfoCreator.CreateExtraInfo(1));
                 reader.AddParameter("editor", userid);
                 reader.AddParameter("Style", Style);
-                reader.AddParameter("status", HiddenStatus);
-                reader.AddParameter("Submittable", 0);
-                reader.AddParameter("PreProcessed", 0);
+                reader.AddParameter("status", ArticleInfo.Status.Type);
+                reader.AddParameter("Submittable", submittable);
+                reader.AddParameter("PreProcessed", ArticleInfo.PreProcessed);
                 reader.AddParameter("canread", CanRead);
                 reader.AddParameter("canwrite", CanWrite);
                 reader.AddParameter("canchangepermissions", CanChangePermissions);
-                reader.AddParameter("entryid", H2g2Id);
+                reader.AddParameter("entryid", EntryId);
                 reader.AddParameter("editinguser", userid);
-                reader.AddParameter("updatedatecreated", true);
+                reader.AddParameter("updatedatecreated", false);
                 reader.AddParameter("groupnumber", DBNull.Value);
                 reader.Execute();
             }

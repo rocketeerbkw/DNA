@@ -18,7 +18,7 @@
     
     <xsl:template match="COMMENT" mode="object_comment">
         
-        <li id="P{@POSTID}">
+        <li id="P{POSTID}">
             <!-- Add the stripe class -->
             <xsl:call-template name="library_listitem_stripe">
                 <xsl:with-param name="additional-classnames">
@@ -26,7 +26,7 @@
                 </xsl:with-param>
             </xsl:call-template>
             
-            <a href="{URL}#P{@POSTID}">
+            <a href="{URL}?postid={POSTID}#comment_{POSTID}">
                 
                 <span class="title">
                     <xsl:value-of select="FORUMTITLE"/>

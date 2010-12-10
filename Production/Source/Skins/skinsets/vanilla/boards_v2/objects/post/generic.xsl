@@ -100,11 +100,8 @@
             </xsl:choose>
                         
             <xsl:choose>
-                <xsl:when test="$siteClosed = 'true'">
+                <xsl:when test="$siteClosed = 'true' or parent::FORUMTHREADPOSTS/@CANWRITE = 0 or $autogenname_required = 'true'">
                     <!-- Nowt -->
-                </xsl:when>
-                <xsl:when test="$autogenname_required = 'true'">
-	            	<!-- nowt again -->                
                 </xsl:when>
                 <xsl:when test="@CANWRITE = 0"><!-- nothing --></xsl:when>
                 <xsl:otherwise>
@@ -117,7 +114,7 @@
                                     <xsl:value-of select="@POSTID"/>
                                 </xsl:with-param>
                             </xsl:call-template>
-                            Reply to this message
+                            Reply to this message 
                             <span class="blq-hide"><xsl:value-of select="count(preceding-sibling::*)" /></span>
                         </a>
                     </p>
@@ -154,7 +151,7 @@
                     <p class="flag">
                         <a class="popup">
                             <xsl:attribute name="href">
-                                <xsl:value-of select="concat($root, '/comments/UserComplaintPage?PostID=' , @POSTID, '&amp;s_start=1&amp;s_ptrt=')" />
+                                <xsl:value-of select="concat('/dna/', /H2G2/SITE/NAME, '/comments/UserComplaintPage?PostID=' , @POSTID, '&amp;s_start=1&amp;s_ptrt=')" />
                                 <xsl:call-template name="library_serialise_ptrt_in">
                                     <xsl:with-param name="string">
                                         <xsl:apply-templates select="/H2G2" mode="library_memberservice_ptrt" />

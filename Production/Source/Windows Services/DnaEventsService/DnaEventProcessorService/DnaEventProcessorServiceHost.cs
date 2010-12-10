@@ -57,8 +57,9 @@ namespace DnaEventProcessorService
             DnaDataReaderCreator RiskDnaDataReaderCreator = new DnaDataReaderCreator(Properties.Settings.Default.ConnectionString_RiskMod);
             int interval = Properties.Settings.Default.BIEventsProcessor_Interval;
             bool disableRiskMod = Properties.Settings.Default.BIEventsProcessor_DisableRiskMod;
+            bool recordRiskModDecisionsOnPost = Properties.Settings.Default.BIEventsProcessor_RecordRiskModDecisionsOnPost;
 
-            var biEventProc = BIEventProcessor.CreateBIEventProcessor(logger, theGuideDnaDataReaderCreator, RiskDnaDataReaderCreator, interval, disableRiskMod);
+            var biEventProc = BIEventProcessor.CreateBIEventProcessor(logger, theGuideDnaDataReaderCreator, RiskDnaDataReaderCreator, interval, disableRiskMod, recordRiskModDecisionsOnPost);
             biEventProc.Start();
         }
 

@@ -20,16 +20,36 @@
 
 	<xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="page">
 		
+		<a href="#activity" class="blq-hide">Skip to activity</a>
+		
 		<xsl:call-template name="objects_links_breadcrumb">
-			<xsl:with-param name="pagename" >activity</xsl:with-param>
+			<xsl:with-param name="pagename" > activity page</xsl:with-param>
 		</xsl:call-template>
 		
 		<div class="dna-mb-intro blq-clearfix">
 			<div class="dna-fl dna-main-full">
+				
 				<form method="get" action="hostdashboardactivity"> 
 					<fieldset>
-						<label for="s_startdate">Start Date:</label>
-						<input type="text" name="s_startdate" id="s_startdate" /> (Format:YYYY-MM-DD)<br/>
+						<label for="s_startdate">Start date:</label> <small> (Format:YYYY-MM-DD)</small>
+						<input type="text" name="s_startdate" id="s_startdate">
+							<xsl:attribute name="value">
+								<xsl:if test="SITEEVENTLIST/STARTDATE">
+									<xsl:value-of select="concat(SITEEVENTLIST/STARTDATE/DATE/@YEAR,'-',SITEEVENTLIST/STARTDATE/DATE/@MONTH,'-',SITEEVENTLIST/STARTDATE/DATE/@DAY)"/>
+								</xsl:if>
+							</xsl:attribute>
+						</input>
+					</fieldset>
+					<fieldset>
+						<label for="s_enddate">End date:</label>
+						<small> (Format:YYYY-MM-DD)</small>
+						<input type="text" name="s_enddate" id="s_enddate">
+							<xsl:attribute name="value">
+								<xsl:if test="SITEEVENTLIST/ENDDATE">
+									<xsl:value-of select="concat(SITEEVENTLIST/ENDDATE/DATE/@YEAR,'-',SITEEVENTLIST/ENDDATE/DATE/@MONTH,'-',SITEEVENTLIST/ENDDATE/DATE/@DAY)"/>
+								</xsl:if>
+							</xsl:attribute>
+						</input>
 					</fieldset>
 					<fieldset class="dna-typelist">
 						<xsl:apply-templates select="SITEEVENTLIST/SELECTEDTYPES" mode="objects_activitydata_typelist" />
@@ -48,13 +68,13 @@
 		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 			<div class="dna-fl dna-main-full">
 				<div class="dna-box">
-					<h3>Activity for 
+					<h3 id="activity">Activity for 
 						<xsl:choose>
 							<xsl:when test="$dashboardtypedescription != ''">
 								<xsl:value-of select="$dashboardtypedescription" />
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="$dashboardtype" /><xsl:if test="not($dashboardtype = 'all')">s</xsl:if>
+								<xsl:value-of select="$dashboardtypeplural" />
 							</xsl:otherwise>
 						</xsl:choose>
 					</h3>

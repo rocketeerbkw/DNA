@@ -11,8 +11,8 @@ declare @assetmodgroupid int
 select @assetmodgroupid = groupid from Groups where name = 'AssetModerator'
 
 declare @alreadygot int
-SELECT @alreadygot = COUNT(*)
 
+SELECT @alreadygot = COUNT(*)
 FROM ArticleMod
 WHERE	Status = 1
 		AND NewArticle = @newentries
@@ -57,6 +57,7 @@ BEGIN
 	
 	if (@ModId is not null)
 	begin
+		-- wrong place for trans?
 		begin transaction
 			UPDATE ArticleMod SET Status = 1, LockedBy = @userid, 
 				DateLocked = getdate() WHERE @ModId = ArticleMod.ModID

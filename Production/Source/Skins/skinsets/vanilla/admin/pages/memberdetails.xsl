@@ -30,6 +30,7 @@
 		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 			<div class="dna-fl dna-main-full">
 				<div class="dna-box">
+					<a href="#memberposts" class="blq-hide">Skip to member posts</a>
 					<xsl:apply-templates select="MEMBERDETAILSLIST" mode="main_info"/>
 				</div>
 			</div>
@@ -38,10 +39,42 @@
 		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 			<div class="dna-fl dna-main-full">
 				<div class="dna-box">
+					<h3 id="memberposts">Member posts</h3>
+					<a href="#usersummary" class="blq-hide">Skip to user summary</a>
+					<div class="dna-fl dna-main-full">
+						<table class="dna-dashboard-activity">
+							<thead>
+								<tr>
+									<th>Number</th>
+									<!-- <th>User Id</th>
+									<th>User Name</th> -->
+									<th>Site</th>
+									<th>Status</th>
+									<th>Date Joined</th>
+									<th>Posts Passed</th>
+									<th>Posts Failed</th>
+									<th>Total Posts</th>
+									<th>Articles Passed</th>
+									<th>Articles Failed</th>
+									<th>Total Articles</th>
+								</tr>
+							</thead>
+							<xsl:apply-templates select="MEMBERDETAILSLIST/MEMBERDETAILS"/>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+				
+		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
+			<div class="dna-fl dna-main-full">
+				<div class="dna-box">
 					<xsl:apply-templates select="MEMBERDETAILSLIST/SUMMARY" mode="main_info"/>
 				</div>
 			</div>
-		</div>		
+		</div>	
+		
+
 	</xsl:template>
 
 	<xsl:template match="MEMBERDETAILSLIST" mode="main_info">
@@ -53,8 +86,8 @@
 		
 		<ul class="dna-list-links dna-fr">
 			<li><a href="usercontributions?s_user={$userid}">View contributions</a></li>
-			<li><a href="MemberDetails?userid={$userid}">Find Alternate Identities using Email</a></li>
-			<li><a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find Alternate Identities using BBCUID</a></li>
+			<li><a href="MemberDetails?userid={$userid}">Find alternate identities using email</a></li>
+			<li><a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find alternate identities using BBCUID</a></li>
 		</ul>
 		
 		<p>
@@ -77,31 +110,11 @@
 				<xsl:otherwise>No email</xsl:otherwise>
 			</xsl:choose>
 		</p>
-	
-		<div class="dna-fl dna-main-full">
-			<table class="dna-dashboard-activity">
-				<thead>
-					<tr>
-						<th>User Id</th>
-						<th>User Name</th>
-						<th>Site</th>
-						<th>Status</th>
-						<th>Date Joined</th>
-						<th>Posts Passed</th>
-						<th>Posts Failed</th>
-						<th>Total Posts</th>
-						<th>Articles Passed</th>
-						<th>Articles Failed</th>
-						<th>Total Articles</th>
-					</tr>
-				</thead>
-				<xsl:apply-templates select="MEMBERDETAILS"/>
-			</table>
-		</div>
+
 	</xsl:template>
 
 	<xsl:template match="SUMMARY" mode="main_info">
-		<h3>User Summary</h3>
+		<h3 id="usersummary">User Summary</h3>
 		<div class="dna-fl dna-main-full">
 			<table class="dna-dashboard-activity">
 				<tr class="odd">
@@ -153,6 +166,8 @@
 	    	<xsl:if test="position() mod 2 = 1">
 		    	<xsl:attribute name="class">odd</xsl:attribute>
 	    	</xsl:if>			
+	    	<td><xsl:value-of select="position()" /></td>
+			<!-- do user id and user name need to be here as they are above 
 			<td>
 				<a href="UserList?searchText={$userid}&amp;usersearchtype=0">
 					<xsl:value-of select="USER/USERID"/>
@@ -160,7 +175,7 @@
 			</td>
 			<td>
 				<xsl:value-of select="USER/USERNAME"/>
-			</td>
+			</td>-->
 			<td>
 				<xsl:value-of select="SITE/NAME"/>
 			</td>

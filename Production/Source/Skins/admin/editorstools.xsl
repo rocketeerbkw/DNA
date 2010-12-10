@@ -115,8 +115,8 @@
 					</xsl:choose>
 				</title>
 				<link type="text/css" rel="stylesheet" href="{$asset-root}moderation/includes/moderation.css"/>
-				<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login.css"/>
-				<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/login2.css"/>
+				<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login.css"/>
+				<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/login2.css"/>
 				<xsl:choose>
 					<xsl:when test="/H2G2/@TYPE = 'USERS-HOMEPAGE' or /H2G2/@TYPE = 'USER-DETAILS-PAGE' or /H2G2/@TYPE = 'NICKNAME-MODERATION' or /H2G2/@TYPE = 'DISTRESSMESSAGESADMIN'">
 						<link type="text/css" rel="stylesheet" href="{$asset-root}moderation/includes/members.css"/>

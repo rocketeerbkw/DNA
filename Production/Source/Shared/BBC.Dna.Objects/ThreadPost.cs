@@ -610,5 +610,49 @@ namespace BBC.Dna.Objects
                 }
             }
         }
+        /// <summary>
+        /// Calls the DB to PostToAJournal.
+        /// </summary>
+        /// <param name="readerCreator">Datareader creator</param>
+        /// <param name="userId"> Post using the specified user.</param>
+        /// <param name="siteId"> siteId </param>
+        /// <param name="journalId">journal id to add the post to</param>
+        /// <param name="ignoreModeration"> Allow automated posts.</param>
+        /// <param name="ipAddress">users ipaddress</param>
+        /// <param name="bbcUid">users bbcuid</param>
+        /// <param name="forceModeration"></param>
+        public void CreateJournalPost(IDnaDataReaderCreator readerCreator, int siteId, int userId, string nickname, int journalId, bool ignoreModeration, string ipAddress, Guid bbcUID, bool forceModeration)
+        {
+            String source = this.Subject + "<:>" + this.Text + "<:>" + Convert.ToString(userId) + "<:>" + Convert.ToString(journalId) + "<:>" + Convert.ToString(this.Style) + "<:>ToJournal";
+            Guid hash = DnaHasher.GenerateHash(source);
+
+            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("posttojournal"))
+            {
+
+                dataReader.AddParameter("userID", userId);
+                dataReader.AddParameter("journal", journalId);
+                dataReader.AddParameter("subject", this.Subject);
+                dataReader.AddParameter("nickname", nickname);
+                dataReader.AddParameter("content", this.Text);
+                dataReader.AddParameter("siteid", siteId);
+                dataReader.AddParameter("poststyle", this.Style);
+                dataReader.AddParameter("Hash", hash);
+                dataReader.AddParameter("forcemoderation", forceModeration);
+                dataReader.AddParameter("ignoremoderation", ignoreModeration);
+                dataReader.AddParameter("ipaddress", ipAddress);
+                dataReader.AddParameter("bbcuid", bbcUID);
+                
+                dataReader.Execute();
+
+                if (dataReader.Read())
+                {
+                    this.PostId = dataReader.GetInt32NullAsZero("postid");
+                    this.ThreadId = dataReader.GetInt32NullAsZero("threadid");
+                    // isPreModPosting = dataReader.GetBoolean("ispremodposting");                    
+                    // isPreModerated = dataReader.GetBoolean("ispremoderated");
+                    // isQueued = dataReader.GetBoolean("wasqueued");
+                }
+            }
+        }
     }
 }

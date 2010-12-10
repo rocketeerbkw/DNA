@@ -4,6 +4,7 @@ create procedure getsiteevents
 									, @startindex int =0
 									, @itemsperpage int = 20
 									, @startdate datetime = null
+									, @enddate datetime = null
 									, @sitetype int =0							
 
 as
@@ -39,20 +40,6 @@ begin
 
 end
 
-
---get the new startindex
-if @startdate is not null 
-begin
-	set @startdate = dateadd(d, 1, @startdate)
-
-	select @startindex = count(*)
-	from siteactivityitems sai
-	where 
-		(@siteids is null OR siteid in (select siteid from #sites))
-		and (datetime >= @startdate)
-		and (@typeids is null or sai.type in (select type from #types))
-end
-
 --get events
 ;WITH CTE_EVENTS AS
 (
@@ -61,6 +48,8 @@ end
 	where 
 		(@siteids is null OR siteid in (select siteid from #sites))
 		and (@typeids is null or sai.type in (select type from #types))
+		and (@startdate is null or sai.datetime >= @startdate)
+		and (@enddate is null or sai.datetime < @enddate)
 		
 ),
 CTE_TOTAL AS

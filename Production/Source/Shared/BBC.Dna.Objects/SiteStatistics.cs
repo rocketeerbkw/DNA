@@ -118,7 +118,8 @@ namespace BBC.Dna.Objects
                     recentThreads.Add(
                         ThreadSummary.CreateThreadSummaryFromReader(dataReader,
                         dataReader.GetInt32NullAsZero("ForumId"),
-                         0)
+                        0, 
+                        false)
                         );
 
                     show--;

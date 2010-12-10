@@ -85,17 +85,13 @@ namespace FunctionalTests.Services.Comments
 
             XmlDocument xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 3);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEHITS") == 0);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEMISSES") == 1);
-
+            
             //get forum again
             result = ReadForum(result.Id);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.commentSummary.Total == 1);
             xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 4);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEHITS") == 1);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEMISSES") == 1);
 
 		}
 
@@ -136,30 +132,22 @@ namespace FunctionalTests.Services.Comments
 
             XmlDocument xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 5);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEHITS") == 0);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEMISSES") == 3);
 
             CommentsList listPrefixAfter = ReadCommentsReadBySite(commentForum.Id.Substring(0, 4));
             Assert.IsTrue(listPrefixAfter.TotalCount == 1);
             xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 6);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEHITS") == 0);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEMISSES") == 4);
 
             //reget totals
             listAfter = ReadCommentsReadBySite("");
             Assert.IsTrue(listAfter.TotalCount == list.TotalCount + 1);
             xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 7);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEHITS") == 1);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEMISSES") == 4);
 
             listPrefixAfter = ReadCommentsReadBySite(commentForum.Id.Substring(0, 4));
             Assert.IsTrue(listPrefixAfter.TotalCount == 1);
             xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 8);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEHITS") == 2);
-            Assert.IsTrue(GetStatCounter(xStats, "HTMLCACHEMISSES") == 4);
 
         }
 

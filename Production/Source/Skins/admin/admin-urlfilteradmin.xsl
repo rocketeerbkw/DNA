@@ -95,7 +95,7 @@
 
 <xsl:template name="URLFILTERADMIN_CSS">
 
-<link type="text/css" rel="stylesheet" href="http://www.bbc.co.uk/dnaimages/boards/includes/admin.css"/>
+<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
 </xsl:template>
 
 <!-- not used for now -->

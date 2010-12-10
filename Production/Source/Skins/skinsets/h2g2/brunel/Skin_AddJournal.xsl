@@ -93,7 +93,7 @@
 				</tr>
 			</xsl:when>
       <xsl:when test="@PROFANITYTRIGGERED=1">
-          <p style="color:#ffffff; font-weight:bold; padding-left:20px; background-image: url(http://www.bbc.co.uk/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This message has been blocked as it contains a word which other users may find offensive. Please edit your message and post it again.</p>
+          <p style="color:#ffffff; font-weight:bold; padding-left:20px; background-image: url(/dnaimages/boards/images/warning.gif); background-repeat: no-repeat; background-position-y: 3px;">This message has been blocked as it contains a word which other users may find offensive. Please edit your message and post it again.</p>
       </xsl:when>
 			<xsl:when test="PREVIEWBODY">
 				<tr>

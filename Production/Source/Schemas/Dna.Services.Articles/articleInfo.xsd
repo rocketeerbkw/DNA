@@ -182,13 +182,13 @@
 				</xs:element>
 				<xs:element name="siteId" type="xs:unsignedByte" />
 				<xs:element name="status" type="xs:string" />
-        <xs:element name="submittable" minOccurs="0" nillable="true" >
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="type" type="xs:string"  nillable="true"/>
-             </xs:sequence>
-          </xs:complexType>
-        </xs:element>
+				<xs:element name="submittable" minOccurs="0" nillable="true" >
+				  <xs:complexType>
+					<xs:sequence>
+					  <xs:element name="type" type="xs:string"  nillable="true"/>
+					 </xs:sequence>
+				  </xs:complexType>
+				</xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

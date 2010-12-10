@@ -33,10 +33,10 @@ namespace BBC.Dna.Services
         }
 
 
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/create.htm")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/create.htm")]
         [WebHelp(Comment = "Creates an article from Html form")]
         [OperationContract]
-        public void CreateArticleHtml(string siteName, NameValueCollection formsData)
+        public Article CreateArticleHtml(string siteName, NameValueCollection formsData)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace BBC.Dna.Services
                     formsData["submittable"],
                     hiddenStatusAsInt);
 
-                SaveArticle(site, callingUser, article, siteName, true, 0);
+                return SaveArticle(site, callingUser, article, siteName, true, 0);
             }
             catch (ApiException ex)
             {
@@ -63,10 +63,10 @@ namespace BBC.Dna.Services
             }
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/create.htm/{h2g2id}")]
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/create.htm/{h2g2id}")]
         [WebHelp(Comment = "Updates an article")]
         [OperationContract]
-        public void UpdateArticleHtml(string siteName, string h2g2id, NameValueCollection formsData)
+        public Article UpdateArticleHtml(string siteName, string h2g2id, NameValueCollection formsData)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace BBC.Dna.Services
                 }
 
                 // load the original article
-                Article article = Article.CreateArticle(cacheManager, readerCreator, callingUser, h2g2idAsInt, true);
+                Article article = Article.CreateArticle(cacheManager, readerCreator, callingUser, h2g2idAsInt, false);
 
                 // assign the supplied parmss
                 article = SetWritableArticleProperties(article,
@@ -92,7 +92,12 @@ namespace BBC.Dna.Services
                     formsData["guideML"],
                     formsData["researcherUserIds"]);
 
-                SaveArticle(site, callingUser, article, siteName, false, h2g2idAsInt);
+                if (formsData["hidden"] == "1" || formsData["hidden"] == "true")
+                {
+                    article.HiddenStatus = 1;
+                }
+
+                return SaveArticle(site, callingUser, article, siteName, false, h2g2idAsInt);
             }
             catch (ApiException ex)
             {
@@ -100,7 +105,7 @@ namespace BBC.Dna.Services
             }
         }
 
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles")]
         [WebHelp(Comment = "Creates an article")]
         [OperationContract]
         public Article CreateArticle(string siteName, Article inputArticle)
@@ -110,7 +115,6 @@ namespace BBC.Dna.Services
                 ISite site = GetSite(siteName);
 
                 CallingUser callingUser = GetCallingUser(site);
-
 
                 // create the default article object graph
                 Article article = BuildNewArticleObject(site.SiteID, 
@@ -128,17 +132,18 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
         }
-        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/preview")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/preview")]
         [WebHelp(Comment = "Previews an article")]
         [OperationContract]
         public Article PreviewArticle(string siteName, Article inputArticle)
         {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+
             try
             {
                 ISite site = GetSite(siteName);
 
                 CallingUser callingUser = GetCallingUser(site);
-
 
                 // create the default article object graph
                 Article article = BuildNewArticleObject(site.SiteID,
@@ -149,6 +154,8 @@ namespace BBC.Dna.Services
                     inputArticle.ArticleInfo.Submittable.Type,
                     inputArticle.HiddenStatus);
 
+                article.ApplySkinOnGuideML = applySkin;
+
                 return article;
             }
             catch (ApiException ex)
@@ -157,7 +164,43 @@ namespace BBC.Dna.Services
             }
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{h2g2id}")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/preview/create.htm")]
+        [WebHelp(Comment = "Previews an article from Html form")]
+        [OperationContract]
+        public Article PreviewArticleHtml(string siteName, NameValueCollection formsData)
+        {
+            bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+
+            try
+            {
+                ISite site = GetSite(siteName);
+
+                CallingUser callingUser = GetCallingUser(site);
+
+                int hiddenStatusAsInt = 0;
+                if (!String.IsNullOrEmpty(formsData["hidden"])) { hiddenStatusAsInt = Convert.ToInt32(formsData["hidden"]); }
+
+                string guideML = formsData["guideML"];
+
+                Article article = BuildNewArticleObject(site.SiteID,
+                    callingUser.UserID,
+                    (GuideEntryStyle)Enum.Parse(typeof(GuideEntryStyle), formsData["style"]),
+                    formsData["subject"],
+                    guideML,
+                    formsData["submittable"],
+                    hiddenStatusAsInt);
+
+                article.ApplySkinOnGuideML = applySkin;
+
+                return article;
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/{h2g2id}")]
         [WebHelp(Comment = "Updates an article")]
         [OperationContract]
         public Article UpdateArticle(string siteName, string h2g2id, Article inputArticle)
@@ -177,7 +220,7 @@ namespace BBC.Dna.Services
                 }
 
                 // load the original article
-                Article article = Article.CreateArticle(cacheManager, readerCreator, callingUser, h2g2idAsInt, true);
+                Article article = Article.CreateArticle(cacheManager, readerCreator, callingUser, h2g2idAsInt, false);
   
                 inputArticle = SetWritableArticleProperties(article,
                      inputArticle.Style,
@@ -247,7 +290,12 @@ namespace BBC.Dna.Services
             article.ArticleInfo.Submittable = new ArticleInfoSubmittable();
             article.ArticleInfo.Submittable.Type = submittable;
 
-
+            article.CanRead = 1;
+            article.DefaultCanRead = 1;
+            article.CanWrite = 0;
+            article.DefaultCanWrite = 0;
+            article.CanChangePermissions = 0;
+            article.DefaultCanChangePermissions = 0;
 
             article.HiddenStatus = hidden;
 
@@ -689,10 +737,10 @@ namespace BBC.Dna.Services
             return GetOutputStream(article);
         }
 
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/submitforreview/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/submitforreview/create.htm")]
         [WebHelp(Comment = "Submits the given article for a given site for review")]
         [OperationContract]
-        public void SubmitArticleForReview(string siteName, string articleId)
+        public void SubmitArticleForReview(string siteName, string articleId, NameValueCollection formsData)
         {
             // Check 1) get the site and check if it exists
             ISite site = GetSite(siteName);
@@ -707,10 +755,15 @@ namespace BBC.Dna.Services
             var article = Article.CreateArticle(cacheManager, readerCreator, callingUser, Int32.Parse(articleId), false, false);
 
             //Assume Peer Review reviewforumid 1
-            var reviewForumId = QueryStringHelper.GetQueryParameterAsInt("reviewforumid", 1);
-            var comments = QueryStringHelper.GetQueryParameterAsString("comments", "");
+            int reviewForumId = 1;
+            if (!String.IsNullOrEmpty(formsData["reviewforumid"])) 
+            { 
+                reviewForumId = Convert.ToInt32(formsData["reviewforumid"]); 
+            }
 
-            if (comments == String.Empty)
+            string comments = formsData["comments"];
+
+            if (String.IsNullOrEmpty(comments))
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.EmptyText));
             }
@@ -749,10 +802,8 @@ namespace BBC.Dna.Services
 
             // Check 2) get the calling user             
             CallingUser callingUser = GetCallingUser(site);
-            if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(UserTypes.Editor)))
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
-            }
+            //Only allow Scouts
+            ScoutsOnly(callingUser);
 
             try
             {
@@ -771,21 +822,20 @@ namespace BBC.Dna.Services
             return GetOutputStream(scoutRecommendations);
         }
         
-        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/scoutrecommends/")]
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/scoutrecommends/create.htm")]
         [WebHelp(Comment = "Scout only function to recommend an article to the editors")]
         [OperationContract]
-        public void ScoutRecommendsArticle(string siteName, string articleId)
+        public void ScoutRecommendsArticle(string siteName, string articleId, NameValueCollection formsData)
         {
             // Check 1) get the site and check if it exists
             ISite site = GetSite(siteName);
-            var comments = QueryStringHelper.GetQueryParameterAsString("comments", "");
+            string comments = formsData["comments"];
 
             // Check 2) get the calling user             
             CallingUser callingUser = GetCallingUser(site);
-            if (callingUser == null || callingUser.UserID == 0 || !(callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(UserTypes.Editor)) )
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
-            }
+
+            //Only allow Scouts
+            ScoutsOnly(callingUser);
 
             try
             {                
@@ -799,6 +849,16 @@ namespace BBC.Dna.Services
             catch (ApiException ex)
             {
                 throw new DnaWebProtocolException(ex);
+            }
+        }
+
+        private static void ScoutsOnly(CallingUser callingUser)
+        {
+            bool authorised = callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
+
+            if (!authorised)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
         }
 

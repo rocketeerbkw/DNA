@@ -21,19 +21,19 @@
 	<xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="page">
 		
 		<xsl:call-template name="objects_links_breadcrumb">
-			<xsl:with-param name="pagename" >user contributions for <xsl:value-of select="/H2G2/CONTRIBUTIONS/@USERID" /></xsl:with-param>
+			<xsl:with-param name="pagename" >user contributions </xsl:with-param>
 		</xsl:call-template>	
 	
 		<div class="dna-mb-intro blq-clearfix">
-			<p>Below is a list of a users contributions across DNA services</p>
+			<p>List of contributions for user number <xsl:value-of select="/H2G2/CONTRIBUTIONS/@USERID" /> across all DNA sites</p>
 			<form method="get" action="usercontributions">
 				<fieldset>
-					<label for="s_userid">User Id:</label> <input type="text" name="s_userid" id="s_userid" value="{/H2G2/CONTRIBUTIONS/@USERID}"/> <a href="userlist">Find more users</a>
+					<label for="s_user">User Id:</label> <input type="text" name="s_user" id="s_user" value="{/H2G2/CONTRIBUTIONS/@USERID}"/> <a href="userlist">Find more users</a>
 					<br /><br />
 					<label for="s_startdate">Start Date:</label> <input type="text" name="s_startdate" id="s_startdate" value=""/> (Format: YYYY-MM-DD)
 				</fieldset>
 				<div class="dna-buttons dna-fr">
-					<input type="submit" value ="Get Posts"/>
+					<input type="submit" value ="View posts"/>
 				</div>				
 			</form>
 		</div>
@@ -47,7 +47,7 @@
 							<thead>
 								<tr>
 									<th class="date">Date</th>
-									<th>Post details</th>
+									<th>Where posted</th>
 									<th>Post</th>
 									<th class="type">Reason</th>
 								</tr>

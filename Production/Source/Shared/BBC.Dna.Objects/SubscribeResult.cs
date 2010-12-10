@@ -1,4 +1,6 @@
 using BBC.Dna.Data;
+using System.Runtime.Serialization;
+
 namespace BBC.Dna.Objects
 {
     
@@ -9,10 +11,12 @@ namespace BBC.Dna.Objects
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "SUBSCRIBE-RESULT")]
     [System.Xml.Serialization.XmlRootAttribute("SUBSCRIBE-RESULT", Namespace="", IsNullable=false)]
+    [DataContract(Name = "subscribeResult")]
     public partial class SubscribeResult
     {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "FROMFORUM")]
+        [DataMember(Name = "fromForum", Order=1)]
         public int FromForum
         {
             get;
@@ -21,6 +25,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "TOFORUM")]
+        [DataMember(Name = "toForum", Order = 2)]
         public int ToForum
         {
             get;
@@ -29,6 +34,7 @@ namespace BBC.Dna.Objects
         
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "FROMTHREAD")]
+        [DataMember(Name = "fromThreadId", Order = 3)]
         public int FromThreadId
         {
             get;
@@ -37,6 +43,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "TOTHREAD")]
+        [DataMember(Name = "toThreadId", Order = 4)]
         public int ToThreadId
         {
             get;
@@ -45,6 +52,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "JOURNAL")]
+        [DataMember(Name = "journal", Order = 5)]
         public int Journal
         {
             get;
@@ -53,6 +61,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "FAILED")]
+        [DataMember(Name = "failed", Order = 6)]
         public int Failed
         {
             get;
@@ -60,10 +69,15 @@ namespace BBC.Dna.Objects
         }
 
         [System.Xml.Serialization.XmlIgnore]
-        public bool FailedSpecified { get { return this.Failed != 0; } }
+        [IgnoreDataMember]
+        public bool FailedSpecified 
+        {   
+            get { return this.Failed != 0; }
+        }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlTextAttribute()]
+        [DataMember(Name = "value", Order = 7)]
         public string Value
         {
             get;
