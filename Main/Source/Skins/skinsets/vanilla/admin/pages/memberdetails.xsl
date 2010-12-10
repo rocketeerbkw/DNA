@@ -50,13 +50,13 @@
 									<th>User Name</th> -->
 									<th>Site</th>
 									<th>Status</th>
-									<th>Date Joined</th>
-									<th>Posts Passed</th>
-									<th>Posts Failed</th>
-									<th>Total Posts</th>
-									<th>Articles Passed</th>
-									<th>Articles Failed</th>
-									<th>Total Articles</th>
+									<th>Date joined</th>
+									<th>Posts passed</th>
+									<th>Posts failed</th>
+									<th>Total posts</th>
+									<th>Articles passed</th>
+									<th>Articles failed</th>
+									<th>Total articles</th>
 								</tr>
 							</thead>
 							<xsl:apply-templates select="MEMBERDETAILSLIST/MEMBERDETAILS"/>
@@ -100,16 +100,18 @@
 			</xsl:choose>
 		</p>
 		
-		<p><strong>User ID: </strong><xsl:value-of select="$userid"/></p>
-		<p>
-			<strong>Email: </strong>
-			<xsl:choose>
-				<xsl:when test="not(string-length(MEMBERDETAILS/USER[USERID=$userid]/EMAIL) = 0)">
-					<xsl:value-of select="MEMBERDETAILS/USER[USERID=$userid]/EMAIL"/>
-				</xsl:when>
-				<xsl:otherwise>No email</xsl:otherwise>
-			</xsl:choose>
-		</p>
+		<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = '2'">
+			<p><strong>User ID: </strong><xsl:value-of select="$userid"/></p>
+			<p>
+				<strong>Email: </strong>
+				<xsl:choose>
+					<xsl:when test="not(string-length(MEMBERDETAILS/USER[USERID=$userid]/EMAIL) = 0)">
+						<xsl:value-of select="MEMBERDETAILS/USER[USERID=$userid]/EMAIL"/>
+					</xsl:when>
+					<xsl:otherwise>No email</xsl:otherwise>
+				</xsl:choose>
+			</p>
+		</xsl:if>
 
 	</xsl:template>
 
@@ -118,37 +120,37 @@
 		<div class="dna-fl dna-main-full">
 			<table class="dna-dashboard-activity">
 				<tr class="odd">
-					<th>Posts Passed</th>
+					<th>Posts passed</th>
 					<td class="type">
 						<xsl:value-of select="POSTPASSEDCOUNT"/>
 					</td>
 				</tr>
 				<tr>
-					<th>Posts Failed</th>
+					<th>Posts failed</th>
 					<td>
 						<xsl:value-of select="POSTFAILEDCOUNT"/>
 					</td>
 				</tr>
 				<tr class="odd">
-					<th>Total Posts</th>
+					<th>Total posts</th>
 					<td>
 						<xsl:value-of select="POSTTOTALCOUNT"/>
 					</td>
 				</tr>
 				<tr>
-					<th>Articles Passed</th>
+					<th>Articles passed</th>
 					<td>
 						<xsl:value-of select="ARTICLEPASSEDCOUNT"/>
 					</td>
 				</tr>
 				<tr class="odd">
-					<th>Articles Failed</th>
+					<th>Articles failed</th>
 					<td>
 						<xsl:value-of select="ARTICLEFAILEDCOUNT"/>
 					</td>
 				</tr>
 				<tr>
-					<th>Total Articles</th>
+					<th>Total articles</th>
 					<td>
 						<xsl:value-of select="ARTICLETOTALCOUNT"/>
 					</td>
@@ -166,8 +168,8 @@
 	    	<xsl:if test="position() mod 2 = 1">
 		    	<xsl:attribute name="class">odd</xsl:attribute>
 	    	</xsl:if>			
-	    	<td><xsl:value-of select="position()" /></td>
-			<!-- do user id and user name need to be here as they are above 
+	    	<td><h5><xsl:value-of select="position()" /></h5></td>
+			<!-- do user id and user name need to be here as they are above? 
 			<td>
 				<a href="UserList?searchText={$userid}&amp;usersearchtype=0">
 					<xsl:value-of select="USER/USERID"/>
