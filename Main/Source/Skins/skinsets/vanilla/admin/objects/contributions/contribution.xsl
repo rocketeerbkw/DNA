@@ -80,11 +80,6 @@
 							<p class="dna-boards-failedpost">
 								<a href="/dna/moderation/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post Failed</a>
 							</p>
-							<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
-								<p>
-									<a href="/dna/moderation/EditPost?PostId={THREADENTRYID}" target="_blank">Edit Post</a>
-								</p>
-							</xsl:if>
 						</xsl:when>
 						<xsl:otherwise>
 							<a class="popup">
@@ -103,6 +98,11 @@
 							</a>
 						</xsl:otherwise>
 					</xsl:choose>
+          <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
+            <p>
+              <a href="/dna/moderation/EditPost?PostId={THREADENTRYID}" target="_blank">Edit Post</a>
+            </p>
+          </xsl:if>
 				</xsl:if>
 			</td>
 		</tr>
