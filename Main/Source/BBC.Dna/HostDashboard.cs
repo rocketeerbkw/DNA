@@ -107,7 +107,7 @@ namespace BBC.Dna
         {
             days = days == 0 ? 1 : days;
 
-            endDate = DateTime.Now;
+            endDate = DateTime.Now.AddDays(-1);
             startDate = endDate.AddDays(days * -1);
         }
 
