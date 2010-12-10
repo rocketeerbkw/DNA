@@ -51,11 +51,11 @@
 			
 			<xsl:variable name="itemcount" select="count(SITEEVENTS/SITEEVENT)" />
 			
-			<div>
+			<div class="dna-fl">
 				<xsl:text>Event </xsl:text>
 				<xsl:choose>
 					<xsl:when test="@STARTINDEX > 0">
-						<xsl:value-of select="@STARTINDEX" />
+						<xsl:value-of select="@STARTINDEX + 1" />
 					</xsl:when>
 					<xsl:otherwise>1</xsl:otherwise>
 				</xsl:choose>
@@ -66,6 +66,7 @@
 			</div>
 			
 			<xsl:if test="@TOTALITEMS > $itemcount">
+			<div class="dna-fr">
 				<ul class="pagination">
 					<li class="first dna-button">
 						<xsl:choose>
@@ -149,6 +150,7 @@
 						</xsl:choose>
 					</li>
 				</ul>
+			</div>
 			</xsl:if>
 		</xsl:template>
 			
