@@ -334,7 +334,8 @@
     .dna-dashboard form {padding: 3px 20px 3px 0}
     .dna-dashboard form select#s_siteid {width: 18.8em}
     .dna-dashboard form ul.dna-dashboard-links li {margin:10px 10px 0 0}
-    .dna-dashboard ul.dna-dashboard-links li a {text-decoration:underline}
+    .dna-dashboard ul.dna-dashboard-links li a {text-decoration:underline;border-bottom:none}
+    .dna-dashboard ul.dna-dashboard-links li a:hover {text-decoration:none}
     .dna-dashboard .dna-mb-intro form label {display:inline;font-weight:bold}
     .dna-dashboard .dna-dashboard-cfl form label {display:inline}
     .dna-dashboard .dna-mb-intro form .dna-typelist li label {float:right;display:block;padding:2px;width:16.4em;text-align:left}
