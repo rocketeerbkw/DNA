@@ -137,20 +137,20 @@
         <!--ceil by floor() + 1-->
         <xsl:choose>
           <xsl:when test="@TOTALCONTRIBUTIONS mod $itemcount =0">
-            <xsl:value-of select="floor(@TOTALCONTRIBUTIONS div $itemcount)"/>
+            <xsl:value-of select="floor(@TOTALCONTRIBUTIONS div @ITEMSPERPAGE)"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="floor(@TOTALCONTRIBUTIONS div $itemcount) + 1"/>
+            <xsl:value-of select="floor(@TOTALCONTRIBUTIONS div @ITEMSPERPAGE) + 1"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:param>
 
       <xsl:param name="counter" select="1" />
-      <xsl:param name="currentPage" select="floor(@STARTINDEX div $itemcount) + 1" />
+      <xsl:param name="currentPage" select="floor(@STARTINDEX div @ITEMSPERPAGE) +1" />
 
       
 
-      <xsl:if test="($totalPages > 1) and ($counter > ($currentPage - 5) ) and ($counter &lt; ($currentPage + 5) )">
+      <xsl:if test="($totalPages > 1) and ($counter > ($currentPage - 10) ) and ($counter &lt; ($currentPage + 10) )">
 						<li>
 								<xsl:if test="$currentPage = $counter">
 										<xsl:attribute name="class">current</xsl:attribute>
