@@ -3,7 +3,7 @@
     <xsl:template match="USER" mode="library_activitydata" >
       <xsl:choose>
         <xsl:when test="@USERID != '0'">
-          <a href="/dna/moderation/admin/memberdetails?userid={@USERID}">
+          <a href="memberdetails?userid={@USERID}">
             <xsl:value-of select="text()"/>
           </a>    
         </xsl:when>
