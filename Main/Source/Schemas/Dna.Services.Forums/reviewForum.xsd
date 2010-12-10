@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="reviewForum" nillable="true">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="forumName" type="xs:string" />
+				<xs:element name="urlFriendlyName" type="xs:string" />
+				<xs:element name="recommendable" type="xs:unsignedByte" />
+				<xs:element name="h2g2Id" type="xs:unsignedInt" />
+				<xs:element name="siteId" type="xs:unsignedByte" />
+				<xs:element name="incubateTime" type="xs:unsignedByte" />
+				<xs:element name="id" type="xs:unsignedInt" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
