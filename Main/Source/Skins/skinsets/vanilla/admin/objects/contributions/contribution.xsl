@@ -18,8 +18,21 @@
 				<a>
 					<xsl:attribute name="href">
 						<xsl:choose>
+							<xsl:when test="SITETYPE = 'Blog'">
+								<xsl:value-of select="concat(COMMENTFORUMURL, '?postid=', THREADENTRYID)"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="concat('/dna/', SITEURL, '/NF', FORUMID, '?thread=', THREADID, '&amp;post=', THREADENTRYID, '#p', THREADENTRYID)"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					<xsl:value-of select="TITLE" disable-output-escaping="yes"/>
+				</a><br/>			
+				<a>
+					<xsl:attribute name="href">
+						<xsl:choose>
 							<xsl:when test="COMMENTFORUMURL = ''">
-								<xsl:value-of select="concat('/dna/', SITEURL, '/F', FORUMID)"/>
+								<xsl:value-of select="concat('/dna/', SITEURL, '/NF', FORUMID)"/>
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="COMMENTFORUMURL" disable-output-escaping="yes"/>
@@ -35,20 +48,8 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</a><br/>
-				<a>
-					<xsl:attribute name="href">
-						<xsl:choose>
-							<xsl:when test="SITETYPE = 'Blog'">
-								<xsl:value-of select="concat(COMMENTFORUMURL, '?postid=', THREADENTRYID)"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="concat('/dna/', SITEURL, '/F', FORUMID, '?thread=', THREADID, '&amp;post=', THREADENTRYID, '#p', THREADENTRYID)"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-					<xsl:value-of select="TITLE" disable-output-escaping="yes"/>
-				</a><br/>
 				in
+				<!-- site -->
 				<a>
 					<xsl:attribute name="href">
 						<xsl:choose>
