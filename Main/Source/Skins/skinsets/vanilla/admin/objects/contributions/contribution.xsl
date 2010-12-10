@@ -77,11 +77,17 @@
 						</xsl:when>
 						<xsl:when test="MODERATIONSTATUS = 2 or MODERATIONSTATUS = 6 or MODERATIONSTATUS=1">
 							<!-- Referred post for any user -->
+							<xsl:if test="MODERATIONSTATUS = 1">
+								<p class="dna-boards-failedpost">Failed</p>
+							</xsl:if>
 							<p class="dna-boards-failedpost">
 								<a href="/dna/moderation/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post Failed</a>
 							</p>
 						</xsl:when>
 						<xsl:otherwise>
+							<xsl:if test="MODERATIONSTATUS = 0">
+								<p class="dna-boards-failedpost">Live</p>
+							</xsl:if>						
 							<a class="popup">
 								<xsl:attribute name="href">
 									<xsl:value-of select="concat('/dna/', SITEURL,'/comments/UserComplaintPage?PostID=' , @THREADENTRYID, '&amp;s_start=1&amp;s_ptrt=')" />
@@ -98,11 +104,11 @@
 							</a>
 						</xsl:otherwise>
 					</xsl:choose>
-          <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
-            <p>
-              <a href="/dna/moderation/EditPost?PostId={THREADENTRYID}" target="_blank">Edit Post</a>
-            </p>
-          </xsl:if>
+					<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
+						<p>
+							<a href="/dna/moderation/EditPost?PostId={THREADENTRYID}" target="_blank">Edit Post</a>
+						</p>
+					</xsl:if>
 				</xsl:if>
 			</td>
 		</tr>
