@@ -195,9 +195,14 @@
 				<xsl:value-of select="POSTFAILEDCOUNT"/>
 			</td>
 			<td>
-				<a href="usercontributions?s_user={$userid}&amp;s_siteid={SITE/@ID}">
-					<xsl:value-of select="POSTTOTALCOUNT"/>
-				</a>
+				<xsl:choose>
+					<xsl:when test="POSTTOTALCOUNT > 0">
+						<a href="usercontributions?s_user={$userid}&amp;s_siteid={SITE/@ID}">
+							<xsl:value-of select="POSTTOTALCOUNT"/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise><xsl:value-of select="POSTTOTALCOUNT"/></xsl:otherwise>
+				</xsl:choose>
 			</td>
 			<td>
 				<xsl:value-of select="ARTICLEPASSEDCOUNT"/>
