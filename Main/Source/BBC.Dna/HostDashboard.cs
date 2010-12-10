@@ -7,6 +7,7 @@ using BBC.Dna.Utils;
 using System.Linq;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Moderation;
+using System.Xml;
 
 namespace BBC.Dna
 {
@@ -77,6 +78,20 @@ namespace BBC.Dna
             SerialiseAndAppend(modStats, "");
             SerialiseAndAppend(stats, "");
 
+            //check if only one site - then redirect
+            if (moderatorInfo.Sites.Count == 1 && _siteId == 0)
+            {
+                var redirectUrl = string.Format("/dna/moderation/admin/hostdashboard?s_siteid={0}&s_type={1}", moderatorInfo.Sites[0].SiteId, (int)moderatorInfo.Sites[0].Type);
+                if (_userId != 0)
+                {
+                    redirectUrl += "&s_userid=" + _userId.ToString();
+                }
+                RootElement.RemoveAll();
+                XmlNode redirect = AddElementTag(RootElement, "REDIRECT");
+                AddAttribute(redirect, "URL", redirectUrl);
+                return;
+            }
+
             //get sitelist
             SiteXmlBuilder siteXml = new SiteXmlBuilder(InputContext);
             siteXml.CreateXmlSiteList(InputContext.TheSiteList);
@@ -119,6 +134,8 @@ namespace BBC.Dna
                     _userId = InputContext.GetParamIntOrZero("s_userid", "test userid");
                 }
             }
+
+            
         }
     }
 }
