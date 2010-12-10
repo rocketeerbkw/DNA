@@ -51,11 +51,11 @@
 			
 			<xsl:variable name="itemcount" select="count(SITEEVENTS/SITEEVENT)" />
 			
-			<div>
+			<div class="dna-fl">
 				<xsl:text>Event </xsl:text>
 				<xsl:choose>
 					<xsl:when test="@STARTINDEX > 0">
-						<xsl:value-of select="@STARTINDEX" />
+						<xsl:value-of select="@STARTINDEX + 1" />
 					</xsl:when>
 					<xsl:otherwise>1</xsl:otherwise>
 				</xsl:choose>
@@ -66,6 +66,7 @@
 			</div>
 			
 			<xsl:if test="@TOTALITEMS > $itemcount">
+			<div class="dna-fr">
 				<ul class="pagination">
 					<li class="first dna-button">
 						<xsl:choose>
@@ -149,6 +150,7 @@
 						</xsl:choose>
 					</li>
 				</ul>
+			</div>
 			</xsl:if>
 		</xsl:template>
 			
@@ -158,19 +160,18 @@
 			<xsl:param name="totalPages">
 				<!--ceil by floor() + 1-->
 				<xsl:choose>
-					<xsl:when test="@TOTALITEMS mod $itemcount =0">
-						<xsl:value-of select="floor(@TOTALITEMS div $itemcount)"/>
+					<xsl:when test="@TOTALITEMS mod  @ITEMSPERPAGE =0">
+						<xsl:value-of select="floor(@TOTALITEMS div @ITEMSPERPAGE)"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="floor(@TOTALITEMS div $itemcount) + 1"/>
+						<xsl:value-of select="floor(@TOTALITEMS div @ITEMSPERPAGE) + 1"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:param>
-			
 			<xsl:param name="counter" select="1" />
-			<xsl:param name="currentPage" select="floor(@STARTINDEX div $itemcount) + 1" />
+			<xsl:param name="currentPage" select="floor(@STARTINDEX div @ITEMSPERPAGE) +1" />
 			
-			<xsl:if test="($totalPages > 1) and ($counter > ($currentPage - 5) ) and ($counter &lt; ($currentPage + 5) )">
+			<xsl:if test="($totalPages > 1) and ($counter > ($currentPage - 10) ) and ($counter &lt; ($currentPage + 10) )">
 				<li>
 					<xsl:if test="$currentPage = $counter">
 						<xsl:attribute name="class">current</xsl:attribute>

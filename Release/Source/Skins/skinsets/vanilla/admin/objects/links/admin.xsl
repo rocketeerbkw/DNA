@@ -34,7 +34,7 @@
 		</xsl:if>			
 		<li><a href="/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
 		<li><xsl:value-of select="$dashboardmodstatus" /><br /><br />
-			To change your moderation status, contact the <a href="bbccommunities@bbc.co.uk">Moderation Services team</a>.
+			To change moderation status, contact the <a href="{$moderationemail}">Moderation Services team</a>.
 		</li>
 
 	</xsl:template>

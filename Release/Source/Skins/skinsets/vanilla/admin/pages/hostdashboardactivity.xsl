@@ -96,9 +96,7 @@
 									</tbody>
 								</table>
 							</div>
-							<div class="dna-fr">
-								<xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
-							</div>
+							<xsl:apply-templates select="SITEEVENTLIST" mode="library_pagination_forumthreadposts"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<div class="dna-fl dna-main-full">

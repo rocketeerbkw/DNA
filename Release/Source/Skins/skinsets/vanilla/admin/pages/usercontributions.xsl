@@ -49,7 +49,7 @@
 									<th class="date">Date</th>
 									<th>Where posted</th>
 									<th>Post</th>
-									<th class="type">Reason</th>
+									<th class="type">Status</th>
 								</tr>
 							</thead>
 							<tbody>
