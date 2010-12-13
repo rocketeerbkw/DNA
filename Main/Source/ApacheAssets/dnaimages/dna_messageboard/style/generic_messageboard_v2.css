@@ -188,7 +188,9 @@ p.countdown {margin-left:10px}
 #blq-main #blq-content .dna-boards-moderation a {padding-left:3px; color:#666}
 #blq-main #blq-content .dna-boards-moderation a:focus,#blq-main #blq-content .dna-boards-moderation a:active {color:#e2e2e2; background-color:#666}
 #blq-main .move-thread p {padding:10px}
-#blq-content .itemdetail p.messagedetail {margin-bottom: 0}
+#blq-content .itemdetail h4 {float:left;font-size:1.1em}
+#blq-content .itemdetail p.messagedetail {float:left;margin-bottom:0}
+#blq-content .itemdetail p.postedby {clear:both;margin-top:5px;}
 #blq-content .searchresult {color: #ff0000}
 #blq-main .searchthreadposts p.error-message {padding: 10px;}
 
