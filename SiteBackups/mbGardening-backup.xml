@@ -1,0 +1,516 @@
+﻿<MESSAGEBOARDTRANSFER-BACKUP>
+  <BACKUPLOG>
+    <BACKUPLOGENTRY>Front Page</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic Element List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Forum Schedules</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Site Config</BACKUPLOGENTRY>
+  </BACKUPLOG>
+  <SITE ID="60">
+    <NAME>mbgardening</NAME>
+    <DESCRIPTION>Gardening Messageboard</DESCRIPTION>
+    <SHORTNAME>Gardening</SHORTNAME>
+  </SITE>
+  <FRONTPAGEXML>
+    <ARTICLE>
+      <ARTICLEINFO>
+        <H2G2ID>75438480</H2G2ID>
+        <EDIT-KEY>006F5E98-33B2-40E9-9227-B3DB9AF220FD</EDIT-KEY>
+      </ARTICLEINFO>
+      <SUBJECT>frontpage</SUBJECT>
+      <FRONTPAGE>
+        <PAGE-LAYOUT>
+          <LAYOUT>3</LAYOUT>
+          <TEMPLATE>2</TEMPLATE>
+          <ELEMTEMPLATE>2</ELEMTEMPLATE>
+          <ELEMTEMPLATE-GUIDEML />
+        </PAGE-LAYOUT>
+      </FRONTPAGE>
+    </ARTICLE>
+  </FRONTPAGEXML>
+  <TOPICLIST STATUS="ACTIVE">
+    <TOPIC>
+      <TOPICID>801</TOPICID>
+      <H2G2ID>6417326</H2G2ID>
+      <SITEID>60</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>797</TOPICLINKID>
+      <TITLE>Allotment tales</TITLE>
+      <FORUMID>2759005</FORUMID>
+      <FORUMPOSTCOUNT>108594</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            What's growing in your plot? From preparing your patch to choosing what to grow, you'll find all the tips and tricks you need for a fruitful veg growing year.
+
+            You may find this <A HREF="http://www.carta.co.uk/beebstuff/allotment.htm">SEARCH FACILITY</A> useful. The BBC holds no responsibility for the accuracy or the content on this external search website.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>1</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="13" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026134320">
+            <LOCAL DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="14" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026144320" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="13" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026134320">
+            <LOCAL DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="14" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026144320" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>580</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>4</FP_POSITION>
+      <FP_TITLE>Allotment tales</FP_TITLE>
+      <EDITKEY>D41A9B4B-E51E-4E06-B786-E18D7DC4BB66</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>802</TOPICID>
+      <H2G2ID>6417335</H2G2ID>
+      <SITEID>60</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>798</TOPICLINKID>
+      <TITLE>Garden inspiration</TITLE>
+      <FORUMID>2759006</FORUMID>
+      <FORUMPOSTCOUNT>164064</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            <BR />Share your design dilemmas and successes, your tales of inspiring garden visits and passion for plants here.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>2</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="13" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026134320">
+            <LOCAL DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="14" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026144320" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="13" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026134320">
+            <LOCAL DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="14" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026144320" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>579</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>3</FP_POSITION>
+      <FP_TITLE>Garden inspiration</FP_TITLE>
+      <EDITKEY>1DC44DD4-35CF-4316-9A09-7E63CA7EAA06</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>803</TOPICID>
+      <H2G2ID>6417344</H2G2ID>
+      <SITEID>60</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>799</TOPICLINKID>
+      <TITLE>Garden clinic</TITLE>
+      <FORUMID>2759007</FORUMID>
+      <FORUMPOSTCOUNT>224911</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            <BR />Drop in with your horticultural queries and conundrums and swap tips with other like-minded gardeners.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>3</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="13" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026134320">
+            <LOCAL DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="14" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026144320" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="13" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026134320">
+            <LOCAL DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="14" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026144320" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>578</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>2</FP_POSITION>
+      <FP_TITLE>Garden clinic</FP_TITLE>
+      <EDITKEY>391895D8-3927-4443-BBF0-3818FD46856D</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>804</TOPICID>
+      <H2G2ID>6417353</H2G2ID>
+      <SITEID>60</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>796</TOPICLINKID>
+      <TITLE>Gardening on TV and Radio</TITLE>
+      <FORUMID>2759004</FORUMID>
+      <FORUMPOSTCOUNT>47297</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            <BR />Have your say and share your comments about the current crop of BBC gardening programmes.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>4</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="13" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026134320">
+            <LOCAL DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="14" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026144320" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="13" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026134320">
+            <LOCAL DAYNAME="Wednesday" SECONDS="20" MINUTES="43" HOURS="14" DAY="26" MONTH="10" MONTHNAME="October" YEAR="2005" SORT="20051026144320" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>577</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>6</FP_POSITION>
+      <FP_TITLE>Gardening on TV and Radio</FP_TITLE>
+      <EDITKEY>999D43B9-BBE6-427A-9363-1A85B500D834</EDITKEY>
+    </TOPIC>
+  </TOPICLIST>
+  <TOPICELEMENTLIST STATUS="ACTIVE">
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>580</ELEMENTID>
+      <TITLE>Allotment tales</TITLE>
+      <TEXT>
+        <BR />What's growing in your plot? We want to hear your veggie talk.
+      </TEXT>
+      <SITEID>60</SITEID>
+      <FRONTPAGEPOSITION>4</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>peppers.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Allotment tales</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>996</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>714EECE1-53EA-48E1-BACE-77A7CF4910B5</EDITKEY>
+      <TOPICID>801</TOPICID>
+      <FORUMPOSTCOUNT>108594</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>579</ELEMENTID>
+      <TITLE>Garden inspiration</TITLE>
+      <TEXT>
+        <BR />Share design dilemmas, tales of garden visits and your passion for plants.
+      </TEXT>
+      <SITEID>60</SITEID>
+      <FRONTPAGEPOSITION>3</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>nerine.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Design inspirations</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>995</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>895444B0-198C-49BB-BAB2-8B57EEA6577E</EDITKEY>
+      <TOPICID>802</TOPICID>
+      <FORUMPOSTCOUNT>164064</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>578</ELEMENTID>
+      <TITLE>Garden clinic</TITLE>
+      <TEXT>
+        <BR />Drop in with your horticultural queries and conundrums.
+      </TEXT>
+      <SITEID>60</SITEID>
+      <FRONTPAGEPOSITION>2</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>snipping.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Garden clinic</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>994</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>F0055692-CDD8-43D4-AF7F-F5C32C911E24</EDITKEY>
+      <TOPICID>803</TOPICID>
+      <FORUMPOSTCOUNT>224911</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>577</ELEMENTID>
+      <TITLE>Gardening on TV and Radio</TITLE>
+      <TEXT>
+        <BR />Share your thoughts on the latest gardening programmes.
+      </TEXT>
+      <SITEID>60</SITEID>
+      <FRONTPAGEPOSITION>6</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>toby_buckland.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Gardening on TV</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>993</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>1EF55F4F-BA2B-4937-9F92-FC7591FEF0DF</EDITKEY>
+      <TOPICID>804</TOPICID>
+      <FORUMPOSTCOUNT>47297</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+  </TOPICELEMENTLIST>
+  <FORUMSCHEDULES>
+    <SCHEDULE>
+      <FORUM ID="2759004" />
+      <FORUM ID="2759005" />
+      <FORUM ID="2759006" />
+      <FORUM ID="2759007" />
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="10" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="10" MINUTES="00" />
+      </EVENT>
+    </SCHEDULE>
+  </FORUMSCHEDULES>
+  <SITECONFIG>
+    <V2_BOARDS>
+      <HEADER_COLOUR />
+      <BANNER_SSI />
+      <HORIZONTAL_NAV_SSI />
+      <LEFT_NAV_SSI />
+      <WELCOME_MESSAGE />
+      <ABOUT_MESSAGE />
+      <OPENCLOSETIMES_TEXT />
+      <FOOTER>
+        <LINKS />
+      </FOOTER>
+      <MODULES>
+        <LINKS />
+      </MODULES>
+      <RECENTDISCUSSIONS>true</RECENTDISCUSSIONS>
+      <SOCIALTOOLBAR>false</SOCIALTOOLBAR>
+      <TOPICLAYOUT />
+      <CSS_LOCATION>http://www.bbc.co.uk/gardening/css/messageboard.css</CSS_LOCATION>
+      <EMOTICON_LOCATION />
+    </V2_BOARDS>
+    <ASSETCOMPLAIN>complain.gif</ASSETCOMPLAIN>
+    <ASSETNEW />
+    <BARLEYSEARCHCOLOUR />
+    <BARLEYVARIANT />
+    <BOARDNAME>Gardening</BOARDNAME>
+    <BOARDROOT>mbgardening/</BOARDROOT>
+    <BOARDSSOLINK>mbgardening</BOARDSSOLINK>
+    <CODEBANNER>
+      <IMG SRC="http://www.bbc.co.uk/gardening/dna_messageboards/images/banners/ban_gardening.gif" WIDTH="645" HEIGHT="90" ALT="" BORDER="0" USEMAP="#banner" />
+      <MAP NAME="banner">
+        <AREA ALT="TV and radio" COORDS="430,55,505,75" HREF="http://www.bbc.co.uk/lifestyle/tv_and_radio/" SHAPE="RECT" />
+        <AREA ALT="Directory A to Z" COORDS="520,55,590,75" HREF="http://www.bbc.co.uk/lifestyle/atoz.shtml" SHAPE="RECT" />
+        <AREA ALT="Talk" COORDS="605,55,640,75" HREF="http://www.bbc.co.uk/lifestyle/talk/" SHAPE="RECT" />
+        <AREA ALT="Lifestyle" COORDS="553,16,641,44" HREF="/lifestyle/" SHAPE="RECT" />
+        <AREA ALT="Gardening homepage" COORDS="2,98,199,29" HREF="/gardening/" SHAPE="RECT" />
+      </MAP>
+    </CODEBANNER>
+    <CSSLOCATION>messageboard.css</CSSLOCATION>
+    <EMOTICONLOCATION>0</EMOTICONLOCATION>
+    <EXTERNALHOME />
+    <EXTERNALHOMEURL />
+    <EXTEXTBODY>To create paragraphs, just press Return on your keyboard when needed.</EXTEXTBODY>
+    <EXTEXTPREVIEW>If you are satisfied with your message, proceed by clicking on Post message.</EXTEXTPREVIEW>
+    <EXTEXTTITLE>Write a short snappy title to kick off a discussion.</EXTEXTTITLE>
+    <FEATURESMILEYS>1</FEATURESMILEYS>
+    <IMAGEBANNER />
+    <LINKPATH />
+    <NAVCRUMB />
+    <NAVLHN>
+      <DIV CLASS="toplevel">
+        <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="8" HEIGHT="12" />
+        <A HREF="/gardening">Gardening</A>
+      </DIV>
+      <DIV CLASS="lhnlevel1">
+        <IMG SRC="http://www.bbc.co.uk/gardening/dna_messageboards/images/nav_arrow.gif" ALT="" BORDER="0" WIDTH="6" HEIGHT="12" VSPACE="1" HSPACE="3" ALIGN="top" CLASS="navarrow" />
+        <A HREF="/dna/mbgardening">Messageboard</A>
+      </DIV>
+      <DIV CLASS="lhnlevel2">
+        <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="14" HEIGHT="24" VSPACE="1" ALIGN="left" />
+        <TOPICLINK NAME="Gardening on TV and Radio">Gardening on TV and Radio</TOPICLINK>
+      </DIV>
+      <DIV CLASS="lhnlevel2">
+        <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="16" HEIGHT="12" VSPACE="1" ALIGN="top" />
+        <TOPICLINK NAME="Allotment tales">Allotment tales</TOPICLINK>
+      </DIV>
+      <DIV CLASS="lhnlevel2">
+        <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="16" HEIGHT="12" VSPACE="1" ALIGN="top" />
+        <TOPICLINK NAME="Garden inspiration">Garden inspiration</TOPICLINK>
+      </DIV>
+      <DIV CLASS="lhnlevel2">
+        <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="16" HEIGHT="12" VSPACE="1" ALIGN="top" />
+        <TOPICLINK NAME="Garden clinic">Garden clinic</TOPICLINK>
+      </DIV>
+      <IMG SRC="http://www.bbc.co.uk/gardening/dna_messageboards/images/lhn_dots.gif" WIDTH="121" HEIGHT="3" ALT="" BORDER="0" VSPACE="7" />
+      <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" WIDTH="125">
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="http://www.bbc.co.uk/gardening/dna_messageboards/images/lhn_tl.gif" WIDTH="4" HEIGHT="4" ALT="" BORDER="0" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="113" HEIGHT="4" />
+          </TD>
+          <TD>
+            <IMG SRC="http://www.bbc.co.uk/gardening/dna_messageboards/images/lhn_tr.gif" WIDTH="4" HEIGHT="4" ALT="" BORDER="0" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <A HREF="/lifestyle/tv_and_radio">TV and radio</A>
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+        <TR>
+          <TD COLSPAN="5">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="1" HEIGHT="2" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <A HREF="/lifestyle/talk">Talk</A>
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+        <TR>
+          <TD COLSPAN="5">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="1" HEIGHT="2" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <A HREF="/gardening/newsletter/">Newsletter</A>
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="4" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+        <TR>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+          <TD>
+            <IMG SRC="http://www.bbc.co.uk/gardening/dna_messageboards/images/lhn_bl.gif" WIDTH="4" HEIGHT="4" ALT="" BORDER="0" />
+          </TD>
+          <TD CLASS="lhnCatGbl">
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="1" HEIGHT="4" />
+          </TD>
+          <TD>
+            <IMG SRC="http://www.bbc.co.uk/gardening/dna_messageboards/images/lhn_br.gif" WIDTH="4" HEIGHT="4" ALT="" BORDER="0" />
+          </TD>
+          <TD>
+            <IMG SRC="/f/t.gif" ALT="" BORDER="0" WIDTH="2" HEIGHT="1" />
+          </TD>
+        </TR>
+      </TABLE>
+    </NAVLHN>
+    <PATHDEV>http://ops-dev7.bu.bbc.co.uk/gardening/dna_messageboards/</PATHDEV>
+    <PATHLIVE>http://www.bbc.co.uk/gardening/dna_messageboards/</PATHLIVE>
+    <PATHSSOTYPE>0</PATHSSOTYPE>
+  </SITECONFIG>
+</MESSAGEBOARDTRANSFER-BACKUP>

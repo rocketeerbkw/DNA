@@ -1,0 +1,686 @@
+<MESSAGEBOARDTRANSFER-BACKUP>
+  <BACKUPLOG>
+    <BACKUPLOGENTRY>Front Page</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic Element List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Forum Schedules</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Site Config</BACKUPLOGENTRY>
+  </BACKUPLOG>
+  <SITE ID="40">
+    <NAME>mbouch</NAME>
+    <DESCRIPTION>Ouch! disability</DESCRIPTION>
+    <SHORTNAME>Ouch!</SHORTNAME>
+  </SITE>
+  <FRONTPAGEXML>
+    <ARTICLE>
+      <ARTICLEINFO>
+        <H2G2ID>62145056</H2G2ID>
+        <EDIT-KEY>223DEC31-7A2F-4DD4-A239-FC31EA1E46FE</EDIT-KEY>
+      </ARTICLEINFO>
+      <SUBJECT>frontpage</SUBJECT>
+      <FRONTPAGE>
+        <PAGE-LAYOUT>
+          <LAYOUT>2</LAYOUT>
+          <TEMPLATE>1</TEMPLATE>
+          <ELEMTEMPLATE>2</ELEMTEMPLATE>
+          <ELEMTEMPLATE-GUIDEML />
+        </PAGE-LAYOUT>
+      </FRONTPAGE>
+    </ARTICLE>
+  </FRONTPAGEXML>
+  <TOPICLIST STATUS="ACTIVE">
+    <TOPIC>
+      <TOPICID>447</TOPICID>
+      <H2G2ID>4873944</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>442</TOPICLINKID>
+      <TITLE>Ouch! Talk</TITLE>
+      <FORUMID>2322273</FORUMID>
+      <FORUMPOSTCOUNT>273669</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Chat about what you've seen on the site, and discuss disability life matters big and small.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>1</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="15" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808150641">
+            <LOCAL DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="16" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808160641" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="15" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808150641">
+            <LOCAL DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="16" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808160641" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>283</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>4</FP_POSITION>
+      <FP_TITLE>Ouch! Talk</FP_TITLE>
+      <EDITKEY>E810B469-EA03-4F52-A49F-B6255DB8E642</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1458</TOPICID>
+      <H2G2ID>62096943</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1457</TOPICLINKID>
+      <TITLE>Dancing On Wheels</TITLE>
+      <FORUMID>15844964</FORUMID>
+      <FORUMPOSTCOUNT>740</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Follow the six couples on the BBC Three show and comment on the judges' decisions each week. Plus, share your experience by giving advice to disabled people getting into dance. No spoilers please.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>2</POSITION>
+      <CREATEDBY>
+        <USERNAME>BBC Ouch team</USERNAME>
+        <USERID>11138240</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="27" HOURS="16" DAY="19" MONTH="01" MONTHNAME="January" YEAR="2010" SORT="20100119162741">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="27" HOURS="16" DAY="19" MONTH="01" MONTHNAME="January" YEAR="2010" SORT="20100119162741" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>BBC Ouch team</USERNAME>
+        <USERID>11138240</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="27" HOURS="16" DAY="19" MONTH="01" MONTHNAME="January" YEAR="2010" SORT="20100119162741">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="27" HOURS="16" DAY="19" MONTH="01" MONTHNAME="January" YEAR="2010" SORT="20100119162741" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>974</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>13</FP_POSITION>
+      <FP_TITLE>Dancing On Wheels</FP_TITLE>
+      <EDITKEY>CA9C6038-FF02-44B3-A128-65118112F75F</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1281</TOPICID>
+      <H2G2ID>37881165</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1280</TOPICLINKID>
+      <TITLE>New to Ouch?</TITLE>
+      <FORUMID>10561408</FORUMID>
+      <FORUMPOSTCOUNT>5562</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>New to the boards? Introduce yourself here and ask any question you like - nothing is too daft! Our Community Networkers, hosts and other users are on hand to welcome you so make yourself at home.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>3</POSITION>
+      <CREATEDBY>
+        <USERNAME>Wizard of Ouch - host</USERNAME>
+        <USERID>1726404</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="06" MINUTES="28" HOURS="14" DAY="01" MONTH="07" MONTHNAME="July" YEAR="2008" SORT="20080701142806">
+            <LOCAL DAYNAME="Tuesday" SECONDS="06" MINUTES="28" HOURS="15" DAY="01" MONTH="07" MONTHNAME="July" YEAR="2008" SORT="20080701152806" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Wizard of Ouch - host</USERNAME>
+        <USERID>1726404</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="06" MINUTES="28" HOURS="14" DAY="01" MONTH="07" MONTHNAME="July" YEAR="2008" SORT="20080701142806">
+            <LOCAL DAYNAME="Tuesday" SECONDS="06" MINUTES="28" HOURS="15" DAY="01" MONTH="07" MONTHNAME="July" YEAR="2008" SORT="20080701152806" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>870</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>11</FP_POSITION>
+      <FP_TITLE>New to Ouch?</FP_TITLE>
+      <EDITKEY>5AC6196A-3468-41DD-8AB9-3F7302E83630</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>891</TOPICID>
+      <H2G2ID>9375825</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>890</TOPICLINKID>
+      <TITLE>Disability Q&amp;A</TITLE>
+      <FORUMID>3611783</FORUMID>
+      <FORUMPOSTCOUNT>37628</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Your space to give and receive tips and info on practical disability matters.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>4</POSITION>
+      <CREATEDBY>
+        <USERNAME>Vaughan - host</USERNAME>
+        <USERID>1726438</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="24" MINUTES="50" HOURS="14" DAY="13" MONTH="02" MONTHNAME="February" YEAR="2006" SORT="20060213145024">
+            <LOCAL DAYNAME="Monday" SECONDS="24" MINUTES="50" HOURS="14" DAY="13" MONTH="02" MONTHNAME="February" YEAR="2006" SORT="20060213145024" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Vaughan - host</USERNAME>
+        <USERID>1726438</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="24" MINUTES="50" HOURS="14" DAY="13" MONTH="02" MONTHNAME="February" YEAR="2006" SORT="20060213145024">
+            <LOCAL DAYNAME="Monday" SECONDS="24" MINUTES="50" HOURS="14" DAY="13" MONTH="02" MONTHNAME="February" YEAR="2006" SORT="20060213145024" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>660</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>8</FP_POSITION>
+      <FP_TITLE>Disability Q&amp;A</FP_TITLE>
+      <EDITKEY>267AFCAE-C484-4DE7-9133-8125083B52F8</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1173</TOPICID>
+      <H2G2ID>26644719</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1172</TOPICLINKID>
+      <TITLE>Ouch! Parents</TITLE>
+      <FORUMID>8146589</FORUMID>
+      <FORUMPOSTCOUNT>3989</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>NEW! For disabled mums and dads, or parents of disabled children. Talk, get advice and ask questions here.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>5</POSITION>
+      <CREATEDBY>
+        <USERNAME>Vaughan - host</USERNAME>
+        <USERID>1726438</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Wednesday" SECONDS="47" MINUTES="35" HOURS="10" DAY="05" MONTH="09" MONTHNAME="September" YEAR="2007" SORT="20070905103547">
+            <LOCAL DAYNAME="Wednesday" SECONDS="47" MINUTES="35" HOURS="11" DAY="05" MONTH="09" MONTHNAME="September" YEAR="2007" SORT="20070905113547" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Vaughan - host</USERNAME>
+        <USERID>1726438</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Wednesday" SECONDS="47" MINUTES="35" HOURS="10" DAY="05" MONTH="09" MONTHNAME="September" YEAR="2007" SORT="20070905103547">
+            <LOCAL DAYNAME="Wednesday" SECONDS="47" MINUTES="35" HOURS="11" DAY="05" MONTH="09" MONTHNAME="September" YEAR="2007" SORT="20070905113547" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>814</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>9</FP_POSITION>
+      <FP_TITLE>Ouch! Parents</FP_TITLE>
+      <EDITKEY>941EE363-6F08-46A9-B1CC-8B14B0A1F2A9</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>1374</TOPICID>
+      <H2G2ID>47995221</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>1373</TOPICLINKID>
+      <TITLE>Ouch! Creative</TITLE>
+      <FORUMID>12752030</FORUMID>
+      <FORUMPOSTCOUNT>1058</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>A space for you to share your writing and art inspired by your experience of being disabled. (trial).</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>6</POSITION>
+      <CREATEDBY>
+        <USERNAME>Gids</USERNAME>
+        <USERID>12288694</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Friday" SECONDS="25" MINUTES="43" HOURS="13" DAY="27" MONTH="02" MONTHNAME="February" YEAR="2009" SORT="20090227134325">
+            <LOCAL DAYNAME="Friday" SECONDS="25" MINUTES="43" HOURS="13" DAY="27" MONTH="02" MONTHNAME="February" YEAR="2009" SORT="20090227134325" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Gids</USERNAME>
+        <USERID>12288694</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Friday" SECONDS="25" MINUTES="43" HOURS="13" DAY="27" MONTH="02" MONTHNAME="February" YEAR="2009" SORT="20090227134325">
+            <LOCAL DAYNAME="Friday" SECONDS="25" MINUTES="43" HOURS="13" DAY="27" MONTH="02" MONTHNAME="February" YEAR="2009" SORT="20090227134325" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>930</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>12</FP_POSITION>
+      <FP_TITLE>Ouch! Creative</FP_TITLE>
+      <EDITKEY>76E67E64-1425-46AE-817E-29FF1AEF39A1</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>448</TOPICID>
+      <H2G2ID>4873953</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>445</TOPICLINKID>
+      <TITLE>See Hear Talk</TITLE>
+      <FORUMID>2322274</FORUMID>
+      <FORUMPOSTCOUNT>29397</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            Talk about the show and join in with <I>See Hear</I>'s online community.<BR /><A HREF="/seehear/">Go to the See Hear website</A>
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>7</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="15" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808150641">
+            <LOCAL DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="16" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808160641" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="15" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808150641">
+            <LOCAL DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="16" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808160641" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>284</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>1</FP_POSITION>
+      <FP_TITLE>See Hear Talk</FP_TITLE>
+      <EDITKEY>EED5F55C-9E1C-4162-9640-70E806502490</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>451</TOPICID>
+      <H2G2ID>4873980</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>444</TOPICLINKID>
+      <TITLE>Quick ...</TITLE>
+      <FORUMID>2322277</FORUMID>
+      <FORUMPOSTCOUNT>3993</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            Have you seen a disabled person on TV?<BR />Be an Ouch media agent and report your sighting.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>8</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="15" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808150641">
+            <LOCAL DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="16" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808160641" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="15" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808150641">
+            <LOCAL DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="16" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808160641" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>285</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>3</FP_POSITION>
+      <FP_TITLE>Quick, I've seen a disabled person on TV!</FP_TITLE>
+      <EDITKEY>E25F0E75-A366-4771-A2D3-BEDB24E5AC29</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>450</TOPICID>
+      <H2G2ID>4873971</H2G2ID>
+      <SITEID>40</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>443</TOPICLINKID>
+      <TITLE>The Cane &amp; Able</TITLE>
+      <FORUMID>2322276</FORUMID>
+      <FORUMPOSTCOUNT>89001</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Drop into Ouch's fully accessible local pub for off-topic chat about anything you like.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>9</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="15" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808150641">
+            <LOCAL DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="16" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808160641" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="15" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808150641">
+            <LOCAL DAYNAME="Monday" SECONDS="41" MINUTES="06" HOURS="16" DAY="08" MONTH="08" MONTHNAME="August" YEAR="2005" SORT="20050808160641" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>286</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>5</FP_POSITION>
+      <FP_TITLE>The Cane and Able</FP_TITLE>
+      <EDITKEY>BA686E75-0C05-4AEF-AA86-55F55B08AB57</EDITKEY>
+    </TOPIC>
+  </TOPICLIST>
+  <TOPICELEMENTLIST STATUS="ACTIVE">
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>283</ELEMENTID>
+      <TITLE>Ouch! Talk</TITLE>
+      <TEXT>Chat about what you've seen on the site, and discuss disability life matters big and small.</TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>4</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>promo_ouch_talk.gif</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Enter the Ouch! Talk board</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>537</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>72B67FE3-32FC-4125-9D03-FE111660ACEF</EDITKEY>
+      <TOPICID>447</TOPICID>
+      <FORUMPOSTCOUNT>273669</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>284</ELEMENTID>
+      <TITLE>See Hear Talk</TITLE>
+      <TEXT>
+        Talk about the show and join in with See Hear's online community.<BR /><A HREF="/seehear/">See Hear website</A>
+      </TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>1</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>promo_see_hear.gif</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Enter See Hear Talk board</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>534</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>F472335C-332C-4D25-9C14-D982341283E8</EDITKEY>
+      <TOPICID>448</TOPICID>
+      <FORUMPOSTCOUNT>29397</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>286</ELEMENTID>
+      <TITLE>The Cane and Able</TITLE>
+      <TEXT>
+        Drop into Ouch's fully accessible local pub for off-topic chat about anything you like.<BR />
+      </TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>5</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>promo_cane_and_able.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Enter The Cane and Able online pub board</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>538</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>2BF9D153-BF54-4F0F-9421-7643E7A1204C</EDITKEY>
+      <TOPICID>450</TOPICID>
+      <FORUMPOSTCOUNT>89001</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>285</ELEMENTID>
+      <TITLE>Quick, I've seen a disabled person on TV!</TITLE>
+      <TEXT>Have you seen a disabled person on TV? Be an Ouch media agent and report your sighting.</TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>3</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>promo_quick.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Enter the Quick, I've seen a disabled person on TV! board</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>536</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>5C0960CA-1162-4FA2-97CE-C1AFCBC65B57</EDITKEY>
+      <TOPICID>451</TOPICID>
+      <FORUMPOSTCOUNT>3993</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>870</ELEMENTID>
+      <TITLE>New to Ouch?</TITLE>
+      <TEXT>Introduce yourself here and ask any question you like - nothing is too daft! Our Community Networkers, hosts and other users are on hand to welcome you.</TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>11</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>keyboard.gif</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Hands on a computer keyboard</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1754</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>E24C88B2-555F-4AE6-BDDF-5CFAF7D320FA</EDITKEY>
+      <TOPICID>1281</TOPICID>
+      <FORUMPOSTCOUNT>5562</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>974</ELEMENTID>
+      <TITLE>Dancing On Wheels</TITLE>
+      <TEXT>Follow the six couples on the BBC Three show and comment on the judges' decisions each week. Plus, share your experience by giving advice to disabled people getting into dance. No spoilers please.</TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>13</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>dow.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Simone and Kevin from Dancing on Wheels</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>2011</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>97F06447-9852-4CAC-A9D1-1BA668F3A603</EDITKEY>
+      <TOPICID>1458</TOPICID>
+      <FORUMPOSTCOUNT>740</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>660</ELEMENTID>
+      <TITLE>Disability Q&amp;A</TITLE>
+      <TEXT>This is your space on Ouch to give and receive tips and info on practical disability matters.</TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>8</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>promo_qa.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Enter the Disability Q&amp;A board</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1246</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>53329937-979D-4F9E-A44D-842EBF50D766</EDITKEY>
+      <TOPICID>891</TOPICID>
+      <FORUMPOSTCOUNT>37628</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>814</ELEMENTID>
+      <TITLE>Ouch! Parents</TITLE>
+      <TEXT>NEW! For disabled mums and dads, or parents of disabled children. Talk, get advice and ask questions here.</TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>9</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>promo_ouchparents.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Enter the Ouch! Parents board</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1575</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>7D42B409-5175-4AC2-B54C-25C315FCA313</EDITKEY>
+      <TOPICID>1173</TOPICID>
+      <FORUMPOSTCOUNT>3989</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>930</ELEMENTID>
+      <TITLE>Ouch! Creative</TITLE>
+      <TEXT>A space for you to share your writing and art inspired by your experience of being disabled. (trial).</TEXT>
+      <SITEID>40</SITEID>
+      <FRONTPAGEPOSITION>12</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>promo_creative.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Enter the Ouch! Creative board</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>1902</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>ADF0D3E4-307B-4562-9B17-A791DF7F2976</EDITKEY>
+      <TOPICID>1374</TOPICID>
+      <FORUMPOSTCOUNT>1058</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+  </TOPICELEMENTLIST>
+  <FORUMSCHEDULES>
+    <SCHEDULE>
+      <FORUM ID="2322273" />
+      <FORUM ID="2322274" />
+      <FORUM ID="2322276" />
+      <FORUM ID="2322277" />
+      <FORUM ID="3611783" />
+      <FORUM ID="8146589" />
+      <FORUM ID="10561408" />
+      <FORUM ID="12752030" />
+      <FORUM ID="15844964" />
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="7" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="7" HOURS="09" MINUTES="00" />
+      </EVENT>
+    </SCHEDULE>
+  </FORUMSCHEDULES>
+  <SITECONFIG>
+    <DNACOMMENTTEXT>
+      <CLOSINGTIMESOON>
+        Please note: Comments on this entry will close in <MINUTESBEFORECLOSING /> minutes.
+      </CLOSINGTIMESOON>
+      <COMMENTBOXHEADING />
+      <COMMENTENTERHEADING>Leave your comment.</COMMENTENTERHEADING>
+      <COMMENTENTERLABEL>Click here to sign out.</COMMENTENTERLABEL>
+      <COMPLAINLINK>complain about this post </COMPLAINLINK>
+      <COUNTDOWNDISPLAY>
+        Please click the button below to submit your comment.
+      </COUNTDOWNDISPLAY>
+      <EMERGENCYCLOSEDMESSAGE>
+        This entry is temporarily closed, please try again later. Our usual opening times are listed below.
+      </EMERGENCYCLOSEDMESSAGE>
+      <FORUMCLOSEDMESSAGE>This entry is now closed for comments</FORUMCLOSEDMESSAGE>
+      <FORUMEXPIREDMESSAGE>This entry is now closed for comments</FORUMEXPIREDMESSAGE>
+      <LEAVECOMMENTHEADING>Leave your comment</LEAVECOMMENTHEADING>
+      <LOGGEDINWELCOME>
+        You are currently signed in as <USERNAME />. <LINKTOSIGNOUT>Sign out</LINKTOSIGNOUT>.
+      </LOGGEDINWELCOME>
+      <NOTLOGGEDINWELCOME>
+        You need to <LINKTOSIGNIN>sign in</LINKTOSIGNIN> to contribute to this page. Use your Ouch! messageboard login details or <LINKTOREGISTER>register now</LINKTOREGISTER> - it's quick and easy.
+      </NOTLOGGEDINWELCOME>
+      <NUMBEROFPOSTSMESSAGE>
+        This page has <PAGEPOSTCOUNTSHOWN SINGULAR="comment" PLURAL="comments" /> shown and <PAGEPOSTCOUNTHIDDEN /> hidden due to moderation.
+      </NUMBEROFPOSTSMESSAGE>
+      <OPENINGTIMESHEADING>Opening hours:</OPENINGTIMESHEADING>
+      <OPENINGTIMESMESSAGE />
+      <OPENUNTILMESSAGE>
+        This entry will be open for comments until <FORUMEXPIRATIONDATE />.
+      </OPENUNTILMESSAGE>
+      <POSTMODLABEL>
+        All posts are post-moderated.
+        <A POPUP="1" STYLE="status=1,resizable=1,scrollbars=1,width=640,height=440" HREF="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html">What does this mean?</A>
+      </POSTMODLABEL>
+      <PREMODLABEL>
+        All posts are pre-moderated.
+        <A POPUP="1" STYLE="status=1,resizable=1,scrollbars=1,width=640,height=440" HREF="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html">What does this mean?</A>
+      </PREMODLABEL>
+      <PREMODMESSAGE>
+        Where's my comment?
+        <BR />
+        All new members are pre-moderated initially, which means that there will be a short delay between when you post your comment and when it appears while one of our moderators checks it.
+      </PREMODMESSAGE>
+      <PROFANITYMESSAGE>
+        This post was blocked because it contained the word '<BLOCKEDPROFANITY />'
+      </PROFANITYMESSAGE>
+      <SCHEDULEDCLOSEDMESSAGE>
+        This entry is closed for the night. It will reopen at <NEXTOPENTIME />.
+      </SCHEDULEDCLOSEDMESSAGE>
+      <SENTBYLABEL />
+      <UNMODLABEL>
+        All posts are reactively moderated.
+        <A POPUP="1" STYLE="status=1,resizable=1,scrollbars=1,width=640,height=440" HREF="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html">What does this mean?</A>
+      </UNMODLABEL>
+      <WEEKDAYSMESSAGE>Weekdays</WEEKDAYSMESSAGE>
+      <WEEKENDSMESSAGE>Weekends</WEEKENDSMESSAGE>
+      <TOTALPOSTSMESSAGE>
+        <TOTALPOSTCOUNT SINGULAR=" comment" PLURAL=" comments" /> posted so far.
+      </TOTALPOSTSMESSAGE>
+    </DNACOMMENTTEXT>
+    <ASSETCOMPLAIN>complain.gif</ASSETCOMPLAIN>
+    <ASSETNEW />
+    <BARLEYSEARCHCOLOUR>#990000</BARLEYSEARCHCOLOUR>
+    <BARLEYVARIANT>none</BARLEYVARIANT>
+    <BOARDNAME>Ouch! disability</BOARDNAME>
+    <BOARDROOT>mbouch/</BOARDROOT>
+    <BOARDSSOLINK>mbouch</BOARDSSOLINK>
+    <CODEBANNER>
+      <IMG SRC="http://www.bbc.co.uk/ouch/dna_messageboard/images/newbanner.gif" WIDTH="645" HEIGHT="115" HSPACE="0" VSPACE="0" BORDER="0" ALT="Ouch! It's a disability thing" />
+    </CODEBANNER>
+    <CSSLOCATION>messageboard.css</CSSLOCATION>
+    <EMOTICONLOCATION />
+    <EXTERNALHOME />
+    <EXTERNALHOMEURL />
+    <EXTEXTBODY />
+    <EXTEXTPREVIEW />
+    <EXTEXTTITLE />
+    <FEATURESMILEYS>1</FEATURESMILEYS>
+    <IMAGEBANNER>banner.gif</IMAGEBANNER>
+    <LINKPATH />
+    <NAVCRUMB />
+    <NAVLHN>
+      <DIV CLASS="lhn-ouch">
+        <BR />
+        ?<A HREF="/ouch/">Ouch! Home</A><BR /><BR /><A HREF="/ouch/podcast/">Podcast</A><BR /><A HREF="/ouch/opinion/">Opinion</A><BR /><A HREF="/ouch/interviews/">Interviews</A><BR /><A HREF="/ouch/features/">Features</A><BR /><A HREF="/ouch/fact/">Fact</A><BR /><A HREF="/ouch/play/">Play</A><BR /><A HREF="/ouch/news.shtml">News</A><BR /><A HREF="/ouch/blogs.shtml">Blogs</A><BR /><A HREF="/ouch/about.shtml">About Ouch!</A><BR /><BR /><A HREF="/dna/mbouch/">Messageboard</A><BR />
+      </DIV>
+    </NAVLHN>
+    <PATHDEV>http://dmdev.wc.bbc.co.uk/ouch/dna_messageboard/</PATHDEV>
+    <PATHLIVE>http://www.bbc.co.uk/ouch/dna_messageboard/</PATHLIVE>
+    <PATHSSOTYPE>1</PATHSSOTYPE>
+  </SITECONFIG>
+</MESSAGEBOARDTRANSFER-BACKUP>

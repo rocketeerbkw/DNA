@@ -1,0 +1,1015 @@
+﻿<MESSAGEBOARDTRANSFER-BACKUP>
+  <BACKUPLOG>
+    <BACKUPLOGENTRY>Front Page</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic Element List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Forum Schedules</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Site Config</BACKUPLOGENTRY>
+  </BACKUPLOG>
+  <SITE ID="35">
+    <NAME>mbreligion</NAME>
+    <DESCRIPTION>Religion Messageboard</DESCRIPTION>
+    <SHORTNAME>Religion</SHORTNAME>
+  </SITE>
+  <FRONTPAGEXML>
+    <ARTICLE>
+      <ARTICLEINFO>
+        <H2G2ID>71307100</H2G2ID>
+        <EDIT-KEY>151210BB-571D-4A13-A42E-01BFD61BEE2D</EDIT-KEY>
+      </ARTICLEINFO>
+      <SUBJECT>frontpage</SUBJECT>
+      <FRONTPAGE>
+        <TABLE WIDTH="635" BORDER="0" CELLSPACING="0" CELLPADDING="0" STYLE="margin-top: 10px;">
+          <TR>
+            <TD WIDTH="420" VALIGN="top">
+              <!-- topic row - first row -->
+              <TABLE WIDTH="420" CELLSPACING="0" CELLPADDING="0" BORDER="0">
+                <TR>
+                  <TD WIDTH="205" VALIGN="top" CLASS="topic1">
+                    <TOPICLINK NAME="Religion and ethics">
+                      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/topicpromo_re.jpg" ALT="Religion and ethics" WIDTH="205" HEIGHT="55" HSPACE="0" VSPACE="0" BORDER="0" CLASS="promo" />
+                    </TOPICLINK>
+                  </TD>
+                  <TD WIDTH="10">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="10" HEIGHT="1" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD WIDTH="205" VALIGN="top" CLASS="topic2">
+                    <TOPICLINK NAME="Eastern Religions">
+                      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/topicpromo_eastern.jpg" ALT="Eastern religions" WIDTH="205" HEIGHT="55" HSPACE="0" VSPACE="0" BORDER="0" CLASS="promo" />
+                    </TOPICLINK>
+                  </TD>
+                </TR>
+                <TR>
+                  <TD VALIGN="top" CLASS="topic1">
+                    <DIV CLASS="topicpad">
+                      <TOPICLINK NAME="Religion and ethics" CLASS="topic1link">Religion and ethics</TOPICLINK><BR />
+
+                      You set the agenda.<BR />
+                      Read about different <A HREF="/religion/religions/">religions</A> and <A HREF="/religion/ethics/">ethics</A>.
+
+                    </DIV>
+                  </TD>
+                  <TD WIDTH="6">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="6" HEIGHT="6" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD VALIGN="top" CLASS="topic2">
+                    <DIV CLASS="topicpad">
+                      <TOPICLINK NAME="Eastern Religions" CLASS="topic2link">Eastern religions</TOPICLINK><BR />
+
+                      Discuss any Eastern religion.
+                      <BR />Find out more about <A HREF="/religion/religions/">Eastern religions</A>.
+
+                    </DIV>
+                  </TD>
+                </TR>
+                <TR>
+                  <TD VALIGN="top" CLASS="topic1">
+                    <P CLASS="goto" ALIGN="right">
+                      <TOPICLINK NAME="Religion and ethics" CLASS="blacklink">HAVE YOUR SAY</TOPICLINK>
+                    </P>
+                  </TD>
+                  <TD WIDTH="6">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="6" HEIGHT="6" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD VALIGN="top" CLASS="topic2">
+                    <P CLASS="goto" ALIGN="right">
+                      <TOPICLINK NAME="Eastern Religions" CLASS="blacklink">HAVE YOUR SAY</TOPICLINK>
+                    </P>
+                  </TD>
+                </TR>
+              </TABLE>
+              <!-- end topic row - first row -->
+
+              <!-- Spacer -->
+              <DIV>
+                <IMG SRC="/f/t.gif" ALT="" WIDTH="1" HEIGHT="10" HSPACE="0" VSPACE="0" BORDER="0" />
+              </DIV>
+              <!-- End spacer -->
+
+              <!-- topic row - second row -->
+              <TABLE WIDTH="420" CELLSPACING="0" CELLPADDING="0" BORDER="0">
+                <TR>
+                  <TD WIDTH="205" VALIGN="top" CLASS="topic3">
+                    <TOPICLINK NAME="Christian topic">
+                      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/topicpromo_christian.jpg" ALT="The Christian topic" WIDTH="205" HEIGHT="55" HSPACE="0" VSPACE="0" BORDER="0" CLASS="promo" />
+                    </TOPICLINK>
+                  </TD>
+                  <TD WIDTH="10">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="10" HEIGHT="1" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD WIDTH="205" VALIGN="top" CLASS="topic4">
+                    <TOPICLINK NAME="Muslim topic">
+                      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/topicpromo_muslim.jpg" ALT="The Muslim topic" WIDTH="205" HEIGHT="55" HSPACE="0" VSPACE="0" BORDER="0" CLASS="promo" />
+                    </TOPICLINK>
+                  </TD>
+                </TR>
+                <TR>
+                  <TD VALIGN="top" CLASS="topic3">
+                    <DIV CLASS="topicpad">
+                      <TOPICLINK NAME="Christian topic" CLASS="topic3link">The Christian topic</TOPICLINK><BR />
+
+                      Discuss any Christian topic.  All denominations welcome.<BR />
+                      Find out more about <A HREF="/religion/religions/christianity/">Christianity</A>.
+
+                    </DIV>
+                  </TD>
+                  <TD WIDTH="6">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="6" HEIGHT="6" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD VALIGN="top" CLASS="topic4">
+                    <DIV CLASS="topicpad">
+                      <TOPICLINK NAME="Muslim topic" CLASS="topic4link">The Muslim topic</TOPICLINK><BR />
+
+                      Any Islamic topic is welcome.<BR />
+                      Find out more about <A HREF="/religion/religions/islam/">Islam</A>.
+
+                    </DIV>
+                  </TD>
+                </TR>
+                <TR>
+                  <TD VALIGN="top" CLASS="topic3">
+                    <P CLASS="goto" ALIGN="right">
+                      <TOPICLINK NAME="Christian topic" CLASS="blacklink">HAVE YOUR SAY</TOPICLINK>
+                    </P>
+                  </TD>
+                  <TD WIDTH="6">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="6" HEIGHT="6" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD VALIGN="top" CLASS="topic4">
+                    <P CLASS="goto" ALIGN="right">
+                      <TOPICLINK NAME="Muslim topic" CLASS="blacklink">HAVE YOUR SAY</TOPICLINK>
+                    </P>
+                  </TD>
+                </TR>
+              </TABLE>
+              <!-- end topic row - second row -->
+
+              <!-- Spacer -->
+              <DIV>
+                <IMG SRC="/f/t.gif" ALT="" WIDTH="1" HEIGHT="10" HSPACE="0" VSPACE="0" BORDER="0" />
+              </DIV>
+              <!-- End spacer -->
+
+              <!-- topic row - third row -->
+              <TABLE WIDTH="420" CELLSPACING="0" CELLPADDING="0" BORDER="0">
+                <TR>
+                  <TD WIDTH="205" VALIGN="top" CLASS="topic5">
+                    <TOPICLINK NAME="Ethics and freethought">
+                      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/topicpromo_thought.jpg" ALT="Ethics and freethought" WIDTH="205" HEIGHT="55" HSPACE="0" VSPACE="0" BORDER="0" CLASS="promo" />
+                    </TOPICLINK>
+                  </TD>
+                  <TD WIDTH="10">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="10" HEIGHT="1" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD WIDTH="205" VALIGN="top" CLASS="topic6">
+                    <TOPICLINK NAME="Jewish topic">
+                      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/topicpromo_jewish.jpg" ALT="The Jewish topic" WIDTH="205" HEIGHT="55" HSPACE="0" VSPACE="0" BORDER="0" CLASS="promo" />
+                    </TOPICLINK>
+                  </TD>
+                </TR>
+                <TR>
+                  <TD VALIGN="top" CLASS="topic5">
+                    <DIV CLASS="topicpad">
+                      <TOPICLINK NAME="Ethics and freethought" CLASS="topic5link">Ethics and freethought</TOPICLINK><BR />
+
+                      Talk about ethical and philosophical issues.<BR />
+                      Read more about <A HREF="/religion/ethics/">ethics</A>.
+
+                    </DIV>
+                  </TD>
+                  <TD WIDTH="6">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="6" HEIGHT="6" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD VALIGN="top" CLASS="topic6">
+                    <DIV CLASS="topicpad">
+                      <TOPICLINK NAME="Jewish topic" CLASS="topic6link">The Jewish topic</TOPICLINK><BR />
+
+                      Talk about any Jewish topic.<BR />
+                      Find out more about <A HREF="/religion/religions/judaism/">Judaism</A>.<BR /><ENTITY TYPE="nbsp"> </ENTITY>
+                      <ENTITY TYPE="nbsp"> </ENTITY>
+
+                    </DIV>
+                  </TD>
+                </TR>
+                <TR>
+                  <TD VALIGN="top" CLASS="topic5">
+                    <P CLASS="goto" ALIGN="right">
+                      <TOPICLINK NAME="Ethics and freethought" CLASS="blacklink">HAVE YOUR SAY</TOPICLINK>
+                    </P>
+                  </TD>
+                  <TD WIDTH="6">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="6" HEIGHT="6" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD VALIGN="top" CLASS="topic6">
+                    <P CLASS="goto" ALIGN="right">
+                      <TOPICLINK NAME="Jewish topic" CLASS="blacklink">HAVE YOUR SAY</TOPICLINK>
+                    </P>
+                  </TD>
+                </TR>
+              </TABLE>
+              <!-- end topic row - third row -->
+
+              <!-- Spacer -->
+              <DIV>
+                <IMG SRC="/f/t.gif" ALT="" WIDTH="1" HEIGHT="10" HSPACE="0" VSPACE="0" BORDER="0" />
+              </DIV>
+              <!-- End spacer -->
+
+              <!-- topic row - fourth row -->
+              <TABLE WIDTH="420" CELLSPACING="0" CELLPADDING="0" BORDER="0">
+                <TR>
+                  <TD WIDTH="205" VALIGN="top" CLASS="topic7">
+                    <TOPICLINK NAME="Pagan topic">
+                      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/topicpromo_pagan.jpg" ALT="The Pagan topic" WIDTH="205" HEIGHT="55" HSPACE="0" VSPACE="0" BORDER="0" CLASS="promo" />
+                    </TOPICLINK>
+                  </TD>
+                  <TD WIDTH="10">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="10" HEIGHT="1" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD WIDTH="205" VALIGN="top" CLASS="topic8">
+                    <TOPICLINK NAME="TV and Radio">
+                      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/topicpromo_tvandradio.jpg" ALT="TV and Radio" WIDTH="205" HEIGHT="55" HSPACE="0" VSPACE="0" BORDER="0" CLASS="promo" />
+                    </TOPICLINK>
+                  </TD>
+                </TR>
+                <TR>
+                  <TD VALIGN="top" CLASS="topic7">
+                    <DIV CLASS="topicpad">
+                      <TOPICLINK NAME="Pagan topic" CLASS="topic7link">The Pagan topic</TOPICLINK><BR />
+
+                      Talk about any Pagan topic.<BR />
+                      Find out more about <A HREF="/religion/religions/paganism/">Paganism</A>.
+
+                    </DIV>
+                  </TD>
+                  <TD WIDTH="6">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="6" HEIGHT="6" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD VALIGN="top" CLASS="topic8">
+                    <DIV CLASS="topicpad">
+                      <TOPICLINK NAME="TV and Radio" CLASS="topic8link">TV and Radio</TOPICLINK><BR />
+                      Talk about any programmes relating to religion and ethics.
+                    </DIV>
+                  </TD>
+                </TR>
+                <TR>
+                  <TD VALIGN="top" CLASS="topic7">
+                    <P CLASS="goto" ALIGN="right">
+                      <TOPICLINK NAME="Pagan topic" CLASS="blacklink">HAVE YOUR SAY</TOPICLINK>
+                    </P>
+                  </TD>
+                  <TD WIDTH="6">
+                    <!-- Spacer -->
+                    <DIV>
+                      <IMG SRC="/f/t.gif" ALT="" WIDTH="6" HEIGHT="6" HSPACE="0" VSPACE="0" BORDER="0" />
+                    </DIV>
+                    <!-- End spacer -->
+                  </TD>
+                  <TD VALIGN="top" CLASS="topic8">
+                    <P CLASS="goto" ALIGN="right">
+                      <TOPICLINK NAME="TV and Radio" CLASS="blacklink">HAVE YOUR SAY</TOPICLINK>
+                    </P>
+                  </TD>
+                </TR>
+              </TABLE>
+              <!-- end topic row - fourth row -->
+
+              <!-- Spacer -->
+              <DIV>
+                <IMG SRC="/f/t.gif" ALT="" WIDTH="1" HEIGHT="10" HSPACE="0" VSPACE="0" BORDER="0" />
+              </DIV>
+              <!-- End spacer -->
+
+            </TD>
+            <TD WIDTH="10">
+              <!-- Spacer -->
+              <DIV>
+                <IMG SRC="/f/t.gif" ALT="" WIDTH="10" HEIGHT="1" HSPACE="0" VSPACE="0" BORDER="0" />
+              </DIV>
+              <!-- End spacer -->
+            </TD>
+            <TD WIDTH="205" VALIGN="top">
+              <!-- topic column - far right -->
+              <!-- about box -->
+              <TABLE WIDTH="205" BORDER="0" CELLSPACING="0" CELLPADDING="0">
+                <TR>
+                  <TD WIDTH="205">
+                    <DIV CLASS="rhsAboutBox">
+                      <H4 CLASS="rhsAboutBox">About the message board</H4>
+                      <P CLASS="rhsAboutBoxWelcome">Welcome to the new Religion and Ethics message board.</P>
+                      <DIV CLASS="rhsAboutBoxLinks">
+                        <A HREF="http://www.bbc.co.uk/messageboards/newguide/popup_welcome.html" ONCLICK="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_welcome.html', 'popwin', 
+
+'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" TARGET="popwin" TITLE="This link opens in a new popup window">
+                          Help with registration<IMG SRC="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" ALT="popup icon" TITLE="" ALIGN="top" BORDER="0" HEIGHT="15" WIDTH="20" />
+                        </A>
+                        <BR />
+                        <A HREF="http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html" ONCLICK="popupwindow('http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html', 'popwin', 
+
+'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" TARGET="popwin" TITLE="This link opens in a new popup window">
+                          FAQs<IMG SRC="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" ALT="popup icon" TITLE="" ALIGN="top" BORDER="0" HEIGHT="15" WIDTH="20" />
+                        </A>
+                        <BR />
+                        <A HREF="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B" ONCLICK="popupwindow
+
+('http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html#B', 'popwin', 'status=1,resizable=1,scrollbars=1,width=440,height=380');return false;" TARGET="popwin" TITLE="This link opens in a new popup window">
+                          This message board is post-moderated<IMG SRC="http://www.bbc.co.uk/dnaimages/boards/images/popup.gif" ALT="popup icon" TITLE="" ALIGN="top" BORDER="0" HEIGHT="15" WIDTH="20" />
+                        </A>
+                      </DIV>
+                      <H4 CLASS="rhsAboutBox">Opening times</H4>
+                      <P CLASS="rhsAboutBoxOpening">
+                        Mon - Fri 09.00 - 18.00<BR />
+                        Sat - Sun 10.00 - 17.00<BR />
+                      </P>
+                    </DIV>
+                  </TD>
+                </TR>
+              </TABLE>
+              <!-- END about box -->
+              <!-- END topic column - far right -->
+            </TD>
+          </TR>
+        </TABLE>
+
+        <PAGE-LAYOUT>
+          <LAYOUT>4</LAYOUT>
+          <TEMPLATE>0</TEMPLATE>
+          <ELEMTEMPLATE>0</ELEMTEMPLATE>
+          <ELEMTEMPLATE-GUIDEML />
+        </PAGE-LAYOUT>
+      </FRONTPAGE>
+    </ARTICLE>
+  </FRONTPAGEXML>
+  <TOPICLIST STATUS="ACTIVE">
+    <TOPIC>
+      <TOPICID>295</TOPICID>
+      <H2G2ID>4479311</H2G2ID>
+      <SITEID>35</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>287</TOPICLINKID>
+      <TITLE>Christian topic</TITLE>
+      <FORUMID>2213235</FORUMID>
+      <FORUMPOSTCOUNT>1045362</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            All denominations welcome.
+            Guide to <A HREF="http://www.bbc.co.uk/religion/religions/christianity/index.shtml">Christianity</A>.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>1</POSITION>
+      <CREATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>153</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>3</FP_POSITION>
+      <FP_TITLE>The Christian topic</FP_TITLE>
+      <EDITKEY>C8CD2209-2CAE-4B4F-B905-ACED67F69ABE</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>293</TOPICID>
+      <H2G2ID>4479294</H2G2ID>
+      <SITEID>35</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>285</TOPICLINKID>
+      <TITLE>Eastern Religions</TITLE>
+      <FORUMID>2213233</FORUMID>
+      <FORUMPOSTCOUNT>29844</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            Guides to <A HREF="http://www.bbc.co.uk/religion/religions/hinduism/index.shtml">Hinduism</A>, <A HREF="http://www.bbc.co.uk/religion/religions/sikhism/index.shtml">Sikhism</A>, <A HREF="http://www.bbc.co.uk/religion/religions/buddhism/index.shtml">Buddhism</A>, <A HREF="http://www.bbc.co.uk/religion/religions/shinto/">Shinto</A>, and <A HREF="http://www.bbc.co.uk/religion/religions/jainism/index.shtml">Jainism</A>.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>2</POSITION>
+      <CREATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>152</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>1</FP_POSITION>
+      <FP_TITLE>Eastern Religions</FP_TITLE>
+      <EDITKEY>7C6CB18F-3BD6-4732-9A60-5DE2B671B9E7</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>297</TOPICID>
+      <H2G2ID>4479339</H2G2ID>
+      <SITEID>35</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>289</TOPICLINKID>
+      <TITLE>Ethics and freethought</TITLE>
+      <FORUMID>2213237</FORUMID>
+      <FORUMPOSTCOUNT>128119</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            Ethical/philosophical topics.  More about <A HREF="http://www.bbc.co.uk/religion/ethics/">ethics</A>.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>3</POSITION>
+      <CREATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>154</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>5</FP_POSITION>
+      <FP_TITLE>Ethics and freethought</FP_TITLE>
+      <EDITKEY>F970B7FC-3A03-4EE0-9CDC-3B6FB004182D</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>298</TOPICID>
+      <H2G2ID>4479348</H2G2ID>
+      <SITEID>35</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>290</TOPICLINKID>
+      <TITLE>Jewish topic</TITLE>
+      <FORUMID>2213238</FORUMID>
+      <FORUMPOSTCOUNT>76920</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            Find out more about <A HREF="http://www.bbc.co.uk/religion/religions/judaism/index.shtml">Judaism</A>.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>4</POSITION>
+      <CREATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>150</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>6</FP_POSITION>
+      <FP_TITLE>The Jewish topic</FP_TITLE>
+      <EDITKEY>2BA744D6-9580-425E-88FD-9A394CF6F925</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>300</TOPICID>
+      <H2G2ID>4479366</H2G2ID>
+      <SITEID>35</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>292</TOPICLINKID>
+      <TITLE>TV and Radio</TITLE>
+      <FORUMID>2213240</FORUMID>
+      <FORUMPOSTCOUNT>45930</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            This is the place to discuss any topics relating to religion and ethics programmes, such as <A HREF="/radio4/religion/moralmaze.shtml">The Moral Maze</A> and <A HREF="/programmes/b00sy9fl">Sunday Morning Live</A>. To keep discussions on track, please mention the name of the programme in the title when starting a new thread and join existing discussions wherever possible rather than start a new thread.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>5</POSITION>
+      <CREATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>151</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>8</FP_POSITION>
+      <FP_TITLE>Heaven and Earth</FP_TITLE>
+      <EDITKEY>C6CD0A35-BE37-46E7-B3F8-37599285D034</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>296</TOPICID>
+      <H2G2ID>4479320</H2G2ID>
+      <SITEID>35</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>288</TOPICLINKID>
+      <TITLE>Muslim topic</TITLE>
+      <FORUMID>2213236</FORUMID>
+      <FORUMPOSTCOUNT>571328</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            Any Islamic topic is welcome here.
+            Guide to <A HREF="http://www.bbc.co.uk/religion/religions/islam/index.shtml">Islam</A>.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>6</POSITION>
+      <CREATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>149</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>4</FP_POSITION>
+      <FP_TITLE>The Muslim topic</FP_TITLE>
+      <EDITKEY>90ECB41B-FE73-4C4A-AAFC-4B0A8571DE40</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>299</TOPICID>
+      <H2G2ID>4479357</H2G2ID>
+      <SITEID>35</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>291</TOPICLINKID>
+      <TITLE>Pagan topic</TITLE>
+      <FORUMID>2213239</FORUMID>
+      <FORUMPOSTCOUNT>87490</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            Read an introduction to <A HREF="http://www.bbc.co.uk/religion/religions/paganism/index.shtml">Paganism</A>.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>7</POSITION>
+      <CREATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>155</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>7</FP_POSITION>
+      <FP_TITLE>The Pagan topic</FP_TITLE>
+      <EDITKEY>006AE59D-DC41-44DD-8182-BC6D92F0226D</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>294</TOPICID>
+      <H2G2ID>4479302</H2G2ID>
+      <SITEID>35</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>286</TOPICLINKID>
+      <TITLE>Religion and ethics</TITLE>
+      <FORUMID>2213234</FORUMID>
+      <FORUMPOSTCOUNT>152183</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>
+            You set the agenda.
+          </BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>8</POSITION>
+      <CREATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>Rob K</USERNAME>
+        <USERID>228695</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="14" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719142341">
+            <LOCAL DAYNAME="Tuesday" SECONDS="41" MINUTES="23" HOURS="15" DAY="19" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050719152341" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>148</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>2</FP_POSITION>
+      <FP_TITLE>Religion and ethics</FP_TITLE>
+      <EDITKEY>F639720B-DAD4-4A79-8012-215C7A946289</EDITKEY>
+    </TOPIC>
+  </TOPICLIST>
+  <TOPICELEMENTLIST STATUS="ACTIVE">
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>148</ELEMENTID>
+      <TITLE>Religion and ethics</TITLE>
+      <TEXT>You set the agenda.</TEXT>
+      <SITEID>35</SITEID>
+      <FRONTPAGEPOSITION>2</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>topicpromo_re.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Religion and ethics</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>330</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>3CB2BBDA-A787-4E16-A328-4C30DBA8E885</EDITKEY>
+      <TOPICID>294</TOPICID>
+      <FORUMPOSTCOUNT>152183</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>149</ELEMENTID>
+      <TITLE>The Muslim topic</TITLE>
+      <TEXT>
+        Any Islamic topic is welcome here.<BR />Guide to Islam.
+      </TEXT>
+      <SITEID>35</SITEID>
+      <FRONTPAGEPOSITION>4</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>topicpromo_muslim.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>The Muslim topic</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>332</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>4A8D44D5-0529-499F-80D2-6ECED8AA37AB</EDITKEY>
+      <TOPICID>296</TOPICID>
+      <FORUMPOSTCOUNT>571328</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>150</ELEMENTID>
+      <TITLE>The Jewish topic</TITLE>
+      <TEXT>Find out more about Judaism.</TEXT>
+      <SITEID>35</SITEID>
+      <FRONTPAGEPOSITION>6</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>topicpromo_jewish.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>The Jewish topic</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>334</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>4B476E86-C204-42A9-BD0E-131C26252442</EDITKEY>
+      <TOPICID>298</TOPICID>
+      <FORUMPOSTCOUNT>76920</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>151</ELEMENTID>
+      <TITLE>Heaven and Earth</TITLE>
+      <TEXT>Discuss any of the topics raised on the Heaven &amp; Earth site.</TEXT>
+      <SITEID>35</SITEID>
+      <FRONTPAGEPOSITION>8</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>topicpromo_heaven.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Heaven and Earth</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>336</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>13E7E8BE-E051-41F0-953A-6690C21381EE</EDITKEY>
+      <TOPICID>300</TOPICID>
+      <FORUMPOSTCOUNT>45930</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>152</ELEMENTID>
+      <TITLE>Eastern Religions</TITLE>
+      <TEXT>Guides to Hinduism, Sikhism or Buddhism.</TEXT>
+      <SITEID>35</SITEID>
+      <FRONTPAGEPOSITION>1</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>topicpromo_eastern.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Eastern Religions</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>329</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>304C11E5-D1F6-4032-B417-084459F1207B</EDITKEY>
+      <TOPICID>293</TOPICID>
+      <FORUMPOSTCOUNT>29844</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>153</ELEMENTID>
+      <TITLE>The Christian topic</TITLE>
+      <TEXT>All denominations welcome.  Guide to Christianity.</TEXT>
+      <SITEID>35</SITEID>
+      <FRONTPAGEPOSITION>3</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>topicpromo_christian.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>The Christian topic</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>331</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>B18A9FA4-38DC-42A0-BDD8-00EA78B3F714</EDITKEY>
+      <TOPICID>295</TOPICID>
+      <FORUMPOSTCOUNT>1045362</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>154</ELEMENTID>
+      <TITLE>Ethics and freethought</TITLE>
+      <TEXT>Ethical/philosophical topics.  More about ethics.</TEXT>
+      <SITEID>35</SITEID>
+      <FRONTPAGEPOSITION>5</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>topicpromo_thought.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>Ethics and freethought</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>333</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>085D78E8-393C-42EB-8AB1-7F0722F177B5</EDITKEY>
+      <TOPICID>297</TOPICID>
+      <FORUMPOSTCOUNT>128119</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>155</ELEMENTID>
+      <TITLE>The Pagan topic</TITLE>
+      <TEXT>Read an introduction to Paganism.</TEXT>
+      <SITEID>35</SITEID>
+      <FRONTPAGEPOSITION>7</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>topicpromo_pagan.jpg</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <IMAGEALTTEXT>The Pagan topic</IMAGEALTTEXT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>335</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>DBB55D9B-0901-409F-B74D-7F6B0A900636</EDITKEY>
+      <TOPICID>299</TOPICID>
+      <FORUMPOSTCOUNT>87490</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+  </TOPICELEMENTLIST>
+  <FORUMSCHEDULES>
+    <SCHEDULE>
+      <FORUM ID="2213233" />
+      <FORUM ID="2213234" />
+      <FORUM ID="2213235" />
+      <FORUM ID="2213236" />
+      <FORUM ID="2213237" />
+      <FORUM ID="2213238" />
+      <FORUM ID="2213239" />
+      <FORUM ID="2213240" />
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="18" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="18" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="18" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="18" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="18" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="17" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="10" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="17" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="10" MINUTES="00" />
+      </EVENT>
+    </SCHEDULE>
+  </FORUMSCHEDULES>
+  <SITECONFIG>
+    <ASSETCOMPLAIN>alert_moderator_button.gif</ASSETCOMPLAIN>
+    <ASSETNEW />
+    <BARLEYSEARCHCOLOUR>c53e18</BARLEYSEARCHCOLOUR>
+    <BARLEYVARIANT>none</BARLEYVARIANT>
+    <BOARDNAME>Religion</BOARDNAME>
+    <BOARDROOT>mbreligion/</BOARDROOT>
+    <BOARDSSOLINK>mbreligion</BOARDSSOLINK>
+    <CODEBANNER>
+      <IMG SRC="http://www.bbc.co.uk/religion/dna_messageboard/images/re_banner.jpg" ALT="Religion &amp; Ethics Messageboards" HEIGHT="70" WIDTH="645" HSPACE="0" VSPACE="0" STYLE="margin: 0 0 10px 0;" />
+    </CODEBANNER>
+    <CSSLOCATION>messageboards.css</CSSLOCATION>
+    <EMOTICONLOCATION>0</EMOTICONLOCATION>
+    <EXTERNALHOME />
+    <EXTERNALHOMEURL />
+    <EXTEXTBODY>To create paragraphs, just press Return on your keyboard when needed.</EXTEXTBODY>
+    <EXTEXTPREVIEW>If you are satisfied with your message, proceed by clicking on Post message.</EXTEXTPREVIEW>
+    <EXTEXTTITLE>Write a short snappy title to kick off a discussion. e.g. What's the best gig you've been to?</EXTEXTTITLE>
+    <FEATURESMILEYS>1</FEATURESMILEYS>
+    <IMAGEBANNER />
+    <LINKPATH>0</LINKPATH>
+    <NAVCRUMB />
+    <NAVLHN>
+      <UL>
+        <LI>
+          <A HREF="/religion/">R &amp; E Homepage</A>
+        </LI>
+        <LI>
+          <A HREF="/religion/religions/">Religions</A>
+        </LI>
+        <LI>
+          <A HREF="/ethics/">Ethics</A>
+        </LI>
+        <LI>
+          <A HREF="/religion/programmes/">Programmes</A>
+        </LI>
+        <LI>
+          <A HREF="/religion/news/">News</A>
+        </LI>
+        <LI CLASS="current on">
+          <A HREF="/religion/tools/">Tools</A>
+          <DL>
+
+            <DT CLASS="on">
+              <A HREF="/dna/mbreligion/">Message Boards</A>
+            </DT>
+            <DT>
+              <TOPICLINK NAME="Christian topic">Christian topic</TOPICLINK>
+            </DT>
+            <DT>
+              <TOPICLINK NAME="Eastern Religions">Eastern religions</TOPICLINK>
+            </DT>
+            <DT>
+              <TOPICLINK NAME="Ethics and freethought">Ethics and freethought</TOPICLINK>
+            </DT>
+            <DT>
+              <TOPICLINK NAME="Jewish topic">Jewish topic</TOPICLINK>
+            </DT>
+            <DT>
+              <TOPICLINK NAME="TV and Radio">TV and Radio</TOPICLINK>
+            </DT>
+            <DT>
+              <TOPICLINK NAME="Muslim topic">Muslim topic</TOPICLINK>
+            </DT>
+            <DT>
+              <TOPICLINK NAME="Pagan topic">Pagan topic</TOPICLINK>
+            </DT>
+            <DT>
+              <TOPICLINK NAME="Religion and ethics">Religion and ethics</TOPICLINK>
+            </DT>
+          </DL>
+        </LI>
+      </UL>
+    </NAVLHN>
+    <PATHDEV>http://dmdev.wc.bbc.co.uk/religion/dna_messageboard/</PATHDEV>
+    <PATHLIVE>http://www.bbc.co.uk/religion/dna_messageboard/</PATHLIVE>
+    <PATHSSOTYPE>0</PATHSSOTYPE>
+  </SITECONFIG>
+</MESSAGEBOARDTRANSFER-BACKUP>

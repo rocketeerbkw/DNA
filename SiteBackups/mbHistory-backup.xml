@@ -1,0 +1,439 @@
+﻿<MESSAGEBOARDTRANSFER-BACKUP>
+  <BACKUPLOG>
+    <BACKUPLOGENTRY>Front Page</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Topic Element List</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Forum Schedules</BACKUPLOGENTRY>
+    <BACKUPLOGENTRY>Site Config</BACKUPLOGENTRY>
+  </BACKUPLOG>
+  <SITE ID="36">
+    <NAME>mbhistory</NAME>
+    <DESCRIPTION>History Messageboard</DESCRIPTION>
+    <SHORTNAME>History</SHORTNAME>
+  </SITE>
+  <FRONTPAGEXML>
+    <ARTICLE>
+      <ARTICLEINFO>
+        <H2G2ID>61165055</H2G2ID>
+        <EDIT-KEY>BDDB14CA-BEF9-4064-8CB7-456E8B421D02</EDIT-KEY>
+      </ARTICLEINFO>
+      <SUBJECT>frontpage</SUBJECT>
+      <FRONTPAGE>
+        <PAGE-LAYOUT>
+          <LAYOUT>2</LAYOUT>
+          <TEMPLATE>1</TEMPLATE>
+          <ELEMTEMPLATE>2</ELEMTEMPLATE>
+          <ELEMTEMPLATE-GUIDEML />
+        </PAGE-LAYOUT>
+      </FRONTPAGE>
+    </ARTICLE>
+  </FRONTPAGEXML>
+  <TOPICLIST STATUS="ACTIVE">
+    <TOPIC>
+      <TOPICID>346</TOPICID>
+      <H2G2ID>4560798</H2G2ID>
+      <SITEID>36</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>341</TOPICLINKID>
+      <TITLE>History Hub</TITLE>
+      <FORUMID>2233809</FORUMID>
+      <FORUMPOSTCOUNT>136565</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>You set the agenda...</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>1</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="10" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728103440">
+            <LOCAL DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="11" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728113440" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="10" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728103440">
+            <LOCAL DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="11" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728113440" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>187</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>1</FP_POSITION>
+      <FP_TITLE>History Hub</FP_TITLE>
+      <EDITKEY>1A129454-1232-4E26-80EF-ACB7E5F3649D</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>347</TOPICID>
+      <H2G2ID>4560806</H2G2ID>
+      <SITEID>36</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>342</TOPICLINKID>
+      <TITLE>Family Trees</TITLE>
+      <FORUMID>2233810</FORUMID>
+      <FORUMPOSTCOUNT>407791</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Share tips and advice for kick starting your family history research.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>2</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="10" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728103440">
+            <LOCAL DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="11" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728113440" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="10" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728103440">
+            <LOCAL DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="11" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728113440" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>185</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>2</FP_POSITION>
+      <FP_TITLE>Family Trees</FP_TITLE>
+      <EDITKEY>871920AA-8870-4042-A2F3-FB37B9DEB874</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>348</TOPICID>
+      <H2G2ID>4560815</H2G2ID>
+      <SITEID>36</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>343</TOPICLINKID>
+      <TITLE>Wars and Conflicts</TITLE>
+      <FORUMID>2233811</FORUMID>
+      <FORUMPOSTCOUNT>61368</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Weaponry, tactics, strategies and World War Two � join the debate.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>3</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="10" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728103440">
+            <LOCAL DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="11" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728113440" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="10" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728103440">
+            <LOCAL DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="11" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728113440" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>186</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>4</FP_POSITION>
+      <FP_TITLE>Wars and Conflicts</FP_TITLE>
+      <EDITKEY>B3CC1F52-7782-4F47-A533-54365BF3211A</EDITKEY>
+    </TOPIC>
+    <TOPIC>
+      <TOPICID>349</TOPICID>
+      <H2G2ID>4560824</H2G2ID>
+      <SITEID>36</SITEID>
+      <TOPICSTATUS>0</TOPICSTATUS>
+      <TOPICLINKID>344</TOPICLINKID>
+      <TITLE>Ancient and Archaeology</TITLE>
+      <FORUMID>2233812</FORUMID>
+      <FORUMPOSTCOUNT>19828</FORUMPOSTCOUNT>
+      <FASTMOD>0</FASTMOD>
+      <DESCRIPTION>
+        <GUIDE>
+          <BODY>Excavations, Egypt, Rome, the ancient world, you set the agenda.</BODY>
+        </GUIDE>
+      </DESCRIPTION>
+      <POSITION>4</POSITION>
+      <CREATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <CREATEDDATE>
+          <DATE DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="10" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728103440">
+            <LOCAL DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="11" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728113440" />
+          </DATE>
+        </CREATEDDATE>
+      </CREATEDBY>
+      <UPDATEDBY>
+        <USERNAME>karenmunroe</USERNAME>
+        <USERID>1342637</USERID>
+        <LASTUPDATED>
+          <DATE DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="10" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728103440">
+            <LOCAL DAYNAME="Thursday" SECONDS="40" MINUTES="34" HOURS="11" DAY="28" MONTH="07" MONTHNAME="July" YEAR="2005" SORT="20050728113440" />
+          </DATE>
+        </LASTUPDATED>
+      </UPDATEDBY>
+      <STYLE>1</STYLE>
+      <FP_ELEMENTID>188</FP_ELEMENTID>
+      <FP_TEMPLATE>0</FP_TEMPLATE>
+      <FP_POSITION>3</FP_POSITION>
+      <FP_TITLE>Ancient and Archaeology</FP_TITLE>
+      <EDITKEY>C1DE3E7A-8563-4425-AF3D-CE0DA48847CE</EDITKEY>
+    </TOPIC>
+  </TOPICLIST>
+  <TOPICELEMENTLIST STATUS="ACTIVE">
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>185</ELEMENTID>
+      <TITLE>Family Trees</TITLE>
+      <TEXT>Share tips and advice for kick starting your family history research.</TEXT>
+      <SITEID>36</SITEID>
+      <FRONTPAGEPOSITION>2</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>family_trees.gif</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>338</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>B995A1B6-65B0-4051-8F56-FC85372BA6E6</EDITKEY>
+      <TOPICID>347</TOPICID>
+      <FORUMPOSTCOUNT>407791</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>186</ELEMENTID>
+      <TITLE>Wars and Conflicts</TITLE>
+      <TEXT>Weaponry, tactics, strategies and World War Two � join the debate.</TEXT>
+      <SITEID>36</SITEID>
+      <FRONTPAGEPOSITION>4</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>wars_conflict.gif</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>340</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>3BD24685-AB84-4802-B7A8-FA9511F17E8D</EDITKEY>
+      <TOPICID>348</TOPICID>
+      <FORUMPOSTCOUNT>61368</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>187</ELEMENTID>
+      <TITLE>History Hub</TITLE>
+      <TEXT>Get the latest news from the history team and post your history queries here.  </TEXT>
+      <SITEID>36</SITEID>
+      <FRONTPAGEPOSITION>1</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>history_hubs.gif</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>337</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>121B5F5E-35DC-400B-80F6-544F542DB6AF</EDITKEY>
+      <TOPICID>346</TOPICID>
+      <FORUMPOSTCOUNT>136565</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+    <TOPICELEMENT EDITSTATUS="INACTIVE">
+      <ELEMENTID>188</ELEMENTID>
+      <TITLE>Ancient and Archaeology</TITLE>
+      <TEXT>Excavations, Egypt, Rome, the ancient world, you set the agenda.</TEXT>
+      <SITEID>36</SITEID>
+      <FRONTPAGEPOSITION>3</FRONTPAGEPOSITION>
+      <TEMPLATETYPE>0</TEMPLATETYPE>
+      <IMAGENAME>ancient_archaeology.gif</IMAGENAME>
+      <IMAGEWIDTH>0</IMAGEWIDTH>
+      <IMAGEHEIGHT>0</IMAGEHEIGHT>
+      <ELEMENTSTATUS>0</ELEMENTSTATUS>
+      <ELEMENTLINKID>339</ELEMENTLINKID>
+      <ELEMENTTYPE>0</ELEMENTTYPE>
+      <EDITKEY>65E583CC-F4AA-4A6A-94C5-96ECDE7C5353</EDITKEY>
+      <TOPICID>349</TOPICID>
+      <FORUMPOSTCOUNT>19828</FORUMPOSTCOUNT>
+    </TOPICELEMENT>
+  </TOPICELEMENTLIST>
+  <FORUMSCHEDULES>
+    <SCHEDULE>
+      <FORUM ID="2233809" />
+      <FORUM ID="2233810" />
+      <FORUM ID="2233811" />
+      <FORUM ID="2233812" />
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="0" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="1" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="2" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="3" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="4" HOURS="09" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="5" HOURS="10" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="0" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="00" MINUTES="00" />
+      </EVENT>
+      <EVENT TYPE="1" ACTION="1" ACTIVE="1">
+        <TIME DAYTYPE="6" HOURS="10" MINUTES="00" />
+      </EVENT>
+    </SCHEDULE>
+  </FORUMSCHEDULES>
+  <SITECONFIG>
+    <ASSETCOMPLAIN>complain.gif</ASSETCOMPLAIN>
+    <ASSETNEW />
+    <BARLEYSEARCHCOLOUR />
+    <BARLEYVARIANT />
+    <BOARDNAME>History</BOARDNAME>
+    <BOARDROOT>mbhistory/</BOARDROOT>
+    <BOARDSSOLINK>mbhistory</BOARDSSOLINK>
+    <CODEBANNER>
+      <TABLE CELLPADDING="0" CELLSPACING="0" BORDER="0">
+        <TR>
+          <TD WIDTH="10" BGCOLOR="#613f94">
+            <IMG SRC="/f/t.gif" WIDTH="10" HEIGHT="52" ALT="" />
+          </TD>
+          <TD BGCOLOR="#613f94">
+            <TABLE CELLSPACING="0" CELLPADDING="0" BORDER="0" HEIGHT="70" BGCOLOR="#613f94">
+              <TR>
+                <TD VALIGN="top">
+                  <IMG SRC="http://www.bbc.co.uk/history/dna_messageboard/dna/images/b_c_messageboards.gif" WIDTH="450" HEIGHT="70" ALT="" BORDER="0" />
+                </TD>
+                <TD VALIGN="middle" ALIGN="right">
+                  <A HREF="/history/">
+                    <IMG SRC="http://www.bbc.co.uk/history/dna_messageboard/dna/images/b_purple_url.gif" WIDTH="175" HEIGHT="70" ALT="" BORDER="0" />
+                  </A>
+                </TD>
+                <TD WIDTH="10">
+                  <IMG SRC="/f/t.gif" HEIGHT="1" WIDTH="10" BORDER="0" ALT="" HSPACE="0" VSPACE="0" />
+                </TD>
+              </TR>
+            </TABLE>
+          </TD>
+        </TR>
+      </TABLE>
+    </CODEBANNER>
+    <CSSLOCATION>messageboard.css</CSSLOCATION>
+    <EMOTICONLOCATION />
+    <EXTERNALHOME />
+    <EXTERNALHOMEURL />
+    <EXTEXTBODY>To create paragraphs, just press Return on your keyboard when needed.</EXTEXTBODY>
+    <EXTEXTPREVIEW>If you are satisfied with your message, proceed by clicking on Post message.</EXTEXTPREVIEW>
+    <EXTEXTTITLE>Write a short snappy title to kick off a discussion. e.g. What was the secret of Nelson's success?</EXTEXTTITLE>
+    <FEATURESMILEYS>1</FEATURESMILEYS>
+    <IMAGEBANNER>dgjdj.gif</IMAGEBANNER>
+    <LINKPATH />
+    <NAVCRUMB />
+    <NAVLHN>
+      <DIV ID="leftnav">
+
+        <H4>
+          <A HREF="/history/">History  Homepage</A>
+        </H4>
+
+        <H5>Topics</H5>
+        <UL>
+          <LI>
+            <A HREF="/history/ancient/">Ancient</A>
+          </LI>
+          <LI>
+            <A HREF="/history/british/">British History</A>
+          </LI>
+          <LI>
+            <A HREF="/history/worldwars/">World Wars</A>
+          </LI>
+          <LI>
+            <A HREF="/history/recent/">Recent History</A>
+          </LI>
+        </UL>
+
+
+        <H5>Resources</H5>
+        <UL>
+          <LI>
+            <A HREF="/history/programmes/">History TV &amp; Radio </A>
+          </LI>
+          <LI>
+            <A HREF="/history/interactive/">Interactive Content</A>
+          </LI>
+          <LI>
+            <A HREF="/history/british/launch_tl_british.shtml">British Timeline</A>
+          </LI>
+          <LI>
+            <A HREF="/history/historic_figures/">Historic Figures</A>
+          </LI>
+          <LI>
+            <A HREF="/history/forkids/">History for Kids</A>
+          </LI>
+        </UL>
+
+
+        <H5>Practical History</H5>
+        <UL>
+          <LI>
+            <A HREF="/history/archaeology/">Archaeology</A>
+          </LI>
+          <LI>
+            <A HREF="/history/familyhistory/">Family History</A>
+          </LI>
+          <LI>
+            <A HREF="/history/trail/">History Trails</A>
+          </LI>
+        </UL>
+
+
+        <H5>Community</H5>
+        <UL>
+          <LI>
+            <A HREF="/history/about/newsletter.shtml">Newsletter</A>
+          </LI>
+          <LI>
+            <A HREF="/history/about/">About This Site</A>
+          </LI>
+          <LI CLASS="stick">
+            <A HREF="/dna/mbhistory/">Message Board</A>
+          </LI>
+        </UL>
+
+      </DIV>
+    </NAVLHN>
+    <PATHDEV>http://dmdev.wc.bbc.co.uk/history/dna_messageboard/dna/</PATHDEV>
+    <PATHLIVE>http://www.bbc.co.uk/history/dna_messageboard/dna/</PATHLIVE>
+    <PATHSSOTYPE>0</PATHSSOTYPE>
+  </SITECONFIG>
+</MESSAGEBOARDTRANSFER-BACKUP>
