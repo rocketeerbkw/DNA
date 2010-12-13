@@ -27,23 +27,23 @@
 	</xsl:template>
 
 	<xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARD']" mode="objects_browsertitle">
-		Host Dashboard <xsl:call-template name="objects_subheading" />
+		BBC - Host Dashboard <xsl:call-template name="objects_subheading" />
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'MEMBERDETAILS']" mode="objects_browsertitle">
-		Member Details
+		BBC - Host Dashboard - Member Details
 	</xsl:template>	
 	
 	<xsl:template match="H2G2[@TYPE = 'COMMENTFORUMLIST']" mode="objects_browsertitle">
-		Manage entries/stories | <xsl:value-of select="SITE/SHORTNAME" />
+		BBC - Host Dashboard - Manage entries/stories | <xsl:value-of select="SITE/SHORTNAME" />
 	</xsl:template>	
 	
 	<xsl:template match="H2G2[@TYPE = 'USERLIST']" mode="objects_browsertitle">
-		User list
+		BBC - Host Dashboard - User list
 	</xsl:template>	
 	
 	<xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="objects_browsertitle">
-		Activity Page 
+		BBC - Host Dashboard - Activity Page 
 		<xsl:if test="$dashboardtype != 'all'">
 			<!-- put in apply -->
 			<xsl:value-of select="$dashboardtypeplural" />
@@ -52,7 +52,7 @@
 	</xsl:template>	
 	
 	<xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="objects_browsertitle">
-		User Contributions
+		BBC - Host Dashboard - User Contributions
 	</xsl:template>	
 	
 	<xsl:template name="objects_browsertitle">
