@@ -48,7 +48,11 @@ namespace BBC.Dna.Users
         /// <summary>
         /// Scout user
         /// </summary>
-        Scout
+        Scout,
+        /// <summary>
+        /// SubEditor user
+        /// </summary>
+        SubEditor
     }
 
     public enum UserStatus
@@ -600,7 +604,11 @@ namespace BBC.Dna.Users
                     }
                 case UserTypes.Scout:
                     {
-                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "scout");
+                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "scouts");
+                    }
+                case UserTypes.SubEditor:
+                    {
+                        return UsersListOfGroups.Exists(x => x.Name.ToLower() == "subs");
                     }
             }
 

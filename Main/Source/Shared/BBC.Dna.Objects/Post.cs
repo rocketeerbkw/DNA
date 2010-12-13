@@ -63,14 +63,18 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "yourLastPost", Order = 9)]
         public int YourLastPost { get; set; }
 
+        [XmlElement(Order = 6, ElementName = "YOURLASTPOSTINDEX")]
+        [DataMember(Name = "yourLastPostIndex", Order = 10)]
+        public int YourLastPostIndex { get; set; }
+
         /// <remarks/>
-        [XmlElement(Order = 6, ElementName = "MOSTRECENT")]
-        [DataMember(Name = "mostRecent", Order = 10)]
+        [XmlElement(Order = 7, ElementName = "MOSTRECENT")]
+        [DataMember(Name = "mostRecent", Order = 11)]
         public DateElement MostRecent { get; set; }
 
         /// <remarks/>
-        [XmlElement(Order = 7, ElementName = "LASTREPLY")]
-        [DataMember(Name = "lastReply", Order = 11)]
+        [XmlElement(Order = 8, ElementName = "LASTREPLY")]
+        [DataMember(Name = "lastReply", Order = 12)]
         public DateElement LastReply { get; set; }
 
         #endregion
@@ -79,6 +83,7 @@ namespace BBC.Dna.Objects
         {
             Post post = new Post();
             post.YourLastPost = reader.GetInt32NullAsZero("YourLastPost");
+            post.YourLastPostIndex = reader.GetInt32NullAsZero("YourLastPostIndex");
             post.CountPosts = reader.GetInt32NullAsZero("CountPosts");
 
             post.Thread = PostThreadInfo.CreatePostThreadInfoFromReader(reader);

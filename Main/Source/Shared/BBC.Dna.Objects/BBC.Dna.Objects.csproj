@@ -120,6 +120,7 @@
     <Compile Include="SiteStatistics.cs" />
     <Compile Include="SmileyTranslator.cs" />
     <Compile Include="SoloGuideEntries.cs" />
+    <Compile Include="SubmitSubbedEntry.cs" />
     <Compile Include="SubscribingUsersList.cs" />
     <Compile Include="ThreadPostSummary.cs" />
     <Compile Include="ForumHelper.cs" />

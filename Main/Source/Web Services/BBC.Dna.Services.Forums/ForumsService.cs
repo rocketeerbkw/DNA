@@ -285,52 +285,39 @@ namespace BBC.Dna.Services
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads/create.htm")]
         [WebHelp(Comment = "Creates a new thread and 1st post from Html form")]
         [OperationContract]
-        public void CreateThreadHtml(string siteName, string forumId, NameValueCollection formsData)
+        public ThreadPost CreateThreadHtml(string siteName, string forumId, NameValueCollection formsData)
         {
-            CreateThreadPostHtml(siteName, forumId, "0", formsData);
+            return CreateThreadPostHtml(siteName, forumId, "0", formsData);
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads")]
         [WebHelp(Comment = "Creates a new thread and 1st post")]
         [OperationContract]
-        public void CreateThread(string siteName, string forumId, ThreadPost threadPost)
+        public ThreadPost CreateThread(string siteName, string forumId, ThreadPost threadPost)
         {
-            CreateThreadPost(siteName, forumId, "0", threadPost);
+            return CreateThreadPost(siteName, forumId, "0", threadPost);
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads/{threadid}/create.htm")]
         [WebHelp(Comment = "Creates a thread post from Html form")]
         [OperationContract]
-        public void CreateThreadPostHtml(string siteName, string forumId, string threadId, NameValueCollection formsData)
+        public ThreadPost CreateThreadPostHtml(string siteName, string forumId, string threadId, NameValueCollection formsData)
         {
-            ErrorType error;
-            DnaWebProtocolException webEx = null;
-            try
-            {
-                ThreadPost post = new ThreadPost();
-                post.InReplyTo = Convert.ToInt32(formsData["inReplyTo"]);
-                post.ThreadId = Convert.ToInt32(threadId);
-                post.Subject = formsData["subject"];
-                post.Text = formsData["text"];
-                post.Style = (BBC.Dna.Objects.PostStyle.Style)Enum.Parse(typeof(BBC.Dna.Objects.PostStyle.Style), formsData["style"]);
+            ThreadPost post = new ThreadPost();
+            post.InReplyTo = Convert.ToInt32(formsData["inReplyTo"]);
+            post.ThreadId = Convert.ToInt32(threadId);
+            post.Subject = formsData["subject"];
+            post.Text = formsData["text"];
+            post.Style = (BBC.Dna.Objects.PostStyle.Style)Enum.Parse(typeof(BBC.Dna.Objects.PostStyle.Style), formsData["style"]);
 
-                CreateThreadPost(siteName, forumId, threadId, post);                
-                
-                error = ErrorType.Ok;
-                
-            }
-            catch (DnaWebProtocolException ex)
-            {
-                error = ex.ErrorType;
-                webEx = ex;
-            }            
+            return CreateThreadPost(siteName, forumId, threadId, post);                                               
         }
 
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/forums/{forumid}/threads/{threadid}")]
         [WebHelp(Comment = "Creates a thread post")]
         [OperationContract]
-        public void CreateThreadPost(string siteName, string forumId, string threadId, ThreadPost threadPost)
+        public ThreadPost CreateThreadPost(string siteName, string forumId, string threadId, ThreadPost threadPost)
         {
             int forumIdAsInt;
             try
@@ -497,6 +484,8 @@ namespace BBC.Dna.Services
             {
                 post.CreateForumPost(readerCreator, callingUser.UserID, forumIdAsInt, false, isNotable, _iPAddress, bbcUidCookie, false, false, forcePreModeration, forceModeration);
             }
+
+            return post;
         }
 
         [WebInvoke(Method = "GET", UriTemplate = "V1/site/{siteName}/searchposts")]

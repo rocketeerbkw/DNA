@@ -1346,6 +1346,7 @@ namespace FunctionalTests.Services.Articles
 
             request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
 
+            /*
             try
             {
                 request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
@@ -1356,7 +1357,10 @@ namespace FunctionalTests.Services.Articles
             }
             ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
             Assert.AreEqual(ErrorType.AlreadyLinked.ToString(), errorData.Code);
+            */
 
+            //Will no longer throw error will just carry on
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
             Console.WriteLine("After TryClipArticleTwice");
         }
@@ -1582,6 +1586,53 @@ namespace FunctionalTests.Services.Articles
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
             Console.WriteLine("After ScoutRecommendArticle");
+        }
+
+        /// <summary>
+        /// Test SubmitSubbedArticle method from service
+        /// </summary>
+        [TestMethod]
+        public void SubmitSubbedArticle()
+        {
+            Console.WriteLine("Before SubmitSubbedArticle");
+
+            SnapshotInitialisation.RestoreFromSnapshot();
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserSuperUser();
+            int articleId = 24088034;
+            AlterSubEditorForArticle(request.CurrentUserID, articleId);
+
+            //then scout recommend it
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}/submitsubbed/create.htm", _sitename, articleId);
+
+            string postData = String.Format("comments={0}",
+                 HttpUtility.HtmlEncode("thisisreturningfromasubeditor"));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            // now get the response
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After SubmitSubbedArticle");
+        }
+
+        private void AlterSubEditorForArticle(int userId, int h2g2Id)
+        {
+            int entryId = h2g2Id / 10;
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    var sql = String.Format("update acceptedrecommendations set SubEditorID={0} where entryID={1}",userId, entryId );
+                    reader.ExecuteDEBUGONLY(sql);
+                }
+            }
         }
      
         /// <summary>

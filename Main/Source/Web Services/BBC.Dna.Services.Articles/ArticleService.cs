@@ -97,6 +97,11 @@ namespace BBC.Dna.Services
                     article.HiddenStatus = 1;
                 }
 
+                if (formsData["submittable"] == "NO")
+                {
+                    article.ArticleInfo.Submittable.Type = "NO";
+                }
+
                 return SaveArticle(site, callingUser, article, siteName, false, h2g2idAsInt);
             }
             catch (ApiException ex)
@@ -852,9 +857,49 @@ namespace BBC.Dna.Services
             }
         }
 
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/submitsubbed/create.htm")]
+        [WebHelp(Comment = "Sub Editor only function to return an article to the editors")]
+        [OperationContract]
+        public void SubmitSubbedArticle(string siteName, string articleId, NameValueCollection formsData)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+            string comments = formsData["comments"];
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+
+            //Only allow SubEditors
+            SubsOnly(callingUser);
+
+            try
+            {
+                SubmitSubbedEntry.ReturnArticle(readerCreator,
+                                        site,
+                                        callingUser.UserID,
+                                        callingUser.IsUserA(UserTypes.Editor),
+                                        Int32.Parse(articleId),
+                                        comments);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
         private static void ScoutsOnly(CallingUser callingUser)
         {
             bool authorised = callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
+
+            if (!authorised)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+        }
+
+        private static void SubsOnly(CallingUser callingUser)
+        {
+            bool authorised = callingUser.IsUserA(UserTypes.SubEditor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
 
             if (!authorised)
             {
