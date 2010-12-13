@@ -67,11 +67,6 @@
 					<xsl:with-param name="daysquery" select="$daysquery" />
 				</xsl:call-template>
 			</li>			
-			
-			<!-- <li><a href="hostdashboardactivity?s_eventtype=7&amp;s_eventtype=8{$dashboardtypeid}{$dashboardsiteid}{$dashboardsiteuser}{$daysquery}"><xsl:value-of select="TOTALCOMPLAINTS" /> complaint<xsl:if test="TOTALCOMPLAINTS != 1">s</xsl:if></a></li>
-			<li><a href="hostdashboardactivity?s_eventtype=1{$dashboardtypeid}{$dashboardsiteid}{$dashboardsiteuser}{$daysquery}"><xsl:value-of select="TOTALPOSTSFAILED" /> failed <xsl:value-of select="$dashboardposttype" /><xsl:if test="TOTALPOSTSFAILED != 1">s</xsl:if></a></li>
-			<li><a href="hostdashboardactivity?s_eventtype=14{$dashboardtypeid}{$dashboardsiteid}{$dashboardsiteuser}{$daysquery}"><xsl:value-of select="TOTALNEWUSERS" /> new user<xsl:if test="TOTALNEWUSERS != 1">s</xsl:if></a></li>
-      		<li><a href="hostdashboardactivity?s_eventtype=10&amp;s_eventtype=11&amp;s_eventtype=12&amp;s_eventtype=13{$dashboardtypeid}{$dashboardsiteid}{$dashboardsiteuser}{$daysquery}"><xsl:value-of select="TOTALRESTRICTEDUSERS" /> restricted user<xsl:if test="TOTALRESTRICTEDUSERS != 1">s</xsl:if></a></li> -->
 		</ul>
 	    <div class="dna-fl">
 	    	<a href="hostdashboardactivity?s_eventtype=0{$dashboardtypeid}{$dashboardsiteid}{$dashboardsiteuser}{$daysquery}">Or view all activity <span class="blq-hide"><xsl:call-template name="objects_subheading" /></span></a>
