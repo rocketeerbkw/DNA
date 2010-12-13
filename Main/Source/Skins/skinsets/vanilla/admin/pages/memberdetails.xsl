@@ -211,9 +211,14 @@
 				<xsl:value-of select="ARTICLEFAILEDCOUNT"/>
 			</td>
 			<td>
-				<a href="/dna/{SITE/URLNAME}/MA{$userid}?type=2" target="_blank">
-					<xsl:value-of select="ARTICLETOTALCOUNT"/>
-				</a>
+				<xsl:choose>
+					<xsl:when test="ARTICLETOTALCOUNT > 0">			
+						<a href="/dna/{SITE/URLNAME}/MA{$userid}?type=2" target="_blank">
+							<xsl:value-of select="ARTICLETOTALCOUNT"/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise><xsl:value-of select="ARTICLETOTALCOUNT"/></xsl:otherwise>
+				</xsl:choose>
 			</td>
 		</tr>
 	</xsl:template>
