@@ -86,8 +86,6 @@
 		
 		<ul class="dna-list-links dna-fr">
 			<li><a href="usercontributions?s_user={$userid}">View contributions</a></li>
-			<li><a href="MemberDetails?userid={$userid}">Find alternate identities using email</a></li>
-			<li><a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find alternate identities using BBCUID</a></li>
 		</ul>
 		
 		<p>
