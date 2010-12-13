@@ -145,7 +145,7 @@ namespace BBC.Dna.Services
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/preview")]
         [WebHelp(Comment = "Previews an article")]
         [OperationContract]
-        public Article PreviewArticle(string siteName, Article inputArticle)
+        public Stream PreviewArticle(string siteName, Article inputArticle)
         {
             bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
 
@@ -166,7 +166,7 @@ namespace BBC.Dna.Services
 
                 article.ApplySkinOnGuideML = applySkin;
 
-                return article;
+                return GetOutputStream(article);
             }
             catch (ApiException ex)
             {
@@ -208,6 +208,14 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ex);
             }
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/preview/create.htm/json")]
+        [WebHelp(Comment = "Previews an article from Html form returns JSON")]
+        [OperationContract]
+        public Stream PreviewArticleHtmlReturnJSON(string siteName, NameValueCollection formsData)
+        {
+            return StringUtils.SerializeToJson(PreviewArticleHtml(siteName, formsData));
         }
 
         [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/{h2g2id}")]

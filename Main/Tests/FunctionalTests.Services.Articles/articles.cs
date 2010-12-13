@@ -198,6 +198,65 @@ namespace FunctionalTests.Services.Articles
         }
 
         [TestMethod]
+        public void UpdateArticle_WithHTML_AndHideItAndCheckItsHiddenWithAFreshGetAndThenUnhide()
+        {
+            string h2g2id = "1251";
+            string hidden = "1";
+            string style = "GuideML";
+            string subject = "Test SubjectXXX";
+            string guideML = String.Format(@"<GUIDE xmlns="""">
+    <BODY>Sample Article ContentXXX</BODY>
+  </GUIDE>");
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, h2g2id);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserSuperUser();
+
+            //Hide the article
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode(hidden));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, h2g2id);
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            Article getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            //Check it's hidden
+            Assert.IsTrue(getArticle.HiddenStatus == 1, "Article not saved correctly");
+
+            //Unhide it again
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, h2g2id);
+            postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode("0"));
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+
+            //Check it's unhidden
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, h2g2id);
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            //Check it's hidden
+            Assert.IsTrue(getArticle.HiddenStatus == 0, "Article not saved correctly");
+            
+        }
+
+        [TestMethod]
         public void UpdateArticle_WithResearchers_WithHTML()
         {
             string researchers = "276, 1422";
@@ -235,7 +294,7 @@ namespace FunctionalTests.Services.Articles
         {
             string style = "GuideML";
             string subject = "Test Subject";
-            string guideML = HttpUtility.UrlEncode(@"<GUIDE>
+            string guideML = String.Format(@"<GUIDE>
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
             string submittable = "YES";
@@ -262,6 +321,41 @@ namespace FunctionalTests.Services.Articles
 
             // test deserializiation
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+        }
+
+        [TestMethod]
+        public void PreviewArticleWithHTMLReturnJSON()
+        {
+            string style = "GuideML";
+            string subject = "Test Subject";
+            string guideML = String.Format(@"<GUIDE>
+    <BODY>Sample Article Content</BODY>
+  </GUIDE>");
+            string submittable = "YES";
+            string hidden = "0";
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/preview/create.htm/json", _sitename);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode(submittable),
+                 HttpUtility.UrlEncode(hidden));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            // test deserializiation
+            Article savedArticle = (Article)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(Article));
 
         }
 
