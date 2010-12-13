@@ -107,7 +107,7 @@
 					</xsl:choose>
 					<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
 						<p>
-							<a href="/dna/moderation/EditPost?PostId={THREADENTRYID}" target="_blank">Edit Post</a>
+							<a class="popup" href="/dna/moderation/EditPost?PostId={THREADENTRYID}">Edit Post</a>
 						</p>
 					</xsl:if>
 				</xsl:if>
