@@ -146,15 +146,17 @@ namespace BBC.Dna.Objects
                         bool existsDateReturned = !reader.IsDBNull("DateReturned");
                         if (existsDateAllocated)
                         {
-                            dateAllocated = reader.GetDateTime("DateAllocated");
+                            //dateAllocated = reader.GetDateTime("DateAllocated");
+                            recommendation.DateAllocated = new DateElement(reader.GetDateTime("DateAllocated"));
                         }
-                        recommendation.DateAllocated = new DateElement(dateAllocated);
+                        //recommendation.DateAllocated = new DateElement(dateAllocated);
 
                         if (existsDateReturned)
                         {
-                            dateReturned = reader.GetDateTime("DateReturned");
+                            //dateReturned = reader.GetDateTime("DateReturned");
+                            recommendation.DateReturned = new DateElement(reader.GetDateTime("DateReturned"));
                         }
-                        recommendation.DateReturned = new DateElement(dateReturned);
+                        //recommendation.DateReturned = new DateElement(dateReturned);
 
                         recommendations.RecommendationsList.Add(recommendation);
                         count++;

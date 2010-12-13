@@ -52,6 +52,7 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="yourLastPost" type="xs:int" />
+				<xs:element name="yourLastPostIndex" type="xs:int" />
 				<xs:element name="mostRecent" nillable="true">
 					<xs:complexType>
 						<xs:sequence>

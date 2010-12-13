@@ -179,7 +179,10 @@ namespace BBC.Dna.Objects
                 {
                     if (ex.Message.Contains("Violation of UNIQUE"))
                     {
-                        throw ApiException.GetError(ErrorType.AlreadyLinked);
+                        //Don't need to flag this error up now
+                        //They're just trying to bookmark the same thing just carry on
+                        return;
+                        //throw ApiException.GetError(ErrorType.AlreadyLinked);
                     }
                     else
                     {

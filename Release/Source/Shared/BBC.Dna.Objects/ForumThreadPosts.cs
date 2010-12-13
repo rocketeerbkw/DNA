@@ -118,9 +118,25 @@ namespace BBC.Dna.Objects
         [XmlAttribute(AttributeName = "DEFAULTCANREAD")]
         public byte DefaultCanRead { get; set; }
 
+        [XmlIgnore]
+        [DataMember(Name = ("defaultCanRead"))]
+        public bool DefaultCanReadBool
+        {
+            get { return DefaultCanRead == 1; }
+            set { }
+        }
+
         /// <remarks/>
         [XmlAttribute(AttributeName = "DEFAULTCANWRITE")]
         public byte DefaultCanWrite { get; set; }
+
+        [XmlIgnore]
+        [DataMember(Name = ("defaultCanWrite"))]
+        public bool DefaultCanWriteBool
+        {
+            get { return DefaultCanWrite == 1; }
+            set { }
+        }
 
         /// <summary>
         /// This is actually never used... yet...
