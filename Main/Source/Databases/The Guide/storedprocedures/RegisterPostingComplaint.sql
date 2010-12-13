@@ -61,6 +61,15 @@ begin
 		where ModId = @ModID
 	END
 	
+	DECLARE @spooferDetected int
+	SET @spooferDetected = 0
+	IF @complainantid = 0 AND PATINDEX('%@bbc.co.uk%',@correspondenceemail) > 0
+	BEGIN
+		SET @correspondenceemail=REPLACE(@correspondenceemail,'@bbc.co.uk','@spoofedbbc.co.uk')
+		SET @spooferDetected = 1
+	END
+
+
 	--Add New Moderation item to queue.
 	insert into ThreadMod (PostID, ThreadID, ForumID, DateQueued, Status, 
 							NewPost, ComplainantID, CorrespondenceEmail, 
@@ -72,6 +81,11 @@ begin
 	if @ipaddress IS NOT NULL
 	BEGIN
 		insert into ThreadModIPAddress (ThreadModID, IPAddress, BBCUID) VALUES(@ModID, @ipaddress, @bbcuid)
+	END
+
+	IF @spooferDetected=1
+	BEGIN
+		update ThreadMod SET Notes='Changed email address to end in @spoofedbbc.co.uk as it is suspicious' where Modid=@ModID
 	END
 	
 	-- add event 
