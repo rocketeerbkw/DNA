@@ -195,7 +195,7 @@ namespace BBC.Dna.Objects
                         //Return the error no need to transform
                         return _guideMLAsXmlElement;
                     }
-                                        
+
                     if (_applySkinOnGuideML) //transformation required?
                     {
                         string apiGuideSkin = ConfigurationSettings.AppSettings["guideMLXSLTSkinPath"];
@@ -204,45 +204,49 @@ namespace BBC.Dna.Objects
                         string transformedContent = XSLTransformer.TransformUsingXslt(apiGuideSkin, _guideMLAsXmlElement.OwnerDocument, ref errorCount);
 
                         // strip out the xml header and namespaces
-                        transformedContent = transformedContent.Replace(@"<?xml version=""1.0"" encoding=""utf-16""?>" , "");
+                        transformedContent = transformedContent.Replace(@"<?xml version=""1.0"" encoding=""utf-16""?>", "");
                         transformedContent = transformedContent.Replace(@"xmlns=""http://www.w3.org/1999/xhtml""", "");
 
                         if (errorCount != 0)
                         {
                             DnaDiagnostics.Default.WriteToLog("FailedTransform", transformedContent);
-                            throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
+                            _xmlError = transformedContent;
+                            _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering the HTML for this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                            //throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
                         }
-
-                        // reassign string and element after transformation   
-                        if (Style == GuideEntryStyle.GuideML)
+                        else
                         {
-                            transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
-                        }
-                        try
-                        {
-                            _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
-                        }
-                        catch (ApiException e)
-                        {
-                            if (e.InnerException != null)
+                            // reassign string and element after transformation   
+                            if (Style == GuideEntryStyle.GuideML)
                             {
-                                _xmlError = e.Message + " by " + e.InnerException.Message;
-                                Type exceptionType = e.InnerException.GetType();
-                                if (exceptionType.Name == "XmlException")
+                                transformedContent = "<GUIDE><BODY>" + transformedContent + "</BODY></GUIDE>";
+                            }
+                            try
+                            {
+                                _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
+                            }
+                            catch (ApiException e)
+                            {
+                                if (e.InnerException != null)
                                 {
-                                    XmlException xmlE = (XmlException)e.InnerException;
-                                    _xmlErrorLineNumber = xmlE.LineNumber;
-                                    _xmlErrorLinePosition = xmlE.LinePosition;
+                                    _xmlError = e.Message + " by " + e.InnerException.Message;
+                                    Type exceptionType = e.InnerException.GetType();
+                                    if (exceptionType.Name == "XmlException")
+                                    {
+                                        XmlException xmlE = (XmlException)e.InnerException;
+                                        _xmlErrorLineNumber = xmlE.LineNumber;
+                                        _xmlErrorLinePosition = xmlE.LinePosition;
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                _xmlError = e.Message;
-                            }
+                                else
+                                {
+                                    _xmlError = e.Message;
+                                }
 
-                            GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                                _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                            }
                         }
-                    }                    
+                    }
                 }
                 return _guideMLAsXmlElement;
             }
