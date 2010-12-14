@@ -66,7 +66,7 @@
 			<div class="dna-fl dna-main-right dna-boxspace">
 				<div class="dna-box">
 					<h3>Activity  <xsl:call-template name="objects_subheading" /></h3>
-          			<xsl:apply-templates select="SITESUMMARYSTATS" mode="objects_moderator_queuesummary" />
+          			<xsl:apply-templates select="SITESUMMARYSTATS" mode="objects_moderator_sitesummarystats" />
 				</div>
 			</div>				
 			

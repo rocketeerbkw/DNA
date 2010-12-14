@@ -86,8 +86,6 @@
 		
 		<ul class="dna-list-links dna-fr">
 			<li><a href="usercontributions?s_user={$userid}">View contributions</a></li>
-			<li><a href="MemberDetails?userid={$userid}">Find alternate identities using email</a></li>
-			<li><a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find alternate identities using BBCUID</a></li>
 		</ul>
 		
 		<p>
@@ -211,9 +209,14 @@
 				<xsl:value-of select="ARTICLEFAILEDCOUNT"/>
 			</td>
 			<td>
-				<a href="/dna/{SITE/URLNAME}/MA{$userid}?type=2" target="_blank">
-					<xsl:value-of select="ARTICLETOTALCOUNT"/>
-				</a>
+				<xsl:choose>
+					<xsl:when test="ARTICLETOTALCOUNT > 0">			
+						<a href="/dna/{SITE/URLNAME}/MA{$userid}?type=2" target="_blank">
+							<xsl:value-of select="ARTICLETOTALCOUNT"/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise><xsl:value-of select="ARTICLETOTALCOUNT"/></xsl:otherwise>
+				</xsl:choose>
 			</td>
 		</tr>
 	</xsl:template>

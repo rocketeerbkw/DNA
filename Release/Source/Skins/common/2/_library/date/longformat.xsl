@@ -32,7 +32,7 @@
             <xsl:value-of select="LOCAL/@MONTHNAME"/>
             <xsl:text> </xsl:text>
             <xsl:value-of select="LOCAL/@YEAR"/>
-        	<xsl:if test="contains(@RELATIVE, 'Minutes') or contains(@RELATIVE, 'Hours') or contains(@RELATIVE, 'Just Now')">
+        	<xsl:if test="contains(@RELATIVE, 'Minutes') or contains(@RELATIVE, 'Hour') or contains(@RELATIVE, 'Just Now')">
         		<span class="ago"><xsl:text> (</xsl:text>
         		<xsl:value-of select="@RELATIVE"/>
         		<xsl:text>)</xsl:text></span>
