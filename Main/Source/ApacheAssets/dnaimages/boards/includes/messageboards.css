@@ -234,9 +234,9 @@ th {font-weight:normal;padding:5px;margin:0px;background:#b3bdc1;vertical-align:
 #identitylogin p  {padding: 2px 0 0 0; margin: 0; font-size: 75% !important;}
 #identitylogin a  {color: #5da6c7;}
 #identitylogin a:hover  {text-decoration: none;}	
-#identitylogin a.id-signin {float: left; display: block; background: url(https://www.bbc.co.uk/blogs/mt-static/themes/bbc/images/identity/blue_100x20.png) top left no-repeat; width: 100px; height: 1%; margin: 0 2px 0 0; padding: 2px 0 5px 0; font-size: 75% !important; font-weight: bold; color: white; text-decoration: none;}  
+#identitylogin a.id-signin {float: left; display: block; background: url(/blogs/mt-static/themes/bbc/images/identity/blue_100x20.png) top left no-repeat; width: 100px; height: 1%; margin: 0 2px 0 0; padding: 2px 0 5px 0; font-size: 75% !important; font-weight: bold; color: white; text-decoration: none;}  
 #identitylogin a.id-signin span {margin: 0 0 0 30px; font-size: 100%; color: white;}
-#identitylogin a.id-signin:hover {background: url(https://www.bbc.co.uk/blogs/mt-static/themes/bbc/images/identity/blue_100x20_mouseover.png) no-repeat top left; color: #fff !important; text-decoration: none !important;}	
+#identitylogin a.id-signin:hover {background: url(/blogs/mt-static/themes/bbc/images/identity/blue_100x20_mouseover.png) no-repeat top left; color: #fff !important; text-decoration: none !important;}	
 #identitylogin a.id-signin:hover span {text-decoration: none !important; color: #fff !important;}
 #identitylogin img  {float: left; margin-right: 2px;}
 #identitylogin ul  {margin: 0; padding: 1px 0 0 0;}
