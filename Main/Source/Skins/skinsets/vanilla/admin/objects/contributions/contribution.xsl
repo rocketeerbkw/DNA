@@ -26,7 +26,14 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					<xsl:value-of select="TITLE" disable-output-escaping="yes"/>
+					<xsl:choose>
+						<xsl:when test="SOURCETITLE = ''">
+							<xsl:value-of select="TITLE"/>
+						</xsl:when>
+						<xsl:otherwise>					
+							<xsl:value-of select="SOURCETITLE" disable-output-escaping="yes"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</a><br/>			
 				<a>
 					<xsl:attribute name="href">
@@ -39,14 +46,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					<xsl:choose>
-						<xsl:when test="SOURCETITLE = ''">
-							<xsl:value-of select="TITLE"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="SOURCETITLE" disable-output-escaping="yes"/>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:value-of select="TITLE" disable-output-escaping="yes"/>
 				</a><br/>
 				in
 				<!-- site -->
