@@ -319,14 +319,14 @@ namespace BBC.Dna.Objects
                     {
                         internalHidden = 0;
                     }
-                    //try
-                    //{
-                        contribution.SiteType = (SiteType)Int32.Parse(reader2.GetStringNullAsEmpty("SiteType"));
-                    //}
-                    //catch 
-                    //{
-                    //    contribution.SiteType = Sites.SiteType.Undefined;
-                    //}
+                    try
+                    {
+                        contribution.SiteType = (SiteType)reader2.GetInt32NullAsZero("SiteType");
+                    }
+                    catch 
+                    {
+                        contribution.SiteType = Sites.SiteType.Undefined;
+                    }
                     contribution.Subject = reader2.GetStringNullAsEmpty("Subject");
                     switch ((BBC.Dna.Sites.SiteType)contribution.SiteType)
                     {
