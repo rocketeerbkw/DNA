@@ -29,7 +29,12 @@
 		<div class="itemdetail">
 	    	<xsl:if test="not(parent::ARTICLEINFO)">
 		    	<xsl:variable name="messagenumber" select="number(parent::FORUMTHREADPOSTS/@SKIPTO) + count(./preceding-sibling::POST)"></xsl:variable>
-		    	<h4><xsl:value-of select="concat('Message ', $messagenumber + 1)"/><xsl:if test="@INDEX='0'">.&#160;</xsl:if></h4>
+		    	<h4>
+			    	<xsl:if test="$messagenumber + 1 = parent::FORUMTHREADPOSTS/@TOTALPOSTCOUNT">
+			    		<xsl:attribute name="id">lastpost</xsl:attribute>
+			    	</xsl:if>
+		    		<xsl:value-of select="concat('Message ', $messagenumber + 1)"/><xsl:if test="@INDEX='0'">.&#160;</xsl:if>
+		    	</h4>
 		    	<p class="messagedetail">
 			        <xsl:apply-templates select="@INREPLYTO" mode="library_itemdetail_replytomessage"/>
 			    </p>
