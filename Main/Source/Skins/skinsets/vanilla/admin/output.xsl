@@ -78,6 +78,7 @@
 					</xsl:otherwise>
 				</xsl:choose>
 				
+				<xsl:comment>#set var="blq_https" value="1"</xsl:comment>
 				<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
 				
 				<script type="text/javascript" src="/dnaimages/dna_messageboard/javascript/admin.js"><xsl:text> </xsl:text></script>
