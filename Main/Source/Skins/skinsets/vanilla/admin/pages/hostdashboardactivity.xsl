@@ -57,6 +57,12 @@
 						<xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
 							<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
 						</xsl:if>
+						<xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE != ''" >
+							<input type="hidden" name="s_type" value="{PARAMS/PARAM[NAME = 's_type']/VALUE}" />
+						</xsl:if>
+						<xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_siteid']/VALUE != ''" >
+							<input type="hidden" name="s_siteid" value="{PARAMS/PARAM[NAME = 's_siteid']/VALUE}" />
+						</xsl:if>
 					</fieldset>
 					<div class="dna-fr dna-buttons">
 						<input type="submit" value="go" />
