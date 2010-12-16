@@ -46,7 +46,7 @@
 			</xsl:for-each>
 		</font>
 		<!-- the actual inspect user form -->
-		<form name="InspectUserForm" method="post" action="{$root}InspectUser">
+		<form name="InspectUserForm" method="post" action="InspectUser">
 			<input type="hidden" name="UserID" value="{USER/USERID}"/>
 			<font xsl:use-attribute-sets="mainfont">
 				<table width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -295,7 +295,7 @@
 								<td><font xsl:use-attribute-sets="mainfont">
 									<xsl:choose>
 										<xsl:when test="SUBBING-STATUS = 1">Unallocated</xsl:when>
-										<xsl:when test="SUBBING-STATUS = 2 or SUBBING-STATUS = 3"><a href="{$root}InspectUser?UserID={SUBEDITOR/USER/USERID}"><xsl:apply-templates select="SUBEDITOR/USER/USERNAME" mode="truncated"/></a></xsl:when>
+										<xsl:when test="SUBBING-STATUS = 2 or SUBBING-STATUS = 3"><a href="InspectUser?UserID={SUBEDITOR/USER/USERID}"><xsl:apply-templates select="SUBEDITOR/USER/USERNAME" mode="truncated"/></a></xsl:when>
 										<xsl:when test="SUBBING-STATUS = 3"></xsl:when>
 										<xsl:otherwise>-</xsl:otherwise>
 									</xsl:choose>								
