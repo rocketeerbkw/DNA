@@ -344,13 +344,20 @@ namespace BBC.Dna.Services
         private Article SetWritableArticleProperties(Article article, GuideEntryStyle style, string subject, string guideML,  int[] researcherUserIds)
         {
             // populate the writable parts of the object graph with the input article
-            article.GuideMLAsString = guideML;
-            article.ArticleInfo.GetReferences(readerCreator, article.OriginalGuideMLAsXmlElement);
+            if (guideML != String.Empty)
+            {
+                article.GuideMLAsString = guideML;
+                article.ArticleInfo.GetReferences(readerCreator, article.OriginalGuideMLAsXmlElement);
+                
+                if (!article.IsGuideMLWellFormed) { throw new Exception("GuideML is badly formed"); }
+            }
 
-            if (!article.IsGuideMLWellFormed) { throw new Exception("GuideML is badly formed"); }
 
             article.Style = style;
-            article.Subject = subject;
+            if (subject != String.Empty)
+            {
+                article.Subject = subject;
+            }
             
             if (researcherUserIds != null)
             {

@@ -305,9 +305,25 @@ namespace BBC.Dna.Objects
                 XmlDocument doc = new XmlDocument();
                 doc.PreserveWhitespace = true;
 
+                inputText = Entities.ReplaceEntitiesWithNumericValues(inputText);
+
+                inputText = HtmlUtils.EscapeNonEscapedAmpersands(inputText);
+
                 // reassign string and element after transformation     
                 string textAsGuideML = startH2G2Post + inputText + endH2G2Post;
-                doc.LoadXml(textAsGuideML);
+
+                try
+                {
+                    doc.LoadXml(textAsGuideML);
+                }
+                catch (XmlException e)
+                {
+                    //If something has gone wrong log stuff
+                    DnaDiagnostics.Default.WriteExceptionToLog(e);
+
+                    inputText = "There has been an issue with rendering this post, please contact the editors.";
+                    return inputText;
+                }
                 
                 string transformedContent = XSLTransformer.TransformUsingXslt(apiGuideSkin, doc, ref errorCount);
 
