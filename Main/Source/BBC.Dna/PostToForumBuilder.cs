@@ -142,7 +142,7 @@ namespace BBC.Dna
                     }
                     else
                     {
-                        var redirectUrl = string.Format("NF{0}?thread={1}&post={2}#p{2}", _forumId, post.ThreadId, post.PostId);
+                        var redirectUrl = string.Format("/dna/{3}/NF{0}?thread={1}&post={2}#p{2}", _forumId, post.ThreadId, post.PostId, InputContext.CurrentSite.SiteName);
 
                         RootElement.RemoveAll();
                         XmlNode redirect = AddElementTag(RootElement, "REDIRECT");
