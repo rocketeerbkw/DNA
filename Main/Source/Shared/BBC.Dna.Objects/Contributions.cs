@@ -321,7 +321,7 @@ namespace BBC.Dna.Objects
                     }
                     try
                     {
-                        contribution.SiteType = (SiteType)reader2.GetInt32NullAsZero("SiteType");
+                        contribution.SiteType = (SiteType)Int32.Parse(reader2.GetStringNullAsEmpty("SiteType"));
                     }
                     catch 
                     {

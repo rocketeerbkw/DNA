@@ -168,7 +168,7 @@ select
 	f.Title as ForumTitle,
 	s.Description as SiteDescription,
 	s.UrlName as UrlName,
-	case when so.[Value] is null then 0 else so.[Value] end as SiteType,
+	case when so.[Value] is null then '0' else so.[Value] end as SiteType,
 	s.ShortName as SiteName,
 	cf.Url as CommentForumUrl,
 	ge.subject as GuideEntrySubject,	

@@ -262,7 +262,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetDateTime("TimeStamp")).Return(_test_timestamp).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetLongNullAsZero("PostIndex")).Return(0).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("SiteType")).Return(((int)SiteType.Blog)).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Blog).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Blog Description").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return("Blog Url").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Blog Title").Repeat.Once();
@@ -281,7 +281,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetDateTime("TimeStamp")).Return(_test_timestamp).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetLongNullAsZero("PostIndex")).Return(1).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("SiteType")).Return(((int)SiteType.Community)).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Community).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Community Description").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return("Community Url").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Community Title").Repeat.Once();
@@ -300,7 +300,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetDateTime("TimeStamp")).Return(_test_timestamp).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetLongNullAsZero("PostIndex")).Return(2).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("SiteType")).Return(((int)SiteType.Messageboard)).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.Messageboard).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Messageboard Description").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return("Messageboard Url").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Messageboard Title").Repeat.Once();
@@ -319,7 +319,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetDateTime("TimeStamp")).Return(_test_timestamp).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetLongNullAsZero("PostIndex")).Return(3).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteName")).Return(_test_sitename).Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("SiteType")).Return(((int)SiteType.EmbeddedComments)).Repeat.Once();
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteType")).Return(((int)SiteType.EmbeddedComments).ToString()).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("SiteDescription")).Return("Comments Description").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("UrlName")).Return("Comments Url").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Comments Title").Repeat.Once();
