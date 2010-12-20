@@ -233,6 +233,12 @@
 		</xsl:choose>
     </xsl:variable>
     
+	<xsl:variable name="robotsetting">
+		<xsl:choose>
+			<xsl:when test="number(/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='AllowRobots']/VALUE) = number(1)">index,follow</xsl:when>
+			<xsl:otherwise>noindex,nofollow</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>    
     
     <!-- DASHBOARD variables -->
     <xsl:variable name="dashboardtype">
