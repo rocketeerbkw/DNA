@@ -26,11 +26,11 @@ namespace BBC.Dna.Objects
         /// <param name="style"></param>
         /// <param name="editing"></param>
         /// <returns></returns>
-        static public XmlElement CreateGuideEntry(string text, int hiddenStatus, GuideEntryStyle style)
+        static public XmlElement CreateGuideEntry(string text, int hiddenStatus, GuideEntryStyle style, int canRead)
         {
 
             XmlDocument doc = new XmlDocument();
-            if (hiddenStatus > 0)
+            if (hiddenStatus > 0 && canRead == 0)
             {
                 doc.LoadXml("<GUIDE><BODY>This article has been hidden pending moderation.</BODY></GUIDE>");
             }

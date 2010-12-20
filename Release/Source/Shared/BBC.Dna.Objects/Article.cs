@@ -102,10 +102,17 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                if (HiddenStatus > 0)
+                if (HiddenStatus > 0 && CanRead == 0)
                 {
-                    // Hidden! Tell the user
-                    return "Article Pending Moderation";
+                    if (ArticleInfo.ModerationStatus == BBC.Dna.Moderation.Utils.ModerationStatus.ArticleStatus.PreMod)
+                    {
+                        return "Article Hidden Pending Moderation";
+                    }
+                    else
+                    {
+                        // Hidden! and they're not superuser or the owner - Tell the user
+                        return "Article Hidden";
+                    }
                 }
                 return HtmlUtils.HtmlDecode(_subject);
             }
@@ -130,7 +137,7 @@ namespace BBC.Dna.Objects
                 bool returnValue = true;
                 try
                 {
-                    GuideEntry.CreateGuideEntry(GuideMLAsString, HiddenStatus, Style);
+                    GuideEntry.CreateGuideEntry(GuideMLAsString, HiddenStatus, Style, CanRead);
                 }
                 catch
                 {
@@ -148,7 +155,7 @@ namespace BBC.Dna.Objects
                 if (_originalGuideMLAsXmlElement == null)
                 {
                     if (_guideMLAsString == null) { return null; }
-                    _originalGuideMLAsXmlElement  = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                    _originalGuideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style, CanRead);
                 }
                 return _originalGuideMLAsXmlElement;
             }
@@ -171,7 +178,7 @@ namespace BBC.Dna.Objects
 
                     try
                     {
-                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style);
+                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(_guideMLAsString, HiddenStatus, Style, CanRead);
                     }
                     catch (ApiException e)
                     {
@@ -191,7 +198,7 @@ namespace BBC.Dna.Objects
                             _xmlError = e.Message;
                         }
 
-                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                        _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML, 1);
                         //Return the error no need to transform
                         return _guideMLAsXmlElement;
                     }
@@ -211,7 +218,7 @@ namespace BBC.Dna.Objects
                         {
                             DnaDiagnostics.Default.WriteToLog("FailedTransform", transformedContent);
                             _xmlError = transformedContent;
-                            _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering the HTML for this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                            _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering the HTML for this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML, 1);
                             //throw new ApiException("GuideML Transform Failed.", ErrorType.GuideMLTransformationFailed);
                         }
                         else
@@ -223,7 +230,7 @@ namespace BBC.Dna.Objects
                             }
                             try
                             {
-                                _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style);
+                                _guideMLAsXmlElement = GuideEntry.CreateGuideEntry(transformedContent, HiddenStatus, Style, CanRead);
                             }
                             catch (ApiException e)
                             {
@@ -243,7 +250,7 @@ namespace BBC.Dna.Objects
                                     _xmlError = e.Message;
                                 }
 
-                                _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                                _guideMLAsXmlElement = GuideEntry.CreateGuideEntry("<GUIDE><BODY>There has been an issue with rendering this entry, please contact the editors.</BODY></GUIDE>", 0, GuideEntryStyle.GuideML, 1);
                             }
                         }
                     }
@@ -770,8 +777,14 @@ namespace BBC.Dna.Objects
             // fetch all the lovely intellectual property from the database
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("updateguideentry"))
             {
-                reader.AddParameter("subject", Subject);
-                reader.AddParameter("BodyText", GuideMLAsString);
+                if (Subject != String.Empty)
+                {
+                    reader.AddParameter("subject", Subject);
+                }
+                if (Subject != String.Empty)
+                {
+                    reader.AddParameter("BodyText", GuideMLAsString);
+                }
                 reader.AddParameter("extraInfo", ExtraInfoCreator.CreateExtraInfo(1));
                 reader.AddParameter("editor", userid);
                 reader.AddParameter("Style", Style);

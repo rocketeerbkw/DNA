@@ -64,6 +64,7 @@ namespace Microsoft.ServiceModel.Web
             {
                 using (XmlDictionaryReader r = message.GetReaderAtBodyContents())
                 {
+                    r.Quotas.MaxArrayLength = int.MaxValue;
                     r.ReadStartElement("Binary");
                     byte[] buffer = r.ReadContentAsBase64();
                     string queryString = new UTF8Encoding().GetString(buffer);
