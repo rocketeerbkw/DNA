@@ -79,7 +79,7 @@
   </xsl:template>
   
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 2]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 2]]" mode="input_user-complaint-form">
-        <form action="{$root}/UserComplaintPage" method="post" id="complaintForm"> 
+        <form action="UserComplaintPage" method="post" id="complaintForm"> 
             <div class="content">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -172,7 +172,7 @@
     </xsl:template>
     
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
-        <form id="UserComplaintForm" action="{$root}/UserComplaintPage" method="post"> 
+        <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
            	<p>Please fill in the box below to tell us the reason you feel the <xsl:call-template name="item_name"/> breaks this rule. When you are finished, click on Send Complaint so that it can be reviewed by a moderator.</p>
                <p>
