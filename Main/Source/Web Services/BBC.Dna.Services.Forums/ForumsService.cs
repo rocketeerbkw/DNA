@@ -328,6 +328,12 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumIDNotWellFormed));
             }
+            int threadIdAsInt = 0;
+            if (!Int32.TryParse(threadId, out threadIdAsInt))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidThreadID));
+            }
+
 
             // Check 1) get the site and check if it exists
             ISite site = GetSite(siteName);
@@ -338,154 +344,30 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
-            bool isNotable = callingUser.IsUserA(UserTypes.Notable);
 
-            // Check 3) check threadid is well formed
-            int threadIdAsInt = 0;
-            if (!Int32.TryParse(threadId, out threadIdAsInt))
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.InvalidThreadID));
-            }
-
-            ForumHelper helper = new ForumHelper(readerCreator);
-
-            // Check 4) check threadid exists and user has permission to write
-            if (threadIdAsInt != 0)
-            {
-                bool canReadThread = false;
-                bool canWriteThread = false;
-                helper.GetThreadPermissions(callingUser.UserID, threadIdAsInt, ref canReadThread, ref canWriteThread);
-                if (!canReadThread)
-                {
-                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ThreadNotFound));
-                }
-                if (!canWriteThread)
-                {
-                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumReadOnly));
-                }
-            }
-
-            // Check 5) check forum exists. Note, Check 4 and 5 must be done in this order.
-            bool canReadForum = false;
-            bool canWriteForum = false;
-            helper.GetForumPermissions(callingUser.UserID, forumIdAsInt, ref canReadForum, ref canWriteForum);
-            if (!canReadForum)
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ForumUnknown));
-            }
-
-            // Check 6) check if the posting is secure
             bool requireSecurePost = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "EnforceSecurePosting") == 1;
             if (requireSecurePost && !callingUser.IsSecureRequest)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotSecure));
             }
 
-            // Check 7) get the ignore moderation value            
-            if (callingUser.IsUserA(UserTypes.BannedUser))
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.UserIsBanned));
-            }
+            // Check 3) check threadid is well formed
+            
+            ForumHelper helper = new ForumHelper(readerCreator);
 
-            // Check 8) check if site is open
-            bool ignoreModeration = callingUser.IsUserA(UserTypes.Editor) || callingUser.IsUserA(UserTypes.SuperUser);
-            if (!ignoreModeration && (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now)))
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.SiteIsClosed));
-            }
-
-            // Check 9) is thread post empty
-            if (String.IsNullOrEmpty(threadPost.Text))
-            {
-                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.EmptyText));
-            }
-
-            // Check 10) check for MaxCommentCharacterLength
-            try
-            {
-
-                int maxCharCount = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "MaxCommentCharacterLength");
-                string tmpText = StringUtils.StripFormattingFromText(threadPost.Text);
-                if (maxCharCount != 0 && tmpText.Length > maxCharCount)
-                {
-                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ExceededTextLimit));
-                }
-            }
-            catch (SiteOptionNotFoundException)
-            {
-            }
-
-            // Check 11) check for MinCommentCharacterLength
-            try
-            {
-                //check for option - if not set then it throws exception
-                int minCharCount = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "MinCommentCharacterLength");
-                string tmpText = StringUtils.StripFormattingFromText(threadPost.Text);
-                if (minCharCount != 0 && tmpText.Length < minCharCount)
-                {
-                    throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MinCharLimitNotReached));
-                }
-            }
-            catch (SiteOptionNotFoundException)
-            {
-            }
-
-            //strip out invalid chars
-            /*
-            comment.text = StringUtils.StripInvalidXmlChars(comment.text);            
-                        // Check to see if we're doing richtext and check if its valid xml
-                        if (comment.PostStyle == PostStyle.Style.unknown)
-                        {
-            //default to plain text...
-                            comment.PostStyle = PostStyle.Style.richtext;
-                        }
-                        if (comment.PostStyle == PostStyle.Style.richtext)
-                        {
-                            string errormessage = string.Empty;
-                            // Check to make sure that the comment is made of valid XML
-                            if (!HtmlUtils.ParseToValidGuideML(comment.text, ref errormessage))
-                            {
-                                DnaDiagnostics.WriteWarningToLog("Comment box post failed xml parse.", errormessage);
-                                throw ApiException.GetError(ErrorType.XmlFailedParse);
-                            }
-                        }
-            */
-
-            // Check 12: Profanities
-            bool forceModeration;
-            CheckForProfanities(site, threadPost.Text, out forceModeration);
-
-
-            bool forcePreModeration = false;
-            // PreModerate first post in discussion if site premoderatenewdiscussions option set.
-            if ((threadPost.InReplyTo == 0) && siteList.GetSiteOptionValueBool(site.SiteID, "Moderation", "PreModerateNewDiscussions"))
-            {
-                if (!ignoreModeration && !isNotable)
-                {
-                    forcePreModeration = true;
-                }
-            }
-
-            ForumSource forumSource = ForumSource.CreateForumSource(cacheManager, readerCreator, null, forumIdAsInt, threadIdAsInt, site.SiteID, false, false, false);
-
+            
             // save the Post in the database
-            ThreadPost post = new ThreadPost();
-            post.InReplyTo = threadPost.InReplyTo;
-            post.ThreadId = threadIdAsInt;
-            post.Subject = threadPost.Subject;
-            post.Text = threadPost.Text;
-            post.Style = threadPost.Style;
-
-            if (forumSource.Type == ForumSourceType.Journal && threadIdAsInt == 0)
+            threadPost.ThreadId = threadIdAsInt;
+            try
             {
-                post.CreateJournalPost(readerCreator, site.SiteID, callingUser.UserID, callingUser.UserName, forumIdAsInt, false, _iPAddress, bbcUidCookie, forceModeration);
+                threadPost.PostToForum(cacheManager, readerCreator, site, (Objects.User)callingUser, siteList, _iPAddress, bbcUidCookie, forumIdAsInt);
             }
-            else
+            catch (ApiException e)
             {
-                post.CreateForumPost(readerCreator, callingUser.UserID, forumIdAsInt, false, isNotable, _iPAddress, bbcUidCookie, false, false, forcePreModeration, forceModeration);
+                throw new DnaWebProtocolException(e);
             }
 
-            return post;
+            return threadPost;
         }
 
         [WebInvoke(Method = "GET", UriTemplate = "V1/site/{siteName}/searchposts")]

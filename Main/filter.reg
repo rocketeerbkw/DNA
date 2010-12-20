@@ -28,6 +28,7 @@ REGEDIT4
 "/Logout"="/ripleyserver.dll?Logout?"
 "/PostJournal"="/ripleyserver.dll?PostJournal?"
 "/AddThread"="/ripleyserver.dll?AddThread?"
+"/PostToForum" = "/dna/dnapages/PostToForumPage.aspx?"
 "/Register"="/ripleyserver.dll?NewRegister?cmd=start&"
 "/NewEmail"="/RipleyServer.dll?NewEmail?key="
 "/Index"="/ripleyserver.dll?Index?"

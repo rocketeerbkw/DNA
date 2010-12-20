@@ -777,6 +777,7 @@ namespace Tests
             }
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
+            webRequest.AllowAutoRedirect = false;
 
             Console.WriteLine("Requesting " + URL.ToString());
 

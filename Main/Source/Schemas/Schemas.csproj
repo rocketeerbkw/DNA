@@ -151,6 +151,7 @@
     <None Include="Dna.Services.Users\friendsList.xsd" />
     <None Include="Dna.Services.Users\group.xsd" />
     <None Include="Dna.Services.Users\user.xsd" />
+    <None Include="PostThreadForm.xsd" />
     <None Include="SiteManager.xsd" />
     <None Include="UserComplaintArticle.xsd" />
     <None Include="UserComplaintUrl.xsd" />

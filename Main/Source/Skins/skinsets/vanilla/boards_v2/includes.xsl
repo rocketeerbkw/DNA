@@ -35,6 +35,7 @@
     <xsl:include href="pages/multiposts-userpage.xsl" />
     
     <xsl:include href="pages/addthread.xsl" />
+    <xsl:include href="pages/posttoforum.xsl" />
     <xsl:include href="pages/blogsummary.xsl" />
     <xsl:include href="pages/category.xsl" />
     <xsl:include href="pages/commentbox.xsl" />

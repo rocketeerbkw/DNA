@@ -878,7 +878,8 @@ namespace BBC.Dna.Objects.Tests
                 iscomment,
                 allowQueing,
                 forcePreModerate,
-                forceModerate);
+                forceModerate,
+                "");
 
             // 3) verify the results
             Assert.AreEqual(postid, newThreadPost.PostId);

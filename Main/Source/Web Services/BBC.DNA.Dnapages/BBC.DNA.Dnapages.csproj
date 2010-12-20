@@ -129,6 +129,13 @@
     <Compile Include="ContentSignifPage.aspx.designer.cs">
       <DependentUpon>ContentSignifPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PostToForumPage.aspx.cs">
+      <DependentUpon>PostToForumPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PostToForumPage.aspx.designer.cs">
+      <DependentUpon>PostToForumPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="UserContributions.aspx.cs">
       <DependentUpon>UserContributions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -890,6 +897,7 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="PostToForumPage.aspx" />
     <Content Include="UserContributions.aspx" />
     <Content Include="HostDashboardActivity.aspx" />
     <Content Include="HostDashboard.aspx" />

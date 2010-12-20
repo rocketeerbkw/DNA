@@ -1984,7 +1984,8 @@ namespace BBC.Dna
             {
                 UserId = UserID,
                 UserLoggedIn = UserLoggedIn,
-                Status = IsSuperUser ? 2 : 0
+                Status = IsSuperUser ? 2 : 0,
+                PrefStatus = _prefStatus
             };
 
             userObj.Groups = new List<Group>();

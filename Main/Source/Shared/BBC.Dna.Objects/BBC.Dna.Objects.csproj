@@ -164,6 +164,7 @@
     <Compile Include="PageUi.cs" />
     <Compile Include="TopicElement.cs" />
     <Compile Include="UserSubscriptionsList.cs" />
+    <Compile Include="PostThreadForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Api\BBC.Dna.Api.csproj">
