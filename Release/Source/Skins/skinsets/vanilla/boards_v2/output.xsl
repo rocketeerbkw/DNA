@@ -62,6 +62,7 @@
       		</title>
       		
       		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+      		<meta name="robots" content="{$robotsetting}"/>
       		<meta name="description"><xsl:attribute name="content">BBC message board for <xsl:value-of select="SITECONFIG/BOARDNAME"/></xsl:attribute></meta>
       		<meta name="keywords" content="" />
       		<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
