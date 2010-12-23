@@ -226,6 +226,11 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [XmlElement(Order = 10, ElementName = "FORUMPOSTCOUNT")]
         public int ForumPostCount { get; set; }
+
+
+        /// <remarks/>
+        [XmlElement(Order = 11, ElementName = "TOPICID")]
+        public int TopicId { get; set; }
         
     }
 }
