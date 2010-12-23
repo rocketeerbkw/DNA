@@ -26,6 +26,20 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</p>
+				<xsl:choose>
+					<xsl:when test="$dashboardtype = 'blog' and /H2G2/MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Blog']/TOTAL > 0">
+						<p><xsl:text>Clicking on a link will show all alerts or comments locked to you.</xsl:text></p>
+					</xsl:when>
+					<xsl:when test="$dashboardtype = 'messageboard' and /H2G2/MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']/TOTAL > 0">
+						<p><xsl:text>Clicking on a link will show all alerts or posts locked to you.</xsl:text></p>
+					</xsl:when>
+					<xsl:when test="$dashboardtype = 'community' and /H2G2/MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Community']/TOTAL > 0">
+						<p><xsl:text>Clicking on a link will show all alerts, posts, articles or general complaints locked to you.</xsl:text></p>
+					</xsl:when>
+					<xsl:when test="$dashboardtype = 'story' and /H2G2/MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'EmbeddedComments']/TOTAL > 0">
+						<p><xsl:text>Clicking on a link will show all alerts or comments locked to you.</xsl:text></p>
+					</xsl:when>
+				</xsl:choose>	
 				<div>
 					<table>
 						<tbody>
