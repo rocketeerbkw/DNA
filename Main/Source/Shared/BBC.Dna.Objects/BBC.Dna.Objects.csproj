@@ -87,6 +87,7 @@
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="Contributions.cs" />
+    <Compile Include="FrontPageTopicElementList.cs" />
     <Compile Include="FollowersList.cs" />
     <Compile Include="ReviewForumPage.cs" />
     <Compile Include="SearchThreadPost.cs">

@@ -22,5 +22,12 @@ namespace BBC.Dna.Common
         /// <returns></returns>
         SignalStatusMember GetStats(Type type);
 
+        /// <summary>
+        /// Gets the last update date of the object
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        DateTime GetLastUpdated(params object[] args);
+
     }
 }

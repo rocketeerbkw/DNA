@@ -96,7 +96,6 @@ REGEDIT4
 "/efp.cgi"="/efp.cgi?"
 "/FrontpageEditor"="/ripleyserver.dll?FrontpageEditor?"
 "/EditFrontPage"="/ripleyserver.dll?FrontpageEditor?"
-"/"="/ripleyserver.dll?frontpage?"
 "-KeyArticle"="/ripleyserver.dll?-keyarticle?name="
 "/NamedArticles"="/ripleyserver.dll?NamedArticles?"
 "/TopFiveEditor"="/ripleyserver.dll?TopFiveEditor?"
@@ -345,3 +344,7 @@ REGEDIT4
 
 "/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"
 "/usercontributions" = "/dna/dnapages/usercontributions.aspx?"
+
+"/"="/dna/dnapages/frontpageredirector.aspx?"
+"/home"="/ripleyserver.dll?frontpage?"
+"/mbfrontpage"="/dna/dnapages/mbfrontpage.aspx?"

@@ -222,6 +222,10 @@ namespace BBC.Dna.Objects
            }
         
         }
+
+        /// <remarks/>
+        [XmlElement(Order = 10, ElementName = "FORUMPOSTCOUNT")]
+        public int ForumPostCount { get; set; }
         
     }
 }

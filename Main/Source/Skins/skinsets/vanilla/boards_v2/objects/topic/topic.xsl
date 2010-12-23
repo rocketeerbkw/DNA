@@ -22,6 +22,10 @@
             <xsl:apply-templates select="/H2G2/TOPICELEMENTLIST/TOPICELEMENT[TOPICID = current()/TOPICID]" mode="object_topicelement">
                 <!--<xsl:sort data-type="number" select="@SORTORDER" order="ascending"/>-->
             </xsl:apply-templates>
+
+            <xsl:apply-templates select="/H2G2/FRONTPAGETOPICELEMENTLIST/TOPICELEMENTLIST/TOPICELEMENT[TOPICID = current()/TOPICID]" mode="object_topicelement">
+              <!--<xsl:sort data-type="number" select="@SORTORDER" order="ascending"/>-->
+            </xsl:apply-templates>
             
         </li>
         

@@ -129,6 +129,20 @@
     <Compile Include="ContentSignifPage.aspx.designer.cs">
       <DependentUpon>ContentSignifPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="mbfrontpage.aspx.cs">
+      <DependentUpon>mbfrontpage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="mbfrontpage.aspx.designer.cs">
+      <DependentUpon>mbfrontpage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frontpageredirector.aspx.cs">
+      <DependentUpon>frontpageredirector.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frontpageredirector.aspx.designer.cs">
+      <DependentUpon>frontpageredirector.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PostToForumPage.aspx.cs">
       <DependentUpon>PostToForumPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -897,6 +911,8 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="mbfrontpage.aspx" />
+    <Content Include="frontpageredirector.aspx" />
     <Content Include="PostToForumPage.aspx" />
     <Content Include="UserContributions.aspx" />
     <Content Include="HostDashboardActivity.aspx" />

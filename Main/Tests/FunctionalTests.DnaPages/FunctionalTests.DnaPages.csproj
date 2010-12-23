@@ -258,6 +258,7 @@
     <Compile Include="BBC.Dna.BannedEmailsTests.cs" />
     <Compile Include="cachingSignals\groupSignalTests.cs" />
     <Compile Include="ArticlePageTests.cs" />
+    <Compile Include="FrontPageRedirectorTests.cs" />
     <Compile Include="PostToForumTests.cs" />
     <Compile Include="SiteManagerTests.cs" />
     <Compile Include="MBAdmin.cs" />
