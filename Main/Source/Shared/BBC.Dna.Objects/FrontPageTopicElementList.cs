@@ -52,7 +52,7 @@ namespace BBC.Dna.Objects
 
             if (status == TopicStatus.Live)
             {
-                cache.Add(key, source.Clone(), CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(source.CacheSlidingWindow())));
+                cache.Add(key, source, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(source.CacheSlidingWindow())));
             }
             
 
