@@ -104,7 +104,10 @@ namespace BBC.Dna.Services
 
                 if (formsData["submittable"] == "NO")
                 {
-                    article.ArticleInfo.Submittable.Type = "NO";
+                    if (article.ArticleInfo.Submittable != null)
+                    {
+                        article.ArticleInfo.Submittable.Type = "NO";
+                    }
                 }
 
                 return SaveArticle(site, callingUser, article, siteName, false, h2g2idAsInt);
