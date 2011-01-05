@@ -102,9 +102,13 @@ namespace BBC.Dna.Services
                     article.HiddenStatus = 0;
                 }
 
-                if (formsData["submittable"] == "NO")
+                if (article.ArticleInfo.Submittable != null)
                 {
-                    if (article.ArticleInfo.Submittable != null)
+                    if (formsData["submittable"].ToLower() == "yes" || formsData["submittable"] == "1")
+                    {
+                        article.ArticleInfo.Submittable.Type = "YES";
+                    }
+                    else
                     {
                         article.ArticleInfo.Submittable.Type = "NO";
                     }
