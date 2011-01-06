@@ -39,7 +39,7 @@
 	</xsl:template>	
 	
 	<xsl:template match="H2G2[@TYPE = 'USERLIST']" mode="objects_title">
-		<h1>User list</h1>
+		<h1>User List</h1>
 	</xsl:template>	
 	
 	<xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="objects_title">

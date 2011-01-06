@@ -7,7 +7,8 @@
       <xs:sequence>
         <xs:element name="canRead" type="xs:boolean" />
         <xs:element name="canWrite" type="xs:boolean" />
-        
+        <xs:element name="defaultCanRead" type="xs:boolean" />
+        <xs:element name="defaultCanWrite" type="xs:boolean" />
         <xs:element name="forumId" type="xs:unsignedInt" />
         <xs:element name="forumPostCount" type="xs:unsignedInt" />
         <xs:element name="itemsPerPage" type="xs:unsignedInt" />

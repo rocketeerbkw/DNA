@@ -97,6 +97,23 @@ namespace BBC.Dna.Services
                     article.HiddenStatus = 1;
                 }
 
+                if (formsData["hidden"] == "0" || formsData["hidden"] == "false")
+                {
+                    article.HiddenStatus = 0;
+                }
+
+                if (article.ArticleInfo.Submittable != null)
+                {
+                    if (formsData["submittable"].ToLower() == "yes" || formsData["submittable"] == "1")
+                    {
+                        article.ArticleInfo.Submittable.Type = "YES";
+                    }
+                    else
+                    {
+                        article.ArticleInfo.Submittable.Type = "NO";
+                    }
+                }
+
                 return SaveArticle(site, callingUser, article, siteName, false, h2g2idAsInt);
             }
             catch (ApiException ex)
@@ -135,7 +152,7 @@ namespace BBC.Dna.Services
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/preview")]
         [WebHelp(Comment = "Previews an article")]
         [OperationContract]
-        public Article PreviewArticle(string siteName, Article inputArticle)
+        public Stream PreviewArticle(string siteName, Article inputArticle)
         {
             bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
 
@@ -156,7 +173,7 @@ namespace BBC.Dna.Services
 
                 article.ApplySkinOnGuideML = applySkin;
 
-                return article;
+                return GetOutputStream(article);
             }
             catch (ApiException ex)
             {
@@ -198,6 +215,14 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ex);
             }
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/preview/create.htm/json")]
+        [WebHelp(Comment = "Previews an article from Html form returns JSON")]
+        [OperationContract]
+        public Stream PreviewArticleHtmlReturnJSON(string siteName, NameValueCollection formsData)
+        {
+            return StringUtils.SerializeToJson(PreviewArticleHtml(siteName, formsData));
         }
 
         [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/articles/{h2g2id}")]
@@ -326,13 +351,20 @@ namespace BBC.Dna.Services
         private Article SetWritableArticleProperties(Article article, GuideEntryStyle style, string subject, string guideML,  int[] researcherUserIds)
         {
             // populate the writable parts of the object graph with the input article
-            article.GuideMLAsString = guideML;
-            article.ArticleInfo.GetReferences(readerCreator, article.OriginalGuideMLAsXmlElement);
+            if (guideML != String.Empty)
+            {
+                article.GuideMLAsString = guideML;
+                article.ArticleInfo.GetReferences(readerCreator, article.OriginalGuideMLAsXmlElement);
+                
+                if (!article.IsGuideMLWellFormed) { throw new Exception("GuideML is badly formed"); }
+            }
 
-            if (!article.IsGuideMLWellFormed) { throw new Exception("GuideML is badly formed"); }
 
             article.Style = style;
-            article.Subject = subject;
+            if (subject != String.Empty)
+            {
+                article.Subject = subject;
+            }
             
             if (researcherUserIds != null)
             {
@@ -852,9 +884,49 @@ namespace BBC.Dna.Services
             }
         }
 
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/articles/{articleId}/submitsubbed/create.htm")]
+        [WebHelp(Comment = "Sub Editor only function to return an article to the editors")]
+        [OperationContract]
+        public void SubmitSubbedArticle(string siteName, string articleId, NameValueCollection formsData)
+        {
+            // Check 1) get the site and check if it exists
+            ISite site = GetSite(siteName);
+            string comments = formsData["comments"];
+
+            // Check 2) get the calling user             
+            CallingUser callingUser = GetCallingUser(site);
+
+            //Only allow SubEditors
+            SubsOnly(callingUser);
+
+            try
+            {
+                SubmitSubbedEntry.ReturnArticle(readerCreator,
+                                        site,
+                                        callingUser.UserID,
+                                        callingUser.IsUserA(UserTypes.Editor),
+                                        Int32.Parse(articleId),
+                                        comments);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
         private static void ScoutsOnly(CallingUser callingUser)
         {
             bool authorised = callingUser.IsUserA(UserTypes.Scout) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
+
+            if (!authorised)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
+        }
+
+        private static void SubsOnly(CallingUser callingUser)
+        {
+            bool authorised = callingUser.IsUserA(UserTypes.SubEditor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.Editor) || callingUser.IsUserA(BBC.Dna.Users.UserTypes.SuperUser);
 
             if (!authorised)
             {

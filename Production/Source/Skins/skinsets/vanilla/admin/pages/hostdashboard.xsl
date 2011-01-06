@@ -66,7 +66,7 @@
 			<div class="dna-fl dna-main-right dna-boxspace">
 				<div class="dna-box">
 					<h3>Activity  <xsl:call-template name="objects_subheading" /></h3>
-          			<xsl:apply-templates select="SITESUMMARYSTATS" mode="objects_moderator_queuesummary" />
+          			<xsl:apply-templates select="SITESUMMARYSTATS" mode="objects_moderator_sitesummarystats" />
 				</div>
 			</div>				
 			
@@ -84,7 +84,7 @@
 						<xsl:if test="SITESUMMARYSTATS/@SITEID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"> 
 							<xsl:call-template name="objects_links_admin" />
 						</xsl:if>
-						<li><a href="/dna/moderation/admin/userlist?{$dashboardsiteuser}">Look up user</a></li>
+						<li><a href="userlist?{$dashboardsiteuser}">Look up user</a></li>
 						<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2"><li><a href="{$moderationemail}">To add user status, email Moderation Services Team</a></li></xsl:if>								
 					</ul>
 				</div>
@@ -92,7 +92,7 @@
 				
 			<div class="dna-fl dna-main-right">
 				<div class="dna-box">
-					<h3>Useful links <xsl:call-template name="objects_subheading" /></h3>
+					<h3>Useful links</h3>
 					<xsl:call-template name="objects_links_useful" />
 				</div>
 			</div>

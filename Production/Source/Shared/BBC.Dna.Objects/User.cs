@@ -188,6 +188,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 14, ElementName = "SITESUFFIX")]
+        [DataMember(Name = ("siteSuffix"))]
         public string SiteSuffix
         {
             get;

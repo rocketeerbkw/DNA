@@ -485,7 +485,7 @@
 			'.popup',
 			'click',
 			function (e) { 
-				window.open(this.href,this.target,'status=no,scrollbars=yes,resizable=yes,width=800,height=500');
+				window.open(this.href,this.target,'status=no,scrollbars=yes,resizable=yes,width=800,height=550');
 				return false; 
 			}
 		);  

@@ -13,11 +13,10 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="A" mode="library_GuideML">
+    <xsl:template match="A | a" mode="library_GuideML">
         <a>
             <xsl:if test="@HREF | @href">
-                <xsl:attribute name="href">
-                    
+                <xsl:attribute name="href">                   
                     <xsl:call-template name="library_string_searchandreplace">
                         <xsl:with-param name="str">
                             <xsl:if test="not(starts-with((@HREF | @href), 'http://')) and not(starts-with((@HREF | @href), 'https://'))">
@@ -30,16 +29,26 @@
                     </xsl:call-template>
                 </xsl:attribute>
             </xsl:if>
-            <xsl:if test="@CLASS">
-                <xsl:attribute name="class">
-                    <xsl:value-of select="@CLASS"/>
-                </xsl:attribute>
-            </xsl:if>
-            <xsl:apply-templates mode="library_GuideML"/>
+			<xsl:if test="@CLASS | @class">
+				<xsl:attribute name="class">
+					<xsl:value-of select="@CLASS | @class"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@TARGET | @target">
+				<xsl:attribute name="target">
+					<xsl:value-of select="@TARGET | @target"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@NAME | @name">
+				<xsl:attribute name="name">
+					<xsl:value-of select="@NAME | @name"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates mode="library_GuideML"/>
         </a>
     </xsl:template>
 	
-	<xsl:template match="A" mode="library_GuideML_rss">
+	<xsl:template match="A | a" mode="library_GuideML_rss">
 		<xsl:apply-templates mode="library_GuideML_rss"/>
 		<xsl:text> (</xsl:text>
 		<xsl:if test="@HREF | @href">

@@ -50,13 +50,13 @@
 									<th>User Name</th> -->
 									<th>Site</th>
 									<th>Status</th>
-									<th>Date Joined</th>
-									<th>Posts Passed</th>
-									<th>Posts Failed</th>
-									<th>Total Posts</th>
-									<th>Articles Passed</th>
-									<th>Articles Failed</th>
-									<th>Total Articles</th>
+									<th>Date joined</th>
+									<th>Posts passed</th>
+									<th>Posts failed</th>
+									<th>Total posts</th>
+									<th>Articles passed</th>
+									<th>Articles failed</th>
+									<th>Total articles</th>
 								</tr>
 							</thead>
 							<xsl:apply-templates select="MEMBERDETAILSLIST/MEMBERDETAILS"/>
@@ -86,8 +86,6 @@
 		
 		<ul class="dna-list-links dna-fr">
 			<li><a href="usercontributions?s_user={$userid}">View contributions</a></li>
-			<li><a href="MemberDetails?userid={$userid}">Find alternate identities using email</a></li>
-			<li><a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find alternate identities using BBCUID</a></li>
 		</ul>
 		
 		<p>
@@ -100,16 +98,18 @@
 			</xsl:choose>
 		</p>
 		
-		<p><strong>User ID: </strong><xsl:value-of select="$userid"/></p>
-		<p>
-			<strong>Email: </strong>
-			<xsl:choose>
-				<xsl:when test="not(string-length(MEMBERDETAILS/USER[USERID=$userid]/EMAIL) = 0)">
-					<xsl:value-of select="MEMBERDETAILS/USER[USERID=$userid]/EMAIL"/>
-				</xsl:when>
-				<xsl:otherwise>No email</xsl:otherwise>
-			</xsl:choose>
-		</p>
+		<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = '2'">
+			<p><strong>User ID: </strong><xsl:value-of select="$userid"/></p>
+			<p>
+				<strong>Email: </strong>
+				<xsl:choose>
+					<xsl:when test="not(string-length(MEMBERDETAILS/USER[USERID=$userid]/EMAIL) = 0)">
+						<xsl:value-of select="MEMBERDETAILS/USER[USERID=$userid]/EMAIL"/>
+					</xsl:when>
+					<xsl:otherwise>No email</xsl:otherwise>
+				</xsl:choose>
+			</p>
+		</xsl:if>
 
 	</xsl:template>
 
@@ -118,37 +118,37 @@
 		<div class="dna-fl dna-main-full">
 			<table class="dna-dashboard-activity">
 				<tr class="odd">
-					<th>Posts Passed</th>
+					<th>Posts passed</th>
 					<td class="type">
 						<xsl:value-of select="POSTPASSEDCOUNT"/>
 					</td>
 				</tr>
 				<tr>
-					<th>Posts Failed</th>
+					<th>Posts failed</th>
 					<td>
 						<xsl:value-of select="POSTFAILEDCOUNT"/>
 					</td>
 				</tr>
 				<tr class="odd">
-					<th>Total Posts</th>
+					<th>Total posts</th>
 					<td>
 						<xsl:value-of select="POSTTOTALCOUNT"/>
 					</td>
 				</tr>
 				<tr>
-					<th>Articles Passed</th>
+					<th>Articles passed</th>
 					<td>
 						<xsl:value-of select="ARTICLEPASSEDCOUNT"/>
 					</td>
 				</tr>
 				<tr class="odd">
-					<th>Articles Failed</th>
+					<th>Articles failed</th>
 					<td>
 						<xsl:value-of select="ARTICLEFAILEDCOUNT"/>
 					</td>
 				</tr>
 				<tr>
-					<th>Total Articles</th>
+					<th>Total articles</th>
 					<td>
 						<xsl:value-of select="ARTICLETOTALCOUNT"/>
 					</td>
@@ -166,8 +166,8 @@
 	    	<xsl:if test="position() mod 2 = 1">
 		    	<xsl:attribute name="class">odd</xsl:attribute>
 	    	</xsl:if>			
-	    	<td><xsl:value-of select="position()" /></td>
-			<!-- do user id and user name need to be here as they are above 
+	    	<td><h5><xsl:value-of select="position()" /></h5></td>
+			<!-- do user id and user name need to be here as they are above? 
 			<td>
 				<a href="UserList?searchText={$userid}&amp;usersearchtype=0">
 					<xsl:value-of select="USER/USERID"/>
@@ -193,9 +193,14 @@
 				<xsl:value-of select="POSTFAILEDCOUNT"/>
 			</td>
 			<td>
-				<a href="usercontributions?s_user={$userid}&amp;s_siteid={SITE/@ID}">
-					<xsl:value-of select="POSTTOTALCOUNT"/>
-				</a>
+				<xsl:choose>
+					<xsl:when test="POSTTOTALCOUNT > 0">
+						<a href="usercontributions?s_user={$userid}&amp;s_siteid={SITE/@ID}">
+							<xsl:value-of select="POSTTOTALCOUNT"/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise><xsl:value-of select="POSTTOTALCOUNT"/></xsl:otherwise>
+				</xsl:choose>
 			</td>
 			<td>
 				<xsl:value-of select="ARTICLEPASSEDCOUNT"/>
@@ -204,9 +209,14 @@
 				<xsl:value-of select="ARTICLEFAILEDCOUNT"/>
 			</td>
 			<td>
-				<a href="/dna/{SITE/URLNAME}/MA{$userid}?type=2" target="_blank">
-					<xsl:value-of select="ARTICLETOTALCOUNT"/>
-				</a>
+				<xsl:choose>
+					<xsl:when test="ARTICLETOTALCOUNT > 0">			
+						<a href="/dna/{SITE/URLNAME}/MA{$userid}?type=2" target="_blank">
+							<xsl:value-of select="ARTICLETOTALCOUNT"/>
+						</a>
+					</xsl:when>
+					<xsl:otherwise><xsl:value-of select="ARTICLETOTALCOUNT"/></xsl:otherwise>
+				</xsl:choose>
 			</td>
 		</tr>
 	</xsl:template>

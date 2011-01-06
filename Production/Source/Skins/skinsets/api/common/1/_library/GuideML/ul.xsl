@@ -15,7 +15,12 @@
     
     <xsl:template match="UL | ul" mode="library_GuideML">
         <ul>
-            <xsl:apply-templates  mode="library_GuideML"/>
+			<xsl:if test="@TYPE | @type">
+				<xsl:attribute name="type">
+					<xsl:value-of select="@TYPE | @type"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates  mode="library_GuideML"/>
         </ul>
     </xsl:template>
 </xsl:stylesheet>

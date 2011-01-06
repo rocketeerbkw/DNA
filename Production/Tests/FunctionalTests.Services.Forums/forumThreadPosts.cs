@@ -241,17 +241,20 @@ namespace FunctionalTests.Services.Forums
             request.SetCurrentUserNormal();
 
             string postData = String.Format("inReplyTo={0}&subject={1}&text={2}&style={3}",
-                 HttpUtility.HtmlEncode(inReplyTo),
-                 HttpUtility.HtmlEncode(subject),
-                 HttpUtility.HtmlEncode(text),
-                 HttpUtility.HtmlEncode(style));
+                 HttpUtility.UrlEncode(inReplyTo),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(text),
+                 HttpUtility.UrlEncode(style));
 
             NameValueCollection localHeaders = new NameValueCollection();
             localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
             string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
 
-            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", null, localHeaders);
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+            
+            //check deserialisation
+            ThreadPost savedThreadPost = (ThreadPost)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(ThreadPost));
 
             Console.WriteLine("After CreateForumPostHTML_WithValidValues_ReturnsSuccess");
         }

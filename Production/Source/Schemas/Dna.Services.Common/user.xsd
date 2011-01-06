@@ -26,6 +26,7 @@
         </xs:element>
         <xs:element name="identityUserId" type="xs:string" nillable="true" />
 		<xs:element name="identityUserName" type="xs:string" nillable="true" />
+        <xs:element name="siteSuffix" type="xs:string" minOccurs="0" nillable="true" />
         <xs:element name="status" type="xs:byte" />
         <xs:element name="userId" type="xs:int" />
         <xs:element name="userName" type="xs:string" />

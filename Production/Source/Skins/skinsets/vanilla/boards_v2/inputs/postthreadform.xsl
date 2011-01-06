@@ -43,7 +43,17 @@
     
     <xsl:template match="POSTTHREADFORM[@CANWRITE = 1]" mode="input_postthreadform">
       
-    	<form action="{$root}/AddThread" method="post" class="dna-boards">
+    	<form method="post" class="dna-boards">
+    		<xsl:attribute name="action">
+	    		<xsl:choose>
+		    		<xsl:when test="/H2G2/SITE/NAME != 'mbouch'">
+		    			<xsl:value-of select="$root" />/AddThread
+		    		</xsl:when>
+		    		<xsl:otherwise>
+		    			<xsl:text>AddThread</xsl:text>
+		    		</xsl:otherwise>
+	    		</xsl:choose>
+    		</xsl:attribute>
             <div>
                 <xsl:call-template name="library_header_h2">
                     <xsl:with-param name="text"><xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" /></xsl:with-param>
@@ -134,7 +144,17 @@
                 <xsl:call-template name="library_userstate">
                     <xsl:with-param name="loggedin">
                     	
-                        <form action="{$root}/AddThread" method="post" class="dna-boards">
+                        <form method="post" class="dna-boards">
+				    		<xsl:attribute name="action">
+					    		<xsl:choose>
+						    		<xsl:when test="/H2G2/SITE/NAME != 'mbouch'">
+						    			<xsl:value-of select="$root" />/AddThread
+						    		</xsl:when>
+						    		<xsl:otherwise>
+						    			<xsl:text>AddThread</xsl:text>
+						    		</xsl:otherwise>
+					    		</xsl:choose>
+				    		</xsl:attribute>                        
                             <div>
                                 <xsl:call-template name="library_header_h2">
                                     <xsl:with-param name="text">Start a new discussion</xsl:with-param>

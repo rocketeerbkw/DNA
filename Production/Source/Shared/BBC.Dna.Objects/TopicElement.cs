@@ -215,11 +215,11 @@ namespace BBC.Dna.Objects
                 {
                     try
                     {
-                        return GuideEntry.CreateGuideEntry(Description, 0, GuideEntryStyle.GuideML);
+                        return GuideEntry.CreateGuideEntry(Description, 0, GuideEntryStyle.GuideML, 1);
                     }
                     catch{}
                 }
-                return GuideEntry.CreateGuideEntry("<GUIDE><BODY></BODY></GUIDE>", 0, GuideEntryStyle.GuideML);
+                return GuideEntry.CreateGuideEntry("<GUIDE><BODY></BODY></GUIDE>", 0, GuideEntryStyle.GuideML, 1);
             }
             set {
                 if (value != null && value.SelectSingleNode("/BODY") != null)

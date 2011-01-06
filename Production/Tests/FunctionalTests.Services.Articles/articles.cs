@@ -42,7 +42,113 @@ namespace FunctionalTests.Services.Articles
 
         private string _unskinnedMalFormedGuideML = @"<PICTURE embed=""Right"" shadow=""None"" H2G2IMG=""towerbridge.jpg"" ALT=""London's Tower Bridge, in silhouette."" /><P>Tower Bridge, widely regarded as the most glamorous bridge across the Thames, was built because the demand for access across the Thames in <LINK H2G2=""A6681062"">London</LINK> far exceeded the capacity of the existing bridges. Increased commercial activity in the East End was creating a need for more vehicles to be able to cross the river, downstream of London Bridge. </P><P>Sheer weight of traffic was causing huge problems, and over a period of 11 years around 30 petitions from public bodies were brought before the authorities. The most common suggestions were the building of a new bridge or the widening of London Bridge, although there was also a proposal for a railway line to be built at the bottom of the river. This would carry a travelling stage with its deck at high water level. <ERROR> Designing a bridge over a busy river with low banks was not going to be an easy task. The reason for the difficulties was that the 'pool' of London (the area between London Bridge and the Tower of London) was heavily used by river traffic, and access had to be maintained. </P><P>The pool has been heavily used since Roman times, because it meant that large ocean-going vessels could simply sail straight up the River Thames and unload their goods directly in the city; there was no need to transfer cargo to small river vessels. The river was a major transport route, and for centuries large ships docked at the wharves here to unload. This allowed their cargo to be distributed using the inland river system, and later, by Victorian canals. Although trade began moving away from the pool around the middle of the 20th Century, at the time, large vessels still needed constant access to the Pool.</P><P>In August 1882 the traffic over London Bridge was counted for two days to work out an average for a 24-hour period. At that time London Bridge was only 54 feet wide, yet was carrying over 22,000 vehicles and over 110,000 pedestrians. A committee was set up to consider the petitions and make a decision. Subways and large paddle ferries were also considered at this time. </P><HEADER>Decision-making and Design</HEADER><P>In 1878 the City architect Horace Jones proposed a bascule bridge. 'Bascule' comes from the French for 'see-saw', and a bascule bridge at street-level has two 'leaves' that can be raised on a horizontal axis to let ships pass on the river. Similar to a drawbridge, it works on a pivot with a heavy weight at one end to balance the length (weighing 1000 tons) at the other end. It would mean that steep approaches to the bridge could be avoided. His first design was rejected, but in 1884 his second was approved, and an Act of Parliament was passed in 1885 authorising its building. The Act stipulated an opening central span of 200 feet and headroom of 135 feet when the bridge was open<FOOTNOTE INDEX=""1"">The closed headroom was 29 feet to cater for the high tide, which could be 25 feet higher than low tide.</FOOTNOTE>. In practice these measurements were exceeded by five feet and six inches respectively. It was to be built in keeping with its surroundings - the Tower of London. The site was chosen because, in an area surrounded by wharves, it was cheaper to build the north side of the crossing in the Tower's ditch than it would have been to buy the land.</P><P>Horace Jones was appointed architect. His original designs were very medieval in influence, with the bascules being raised by chains. The revised design was been jointly presented with John Wolfe-Barry, a civil engineer, and was more influenced by the Victorian Gothic style, possibly because Wolfe-Barry's father had been one of the architects on the Houses of Parliament. The bridge's main towers are similar to those of a medieval Scottish castle and the bascules open like an old castle drawbridge. Many of the decorative elements on the stone façade, and the cast iron work are typical of Victorian Gothic architecture. </P><P>Horace Jones died in 1887, just over a year after building work had begun. The foundations had not been completed, and the architectural designs were still only sketches. His assistant George Stevenson took over, and changed the stonework from red brick to Portland stone and Cornish granite. Stevenson also designed many of the decorative details.</P><P>The bridge was opened to traffic by the Prince of Wales (the future King Edward VII) on 30 June, 1894, on behalf of Queen Victoria. The bridge had required eight years of construction at a cost of just over £1,000,000. The journal <I>The Builder</I> called the bridge '<I>the most monstrous and preposterous architectural sham that we have ever known</I>'.</P><HEADER>Construction</HEADER><P>Work was started on the bridge in 1886, with the Prince of Wales laying the foundation stone over a time capsule containing papers and coins. The work was intended to take only three years, but parliament was asked twice for more time. Two piers containing 70,000 tons of concrete were sunk into the river bed to support the weight of the bridge, and it was on these that the towers were built. Because the central area of the river could not be obstructed, the towers were built one at a time. The bascules had to be built in the upright position, including the wood paving.</P><P>The towers are 293 feet tall from the foundations, and are made of a steel frame to support the great weight of the bascules, clothed in stone to fit the stipulation that the bridge harmonised with the Tower of London. They contain lifts and stairs to the two walkways running between the towers. The walkways are 110 feet above the roadway and are held in place by metal girders. They were used to stabilise the bridge, and to give pedestrians a way to cross so that they did not have to wait for the bridge to be lowered before they could cross the Thames. As boats used sails less, and steam more, the bridge took only six minutes to open and close. Most pedestrians simply enjoyed the view while waiting for the bridge to close again. The walkways were closed in 1910 due to lack of use by most pedestrians - they had become home to prostitutes. They stayed closed to the public for over 70 years, although they did house some anti-aircraft guns during World War I, and have since been refurbished and re-opened as part of the visitor attractions for the bridge.</P><P>The two side-spans operate on the suspension principle; the 270-foot long approaches (decks) are hung from curved lattice girders. The girders are attached to the towers at the level of the walkway where they are linked together by a chain - each side anchoring the other. They curve down towards the road, then curve up again, reaching up and over the abutment towers at the shoreline before curving back down to the shore where they are anchored. Each chain that runs between the girders and the bridge weighs about the same as a small elephant, per metre.</P><P>The road has a width of 35 feet, with a 12.5-feet-wide pavement on either side; this makes the bridge 60 feet wide.</P><P>More detailed, technical information about the construction of the bridge can be found <LINK HREF=""http://www.hartwell.demon.co.uk/tbpic.htm"" TITLE=""Tower Bridge, London"">here</LINK>. Despite its appearance, Tower Bridge is a steel bridge, not stone, and is extremely strong. It was originally painted in a chocolate brown colour.</P><HEADER>Moving the Bascules</HEADER><P>The bridge has always been operated by hydraulics; originally the two pumping engines were powered by steam engines, and the energy stored in six accumulators, ready for use when needed. One set of engines powered the lifting engines which worked the pistons, cranks and cogs that raised the bridge, to save wear and tear. It lifted in less than one minute to 86 degrees. The south side opened slightly before the north side, as they were controlled seperately. Since 1976 the hydraulics have been powered by oil and electricity, and the bascules now open together.</P><P>When the bridge is shut, and the leaves brought together, two bolts called the 'nose bolts,' carried on each leaf, are locked by hydraulic power into sockets on the other leaf.</P><P>When the bridge needs to rise (this requires 24 hours notice), traffic lights stop the traffic. The road gates close, then the pedestrian gates close. The nose bolts are withdrawn, and the bridge lifts. The bascules only fully open for large ships, or to greet ships of importance. In their first year the bascules were raised 6160 times. Nowadays the bridge lifts around 1000 times a year to allow tall ships, cruise ships, naval vessels and other large craft to pass under, and can open and close in five minutes. The record amount of activity stands at 64 lifts in 24 hours in 1910. </P><HEADER>Action and Adventure</HEADER><P>The bridge has been the backdrop for a few exciting events, and has appeared in a number of films. These include <LINK H2G2=""A636923"">Bridget Jones's Diary</LINK>, The Mummy II, Spice World<FOOTNOTE INDEX=""2"">Where the <LINK H2G2=""A467750"">Spice Girls</LINK> jumped across the bridge as it opened in a double decker bus.</FOOTNOTE> and <LINK HREF=""http://www.imdb.com/title/tt0143145/"">The World is Not Enough</LINK>.</P><P>During the summer of 1912 the English pilot Frank McClean flew a short pusher biplane up the Thames. He failed to get sufficient height to clear the bridge, so he flew under the walkways. This event was captured by newspaper photographers, and the image became famous. He was not the only one - pilots (deliberately) flew under the walkways in 1973 and in 1978.</P><P>In 1952, a number 78 double-decker bus was unlucky enough to be on the bridge when it opened. Back then, the lights would change to red, the gateman would ring bells to encourage the pedestrians to move off the bridge quickly and close the gates, and the head watchman would order the bridge to lift when it was clear. On this day in December, there was a relief watchman, and something went wrong. Albert Gunton, the driver, saw that the road ahead appeared to be sinking. In fact, his bus was perched on the end of an opening bascule, which was giving the illusion of a sinking road ahead. He realised that he would not be able to stop in time to prevent going into the water, and making a split second decision, decided he would go for it. He accelerated and jumped the three feet gap, landing on the north bascule, which had not started to rise. None of his dozen passengers were seriously hurt, and he received £10 for his bravery. He also appeared later on '<LINK HREF=""http://www.whirligig-tv.co.uk/tv/adults/quiz/whatsmyline.htm"">What's My Line?</LINK>'</P><HEADER>Tower Bridge Exhibition</HEADER><P>The exhibition has been running for over 20 years, after a £2.5million conversion to the bridge to allow visits to the walkways and Victorian engine rooms, and to set the exhibition up. Visitors can learn about the history of the bridge and how it was built, visit the walkways and level three of the North Tower, and visit the Victorian engine rooms.</P><SUBHEADER>How to Get There</SUBHEADER><P>The nearest underground stations are Tower Hill and London Bridge. By rail it can be reached from London Bridge, Fenchurch Street and Tower Gateway on the Docklands Light Railway. </P><HEADER>Fascinating Facts</HEADER><UL><LI><P> An account of the bridge written in 1937 tells of a tugboat that stood at anchor, but with steam up and ready to go. The tug was there to go to the assistance of any vessel that was in difficulties and threatening the bridge, and to direct river traffic. The cost of maintenance for the tug was one of the conditions given for the erection of the bridge. In the 40 years it had been open at the time, the tug had hardly been used. In 1944 it was sunk by a V1 rocket which had bounced off the bridge. Unsurprisingly, a replacement was not deemed worthwhile. </P></LI><LI><P>Tower Bridge was the only bridge downstream of London Bridge until 1991, when the <LINK H2G2=""A667839"" TITLE=""The Thames River Crossings at Dartford"">Queen Elizabeth II</LINK> was built at Dartford. It was the last bridge built across the Thames in London before the Millennium Bridge opened, nearly 106 years to the day later<FOOTNOTE INDEX=""3"">The Millennium Bridge only stayed open for three days before closing for 20 months to stop a worrying 'sway'.</FOOTNOTE>. </P></LI><LI><P>Tower Bridge is the only moveable bridge on the River Thames, and is funded by an ancient trust - <LINK HREF=""http://www.bridgehousegrants.org.uk/history.htm"">Bridge House Estates</LINK> - which had been set up to manage London Bridge in the 11th Century. The trust keeps the bridge toll-free for road and river traffic, and is managed by the <LINK H2G2=""A642944"">Corporation of London</LINK>, who own and manage it. It is insured by Lloyd's of London on the shipping register as a ship, and for the first 23 years of its life, all staff were ex-sailors and servicemen.</P></LI><LI><P>Try standing in the middle of the bridge (on the pavement of course!) with one foot on each leaf. Wait for a bus or lorry to pass. Enjoy!</P></LI></UL>";
 
-        
+        private string _unskinnedPreviewGuideML = @"<PICTURE embed=""Right"" shadow=""NONE"" blob=""B156439""/> 
+<P>Brussels, as befits its position at the centre of European political bickering, is either a wonderful place, or a dreary and pompous city that suffers from an overdose of considering itself 'the capital of Europe'. It just depends who you ask.</P>
+ 
+<P>This bipolarity is perhaps best summed up by the fact that the most popular tourist attraction is the <I>Manneken Pis</I>, on the corner of <I>Stoofstraat/Rue de L'Etuve</I> and the <I>Eikstraat/Rue du Chêne</I> (The streets have two names each, as Brussels is a bilingual city. You would probably only realise this if you go into a Dutch speaking area, like Molenbeek). This diminutive fountain of a boy answering the call of nature confuses the hell out of visitors, eliciting such responses as:</P>
+ 
+<UL> 
+<LI> 
+<P>The <I>Manneken Pis</I> is the only real disappointment in Brussels. It's only about a foot high, so you'll be lucky to see it over the heads of the coachloads of tourists, and it's down a horrid little street otherwise filled with souvenir shops selling overpriced replicas of the little brat. Don't bother.</P>
+ </LI>
+ 
+<LI> 
+<P>What's so great about a statue of a little boy urinating anyway? It doesn't even urinate real urine (I think I can see a logical reason for this, but still... it's a fake!). The souvenir shops are much the same as those found in Blackpool, UK, except they don't sell seaside rubbish, and instead sell postcards of the <I>Manneken Pis</I> in all its different costumes<FOOTNOTE INDEX=""1"">Of which there are more than 600, including an Elvis Presley outfit and a Mickey Mouse costume.</FOOTNOTE>. I mean come on! Even London's Millennium Dome was better than this.</P>
+ </LI>
+ 
+<LI> 
+<P>I liked it. Please don't hit me...</P>
+ </LI>
+ </UL>
+
+<P>However, there is a lot more to see in Brussels than this little chap. There's his female equivalent for a start - buried down one of the alleys with the nasty tourist restaurants on, is the <I>Janneken Pis</I>, a squatting, clothed girl. She doesn't urinate as such though. If you've seen enough mictatory humour, you might prefer to go and see something else instead:</P>
+
+<SUBHEADER>Sights</SUBHEADER>
+
+<UL>
+<LI>
+<P>In fact if you only see one thing in Brussels, give the little chap a miss and go to the <I>Grand' Place</I>. It is extremely impressive, a harmonious collection of buildings constructed mainly by the Guilds and the only place in Brussels where you can look round 360° and not see an ugly building. The reason why it forms an architectural whole is that most of it apart from the town hall<FOOTNOTE INDEX=""2"">dating from the fifteenth century.</FOOTNOTE>was destroyed by the artillery of Louis XIV in 1695<FOOTNOTE INDEX=""3"">It remains a mystery how they managed to not knock the town hall down, given that it would appear to be between their cannon and the rest of the square...</FOOTNOTE>. The burghers of Brussels rebuilt it again in three years.</P></LI>
+
+<LI> 
+<P>Check out the <LINK HREF=""http://www.atomium.be"">Atomium</LINK>, a huge building that's built in the shape of an Iron molecule. You can wander round inside and marvel at the mind that first thought: 'Hey! Let's build a huge model of an iron molecule! That'd be cool!' Astounding...It actually dates from the Universal Exhibition of 1958. There is normally some sort of exhibition going on inside, and it's next to the fabulously tacky Little Europe, a kind of Europe in miniature, with a mini Eiffel Tower, Colosseum etc. Some argue that the Atomium is best seen from the viewing gallery next to the Court of Justice<FOOTNOTE INDEX=""4"">About five miles away.</FOOTNOTE>.</P>
+ </LI>
+
+<LI>
+<P>Indeed the Court of Justice itself is worth a look. It's a massive, imposing structure, built by Léopold II on top<FOOTNOTE INDEX=""5"">Literally on top of the homes of a few thousand people displaced by the structure.</FOOTNOTE> of hill above the traditionally working class area of the Marolles, in order to keep the hoi polloi cowed by the majesty of justice... It was apparently one of Adolf Hitler's favourite buildings, perhaps not surprisingly.</P></LI>
+
+<LI><P>The European area is not really that interesting. You might want to have a quick look round though - the European Parliament is probably the most interesting bit of architecture, best seen from the <I>Place du Luxembourg</I> for the way that the architect has reflected the shape of the old station in the contours of the much bigger Parliament building. If you contact your MEP beforehand, you might be able to go in and follow a debate.</P></LI>
+
+<LI><P>The cemeteries come highly recommended, and contain innumerable famous and infamous persons. You can see pictures of them at <LINK href=""http://www.findagrave.com"">Find-A-Grave</LINK> site, which also has information about graves just about everywhere else in the world.</P></LI>
+
+<LI> 
+<P>The Hotel Metropole was the birthplace of the Art Deco movement - the best rooms are the air-conditioned ones facing the inside courtyard.</P>
+ </LI></UL>
+
+<SUBHEADER>Museums</SUBHEADER>
+
+<P>There are some good museums in Brussels. The national art museum next to the King's palace has a good range of Belgian and other paintings, everything from the Flemish primitives (Breughel, Van Eyck) through Rubens to the surrealists such as Magritte and Delvaux. All nice and compact in the same building as well. It costs about four Euro per person to get in. The left luggage staff are infamously surly. Take them a nice heavy case if you want a laugh.</P>
+
+<P>Another good choice in the same area would be the <LINK H2G2=""A668504"">Musical Instrument Museum</LINK>. Interesting building as well.</P>
+
+<P>The Africa museum in Tervuren and the historical museums are a bit dusty and probably not worth it. The Museum of the Comic Book is certainly worth a look if you have some spare time, and is in a Horta designed building. There are many others, a chocolate museum and several beer museums of course, but lots of other strange stuff as well.</P>
+
+<SUBHEADER>Shops and markets</SUBHEADER>
+
+<P>As well as chocolate and lace shops, Brussels has an excellent concentration of antique, second hand and interior decoration shops. You could do a circuit of the lot in a few hours if you don't go into every shop, and you've a good chance of finding something you won't see in the UK<FOOTNOTE INDEX=""6"">Of course if it's a table you're going to have fun taking it home...</FOOTNOTE>. The best place to start and finish is on the <I>Place du Grand Sablon</I>, which is worth a visit in its own right and is also a good place to have a meal or a drink. The best time to come is in the morning - the markets and many of the shops shut in the afternoons, especially at the weekend.</P>
+
+<P>On the Sablons itself is an antiques market on weekend mornings. This is more for the collector than the bargain hunter, as are most of the shops around the square. If you go downhill off the square you can turn into <I>Rue Haute</I> - along this are a number of interior decoration places, including De Wolf, full of amazingly tacky objects - a plastic mushroom for your table or fake pink fur for your lounge anyone? When you get to <I>Rue des Renards</I> turn right - there's an excellent second hand bookshop on this street<FOOTNOTE INDEX=""7"">mainly in French, obviously.</FOOTNOTE> and at the end of the street is the <I>Place du jeu de balle</I>, with its flea market. Here you can find one plate, or an old typewriter or even maybe one army boot (left foot). Complete the circuit by returning along <I>Rue Bleu</I> and its second hand shops. There are some excellent value purchases to be made if you know what you're looking for.</P>
+
+<P>Clothes shopping is best done in <LINK H2G2=""A158645"">Antwerp</LINK>, but you can find posh clothes on the town end of <I>Avenue Louise</I> and standard Continental high street fair on the <I>Rue Neuve</I> (near the <I>Gare du Nord</I>).</P>
+
+<SUBHEADER>Where and what to eat and drink</SUBHEADER>
+ 
+<P>There is one thing that visitors agree on. Brussels - and Belgium in general - has fantastic beer, a fact that could explain the activities of the city's favourite statue. The variety is mind-bending, from the trappist ales that are still made in monasteries, to the cherry-flavoured <I>Kriek</I>, or the raspberry <I>Framboise</I>.</P>
+ 
+<P>Among some of the best beers in the world are the Belgian <I>Geuze</I> or <I>Lambics</I> which are only made around Brussels. You can visit one of the breweries concerned (it is near the <I>Gare du Midi</I>) but don't expect to get hammered on the cheap - the tour is designed for those interested in how this unique beer is made. The beers are fermented using yeast and microbes which are present in the local air: they're rather an acquired taste, but you never know unless you try. Beware though: Belgian beers can be quite deceptive, and it's not uncommon for visitors to check the label after a few light and easy beers, only to discover that they've been drinking the sort of stuff that's normally reserved for stag nights<FOOTNOTE INDEX=""8"">That's 'bachelor parties' or 'buck's nights', if you're from the US or Australia.</FOOTNOTE>.</P>
+
+<P>In general, a good place to go for a drink is the St Géry area, near the stock exchange. There are some trendy places next to the gnarly old cafés where Matisse used to play chess. You can still play chess at The Greenwich if you want.</P>
+ 
+
+<P> You could eat in the <I>Rue des Bouchers</I>, or if you want to be adventurous, the <I>Petit Rue des Bouchers</I>. Either will be an interesting experience. There are a few  buts though - if you order steak be aware that it may have been the last one home in the 2.15 at Newmarket - the Belgians are unsentimental about horses. The seafood is the local delicacy, and especially <I>Moules Frites</I> (mussels and fries). None of the locals would eat fish or seafood here though - they would go to one of the specialised fish restaurants in <I>Place St Catherine</I>, ten minutes walk away instead. In fact Belgians wouldn't generally eat here at all.</P>
+
+<P>Especially as Brussels has possibly the best choice of restaurants of any city of its size in the world. Québeco-Breton pancake places, 'English style' curry houses, fancy French cuisine, even traditional Belgian chips, beer and a dish bistros. Good options for traditional Belgian food include The Falstaff, The Drug Opera<FOOTNOTE INDEX=""9"">Interesting name, no?</FOOTNOTE> and Cirio - all close to the stock exchange. You can pick one in advance on <LINK HREF=""http://www.resto.be"" TITLE=""restaurant site"">this Belgian restaurant site</LINK> if you like. </P>
+
+<P><LINK HREF=""http://www.timeout.com/brussels"" TITLE=""where to spend your money"">The Time Out site for Brussels</LINK> is good for shopping, eating and drinking.</P>
+
+<SUBHEADER>Getting to Brussels</SUBHEADER>
+
+<P>From the UK, especially London, visit by Eurostar - it's really quick and comfortable, with much more room than on a flight. Heartily recommended. Thalys from France is also the business. In fact flights from Paris to Brussels have more or less bitten the dust. The gullible might like to note that although the Ryanair flights arrive at a place that is identified as 'Brussels South' this is in fact Charleroi, a good hour away from Brussels. Do not take a cab to the <I>Grand' place</I> from this airport unless you have more money than sense.<FOOTNOTE INDEX=""10"">In which case why are you on a budget airline?</FOOTNOTE></P>
+
+<SUBHEADER>Other places in Belgium</SUBHEADER>
+
+<P>All explained <LINK H2G2=""A297128"">here</LINK>, along with traditional Belgian food and lots of other stuff. Belgium is compact and very varied - it's worth exploring.</P>
+ 
+<SUBHEADER>Why are there so many ugly buildings in Brussels?</SUBHEADER>
+
+<P>A complex and sad story. Most of the damage was done in the 1950s through to the 1970s. One of the first causes was the <I>Grande Jonction </I>project, an ambitious piece of civil engineering in the shape of a massive tunnel linking up the three main railway stations in Brussels. <FOOTNOTE INDEX=""11"">A bit like the Crossrail project in London, but fifty years earlier of course.</FOOTNOTE> Whilst this was a pretty good idea in terms of an integrated transport system, it involved a considerable amount of disruption to the urban landscape, and the new buildings it generated were not pretty. </P>
+
+<P>Secondly, Brussels had no real political representation in the Belgian governmental system at that time, and was in turns ignored and fought over by the two existing regions. Unemployment and poverty climbed, the middle classes deserted for the suburbs and unscrupulous promoters were allowed to build what they wanted, where they wanted, unhampered by planning laws or the fact that an historic building might have to be knocked down to accommodate their monstrosity. Possibly the nadir of this policy was the destruction of the <I>Maison du Peuple</I>, the masterpiece of Belgian architect Victor  Horta, despite fierce local opposition. In fact the rest of the Sablons nearly went the same way; only the regain in interest in Brussels architecture saving it in the early eighties. </P>
+
+<P>Thirdly, the siting of many of the EU institutions in Brussels further encouraged those self-same property magnates to demolish residential buildings and turn them into much more profitable office blocks. Hence the massacre of the <I>Quartier Léopold</I>. You can still see the last vestiges of this approach in the crumbling eyesores around the European area - once they have been left until they become dangerous, they can then be knocked down and lo and behold, more office space is created. It's supposed to be impossible for this to happen now, but some of the ruins are still there...</P>
+
+<P>Incidentally, Brussels used to have a river, the Senne which would have gone right through the centre of town. In the nineteenth century it had become intolerably malodorous, so they put it in a pipe and built over it.</P>
+
+<SUBHEADER>Living in Brussels</SUBHEADER>
+
+<P>Brussels has a lot going for it as a place to live. It is more compact and cheaper than Paris or London, but still has an extensive cultural and social life. You can be in the <LINK H2G2=""A1048718"">Ardennes</LINK> in an hour and in Paris, London, Amsterdam or Cologne in a few hours. Bordering the south of the city is an extensive forest, the <I>Forêt de Soignes</I> and there is a beach of sorts about an hour or so away. Public transport is reasonable and will improve with the planned new rapid suburban trains. </P>
+
+<P>For the expat, life is easy - flats are easy to find, you can speak English in the shops, you can play cricket or see Czech films.</P>
+
+<P>None of this should disguise some of the real social problems in Brussels. Near the Gare du Midi there are some desperately poor sink estates, people living in atrocious housing and with very high rates of unemployment. House prices have gone up a lot recently, meaning that people on low salaries are finding it difficult to get on the housing ladder. Commuters coming in from Flanders and Wallonia create bad rush hour traffic, made worse by the creation of a new business area near the airport which is very poorly covered by public transport. Rumours of a London-style congestion charge are in the air.</P>
+
+<SUBHEADER>And finally...</SUBHEADER>
+ 
+<P>A 'well I never' fact about Brussels: Brussels sprouts are so called because they were first cultivated in Brussels in the 18th Century. Use this piece of trivia to dazzle the guests at your next dinner party.</P>
+
+<P>For some information on the history of Brussels, you could look at <LINK HREF=""http://worldfacts.us/Belgium-Brussels.htm"" TITLE=""historical information"">this informative site.</LINK> For more general information, <LINK HREF=""http://www.brussels.org"" TITLE=""general information"">the Brussels.org site</LINK> is a good alternative.</P>
+ 
+<P>Just remember: Brussels is famous for beer, chocolate, chips and lace. Can you think of a better recipe for an enjoyable stay?</P>";
+
         static bool _keyArticlesSetup = false;
 
         [TestCleanup]
@@ -198,6 +304,65 @@ namespace FunctionalTests.Services.Articles
         }
 
         [TestMethod]
+        public void UpdateArticle_WithHTML_AndHideItAndCheckItsHiddenWithAFreshGetAndThenUnhide()
+        {
+            string h2g2id = "1251";
+            string hidden = "1";
+            string style = "GuideML";
+            string subject = "Test SubjectXXX";
+            string guideML = String.Format(@"<GUIDE xmlns="""">
+    <BODY>Sample Article ContentXXX</BODY>
+  </GUIDE>");
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, h2g2id);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserSuperUser();
+
+            //Hide the article
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode(hidden));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, h2g2id);
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            Article getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            //Check it's hidden
+            Assert.IsTrue(getArticle.HiddenStatus == 1, "Article not saved correctly");
+
+            //Unhide it again
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, h2g2id);
+            postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode("0"));
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+
+            //Check it's unhidden
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, h2g2id);
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            //Check it's hidden
+            Assert.IsTrue(getArticle.HiddenStatus == 0, "Article not saved correctly");
+            
+        }
+
+        [TestMethod]
         public void UpdateArticle_WithResearchers_WithHTML()
         {
             string researchers = "276, 1422";
@@ -235,7 +400,7 @@ namespace FunctionalTests.Services.Articles
         {
             string style = "GuideML";
             string subject = "Test Subject";
-            string guideML = HttpUtility.UrlEncode(@"<GUIDE>
+            string guideML = String.Format(@"<GUIDE>
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
             string submittable = "YES";
@@ -262,6 +427,76 @@ namespace FunctionalTests.Services.Articles
 
             // test deserializiation
             Article savedArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+        }
+
+        [TestMethod]
+        public void PreviewArticleWithHTMLReturnJSON()
+        {
+            string style = "GuideML";
+            string subject = "Test Subject";
+            string guideML = String.Format(@"<GUIDE>
+    <BODY>Sample Article Content</BODY>
+  </GUIDE>");
+            string submittable = "YES";
+            string hidden = "0";
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/preview/create.htm/json", _sitename);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode(submittable),
+                 HttpUtility.UrlEncode(hidden));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            // test deserializiation
+            Article savedArticle = (Article)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(Article));
+
+        }
+
+        [TestMethod]
+        public void PreviewArticleWithLargeGuideMLviaHTMLReturnJSON()
+        {
+            string style = "GuideML";
+            string subject = "Test Subject";
+            string guideML = String.Format(@"<GUIDE xmlns="""">
+    <BODY>{0}</BODY>
+  </GUIDE>", _unskinnedPreviewGuideML);
+            string submittable = "YES";
+            string hidden = "0";
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/preview/create.htm/json", _sitename);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode(submittable),
+                 HttpUtility.UrlEncode(hidden));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            // test deserializiation
+            Article savedArticle = (Article)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(Article));
 
         }
 
@@ -1346,6 +1581,7 @@ namespace FunctionalTests.Services.Articles
 
             request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
 
+            /*
             try
             {
                 request.RequestPageWithFullURL(url, makeTimestamp(), "text/xml");
@@ -1356,7 +1592,10 @@ namespace FunctionalTests.Services.Articles
             }
             ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
             Assert.AreEqual(ErrorType.AlreadyLinked.ToString(), errorData.Code);
+            */
 
+            //Will no longer throw error will just carry on
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
             Console.WriteLine("After TryClipArticleTwice");
         }
@@ -1582,6 +1821,53 @@ namespace FunctionalTests.Services.Articles
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
             Console.WriteLine("After ScoutRecommendArticle");
+        }
+
+        /// <summary>
+        /// Test SubmitSubbedArticle method from service
+        /// </summary>
+        [TestMethod]
+        public void SubmitSubbedArticle()
+        {
+            Console.WriteLine("Before SubmitSubbedArticle");
+
+            SnapshotInitialisation.RestoreFromSnapshot();
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserSuperUser();
+            int articleId = 24088034;
+            AlterSubEditorForArticle(request.CurrentUserID, articleId);
+
+            //then scout recommend it
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}/submitsubbed/create.htm", _sitename, articleId);
+
+            string postData = String.Format("comments={0}",
+                 HttpUtility.HtmlEncode("thisisreturningfromasubeditor"));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            // now get the response
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
+
+            Console.WriteLine("After SubmitSubbedArticle");
+        }
+
+        private void AlterSubEditorForArticle(int userId, int h2g2Id)
+        {
+            int entryId = h2g2Id / 10;
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    var sql = String.Format("update acceptedrecommendations set SubEditorID={0} where entryID={1}",userId, entryId );
+                    reader.ExecuteDEBUGONLY(sql);
+                }
+            }
         }
      
         /// <summary>
@@ -1842,7 +2128,80 @@ namespace FunctionalTests.Services.Articles
             Console.WriteLine("After PreviewNewArticleWithMalFormedGuideML_ReturnsError");
         }
 
-        #region SetupFunctions
+        [TestMethod]
+        public void CreateNewArticleWithHTMLUpdateArticleAndHideWithoutSubjectandBody()
+        {
+            string style = "GuideML";
+            string subject = "Test Subject";
+            string guideML = String.Format(@"<GUIDE>
+    <BODY>Sample Article Content</BODY>
+  </GUIDE>");
+            string submittable = "YES";
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm", _sitename);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode(submittable),
+                 HttpUtility.UrlEncode("0"));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+            
+            Article getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, getArticle.H2g2Id);
+
+            //Hide the article
+            postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(""),
+                 HttpUtility.UrlEncode(""),
+                 HttpUtility.UrlEncode("1"));
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, getArticle.H2g2Id);
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            //Check it's hidden
+            Assert.IsTrue(getArticle.HiddenStatus == 1, "Article not saved correctly");
+
+            //Unhide it again
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, getArticle.H2g2Id);
+            postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(""),
+                 HttpUtility.UrlEncode(""),
+                 HttpUtility.UrlEncode("0"));
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+
+            //Check it's unhidden
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, getArticle.H2g2Id);
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            //Check it's hidden
+            Assert.IsTrue(getArticle.HiddenStatus == 0, "Article not unhidden correctly");
+            Assert.IsTrue(getArticle.Subject == subject, "Article Subject not saved correctly");
+
+        }
+
+
+#region SetupFunctions
 
         private static void SetupKeyNamedArticles()
         {
@@ -1931,7 +2290,6 @@ namespace FunctionalTests.Services.Articles
             String timeStamp = dt.ToString("ddddyyyyMMMMddHHmmssfffffff");
             return timeStamp;
         }
-        #endregion
 
         /// <summary>
         /// 
@@ -1988,6 +2346,6 @@ namespace FunctionalTests.Services.Articles
             myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site&siteid=1", "", "text/xml");
 
         }
-
+#endregion
     }
 }

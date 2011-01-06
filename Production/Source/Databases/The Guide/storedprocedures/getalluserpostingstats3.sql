@@ -32,6 +32,7 @@ As
 				'LastReply' = tpth.LastPosting, 
 				tpth.Replies, 
 				'YourLastPost' = tpth.LastUserPostID,
+				'YourLastPostIndex' = te2.PostIndex,
 				fo.SiteID, 
 				tpth.Private,
 				tpth.CountPosts, 
@@ -87,4 +88,5 @@ As
 		INNER JOIN SignInUserIDMapping siuidm2 WITH(NOLOCK) ON u2.UserID = siuidm2.DnaUserID
 		--INNER JOIN dbo.Journals J1 WITH(NOLOCK) on J1.UserID = U.UserID and J1.SiteID = fo.SiteID
 		INNER JOIN dbo.Journals J2 WITH(NOLOCK) on J2.UserID = U2.UserID and J2.SiteID = fo.SiteID
+		LEFT JOIN dbo.ThreadEntries te2 WITH(NOLOCK) ON te2.EntryID = tpth.LastUserPostID
 		ORDER BY LastReply DESC

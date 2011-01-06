@@ -2,6 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
 	<xs:include schemaLocation="../Dna.Services.Common/date.xsd"/>
+	<xs:include schemaLocation="../Dna.Services.Forums/reviewForum.xsd"/>
 	<xs:element name="articleInfo">
 		<xs:complexType>
 			<xs:sequence>
@@ -170,7 +171,7 @@
 													<xs:element name="name" type="xs:string" />
 													<xs:element name="status" type="xs:string" />
 													<xs:element name="strippedName" type="xs:string" />
-                          <xs:element name="type" type="xs:string" />
+													<xs:element name="type" type="xs:string" />
 												</xs:sequence>
 											</xs:complexType>
 										</xs:element>
@@ -185,7 +186,23 @@
 				<xs:element name="submittable" minOccurs="0" nillable="true" >
 				  <xs:complexType>
 					<xs:sequence>
-					  <xs:element name="type" type="xs:string"  nillable="true"/>
+						<xs:element name="forum" nillable="true" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:unsignedShort" use="optional" />
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="post" nillable="true" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="ID" type="xs:unsignedInt" use="optional" />
+							</xs:complexType>
+						</xs:element>
+						<xs:element ref="reviewForum" minOccurs="0"/>
+						<xs:element name="thread" nillable="true" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="ID" type="xs:unsignedInt" use="optional" />
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="type" type="xs:string" nillable="true"/>
 					 </xs:sequence>
 				  </xs:complexType>
 				</xs:element>

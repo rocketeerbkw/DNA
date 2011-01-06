@@ -9,13 +9,13 @@
 	<xsl:template name="objects_links_timeframe">
 		<ul class="dna-dashboard-links blq-clearfix">
 			<li>	
-				<span class="blq-hide"> In the last </span>			
+				<span class="blq-hide"> Since </span>			
 				<xsl:choose>
 					<xsl:when test="$dashboarddays = 1">
-						 <span class="blq-hide"> In the last </span><xsl:text>24 hours</xsl:text>
+						 <span class="blq-hide"> Since </span><xsl:text>Yesterday</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<a href="{$root}/hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}&amp;s_days=1">24 hours</a>
+						<a href="hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}&amp;s_days=1">Yesterday</a>
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
@@ -28,7 +28,7 @@
 						<xsl:text>7 days</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<a href="{$root}/hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}&amp;s_days=7">7 days</a>
+						<a href="hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}&amp;s_days=7">7 days</a>
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
@@ -40,7 +40,7 @@
 						<xsl:text>30 days</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<a href="{$root}/hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}&amp;s_days=30">30 days</a>
+						<a href="hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}&amp;s_days=30">30 days</a>
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
