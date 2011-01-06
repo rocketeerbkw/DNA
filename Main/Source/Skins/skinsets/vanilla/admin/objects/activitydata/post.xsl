@@ -10,7 +10,7 @@
           </a> 
         </xsl:when>
         <xsl:otherwise>
-          <a href="/dna/{/H2G2/SITE-LIST/SITE[@ID = $modsiteid]/NAME}/NF{@FORUMID}?thread={@THREADID}&amp;postid={@POSTID}#p{@POSTID}" target="_blank">
+          <a href="/dna/{/H2G2/SITE-LIST/SITE[@ID = $modsiteid]/NAME}/NF{@FORUMID}?thread={@THREADID}&amp;post={@POSTID}#p{@POSTID}" target="_blank">
             <xsl:value-of select="text()"/>
           </a>
         </xsl:otherwise>
