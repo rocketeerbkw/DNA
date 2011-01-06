@@ -67,8 +67,7 @@ insert into dbo.ThreadModHistory
 	where modid=@modid
 	
 declare @modhistoryid int
-select @modhistoryid = max(HistoryModID)from dbo.ThreadModHistory where modid=@modid
-
+SET @modhistoryid = SCOPE_IDENTITY()
 
 IF ( @@ERROR <> 0 OR @processed = 0 )
 BEGIN
