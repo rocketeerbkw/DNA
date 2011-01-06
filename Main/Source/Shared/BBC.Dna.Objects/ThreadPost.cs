@@ -306,6 +306,9 @@ namespace BBC.Dna.Objects
 
             if (applySkin)
             {
+                //For h2g2 we want the A numbers and U numbers converted
+                inputText = LinkTranslator.TranslateH2G2Text(inputText);
+
                 string apiGuideSkin = ConfigurationSettings.AppSettings["guideMLXSLTSkinPath"];
                 string startH2G2Post = "<H2G2POST>";
                 string endH2G2Post = "</H2G2POST>";

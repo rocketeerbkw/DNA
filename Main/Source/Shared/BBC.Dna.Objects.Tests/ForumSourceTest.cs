@@ -218,6 +218,7 @@ namespace BBC.Dna.Objects.Tests
             CreateForumSource_SetupDefaultMocks(out mocks, out cache, out readerCreator, out viewingUser, out site);
             
             ForumSource cachedForumSource = CreateTestForumSource();
+            cachedForumSource.ArticleH2G2Id = 1;
 
             // create a mocked article to be returned by mock cache so we can bypass the DB call
             cache.Stub(x => x.GetData(cachedForumSource.Article.GetCacheKey(cachedForumSource.Article.EntryId, false))).Return(cachedForumSource.Article);
@@ -243,6 +244,53 @@ namespace BBC.Dna.Objects.Tests
             // check the cache was accessed and the same instance returned
             cache.AssertWasCalled(c => c.GetData(_forumSourceCacheKey), options => options.Repeat.AtLeastOnce());
             cache.AssertWasCalled(c => c.GetData(cachedForumSource.Article.GetCacheKey(cachedForumSource.Article.EntryId, false)), options => options.Repeat.AtLeastOnce());
+            Assert.AreSame(cachedForumSource, actual);
+        }
+
+        /// <summary>
+        /// Tests if CreateForumSource atually uses the cache when DoNotIgnoreCache = true
+        /// </summary>
+        [TestMethod()]
+        public void CreateForumSourceWithArticle_WithDoNotIgnoreCache_CacheIsNotIgnoredAndArticleNotChecked()
+        {
+            DateTime lastUpdated = DateTime.Now;
+
+            // PREPARE THE TEST
+            // setup the default mocks
+            MockRepository mocks;
+            ICacheManager cache;
+            IDnaDataReaderCreator readerCreator;
+            User viewingUser;
+            ISite site;
+            CreateForumSource_SetupDefaultMocks(out mocks, out cache, out readerCreator, out viewingUser, out site);
+
+            ForumSource cachedForumSource = CreateTestForumSource();
+            cachedForumSource.ArticleH2G2Id = 0;
+
+            // create a mocked article to be returned by mock cache so we can bypass the DB call
+            cache.Stub(x => x.GetData(cachedForumSource.Article.GetCacheKey(cachedForumSource.Article.EntryId, false))).Return(cachedForumSource.Article);
+
+            // simulate the category being in cache
+            cache.Stub(x => x.GetData(_forumSourceCacheKey)).Return(cachedForumSource);
+
+
+            // simulate cachegettimeofmostrecentguideentry being called and returning an up to date value
+            IDnaDataReader cacheGetForumSourceReader = mocks.DynamicMock<IDnaDataReader>();
+            cacheGetForumSourceReader.Stub(x => x.HasRows).Return(true);
+            cacheGetForumSourceReader.Stub(x => x.Read()).Return(true);
+            cacheGetForumSourceReader.Stub(x => x.GetInt32NullAsZero("seconds")).Return(5000);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("")).Return(cacheGetForumSourceReader).Constraints(Is.Anything());
+
+            // EXECUTE THE TEST             
+            mocks.ReplayAll();
+            ForumSource actual = ForumSource.CreateForumSource(cache, readerCreator, null, 1, 1, 1, true, false, false);
+
+            // VERIFY THE RESULTS
+            // we were testing the 'ignoreCache' parameter from the Forum and the Article was NOT ignored
+            // check the cache was accessed and the same instance returned
+            cache.AssertWasCalled(c => c.GetData(_forumSourceCacheKey), options => options.Repeat.AtLeastOnce());
+            cache.AssertWasNotCalled(c => c.GetData(cachedForumSource.Article.GetCacheKey(cachedForumSource.Article.EntryId, false)), options => options.Repeat.AtLeastOnce());
             Assert.AreSame(cachedForumSource, actual);
         }
 
