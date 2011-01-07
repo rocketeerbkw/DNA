@@ -209,6 +209,14 @@ namespace BBC.Dna.Services
 
                 article.ApplySkinOnGuideML = applySkin;
 
+                string matchingProfanity = String.Empty;
+                ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, article.Subject + " " + article.GuideMLAsString, out matchingProfanity);
+                if (state == ProfanityFilter.FilterState.FailBlock)
+                {
+                    article.ProfanityTriggered = 1;
+                    article.XmlError = "This message/Entry has been blocked as it contains a word which other users may find offensive. Please edit your message/Entry and post again.";
+                }
+
                 return article;
             }
             catch (ApiException ex)
