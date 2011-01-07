@@ -13,13 +13,19 @@ namespace BBC.Dna.Utils
     /// </summary>
     public class LinkTranslator
     { 
-        static Regex regForumEx = new Regex(@"(\A|(?<=\s))F[1-9]\d+(\Z|(?=\s))");
-        static Regex regArticleEx = new Regex(@"(\A|(?<=\s))A[0-9]+(\Z|(?=\s))");
-        static Regex regCategoryEx = new Regex(@"(\A|(?<=\s))C[0-9]+");
         static Regex regLinkEx = new Regex(@"(\A|(?<=))(?<!')((http|https):[A-Za-z0-9/](([A-Za-z0-9$_.+!*(),;/?:@&~=-])|%[A-Fa-f0-9]{2})+(#([a-zA-Z0-9$_.+!*(),;/?:@&~=%-]*))?)[^.?\s<]");
         //static Regex regInternalLinkEx = new Regex(@"(\A|(?<=\s))&lt;[.]/&gt;\w+&lt;/[.]&gt;(\Z|(?=\s))"); // Match <./>A-Z</.>
         //static Regex regGroupEx = new Regex(@"(?<=\s)G[1-9]\d*(?=\s)");
-        static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(\Z|(?=\s))");
+
+//        static Regex regForumEx = new Regex(@"(\A|(?<=\s))F[1-9]\d+(\Z|(?=\s))");
+//        static Regex regArticleEx = new Regex(@"(\A|(?<=\s))A[0-9]+(\Z|(?=\s))");
+//        static Regex regCategoryEx = new Regex(@"(\A|(?<=\s))C[0-9]+");
+//       static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(\Z|(?=\s))");
+
+        static Regex regForumEx = new Regex(@"(\A|(?<=\s))F[1-9]\d+(?!\d)");
+        static Regex regArticleEx = new Regex(@"(\A|(?<=\s))A[0-9]+(?!\d)");
+        static Regex regCategoryEx = new Regex(@"(\A|(?<=\s))C[0-9]+(?!\d)");
+        static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(?!\d)");
 
         /// <summary>
         /// Check the input string for matches.
@@ -241,6 +247,92 @@ namespace BBC.Dna.Utils
                 raw = ReplaceExLinks(raw, replace);
             }
             return raw;
+        }
+        /// <summary>
+        /// Changes the H2G2 specific links
+        /// </summary>
+        /// <param name="raw">The string to check if it is a valid email address</param>
+        /// <returns>True if it is a valid email address</returns>
+        public static string TranslateH2G2Text(string raw)
+        {
+
+            String result = raw;
+
+            if (regUserEx.IsMatch(result))
+            {
+                String replace = "<LINK BIO=\"***\">***</LINK>";
+                MatchCollection matches = regUserEx.Matches(result);
+                Stack stack = new Stack();
+                foreach (Match match in matches)
+                {
+                    stack.Push(match);
+                }
+
+                foreach (Match match in stack)
+                {
+                    String s = match.Value;
+                    result = result.Remove(match.Index, match.Length);
+                    result = result.Insert(match.Index, replace.Replace("***", s));
+                }
+            }
+
+            if (regArticleEx.IsMatch(result))
+            {
+                String replace = "<LINK H2G2=\"***\">***</LINK>";
+                MatchCollection matches = regArticleEx.Matches(result);
+
+                // Reverse the order - expand links from back to front so that index is unaltered.
+                Stack stack = new Stack();
+                foreach (Match match in matches)
+                {
+                    stack.Push(match);
+                }
+
+                foreach (Match match in stack)
+                {
+                    String s = match.Value;
+                    result = result.Remove(match.Index, match.Length);
+                    result = result.Insert(match.Index, replace.Replace("***", s));
+
+                }
+            }
+
+            if (regForumEx.IsMatch(result))
+            {
+                String replace = "<LINK FORUM=\"***\">***</LINK>";
+                MatchCollection matches = regForumEx.Matches(result);
+                Stack stack = new Stack();
+                foreach (Match match in matches)
+                {
+                    stack.Push(match);
+                }
+
+                foreach (Match match in stack)
+                {
+                    String s = match.Value;
+                    result = result.Remove(match.Index, match.Length);
+                    result = result.Insert(match.Index, replace.Replace("***", s));
+                }
+            }
+
+            if (regCategoryEx.IsMatch(result))
+            {
+                String replace = "<LINK CAT=\"***\">***</LINK>";
+                MatchCollection matches = regCategoryEx.Matches(result);
+                Stack stack = new Stack();
+                foreach (Match match in matches)
+                {
+                    stack.Push(match);
+                }
+
+                foreach (Match match in stack)
+                {
+                    String s = match.Value;
+                    result = result.Remove(match.Index, match.Length);
+                    result = result.Insert(match.Index, replace.Replace("***", s));
+                }
+            }
+            return result;
         }
     }
 }
