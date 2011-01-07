@@ -79,6 +79,8 @@ REGEDIT4
 "/ModerateImages"="/ripleyserver.dll?ModerateImages?"
 "/ModerateArticle"="/ripleyserver.dll?ModerateArticle?"
 "/Moderate"="/ripleyserver.dll?ModerateHome?"
+--"/Moderate"="/ripleyserver.dll?ModerateHome?newstyle=1&"
+--"/ModerateOld"="/ripleyserver.dll?ModerateHome?"
 "/NModerate"="/dna/dnapages/ModerateHomePage.aspx?"
 "/ModeratePosts"="/dna/dnapages/ModeratePostsPage.aspx?"
 "/UserComplaint"="/ripleyserver.dll?UserComplaint?"
@@ -345,6 +347,7 @@ REGEDIT4
 "/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"
 "/usercontributions" = "/dna/dnapages/usercontributions.aspx?"
 
-"/"="/dna/dnapages/frontpageredirector.aspx?"
+"/"="/ripleyserver.dll?frontpage?"
+-- "/"="/dna/dnapages/frontpageredirector.aspx?"
 "/home"="/ripleyserver.dll?frontpage?"
 "/mbfrontpage"="/dna/dnapages/mbfrontpage.aspx?"
