@@ -104,7 +104,7 @@ namespace BBC.Dna
                 try
                 {
                     post.PostToForum(_cache, AppContext.ReaderCreator, InputContext.CurrentSite, _viewingUser, InputContext.TheSiteList,
-                        InputContext.IpAddress, InputContext.BBCUid,_forumId);
+                        InputContext.IpAddress, InputContext.BBCUid, _forumId);
                 }
                 catch (ApiException e)
                 {

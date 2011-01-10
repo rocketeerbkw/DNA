@@ -220,10 +220,7 @@ namespace BBC.Dna.Objects
                 }
             }
             Subject = ThreadPost.FormatSubject(subject, CommentStatus.Hidden.NotHidden);
-            if (Body.IndexOf("<quote") >= 0)
-            {//dont nest quotes
-                Body = quoteStr + body;
-            }
+            Body = quoteStr + body;
 
         }
     }
