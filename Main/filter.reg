@@ -347,7 +347,7 @@ REGEDIT4
 "/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"
 "/usercontributions" = "/dna/dnapages/usercontributions.aspx?"
 
-"/"="/ripleyserver.dll?frontpage?"
--- "/"="/dna/dnapages/frontpageredirector.aspx?"
+--"/"="/ripleyserver.dll?frontpage?"
+"/"="/dna/dnapages/frontpageredirector.aspx?"
 "/home"="/ripleyserver.dll?frontpage?"
 "/mbfrontpage"="/dna/dnapages/mbfrontpage.aspx?"
