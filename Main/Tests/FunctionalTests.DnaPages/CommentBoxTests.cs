@@ -712,7 +712,7 @@ return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.SetCurrentUserNormal();
-
+            request.AllowAutoRedirect = true;
             // Setup the request url
             string uid = Guid.NewGuid().ToString();
             string title = "TestingCommentBox";
@@ -746,7 +746,7 @@ return.";
         {
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.SetCurrentUserNormal();
-
+            request.AllowAutoRedirect = true;
             // Setup the request url
             string hosturl = "http://" + _server + "/dna/haveyoursay/acs";
 

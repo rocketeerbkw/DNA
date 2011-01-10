@@ -106,6 +106,7 @@ namespace Tests
         private HttpWebResponse _response = null;
         private string _responseAsString = null;
         private XmlDocument _responseAsXML = null;
+        private bool _allowAutoRedirect = false;
 
         private bool _assertWebFailure = true;
         private bool _lastRequestWasASPX = false;
@@ -305,6 +306,12 @@ namespace Tests
         {
             get;
             set;
+        }
+
+        public bool AllowAutoRedirect
+        {
+            get { return _allowAutoRedirect; }
+            set { _allowAutoRedirect = value; }
         }
 
         /// <summary>
@@ -777,7 +784,7 @@ namespace Tests
             }
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
-            webRequest.AllowAutoRedirect = false;
+            webRequest.AllowAutoRedirect = _allowAutoRedirect;
 
             Console.WriteLine("Requesting " + URL.ToString());
 
@@ -966,7 +973,7 @@ namespace Tests
             Uri URL = new Uri(fullUrl);
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
-            webRequest.AllowAutoRedirect = false;
+            webRequest.AllowAutoRedirect = _allowAutoRedirect;
 
             //Trust all certificates
             ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
