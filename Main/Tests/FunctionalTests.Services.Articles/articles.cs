@@ -358,7 +358,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
         public void CreateNewArticleWithHTML()
         {
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = HttpUtility.UrlEncode(@"<GUIDE>
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
@@ -391,7 +391,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
         public void CreateNewArticleWithLargeGuideMLviaHTML()
         {
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE>
     <BODY>{0}</BODY>
   </GUIDE>", _unskinnedGuideML);
@@ -427,7 +427,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
         {
             string h2g2id = "586";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
@@ -460,7 +460,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             string submittable = "NO";
             string researchers = "276, 1422";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE>
     <BODY>{0}</BODY>
   </GUIDE>", _unskinnedUpdateGuideML);
@@ -592,7 +592,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             string researchers = "276, 1422";
             string h2g2id = "586";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
@@ -803,7 +803,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             request.SetCurrentUserNormal();
 
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -860,7 +860,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             RemoveNotAllowURLsonH2G2SiteOption();
 
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE xmlns="""">
     <BODY>{0}</BODY>
   </GUIDE>", _unskinnedGuideML);
@@ -916,7 +916,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             request.SetCurrentUserNormal();
 
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -964,7 +964,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
 
             string h2g2id = "649";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -1010,7 +1010,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             string research2Id = "1422";
             string h2g2id = "649";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -1063,8 +1063,8 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             request.SetCurrentUserSuperUser();
 
             string h2g2id = "-1";
-               string style = "GuideML";
-            string subject = "Test Subject";
+            string style = "GuideML";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -2356,7 +2356,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
         public void CreateNewArticleWithHTMLUpdateArticleAndHideWithoutSubjectandBody()
         {
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE>
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
@@ -2428,7 +2428,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
         public void CreateNewArticleWithHTMLUpdateArticleAndSetSubmittableToNO()
         {
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE>
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
