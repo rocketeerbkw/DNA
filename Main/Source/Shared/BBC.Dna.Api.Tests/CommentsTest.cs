@@ -1789,6 +1789,81 @@ namespace BBC.Dna.Api.Tests
         }
 
         [TestMethod]
+        public void CreateCommentRating_AsAnonymousWithoutIP_ThrowsError()
+        {
+            var value = 1;
+            var postId = 1;
+            var userid = 0;
+            var commentForum = new CommentForum() { ForumID = 1 };
+            ISite site = null;
+
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                //IpAddress = "1.1.1.1",
+                BbcUid = Guid.NewGuid()
+            };
+
+            try
+            {
+                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.MissingUserAttributes, ex.type);
+            }
+
+            reader.AssertWasNotCalled(x => x.Execute());
+        }
+
+        [TestMethod]
+        public void CreateCommentRating_AsAnonymousWithoutUID_ThrowsError()
+        {
+            var value = 1;
+            var postId = 1;
+            var userid = 0;
+            var commentForum = new CommentForum() { ForumID = 1 };
+            ISite site = null;
+
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                IpAddress = "1.1.1.1",
+                //BbcUid = Guid.NewGuid()
+            };
+
+            try
+            {
+                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.MissingUserAttributes, ex.type);
+            }
+
+            reader.AssertWasNotCalled(x => x.Execute());
+        }
+
+
+        [TestMethod]
         public void CreateCommentRating_AsUser_ReturnsValue()
         {
             var value = 1;

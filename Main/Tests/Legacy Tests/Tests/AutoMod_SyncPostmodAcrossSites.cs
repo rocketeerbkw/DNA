@@ -52,7 +52,7 @@ namespace Tests
 
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID <> 1;");
+                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID IN (54, 72);");
 
                 Assert.IsTrue(reader.HasRows, "Query failed.");
                 while (reader.Read())
@@ -92,7 +92,7 @@ namespace Tests
 
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID <> 1;");
+                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID IN (54, 72);");
 
                 Assert.IsTrue(reader.HasRows, "Query failed.");
                 while (reader.Read())
@@ -132,7 +132,7 @@ namespace Tests
 
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID <> 1;");
+                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID IN (54, 72);");
 
                 Assert.IsTrue(reader.HasRows, "Query failed.");
                 while (reader.Read())
@@ -172,7 +172,7 @@ namespace Tests
 
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID <> 1;");
+                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID IN (54, 72);");
 
                 Assert.IsTrue(reader.HasRows, "Query failed.");
                 while (reader.Read())
@@ -216,7 +216,7 @@ namespace Tests
 
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID <> 1;");
+                reader.ExecuteDEBUGONLY("SELECT SiteID, ModStatus FROM dbo.Preferences WHERE UserID = 1090501859 AND SiteID IN (54, 72);");
 
                 Assert.IsTrue(reader.HasRows, "Query failed.");
                 while (reader.Read())
