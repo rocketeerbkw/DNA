@@ -11,6 +11,8 @@ using NMock2;
 using BBC.Dna.Sites;
 using System.Xml;
 using TestUtils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+
 
 namespace Tests
 {
@@ -79,10 +81,15 @@ namespace Tests
             using (new TransactionScope())
             {
                 IInputContext context = DnaMockery.CreateDatabaseInputContext();
+
+                ICacheManager groupsCache = new StaticCacheManager();
+                var g = new BBC.Dna.Users.UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache, null, null);
+
+                
                 int postId = 61;
                 int userId = 0;
                 int modId = 0;
-                string email = "testuser@bbc.co.uk";
+                string email = "testuser@notbbc.co.uk";
                 string complaintText = "This is testing that the complainant details are correctly displayed";
                 string IpAddress = "192.168.238.1";
                 Guid BBCUid = new Guid();
