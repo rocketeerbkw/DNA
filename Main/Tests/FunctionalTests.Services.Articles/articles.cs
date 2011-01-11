@@ -2358,7 +2358,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             string style = "GuideML";
             string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE>
-    <BODY>Sample Article Content</BODY>
+    <BODY>Sample Article Content2</BODY>
   </GUIDE>");
             string submittable = "YES";
 
@@ -2392,7 +2392,15 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
                  HttpUtility.UrlEncode(""),
                  HttpUtility.UrlEncode("1"));
 
-            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+            try
+            {
+                request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+            }
+            catch (WebException ex)
+            {
+                ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+                Assert.AreEqual(ErrorType.EmptyText.ToString(), errorData.Code, errorData.Code + " - " + ex.Message);
+            }
 
             url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, getArticle.H2g2Id);
             request.RequestPageWithFullURL(url, null, "text/xml");
