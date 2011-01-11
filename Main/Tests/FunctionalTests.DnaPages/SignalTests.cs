@@ -81,7 +81,7 @@ namespace FunctionalTests
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/SITECLOSED").InnerXml, "0");
 
             // Now check to make sure that the XML for the sitelist has not changed
-            request.RequestPage("?skin=purexml");
+            request.RequestPage("frontpage?skin=purexml");
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "0");
 
@@ -94,7 +94,7 @@ namespace FunctionalTests
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/SITECLOSED").InnerXml, "0");
 
             // Now check to make sure that the XML for the sitelist has not changed
-            request.RequestPage("?skin=purexml");
+            request.RequestPage("frontpage?skin=purexml");
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "0");
 
@@ -109,7 +109,7 @@ namespace FunctionalTests
                 Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/SITECLOSED").InnerXml, "1");
 
                 // Now check to make sure that the XML for the sitelist has not changed
-                request.RequestPage("?skin=purexml");
+                request.RequestPage("frontpage?skin=purexml");
                 Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
                 Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "1");
 
@@ -126,7 +126,7 @@ namespace FunctionalTests
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE/SITECLOSED").InnerXml, "0");
 
             // Now check to make sure that the closed value has been put back correctly
-            request.RequestPage("?skin=purexml");
+            request.RequestPage("frontpage?skin=purexml");
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "0");
         }
@@ -146,7 +146,7 @@ namespace FunctionalTests
             //request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
 
             // Get the current open and close times for the h2g2 site
-            request.RequestPage("?skin=purexml");
+            request.RequestPage("frontpage?skin=purexml");
             Assert.IsTrue(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED") != null);
             Assert.AreEqual(request.GetLastResponseAsXML().SelectSingleNode("/H2G2/SITE-CLOSED").InnerXml, "0");
 
