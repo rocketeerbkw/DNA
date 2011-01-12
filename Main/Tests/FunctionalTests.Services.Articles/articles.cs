@@ -2386,10 +2386,11 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, getArticle.H2g2Id);
 
             //Hide the article
-            postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+            postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
                  HttpUtility.UrlEncode(style),
                  HttpUtility.UrlEncode(""),
                  HttpUtility.UrlEncode(""),
+                 HttpUtility.UrlEncode(submittable),
                  HttpUtility.UrlEncode("1"));
 
             try
@@ -2399,7 +2400,14 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             catch (WebException ex)
             {
                 ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
-                Assert.AreEqual(ErrorType.EmptyText.ToString(), errorData.Code, errorData.Code + " - " + ex.Message);
+                if (ex.InnerException != null)
+                {
+                    Assert.AreEqual(ErrorType.EmptyText.ToString(), errorData.Code, errorData.Code + " - " + ex.Message + " - " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Assert.AreEqual(ErrorType.EmptyText.ToString(), errorData.Code, errorData.Code + " - " + ex.Message + " - no inner");
+                }
             }
 
             url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, getArticle.H2g2Id);
