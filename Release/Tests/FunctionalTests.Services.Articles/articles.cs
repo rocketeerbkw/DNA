@@ -149,6 +149,192 @@ namespace FunctionalTests.Services.Articles
  
 <P>Just remember: Brussels is famous for beer, chocolate, chips and lace. Can you think of a better recipe for an enjoyable stay?</P>";
 
+
+
+        private string _unskinnedUpdateGuideML = @"<GUIDE>
+<BODY>
+
+<P>New Hampshire is a very mountainous state in the East of the <LINK H2G2=""A3970398"">United States of America</LINK>. It is the 5th smallest state in area, but ranks 6th in life expectancy<FOOTNOTE INDEX=""1"">According to the Harvard University Initiative for Global Health and the Harvard School of Public Health.</FOOTNOTE> among American states, with its 1,315,809 inhabitants living an average of 78.3 years.</P>
+
+<P>The state of New Hampshire can be found on any map of the United States. It is bordered to the west and northwest by Vermont, and to the south by Massachusetts, while Maine and the Atlantic Ocean comprise the eastern boundary. Vermont also shares a short northern border with <LINK H2G2=""A195077"">Quebec, Canada</LINK>.</P>
+
+<P>New Hampshire was one of the original colonies in New England<FOOTNOTE INDEX=""2"">Traditionally, New England includes the states of Connecticut, Massachusetts, Rhode Island, Vermont, New Hampshire, and Maine, although between the years 1686 and 1689, King James II had in place a <I>Dominion of New England</I> which also included New York and New Jersey.</FOOTNOTE>. Unlike its neighbouring states which were mostly started by those dealing with religious discrimination, New Hampshire was settled by a small group who had been given a land grant in 1623 to establish a fishing colony. Captain John Mason sent David Thomson, Edward Hilton, Thomas Hilton, and several others, to begin fishing operations in the service of the Crown.</P>
+
+<P>In modern times, tourism has overtaken the mining of granite, fishing, lumber production, manufacturing and construction as the state's top money maker, bringing in about $8.6 billion a year.</P>
+
+<HEADER>Statistics</HEADER>
+
+<P>Known as the <I>Granite State</I>, its motto is <I> 'Live free or die.'</I></P>
+ 
+<UL> 
+<LI>Area - 9,283 sq mi (24,043 sq km)</LI>
+<LI>Highest point - Mt Washington 6,288 Feet (1,917 m) </LI>
+<LI>State bird - Purple finch</LI> 
+<LI>State flower - Purple lilac</LI>
+<LI>State wild flower - The pink lady's slipper, <I>Cypripedium acaule</I></LI>
+<LI>State tree - White birch</LI>
+<LI>State dog - The chinook</LI> 
+<LI>State song - 'Old New Hampshire'</LI>
+<LI>State Capital - Concord</LI>
+<LI>Largest City - Manchester</LI>
+</UL>
+
+<HEADER>New Hampshire History</HEADER>
+
+<P>New Hampshire was first explored between 1600 and 1605. It was officially settled in 1623. The first settlement was made at the mouth of the Piscataqua River and was called Little Harbor. A few years later, the second settlement, Dover, was established. Over the next few years, expeditions were sent and other villages established. Each town, however, was independent of the others and this provided no stable government. New Hampshire remained a territory of Massachusetts until 1679, when the King chose to separate them. They were rejoined in 1686 and again separated in 1691. This final separation resulted in a stable government with the president and council appointed by the Crown and the assembly elected by the people. The English settlers were joined in 1719 by a colony of Scottish-Irish immigrants who founded the town of Londonderry.</P>
+
+<P>New Hampshire officially became a state on 21 June, 1788, and was the 9th state admitted to the Union. It was one of the original 13 colonies and participated in the revolt against the British in the American Revolution. Even though it was the first state to actually declare independence, the only battle fought there was a raid on the harbour at Portsmouth on 14 December, 1774. About 400 locals overwhelmed the six British soldiers guarding the fort, took down the British flag, and stole the fort's munitions. Had they been named, they could have been hung for treason. This raid is now recognised as the first battle of the War of Independence.</P>
+
+<HEADER>Climate</HEADER>
+
+<P>Weather in New Hampshire is changeable. There are wide variations in both the seasonal and daily temperatures. These variations are affected by proximity to the mountains, ocean, and other waterways in the state. In New Hampshire the summers are short and cool; the winters are long and cold. These are punctuated with brief periods of spring and fall. It can also vary considerably by location. Some of the coldest temperatures and strongest winds in the continental United States have been recorded at Mount Washington, the highest point in the state.</P>
+
+<P>Temperatures in Manchester are as follows:</P>
+
+<P>
+<TABLE BORDER=""1"" ALIGN=""CENTER"">
+<TR>
+  <TH>Month</TH>
+  <TH>Normal High</TH>
+  <TH>Normal Low </TH>
+</TR>
+<TR>
+  <TD>January</TD>
+  <TD>32°F (0° C)</TD>
+  <TD>5.2°F (-15°C)</TD>
+</TR>
+<TR>
+  <TD>April</TD>
+  <TD>56°F (13°C)</TD>
+  <TD>18.4°F (-7.5°C)</TD>
+</TR>
+<TR>
+  <TD>July</TD>
+  <TD>82°F (28°C)</TD>
+  <TD>54°F (12°C)</TD>
+</TR>
+<TR>
+  <TD>October</TD>
+  <TD>61°F (16°C)</TD>
+  <TD>32°F (0°C)</TD>
+</TR>
+</TABLE>
+</P>
+
+<P>Temperatures are considerably colder at higher altitudes. </P>
+
+<HEADER>New Hampshire Unique Features</HEADER>
+
+<P>New Hampshire has the shortest coastline of all the US coastal states, with only 18 miles of shoreline.</P>
+
+<P>The state's most famous icon was a rock formation in the shape of a facial profile, known as the 'old man of the mountain'. This profile is now history — it <LINK href=""http://www.usatoday.com/news/nation/2003-05-03-old-man-mt_x.htm"" TITLE=""NH Icon Falls"">fell victim</LINK> to the ravages of time in 2003.</P>
+
+<P>New Hampshire is also home to Mount Washington, the location that claims the dubious title of 'worst weather on Earth'. The upper regions of Mt Washington suffer from hurricane-force winds about every three days and there have been over 100 reported deaths of visitors. A weather observatory now resides on the peak to record and observe the harsh conditions.</P>
+
+<P>You will also find a part of the Appalachian National Scenic Trail and the Saint-Gaudens National Historic Site as features of this state.</P>
+
+<HEADER>New Hampshire Trivia</HEADER>
+
+<SUBHEADER>New Hampshire In Fiction</SUBHEADER>
+
+<P>New Hampshire has been a setting for numerous movies including:
+
+<UL>
+<LI><I>The Devil and Daniel Webster</I> (1941)</LI>
+<LI><I>On Golden Pond</I> (1981)</LI>
+<LI><i>What Goes Up</i> (2009)</LI>
+</UL>
+
+The American TV drama series <i>Peyton Place</i> was also set in New Hampshire, as were the novels <I>Pollyanna</I>
+<FOOTNOTE INDEX=""3"">Whose perpetual sunny disposition gave her mention in <LINK h2g2=""A613054""><I>Concepts From Fiction</I></LINK>.</FOOTNOTE> by Eleanor H Porter and <I>The Shining</I> by <LINK H2g2=""A577154"">Stephen King</LINK>.</P>
+
+<SUBHEADER>Miscellaneous Facts</SUBHEADER>
+
+<UL>
+<LI><P>Scattered around the state there are 1,300 lakes or ponds and 40,000 miles of river and streams. These aquatic features provide numerous locations for fishing.</P></LI>
+
+<LI><P>During the winter, there are over a dozen ski resorts in the state. In 1998, the state government adopted <LINK h2g2=""A179534"">skiing</LINK> as the official state sport.</P></LI>
+
+<LI><P>New Hampshire has an official tartan, registered in Scotland, that the State Police wear as kilts when performing ceremonial duties.</P></LI>
+
+<LI><P>It tied with Minnesota as the healthiest state in the nation during 2003.</P></LI>
+
+<LI><P>Three US Navy ships have been named after the state.</P></LI>
+
+<LI><P>Killington, Vermont has twice voted to leave the state of Vermont and become a part of New Hampshire.</P></LI>
+
+</UL>
+
+<HEADER>Places to See</HEADER>
+
+<UL>
+<LI><P>If someone is <LINK href=""http://www.visitnh.gov/"" TITLE=""Visit NH""> visiting New Hampshire</LINK> in autumn they might like to stop and see the <LINK HREF=""http://www.alpinezipline.com/adventure-tours/zipline-canopy-tour/"" TITLE=""Zipline Canopy Tours"">zip-line adventure</LINK><FOOTNOTE INDEX=""4"">Merriam-Webster defines a zip-line as a cable suspended above an incline to which a pulley and harness are attached for a rider.</FOOTNOTE>. This would be especially pretty when the trees are turning. Those less adventurous might like the <LINK HREF=""http://www.nhhistory.org/"" TITLE=""Concord Historical Museum and Library"">Historical Museum and Library</LINK> in Concord.</P></LI>
+
+<LI><P>In winter there are many places to <LINK href=""http://www.skinh.com/Snow_Reports.cfm"" TITLE=""Ski NH"">ski</LINK> in New Hampshire.</P></LI>
+
+<LI><P>In summertime check out the <LINK HREF=""http://www.greatbay.org/"" TITLE=""Great Bay National Estuarine Research Reserve"">Great Bay estuary</LINK>, or look at one of the many <LINK HREF=""http://www.nh.gov/nhdhr/bridges/index.html"" TITLE=""Covered Bridge Index"">covered bridges</LINK> 
+that dot the landscape. If mountains interest someone they might visit the <LINK HREF=""http://www.franconianotch.org/"" TITLE=""Franconia""> Franconia Notch Region</LINK>.</P></LI>
+</UL>
+
+<HEADER>New Hampshire Firsts</HEADER>
+
+<UL>
+<LI><P>In 1690, the British Government contracted local ship builders in Portsmouth, New Hampshire, to construct the HMS <I>Falkland</I>, a 637-ton, 54-gun frigate, which was added to the Royal Navy, 2 March, 1695. This was the first warship built in America.</P></LI>
+
+<LI><P>In 1822, Dublin's Juvenile Library was the first free public library in the US.</P></LI>
+
+<LI><P>In 1908, Monsignor Pierre Hevey opened the nation's first credit union in Manchester.</P></LI>
+
+</UL>
+
+<HEADER>New Hampshire Primary</HEADER>
+
+<P>Once every four years, for more than 80 years, during the federal election cycle, New Hampshire has held a Presidential Primary election on the second Tuesday in February. On this day the eyes of the whole United States are watching as the voters in New Hampshire tell the country who they think should get the Democratic and Republican nominations for President of the United States. Candidates for the office will have set up a campaign office and tried to convince the voters that they are the one in the <LINK href=""http://www.nh.gov/nhinfo/manual.html"" TITLE=""Primary Election""><I>First-In-The-Nation Presidential Primary</I></LINK>.</P>
+ 
+<HEADER>Eminent Persons</HEADER>
+
+<P>
+<UL> 
+<LI> 
+<P><B>Josiah Bartlett (1729 - 1795) Patriot, Governor</B> - He moved to New Hampshire in 1750. He was New Hampshire's delegate to the Continental Congress 1775, and was Governor of the state from 1790 to 1794.</P>
+</LI>
+
+<LI> 
+<P><B>Franklin Pierce (1804 - 1869) US President</B> - He was born in Hillsborough, New Hampshire. At the Age of 48 he became President of the United States and served from 1852 to 1856. After being denied re-election he retired to Concord, New Hampshire. </P>
+</LI>
+
+<LI> 
+<P><B>Horace Greeley (1811 - 1872) Newspaper Editor</B> - Son of a poor family in Amhurst, New Hampshire, he rose to be a prominent member of the Whig Party and founded his own newspaper:<I> The New York Tribune</I>.</P>
+</LI>
+
+<LI> 
+<P><B>Mary Baker Eddy (1821 - 1910) Religious Leader</B> - She was born in Bow, New Hampshire. She founded the Christian Science religion and its newspaper <I>The Christian Science Monitor</I>.</P>
+</LI>
+
+<LI>
+<P><B>Alan B Shepard Jr (1923 - 1998) Astronaut</B> - He was born in East Derry, New Hampshire. Rear Admiral Shepard piloted the suborbital flight of <I>Freedom 7</I> on 5 May, 1961 and was Commander of <I>Apollo 14</I> in 1971.</P>
+</LI>
+
+<LI>
+<P><B>David H Souter (born 1939) US Supreme Court Jurist</B> - Born in Massachusetts, he practised law in New Hampshire beginning in 1966 and was the state's Attorney General from 1976 to 1978. As a member of the US Supreme Court from 1991 to 2009, he was part of a liberal minority.</P>
+</LI>
+
+<LI>
+<P><B>Christa McAuliffe (1948 - 1986) Teacher, Astronaut</B> - Born in Massachusetts, Christa taught at Concord, New Hampshire from 1982 until her death. She was payload specialist on the Shuttle <I>Challenger</I> (STS 51-L) which blew apart in the sky before achieving orbit.</P>
+</LI>
+</UL>
+</P>
+
+</BODY>
+
+<REFERENCES>
+<LINK HREF=""http://www.nh.gov/nhinfo/"" TITLE=""FACTS""/>
+<LINK HREF=""http://www.nh.gov/nhinfo/history.html"" TITLE=""New HAMPSHIRE ALMANAC""/>
+<LINK HREF=""http://www.nh.gov/residents/index.html"" TITLE=""State website"">residents</LINK>
+</REFERENCES>
+
+</GUIDE>";
+
         static bool _keyArticlesSetup = false;
 
         [TestCleanup]
@@ -172,7 +358,7 @@ namespace FunctionalTests.Services.Articles
         public void CreateNewArticleWithHTML()
         {
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = HttpUtility.UrlEncode(@"<GUIDE>
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
@@ -205,7 +391,7 @@ namespace FunctionalTests.Services.Articles
         public void CreateNewArticleWithLargeGuideMLviaHTML()
         {
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE>
     <BODY>{0}</BODY>
   </GUIDE>", _unskinnedGuideML);
@@ -213,6 +399,8 @@ namespace FunctionalTests.Services.Articles
             string hidden = "0";
 
             string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm", _sitename);
+
+            RemoveNotAllowURLsonH2G2SiteOption();
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.AssertWebRequestFailure = false;
@@ -239,7 +427,7 @@ namespace FunctionalTests.Services.Articles
         {
             string h2g2id = "586";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
@@ -254,6 +442,42 @@ namespace FunctionalTests.Services.Articles
                  HttpUtility.UrlEncode(style),
                  HttpUtility.UrlEncode(subject),
                  HttpUtility.UrlEncode(guideML));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+
+            // we cover the testing of the return values in the xml based tests
+        }
+
+        [TestMethod]
+        public void UpdateArticle_WithLargeHTML()
+        {
+            string h2g2id = "3141";
+            string hidden = "0";
+            string submittable = "NO";
+            string researchers = "276, 1422";
+            string style = "GuideML";
+            string subject = "Test Subject" + DateTime.Now.ToString();
+            string guideML = String.Format(@"<GUIDE>
+    <BODY>{0}</BODY>
+  </GUIDE>", _unskinnedUpdateGuideML);
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, h2g2id);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserSuperUser();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&researcherUserIds={3}&hidden={4}&submittable={5}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode(researchers),
+                 HttpUtility.UrlEncode(hidden),
+                 HttpUtility.UrlEncode(submittable));
 
             NameValueCollection localHeaders = new NameValueCollection();
             localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
@@ -368,7 +592,7 @@ namespace FunctionalTests.Services.Articles
             string researchers = "276, 1422";
             string h2g2id = "586";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>");
@@ -579,7 +803,7 @@ namespace FunctionalTests.Services.Articles
             request.SetCurrentUserNormal();
 
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -636,7 +860,7 @@ namespace FunctionalTests.Services.Articles
             RemoveNotAllowURLsonH2G2SiteOption();
 
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE xmlns="""">
     <BODY>{0}</BODY>
   </GUIDE>", _unskinnedGuideML);
@@ -692,7 +916,7 @@ namespace FunctionalTests.Services.Articles
             request.SetCurrentUserNormal();
 
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -740,7 +964,7 @@ namespace FunctionalTests.Services.Articles
 
             string h2g2id = "649";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -786,7 +1010,7 @@ namespace FunctionalTests.Services.Articles
             string research2Id = "1422";
             string h2g2id = "649";
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -839,8 +1063,8 @@ namespace FunctionalTests.Services.Articles
             request.SetCurrentUserSuperUser();
 
             string h2g2id = "-1";
-               string style = "GuideML";
-            string subject = "Test Subject";
+            string style = "GuideML";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Sample Article Content</BODY>
   </GUIDE>";
@@ -2132,9 +2356,9 @@ namespace FunctionalTests.Services.Articles
         public void CreateNewArticleWithHTMLUpdateArticleAndHideWithoutSubjectandBody()
         {
             string style = "GuideML";
-            string subject = "Test Subject";
+            string subject = "Test Subject" + DateTime.Now.ToString();
             string guideML = String.Format(@"<GUIDE>
-    <BODY>Sample Article Content</BODY>
+    <BODY>Sample Article Content2</BODY>
   </GUIDE>");
             string submittable = "YES";
 
@@ -2162,13 +2386,29 @@ namespace FunctionalTests.Services.Articles
             url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, getArticle.H2g2Id);
 
             //Hide the article
-            postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+            postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
                  HttpUtility.UrlEncode(style),
                  HttpUtility.UrlEncode(""),
                  HttpUtility.UrlEncode(""),
+                 HttpUtility.UrlEncode(submittable),
                  HttpUtility.UrlEncode("1"));
 
-            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+            try
+            {
+                request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+            }
+            catch (WebException ex)
+            {
+                ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+                if (ex.InnerException != null)
+                {
+                    Assert.AreEqual(ErrorType.EmptyText.ToString(), errorData.Code, errorData.Code + " - " + ex.Message + " - " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Assert.AreEqual(ErrorType.EmptyText.ToString(), errorData.Code, errorData.Code + " - " + ex.Message + " - no inner");
+                }
+            }
 
             url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, getArticle.H2g2Id);
             request.RequestPageWithFullURL(url, null, "text/xml");
@@ -2180,10 +2420,11 @@ namespace FunctionalTests.Services.Articles
 
             //Unhide it again
             url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, getArticle.H2g2Id);
-            postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+            postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
                  HttpUtility.UrlEncode(style),
                  HttpUtility.UrlEncode(""),
                  HttpUtility.UrlEncode(""),
+                 HttpUtility.UrlEncode(submittable),
                  HttpUtility.UrlEncode("0"));
 
             request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
@@ -2200,6 +2441,61 @@ namespace FunctionalTests.Services.Articles
 
         }
 
+        [TestMethod]
+        public void CreateNewArticleWithHTMLUpdateArticleAndSetSubmittableToNO()
+        {
+            string style = "GuideML";
+            string subject = "Test Subject" + DateTime.Now.ToString();
+            string guideML = String.Format(@"<GUIDE>
+    <BODY>Sample Article Content</BODY>
+  </GUIDE>");
+            string submittable = "YES";
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm", _sitename);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode(submittable),
+                 HttpUtility.UrlEncode("0"));
+
+            NameValueCollection localHeaders = new NameValueCollection();
+            localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
+            string expectedResponse = localHeaders["referer"] + "&resultCode=" + ErrorType.Ok.ToString();
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
+
+            Article getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, getArticle.H2g2Id);
+
+            //Update the article set sunmittable to NO
+            postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
+                 HttpUtility.UrlEncode(style),
+                 HttpUtility.UrlEncode(subject),
+                 HttpUtility.UrlEncode(guideML),
+                 HttpUtility.UrlEncode("NO"),
+                 HttpUtility.UrlEncode("0"));
+
+            request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
+            getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+
+            //Get the article again
+            url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/{1}?applySkin=false", _sitename, getArticle.H2g2Id);
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            getArticle = (Article)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Article));
+
+            Assert.IsTrue(getArticle.Subject == subject, "Article Subject not saved correctly");
+            Assert.IsTrue(getArticle.ArticleInfo.Submittable.Type == "NO", "Article Submittable not saved correctly");
+
+        }
 
 #region SetupFunctions
 
