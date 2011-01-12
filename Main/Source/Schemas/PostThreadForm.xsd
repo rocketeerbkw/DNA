@@ -49,6 +49,7 @@
       <xs:attribute name="NONALLOWEDURLSTRIGGERED" type="xs:unsignedByte" use="required" />
       <xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
       <xs:attribute name="STYLE" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="QUOTEINCLUDED" type="xs:unsignedByte" use="required" />
     </xs:complexType>
   </xs:element>
 </xs:schema>
