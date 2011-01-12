@@ -232,7 +232,7 @@ namespace Tests
             _useDebugIdentityUser = true;
         }
 
-        /// <summary>
+/*        /// <summary>
         /// Helper function that sets the current user to be a Scout user
         /// </summary>
         public void SetCurrentUserScoutUser()
@@ -246,7 +246,7 @@ namespace Tests
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
         }
-
+*/
         /// <summary>
         /// Helper function that reset the current user to be a not logged in user
         /// </summary>
@@ -419,13 +419,15 @@ namespace Tests
                     return false;
                 }
             }
-            else if (userType == TestUserCreator.UserType.Scout)
+            /*
+             * else if (userType == TestUserCreator.UserType.Scout)
             {
                 if (!TestUserCreator.CreateNewIdentityScoutUser(userName, password, dateOfBirth, email, displayname, siteid, policy, out cookie, out secureCookie, out _identityuserid, out _userid))
                 {
                     return false;
                 }
             }
+             */
             else if (userType == TestUserCreator.UserType.IdentityOnly)
             {
                 if (!TestUserCreator.CreateIdentityUser(userName, password, dateOfBirth, email, displayname, true, policy, true, 0, out cookie, out secureCookie, out _identityuserid))
