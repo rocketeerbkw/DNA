@@ -5,6 +5,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Linq;
 using BBC.Dna.Api;
 using System.Xml;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna
 {
@@ -95,7 +96,7 @@ namespace BBC.Dna
             if (_post)
             {//do posting
                 ThreadPost post = new ThreadPost();
-                post.Text = postToForumBuilder.Body;
+                post.Text = HtmlUtils.HtmlEncode(postToForumBuilder.Body);
                 post.Subject = postToForumBuilder.Subject;
                 post.Style = (BBC.Dna.Objects.PostStyle.Style)postToForumBuilder.Style;
                 post.ThreadId = postToForumBuilder.ThreadId;
@@ -167,7 +168,7 @@ namespace BBC.Dna
             _forumId    = InputContext.GetParamIntOrZero("forum", "Forum ID");
             _threadId   = InputContext.GetParamIntOrZero("threadid", "Forum thread ID");
             _inReplyTo  = InputContext.GetParamIntOrZero("inreplyto", "post to reply to");
-            _postStyle = InputContext.GetParamIntOrZero("poststyle", "styel of post");
+            _postStyle = InputContext.GetParamIntOrZero("poststyle", "style of post");
             if (_postStyle < 1 || _postStyle > 2)
             {
                 _postStyle = 2;
@@ -189,5 +190,6 @@ namespace BBC.Dna
             _text = InputContext.GetParamStringOrEmpty("body", "body!");
             _subject = InputContext.GetParamStringOrEmpty("subject", "subject");
         }
+
     }
 }

@@ -153,7 +153,12 @@
           </textarea>
         </p>
         <xsl:apply-templates select="." mode="input_postthreadform_error" />
-
+        <input type="checkbox" id="AddQuoteID" name="AddQuoteID">
+          <xsl:if test="@QUOTEINCLUDED = 1">
+            <xsl:attribute name="checked">checked</xsl:attribute>
+          </xsl:if>
+        </input>
+          Include reply as quote 
         <ul class="blq-clearfix">
           <li>
             <input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview dna-button"/>

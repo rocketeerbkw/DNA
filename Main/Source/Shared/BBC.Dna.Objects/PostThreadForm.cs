@@ -2,6 +2,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Objects
 {
@@ -81,6 +82,14 @@ namespace BBC.Dna.Objects
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName="THREADID")]
         public int ThreadId
+        {
+            get;
+            set;
+        }
+
+        /// <remarks/>
+        [XmlAttributeAttribute(AttributeName = "QUOTEINCLUDED")]
+        public int QuoteIncluded
         {
             get;
             set;
@@ -208,6 +217,7 @@ namespace BBC.Dna.Objects
             string quoteStr = string.Empty;
             if (addQuote != QuoteEnum.None && InReplyTo != null)
             {
+                QuoteIncluded = 1;
                 switch (addQuote)
                 {
                     case QuoteEnum.QuoteId:
@@ -220,7 +230,15 @@ namespace BBC.Dna.Objects
                 }
             }
             Subject = ThreadPost.FormatSubject(subject, CommentStatus.Hidden.NotHidden);
-            Body = quoteStr + body;
+            if (body.IndexOf(string.Format("<quote postid='{0}'", InReplyToId)) >= 0)
+            {
+                Body = body;
+            }
+            else
+            {
+                
+                Body = quoteStr + body;
+            }
 
         }
     }

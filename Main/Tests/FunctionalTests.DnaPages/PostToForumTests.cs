@@ -102,10 +102,56 @@ namespace FunctionalTests
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
-            var xml = PostToForum();
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserSuperUser();
+            request = PostToForumWithException(request, " posting ok");
+
+            var xml = request.GetLastResponseAsXML();
 
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
             CheckPostInThread(xml, expectedPostStatus, processPreMod);
+
+        }
+
+        [TestMethod]
+        public void PostToForum_SiteIsPreModeratedSuperUser_CorrectUnmoderatedPost()
+        {
+            var processPreMod = false;
+            var siteStatus = ModerationStatus.SiteStatus.PreMod;
+            var forumStatus = ModerationStatus.ForumStatus.PreMod;
+            var threadStatus = ModerationStatus.ForumStatus.PreMod;
+            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserSuperUser();
+            request = PostToForumWithException(request, "my with refferred item arse post");
+
+            var xml = request.GetLastResponseAsXML();
+
+
+            CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
+            CheckPostInThread(xml, expectedPostStatus, processPreMod);
+
+        }
+
+        [TestMethod]
+        public void PostToForum_SiteIsPreModeratedWithProcessPreMod_CorrectModeratedPost()
+        {
+            var processPreMod = true;
+            var siteStatus = ModerationStatus.SiteStatus.PreMod;
+            var forumStatus = ModerationStatus.ForumStatus.PreMod;
+            var threadStatus = ModerationStatus.ForumStatus.PreMod;
+            var userStatus = ModerationStatus.ForumStatus.PreMod;
+            var expectedPostStatus = ModerationStatus.ForumStatus.PreMod;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
+
+            var xml = PostToForum();
+
+            CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
 
         }
 
@@ -149,7 +195,7 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void PostToForum_ThreadIsPostMode_CorrectPostModeratedPost()
+        public void PostToForum_ThreadIsPostMod_CorrectPostModeratedPost()
         {
             var processPreMod = false;
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
@@ -168,7 +214,7 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void PostToForum_ThreadIsPreMode_CorrectPreModeratedPost()
+        public void PostToForum_ThreadIsPreMod_CorrectPreModeratedPost()
         {
             var processPreMod = false;
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
@@ -187,7 +233,7 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void PostToForum_UserIsPostMode_CorrectPostModeratedPost()
+        public void PostToForum_UserIsPostMod_CorrectPostModeratedPost()
         {
             var processPreMod = false;
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
@@ -225,6 +271,35 @@ namespace FunctionalTests
         }
 
         [TestMethod]
+        public void PostToForum_UserIsBanned_CorrectError()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserBanned();
+            var url = String.Format("PostToForum?skin=purexml&forumid=150");
+
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("threadid", "33"));
+            postParams.Enqueue(new KeyValuePair<string, string>("inreplyto", "60"));
+            postParams.Enqueue(new KeyValuePair<string, string>("dnapoststyle", "1"));
+            postParams.Enqueue(new KeyValuePair<string, string>("forum", "150"));
+            postParams.Enqueue(new KeyValuePair<string, string>("subject", "test post"));
+            postParams.Enqueue(new KeyValuePair<string, string>("body", "Post message"));
+            postParams.Enqueue(new KeyValuePair<string, string>("post", "Post message"));
+
+            try
+            {
+                request.RequestPage(url, postParams);
+            }
+            catch { }
+            
+            var xml = request.GetLastResponseAsXML();
+
+            CheckForError(xml, "UserIsBanned");
+        }
+
+        [TestMethod]
         public void PostToForum_AllPreModUserIsPostMod_CorrectPreModeratedPost()
         {
             var processPreMod = false;
@@ -257,6 +332,15 @@ namespace FunctionalTests
         {
             string post = "my post";
             string expected = "<QUOTE POSTID=\"61\">more test data....</QUOTE><BR />my post";
+
+            PreviewPost(post, expected, BBC.Dna.Objects.QuoteEnum.QuoteId);
+        }
+
+        [TestMethod]
+        public void PostToForum_PreviewPostWithQuoteParamAndExistingQuote_CorrectPreviewReturned()
+        {
+            string post = "<quote postid='61'>more test data....</quote><BR />my post";
+            string expected = "<QUOTE POSTID=\"61\">more test data....</QUOTE>my post";
 
             PreviewPost(post, expected, BBC.Dna.Objects.QuoteEnum.QuoteId);
         }
@@ -525,6 +609,33 @@ namespace FunctionalTests
 
         }
 
+        [TestMethod]
+        public void PostToForum_PostWithGreaterThanLessThanSymbols_CorrectPost()
+        {
+
+            var processPreMod = false;
+            var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserNormal();
+            request = PostToForumWithException(request, "1 > 2 and 3<4");
+            var xml = request.GetLastResponseAsXML();
+
+
+            CheckPostInThread(xml, expectedPostStatus, processPreMod);
+
+        }
+
+        [TestMethod]
+        public void PostToForum_PreviewWithGreaterThanLessThanSymbols_CorrectPost()
+        {
+
+            string post = "1 < 2 > 0";
+            string expected = "1 &lt; 2 &gt; 0";
+
+            PreviewPost(post, expected, BBC.Dna.Objects.QuoteEnum.None);
+
+        }
 
         private void SetSiteOptions(int minChars, int maxChars, bool closeSite, bool scheduleCloseSite, int postFreq)
         {
@@ -678,8 +789,8 @@ namespace FunctionalTests
                 dataReader.ExecuteDEBUGONLY(string.Format("delete from Preferences where userid={0} and siteid={1}", _userId, _siteId));
                 if (userStatus != ModerationStatus.ForumStatus.Reactive)
                 {
-                    dataReader.ExecuteDEBUGONLY(string.Format("insert into Preferences (userid, siteid, AutoSinBin, prefstatus, AgreedTerms, DateJoined) values ({0},{1},{2},{3},1,'2010/1/1')", _userId, _siteId,
-                        (userStatus == ModerationStatus.ForumStatus.PreMod) ? 1 : 0, (int)userStatus));
+                    dataReader.ExecuteDEBUGONLY(string.Format("insert into Preferences (userid, siteid, AutoSinBin, prefstatus, AgreedTerms, DateJoined,PrefStatusDuration, PrefStatusChangedDate) values ({0},{1},{2},{3},1,'2010/1/1',{4},'2020/1/1')", 
+                        _userId, _siteId,(userStatus == ModerationStatus.ForumStatus.PreMod) ? 1 : 0, (int)userStatus, 1000));
                 }
                 else
                 {
@@ -702,7 +813,7 @@ namespace FunctionalTests
         {
             var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer);
             var request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
+            //request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(url, null, "text/xml");
 
 
