@@ -2420,10 +2420,11 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
 
             //Unhide it again
             url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/create.htm/{1}", _sitename, getArticle.H2g2Id);
-            postData = String.Format("style={0}&subject={1}&guideML={2}&hidden={3}",
+            postData = String.Format("style={0}&subject={1}&guideML={2}&submittable={3}&hidden={4}",
                  HttpUtility.UrlEncode(style),
                  HttpUtility.UrlEncode(""),
                  HttpUtility.UrlEncode(""),
+                 HttpUtility.UrlEncode(submittable),
                  HttpUtility.UrlEncode("0"));
 
             request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "PUT", localHeaders);
