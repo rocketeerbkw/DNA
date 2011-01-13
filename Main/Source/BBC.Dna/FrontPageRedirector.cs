@@ -47,9 +47,12 @@ namespace BBC.Dna
                 return;
             }
 
-
             //none so redirect to /home (c++ frontpage builder)
             var redirectUrl = string.Format("/dna/{0}/home",InputContext.CurrentSite.SiteName);
+            if (InputContext.SkinSelector != null && InputContext.SkinSelector.SkinName != InputContext.CurrentSite.DefaultSkin)
+            {//none standard skin in use
+                redirectUrl = string.Format("/dna/{0}/{1}/home", InputContext.CurrentSite.SiteName, InputContext.SkinSelector.SkinName);
+            }
 
             RootElement.RemoveAll();
             XmlNode redirectHome = AddElementTag(RootElement, "REDIRECT");

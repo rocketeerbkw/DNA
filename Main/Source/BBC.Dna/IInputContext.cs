@@ -42,6 +42,14 @@ namespace BBC.Dna
             get;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        SkinSelector SkinSelector
+        {
+            get;
+        }
+
 		/// <summary>
 		/// The browser or UserAgent for this request
 		/// </summary>

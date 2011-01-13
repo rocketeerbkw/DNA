@@ -107,6 +107,14 @@ namespace BBC.Dna.Page
             get { return _dnapage.Server; }
         }
 
+        /// <summary>
+        /// giving access to skinselector object
+        /// </summary>
+        public SkinSelector SkinSelector
+        {
+            get { return _skinSelector; }
+        }
+
 
  		/// <summary>
 		/// Which users are allowed to access this page. Default to any user.

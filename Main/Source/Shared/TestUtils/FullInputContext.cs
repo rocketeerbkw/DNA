@@ -898,5 +898,10 @@ namespace Tests
         {
             return false;
         }
+
+        public SkinSelector SkinSelector
+        {
+            get { return null; }
+        }
     }
 }

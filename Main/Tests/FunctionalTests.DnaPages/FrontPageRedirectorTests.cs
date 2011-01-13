@@ -66,6 +66,30 @@ namespace FunctionalTests
         }
 
         [TestMethod]
+        public void FrontPageRedirector_CustomSkin_RedirectsToCPlusHomeWithSkinInTact()
+        {
+
+            try
+            {
+                SetSiteOptions("");
+
+                var request = new DnaTestURLRequest("h2g2");
+                request.SetCurrentUserNormal();
+                request.RequestPage("classic/", null);
+
+                var lastRequest = request.GetLastResponseAsString();
+
+                Assert.IsTrue(lastRequest.IndexOf("%2fdna%2fh2g2%2fclassic%2fhome") > 0);
+
+            }
+            finally
+            {
+                UnSetSiteOptions();
+            }
+
+        }
+
+        [TestMethod]
         public void FrontPageRedirector_WithRelativePath_RedirectsToRelativePath()
         {
 
