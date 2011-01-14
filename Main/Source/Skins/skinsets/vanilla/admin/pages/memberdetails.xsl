@@ -184,7 +184,7 @@
 				<xsl:value-of select="SITE/NAME"/>
 			</td>
 			<td>
-				<xsl:apply-templates select="USER/STATUS" mode="objects_user_typeicon" />   
+				<xsl:apply-templates select="USER" mode="objects_user_typeicon" />   
 			</td>
 			<td>
 				<xsl:value-of select="DATEJOINED/DATE/@RELATIVE"/>
