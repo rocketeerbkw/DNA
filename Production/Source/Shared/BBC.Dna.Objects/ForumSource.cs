@@ -81,7 +81,7 @@ namespace BBC.Dna.Objects
                 source = (ForumSource) cache.GetData(key);
                 if (source != null)
                 {
-                    if (includeArticle)
+                    if (includeArticle && source.ArticleH2G2Id != 0)
                     {
                         //add article back to object
                         source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
@@ -100,7 +100,7 @@ namespace BBC.Dna.Objects
                 var sourceCopy = (ForumSource)source.Clone();
                 sourceCopy.Article = null;
                 cache.Add(key, sourceCopy, CacheItemPriority.Low, null, new SlidingTime(TimeSpan.FromMinutes(sourceCopy.CacheSlidingWindow())));
-                if (includeArticle)
+                if (includeArticle && source.ArticleH2G2Id != 0)
                 {
                     source.Article = Article.CreateArticle(cache, creator, viewingUser, source.ArticleH2G2Id, ignoreCache, applySkin);
                 }

@@ -102,7 +102,7 @@ namespace BBC.Dna.Services
                     article.HiddenStatus = 0;
                 }
 
-                if (article.ArticleInfo.Submittable != null)
+                if (article.ArticleInfo.Submittable != null && !String.IsNullOrEmpty(formsData["submittable"])  )
                 {
                     if (formsData["submittable"].ToLower() == "yes" || formsData["submittable"] == "1")
                     {
@@ -208,6 +208,14 @@ namespace BBC.Dna.Services
                     hiddenStatusAsInt);
 
                 article.ApplySkinOnGuideML = applySkin;
+
+                string matchingProfanity = String.Empty;
+                ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, article.Subject + " " + article.GuideMLAsString, out matchingProfanity);
+                if (state == ProfanityFilter.FilterState.FailBlock)
+                {
+                    article.ProfanityTriggered = 1;
+                    article.XmlError = "This message/Entry has been blocked as it contains a word which other users may find offensive. Please edit your message/Entry and post again.";
+                }
 
                 return article;
             }
