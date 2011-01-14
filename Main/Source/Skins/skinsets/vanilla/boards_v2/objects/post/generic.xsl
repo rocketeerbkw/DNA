@@ -103,7 +103,7 @@
                 <xsl:when test="$siteClosed = 'true' or parent::FORUMTHREADPOSTS/@CANWRITE = 0 or $autogenname_required = 'true'">
                     <!-- Nowt -->
                 </xsl:when>
-                <xsl:when test="@CANWRITE = 0"><!-- nothing --></xsl:when>
+                <xsl:when test="@CANWRITE = 0 or USER/STATUS = 0"><!-- nothing --></xsl:when>
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
                         <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
@@ -146,7 +146,7 @@
             
             <xsl:apply-templates select="@INDEX" mode="library_itemdetail"/>
             
-            <xsl:apply-templates select="USER" mode="library_userstate_editor">
+            <xsl:apply-templates select="USER[STATUS != 0]" mode="library_userstate_editor">
                 <xsl:with-param name="false">
                     <p class="flag">
                         <a class="popup">

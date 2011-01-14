@@ -20,8 +20,10 @@
     </xsl:template>
     
     <xsl:template match="FORUMTHREADPOSTS/POST/@INDEX" mode="library_itemdetail">
-        <p class="permalink">
-            <a href="#p{(../@POSTID)}">Link to this<span class="blq-hide"> forum: <xsl:value-of select="../SUBJECT"/></span></a>
-        </p>
+		<xsl:if test="../USER/STATUS != 0">
+	        <p class="permalink">
+	            <a href="#p{(../@POSTID)}">Link to this<span class="blq-hide"> forum: <xsl:value-of select="../SUBJECT"/></span></a>
+	        </p>
+		</xsl:if>
     </xsl:template>
 </xsl:stylesheet>
