@@ -48,7 +48,8 @@
 									<th>Number</th>
 									<!-- <th>User Id</th>
 									<th>User Name</th> -->
-									<th id="site">Site</th>
+									<th>Site name</th>
+									<th>Site description</th>
 									<th>Status</th>
 									<th>Date joined</th>
 									<th>Posts passed</th>
@@ -183,6 +184,9 @@
 			<td>
 				<xsl:value-of select="SITE/NAME"/>
 			</td>
+			<td>
+				<xsl:value-of select="SITE/DESCRIPTION"/>
+			</td>			
 			<td>
 				<xsl:apply-templates select="USER" mode="objects_user_typeicon" />   
 			</td>
