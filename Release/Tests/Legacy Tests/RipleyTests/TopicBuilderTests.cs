@@ -63,7 +63,7 @@ namespace RipleyTests
            
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2[BOARDACTIVATED='1']"),"Check Board Activated");
 
-            url = "?skin=purexml";
+            url = "frontpage?skin=purexml";
             urlRequest.RequestPage(url);
             doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2/TOPICLIST/TOPIC[TITLE='" + topicName + "']"),"Check topic published");
@@ -120,7 +120,7 @@ namespace RipleyTests
             doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNotNull(doc.SelectSingleNode("/H2G2[BOARDACTIVATED='1']"),"Board Activated");
 
-            url = "?skin=purexml";
+            url = "frontpage?skin=purexml";
             urlRequest.RequestPage(url);
             doc = urlRequest.GetLastResponseAsXML();
             Assert.IsNull(doc.SelectSingleNode("/H2G2/TOPICLIST/TOPIC[TITLE='" + topicName + "']"),"Check Topic not Active");

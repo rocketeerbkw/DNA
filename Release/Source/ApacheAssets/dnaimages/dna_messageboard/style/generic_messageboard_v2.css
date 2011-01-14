@@ -60,8 +60,8 @@ ul.admin {background-color:#e2e2e2}
 #blq-content .topiclist li {position:relative; float:left; width:241px}
 #blq-content .single-col-topics li {width:499px; min-height:120px}
 #blq-content .topiclistimage li {min-height:245px}
-#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread, #blq-main .searchthreadposts  {width:499px; margin-right:14px; padding-bottom:10px; border-right:1px solid #ccc; border-bottom:1px solid #ccc; border-left:1px solid #ccc}
-#blq-main .addthread p.signin {padding:10px}
+#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread, #blq-main .searchthreadposts, #blq-main .posttoforum  {width:499px; margin-right:14px; padding-bottom:10px; border-right:1px solid #ccc; border-bottom:1px solid #ccc; border-left:1px solid #ccc}
+#blq-main .addthread p.signin, #blq-main .posttoforum p.signin  {padding:10px}
 .frontpage h2 {margin-right:14px}
 #blq-main #blq-content h2, #blq-main #dna-boardpromo h3 {padding:8px 10px; line-height:1em; font-size:1.4em; font-weight:normal; color:#fff; background-color:#376dad}
 #blq-main #blq-content h2 {margin-bottom:13px}
@@ -107,10 +107,10 @@ ul.forumthreadposts, p.forumthreadposts {clear:both}
 ul.forumthreadposts {margin-top:10px}
 ul.forumthreadposts li {padding:10px}
 ul.forumthreadposts li p {margin-bottom:10px; font-size:1.1em}
-#blq-main .addthread .article {margin-top:0.8em}
-.addthread ul.forumthreadposts li.firstpost {margin:0 25px; padding:10px 15px; line-height:1.3em; background-color:#e8eced}
-#blq-main .addthread li.firstpost .itemdetail, #blq-main .addthread li .itemdetail {margin-bottom:10px}
-#blq-content .addthread ul.forumthreadposts li {padding:0}
+#blq-main .addthread .article, #blq-main .posttoforum .article  {margin-top:0.8em}
+.addthread ul.forumthreadposts li.firstpost, .posttoforum ul.forumthreadposts li.firstpost {margin:0 25px; padding:10px 15px; line-height:1.3em; background-color:#e8eced}
+#blq-main .addthread li.firstpost .itemdetail, #blq-main .addthread li .itemdetail, #blq-main .posttoforum li.firstpost .itemdetail, #blq-main .posttoforum li .itemdetail  {margin-bottom:10px}
+#blq-content .addthread ul.forumthreadposts li, #blq-content .posttoforum ul.forumthreadposts li {padding:0}
 ul.forumthreadposts li.stripe {background-color:#edf0f1}
 #blq-content .forumthreads {clear: both; margin-top:10px; font-size:1.1em; color:#000;table-layout:fixed}
 #blq-content .forumthreads h3 {margin:0 10px; padding:0; font-size:1em}
@@ -252,6 +252,7 @@ p.permalink {margin-top:15px;text-align:right}
 #blq-main #blq-content .dna-boards input.cancel {margin:0 200px 0 8px; background-color:#71aef1}
 .dna-boards p.preview {margin:10px 0 0 24px; padding:0 10px}
 #blq-main #blq-content .dna-boards div#previewpost {margin:10px 24px 0 24px; padding:10px; background-color:#e8eced}
+#blq-main #blq-content .dna-boards div#previewpost .quote em {display:block;padding-top:10px;}
 #blq-main #blq-content .dna-boards div#previewpost h4 {margin-left: 0}
 .dna-boards .submit, .dna-boards .cancel {float:left; margin:0 0 10px 0; padding:4px}
 

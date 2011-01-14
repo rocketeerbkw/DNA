@@ -103,6 +103,89 @@
         </form>
     	<xsl:apply-templates select="INREPLYTO" mode="input_postthreadform"/>
     </xsl:template>
+
+  <xsl:template match="POSTTHREADFORM[@CANWRITE = 1]" mode="input_postthreadform_posttoforum">
+
+    <form method="post" class="dna-boards">
+      <xsl:attribute name="action">
+        <xsl:choose>
+          <xsl:when test="/H2G2/SITE/NAME != 'mbouch'">
+            <xsl:value-of select="$root" />/posttoforum
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>posttoforum</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+      <div>
+        <xsl:call-template name="library_header_h2">
+          <xsl:with-param name="text">
+            <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/SUBJECT" />
+          </xsl:with-param>
+        </xsl:call-template>
+
+        <xsl:apply-templates select="PREVIEWERROR"/>
+
+        <h3>
+          <xsl:value-of select="SUBJECT" />
+        </h3>
+
+        <xsl:apply-templates select="SECONDSBEFOREREPOST"/>
+
+        <xsl:choose>
+          <xsl:when test="PREVIEWBODY">
+            <xsl:apply-templates select="." mode="preview"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <p class="article">To reply to this message, type your message in the box below.</p>
+          </xsl:otherwise>
+        </xsl:choose>
+
+        <input type="hidden" name="threadid" value="{@THREADID}"/>
+        <input type="hidden" name="forum" value="{@FORUMID}"/>
+        <input type="hidden" name="inreplyto" value="{@INREPLYTO}"/>
+        <input type="hidden" name="dnapoststyle" value="1"/>
+
+        <p>
+          <label for="dna-boards-body">Your reply</label>
+          <textarea id="dna-boards-body" name="body" class="textarea" rows="10" cols="10">
+            <xsl:value-of select="BODY" />
+          </textarea>
+        </p>
+        
+        <xsl:apply-templates select="." mode="input_postthreadform_error" />
+        
+        <ul class="blq-clearfix">
+        	<li>
+		        <label for="AddQuoteID">Include reply as quote</label> 
+				<input type="checkbox" id="AddQuoteID" name="AddQuoteID">
+					<xsl:if test="@QUOTEINCLUDED = 1">
+						<xsl:attribute name="checked">checked</xsl:attribute>
+					</xsl:if>
+				</input>
+			</li>
+		</ul>
+		
+        <ul class="blq-clearfix">
+          <li>
+            <input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview dna-button"/>
+          </li>
+          <li>
+            <input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button">
+              <xsl:apply-templates select="." mode="input_postthreadform_button" />
+            </input>
+          </li>
+          <li>
+            <input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit dna-button"/>
+          </li>
+        </ul>
+
+        <xsl:apply-templates select="/H2G2/ERROR" mode="object_error" />
+
+      </div>
+    </form>
+    <xsl:apply-templates select="INREPLYTO" mode="input_postthreadform"/>
+  </xsl:template>
 	
 	<xsl:template match="INREPLYTO" mode="input_postthreadform">
 		<ul class="collections forumthreadposts">

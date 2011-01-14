@@ -15,8 +15,8 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "USER")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
+    [XmlTypeAttribute(AnonymousType = true, TypeName = "USER")]
+    [XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
     [DataContract(Name = "user")]
     public partial class User : IUser
     {
@@ -48,7 +48,7 @@ namespace BBC.Dna.Objects
 
         #region Properties
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "USERID")]
+        [XmlElementAttribute(Order = 0, ElementName = "USERID")]
         [DataMember(Name = ("userId"))]
         public int UserId
         {
@@ -59,7 +59,7 @@ namespace BBC.Dna.Objects
 
         private string _userName = string.Empty;
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 1, ElementName = "USERNAME")]
+        [XmlElementAttribute(Order = 1, ElementName = "USERNAME")]
         [DataMember(Name = ("userName"))]
         public string UserName
         {
@@ -78,7 +78,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("USER-MODE", Order = 2)]
+        [XmlElementAttribute("USER-MODE", Order = 2)]
         public int UserMode
         {
             get;
@@ -86,7 +86,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("EMAIL-ADDRESS", Order = 3)]
+        [XmlElementAttribute("EMAIL-ADDRESS", Order = 3)]
         public string Email
         {
             get;
@@ -94,7 +94,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 4, ElementName = "POSTCODE")]
+        [XmlElementAttribute(Order = 4, ElementName = "POSTCODE")]
         public string PostCode
         {
             get;
@@ -102,7 +102,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 5, ElementName = "REGION")]
+        [XmlElementAttribute(Order = 5, ElementName = "REGION")]
         public string Region
         {
             get;
@@ -110,7 +110,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 6, ElementName = "PREFUSERMODE")]
+        [XmlElementAttribute(Order = 6, ElementName = "PREFUSERMODE")]
         public bool PrefUserMode
         {
             get;
@@ -118,7 +118,15 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 7, ElementName = "STATUS")]
+        [XmlIgnore]
+        public int PrefStatus
+        {
+            get;
+            set;
+        }
+
+        /// <remarks/>
+        [XmlElementAttribute(Order = 7, ElementName = "STATUS")]
         [DataMember(Name = ("status"))]
         public int Status
         {
@@ -127,7 +135,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 8, ElementName = "AREA")]
+        [XmlElementAttribute(Order = 8, ElementName = "AREA")]
         public string Area
         {
             get;
@@ -135,7 +143,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 9, ElementName = "TITLE")]
+        [XmlElementAttribute(Order = 9, ElementName = "TITLE")]
         public string Title
         {
             get;
@@ -143,7 +151,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("FIRST-NAMES", Order = 10)]
+        [XmlElementAttribute("FIRST-NAMES", Order = 10)]
         public string FirstNames
         {
             get;
@@ -151,7 +159,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("FIRSTNAMES", Order = 11)]
+        [XmlElementAttribute("FIRSTNAMES", Order = 11)]
         public string FirstNames1
         {
             get
@@ -165,7 +173,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("LAST-NAME", Order = 12)]
+        [XmlElementAttribute("LAST-NAME", Order = 12)]
         public string LastName
         {
             get;
@@ -173,7 +181,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("LASTNAME", Order = 13)]
+        [XmlElementAttribute("LASTNAME", Order = 13)]
         private string LastName1
         {
             get
@@ -196,86 +204,86 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 15, ElementName = "TEAMID")]
+        [XmlElementAttribute(Order = 15, ElementName = "TEAMID")]
         public int TeamId
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool TeamIdSpecified { get { return this.TeamId != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 16, ElementName = "UNREADPUBLICMESSAGECOUNT")]
+        [XmlElementAttribute(Order = 16, ElementName = "UNREADPUBLICMESSAGECOUNT")]
         public int UnReadPublicMessageCount
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool UnReadPublicMessageCountSpecified { get { return this.UnReadPublicMessageCount != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 17, ElementName = "UNREADPRIVATEMESSAGECOUNT")]
+        [XmlElementAttribute(Order = 17, ElementName = "UNREADPRIVATEMESSAGECOUNT")]
         public int UnReadPrivateMessageCount
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool UnReadPrivateMessageCountSpecified { get { return this.UnReadPrivateMessageCount != 0; } }
 
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 18, ElementName = "TAXONOMYNODE")]
+        [XmlElementAttribute(Order = 18, ElementName = "TAXONOMYNODE")]
         public int TaxonomyNode
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool TaxonomyNodeSpecified { get { return this.TaxonomyNode != 0; } }
 
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 19, ElementName = "HIDELOCATION")]
+        [XmlElementAttribute(Order = 19, ElementName = "HIDELOCATION")]
         public int HideLocation
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool HideLocationSpecified { get { return this.HideLocation != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 20, ElementName = "HIDEUSERNAME")]
+        [XmlElementAttribute(Order = 20, ElementName = "HIDEUSERNAME")]
         public int HideUsername
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool HideUsernameSpecified { get { return this.HideUsername != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 21, ElementName = "JOURNAL")]
+        [XmlElementAttribute(Order = 21, ElementName = "JOURNAL")]
         public int Journal
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool JournalSpecified { get { return this.Journal != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 22, ElementName = "ACTIVE")]
+        [XmlElementAttribute(Order = 22, ElementName = "ACTIVE")]
         public bool Active
         {
             get;
@@ -283,84 +291,84 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 23, ElementName = "SCORE")]
+        [XmlElementAttribute(Order = 23, ElementName = "SCORE")]
         public double Score
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool ScoreSpecified { get { return this.Score != 0.0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("SUB-QUOTA", Order = 24)]
+        [XmlElementAttribute("SUB-QUOTA", Order = 24)]
         public int SubQuota
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool SubQuotaSpecified { get { return this.SubQuota != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 25, ElementName = "ALLOCATIONS")]
+        [XmlElementAttribute(Order = 25, ElementName = "ALLOCATIONS")]
         public int Allocations
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool AllocationsSpecified { get { return this.Allocations != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 26, ElementName = "FORUMID")]
+        [XmlElementAttribute(Order = 26, ElementName = "FORUMID")]
         public int ForumId
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool ForumIdSpecified { get { return this.ForumId != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("FORUM-POSTED-TO", Order = 27)]
+        [XmlElementAttribute("FORUM-POSTED-TO", Order = 27)]
         public int ForumPostedTo
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool ForumPostedToSpecified { get { return this.ForumPostedTo != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 28, ElementName = "MASTHEAD")]
+        [XmlElementAttribute(Order = 28, ElementName = "MASTHEAD")]
         public int MastHead
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool MastHeadSpecified { get { return this.MastHead != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 29, ElementName = "SINBIN")]
+        [XmlElementAttribute(Order = 29, ElementName = "SINBIN")]
         public int SinBin
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool SinBinSpecified { get { return this.SinBin != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("DATE-JOINED", Order = 30)]
+        [XmlElementAttribute("DATE-JOINED", Order = 30)]
         [DataMember (Name="dateJoined")]
         public DateElement DateJoined
         {
@@ -369,8 +377,8 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArray(Order = 31, ElementName = "GROUPS")]
-        [System.Xml.Serialization.XmlArrayItem(ElementName = "GROUP")]
+        [XmlArray(Order = 31, ElementName = "GROUPS")]
+        [XmlArrayItem(ElementName = "GROUP")]
         [DataMember(Name = ("groups"))]
         public List<Group> Groups
         {
@@ -379,18 +387,18 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 32, ElementName = "ACCEPTSUBSCRIPTIONS")]
+        [XmlElementAttribute(Order = 32, ElementName = "ACCEPTSUBSCRIPTIONS")]
         public byte AcceptSubscriptions
         {
             get;
             set;
         }
 
-        [System.Xml.Serialization.XmlIgnore]
+        [XmlIgnore]
         public bool AcceptSubscriptionsSpecified { get { return this.AcceptSubscriptions != 0; } }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 33, ElementName = "PROMPTSETUSERNAME")]
+        [XmlElementAttribute(Order = 33, ElementName = "PROMPTSETUSERNAME")]
         public bool PromptSetUsername
         {
             get;
@@ -398,7 +406,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("DATE-LAST-NOTIFIED", Order = 34)]
+        [XmlElementAttribute("DATE-LAST-NOTIFIED", Order = 34)]
         public DateElement DateLastNotified
         {
             get;
@@ -406,7 +414,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(ElementName = "IDENTITYUSERID", Order = 35)]
+        [XmlElementAttribute(ElementName = "IDENTITYUSERID", Order = 35)]
         [DataMember(Name = ("identityUserId"))]
         public string IdentityUserId
         {
@@ -415,7 +423,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(ElementName = "IDENTITYUSERNAME", Order = 36)]
+        [XmlElementAttribute(ElementName = "IDENTITYUSERNAME", Order = 36)]
         [DataMember(Name = ("identityUserName"))]
         public string IdentityUserName
         {
@@ -652,7 +660,31 @@ namespace BBC.Dna.Objects
         
         }
 
+        /// <summary>
+        /// Cast for calling user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        static public explicit operator User(CallingUser callingUser)
+        {
+            if (callingUser == null)
+            {
+                return null;
+            }
+            User user = new User()
+            {
+                UserId = callingUser.UserID,
+                Status = callingUser.Status,
+                PrefStatus = callingUser.PrefStatus
+            };
+            user.Groups = new List<Group>();
+            foreach (UserGroup group in callingUser.GetUsersGroupsForSite())
+            {
+                user.Groups.Add(new Group(group.Name));
+            }
 
+            return user;
+        }
 
 
         #region IUser Members
@@ -729,7 +761,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                throw new NotImplementedException();
+                return Groups.Find(x => x.Name.ToUpper() == "NOTABLES") != null;
             }
             set
             {
@@ -794,7 +826,7 @@ namespace BBC.Dna.Objects
         {
             get
             {
-                throw new NotImplementedException();
+                return PrefStatus == (int)BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus.Restricted;
             }
             set
             {
@@ -993,13 +1025,13 @@ namespace BBC.Dna.Objects
     [System.SerializableAttribute()]
     
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "USER")]
-    [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
+    [XmlTypeAttribute(AnonymousType = true, TypeName = "USER")]
+    [XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "USER")]
     [DataContract (Name="userElement")]
     public partial class UserElement
     {
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "USER")]
+        [XmlElementAttribute(Order = 0, ElementName = "USER")]
         [DataMember(Name = "user")]
         public User user
         {

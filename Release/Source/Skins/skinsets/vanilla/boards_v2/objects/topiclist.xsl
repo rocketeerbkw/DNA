@@ -24,6 +24,9 @@
             	<xsl:if test="/H2G2/TOPICELEMENTLIST/TOPICELEMENT/IMAGENAME and /H2G2/SITECONFIG/V2_BOARDS/TOPICLAYOUT != '1col'">
             		<xsl:text> topiclistimage</xsl:text>
             	</xsl:if>
+              <xsl:if test="/H2G2/FRONTPAGETOPICELEMENTLIST/TOPICELEMENTLIST/TOPICELEMENT/IMAGENAME and /H2G2/SITECONFIG/V2_BOARDS/TOPICLAYOUT != '1col'">
+                <xsl:text> topiclistimage</xsl:text>
+              </xsl:if>
             </xsl:attribute>
             <xsl:apply-templates select="TOPIC" mode="object_topic"/>
         </ul>

@@ -48,7 +48,7 @@
 									<th>Number</th>
 									<!-- <th>User Id</th>
 									<th>User Name</th> -->
-									<th>Site</th>
+									<th id="site">Site</th>
 									<th>Status</th>
 									<th>Date joined</th>
 									<th>Posts passed</th>
@@ -180,11 +180,10 @@
 				<xsl:value-of select="SITE/NAME"/>
 			</td>
 			<td>
-				<xsl:apply-templates select="USER/STATUS" mode="user_status"/>
-				<xsl:apply-templates select="USER/GROUPS" mode="user_groups"/>    
+				<xsl:apply-templates select="USER/STATUS" mode="objects_user_typeicon" />   
 			</td>
 			<td>
-				<xsl:apply-templates select="DATEJOINED/DATE"/>
+				<xsl:value-of select="DATEJOINED/DATE/@RELATIVE"/>
 			</td>
 			<td>
 				<xsl:value-of select="POSTPASSEDCOUNT"/>

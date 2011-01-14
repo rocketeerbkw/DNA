@@ -29,7 +29,7 @@
       <xsl:variable name="siteid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE">&amp;s_siteid=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE" /></xsl:if></xsl:variable>
       <xsl:variable name="userid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_user']/VALUE">&amp;s_user=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_user']/VALUE" /></xsl:if></xsl:variable>
       <xsl:variable name="querystring"><xsl:value-of select="$typeid"/><xsl:value-of select="$siteid"/><xsl:value-of select="$userid"/></xsl:variable>
-      <div>
+      <div class="dna-fl">
       <xsl:text></xsl:text>
       <xsl:choose>
         <xsl:when test="@STARTINDEX > 0">
@@ -45,6 +45,7 @@
       <xsl:value-of select="@TOTALCONTRIBUTIONS" />
       </div>
 			<xsl:if test="@TOTALCONTRIBUTIONS > $itemcount">
+				<div class="dna-fr">
 					<ul class="pagination">
 						<li class="first dna-button">
 								<xsl:choose>
@@ -127,6 +128,7 @@
 									</xsl:choose>
 							</li>
 					</ul>
+				</div>
 			</xsl:if>
 		</xsl:template>
 		

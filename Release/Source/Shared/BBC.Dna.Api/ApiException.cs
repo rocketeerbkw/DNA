@@ -238,7 +238,11 @@ namespace BBC.Dna.Api
 
                 case ErrorType.MissingUserAttributes:
                     error = new ApiException("Unable to access client IP or BBC Uid value.", innerException);
-                    break;        
+                    break;
+
+                case ErrorType.PostFrequencyTimePeriodNotExpired:
+                    error = new ApiException("The time period between posting has not expired yet.", innerException);
+                    break;
                     
 
                 default:
@@ -315,6 +319,7 @@ namespace BBC.Dna.Api
         CantSubscribe,
         UnableToHideUnHideThread,
         NotAuthorized,
-        MissingUserAttributes
+        MissingUserAttributes,
+        PostFrequencyTimePeriodNotExpired
     }
 }

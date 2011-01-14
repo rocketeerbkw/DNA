@@ -78,6 +78,8 @@
                           <xs:element name="IMAGEALTTEXT" type="xs:string" />
                           <xs:element name="EDITKEY" type="xs:string" />
                           <xs:element name="STATUS" type="xs:int" />
+                          <xs:element name="FORUMPOSTCOUNT" type="xs:int" />
+                          <xs:element name="TOPICID" type="xs:int" />
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>

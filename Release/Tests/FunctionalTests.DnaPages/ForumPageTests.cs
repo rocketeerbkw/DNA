@@ -27,12 +27,19 @@ namespace FunctionalTests
             SnapshotInitialisation.RestoreFromSnapshot();
             //clean ripley cache
             CleanRiplyCache();
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("delete from SiteTopicsOpenCloseTimes where siteid=72");
+                
+            }
         }
 
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_01GetH2G2ForumAndValidateSchemas()
         {
             string siteName = "h2g2";
@@ -44,7 +51,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_02Get606ForumAndValidateSchemas()
         {
             string siteName = "606";
@@ -59,7 +66,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_03GetMBForumAndValidateSchemasUsingRipley()
         {
             string siteName = "mbiplayer";
@@ -95,7 +102,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_06CloseOpenThreadUsingRipley()
         {
             CleanRiplyCache();
@@ -250,7 +257,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_08OpenCloseOpenThreadNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
@@ -304,7 +311,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_10OpenCloseOpenThreadAsAuthorWithoutSiteOptionRipley()
         {
             string siteName = "h2g2";
@@ -335,19 +342,26 @@ namespace FunctionalTests
         {
             string siteName = "h2g2";
 
-            SignalAndWaitforSiteOptionToBeSet(siteName, 1, "Forum", "ArticleAuthorCanCloseThreads", 0);
-            DnaTestURLRequest request = new DnaTestURLRequest(siteName);
-            request.SetCurrentUserNormal();
-            request.RequestPage("NF150?cmd=closethread&thread=33&skin=purexml"); 
-            ValidateForumThreadSchema(request);
-            ValidateErrorSchema(request);
-            XmlNode forumThreadPosts = request.GetLastResponseAsXML().SelectSingleNode("//H2G2/FORUMTHREADPOSTS");
-            Assert.AreNotEqual(null, forumThreadPosts);
-            Assert.AreEqual("1", forumThreadPosts.Attributes["DEFAULTCANWRITE"].Value);//no change
+            try
+            {
+                SignalAndWaitforSiteOptionToBeSet(siteName, 1, "Forum", "ArticleAuthorCanCloseThreads", 0);
+                DnaTestURLRequest request = new DnaTestURLRequest(siteName);
+                request.SetCurrentUserNormal();
+                request.RequestPage("NF150?cmd=closethread&thread=33&skin=purexml");
+                ValidateForumThreadSchema(request);
+                ValidateErrorSchema(request);
+                XmlNode forumThreadPosts = request.GetLastResponseAsXML().SelectSingleNode("//H2G2/FORUMTHREADPOSTS");
+                Assert.AreNotEqual(null, forumThreadPosts);
+                Assert.AreEqual("1", forumThreadPosts.Attributes["DEFAULTCANWRITE"].Value);//no change
 
-            request.RequestPage("NF7325075?cmd=reopenthread&thread=33&skin=purexml");
-            ValidateForumThreadSchema(request);
-            ValidateErrorSchema(request);
+                request.RequestPage("NF7325075?cmd=reopenthread&thread=33&skin=purexml");
+                ValidateForumThreadSchema(request);
+                ValidateErrorSchema(request);
+            }
+            finally
+            {
+                SignalAndWaitforSiteOptionToBeSet(siteName, 1, "Forum", "ArticleAuthorCanCloseThreads", 1);
+            }
 
 
         }
@@ -355,7 +369,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_12OpenCloseOpenThreadAsAuthorRipley()
         {
             string siteName = "h2g2";
@@ -444,7 +458,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_14ChangePermissionsNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
@@ -480,7 +494,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_16ChangeForumPermissionsRipley()
         {
             string siteName = "mbiplayer";
@@ -555,7 +569,7 @@ namespace FunctionalTests
         /// <summary>
         
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_18ChangeForumThreadPermissionsRipley()
         {
             string siteName = "mbiplayer";
@@ -621,7 +635,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_20ChangeModerationStatusNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
@@ -663,7 +677,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_22ChangeModerationStatusRipley()
         {
             string siteName = "mbiplayer";
@@ -722,7 +736,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_24HideThreadNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
@@ -759,7 +773,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_26HideThreadAuthorisedRipley()
         {
             string siteName = "mbiplayer";
@@ -823,7 +837,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_28UpdateAlertInstantlyNotAuthorisedRipley()
         {
             string siteName = "mbiplayer";
@@ -859,7 +873,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_30UpdateAlertInstantlyRipley()
         {
             CleanRiplyCache();
@@ -920,7 +934,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_32SubscribeThreadRipley()
         {
             string siteName = "mbiplayer";
@@ -1004,7 +1018,7 @@ namespace FunctionalTests
         /// <summary>
 
         /// </summary>
-        [TestMethod]
+        [Ignore]
         public void ForumPageBuilder_34SubscribeForumRipley()
         {
             string siteName = "mbiplayer";
@@ -1347,14 +1361,14 @@ links: http://www.bbc.co.uk and other stuff";
         private void GetAndValidateForumXml(string siteName, int forum, bool useRipley)
         {
             DnaTestURLRequest request = new DnaTestURLRequest(siteName);
-            if (useRipley)
-            {
-                request.RequestPage("F" + forum.ToString() + "?skin=purexml");
-            }
-            else
-            {
+            //if (useRipley)
+            //{
+            //    request.RequestPage("F" + forum.ToString() + "?skin=purexml");
+            //}
+            //else
+            //{
                 request.RequestPage("NF" + forum.ToString() + "?skin=purexml");
-            }
+            //}
 
             ValidateForumSchema(siteName, request);
 
@@ -1513,10 +1527,10 @@ links: http://www.bbc.co.uk and other stuff";
                 reader.Execute();
             }
 
-            using (FullInputContext inputContext = new FullInputContext(""))
-            {//send signal
-                inputContext.SendSignal("action=recache-site");
-            }
+            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer);
+            var request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(url, null, "text/xml");
         }
 
         /// <summary>
@@ -1554,7 +1568,7 @@ links: http://www.bbc.co.uk and other stuff";
 
         private XmlDocument PostToForum(int _threadId, int _inReplyTo, int _forumId, string body, string _siteName)
         {
-            var url = String.Format("AddThread?skin=purexml");
+            var url = String.Format("posttoforum?skin=purexml");
 
             var request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();

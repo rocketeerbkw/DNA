@@ -67,9 +67,7 @@
 						<xsl:when test="@H2G2 | @h2g2 | @H2g2">
 							<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
-						</xsl:otherwise>
+						<xsl:otherwise>&#160;</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
 				<xsl:otherwise>

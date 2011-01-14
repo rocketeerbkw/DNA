@@ -90,7 +90,7 @@
         <xsl:value-of select="FORUMSOURCE/ARTICLE/SUBJECT"/>
     </xsl:template>
     
-    <xsl:template match="/H2G2[@TYPE = 'ADDTHREAD']" mode="head_title_page">
+    <xsl:template match="/H2G2[@TYPE = 'ADDTHREAD'] | /H2G2[@TYPE = 'POSTTOFORUM']" mode="head_title_page">
         <xsl:value-of select="TOPICLIST/TOPIC[FORUMID = current()/POSTTHREADFORM/@FORUMID]/TITLE"/>
         <xsl:text> - </xsl:text>
         <xsl:value-of select="POSTTHREADFORM/SUBJECT"/>

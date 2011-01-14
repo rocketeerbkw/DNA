@@ -52,9 +52,11 @@ as
 	select cte_usersposts.n, 
 		vu.*,
 		@totalresults as totalresults,
-		@lastUpdate as lastupdate
+		@lastUpdate as lastupdate,
+		case when crv.value is null then 0 else crv.value end as nerovalue
 	from cte_usersposts
 	inner join VComments vu on vu.Id = cte_usersposts.EntryID
+	left join dbo.VCommentsRatingValue crv WITH(NOEXPAND)  on crv.entryid = cte_usersposts.EntryID
 	where n > @startindex and n <= @startindex + @itemsPerPage
 	order by n
 	OPTION (OPTIMIZE FOR (@prefix='%',@siteid=1))

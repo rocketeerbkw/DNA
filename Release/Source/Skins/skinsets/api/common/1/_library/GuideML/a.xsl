@@ -44,7 +44,12 @@
 					<xsl:value-of select="@NAME | @name"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:apply-templates mode="library_GuideML"/>
+			<xsl:choose>
+				<xsl:when test="string-length(.) = 0">&#160;</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates mode="library_GuideML"/>
+				</xsl:otherwise>
+			</xsl:choose>
         </a>
     </xsl:template>
 	

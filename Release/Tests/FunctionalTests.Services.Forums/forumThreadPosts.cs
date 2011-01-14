@@ -413,7 +413,7 @@ namespace FunctionalTests.Services.Forums
 
             Assert.AreEqual(HttpStatusCode.NotFound, request.CurrentWebResponse.StatusCode);
             ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
-            Assert.AreEqual(ErrorType.ThreadNotFound.ToString(), errorData.Code);
+            Assert.AreEqual(ErrorType.ForumUnknown.ToString(), errorData.Code);
 
             Console.WriteLine("After CreateForumPost_WithNonExistingThreadID_ThrowsException");
         }
@@ -479,8 +479,8 @@ namespace FunctionalTests.Services.Forums
             Console.WriteLine("Before CreateForumPost_WithNonExistingForumID_ThrowsException");
 
             string nonexisting_forumid = "9999999";
-            string threadid = "31";
-            string inReplyTo = "31";
+            string threadid = "999999";
+            string inReplyTo = "9999";
             string subject = "test";
             string text = "test";
             string style = "richtext";
@@ -946,7 +946,7 @@ namespace FunctionalTests.Services.Forums
             // issue a signal to cause a cache refresh
             DnaTestURLRequest myRequest = new DnaTestURLRequest("h2g2");
             myRequest.AssertWebRequestFailure = false;
-            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/h2g2/dnasignal?action=recache-site", null, "text/html");
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/forums/status.aspx?action=recache-site", null, "text/html");
 
         }
 

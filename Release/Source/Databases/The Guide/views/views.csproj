@@ -36,6 +36,7 @@
   </Target>
   <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
   <ItemGroup>
+    <None Include="VCommentsRatingValue.sql" />
     <None Include="VRatings.sql" />
     <None Include="VRatingForums.sql" />
     <None Include="VComments.sql" />

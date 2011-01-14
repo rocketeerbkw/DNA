@@ -28,6 +28,7 @@ REGEDIT4
 "/Logout"="/ripleyserver.dll?Logout?"
 "/PostJournal"="/ripleyserver.dll?PostJournal?"
 "/AddThread"="/ripleyserver.dll?AddThread?"
+"/PostToForum" = "/dna/dnapages/PostToForumPage.aspx?"
 "/Register"="/ripleyserver.dll?NewRegister?cmd=start&"
 "/NewEmail"="/RipleyServer.dll?NewEmail?key="
 "/Index"="/ripleyserver.dll?Index?"
@@ -78,6 +79,8 @@ REGEDIT4
 "/ModerateImages"="/ripleyserver.dll?ModerateImages?"
 "/ModerateArticle"="/ripleyserver.dll?ModerateArticle?"
 "/Moderate"="/ripleyserver.dll?ModerateHome?"
+--"/Moderate"="/ripleyserver.dll?ModerateHome?newstyle=1&"
+--"/ModerateOld"="/ripleyserver.dll?ModerateHome?"
 "/NModerate"="/dna/dnapages/ModerateHomePage.aspx?"
 "/ModeratePosts"="/dna/dnapages/ModeratePostsPage.aspx?"
 "/UserComplaint"="/ripleyserver.dll?UserComplaint?"
@@ -95,7 +98,6 @@ REGEDIT4
 "/efp.cgi"="/efp.cgi?"
 "/FrontpageEditor"="/ripleyserver.dll?FrontpageEditor?"
 "/EditFrontPage"="/ripleyserver.dll?FrontpageEditor?"
-"/"="/ripleyserver.dll?frontpage?"
 "-KeyArticle"="/ripleyserver.dll?-keyarticle?name="
 "/NamedArticles"="/ripleyserver.dll?NamedArticles?"
 "/TopFiveEditor"="/ripleyserver.dll?TopFiveEditor?"
@@ -344,3 +346,8 @@ REGEDIT4
 
 "/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"
 "/usercontributions" = "/dna/dnapages/usercontributions.aspx?"
+
+--"/"="/ripleyserver.dll?frontpage?"
+"/"="/dna/dnapages/frontpageredirector.aspx?"
+"/home"="/ripleyserver.dll?frontpage?"
+"/mbfrontpage"="/dna/dnapages/mbfrontpage.aspx?"

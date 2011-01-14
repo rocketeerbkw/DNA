@@ -106,6 +106,7 @@ namespace Tests
         private HttpWebResponse _response = null;
         private string _responseAsString = null;
         private XmlDocument _responseAsXML = null;
+        private bool _allowAutoRedirect = false;
 
         private bool _assertWebFailure = true;
         private bool _lastRequestWasASPX = false;
@@ -231,6 +232,21 @@ namespace Tests
             _useDebugIdentityUser = true;
         }
 
+/*        /// <summary>
+        /// Helper function that sets the current user to be a Scout user
+        /// </summary>
+        public void SetCurrentUserScoutUser()
+        {
+            UserAccount user = TestUserAccounts.GetScoutUserAccount;
+            _userName = user.UserName;
+            _password = user.Password;
+            _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
+            _userid = user.UserID;
+            _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
+        }
+*/
         /// <summary>
         /// Helper function that reset the current user to be a not logged in user
         /// </summary>
@@ -305,6 +321,12 @@ namespace Tests
         {
             get;
             set;
+        }
+
+        public bool AllowAutoRedirect
+        {
+            get { return _allowAutoRedirect; }
+            set { _allowAutoRedirect = value; }
         }
 
         /// <summary>
@@ -397,6 +419,15 @@ namespace Tests
                     return false;
                 }
             }
+            /*
+             * else if (userType == TestUserCreator.UserType.Scout)
+            {
+                if (!TestUserCreator.CreateNewIdentityScoutUser(userName, password, dateOfBirth, email, displayname, siteid, policy, out cookie, out secureCookie, out _identityuserid, out _userid))
+                {
+                    return false;
+                }
+            }
+             */
             else if (userType == TestUserCreator.UserType.IdentityOnly)
             {
                 if (!TestUserCreator.CreateIdentityUser(userName, password, dateOfBirth, email, displayname, true, policy, true, 0, out cookie, out secureCookie, out _identityuserid))
@@ -777,6 +808,7 @@ namespace Tests
             }
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
+            webRequest.AllowAutoRedirect = _allowAutoRedirect;
 
             Console.WriteLine("Requesting " + URL.ToString());
 
@@ -965,7 +997,7 @@ namespace Tests
             Uri URL = new Uri(fullUrl);
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
-            webRequest.AllowAutoRedirect = false;
+            webRequest.AllowAutoRedirect = _allowAutoRedirect;
 
             //Trust all certificates
             ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);

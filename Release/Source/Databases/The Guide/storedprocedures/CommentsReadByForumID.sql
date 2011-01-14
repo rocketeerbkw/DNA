@@ -27,12 +27,29 @@ where te.forumid = @forumid
 	from dbo.ThreadEntries te
 	where te.forumid = @forumid
 	and @sortBy = 'created' and @sortDirection = 'descending'
+	
+	union all
 
+	select row_number() over ( order by case when value is null then 0 else value end asc) as n, te.EntryID
+	from dbo.ThreadEntries te
+	left join dbo.VCommentsRatingValue crv with(noexpand) on crv.entryid = te.entryid
+	where te.forumid = @forumid
+	and @sortBy = 'ratingvalue' and @sortDirection = 'ascending'
+	
+	union all
+
+	select row_number() over ( order by case when value is null then 0 else value end desc) as n, te.EntryID
+	from dbo.ThreadEntries te
+	left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = te.entryid
+	where te.forumid = @forumid
+	and @sortBy = 'ratingvalue' and @sortDirection = 'descending'
 )
 select cte_usersposts.n, 
 	vu.*,
-	@totalresults as totalresults
+	@totalresults as totalresults,
+	case when crv.value is null then 0 else crv.value end as nerovalue
 from cte_usersposts
-inner join VComments vu on vu.Id = cte_usersposts.EntryID
+inner join dbo.VComments vu on vu.Id = cte_usersposts.EntryID
+left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = cte_usersposts.EntryID
 where n > @startindex and n <= @startindex + @itemsPerPage
 order by n
