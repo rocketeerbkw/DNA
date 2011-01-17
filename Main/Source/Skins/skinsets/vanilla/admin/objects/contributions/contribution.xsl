@@ -87,7 +87,7 @@
 						</xsl:when>
 						<xsl:when test="MODERATIONSTATUS = 2">
 							<p class="dna-boards-failedpost">
-								<a href="/dna/moderation/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post referred</a>
+								<a href="/dna/moderation/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post Referred</a>
 							</p>
 						</xsl:when>						
 						<xsl:otherwise>
