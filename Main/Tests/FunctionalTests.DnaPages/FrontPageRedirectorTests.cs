@@ -185,6 +185,30 @@ namespace FunctionalTests
 
         }
 
+        [TestMethod]
+        public void FrontPageRedirector_WithMBFrontPageAndNoForwardSlash_RedirectsMBFrontPage()
+        {
+
+            try
+            {
+                SetSiteOptions("mbfrontpage.aspx");
+
+                var request = new DnaTestURLRequest(_siteName);
+                request.SetCurrentUserNormal();
+                request.RequestPage("?skin=purexml", null);
+
+                var lastRequest = request.GetLastResponseAsXML();
+
+                Assert.AreEqual("FRONTPAGE", lastRequest.DocumentElement.Attributes["TYPE"].Value);
+
+            }
+            finally
+            {
+                UnSetSiteOptions();
+            }
+
+        }
+
 
         private void SetSiteOptions(string location)
         {

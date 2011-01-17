@@ -101,6 +101,11 @@ namespace BBC.Dna.Page
         {
             Request.TryGetParamString("_si", ref _currentSiteName, "Site name as extracted from the URL. Internal use only.");
 
+            if (_currentSiteName.IndexOf("?") > 0)
+            {
+                _currentSiteName = _currentSiteName.Substring(0, _currentSiteName.IndexOf("?"));
+            }
+
             // Check to make sure that the site exists and we support it.
             if (_currentSiteName == null || _currentSiteName.Length == 0 || CurrentSite == null)
             {
