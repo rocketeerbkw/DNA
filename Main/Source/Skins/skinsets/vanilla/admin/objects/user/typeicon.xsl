@@ -36,7 +36,7 @@
         <xsl:when test="text() = 'UserModeratedDeactivated'">
           <img src="/dnaimages/dna_messageboard/img/icons/deactivated_user.png" width="30" height="30" alt="deactivated user" title="deactivated user" />
         </xsl:when>       
-        <xsl:when test="text() = 'Standard' and parent::USERACCOUNT/ACTIVE = '1' or STATUS/@STATUSID = '0' or ACTIVE = '1'">
+        <xsl:when test="text() = 'Standard' and parent::USERACCOUNT/ACTIVE = '1' or (STATUS/@STATUSID = '0' and ACTIVE = '1') or ACTIVE = '1'">
           <img src="/dnaimages/dna_messageboard/img/icons/standard_user.png" width="30" height="30" alt="standard user" title="standard user" />
         </xsl:when>  
         
