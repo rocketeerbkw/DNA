@@ -350,7 +350,7 @@
     .dna-dashboard table.dna-dashboard-contributions th.date,.dna-dashboard table.dna-dashboard-activity th#site {width: 10%}
     .dna-dashboard table.dna-dashboard-activity {width: 98%}
     .dna-dashboard table.dna-dashboard-activity .type {width:8%;}
-    .dna-dashboard table td.time {width:26%} 
+    .dna-dashboard table td.time {width:20%} 
     .dna-dashboard table.dna-dashboard-activity td {vertical-align:top;text-align:left;line-height: 1.4em;word-wrap:break-word}
     .dna-dashboard table.dna-dashboard-activity td p {margin-left:0}
     .dna-dashboard table.dna-dashboard-contributions td,  .dna-dashboard table.dna-dashboard-cfl td{vertical-align:top}
