@@ -128,6 +128,7 @@
 						<th>User numbers</th>
 						<th>Display name</th>
 						<th>Username</th>
+						<th>Site</th>
 						<th>Email</th>
 						<th class="mid">Moderation status</th>
 						<th class="mid">Date joined</th>
@@ -158,6 +159,7 @@
 				<a href="MemberDetails?userid={@USERID}" title="View users details"><xsl:value-of  select="USERNAME"/></a>
 			</td>
 			<td><xsl:value-of select="LOGINNAME"/></td>
+			<td><xsl:value-of select="SHORTNAME" /></td>
 			<td><xsl:value-of  select="EMAIL"/></td>
 			<td class="mod">
 				<xsl:choose>

@@ -44,7 +44,7 @@
                       <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@THREAD = '1']" mode="moderation_cta_unsubscribethread">
-                      <xsl:with-param name="label" select="'Unsubscribe from discussion'" />
+                      <xsl:with-param name="label" select="'Unsubscribe'" />
                       <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@FROMTHREADID = $threadId]" mode="moderation_cta_unsubscribethreadresult">
@@ -52,7 +52,7 @@
                       <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
                     </xsl:apply-templates>
                     <xsl:apply-templates select="/H2G2/SUBSCRIBE-RESULT[@TOTHREADID = $threadId]" mode="moderation_cta_unsubscribethreadresult">
-                      <xsl:with-param name="label" select="'Unsubscribe from discussion'" />
+                      <xsl:with-param name="label" select="'Unsubscribe'" />
                       <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
                     </xsl:apply-templates>
                   </p>
