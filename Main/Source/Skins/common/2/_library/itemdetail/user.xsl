@@ -14,7 +14,9 @@
     </doc:documentation>
     
     <xsl:template match="USER" mode="library_itemdetail">
-        <xsl:text>Posted by </xsl:text>
-        <xsl:apply-templates select="." mode="library_user_linked"/>
+	    <xsl:if test="parent::POST/@HIDDEN = 0 or parent::POST/@HIDDEN = ''">
+	        <xsl:text>Posted by </xsl:text>
+	        <xsl:apply-templates select="." mode="library_user_linked"/>
+	    </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
