@@ -33,7 +33,6 @@
 			<xsl:attribute name="href">#footnote<xsl:value-of select="@INDEX"/></xsl:attribute>
 			<xsl:apply-templates select="@INDEX" mode="Footnote"/>
 		</a>
-		<xsl:apply-templates mode="library_GuideML"/>
 	</xsl:template>
 	
 	<xsl:template match="@INDEX" mode="Footnote">
