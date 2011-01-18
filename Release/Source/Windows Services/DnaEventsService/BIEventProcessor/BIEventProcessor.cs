@@ -145,7 +145,7 @@ namespace Dna.BIEventSystem
 
         private void RecordRiskModDecisionsOnThreadEntries(ITheGuideSystem theGuideSys, List<BIEvent> events)
         {
-            // Find all the processed BIPostToForumEvents that have a non-null Risky value
+            // Find all the BIPostToForumEvents
             IEnumerable<BIPostToForumEvent> biPostEvents = events.Where(ev => ev is BIPostToForumEvent).Cast<BIPostToForumEvent>();
 
             // Record the decision in TheGuide system
