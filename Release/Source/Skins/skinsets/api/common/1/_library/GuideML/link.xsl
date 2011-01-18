@@ -27,7 +27,7 @@
 						<xsl:value-of select="@BIO | @bio"/>
 					</xsl:when>
 					<xsl:when test="@H2G2 | @h2g2 | @H2g2">
-						<xsl:choose>
+						<!--<xsl:choose>
 							<xsl:when test="@H2G2='categories'| @h2g2='categories' | @H2g2='categories'">
 								<xsl:value-of select="$aerian-base"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
@@ -64,7 +64,9 @@
 								<xsl:value-of select="$aerian-base-entry"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:otherwise>
-						</xsl:choose>
+						</xsl:choose>-->
+						<xsl:value-of select="$aerian-base-entry"/>
+						<xsl:value-of select="@h2g2"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$aerian-base-entry"/>
