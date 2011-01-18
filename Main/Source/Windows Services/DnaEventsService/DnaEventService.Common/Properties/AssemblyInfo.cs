@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BBC")]
 [assembly: AssemblyProduct("DnaEventService.Common")]
-[assembly: AssemblyCopyright("Copyright © BBC 2009")]
+[assembly: AssemblyCopyright("Copyright © BBC 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -36,6 +36,5 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-//[assembly: InternalsVisibleTo("DnaEventService.Common.Tests")]
+[assembly: AssemblyVersion("3.5.53.0")]
+
