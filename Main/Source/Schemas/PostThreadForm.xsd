@@ -50,6 +50,7 @@
       <xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
       <xs:attribute name="STYLE" type="xs:unsignedByte" use="required" />
       <xs:attribute name="QUOTEINCLUDED" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="POSTEDBEFOREREPOSTTIMEELAPSED" type="xs:unsignedByte" use="optional" />
     </xs:complexType>
   </xs:element>
 </xs:schema>

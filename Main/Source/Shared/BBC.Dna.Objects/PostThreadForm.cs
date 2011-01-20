@@ -143,6 +143,16 @@ namespace BBC.Dna.Objects
             set;
         }
 
+        /// <remarks/>
+        [XmlAttributeAttribute(AttributeName = "POSTEDBEFOREREPOSTTIMEELAPSED")]
+        public int PostedBeforeReportTimeElapsed
+        {
+            get;
+            set;
+        }
+
+        
+
         /// <summary>
         /// Returns the post form filled with the reply to information
         /// </summary>
@@ -229,7 +239,10 @@ namespace BBC.Dna.Objects
                         break;
                 }
             }
-            Subject = ThreadPost.FormatSubject(subject, CommentStatus.Hidden.NotHidden);
+            if (!string.IsNullOrEmpty(subject))
+            {
+                Subject = ThreadPost.FormatSubject(subject, CommentStatus.Hidden.NotHidden);
+            }
             if (body.IndexOf(string.Format("<quote postid='{0}'", InReplyToId)) >= 0)
             {
                 Body = body;

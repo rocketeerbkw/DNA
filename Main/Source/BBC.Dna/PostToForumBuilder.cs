@@ -78,20 +78,20 @@ namespace BBC.Dna
                 postToForumBuilder = PostThreadForm.GetPostThreadFormWithForum(_creator, _viewingUser, _forumId);
             }
 
-            //add post if relevant
-            postToForumBuilder.AddPost(_subject, _text, _addQuote);
-            
             //add forumsource
             ForumSource forumSource = ForumSource.CreateForumSource(_cache, _creator, _viewingUser, postToForumBuilder.ForumId, postToForumBuilder.ThreadId,
                                                                     InputContext.CurrentSite.SiteID,
                                                                     true, false, false);
-
             if (forumSource == null)
             {
                 AddErrorXml("ForumOrThreadNotFound", "Unable to find the requested forum or thread.", null);
                 return;
             }
             SerialiseAndAppend(forumSource, String.Empty);
+
+            //add post if relevant
+            postToForumBuilder.AddPost(_subject, _text, _addQuote);
+            
 
             if (_post)
             {//do posting
@@ -109,15 +109,23 @@ namespace BBC.Dna
                 }
                 catch (ApiException e)
                 {
-                    if (e.type != ErrorType.ProfanityFoundInText)
+                    switch(e.type)
                     {
-                        AddErrorXml(e.type.ToString(), e.Message, null);
-                        return;
+                        case ErrorType.ProfanityFoundInText:
+                            postToForumBuilder.ProfanityTriggered = 1;
+                            break;
+                            
+
+                        case ErrorType.PostFrequencyTimePeriodNotExpired:
+                            postToForumBuilder.PostedBeforeReportTimeElapsed = 1;
+                            break;
+
+                        default:
+                            AddErrorXml(e.type.ToString(), e.Message, null);
+                            return;
+                      
                     }
-                    else
-                    {
-                        postToForumBuilder.ProfanityTriggered = 1;
-                    }
+                    
                 }
 
                 if (postToForumBuilder.ProfanityTriggered != 1)
