@@ -190,6 +190,7 @@
 	<xsl:variable name="aerian-base">/h2g2/</xsl:variable>
 	<xsl:variable name="aerian-base-entry">/h2g2/entry/</xsl:variable>
 	<xsl:variable name="aerian-base-user">/h2g2/user/</xsl:variable>
+	<xsl:variable name="aerian-base-categories">/h2g2/categories/</xsl:variable>
 	<xsl:variable name="blobs-root">http://www.bbc.co.uk/h2g2/blobs/</xsl:variable>
 	<xsl:variable name="blob-gif-root">http://www.bbc.co.uk/dna/h2g2/brunel/</xsl:variable>
 	<xsl:variable name="smilies-post-root">http://www.bbc.co.uk/dna/h2g2/blobs/smileys/post</xsl:variable>

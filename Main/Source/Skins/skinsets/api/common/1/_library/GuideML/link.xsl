@@ -27,46 +27,59 @@
 						<xsl:value-of select="@BIO | @bio"/>
 					</xsl:when>
 					<xsl:when test="@H2G2 | @h2g2 | @H2g2">
-						<!--<xsl:choose>
-							<xsl:when test="@H2G2='categories'| @h2g2='categories' | @H2g2='categories'">
+						<xsl:choose>
+							<xsl:when test="@H2G2='categories' or @h2g2='categories' or @H2g2='categories'">
 								<xsl:value-of select="$aerian-base"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:when>
-							<xsl:when test="@H2G2='peer_review'| @h2g2='peer_review' | @H2g2='peer_review'">
+							<xsl:when test="@H2G2='peer_review' or @h2g2='peer_review' or @H2g2='peer_review'">
 								<xsl:value-of select="$aerian-base"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:when>
-							<xsl:when test="@H2G2='search'| @h2g2='search' | @H2g2='search'">
+							<xsl:when test="@H2G2='search' or @h2g2='search' or @H2g2='search'">
 								<xsl:value-of select="$aerian-base"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:when>
-							<xsl:when test="@H2G2='coming_up'| @h2g2='coming_up' | @H2g2='coming_up'">
+							<xsl:when test="@H2G2='coming_up' or @h2g2='coming_up' or @H2g2='coming_up'">
 								<xsl:value-of select="$aerian-base"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:when>
-							<xsl:when test="@H2G2='info'| @h2g2='info' | @H2g2='info'">
+							<xsl:when test="@H2G2='info' or @h2g2='info' or @H2g2='info'">
 								<xsl:value-of select="$aerian-base"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:when>
-							<xsl:when test="@H2G2='solo'| @h2g2='solo' | @H2g2='solo'">
+							<xsl:when test="@H2G2='solo' or @h2g2='solo' or @H2g2='solo'">
 								<xsl:value-of select="$aerian-base"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:when>
-							<xsl:when test="@H2G2='month'| @h2g2='month' | @H2g2='month'">
+							<xsl:when test="@H2G2='month' or @h2g2='month' or @H2g2='month'">
 								<xsl:value-of select="$aerian-base"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:when>
-							<xsl:when test="@H2G2='scout_picks'| @h2g2='scout_picks' | @H2g2='scout_picks'">
+							<xsl:when test="@H2G2='scout_picks' or @h2g2='scout_picks' or @H2g2='scout_picks'">
 								<xsl:value-of select="$aerian-base"/>
+								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
+							</xsl:when>
+							<xsl:when test="(starts-with(@H2G2,'A') and number(substring(@H2G2,2)) > 0) or (starts-with(@h2g2,'A') and number(substring(@h2g2,2)) > 0) or (starts-with(@H2g2,'A') and number(substring(@H2g2,2)) > 0)">
+								<xsl:value-of select="$aerian-base-entry"/>
+								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
+							</xsl:when>
+							<xsl:when test="(starts-with(@H2G2,'U') and number(substring(@H2G2,2)) > 0) or (starts-with(@h2g2,'U') and number(substring(@h2g2,2)) > 0) or (starts-with(@H2g2,'U') and number(substring(@H2g2,2)) > 0)">
+								<xsl:value-of select="$aerian-base-user"/>
+								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
+							</xsl:when>
+							<xsl:when test="(starts-with(@H2G2,'C') and number(substring(@H2G2,2)) > 0) or (starts-with(@h2g2,'C') and number(substring(@h2g2,2)) > 0) or (starts-with(@H2g2,'C') and number(substring(@H2g2,2)) > 0)">
+								<xsl:value-of select="$aerian-base-categories"/>
+								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
+							</xsl:when>
+							<xsl:when test="starts-with(@H2G2,'&#35;') or starts-with(@h2g2,'&#35;') or starts-with(@H2g2,'&#35;')">
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="$aerian-base-entry"/>
 								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 							</xsl:otherwise>
-						</xsl:choose>-->
-						<xsl:value-of select="$aerian-base-entry"/>
-						<xsl:value-of select="@h2g2"/>
+						</xsl:choose>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$aerian-base-entry"/>
@@ -107,7 +120,9 @@
 						<xsl:when test="@H2G2 | @h2g2 | @H2g2">
 							<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
 						</xsl:when>
-						<!--<xsl:otherwise>&#160;</xsl:otherwise>-->
+						<xsl:otherwise>
+							<xsl:comment>anchor</xsl:comment>
+						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:when>
 				<xsl:otherwise>

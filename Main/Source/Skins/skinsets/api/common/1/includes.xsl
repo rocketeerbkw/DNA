@@ -40,6 +40,7 @@
 	<xsl:include href="_library/GuideML/code.xsl" />
 	<xsl:include href="_library/GuideML/columns.xsl" />
 	<xsl:include href="_library/GuideML/entity.xsl" />
+	<xsl:include href="_library/GuideML/emp.xsl" />
 	<xsl:include href="_library/GuideML/footnote.xsl"/>
 	<xsl:include href="_library/GuideML/font.xsl"/>
 	<xsl:include href="_library/GuideML/form.xsl"/>
