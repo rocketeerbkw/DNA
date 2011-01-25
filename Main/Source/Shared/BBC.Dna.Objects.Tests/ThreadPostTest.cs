@@ -1050,7 +1050,8 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             {
                 Text = "<div>more than 5 chars",
                 Subject = "test subject",
-                ThreadId = threadId
+                ThreadId = threadId,
+                Style = PostStyle.Style.richtext
             };
 
             ApiException e = null;
