@@ -231,11 +231,11 @@ namespace BBC.Dna.Objects
                 switch (addQuote)
                 {
                     case QuoteEnum.QuoteId:
-                        quoteStr = string.Format("<quote postid='{0}'>{1}</quote>\r\n", InReplyToId, InReplyTo.RawBody);
+                        quoteStr = string.Format("<quote postid='{0}'>{1}</quote>", InReplyToId, InReplyTo.RawBody);
                         break;
 
                     case QuoteEnum.QuoteUser:
-                        quoteStr = string.Format("<quote postid='{0}' user='{2}' userid='{1}'>{3}</quote>\r\n", InReplyToId, InReplyTo.UserId, InReplyTo.Username, InReplyTo.RawBody);
+                        quoteStr = string.Format("<quote postid='{0}' user='{2}' userid='{1}'>{3}</quote>", InReplyToId, InReplyTo.UserId, InReplyTo.Username, InReplyTo.RawBody);
                         break;
                 }
             }
