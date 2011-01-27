@@ -96,7 +96,7 @@ namespace BBC.Dna
             if (_post)
             {//do posting
                 ThreadPost post = new ThreadPost();
-                post.Text = HtmlUtils.HtmlEncode(postToForumBuilder.Body);
+                post.Text = postToForumBuilder.Body;
                 post.Subject = postToForumBuilder.Subject;
                 post.Style = (BBC.Dna.Objects.PostStyle.Style)postToForumBuilder.Style;
                 post.ThreadId = postToForumBuilder.ThreadId;

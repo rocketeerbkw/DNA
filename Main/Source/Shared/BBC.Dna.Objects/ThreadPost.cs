@@ -674,15 +674,15 @@ namespace BBC.Dna.Objects
             }
 
             //Only check xml parsing for richtext plain text we want what is there so smileys etc work
-            if (this.Style == PostStyle.Style.richtext)
-            {
-                string errormessage = string.Empty;
-                // Check to make sure that the comment is made of valid XML
-                if (!HtmlUtils.ParseToValidGuideML(Text, ref errormessage))
-                {
-                    throw ApiException.GetError(ErrorType.XmlFailedParse);
-                }
-            }
+            //if (this.Style == PostStyle.Style.richtext)
+            //{
+            //    string errormessage = string.Empty;
+            //    // Check to make sure that the comment is made of valid XML
+            //    if (!HtmlUtils.ParseToValidGuideML(Text, ref errormessage))
+            //    {
+            //        throw ApiException.GetError(ErrorType.XmlFailedParse);
+            //    }
+            //}
 
             bool forceModeration;
             string matchingProfanity= string.Empty;
