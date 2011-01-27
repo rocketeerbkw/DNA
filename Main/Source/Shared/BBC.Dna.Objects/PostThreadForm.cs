@@ -118,6 +118,15 @@ namespace BBC.Dna.Objects
             get;
             set;
         }
+
+        [XmlIgnore]
+        public bool ProfanityTriggeredSpecified
+        {
+            get
+            {
+                return ProfanityTriggered > 0;
+            }
+        }
         
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName="NONALLOWEDURLSTRIGGERED")]
@@ -125,6 +134,15 @@ namespace BBC.Dna.Objects
         {
             get;
             set;
+        }
+
+        [XmlIgnore]
+        public bool NonAllowedUrlsTriggeredSpecified
+        {
+            get
+            {
+                return NonAllowedUrlsTriggered > 0;
+            }
         }
         
         /// <remarks/>
@@ -151,7 +169,33 @@ namespace BBC.Dna.Objects
             set;
         }
 
-        
+        [XmlIgnore]
+        public bool PostedBeforeReportTimeElapsedSpecified
+        {
+            get
+            {
+                return PostedBeforeReportTimeElapsed > 0;
+            }
+        }
+
+        /// <remarks/>
+        [XmlAttributeAttribute(AttributeName = "SECONDSBEFOREPOST")]
+        public int SecondsBeforePost
+        {
+            get;
+            set;
+        }
+
+        [XmlIgnore]
+        public bool SecondsBeforePostSpecified
+        {
+            get
+            {
+                return SecondsBeforePost > 0;
+            }
+        }
+
+         
 
         /// <summary>
         /// Returns the post form filled with the reply to information

@@ -45,12 +45,13 @@
       <xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
       <xs:attribute name="INREPLYTO" type="xs:unsignedInt" use="required" />
       <xs:attribute name="POSTINDEX" type="xs:unsignedByte" use="required" />
-      <xs:attribute name="PROFANITYTRIGGERED" type="xs:unsignedByte" use="required" />
-      <xs:attribute name="NONALLOWEDURLSTRIGGERED" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="PROFANITYTRIGGERED" type="xs:unsignedByte" use="optional" />
+      <xs:attribute name="NONALLOWEDURLSTRIGGERED" type="xs:unsignedByte" use="optional" />
       <xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
       <xs:attribute name="STYLE" type="xs:unsignedByte" use="required" />
       <xs:attribute name="QUOTEINCLUDED" type="xs:unsignedByte" use="required" />
       <xs:attribute name="POSTEDBEFOREREPOSTTIMEELAPSED" type="xs:unsignedByte" use="optional" />
+      <xs:attribute name="SECONDSBEFOREPOST" type="xs:int" use="optional" />
     </xs:complexType>
   </xs:element>
 </xs:schema>

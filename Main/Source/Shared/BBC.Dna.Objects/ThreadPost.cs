@@ -253,6 +253,9 @@ namespace BBC.Dna.Objects
             set;
         }
 
+        [XmlIgnore]
+        public int SecondsToWait = 0;
+
         #endregion
 
         public ThreadPost()
@@ -592,7 +595,7 @@ namespace BBC.Dna.Objects
         /// <param name="ThreadId"></param>
         /// <param name="_iPAddress"></param>
         /// <param name="bbcUidCookie"></param>
-        public void PostToForum(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+        public void PostToForum(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site,
             IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
         {
 
@@ -691,12 +694,12 @@ namespace BBC.Dna.Objects
             //check posting frequency
             if (!viewingUser.IsEditor && !viewingUser.IsSuperUser && !viewingUser.IsNotable)
             {
-                var secondsToWait = CheckPostFrequency(readerCreator, viewingUser.UserId, site.SiteID);
-                if (secondsToWait != 0)
+                SecondsToWait = CheckPostFrequency(readerCreator, viewingUser.UserId, site.SiteID);
+                if (SecondsToWait != 0)
                 {
                     var error =  ApiException.GetError(ErrorType.PostFrequencyTimePeriodNotExpired);
                     ApiException newError = new ApiException(
-                        error.Message + " You must wait " + secondsToWait.ToString() + " more seconds before posting.",
+                        error.Message + " You must wait " + SecondsToWait.ToString() + " more seconds before posting.",
                         error.type);
                     throw newError;
                 }

@@ -91,17 +91,15 @@ namespace BBC.Dna
 
             //add post if relevant
             postToForumBuilder.AddPost(_subject, _text, _addQuote);
-            
 
+            ThreadPost post = new ThreadPost();
             if (_post)
             {//do posting
-                ThreadPost post = new ThreadPost();
                 post.Text = postToForumBuilder.Body;
                 post.Subject = postToForumBuilder.Subject;
                 post.Style = (BBC.Dna.Objects.PostStyle.Style)postToForumBuilder.Style;
                 post.ThreadId = postToForumBuilder.ThreadId;
                 post.InReplyTo = postToForumBuilder.InReplyToId;
-
                 try
                 {
                     post.PostToForum(_cache, AppContext.ReaderCreator, InputContext.CurrentSite, _viewingUser, InputContext.TheSiteList,
@@ -118,6 +116,7 @@ namespace BBC.Dna
 
                         case ErrorType.PostFrequencyTimePeriodNotExpired:
                             postToForumBuilder.PostedBeforeReportTimeElapsed = 1;
+                            postToForumBuilder.SecondsBeforePost = post.SecondsToWait;
                             break;
 
                         default:
@@ -128,7 +127,7 @@ namespace BBC.Dna
                     
                 }
 
-                if (postToForumBuilder.ProfanityTriggered != 1)
+                if (postToForumBuilder.ProfanityTriggered != 1 && postToForumBuilder.PostedBeforeReportTimeElapsed != 1)
                 {
                     if (post.IsPreModPosting)
                     {//show premodposting
@@ -159,7 +158,10 @@ namespace BBC.Dna
                     }
                 }
             }
-            SerialiseAndAppend(postToForumBuilder, String.Empty);
+            if (!post.IsPreModPosting)
+            {//hide form if premod posting...
+                SerialiseAndAppend(postToForumBuilder, String.Empty);
+            }
             
 
             //add page ui to xml
