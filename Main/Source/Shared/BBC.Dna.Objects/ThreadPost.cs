@@ -781,7 +781,10 @@ namespace BBC.Dna.Objects
                 if (dataReader.Read())
                 {
                     PostId = dataReader.GetInt32NullAsZero("postid");
-                    ThreadId = dataReader.GetInt32NullAsZero("threadid");
+                    if (dataReader.GetInt32NullAsZero("threadid") != 0)
+                    {
+                        ThreadId = dataReader.GetInt32NullAsZero("threadid");
+                    }
                     IsPreModPosting = dataReader.GetBoolean("ispremodposting");                    
                     // isPreModerated = dataReader.GetBoolean("ispremoderated");
                     // isQueued = dataReader.GetBoolean("wasqueued");

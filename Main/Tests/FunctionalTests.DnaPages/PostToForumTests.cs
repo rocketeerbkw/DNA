@@ -151,6 +151,8 @@ namespace FunctionalTests
 
             var xml = PostToForum();
 
+            Assert.AreEqual(_threadId.ToString(), xml.SelectSingleNode("H2G2/POSTPREMODERATED/@THREAD").InnerText);
+            
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
 
         }
@@ -568,7 +570,7 @@ namespace FunctionalTests
             var xml = request.GetLastResponseAsXML();
 
             Assert.AreEqual("1", xml.SelectSingleNode("H2G2/POSTTHREADFORM/@POSTEDBEFOREREPOSTTIMEELAPSED").InnerText);
-            Assert.IsNotNull(xml.SelectSingleNode("H2G2/POSTTHREADFORM/@SECONDSBEFOREPOST"));
+            Assert.IsNotNull(xml.SelectSingleNode("H2G2/POSTTHREADFORM/SECONDSBEFOREPOST"));
 
         }
 
