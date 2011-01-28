@@ -41,11 +41,21 @@
 					</xsl:when>
 				</xsl:choose>	
 				<div>
-					<table>
-						<tbody>
-							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered']" mode="objects_moderator_queuesummary" />
-						</tbody>
-					</table>
+          <xsl:if test="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered' and @FASTMOD='1' and @TOTAL != '0']">
+            High Priority Items
+            <table>
+              <tbody>
+                <xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered' and @FASTMOD='1' and @TOTAL != '0']" mode="objects_moderator_queuesummary" />
+              </tbody>
+            </table>
+              Standard Priority Items
+          </xsl:if>
+					
+          <table>
+            <tbody>
+              <xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered' and @FASTMOD='0']" mode="objects_moderator_queuesummary" />
+            </tbody>
+          </table>
 				</div>				
 			</xsl:otherwise>
 		</xsl:choose>
