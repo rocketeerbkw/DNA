@@ -410,9 +410,14 @@ namespace BBC.Dna.Api
         /// <returns>The comment forum (either new or existing) which matches to the </returns>
         public CommentForum CreateCommentForum(Forum commentForum, ISite site)
         {
-            CreateForum(commentForum, site);
-            //return comment forum data
-            return GetCommentForumByUid(commentForum.Id, site);
+            var tmpCommentForum = GetCommentForumByUid(commentForum.Id, site);
+            if (tmpCommentForum == null)
+            {
+                CreateForum(commentForum, site);
+                //return comment forum data
+                tmpCommentForum =  GetCommentForumByUid(commentForum.Id, site);
+            }
+            return tmpCommentForum;
         }
 
         /// <summary>
@@ -445,8 +450,17 @@ namespace BBC.Dna.Api
                     //reader.AddParameter("forcepremoderation", (commentForum.ModerationServiceGroup == ModerationStatus.ForumStatus.PreMod?1:0));
                     reader.AddParameter("ignoremoderation", ignoreModeration);
                     reader.AddParameter("isnotable", CallingUser.IsUserA(UserTypes.Notable));
-                    reader.AddParameter("ipaddress", IpAddress);
-                    reader.AddParameter("bbcuid", BbcUid);
+
+                    if (CallingUser.UserID != commentForum.NotSignedInUserId)
+                    {//dont include as this is data protection
+                        reader.AddParameter("ipaddress", IpAddress);
+                        reader.AddParameter("bbcuid", BbcUid);
+                    }
+
+                    if (CallingUser.UserID == commentForum.NotSignedInUserId && comment.User != null && !String.IsNullOrEmpty(comment.User.DisplayName))
+                    {//add display name for not signed in comment
+                        reader.AddParameter("nickname", comment.User.DisplayName);
+                    }
                     reader.AddIntReturnValue();
                     reader.AddParameter("poststyle", (int) comment.PostStyle);
                     if (!String.IsNullOrEmpty(notes))
@@ -463,7 +477,13 @@ namespace BBC.Dna.Api
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
                                               : CommentStatus.Hidden.NotHidden);
                         comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden, CallingUser.IsUserA(UserTypes.Editor));
+                        var displayName = CallingUser.UserName;
+                        if (CallingUser.UserID == commentForum.NotSignedInUserId && comment.User != null && !String.IsNullOrEmpty(comment.User.DisplayName))
+                        {//add display name for not signed in comment
+                            displayName = comment.User.DisplayName;
+                        }
                         comment.User = UserReadByCallingUser(site);
+                        comment.User.DisplayName = displayName;
                         comment.Created = new DateTimeHelper(DateTime.Now);
 
                         if (reader.GetInt32NullAsZero("postid") != 0)
@@ -1004,8 +1024,6 @@ namespace BBC.Dna.Api
                                     site.IsSiteScheduledClosed(DateTime.Now) ||
                                     (DateTime.Now > closingDate);
             //MaxCharacterCount = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "'MaxCommentCharacterLength")
-
-
             var replacements = new Dictionary<string, string>();
             replacements.Add("commentforumid", reader.GetStringNullAsEmpty("uid"));
             replacements.Add("sitename", site.SiteName);
@@ -1044,6 +1062,9 @@ namespace BBC.Dna.Api
                         break;
                 }
             }
+
+            commentForum.NotSignedInUserId = reader.GetInt32NullAsZero("NotSignedInUserId");
+            commentForum.allowNotSignedInCommenting = commentForum.NotSignedInUserId != 0;
             return commentForum;
         }
 

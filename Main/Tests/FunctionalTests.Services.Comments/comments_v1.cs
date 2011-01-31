@@ -90,8 +90,6 @@ namespace FunctionalTests.Services.Comments
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
 
-
-
             string text = "Functiontest Title" + Guid.NewGuid().ToString();
             string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
                 "<text>{0}</text>" +
@@ -104,6 +102,39 @@ namespace FunctionalTests.Services.Comments
             // Check to make sure that the page returned with the correct information
 
             return (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+
+        }
+
+        /// <summary>
+        /// A helper class for other tests that need a comment to operate.
+        /// </summary>
+        /// <returns></returns>
+        public CommentInfo CreateCommentHelperWithPut(CommentForum forum, string text,  bool UseNotSignedIn, string userName)
+        {
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            if (!UseNotSignedIn)
+            {
+                request.SetCurrentUserNormal();
+            }
+
+            forum.NotSignedInUserId = UseNotSignedIn?1:0;
+            forum.commentList = new BBC.Dna.Api.CommentsList();
+            forum.commentList.comments = new List<CommentInfo>();
+            forum.commentList.comments.Add(new CommentInfo{text = text});
+            if(!String.IsNullOrEmpty(userName))
+            {
+                forum.commentList.comments[0].User = new User{DisplayName = userName};
+            }
+
+
+            // Setup the request url
+            string url = String.Format("https://{0}/dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/", _secureserver, _sitename, forum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(url, StringUtils.SerializeToJsonReturnAsString(forum), "application/json", "PUT");
+            // Check to make sure that the page returned with the correct information
+
+            return (CommentInfo)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentInfo));
 
         }
 
@@ -1399,6 +1430,161 @@ namespace FunctionalTests.Services.Comments
             Console.WriteLine("After CreateComment_WithSiteSuffix");
         }
 
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsPUT_CreatesComment()
+        {
+            var text = "Functiontest Title" + Guid.NewGuid().ToString();
+            Console.WriteLine("Before CreateComment");
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            CommentInfo returnedComment = CreateCommentHelperWithPut(commentForum, text, false, "");
+            Assert.AreEqual(text, returnedComment.text);
+            Assert.IsNotNull(returnedComment.User);
+            Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+
+            DateTime created = DateTime.Parse(returnedComment.Created.At);
+            DateTime createdTest = BBC.Dna.Utils.TimeZoneInfo.GetTimeZoneInfo().ConvertUtcToTimeZone(DateTime.Now.AddMinutes(5));
+            Assert.IsTrue(created < createdTest);//should be less than 5mins
+            Assert.IsTrue(!String.IsNullOrEmpty(returnedComment.Created.Ago));
+
+            Console.WriteLine("After CreateComment");
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_NotSignedIn_CreatesComment()
+        {
+            try
+            {
+                SetSiteOption(1, "CommentForum", "AllowNotSignedInCommenting", 1, "1");
+                var text = "Functiontest Title" + Guid.NewGuid().ToString();
+                var userName = "testUserName";
+
+                //create the forum
+                CommentForum commentForum = new CommentForum
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ParentUri = "http://bbc.co.uk",
+                    Title = Guid.NewGuid().ToString(),
+                    allowNotSignedInCommenting = true
+                };
+
+                CommentInfo returnedComment = CreateCommentHelperWithPut(commentForum, text, true, userName);
+                Assert.AreEqual(text, returnedComment.text);
+                Assert.AreEqual(userName, returnedComment.User.DisplayName);
+                Assert.IsNotNull(returnedComment.User);
+
+                DateTime created = DateTime.Parse(returnedComment.Created.At);
+                DateTime createdTest = BBC.Dna.Utils.TimeZoneInfo.GetTimeZoneInfo().ConvertUtcToTimeZone(DateTime.Now.AddMinutes(5));
+                Assert.IsTrue(created < createdTest);//should be less than 5mins
+                Assert.IsTrue(!String.IsNullOrEmpty(returnedComment.Created.Ago));
+
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+                string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+                // now get the response
+                request.RequestPageWithFullURL(url);
+                XmlDocument xml = request.GetLastResponseAsXML();
+
+                var returnedCommentForum = (CommentForum)StringUtils.DeserializeObject(xml.OuterXml, typeof(CommentForum));
+
+                Assert.AreEqual(text, returnedCommentForum.commentList.comments[0].text);
+                Assert.AreEqual(userName, returnedCommentForum.commentList.comments[0].User.DisplayName);
+            }
+            finally
+            {
+                RemoveSiteOption(1, "AllowNotSignedInCommenting");
+            }
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_SignedInToNotSignedInForum_CreatesComment()
+        {
+            try
+            {
+                SetSiteOption(1, "CommentForum", "AllowNotSignedInCommenting", 1, "1");
+                var text = "Functiontest Title" + Guid.NewGuid().ToString();
+                var userName = "testUserName";
+
+                //create the forum
+                CommentForum commentForum = new CommentForum
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    ParentUri = "http://bbc.co.uk",
+                    Title = Guid.NewGuid().ToString(),
+                    allowNotSignedInCommenting = true
+                };
+
+                CommentInfo returnedComment = CreateCommentHelperWithPut(commentForum, text, true, userName);
+                Assert.AreEqual(text, returnedComment.text);
+                Assert.AreEqual(userName, returnedComment.User.DisplayName);
+                Assert.IsNotNull(returnedComment.User);
+
+                CreateCommentHelper(commentForum.Id);
+
+
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+                string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+                // now get the response
+                request.RequestPageWithFullURL(url);
+                XmlDocument xml = request.GetLastResponseAsXML();
+
+                var returnedCommentForum = (CommentForum)StringUtils.DeserializeObject(xml.OuterXml, typeof(CommentForum));
+                Assert.AreEqual(2, returnedCommentForum.commentList.TotalCount);
+                Assert.AreEqual(request.CurrentUserName, returnedCommentForum.commentList.comments[1].User.DisplayName);
+            }
+            finally
+            {
+                RemoveSiteOption(1, "AllowNotSignedInCommenting");
+            }
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_NotSignedInWithoutSiteOption_ReturnsNotAuthorised()
+        {
+            var text = "Functiontest Title" + Guid.NewGuid().ToString();
+            var userName = "testUserName";
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            //create the forum
+            CommentForum commentForum = new CommentForum
+            {
+                Id = Guid.NewGuid().ToString(),
+                ParentUri = "http://bbc.co.uk",
+                Title = Guid.NewGuid().ToString(),
+                allowNotSignedInCommenting = true
+            };
+
+
+            try
+            {
+                CommentInfo returnedComment = CreateCommentHelperWithPut(commentForum, text, true, userName);
+                throw new Exception("Should have thrown an error");
+            }
+            catch (Exception e)
+            {
+                Assert.IsTrue(e.Message.IndexOf("401") >= 0);
+            }
+
+        }
+
         private void ConfigureUDNG(int siteId, string udng, string siteSuffixValue)
         {
             using (FullInputContext _context = new FullInputContext(""))
@@ -1451,17 +1637,7 @@ namespace FunctionalTests.Services.Comments
         /// <param name="value"></param>
         private void SetSecureSiteOption(int value)
         {
-            //set max char option
-            using (FullInputContext inputcontext = new FullInputContext(""))
-            {
-                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                {
-                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(1,'CommentForum', 'EnforceSecurePosting','" + value.ToString() + "',0,'test EnforceSecurePosting value')");
-                }
-            }
-            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
-            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site", "", "text/xml");
-
+            SetSiteOption(1, "CommentForum", "EnforceSecurePosting", 0, value.ToString());
         }
 
         /// <summary>
@@ -1470,12 +1646,36 @@ namespace FunctionalTests.Services.Comments
         /// <param name="value"></param>
         private void RemoveSecureSiteOption()
         {
+            RemoveSiteOption(1, "EnforceSecurePosting");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        private void SetSiteOption(int siteId, string section, string name, int type, string value)
+        {
             //set max char option
             using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
-                    reader.ExecuteDEBUGONLY("delete from siteoptions where name='EnforceSecurePosting' and siteid=1");
+                    reader.ExecuteDEBUGONLY(string.Format("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values({0},'{1}', '{2}','{3}',{4},'test option')", siteId, section, name, value, type));
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site", "", "text/xml");
+
+        }
+
+        private void RemoveSiteOption(int siteId, string name)
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY(string.Format("delete from siteoptions where name='{1}' and siteid={0}", siteId, name));
                 }
             }
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);

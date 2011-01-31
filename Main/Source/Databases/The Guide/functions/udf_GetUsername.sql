@@ -18,7 +18,25 @@ BEGIN
 	DECLARE @Value varchar(255)
 
 	declare @UseSiteSuffix varchar(6000)
-	set @UseSiteSuffix  = dbo.udf_getsiteoptionsetting(@siteid, 'General', 'UseSiteSuffix')
+	IF EXISTS(SELECT 1 FROM dbo.SiteOptions WITH (NOLOCK) WHERE Siteid=@siteid AND Section='General' AND Name='UseSiteSuffix')
+	BEGIN 
+		-- Site specific setting. 
+		SELECT @UseSiteSuffix = Value
+		  FROM dbo.SiteOptions WITH (NOLOCK)
+		 WHERE Siteid = @siteid
+		   AND Section = 'General' 
+		   AND Name = 'UseSiteSuffix'
+	END
+	ELSE 
+	BEGIN
+		-- Default setting. 
+		SELECT @UseSiteSuffix = Value
+		  FROM dbo.SiteOptions WITH (NOLOCK)
+		 WHERE Siteid = 0 -- Default
+		   AND Section = 'General' 
+		   AND Name = 'UseSiteSuffix'
+	END
+
 	if(@UseSiteSuffix = '1')
 	BEGIN
 		select @Value = sitesuffix
