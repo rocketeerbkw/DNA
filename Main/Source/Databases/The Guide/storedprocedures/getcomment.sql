@@ -4,7 +4,7 @@ SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 SELECT 	Id, 
 		Created, 
 		UserID, 
-		ForumID, 
+		vc.ForumID, 
 		parentUri,
 		text, 
 		Hidden, 
@@ -17,5 +17,8 @@ SELECT 	Id,
 		lastupdated,
 		SiteSpecificDisplayName,
 		IsEditorPick,
-		PostIndex
-	FROM VComments WHERE id = @postid
+		PostIndex,
+		case when crv.value is null then 0 else crv.value end as nerovalue
+	FROM VComments vc
+	left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = vc.id
+	WHERE id = @postid
