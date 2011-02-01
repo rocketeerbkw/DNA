@@ -17,7 +17,16 @@
     <xsl:template match="VIEWING-USER"  mode="library_identity_cta">
     	<xsl:param name="signin-text" />
     	
-    	<xsl:variable name="idptrt" select="concat($root,'/AddThread?forum=', @FORUMID, '%26article=', /H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID)" />
+    	<xsl:variable name="idptrt">
+			<xsl:choose>
+			<xsl:when test="/H2G2/@TYPE = 'POSTTOFORUM'">
+				<xsl:value-of select="concat($root,'/NF', /H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID, '%3Fthread=', /H2G2/POSTTHREADFORM/@THREADID)" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat($root,'/NF', /H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID, '%3Fthread=', /H2G2/FORUMTHREADPOSTS/@THREADID)" />
+			</xsl:otherwise>
+			</xsl:choose>
+    	</xsl:variable>
     	
     	<div class="id-wrap blq-clearfix">
     		<xsl:choose>
@@ -30,14 +39,15 @@
 				    	</xsl:attribute>
 			    	Sign in</a>
 			    	<p> or 
-			    	<a>
-				    	<xsl:attribute name="href">
-							<xsl:apply-templates select="." mode="library_identity_registerurl">
-							    <xsl:with-param name="ptrt" select="$idptrt" />
-							</xsl:apply-templates>			    	
-				    	</xsl:attribute>
-				    	<xsl:text>register</xsl:text>
-			    	</a>&#160;<xsl:value-of select="$signin-text" /></p>
+				    	<a>
+					    	<xsl:attribute name="href">
+								<xsl:apply-templates select="." mode="library_identity_registerurl">
+								    <xsl:with-param name="ptrt" select="$idptrt" />
+								</xsl:apply-templates>			    	
+					    	</xsl:attribute>
+					    	<xsl:text>register</xsl:text>
+				    	</a>&#160;<xsl:value-of select="$signin-text" />
+			    	</p>
     			</xsl:when>
     			<xsl:when test="IDENTITY and not(USER)">
 	            	<p class="completereg">

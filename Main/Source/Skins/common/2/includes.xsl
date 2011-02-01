@@ -146,6 +146,7 @@
             <xsl:include href="_library/identity/settingsurl.xsl" />
             <xsl:include href="_library/identity/registerurl.xsl" />
             <xsl:include href="_library/identity/cta.xsl" />
+            <xsl:include href="_library/identity/require.xsl" />
         
             <xsl:include href="_library/memberservice/loginurl.xsl" />
             <xsl:include href="_library/memberservice/logouturl.xsl" />
