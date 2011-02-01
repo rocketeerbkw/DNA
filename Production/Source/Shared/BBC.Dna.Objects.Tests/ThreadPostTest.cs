@@ -9,6 +9,10 @@ using Rhino.Mocks.Constraints;
 using System.Collections.Generic;
 using BBC.Dna.Utils;
 using BBC.Dna.Common;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Sites;
+using BBC.Dna.Api;
+using BBC.Dna.Moderation.Utils.Tests;
 
 
 namespace BBC.Dna.Objects.Tests
@@ -52,6 +56,8 @@ namespace BBC.Dna.Objects.Tests
             mocks.ReplayAll();
 
             SmileyTranslator.LoadSmileys(creator);
+
+            ProfanityFilterTests.InitialiseProfanities();
         }
 
         /// <summary>
@@ -601,6 +607,1233 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             ThreadPost target = new ThreadPost();
             target.FirstChild = 1;
             Assert.IsTrue(target.FirstChildSpecified);
+        }
+
+        [TestMethod]
+        public void PostToForum_CanReadThreadFalse_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISite site = mocks.DynamicMock<ISite>();
+            IUser viewingUser = mocks.DynamicMock<IUser>();
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, false, true);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "test post",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException e)
+            {
+                Assert.AreEqual(ErrorType.NotAuthorized, e.type);
+            }
+
+        }
+
+        [TestMethod]
+        public void PostToForum_CanWriteThreadFalse_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISite site = mocks.DynamicMock<ISite>();
+            IUser viewingUser = mocks.DynamicMock<IUser>();
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, false);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "test post",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException e)
+            {
+                Assert.AreEqual(ErrorType.ForumReadOnly, e.type);
+            }
+
+        }
+
+        [TestMethod]
+        public void PostToForum_CanReadForumFalse_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISite site = mocks.DynamicMock<ISite>();
+            IUser viewingUser = mocks.DynamicMock<IUser>();
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, false, true);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "test post",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException e)
+            {
+                Assert.AreEqual(ErrorType.NotAuthorized, e.type);
+            }
+
+        }
+
+        [TestMethod]
+        public void PostToForum_CanWriteForumFalse_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISite site = mocks.DynamicMock<ISite>();
+            IUser viewingUser = mocks.DynamicMock<IUser>();
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, false);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "test post",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException e)
+            {
+                Assert.AreEqual(ErrorType.ForumReadOnly, e.type);
+            }
+
+        }
+
+        [TestMethod]
+        public void PostToForum_UserIsBanned_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISite site = mocks.DynamicMock<ISite>();
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            var viewingUser = CreateUserObject(mocks, true, false, false);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "test post",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.UserIsBanned, e.type);
+        }
+
+        [TestMethod]
+        public void PostToForum_SiteIsEmergencyClosed_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, true, false);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "test post",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.SiteIsClosed, e.type);
+        }
+
+        [TestMethod]
+        public void PostToForum_SiteIsScheduledClosed_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, true);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "test post",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.SiteIsClosed, e.type);
+        }
+
+        [TestMethod]
+        public void PostToForum_EmptyText_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.EmptyText, e.type);
+        }
+
+        [TestMethod]
+        public void PostToForum_ExceedingMaxLength_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 5, 0,false);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "more than 5 chars",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.ExceededTextLimit, e.type);
+        }
+
+        [TestMethod]
+        public void PostToForum_MinLengthNotMet_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 100, false);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "more than 5 chars",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.MinCharLimitNotReached, e.type);
+        }
+
+        [TestMethod]
+        public void PostToForum_InvalidHTML_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "<div>more than 5 chars",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.XmlFailedParse, e.type);
+        }
+
+        [TestMethod]
+        public void PostToForum_WithProfanity_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains profanity (ock and ",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+           
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.ProfanityFoundInText, e.type);
+        }
+
+        [TestMethod]
+        public void PostToForum_EverythingOk_ReturnsCorrectPostId()
+        {
+            var forumId = 1;
+            var postId = 10;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            CreatePostFreq(mocks, ref readerCreator, 0);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains txt",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+        }
+
+        [TestMethod]
+        public void PostToForum_ProcessPreMod_ReturnsIsPreModPosting()
+        {
+            var forumId = 1;
+            var postId = 0;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, true);
+            CreatePostFreq(mocks, ref readerCreator, 0);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains txt",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+            Assert.IsTrue(threadPost.IsPreModPosting);
+        }
+
+        [TestMethod]
+        public void PostToForum_ReferredTerm_ReturnsForceModeration()
+        {
+            var forumId = 1;
+            var postId = 10;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            CreatePostFreq(mocks, ref readerCreator, 0);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains referred term Bomb txt",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+            reader.AssertWasCalled(x => x.AddParameter("forcemoderate", true));
+            reader.AssertWasCalled(x => x.AddParameter("modnotes","bomb"));
+        }
+
+        [TestMethod]
+        public void PostToForum_SiteClosedAsSuperUser_ReturnsPost()
+        {
+            var forumId = 1;
+            var postId = 10;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            var viewingUser = CreateUserObject(mocks, false, false, true);
+            ISite site = CreateSiteObject(mocks, true, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains referred term txt",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+            reader.AssertWasCalled(x => x.AddParameter("ignoremoderation", true));
+
+        }
+
+        [TestMethod]
+        public void PostToForum_SiteClosedAsEditor_ReturnsPost()
+        {
+            var forumId = 1;
+            var postId = 10;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            var viewingUser = CreateUserObject(mocks, false, true, false);
+            ISite site = CreateSiteObject(mocks, true, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains referred term txt",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+            reader.AssertWasCalled(x => x.AddParameter("ignoremoderation", true));
+        }
+
+        [TestMethod]
+        public void PostToForum_PreModerateNewDiscussions_ReturnsPreModeratedPost()
+        {
+            var forumId = 1;
+            var postId = 10;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            CreatePostFreq(mocks, ref readerCreator, 0);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, true);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains referred term txt",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+            reader.AssertWasCalled(x => x.AddParameter("forcepremoderation", true));
+
+        }
+
+        [TestMethod]
+        public void PostToForum_PreModerateNewDiscussionsWithReplyTo_ReturnsUnModeratedPost()
+        {
+            var forumId = 1;
+            var postId = 10;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            CreatePostFreq(mocks, ref readerCreator, 0);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, true);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains referred term txt",
+                Subject = "test subject",
+                ThreadId = threadId,
+                InReplyTo = 1
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+            reader.AssertWasCalled(x => x.AddParameter("forcepremoderation", false));
+
+        }
+
+        [TestMethod]
+        public void PostToForum_PreModerateNewDiscussionsAsNotable_ReturnsUnModeratedPost()
+        {
+            var forumId = 1;
+            var postId = 10;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            viewingUser.Stub(x => x.IsNotable).Return(true);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, true);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains referred term txt",
+                Subject = "test subject",
+                ThreadId = threadId,
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+            reader.AssertWasCalled(x => x.AddParameter("forcepremoderation", false));
+
+        }
+
+        [TestMethod]
+        public void PostToForum_PreModerateNewDiscussionsAsEditor_ReturnsUnModeratedPost()
+        {
+            var forumId = 1;
+            var postId = 10;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            var viewingUser = CreateUserObject(mocks, false, true, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, true);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains referred term txt",
+                Subject = "test subject",
+                ThreadId = threadId,
+            };
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+            reader.AssertWasCalled(x => x.AddParameter("forcepremoderation", false));
+
+        }
+
+        [TestMethod]
+        public void PostToForum_WithinPostFreq_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostFreq(mocks, ref readerCreator, 20);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains text ",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.AreEqual(ErrorType.PostFrequencyTimePeriodNotExpired, e.type);
+
+        }
+
+        [TestMethod]
+        public void PostToForum_WithinPostFreqAsSuperUser_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+            var postId = 10;
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostFreq(mocks, ref readerCreator, 20);
+            var viewingUser = CreateUserObject(mocks, false, false, true);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains text ",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+
+        }
+
+        [TestMethod]
+        public void PostToForum_WithinPostFreqAsEditorUser_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+            var postId = 10;
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostFreq(mocks, ref readerCreator, 20);
+            var viewingUser = CreateUserObject(mocks, false, true, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains text ",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+
+        }
+
+        [TestMethod]
+        public void PostToForum_WithinPostFreqAsNotableUser_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+            var postId = 10;
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostFreq(mocks, ref readerCreator, 20);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            viewingUser.Stub(x => x.IsNotable).Return(true);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains text ",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+
+
+            ApiException e = null;
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException err)
+            {
+                e = err;
+            }
+            Assert.IsNull(e);
+
+            Assert.AreEqual(postId, threadPost.PostId);
+            Assert.AreEqual(threadId, threadPost.ThreadId);
+
+            var reader = readerCreator.CreateDnaDataReader("posttoforum");
+
+        }
+        
+        private static void CreateThreadPermissionObjects(MockRepository mocks, ref IDnaDataReaderCreator readerCreator, bool canRead, bool canWrite)
+        {
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.GetBoolean("CanRead")).Return(canRead);
+            reader.Stub(x => x.GetBoolean("CanWrite")).Return(canWrite);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+            readerCreator.Stub(x => x.CreateDnaDataReader("getthreadpermissions")).Return(reader);
+        }
+
+        private static void CreateForumPermissionObjects(MockRepository mocks, ref IDnaDataReaderCreator readerCreator, bool canRead, bool canWrite)
+        {
+            int canReadOut = 0;
+            int canWriteOut = 0;
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.TryGetIntOutputParameter("CanRead", out canReadOut)).Return(true).OutRef(canRead?1:0);
+            reader.Stub(x => x.TryGetIntOutputParameter("CanWrite", out canWriteOut)).Return(true).OutRef(canWrite?1:0);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+            readerCreator.Stub(x => x.CreateDnaDataReader("getforumpermissions")).Return(reader);
+           
+        }
+
+        private static void CreatePostToForumObjects(MockRepository mocks, ref IDnaDataReaderCreator readerCreator, int postId, int threadId, bool isPreModerated)
+        {
+            int canReadOut = 0;
+            int canWriteOut = 0;
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.GetInt32NullAsZero("postid")).Return(postId);
+            reader.Stub(x => x.GetInt32NullAsZero("threadid")).Return(threadId);
+            reader.Stub(x => x.GetBoolean("ispremodposting")).Return(isPreModerated);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+            readerCreator.Stub(x => x.CreateDnaDataReader("posttoforum")).Return(reader);
+        }
+
+        private static void CreatePostFreq(MockRepository mocks, ref IDnaDataReaderCreator readerCreator, int seconds )
+        {
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.GetIntOutputParameter("seconds")).Return(seconds);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true);
+            readerCreator.Stub(x => x.CreateDnaDataReader("checkuserpostfreq")).Return(reader);
+        }
+
+
+        private static IUser CreateUserObject(MockRepository mocks, bool isBanned, bool isEditor, bool isSuper)
+        {
+            IUser viewingUser = mocks.DynamicMock<IUser>();
+            viewingUser.Stub(x => x.IsSuperUser).Return(isSuper);
+            viewingUser.Stub(x => x.IsEditor).Return(isEditor);
+            viewingUser.Stub(x => x.IsBanned).Return(isBanned);
+            viewingUser.Stub(x => x.UserId).Return(1);
+
+            return viewingUser;
+        }
+
+        private static ISite CreateSiteObject(MockRepository mocks, bool IsEmergencyClosed, bool IsSiteScheduledClosed)
+        {
+            ISite site = mocks.DynamicMock<ISite>();
+            site.Stub(x => x.IsEmergencyClosed).Return(IsEmergencyClosed);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Constraints(Is.Anything()).Return(IsSiteScheduledClosed);
+            site.Stub(x => x.SiteID).Return(1);
+            site.Stub(x => x.ModClassID).Return(3);
+
+            return site;
+        }
+
+        private static ISiteList CreateSiteList(MockRepository mocks, int siteId, int maxLength, int minLength, bool PreModerateNewDiscussions)
+        {
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueInt(siteId, "CommentForum", "MaxCommentCharacterLength")).Return(maxLength);
+            siteList.Stub(x => x.GetSiteOptionValueInt(siteId, "CommentForum", "MinCommentCharacterLength")).Return(minLength);
+            siteList.Stub(x => x.GetSiteOptionValueBool(siteId, "Moderation", "PreModerateNewDiscussions")).Return(PreModerateNewDiscussions);
+            return siteList;
+        }
+
+        private static ICacheManager CreateCacheObject(MockRepository mocks, ForumSourceType type)
+        {
+
+            var forumSource = ForumSourceTest.CreateTestForumSource();
+            forumSource.Type = type;
+            
+            var cacheManager  = mocks.DynamicMock<ICacheManager>();
+            cacheManager.Stub(x => x.GetData("")).Constraints(Is.Anything()).Return(forumSource);
+
+            return cacheManager;
         }
     }
 }

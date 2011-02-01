@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 using BBC.Dna.Api;
 using BBC.Dna.Common;
 using System.Configuration;
+using BBC.Dna.Sites;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Objects
 {
@@ -243,7 +245,14 @@ namespace BBC.Dna.Objects
             get;
             set;
         }
-        
+
+        [System.Xml.Serialization.XmlIgnore]
+        public bool IsPreModPosting
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         public ThreadPost()
@@ -572,6 +581,148 @@ namespace BBC.Dna.Objects
         }
 
         /// <summary>
+        /// Creates new post after checking relevant items...
+        /// </summary>
+        /// <param name="cacheManager"></param>
+        /// <param name="readerCreator"></param>
+        /// <param name="site"></param>
+        /// <param name="viewingUser"></param>
+        /// <param name="siteList"></param>
+        /// <param name="forumId"></param>
+        /// <param name="ThreadId"></param>
+        /// <param name="_iPAddress"></param>
+        /// <param name="bbcUidCookie"></param>
+        public void PostToForum(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+        {
+
+            ForumSource forumSource = ForumSource.CreateForumSource(cacheManager, readerCreator, null, forumId, ThreadId, site.SiteID, false, false, false);
+            if (forumSource == null)
+            {
+                throw ApiException.GetError(ErrorType.ForumUnknown);
+            }
+
+            bool isNotable = viewingUser.IsNotable;
+
+            ForumHelper helper = new ForumHelper(readerCreator);
+
+            // Check 4) check ThreadId exists and user has permission to write
+            if (ThreadId != 0)
+            {
+                bool canReadThread = false;
+                bool canWriteThread = false;
+                helper.GetThreadPermissions(viewingUser.UserId, ThreadId, ref canReadThread, ref canWriteThread);
+                if (!canReadThread)
+                {
+                    throw ApiException.GetError(ErrorType.NotAuthorized);
+                }
+                if (!canWriteThread)
+                {
+                    throw ApiException.GetError(ErrorType.ForumReadOnly);
+                }
+            }
+            bool canReadForum = false;
+            bool canWriteForum = false;
+            helper.GetForumPermissions(viewingUser.UserId, forumId, ref canReadForum, ref canWriteForum);
+            if (!canReadForum)
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
+            }
+            if (!canWriteForum)
+            {
+                throw ApiException.GetError(ErrorType.ForumReadOnly);
+            }
+        
+            if (viewingUser.IsBanned)
+            {
+                throw ApiException.GetError(ErrorType.UserIsBanned);
+            }
+            bool ignoreModeration = viewingUser.IsEditor || viewingUser.IsSuperUser;
+            if (!ignoreModeration && (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now)))
+            {
+                throw ApiException.GetError(ErrorType.SiteIsClosed);
+            }
+            if (String.IsNullOrEmpty(Text))
+            {
+                throw ApiException.GetError(ErrorType.EmptyText);
+            }
+            try
+            {
+
+                int maxCharCount = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "MaxCommentCharacterLength");
+                string tmpText = StringUtils.StripFormattingFromText(Text);
+                if (maxCharCount != 0 && tmpText.Length > maxCharCount)
+                {
+                    throw ApiException.GetError(ErrorType.ExceededTextLimit);
+                }
+            }
+            catch (SiteOptionNotFoundException)
+            {
+            }
+            try
+            {
+                //check for option - if not set then it throws exception
+                int minCharCount = siteList.GetSiteOptionValueInt(site.SiteID, "CommentForum", "MinCommentCharacterLength");
+                string tmpText = StringUtils.StripFormattingFromText(Text);
+                if (minCharCount != 0 && tmpText.Length < minCharCount)
+                {
+                    throw ApiException.GetError(ErrorType.MinCharLimitNotReached);
+                }
+            }
+            catch (SiteOptionNotFoundException)
+            {
+            }
+
+
+            string errormessage = string.Empty;
+            // Check to make sure that the comment is made of valid XML
+            if (!HtmlUtils.ParseToValidGuideML(Text, ref errormessage))
+            {
+                throw ApiException.GetError(ErrorType.XmlFailedParse);
+            }
+
+            bool forceModeration;
+            string matchingProfanity= string.Empty;
+            CheckForProfanities(site, Text, out forceModeration, out matchingProfanity);
+
+            //check posting frequency
+            if (!viewingUser.IsEditor && !viewingUser.IsSuperUser && !viewingUser.IsNotable)
+            {
+                var secondsToWait = CheckPostFrequency(readerCreator, viewingUser.UserId, site.SiteID);
+                if (secondsToWait != 0)
+                {
+                    var error =  ApiException.GetError(ErrorType.PostFrequencyTimePeriodNotExpired);
+                    ApiException newError = new ApiException(
+                        error.Message + " You must wait " + secondsToWait.ToString() + " more seconds before posting.",
+                        error.type);
+                    throw newError;
+                }
+            }
+
+
+            bool forcePreModeration = false;
+            // PreModerate first post in discussion if site premoderatenewdiscussions option set.
+            if ((InReplyTo == 0) && siteList.GetSiteOptionValueBool(site.SiteID, "Moderation", "PreModerateNewDiscussions"))
+            {
+                if (!ignoreModeration && !isNotable)
+                {
+                    forcePreModeration = true;
+                }
+            }
+
+            
+
+            if (forumSource.Type == ForumSourceType.Journal && ThreadId == 0)
+            {
+                CreateJournalPost(readerCreator, site.SiteID, viewingUser.UserId, viewingUser.UserName, forumId, false, _iPAddress, bbcUidCookie, forceModeration);
+            }
+            else
+            {
+                CreateForumPost(readerCreator, viewingUser.UserId, forumId, ignoreModeration, isNotable, _iPAddress, bbcUidCookie, false, false, forcePreModeration, forceModeration, matchingProfanity);
+            }
+        }
+
+        /// <summary>
         /// Prepares all the pre-requisites for a post.
         /// </summary>
         /// <param name="userId"> Post using the specified user.</param>
@@ -586,7 +737,7 @@ namespace BBC.Dna.Objects
         /// <param name="isQueued"> Indicates whether post was Queued</param>
         /// <param name="isPreModPosting"></param>
         /// <param name="isPreModerated"></param>
-        public void CreateForumPost(IDnaDataReaderCreator readerCreator, int userid, int forumId, bool ignoreModeration, bool isNotable, string ipAddress, Guid bbcUID, bool isComment, bool allowQueuing, bool forcePreModerate, bool forceModeration)
+        public void CreateForumPost(IDnaDataReaderCreator readerCreator, int userid, int forumId, bool ignoreModeration, bool isNotable, string ipAddress, Guid bbcUID, bool isComment, bool allowQueuing, bool forcePreModerate, bool forceModeration, string modNotes)
         {
 
             String source = this.Subject + "<:>" + this.Text + "<:>" + Convert.ToString(userid) + "<:>" + Convert.ToString(forumId) + "<:>" + Convert.ToString(ThreadId) + "<:>" + Convert.ToString(this.InReplyTo);
@@ -617,18 +768,21 @@ namespace BBC.Dna.Objects
                 dataReader.AddParameter("allowqueuing", allowQueuing);
                 dataReader.AddParameter("isnotable", isNotable);
                 dataReader.AddParameter("iscomment", isComment);
+                dataReader.AddParameter("modnotes", modNotes);
+                
                 dataReader.Execute();
 
                 if (dataReader.Read())
                 {
-                    this.PostId = dataReader.GetInt32NullAsZero("postid");
-                    this.ThreadId = dataReader.GetInt32NullAsZero("threadid");
-                    // isPreModPosting = dataReader.GetBoolean("ispremodposting");                    
+                    PostId = dataReader.GetInt32NullAsZero("postid");
+                    ThreadId = dataReader.GetInt32NullAsZero("threadid");
+                    IsPreModPosting = dataReader.GetBoolean("ispremodposting");                    
                     // isPreModerated = dataReader.GetBoolean("ispremoderated");
                     // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
         }
+
         /// <summary>
         /// Calls the DB to PostToAJournal.
         /// </summary>
@@ -640,7 +794,7 @@ namespace BBC.Dna.Objects
         /// <param name="ipAddress">users ipaddress</param>
         /// <param name="bbcUid">users bbcuid</param>
         /// <param name="forceModeration"></param>
-        public void CreateJournalPost(IDnaDataReaderCreator readerCreator, int siteId, int userId, string nickname, int journalId, bool ignoreModeration, string ipAddress, Guid bbcUID, bool forceModeration)
+        private void CreateJournalPost(IDnaDataReaderCreator readerCreator, int siteId, int userId, string nickname, int journalId, bool ignoreModeration, string ipAddress, Guid bbcUID, bool forceModeration)
         {
             String source = this.Subject + "<:>" + this.Text + "<:>" + Convert.ToString(userId) + "<:>" + Convert.ToString(journalId) + "<:>" + Convert.ToString(this.Style) + "<:>ToJournal";
             Guid hash = DnaHasher.GenerateHash(source);
@@ -667,11 +821,54 @@ namespace BBC.Dna.Objects
                 {
                     this.PostId = dataReader.GetInt32NullAsZero("postid");
                     this.ThreadId = dataReader.GetInt32NullAsZero("threadid");
-                    // isPreModPosting = dataReader.GetBoolean("ispremodposting");                    
+                    //IsPreModPosting = dataReader.GetBoolean("ispremodposting");                    
                     // isPreModerated = dataReader.GetBoolean("ispremoderated");
                     // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
+        }
+
+        /// <summary>
+        /// check profanity filter...
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="textToCheck"></param>
+        /// <param name="forceModeration"></param>
+        private void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity)
+        {
+            forceModeration = false;
+            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
+                                                                                    out matchingProfanity);
+            if (ProfanityFilter.FilterState.FailBlock == state)
+            {
+                throw ApiException.GetError(ErrorType.ProfanityFoundInText);
+            }
+            if (ProfanityFilter.FilterState.FailRefer == state)
+            {
+                forceModeration = true;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the user has posted to the site within the last x minutes (siteoption)
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="userId"></param>
+        /// <param name="siteId"></param>
+        /// <returns>Seconds remaining</returns>
+        private int CheckPostFrequency(IDnaDataReaderCreator readerCreator, int userId, int siteId)
+        {
+            var seconds = 0;
+            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("checkuserpostfreq"))
+            {
+                dataReader.AddParameter("userid", userId);
+                dataReader.AddParameter("siteId", siteId);
+                dataReader.AddIntOutputParameter("seconds");
+                
+                dataReader.Execute();
+                seconds = dataReader.GetIntOutputParameter("seconds");
+            }
+            return seconds;
         }
     }
 }

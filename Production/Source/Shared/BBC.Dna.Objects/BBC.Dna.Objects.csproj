@@ -87,6 +87,7 @@
     <Compile Include="ArticleInfoReferencesUser.cs" />
     <Compile Include="Contribution.cs" />
     <Compile Include="Contributions.cs" />
+    <Compile Include="FrontPageTopicElementList.cs" />
     <Compile Include="FollowersList.cs" />
     <Compile Include="ReviewForumPage.cs" />
     <Compile Include="SearchThreadPost.cs">
@@ -164,6 +165,7 @@
     <Compile Include="PageUi.cs" />
     <Compile Include="TopicElement.cs" />
     <Compile Include="UserSubscriptionsList.cs" />
+    <Compile Include="PostThreadForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Api\BBC.Dna.Api.csproj">

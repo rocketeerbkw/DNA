@@ -416,6 +416,28 @@ namespace BBC.Dna.Common
             return signalStatusMember;
         }
 
-        
+        /// <summary>
+        /// Checks if the current version of object up to date with cache
+        /// </summary>
+        public DateTime GetLastUpdated(params object[] args)
+        {
+            var cacheLastUpdateKey = GetCacheKeyLastUpdate(args);
+
+            DateTime cacheLastUpdate = DateTime.MinValue;
+            try
+            {
+                if (_cache.Contains(cacheLastUpdateKey))
+                {
+                    cacheLastUpdate = (DateTime)_cache.GetData(cacheLastUpdateKey);
+                }
+            }
+            catch (Exception e)
+            {
+                _dnaDiagnostics.WriteExceptionToLog(e);
+            }
+
+            return cacheLastUpdate;
+
+        }
     }
 }

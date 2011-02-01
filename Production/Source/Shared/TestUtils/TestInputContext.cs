@@ -569,5 +569,9 @@ namespace BBC.Dna
             return false;
         }
 
+        public SkinSelector SkinSelector
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

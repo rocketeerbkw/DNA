@@ -1,7 +1,7 @@
 CREATE PROCEDURE getmoderationsummaryreport
 @startdate datetime,
 @enddate datetime,
-@sitename varchar(50) -- url name
+@urlname varchar(50) = null
 
 AS
 
@@ -15,10 +15,10 @@ CREATE TABLE ModerationSummaryReport (
 	[SiteUrl] [varchar](30)  NULL,
 	[SiteDescription] [varchar](255)  NULL,
 	[Division] [nvarchar](50) NOT NULL,
+	[ActiveUsers] [int] NULL,
 	[TotalModerations] [int] NULL,
 	[TotalReferredModerations] [int] NULL,
 	[TotalComplaints] [int] NULL,
-	[UniqueUsers] [int] NULL,
 	[TotalNotablePosts] [int] NULL,
 	[TotalHostPosts] [int] NULL,
 	[TotalPosts] [int] NULL,
@@ -38,6 +38,15 @@ begin
 	)
 end
 
+IF dbo.udf_indexexists('ThreadEntries','IX_ThreadEntries_DatePosted_Userid') = 0
+begin
+	CREATE NONCLUSTERED INDEX [IX_ThreadEntries_DatePosted_Userid] ON [dbo].[ThreadEntries] 
+	(
+		[DatePosted] ASC
+	)
+	INCLUDE ( [ForumID], [Hidden], userid)
+end
+
 
 declare @siteid int
 declare @notablesGroupId int
@@ -51,7 +60,7 @@ WHERE StartDate = @startDate AND EndDate = @endDate
 
 IF (@dataExists IS NULL) -- does does not exist
 BEGIN
-	select @siteid = SiteID from dbo.Sites s where UrlName = @sitename
+	select @siteid = SiteID from dbo.Sites s where UrlName = @urlname
 
 	select @notablesGroupId = GroupId from Groups where [Name] = 'Notables'
 	select @HostsGroupId = GroupId from Groups where [Name] = 'Editor'
@@ -81,12 +90,19 @@ BEGIN
 		DateQueued > @startDate and DateQueued < @endDate and
 		 (tm.ComplaintText is not null)) as TotalComplaints,
 		
-		(select  count(distinct u.userid) from threadmod tm
-		inner join threadentries te on tm.postid = te.entryid
-		inner join users u on u.userid = te.userid
-		where 
-		tm.SiteID = sites.siteid and	
-		DateQueued > @startDate and DateQueued < @endDate) as UniqueUsers,
+		(select count(distinct userid) from 
+			(
+			select userid from threadentries te
+			inner join forums f on f.forumid=te.forumid
+			where f.SiteID = sites.siteid and	
+			DatePosted between @startDate and @endDate
+			union all
+			select editor as userid from guideentries ge
+			where ge.SiteID = sites.siteid and	
+			DateCreated between @startDate and @endDate and
+			Type <= 1000 and status<>10 -- status 10 is frontpage
+			) s
+		) as ActiveUsers,
 
 		(select  count(*) from threadentries te 
 		inner join users u on u.userid = te.userid		
@@ -139,10 +155,12 @@ BEGIN
 END
 
 
-SELECT * 
+SELECT   convert(char(10),startdate,121) StartDate
+		,convert(char(10),enddate,121) EndDate
+		,*
 FROM dbo.ModerationSummaryReport 
 WHERE 
-	(@sitename IS NULL OR SiteName = @sitename)
+	(@urlname IS NULL OR SiteName = @urlname)
 	AND
 	(StartDate = @startDate AND EndDate = @endDate)
-
+ORDER BY SiteName

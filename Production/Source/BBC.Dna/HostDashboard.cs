@@ -78,17 +78,10 @@ namespace BBC.Dna
             SerialiseAndAppend(modStats, "");
             SerialiseAndAppend(stats, "");
 
-            //check if only one site - then redirect
-            if (moderatorInfo.Sites.Count == 1 && _siteId == 0)
+            //check if only one site - then redirect note looking for 2 as all editors are editors of the moderation site for access...
+            if (moderatorInfo.Sites.Count == 2 && _siteId == 0)
             {
-                var redirectUrl = string.Format("/dna/moderation/admin/hostdashboard?s_siteid={0}&s_type={1}", moderatorInfo.Sites[0].SiteId, (int)moderatorInfo.Sites[0].Type);
-                if (_userId != 0)
-                {
-                    redirectUrl += "&s_userid=" + _userId.ToString();
-                }
-                RootElement.RemoveAll();
-                XmlNode redirect = AddElementTag(RootElement, "REDIRECT");
-                AddAttribute(redirect, "URL", redirectUrl);
+                RedirectToSoleSite(moderatorInfo);
                 return;
             }
 
@@ -101,6 +94,29 @@ namespace BBC.Dna
             SerialiseAndAppend(SiteTypeEnumList.GetSiteTypes(), "");
 
 
+        }
+
+        private void RedirectToSoleSite(ModeratorInfo moderatorInfo)
+        {
+            var moderationSiteId = InputContext.TheSiteList.GetSite("moderation").SiteID;
+            ModeratorSite soleSite = null;
+            foreach (var site in moderatorInfo.Sites)
+            {
+                if (site.SiteId != moderationSiteId)
+                {
+                    soleSite = site;
+                    break;
+                }
+            }
+            var redirectUrl = string.Format("/dna/moderation/admin/hostdashboard?s_siteid={0}&s_type={1}", soleSite.SiteId, (int)soleSite.Type);
+            if (_userId != 0)
+            {
+                redirectUrl += "&s_userid=" + _userId.ToString();
+            }
+            RootElement.RemoveAll();
+            XmlNode redirect = AddElementTag(RootElement, "REDIRECT");
+            AddAttribute(redirect, "URL", redirectUrl);
+            return;
         }
 
         private void GetDateRange(int days, ref DateTime startDate, ref DateTime endDate)

@@ -132,7 +132,7 @@
             </cite>
             
             <p class="comment-text-moderation">
-                Your posting has been hidden during moderation because it broke the <a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a> in some way. 
+                Your posting has been hidden during moderation because it broke the <a class="popup" href="{$houserulesurl}">House Rules</a> in some way. 
             </p>
             <xsl:apply-templates select="." mode="object_post_comment_moderation" />
         </li>
@@ -171,7 +171,7 @@
                 </span>
             </cite>
             <p class="comment-text-moderation">
-                This posting has been hidden during moderation because it broke the <a class="popup" href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html">House Rules</a> in some way.
+                This posting has been hidden during moderation because it broke the <a class="popup" href="{$houserulesurl}">House Rules</a> in some way.
             </p>
             <xsl:apply-templates select="." mode="object_post_comment_moderation" />
         </li>
@@ -210,7 +210,7 @@
                 </span>
             </cite>
             <p class="comment-text-moderation">
-                This post has been temporarily hidden, because a moderator has referred it to a supervisor, BBC host or the Central Communities Team for a decision as to whether it contravenes the <a href="http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html" class="popup">House Rules</a> in some way. A decision will be made as quickly as possible..
+                This post has been temporarily hidden, because a moderator has referred it to a supervisor, BBC host or the Central Communities Team for a decision as to whether it contravenes the <a href="{$houserulesurl}" class="popup">House Rules</a> in some way. A decision will be made as quickly as possible..
             </p>
             <xsl:apply-templates select="." mode="object_post_comment_moderation" />
         </li>

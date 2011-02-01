@@ -47,10 +47,10 @@
 			<p>Forum list count: <strong><xsl:value-of select="/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT"/></strong></p>
 		</div>
 		
-		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
-			<div class="dna-fl dna-main-full">
-				<div class="dna-box">
-					<xsl:if test="/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT != 0">
+		<xsl:if test="/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT != 0">
+			<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
+				<div class="dna-fl dna-main-full">
+					<div class="dna-box">
 						<ul class="pagination cfl-pagination">
 							<xsl:call-template name="cfl-skip-show"/>
 						</ul>
@@ -62,11 +62,10 @@
 						<ul class="pagination cfl-pagination">
 							<xsl:call-template name="cfl-skip-show"/>
 						</ul>
-						
-					</xsl:if>
+					</div>
 				</div>
 			</div>
-		</div>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="COMMENTFORUM">

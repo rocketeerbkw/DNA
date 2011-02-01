@@ -100,7 +100,7 @@
       				
       		<xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
       		
-      		<script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
+      		<script type="text/javascript" src="/glow/gloader.js"><xsl:text> </xsl:text></script>
       		<script type="text/javascript" src="/dnaimages/javascript/DNA.js"><xsl:text> </xsl:text></script>
       		<xsl:if test="PREVIEWMODE = 1"><script type="text/javascript" src="/dnaimages/dna_messageboard/javascript/previewmode.js"><xsl:text> </xsl:text></script></xsl:if>
       		
@@ -213,7 +213,7 @@
 		      				<xsl:variable name="currentSite" select="CURRENTSITE"/>
 		      				<xsl:if test="SITE[@ID='$currentSite']/SITEOPTIONS/SITEOPTION[NAME='IsKidsSite']/VALUE='1'">
 		      					<li>
-		      						<a href="http://www.bbc.co.uk/messageboards/newguide/popup_online_safety.html" class="popup">Are you being safe online?</a>
+		      						<a href="/messageboards/newguide/popup_online_safety.html" class="popup">Are you being safe online?</a>
 		      					</li>
 		      				</xsl:if>      					
 	      				</ul>

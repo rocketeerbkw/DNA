@@ -26,7 +26,14 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					<xsl:value-of select="TITLE" disable-output-escaping="yes"/>
+					<xsl:choose>
+						<xsl:when test="SOURCETITLE = ''">
+							<xsl:value-of select="TITLE"/>
+						</xsl:when>
+						<xsl:otherwise>					
+							<xsl:value-of select="SOURCETITLE" disable-output-escaping="yes"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</a><br/>			
 				<a>
 					<xsl:attribute name="href">
@@ -39,14 +46,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					<xsl:choose>
-						<xsl:when test="SOURCETITLE = ''">
-							<xsl:value-of select="TITLE"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="SOURCETITLE" disable-output-escaping="yes"/>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:value-of select="TITLE" disable-output-escaping="yes"/>
 				</a><br/>
 				in
 				<!-- site -->
@@ -76,7 +76,7 @@
 						<xsl:when test="MODERATIONSTATUS=8">
 							<p class="dna-boards-failedpost">User Removed</p>
 						</xsl:when>
-						<xsl:when test="MODERATIONSTATUS = 2 or MODERATIONSTATUS = 6 or MODERATIONSTATUS=1">
+						<xsl:when test="MODERATIONSTATUS = 6 or MODERATIONSTATUS=1">
 							<!-- Referred post for any user -->
 							<xsl:if test="MODERATIONSTATUS = 1">
 								<p class="dna-boards-failedpost">Failed</p>
@@ -85,6 +85,11 @@
 								<a href="/dna/moderation/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post Failed</a>
 							</p>
 						</xsl:when>
+						<xsl:when test="MODERATIONSTATUS = 2">
+							<p class="dna-boards-failedpost">
+								<a href="/dna/moderation/ModerationHistory?PostID={THREADENTRYID}" target="_blank">Post Referred</a>
+							</p>
+						</xsl:when>						
 						<xsl:otherwise>
 							<xsl:if test="MODERATIONSTATUS = 0">
 								<p class="dna-boards-failedpost">Live</p>

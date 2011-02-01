@@ -57,6 +57,9 @@ namespace BBC.Dna.Objects
             topicEdit.FrontPageElement.Text = reader.GetStringNullAsEmpty("FP_Text");
             topicEdit.FrontPageElement.ImageName = reader.GetStringNullAsEmpty("FP_ImageName");
             topicEdit.FrontPageElement.ImageAltText = reader.GetStringNullAsEmpty("FP_ImageAltText");
+            topicEdit.FrontPageElement.ForumPostCount = reader.GetInt32NullAsZero("forumpostcount");
+            topicEdit.FrontPageElement.TopicId = reader.GetInt32NullAsZero("topicid");
+            
             topicEdit.Fastmod = reader.GetInt32NullAsZero("fastmod");
             topicEdit.Editkey = reader.GetGuid("editkey");
             topicEdit.FrontPageElement.Editkey = reader.GetGuid("FP_EditKey");

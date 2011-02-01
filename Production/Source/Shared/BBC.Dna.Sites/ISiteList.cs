@@ -93,5 +93,12 @@ namespace BBC.Dna.Sites
         /// 
         /// </summary>
         void SendSignal(int siteId);
+
+        /// <summary>
+        /// Gets the last update date of the object
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        DateTime GetLastUpdated(params object[] args);
 	}
 }

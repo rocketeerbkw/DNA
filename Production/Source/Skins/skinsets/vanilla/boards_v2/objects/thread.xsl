@@ -167,7 +167,7 @@
             			<br/>
             		</xsl:if>
             		<xsl:text>Latest post: </xsl:text>
-            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;latest=1')}">
+            		<a href="{concat($host, '/dna/', /H2G2/SITE-LIST/SITE[@ID = $siteId]/NAME, '/NF', @FORUMID, '?thread=', @THREADID, '&amp;latest=1#lastpost')}">
             			<xsl:apply-templates select="REPLYDATE/DATE" mode="library_date_shortformat"/>
             		</a>
             	</p>

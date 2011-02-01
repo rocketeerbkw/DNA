@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="POSTTHREADFORM">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="SUBJECT" type="xs:string" />
+        <xs:element name="BODY">
+          <xs:complexType mixed="true">
+            <xs:sequence>
+              <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"></xs:any>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PREVIEWBODY" minOccurs="0">
+          <xs:complexType mixed="true">
+            <xs:sequence>
+              <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"></xs:any>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="INREPLYTO" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="USERNAME" type="xs:string" />
+              <xs:element name="USERID" type="xs:unsignedInt" />
+              <xs:element name="BODY">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"></xs:any>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="RAWBODY">
+                <xs:complexType mixed="true">
+                  <xs:sequence>
+                    <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"></xs:any>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="INREPLYTO" type="xs:unsignedInt" use="required" />
+      <xs:attribute name="POSTINDEX" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="PROFANITYTRIGGERED" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="NONALLOWEDURLSTRIGGERED" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="STYLE" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="QUOTEINCLUDED" type="xs:unsignedByte" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

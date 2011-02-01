@@ -69,19 +69,19 @@
 						<xsl:attribute name="href">
 							<xsl:choose>
 								<xsl:when test="$referraltype = 'post' or $referraltype = 'posts'">
-									<xsl:text>/dna/moderation/moderateposts?referrals=1</xsl:text>
+									<xsl:text>/dna/moderation/moderateposts?referrals=1&amp;locked=1</xsl:text>
 								</xsl:when>
 								<xsl:when test="$referraltype = 'alert' or $referraltype = 'alerts'">
-									<xsl:text>/dna/moderation/moderateposts?referrals=1&amp;alerts=1</xsl:text>
+									<xsl:text>/dna/moderation/moderateposts?referrals=1&amp;alerts=1&amp;locked=1</xsl:text>
 								</xsl:when>
 								<xsl:when test="$referraltype = 'article' or $referraltype = 'articles'">
-									<xsl:text>/dna/moderation/moderatearticle?referrals=1</xsl:text>
+									<xsl:text>/dna/moderation/moderatearticle?referrals=1&amp;locked=1</xsl:text>
 								</xsl:when>
 								<xsl:when test="$referraltype = 'article alert' or $referraltype = 'article alerts'">
-									<xsl:text>/dna/moderation/moderatearticle?referrals=1&amp;alerts=1</xsl:text>
+									<xsl:text>/dna/moderation/moderatearticle?referrals=1&amp;alerts=1&amp;locked=1</xsl:text>
 								</xsl:when>
 								<xsl:when test="$referraltype = 'general complaint' or $referraltype = 'general complaints'">
-									<xsl:text>/dna/moderation/ModerateGeneral?referrals=1&amp;alerts=1</xsl:text>
+									<xsl:text>/dna/moderation/ModerateGeneral?referrals=1&amp;alerts=1&amp;locked=1</xsl:text>
 								</xsl:when>
 							</xsl:choose>
 						</xsl:attribute>

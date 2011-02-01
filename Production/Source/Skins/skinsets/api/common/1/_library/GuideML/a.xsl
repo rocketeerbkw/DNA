@@ -29,7 +29,7 @@
                     </xsl:call-template>
                 </xsl:attribute>
             </xsl:if>
-			<xsl:if test="@CLASS | @class">
+			<!--<xsl:if test="@CLASS | @class">
 				<xsl:attribute name="class">
 					<xsl:value-of select="@CLASS | @class"/>
 				</xsl:attribute>
@@ -38,14 +38,21 @@
 				<xsl:attribute name="target">
 					<xsl:value-of select="@TARGET | @target"/>
 				</xsl:attribute>
-			</xsl:if>
+			</xsl:if>-->
 			<xsl:if test="@NAME | @name">
 				<xsl:attribute name="name">
 					<xsl:value-of select="@NAME | @name"/>
 				</xsl:attribute>
 			</xsl:if>
+			<!--<xsl:choose>
+				<xsl:when test="string-length(.) = 0">&#160;</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates mode="library_GuideML"/>
+				</xsl:otherwise>
+			</xsl:choose>
+				-->
 			<xsl:apply-templates mode="library_GuideML"/>
-        </a>
+		</a>
     </xsl:template>
 	
 	<xsl:template match="A | a" mode="library_GuideML_rss">

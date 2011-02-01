@@ -60,7 +60,7 @@
 	<!--===============Javascript=====================-->
 	<!--===============Variable Settings=====================-->
 	<xsl:variable name="sso_assets">
-		<xsl:text>https://www.bbc.co.uk/pov/messageboard/sso_resources</xsl:text>
+		<!--<xsl:text>https://www.bbc.co.uk/pov/messageboard/sso_resources</xsl:text>-->
 	</xsl:variable>
 	<xsl:variable name="sso_serviceid_link">
 		<xsl:text>moderation</xsl:text>

@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
 
+
 namespace BBC.Dna.Api.Tests
 {
     /// <summary>
@@ -1720,8 +1721,216 @@ namespace BBC.Dna.Api.Tests
             reader.AssertWasCalled((x => x.AddParameter("sortdirection", sortDirection.ToString())));
 
         }
-       
-        
+
+        [TestMethod]
+        public void CreateCommentRating_AsAnonymousWithoutDetails_ThrowsError()
+        {
+            var value = 1;
+            var postId = 1;
+            var userid = 0;
+            var commentForum = new CommentForum() { ForumID=1 };
+            ISite site = null;
+            
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+            };
+
+            try
+            {
+                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.MissingUserAttributes, ex.type);
+            }
+
+            reader.AssertWasNotCalled(x => x.Execute());
+        }
+
+        [TestMethod]
+        public void CreateCommentRating_AsAnonymous_ReturnsValue()
+        {
+            var value = 1;
+            var postId = 1;
+            var userid = 0;
+            var commentForum = new CommentForum() { ForumID = 1 };
+            ISite site = mocks.DynamicMock<ISite>();
+            site.Stub(x => x.SiteID).Return(1);
+
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                IpAddress = "1.1.1.1",
+                BbcUid = Guid.NewGuid()
+            };
+
+            var retVal = comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            Assert.AreEqual(value, retVal);
+            reader.AssertWasCalled(x => x.Execute());
+        }
+
+        [TestMethod]
+        public void CreateCommentRating_AsAnonymousWithoutIP_ThrowsError()
+        {
+            var value = 1;
+            var postId = 1;
+            var userid = 0;
+            var commentForum = new CommentForum() { ForumID = 1 };
+            ISite site = null;
+
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                //IpAddress = "1.1.1.1",
+                BbcUid = Guid.NewGuid()
+            };
+
+            try
+            {
+                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.MissingUserAttributes, ex.type);
+            }
+
+            reader.AssertWasNotCalled(x => x.Execute());
+        }
+
+        [TestMethod]
+        public void CreateCommentRating_AsAnonymousWithoutUID_ThrowsError()
+        {
+            var value = 1;
+            var postId = 1;
+            var userid = 0;
+            var commentForum = new CommentForum() { ForumID = 1 };
+            ISite site = null;
+
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                IpAddress = "1.1.1.1",
+                //BbcUid = Guid.NewGuid()
+            };
+
+            try
+            {
+                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.MissingUserAttributes, ex.type);
+            }
+
+            reader.AssertWasNotCalled(x => x.Execute());
+        }
+
+
+        [TestMethod]
+        public void CreateCommentRating_AsUser_ReturnsValue()
+        {
+            var value = 1;
+            var postId = 1;
+            var userid = 1;
+            var commentForum = new CommentForum() { ForumID = 1 };
+            ISite site = mocks.DynamicMock<ISite>();
+            site.Stub(x => x.SiteID).Return(1);
+
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                IpAddress = "1.1.1.1",
+                BbcUid = Guid.NewGuid()
+            };
+
+            var retVal = comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            Assert.AreEqual(value, retVal);
+            reader.AssertWasCalled(x => x.Execute());
+        }
+
+        [TestMethod]
+        public void CreateCommentRating_DBThrowsException_ThrowsError()
+        {
+            var value = 1;
+            var postId = 1;
+            var userid = 0;
+            var commentForum = new CommentForum() { ForumID = 1 };
+            ISite site = null;
+
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
+            reader.Stub(x => x.Execute()).Throw(new Exception("test"));
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, null, null)
+            {
+                IpAddress = "1.1.1.1",
+                BbcUid = Guid.NewGuid()
+            };
+
+            try
+            {
+                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            }
+            catch (ApiException ex)
+            {
+                Assert.AreEqual(ErrorType.Unknown, ex.type);
+            }
+
+            //reader.AssertWasNotCalled(x => x.Execute());
+        }
 
     }
 }

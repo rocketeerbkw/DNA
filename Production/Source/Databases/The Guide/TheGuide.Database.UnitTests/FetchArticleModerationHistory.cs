@@ -112,7 +112,7 @@ namespace TheGuide.Database.UnitTests
                }
                using (IDnaDataReader reader = StoredProcedureReader.Create("", _connectionDetails))
                {
-                   reader.ExecuteDEBUGONLY(string.Format("insert into preferences (prefstatus, siteid, userid) values (2,{0},{1})", siteId, userId));
+                   reader.ExecuteDEBUGONLY(string.Format("update preferences set prefstatus=2 where siteid={0} and userid={1}", siteId, userId));
                }
                using (IDnaDataReader reader = StoredProcedureReader.Create("", _connectionDetails))
                {

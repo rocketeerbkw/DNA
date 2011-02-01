@@ -6,6 +6,7 @@
 				<xs:enumeration value="Created"/>
         <xs:enumeration value="LastPosted"/>
         <xs:enumeration value="PostCount"/>
+        <xs:enumeration value="RatingValue"/>
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:element>

@@ -168,7 +168,7 @@
     </xsl:variable>
     <tr>
       <td>
-        <a href="{$root}MemberList?userid={$userid}">
+        <a href="MemberList?userid={$userid}">
           <xsl:value-of select="USER/USERID"/>
         </a>
       </td>
