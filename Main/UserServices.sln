@@ -491,6 +491,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeployScripts", "DeployScripts", "{9BBD8F57-2EF3-47E2-9244-1930752A4FAF}"
 	ProjectSection(SolutionItems) = preProject
 		deployExtdev.bat = deployExtdev.bat
+		deployStaging.bat = deployStaging.bat
 		deploywebservices.bat = deploywebservices.bat
 		deploywebservicesLive.bat = deploywebservicesLive.bat
 		deploywebservicesTest.bat = deploywebservicesTest.bat
