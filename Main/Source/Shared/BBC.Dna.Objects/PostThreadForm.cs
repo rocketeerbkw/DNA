@@ -179,7 +179,7 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [XmlElementAttribute(ElementName = "SECONDSBEFOREPOST", Order=4)]
+        [XmlElementAttribute(ElementName = "SECONDSBEFOREREPOST", Order = 4)]
         public int SecondsBeforePost
         {
             get;

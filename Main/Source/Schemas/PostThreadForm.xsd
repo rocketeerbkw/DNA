@@ -40,7 +40,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="SECONDSBEFOREPOST" type="xs:int" minOccurs="0"/>
+        <xs:element name="SECONDSBEFOREREPOST" type="xs:int" minOccurs="0"/>
       </xs:sequence>
       <xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
       <xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
