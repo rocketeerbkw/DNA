@@ -274,7 +274,6 @@
 	      			<div id="dna-about-board">
 	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" disable-output-escaping="yes" /></p>
       					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
-      						<xsl:with-param name="aboutboard">true</xsl:with-param>
       						<xsl:with-param name="signin-text"><xsl:value-of select="$signin-discussion-text" /></xsl:with-param>
     					</xsl:apply-templates>
 	      				<hr />

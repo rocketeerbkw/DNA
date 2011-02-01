@@ -97,7 +97,7 @@
         <xsl:text> - Reply to a message</xsl:text>
     </xsl:template>
     
-    <xsl:template match="/H2G2[@TYPE = 'ADDTHREAD'][POSTTHREADFORM/@INREPLYTO = 0]" mode="head_title_page">
+    <xsl:template match="/H2G2[@TYPE = 'ADDTHREAD'][POSTTHREADFORM/@INREPLYTO = 0] | /H2G2[@TYPE = 'POSTTOFORUM'][POSTTHREADFORM/@INREPLYTO = 0]" mode="head_title_page">
         <xsl:value-of select="TOPICLIST/TOPIC[FORUMID = current()/POSTTHREADFORM/@FORUMID]/TITLE"/>
         <xsl:text> - Start a new discussion</xsl:text>
     </xsl:template>

@@ -23,7 +23,7 @@
 			<p class="closed">
 				<a>
 				<xsl:attribute name="href">
-					<xsl:value-of select="$root" /><xsl:text>/NF</xsl:text><xsl:value-of select="/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID" />
+					<xsl:value-of select="$root" /><xsl:text>/NF</xsl:text><xsl:value-of select="/H2G2[@TYPE = 'POSTTOFORUM']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID" />
 					<xsl:if test="@THREAD"><xsl:text>?thread=</xsl:text><xsl:value-of select="@THREAD" /></xsl:if>
 				</xsl:attribute>
 					Back to the discussion

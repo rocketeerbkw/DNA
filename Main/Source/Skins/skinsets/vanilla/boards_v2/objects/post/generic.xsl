@@ -106,11 +106,11 @@
                 <xsl:when test="@CANWRITE = 0 or USER/STATUS = 0"><!-- nothing --></xsl:when>
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
-                        <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
-                            <xsl:call-template name="library_memberservice_require">
+                        <a href="{$root}/posttoforum?inreplyto={@POSTID}" class="id-cta">
+                            <xsl:call-template name="library_identity_require">
                                 <xsl:with-param name="ptrt">
                                     <xsl:value-of select="$root"/>
-                                    <xsl:text>/AddThread?inreplyto=</xsl:text>
+                                    <xsl:text>/posttoforum?inreplyto=</xsl:text>
                                     <xsl:value-of select="@POSTID"/>
                                 </xsl:with-param>
                             </xsl:call-template>
@@ -130,7 +130,7 @@
 			        		<xsl:with-param name="loggedin">
 		        				<xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_editpost" >
 		        					<xsl:with-param name="label" select="'Edit Post'"/>
-                      <xsl:with-param name="post" select="count(preceding-sibling::*)" />
+                      				<xsl:with-param name="post" select="count(preceding-sibling::*)" />
 		        				</xsl:apply-templates>
 			        		</xsl:with-param>
 			        	</xsl:call-template>                    
