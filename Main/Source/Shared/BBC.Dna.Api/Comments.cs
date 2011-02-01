@@ -410,6 +410,10 @@ namespace BBC.Dna.Api
         /// <returns>The comment forum (either new or existing) which matches to the </returns>
         public CommentForum CreateCommentForum(Forum commentForum, ISite site)
         {
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
             var tmpCommentForum = GetCommentForumByUid(commentForum.Id, site);
             if (tmpCommentForum == null)
             {
