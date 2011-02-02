@@ -27,17 +27,13 @@ begin
 	SELECT element FROM dbo.udf_splitint(@siteids);
 end
 
-if @sitetype > 0 
+if @sitetype > 0 and @siteids is null
 begin
 
 	delete from #sites
-	where siteid not in
-	(
-		select siteid from siteoptions where section='General' and name='SiteType' and value=convert(varchar(5), @sitetype)
-	)
 	
-
-
+	insert into #sites
+	select siteid from siteoptions where section='General' and name='SiteType' and value=convert(varchar(5), @sitetype)
 end
 
 --get events
@@ -47,6 +43,7 @@ end
 	FROM siteactivityitems sai
 	where 
 		(@siteids is null OR siteid in (select siteid from #sites))
+		and (@sitetype is null or siteid in (select siteid from #sites))
 		and (@typeids is null or sai.type in (select type from #types))
 		and (@startdate is null or sai.datetime >= @startdate)
 		and (@enddate is null or sai.datetime < @enddate)
