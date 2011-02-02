@@ -139,7 +139,7 @@ SELECT @set = @set + @comma + 'Style = @i_style'
 SELECT @comma = ' , '
 END
 
-IF NOT ( @updatedatecreated IS NULL )
+IF ( ISNULL(@updatedatecreated,0) = 1)
 BEGIN
 SELECT @set = @set + @comma + 'DateCreated = getdate()'
 SELECT @comma = ' , '
