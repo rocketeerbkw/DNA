@@ -229,7 +229,7 @@
 				<!--<xsl:otherwise>_top</xsl:otherwise>-->
 			</xsl:choose>
 			<xsl:choose>
-				<xsl:when test="string-length(.) = 0">
+				<xsl:when test="not(*) and string-length(.) = 0">
 					<xsl:choose>
 						<xsl:when test="@HREF | @href">
 							<xsl:value-of select="@HREF | @href"/>
