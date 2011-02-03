@@ -43,7 +43,7 @@ end
 	FROM siteactivityitems sai
 	where 
 		(@siteids is null OR siteid in (select siteid from #sites))
-		and (@sitetype is null or siteid in (select siteid from #sites))
+		and (@sitetype =0 or siteid in (select siteid from #sites))
 		and (@typeids is null or sai.type in (select type from #types))
 		and (@startdate is null or sai.datetime >= @startdate)
 		and (@enddate is null or sai.datetime < @enddate)
