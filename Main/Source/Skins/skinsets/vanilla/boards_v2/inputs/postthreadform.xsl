@@ -157,7 +157,7 @@
 			
 				<ul class="blq-clearfix">
 					<li>
-						<label for="AddQuoteID">Include reply as quote</label> 
+						<label for="AddQuoteID">Include original post as quote</label> 
 						<input type="checkbox" id="AddQuoteID" name="AddQuoteID">
 							<xsl:if test="@QUOTEINCLUDED = 1">
 								<xsl:attribute name="checked">checked</xsl:attribute>
