@@ -94,7 +94,7 @@ namespace Dna.BIEventSystem
         public void RecordRiskModDecisionsOnPosts(IEnumerable<BIPostToForumEvent> biPostEvents)
         {
             // Process all the BIPostToForumEvents that have a value for Risky, and have been processed
-            foreach (var ev in biPostEvents.Where(ev => ev.Risky.HasValue && ev.Processed))
+            foreach (var ev in biPostEvents.Where(ev => ev.Processed))
             {
                 DateTime startTime = DateTime.Now;
 
@@ -103,11 +103,11 @@ namespace Dna.BIEventSystem
                     reader.AddParameter("siteid", ev.SiteId);
                     reader.AddParameter("forumid", ev.ForumId);
                     reader.AddParameter("threadentryid", ev.ThreadEntryId);
-                    reader.AddParameter("risky", ev.Risky.Value);
+                    reader.AddParameter("risky", ev.Risky);
                     reader.Execute();
                 }
 
-                BIEventProcessor.BIEventLogger.LogInformation("RecordRiskModDecisionsOnPost() end", startTime, "SiteId", ev.SiteId, "ForumId", ev.ForumId, "ThreadEntryId", ev.ThreadEntryId, "Risky", ev.Risky.Value);
+                BIEventProcessor.BIEventLogger.LogInformation("RecordRiskModDecisionsOnPost() end", startTime, "SiteId", ev.SiteId, "ForumId", ev.ForumId, "ThreadEntryId", ev.ThreadEntryId, "Risky", ev.Risky);
             }
         }
     }

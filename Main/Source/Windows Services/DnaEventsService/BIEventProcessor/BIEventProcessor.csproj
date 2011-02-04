@@ -83,6 +83,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BIEventProcessorLogUtility.cs" />
+    <Compile Include="BIEventQueue.cs" />
     <Compile Include="BIPostModerationDecisionEvent.cs" />
     <Compile Include="ITheGuideSystem.cs" />
     <Compile Include="TheGuideSystem.cs" />

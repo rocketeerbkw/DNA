@@ -273,14 +273,17 @@ namespace BIEventProcessorTests
             // Record the decision in TheGuide system 
             g.RecordRiskModDecisionsOnPosts(evList);
 
-            if (process && RiskyValue.HasValue)
+            if (process)
             {
                 // Check the logging
                 Assert.IsNotNull(logger.logList.Find(x => x.Message == "RecordRiskModDecisionsOnPost() end"));
                 Assert.AreEqual(logger.logList[0].ExtendedProperties["SiteId"], 74);
                 Assert.AreEqual(logger.logList[0].ExtendedProperties["ForumId"], 75);
                 Assert.AreEqual(logger.logList[0].ExtendedProperties["ThreadEntryId"], 42);
-                Assert.AreEqual(logger.logList[0].ExtendedProperties["Risky"], RiskyValue);
+                if (RiskyValue.HasValue)
+                    Assert.AreEqual(logger.logList[0].ExtendedProperties["Risky"], RiskyValue);
+                else
+                    Assert.AreEqual(logger.logList[0].ExtendedProperties["Risky"], "NULL");
 
                 // Check the params sent to the sp
                 mockreader.AssertWasCalled(x => x.AddParameter("siteid", 74));
@@ -329,10 +332,14 @@ namespace BIEventProcessorTests
             return new TheGuideSystem(_mockcreator, riskModSystem);
         }
 
-        private RiskModSystem MakeTestRiskModSystem()
+        private RiskModSystem MakeTestRiskModSystem(int? modResult)
         {
-            DataReaderFactory.CreateMockedDataBaseObjects(_mocks, "predict", out _mockcreator, out _mockreader, null);
-            return new RiskModSystem(_mockcreator, false);
+            IDnaDataReaderCreator creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            DataReaderFactory.AddMockedDataReader(_mocks, "predict", creator, out _mockreader, null);
+
+            _mockreader.Stub(x => x.GetNullableIntOutputParameter("moderation")).Return(modResult);
+
+            return new RiskModSystem(creator, false);
         }
 
         private class BIEventTestDatabaseRow : DataReaderFactory.TestDatabaseRow
@@ -535,16 +542,38 @@ namespace BIEventProcessorTests
         }
 
         [TestMethod]
-        public void RiskModSystem_ProcessPostRiskAssessment_ExpectNoExceptions()
+        public void RiskModSystem_ProcessPostRiskAssessment_PredictSaysRisky()
         {
-            RiskModSystem rm = MakeTestRiskModSystem();
+            RiskModSystem_ProcessPostRiskAssessment(1, true);
+        }
+
+        [TestMethod]
+        public void RiskModSystem_ProcessPostRiskAssessment_PredictSaysNotRisky()
+        {
+            RiskModSystem_ProcessPostRiskAssessment(0, false);
+        }
+
+        [TestMethod]
+        public void RiskModSystem_ProcessPostRiskAssessment_PredictDoesNotKnowIfItsRisky()
+        {
+            RiskModSystem_ProcessPostRiskAssessment(null, null);
+        }
+
+        void RiskModSystem_ProcessPostRiskAssessment(int? predictSPRiskyResult, bool? expectedRiskyResult)
+        {
+            RiskModSystem rm = MakeTestRiskModSystem(predictSPRiskyResult);
             var mockreader = _mockreader;
-            BIPostToForumEvent ev = MakeTestBIPostToForumEvent(42,rm);
+            BIPostToForumEvent ev = MakeTestBIPostToForumEvent(42, rm);
 
             ev.Process();
 
-            mockreader.AssertWasCalled(x => x.AddParameter("EntryId",42));
+            mockreader.AssertWasCalled(x => x.AddParameter("EntryId", 42));
             mockreader.AssertWasCalled(x => x.Execute());
+
+            if (expectedRiskyResult.HasValue)
+                Assert.AreEqual(expectedRiskyResult.Value, ev.Risky.Value);
+            else
+                Assert.IsFalse(ev.Risky.HasValue);
         }
 
         [TestMethod]
@@ -552,7 +581,7 @@ namespace BIEventProcessorTests
         {
             var mockCreator = _mocks.Stub<IDnaDataReaderCreator>();
 
-            BIEventProcessor bep = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false);
+            BIEventProcessor bep = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false, 1);
 
             var evRisk = _mocks.DynamicMock<BIPostNeedsRiskAssessmentEvent>(null,null);
             var evPost = _mocks.DynamicMock<BIPostToForumEvent>(new object[] { null });
@@ -562,7 +591,7 @@ namespace BIEventProcessorTests
 
             _mocks.ReplayAll();
 
-            bep.ProcessEvents(eventList);
+            bep.ProcessEvents(eventList,1);
 
             evRisk.AssertWasCalled(x => x.Process());
             evPost.AssertWasCalled(x => x.Process());
@@ -574,8 +603,8 @@ namespace BIEventProcessorTests
         {
             var mockCreator = _mocks.Stub<IDnaDataReaderCreator>();
 
-            BIEventProcessor bep1 = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false);
-            BIEventProcessor bep2 = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false);
+            BIEventProcessor bep1 = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false, 1);
+            BIEventProcessor bep2 = BIEventProcessor.CreateBIEventProcessor(null, mockCreator, mockCreator, 1, false, false, 1);
 
             Assert.AreNotEqual(bep1,bep2);
         }
@@ -603,7 +632,7 @@ namespace BIEventProcessorTests
 
             _mocks.ReplayAll();
 
-            var bep = BIEventProcessor.CreateBIEventProcessor(null, creator, creator, 1, false, true);
+            var bep = BIEventProcessor.CreateBIEventProcessor(null, creator, creator, 1, false, true, 10);
 
             bep.Start();
             System.Threading.Thread.Sleep(200);

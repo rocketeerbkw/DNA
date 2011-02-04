@@ -58,8 +58,9 @@ namespace DnaEventProcessorService
             int interval = Properties.Settings.Default.BIEventsProcessor_Interval;
             bool disableRiskMod = Properties.Settings.Default.BIEventsProcessor_DisableRiskMod;
             bool recordRiskModDecisionsOnPost = Properties.Settings.Default.BIEventsProcessor_RecordRiskModDecisionsOnPost;
+            int numThreads = Properties.Settings.Default.BIEventsProcessor_NumThreads;
 
-            var biEventProc = BIEventProcessor.CreateBIEventProcessor(logger, theGuideDnaDataReaderCreator, RiskDnaDataReaderCreator, interval, disableRiskMod, recordRiskModDecisionsOnPost);
+            var biEventProc = BIEventProcessor.CreateBIEventProcessor(logger, theGuideDnaDataReaderCreator, RiskDnaDataReaderCreator, interval, disableRiskMod, recordRiskModDecisionsOnPost, numThreads);
             biEventProc.Start();
         }
 

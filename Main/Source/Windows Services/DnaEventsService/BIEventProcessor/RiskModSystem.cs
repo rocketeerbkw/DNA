@@ -91,11 +91,14 @@ namespace Dna.BIEventSystem
                 reader.AddIntOutputParameter("moderation");
                 reader.Execute();
 
-                int moderationResult = reader.GetIntOutputParameter("moderation");
+                int? moderationResult = reader.GetNullableIntOutputParameter("moderation");
 
                 BIEventProcessor.BIEventLogger.LogInformation("RecordPostToForumEvent() end", startTime, "ThreadEntryId", ev.ThreadEntryId, "ModerationResult", moderationResult);
 
-                risky = moderationResult > 0;
+                if (moderationResult.HasValue)
+                    risky = moderationResult > 0;
+                else
+                    risky = null;
             }
 
             return true;

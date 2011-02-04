@@ -162,5 +162,14 @@ namespace DnaEventProcessorService.Properties {
                 return ((bool)(this["SiteEventsOn"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("32")]
+        public int BIEventsProcessor_NumThreads {
+            get {
+                return ((int)(this["BIEventsProcessor_NumThreads"]));
+            }
+        }
     }
 }
