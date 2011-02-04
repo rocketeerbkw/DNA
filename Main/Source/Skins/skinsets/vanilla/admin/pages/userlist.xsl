@@ -60,7 +60,7 @@
 								</input>
 							</li>
 							<li>
-								<label for="searchType_4">Identity user ID</label>
+								<label for="searchType_4">BBCUID</label>
 								<input id="searchType_4" type="radio" name="usersearchtype" value="4">
 									<xsl:if test="/H2G2/MEMBERLIST/@USERSEARCHTYPE = '4'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
