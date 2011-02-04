@@ -392,11 +392,11 @@
                         <h3>Almost there...</h3>
                         <p>
                             <xsl:text>You are nearly ready to contribute, however we need you to </xsl:text>
-                            <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
+                            <a href="{$root}/posttoforum?inreplyto={@POSTID}" class="id-cta">
                                 <xsl:call-template name="library_memberservice_require">
                                     <xsl:with-param name="ptrt">
                                         <xsl:value-of select="$root"/>
-                                        <xsl:text>/AddThread?inreplyto=</xsl:text>
+                                        <xsl:text>/posttoforum?inreplyto=</xsl:text>
                                         <xsl:value-of select="@POSTID"/>
                                     </xsl:with-param>
                                 </xsl:call-template>
@@ -409,11 +409,11 @@
                         <h3>Please log in</h3>
                         <p>
                             <xsl:text>You must be logged in to contribute. Please log in </xsl:text>
-                            <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
+                            <a href="{$root}/posttoforum?inreplyto={@POSTID}" class="id-cta">
                                 <xsl:call-template name="library_memberservice_require">
                                     <xsl:with-param name="ptrt">
                                         <xsl:value-of select="$root"/>
-                                        <xsl:text>/AddThread?inreplyto=</xsl:text>
+                                        <xsl:text>/posttoforum?inreplyto=</xsl:text>
                                         <xsl:value-of select="@POSTID"/>
                                     </xsl:with-param>
                                 </xsl:call-template>
