@@ -23,7 +23,7 @@ namespace DnaEventProcessorService.IntegrationTests
             string logFile = @"Logs\BIEventProcessor\BIEventProcessor.log";
             Assert.IsFalse(File.Exists(logFile));
 
-            BIEventProcessor bep = BIEventProcessor.CreateBIEventProcessor(logger, null, null, 1, false, false);
+            BIEventProcessor bep = BIEventProcessor.CreateBIEventProcessor(logger, null, null, 1, false, false, 1);
 
             var evRisk = _mocks.DynamicMock<BIPostNeedsRiskAssessmentEvent>(null, null);
             var evPost = _mocks.DynamicMock<BIPostToForumEvent>(new object[] { null });
@@ -32,7 +32,7 @@ namespace DnaEventProcessorService.IntegrationTests
 
             _mocks.ReplayAll();
 
-            bep.ProcessEvents(eventList);
+            bep.ProcessEvents(eventList,2);
 
             evRisk.AssertWasCalled(x => x.Process());
             evPost.AssertWasCalled(x => x.Process());
