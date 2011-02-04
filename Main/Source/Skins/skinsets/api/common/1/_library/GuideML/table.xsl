@@ -15,8 +15,13 @@
     
     <xsl:template match="TABLE | table" mode="library_GuideML">
         <table>
-			<xsl:if test="@BORDER=1">
+			<xsl:if test="@BORDER=1 or @border=1">
 				<xsl:attribute name="class">border1</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@ALIGN | @align">
+				<xsl:attribute name="align">
+					<xsl:value-of select="@ALIGN | @align"/>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@STYLE | @style">
 				<xsl:attribute name="style">
