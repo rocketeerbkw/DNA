@@ -213,7 +213,7 @@
 					                </xsl:choose>		      						
 	      						</xsl:variable>
 		      					<li>
-		      						<a href="/dna/{$sitename}/boards-admin/SMM{VIEWING-USER/USER/USERID}">Moderation notifications</a>
+		      						<a href="/dna/{$sitename}/boards-admin/SMM?{/H2G2/VIEWING-USER/USER/USERID}">Moderation notifications</a>
 		      					</li>		      					
 	      					</xsl:if>
 	      				</ul>
