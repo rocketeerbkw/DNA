@@ -102,14 +102,14 @@ namespace Tests
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.commentSummary.Total == 1);
 
-            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 2);
+            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 3);
             Assert.IsTrue(GetStatCounter("CACHEHITS") == 0);
 
             //get forum again
             result = _comments.GetCommentForumByUid(result.Id, site);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.commentSummary.Total == 1);
-            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 2);
+            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 3);
             Assert.IsTrue(GetStatCounter("CACHEHITS") == 1);
 
 		}
@@ -152,23 +152,23 @@ namespace Tests
             //get total for this site
             CommentsList listAfter = _comments.GetCommentsListBySite(site);
             Assert.IsTrue(listAfter.TotalCount == list.TotalCount+1);
-            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 4);
+            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 5);
             Assert.IsTrue(GetStatCounter("CACHEHITS") == 0);
 
             CommentsList listPrefixAfter = _comments.GetCommentsListBySite(site, commentForum.Id.Substring(0, 4));
             Assert.IsTrue(listPrefixAfter.TotalCount == 1);
-            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 5);
+            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 6);
             Assert.IsTrue(GetStatCounter("CACHEHITS") == 0);
 
             //reget totals
             listAfter = _comments.GetCommentsListBySite(site);
             Assert.IsTrue(listAfter.TotalCount == list.TotalCount + 1);
-            Assert.AreEqual(5, GetStatCounter("CACHEMISSES"));
+            Assert.AreEqual(6, GetStatCounter("CACHEMISSES"));
             Assert.IsTrue(GetStatCounter("CACHEHITS") == 1);
 
             listPrefixAfter = _comments.GetCommentsListBySite(site, commentForum.Id.Substring(0, 4));
             Assert.IsTrue(listPrefixAfter.TotalCount == 1);
-            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 5);
+            Assert.IsTrue(GetStatCounter("CACHEMISSES") == 6);
             Assert.IsTrue(GetStatCounter("CACHEHITS") == 2);
 
         }
