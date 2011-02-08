@@ -188,21 +188,6 @@
 		      					<li id="mydiscussions">
 		      						<a href="{$root}/MP{/H2G2/VIEWING-USER/USER/USERID}">My Discussions</a>
 		      					</li>
-		      					<!-- <xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSystemMessages']/VALUE = '1'">
-		      						<xsl:variable name="sitename">
-						                <xsl:choose>
-						                    <xsl:when test="/H2G2/SITE/NAME">
-						                        <xsl:value-of select="/H2G2/SITE/NAME"/>
-						                    </xsl:when>
-						                    <xsl:otherwise>
-						                        <xsl:value-of select="/H2G2/CURRENTSITEURLNAME"/>
-						                    </xsl:otherwise>
-						                </xsl:choose>		      						
-		      						</xsl:variable>
-			      					<li>
-			      						<a href="/dna/{$sitename}/boards-admin/SMM{VIEWING-USER/USER/USERID}">Moderation notifications</a>
-			      					</li>		      					
-		      					</xsl:if> -->
 		      				</xsl:if>
 		      				<li>
 		      					<a href="{$houserulesurl}" class="popup">House Rules</a>
@@ -215,7 +200,22 @@
 		      					<li>
 		      						<a href="/messageboards/newguide/popup_online_safety.html" class="popup">Are you being safe online?</a>
 		      					</li>
-		      				</xsl:if>      					
+		      				</xsl:if>   
+		      				<xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'UseSystemMessages']/VALUE = '1'">
+	      						<xsl:variable name="sitename">
+					                <xsl:choose>
+					                    <xsl:when test="/H2G2/SITE/NAME">
+					                        <xsl:value-of select="/H2G2/SITE/NAME"/>
+					                    </xsl:when>
+					                    <xsl:otherwise>
+					                        <xsl:value-of select="/H2G2/CURRENTSITEURLNAME"/>
+					                    </xsl:otherwise>
+					                </xsl:choose>		      						
+	      						</xsl:variable>
+		      					<li>
+		      						<a href="/dna/{$sitename}/boards-admin/SMM{VIEWING-USER/USER/USERID}">Moderation notifications</a>
+		      					</li>		      					
+	      					</xsl:if>
 	      				</ul>
 	      			</xsl:if>
 	      			
@@ -273,9 +273,9 @@
 	      			<h3>About this Board</h3>
 	      			<div id="dna-about-board">
 	      				<p><xsl:value-of select="SITECONFIG/V2_BOARDS/ABOUT_MESSAGE" disable-output-escaping="yes" /></p>
-	      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
-	      						<xsl:with-param name="signin-text"><xsl:value-of select="$signin-discussion-text" /></xsl:with-param>
-	    					</xsl:apply-templates>
+      					<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
+      						<xsl:with-param name="signin-text"><xsl:value-of select="$signin-discussion-text" /></xsl:with-param>
+    					</xsl:apply-templates>
 	      				<hr />
 	      				<xsl:call-template name="boardtimes"/>
 	      				<xsl:choose>
