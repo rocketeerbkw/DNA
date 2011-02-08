@@ -570,7 +570,7 @@ namespace FunctionalTests
             var xml = request.GetLastResponseAsXML();
 
             Assert.AreEqual("1", xml.SelectSingleNode("H2G2/POSTTHREADFORM/@POSTEDBEFOREREPOSTTIMEELAPSED").InnerText);
-            Assert.IsNotNull(xml.SelectSingleNode("H2G2/POSTTHREADFORM/SECONDSBEFOREPOST"));
+            Assert.IsNotNull(xml.SelectSingleNode("H2G2/POSTTHREADFORM/SECONDSBEFOREREPOST"));
 
         }
 
