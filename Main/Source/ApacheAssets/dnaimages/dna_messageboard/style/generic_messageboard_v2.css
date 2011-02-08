@@ -198,6 +198,7 @@ p.countdown {margin-left:10px}
 /* dna-boardpromo:about this board */
 #blq-main #dna-boardpromo {float:left; width:270px}
 #blq-main #dna-boardpromo div {margin-bottom:14px; border:1px solid #ccc}
+#blq-main #dna-boardpromo li {word-wrap: break-word}
 div#dna-boardpromo div p {padding:10px 9px}
 div#dna-boardpromo #dna-about-board {padding-bottom:10px; background-color:#f1f1f1; border:none}
 div#dna-boardpromo #dna-about-board p {padding-bottom:0}
