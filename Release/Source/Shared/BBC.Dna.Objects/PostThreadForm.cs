@@ -118,6 +118,15 @@ namespace BBC.Dna.Objects
             get;
             set;
         }
+
+        [XmlIgnore]
+        public bool ProfanityTriggeredSpecified
+        {
+            get
+            {
+                return ProfanityTriggered > 0;
+            }
+        }
         
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName="NONALLOWEDURLSTRIGGERED")]
@@ -125,6 +134,15 @@ namespace BBC.Dna.Objects
         {
             get;
             set;
+        }
+
+        [XmlIgnore]
+        public bool NonAllowedUrlsTriggeredSpecified
+        {
+            get
+            {
+                return NonAllowedUrlsTriggered > 0;
+            }
         }
         
         /// <remarks/>
@@ -142,6 +160,42 @@ namespace BBC.Dna.Objects
             get;
             set;
         }
+
+        /// <remarks/>
+        [XmlAttributeAttribute(AttributeName = "POSTEDBEFOREREPOSTTIMEELAPSED")]
+        public int PostedBeforeReportTimeElapsed
+        {
+            get;
+            set;
+        }
+
+        [XmlIgnore]
+        public bool PostedBeforeReportTimeElapsedSpecified
+        {
+            get
+            {
+                return PostedBeforeReportTimeElapsed > 0;
+            }
+        }
+
+        /// <remarks/>
+        [XmlElementAttribute(ElementName = "SECONDSBEFOREREPOST", Order = 4)]
+        public int SecondsBeforePost
+        {
+            get;
+            set;
+        }
+
+        [XmlIgnore]
+        public bool SecondsBeforePostSpecified
+        {
+            get
+            {
+                return SecondsBeforePost > 0;
+            }
+        }
+
+         
 
         /// <summary>
         /// Returns the post form filled with the reply to information
@@ -221,15 +275,18 @@ namespace BBC.Dna.Objects
                 switch (addQuote)
                 {
                     case QuoteEnum.QuoteId:
-                        quoteStr = string.Format("<quote postid='{0}'>{1}</quote>\r\n", InReplyToId, InReplyTo.RawBody);
+                        quoteStr = string.Format("<quote postid='{0}'>{1}</quote>", InReplyToId, InReplyTo.RawBody);
                         break;
 
                     case QuoteEnum.QuoteUser:
-                        quoteStr = string.Format("<quote postid='{0}' user='{2}' userid='{1}'>{3}</quote>\r\n", InReplyToId, InReplyTo.UserId, InReplyTo.Username, InReplyTo.RawBody);
+                        quoteStr = string.Format("<quote postid='{0}' user='{2}' userid='{1}'>{3}</quote>", InReplyToId, InReplyTo.UserId, InReplyTo.Username, InReplyTo.RawBody);
                         break;
                 }
             }
-            Subject = ThreadPost.FormatSubject(subject, CommentStatus.Hidden.NotHidden);
+            if (!string.IsNullOrEmpty(subject))
+            {
+                Subject = ThreadPost.FormatSubject(subject, CommentStatus.Hidden.NotHidden);
+            }
             if (body.IndexOf(string.Format("<quote postid='{0}'", InReplyToId)) >= 0)
             {
                 Body = body;

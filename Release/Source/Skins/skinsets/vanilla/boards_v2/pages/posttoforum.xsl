@@ -17,7 +17,7 @@
     
     
     <xsl:template match="/H2G2[@TYPE = 'POSTTOFORUM']" mode="page">
-        <xsl:variable name="idptrt" select="concat('/posttoforum?inreplyto=', POSTTHREADUNREG/@POSTID)" />
+        <xsl:variable name="idptrt" select="concat('/posttoforum?inreplyto=', POSTTHREADFORM/@INREPLYTO)" />
         
         <xsl:choose>
 	        <xsl:when test="/H2G2/VIEWING-USER/USER">
@@ -36,7 +36,7 @@
 						<a>
 						<xsl:attribute name="href">
 				            <xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_loginurl">
-				                <xsl:with-param name="ptrt" select="$idptrt" />
+				                <xsl:with-param name="ptrt" select="concat($root, '/posttoforum?forum=', FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID, '&amp;article=', FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID)" />
 				            </xsl:apply-templates>	
 				    	</xsl:attribute>
 						signed in</a> to submit a reply.</p>

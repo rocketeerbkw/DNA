@@ -23,6 +23,7 @@
       </xs:sequence>
       <xs:attribute name="POSTID" type="xs:unsignedInt" use="required" />
       <xs:attribute name="MODID" type="xs:unsignedInt" use="optional" />
+      <xs:attribute name="REQUIRESVERIFICATION" type="xs:unsignedInt" use="optional" />
       <xs:attribute name="HIDDEN" type="xs:unsignedInt" use="optional" />
     </xs:complexType>
   </xs:element>

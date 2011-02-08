@@ -151,6 +151,8 @@ namespace FunctionalTests
 
             var xml = PostToForum();
 
+            Assert.AreEqual(_threadId.ToString(), xml.SelectSingleNode("H2G2/POSTPREMODERATED/@THREAD").InnerText);
+            
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
 
         }
@@ -331,7 +333,7 @@ namespace FunctionalTests
         public void PostToForum_PreviewPostWithQuoteParam_CorrectPreviewReturned()
         {
             string post = "my post";
-            string expected = "<QUOTE POSTID=\"61\">more test data....</QUOTE><BR />my post";
+            string expected = "<QUOTE POSTID=\"61\">more test data....</QUOTE>my post";
 
             PreviewPost(post, expected, BBC.Dna.Objects.QuoteEnum.QuoteId);
         }
@@ -349,7 +351,7 @@ namespace FunctionalTests
         public void PostToForum_PreviewPostWithQuoteUserParam_CorrectPreviewReturned()
         {
             string post = "my post";
-            string expected = "<QUOTE POSTID=\"61\" USER=\"DotNetNormalUser\" USERID=\"1090501859\">more test data....</QUOTE><BR />my post";
+            string expected = "<QUOTE POSTID=\"61\" USER=\"DotNetNormalUser\" USERID=\"1090501859\">more test data....</QUOTE>my post";
 
             PreviewPost(post, expected, BBC.Dna.Objects.QuoteEnum.QuoteUser);
         }
@@ -559,7 +561,7 @@ namespace FunctionalTests
         [TestMethod]
         public void PostToForum_WithinPostFrequency_CorrectError()
         {
-            SetSiteOptions(0, 0, false, false, 300);
+            SetSiteOptions(0, 0, false, false, 1000);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
@@ -567,7 +569,8 @@ namespace FunctionalTests
             request = PostToForumWithException(request, "my post2");
             var xml = request.GetLastResponseAsXML();
 
-            CheckForError(xml, "PostFrequencyTimePeriodNotExpired");
+            Assert.AreEqual("1", xml.SelectSingleNode("H2G2/POSTTHREADFORM/@POSTEDBEFOREREPOSTTIMEELAPSED").InnerText);
+            Assert.IsNotNull(xml.SelectSingleNode("H2G2/POSTTHREADFORM/SECONDSBEFOREREPOST"));
 
         }
 

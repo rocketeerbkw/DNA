@@ -19,7 +19,7 @@
                 <xsl:attribute name="href">                   
                     <xsl:call-template name="library_string_searchandreplace">
                         <xsl:with-param name="str">
-                            <xsl:if test="not(starts-with((@HREF | @href), 'http://')) and not(starts-with((@HREF | @href), 'https://'))">
+                            <xsl:if test="not(starts-with((@HREF | @href), 'http://')) and not(starts-with((@HREF | @href), 'https://')) and not(starts-with((@HREF | @href), '&#35;'))">
                                 <xsl:text>http://</xsl:text>
                             </xsl:if>
                             <xsl:value-of select="@HREF | @href"/>
@@ -29,29 +29,34 @@
                     </xsl:call-template>
                 </xsl:attribute>
             </xsl:if>
-			<!--<xsl:if test="@CLASS | @class">
-				<xsl:attribute name="class">
-					<xsl:value-of select="@CLASS | @class"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@TARGET | @target">
-				<xsl:attribute name="target">
-					<xsl:value-of select="@TARGET | @target"/>
-				</xsl:attribute>
-			</xsl:if>-->
+			<xsl:choose>
+				<xsl:when test="@CLASS | @class">
+					<xsl:attribute name="class">
+						<xsl:value-of select="@CLASS | @class"/>
+					</xsl:attribute>
+				</xsl:when>
+				<!--<xsl:otherwise>pos</xsl:otherwise>-->
+			</xsl:choose>
+			<xsl:choose>
+				<xsl:when test="@TARGET | @target">
+					<xsl:attribute name="target">
+						<xsl:value-of select="@TARGET | @target"/>
+					</xsl:attribute>
+				</xsl:when>
+				<!--<xsl:otherwise>_top</xsl:otherwise>-->
+			</xsl:choose>
 			<xsl:if test="@NAME | @name">
 				<xsl:attribute name="name">
 					<xsl:value-of select="@NAME | @name"/>
 				</xsl:attribute>
 			</xsl:if>
-			<!--<xsl:choose>
-				<xsl:when test="string-length(.) = 0">&#160;</xsl:when>
+			<xsl:choose>
+				<xsl:when test="string-length(.) = 0"><xsl:comment>anchor</xsl:comment>
+				</xsl:when>
 				<xsl:otherwise>
 					<xsl:apply-templates mode="library_GuideML"/>
 				</xsl:otherwise>
 			</xsl:choose>
-				-->
-			<xsl:apply-templates mode="library_GuideML"/>
 		</a>
     </xsl:template>
 	

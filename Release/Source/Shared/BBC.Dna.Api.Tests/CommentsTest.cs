@@ -243,6 +243,54 @@ namespace BBC.Dna.Api.Tests
         ///A test for CommentInfo Constructor
         ///</summary>
         [TestMethod]
+        public void CommentForumReadByUid_FromDbNotSignedIn_ReturnsValidList()
+        {
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var readerComments = mocks.DynamicMock<IDnaDataReader>();
+
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var siteName = "h2g2";
+            var uid = "";
+            var userId = 1;
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+            site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetInt32NullAsZero("NotSignedInUserId")).Return(userId);
+            reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
+
+            readerComments.Stub(x => x.HasRows).Return(true);
+            readerComments.Stub(x => x.Read()).Return(true).Repeat.Once();
+            readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumreadbyuid")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            var forum = comments.GetCommentForumByUid(uid, site);
+
+            Assert.IsNotNull(forum);
+            Assert.IsTrue(forum.allowNotSignedInCommenting);
+            Assert.AreEqual(userId, forum.NotSignedInUserId);
+            Assert.AreEqual(1, forum.commentList.TotalCount);
+            Assert.AreEqual(1, forum.commentList.comments.Count);
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumreadbyuid"));
+        }
+
+        /// <summary>
+        ///A test for CommentInfo Constructor
+        ///</summary>
+        [TestMethod]
         public void CommentForumReadByUid_CacheOutOfDate_ReturnsValidList()
         {
             var comments = new Comments(null, null, null, null);
@@ -449,6 +497,46 @@ namespace BBC.Dna.Api.Tests
             Assert.AreEqual(1, commentList.TotalCount);
             Assert.AreEqual(1, commentList.comments.Count);
             Assert.AreEqual(string.Empty, commentList.comments[0].User.SiteSpecificDisplayName);//even though site suffix set, option not supported
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentsreadbysitename"));
+        }
+
+        [TestMethod]
+        public void CommentsReadBySite_NotSignedInUser_ReturnsValidList()
+        {
+
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var readerComments = mocks.DynamicMock<IDnaDataReader>();
+
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var siteName = "h2g2";
+            var siteId = 1;
+            var userName = "myudng";
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+            site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            readerComments.Stub(x => x.HasRows).Return(true);
+            readerComments.Stub(x => x.Read()).Return(true).Repeat.Once();
+            readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
+            readerComments.Stub(x => x.GetStringNullAsEmpty("AnonymousUserName")).Return(userName);
+            readerComments.Stub(x => x.DoesFieldExist("AnonymousUserName")).Return(true);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbysitename")).Return(readerComments);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            siteList.Stub(x => x.GetSiteOptionValueBool(siteId, "User", "UseSiteSuffix")).Return(false);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            var commentList = comments.GetCommentsListBySite(site);
+
+            Assert.IsNotNull(commentList);
+            Assert.AreEqual(1, commentList.TotalCount);
+            Assert.AreEqual(1, commentList.comments.Count);
+            Assert.AreEqual(userName, commentList.comments[0].User.DisplayName);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentsreadbysitename"));
         }
 
@@ -717,6 +805,55 @@ namespace BBC.Dna.Api.Tests
 
             Assert.IsNotNull(comment);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentcreate"));
+        }
+
+        /// <summary>
+        ///A test for CommentInfo Constructor
+        ///</summary>
+        [TestMethod]
+        public void CommentCreate_NotSignedInUserWithDisplayName_ReturnCorrectObject()
+        {
+            var siteName = "h2g2";
+            var uid = "uid";
+            var text = "test comment";
+            var displayName = "notsignedin";
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var callingUser = mocks.DynamicMock<ICallingUser>();
+            var commentForum = new CommentForum { Id = uid, SiteName = siteName, allowNotSignedInCommenting=true, NotSignedInUserId=1 };
+            var commentInfo = new CommentInfo { text = text };
+            commentInfo.User = new User { DisplayName = displayName };
+
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
+
+            callingUser.Stub(x => x.UserID).Return(1);
+            callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetInt32NullAsZero("postid")).Return(1);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentcreate")).Return(reader);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            comments.CallingUser = callingUser;
+            var comment = comments.CreateComment(commentForum, commentInfo);
+
+            Assert.IsNotNull(comment);
+            Assert.AreEqual(displayName, comment.User.DisplayName);
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentcreate"));
+            reader.AssertWasCalled(x => x.AddParameter("nickname", displayName));
         }
 
         /// <summary>
@@ -1930,6 +2067,99 @@ namespace BBC.Dna.Api.Tests
             }
 
             //reader.AssertWasNotCalled(x => x.Execute());
+        }
+
+        [TestMethod]
+        public void CreateCommentForum_AlreadyExists_DoesNotCreate()
+        {
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var readerComments = mocks.DynamicMock<IDnaDataReader>();
+
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var siteName = "h2g2";
+            var uid = "uid";
+            var commentForum = new CommentForum
+            {
+                Id = uid,
+
+
+            };
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+            site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
+
+
+            readerComments.Stub(x => x.HasRows).Return(true);
+            readerComments.Stub(x => x.Read()).Return(true).Repeat.Once();
+            readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumreadbyuid")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            var forum = comments.CreateCommentForum(commentForum, site);
+
+            Assert.IsNotNull(forum);
+            Assert.AreEqual(1, forum.commentList.TotalCount);
+            Assert.AreEqual(1, forum.commentList.comments.Count);
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumreadbyuid"));
+            readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("commentforumcreate"));
+        }
+
+        [TestMethod]
+        public void CreateCommentForum_NoExists_CreatesForum()
+        {
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var readerCreate = mocks.DynamicMock<IDnaDataReader>();
+            var readerComments = mocks.DynamicMock<IDnaDataReader>();
+
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var siteName = "h2g2";
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+            site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.Read()).Return(false);
+            readerComments.Stub(x => x.HasRows).Return(false);
+            readerComments.Stub(x => x.Read()).Return(false);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumreadbyuid")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumcreate")).Return(readerCreate);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+
+            var commentForum = new Forum
+            {
+                Id = "".PadRight(10, 'a'),
+                ParentUri = "http://www.bbc.co.uk/dna",
+                Title = "title",
+                ModerationServiceGroup = ModerationStatus.ForumStatus.PostMod
+            };
+
+
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            var forum = comments.CreateCommentForum(commentForum, site);
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumreadbyuid"));
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumcreate"));
         }
 
     }

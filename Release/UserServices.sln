@@ -491,9 +491,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeployScripts", "DeployScripts", "{9BBD8F57-2EF3-47E2-9244-1930752A4FAF}"
 	ProjectSection(SolutionItems) = preProject
 		deployExtdev.bat = deployExtdev.bat
+		deployStaging.bat = deployStaging.bat
 		deploywebservices.bat = deploywebservices.bat
 		deploywebservicesLive.bat = deploywebservicesLive.bat
 		deploywebservicesTest.bat = deploywebservicesTest.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HtmlAgilityPack", "HtmlAgilityPack", "{8E8A516A-78B2-47D5-9127-B344BB9DA7A2}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Reference DLLs\HtmlAgilityPack\HtmlAgilityPack.dll = Source\Reference DLLs\HtmlAgilityPack\HtmlAgilityPack.dll
+		Source\Reference DLLs\HtmlAgilityPack\HtmlAgilityPack.pdb = Source\Reference DLLs\HtmlAgilityPack\HtmlAgilityPack.pdb
+		Source\Reference DLLs\HtmlAgilityPack\HtmlAgilityPack.XML = Source\Reference DLLs\HtmlAgilityPack\HtmlAgilityPack.XML
 	EndProjectSection
 EndProject
 Global
@@ -2642,6 +2650,7 @@ Global
 		{C3B6D85B-AA27-4DB4-B42A-4967AFC08BC6} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{E23162C3-B3CA-4DEC-910A-EB7187BA0B8C} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{88B566EF-02FA-4C58-A4E7-4BCC0E6C6091} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{8E8A516A-78B2-47D5-9127-B344BB9DA7A2} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {54187AB7-0320-401A-948D-F1AE381F3D2C}
 		{9BBD8F57-2EF3-47E2-9244-1930752A4FAF} = {C55F7869-3C5D-42AD-B4A5-A847BB965D4D}
 		{EA19FCEE-4091-44A3-BD72-B0267FF2F4FE} = {B3785050-CB28-428E-8454-FD261DBD2EE5}

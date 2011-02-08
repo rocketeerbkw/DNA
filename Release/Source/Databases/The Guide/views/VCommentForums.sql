@@ -19,6 +19,7 @@ SELECT     cf.UID
 	, f.canread as canRead
 	, f.canWrite as canWrite
 	, case when ep.editorpickcount is null then 0 else ep.editorpickcount end as 'editorpickcount'
+	, cf.NotSignedInUserId as NotSignedInUserId
 	FROM         
 	dbo.CommentForums AS cf WITH (NOLOCK) 
 	INNER JOIN dbo.Forums AS f WITH (NOLOCK) ON cf.ForumID = f.ForumID 

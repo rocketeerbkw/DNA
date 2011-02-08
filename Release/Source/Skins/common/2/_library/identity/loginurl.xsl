@@ -38,7 +38,9 @@
     	
          <xsl:if test="$ptrt">
          	<xsl:text>&#38;ptrt=</xsl:text>
-         	<xsl:apply-templates select="/H2G2" mode="library_identity_ptrt" />
+         	<xsl:apply-templates select="/H2G2" mode="library_identity_ptrt">
+         		<xsl:with-param name="ptrt" select="$ptrt" />
+         	</xsl:apply-templates>
         </xsl:if>   
     </xsl:template>
     

@@ -376,6 +376,35 @@ namespace BBC.Dna.Users
         }
 
         /// <summary>
+        /// Creates user per forum which allows for anonymous users
+        /// </summary>
+        /// <param name="siteID">The site</param>
+        /// <param name="forumID">The forum id</param>
+        /// <returns>true if created or false if missing parameters or blank params</returns>
+        public bool CreateAnonymousUserForForum(int siteID, int forumID, string displayName)
+        {
+            if (forumID != 0 && siteID != 0)
+            {
+                using (IDnaDataReader reader = CreateStoreProcedureReader("createnewuserforforum"))
+                {
+                    reader.AddParameter("@forumid", forumID);
+                    reader.AddParameter("@siteid", siteID);
+                    //not used
+                    //if (!String.IsNullOrEmpty(displayName))
+                    //{
+                    //    reader.AddParameter("displayname", displayName);
+                    //}
+                    reader.Execute();
+                    if (reader.Read())
+                    {
+                       return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Finds a user using their DNA User ID
         /// </summary>
         /// <param name="userID">The users DNA ID</param>

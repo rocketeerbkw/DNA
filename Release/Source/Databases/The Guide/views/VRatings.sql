@@ -18,7 +18,8 @@ SELECT
 	dbo.ForumReview.rating as rating,
 	dbo.Preferences.sitesuffix as 'SiteSpecificDisplayName',
 	case when threadentryeditorpicks.entryid is not null then 1 else 0 end as 'IsEditorPick',
-	ThreadEntries.PostIndex as 'PostIndex'
+	ThreadEntries.PostIndex as 'PostIndex',
+	dbo.ThreadEntries.username as 'AnonymousUserName'
 FROM         dbo.ThreadEntries 
                       INNER JOIN dbo.CommentForums ON dbo.CommentForums.ForumID = dbo.ThreadEntries.ForumID 
                       INNER JOIN dbo.ForumReview ON dbo.ForumReview.EntryID = dbo.ThreadEntries.entryid 

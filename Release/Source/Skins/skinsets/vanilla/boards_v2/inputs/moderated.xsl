@@ -23,7 +23,7 @@
 			<p class="closed">
 				<a>
 				<xsl:attribute name="href">
-					<xsl:value-of select="$root" /><xsl:text>/NF</xsl:text><xsl:value-of select="/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID" />
+					<xsl:value-of select="$root" /><xsl:text>/NF</xsl:text><xsl:value-of select="/H2G2[@TYPE = 'POSTTOFORUM']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID" />
 					<xsl:if test="@THREAD"><xsl:text>?thread=</xsl:text><xsl:value-of select="@THREAD" /></xsl:if>
 				</xsl:attribute>
 					Back to the discussion
@@ -39,7 +39,7 @@
 				Unfortunately you are currently restricted from posting to this forum. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html" class="popup">Explain</a>.
 			</p>
 			<p>
-				<a href="{$root}/NF{/H2G2[@TYPE = 'ADDTHREAD']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
+				<a href="{$root}/NF{/H2G2[@TYPE = 'POSTTOFORUM']/FORUMSOURCE/ARTICLE/ARTICLEINFO/FORUMID}">
 					Back to the discussion
 				</a>
 			</p>

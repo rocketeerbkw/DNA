@@ -1023,9 +1023,11 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             Assert.AreEqual(ErrorType.MinCharLimitNotReached, e.type);
         }
 
-        [TestMethod]
-        public void PostToForum_InvalidHTML_ThrowsException()
+        [Ignore]
+        public void PostToForum_InvalidHTML_NoError()
         {
+            // due to the added protection and encoding ont he front end - this is no longer checked.
+            //it was causing issues with double encoding and historical posts need to be maintained.
             var forumId = 1;
             var threadId = 1;
             var ipAddress = "1.1.1.1";
@@ -1050,20 +1052,14 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             {
                 Text = "<div>more than 5 chars",
                 Subject = "test subject",
-                ThreadId = threadId
+                ThreadId = threadId,
+                Style = PostStyle.Style.richtext
             };
 
-            ApiException e = null;
-            try
-            {
-                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
-            }
-            catch (ApiException err)
-            {
-                e = err;
-            }
-            Assert.AreEqual(ErrorType.XmlFailedParse, e.type);
+            threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            
         }
+
 
         [TestMethod]
         public void PostToForum_WithProfanity_ThrowsException()

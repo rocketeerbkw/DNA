@@ -15,6 +15,8 @@ namespace BBC.Dna.Component
     public class UserComplaint : DnaInputComponent
     {
         private int _modId = 0;
+        private int _postId = 0;
+        private bool _requiresVerification = false;
 
         /// <summary>
         /// Default constructor for the MorePosts component
@@ -32,22 +34,24 @@ namespace BBC.Dna.Component
             {
                 AddAttribute(parent, "MODID", _modId);
             }
-
-            bool editor = InputContext.ViewingUser != null && InputContext.ViewingUser.IsEditor;
-            if (InputContext.DoesParamExist("postid", "Post Id"))
+            if (_requiresVerification)
             {
-                int postId = InputContext.GetParamIntOrZero("postid", "PostId");
+                AddAttribute(parent, "REQUIRESVERIFICATION", 1);
+            }
+            bool editor = InputContext.ViewingUser != null && InputContext.ViewingUser.IsEditor;
+            if (_postId != 0)
+            {
                 int threadId = 0;
                 int forumId = 0;
                 int authorId = 0;
                 String subject;
                 String authorName;
                 int hidden = 0;
-                AddAttribute(parent, "POSTID", postId);
+                AddAttribute(parent, "POSTID", _postId);
 
                 using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("fetchpostdetails"))
                 {
-                    dataReader.AddParameter("postid", postId);
+                    dataReader.AddParameter("postid", _postId);
                     dataReader.Execute();
                     if (dataReader.Read())
                     {
@@ -143,6 +147,7 @@ namespace BBC.Dna.Component
             //Clean any existing XML.
             RootElement.RemoveAll();
 
+            _postId = InputContext.GetParamIntOrZero("postid", "Post Id");
             String email = InputContext.GetParamStringOrEmpty("email", "Email");
             if (IsBanned(email))
             {
@@ -154,7 +159,53 @@ namespace BBC.Dna.Component
             {
                 ProcessSubmission();
             }
+            else if (InputContext.DoesParamExist("verificationcode", "verification"))
+            {
+                VerifySubmission(Guid.Empty);
+            }
             GenerateXml();
+        }
+
+        private void VerifySubmission(Guid code)
+        {
+            if(code == Guid.Empty)
+            {
+                string codeInput = InputContext.GetParamStringOrEmpty("verificationcode", "verification");
+                try
+                {
+                    code = new Guid(codeInput);
+                }
+                catch
+                {
+                    this.AddErrorXml("InvalidVerificationCode", "Verification Code is not valid", RootElement);
+                    return;
+                }
+            }
+
+            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("registerverifiedcomplaint"))
+            {
+                dataReader.AddParameter("verificationcode", code);
+                dataReader.Execute();
+
+                if (dataReader.HasRows && dataReader.Read())
+                {
+                    _requiresVerification = false;
+                    _postId = dataReader.GetInt32NullAsZero("postid");
+                    var forumId = dataReader.GetInt32NullAsZero("forumId");
+                    var threadId = dataReader.GetInt32NullAsZero("threadid");
+                    var correspondenceEmail = dataReader.GetStringNullAsEmpty("correspondenceEmail");
+                    var complaintText = dataReader.GetStringNullAsEmpty("ComplaintText");
+                    _modId = dataReader.GetInt32NullAsZero("modid");
+
+                    SendEmail(complaintText, correspondenceEmail, _modId, _postId, 0, Convert.ToString(_postId));
+                }
+                else
+                {
+                    this.AddErrorXml("InvalidVerificationCode", "Verification Code is not valid", RootElement);
+                    return;
+                }
+            }
+
         }
 
         private void ProcessSubmission()
@@ -233,6 +284,7 @@ namespace BBC.Dna.Component
             }
             else if (InputContext.GetParamIntOrZero("postid", "postid") > 0)
             {
+                var verificationUid = Guid.Empty;
                 int postId = InputContext.GetParamIntOrZero("postid", "PostId");
                 using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("registerpostingcomplaint"))
                 {
@@ -249,14 +301,22 @@ namespace BBC.Dna.Component
                     dataReader.Execute();
 
                     // Send Email
+                    
                     if (dataReader.Read())
                     {
-                        int modId = dataReader.GetInt32NullAsZero("modId");
-                        _modId = modId;
+                        if (dataReader.DoesFieldExist("modId"))
+                        {
+                            _modId = dataReader.GetInt32NullAsZero("modId");
+                        }
+                        if (dataReader.DoesFieldExist("verificationUid"))
+                        {
+                            verificationUid = dataReader.GetGuid("verificationUid");
+                            _requiresVerification = true;
+                        }
                     }
                 }
 
-                if (_modId == 0)
+                if (_modId == 0 && verificationUid == Guid.Empty)
                 {
                     AddErrorXml("REGISTERCOMPLAINT", "Unable to register complaint", RootElement);
                     return;
@@ -283,7 +343,15 @@ namespace BBC.Dna.Component
                         }
                     }
                 }
-                SendEmail(complaintText, email, _modId, postId, 0, Convert.ToString(postId));
+
+                if (_modId != 0)
+                {
+                    SendEmail(complaintText, email, _modId, postId, 0, Convert.ToString(postId));
+                }
+                if (verificationUid != Guid.Empty)
+                {
+                    SendVerificationEmail(email, verificationUid);
+                }
             }
             else if (InputContext.DoesParamExist("url", "url"))
             {
@@ -332,9 +400,15 @@ namespace BBC.Dna.Component
             {
                 email = InputContext.ViewingUser.Email;
             }
+            else if (email.IndexOf("@bbc.co.uk") > 0)
+            {//BBC staff must be logged
+                return true;
+            }
 
             if (email == String.Empty)
                 return false;
+
+            
 
             Boolean isbanned = false;
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("isemailbannedfromcomplaints"))
@@ -427,6 +501,49 @@ namespace BBC.Dna.Component
         }
 
         /// <summary>
+        /// Sends verification email for user to verify email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="verificationUid"></param>
+        private void SendVerificationEmail(string email, Guid verificationUid)
+        {
+            // do any necessary substitutions
+            string emailSubject;
+            string emailBody;
+            int siteId = InputContext.CurrentSite.SiteID;
+            int userId = InputContext.ViewingUser == null ? 0 : InputContext.ViewingUser.UserID;
+
+            EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "UserComplaintEmailVerification", out emailSubject, out emailBody);
+
+            if (string.IsNullOrEmpty(emailBody) || string.IsNullOrEmpty(emailSubject))
+            {
+                InputContext.Diagnostics.WriteWarningToLog("UserComplaintEmailVerification",
+                    string.Format("Missing Verification template: site={0}, type=UserComplaintEmailVerification", siteId));
+                SendVerficationErrorEmailToModerator(InputContext.CurrentSite.ModeratorsEmail, verificationUid);
+                VerifySubmission(verificationUid);
+                return;
+            }
+
+            String from = InputContext.CurrentSite.ModeratorsEmail;
+            emailBody = emailBody.Replace("++**verificationcode**++", Convert.ToString(verificationUid.ToString()));
+            emailBody = emailBody.Replace("++**urlname**++", InputContext.CurrentSite.SiteName);
+            string moderatorEmail = InputContext.CurrentSite.ModeratorsEmail;
+
+            try
+            {
+
+                //Actually send the email.
+                DnaMessage sendMessage = new DnaMessage(InputContext);
+                sendMessage.SendEmailOrSystemMessage(userId, email, moderatorEmail, siteId, emailSubject, emailBody);
+            }
+            catch (DnaEmailException e)
+            {
+                AddErrorXml("EMAIL", "Unable to send email." + e.Message, RootElement);
+            }
+
+        }
+
+        /// <summary>
         /// Sends an imformative email to the moderator with the complaint details
         /// </summary>
         /// <param name="modId"></param>
@@ -469,6 +586,48 @@ namespace BBC.Dna.Component
                 //emailBody += " (HIDDEN)";
             emailBody += "\r\n\r\n";
             emailBody += complaintText;
+
+            String moderatorEmail = InputContext.CurrentSite.ModeratorsEmail;
+            int siteId = InputContext.CurrentSite.SiteID;
+
+            int userId = 0;
+            if (InputContext.ViewingUser != null)
+                userId = InputContext.ViewingUser.UserID;
+
+            try
+            {
+                //Actually send the email.
+                DnaMessage sendMessage = new DnaMessage(InputContext);
+                sendMessage.SendEmailOrSystemMessage(userId, email, email, siteId, emailSubject, emailBody);
+            }
+            catch (DnaEmailException e)
+            {
+                AddErrorXml("EMAIL", "Unable to send email." + e.Message, RootElement);
+            }
+        }
+
+        /// <summary>
+        /// Sends error email to moderator telling them verification email wasn't sent
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="verificationUid"></param>
+        private void SendVerficationErrorEmailToModerator(string email, Guid verificationUid)
+        {
+
+            // Should use the email templaing system for this task.
+            String from = email;
+            if (from == String.Empty)
+                from = "Anonymous";
+
+            if (InputContext.ViewingUser != null)
+            {
+                from = InputContext.ViewingUser.UserName;
+                if (InputContext.ViewingUser.IsEditor)
+                    from += " (Editor)";
+            }
+
+            String emailSubject = "Error: Unable to send complaint verification email to user - missing template";
+            String emailBody = "Verfication Code: " + verificationUid.ToString() + "\r\n";
 
             String moderatorEmail = InputContext.CurrentSite.ModeratorsEmail;
             int siteId = InputContext.CurrentSite.SiteID;

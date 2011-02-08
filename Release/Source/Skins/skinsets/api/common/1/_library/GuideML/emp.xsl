@@ -3,7 +3,7 @@
     
     <doc:documentation>
         <doc:purpose>
-            Coverts P nodes to HTML paragraphs
+            Coverts EMP nodes to Embedded EMP videos
         </doc:purpose>
         <doc:context>
             Applied by _common/_library/GuideML.xsl
@@ -12,20 +12,14 @@
             
         </doc:notes>
     </doc:documentation>
-    
-    <xsl:template match="P | p" mode="library_GuideML">
-        <p>
-			<xsl:if test="@CLASS">
-				<xsl:attribute name="class">
-					<xsl:value-of select="@CLASS"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@ALIGN">
-				<xsl:attribute name="align">
-					<xsl:value-of select="@ALIGN"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:apply-templates mode="library_GuideML"/>
-        </p>
+	
+	<xsl:template match="EMP | emp" mode="library_GuideML">
+		<div id="emp0">
+			<xsl:comment>emp0</xsl:comment>
+		</div>
+		<div id="emp1">
+			<xsl:comment>emp1</xsl:comment>
+		</div>
+		<script type="text/javascript">var emp = new embeddedMedia.Player();emp.setWidth("512");emp.setHeight("323");emp.setDomId("emp1");emp.setPlaylist("http://www.bbc.co.uk/emp/docs/demos/xml/video.xml");emp.write();</script>		
     </xsl:template>
 </xsl:stylesheet>

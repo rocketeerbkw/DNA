@@ -15,8 +15,6 @@
     
     
     <xsl:template match="FORUMTHREADS" mode="library_startnewdiscussion_link">
-    	<xsl:variable name="idptrt" select="concat($root,'/AddThread?forum=', @FORUMID, '%26article=', /H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID)" />
-    
     	<xsl:choose>
 	    	<xsl:when test="not(/H2G2/VIEWING-USER/USER/USERNAME)">
 	    		<xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_cta">
@@ -42,16 +40,7 @@
 	    	<xsl:otherwise>
 	    		<xsl:if test="@CANWRITE = '1'">
 					<p class="dna-boards-startanewdiscussion">
-						<a href="{$root}/AddThread?forum={@FORUMID}%26article={/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID}" class="id-cta">
-					        <xsl:call-template name="library_memberservice_require">
-					            <xsl:with-param name="ptrt">
-					                <xsl:value-of select="$root"/>
-					                <xsl:text>/AddThread?forum=</xsl:text>
-					                <xsl:value-of select="@FORUMID"/>
-					            	<xsl:text>%26article=</xsl:text>
-					                <xsl:value-of select="/H2G2/FORUMSOURCE/ARTICLE/ARTICLEINFO/H2G2ID"/>
-					            </xsl:with-param>
-					        </xsl:call-template>
+						<a href="{$root}/posttoforum?forum={@FORUMID}" class="id-cta">
 					        <xsl:text>Start a new discussion</xsl:text>
 					    </a>          
 					</p>
