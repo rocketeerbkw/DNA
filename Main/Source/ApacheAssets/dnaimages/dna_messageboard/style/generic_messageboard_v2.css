@@ -106,7 +106,7 @@ body.ie6 #blq-main #blq-content .pagination li {width:1px}
 ul.forumthreadposts, p.forumthreadposts {clear:both}
 ul.forumthreadposts {margin-top:10px}
 ul.forumthreadposts li {padding:10px}
-ul.forumthreadposts li p {margin-bottom:10px; font-size:1.1em}
+ul.forumthreadposts li p {margin-bottom:10px; font-size:1.1em; word-wrap: break-word;}
 #blq-main .addthread .article, #blq-main .posttoforum .article  {margin-top:0.8em}
 .addthread ul.forumthreadposts li.firstpost, .posttoforum ul.forumthreadposts li.firstpost {margin:0 25px; padding:10px 15px; line-height:1.3em; background-color:#e8eced}
 #blq-main .addthread li.firstpost .itemdetail, #blq-main .addthread li .itemdetail, #blq-main .posttoforum li.firstpost .itemdetail, #blq-main .posttoforum li .itemdetail  {margin-bottom:10px}
