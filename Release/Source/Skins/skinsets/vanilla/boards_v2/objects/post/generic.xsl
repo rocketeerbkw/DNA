@@ -103,7 +103,7 @@
                 <xsl:when test="$siteClosed = 'true' or parent::FORUMTHREADPOSTS/@CANWRITE = 0 or $autogenname_required = 'true'">
                     <!-- Nowt -->
                 </xsl:when>
-                <xsl:when test="@CANWRITE = 0 or USER/STATUS = 0"><!-- nothing --></xsl:when>
+                <xsl:when test="@CANWRITE = 0 or /H2G2/VIEWING-USER/USER/STATUS = 0"><!-- nothing --></xsl:when>
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
                         <a href="{$root}/posttoforum?inreplyto={@POSTID}" class="id-cta">

@@ -89,6 +89,12 @@ namespace BBC.Dna
             }
             SerialiseAndAppend(forumSource, String.Empty);
 
+            if (InputContext.ViewingUser.IsBanned)
+            {
+                getBannedXml(postToForumBuilder);
+                return;
+            }
+
             //add post if relevant
             postToForumBuilder.AddPost(_subject, _text, _addQuote);
 
@@ -100,6 +106,7 @@ namespace BBC.Dna
                 post.Style = (BBC.Dna.Objects.PostStyle.Style)postToForumBuilder.Style;
                 post.ThreadId = postToForumBuilder.ThreadId;
                 post.InReplyTo = postToForumBuilder.InReplyToId;
+                bool errorThrown = false;
                 try
                 {
                     post.PostToForum(_cache, AppContext.ReaderCreator, InputContext.CurrentSite, _viewingUser, InputContext.TheSiteList,
@@ -107,6 +114,7 @@ namespace BBC.Dna
                 }
                 catch (ApiException e)
                 {
+                    errorThrown = true;
                     switch(e.type)
                     {
                         case ErrorType.ProfanityFoundInText:
@@ -121,13 +129,13 @@ namespace BBC.Dna
 
                         default:
                             AddErrorXml(e.type.ToString(), e.Message, null);
-                            return;
+                            break;
                       
                     }
                     
                 }
 
-                if (postToForumBuilder.ProfanityTriggered != 1 && postToForumBuilder.PostedBeforeReportTimeElapsed != 1)
+                if (!errorThrown)
                 {
                     if (post.IsPreModPosting)
                     {//show premodposting
@@ -168,6 +176,16 @@ namespace BBC.Dna
             PageUi pageUi = PageUi.GetPageUi(_creator, forumSource.Article, _viewingUser);
             SerialiseAndAppend(pageUi, String.Empty);
             
+        }
+
+        private void getBannedXml(PostThreadForm postToForumBuilder)
+        {
+            XmlElement postMod = AddElementTag(RootElement, "POSTTHREADUNREG");
+            AddAttribute(postMod, "FORUM", _forumId.ToString());
+            AddAttribute(postMod, "THREADID", postToForumBuilder.ThreadId.ToString());
+            AddAttribute(postMod, "RESTRICTED", "1");
+            AddAttribute(postMod, "REGISTERED", "1");
+            return;
         }
 
         /// <summary>
