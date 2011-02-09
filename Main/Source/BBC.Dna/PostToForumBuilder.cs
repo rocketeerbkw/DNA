@@ -100,6 +100,7 @@ namespace BBC.Dna
                 post.Style = (BBC.Dna.Objects.PostStyle.Style)postToForumBuilder.Style;
                 post.ThreadId = postToForumBuilder.ThreadId;
                 post.InReplyTo = postToForumBuilder.InReplyToId;
+                bool errorThrown = false;
                 try
                 {
                     post.PostToForum(_cache, AppContext.ReaderCreator, InputContext.CurrentSite, _viewingUser, InputContext.TheSiteList,
@@ -107,6 +108,7 @@ namespace BBC.Dna
                 }
                 catch (ApiException e)
                 {
+                    errorThrown = true;
                     switch(e.type)
                     {
                         case ErrorType.ProfanityFoundInText:
@@ -121,13 +123,13 @@ namespace BBC.Dna
 
                         default:
                             AddErrorXml(e.type.ToString(), e.Message, null);
-                            return;
+                            break;
                       
                     }
                     
                 }
 
-                if (postToForumBuilder.ProfanityTriggered != 1 && postToForumBuilder.PostedBeforeReportTimeElapsed != 1)
+                if (!errorThrown)
                 {
                     if (post.IsPreModPosting)
                     {//show premodposting
