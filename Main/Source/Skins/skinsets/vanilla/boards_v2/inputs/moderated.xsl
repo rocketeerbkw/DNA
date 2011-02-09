@@ -16,7 +16,7 @@
     
 	<xsl:template match="POSTPREMODERATED" mode="input_moderated">
 		<div>
-			<h2>Moderated user</h2>
+			<h2>Post in moderation</h2>
 			<p class="closed">
 				Your post has been placed in a moderation queue, and will be reviewed by a moderator before posting. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html" class="popup">Explain</a>.
 			</p>
