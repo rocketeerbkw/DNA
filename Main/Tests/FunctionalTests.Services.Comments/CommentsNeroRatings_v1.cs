@@ -131,6 +131,16 @@ namespace FunctionalTests.Services.Comments
 
             var returnedForum = (CommentForum)StringUtils.DeserializeObject(xml.InnerXml, typeof(CommentForum));
             Assert.AreEqual(1, returnedForum.commentList.comments[0].NeroRatingValue);
+
+            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/comments/{1}", _sitename, returnedForum.commentList.comments[0].ID);
+            // now get the response
+            request.RequestPageWithFullURL(url, null, "text/xml");
+            xml = request.GetLastResponseAsXML();
+            validator = new DnaXmlValidator(xml.InnerXml, _schemaComment);
+            validator.Validate();
+
+            var returnedComment = (CommentInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(CommentInfo));
+            Assert.AreEqual(1, returnedComment.NeroRatingValue);
         }
 
         [TestMethod]
