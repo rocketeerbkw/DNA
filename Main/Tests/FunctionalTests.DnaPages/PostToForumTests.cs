@@ -298,7 +298,8 @@ namespace FunctionalTests
             
             var xml = request.GetLastResponseAsXML();
 
-            CheckForError(xml, "UserIsBanned");
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/POSTTHREADUNREG"));
+            Assert.AreEqual("1", xml.SelectSingleNode("//H2G2/POSTTHREADUNREG").Attributes["RESTRICTED"].Value);
         }
 
         [TestMethod]

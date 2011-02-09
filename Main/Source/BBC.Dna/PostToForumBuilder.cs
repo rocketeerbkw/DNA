@@ -89,6 +89,12 @@ namespace BBC.Dna
             }
             SerialiseAndAppend(forumSource, String.Empty);
 
+            if (InputContext.ViewingUser.IsBanned)
+            {
+                getBannedXml(postToForumBuilder);
+                return;
+            }
+
             //add post if relevant
             postToForumBuilder.AddPost(_subject, _text, _addQuote);
 
@@ -170,6 +176,16 @@ namespace BBC.Dna
             PageUi pageUi = PageUi.GetPageUi(_creator, forumSource.Article, _viewingUser);
             SerialiseAndAppend(pageUi, String.Empty);
             
+        }
+
+        private void getBannedXml(PostThreadForm postToForumBuilder)
+        {
+            XmlElement postMod = AddElementTag(RootElement, "POSTTHREADUNREG");
+            AddAttribute(postMod, "FORUM", _forumId.ToString());
+            AddAttribute(postMod, "THREADID", postToForumBuilder.ThreadId.ToString());
+            AddAttribute(postMod, "RESTRICTED", "1");
+            AddAttribute(postMod, "REGISTERED", "1");
+            return;
         }
 
         /// <summary>
