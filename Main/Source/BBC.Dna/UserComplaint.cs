@@ -350,7 +350,15 @@ namespace BBC.Dna.Component
                 }
                 if (verificationUid != Guid.Empty)
                 {
-                    SendVerificationEmail(email, verificationUid);
+                    if (InputContext.DoesParamExist("_bbc_", "interal flag") && InputContext.GetParamIntOrZero("_bbc_", "internal traffic") == 1 
+                        && email.IndexOf("@bbc.co.uk") > 0)
+                    {//if internal BBC traffic then auto submit without verification
+                        VerifySubmission(verificationUid);
+                    }
+                    else
+                    {
+                        SendVerificationEmail(email, verificationUid);
+                    }
                 }
             }
             else if (InputContext.DoesParamExist("url", "url"))
@@ -399,10 +407,6 @@ namespace BBC.Dna.Component
             if (InputContext.ViewingUser != null && InputContext.ViewingUser.Email != String.Empty)
             {
                 email = InputContext.ViewingUser.Email;
-            }
-            else if (email.IndexOf("@bbc.co.uk") > 0)
-            {//BBC staff must be logged
-                return true;
             }
 
             if (email == String.Empty)

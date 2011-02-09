@@ -156,7 +156,7 @@ namespace FunctionalTests
             var complaintUrl = "";
             var anonymous = false;
 
-            var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous,true);
+            var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous,true, false);
             int modId = -1;
 
 
@@ -243,7 +243,7 @@ namespace FunctionalTests
         /// Test existing c++ code base
         /// </summary>
         [TestMethod]
-        public void UserComplaint_ValidAnonymousComplaintAgainstWithBBCEmail_CorrectError()
+        public void UserComplaint_ValidAnonymousComplaintAgainstWithBBCEmailExternal_CorrectVerificationCode()
         {
 
             try
@@ -255,15 +255,48 @@ namespace FunctionalTests
                 var email = "a@bbc.co.uk";
                 var complaintUrl = "";
                 var anonymous = true;
+                Guid verificationCode = Guid.Empty;
 
                 var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous);
 
-                CheckForError(xml, "EMAILNOTALLOWED", "Not allowed to complain");
+                CheckForValidVerificationResponse(xml, out verificationCode, "usercomplaint.xsd", email);
+                CheckEmailWasSent("UserComplaintEmailVerification", verificationCode.ToString());
+                ClearAllEmails();
             }
             finally
             {
                 ClearAllEmails();
                 RemoveVerificationTemplate();
+            }
+
+        }
+
+        /// <summary>
+        /// Test existing c++ code base
+        /// </summary>
+        [TestMethod]
+        public void UserComplaint_ValidAnonymousComplaintAgainstWithBBCEmailInternal_CorrectModId()
+        {
+
+            try
+            {
+                var complaintText = Guid.NewGuid().ToString();
+                var complaintReason = "a reason";
+                var email = "a@bbc.co.uk";
+                var complaintUrl = "";
+                var anonymous = true;
+                Guid verificationCode = Guid.Empty;
+
+                var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous, false, true);
+
+                int modId = -1;
+                CheckForValidResponse(xml, out modId, "usercomplaint.xsd");
+                CheckDatabaseEntry(modId, complaintText, email, 0, _postId, complaintUrl, anonymous);
+                CheckEmailWasSent("From: " + email, complaintText);
+            }
+            finally
+            {
+                ClearAllEmails();
             }
 
         }
@@ -581,13 +614,17 @@ namespace FunctionalTests
         private XmlDocument PostComplaint(string complainttext, string complaintreason, string email, int h2g2id,
             int postid, string complaintUrl, bool anonymous)
         {
-            return PostComplaint(complainttext, complaintreason, email, h2g2id,postid, complaintUrl, anonymous, false);
+            return PostComplaint(complainttext, complaintreason, email, h2g2id,postid, complaintUrl, anonymous, false, false);
         }
 
         private XmlDocument PostComplaint(string complainttext, string complaintreason, string email, int h2g2id,
-            int postid, string complaintUrl, bool anonymous, bool useEditorAccount)
+            int postid, string complaintUrl, bool anonymous, bool useEditorAccount, bool internalCode)
         {
             var url = String.Format("UserComplaintPage?action=submit&skin=purexml");
+            if (internalCode)
+            {
+                url += "&_bbc_=1";
+            }
 
             var request = new DnaTestURLRequest(_siteName);
             if (!anonymous)
