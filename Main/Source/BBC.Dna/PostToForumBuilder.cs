@@ -137,10 +137,11 @@ namespace BBC.Dna
 
                 if (!errorThrown)
                 {
-                    if (post.IsPreModPosting)
+                    if (post.IsPreModPosting || post.IsPreModerated)
                     {//show premodposting
                         XmlElement postMod = AddElementTag(RootElement, "POSTPREMODERATED");
                         AddAttribute(postMod, "FORUM", _forumId.ToString());
+                        AddAttribute(postMod, "POST", post.PostId.ToString());
                         AddAttribute(postMod, "THREAD", post.ThreadId.ToString());
                         if (post.ThreadId == 0)
                         {
@@ -154,7 +155,7 @@ namespace BBC.Dna
                         {
                             AddAttribute(postMod, "AUTOSINBIN", "1");
                         }
-                        AddAttribute(postMod, "ISPREMODPOSTING", "1");
+                        AddAttribute(postMod, "ISPREMODPOSTING", post.IsPreModPosting?"1":"0");
                     }
                     else
                     {

@@ -715,7 +715,7 @@ namespace FunctionalTests
             }
             else
             {
-                var postId = GetPostIdFromResponse(xml, processPreMod);
+                var postId = GetPostIdFromResponse(xml, modStatus == ModerationStatus.ForumStatus.PreMod);
 
                 IInputContext context = DnaMockery.CreateDatabaseInputContext();
                 using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
@@ -750,7 +750,7 @@ namespace FunctionalTests
             }
             else
             {
-                var postId = GetPostIdFromResponse(xml, processPreMod);
+                var postId = GetPostIdFromResponse(xml, modStatus == ModerationStatus.ForumStatus.PreMod);
 
                 var node = xmlDoc.SelectSingleNode(string.Format("//H2G2/FORUMTHREADPOSTS/POST[@POSTID = {0}]", postId));
                 Assert.IsNotNull(node);
