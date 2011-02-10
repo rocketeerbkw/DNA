@@ -16,7 +16,7 @@
     </doc:documentation>
 
 	<xsl:template match="LINK | link" mode="library_Post">
-		<xsl:variable name="h2g2" select="@H2G2 | @h2g2 | @H2g2"></xsl:variable>
+		<xsl:variable name="h2g2" select="@H2G2 | @h2g2 | @H2g2 | @DNAID"></xsl:variable>
 		<xsl:variable name="h2g2len" select="string-length($h2g2)"></xsl:variable>
 		<xsl:variable name="containshash" select="contains($h2g2, '#')"></xsl:variable>
 		<xsl:variable name="beforehash" select="substring-before($h2g2, '#')"></xsl:variable>

@@ -1434,6 +1434,48 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             Assert.AreEqual(ErrorType.ProfanityFoundInText.ToString(), errorData.Code);
         }
 
+        [TestMethod]
+        public void CreatePlainTextArticle()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
+
+            string style = "PlainText";
+            string subject = "Subject";
+            string guideML = @"<GUIDE xmlns="""">
+    <BODY>Test 
+2nd line
+3rd line</BODY>
+  </GUIDE>";
+            string submittable = "YES";
+
+            string serializedData = String.Format(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<article xmlns:i=""http://www.w3.org/2001/XMLSchema-instance"" xmlns=""http://schemas.datacontract.org/2004/07/BBC.Dna.Objects"">
+<articleInfo><submittable><type>{0}</type></submittable></articleInfo>
+<style>{1}</style>
+<subject>{2}</subject>
+<text>{3}</text>
+</article>",
+            submittable,
+             style,
+             subject,
+             guideML);
+
+            string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles", _sitename);
+
+            try
+            {
+                request.RequestPageWithFullURL(url, serializedData, "text/xml", "POST");
+            }
+            catch (Exception)
+            {
+            }
+            Assert.AreEqual(HttpStatusCode.BadRequest, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.ProfanityFoundInText.ToString(), errorData.Code);
+        }
+
         [TestMethod, Ignore]
         public void CreateArticle_With_SomeEmptyGuideML()
         {

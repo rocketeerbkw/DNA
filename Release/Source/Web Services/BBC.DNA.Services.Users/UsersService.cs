@@ -49,6 +49,12 @@ namespace BBC.Dna.Services
             return user;
         }
 
+        private CallingUser TryGetCallingUserInfoInternal(string sitename)
+        {
+            ISite site = GetSite(sitename);
+            
+            return TryGetCallingUser(site);
+        }
 
 
         [WebGet(UriTemplate = "V1/site/{sitename}/users/{identityusername}")]
@@ -546,7 +552,8 @@ namespace BBC.Dna.Services
                                                     showNormal == 1 ? true : false,
                                                     showSubmitted == 1 ? true : false,
                                                     startIndex,
-                                                    itemsPerPage);
+                                                    itemsPerPage,
+                                                    false);
                 }
                 catch (ApiException ex)
                 {
