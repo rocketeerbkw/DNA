@@ -98,7 +98,27 @@ namespace BBC.Dna.Objects.Tests
 
             Search search;
 
-            search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false,0, 20);
+            search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false,0, 20, false);
+            Assert.AreNotEqual(null, search);
+
+            XmlDocument xml = Serializer.SerializeToXml(search);
+        }
+
+        /// <summary>
+        ///A test for GetSearch API call for articles using searcharticlesfast
+        ///</summary>
+        [TestMethod]
+        public void CreateArticleSearchFastTest()
+        {
+            MockRepository mocks = new MockRepository();
+            IDnaDataReader reader;
+            IDnaDataReaderCreator creator;
+
+            SetupArticleSearchMocks(out mocks, out creator, out reader);
+
+            Search search;
+
+            search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false, 0, 20, true);
             Assert.AreNotEqual(null, search);
 
             XmlDocument xml = Serializer.SerializeToXml(search);
@@ -123,7 +143,7 @@ namespace BBC.Dna.Objects.Tests
             try
             {
                 // EXECUTE THE TEST
-                search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false,0, 20);
+                search = Search.CreateArticleSearchFromDatabase(creator, 1, "Dinosaur", "ARTICLE", true, false, false,0, 20, false);
             }
             catch (ApiException e)
             {
@@ -265,6 +285,7 @@ namespace BBC.Dna.Objects.Tests
             AddArticleSearchTestDatabaseRow(reader, 296918, 2969184, "Dinosaurs of The Isle of Wight", 1);
 
             readerCreator.Stub(x => x.CreateDnaDataReader("searcharticlesadvanced")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("searcharticlesfast")).Return(reader);
 
             mocks.ReplayAll();
 
@@ -278,6 +299,7 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.Read()).Return(false) ;
 
             readerCreator.Stub(x => x.CreateDnaDataReader("searcharticlesadvanced")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("searcharticlesfast")).Return(reader);
 
             mocks.ReplayAll();
 

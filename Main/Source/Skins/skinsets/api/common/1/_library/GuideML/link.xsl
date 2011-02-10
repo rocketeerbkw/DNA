@@ -16,7 +16,7 @@
 	</doc:documentation>
 
 	<xsl:template match="LINK | link" mode="library_GuideML">
-		<xsl:variable name="h2g2" select="@H2G2 | @h2g2 | @H2g2"></xsl:variable>
+		<xsl:variable name="h2g2" select="@H2G2 | @h2g2 | @H2g2 | @DNAID"></xsl:variable>
 		<xsl:variable name="h2g2len" select="string-length($h2g2)"></xsl:variable>
 		<xsl:variable name="containshash" select="contains($h2g2, '#')"></xsl:variable>
 		<xsl:variable name="beforehash" select="substring-before($h2g2, '#')"></xsl:variable>
@@ -192,12 +192,12 @@
 									</xsl:otherwise>
 								</xsl:choose>
 							</xsl:when>
-							<xsl:when test="starts-with(@H2G2,'&#35;') or starts-with(@h2g2,'&#35;') or starts-with(@H2g2,'&#35;')">
-								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
+							<xsl:when test="starts-with($h2g2,'&#35;')">
+								<xsl:value-of select="$h2g2"/>
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="$aerian-base-entry"/>
-								<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
+								<xsl:value-of select="$h2g2"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:when>
@@ -237,8 +237,8 @@
 						<xsl:when test="@BIO | @bio">
 							<xsl:value-of select="@BIO | @bio"/>
 						</xsl:when>
-						<xsl:when test="@H2G2 | @h2g2 | @H2g2">
-							<xsl:value-of select="@H2G2 | @h2g2 | @H2g2"/>
+						<xsl:when test="$h2g2">
+							<xsl:value-of select="$h2g2"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:comment>anchor</xsl:comment>

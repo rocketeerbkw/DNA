@@ -55,9 +55,9 @@ namespace BBC.Dna.Objects
         /// <param name="cache"></param>
         /// <param name="readerCreator"></param>
         /// <returns></returns>
-        public static Search CreateSearch(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, int startIndex, int itemsPerPage)
+        public static Search CreateSearch(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, int startIndex, int itemsPerPage, bool useFastSearch)
         {
-            return CreateSearch(cache, readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted, 0, 20, false);
+            return CreateSearch(cache, readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted, 0, 20, useFastSearch, false);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace BBC.Dna.Objects
         /// <param name="readerCreator"></param>
         /// <param name="ignoreCache"></param>
         /// <returns></returns>
-        public static Search CreateSearch(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, int startIndex, int itemsPerPage, bool ignoreCache)
+        public static Search CreateSearch(ICacheManager cache, IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, int startIndex, int itemsPerPage, bool useFastSearch, bool ignoreCache)
         {
             var search = new Search();
 
@@ -92,7 +92,7 @@ namespace BBC.Dna.Objects
             if (searchType == "ARTICLE")
             {
                 //create article search from db
-                search = CreateArticleSearchFromDatabase(readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted, startIndex, itemsPerPage);
+                search = CreateArticleSearchFromDatabase(readerCreator, siteId, searchString, searchType, showApproved, showNormal, showSubmitted, startIndex, itemsPerPage, useFastSearch);
             }
             else //USER search
             {
@@ -128,18 +128,42 @@ namespace BBC.Dna.Objects
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <returns></returns>
-        public static Search CreateArticleSearchFromDatabase(IDnaDataReaderCreator readerCreator, int siteId, string searchString, string searchType, bool showApproved, bool showNormal, bool showSubmitted, int startIndex, int itemsPerPage)
+        public static Search CreateArticleSearchFromDatabase(IDnaDataReaderCreator readerCreator, 
+                                                            int siteId, 
+                                                            string searchString, 
+                                                            string searchType, 
+                                                            bool showApproved, 
+                                                            bool showNormal, 
+                                                            bool showSubmitted, 
+                                                            int startIndex, 
+                                                            int itemsPerPage,
+                                                            bool useFastSearch)
         {
             Search search = null;
             int count = 0;
 
             string query = GenerateANDSearchQuery(searchString);
 
-            // fetch all the lovely intellectual property from the database
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("searcharticlesadvanced"))
+            string searchSP = "searcharticlesadvanced";
+            if (useFastSearch)
             {
-                reader.AddParameter("subjectcondition", query);
-                reader.AddParameter("bodycondition", query);
+                searchSP = "searcharticlesfast";
+            }
+
+
+            // fetch all the lovely intellectual property from the database
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader(searchSP))
+            {
+                if (useFastSearch)
+                {
+                    reader.AddParameter("condition", query);
+                    reader.AddParameter("top", startIndex + itemsPerPage);
+                }
+                else
+                {
+                    reader.AddParameter("subjectcondition", query);
+                    reader.AddParameter("bodycondition", query);
+                }
 
                 reader.AddParameter("shownormal", Convert.ToInt32(showNormal));
                 reader.AddParameter("showsubmitted", Convert.ToInt32(showSubmitted));
@@ -211,8 +235,12 @@ namespace BBC.Dna.Objects
 
                         articleResult.ExtraInfo = new ExtraInfoCreator();
 
-                        search.SearchResults.ArticleResults.Add(articleResult);
-                        count++;
+                        //Only add primary site articles returned for now
+                        if (articleResult.PrimarySite == 1)
+                        {
+                            search.SearchResults.ArticleResults.Add(articleResult);
+                            count++;
+                        }
 
                     } while (reader.Read());
                 }
@@ -280,7 +308,7 @@ namespace BBC.Dna.Objects
             return search;
         }
     }
-    
+
     /// <remarks/>
     [GeneratedCode("System.Xml", "2.0.50727.3053")]
     [Serializable]
