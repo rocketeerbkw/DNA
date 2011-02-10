@@ -3,7 +3,7 @@
     
     <xsl:template match="ARTICLE" mode="library_activitydata" >
 
-		<a href="/dna/h2g2/A{@H2G2ID}" target="_blank">
+		<a href="/dna/h2g2/A{@H2G2ID | @h2g2id}" target="_blank">
 			<xsl:value-of select="text()"/>
 		</a>
 

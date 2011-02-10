@@ -44,14 +44,7 @@
             </xsl:call-template>
             
             <xsl:choose>
-                <xsl:when test="@HIDDEN = 3 and USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
-                    <!-- Hidden post for the owner -->
-                    <p class="dna-boards-failedpost">
-                        <!-- <xsl:apply-templates select="/H2G2/SITECONFIG/DNACOMMENTTEXT/PREMODMESSAGE" mode="library_siteconfig_premodmessage" /> -->
-                        <xsl:value-of select="TEXT" />
-                    </p>
-                </xsl:when>
-                <xsl:when test="(@HIDDEN = 3 and USER/USERID != /H2G2/VIEWING-USER/USER/USERID) or @HIDDEN = 3">
+                <xsl:when test="@HIDDEN = 3">
                     <!-- Hidden post for any user -->
                     <p class="dna-boards-failedpost">
                         This comment is awaiting moderation. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html" class="popup">Explain</a>.

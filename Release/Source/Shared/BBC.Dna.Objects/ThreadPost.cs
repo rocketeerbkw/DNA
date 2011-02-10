@@ -253,6 +253,13 @@ namespace BBC.Dna.Objects
             set;
         }
 
+        [System.Xml.Serialization.XmlIgnore]
+        public bool IsPreModerated
+        {
+            get;
+            set;
+        }
+
         [XmlIgnore]
         public int SecondsToWait = 0;
 
@@ -786,7 +793,7 @@ namespace BBC.Dna.Objects
                         ThreadId = dataReader.GetInt32NullAsZero("threadid");
                     }
                     IsPreModPosting = dataReader.GetBoolean("ispremodposting");                    
-                    // isPreModerated = dataReader.GetBoolean("ispremoderated");
+                    IsPreModerated = dataReader.GetBoolean("ispremoderated");
                     // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
@@ -830,8 +837,8 @@ namespace BBC.Dna.Objects
                 {
                     this.PostId = dataReader.GetInt32NullAsZero("postid");
                     this.ThreadId = dataReader.GetInt32NullAsZero("threadid");
-                    //IsPreModPosting = dataReader.GetBoolean("ispremodposting");                    
-                    // isPreModerated = dataReader.GetBoolean("ispremoderated");
+                    this.IsPreModPosting = dataReader.GetBoolean("ispremodposting");
+                    this.IsPreModerated = dataReader.GetBoolean("ispremoderated");
                     // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
