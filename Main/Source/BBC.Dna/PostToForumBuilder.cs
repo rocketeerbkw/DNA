@@ -156,6 +156,7 @@ namespace BBC.Dna
                             AddAttribute(postMod, "AUTOSINBIN", "1");
                         }
                         AddAttribute(postMod, "ISPREMODPOSTING", post.IsPreModPosting?"1":"0");
+                        return;
                     }
                     else
                     {

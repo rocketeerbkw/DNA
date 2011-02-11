@@ -787,7 +787,10 @@ namespace BBC.Dna.Objects
 
                 if (dataReader.Read())
                 {
-                    PostId = dataReader.GetInt32NullAsZero("postid");
+                    if (dataReader.DoesFieldExist("postid"))
+                    {
+                        PostId = dataReader.GetInt32NullAsZero("postid");
+                    }
                     if (dataReader.GetInt32NullAsZero("threadid") != 0)
                     {
                         ThreadId = dataReader.GetInt32NullAsZero("threadid");
