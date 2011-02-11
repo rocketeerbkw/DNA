@@ -787,13 +787,19 @@ namespace BBC.Dna.Objects
 
                 if (dataReader.Read())
                 {
-                    PostId = dataReader.GetInt32NullAsZero("postid");
+                    if (dataReader.DoesFieldExist("postid"))
+                    {
+                        PostId = dataReader.GetInt32NullAsZero("postid");
+                    }
                     if (dataReader.GetInt32NullAsZero("threadid") != 0)
                     {
                         ThreadId = dataReader.GetInt32NullAsZero("threadid");
                     }
-                    IsPreModPosting = dataReader.GetBoolean("ispremodposting");                    
-                    IsPreModerated = dataReader.GetBoolean("ispremoderated");
+                    IsPreModPosting = dataReader.GetBoolean("ispremodposting");
+                    if (dataReader.DoesFieldExist("ispremoderated"))
+                    {
+                        IsPreModerated = dataReader.GetInt32NullAsZero("ispremoderated") ==1 ;
+                    }
                     // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
@@ -837,9 +843,6 @@ namespace BBC.Dna.Objects
                 {
                     this.PostId = dataReader.GetInt32NullAsZero("postid");
                     this.ThreadId = dataReader.GetInt32NullAsZero("threadid");
-                    this.IsPreModPosting = dataReader.GetBoolean("ispremodposting");
-                    this.IsPreModerated = dataReader.GetBoolean("ispremoderated");
-                    // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
         }

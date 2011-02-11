@@ -1771,6 +1771,7 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             int canReadOut = 0;
             int canWriteOut = 0;
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.DoesFieldExist("postid")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("postid")).Return(postId);
             reader.Stub(x => x.GetInt32NullAsZero("threadid")).Return(threadId);
             reader.Stub(x => x.GetBoolean("ispremodposting")).Return(isPreModerated);
