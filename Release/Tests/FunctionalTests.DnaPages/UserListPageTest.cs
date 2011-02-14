@@ -273,6 +273,18 @@ namespace FunctionalTests
             CheckValidXml(xml, true);
 
             CheckUpdateApplied(xml, newModStatus, newDuration);
+
+            //c# test
+            request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserNormal();
+            request.RequestPage("mbfrontpage?skin=purexml");
+            xml =request.GetLastResponseAsXML();
+            Assert.IsNull(xml.SelectSingleNode("//H2G2/VIEWING-USER/USER"));
+
+            //c++ test
+            request.RequestPage("home?skin=purexml");
+            xml = request.GetLastResponseAsXML();
+            Assert.IsNull(xml.SelectSingleNode("//H2G2/VIEWING-USER/USER"));
         }
 
         [TestMethod]
