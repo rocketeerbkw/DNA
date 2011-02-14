@@ -335,7 +335,7 @@ namespace BBC.Dna.Objects
 
                         case BBC.Dna.Sites.SiteType.EmbeddedComments:
                             contribution.Body = CommentInfo.FormatComment(reader2.GetStringNullAsEmpty("Body"),
-                                BBC.Dna.Api.PostStyle.Style.plaintext, (CommentStatus.Hidden)internalHidden, false);
+                                BBC.Dna.Api.PostStyle.Style.richtext, (CommentStatus.Hidden)internalHidden, false);
                             break;
 
                         default:

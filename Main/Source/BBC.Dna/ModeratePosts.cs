@@ -6,6 +6,7 @@ using BBC.Dna.Moderation;
 using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Api;
 
 namespace BBC.Dna.Component
 {
@@ -217,7 +218,12 @@ namespace BBC.Dna.Component
                         AddTextTag(post, "SUBJECT", dataReader.GetStringNullAsEmpty("subject"));
 
                         AddTextTag(post, "RAWTEXT", dataReader.GetStringNullAsEmpty("text"));
+                        
                         String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, true, false);
+                        if (!dataReader.IsDBNull("commentforumurl"))
+                        {
+                            translated = CommentInfo.FormatComment(dataReader.GetStringNullAsEmpty("text"), BBC.Dna.Api.PostStyle.Style.richtext, CommentStatus.Hidden.NotHidden, false);
+                        }
                         //translated = translated.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "TEXT", translated );
 

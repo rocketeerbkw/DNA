@@ -65,7 +65,15 @@
 				</a>
 			</td>
 			<td>
-				<xsl:apply-templates select="TEXT" mode="library_GuideML"/>
+        <xsl:choose>
+          <xsl:when test="COMMENTFORUMURL = ''">
+            <xsl:apply-templates select="TEXT" mode="library_GuideML"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="TEXT" mode="library_Richtext"/>
+          </xsl:otherwise>
+        </xsl:choose>
+				
 			</td>
 			<td>
 				<xsl:if test="/H2G2/CONTRIBUTIONS/@USERID != /H2G2/VIEWING-USER/USER/USERID">
