@@ -791,11 +791,17 @@ namespace BBC.Dna.Objects
                     {
                         PostId = dataReader.GetInt32NullAsZero("postid");
                     }
-                    if (dataReader.GetInt32NullAsZero("threadid") != 0)
+                    if (dataReader.DoesFieldExist("threadid"))
                     {
-                        ThreadId = dataReader.GetInt32NullAsZero("threadid");
+                        if (dataReader.GetInt32NullAsZero("threadid") != 0)
+                        {
+                            ThreadId = dataReader.GetInt32NullAsZero("threadid");
+                        }
                     }
-                    IsPreModPosting = dataReader.GetBoolean("ispremodposting");
+                    if (dataReader.DoesFieldExist("ispremodposting"))
+                    {
+                        IsPreModPosting = dataReader.GetBoolean("ispremodposting");
+                    }
                     if (dataReader.DoesFieldExist("ispremoderated"))
                     {
                         IsPreModerated = dataReader.GetInt32NullAsZero("ispremoderated") ==1 ;
