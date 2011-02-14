@@ -19,10 +19,10 @@
       
       <xsl:choose>
         <xsl:when test="self::USER">
-          <a class="popup" href="{$root}/MemberDetails?userid={USERID}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
+          <a class="popup" href="/dna/moderation/admin/MemberDetails?userid={USERID}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
         </xsl:when>
         <xsl:otherwise>
-          <a class="popup" href="{$root}/MemberDetails?userid={.}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
+          <a class="popup" href="/dna/moderation/admin/MemberDetails?userid={.}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:template>
