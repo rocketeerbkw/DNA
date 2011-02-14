@@ -1445,7 +1445,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             string subject = "Subject";
             string guideML = @"<GUIDE xmlns="""">
     <BODY>Test 
-2nd line
+2nd line fuck
 3rd line</BODY>
   </GUIDE>";
             string submittable = "YES";
