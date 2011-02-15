@@ -144,7 +144,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="configurations\Web.config" />
     <Content Include="ReviewService.svc" />
     <Content Include="samples\5-0.gif" />
     <Content Include="samples\iplayer.htm" />
@@ -163,6 +162,9 @@
     <Content Include="xslt\2.0\ratinginfo.xsl" />
     <Content Include="xslt\2.0\ratingslist.xsl" />
     <Content Include="xslt\2.0\ratingssummary.xsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="configurations\Web.config.sample" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

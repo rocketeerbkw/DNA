@@ -782,11 +782,17 @@ namespace BBC.Dna.Objects
                 dataReader.AddParameter("isnotable", isNotable);
                 dataReader.AddParameter("iscomment", isComment);
                 dataReader.AddParameter("modnotes", modNotes);
+                dataReader.AddIntReturnValue();
                 
                 dataReader.Execute();
-
                 if (dataReader.Read())
                 {
+                    int retCode =0;
+                    if (dataReader.TryGetIntReturnValueNullAsZero(out retCode) && retCode != 0)
+                    {
+                        throw new ApiException("Unable to save post due to database error (" + retCode.ToString() + ")");
+                    }
+
                     if (dataReader.DoesFieldExist("postid"))
                     {
                         PostId = dataReader.GetInt32NullAsZero("postid");

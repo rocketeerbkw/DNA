@@ -11,7 +11,7 @@ namespace DnaEventService.Common
 {
     public static class LogUtility
     {
-        public static void LogResponse(this IDnaLogger logger, HttpStatusCode httpStatusCode, HttpResponseMessage httpResponse)
+        public static void LogResponse(this IDnaLogger logger,HttpStatusCode httpStatusCode, HttpResponseMessage httpResponse)
         {
             var props = new Dictionary<string, object>() 
             { 
@@ -44,7 +44,7 @@ namespace DnaEventService.Common
 
             props.Add("Stack Trace", ex.StackTrace);
 
-            string category = Assembly.GetCallingAssembly().GetName().Name + ".Exceptions";
+            string category = Assembly.GetCallingAssembly().GetName().Name+".Exceptions";
             logger.LogGeneral(TraceEventType.Error, category, ex.Message, DateTime.MaxValue, props);
         }
 
@@ -108,7 +108,7 @@ namespace DnaEventService.Common
             }
 
             if (startTime != null && startTime != DateTime.MaxValue)
-                entry.ExtendedProperties.Add("Time Taken", (DateTime.Now - startTime).TotalSeconds);
+                entry.ExtendedProperties.Add("Time Taken", (DateTime.Now-startTime).TotalSeconds);
 
             logger.Write(entry);
         }
