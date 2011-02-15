@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using BBC.Dna.Data;
 using DnaEventService.Common;
+using System.Diagnostics;
 
 namespace Dna.BIEventSystem
 {
@@ -28,7 +29,7 @@ namespace Dna.BIEventSystem
                 events = GetBIEvents(reader);
             }
 
-            BIEventProcessor.BIEventLogger.LogInformation("GetBIEvents() finished", "Num Events", events.Count);
+            BIEventProcessor.BIEventLogger.Log(TraceEventType.Verbose, "GetBIEvents() finished", "Num Events", events.Count);
 
             return events;
         }
@@ -47,7 +48,7 @@ namespace Dna.BIEventSystem
 
         public void RemoveBIEvents(List<BIEvent> events)
         {
-            BIEventProcessor.BIEventLogger.LogInformation("RemoveBIEvents()", "Num Events to remove", events.Count);
+            BIEventProcessor.BIEventLogger.Log(TraceEventType.Verbose, "RemoveBIEvents()", "Num Events to remove", events.Count);
 
             if (events.Count > 0)
             {
@@ -88,7 +89,7 @@ namespace Dna.BIEventSystem
                 } while (reader.NextResult());
             }
 
-            BIEventProcessor.BIEventLogger.LogInformation("ProcessPostRiskAssessment() end", startTime, "RiskModThreadEntryQueueId", ev.RiskModThreadEntryQueueId);
+            BIEventProcessor.BIEventLogger.Log(TraceEventType.Verbose, "ProcessPostRiskAssessment() end", startTime, "RiskModThreadEntryQueueId", ev.RiskModThreadEntryQueueId);
         }
 
         public void RecordRiskModDecisionsOnPosts(IEnumerable<BIPostToForumEvent> biPostEvents)
@@ -107,7 +108,7 @@ namespace Dna.BIEventSystem
                     reader.Execute();
                 }
 
-                BIEventProcessor.BIEventLogger.LogInformation("RecordRiskModDecisionsOnPost() end", startTime, "SiteId", ev.SiteId, "ForumId", ev.ForumId, "ThreadEntryId", ev.ThreadEntryId, "Risky", ev.Risky);
+                BIEventProcessor.BIEventLogger.Log(TraceEventType.Verbose, "RecordRiskModDecisionsOnPost() end", startTime, "SiteId", ev.SiteId, "ForumId", ev.ForumId, "ThreadEntryId", ev.ThreadEntryId, "Risky", ev.Risky);
             }
         }
     }
