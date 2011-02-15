@@ -793,7 +793,8 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             IDnaDataReader readerReturn = mocks.DynamicMock<IDnaDataReader>();
             readerReturn.Stub(x => x.Read()).Return(true);
             int retCode = 0;
-            readerReturn.Stub(x => x.TryGetIntReturnValueNullAsZero(out retCode)).Return(true).OutRef(547);
+            readerReturn.Stub(x => x.DoesFieldExist("errorcode")).Return(true);
+            readerReturn.Stub(x => x.GetInt32NullAsZero("errorcode")).Return(547);
             readerCreator.Stub(x => x.CreateDnaDataReader("posttoforum")).Return(readerReturn);
 
             mocks.ReplayAll();
