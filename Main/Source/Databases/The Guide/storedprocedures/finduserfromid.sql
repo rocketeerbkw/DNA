@@ -10,6 +10,10 @@ END
 declare @AutoSinBin int
 exec updateautosinbinstatus @userid, @siteid, @AutoSinBin output
 
+declare @now datetime
+set @now = getdate()
+exec logusersession @userid, @now, @siteid
+
 -- just select every field since we want them all anyway
 
 select TOP 1
