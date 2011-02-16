@@ -220,6 +220,10 @@ namespace BBC.Dna.Objects
                     postThreadForm.ThreadId = reader.GetInt32NullAsZero("ThreadID");
                     postThreadForm.PostIndex = reader.GetInt32NullAsZero("PostIndex");
                     postThreadForm.CanWrite = (byte)(reader.GetInt32NullAsZero("CanWrite") == 1? 1:0);
+                    if (viewingUser.IsEditor || viewingUser.IsSuperUser)
+                    {//these users can always write
+                        postThreadForm.CanWrite = 1;
+                    }
                     postThreadForm.Style = reader.GetByte("PostStyle");
                     
                     postThreadForm.Subject = reader.GetStringNullAsEmpty("Subject");
@@ -287,7 +291,7 @@ namespace BBC.Dna.Objects
             {
                 Subject = ThreadPost.FormatSubject(subject, CommentStatus.Hidden.NotHidden);
             }
-            if (body.IndexOf(string.Format("<quote postid='{0}'", InReplyToId)) >= 0)
+            if (!string.IsNullOrEmpty(body) && body.IndexOf(string.Format("<quote postid='{0}'", InReplyToId)) >= 0)
             {
                 Body = body;
             }
