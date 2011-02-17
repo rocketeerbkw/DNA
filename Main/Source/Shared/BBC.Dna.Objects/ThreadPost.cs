@@ -615,9 +615,9 @@ namespace BBC.Dna.Objects
             bool isNotable = viewingUser.IsNotable;
 
             ForumHelper helper = new ForumHelper(readerCreator);
-
+            bool ignoreModeration = viewingUser.IsEditor || viewingUser.IsSuperUser;
             // Check 4) check ThreadId exists and user has permission to write
-            if (!viewingUser.IsEditor && !viewingUser.IsSuperUser)
+            if (!ignoreModeration)
             {
                 if (ThreadId != 0)
                 {
@@ -633,16 +633,19 @@ namespace BBC.Dna.Objects
                         throw ApiException.GetError(ErrorType.ForumReadOnly);
                     }
                 }
-                bool canReadForum = false;
-                bool canWriteForum = false;
-                helper.GetForumPermissions(viewingUser.UserId, forumId, ref canReadForum, ref canWriteForum);
-                if (!canReadForum)
+                else
                 {
-                    throw ApiException.GetError(ErrorType.NotAuthorized);
-                }
-                if (!canWriteForum)
-                {
-                    throw ApiException.GetError(ErrorType.ForumReadOnly);
+                    bool canReadForum = false;
+                    bool canWriteForum = false;
+                    helper.GetForumPermissions(viewingUser.UserId, forumId, ref canReadForum, ref canWriteForum);
+                    if (!canReadForum)
+                    {
+                        throw ApiException.GetError(ErrorType.NotAuthorized);
+                    }
+                    if (!canWriteForum)
+                    {
+                        throw ApiException.GetError(ErrorType.ForumReadOnly);
+                    }
                 }
             }
         
@@ -650,7 +653,7 @@ namespace BBC.Dna.Objects
             {
                 throw ApiException.GetError(ErrorType.UserIsBanned);
             }
-            bool ignoreModeration = viewingUser.IsEditor || viewingUser.IsSuperUser;
+            
             if (!ignoreModeration && (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now)))
             {
                 throw ApiException.GetError(ErrorType.SiteIsClosed);
