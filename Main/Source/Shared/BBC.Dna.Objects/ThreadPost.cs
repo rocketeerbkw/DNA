@@ -617,30 +617,33 @@ namespace BBC.Dna.Objects
             ForumHelper helper = new ForumHelper(readerCreator);
 
             // Check 4) check ThreadId exists and user has permission to write
-            if (ThreadId != 0)
+            if (!viewingUser.IsEditor && !viewingUser.IsSuperUser)
             {
-                bool canReadThread = false;
-                bool canWriteThread = false;
-                helper.GetThreadPermissions(viewingUser.UserId, ThreadId, ref canReadThread, ref canWriteThread);
-                if (!canReadThread)
+                if (ThreadId != 0)
+                {
+                    bool canReadThread = false;
+                    bool canWriteThread = false;
+                    helper.GetThreadPermissions(viewingUser.UserId, ThreadId, ref canReadThread, ref canWriteThread);
+                    if (!canReadThread)
+                    {
+                        throw ApiException.GetError(ErrorType.NotAuthorized);
+                    }
+                    if (!canWriteThread)
+                    {
+                        throw ApiException.GetError(ErrorType.ForumReadOnly);
+                    }
+                }
+                bool canReadForum = false;
+                bool canWriteForum = false;
+                helper.GetForumPermissions(viewingUser.UserId, forumId, ref canReadForum, ref canWriteForum);
+                if (!canReadForum)
                 {
                     throw ApiException.GetError(ErrorType.NotAuthorized);
                 }
-                if (!canWriteThread)
+                if (!canWriteForum)
                 {
                     throw ApiException.GetError(ErrorType.ForumReadOnly);
                 }
-            }
-            bool canReadForum = false;
-            bool canWriteForum = false;
-            helper.GetForumPermissions(viewingUser.UserId, forumId, ref canReadForum, ref canWriteForum);
-            if (!canReadForum)
-            {
-                throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-            if (!canWriteForum)
-            {
-                throw ApiException.GetError(ErrorType.ForumReadOnly);
             }
         
             if (viewingUser.IsBanned)
