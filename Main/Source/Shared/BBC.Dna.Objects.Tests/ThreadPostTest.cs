@@ -693,7 +693,7 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
         public void PostToForum_CanReadForumFalse_ThrowsException()
         {
             var forumId = 1;
-            var threadId = 1;
+            var threadId = 0;
             var ipAddress = "1.1.1.1";
             var bbcUid = Guid.NewGuid();
 
@@ -734,7 +734,7 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
         public void PostToForum_CanWriteForumFalse_ThrowsException()
         {
             var forumId = 1;
-            var threadId = 1;
+            var threadId = 0;
             var ipAddress = "1.1.1.1";
             var bbcUid = Guid.NewGuid();
 
