@@ -159,6 +159,9 @@ namespace Dna.BIEventSystem
             Action<BIEventQueue>[] workers = new Action<BIEventQueue>[numThreads];
             IAsyncResult[] workerResults = new IAsyncResult[numThreads];
 
+            if (events.Count < numThreads)
+                numThreads = events.Count;
+
             for (int i = 0; i < numThreads; i++)
             {
                 workers[i] = evQ =>
