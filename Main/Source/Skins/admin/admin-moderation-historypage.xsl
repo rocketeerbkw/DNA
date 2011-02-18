@@ -194,6 +194,8 @@
                 <xsl:value-of select="MODERATION-STATUS"/>
               </xsl:otherwise>
             </xsl:choose>
+
+            <xsl:apply-templates select="/H2G2/MOD-REASONS/MOD-REASON[@REASONID = current()/REASONID]" mode="REASONID" />
           </p>
           <p>
             Date Queued: <xsl:apply-templates select="DATE-QUEUED/DATE" mode="absolute"/>
@@ -286,5 +288,9 @@
       <p>Notification Event Timestamp: <xsl:apply-templates select="TIMESTAMP/DATE" mode="absolute"/>
     </p>
     </div>
+  </xsl:template>
+  
+  <xsl:template match="MOD-REASON" mode="REASONID">
+    (<xsl:value-of select="@DISPLAYNAME"/>)
   </xsl:template>
 </xsl:stylesheet>

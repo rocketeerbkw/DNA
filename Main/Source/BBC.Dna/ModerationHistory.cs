@@ -113,6 +113,10 @@ namespace BBC.Dna
                     XmlElement moderation = AddElementTag(modHistory, "MODERATION");
                     AddAttribute(moderation, "MODID", reader.GetInt32NullAsZero("modid"));
                     AddIntElement(moderation, "STATUS", reader.GetInt32NullAsZero("status"));
+                    if (reader.DoesFieldExist("reasonid") && reader.GetInt32NullAsZero("reasonid") > 0)
+                    {
+                        AddIntElement(moderation, "REASONID", reader.GetInt32NullAsZero("reasonid"));
+                    }
 
                     User user = new User(InputContext);
 
