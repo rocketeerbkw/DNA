@@ -1788,7 +1788,8 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
         public void GetSearchArticles_VariousTerms_ReturnsValidResults()
         {
             SetupFullTextIndex();
-            
+            AddFastFreeTextArticleSearchH2G2SiteOption();
+
             Console.WriteLine("Before GetSearchArticles");
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
@@ -1800,8 +1801,11 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             {
                 string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles?querystring={1}&showapproved=1&searchtype=ARTICLE&format=xml", _sitename, term);
 
+                Console.WriteLine("Searching for - ", term);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
+                
+                Console.WriteLine("Returned results");
                 BBC.Dna.Objects.Search returnedSearch = (BBC.Dna.Objects.Search)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Objects.Search));
 
                 Assert.IsTrue(returnedSearch.SearchResults.Count > 0);
@@ -2675,6 +2679,44 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
                         else
                         {
                             sql = String.Format("insert into siteoptions values ('General', 1,  'IsURLFiltered', 1, 1, 'Turns on and off allow URL in articles functionality')");
+                            reader.ExecuteDEBUGONLY(sql);
+                        }
+                    }
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
+            myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site&siteid=1", "", "text/xml");
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        private void AddFastFreeTextArticleSearchH2G2SiteOption()
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    var sql = String.Format("select * from siteoptions where siteid={0} and name='FastFreetextSearch' and Value=1", 1);
+                    reader.ExecuteDEBUGONLY(sql);
+                    if (reader.HasRows)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        sql = String.Format("select * from siteoptions where siteid={0} and name='FastFreetextSearch' and Value=0", 1);
+                        reader.ExecuteDEBUGONLY(sql);
+                        if (reader.HasRows)
+                        {
+                            sql = String.Format("update siteoptions set Value=1 where siteid={0} and name='FastFreetextSearch'", 1);
+                            reader.ExecuteDEBUGONLY(sql);
+                        }
+                        else
+                        {
+                            sql = String.Format("insert into siteoptions values ('ArticleSearch', 1,  'FastFreetextSearch', 1, 1, 'Use the Fast freetext search. Only articles that have ALL the search terms are returned. It uses the freetext search engine weightings to order the results by relevance.')");
                             reader.ExecuteDEBUGONLY(sql);
                         }
                     }
