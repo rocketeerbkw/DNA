@@ -702,7 +702,7 @@ namespace BBC.Dna.Objects
 
             bool forceModeration;
             string matchingProfanity= string.Empty;
-            CheckForProfanities(site, Text, out forceModeration, out matchingProfanity);
+            CheckForProfanities(site, Subject + " " + Text, out forceModeration, out matchingProfanity);
 
             //check posting frequency
             if (!viewingUser.IsEditor && !viewingUser.IsSuperUser && !viewingUser.IsNotable)
