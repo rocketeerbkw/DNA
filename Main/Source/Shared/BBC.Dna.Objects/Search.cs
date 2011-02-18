@@ -157,7 +157,9 @@ namespace BBC.Dna.Objects
                 if (useFastSearch)
                 {
                     reader.AddParameter("condition", query);
-                    reader.AddParameter("top", startIndex + itemsPerPage);
+                    //Cap max results to 200 and then allow skip and show within that range
+                    //reader.AddParameter("top", startIndex + itemsPerPage);
+                    reader.AddParameter("top", 200);
                 }
                 else
                 {

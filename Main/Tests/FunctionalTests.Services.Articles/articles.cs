@@ -2591,7 +2591,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             }
 
             //wait a bit for the cat to be filled
-            System.Threading.Thread.Sleep(20000);
+            System.Threading.Thread.Sleep(30000);
         }
 
         private static void ClearArticlesForTheLastMonthForMonthSummaryFail()
