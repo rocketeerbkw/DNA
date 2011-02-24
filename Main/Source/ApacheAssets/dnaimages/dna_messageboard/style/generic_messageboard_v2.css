@@ -60,7 +60,7 @@ ul.admin {background-color:#e2e2e2}
 #blq-content .topiclist li {position:relative; float:left; width:241px}
 #blq-content .single-col-topics li {width:499px; min-height:120px}
 #blq-content .topiclistimage li {min-height:245px}
-#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread, #blq-main .searchthreadposts, #blq-main .posttoforum  {width:499px; margin-right:14px; padding-bottom:10px; border-right:1px solid #ccc; border-bottom:1px solid #ccc; border-left:1px solid #ccc}
+#blq-main .inspect-user,#blq-main .threads, #blq-main .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments, #blq-main .move-thread, #blq-main .searchthreadposts, #blq-main .posttoforum , #blq-main .systemmessagemailbox  {width:499px; margin-right:14px; padding-bottom:10px; border-right:1px solid #ccc; border-bottom:1px solid #ccc; border-left:1px solid #ccc}
 #blq-main .addthread p.signin, #blq-main .posttoforum p.signin  {padding:10px}
 .frontpage h2 {margin-right:14px}
 #blq-main #blq-content h2, #blq-main #dna-boardpromo h3 {padding:8px 10px; line-height:1em; font-size:1.4em; font-weight:normal; color:#fff; background-color:#376dad}
@@ -160,6 +160,7 @@ ul.forumthreads .itemdetail, ul.more-posts .itemdetail, ul.post-list .itemdetail
 .replies {margin-right:10px; text-align:right}
 .replies .dna-invisible {display:none}
 ul.post-list .replydate {display:block}
+/*ul.forumthreadposts li span.quote {border:1px dotted;display:block;font-style:italic;margin:5px;padding:10px;};*/
 ul.forumthreadposts li span.quote {display:block; padding:10px 7px 0 7px; font-style:italic};
 ul.forumthreadposts li blockquote, div.inreplyto blockquote {margin:0 7px 10px 7px; font-style:italic;}
 .dna-boards-startanewdiscussion, .dna-boards-inreplyto {margin-bottom:15px}
@@ -187,12 +188,15 @@ p.countdown {margin-left:10px}
 #blq-content .dna-boards-moderation .dna-invisible {display:none}
 #blq-main #blq-content .dna-boards-moderation a {padding-left:3px; color:#666}
 #blq-main #blq-content .dna-boards-moderation a:focus,#blq-main #blq-content .dna-boards-moderation a:active {color:#e2e2e2; background-color:#666}
-#blq-main .move-thread p {padding:10px}
+#blq-main .move-thread p, #blq-main .systemmessagemailbox p {padding:10px}
 #blq-content .itemdetail h4 {float:left;font-size:1.1em}
 #blq-content .itemdetail p.messagedetail {float:left;margin-bottom:0}
 #blq-content .itemdetail p.postedby {clear:both;margin-top:5px;}
 #blq-content .searchresult {color: #ff0000}
 #blq-main .searchthreadposts p.error-message {padding: 10px;}
+#blq-main .systemmessagemailbox .error h4 {font-size:1.2em}
+#blq-main .systemmessagemailbox h5 {margin-bottom:1.2em}
+#blq-main .systemmessagemailbox li a.delete {width:9em;display:block;margin: 1.6em 0;}
 
 
 /* dna-boardpromo:about this board */
