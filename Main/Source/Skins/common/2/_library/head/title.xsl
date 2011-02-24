@@ -150,5 +150,11 @@
         <xsl:text>Search results</xsl:text>
     </xsl:template>    
     
+    <!-- Title for a search posts page -->
+    <xsl:template match="/H2G2[@TYPE = 'SYSTEMMESSAGEMAILBOX']" mode="head_title_page">
+        <xsl:value-of select="TOPICLIST/TOPIC[FORUMID = current()/POSTTHREADFORM/@FORUMID]/TITLE"/>
+        <xsl:text> - </xsl:text>
+        <xsl:text>Moderation notifications</xsl:text>
+    </xsl:template>      
     
 </xsl:stylesheet>
