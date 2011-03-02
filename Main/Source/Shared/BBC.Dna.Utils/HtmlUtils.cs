@@ -156,7 +156,7 @@ namespace BBC.Dna.Utils
         }
 
         private static string[] _dnaTags = { "quote", "smiley"};
-        private static string[] _allowedHtmlTags = {"a", "blockquote", "br", "em", "li", "p", "pre", "q", "strong", "ul", "b", "ol" };
+        private static string[] _allowedHtmlTags = {"a", "blockquote", "br", "em", "li", "p", "pre", "q", "strong", "ul", "b", "ol", "i" };
         private static string[] _attributeWhiteList = {"href", "type", "title", "rel"};
         private static Regex StripHTMLEscapedExp = new Regex(@"(&lt;\/?(?<tagname>[a-zA-Z0-9]+)[^&]*&gt;)", RegexOptions.Compiled);
 
