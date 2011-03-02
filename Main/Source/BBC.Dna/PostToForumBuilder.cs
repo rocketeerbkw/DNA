@@ -53,6 +53,12 @@ namespace BBC.Dna
         /// </summary>
         public override void ProcessRequest()
         {
+            if (InputContext.ViewingUser.UserID == 0)
+            {//not logged in
+                AddErrorXml("NotLoggedIn", "You must be logged in before you can post.", null);
+                return;
+
+            }
             //get the parameters from the querystring
             GetQueryParameters();
 
