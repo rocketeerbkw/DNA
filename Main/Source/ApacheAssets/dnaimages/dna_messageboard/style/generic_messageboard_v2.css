@@ -160,8 +160,8 @@ ul.forumthreads .itemdetail, ul.more-posts .itemdetail, ul.post-list .itemdetail
 .replies {margin-right:10px; text-align:right}
 .replies .dna-invisible {display:none}
 ul.post-list .replydate {display:block}
-/*ul.forumthreadposts li span.quote {border:1px dotted;display:block;font-style:italic;margin:5px;padding:10px;};*/
-ul.forumthreadposts li span.quote {display:block; padding:10px 7px 0 7px; font-style:italic};
+ul.forumthreadposts li span.quote {border:1px dotted;display:block;font-style:italic;margin:5px 0;padding:10px;}
+/*ul.forumthreadposts li span.quote {display:block; padding:10px 7px 0 7px; font-style:italic};*/
 ul.forumthreadposts li blockquote, div.inreplyto blockquote {margin:0 7px 10px 7px; font-style:italic;}
 .dna-boards-startanewdiscussion, .dna-boards-inreplyto {margin-bottom:15px}
 #blq-content .dna-boards-startanewdiscussion {padding-left:8px}
@@ -255,7 +255,9 @@ p.permalink {margin-top:15px;text-align:right}
 #blq-main #blq-content .dna-boards input.dna-button {width:auto; overflow:visible; padding:2px 10px; color:#fff; font-size:0.9em; font-weight:bold; background-color:#376dad; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
 #blq-main #dna-searchform input.dna-button {width:auto; overflow:visible; padding:2px 10px; color:#000; font-size:0.9em; background-color:#f1f1f1; -moz-border-radius:3px; -webkit-border-radius:3px; border:none}
 #blq-main #blq-content .dna-boards input.cancel {margin:0 200px 0 8px; background-color:#71aef1}
-.dna-boards p.preview {margin:10px 0 0 24px; padding:0 10px}
+.dna-boards .preview {padding:0 10px;}
+.dna-boards #previewpost {word-wrap:break-word}
+.dna-boards #previewpost span.quote {border:1px dotted;display:block;font-style:italic;margin:5px 0;padding:10px;}
 #blq-main #blq-content .dna-boards div#previewpost {margin:10px 24px 0 24px; padding:10px; background-color:#e8eced}
 #blq-main #blq-content .dna-boards div#previewpost .quote em {display:block;padding:0;}
 #blq-main #blq-content .dna-boards div#previewpost h3 {margin-left: 0;padding: 0}
