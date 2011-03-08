@@ -18,6 +18,21 @@ namespace FunctionalTests
     public class EditPostsPageTests
     {
 
+        [TestInitialize]
+        public void Setup()
+        {
+            SnapshotInitialisation.RestoreFromSnapshot();
+
+            using (FullInputContext _context = new FullInputContext(""))
+            {
+
+                using (IDnaDataReader dataReader = _context.CreateDnaDataReader(""))
+                {
+                    dataReader.ExecuteDEBUGONLY("update threadentries set hidden=null where entryid=" + _postId.ToString());
+                }
+            }
+        }
+
         //private int _threadId = 34;
         //private int _forumId = 7325075;
         private int _postId = 61;
@@ -125,7 +140,7 @@ namespace FunctionalTests
             postParams.Enqueue(new KeyValuePair<string, string>("Text", editForm.Text));
             postParams.Enqueue(new KeyValuePair<string, string>("Update", "Update"));
             postParams.Enqueue(new KeyValuePair<string, string>("hidePostReason", "OffensiveInsert"));
-            postParams.Enqueue(new KeyValuePair<string, string>("notes", "test"));
+            postParams.Enqueue(new KeyValuePair<string, string>("notes", "EditPost_UnhidesPost_ReturnsUnhiddenPost"));
 
             request.RequestPage("editpost?skin=purexml", false, postParams);
             xml = request.GetLastResponseAsXML();

@@ -449,6 +449,7 @@ namespace FunctionalTests.Services.Comments
 
             string newText = " this is editted text";
             // Now ste the closing date of the forum to something in the past.
+            
             ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.PassedWithEdit, newText);
 
             result = ReadForum(result.Id);
@@ -500,7 +501,7 @@ namespace FunctionalTests.Services.Comments
                 {
                     using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatepostdetails"))
                     {
-                        dataReader.AddParameter("userid", TestUserAccounts.GetNormalUserAccount.UserID);
+                        dataReader.AddParameter("userid", TestUserAccounts.GetSuperUserAccount.UserID);
                         dataReader.AddParameter("postid", postid);
                         dataReader.AddParameter("subject", "");
                         dataReader.AddParameter("text", edittedText);

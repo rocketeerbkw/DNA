@@ -15,7 +15,7 @@ declare @processed int
 set @processed = 0
 
 select @realStatus = CASE @status WHEN 6 THEN 4 ELSE @status END
---select @realStatus = CASE @status WHEN 8 THEN 3 ELSE @status END
+select @realStatus = CASE @status WHEN 8 THEN 3 ELSE @status END
 select @reasonid = reasonid  from modreason where emailname=@emailtype
 
 
