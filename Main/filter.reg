@@ -84,7 +84,7 @@ REGEDIT4
 "/NModerate"="/dna/dnapages/ModerateHomePage.aspx?"
 "/ModeratePosts"="/dna/dnapages/ModeratePostsPage.aspx?"
 "/UserComplaint"="/ripleyserver.dll?UserComplaint?"
-"/EditPost"="/ripleyserver.dll?EditPost?"
+
 "/EditRecentPost"="/ripleyserver.dll?EditRecentPost?"
 "/ModerationTopFrame"="/RipleyServer.dll?ModerateGeneral?Frame=TopFrame&"
 "/ModerationDisplayFrame"="/RipleyServer.dll?ModerateGeneral?Frame=DisplayFrame&"
@@ -351,3 +351,6 @@ REGEDIT4
 "/"="/dna/dnapages/frontpageredirector.aspx?"
 "/home"="/ripleyserver.dll?frontpage?"
 "/mbfrontpage"="/dna/dnapages/mbfrontpage.aspx?"
+
+"/OldEditPost"="/ripleyserver.dll?EditPost?"
+"/EditPost"="/dna/dnapages/editpost.aspx?"

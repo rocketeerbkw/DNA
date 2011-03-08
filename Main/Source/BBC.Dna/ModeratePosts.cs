@@ -15,35 +15,7 @@ namespace BBC.Dna.Component
     /// </summary>
     public class ModeratePosts : DnaInputComponent
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public enum Status
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            Unlocked = 0,
-            /// <summary>
-            /// 
-            /// </summary>
-            Refer = 2,
-            /// <summary>
-            /// 
-            /// </summary>
-            Passed = 3,
-            /// <summary>
-            /// 
-            /// </summary>
-            Failed = 4,
-           
-            // FailedWithEdit = 6,
-
-            /// <summary>
-            /// 
-            /// </summary>
-            PassedWithEdit = 8
-        }
+        
 
         /// <summary>
         /// 
@@ -157,7 +129,7 @@ namespace BBC.Dna.Component
             {
                 if (referrals)
                 {
-                    dataReader.AddParameter("status", Status.Refer);
+                    dataReader.AddParameter("status", ModerationItemStatus.Refer);
                 }
 
                 dataReader.AddParameter("userid", userId);
@@ -335,7 +307,7 @@ namespace BBC.Dna.Component
                 int forumId = InputContext.GetParamIntOrZero("forumid", i, "ForumId");
                 int postId = InputContext.GetParamIntOrZero("postid", i, "PostId");
                 int modId = InputContext.GetParamIntOrZero("modid", i, "ModId");
-                Status decision = (Status) InputContext.GetParamIntOrZero("decision", i, "Moderation Decision");
+                ModerationItemStatus decision = (ModerationItemStatus)InputContext.GetParamIntOrZero("decision", i, "Moderation Decision");
                 int referId = InputContext.GetParamIntOrZero("referto", i, "Refer");
                 int siteId = InputContext.GetParamIntOrZero("siteid", i, "SiteId");
                 int threadModStatus = InputContext.GetParamIntOrZero("threadmoderationstatus", i, "Thread Moderation Status");
@@ -351,7 +323,7 @@ namespace BBC.Dna.Component
                 bool preModPosting = false;
                 if (postId == 0)
                 {
-                    bool create =  decision == Status.PassedWithEdit;
+                    bool create = decision == ModerationItemStatus.PassedWithEdit;
                     using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("checkpremodpostingexists"))
                     {
                         dataReader.AddParameter("modid", modId);
@@ -371,13 +343,12 @@ namespace BBC.Dna.Component
                 }
 
                 // Edit the post.
-                if ( decision == Status.PassedWithEdit)
+                if (decision == ModerationItemStatus.PassedWithEdit)
                 {
-                    Forum f = new Forum(InputContext);
                     String subject = InputContext.GetParamStringOrEmpty("editpostsubject",i, "Edit Post Subject");
                     String body = InputContext.GetParamStringOrEmpty("editposttext",i, "Edit Post Body");
                     int userId = InputContext.ViewingUser.UserID;
-                    f.EditPost(userId, postId, subject,body, false, true);
+                    ModerationPosts.EditPost(AppContext.ReaderCreator, userId, postId, subject,body, false, true);
                 }
 
                 Update(siteId, forumId, threadId, postId, modId, decision, notes, referId, threadModStatus, sendEmail, emailType, customText);
@@ -393,52 +364,40 @@ namespace BBC.Dna.Component
 
         }
 
-        private void Update(int siteId, int forumId, int threadId, int postId, int modId, Status decision, String notes, int referId, int threadModStatus, bool sendEmail, String emailType, String customText)
+        /// <summary>
+        /// Updates the moderation item and sends email for the decision
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <param name="forumId"></param>
+        /// <param name="threadId"></param>
+        /// <param name="postId"></param>
+        /// <param name="modId"></param>
+        /// <param name="decision"></param>
+        /// <param name="notes"></param>
+        /// <param name="referId"></param>
+        /// <param name="threadModStatus"></param>
+        /// <param name="sendEmail"></param>
+        /// <param name="emailType"></param>
+        /// <param name="customText"></param>
+        private void Update(int siteId, int forumId, int threadId, int postId, int modId, ModerationItemStatus decision, String notes, int referId, int threadModStatus, bool sendEmail, String emailType, String customText)
         {
-            Queue<String> complainantEmails = new Queue<string>();
-            Queue<int> complainantIds = new Queue<int>();
-            Queue<int> modIds = new Queue<int>();
-            String authorEmail = "";
-            int authorId = 0;
-            int processed = 0;
-
-            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("moderatepost"))
-            {
-                dataReader.AddParameter("forumid", forumId);
-                dataReader.AddParameter("threadid", threadId);
-                dataReader.AddParameter("postid", postId);
-                dataReader.AddParameter("modid", modId);
-                dataReader.AddParameter("status", (int) decision);
-                dataReader.AddParameter("notes", notes);
-                dataReader.AddParameter("referto", referId);
-                dataReader.AddParameter("referredby", InputContext.ViewingUser.UserID);
-                dataReader.AddParameter("moderationstatus", threadModStatus);
-                dataReader.AddParameter("emailType", emailType);
-
-                dataReader.Execute();
-
-                while (dataReader.Read())
-                {
-                    authorEmail = dataReader.GetStringNullAsEmpty("authorsemail");
-                    authorId = dataReader.GetInt32NullAsZero("authorid");
-                    processed = dataReader.GetInt32NullAsZero("processed");
-                    String complainantEmail = dataReader.GetStringNullAsEmpty("complaintsemail");
-                    complainantEmails.Enqueue(complainantEmail);
-                    complainantIds.Enqueue(dataReader.GetInt32NullAsZero("complainantId"));
-                    modIds.Enqueue(dataReader.GetInt32NullAsZero("modid"));
-                    postId = dataReader.GetInt32NullAsZero("postid");
-                    threadId = dataReader.GetInt32NullAsZero("threadid");
-                }
-            }
+            Queue<String> complainantEmails;
+            Queue<int> complainantIds;
+            Queue<int> modIds;
+            String authorEmail;
+            int authorId;
+            ModerationPosts.ApplyModerationDecision(AppContext.ReaderCreator, forumId, ref threadId, ref postId, modId, 
+                decision, notes, referId, threadModStatus, emailType, out complainantEmails, out complainantIds, 
+                out modIds, out authorEmail, out authorId, InputContext.ViewingUser.UserID);
 
             // Send Author Email if content failed or amended.
-            if (sendEmail && (decision == Status.Failed || decision == Status.PassedWithEdit) )
+            if (sendEmail && (decision == ModerationItemStatus.Failed || decision == ModerationItemStatus.PassedWithEdit))
             {
                 SendAuthorEmail(decision, siteId, forumId, threadId, postId, authorId, authorEmail, emailType, customText);
             }
 
             //Send ComplainantEmails for a final decision only.
-            if (decision == Status.Failed || decision == Status.Passed || decision == Status.PassedWithEdit)
+            if (decision == ModerationItemStatus.Failed || decision == ModerationItemStatus.Passed || decision == ModerationItemStatus.PassedWithEdit)
             {
                 for (Queue<string>.Enumerator e = complainantEmails.GetEnumerator(); e.MoveNext(); )
                 {
@@ -450,7 +409,7 @@ namespace BBC.Dna.Component
             }
         }
 
-        private void SendAuthorEmail(Status decision, int siteId, int forumId, int threadId, int postId, int authorId, String authorEmail, String emailType, String customText)
+        private void SendAuthorEmail(ModerationItemStatus decision, int siteId, int forumId, int threadId, int postId, int authorId, String authorEmail, String emailType, String customText)
         {
 
             String contentURL = @"http://www.bbc.co.uk/dna/" + InputContext.TheSiteList.GetSite(siteId).SiteName + @"/F" + Convert.ToString(forumId) + @"?thread=" + Convert.ToString(threadId) + "&post=" + Convert.ToString(postId) + @"#p" + Convert.ToString(postId);
@@ -469,11 +428,11 @@ namespace BBC.Dna.Component
 
             String emailSubject = "";
             String emailBody = ""; ;
-            if ( decision == Status.Failed )
+            if (decision == ModerationItemStatus.Failed)
             {
                 EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "ContentRemovedEmail", out emailSubject, out emailBody);
             }
-            else if (decision == Status.PassedWithEdit)
+            else if (decision == ModerationItemStatus.PassedWithEdit)
             {
                 EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "ContentFailedAndEditedEmail", out emailSubject, out emailBody);
             }
@@ -515,19 +474,19 @@ namespace BBC.Dna.Component
             }
         }
 
-        private void SendComplainantEmail(Status decision, int siteId, int modId, int complainantId, String complainantEmail, String customText)
+        private void SendComplainantEmail(ModerationItemStatus decision, int siteId, int modId, int complainantId, String complainantEmail, String customText)
         {
             String emailSubject = "";
             String emailBody = ""; ;
-            if (decision == Status.Passed)
+            if (decision == ModerationItemStatus.Passed)
             {
                 EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "RejectComplaintEmail", out emailSubject, out emailBody);
             }
-            else if ( decision == Status.PassedWithEdit)
+            else if (decision == ModerationItemStatus.PassedWithEdit)
             {
                 EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "UpholdComplaintEditEntryEmail", out emailSubject, out emailBody);
             }
-            else if (decision == Status.Failed)
+            else if (decision == ModerationItemStatus.Failed)
             {
                 EmailTemplates.FetchEmailText(AppContext.ReaderCreator, siteId, "UpholdComplaintEmail", out emailSubject, out emailBody);
             }
@@ -536,7 +495,7 @@ namespace BBC.Dna.Component
             emailBody = emailBody.Replace("++**reference_number**++", reference);
             emailSubject = emailSubject.Replace("++**reference_number**++", reference);
 
-            if (decision == Status.Passed || decision == Status.PassedWithEdit)
+            if (decision == ModerationItemStatus.Passed || decision == ModerationItemStatus.PassedWithEdit)
             {
                 emailBody = emailBody.Replace("++**inserted_text**++", customText);
             }

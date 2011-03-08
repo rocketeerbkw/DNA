@@ -284,37 +284,10 @@ namespace BBC.Dna.Component
             }
             else if (InputContext.GetParamIntOrZero("postid", "postid") > 0)
             {
-                var verificationUid = Guid.Empty;
-                int postId = InputContext.GetParamIntOrZero("postid", "PostId");
-                using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("registerpostingcomplaint"))
-                {
-                    dataReader.AddParameter("complainantid", userId);
-                    dataReader.AddParameter("correspondenceemail", email);
-                    dataReader.AddParameter("postid", postId);
-                    dataReader.AddParameter("complainttext", complaintText);
-                    dataReader.AddParameter("ipaddress", InputContext.IpAddress);
-                    dataReader.AddParameter("bbcuid", InputContext.BBCUid);
-
-                    //HashValue
-                    Guid hash = DnaHasher.GenerateHash(Convert.ToString(userId) + ":" + email + ":" + Convert.ToString(postId) + ":" + complaintText);
-                    dataReader.AddParameter("hash", hash);
-                    dataReader.Execute();
-
-                    // Send Email
-                    
-                    if (dataReader.Read())
-                    {
-                        if (dataReader.DoesFieldExist("modId"))
-                        {
-                            _modId = dataReader.GetInt32NullAsZero("modId");
-                        }
-                        if (dataReader.DoesFieldExist("verificationUid"))
-                        {
-                            verificationUid = dataReader.GetGuid("verificationUid");
-                            _requiresVerification = true;
-                        }
-                    }
-                }
+                Guid verificationUid;
+                var postId = InputContext.GetParamIntOrZero("postid", "PostId");
+                ModerationPosts.RegisterComplaint(AppContext.ReaderCreator, userId, complaintText, email, postId, InputContext.IpAddress, 
+                    InputContext.BBCUid, out verificationUid, out _modId);
 
                 if (_modId == 0 && verificationUid == Guid.Empty)
                 {
@@ -350,6 +323,7 @@ namespace BBC.Dna.Component
                 }
                 if (verificationUid != Guid.Empty)
                 {
+                    _requiresVerification = true;
                     if (InputContext.DoesParamExist("_bbc_", "interal flag") && InputContext.GetParamIntOrZero("_bbc_", "internal traffic") == 1 
                         && email.IndexOf("@bbc.co.uk") > 0)
                     {//if internal BBC traffic then auto submit without verification
@@ -400,6 +374,8 @@ namespace BBC.Dna.Component
                 }
             }
         }
+
+        
 
         private Boolean IsBanned(String email)
         {

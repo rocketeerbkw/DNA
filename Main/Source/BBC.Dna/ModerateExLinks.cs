@@ -80,7 +80,7 @@ namespace BBC.Dna
                 String notes = InputContext.GetParamStringOrEmpty("notes", i, "notes");
                 int referTo = InputContext.GetParamIntOrZero("referTo", i, "referTo");
 
-                if (decision == (int)ModeratePosts.Status.Refer && referTo == 0)
+                if (decision == (int)ModerationItemStatus.Refer && referTo == 0)
                 {
                     AddErrorXml("MissingReferTo", "Please specify a referee to refer items to", RootElement);
                 }

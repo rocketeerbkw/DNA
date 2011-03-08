@@ -384,7 +384,7 @@ namespace Tests
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Pass the comment...
-            ModerateComment(result.commentList.comments[0].ID, result.ForumID, BBC.Dna.Component.ModeratePosts.Status.Passed,"");
+            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.Passed,"");
             
             result = _comments.GetCommentForumByUid(result.Id, site);
             Assert.IsTrue(result != null);
@@ -429,7 +429,7 @@ namespace Tests
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            ModerateComment(result.commentList.comments[0].ID, result.ForumID, BBC.Dna.Component.ModeratePosts.Status.Failed,"");
+            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.Failed, "");
 
             result = _comments.GetCommentForumByUid(result.Id, site);
             Assert.IsTrue(result != null);
@@ -476,7 +476,7 @@ namespace Tests
 
             string newText = " this is editted text";
             // Now ste the closing date of the forum to something in the past.
-            ModerateComment(result.commentList.comments[0].ID, result.ForumID, BBC.Dna.Component.ModeratePosts.Status.PassedWithEdit, newText);
+            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.PassedWithEdit, newText);
 
             result = _comments.GetCommentForumByUid(result.Id, site);
             Assert.IsTrue(result != null);
@@ -493,7 +493,7 @@ namespace Tests
         /// <param name="forumid"></param>
         /// <param name="status"></param>
         /// <param name="edittedText"></param>
-        private void ModerateComment(int postid, int forumid, BBC.Dna.Component.ModeratePosts.Status status, string edittedText)
+        private void ModerateComment(int postid, int forumid, ModerationItemStatus status, string edittedText)
         {
             using (FullInputContext _context = new FullInputContext(""))
             {
@@ -523,7 +523,7 @@ namespace Tests
                     dataReader.Execute();
                 }
 
-                if(status == BBC.Dna.Component.ModeratePosts.Status.PassedWithEdit)
+                if (status == ModerationItemStatus.PassedWithEdit)
                 {
                     using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatepostdetails"))
                     {

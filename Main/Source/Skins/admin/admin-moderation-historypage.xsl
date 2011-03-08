@@ -188,6 +188,7 @@
               <xsl:when test="STATUS = 1">Locked</xsl:when>
               <xsl:when test="STATUS = 2">Referred</xsl:when>
               <xsl:when test="STATUS = 3">Passed</xsl:when>
+              <xsl:when test="STATUS = 8">Passed with edit</xsl:when>
               <xsl:when test="STATUS = 4">Failed</xsl:when>
               <xsl:otherwise>
                 <xsl:text>Invalid Status:  </xsl:text>
