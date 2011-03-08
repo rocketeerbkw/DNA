@@ -1,8 +1,10 @@
 CREATE PROCEDURE commentforumcreate @uid varchar(255), @url varchar(255), @title nvarchar(255), @sitename varchar(255), @moderationstatus int = NULL, @frompostindex int = 0, @topostindex int = 19, @show int = 20, @duration int = NULL
 AS
+
+DECLARE @newforumid int
+
 BEGIN TRANSACTION
 	DECLARE @forumid int
-	DECLARE @newforumid int
 	DECLARE @ErrorCode int
 	DECLARE @siteid int
 	
@@ -32,7 +34,7 @@ BEGIN TRANSACTION
 	END
 	
 	--get comment data out
-	EXEC @ErrorCode = CommentForumReadByUID @newforumid, @sitename
+	EXEC @ErrorCode = CommentForumReadByUID @uid, @sitename
 	IF (@ErrorCode <> 0)
 	BEGIN
 		ROLLBACK TRANSACTION
@@ -41,4 +43,3 @@ BEGIN TRANSACTION
 	END
 	
 COMMIT TRANSACTION
-

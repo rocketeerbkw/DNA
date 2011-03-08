@@ -5,6 +5,7 @@ using System.Text;
 using BBC.Dna.Data;
 using DnaEventService.Common;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace Dna.BIEventSystem
 {
@@ -50,7 +51,7 @@ namespace Dna.BIEventSystem
 
                     int moderationResult = reader.GetIntReturnValue();
 
-                    BIEventProcessor.BIEventLogger.LogInformation("IsRisky() end", startTime, "RiskModThreadEntryQueueId", ev.RiskModThreadEntryQueueId, "Result", moderationResult);
+                    BIEventProcessor.BIEventLogger.Log(TraceEventType.Verbose, "IsRisky() end", startTime, "RiskModThreadEntryQueueId", ev.RiskModThreadEntryQueueId, "Result", moderationResult);
 
                     return moderationResult > 0;
                 }
@@ -91,11 +92,14 @@ namespace Dna.BIEventSystem
                 reader.AddIntOutputParameter("moderation");
                 reader.Execute();
 
-                int moderationResult = reader.GetIntOutputParameter("moderation");
+                int? moderationResult = reader.GetNullableIntOutputParameter("moderation");
 
-                BIEventProcessor.BIEventLogger.LogInformation("RecordPostToForumEvent() end", startTime, "ThreadEntryId", ev.ThreadEntryId, "ModerationResult", moderationResult);
+                BIEventProcessor.BIEventLogger.Log(TraceEventType.Verbose, "RecordPostToForumEvent() end", startTime, "ThreadEntryId", ev.ThreadEntryId, "ModerationResult", moderationResult);
 
-                risky = moderationResult > 0;
+                if (moderationResult.HasValue)
+                    risky = moderationResult > 0;
+                else
+                    risky = null;
             }
 
             return true;
@@ -126,7 +130,7 @@ namespace Dna.BIEventSystem
                 { "isComplaint", ev.IsComplaint},
                 { "DateStatusChanged",ev.EventDate }
             };
-            BIEventProcessor.BIEventLogger.LogInformation("RecordPostModerationDecision() end", startTime, props);
+            BIEventProcessor.BIEventLogger.Log(TraceEventType.Verbose, "RecordPostModerationDecision() end", startTime, props);
 
             return true;
         }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using System.Web;
+using HtmlAgilityPack;
 
 namespace BBC.Dna.Utils
 {
@@ -36,6 +37,8 @@ namespace BBC.Dna.Utils
             try
             {
                 xDoc.LoadXml(parsedHtml);
+
+
             }
             catch (XmlException ex)
             {
@@ -61,6 +64,8 @@ namespace BBC.Dna.Utils
             try
             {
                 xDoc.LoadXml(validML);
+
+
             }
             catch (XmlException ex)
             {
@@ -151,8 +156,8 @@ namespace BBC.Dna.Utils
         }
 
         private static string[] _dnaTags = { "quote", "smiley"};
-        private static string[] _allowedHtmlTags= { "blockquote", "br", "em", "li", "p", "pre", "q", "strong", "ul", "b"};
-        private static Regex StripHTMLExp = new Regex(@"(<\/?(?<tagname>[a-zA-Z0-9]+)[^>]*>)", RegexOptions.Compiled);
+        private static string[] _allowedHtmlTags = {"a", "blockquote", "br", "em", "li", "p", "pre", "q", "strong", "ul", "b", "ol" };
+        private static string[] _attributeWhiteList = {"href", "type", "title", "rel"};
         private static Regex StripHTMLEscapedExp = new Regex(@"(&lt;\/?(?<tagname>[a-zA-Z0-9]+)[^&]*&gt;)", RegexOptions.Compiled);
 
         /// <summary>
@@ -174,7 +179,14 @@ namespace BBC.Dna.Utils
             }
             else
             {
-                tags = StripHTMLExp.Matches(Input);
+                if (stripHtmlTags)
+                {
+                    return SanitizeHtml(Input, new string[0], _dnaTags);
+                }
+                else
+                {
+                    return SanitizeHtml(Input, _allowedHtmlTags, _dnaTags);
+                }
             }
 
             foreach (Match Tag in tags)
@@ -210,6 +222,55 @@ namespace BBC.Dna.Utils
 
             return Output;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="whiteList"></param>
+        /// <param name="dnaTags"></param>
+        /// <returns></returns>
+        public static string SanitizeHtml(string html, string[] whiteList, string[] dnaTags )
+        {
+            HtmlDocument doc = new HtmlDocument();
+            doc.LoadHtml(html);
+            IList<HtmlNode> hnc = doc.DocumentNode.DescendantNodes().ToList();
+
+            //remove non-white list nodes
+            for (int i = hnc.Count - 1; i >= 0; i--)
+            {
+                HtmlNode htmlNode = hnc[i];
+                if (!whiteList.Contains(htmlNode.Name.ToLower()) && !dnaTags.Contains(htmlNode.Name.ToLower()) && htmlNode.Name.ToLower() != "#text")
+                {
+                    htmlNode.Remove();
+                    continue;
+                }
+
+                if (!dnaTags.Contains(htmlNode.Name.ToLower()))
+                {//ignore attributes for dna specific tags
+                    for (int att = htmlNode.Attributes.Count - 1; att >= 0; att--)
+                    {
+                        HtmlAttribute attribute = htmlNode.Attributes[att];
+                        //remove any attribute that is not in the white list (such as event handlers)
+                        if (!_attributeWhiteList.Contains(attribute.Name.ToLower()))
+                        {
+                            attribute.Remove();
+                        }
+
+                        if (attribute.Name.ToLower() == "href")
+                        {
+                            //strip if the link starts with anything other than http (such as jscript, javascript, vbscript, mailto, ftp, etc...)
+                            if (!attribute.Value.StartsWith("http"))
+                            {
+                                attribute.Value = "#";
+                            }
+                        }
+                    }
+                }
+            }
+            return doc.DocumentNode.WriteTo();
+        }
+
 
         /// <summary>
         /// Runs inputted text against code and only allows a selected set of tags

@@ -12,7 +12,7 @@ namespace Dna.BIEventSystem
         public int ModClassId { get; private set; }
         public int SiteId { get; private set; }
         public int ForumId { get; private set; }
-        public int ThreadId { get; private set; }
+        public int? ThreadId { get; private set; }
         public int UserId { get; private set; }
         public DateTime DatePosted { get; private set; }
         public string Text { get; private set; }
@@ -35,7 +35,7 @@ namespace Dna.BIEventSystem
             ModClassId = reader.GetInt32("ModClassId");
             SiteId = reader.GetInt32("SiteId");
             ForumId = reader.GetInt32("ForumId");
-            ThreadId = reader.GetInt32("ThreadId");
+            ThreadId = reader.GetNullableInt32("ThreadId");
             UserId = reader.GetInt32("UserId");
             DatePosted = reader.GetDateTime("DatePosted");
             Text = reader.GetString("text");

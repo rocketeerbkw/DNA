@@ -684,6 +684,13 @@ namespace BBC.Dna.Services
             var showApproved = QueryStringHelper.GetQueryParameterAsInt("showapproved", 1);
             var showNormal = QueryStringHelper.GetQueryParameterAsInt("shownormal", 0);
             var showSubmitted = QueryStringHelper.GetQueryParameterAsInt("showsubmitted", 0);
+
+            bool useFastSearch = false;
+            if (siteList.GetSiteOptionValueBool(site.SiteID, "ArticleSearch", "FastFreetextSearch"))
+            {
+                useFastSearch = true;
+            }
+
             if (querystring != string.Empty)
             {
                 try
@@ -697,7 +704,8 @@ namespace BBC.Dna.Services
                                                     showNormal == 1 ? true : false,
                                                     showSubmitted == 1 ? true : false,
                                                     startIndex,
-                                                    itemsPerPage);
+                                                    itemsPerPage,
+                                                    useFastSearch);
                 }
                 catch (ApiException ex)
                 {

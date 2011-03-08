@@ -507,13 +507,16 @@ namespace BBC.Dna.Api
             if(RatingForum.ModerationServiceGroup == ModerationStatus.ForumStatus.Unknown)
             {//else fall back to site moderation status
                 switch(site.ModerationStatus)
-            {
-                    case ModerationStatus.SiteStatus.UnMod: RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.Reactive; break;
-                    case ModerationStatus.SiteStatus.PreMod: RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.PreMod; break;
-                    case ModerationStatus.SiteStatus.PostMod: RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.PostMod; break;
-                    default: RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.Reactive; break;
+                {
+                        case ModerationStatus.SiteStatus.UnMod: RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.Reactive; break;
+                        case ModerationStatus.SiteStatus.PreMod: RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.PreMod; break;
+                        case ModerationStatus.SiteStatus.PostMod: RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.PostMod; break;
+                        default: RatingForum.ModerationServiceGroup = ModerationStatus.ForumStatus.Reactive; break;
+                }
             }
-            }
+
+            RatingForum.NotSignedInUserId = reader.GetInt32NullAsZero("NotSignedInUserId");
+            RatingForum.allowNotSignedInCommenting = RatingForum.NotSignedInUserId != 0;
             return RatingForum;
         }
 

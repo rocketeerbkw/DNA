@@ -20,10 +20,33 @@
 	    	<xsl:if test="@TOTAL != 1">
 	    		<xsl:text>s</xsl:text>
 	    	</xsl:if>
-	    </xsl:variable> 
-	    
+	    </xsl:variable>
+    <xsl:variable name="selfObject" select="OBJECTTYPE" />
+    <xsl:variable name="combinedTotal">
+      <xsl:value-of select="number(parent::MODERATIONQUEUES/MODERATION-QUEUE-SUMMARY[OBJECTTYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/@TOTAL) + @TOTAL"/>
+    </xsl:variable>
+    
+    <xsl:variable name="lowestDate">
+      <xsl:choose>
+        <xsl:when test="(STATE = 'queued' and  @FASTMOD ='1')">
+          <xsl:choose>
+            <xsl:when test="DATE/@YEAR != '1'">
+              <xsl:value-of select="DATE/@RELATIVE"/>
+            </xsl:when>
+            <xsl:when test="parent::MODERATIONQUEUES/MODERATION-QUEUE-SUMMARY[OBJECTTYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/DATE/@YEAR != '1'">
+              <xsl:value-of select="parent::MODERATIONQUEUES/MODERATION-QUEUE-SUMMARY[OBJECTTYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/DATE/@RELATIVE"/>
+            </xsl:when>
+          </xsl:choose>
+
+        </xsl:when>
+        <xsl:when test="DATE/@YEAR != '1'">
+          <xsl:value-of select="DATE/@RELATIVE"/>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+    
 	    <!-- STATE = 'queuedreffered' -->
-		<xsl:if test="STATE = 'queued' or STATE = 'lockedreffered'">
+		<xsl:if test="(STATE = 'queued' and  @FASTMOD ='1') or STATE = 'lockedreffered'">
 			<xsl:if test="(OBJECTTYPE != 'entry' and OBJECTTYPE != 'entrycomplaint') or $dashboardtype='community' or $dashboardtype = 'all'">
 			    <tr>
 					<th>
@@ -33,8 +56,11 @@
 							</xsl:call-template>
 						</xsl:if>
 						<xsl:if test="STATE = 'queued'">
+              
+              
 							<xsl:call-template name="moderationsummary">
 								<xsl:with-param name="referraltype" select="$referraltype" />
+                <xsl:with-param name="total" select="$combinedTotal" />
 							</xsl:call-template>
 						</xsl:if>	
 						<xsl:if test="STATE = 'lockedreffered'">
@@ -44,9 +70,7 @@
 						</xsl:if>	
 					</th>
 					<td class="time">
-						<xsl:if test="DATE/@YEAR != 1">
-							<xsl:value-of select="DATE/LOCAL/@RELATIVE" />
-						</xsl:if>
+					  <xsl:value-of select="$lowestDate" />
 					</td> 
 				</tr>
 			</xsl:if>
@@ -84,6 +108,9 @@
 									<xsl:text>/dna/moderation/ModerateGeneral?referrals=1&amp;alerts=1&amp;locked=1</xsl:text>
 								</xsl:when>
 							</xsl:choose>
+              <xsl:if test="@FASTMOD = '1'">
+                <xsl:text>&amp;fastmod=1</xsl:text>
+              </xsl:if>
 						</xsl:attribute>
 						<xsl:value-of select="@TOTAL" />&#160;
 						<xsl:value-of select="$referraltype" />
@@ -109,8 +136,9 @@
 	
 	<xsl:template name="moderationsummary">
 		<xsl:param name="referraltype" />
-		
-		<xsl:value-of select="@TOTAL" />&#160;
+    <xsl:param name="total" />
+
+    <xsl:value-of select="$total" />&#160;
 		<xsl:value-of select="$referraltype" />
 		<xsl:text> queued to moderators</xsl:text>
 	</xsl:template>	

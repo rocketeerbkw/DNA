@@ -19,7 +19,7 @@ namespace Dna.BIEventSystem
                 { "EventType",                  ev.EventType}
             };
 
-            logger.LogInformation(message, DateTime.MaxValue, props);
+            logger.Log(TraceEventType.Verbose, message, DateTime.MaxValue, props);
         }
     }
 }

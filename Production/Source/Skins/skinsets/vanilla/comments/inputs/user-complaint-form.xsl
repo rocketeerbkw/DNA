@@ -270,6 +270,31 @@
       </div>
     </xsl:template>
 
+  <xsl:template match="USERCOMPLAINT[@REQUIRESVERIFICATION = '1']" mode="input_user-complaint-form">
+    <div class="content">
+      <h2>Email verification</h2>
+      <p>
+        Your complaint has been submitted. It will not be seen by a moderator until you have verified your email address. This is to help prevent impersonation and spamming.
+      </p>
+      <p>
+        You will shortly receive an email with a link to activate your complaint. Clicking this link will send your complaint to the moderators.
+      </p>
+      
+      <p class="action">
+        <a class="close">
+          <xsl:attribute name="href">
+            <xsl:call-template name="library_serialise_ptrt_out">
+              <xsl:with-param name="string">
+                 <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:text>Continue browsing</xsl:text>
+        </a>
+      </p>
+    </div>
+  </xsl:template>
+
   <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL'] | USERCOMPLAINT[@MODID]" mode="input_user-complaint-form">
     <div class="content">
       <h2>Complaint Successful</h2>
@@ -289,7 +314,15 @@
           <xsl:attribute name="href">
             <xsl:call-template name="library_serialise_ptrt_out">
               <xsl:with-param name="string">
-                <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
+                <xsl:choose>
+                  <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']">
+                    <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>http://www.bbc.co.uk/</xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
+
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
@@ -298,6 +331,8 @@
       </p>
     </div>
   </xsl:template>
+
+ 
 
 
 

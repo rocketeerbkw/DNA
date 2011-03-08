@@ -78,14 +78,10 @@ namespace BBC.Dna
                 postToForumBuilder = PostThreadForm.GetPostThreadFormWithForum(_creator, _viewingUser, _forumId);
             }
 
-            //add post if relevant
-            postToForumBuilder.AddPost(_subject, _text, _addQuote);
-            
             //add forumsource
             ForumSource forumSource = ForumSource.CreateForumSource(_cache, _creator, _viewingUser, postToForumBuilder.ForumId, postToForumBuilder.ThreadId,
                                                                     InputContext.CurrentSite.SiteID,
                                                                     true, false, false);
-
             if (forumSource == null)
             {
                 AddErrorXml("ForumOrThreadNotFound", "Unable to find the requested forum or thread.", null);
@@ -93,15 +89,24 @@ namespace BBC.Dna
             }
             SerialiseAndAppend(forumSource, String.Empty);
 
+            if (InputContext.ViewingUser.IsBanned)
+            {
+                getBannedXml(postToForumBuilder);
+                return;
+            }
+
+            //add post if relevant
+            postToForumBuilder.AddPost(_subject, _text, _addQuote);
+
+            ThreadPost post = new ThreadPost();
             if (_post)
             {//do posting
-                ThreadPost post = new ThreadPost();
-                post.Text = HtmlUtils.HtmlEncode(postToForumBuilder.Body);
+                post.Text = postToForumBuilder.Body;
                 post.Subject = postToForumBuilder.Subject;
                 post.Style = (BBC.Dna.Objects.PostStyle.Style)postToForumBuilder.Style;
                 post.ThreadId = postToForumBuilder.ThreadId;
                 post.InReplyTo = postToForumBuilder.InReplyToId;
-
+                bool errorThrown = false;
                 try
                 {
                     post.PostToForum(_cache, AppContext.ReaderCreator, InputContext.CurrentSite, _viewingUser, InputContext.TheSiteList,
@@ -109,23 +114,34 @@ namespace BBC.Dna
                 }
                 catch (ApiException e)
                 {
-                    if (e.type != ErrorType.ProfanityFoundInText)
+                    errorThrown = true;
+                    switch(e.type)
                     {
-                        AddErrorXml(e.type.ToString(), e.Message, null);
-                        return;
+                        case ErrorType.ProfanityFoundInText:
+                            postToForumBuilder.ProfanityTriggered = 1;
+                            break;
+                            
+
+                        case ErrorType.PostFrequencyTimePeriodNotExpired:
+                            postToForumBuilder.PostedBeforeReportTimeElapsed = 1;
+                            postToForumBuilder.SecondsBeforePost = post.SecondsToWait;
+                            break;
+
+                        default:
+                            AddErrorXml(e.type.ToString(), e.Message, null);
+                            break;
+                      
                     }
-                    else
-                    {
-                        postToForumBuilder.ProfanityTriggered = 1;
-                    }
+                    
                 }
 
-                if (postToForumBuilder.ProfanityTriggered != 1)
+                if (!errorThrown)
                 {
-                    if (post.IsPreModPosting)
+                    if (post.IsPreModPosting || post.IsPreModerated)
                     {//show premodposting
                         XmlElement postMod = AddElementTag(RootElement, "POSTPREMODERATED");
                         AddAttribute(postMod, "FORUM", _forumId.ToString());
+                        AddAttribute(postMod, "POST", post.PostId.ToString());
                         AddAttribute(postMod, "THREAD", post.ThreadId.ToString());
                         if (post.ThreadId == 0)
                         {
@@ -139,7 +155,8 @@ namespace BBC.Dna
                         {
                             AddAttribute(postMod, "AUTOSINBIN", "1");
                         }
-                        AddAttribute(postMod, "ISPREMODPOSTING", "1");
+                        AddAttribute(postMod, "ISPREMODPOSTING", post.IsPreModPosting?"1":"0");
+                        return;
                     }
                     else
                     {
@@ -151,13 +168,26 @@ namespace BBC.Dna
                     }
                 }
             }
-            SerialiseAndAppend(postToForumBuilder, String.Empty);
+            if (!post.IsPreModPosting)
+            {//hide form if premod posting...
+                SerialiseAndAppend(postToForumBuilder, String.Empty);
+            }
             
 
             //add page ui to xml
             PageUi pageUi = PageUi.GetPageUi(_creator, forumSource.Article, _viewingUser);
             SerialiseAndAppend(pageUi, String.Empty);
             
+        }
+
+        private void getBannedXml(PostThreadForm postToForumBuilder)
+        {
+            XmlElement postMod = AddElementTag(RootElement, "POSTTHREADUNREG");
+            AddAttribute(postMod, "FORUM", _forumId.ToString());
+            AddAttribute(postMod, "THREADID", postToForumBuilder.ThreadId.ToString());
+            AddAttribute(postMod, "RESTRICTED", "1");
+            AddAttribute(postMod, "REGISTERED", "1");
+            return;
         }
 
         /// <summary>

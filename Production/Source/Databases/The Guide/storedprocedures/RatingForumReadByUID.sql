@@ -21,6 +21,7 @@ AS
 			lastposted, 
 			average
 			, editorpickcount
+			, NotSignedInUserId
 	from dbo.VRatingForums 
 	where uid = @uid
 	and siteid = @siteid

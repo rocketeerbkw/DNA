@@ -146,11 +146,26 @@ namespace BBC.Dna.Api
                         reader.AddParameter("duration", duration);
                     }
                     reader.Execute();
+
+                    if (reader.Read())
+                    {
+                        commentForum.ForumID = reader.GetInt32NullAsZero("forumid");
+                    }
                 }
                 catch (Exception ex)
                 {
                     throw new ApiException(ex.Message, ex.InnerException);
                     //DnaApiWebProtocalException.ThrowDnaApiWebProtocalException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
+                }
+            }
+
+            //set up not signed in commenting
+            if (commentForum.allowNotSignedInCommenting)
+            {
+                if (SiteList.GetSiteOptionValueBool(site.SiteID, "CommentForum", "AllowNotSignedInCommenting"))
+                {
+                    var user = new Dna.Users.User(DnaDataReaderCreator, DnaDiagnostics, CacheManager);
+                    user.CreateAnonymousUserForForum(site.SiteID, commentForum.ForumID, "");
                 }
             }
         }
@@ -232,6 +247,11 @@ namespace BBC.Dna.Api
                 {
                     user.SiteSpecificDisplayName = reader.GetStringNullAsEmpty("SiteSpecificDisplayName");
                 }
+            }
+            //if there is an anonymous user name use it
+            if(reader.DoesFieldExist("AnonymousUserName") && !String.IsNullOrEmpty(reader.GetStringNullAsEmpty("AnonymousUserName")))
+            {
+                user.DisplayName = reader.GetStringNullAsEmpty("AnonymousUserName");
             }
 
             

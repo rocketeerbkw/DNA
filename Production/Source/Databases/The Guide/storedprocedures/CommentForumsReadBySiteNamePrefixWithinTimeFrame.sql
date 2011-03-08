@@ -69,6 +69,7 @@ CREATE PROCEDURE commentforumsreadbysitenameprefixwithintimeframe	@siteurlname v
 	vcf.canWrite, 
 	vcf.lastposted
 	, vcf.editorpickcount
+	, vcf.NotSignedInUserId
 	from CTE_TOTAL cte 
 	inner join VCommentForums vcf on vcf.forumid = cte.forumID
 	where n > @startindex and n <= @startindex + @itemsperpage

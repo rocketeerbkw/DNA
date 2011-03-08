@@ -49,28 +49,28 @@ namespace DnaEventService.Common
         }
 
 
-        public static void LogInformation(this IDnaLogger logger, string message, Dictionary<string, object> props)
+        public static void Log(this IDnaLogger logger, TraceEventType eventType, string message, Dictionary<string, object> props)
         {
             string category = Assembly.GetCallingAssembly().GetName().Name;
-            logger.LogGeneral(TraceEventType.Information, category, message, DateTime.MaxValue, props);
+            logger.LogGeneral(eventType, category, message, DateTime.MaxValue, props);
         }
 
-        public static void LogInformation(this IDnaLogger logger, string message, params object[] p)
+        public static void Log(this IDnaLogger logger, TraceEventType eventType, string message, params object[] p)
         {
             string category = Assembly.GetCallingAssembly().GetName().Name;
-            logger.LogGeneral(TraceEventType.Information, category, message, DateTime.MaxValue, p);
+            logger.LogGeneral(eventType, category, message, DateTime.MaxValue, p);
         }
 
-        public static void LogInformation(this IDnaLogger logger, string message, DateTime startTime, Dictionary<string, object> props)
+        public static void Log(this IDnaLogger logger, TraceEventType eventType, string message, DateTime startTime, Dictionary<string, object> props)
         {
             string category = Assembly.GetCallingAssembly().GetName().Name;
-            logger.LogGeneral(TraceEventType.Information, category, message, startTime, props);
+            logger.LogGeneral(eventType, category, message, startTime, props);
         }
 
-        public static void LogInformation(this IDnaLogger logger, string message, DateTime startTime, params object[] p)
+        public static void Log(this IDnaLogger logger, TraceEventType eventType, string message, DateTime startTime, params object[] p)
         {
             string category = Assembly.GetCallingAssembly().GetName().Name;
-            logger.LogGeneral(TraceEventType.Information, category, message, startTime, p);
+            logger.LogGeneral(eventType, category, message, startTime, p);
         }
 
         private static void LogGeneral(this IDnaLogger logger, TraceEventType traceEventType, string category, string message, DateTime startTime, params object[] p)

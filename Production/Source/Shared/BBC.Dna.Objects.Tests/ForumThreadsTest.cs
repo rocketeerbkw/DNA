@@ -860,7 +860,9 @@ namespace BBC.Dna.Objects.Tests
             var reader = Mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.DoesFieldExist("postid")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("postid")).Return(postid);
+            reader.Stub(x => x.DoesFieldExist("threadid")).Return(true);   
             reader.Stub(x => x.GetInt32NullAsZero("threadid")).Return(threadid);             
 
             var readerCreator = Mocks.DynamicMock<IDnaDataReaderCreator>();

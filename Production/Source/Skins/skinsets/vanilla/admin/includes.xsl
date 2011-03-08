@@ -27,6 +27,7 @@
 
 	
 	<xsl:include href="objects/activitydata/activitydata.xsl"/>
+	<xsl:include href="objects/activitydata/article.xsl"/>
 	<xsl:include href="objects/activitydata/notes.xsl"/>
 	<xsl:include href="objects/activitydata/post.xsl"/>
 	<xsl:include href="objects/activitydata/site.xsl"/>

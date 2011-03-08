@@ -45,9 +45,8 @@
 						<table class="dna-dashboard-activity">
 							<thead>
 								<tr>
-									<th>Number</th>
-									<!-- <th>User Id</th>
-									<th>User Name</th> -->
+									<th class="id">User Id</th>
+									<th>User Name</th>
 									<th id="site">Site</th>
 									<th>Status</th>
 									<th>Date joined</th>
@@ -170,17 +169,17 @@
 	    	<xsl:if test="position() mod 2 = 1">
 		    	<xsl:attribute name="class">odd</xsl:attribute>
 	    	</xsl:if>			
-	    	<td><h5><xsl:value-of select="position()" /></h5></td>
-			<!-- do user id and user name need to be here as they are above? 
 			<td>
+				<h5 class="blq-hide">Member post <xsl:value-of select="position()" /></h5>
 				<a href="UserList?searchText={$userid}&amp;usersearchtype=0">
 					<xsl:value-of select="USER/USERID"/>
 				</a>
 			</td>
 			<td>
 				<xsl:value-of select="USER/USERNAME"/>
-			</td>-->
+			</td>
 			<td>
+				<h5 class="blq-hide">Post <xsl:value-of select="position()" /></h5>
 				<xsl:value-of select="SITE/NAME"/>
 			</td>
 			<td>

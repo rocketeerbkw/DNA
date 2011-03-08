@@ -1277,6 +1277,8 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
+    <None Include="registerverifiedcomplaint.sql" />
+    <None Include="createnewuserforforum.sql" />
     <None Include="getcontribution.sql" />
     <None Include="getrecentcontributions.sql" />
     <None Include="getsiteevents.sql" />

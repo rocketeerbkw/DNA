@@ -44,14 +44,7 @@
             </xsl:call-template>
             
             <xsl:choose>
-                <xsl:when test="@HIDDEN = 3 and USER/USERID = /H2G2/VIEWING-USER/USER/USERID">
-                    <!-- Hidden post for the owner -->
-                    <p class="dna-boards-failedpost">
-                        <!-- <xsl:apply-templates select="/H2G2/SITECONFIG/DNACOMMENTTEXT/PREMODMESSAGE" mode="library_siteconfig_premodmessage" /> -->
-                        <xsl:value-of select="TEXT" />
-                    </p>
-                </xsl:when>
-                <xsl:when test="(@HIDDEN = 3 and USER/USERID != /H2G2/VIEWING-USER/USER/USERID) or @HIDDEN = 3">
+                <xsl:when test="@HIDDEN = 3">
                     <!-- Hidden post for any user -->
                     <p class="dna-boards-failedpost">
                         This comment is awaiting moderation. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_checking_messages.html" class="popup">Explain</a>.
@@ -103,20 +96,30 @@
                 <xsl:when test="$siteClosed = 'true' or parent::FORUMTHREADPOSTS/@CANWRITE = 0 or $autogenname_required = 'true'">
                     <!-- Nowt -->
                 </xsl:when>
-                <xsl:when test="@CANWRITE = 0 or USER/STATUS = 0"><!-- nothing --></xsl:when>
+                <xsl:when test="@CANWRITE = 0 or /H2G2/VIEWING-USER/USER/STATUS = 0"><!-- nothing --></xsl:when>
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
-                        <a href="{$root}/AddThread?inreplyto={@POSTID}" class="id-cta">
-                            <xsl:call-template name="library_memberservice_require">
-                                <xsl:with-param name="ptrt">
-                                    <xsl:value-of select="$root"/>
-                                    <xsl:text>/AddThread?inreplyto=</xsl:text>
-                                    <xsl:value-of select="@POSTID"/>
-                                </xsl:with-param>
-                            </xsl:call-template>
-                            Reply to this message 
-                            <span class="blq-hide"><xsl:value-of select="count(preceding-sibling::*)" /></span>
-                        </a>
+                    	<xsl:choose>
+                    	<xsl:when test="/H2G2/VIEWING-USER/USER">
+	                        <a href="{$root}/posttoforum?inreplyto={@POSTID}" class="id-cta">
+	                            Reply to this message 
+	                            <span class="blq-hide"><xsl:value-of select="count(preceding-sibling::*)" /></span>
+	                        </a>
+                        </xsl:when>
+                        <xsl:otherwise>
+	                        <a href="{$root}/posttoforum?inreplyto={@POSTID}" class="id-cta">
+	                            <xsl:call-template name="library_identity_require">
+	                                <xsl:with-param name="ptrt">
+	                                    <xsl:value-of select="$root"/>
+	                                    <xsl:text>/posttoforum?inreplyto=</xsl:text>
+	                                    <xsl:value-of select="@POSTID"/>
+	                                </xsl:with-param>
+	                            </xsl:call-template>
+	                            Reply to this message 
+	                            <span class="blq-hide"><xsl:value-of select="count(preceding-sibling::*)" /></span>
+	                        </a>                        
+                        </xsl:otherwise>
+                        </xsl:choose>
                     </p>
                 </xsl:otherwise>
             </xsl:choose>
@@ -130,7 +133,7 @@
 			        		<xsl:with-param name="loggedin">
 		        				<xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_editpost" >
 		        					<xsl:with-param name="label" select="'Edit Post'"/>
-                      <xsl:with-param name="post" select="count(preceding-sibling::*)" />
+                      				<xsl:with-param name="post" select="count(preceding-sibling::*)" />
 		        				</xsl:apply-templates>
 			        		</xsl:with-param>
 			        	</xsl:call-template>                    

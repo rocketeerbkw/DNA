@@ -217,21 +217,17 @@ namespace BBC.Dna.Services
         public Stream CreateCommentForumWithComment(string sitename, CommentForum commentForum, string commentForumId)
         {
             ISite site = GetSite(sitename);
-            if (site == null)
-            {
-                throw ApiException.GetError(ErrorType.UnknownSite);
-            }
             try
             {
                 commentForum.Id = commentForumId;
-                _commentObj.CallingUser = GetCallingUser(site);
-
                 CommentForum commentForumData = _commentObj.CreateCommentForum(commentForum, site);
 
+                _commentObj.CallingUser = GetCallingUserOrNotSignedInUser(site, commentForumData);
+                
                 if (commentForum.commentList != null && commentForum.commentList.comments != null &&
                     commentForum.commentList.comments.Count > 0)
                 {
-//check if there is a rating to add
+                    //check if there is a rating to add
                     CommentInfo commentInfo = _commentObj.CreateComment(commentForumData,
                                                                         commentForum.commentList.comments[0]);
                     return GetOutputStream(commentInfo);
@@ -243,6 +239,7 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
         }
+
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{sitename}/")]
         [WebHelp(Comment = "Create a new comment forum for the specified site")]

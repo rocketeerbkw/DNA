@@ -620,5 +620,42 @@ namespace BBC.Dna.Api.Tests
             }
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumupdate"));
         }
+
+
+        [TestMethod]
+        public void ForumCreate_WithWithNotSignedIn_ReturnsOK()
+        {
+            var commentForum = new Forum
+            {
+                Id = "".PadRight(10, 'a'),
+                ParentUri = "http://www.bbc.co.uk/dna",
+                Title = "title",
+                allowNotSignedInCommenting = true
+            };
+            var siteId = 1;
+            var forumId = 10;
+
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var site = mocks.DynamicMock<ISite>();
+            site.Stub(x => x.SiteID).Return(siteId);
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var siteList = mocks.DynamicMock<ISiteList>();
+            siteList.Stub(x => x.GetSiteOptionValueBool(siteId, "CommentForum", "AllowNotSignedInCommenting")).Return(true);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumcreate")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("createnewuserforforum")).Return(reader);
+            
+            reader.Stub(x => x.Read()).Return(true);
+            reader.Stub(x => x.GetInt32NullAsZero("forumid")).Return(forumId);
+
+            mocks.ReplayAll();
+
+            var context = new Context(null, readerCreator, cacheManager, siteList);
+
+            context.CreateForum(commentForum, site);
+
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumcreate"));
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("createnewuserforforum"));
+        }
     }
 }

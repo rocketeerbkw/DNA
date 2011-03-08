@@ -14,10 +14,11 @@
     </doc:documentation>
     
     <xsl:template match="DATEPOSTED" mode="library_itemdetail">
-        <span><xsl:text> on </xsl:text></span>
-        <xsl:apply-templates select="DATE" mode="library_date_longformat">
-            <xsl:with-param name="longformat_label">Posted on </xsl:with-param>
-        </xsl:apply-templates>
-        
+        <xsl:if test="parent::POST/@HIDDEN = 0 or parent::POST/@HIDDEN = ''">
+	        <span><xsl:text> on </xsl:text></span>
+	        <xsl:apply-templates select="DATE" mode="library_date_longformat">
+	            <xsl:with-param name="longformat_label">Posted on </xsl:with-param>
+	        </xsl:apply-templates>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>

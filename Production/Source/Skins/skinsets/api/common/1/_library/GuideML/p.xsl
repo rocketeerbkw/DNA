@@ -15,12 +15,17 @@
     
     <xsl:template match="P | p" mode="library_GuideML">
         <p>
-            <xsl:if test="@CLASS">
-                <xsl:attribute name="class">
-                    <xsl:value-of select="@CLASS"/>
-                </xsl:attribute>
-            </xsl:if>
-            <xsl:apply-templates mode="library_GuideML"/>
+			<xsl:if test="@CLASS">
+				<xsl:attribute name="class">
+					<xsl:value-of select="@CLASS"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@ALIGN">
+				<xsl:attribute name="align">
+					<xsl:value-of select="@ALIGN"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:apply-templates mode="library_GuideML"/>
         </p>
     </xsl:template>
 </xsl:stylesheet>

@@ -184,6 +184,82 @@ namespace BBC.Dna.Services
 
             return callingUser;
         }
+        /// <summary>
+        /// Gets the user from the cookies and signs them in
+        /// </summary>
+        /// <param name="site">The site</param>
+        protected CallingUser TryGetCallingUser(ISite site)
+        {
+            CallingUser callingUser = null;
+            bool userSignedIn = false;
+            if (site != null)
+            {
+                if (String.IsNullOrEmpty(site.IdentityPolicy))
+                {
+                    callingUser = new CallingUser(SignInSystem.SSO, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
+                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "");
+                }
+                else
+                {
+                    callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
+                    userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID);
+                }
+                // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs
+                if (callingUser.GetSigninStatus == CallingUser.SigninStatus.SignedInNotLoggedIn)
+                {
+                    throw new DnaWebProtocolException(new ApiException(site.IdentityPolicy, ErrorType.FailedTermsAndConditions));
+                }
+            }
+
+            if (callingUser == null || !userSignedIn)
+            {
+                return null;
+            }
+
+            return callingUser;
+        }
+
+        /// <summary>
+        /// gets the calling user or uses the notsignedin forum user
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="forum"></param>
+        /// <returns></returns>
+        protected CallingUser GetCallingUserOrNotSignedInUser(ISite site, CommentForum forum)
+        {
+            CallingUser callingUser = null;
+            bool userSignedIn = false;
+            if (site != null)
+            {
+                if (String.IsNullOrEmpty(site.IdentityPolicy))
+                {
+                    callingUser = new CallingUser(SignInSystem.SSO, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
+                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "");
+                }
+                else
+                {
+                    callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
+                    userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID);
+                }
+                // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs
+                if (callingUser.GetSigninStatus == CallingUser.SigninStatus.SignedInNotLoggedIn)
+                {
+                    throw new DnaWebProtocolException(new ApiException(site.IdentityPolicy, ErrorType.FailedTermsAndConditions));
+                }
+            }
+
+            if ((callingUser == null || !userSignedIn) && (forum.allowNotSignedInCommenting && forum.NotSignedInUserId != 0))
+            {
+                userSignedIn = callingUser.CreateUserFromDnaUserID(forum.NotSignedInUserId, site.SiteID);
+            }
+
+            if (callingUser == null || !userSignedIn)
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserCredentials));
+            }
+
+            return callingUser;
+        }
 
         /// <summary>
         /// Gets the formatated output

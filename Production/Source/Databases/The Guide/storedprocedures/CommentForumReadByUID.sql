@@ -20,6 +20,7 @@ AS
 	, canWrite
 	, lastposted
 	, editorpickcount
+	, NotSignedInUserId
 	from dbo.VCommentForums 
 	where uid = @uid
 	and sitename = @siteurlname

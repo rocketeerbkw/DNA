@@ -772,6 +772,54 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
         }
 
         [TestMethod]
+        public void PostToForum_ReturnValueNotZero_ThrowsException()
+        {
+            var forumId = 1;
+            var threadId = 1;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+            ISite site = mocks.DynamicMock<ISite>();
+            IUser viewingUser = mocks.DynamicMock<IUser>();
+            ISiteList siteList = mocks.DynamicMock<ISiteList>();
+
+
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostFreq(mocks, ref readerCreator, 0);
+            IDnaDataReader readerReturn = mocks.DynamicMock<IDnaDataReader>();
+            readerReturn.Stub(x => x.Read()).Return(true);
+            int retCode = 0;
+            readerReturn.Stub(x => x.DoesFieldExist("errorcode")).Return(true);
+            readerReturn.Stub(x => x.GetInt32NullAsZero("errorcode")).Return(547);
+            readerCreator.Stub(x => x.CreateDnaDataReader("posttoforum")).Return(readerReturn);
+
+            mocks.ReplayAll();
+            //(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+            //IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "test post",
+                Subject = "test subject",
+                ThreadId = threadId
+            };
+
+            try
+            {
+                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            }
+            catch (ApiException e)
+            {
+                Assert.IsTrue(e.Message.IndexOf("547") > 0);
+            }
+
+        }
+
+        [TestMethod]
         public void PostToForum_UserIsBanned_ThrowsException()
         {
             var forumId = 1;
@@ -1023,9 +1071,11 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             Assert.AreEqual(ErrorType.MinCharLimitNotReached, e.type);
         }
 
-        [TestMethod]
-        public void PostToForum_InvalidHTML_ThrowsException()
+        [Ignore]
+        public void PostToForum_InvalidHTML_NoError()
         {
+            // due to the added protection and encoding ont he front end - this is no longer checked.
+            //it was causing issues with double encoding and historical posts need to be maintained.
             var forumId = 1;
             var threadId = 1;
             var ipAddress = "1.1.1.1";
@@ -1050,20 +1100,14 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             {
                 Text = "<div>more than 5 chars",
                 Subject = "test subject",
-                ThreadId = threadId
+                ThreadId = threadId,
+                Style = PostStyle.Style.richtext
             };
 
-            ApiException e = null;
-            try
-            {
-                threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
-            }
-            catch (ApiException err)
-            {
-                e = err;
-            }
-            Assert.AreEqual(ErrorType.XmlFailedParse, e.type);
+            threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            
         }
+
 
         [TestMethod]
         public void PostToForum_WithProfanity_ThrowsException()
@@ -1772,11 +1816,12 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
 
         private static void CreatePostToForumObjects(MockRepository mocks, ref IDnaDataReaderCreator readerCreator, int postId, int threadId, bool isPreModerated)
         {
-            int canReadOut = 0;
-            int canWriteOut = 0;
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.DoesFieldExist("postid")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("postid")).Return(postId);
+            reader.Stub(x => x.DoesFieldExist("threadid")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("threadid")).Return(threadId);
+            reader.Stub(x => x.DoesFieldExist("ispremodposting")).Return(true);
             reader.Stub(x => x.GetBoolean("ispremodposting")).Return(isPreModerated);
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true);

@@ -6,6 +6,7 @@ using System.Timers;
 using BBC.Dna.Data;
 using System.Threading;
 using DnaEventService.Common;
+using System.Diagnostics;
 
 namespace Dna.BIEventSystem
 {
@@ -17,10 +18,11 @@ namespace Dna.BIEventSystem
         private static bool                  DisableRiskMod { get; set; }
         private static int                   TickCounter { get; set; }
         private static bool                  RecRiskModDecOnThreadEntries { get; set; }
+        private static int                   NumThreads { get; set; }
 
         public static IDnaLogger BIEventLogger { get; set; }
 
-        public static BIEventProcessor CreateBIEventProcessor(IDnaLogger logger, IDnaDataReaderCreator theGuideDataReaderCreator, IDnaDataReaderCreator riskModDataReaderCreator, int interval, bool disableRiskMod, bool recRiskModDecOnThreadEntries)
+        public static BIEventProcessor CreateBIEventProcessor(IDnaLogger logger, IDnaDataReaderCreator theGuideDataReaderCreator, IDnaDataReaderCreator riskModDataReaderCreator, int interval, bool disableRiskMod, bool recRiskModDecOnThreadEntries, int numThreads)
         {
             BIEventLogger = logger;
 
@@ -36,6 +38,12 @@ namespace Dna.BIEventSystem
             RiskModDataReaderCreator = riskModDataReaderCreator;
             DisableRiskMod = disableRiskMod;
             RecRiskModDecOnThreadEntries = recRiskModDecOnThreadEntries;
+            NumThreads = numThreads;
+
+            int minNumThreads, minCompPorts;
+            ThreadPool.GetMinThreads(out minNumThreads, out minCompPorts);
+            if (minNumThreads < NumThreads)
+                ThreadPool.SetMinThreads(NumThreads, NumThreads);
 
             BIEventProcessorInstance = new BIEventProcessor(interval);
 
@@ -45,9 +53,10 @@ namespace Dna.BIEventSystem
                 { "RiskMod connection string",    RiskModDataReaderCreator !=null ? RiskModDataReaderCreator.ConnectionString : "NULL" },
                 { "Interval",                     interval },
                 { "DisableRiskMod",               DisableRiskMod },
-                { "RecRiskModDecOnThreadEntries", RecRiskModDecOnThreadEntries }
+                { "RecRiskModDecOnThreadEntries", RecRiskModDecOnThreadEntries },
+                { "NumThreads",                   NumThreads }
             };
-            BIEventLogger.LogInformation("Created BIEventProcessor with these params", props);
+            BIEventLogger.Log(TraceEventType.Information, "Created BIEventProcessor with these params", props);
 
             return BIEventProcessorInstance;
         }
@@ -67,7 +76,7 @@ namespace Dna.BIEventSystem
 
         public new void Start()
         {
-            BIEventLogger.LogInformation("Starting BIEventProcessor");
+            BIEventLogger.Log(TraceEventType.Information, "Starting BIEventProcessor");
             base.Start();
         }
 
@@ -79,7 +88,8 @@ namespace Dna.BIEventSystem
             {
                 DateTime tickStart = DateTime.Now;
 
-                BIEventLogger.LogInformation("============== Tick start: " + ++TickCounter);
+                TickCounter += 1;
+                BIEventLogger.Log(TraceEventType.Verbose,"============== Tick start: " + TickCounter);
 
                 RiskModSystem riskModSys = null;
                 TheGuideSystem theGuideSys = null;
@@ -93,10 +103,12 @@ namespace Dna.BIEventSystem
                     events = theGuideSys.GetBIEvents();
 
                     if (events.Count > 0)
-                        ProcessEvents(events);
+                    {
+                        ProcessEvents(events,NumThreads);
 
-                    if (RecRiskModDecOnThreadEntries)
-                        RecordRiskModDecisionsOnThreadEntries(theGuideSys, events);
+                        if (RecRiskModDecOnThreadEntries)
+                            RecordRiskModDecisionsOnThreadEntries(theGuideSys, events);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -118,7 +130,7 @@ namespace Dna.BIEventSystem
 
                     TimeSpan tickTime = DateTime.Now - tickStart;
 
-                    BIEventLogger.LogInformation("^^^^^^^^^^^^^^ Tick end: " + TickCounter + " (" + tickTime.TotalSeconds+"s)");
+                    BIEventLogger.Log(TraceEventType.Verbose,"^^^^^^^^^^^^^^ Tick end: " + TickCounter + " (" + tickTime.TotalSeconds+"s)");
                     Monitor.Exit(_locker);
                 }
             }
@@ -134,13 +146,41 @@ namespace Dna.BIEventSystem
             return processedEvents;
         }
 
-        public void ProcessEvents(List<BIEvent> events)
+        public void ProcessEvents(List<BIEvent> events, int numThreads)
         {
+            BIEventLogger.Log(TraceEventType.Verbose,"Starting ProcessEvents");
+            DateTime startTime = DateTime.Now;
+
+            BIEventQueue biEventQueue = new BIEventQueue();
+
             foreach (var ev in events)
+                biEventQueue.Enqueue(ev);
+
+            Action<BIEventQueue>[] workers = new Action<BIEventQueue>[numThreads];
+            IAsyncResult[] workerResults = new IAsyncResult[numThreads];
+
+            if (events.Count < numThreads)
+                numThreads = events.Count;
+
+            for (int i = 0; i < numThreads; i++)
             {
-                BIEventLogger.LogBIEvent("Processing Event", ev);
-                ev.Process();
+                workers[i] = evQ =>
+                {
+                    var ev = evQ.Dequeue();
+                    while (ev != null)
+                    {
+                        BIEventLogger.LogBIEvent("Processing Event", ev);
+                        ev.Process();
+                        ev = evQ.Dequeue();
+                    }
+                };
+                workerResults[i] = workers[i].BeginInvoke(biEventQueue, null, null);
             }
+
+            for (int i = 0; i < numThreads; i++)
+                workers[i].EndInvoke(workerResults[i]);
+
+            BIEventLogger.Log(TraceEventType.Information,"Finished ProcessEvents", startTime, "Num threads", numThreads, "Num events", events.Count());
         }
 
         private void RecordRiskModDecisionsOnThreadEntries(ITheGuideSystem theGuideSys, List<BIEvent> events)

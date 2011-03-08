@@ -93,6 +93,15 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = ("allowNotSignedInCommenting"), Order = 13)]
+        public bool allowNotSignedInCommenting
+        {
+            get;
+            set;
+        }
+
+        public int NotSignedInUserId = 0;
+
         /// <summary>
         ///  can read the forum
         /// </summary>

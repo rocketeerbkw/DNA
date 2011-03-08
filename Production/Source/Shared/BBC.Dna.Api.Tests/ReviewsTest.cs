@@ -74,6 +74,53 @@ namespace BBC.Dna.Api.Tests
         ///A test for CommentInfo Constructor
         ///</summary>
         [TestMethod]
+        public void RatingsForumReadByUid_FromDbNotSignedIn_ReturnsValidList()
+        {
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var readerComments = mocks.DynamicMock<IDnaDataReader>();
+
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            string siteName = "h2g2";
+            string uid = "";
+            var userId = 1;
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+            site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
+            reader.Stub(x => x.GetInt32NullAsZero("NotSignedInUserId")).Return(userId);
+
+            readerComments.Stub(x => x.HasRows).Return(true);
+            readerComments.Stub(x => x.Read()).Return(true).Repeat.Once();
+            readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("RatingForumreadbyuid")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumid")).Return(readerComments);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            mocks.ReplayAll();
+
+            var reviews = new Reviews(null, readerCreator, cacheManager, siteList);
+            RatingForum forum = reviews.RatingForumReadByUID(uid, site);
+
+            Assert.IsNotNull(forum);
+            Assert.IsTrue(forum.allowNotSignedInCommenting);
+            Assert.AreEqual(userId, forum.NotSignedInUserId);
+            Assert.AreEqual(1, forum.ratingsList.TotalCount);
+            Assert.AreEqual(1, forum.ratingsList.ratings.Count);
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("RatingForumreadbyuid"));
+        }
+
+        /// <summary>
+        ///A test for CommentInfo Constructor
+        ///</summary>
+        [TestMethod]
         public void RatingsForumReadByUid_CacheOutOfDate_ReturnsValidList()
         {
             var reviews = new Reviews(null, null, null, null);

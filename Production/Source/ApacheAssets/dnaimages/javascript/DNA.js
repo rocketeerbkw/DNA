@@ -49,13 +49,13 @@ gloader.load(
 						}
 					);
 					
-					glow.events.addListener(
+					/*glow.events.addListener(
 		            	'#dna-boards-cancel',
 		                'click',
 		                 function () { 
 			             	history.back();
 		                 }
-                    );
+                    );*/
 					
 					glow.events.addListener(
 		            	'#dna-boards-cancel-blocked',

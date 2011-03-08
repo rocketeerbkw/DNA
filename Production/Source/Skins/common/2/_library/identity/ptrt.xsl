@@ -18,7 +18,6 @@
 	
 	
 	<xsl:template match="H2G2[@TYPE]" mode="library_identity_ptrt">
-	
     	<xsl:call-template name="library_string_urlencode">
 			<xsl:with-param name="string" select="concat($host, $root, '/')"/>
 		</xsl:call-template>
@@ -55,6 +54,32 @@
 		</xsl:call-template>
 	</xsl:template>
 	
+	<xsl:template match="H2G2[@TYPE = 'POSTTOFORUM']" mode="library_identity_ptrt">
+		<xsl:param name="ptrt" />
+	
+		<xsl:choose>
+			<xsl:when test="VIEWING-USER/USERNAME">
+				<xsl:call-template name="library_string_urlencode">
+					<xsl:with-param name="string" select="concat($host, $root, '/NF', POSTTHREADFORM/@FORUMID, '%3Fthread=', POSTTHREADFORM/@THREADID, $cbbc)"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$ptrt = ''"> 
+				<xsl:call-template name="library_string_urlencode">
+					<xsl:with-param name="string" select="concat($host, $root, '/NF', POSTTHREADFORM/@FORUMID, '%3Fthread=', POSTTHREADFORM/@THREADID, $cbbc)"/>
+				</xsl:call-template>	
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="library_string_urlencode">
+					<xsl:with-param name="string" select="concat($host, $ptrt, $cbbc)" />
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>		
+		
+		<!-- <xsl:call-template name="library_string_urlencode">
+			<xsl:with-param name="string" select="concat($host, $root, $ptrt, $cbbc)"/>
+		</xsl:call-template> -->
+	</xsl:template>	
+	
 	<xsl:template match="H2G2[@TYPE = 'ARTICLE']" mode="library_identity_ptrt">
 		<xsl:call-template name="library_string_urlencode">
 			<xsl:with-param name="string" select="concat($host, $root, '/A', ARTICLE/H2G2ID, $cbbc)"/>
@@ -68,9 +93,24 @@
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'MULTIPOSTS']" mode="library_identity_ptrt">
-		<xsl:call-template name="library_string_urlencode">
-			<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID, $cbbc)"/>
-		</xsl:call-template>
+		<xsl:param name="ptrt" />
+		<xsl:choose>
+			<xsl:when test="VIEWING-USER/USERNAME">
+				<xsl:call-template name="library_string_urlencode">
+					<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID, $cbbc)"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="$ptrt = ''"> 
+				<xsl:call-template name="library_string_urlencode">
+					<xsl:with-param name="string" select="concat($host, $root, '/NF', FORUMTHREADS/@FORUMID, '%3Fthread=', FORUMTHREADPOSTS/@THREADID, $cbbc)"/>
+				</xsl:call-template>			
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="library_string_urlencode">
+					<xsl:with-param name="string" select="concat($host,$ptrt, $cbbc)" />
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'MOREPOSTS']" mode="library_identity_ptrt">

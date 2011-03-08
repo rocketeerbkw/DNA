@@ -321,6 +321,7 @@ namespace Tests
 
         private static int RegisterTestComplaint(IInputContext context, int postId, int userId, int modId, string email, string complaintText, string IpAddress, Guid BBCUid)
         {
+            var code = Guid.Empty;
             using (IDnaDataReader dataReader = context.CreateDnaDataReader("registerpostingcomplaint"))
             {
                 dataReader.AddParameter("complainantid", userId);
@@ -338,9 +339,34 @@ namespace Tests
                 // Send Email
                 if (dataReader.Read())
                 {
-                    modId = dataReader.GetInt32NullAsZero("modId");
+                    if(dataReader.DoesFieldExist("modid"))
+                    {
+                        modId = dataReader.GetInt32NullAsZero("modId");
+                    }
+                    if (dataReader.DoesFieldExist("verificationUid"))
+                    {
+                        code = dataReader.GetGuid("verificationUid");
+                    }
                 }
             }
+
+            if (code != Guid.Empty)
+            {//submit verification code
+
+                using (IDnaDataReader dataReader = context.CreateDnaDataReader("registerverifiedcomplaint"))
+                {
+                    dataReader.AddParameter("verificationcode", code);
+                    dataReader.Execute();
+
+                    if (dataReader.HasRows && dataReader.Read())
+                    {
+                        modId = dataReader.GetInt32NullAsZero("modid");
+                    }
+                }
+
+            }
+
+            Assert.AreNotEqual(0, modId);
             return modId;
         }
     }

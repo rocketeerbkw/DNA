@@ -88,7 +88,8 @@ namespace BBC.Dna.Moderation
         public static ModStats FetchModStatsBySiteType(IDnaDataReaderCreator creator, int userID, SiteType type, ModeratorInfo moderatorInfo, bool referrals, bool isFastMod)
         {
             var modStats = new ModStats() { Moderator = moderatorInfo, UserId = userID, IsReferee = (byte)(referrals?1:0) };
-            modStats.CreateBlankModQueueStat(referrals, isFastMod, 0);
+            modStats.CreateBlankModQueueStat(referrals, true, 0);
+            modStats.CreateBlankModQueueStat(referrals, false, 0);
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("fetchmoderationstatisticsbytype"))
             {
                 dataReader.AddParameter("userID", userID);
@@ -115,7 +116,7 @@ namespace BBC.Dna.Moderation
 
                     if (total != 0)
                     {
-                        var item = modStats.ModerationQueues.Find(x => (x.ObjectType.ToUpper() == objectType.ToUpper() && x.State.ToUpper() == state.ToUpper()));
+                        var item = modStats.ModerationQueues.Find(x => (x.ObjectType.ToUpper() == objectType.ToUpper() && x.State.ToUpper() == state.ToUpper() && x.FastMod == (fastMod?1:0)));
                         if(item != null)
                         {
                             item.TimeLeft = timeLeft;
@@ -141,7 +142,8 @@ namespace BBC.Dna.Moderation
         public static ModStats FetchModStatsBySite(IDnaDataReaderCreator creator, int userID, int siteId, ModeratorInfo moderatorInfo, bool referrals, bool isFastMod)
         {
             var modStats = new ModStats() { Moderator = moderatorInfo, UserId = userID, IsReferee = (byte)(referrals ? 1 : 0) };
-            modStats.CreateBlankModQueueStat(referrals, isFastMod, 0);
+            modStats.CreateBlankModQueueStat(referrals, true, 0);
+            modStats.CreateBlankModQueueStat(referrals, false, 0);
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("fetchmoderationstatisticsbysite"))
             {
                 dataReader.AddParameter("userID", userID);
@@ -168,7 +170,7 @@ namespace BBC.Dna.Moderation
 
                     if (total != 0)
                     {
-                        var item = modStats.ModerationQueues.Find(x => (x.ObjectType.ToUpper() == objectType.ToUpper() && x.State.ToUpper() == state.ToUpper()));
+                        var item = modStats.ModerationQueues.Find(x => (x.ObjectType.ToUpper() == objectType.ToUpper() && x.State.ToUpper() == state.ToUpper() && x.FastMod == (fastMod ? 1 : 0)));
                         if(item != null)
                         {
                             item.TimeLeft = timeLeft;
@@ -194,6 +196,7 @@ namespace BBC.Dna.Moderation
         {
             var modStats = new ModStats() { Moderator = moderatorInfo, UserId = userID, IsReferee = (byte)(referrals ? 1 : 0) };
             modStats.CreateEmptyQueues(moderatorInfo, referrals, isFastMod);
+
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("fetchmoderationstatistics"))
             {
                 dataReader.AddParameter("userID", userID);
@@ -241,7 +244,6 @@ namespace BBC.Dna.Moderation
             for (int i = 0; i < moderatorInfo.Classes.Count; i++)
             {
                 int modClassID = moderatorInfo.Classes[i];
-
                 CreateBlankModQueueStat(referrals, fastMod, modClassID);
             }
         }

@@ -81,6 +81,7 @@
     <Compile Include="BlockedUserSubscriptionsListTest.cs" />
     <Compile Include="CategorySummaryTest.cs" />
     <Compile Include="ContributionTest.cs" />
+    <Compile Include="PostThreadFormTests.cs" />
     <Compile Include="FrontPageTopicElementListTests.cs" />
     <Compile Include="ExtraInfoCreatorTest.cs" />
     <Compile Include="FollowersListTest.cs" />

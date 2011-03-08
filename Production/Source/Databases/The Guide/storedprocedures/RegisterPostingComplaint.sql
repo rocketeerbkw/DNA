@@ -51,6 +51,23 @@ begin
 		return (0) -- This error is expected for duplicate complaints.
 	END CATCH
 	
+	IF @complainantid = 0 
+	BEGIN
+	-- set up verification email uid and save complaint
+		declare @verificationUid uniqueidentifier
+		set @verificationUid = newid()
+	
+		insert into [dbo].[ThreadModAwaitingEmailVerification]
+		(ID, ForumID, ThreadID, PostId, DateQueued, [CorrespondenceEmail], [ComplaintText],[SiteID], [IPAddress], 
+		[BBCUid])
+		values
+		(@verificationUid, @ForumID, @ThreadID, @PostID, getdate(), @correspondenceemail, @complainttext, @SiteID,
+		@ipaddress, @bbcuid) 
+		
+		select @verificationUid as verificationUid
+		return (0)
+						
+	END
 	
 	DECLARE @lockedby INT
 	select @ModID = ModId FROM ThreadMod where PostID = @postid AND status=0 AND complainantid IS NULL AND lockedby IS NULL
@@ -60,15 +77,6 @@ begin
 		update ThreadMod SET DateLocked = getdate(), DateCompleted = getdate(), Status = 3, Notes = 'Automatically processed - item has a complaint.', LockedBy = 6
 		where ModId = @ModID
 	END
-	
-	DECLARE @spooferDetected int
-	SET @spooferDetected = 0
-	IF @complainantid = 0 AND PATINDEX('%@bbc.co.uk%',@correspondenceemail) > 0
-	BEGIN
-		SET @correspondenceemail=REPLACE(@correspondenceemail,'@bbc.co.uk','@spoofedbbc.co.uk')
-		SET @spooferDetected = 1
-	END
-
 
 	--Add New Moderation item to queue.
 	insert into ThreadMod (PostID, ThreadID, ForumID, DateQueued, Status, 
@@ -83,11 +91,6 @@ begin
 		insert into ThreadModIPAddress (ThreadModID, IPAddress, BBCUID) VALUES(@ModID, @ipaddress, @bbcuid)
 	END
 
-	IF @spooferDetected=1
-	BEGIN
-		update ThreadMod SET Notes='Changed email address to end in @spoofedbbc.co.uk as it is suspicious' where Modid=@ModID
-	END
-	
 	-- add event 
 	EXEC addtoeventqueueinternal 'ET_COMPLAINTRECIEVED', @ModID, 'IT_MODID', @PostID, 'IT_POST', 0
 END

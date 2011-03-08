@@ -10,6 +10,10 @@ END
 declare @AutoSinBin int
 exec updateautosinbinstatus @userid, @siteid, @AutoSinBin output
 
+declare @now datetime
+set @now = getdate()
+exec logusersession @userid, @now, @siteid
+
 -- just select every field since we want them all anyway
 
 select TOP 1
@@ -77,4 +81,5 @@ INNER JOIN Journals J WITH(NOLOCK) on J.UserID = u.UserID and J.SiteID = @siteid
 LEFT JOIN dbo.BannedEMails be WITH(NOLOCK) ON u.EMail = be.Email AND be.ComplaintBanned = 1
 LEFT JOIN SignInUserIdMapping sm WITH(NOLOCK) ON sm.DnaUserID = U.UserID
 where U.UserID = @userid
+and u.status<>0 -- deactivated users shouldn't be returned
 ORDER BY P.UserID DESC

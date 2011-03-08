@@ -253,6 +253,16 @@ namespace BBC.Dna.Objects
             set;
         }
 
+        [System.Xml.Serialization.XmlIgnore]
+        public bool IsPreModerated
+        {
+            get;
+            set;
+        }
+
+        [XmlIgnore]
+        public int SecondsToWait = 0;
+
         #endregion
 
         public ThreadPost()
@@ -592,7 +602,7 @@ namespace BBC.Dna.Objects
         /// <param name="ThreadId"></param>
         /// <param name="_iPAddress"></param>
         /// <param name="bbcUidCookie"></param>
-        public void PostToForum(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site, 
+        public void PostToForum(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site,
             IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
         {
 
@@ -605,39 +615,45 @@ namespace BBC.Dna.Objects
             bool isNotable = viewingUser.IsNotable;
 
             ForumHelper helper = new ForumHelper(readerCreator);
-
+            bool ignoreModeration = viewingUser.IsEditor || viewingUser.IsSuperUser;
             // Check 4) check ThreadId exists and user has permission to write
-            if (ThreadId != 0)
+            if (!ignoreModeration)
             {
-                bool canReadThread = false;
-                bool canWriteThread = false;
-                helper.GetThreadPermissions(viewingUser.UserId, ThreadId, ref canReadThread, ref canWriteThread);
-                if (!canReadThread)
+                if (ThreadId != 0)
                 {
-                    throw ApiException.GetError(ErrorType.NotAuthorized);
+                    bool canReadThread = false;
+                    bool canWriteThread = false;
+                    helper.GetThreadPermissions(viewingUser.UserId, ThreadId, ref canReadThread, ref canWriteThread);
+                    if (!canReadThread)
+                    {
+                        throw ApiException.GetError(ErrorType.NotAuthorized);
+                    }
+                    if (!canWriteThread)
+                    {
+                        throw ApiException.GetError(ErrorType.ForumReadOnly);
+                    }
                 }
-                if (!canWriteThread)
+                else
                 {
-                    throw ApiException.GetError(ErrorType.ForumReadOnly);
+                    bool canReadForum = false;
+                    bool canWriteForum = false;
+                    helper.GetForumPermissions(viewingUser.UserId, forumId, ref canReadForum, ref canWriteForum);
+                    if (!canReadForum)
+                    {
+                        throw ApiException.GetError(ErrorType.NotAuthorized);
+                    }
+                    if (!canWriteForum)
+                    {
+                        throw ApiException.GetError(ErrorType.ForumReadOnly);
+                    }
                 }
-            }
-            bool canReadForum = false;
-            bool canWriteForum = false;
-            helper.GetForumPermissions(viewingUser.UserId, forumId, ref canReadForum, ref canWriteForum);
-            if (!canReadForum)
-            {
-                throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-            if (!canWriteForum)
-            {
-                throw ApiException.GetError(ErrorType.ForumReadOnly);
             }
         
             if (viewingUser.IsBanned)
             {
                 throw ApiException.GetError(ErrorType.UserIsBanned);
             }
-            bool ignoreModeration = viewingUser.IsEditor || viewingUser.IsSuperUser;
+            
             if (!ignoreModeration && (site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now)))
             {
                 throw ApiException.GetError(ErrorType.SiteIsClosed);
@@ -673,13 +689,16 @@ namespace BBC.Dna.Objects
             {
             }
 
-
-            string errormessage = string.Empty;
-            // Check to make sure that the comment is made of valid XML
-            if (!HtmlUtils.ParseToValidGuideML(Text, ref errormessage))
-            {
-                throw ApiException.GetError(ErrorType.XmlFailedParse);
-            }
+            //Only check xml parsing for richtext plain text we want what is there so smileys etc work
+            //if (this.Style == PostStyle.Style.richtext)
+            //{
+            //    string errormessage = string.Empty;
+            //    // Check to make sure that the comment is made of valid XML
+            //    if (!HtmlUtils.ParseToValidGuideML(Text, ref errormessage))
+            //    {
+            //        throw ApiException.GetError(ErrorType.XmlFailedParse);
+            //    }
+            //}
 
             bool forceModeration;
             string matchingProfanity= string.Empty;
@@ -688,12 +707,12 @@ namespace BBC.Dna.Objects
             //check posting frequency
             if (!viewingUser.IsEditor && !viewingUser.IsSuperUser && !viewingUser.IsNotable)
             {
-                var secondsToWait = CheckPostFrequency(readerCreator, viewingUser.UserId, site.SiteID);
-                if (secondsToWait != 0)
+                SecondsToWait = CheckPostFrequency(readerCreator, viewingUser.UserId, site.SiteID);
+                if (SecondsToWait != 0)
                 {
                     var error =  ApiException.GetError(ErrorType.PostFrequencyTimePeriodNotExpired);
                     ApiException newError = new ApiException(
-                        error.Message + " You must wait " + secondsToWait.ToString() + " more seconds before posting.",
+                        error.Message + " You must wait " + SecondsToWait.ToString() + " more seconds before posting.",
                         error.type);
                     throw newError;
                 }
@@ -771,13 +790,32 @@ namespace BBC.Dna.Objects
                 dataReader.AddParameter("modnotes", modNotes);
                 
                 dataReader.Execute();
-
                 if (dataReader.Read())
                 {
-                    PostId = dataReader.GetInt32NullAsZero("postid");
-                    ThreadId = dataReader.GetInt32NullAsZero("threadid");
-                    IsPreModPosting = dataReader.GetBoolean("ispremodposting");                    
-                    // isPreModerated = dataReader.GetBoolean("ispremoderated");
+                    if (dataReader.DoesFieldExist("errorcode"))
+                    {
+                        throw new ApiException("Unable to save post due to database error (" + dataReader.GetInt32NullAsZero("errorcode").ToString() + ")");
+                    }
+
+                    if (dataReader.DoesFieldExist("postid"))
+                    {
+                        PostId = dataReader.GetInt32NullAsZero("postid");
+                    }
+                    if (dataReader.DoesFieldExist("threadid"))
+                    {
+                        if (dataReader.GetInt32NullAsZero("threadid") != 0)
+                        {
+                            ThreadId = dataReader.GetInt32NullAsZero("threadid");
+                        }
+                    }
+                    if (dataReader.DoesFieldExist("ispremodposting"))
+                    {
+                        IsPreModPosting = dataReader.GetBoolean("ispremodposting");
+                    }
+                    if (dataReader.DoesFieldExist("ispremoderated"))
+                    {
+                        IsPreModerated = dataReader.GetInt32NullAsZero("ispremoderated") ==1 ;
+                    }
                     // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
@@ -821,9 +859,6 @@ namespace BBC.Dna.Objects
                 {
                     this.PostId = dataReader.GetInt32NullAsZero("postid");
                     this.ThreadId = dataReader.GetInt32NullAsZero("threadid");
-                    //IsPreModPosting = dataReader.GetBoolean("ispremodposting");                    
-                    // isPreModerated = dataReader.GetBoolean("ispremoderated");
-                    // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
         }

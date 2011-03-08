@@ -24,6 +24,7 @@ namespace FunctionalTests
         private int _h2g2Id = 559;
         private string _siteName = "mbiplayer";
         private int _userId = TestUserAccounts.GetNormalUserAccount.UserID;
+        private int _modClassId = 4;
 
         [TestInitialize]
         public void FixtureSetup()
@@ -88,17 +89,17 @@ namespace FunctionalTests
             // First make sure that the test user can make a complaint before we put the email in the banned emails list
             DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
             request.SetCurrentUserNotLoggedInUser();
-            request.RequestPage("UserComplaintPage?postid=" + Convert.ToString(_postId) + "&action=submit&complaintreason=libellous&complainttext=Complaint&email=mark.howitt@bbc.co.uk&skin=purexml");
+            request.RequestPage("UserComplaintPage?postid=" + Convert.ToString(_postId) + "&action=submit&complaintreason=libellous&complainttext=Complaint&email=mark.howitt@banned.uk&skin=purexml");
             XmlDocument xml = request.GetLastResponseAsXML();
 
             // Check to make sure complaint was processed
-            Assert.IsTrue(xml.SelectSingleNode("//H2G2/USERCOMPLAINT/@MODID") != null, "Complaint did not succeed");
+            Assert.IsTrue(xml.SelectSingleNode("//H2G2/USERCOMPLAINT/@REQUIRESVERIFICATION") != null, "Complaint did not succeed");
 
              // Now put the users email into the banned emails list for complaints
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader("AddEMailToBannedList"))
             {
-                reader.AddParameter("Email", "mark.howitt@bbc.co.uk");
+                reader.AddParameter("Email", "mark.howitt@banned.uk");
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
@@ -112,8 +113,8 @@ namespace FunctionalTests
 
              // Now try to complain again
             request = new DnaTestURLRequest("haveyoursay");
-            request.SetCurrentUserNormal();
-            request.RequestPage("UserComplaintPage?postid=" + Convert.ToString(_postId) + "&action=submit&complaintreason=libellous&complainttext=Complaint&email=damnyoureyes72%2B2@googlemail.com&skin=purexml");
+            request.SetCurrentUserNotLoggedInUser();
+            request.RequestPage("UserComplaintPage?postid=" + Convert.ToString(_postId) + "&action=submit&complaintreason=libellous&complainttext=Complaint&email=mark.howitt@banned.uk&skin=purexml");
             xml = request.GetLastResponseAsXML();
 
             // Check to make sure that complaint was not made.
@@ -155,7 +156,7 @@ namespace FunctionalTests
             var complaintUrl = "";
             var anonymous = false;
 
-            var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous,true);
+            var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous,true, false);
             int modId = -1;
 
 
@@ -171,19 +172,166 @@ namespace FunctionalTests
         [TestMethod]
         public void UserComplaint_ValidAnonymousComplaintAgainstPost_CorrectDBEntriesAndResponse()
         {
-            var complaintText = Guid.NewGuid().ToString();
-            var complaintReason = "a reason";
-            var email = "a@b.com";
-            var complaintUrl = "";
-            var anonymous = true;
 
-            var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous);
-            int modId = -1;
+            try
+            {
+                AddVerificationTemplate();
 
+                var complaintText = Guid.NewGuid().ToString();
+                var complaintReason = "a reason";
+                var email = "a@b.com";
+                var complaintUrl = "";
+                var anonymous = true;
 
-            CheckForValidResponse(xml, out modId, "usercomplaint.xsd");
-            CheckDatabaseEntry(modId, complaintText, email, 0, _postId, complaintUrl, anonymous);
-            CheckEmailWasSent("From: " + email, complaintText);
+                var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous);
+                int modId = -1;
+                Guid verificationCode = Guid.Empty;
+
+                CheckForValidVerificationResponse(xml, out verificationCode, "usercomplaint.xsd", email);
+                CheckEmailWasSent("UserComplaintEmailVerification", verificationCode.ToString());
+                ClearAllEmails();
+
+                xml = PostVerificationComplaint(verificationCode);
+                CheckForValidResponse(xml, out modId, "usercomplaint.xsd");
+                CheckDatabaseEntry(modId, complaintText, email, 0, _postId, complaintUrl, anonymous);
+                CheckEmailWasSent("From: " + email, complaintText);
+            }
+            finally
+            {
+                ClearAllEmails();
+                RemoveVerificationTemplate();
+            }
+
+        }
+
+        /// <summary>
+        /// Test existing c++ code base
+        /// </summary>
+        [TestMethod]
+        public void UserComplaint_ValidAnonymousComplaintAgainstPostWrongCode_CorrectError()
+        {
+
+            try
+            {
+                AddVerificationTemplate();
+
+                var complaintText = Guid.NewGuid().ToString();
+                var complaintReason = "a reason";
+                var email = "a@b.com";
+                var complaintUrl = "";
+                var anonymous = true;
+
+                var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous);
+                Guid verificationCode = Guid.Empty;
+
+                CheckForValidVerificationResponse(xml, out verificationCode, "usercomplaint.xsd", email);
+                CheckEmailWasSent("UserComplaintEmailVerification", verificationCode.ToString());
+                ClearAllEmails();
+
+                xml = PostVerificationComplaint(Guid.NewGuid());
+                CheckForError(xml, "InvalidVerificationCode", "Verification Code is not valid");
+            }
+            finally
+            {
+                ClearAllEmails();
+                RemoveVerificationTemplate();
+            }
+
+        }
+
+        /// <summary>
+        /// Test existing c++ code base
+        /// </summary>
+        [TestMethod]
+        public void UserComplaint_ValidAnonymousComplaintAgainstWithBBCEmailExternal_CorrectVerificationCode()
+        {
+
+            try
+            {
+                AddVerificationTemplate();
+
+                var complaintText = Guid.NewGuid().ToString();
+                var complaintReason = "a reason";
+                var email = "a@bbc.co.uk";
+                var complaintUrl = "";
+                var anonymous = true;
+                Guid verificationCode = Guid.Empty;
+
+                var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous);
+
+                CheckForValidVerificationResponse(xml, out verificationCode, "usercomplaint.xsd", email);
+                CheckEmailWasSent("UserComplaintEmailVerification", verificationCode.ToString());
+                ClearAllEmails();
+            }
+            finally
+            {
+                ClearAllEmails();
+                RemoveVerificationTemplate();
+            }
+
+        }
+
+        /// <summary>
+        /// Test existing c++ code base
+        /// </summary>
+        [TestMethod]
+        public void UserComplaint_ValidAnonymousComplaintAgainstWithBBCEmailInternal_CorrectModId()
+        {
+
+            try
+            {
+                var complaintText = Guid.NewGuid().ToString();
+                var complaintReason = "a reason";
+                var email = "a@bbc.co.uk";
+                var complaintUrl = "";
+                var anonymous = true;
+                Guid verificationCode = Guid.Empty;
+
+                var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous, false, true);
+
+                int modId = -1;
+                CheckForValidResponse(xml, out modId, "usercomplaint.xsd");
+                CheckDatabaseEntry(modId, complaintText, email, 0, _postId, complaintUrl, anonymous);
+                CheckEmailWasSent("From: " + email, complaintText);
+            }
+            finally
+            {
+                ClearAllEmails();
+            }
+
+        }
+
+        /// <summary>
+        /// Test existing c++ code base
+        /// </summary>
+        [TestMethod]
+        public void UserComplaint_ValidAnonymousComplaintAgainstPostMissingVerificationTemplate_CorrectDBEntriesModerationInQueue()
+        {
+
+            try
+            {
+                RemoveVerificationTemplate();
+
+                var complaintText = Guid.NewGuid().ToString();
+                var complaintReason = "a reason";
+                var email = "a@b.com";
+                var complaintUrl = "";
+                var anonymous = true;
+                var modId = 0;
+
+                var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous);
+                Guid verificationCode = Guid.Empty;
+
+                //no template submits the email anyway...
+                CheckForValidResponse(xml, out modId, "usercomplaint.xsd");
+                CheckDatabaseEntry(modId, complaintText, email, 0, _postId, complaintUrl, anonymous);
+                ClearAllEmails();
+            }
+            finally
+            {
+                ClearAllEmails();
+                RemoveVerificationTemplate();
+            }
 
         }
 
@@ -340,7 +488,7 @@ namespace FunctionalTests
             var complaintReason = "a reason";
             var email = "a@b.com";
             var complaintUrl = "";
-            var anonymous = true;
+            var anonymous = false;
 
             try
             {
@@ -380,6 +528,26 @@ namespace FunctionalTests
             modId = Int32.Parse(complaintNode.Attributes["MODID"].Value);
             Assert.IsTrue(modId > 0);
 
+        }
+
+        private void CheckForValidVerificationResponse(XmlDocument xml, out Guid verificationCode, string schema, string email)
+        {
+            verificationCode = Guid.Empty;
+
+            var complaintNode = xml.SelectSingleNode("//H2G2/USERCOMPLAINT");
+            Assert.IsNotNull(complaintNode);
+
+            DnaXmlValidator validator = new DnaXmlValidator(Entities.ReplaceEntitiesWithNumericValues(complaintNode.OuterXml), schema);
+            validator.Validate();
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("select * from ThreadModAwaitingEmailVerification where CorrespondenceEmail='" + email + "' and postid=" + _postId.ToString());
+                Assert.IsTrue(dataReader.Read());
+
+                verificationCode = dataReader.GetGuid("ID");
+            }
         }
 
         private void CheckDatabaseEntry(int modId, string complaintText, string email, int h2g2id,
@@ -446,13 +614,17 @@ namespace FunctionalTests
         private XmlDocument PostComplaint(string complainttext, string complaintreason, string email, int h2g2id,
             int postid, string complaintUrl, bool anonymous)
         {
-            return PostComplaint(complainttext, complaintreason, email, h2g2id,postid, complaintUrl, anonymous, false);
+            return PostComplaint(complainttext, complaintreason, email, h2g2id,postid, complaintUrl, anonymous, false, false);
         }
 
         private XmlDocument PostComplaint(string complainttext, string complaintreason, string email, int h2g2id,
-            int postid, string complaintUrl, bool anonymous, bool useEditorAccount)
+            int postid, string complaintUrl, bool anonymous, bool useEditorAccount, bool internalCode)
         {
             var url = String.Format("UserComplaintPage?action=submit&skin=purexml");
+            if (internalCode)
+            {
+                url += "&_bbc_=1";
+            }
 
             var request = new DnaTestURLRequest(_siteName);
             if (!anonymous)
@@ -487,6 +659,15 @@ namespace FunctionalTests
                 postParams.Enqueue(new KeyValuePair<string, string>("url", complaintUrl));
             }
             request.RequestPage(url, postParams);
+            return request.GetLastResponseAsXML();
+        }
+
+        private XmlDocument PostVerificationComplaint(Guid verificationCode)
+        {
+            var url = String.Format("UserComplaintPage?skin=purexml&verificationcode=" + verificationCode.ToString());
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.RequestPage(url);
             return request.GetLastResponseAsXML();
         }
 
@@ -526,6 +707,26 @@ namespace FunctionalTests
                 }
             }
             
+        }
+
+        private void AddVerificationTemplate()
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("delete from emailtemplates where name='UserComplaintEmailVerification'");
+                dataReader.ExecuteDEBUGONLY("insert into emailtemplates (subject, body, name, modclassid) values ('UserComplaintEmailVerification','http://www.bbc.co.uk/dna/++**urlname**++/?verificationcode=++**verificationcode**++', 'UserComplaintEmailVerification', " + _modClassId.ToString() + ")");
+                
+            }
+        }
+
+        private void RemoveVerificationTemplate()
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("delete from emailtemplates where name='UserComplaintEmailVerification'");
+            }
         }
 
     }
