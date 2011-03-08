@@ -491,6 +491,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeployScripts", "DeployScripts", "{9BBD8F57-2EF3-47E2-9244-1930752A4FAF}"
 	ProjectSection(SolutionItems) = preProject
 		deployExtdev.bat = deployExtdev.bat
+		deployNArthur17.bat = deployNArthur17.bat
+		deployNArthur18.bat = deployNArthur18.bat
+		deployNArthur19.bat = deployNArthur19.bat
+		deployNArthur23.bat = deployNArthur23.bat
+		deployNArthur24.bat = deployNArthur24.bat
+		deployNArthur25.bat = deployNArthur25.bat
+		deployNArthur26.bat = deployNArthur26.bat
 		deployStaging.bat = deployStaging.bat
 		deploywebservices.bat = deploywebservices.bat
 		deploywebservicesLive.bat = deploywebservicesLive.bat

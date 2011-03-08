@@ -72,6 +72,23 @@ namespace FunctionalTests
         }
 
         [TestMethod]
+        public void PostToForum_NotLoggedIn_CorrectError()
+        {
+            var processPreMod = false;
+            var siteStatus = ModerationStatus.SiteStatus.UnMod;
+            var forumStatus = ModerationStatus.ForumStatus.Reactive;
+            var threadStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.ForumStatus.Reactive;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request = PostToForumWithException(request, " POST WITHout credentials ");
+
+            CheckForError(request.GetLastResponseAsXML(), "NotLoggedIn");
+        }
+
+        [TestMethod]
         public void PostToForum_SiteIsPostModerated_CorrectUnmoderatedPost()
         {
             var processPreMod = false;

@@ -3,7 +3,7 @@
     
     <doc:documentation>
         <doc:purpose>
-            Coverts QUOTE nodes to HTML blockquotes
+            Coverts U nodes to HTML underlined
         </doc:purpose>
         <doc:context>
             Applied by _common/_library/GuideML.xsl
@@ -13,14 +13,9 @@
         </doc:notes>
     </doc:documentation>
     
-    <xsl:template match="QUOTE" mode="library_GuideML">
-        <span class="quote">
-            <xsl:if test="@CLASS">
-                <xsl:attribute name="class">
-                    <xsl:value-of select="@CLASS"/>
-                </xsl:attribute>
-            </xsl:if>
-            <em><xsl:apply-templates mode="library_GuideML"/></em>
-        </span>
+    <xsl:template match="U | u" mode="library_GuideML">
+        <u>
+            <xsl:apply-templates  mode="library_GuideML"/>
+        </u>
     </xsl:template>
 </xsl:stylesheet>

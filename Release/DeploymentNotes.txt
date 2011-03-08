@@ -617,3 +617,10 @@ Marcus
 
 Marcus:
 	Copy moderation and dna_messageboard from apacheassets to live dnaimages
+	
+============== v 3.5.57.0 ============
+Marcus
+	To roll back editpost 
+		- change editpost in filter.reg to use old builder
+		- roll back editorialpopups.xsl in \skins\skinsets\boards\default
+		

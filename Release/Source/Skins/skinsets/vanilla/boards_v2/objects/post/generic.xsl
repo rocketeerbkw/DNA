@@ -96,7 +96,7 @@
                 <xsl:when test="$siteClosed = 'true' or parent::FORUMTHREADPOSTS/@CANWRITE = 0 or $autogenname_required = 'true'">
                     <!-- Nowt -->
                 </xsl:when>
-                <xsl:when test="@CANWRITE = 0 or /H2G2/VIEWING-USER/USER/STATUS = 0"><!-- nothing --></xsl:when>
+                <xsl:when test="@CANWRITE = 0 or /H2G2/VIEWING-USER/USER/STATUS = 0 or (@HIDDEN = 8 and not(/H2G2/VIEWING-USER/USER))  or (@HIDDEN = 8 and /H2G2/VIEWING-USER/USER/STATUS = 1)"><!-- nothing --></xsl:when>
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
                     	<xsl:choose>

@@ -605,6 +605,10 @@ namespace BBC.Dna.Objects
         public void PostToForum(ICacheManager cacheManager, IDnaDataReaderCreator readerCreator, ISite site,
             IUser viewingUser, ISiteList siteList, string _iPAddress, Guid bbcUidCookie, int forumId)
         {
+            if (viewingUser.UserId == 0)
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
+            }
 
             ForumSource forumSource = ForumSource.CreateForumSource(cacheManager, readerCreator, null, forumId, ThreadId, site.SiteID, false, false, false);
             if (forumSource == null)
@@ -702,7 +706,7 @@ namespace BBC.Dna.Objects
 
             bool forceModeration;
             string matchingProfanity= string.Empty;
-            CheckForProfanities(site, Text, out forceModeration, out matchingProfanity);
+            CheckForProfanities(site, Subject + " " + Text, out forceModeration, out matchingProfanity);
 
             //check posting frequency
             if (!viewingUser.IsEditor && !viewingUser.IsSuperUser && !viewingUser.IsNotable)

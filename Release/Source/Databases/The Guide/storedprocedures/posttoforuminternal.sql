@@ -63,6 +63,11 @@ BEGIN
 	return (0)
 END
 
+IF @threadid=0
+BEGIN
+	SET @threadid=NULL
+END
+
 -- Get some info from the Forums table that we'll need later.
 declare @journalowner int, @siteid int
 SELECT @journalowner = JournalOwner, @siteid = siteid FROM Forums WITH(NOLOCK) WHERE ForumID = @forumid

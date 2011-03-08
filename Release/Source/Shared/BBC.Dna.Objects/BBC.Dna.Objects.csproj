@@ -89,6 +89,8 @@
     <Compile Include="Contributions.cs" />
     <Compile Include="FrontPageTopicElementList.cs" />
     <Compile Include="FollowersList.cs" />
+    <Compile Include="PostEditForm.cs" />
+    <Compile Include="PostEditFormPostsWithSameBBCUid.cs" />
     <Compile Include="ReviewForumPage.cs" />
     <Compile Include="SearchThreadPost.cs">
       <SubType>SEARCHTHREADPOST</SubType>
@@ -183,6 +185,10 @@
     <ProjectReference Include="..\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
       <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
       <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
+      <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
+      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>

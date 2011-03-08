@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BannedEmailsTests.cs" />
+    <Compile Include="ModerationPostsTests.cs" />
     <Compile Include="ModeratorInfoTests.cs" />
     <Compile Include="SiteSummaryStatsTests.cs" />
     <Compile Include="EMailInsertsTests.cs" />

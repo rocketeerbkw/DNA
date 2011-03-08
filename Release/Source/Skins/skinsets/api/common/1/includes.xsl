@@ -73,6 +73,7 @@
 	<xsl:include href="_library/GuideML/textelement.xsl" />
 	<xsl:include href="_library/GuideML/th.xsl" />
 	<xsl:include href="_library/GuideML/tr.xsl" />
+	<xsl:include href="_library/GuideML/u.xsl" />
 	<xsl:include href="_library/GuideML/ul.xsl" />
 	<xsl:include href="_library/GuideML/youtubeurl.xsl" />
 

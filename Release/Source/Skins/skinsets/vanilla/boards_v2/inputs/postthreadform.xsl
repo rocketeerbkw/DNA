@@ -375,7 +375,7 @@
                                 <ul class="blq-clearfix">
                                     <li><input type="submit" id="dna-boards-preview" name="preview" value="Preview" class="preview dna-button"/></li>
                                     <li>
-                                    	<input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button" onclick="javascript:window.location.href='NF{@FORUMID}?thread={@THREADID}&amp;post={@INREPLYTO}#p{@INREPLYTO}'">
+                                    	<input type="button" id="dna-boards-cancel" name="cancel" value="Cancel" class="cancel dna-button" onclick="javascript:window.location.href='NF{@FORUMID}'">
 										</input>
                                     </li>
                                     <li><input type="submit" id="dna-boards-submit" name="post" value="Post message" class="submit dna-button"/></li>
