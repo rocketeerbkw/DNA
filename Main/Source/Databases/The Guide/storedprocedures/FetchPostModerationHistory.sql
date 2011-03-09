@@ -23,7 +23,7 @@ BEGIN
 	tm.postid,
 	tmh.eventdate as 'datequeued',
 	tmh.eventdate as 'datelocked',
-	tmh.eventdate as 'datereferred',
+	case when tmh.status=2 then tmh.eventdate else null as 'datereferred',
 	tmh.eventdate as 'datecompleted',
 	tm.newpost,
 	tm.complainantid,

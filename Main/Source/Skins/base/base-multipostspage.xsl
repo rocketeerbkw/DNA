@@ -954,7 +954,7 @@
 	Purpose:	 Creates the 'edit this post' link
 	-->
 	<xsl:template match="@POSTID" mode="r_editmp">
-		<a href="{$root}EditPost?PostID={.}" target="_top" onClick="popupwindow('{$root}EditPost?PostID={.}', 'EditPostPopup', 'status=1,resizable=1,scrollbars=1,width=400,height=450');return false;" xsl:use-attribute-sets="maPOSTID_r_editpost">
+		<a href="{$root}boards-admin/EditPost?PostID={.}" target="_top" onClick="popupwindow('{$root}boards-admin/EditPost?PostID={.}', 'EditPostPopup', 'status=1,resizable=1,scrollbars=1,width=400,height=550');return false;" xsl:use-attribute-sets="maPOSTID_r_editpost">
       <xsl:choose>
         <xsl:when test="$superuser = 1">
           <xsl:copy-of select="$m_editpost"/>
