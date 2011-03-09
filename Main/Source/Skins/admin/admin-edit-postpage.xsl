@@ -156,7 +156,7 @@
 					<xsl:if test="$superuser = 1">
 						<hr/>
 						List other users that have the same BBCUID cookie:<br/>
-						<input type="submit" name="ListBBCUIDUsers" value="List Other Users"/>
+						<input type="submit" name="ListBBCUIDUsers" value="List Other Users"  onClick="byPassValidation=false;"/>
 					</xsl:if>
 				</form>
 				<xsl:apply-templates select="POST-EDIT-FORM/POSTSWITHSAMEBBCUID"/>
@@ -251,14 +251,36 @@
 	<xsl:template match="POSTSWITHSAMEBBCUID/POST">
 		<tr>
 			<td>
-				<a href="U{USERID}"><xsl:value-of select="USERNAME"/></a>
+				<a href="U{USERID}" target="_blank"><xsl:value-of select="USERNAME"/></a>
 			</td>
 			<td>
-				<a href="F{FORUMID}?thread={THREADID}&amp;skip=0&amp;show={POSTINDEX+1}#p{ENTRYID}"><xsl:value-of select="ENTRYID"/></a>
+				<a href="F{FORUMID}?thread={THREADID}&amp;skip=0&amp;show={POSTINDEX+1}#p{ENTRYID}" target="_blank"><xsl:value-of select="ENTRYID"/></a>
 			</td>
 			<td>
-				<xsl:apply-templates select="DATEPOSTED/DATE" />
+				<xsl:apply-templates select="DATEPOSTED/DATE" mode="library_date_longformat"/>
 			</td>
 		</tr>
 	</xsl:template>
+
+
+  <xsl:template match="DATE" mode="library_date_longformat">
+    <xsl:param name="label" />
+    <xsl:param name="additional-classnames" />
+
+
+      <xsl:value-of select="$label"/>
+
+      <xsl:value-of select="LOCAL/@DAYNAME"/>
+      <xsl:text>, </xsl:text>
+      <xsl:apply-templates select="LOCAL/@DAY" mode="library_date_daysuffix"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="LOCAL/@MONTHNAME"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="LOCAL/@YEAR"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="LOCAL/@HOURS"/>
+      <xsl:text>:</xsl:text>
+      <xsl:value-of select="LOCAL/@MINUTES"/>
+      <xsl:text> GMT</xsl:text>
+  </xsl:template>
 </xsl:stylesheet>

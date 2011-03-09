@@ -82,11 +82,18 @@ namespace BBC.Dna.Objects
         }
 
         /// <remarks/>
-        [XmlElementAttribute(Order = 6, ElementName = "BBCUID")]
+        [XmlIgnore]
         public Guid BBCUid
         {
             get;
             set;
+        }
+
+        [XmlElementAttribute(Order = 6, ElementName = "BBCUID")]
+        public string BBCUidText
+        {
+            get { return BBCUid.ToString().ToUpper(); }
+            set { BBCUid = new Guid(value); }
         }
 
         /// <remarks/>
