@@ -566,7 +566,10 @@ namespace BBC.Dna.Services
             { //anonymous call...
                 userId = 0;
             }
-
+            if(userId == 0 && !siteList.GetSiteOptionValueBool(site.SiteID, "CommentForum", "AllowNotSignedInRating"))
+            {
+                throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
+            }
             if (userId == 0 && (bbcUidCookie == Guid.Empty || string.IsNullOrEmpty(_iPAddress)))
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MissingUserAttributes));

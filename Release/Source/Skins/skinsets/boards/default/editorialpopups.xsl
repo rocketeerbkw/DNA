@@ -120,15 +120,20 @@
 
           function validate()
           {
-            if(document.getElementById("textNotes").value == "")
-            {
-              alert("Please enter some notes for auditing purposes.");
-              document.getElementById("textNotes").style.border="1px solid red";
-              return false;
-            }
+          if(byPassValidation)
+          {
             return true;
+          }
+          if(document.getElementById("textNotes").value == "")
+          {
+          alert("Please enter some notes for auditing purposes.");
+          document.getElementById("textNotes").style.border="1px solid red";
+          return false;
+          }
+          return true;
 
           }
+          var byPassValidation = false;
 
         </script>
 				<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
@@ -189,7 +194,7 @@
                         <xsl:text>Take Action:</xsl:text>
                         <select id="hidePostReason" name="hidePostReason">
                           <option value="">Leave Post Visible</option>
-                          <xsl:apply-templates select="MOD-REASONS/MOD-REASON" mode="HIDEREASON"/>
+                          <xsl:apply-templates select="MOD-REASONS/MOD-REASON[@REASONID &lt; 12]" mode="HIDEREASON"/>
                         </select> 
                       </xsl:otherwise>
                     </xsl:choose>
@@ -217,16 +222,16 @@
                     </div>
                     <div id="buttons">
                       Are you sure?<br/>
-                      <input type="submit" name="Update" value="Update"/>
+                      <input type="submit" name="Update" value="Update" onClick="byPassValidation=false;"/>
                       <xsl:text> </xsl:text>
-                      <input type="submit" name="Cancel" value="Close" onClick="javascript:if (window.name == 'EditPostPopup') window.close()"/>
+                      <input type="submit" name="Cancel" value="Close" onClick="javascript:byPassValidation=false;if (window.name == 'EditPostPopup') window.close()"/>
                     </div>
 									</xsl:if>
 
 									<xsl:if test="$superuser = 1">
 										<hr/>
 										List other users that have the same BBCUID cookie:<br/>
-										<input type="submit" name="ListBBCUIDUsers" value="List Other Users"/>
+										<input type="submit" name="ListBBCUIDUsers" value="List Other Users"  onClick="byPassValidation=true;"/>
 									</xsl:if>
 								</form>
 								<xsl:apply-templates select="POST-EDIT-FORM/POSTSWITHSAMEBBCUID"/>
