@@ -164,6 +164,12 @@ namespace BBC.Dna
         DnaCookie GetCookie(string cookieName);
 
         /// <summary>
+        /// Adds a cookie
+        /// </summary>
+        /// <param name="cookie"></param>
+        void AddCookie(HttpCookie cookie);
+
+        /// <summary>
         /// Gets the named parameter from the query string or form data.
         /// If the parameter doesn't exist, this function returns zero
         /// </summary>

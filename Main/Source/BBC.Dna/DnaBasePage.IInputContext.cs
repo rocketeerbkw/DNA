@@ -212,6 +212,16 @@ namespace BBC.Dna.Page
         }
 
         /// <summary>
+        /// Function for add the given cookie
+        /// </summary>
+        /// <param name="cookie">The name of the cookie that you want to get</param>
+        public void AddCookie(HttpCookie cookie)
+        {
+            Response.Cookies.Add(cookie);
+        }
+
+
+        /// <summary>
         /// Get a parameter value, or empty string if the parameter does not exist
         /// </summary>
         /// <param name="paramName">name of parameter to find</param>

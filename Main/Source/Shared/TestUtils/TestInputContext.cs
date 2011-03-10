@@ -10,6 +10,7 @@ using DnaIdentityWebServiceProxy;
 using BBC.Dna.Utils;
 using BBC.Dna.Sites;
 using BBC.Dna.Data;
+using System.Web;
 
 namespace BBC.Dna
 {
@@ -106,6 +107,15 @@ namespace BBC.Dna
         /// <see cref="IInputContext"/>
         /// </summary>
         public virtual DnaCookie GetCookie(string cookieName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Function for add the given cookie
+        /// </summary>
+        /// <param name="cookie">The name of the cookie that you want to get</param>
+        public void AddCookie(HttpCookie cookie)
         {
             throw new NotImplementedException();
         }
