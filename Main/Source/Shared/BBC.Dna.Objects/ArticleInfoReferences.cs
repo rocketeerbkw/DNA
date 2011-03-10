@@ -127,7 +127,7 @@ namespace BBC.Dna.Objects
                     {
                         exLink.Title = linkNode.Attributes["TITLE"].Value;
                     }
-                    if (exLink.OffSite.StartsWith("http://www.bbc.co.uk") || exLink.OffSite.StartsWith("www.bbc.co.uk"))
+                    if (exLink.OffSite.StartsWith("http://www.bbc.co.uk") || exLink.OffSite.StartsWith("www.bbc.co.uk") || exLink.OffSite.StartsWith("http://news.bbc.co.uk") || exLink.OffSite.StartsWith("news.bbc.co.uk"))
                     {
                         references.BBC.Add(exLink);
                     }
