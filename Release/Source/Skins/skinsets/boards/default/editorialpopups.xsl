@@ -95,29 +95,6 @@
 				</script>
 				<script language="javascript">
 
-          function showButtons(divId) {
-          if (document.getElementById) {
-          document.getElementById(divId).style.visibility='visible'
-          } else if (document.all){
-          document.all[divId].style.visibility='visible'
-          }
-          }
-
-          function hideButtons(divId) {
-          if (document.getElementById) {
-          document.getElementById(divId).style.visibility='hidden'
-          } else if (document.all){
-          document.all[divId].style.visibility='hidden'
-          }
-          }
-
-
-          function initButtons () {
-          hideButtons('buttons');
-          hideButtons('archivewarning');
-          hideButtons('archivebutton');
-          }
-
           function validate()
           {
           if(byPassValidation)
@@ -130,7 +107,7 @@
           document.getElementById("textNotes").style.border="1px solid red";
           return false;
           }
-          return true;
+          return confirm("Are you sure?");
 
           }
           var byPassValidation = false;
@@ -138,7 +115,7 @@
         </script>
 				<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
 			</head>
-			<body bgColor="ffffff" onLoad="initButtons();">
+			<body bgColor="ffffff">
 				<font size="2">
 					<div class="ModerationTools">
             <xsl:for-each select="POST-EDIT-FORM/MESSAGE">
@@ -168,7 +145,7 @@
 									</textarea>
 									<br/>
 									<br/>
-									Date Posted: <xsl:apply-templates select="POST-EDIT-FORM/DATE-POSTED/DATE" />
+									Date Posted: <xsl:apply-templates select="POST-EDIT-FORM/DATE-POSTED/DATE" mode="library_date_longformat"/>
 									<br/>
 									<xsl:if test="$superuser = 1">
 									IP Address: <xsl:value-of select="POST-EDIT-FORM/IPADDRESS"/>
@@ -184,7 +161,6 @@
 										<option value="2">[Personal details removed by Moderator]</option>
 									</select>
 									<br/>
-									<xsl:if test="$superuser = 1">
                     <br/>
                     <xsl:choose>
                       <xsl:when test="POST-EDIT-FORM/HIDDEN&gt; 0">
@@ -210,23 +186,18 @@
 										</xsl:otherwise>
 									</xsl:choose -->
                     <br/>
-                    <div id="formstuff" onClick="showButtons('buttons');hideButtons('formstuff')" style="border:1px #ff0000 solid;width:120px;text-align:center;cursor: pointer;">
+
+                    <input type="submit" name="Update" onClick="byPassValidation=false;">
                       <xsl:choose>
                         <xsl:when test="POST-EDIT-FORM/HIDDEN&gt; 0">
-                          Unhide message
+                          <xsl:attribute name="value">Unhide Post</xsl:attribute>
                         </xsl:when>
                         <xsl:otherwise>
-                          Edit message
+                          <xsl:attribute name="value">Edit message</xsl:attribute>
                         </xsl:otherwise>
                       </xsl:choose>
-                    </div>
-                    <div id="buttons">
-                      Are you sure?<br/>
-                      <input type="submit" name="Update" value="Update" onClick="byPassValidation=false;"/>
-                      <xsl:text> </xsl:text>
-                      <input type="submit" name="Cancel" value="Close" onClick="javascript:byPassValidation=false;if (window.name == 'EditPostPopup') window.close()"/>
-                    </div>
-									</xsl:if>
+                    </input>
+
 
 									<xsl:if test="$superuser = 1">
 										<hr/>

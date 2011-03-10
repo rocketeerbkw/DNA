@@ -15,6 +15,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Moderation.Utils.Tests;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System.Web;
 
 
 namespace Tests
@@ -346,6 +347,14 @@ namespace Tests
             }
         }
 
+        /// <summary>
+        /// Function for add the given cookie
+        /// </summary>
+        /// <param name="cookie">The name of the cookie that you want to get</param>
+        public void AddCookie(HttpCookie cookie)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// <see cref="IInputContext"/>

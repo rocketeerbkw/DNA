@@ -67,7 +67,7 @@ inner join Users U1 on U1.UserID = TE.UserID
 left join preferences P1 on U1.UserID = P1.UserID and TM.siteid=P1.siteid
 left join ThreadModIPAddress ip ON ip.ThreadModId = TM.ModiD
 left outer join Users U2 on U2.UserID = TMH.LockedBy
-left outer join Users U3 on U3.UserID = TMH.ReferredBy
+left outer join Users U3 on U3.UserID = TMH.ReferredBy and tmh.status=2 -- only show for refferred items
 left outer join Users U4 on U4.UserID = TM.ComplainantID
 left join preferences P4 on U4.UserID = P4.UserID and TM.siteid=P4.siteid
 where TE.EntryID = @postid

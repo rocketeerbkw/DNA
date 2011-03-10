@@ -129,14 +129,10 @@
                	<div class="dna-moderation-wrapup">
                     <p class="dna-boards-moderation">
                     	<xsl:text>Moderation:</xsl:text>
-			        	<xsl:call-template name="library_userstate_superuser">
-			        		<xsl:with-param name="loggedin">
-		        				<xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_editpost" >
-		        					<xsl:with-param name="label" select="'Edit Post'"/>
-                      				<xsl:with-param name="post" select="count(preceding-sibling::*)" />
-		        				</xsl:apply-templates>
-			        		</xsl:with-param>
-			        	</xsl:call-template>                    
+		        				  <xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_editpost" >
+		        					  <xsl:with-param name="label" select="'Edit Post'"/>
+                      				  <xsl:with-param name="post" select="count(preceding-sibling::*)" />
+		        				  </xsl:apply-templates>
                         <span class="dna-invisible">View the </span>
                         <xsl:apply-templates select="@POSTID" mode="moderation_cta_boardsadmin_moderationhistory">
                           <xsl:with-param name="label" select="'Moderation History'"/>
