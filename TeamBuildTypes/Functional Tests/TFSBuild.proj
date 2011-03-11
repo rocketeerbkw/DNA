@@ -218,6 +218,11 @@
     <Skins Include="$(SolutionRoot)\Main\Source\Skins\**\*.*" Exclude="$(SolutionRoot)\Main\Source\Skins\base\site.xsl;$(SolutionRoot)\Main\Source\Skins\base\lists.xsl;$(SolutionRoot)\Main\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Main\Source\Skins\common\configuration.xsl" ></Skins>
   </ItemGroup>
 
+  <Target Name="BeforeClean">
+    <Exec Command="iisreset" Timeout="10000"></Exec>
+  </Target>
+  
+  
   <Target Name="BeforeTest">
     <!-- Create the build steps which start in mode "Running" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to test server" Condition=" '$(IsDesktopBuild)' != 'true' ">
