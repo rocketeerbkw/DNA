@@ -706,7 +706,12 @@ namespace BBC.Dna.Objects
 
             bool forceModeration;
             string matchingProfanity= string.Empty;
-            CheckForProfanities(site, Subject + " " + Text, out forceModeration, out matchingProfanity);
+            string postString = Subject + " " + Text;
+            if (InReplyTo > 0)
+            {//only check text if not first post
+                postString = Text;
+            }
+            CheckForProfanities(site, postString, out forceModeration, out matchingProfanity);
 
             //check posting frequency
             if (!viewingUser.IsEditor && !viewingUser.IsSuperUser && !viewingUser.IsNotable)

@@ -1240,6 +1240,44 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
             Assert.AreEqual(ErrorType.ProfanityFoundInText, e.type);
         }
 
+        [TestMethod]
+        public void PostToForum_WithProfanityInSubjectOfReply_NoError()
+        {// subject is not checked on subsequent replies
+            var forumId = 1;
+            var threadId = 1;
+            var postId = 10;
+            var ipAddress = "1.1.1.1";
+            var bbcUid = Guid.NewGuid();
+
+            MockRepository mocks = new MockRepository();
+            IDnaDataReaderCreator readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            CreateThreadPermissionObjects(mocks, ref readerCreator, true, true);
+            CreateForumPermissionObjects(mocks, ref readerCreator, true, true);
+            CreatePostToForumObjects(mocks, ref readerCreator, postId, threadId, false);
+            CreatePostFreq(mocks, ref readerCreator, 0);
+            var viewingUser = CreateUserObject(mocks, false, false, false);
+            ISite site = CreateSiteObject(mocks, false, false);
+            ISiteList siteList = CreateSiteList(mocks, 1, 0, 0, false);
+            ICacheManager cacheManager = CreateCacheObject(mocks, ForumSourceType.Article);
+
+            mocks.ReplayAll();
+
+
+
+            var threadPost = new ThreadPost()
+            {
+                Text = "contains profanity  ",
+                Subject = "test subject (ock and",
+                ThreadId = threadId,
+                InReplyTo = 1
+            };
+
+
+
+            threadPost.PostToForum(cacheManager, readerCreator, site, viewingUser, siteList, ipAddress, bbcUid, forumId);
+            
+        }
+
 
         [TestMethod]
         public void PostToForum_EverythingOk_ReturnsCorrectPostId()
