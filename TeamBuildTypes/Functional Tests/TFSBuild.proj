@@ -219,7 +219,7 @@
   </ItemGroup>
 
   <Target Name="BeforeClean">
-    <Exec Command="iisreset" Timeout="10000"></Exec>
+    <Exec Command="iisreset" Timeout="10000" IgnoreExitCode="true"></Exec>
   </Target>
   
   
