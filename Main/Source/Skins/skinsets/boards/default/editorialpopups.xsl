@@ -147,12 +147,10 @@
 									<br/>
 									Date Posted: <xsl:apply-templates select="POST-EDIT-FORM/DATE-POSTED/DATE" mode="library_date_longformat"/>
 									<br/>
-									<xsl:if test="$superuser = 1">
 									IP Address: <xsl:value-of select="POST-EDIT-FORM/IPADDRESS"/>
 									<br/>
 									BBCUID: <xsl:value-of select="POST-EDIT-FORM/BBCUID"/>
 									<br/>
-									</xsl:if>
 									<xsl:text>Insert Text:</xsl:text>
 									<select id="EasyText" onchange="EasyTextSelected()">
 										<option value="0" selected="1">Select text to insert:</option>
