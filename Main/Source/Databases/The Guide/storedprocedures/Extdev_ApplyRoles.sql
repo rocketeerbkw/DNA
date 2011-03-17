@@ -54,7 +54,7 @@ BEGIN
 END
 
 
---add superuser to all sites
+--add normal to all sites
 declare @normalId int
 select @normalId = userid from users where loginname= @prefix+'_normal'
 print @prefix+'_normal:' +  cast(@normalId as varchar(10))
@@ -66,7 +66,7 @@ ELSE
 BEGIN
 	update users 
 	set status=1
-	where userid= @superId
+	where userid= @normalId
 END
 
 --add notable to all sites
@@ -81,7 +81,7 @@ BEGIN
 END
 ELSE
 BEGIN
-	delete from groupmembers where userid=@modId
+	delete from groupmembers where userid=@noteId
 	insert into groupmembers
 	select @noteId, @notablegroup, siteid
 	from sites
