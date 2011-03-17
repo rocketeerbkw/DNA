@@ -20,7 +20,7 @@
                     <xsl:value-of select="@CLASS"/>
                 </xsl:attribute>
             </xsl:if>
-            <em><xsl:apply-templates mode="library_GuideML"/></em>
+            <em><xsl:apply-templates mode="library_GuideML"/>&#160;</em>
         </span>
     </xsl:template>
 </xsl:stylesheet>
