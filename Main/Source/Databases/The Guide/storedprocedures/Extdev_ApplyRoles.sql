@@ -38,6 +38,28 @@ BEGIN
 	from sites
 END
 
+--add referee to all sites
+declare @refId int
+select @refId = userid from users where loginname= @prefix+'_referee'
+print @prefix+'_referee:' +  cast(@refId as varchar(10))
+declare @refgroup int
+select @refgroup = GroupID FROM Groups WHERE Name = 'Referee'
+if @refId is null or @refgroup is null or @moderatorgroup is null
+BEGIN
+	RAISERROR('Missing @refId id',16,1);
+END
+ELSE
+BEGIN
+	delete from groupmembers where userid=@refId
+	insert into groupmembers
+	select @refId, @moderatorgroup, siteid
+	from sites
+	
+	insert into groupmembers
+	select @refId, @refgroup, siteid
+	from sites
+END
+
 --add superuser to all sites
 declare @superId int
 select @superId = userid from users where loginname= @prefix+'_superuser'
