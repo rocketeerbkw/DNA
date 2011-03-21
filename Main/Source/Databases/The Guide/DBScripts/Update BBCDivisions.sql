@@ -37,7 +37,7 @@ select @worldservice=BBCDivisionID from BBCDivision where BBCDivisionName='World
 
 update sites set BBCDivisionID=@AandM where urlname in ('iplayerradio','blog449')
 
-update sites set BBCDivisionID=@fmt where urlname in ('blog286')
+update sites set BBCDivisionID=@fmt where urlname in ('blog286','flowsocialcore')
 
 update sites set BBCDivisionID=@knowledge where urlname in 
 ('blog566','blog237','mbreligion','mbgcsebitesize','mbgardening','mbks3bitesize','mbhistory','mbouch',
@@ -63,7 +63,8 @@ update sites set BBCDivisionID=@sport where urlname in
 
 update sites set BBCDivisionID=@tviplayer where urlname in 
 ('iplayertv','blog578','blog583','blog221','mbpointsofview','blog443','blog474','blog469','blog243',
-'blog404','comedyextraidentity','dragonsden','blog182','blog168','blog563','blog434','blog191')
+'blog404','comedyextraidentity','dragonsden','blog182','blog168','blog563','blog434','blog191','buzzindex')
 
 update sites set BBCDivisionID=@worldservice where urlname in 
 ('blog189','blog493','blog582','blog576')
+
