@@ -623,4 +623,12 @@ Marcus
 	To roll back editpost 
 		- change editpost in filter.reg to use old builder
 		- roll back editorialpopups.xsl in \skins\skinsets\boards\default
-		
+
+============== v 3.5.58.0 ============
+Marcus
+	On staging:
+	
+	Priority First Mod queue
+		update moderationclass
+		set ItemRetrievalType=2
+		where name <> 'Vulnerable' and name <> 'Kids'

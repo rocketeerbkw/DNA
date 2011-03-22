@@ -2,58 +2,40 @@ using System.Collections.ObjectModel;
 using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
+using System;
+using BBC.Dna.Utils;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.Collections.Specialized;
 
 namespace BBC.Dna.Moderation
 {
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
-    [System.SerializableAttribute]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, TypeName="MODERATION-CLASSES")]
-    [System.Xml.Serialization.XmlRootAttribute("MODERATION-CLASSES", Namespace="", IsNullable=false)]
-    public class ModerationClassList : CachableBase<ModerationClassList>
+    public class ModerationClassListCache : SignalBase<ModerationClassList>
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public ModerationClassList()
-        {//default to empty list
-            ModClassList = new Collection<ModerationClass>();
-        }
 
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("MODERATION-CLASS", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
-        public Collection<ModerationClass> ModClassList { get; set; }
+        private const string _signalKey = "recache-moderationclasses";
 
-        public static ModerationClassList GetAllModerationClasses(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
-           bool ignoreCache)
+
+        public ModerationClassListCache(IDnaDataReaderCreator dnaData_readerCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, List<string> ripleyServerAddresses, List<string> dotNetServerAddresses)
+            : base(dnaData_readerCreator, dnaDiagnostics, caching, _signalKey, ripleyServerAddresses, dotNetServerAddresses)
         {
-            var moderationClassList = new ModerationClassList();
-            if (!ignoreCache)
-            {
-                moderationClassList = (ModerationClassList)cacheManager.GetData(moderationClassList.GetCacheKey());
-                if (moderationClassList != null)
-                {
-                    return moderationClassList;
-                }
-
-            }
-
-            moderationClassList = GetAllModerationClassesFromDb(readerCreator);
-            cacheManager.Add(moderationClassList.GetCacheKey(), moderationClassList);
-
-            return moderationClassList;
+            InitialiseObject += new InitialiseObjectDelegate(GetAllModerationClassesFromDb);
+            HandleSignalObject = new HandleSignalDelegate(HandleSignal);
+            GetStatsObject = new GetStatsDelegate(GetModClassStats);
+            CheckVersionInCache();
+            //register object with main signal helper
+            SignalHelper.AddObject(typeof(ModerationClassListCache), this);
         }
-        
+
         /// <summary>
         /// gets all moderation classes in db
         /// </summary>
         /// <param name="readerCreator"></param>
         /// <returns></returns>
-        public static ModerationClassList GetAllModerationClassesFromDb(IDnaDataReaderCreator readerCreator)
+        public void GetAllModerationClassesFromDb(params object[] args)
         {
             var classes = new ModerationClassList();
-            using (var reader = readerCreator.CreateDnaDataReader("getmoderationclasslist"))
+            using (var reader = _readerCreator.CreateDnaDataReader("getmoderationclasslist"))
             {
                 reader.Execute();
                 while(reader.Read())
@@ -63,24 +45,83 @@ namespace BBC.Dna.Moderation
                                            ClassId = reader.GetInt32NullAsZero("ModClassId"),
                                            Description = reader.GetStringNullAsEmpty("Description"),
                                            Name = reader.GetStringNullAsEmpty("name"),
-                                           Language = reader.GetStringNullAsEmpty("ClassLanguage")
+                                           Language = reader.GetStringNullAsEmpty("ClassLanguage"),
+                                           ItemRetrievalType = (ModerationRetrievalPolicy)reader.GetTinyIntAsInt("ItemRetrievalType")
                                        };
                     classes.ModClassList.Add(modClass);
                 }
             }
-            return classes;
+            AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), classes);
         }
-
-
 
         /// <summary>
-        /// Always true as the cache is loaded at startup
+        /// Delegate for handling a signal
         /// </summary>
-        /// <param name="readerCreator"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
-        public override bool IsUpToDate(IDnaDataReaderCreator readerCreator)
+        private bool HandleSignal(NameValueCollection args)
         {
+            GetAllModerationClassesFromDb();
             return true;
         }
+
+        /// <summary>
+        /// Gets stats for classes
+        /// </summary>
+        /// <returns></returns>
+        private NameValueCollection GetModClassStats()
+        {
+            var values = new NameValueCollection();
+
+
+            var _object = (ModerationClassList)GetObjectFromCache();
+            values.Add("ModClassStats", _object.ModClassList.Count.ToString());
+            return values;
+        }
+
+        static public ModerationClassList GetObject()
+        {
+            var obj = SignalHelper.GetObject(typeof(ModerationClassListCache));
+            if (obj != null)
+            {
+                return (ModerationClassList)((ModerationClassListCache)obj).GetCachedObject();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public ModerationClassList GetObjectFromCache()
+        {
+            
+            return (ModerationClassList)GetCachedObject();
+        }
+
+        public void SendSignal()
+        {
+            SendSignal();
+        }
+    }
+
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
+    [System.SerializableAttribute]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [XmlTypeAttribute(AnonymousType=true, TypeName="MODERATION-CLASSES")]
+    [XmlRootAttribute("MODERATION-CLASSES", Namespace="", IsNullable=false)]
+    public class ModerationClassList 
+    {
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ModerationClassList()
+        {//default to empty list
+            ModClassList = new Collection<ModerationClass>();
+        }
+
+        [XmlElementAttribute("MODERATION-CLASS", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        public Collection<ModerationClass> ModClassList { get; set; }
     }
 }

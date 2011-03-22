@@ -187,7 +187,7 @@ namespace FunctionalTests
                     ISiteList _siteList = SiteList.GetSiteList();
                     ISite site = _siteList.GetSite(testUtils_CommentsAPI.sitename);
 
-                    sqlStr = "UPDATE ModerationClass SET LIFOQueue=" + (flag ? 1 : 0);
+                    sqlStr = "UPDATE ModerationClass SET ItemRetrievalType=" + (flag ? 1 : 0);
                     sqlStr += " WHERE ModClassID=" + modClassOfSite;
 
                     reader.ExecuteDEBUGONLY(sqlStr);

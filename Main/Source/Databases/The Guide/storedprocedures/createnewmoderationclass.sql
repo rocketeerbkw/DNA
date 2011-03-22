@@ -1,4 +1,4 @@
-CREATE PROCEDURE createnewmoderationclass @classname varchar(50), @description varchar(255),@language varchar(10), @basedonclass int
+CREATE PROCEDURE createnewmoderationclass @classname varchar(50), @description varchar(255),@language varchar(10), @itemretrievaltype tinyint=0, @basedonclass int
 as
 
 if not exists (select * from dbo.moderationclass where ModClassID = @basedonclass)
@@ -15,8 +15,8 @@ DECLARE @sortorder INT
 SELECT @sortorder = COUNT(*) FROM ModerationClass
 
 declare @newclassid int
-insert into ModerationClass (Name, Description, SortOrder, ClassLanguage )
-	VALUES(@classname, @description, @sortorder, @language)
+insert into ModerationClass (Name, Description, SortOrder, ClassLanguage, ItemRetrievalType )
+	VALUES(@classname, @description, @sortorder, @language, @itemretrievaltype )
 set @newclassid = @@IDENTITY
 
 -- now we have to add all the same moderators to this class

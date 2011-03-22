@@ -23,6 +23,10 @@ namespace BBC.Dna.Moderation
         public string Language { get; set; }
 
         /// <remarks/>
+        [XmlElementAttribute(Form = System.Xml.Schema.XmlSchemaForm.Unqualified, Order = 3, ElementName = "ITEMRETRIEVALTYPE")]
+        public ModerationRetrievalPolicy ItemRetrievalType { get; set; }
+
+        /// <remarks/>
         [XmlAttributeAttribute(AttributeName="CLASSID")]
         public int ClassId { get; set; }
     }

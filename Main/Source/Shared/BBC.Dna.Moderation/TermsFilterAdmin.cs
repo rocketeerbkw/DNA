@@ -52,7 +52,7 @@ namespace BBC.Dna.Moderation
             int modClassId, bool ignoreCache)
         {
             var termAdmin = new TermsFilterAdmin() ;
-            termAdmin.ModerationClasses = ModerationClassList.GetAllModerationClasses(readerCreator, cacheManager,ignoreCache);
+            termAdmin.ModerationClasses = ModerationClassListCache.GetObject();
 
             termAdmin.TermsList = TermsList.GetTermsListByModClassId(readerCreator, cacheManager, modClassId,
                                                                      ignoreCache);

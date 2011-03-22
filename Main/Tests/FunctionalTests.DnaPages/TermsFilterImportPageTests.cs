@@ -14,6 +14,7 @@ using System.Collections;
 using BBC.Dna.Api;
 using System.Net;
 using System.Threading;
+using BBC.Dna.Utils;
 
 namespace FunctionalTests
 {
@@ -28,7 +29,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void Initialise()
         {
-            SnapshotInitialisation.ForceRestore();
+            SnapshotInitialisation.RestoreFromSnapshot();
             //_ts = new TransactionScope();
         }
 
@@ -142,9 +143,11 @@ namespace FunctionalTests
             var reason = "this has a reason";
             var term = "bollocks";
             var action = TermAction.ReEdit;
-            var moderationClassList =
-                    ModerationClassList.GetAllModerationClasses(DnaMockery.CreateDatabaseReaderCreator(), CacheFactory.GetCacheManager(),
-                                                                false);
+
+            var moderationClasses = new ModerationClassListCache(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
+
+
+            var moderationClassList = moderationClasses.GetObjectFromCache();
 
             var termsLists = new TermsLists();
             foreach(var modClass in moderationClassList.ModClassList)

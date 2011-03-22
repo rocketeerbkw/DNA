@@ -14,10 +14,6 @@ namespace BBC.Dna.Moderation.Tests
     public class ModerationClassTest
     {
 
-
-      
-
-
         /// <summary>
         ///A test for ModerationClass Constructor
         ///</summary>
@@ -25,7 +21,7 @@ namespace BBC.Dna.Moderation.Tests
         public void ModerationClassXmlSerialization()
         {
             ModerationClass target = GetModClass();
-            var expected = "<MODERATION-CLASS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" CLASSID=\"0\"><NAME>test</NAME><DESCRIPTION>test</DESCRIPTION></MODERATION-CLASS>";
+            var expected = "<MODERATION-CLASS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" CLASSID=\"1\"><NAME>test</NAME><DESCRIPTION>test</DESCRIPTION><ITEMRETRIEVALTYPE>Standard</ITEMRETRIEVALTYPE></MODERATION-CLASS>";
 
             XmlDocument xml = Serializer.SerializeToXml(target);
             Assert.AreEqual(expected, xml.SelectSingleNode("MODERATION-CLASS").OuterXml);
@@ -33,7 +29,7 @@ namespace BBC.Dna.Moderation.Tests
 
         public static ModerationClass GetModClass()
         {
-            return new ModerationClass() {ClassId = 0, Description = "test", Name = "test"};
+            return new ModerationClass() {ClassId = 1, Description = "test", Name = "test"};
         }
     }
 }

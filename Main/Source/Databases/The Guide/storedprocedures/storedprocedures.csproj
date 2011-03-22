@@ -1277,7 +1277,9 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
+    <None Include="getmoderationpostsfastmodfirst.sql" />
     <None Include="Extdev_ApplyRoles.sql" />
+    <None Include="ismodclasslifoqueue.sql" />
     <None Include="registerverifiedcomplaint.sql" />
     <None Include="createnewuserforforum.sql" />
     <None Include="getcontribution.sql" />
@@ -1345,7 +1347,6 @@
     <None Include="getmoderationpostsmostrecentfirst.sql" />
     <None Include="getrating.sql" />
     <None Include="getsnesevents.sql" />
-    <None Include="ismodclasslifoqueue.sql" />
     <None Include="giveaccess.sql" />
     <None Include="ratingsreadbyforumandidentityid.sql" />
     <None Include="ratingthreadsreadbyuid.sql" />
