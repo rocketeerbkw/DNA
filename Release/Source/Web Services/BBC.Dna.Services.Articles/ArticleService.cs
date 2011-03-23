@@ -435,7 +435,21 @@ namespace BBC.Dna.Services
             }
             else // existing article
             {
-                article.UpdateArticle(cacheManager, readerCreator, callingUser.UserID);
+                //Don't overwrite the existing editor of the article 
+                int editorId = 0;
+                try
+                {
+                     editorId = article.ArticleInfo.PageAuthor.Editor.user.UserId;
+                    if (editorId == 0)
+                    {
+                        editorId = callingUser.UserID;
+                    }
+                }
+                catch
+                {
+                    editorId = callingUser.UserID;
+                }
+                article.UpdateArticle(cacheManager, readerCreator, editorId);
             }
 
             // set the archive status
