@@ -98,6 +98,8 @@ namespace FunctionalTests
                         dataReader.Execute();
                     }
 
+                    SendSignal();
+
                     using (IDnaDataReader dataReader = inputcontext.CreateDnaDataReader(""))
                     {
                         dataReader.ExecuteDEBUGONLY("select modclassid from moderationclass where name='" + name + "'");
@@ -140,6 +142,16 @@ namespace FunctionalTests
                 }
 
             }
+
+        }
+
+        private void SendSignal()
+        {
+            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-moderationclasses", DnaTestURLRequest.CurrentServer);
+            var request = new DnaTestURLRequest("h2g2");
+            //request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
 
         }
 

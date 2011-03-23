@@ -193,8 +193,19 @@ namespace FunctionalTests
                     reader.ExecuteDEBUGONLY(sqlStr);
 
                     Assert.AreEqual(reader.RecordsAffected, 1, "SQL change should have afected 1 line. Actually did " + reader.RecordsAffected);
+                    SendSignal();
                 }
             }
+        }
+
+        private void SendSignal()
+        {
+            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-moderationclasses", DnaTestURLRequest.CurrentServer);
+            var request = new DnaTestURLRequest("h2g2");
+            //request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+
         }
 
         /// <summary>
