@@ -26,7 +26,7 @@ namespace BBC.Dna.Moderation.Tests
         [TestMethod()]
         public void CreateTermAdmin_FromCache_ReturnsValidObject()
         {
-            ModerationClassList moderationClassList = ModerationClassListTest.GetModerationClassList();
+            ModerationClassListTest.InitialiseClasses();
             TermsList termsList = TermsListTest.GetTermsList();
             const int modClassId = 1;
 
@@ -37,7 +37,6 @@ namespace BBC.Dna.Moderation.Tests
             //readerCreator.Stub(x => x.CreateDnaDataReader("getmoderationclasslist")).Return(reader);
 
             var cacheManager = Mocks.DynamicMock<ICacheManager>();
-            cacheManager.Stub(x => x.GetData(moderationClassList.GetCacheKey())).Return(moderationClassList);
             cacheManager.Stub(x => x.GetData(termsList.GetCacheKey(modClassId))).Return(termsList);
 
             Mocks.ReplayAll();
@@ -65,7 +64,7 @@ namespace BBC.Dna.Moderation.Tests
 
             var expected = "<TERMSFILTERADMIN xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
                 "<TERMSLIST MODCLASSID=\"1\"><TERM ID=\"0\" ACTION=\"ReEdit\">term</TERM></TERMSLIST>" +
-                "<MODERATION-CLASSES><MODERATION-CLASS CLASSID=\"0\"><NAME>test</NAME><DESCRIPTION>test</DESCRIPTION></MODERATION-CLASS></MODERATION-CLASSES>" +
+                "<MODERATION-CLASSES><MODERATION-CLASS CLASSID=\"1\"><NAME>test</NAME><DESCRIPTION>test</DESCRIPTION><ITEMRETRIEVALTYPE>Standard</ITEMRETRIEVALTYPE></MODERATION-CLASS></MODERATION-CLASSES>" +
                 "</TERMSFILTERADMIN>";
 
             XmlDocument xml = Serializer.SerializeToXml(target);

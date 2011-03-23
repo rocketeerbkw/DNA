@@ -58,7 +58,7 @@ namespace BBC.Dna
 
             //get all moderation classes
             ModerationClassList moderationClassList =
-                ModerationClassList.GetAllModerationClasses(AppContext.ReaderCreator, _cache, _ignoreCache);
+                ModerationClassListCache.GetObject();
             SerialiseAndAppend(moderationClassList, "");
         }
 
@@ -102,7 +102,7 @@ namespace BBC.Dna
             }
 
             var moderationClassList =
-                ModerationClassList.GetAllModerationClasses(AppContext.ReaderCreator, _cache, _ignoreCache);
+                ModerationClassListCache.GetObject();
 
 
             var termsLists = new TermsLists();
@@ -155,7 +155,7 @@ namespace BBC.Dna
         private void GetTermActions()
         {
             var moderationClassList =
-                ModerationClassList.GetAllModerationClasses(AppContext.ReaderCreator, _cache, _ignoreCache);
+                ModerationClassListCache.GetObject();
 
             int[] modClassIds = moderationClassList.ModClassList.Select(modClass => modClass.ClassId).ToArray();
 

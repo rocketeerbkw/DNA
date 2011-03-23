@@ -444,7 +444,7 @@ namespace BBC.Dna.Component
         private void AddDefaultEmailModerationDetailsXML()
         {
             // Get all the moderation classes
-            ModerationClassList classList = ModerationClassList.GetAllModerationClasses(AppContext.ReaderCreator, AppContext.DnaCacheManager, true);
+            ModerationClassList classList = ModerationClassListCache.GetObject();
             SerialiseAndAppend(classList, "");
 
             // Get the email group inserts

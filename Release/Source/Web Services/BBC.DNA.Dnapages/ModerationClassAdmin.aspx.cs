@@ -11,6 +11,8 @@ using System.Web.UI.HtmlControls;
 using BBC.Dna;
 using BBC.Dna.Page;
 using BBC.Dna.Data;
+using BBC.Dna.Moderation;
+using BBC.Dna.Common;
 
 public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
 {
@@ -119,9 +121,14 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
         languageCell.ColumnSpan = 1;
         languageCell.Text = "Language";
 
+        TableCell policyCell = new TableCell();
+        policyCell.ColumnSpan = 1;
+        policyCell.Text = "Retrieval Policy";
+
         header.Cells.Add(nameCell);
         header.Cells.Add(descriptionCell);
         header.Cells.Add(languageCell);
+        header.Cells.Add(policyCell);
 
 
         TableCell ordercell = new TableCell();
@@ -129,6 +136,10 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
         ordercell.ColumnSpan = 2;
         header.Cells.Add(ordercell);
         tblModerationClasses.Rows.Add(header);
+
+        cmbRetrievalPolicy.Items.Add(new ListItem("Standard", ((int)ModerationRetrievalPolicy.Standard).ToString()));
+        cmbRetrievalPolicy.Items.Add(new ListItem("LIFO", ((int)ModerationRetrievalPolicy.LIFO).ToString()));
+        cmbRetrievalPolicy.Items.Add(new ListItem("PriorityFirst", ((int)ModerationRetrievalPolicy.PriorityFirst).ToString()));
 
         using (IDnaDataReader dataReader = AppContext.TheAppContext.CreateDnaDataReader("getmoderationclasslist"))
         {
@@ -147,6 +158,9 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
 
                 languageCell = new TableCell();
                 languageCell.Text = dataReader.GetStringNullAsEmpty("ClassLanguage");
+
+                policyCell = new TableCell();
+                policyCell.Text = (Enum.Parse(typeof(ModerationRetrievalPolicy), dataReader.GetTinyIntAsInt("ItemRetrievalType").ToString())).ToString();
                 
                 TableCell upCell = new TableCell();
                 HyperLink upLink = new HyperLink();
@@ -163,6 +177,7 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
                 row.Cells.Add(nameCell);
                 row.Cells.Add(descriptionCell);
                 row.Cells.Add(languageCell);
+                row.Cells.Add(policyCell);
                 row.Cells.Add(upCell);
                 row.Cells.Add(downCell);
                 tblModerationClasses.Rows.Add(row);
@@ -185,7 +200,7 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
             dataReader.AddParameter("classname", txtName.Text);
             dataReader.AddParameter("description", txtDescription.Text);
             dataReader.AddParameter("Language", txtLanguage.Text);
-            
+            dataReader.AddParameter("itemretrievaltype", Int32.Parse(cmbRetrievalPolicy.Text));
 
             String basedOn = cmbTemplate.SelectedValue;
             dataReader.AddParameter("basedonclass", basedOn);
@@ -197,6 +212,9 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
                 lblError.Text = dataReader.GetStringNullAsEmpty("Reason");
             }
 
+            //send signal
+            var cache = (ModerationClassListCache)SignalHelper.GetObject(typeof(ModerationClassListCache));
+            cache.SendSignal();
             //Refresh
             _basePage.Server.Transfer(_basePage.Request.RawUrl);
         }

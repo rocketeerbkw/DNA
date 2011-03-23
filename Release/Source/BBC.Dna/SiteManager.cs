@@ -475,7 +475,7 @@ namespace BBC.Dna.Component
         private bool IsSiteLanguageCompatibleWithModClass(int siteId, int modClassId)
         {
             //check modclass language vs site language to ensure they are compatible
-            var modClasses = ModerationClassList.GetAllModerationClasses(AppContext.ReaderCreator, AppContext.DnaCacheManager, false);
+            var modClasses = ModerationClassListCache.GetObject();
             var modClass = modClasses.ModClassList.FirstOrDefault(x => x.ClassId == modClassId);
             var siteLanguage = InputContext.TheSiteList.GetSiteOptionValueString(siteId, "General", "SiteLanguage");
             if (siteLanguage.ToUpper() != modClass.Language.ToUpper())
