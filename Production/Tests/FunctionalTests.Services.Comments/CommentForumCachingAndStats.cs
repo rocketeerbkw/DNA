@@ -14,6 +14,7 @@ using NMock2;
 using Tests;
 
 using TestUtils;
+using BBC.Dna.Moderation;
 
 
 namespace FunctionalTests.Services.Comments
@@ -353,7 +354,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            ModerateComment(result.commentList.comments[0].ID, result.ForumID, BBC.Dna.Component.ModeratePosts.Status.Passed,"");
+            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.Passed,"");
             
             result = ReadForum(result.Id);
             Assert.IsTrue(result != null);
@@ -399,7 +400,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(result.commentSummary.Total == 1);
             Assert.IsTrue(result.commentList.comments[0].hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration);
             // Now ste the closing date of the forum to something in the past.
-            ModerateComment(result.commentList.comments[0].ID, result.ForumID, BBC.Dna.Component.ModeratePosts.Status.Failed,"");
+            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.Failed,"");
 
             result = ReadForum(result.Id);
             Assert.IsTrue(result != null);
@@ -448,7 +449,8 @@ namespace FunctionalTests.Services.Comments
 
             string newText = " this is editted text";
             // Now ste the closing date of the forum to something in the past.
-            ModerateComment(result.commentList.comments[0].ID, result.ForumID, BBC.Dna.Component.ModeratePosts.Status.PassedWithEdit, newText);
+            
+            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.PassedWithEdit, newText);
 
             result = ReadForum(result.Id);
             Assert.IsTrue(result != null);
@@ -464,7 +466,7 @@ namespace FunctionalTests.Services.Comments
         /// <param name="forumid"></param>
         /// <param name="status"></param>
         /// <param name="edittedText"></param>
-        private void ModerateComment(int postid, int forumid, BBC.Dna.Component.ModeratePosts.Status status, string edittedText)
+        private void ModerateComment(int postid, int forumid, ModerationItemStatus status, string edittedText)
         {
             using (FullInputContext _context = new FullInputContext(""))
             {
@@ -495,11 +497,11 @@ namespace FunctionalTests.Services.Comments
                     dataReader.Execute();
                 }
 
-                if(status == BBC.Dna.Component.ModeratePosts.Status.PassedWithEdit)
+                if(status == ModerationItemStatus.PassedWithEdit)
                 {
                     using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatepostdetails"))
                     {
-                        dataReader.AddParameter("userid", TestUserAccounts.GetNormalUserAccount.UserID);
+                        dataReader.AddParameter("userid", TestUserAccounts.GetSuperUserAccount.UserID);
                         dataReader.AddParameter("postid", postid);
                         dataReader.AddParameter("subject", "");
                         dataReader.AddParameter("text", edittedText);

@@ -58,6 +58,7 @@ public partial class ModerationHistoryPage : BBC.Dna.Page.DnaWebPage
         }
 
         AddComponent(new ModerationHistory(_basePage));
+        AddComponent(new ModerationReasons(_basePage));
 
     }
 }

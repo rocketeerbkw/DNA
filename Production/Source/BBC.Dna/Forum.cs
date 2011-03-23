@@ -1213,32 +1213,6 @@ namespace BBC.Dna
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="postId"></param>
-        /// <param name="subject"></param>
-        /// <param name="body"></param>
-        /// <param name="hide"></param>
-        /// <param name="ignoreModeration"></param>
-        public void EditPost( int userId, int postId, String subject, String body, bool hide, bool ignoreModeration)
-        {
-            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("updatepostdetails"))
-            {
-                dataReader.AddParameter("userid", userId);
-                dataReader.AddParameter("postid", postId);
-                dataReader.AddParameter("subject", subject);
-                dataReader.AddParameter("text", body);
-                dataReader.AddParameter("setlastupdated", true);
-                dataReader.AddParameter("forcemoderateandhide", hide);
-                dataReader.AddParameter("ignoremoderation", ignoreModeration);
-
-                dataReader.Execute();
-            }
-
-        }
-
-        /// <summary>
         /// Prepares all the pre-requisites for a post.
         /// </summary>
         /// <param name="userId"> Post using the specified user.</param>

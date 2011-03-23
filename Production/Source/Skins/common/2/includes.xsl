@@ -127,6 +127,7 @@
             <xsl:include href="_library/pagination/forumthreads.xsl" />
             <xsl:include href="_library/pagination/forumthreadposts.xsl" />
             <xsl:include href="_library/pagination/searchthreadposts.xsl" />
+            <xsl:include href="_library/pagination/systemmodmessages.xsl" />
             <xsl:include href="_library/pagination/post-list.xsl" />
             <xsl:include href="_library/pagination/siteevents.xsl" />
             <xsl:include href="_library/pagination/contributions.xsl" />
@@ -181,6 +182,7 @@
 	
 			<xsl:include href="_library/socialbookmarks/boards.xsl" />
     
+    		<xsl:include href="_library/string/carriagereturntobreak.xsl" />
             <xsl:include href="_library/string/escapeapostrophe.xsl" />
             <xsl:include href="_library/string/searchandreplace.xsl" />
 			<xsl:include href="_library/string/stringtolower.xsl" />

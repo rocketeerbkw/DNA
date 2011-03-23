@@ -213,9 +213,25 @@
 					                </xsl:choose>		      						
 	      						</xsl:variable>
 		      					<li>
-		      						<a href="/dna/{$sitename}/boards-admin/SMM?{/H2G2/VIEWING-USER/USER/USERID}">Moderation Notifications</a>
+		      						<a href="SMM">Moderation Notifications</a>
 		      					</li>		      					
 	      					</xsl:if>
+	      				</ul>
+	      			</xsl:if>
+	      			
+	      			<xsl:if test="/H2G2/@TYPE = 'SYSTEMMESSAGEMAILBOX'"> 
+	      				<ul class="navigation topics">
+	      					<li>
+	      						<a>
+		      						<xsl:attribute name="href">
+		      							<xsl:choose>
+		      								<xsl:when test="contains(SITE/NAME, 'mbcbbc')">/cbbc/mb/</xsl:when>
+		      								<xsl:otherwise>/dna/<xsl:value-of select="SITE/URLNAME" />/</xsl:otherwise>
+		      							</xsl:choose>
+		      						</xsl:attribute>
+	      							Back to messageboard front page
+	      						</a>
+	      					</li>
 	      				</ul>
 	      			</xsl:if>
 	      			

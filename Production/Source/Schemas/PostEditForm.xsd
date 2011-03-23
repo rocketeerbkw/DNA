@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="user.xsd" />
+  <xs:include schemaLocation="date.xsd" />
+  <xs:element name="POST-EDIT-FORM">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="POST-ID" type="xs:unsignedInt" />
+        <xs:element name="THREAD-ID" type="xs:unsignedInt" />
+        <xs:element name="FORUM-ID" type="xs:unsignedInt" />
+        <xs:element name="AUTHOR">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="USER" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="DATE-POSTED">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="DATE" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="IPADDRESS" type="xs:string" />
+        <xs:element name="BBCUID" type="xs:string" />
+        <xs:element name="SUBJECT" type="xs:string" />
+        <xs:element name="TEXT" type="xs:string" />
+        <xs:element name="HIDDEN" type="xs:unsignedByte" />
+        <xs:element name="POSTSWITHSAMEBBCUID">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="POST">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="USERID" type="xs:unsignedInt" />
+                    <xs:element name="USERNAME" type="xs:string" />
+                    <xs:element name="FORUMID" type="xs:unsignedInt" />
+                    <xs:element name="THREADID" type="xs:unsignedInt" />
+                    <xs:element name="ENTRYID" type="xs:unsignedInt" />
+                    <xs:element name="POSTINDEX" type="xs:unsignedByte" />
+                    <xs:element name="DATEPOSTED">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="DATE" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

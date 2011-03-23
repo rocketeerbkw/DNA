@@ -6,6 +6,7 @@ using System.Linq;
 using BBC.Dna.Api;
 using System.Xml;
 using BBC.Dna.Utils;
+using System.Web;
 
 namespace BBC.Dna
 {
@@ -53,6 +54,12 @@ namespace BBC.Dna
         /// </summary>
         public override void ProcessRequest()
         {
+            if (InputContext.ViewingUser.UserID == 0)
+            {//not logged in
+                AddErrorXml("NotLoggedIn", "You must be logged in before you can post.", null);
+                return;
+
+            }
             //get the parameters from the querystring
             GetQueryParameters();
 
@@ -137,6 +144,11 @@ namespace BBC.Dna
 
                 if (!errorThrown)
                 {
+                    //add cookie as per https://confluence.dev.bbc.co.uk/display/iStats/iStats+for+DNA+Message+Board+Pages
+                    HttpCookie dnaCookie = new HttpCookie("cmc_ux", "mb_post=true");
+                    dnaCookie.Expires = DateTime.Now.AddMinutes(1);
+                    InputContext.AddCookie(dnaCookie);
+
                     if (post.IsPreModPosting || post.IsPreModerated)
                     {//show premodposting
                         XmlElement postMod = AddElementTag(RootElement, "POSTPREMODERATED");

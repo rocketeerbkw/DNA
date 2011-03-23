@@ -49,7 +49,8 @@
     <xsl:include href="pages/movethread.xsl" />
     <xsl:include href="pages/notfound.xsl" />
 	<xsl:include href="pages/servertoobusy.xsl"/>
-  <xsl:include href="pages/searchthreadposts.xsl" />
+  	<xsl:include href="pages/searchthreadposts.xsl" />
+  	<xsl:include href="pages/smm.xsl" />
     <xsl:include href="pages/threads.xsl" />
     <xsl:include href="pages/userdetails.xsl" />
     <xsl:include href="pages/userpage.xsl" />
@@ -96,6 +97,7 @@
     <xsl:include href="objects/promo.xsl" />
     <xsl:include href="objects/recentcomments.xsl" />
     <xsl:include href="objects/searchthreadposts.xsl" />
+    <xsl:include href="objects/smm-message.xsl" />
 	<xsl:include href="objects/textbox.xsl" />
     <xsl:include href="objects/watchinguserlist.xsl" />
     

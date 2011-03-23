@@ -94,34 +94,28 @@
 			//</xsl:comment>
 				</script>
 				<script language="javascript">
-						
-function showButtons(divId) {
-	if (document.getElementById) {
-		document.getElementById(divId).style.visibility='visible'
-	} else if (document.all){ 
-		document.all[divId].style.visibility='visible'
-	}
-}
 
-function hideButtons(divId) {
-	if (document.getElementById) {
-		document.getElementById(divId).style.visibility='hidden'
-	} else if (document.all){ 
-		document.all[divId].style.visibility='hidden'
-	}
-}
-				
-				
-function initButtons () {
-	hideButtons('buttons');
-	hideButtons('archivewarning');
-	hideButtons('archivebutton');
-	}				
-		
-						</script>
+          function validate()
+          {
+          if(byPassValidation)
+          {
+            return true;
+          }
+          if(document.getElementById("textNotes").value == "")
+          {
+          alert("Please enter some notes for auditing purposes.");
+          document.getElementById("textNotes").style.border="1px solid red";
+          return false;
+          }
+          return confirm("Are you sure?");
+
+          }
+          var byPassValidation = false;
+
+        </script>
 				<link type="text/css" rel="stylesheet" href="/dnaimages/boards/includes/admin.css"/>
 			</head>
-			<body bgColor="ffffff" onLoad="initButtons();">
+			<body bgColor="ffffff">
 				<font size="2">
 					<div class="ModerationTools">
             <xsl:for-each select="POST-EDIT-FORM/MESSAGE">
@@ -137,7 +131,7 @@ function initButtons () {
 							<xsl:otherwise>
 								<b>Edit Post '<xsl:value-of select="POST-EDIT-FORM/SUBJECT"/>' by <xsl:apply-templates select="POST-EDIT-FORM/AUTHOR"/>
 								</b>
-								<form name="TextForm" method="post" action="{$root}EditPost">
+								<form name="TextForm" method="post" action="{$root}EditPost" onSubmit="return validate();">
 									<input type="hidden" name="PostID" value="{POST-EDIT-FORM/POST-ID}"/>
 									Subject:
 									<input type="text" name="Subject" size="30">
@@ -146,19 +140,17 @@ function initButtons () {
 									<br/>
 									Text:
 									<br/>
-									<textarea onkeyup="MonitorSelectionByKeybord()" onmousedown="MonitorSelectionByMouse()" onselect="MonitorSelectionByKeybord()" id="PostText" name="Text" cols="40" rows="15" wrap="virtual">
+									<textarea onkeyup="MonitorSelectionByKeybord()" onmousedown="MonitorSelectionByMouse()" onselect="MonitorSelectionByKeybord()" id="PostText" name="Text" cols="40" rows="10" wrap="virtual">
 										<xsl:value-of select="POST-EDIT-FORM/TEXT"/>
 									</textarea>
 									<br/>
 									<br/>
-									Date Posted: <xsl:apply-templates select="POST-EDIT-FORM/DATE-POSTED/DATE" />
+									Date Posted: <xsl:apply-templates select="POST-EDIT-FORM/DATE-POSTED/DATE" mode="library_date_longformat"/>
 									<br/>
-									<xsl:if test="$superuser = 1">
 									IP Address: <xsl:value-of select="POST-EDIT-FORM/IPADDRESS"/>
 									<br/>
 									BBCUID: <xsl:value-of select="POST-EDIT-FORM/BBCUID"/>
 									<br/>
-									</xsl:if>
 									<xsl:text>Insert Text:</xsl:text>
 									<select id="EasyText" onchange="EasyTextSelected()">
 										<option value="0" selected="1">Select text to insert:</option>
@@ -167,37 +159,48 @@ function initButtons () {
 										<option value="2">[Personal details removed by Moderator]</option>
 									</select>
 									<br/>
-									<xsl:if test="VIEWING-USER/USER/GROUPS/EDITOR or $superuser = 1">
-										<xsl:text> Hide Post:</xsl:text>
-										<input type="checkbox" name="HidePost" value="1">
-											<xsl:if test="POST-EDIT-FORM/HIDDEN &gt; 0">
-												<xsl:attribute name="checked">checked</xsl:attribute>
-											</xsl:if>
-										</input>
-									</xsl:if>
-									<xsl:choose>
+                    <br/>
+                    <xsl:choose>
+                      <xsl:when test="POST-EDIT-FORM/HIDDEN&gt; 0">
+                        <xsl:text>Post is hidden</xsl:text>
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:text>Take Action:</xsl:text>
+                        <select id="hidePostReason" name="hidePostReason">
+                          <option value="">Leave Post Visible</option>
+                          <xsl:apply-templates select="MOD-REASONS/MOD-REASON[@REASONID &lt; 12]" mode="HIDEREASON"/>
+                        </select> 
+                      </xsl:otherwise>
+                    </xsl:choose>
+                    <br/>
+                    Notes:<br />
+                    <textarea name="notes" cols="35" id="textNotes"></textarea>
+                    <!-- xsl:choose>
 										<xsl:when test="POST-EDIT-FORM/HIDDEN &gt; 0">
 											<span class="posthidden">(Post is currently hidden)</span>
 										</xsl:when>
 										<xsl:otherwise>
 											<span class="posthidden">(Post is currently visible)</span>
 										</xsl:otherwise>
-									</xsl:choose>
-									<br/>
-									<br/>
-									<div id="formstuff" onClick="showButtons('buttons');hideButtons('formstuff')" style="border:1px #ff0000 solid;width:100px;text-align:center;cursor: pointer;">
-										Edit message
-									</div>
-									<div id="buttons">
-									Are you sure?<br/>
-										<input type="submit" name="Update" value="Update"/>
-										<xsl:text> </xsl:text>
-										<input type="submit" name="Cancel" value="Close" onClick="javascript:if (window.name == 'EditPostPopup') window.close()"/>
-									</div>
+									</xsl:choose -->
+                    <br/>
+
+                    <input type="submit" name="Update" onClick="byPassValidation=false;">
+                      <xsl:choose>
+                        <xsl:when test="POST-EDIT-FORM/HIDDEN&gt; 0">
+                          <xsl:attribute name="value">Unhide Post</xsl:attribute>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:attribute name="value">Edit message</xsl:attribute>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </input>
+
+
 									<xsl:if test="$superuser = 1">
 										<hr/>
 										List other users that have the same BBCUID cookie:<br/>
-										<input type="submit" name="ListBBCUIDUsers" value="List Other Users"/>
+										<input type="submit" name="ListBBCUIDUsers" value="List Other Users"  onClick="byPassValidation=true;"/>
 									</xsl:if>
 								</form>
 								<xsl:apply-templates select="POST-EDIT-FORM/POSTSWITHSAMEBBCUID"/>
@@ -453,5 +456,13 @@ function initButtons () {
 			</xsl:choose>
 		</form>
 	</xsl:template>
-	
+
+  <xsl:template match="MOD-REASON" mode="HIDEREASON">
+    <option>
+      <xsl:attribute name="value">
+        <xsl:value-of select="@EMAILNAME"/>
+      </xsl:attribute>
+      Hide because "<xsl:value-of select="@DISPLAYNAME"/>"
+    </option>
+  </xsl:template>
 </xsl:stylesheet>
