@@ -45,6 +45,7 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="trg_Threadmod_uTest.cs" />
     <Compile Include="getmoderationpostsmostrecentfirstTests.cs" />
     <Compile Include="getmoderationpostsfastmodfirstTests.cs" />
     <Compile Include="getmoderationpostsTests.cs" />

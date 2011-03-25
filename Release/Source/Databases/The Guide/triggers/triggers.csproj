@@ -36,6 +36,7 @@
   </Target>
   <Target Name="Rebuild" DependsOnTargets="Clean;Build" />
   <ItemGroup>
+    <None Include="trg_Threadmod_u.sql" />
     <None Include="FixGELastUpdated.sql" />
     <None Include="trg_GuideEntries_d.sql" />
     <None Include="trg_GuideEntries_i.sql" />

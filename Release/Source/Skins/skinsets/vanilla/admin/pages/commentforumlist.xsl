@@ -58,6 +58,16 @@
 							<table class="dna-dashboard-activity dna-dashboard-cfl">
 								<xsl:apply-templates select="/H2G2/COMMENTFORUMLIST/COMMENTFORUM" />
 							</table>
+							<xsl:choose>
+								<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'MaxItemsInPriorityModeration']/VALUE = 0">
+									<p>* Please note forums will remain in priority moderation until forum has closed.</p>
+								</xsl:when>
+								<xsl:otherwise>
+									<p>* Please note forums will be removed from priority moderation after <xsl:value-of select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'MaxItemsInPriorityModeration']/VALUE" /> posts.</p>
+								</xsl:otherwise>
+							</xsl:choose>
+							
+							
 						</div>
 						<ul class="pagination cfl-pagination">
 							<xsl:call-template name="cfl-skip-show"/>
@@ -87,7 +97,7 @@
 			<th>Mod Status</th>
 			<th>Close Date</th>
 			<th>Open/Close</th>
-			<th>Fast Moderation</th>
+			<th>Priority Moderation*</th>
 		</tr>
 		<tr>
 			<xsl:call-template name="objects_stripe" />	   
