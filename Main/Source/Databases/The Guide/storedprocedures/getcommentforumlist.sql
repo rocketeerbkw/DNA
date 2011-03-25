@@ -8,7 +8,7 @@ BEGIN
 
 WITH CTE_COMMENTFORUMLIST AS
 (
-	SELECT ROW_NUMBER() OVER(ORDER BY f.ForumID ASC) AS 'n', cf.Uid
+	SELECT ROW_NUMBER() OVER(ORDER BY f.ForumID desc) AS 'n', cf.Uid
 	FROM Forums f WITH(NOLOCK) 
 	INNER JOIN CommentForums cf WITH(NOLOCK) on cf.ForumID = f.ForumID
 )
