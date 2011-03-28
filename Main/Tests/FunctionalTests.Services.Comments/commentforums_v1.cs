@@ -1560,6 +1560,44 @@ namespace FunctionalTests.Services.Comments
             Console.WriteLine("After GetCommentForumXML");
         }
 
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateCommentForum_NoneditorButInternal_CreatesForum()
+        {
+            Console.WriteLine("Before CreateCommentForum");
+
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            string id = "FunctiontestCommentForum-" + Guid.NewGuid(); //have to randomize the string to post
+            string title = "Functiontest Title";
+            string parentUri = "http://www.bbc.co.uk/dna/h2g2/";
+            string commentForumXml = String.Format("<commentForum xmlns=\"BBC.Dna.Api\">" +
+                                                   "<id>{0}</id>" +
+                                                   "<title>{1}</title>" +
+                                                   "<parentUri>{2}</parentUri>" +
+                                                   "</commentForum>", id, title, parentUri);
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/?_bbc_=1",
+                                       _sitename);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            var returnedForum =
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.IsTrue(returnedForum.Id == id);
+
+            Console.WriteLine("After GetCommentForumXML");
+        }
+
         [TestMethod]
         public void GetCommentForumsBySitenameXML_WithEditorsPickFilter()
         {

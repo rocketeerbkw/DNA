@@ -250,9 +250,19 @@ namespace BBC.Dna.Services
             try
             {
                 var site = GetSite(sitename);
-                _commentObj.CallingUser = GetCallingUser(site);
+                try
+                {
+                    _commentObj.CallingUser = GetCallingUser(site);
+                }
+                catch (ApiException e)
+                {
+                    if (!_internalRequest)
+                    {
+                        throw e;
+                    }
+                }
 
-                if (_commentObj.CallingUser.IsUserA(UserTypes.Editor))
+                if (_internalRequest || _commentObj.CallingUser.IsUserA(UserTypes.Editor))
                 {
                     commentForumData = _commentObj.CreateCommentForum(commentForum, site);
                 }
