@@ -370,8 +370,8 @@
 	<xsl:template match="POST" mode="post_info">
     <xsl:variable name="priorityPost">
       <xsl:choose>
-        <xsl:when test="@ISPRIORITYPOST">
-          <xsl:text>** High Priority **</xsl:text>
+        <xsl:when test="@ISPRIORITYPOST =1">
+          <xsl:text>** High Priority ** </xsl:text>
         </xsl:when>
       </xsl:choose>
     </xsl:variable>
