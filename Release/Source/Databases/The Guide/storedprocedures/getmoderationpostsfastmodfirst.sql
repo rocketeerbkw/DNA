@@ -207,7 +207,7 @@ SELECT		tm.ModID,
 		END as 'ComplainantIDViaEmail', 
 		cf.Url as 'CommentForumUrl', 
 		te.PostIndex,
-		isnull(fmf.forumid, 0) as 'priority'
+		case when fmf.forumid is null then 0 else 1 end as 'priority'
 FROM @modqueue mq
 INNER JOIN ThreadMod tm WITH (NOLOCK) ON tm.ModID = mq.ModID AND tm.IsPreModPosting = 0 
 INNER JOIN Threads th WITH (NOLOCK) ON th.ThreadId = tm.ThreadId
@@ -307,7 +307,7 @@ SELECT	tm.ModID,
 		END as 'ComplainantIDViaEmail', 
 		cf.Url as 'CommentForumUrl', 
 		-1 as 'PostIndex' -- PreModPostings are only created after moderation so they don't have a ThreadEntries record let alone a PostIndex.
-		, isnull(fmf.forumid, 0) as 'priority'
+		, case when fmf.forumid is null then 0 else 1 end as 'priority'
 FROM @modqueue mq
 INNER JOIN ThreadMod tm WITH (NOLOCK) ON tm.ModID = mq.ModID AND tm.IsPreModPosting = 1
 INNER JOIN PreModPostings pmp WITH (NOLOCK) ON pmp.ModID = mq.ModID

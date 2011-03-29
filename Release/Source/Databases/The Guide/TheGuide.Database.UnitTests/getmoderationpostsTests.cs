@@ -246,6 +246,7 @@ namespace TheGuide.Database.UnitTests
                     items++;
                     int modId = reader.GetInt32NullAsZero("modid");
                     Assert.AreNotEqual(0, modId);
+                    Assert.AreEqual(1, reader.GetInt32NullAsZero("priority"));
                     VerifyModItem(modId, _userId, 0, 58);
                 }
                 Assert.AreEqual(1, items); //should only return one item as other one in other mod class
@@ -328,6 +329,7 @@ namespace TheGuide.Database.UnitTests
                     items++;
                     int modId = reader.GetInt32NullAsZero("modid");
                     Assert.AreNotEqual(0, modId);
+                    Assert.AreEqual(0, reader.GetInt32NullAsZero("priority"));
                     VerifyModItem(modId, _userId, 0, postIds.Dequeue());
                 }
                 Assert.AreEqual(3, items); //should only return one item as other one in other mod class
@@ -362,6 +364,7 @@ namespace TheGuide.Database.UnitTests
                     items++;
                     int modId = reader.GetInt32NullAsZero("modid");
                     Assert.AreNotEqual(0, modId);
+                    Assert.AreEqual(0, reader.GetInt32NullAsZero("priority"));
                     VerifyModItem(modId, _userId, 0, postIds.Dequeue());
                 }
                 Assert.AreEqual(3, items); //should only return one item as other one in other mod class
