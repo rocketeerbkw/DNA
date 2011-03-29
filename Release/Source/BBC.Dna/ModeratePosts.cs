@@ -177,6 +177,7 @@ namespace BBC.Dna.Component
                         AddAttribute(post, "THREADID", dataReader.GetInt32NullAsZero("threadid"));
                         AddAttribute(post, "FORUMID", dataReader.GetInt32NullAsZero("forumid"));
                         AddAttribute(post, "ISPREMODPOSTING", dataReader.GetTinyIntAsInt("ispremodposting"));
+                        AddAttribute(post, "ISPRIORITYPOST", dataReader.GetTinyIntAsInt("priority"));
                         //AddAttribute(post, "MODCLASSID", dataReader.GetInt32NullAsZero("modclassid"));
                         AddIntElement(post, "MODERATION-STATUS", dataReader.GetInt32NullAsZero("threadmoderationstatus"));
 

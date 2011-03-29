@@ -23,6 +23,7 @@ namespace FunctionalTests
         private int _postId = 61;
         private int _h2g2Id = 559;
         private string _siteName = "mbiplayer";
+        private int _siteId = 72;
         private int _userId = TestUserAccounts.GetNormalUserAccount.UserID;
         private int _modClassId = 4;
 
@@ -198,6 +199,7 @@ namespace FunctionalTests
             }
             finally
             {
+                
                 ClearAllEmails();
                 RemoveVerificationTemplate();
             }
@@ -213,6 +215,7 @@ namespace FunctionalTests
 
             try
             {
+                DeleteFailPost();
                 AddVerificationTemplate();
 
                 var complaintText = Guid.NewGuid().ToString();
@@ -275,6 +278,46 @@ namespace FunctionalTests
         /// Test existing c++ code base
         /// </summary>
         [TestMethod]
+        public void UserComplaint_ValidAnonymousComplaintAlreadyFailed_CorrectErrorCode()
+        {
+
+            try
+            {
+                DeleteFailPost();
+                AddVerificationTemplate();
+
+                var complaintText = Guid.NewGuid().ToString();
+                var complaintReason = "a reason";
+                var email = "a@bbc.co.uk";
+                var complaintUrl = "";
+                var anonymous = true;
+                Guid verificationCode = Guid.Empty;
+
+                var xml = PostComplaint(complaintText, complaintReason, email, 0, _postId, complaintUrl, anonymous);
+
+                CheckForValidVerificationResponse(xml, out verificationCode, "usercomplaint.xsd", email);
+                CheckEmailWasSent("UserComplaintEmailVerification", verificationCode.ToString());
+                ClearAllEmails();
+
+                //fail post
+                FailPost();
+
+                xml = PostVerificationComplaint(verificationCode);
+                CheckForError(xml, "AlreadyModerated", "This post has already being moderated and removed.");
+            }
+            finally
+            {
+                DeleteFailPost();
+                ClearAllEmails();
+                RemoveVerificationTemplate();
+            }
+
+        }
+
+        /// <summary>
+        /// Test existing c++ code base
+        /// </summary>
+        [TestMethod]
         public void UserComplaint_ValidAnonymousComplaintAgainstWithBBCEmailInternal_CorrectModId()
         {
 
@@ -310,6 +353,7 @@ namespace FunctionalTests
 
             try
             {
+                
                 RemoveVerificationTemplate();
 
                 var complaintText = Guid.NewGuid().ToString();
@@ -329,6 +373,7 @@ namespace FunctionalTests
             }
             finally
             {
+                
                 ClearAllEmails();
                 RemoveVerificationTemplate();
             }
@@ -728,6 +773,34 @@ namespace FunctionalTests
                 dataReader.ExecuteDEBUGONLY("delete from emailtemplates where name='UserComplaintEmailVerification'");
             }
         }
+
+        private void FailPost()
+        {
+            var date = "GetDate()";
+            using (IDnaDataReader reader = StoredProcedureReader.Create(""))
+            {
+                var sql = "";
+                var rowNames = "[PostID],[DateQueued],[NewPost],[Notes],[SiteID], [Status]";
+                var values = "{0}, {1}, {2},'{3}', {4},{5}";
+
+                sql = string.Format("INSERT INTO threadmod" +
+                     "(" + rowNames + ")" +
+                     "VALUES (" + values + ")"
+                     , _postId, date, '1', "failed", _siteId, 4);
+
+                reader.ExecuteDEBUGONLY(sql);
+            }
+        }
+
+        private void DeleteFailPost()
+        {
+            
+            using (IDnaDataReader reader = StoredProcedureReader.Create(""))
+            {
+                reader.ExecuteDEBUGONLY("delete from threadmod where postid=" + _postId.ToString());
+            }
+        }
+
 
     }
 }

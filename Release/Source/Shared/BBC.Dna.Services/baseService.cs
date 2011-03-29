@@ -55,6 +55,7 @@ namespace BBC.Dna.Services
         protected string debugDnaUserId;
         protected IDnaDiagnostics dnaDiagnostic;
         protected string _languageCode = "en";
+        protected bool _internalRequest = false; //if request comes from bbc servers or not
 
         public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
         {
@@ -121,7 +122,7 @@ namespace BBC.Dna.Services
             {
                 _iPAddress = QueryStringHelper.GetHeaderValueAsString("REMOTE_ADDR", "");
             }
-
+            _internalRequest = (QueryStringHelper.GetQueryParameterAsString("_bbc_", "") == "1");
             debugDnaUserId = "";
 #if DEBUG
             debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");

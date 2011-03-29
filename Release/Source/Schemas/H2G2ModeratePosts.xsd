@@ -145,6 +145,7 @@
                   <xs:attribute name="THREADID" type="xs:unsignedInt" use="required" />
                   <xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
                   <xs:attribute name="ISPREMODPOSTING" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="ISPRIORITYPOST" type="xs:unsignedByte" use="required" />
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
