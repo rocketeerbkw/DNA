@@ -23,6 +23,7 @@ namespace Tests
 		[TestMethod]
 		public void TestPosting()
 		{
+            SnapshotInitialisation.ForceRestore();
 			// Test in Site ID 54 (mbcbbc) which has premod posting and process premod
 			// Use a regular user
 			// The moderator for this site is 1090564231

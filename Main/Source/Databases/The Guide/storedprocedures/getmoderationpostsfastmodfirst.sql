@@ -144,7 +144,6 @@ END
 
 COMMIT TRAN
 
-
 -- Return the details. 
 SELECT		tm.ModID,
 		ge.Subject 'TopicTitle',
@@ -207,7 +206,8 @@ SELECT		tm.ModID,
 			ELSE -1
 		END as 'ComplainantIDViaEmail', 
 		cf.Url as 'CommentForumUrl', 
-		te.PostIndex
+		te.PostIndex,
+		isnull(fmf.forumid, 0) as 'priority'
 FROM @modqueue mq
 INNER JOIN ThreadMod tm WITH (NOLOCK) ON tm.ModID = mq.ModID AND tm.IsPreModPosting = 0 
 INNER JOIN Threads th WITH (NOLOCK) ON th.ThreadId = tm.ThreadId
@@ -241,6 +241,7 @@ LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND
 
 -- Get the UID & URL if it's a comment forum. 
 LEFT JOIN CommentForums cf WITH (NOLOCK) ON te.ForumID = cf.ForumID
+LEFT JOIN FastModForums fmf WITH (NOLOCK) ON fmf.ForumID = te.ForumID
 
 UNION ALL
 
@@ -306,6 +307,7 @@ SELECT	tm.ModID,
 		END as 'ComplainantIDViaEmail', 
 		cf.Url as 'CommentForumUrl', 
 		-1 as 'PostIndex' -- PreModPostings are only created after moderation so they don't have a ThreadEntries record let alone a PostIndex.
+		, isnull(fmf.forumid, 0) as 'priority'
 FROM @modqueue mq
 INNER JOIN ThreadMod tm WITH (NOLOCK) ON tm.ModID = mq.ModID AND tm.IsPreModPosting = 1
 INNER JOIN PreModPostings pmp WITH (NOLOCK) ON pmp.ModID = mq.ModID
@@ -338,6 +340,7 @@ LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND
 
 -- Get the UID & URL if it's a comment forum. 
 LEFT JOIN CommentForums cf WITH (NOLOCK) ON pmp.ForumID = cf.ForumID
+LEFT JOIN FastModForums fmf WITH (NOLOCK) ON fmf.ForumID = pmp.ForumID
 
 ORDER BY mq.id asc
 
