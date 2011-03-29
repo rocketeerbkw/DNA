@@ -185,7 +185,19 @@ namespace BBC.Dna.Component
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("registerverifiedcomplaint"))
             {
                 dataReader.AddParameter("verificationcode", code);
+                dataReader.AddIntReturnValue();
                 dataReader.Execute();
+
+                int retValue=0;
+                try
+                {
+                    if (dataReader.TryGetIntReturnValue(out retValue) && retValue == -2)
+                    {
+                        this.AddErrorXml("AlreadyModerated", "This post has already being moderated and removed.", RootElement);
+                        return;
+                    }
+                }
+                catch { }
 
                 if (dataReader.HasRows && dataReader.Read())
                 {

@@ -4,9 +4,10 @@ create procedure registerverifiedcomplaint
 	@verificationcode uniqueidentifier
 as
 	declare @ModID int
+	
 	DECLARE @lockedby INT
 	
-	select @ModID = tm.ModId 
+	select @ModID = tm.ModId
 	FROM ThreadMod tm
 	inner join ThreadModAwaitingEmailVerification tmv on tm.postid = tmv.postid
 	where tmv.id = @verificationCode AND tm.status=0 AND tm.complainantid IS NULL AND tm.lockedby IS NULL
@@ -18,6 +19,19 @@ as
 		where ModId = @ModID
 	END
 	
+	--if post already failed then remove complaint and return -1
+	declare @failedpostid int
+	select @failedpostid = tm.postid
+	FROM ThreadMod tm
+	inner join ThreadModAwaitingEmailVerification tmv on tm.postid = tmv.postid
+	where tmv.id = @verificationCode AND tm.status=4
+	if @failedpostid is not null
+	BEGIN
+		delete from ThreadModAwaitingEmailVerification
+		where id = @verificationCode
+	
+		return(-2)
+	END
 
 	--Add New Moderation item to queue.
 	insert into ThreadMod 
