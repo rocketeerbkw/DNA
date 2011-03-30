@@ -156,6 +156,7 @@ namespace FunctionalTests
                 termsList.Terms.Add(new Term { Value = term, Action = action });
                 termsLists.Termslist.Add(termsList);
             }
+            Assert.AreNotEqual(0, termsLists.Termslist.Count);
 
             var postParams = new Queue<KeyValuePair<string, string>>();
             postParams.Enqueue(new KeyValuePair<string, string>("reason", reason));
