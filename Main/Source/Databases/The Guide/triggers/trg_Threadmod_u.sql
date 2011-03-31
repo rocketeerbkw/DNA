@@ -5,11 +5,12 @@ AS
 	IF UPDATE(DateCompleted)
 	BEGIN
 	
-		select fmf.forumid
+		declare @fmfforumid int
+		select @fmfforumid = fmf.forumid
 		from fastmodforums fmf
 		inner join inserted i on i.forumid = fmf.forumid
 		
-		if @@rowcount = 0
+		if @fmfforumid is null
 		BEGIN 
 			return 
 		END
@@ -38,7 +39,6 @@ AS
 		END
 
 		-- remove from fast mod if there are more than allowed
-		declare @fmfforumId int
 		
 		select @fmfforumId  = forumId
 		from
