@@ -51,15 +51,15 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void TermsFilterImportPage_WithoutEditorAuthentication_AccessDenied()
+        public void TermsFilterImportPage_WithoutEditorAuthenticationAsInSecured_AccessDenied()
         {
             var siteName = "moderation";
-            var request = new DnaTestURLRequest(siteName) {UseEditorAuthentication = false};
+            var request = new DnaTestURLRequest(siteName) { UseEditorAuthentication = false, UseDebugUserSecureCookie=false};
             request.SetCurrentUserSuperUser();
             bool exceptionThrown=false;
             try
             {
-                request.RequestPage("termsfilterimport?&skin=purexml");
+                request.RequestPage("termsfilterimport?&skin=purexml", false, null);
             }
             catch (Exception)
             {
@@ -67,6 +67,25 @@ namespace FunctionalTests
             }
 
             Assert.IsTrue(exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TermsFilterImportPage_WithoutEditorAuthenticationAsSecure_NoError()
+        {
+            var siteName = "moderation";
+            var request = new DnaTestURLRequest(siteName) { UseEditorAuthentication = false};
+            request.SetCurrentUserSuperUser();
+            bool exceptionThrown = false;
+            try
+            {
+                request.RequestPage("termsfilterimport?&skin=purexml", true, null);
+            }
+            catch (Exception)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsFalse(exceptionThrown);
         }
 
         [TestMethod]

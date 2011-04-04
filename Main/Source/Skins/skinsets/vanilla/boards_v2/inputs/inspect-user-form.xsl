@@ -48,7 +48,7 @@
                     </p>
                     <p>
                         <label for="EmailAddress">Email address</label>
-                        <input type="text" id="EmailAddress" name="EmailAddress" value="{USER/EMAIL-ADDRESS}" class="text" />
+                        <input type="text" id="EmailAddress" name="EmailAddress" value="" class="text" /> (Hidden)
                     </p>
                     <p>
                         <label for="LoginName">Login name</label>
