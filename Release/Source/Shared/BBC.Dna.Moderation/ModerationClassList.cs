@@ -102,7 +102,7 @@ namespace BBC.Dna.Moderation
 
         public void SendSignal()
         {
-            SendSignal();
+            base.SendSignals();
         }
     }
 

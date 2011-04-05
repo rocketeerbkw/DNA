@@ -440,6 +440,9 @@ bool CXMLBuilder::IsUserAuthorised()
 	{
 		return true;
 	}
+	// dont check editor credentials...
+	return true;
+/*
 	CTDVString UserName;
 	if (!m_InputContext.GetUserName(&UserName))
 	{
@@ -468,7 +471,7 @@ bool CXMLBuilder::IsUserAuthorised()
 	else
 	{
 		return false;
-	}
+	}*/
 }
 
 /*********************************************************************************

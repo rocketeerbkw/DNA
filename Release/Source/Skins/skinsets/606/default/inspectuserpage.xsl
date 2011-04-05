@@ -104,7 +104,7 @@
 					<tr valign="top">
 						<td><font xsl:use-attribute-sets="mainfont"><b>UserName:</b> <br/><input type="text" name="UserName" value="{USER/USERNAME}"/></font></td>
 						<td>&nbsp;</td>
-						<td><font xsl:use-attribute-sets="mainfont"><b>Email:</b> <br/><input type="text" name="EmailAddress" value="{USER/EMAIL-ADDRESS}"/></font></td>
+						<td><font xsl:use-attribute-sets="mainfont"><b>Email:</b> <br/>(Hidden)</font></td>
 						<td>&nbsp;</td>
 						<td><font xsl:use-attribute-sets="mainfont"><b>LoginName:</b> <br/><input type="text" name="LoginName" value="{USER/LOGIN-NAME}" disabled="disabled"/></font></td>
 						<td>&nbsp;</td>

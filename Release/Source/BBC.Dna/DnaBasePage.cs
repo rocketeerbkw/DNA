@@ -309,17 +309,15 @@ namespace BBC.Dna.Page
 					//_page.AddTextTag(_page.RootElement.FirstChild, "REQUESTTYPE", PageType);
                     //_skinSelector.Initialise(this, this);
 				}
-                else if (!IsUserAllowed())
+                InitialisePage();
+                if (!IsUserAllowed())
                 {
-                    InitialisePage();
+                    
                     Response.StatusCode = 401;
                 }
                 else
 				{
 					// Intialise the page
-					InitialisePage();
-
-
                     Statistics.AddRawRequest();
 
                     if (!IsDnaUserAllowed() && !_useDotNetRendering )
@@ -939,6 +937,12 @@ namespace BBC.Dna.Page
 			{
 				return true;
 			}
+
+            if (_isSecureRequest)
+            {
+                return true;
+            }
+
 			string userName = Request.LogonUserIdentity.Name;
 			if (userName.Contains(@"\"))
 			{
