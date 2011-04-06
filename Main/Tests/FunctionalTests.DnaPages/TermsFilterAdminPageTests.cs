@@ -58,7 +58,8 @@ namespace FunctionalTests
             bool exceptionThrown=false;
             try
             {
-                request.RequestPage("termsfilteradmin?modclassid=2&skin=purexml");
+                request.UseDebugUserSecureCookie = false;
+                request.RequestPage("termsfilteradmin?modclassid=2&skin=purexml", false, null);
             }
             catch (Exception)
             {
