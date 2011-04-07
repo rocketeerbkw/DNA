@@ -632,3 +632,9 @@ Marcus
 		update moderationclass
 		set ItemRetrievalType=2
 		where name <> 'Vulnerable' and name <> 'Kids'
+
+============== v 3.5.59.0 ============
+Ali
+	Change to /Skins/common/configuration.xsl needs to be made.
+	Under the <host> node another node needs to be added.
+	<sslurl>https://[name of server here].bbc.co.uk</sslurl>
