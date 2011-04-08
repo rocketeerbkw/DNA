@@ -25,7 +25,7 @@ echo Copying skins
 robocopy %varBinaryRoot%\h2g2\skins %varServerLocation%\h2g2\skins %varRobocopyParams%
 
 echo Ripley
-robocopy %varBinaryRoot%\h2g2\RipleyServer.dll %varServerLocation%\h2g2\ %varRobocopyParams%
+xcopy %varBinaryRoot%\h2g2\RipleyServer.dll  %varServerLocation%\h2g2\ /y
 
 echo Starting IIS
 sc \\%varServerName% start "memcached server"
