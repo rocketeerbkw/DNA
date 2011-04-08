@@ -120,10 +120,10 @@
                 <xsl:value-of select="$configuration/host/sslurl" />
                 
                 <xsl:text>/dna/</xsl:text>
-                <!--cater for staging instance-->
+                <!--cater for staging instance
                 <xsl:if test="/H2G2/SERVERNAME = 'NMSDNA0'">
                     <xsl:text>staging/</xsl:text>
-                </xsl:if>
+                </xsl:if>-->
                 
                 <xsl:text>secure/</xsl:text>
                 
