@@ -33,7 +33,7 @@ public partial class MBBackupRestorePage : DnaWebPage
         {
             get
             {
-                return DnaBasePage.UserTypes.EditorAndAbove;
+                return DnaBasePage.UserTypes.Any;
             }
         }
     }

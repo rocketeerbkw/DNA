@@ -46,7 +46,7 @@ static char THIS_FILE[]=__FILE__;
 CMessageBoardAdminBuilder::CMessageBoardAdminBuilder(CInputContext& inputContext)
 : m_pViewingUser(NULL), m_pPage(NULL), CXMLBuilder(inputContext)
 {
-	m_AllowedUsers = USER_EDITOR | USER_ADMINISTRATOR;
+	//m_AllowedUsers = USER_EDITOR | USER_ADMINISTRATOR;
 }
 
 

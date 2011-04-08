@@ -104,7 +104,7 @@
 							</xsl:if>						
 							<a class="popup">
 								<xsl:attribute name="href">
-									<xsl:value-of select="concat('/dna/', SITEURL,'/comments/UserComplaintPage?PostID=' , THREADENTRYID, '&amp;s_start=1&amp;s_ptrt=')" />
+									<xsl:value-of select="concat('/dna/secure/', SITEURL,'/comments/UserComplaintPage?PostID=' , THREADENTRYID, '&amp;s_start=1&amp;s_ptrt=')" />
 									<xsl:call-template name="library_serialise_ptrt_in">
 										<xsl:with-param name="string">
 											<xsl:apply-templates select="/H2G2" mode="library_memberservice_ptrt" />
@@ -120,7 +120,7 @@
 					</xsl:choose>
 					<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
 						<p>
-							<a class="popup" href="/dna/moderation/EditPost?PostId={THREADENTRYID}">Edit Post</a>
+							<a class="popup" href="/dna/moderation/boards-admin/EditPost?PostId={THREADENTRYID}">Edit Post</a>
 						</p>
 					</xsl:if>
 				</xsl:if>
