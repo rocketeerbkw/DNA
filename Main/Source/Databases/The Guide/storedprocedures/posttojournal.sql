@@ -42,7 +42,7 @@ BEGIN
 		RETURN @ErrorCode
 	END
 	
-	SELECT @journal = @@IDENTITY
+	SELECT @journal = SCOPE_IDENTITY()
 	
 	UPDATE Users SET Journal = @journal WHERE UserID = @userid
 	SELECT @ErrorCode = @@ERROR
@@ -107,7 +107,7 @@ BEGIN
 	EXEC Error @ErrorCode
 	RETURN @ErrorCode
 END
-SELECT @threadid = @@IDENTITY
+SELECT @threadid = SCOPE_IDENTITY()
 
 INSERT INTO ThreadEntries (ThreadID, blobid, text, ForumID, UserID, Subject, UserName, Hidden, PostStyle)
 	VALUES(@threadid, 0, @content, @journal, @userid, @subject, @nickname, CASE WHEN @premoderation = 1 THEN 3 ELSE NULL END, @poststyle)
@@ -120,7 +120,7 @@ BEGIN
 END
 
 declare @entryid int
-SELECT @entryid = @@IDENTITY
+SELECT @entryid = SCOPE_IDENTITY()
 --increment the post by thread counter for the specific thread
 EXEC updatethreadpostcount @threadid, 1
 SELECT @ErrorCode = @@ERROR
@@ -188,5 +188,8 @@ END
 UPDATE PostDuplicates SET ThreadID = @threadid, PostID = @entryid WHERE HashValue = @hash
 
 COMMIT TRANSACTION
+
+-- Add events, DON'T CHECK FOR ERRORS! We don't want the event queue to fail this procedure. If it works, it works!
+EXEC createpostingevents @userid, @journal, /*@inreplyto*/ NULL, @threadid, @entryid
 
 SELECT 'ForumID' = @journal, 'ThreadID' = @threadid, 'PostID' = @entryid
