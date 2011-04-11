@@ -250,6 +250,7 @@
     <None Include="CreateNewUserGroup.sql" />
     <None Include="createnewuserwithBBCUID.sql" />
     <None Include="createnewvote.sql" />
+    <None Include="createpostingevents.sql" />
     <None Include="createpremodpostingentry.sql" />
     <None Include="createprivateforum.sql" />
     <None Include="createroute.sql" />
