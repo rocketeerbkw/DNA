@@ -460,11 +460,10 @@ namespace FunctionalTests
 
             _normalUserRequest.RequestPage("CommentForumList?skin=purexml");
 
-            XmlDocument xml = _normalUserRequest.GetLastResponseAsXML();
-            XmlNode node;
-            node = xml.SelectSingleNode("H2G2/ERROR/ERRORMESSAGE");
-            Assert.IsTrue(node.InnerText.Contains(@"not authorised"), "The comment forum has can be viewed by a normal user!!!");
+            CheckError(_normalUserRequest, "Not Authorised");
         }
+
+        
 
         /// <summary>
         /// Test we get the editable sites sitelist. 
@@ -534,6 +533,67 @@ namespace FunctionalTests
 
         }
 
+        /// <summary>
+        /// Testing updating the a comment forum mod status, open close status and end/close date
+        /// </summary>
+        [TestMethod]
+        public void Test19CreateCommentForumTest()
+        {
+            Console.WriteLine("Test19CreateCommentForumTest");
+            var testUid = Guid.NewGuid().ToString();
+
+            string requesturl = "CommentForumList?dnaaction=create&dnauid=" + testUid + @"&dnahostpageurl=http://bbc.co.uk/&dnatitle=test&skin=purexml";
+            _request.RequestPage(requesturl);
+
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            XmlNode node;
+
+            node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + testUid + "']/HOSTPAGEURL");
+            Assert.IsTrue(node.InnerText == "http://bbc.co.uk/", "The comment forum was not created");
+            node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + testUid + "']/TITLE");
+            Assert.IsTrue(node.InnerText == "test", "The comment forum was not created");
+        }
+
+        [TestMethod]
+        public void Test20CreateCommentForumTest_Withoutuid_CorrectError()
+        {
+            Console.WriteLine("Test20CreateCommentForumTest_Withoutuid_CorrectError");
+            var testUid = Guid.NewGuid().ToString();
+
+            string requesturl = "CommentForumList?dnaaction=create&dnauid=&dnahostpageurl=http://bbc.co.uk/&dnatitle=test&skin=purexml";
+            _request.RequestPage(requesturl);
+
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            CheckError(_request, "blank unique id provided");
+        }
+
+        [TestMethod]
+        public void Test21CreateCommentForumTest_WithoutUrl_CorrectError()
+        {
+            Console.WriteLine("Test21CreateCommentForumTest_WithoutUrl_CorrectError");
+            var testUid = Guid.NewGuid().ToString();
+
+            string requesturl = "CommentForumList?dnaaction=create&dnauid=" + testUid + @"&dnatitle=test&skin=purexml";
+            _request.RequestPage(requesturl);
+
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            CheckError(_request, "No url provided");
+        }
+
+        [TestMethod]
+        public void Test22CreateCommentForumTest_WithoutTitle_CorrectError()
+        {
+            Console.WriteLine("Test22CreateCommentForumTest_WithoutTitle_CorrectError");
+            var testUid = Guid.NewGuid().ToString();
+
+            string requesturl = "CommentForumList?dnaaction=create&dnauid=" + testUid + @"&dnahostpageurl=http://bbc.co.uk/&skin=purexml";
+            _request.RequestPage(requesturl);
+
+            XmlDocument xml = _request.GetLastResponseAsXML();
+            CheckError(_request, "No title provided");
+        }
+
+
 
         /// <summary>
         /// Gets site id for thre given site.
@@ -552,6 +612,14 @@ namespace FunctionalTests
                 }
             }
             return 0;
+        }
+
+        private static void CheckError(DnaTestURLRequest _normalUserRequest, string errorMess)
+        {
+            XmlDocument xml = _normalUserRequest.GetLastResponseAsXML();
+            XmlNode node;
+            node = xml.SelectSingleNode("H2G2/ERROR/ERRORMESSAGE");
+            Assert.IsTrue(node.InnerText.Contains(errorMess), "Wrong error returned");
         }
     }
 }
