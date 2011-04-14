@@ -220,4 +220,18 @@ public partial class ModerationClassAdmin : BBC.Dna.Page.DnaWebPage
         }
 
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnRefreshCaches_Click(object sender, EventArgs e)
+    {
+        //send signal
+        var cache = (ModerationClassListCache)SignalHelper.GetObject(typeof(ModerationClassListCache));
+        cache.SendSignal();
+        //Refresh
+        _basePage.Server.Transfer(_basePage.Request.RawUrl);
+    }
 }

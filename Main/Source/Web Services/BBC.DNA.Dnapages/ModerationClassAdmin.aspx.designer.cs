@@ -137,4 +137,6 @@ public partial class ModerationClassAdmin {
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.Button btnAddModClass;
+
+    protected global::System.Web.UI.WebControls.Button btnRefreshCaches;
 }
