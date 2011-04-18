@@ -9,6 +9,7 @@ using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
+using System.Xml.Linq;
 
 namespace Dna.SiteEventProcessor
 {
@@ -92,28 +93,25 @@ namespace Dna.SiteEventProcessor
                         }
                         break;
                 }
-            
 
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml("<ACTIVITYDATA>" + 
-                            string.Format(DataFormat,
+                siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                          string.Format(DataFormat,
                             dataReader.GetInt32NullAsZero("user_userid"), dataReader.GetStringNullAsEmpty("user_username"),
                             dataReader.GetInt32NullAsZero("status"), moderationStatus, dataReader.GetInt32NullAsZero("siteid"),
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
                             duration, dataReader.GetStringNullAsEmpty("modreason"))
-                            + "</ACTIVITYDATA>");
-                siteEvent.ActivityData = doc.DocumentElement;
+                           );
+
+                if (siteEvent != null)
+                {
+                    siteEvent.SaveEvent(creator);
+                }
                 
             }
             catch(Exception e)
             {
                 siteEvent = null;
                 SiteEventsProcessor.SiteEventLogger.LogException(e);
-            }
-
-            if (siteEvent != null)
-            {
-                siteEvent.SaveEvent(creator);
             }
 
             return siteEvent;

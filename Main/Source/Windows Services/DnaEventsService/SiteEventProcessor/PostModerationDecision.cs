@@ -8,6 +8,7 @@ using System.Xml;
 using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using BBC.Dna.Objects;
+using System.Xml.Linq;
 
 namespace Dna.SiteEventProcessor
 {
@@ -52,38 +53,43 @@ namespace Dna.SiteEventProcessor
                 {
                     type = "comment";
                 }
-            
-                XmlDocument doc = new XmlDocument();
                 
                 switch ((ModerationDecisionStatus)statusId)
                 {
                     case ModerationDecisionStatus.Fail:
                         siteEvent.Type = SiteActivityType.ModeratePostFailed;
-                        doc.LoadXml("<ACTIVITYDATA>" + string.Format(DataFormatFailed,
+                        siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                          string.Format(DataFormatFailed,
                             dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
                             dataReader.GetInt32NullAsZero("author_userid"), dataReader.GetStringNullAsEmpty("author_username"),
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
-                            dataReader.GetStringNullAsEmpty("ModReason")) + "</ACTIVITYDATA>");
-                        siteEvent.ActivityData = doc.DocumentElement;
+                            dataReader.GetStringNullAsEmpty("ModReason"))
+                            );
 
                         break;
 
 
                     case ModerationDecisionStatus.Referred:
                         siteEvent.Type = SiteActivityType.ModeratePostReferred;
-                        doc.LoadXml("<ACTIVITYDATA>" + string.Format(DataFormatReferred,
+                        siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                         string.Format(DataFormatReferred,
                             dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
                             dataReader.GetInt32NullAsZero("author_userid"), dataReader.GetStringNullAsEmpty("author_username"),
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
-                            dataReader.GetStringNullAsEmpty("Notes"))+ "</ACTIVITYDATA>");
-                        siteEvent.ActivityData = doc.DocumentElement;
+                            dataReader.GetStringNullAsEmpty("Notes"))
+                           );
                         break;
 
                     default:
                         siteEvent = null;
                         break;
+                }
+
+                if (siteEvent != null)
+                {
+                    siteEvent.SaveEvent(creator);
                 }
             }
             catch(Exception e)
@@ -92,10 +98,7 @@ namespace Dna.SiteEventProcessor
                 SiteEventsProcessor.SiteEventLogger.LogException(e);
             }
 
-            if (siteEvent != null)
-            {
-                siteEvent.SaveEvent(creator);
-            }
+            
 
             return siteEvent;
         }

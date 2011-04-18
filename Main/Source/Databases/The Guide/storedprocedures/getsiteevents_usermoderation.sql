@@ -16,7 +16,7 @@ SELECT
       , dbo.udf_getusername(upsaa.siteid, upsaa.userid) as 'user_username'
       , upsa.userid as 'mod_userid'
       , dbo.udf_getusername(upsaa.siteid, upsa.userid) as 'mod_username'
-      , case when upsa.DeactivateAccount =1 then 1 else upsaa.siteid end as 'siteid'
+      , case when upsaa.siteid  =0 then 1 else upsaa.siteid end as 'siteid' -- deactivated and returned from deactivate will return 0
       , case when upsa.DeactivateAccount =1 then 5 else upsaa.newprefstatus end as 'status'
       , upsa.reason as 'modreason'
       , upsaa.prefduration

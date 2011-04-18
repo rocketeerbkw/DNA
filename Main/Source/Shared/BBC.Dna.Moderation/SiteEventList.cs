@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
 using BBC.Dna.Sites;
+using System.Xml.Linq;
 
 
 namespace BBC.Dna.Moderation
@@ -129,7 +130,7 @@ namespace BBC.Dna.Moderation
                         try
                         {
                             doc.LoadXml(reader.GetXmlAsString("activitydata"));
-                            siteEvent.ActivityData = doc.DocumentElement;
+                            siteEvent.ActivityData = new XElement("activitydata", doc.DocumentElement.InnerXml);
                             
                         }
                         catch
