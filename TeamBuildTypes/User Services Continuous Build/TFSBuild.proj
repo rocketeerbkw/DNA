@@ -270,7 +270,7 @@
 	<UsersApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Users\**\*.*"></UsersApi>
 	<Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
     <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.*"></Ripley>
-    <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\cleanfilter.reg;$(SolutionRoot)\DeploymentNotes.txt;$(SolutionRoot)\Deploy*.bat"></Documentation>
+    <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\cleanfilter.reg;$(SolutionRoot)\DeploymentNotes.txt;$(SolutionRoot)\deployExtdev.bat;$(SolutionRoot)\deploywebservicesLive.bat"></Documentation>
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
   </ItemGroup>
 
