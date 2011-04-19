@@ -270,11 +270,14 @@
 	<UsersApi Include="$(BinariesRoot)\debug\_PublishedWebsites\BBC.DNA.Services.Users\**\*.*"></UsersApi>
 	<Binaries Include="$(BinariesRoot)$(Platfom)$(Configuration)\**\*.*"></Binaries>
     <Ripley Include="$(BinariesRoot)\Win32\debug\RipleyServer.*"></Ripley>
+    <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\cleanfilter.reg;$(SolutionRoot)\DeploymentNotes.txt;$(SolutionRoot)\Deploy*.bat"></Documentation>
+    <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
   </ItemGroup>
 
 <!-- do post build step stuff -->
 
   <Target Name="PostBuildStep">
+    <CallTarget Targets="DeployToPublishFolder" />
     <!-- Create the build steps which start in mode "Running" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to integration server" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
@@ -327,5 +330,37 @@
     <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /D"></Exec>
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
+  </Target>
+
+  <Target Name="DeployToPublishFolder">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Deploying build to deploy folder" Condition=" '$(IsDesktopBuild)' != 'true' ">
+      <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
+      <Output TaskParameter="Id" PropertyName="DeployToPublishFolderId" />
+    </BuildStep>
+    <!-- create the deploy dir variable-->
+    <PropertyGroup>
+      <DeployDir>C:\RipleyDev\deploy\</DeployDir>
+    </PropertyGroup>
+
+    <!-- delete existing files -->
+    <Exec Command="rmdir /S /Q &quot;$(DeployDir)&quot;"></Exec>
+    <Exec Command="mkdir &quot;$(DeployDir)&quot;"></Exec>
+    <Copy SourceFiles="@(DnaPages)" DestinationFolder="$(DeployDir)wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CommentsApi)" DestinationFolder="$(DeployDir)wwwroot\api\comments\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ModerationApi)" DestinationFolder="$(DeployDir)wwwroot\api\moderation\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ArticlesApi)" DestinationFolder="$(DeployDir)wwwroot\api\articles\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(ForumsApi)" DestinationFolder="$(DeployDir)wwwroot\api\forums\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(CategoriesApi)" DestinationFolder="$(DeployDir)wwwroot\api\categories\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(UsersApi)" DestinationFolder="$(DeployDir)wwwroot\api\users\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Database)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <!-- When everything is done, change the status of the task to "Succeeded" -->
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
+    <OnError ExecuteTargets="DeployToPublishFolderFailed" />
+  </Target>
+  <Target Name="DeployToPublishFolderFailed">
+    <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
 </Project>
