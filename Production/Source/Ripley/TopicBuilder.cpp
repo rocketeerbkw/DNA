@@ -12,7 +12,7 @@ m_iSiteID(0),
 m_pWholePage(NULL),
 m_Topic(inputContext)
 {
-	m_AllowedUsers = USER_EDITOR | USER_ADMINISTRATOR;
+	//m_AllowedUsers = USER_EDITOR | USER_ADMINISTRATOR;
 }
 
 CTopicBuilder::~CTopicBuilder(void)

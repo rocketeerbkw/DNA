@@ -368,16 +368,27 @@
 		Purpose:	Displays the actual content of the POST
 	-->
 	<xsl:template match="POST" mode="post_info">
+    <xsl:variable name="priorityPost">
+      <xsl:choose>
+        <xsl:when test="@ISPRIORITYPOST =1">
+          <xsl:text>** High Priority ** </xsl:text>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+    
 		<xsl:choose>
 			<xsl:when test="@INREPLYTO">
 				<p class="postTitle">
+          <xsl:value-of select="$priorityPost"/>
 					<xsl:value-of select="SUBJECT"/>
 				</p>
 			</xsl:when>
 			<xsl:otherwise>
 				<p class="firstPostTitle">
 					<img src="{$asset-root}moderation/images/first_tag.gif" width="24" height="11" alt="First Post"/>
-					<xsl:value-of select="SUBJECT"/>
+          <xsl:value-of select="$priorityPost"/>
+          <xsl:value-of select="SUBJECT"/>
+          
 				</p>
 			</xsl:otherwise>
 		</xsl:choose>

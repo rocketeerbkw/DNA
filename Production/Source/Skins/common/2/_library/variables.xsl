@@ -108,6 +108,36 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
+    
+    <xsl:variable name="root-secure">
+        <xsl:choose>
+            <xsl:when test="/H2G2/FORUMTHREADPOSTS/@HOSTPAGEURL">
+                
+            </xsl:when>
+            <xsl:otherwise>
+            	
+            	<!-- make url absolute so can ping off to https from http pages -->
+                <xsl:value-of select="$configuration/host/sslurl" />
+                
+                <xsl:text>/dna/</xsl:text>
+                <!--cater for staging instance
+                <xsl:if test="/H2G2/SERVERNAME = 'NMSDNA0'">
+                    <xsl:text>staging/</xsl:text>
+                </xsl:if>-->
+                
+                <xsl:text>secure/</xsl:text>
+                
+                <xsl:choose>
+                    <xsl:when test="/H2G2/SITE/NAME">
+                        <xsl:value-of select="/H2G2/SITE/NAME"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="/H2G2/CURRENTSITEURLNAME"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>    
 	
 	<xsl:variable name="root-rss">
 		<xsl:value-of select="concat($root-base, '/rss')"/>

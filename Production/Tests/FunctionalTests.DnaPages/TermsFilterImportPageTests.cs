@@ -14,6 +14,7 @@ using System.Collections;
 using BBC.Dna.Api;
 using System.Net;
 using System.Threading;
+using BBC.Dna.Utils;
 
 namespace FunctionalTests
 {
@@ -28,7 +29,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void Initialise()
         {
-            SnapshotInitialisation.ForceRestore();
+            SnapshotInitialisation.RestoreFromSnapshot();
             //_ts = new TransactionScope();
         }
 
@@ -50,15 +51,15 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void TermsFilterImportPage_WithoutEditorAuthentication_AccessDenied()
+        public void TermsFilterImportPage_WithoutEditorAuthenticationAsInSecured_AccessDenied()
         {
             var siteName = "moderation";
-            var request = new DnaTestURLRequest(siteName) {UseEditorAuthentication = false};
+            var request = new DnaTestURLRequest(siteName) { UseEditorAuthentication = false, UseDebugUserSecureCookie=false};
             request.SetCurrentUserSuperUser();
             bool exceptionThrown=false;
             try
             {
-                request.RequestPage("termsfilterimport?&skin=purexml");
+                request.RequestPage("termsfilterimport?&skin=purexml", false, null);
             }
             catch (Exception)
             {
@@ -66,6 +67,25 @@ namespace FunctionalTests
             }
 
             Assert.IsTrue(exceptionThrown);
+        }
+
+        [TestMethod]
+        public void TermsFilterImportPage_WithoutEditorAuthenticationAsSecure_NoError()
+        {
+            var siteName = "moderation";
+            var request = new DnaTestURLRequest(siteName) { UseEditorAuthentication = false};
+            request.SetCurrentUserSuperUser();
+            bool exceptionThrown = false;
+            try
+            {
+                request.RequestPage("termsfilterimport?&skin=purexml", true, null);
+            }
+            catch (Exception)
+            {
+                exceptionThrown = true;
+            }
+
+            Assert.IsFalse(exceptionThrown);
         }
 
         [TestMethod]
@@ -142,9 +162,11 @@ namespace FunctionalTests
             var reason = "this has a reason";
             var term = "bollocks";
             var action = TermAction.ReEdit;
-            var moderationClassList =
-                    ModerationClassList.GetAllModerationClasses(DnaMockery.CreateDatabaseReaderCreator(), CacheFactory.GetCacheManager(),
-                                                                false);
+
+            var moderationClasses = new ModerationClassListCache(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
+
+
+            var moderationClassList = moderationClasses.GetObjectFromCache();
 
             var termsLists = new TermsLists();
             foreach(var modClass in moderationClassList.ModClassList)
@@ -153,6 +175,7 @@ namespace FunctionalTests
                 termsList.Terms.Add(new Term { Value = term, Action = action });
                 termsLists.Termslist.Add(termsList);
             }
+            Assert.AreNotEqual(0, termsLists.Termslist.Count);
 
             var postParams = new Queue<KeyValuePair<string, string>>();
             postParams.Enqueue(new KeyValuePair<string, string>("reason", reason));

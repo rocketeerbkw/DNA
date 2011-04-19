@@ -44,6 +44,10 @@
         <asp:TextBox ID="txtLanguage" runat="server" Style="z-index: 106;
             position: relative; left: 8px; top: 0px;" Width="448px" Text="en"></asp:TextBox>&nbsp;<br />
         <br />
+        <asp:Label ID="Label5" runat="server" Style="z-index: 105; position: relative;
+            top: 0px;" Text="Retrieval Policy" Width="88px"></asp:Label>
+        <asp:DropDownList ID="cmbRetrievalPolicy" runat="server"></asp:DropDownList> &nbsp;<br />
+        <br />
         <asp:Label ID="Label6" runat="server" Style="z-index: 107; position: relative;
             " Text="Template" Width="96px"></asp:Label>&nbsp;
         <asp:DropDownList ID="cmbTemplate" runat="server" Style="z-index: 108;

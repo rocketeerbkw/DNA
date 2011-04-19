@@ -33,7 +33,7 @@ public partial class MBAdminAssets : DnaWebPage
         {
             get
             {
-                return DnaBasePage.UserTypes.EditorAndAbove;
+                return DnaBasePage.UserTypes.Any;
             }
         }
     }

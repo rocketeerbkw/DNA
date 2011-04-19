@@ -58,6 +58,16 @@
 							<table class="dna-dashboard-activity dna-dashboard-cfl">
 								<xsl:apply-templates select="/H2G2/COMMENTFORUMLIST/COMMENTFORUM" />
 							</table>
+							<xsl:choose>
+								<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'MaxItemsInPriorityModeration']/VALUE = 0">
+									<p id="prioritymod">* Please note forums will remain in priority moderation until forum has closed.</p>
+								</xsl:when>
+								<xsl:otherwise>
+									<p id="prioritymod">* Please note forums will be removed from priority moderation after <xsl:value-of select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'MaxItemsInPriorityModeration']/VALUE" /> posts.</p>
+								</xsl:otherwise>
+							</xsl:choose>
+							
+							
 						</div>
 						<ul class="pagination cfl-pagination">
 							<xsl:call-template name="cfl-skip-show"/>
@@ -79,6 +89,14 @@
 					</xsl:attribute>
 					<xsl:value-of select="HOSTPAGEURL"/>
 				</a>
+				<xsl:choose>
+					<xsl:when test="@CANWRITE=0">
+						(<strong>currently closed</strong>)
+					</xsl:when>	
+					<xsl:when test="CLOSEDATE/DATE/@SORT &lt; /H2G2/DATE/@SORT and @CANWRITE = 1">
+						(<strong>currently closed</strong>)
+					</xsl:when>
+				</xsl:choose>				
 			</td>
 		</tr>
 		<tr>
@@ -87,7 +105,7 @@
 			<th>Mod Status</th>
 			<th>Close Date</th>
 			<th>Open/Close</th>
-			<th>Fast Moderation</th>
+			<th>Priority Moderation <a href="#prioritymod">*</a></th>
 		</tr>
 		<tr>
 			<xsl:call-template name="objects_stripe" />	   
@@ -186,9 +204,14 @@
 							<li>
 								<label for="dnanewcanwrite0{@UID}">Close</label>
 								<input type="radio" name="dnanewcanwrite" value="0" id="dnanewcanwrite0{@UID}">
-									<xsl:if test="@CANWRITE=0">
-										<xsl:attribute name="checked">checked</xsl:attribute>
-									</xsl:if>
+									<xsl:choose>
+										<xsl:when test="@CANWRITE=0">
+											<xsl:attribute name="checked">checked</xsl:attribute>
+										</xsl:when>	
+										<xsl:when test="CLOSEDATE/DATE/@SORT &lt; /H2G2/DATE/@SORT and @CANWRITE = 1">
+											<xsl:attribute name="checked">checked</xsl:attribute>
+										</xsl:when>
+									</xsl:choose>									
 								</input>
 							</li>
 						</ul>

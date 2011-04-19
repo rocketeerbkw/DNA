@@ -17,7 +17,7 @@
         <xsl:param name="label" />
         <xsl:param name="post" />
         
-    	<a href="{$root-base}/boards-admin/EditPost?PostId={.}" class="popup">
+    	<a href="{$root-secure}/boards-admin/EditPost?PostId={.}" class="popup">
             <xsl:value-of select="$label"/>
             <span class="blq-hide"><xsl:text>&#32;</xsl:text><xsl:value-of select="$post" /></span>
         </a>

@@ -9,6 +9,7 @@
               <xs:element name="NAME" type="xs:string" />
               <xs:element name="DESCRIPTION" type="xs:string" />
               <xs:element name="LANGUAGE" type="xs:string" />
+              <xs:element name="ITEMRETRIEVALTYPE" type="xs:string" />
             </xs:sequence>
             <xs:attribute name="CLASSID" type="xs:unsignedByte" use="required" />
           </xs:complexType>

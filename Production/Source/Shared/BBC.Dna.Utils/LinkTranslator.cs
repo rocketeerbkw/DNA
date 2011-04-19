@@ -299,7 +299,7 @@ namespace BBC.Dna.Utils
 
             if (regForumEx.IsMatch(result))
             {
-                String replace = "<LINK FORUM=\"***\">***</LINK>";
+                String replace = "<LINK DNAID=\"***\">***</LINK>";
                 MatchCollection matches = regForumEx.Matches(result);
                 Stack stack = new Stack();
                 foreach (Match match in matches)
@@ -317,7 +317,7 @@ namespace BBC.Dna.Utils
 
             if (regCategoryEx.IsMatch(result))
             {
-                String replace = "<LINK CAT=\"***\">***</LINK>";
+                String replace = "<LINK DNAID=\"***\">***</LINK>";
                 MatchCollection matches = regCategoryEx.Matches(result);
                 Stack stack = new Stack();
                 foreach (Match match in matches)

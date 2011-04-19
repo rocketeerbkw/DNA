@@ -9,14 +9,16 @@
             Applied by _common/_library/Post.xsl
         </doc:context>
         <doc:notes>
-            HREF attribute denotes an external link
-            BIO attribute denotes a DNA User Id link
-            H2G2 attribute denotes an internal DNA link
-        </doc:notes>
+			HREF attribute denotes an external link
+			BIO attribute denotes a DNA User Id link
+			CAT attribute denotes a Category Tag link
+			FORUM attribute denotes a Forum Tag link
+			H2G2 attribute denotes an internal DNA link
+		</doc:notes>
     </doc:documentation>
 
 	<xsl:template match="LINK | link" mode="library_Post">
-		<xsl:variable name="h2g2" select="@H2G2 | @h2g2 | @H2g2 | @DNAID"></xsl:variable>
+		<xsl:variable name="h2g2" select="@H2G2 | @h2g2 | @H2g2 | @DNAID "></xsl:variable>
 		<xsl:variable name="h2g2len" select="string-length($h2g2)"></xsl:variable>
 		<xsl:variable name="containshash" select="contains($h2g2, '#')"></xsl:variable>
 		<xsl:variable name="beforehash" select="substring-before($h2g2, '#')"></xsl:variable>
@@ -41,6 +43,10 @@
 					<xsl:when test="@BIO | @bio">
 						<xsl:value-of select="$aerian-base-user"/>
 						<xsl:value-of select="@BIO | @bio"/>
+					</xsl:when>
+					<xsl:when test="@CAT | @cat">
+						<xsl:value-of select="$aerian-base-categories"/>
+						<xsl:value-of select="@CAT | @cat"/>
 					</xsl:when>
 					<xsl:when test="$h2g2">						
 						<xsl:choose>

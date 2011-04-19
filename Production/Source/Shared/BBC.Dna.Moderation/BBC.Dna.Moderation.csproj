@@ -116,6 +116,7 @@
     <Compile Include="Context.cs" />
     <Compile Include="Contracts\ModerationItem.cs" />
     <Compile Include="ModerationPosts.cs" />
+    <Compile Include="ModerationRetrievalPolicy.cs" />
     <Compile Include="SiteEventList.cs" />
     <Compile Include="ModeratorActionItem.cs" />
     <Compile Include="EmailInserts.cs" />

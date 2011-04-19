@@ -85,6 +85,7 @@ namespace BBC.Dna
             var bannedEmails = new BannedEmails(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
             var userGroups = new UserGroups(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
             var profanityFilter = new ProfanityFilter(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
+            var moderationClasses = new ModerationClassListCache(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
 
 		}
 

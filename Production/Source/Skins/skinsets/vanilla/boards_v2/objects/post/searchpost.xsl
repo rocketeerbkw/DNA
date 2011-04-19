@@ -87,7 +87,7 @@
                 <xsl:when test="@HIDDEN = 8">
                   <!-- Removed post for any user -->
                   <p class="dna-boards-failedpost">
-                    Why have all of a users’ comments vanished? If the user is a spammer or a user who has been banned many times before all of their comments are removed when their account is closed.
+                    All this user's posts have been removed. <a href="http://www.bbc.co.uk/messageboards/faq/checking_messages.shtml#all" class="popup">Why?</a>
                   </p>
                 </xsl:when>
                 <xsl:when test="@HIDDEN = 2 or @HIDDEN = 6">

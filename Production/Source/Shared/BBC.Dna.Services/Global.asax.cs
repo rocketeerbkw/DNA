@@ -50,7 +50,7 @@ namespace BBC.Dna.Services
             var bannedEmails = new BannedEmails(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
             var userGroups = new UserGroups(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
             var profanityFilter = new ProfanityFilter(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
-
+            var moderationClasses = new ModerationClassListCache(readerCreator, dnaDiagnostics, cacheManager, null, null);//no sending signals from here
             BBC.Dna.Objects.SmileyTranslator.LoadSmileys(readerCreator);
         }
 

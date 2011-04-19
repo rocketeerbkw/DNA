@@ -70,6 +70,11 @@ namespace Dna.SiteEventProcessor
                         moderationStatus = "deactivated";
                         break;
 
+                     case ModerationStatus.UserStatus.Standard:
+                        siteEvent.Type = SiteActivityType.UserModeratedStandard;
+                        moderationStatus = "returned to normal";
+                        break;
+
                     default:
                         throw new Exception("Unknown moderation status: " + ((ModerationStatus.UserStatus)dataReader.GetInt32NullAsZero("status")).ToString());
                 }

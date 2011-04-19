@@ -7,6 +7,8 @@ using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Api;
+using System.Linq;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Component
 {
@@ -102,27 +104,24 @@ namespace BBC.Dna.Component
                 AddAttribute(postMod, "FASTMOD", 1);
             }
 
-
-            bool useLIFOQueue = false;
-
-            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("ismodclasslifoqueue"))
+            string storedProcedureName = "getmoderationposts";
+            if (modClassId > 0)
             {
-                dataReader.AddParameter("modclassid", modClassId);
-                dataReader.Execute();
-                if (dataReader.HasRows && dataReader.Read())
+                var moderationClassList = ModerationClassListCache.GetObject();
+                var modClass = moderationClassList.ModClassList.First(x => x.ClassId == modClassId);
+
+                if (modClass != null)
                 {
-                    useLIFOQueue = dataReader.GetBoolean("LIFOQueue");
+                    switch(modClass.ItemRetrievalType)
+                    {
+                        case ModerationRetrievalPolicy.LIFO:
+                            storedProcedureName = "getmoderationpostsmostrecentfirst"; break;
+                        case ModerationRetrievalPolicy.PriorityFirst:
+                            storedProcedureName = "getmoderationpostsfastmodfirst"; break;
+                        default:
+                            storedProcedureName = "getmoderationposts"; break;
+                    }
                 }
-            }
-
-            string storedProcedureName = String.Empty;
-            if (useLIFOQueue)
-            {
-                storedProcedureName = "getmoderationpostsmostrecentfirst";
-            }
-            else
-            {
-                storedProcedureName = "getmoderationposts";
             }
 
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader(storedProcedureName))
@@ -178,6 +177,7 @@ namespace BBC.Dna.Component
                         AddAttribute(post, "THREADID", dataReader.GetInt32NullAsZero("threadid"));
                         AddAttribute(post, "FORUMID", dataReader.GetInt32NullAsZero("forumid"));
                         AddAttribute(post, "ISPREMODPOSTING", dataReader.GetTinyIntAsInt("ispremodposting"));
+                        AddAttribute(post, "ISPRIORITYPOST", dataReader.GetTinyIntAsInt("priority"));
                         //AddAttribute(post, "MODCLASSID", dataReader.GetInt32NullAsZero("modclassid"));
                         AddIntElement(post, "MODERATION-STATUS", dataReader.GetInt32NullAsZero("threadmoderationstatus"));
 

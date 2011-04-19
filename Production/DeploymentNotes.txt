@@ -623,4 +623,24 @@ Marcus
 	To roll back editpost 
 		- change editpost in filter.reg to use old builder
 		- roll back editorialpopups.xsl in \skins\skinsets\boards\default
+
+============== v 3.5.59.0 ============
+Marcus
+	On staging:
+	
+	Priority First Mod queue
+		update moderationclass
+		set ItemRetrievalType=2
+		where name <> 'Vulnerable' and name <> 'Kids'
 		
+	In htaccess file, lock down /dna/api to all internal traffic except for:
+		CBBCLIVENDEADLY
+		CBBCTMIFRIDAY
+		ELECTRICDREAMS
+
+
+============== v 3.5.59.0 ============
+Ali
+	Change to /Skins/common/configuration.xsl needs to be made.
+	Under the <host> node another node needs to be added.
+	<sslurl>https://ssl.bbc.co.uk</sslurl>
