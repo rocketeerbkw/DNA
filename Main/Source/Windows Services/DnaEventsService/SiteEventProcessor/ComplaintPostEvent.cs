@@ -67,7 +67,7 @@ namespace Dna.SiteEventProcessor
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"),
                             dataReader.GetStringNullAsEmpty("subject"), dataReader.GetStringNullAsEmpty("complainttext"))
                            );
-
+                siteEvent.UserId = dataReader.GetInt32NullAsZero("complaintantID_userid");
                 siteEvent.SaveEvent(creator);
                  
             }

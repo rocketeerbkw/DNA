@@ -77,6 +77,7 @@ namespace Dna.SiteEventProcessor
                         siteEventArticleModerationDecision = null;
                         break;
                 }
+                siteEventArticleModerationDecision.UserId = 0;
                 siteEventArticleModerationDecision.SaveEvent(creator);
             }
             catch(Exception e)

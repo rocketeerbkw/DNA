@@ -35,6 +35,9 @@ namespace BBC.Dna.Moderation
         [XmlElement(Order = 4, ElementName = "SITEID")]
         public int SiteId { get; set; }
 
+        [XmlIgnore]
+        public int UserId { get; set; }
+
         /// <summary>
         /// Stores the event in the db...
         /// </summary>
@@ -47,6 +50,7 @@ namespace BBC.Dna.Moderation
                 reader.AddParameter("activitydata", ActivityData.ToString());
                 reader.AddParameter("datetime", Date.DateTime);
                 reader.AddParameter("siteid", SiteId);
+                reader.AddParameter("userid", UserId);
                 reader.Execute();
             }
         }

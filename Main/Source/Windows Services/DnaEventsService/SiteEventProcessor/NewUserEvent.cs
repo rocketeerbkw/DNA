@@ -52,6 +52,7 @@ namespace Dna.SiteEventProcessor
                             dataReader.GetInt32NullAsZero("user_userid"), dataReader.GetStringNullAsEmpty("user_username"),
                             dataReader.GetInt32NullAsZero("siteid"))
                             );
+                siteEvent.UserId = dataReader.GetInt32NullAsZero("user_userid");
                 siteEvent.SaveEvent(creator);
                 
             }

@@ -123,14 +123,12 @@ namespace BBC.Dna.Moderation
                         siteEventList.EndDate = new DateElement(endDate);
                     }
 
-                    XmlDocument doc = new XmlDocument();
                     do
                     {
                         var siteEvent = new SiteEvent();
                         try
                         {
-                            doc.LoadXml(reader.GetXmlAsString("activitydata"));
-                            siteEvent.ActivityData = new XElement("activitydata", doc.DocumentElement.InnerXml);
+                            siteEvent.ActivityData = XElement.Parse(reader.GetXmlAsString("activitydata"));
                             
                         }
                         catch

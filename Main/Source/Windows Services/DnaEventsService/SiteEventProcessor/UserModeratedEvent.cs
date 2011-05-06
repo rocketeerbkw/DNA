@@ -101,6 +101,7 @@ namespace Dna.SiteEventProcessor
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
                             duration, dataReader.GetStringNullAsEmpty("modreason"))
                            );
+                siteEvent.UserId = dataReader.GetInt32NullAsZero("user_userid");
 
                 if (siteEvent != null)
                 {

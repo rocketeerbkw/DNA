@@ -49,7 +49,11 @@
 			<xsl:value-of select="$dashboardtypeplural" />
 			<xsl:if test="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION"> | <xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></xsl:if>
 		</xsl:if>
-	</xsl:template>	
+	</xsl:template>
+
+  <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE']" mode="objects_browsertitle">
+    BBC - Host Dashboard - User Activity Page
+  </xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="objects_browsertitle">
 		BBC - Host Dashboard - User Contributions

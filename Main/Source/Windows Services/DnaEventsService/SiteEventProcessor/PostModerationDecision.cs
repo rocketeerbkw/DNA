@@ -9,6 +9,7 @@ using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using BBC.Dna.Objects;
 using System.Xml.Linq;
+using System.Collections.Generic;
 
 namespace Dna.SiteEventProcessor
 {
@@ -17,6 +18,8 @@ namespace Dna.SiteEventProcessor
 
         public static string DataFormatFailed = "A <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was failed in moderation by <USER USERID=\"{7}\">{8}</USER> because it was deemed <NOTES>{9}</NOTES>";
         public static string DataFormatReferred = "A <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was referred by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES>";
+        public static string DataFormatReject = "A complaint on <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was rejected by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES>";
+        public static string DataFormatUpHeld = "A complaint on <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was upheld by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES>";
 
         public PostModerationDecision()
         {
@@ -39,12 +42,13 @@ namespace Dna.SiteEventProcessor
 
         static public SiteEvent CreatePostModerationDecisionActivity(IDnaDataReader dataReader, IDnaDataReaderCreator creator)
         {
-            SiteEvent siteEvent = null;
+            List<SiteEvent> siteEventList = new List<SiteEvent>();
             try
             {
-                siteEvent = new SiteEvent();
-                siteEvent.SiteId = dataReader.GetInt32NullAsZero("siteid");
-                siteEvent.Date = new Date(dataReader.GetDateTime("DateCreated"));
+                SiteEvent siteEvent1 = null;    
+                siteEvent1 = new SiteEvent();
+                siteEvent1.SiteId = dataReader.GetInt32NullAsZero("siteid");
+                siteEvent1.Date = new Date(dataReader.GetDateTime("DateCreated"));
             
                 var statusId = dataReader.GetInt32NullAsZero("status");
 
@@ -57,8 +61,8 @@ namespace Dna.SiteEventProcessor
                 switch ((ModerationDecisionStatus)statusId)
                 {
                     case ModerationDecisionStatus.Fail:
-                        siteEvent.Type = SiteActivityType.ModeratePostFailed;
-                        siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                        siteEvent1.Type = SiteActivityType.ModeratePostFailed;
+                        siteEvent1.ActivityData = new XElement("ACTIVITYDATA",
                           string.Format(DataFormatFailed,
                             dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
@@ -66,13 +70,32 @@ namespace Dna.SiteEventProcessor
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
                             dataReader.GetStringNullAsEmpty("ModReason"))
                             );
+                        siteEvent1.UserId = dataReader.GetInt32NullAsZero("author_userid");
+                        siteEventList.Add(siteEvent1);
 
+                        if (dataReader.GetInt32NullAsZero("complainantid") != 0)
+                        {//complaint upheld event
+                            var siteEvent2 = new SiteEvent();
+                            siteEvent2.SiteId = dataReader.GetInt32NullAsZero("siteid");
+                            siteEvent2.Date = new Date(dataReader.GetDateTime("DateCreated"));
+                            siteEvent2.Type = SiteActivityType.ComplaintPostUpHeld;
+                            siteEvent2.ActivityData = new XElement("ACTIVITYDATA",
+                              string.Format(DataFormatUpHeld,
+                                dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
+                                dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
+                                dataReader.GetInt32NullAsZero("author_userid"), dataReader.GetStringNullAsEmpty("author_username"),
+                                dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
+                                dataReader.GetStringNullAsEmpty("ModReason"))
+                                );
+                            siteEvent2.UserId = dataReader.GetInt32NullAsZero("complainantid");
+                            siteEventList.Add(siteEvent2);
+                        }
                         break;
 
 
                     case ModerationDecisionStatus.Referred:
-                        siteEvent.Type = SiteActivityType.ModeratePostReferred;
-                        siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                        siteEvent1.Type = SiteActivityType.ModeratePostReferred;
+                        siteEvent1.ActivityData = new XElement("ACTIVITYDATA",
                          string.Format(DataFormatReferred,
                             dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
@@ -80,27 +103,48 @@ namespace Dna.SiteEventProcessor
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
                             dataReader.GetStringNullAsEmpty("Notes"))
                            );
+                        siteEvent1.UserId = dataReader.GetInt32NullAsZero("author_userid");
+                        siteEventList.Add(siteEvent1);
                         break;
 
+                    case ModerationDecisionStatus.Passed:
+                        if (dataReader.GetInt32NullAsZero("complainantid") != 0)
+                        {//complaint rejected
+                            siteEvent1.Type = SiteActivityType.ComplaintPostRejected;
+                            siteEvent1.ActivityData = new XElement("ACTIVITYDATA",
+                             string.Format(DataFormatReject,
+                                dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
+                                dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
+                                dataReader.GetInt32NullAsZero("author_userid"), dataReader.GetStringNullAsEmpty("author_username"),
+                                dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
+                                dataReader.GetStringNullAsEmpty("Notes"))
+                               );
+                            siteEvent1.UserId = dataReader.GetInt32NullAsZero("complainantid");
+                            siteEventList.Add(siteEvent1);
+                        }
+                        break;
                     default:
-                        siteEvent = null;
+                        siteEventList = null;
                         break;
                 }
 
-                if (siteEvent != null)
+                if (siteEventList != null)
                 {
-                    siteEvent.SaveEvent(creator);
+                    foreach (var siteEvent in siteEventList)
+                    {
+                        siteEvent.SaveEvent(creator);
+                    }
                 }
             }
             catch(Exception e)
             {
-                siteEvent = null;
+                siteEventList = null;
                 SiteEventsProcessor.SiteEventLogger.LogException(e);
             }
 
-            
 
-            return siteEvent;
+
+            return null;
         }
 
 

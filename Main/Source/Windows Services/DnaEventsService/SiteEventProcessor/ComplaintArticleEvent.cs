@@ -59,6 +59,7 @@ namespace Dna.SiteEventProcessor
                             dataReader.GetInt32NullAsZero("h2g2id"), dataReader.GetStringNullAsEmpty("subject"),
                             dataReader.GetStringNullAsEmpty("complainttext"))
                             );
+                siteEvent.UserId = 0;
                 siteEvent.SaveEvent(creator);
             }
             catch(Exception e)

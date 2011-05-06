@@ -115,6 +115,8 @@
     <Compile Include="BannedEmailsList.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Contracts\ModerationItem.cs" />
+    <Compile Include="UserEventList.cs" />
+    <Compile Include="UserEvent.cs" />
     <Compile Include="ModerationPosts.cs" />
     <Compile Include="ModerationRetrievalPolicy.cs" />
     <Compile Include="SiteEventList.cs" />

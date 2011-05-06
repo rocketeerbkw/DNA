@@ -183,7 +183,9 @@
 				<xsl:value-of select="SITE/NAME"/>
 			</td>
 			<td>
-				<xsl:apply-templates select="USER" mode="objects_user_typeicon" />   
+        <a href="hostdashboarduseractivity?s_user={$userid}&amp;s_siteid={SITE/@ID}">
+				<xsl:apply-templates select="USER" mode="objects_user_typeicon" />
+        </a>
 			</td>
 			<td>
 				<xsl:value-of select="DATEJOINED/DATE/@RELATIVE"/>

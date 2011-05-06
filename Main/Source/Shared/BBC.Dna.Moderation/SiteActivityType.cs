@@ -22,6 +22,9 @@ namespace BBC.Dna.Moderation
         UserModeratedDeactivated = 13,
         NewUserToSite = 14,
         SiteSummary = 15,
-        UserModeratedStandard = 16
+        UserModeratedStandard = 16,
+        UserPost = 17,
+        ComplaintPostUpHeld = 18,
+        ComplaintPostRejected = 19
     }
 }
