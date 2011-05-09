@@ -16,7 +16,7 @@
     <xsl:template match="@POSTID" mode="moderation_cta_editpost">
         <xsl:param name="label" select="'Show'" />
         
-        <a href="{$root-base}/EditPost?PostId={.}">
+        <a href="{$root-secure-moderation}/boards-admin/EditPost?PostId={.}">
             <xsl:value-of select="$label"/>
         </a>
     </xsl:template>

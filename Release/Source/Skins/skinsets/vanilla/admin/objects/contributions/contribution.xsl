@@ -120,7 +120,7 @@
 					</xsl:choose>
 					<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
 						<p>
-							<a class="popup" href="/dna/moderation/boards-admin/EditPost?PostId={THREADENTRYID}">Edit Post</a>
+							<a class="popup" href="{$root-secure-moderation}/boards-admin/EditPost?PostId={THREADENTRYID}">Edit Post</a>
 						</p>
 					</xsl:if>
 				</xsl:if>
