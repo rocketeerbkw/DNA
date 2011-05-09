@@ -8,6 +8,7 @@ using System.Xml;
 using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using BBC.Dna.Objects;
+using System.Xml.Linq;
 
 namespace Dna.SiteEventProcessor
 {
@@ -56,29 +57,24 @@ namespace Dna.SiteEventProcessor
                 {
                     type = "comment";
                 }
-            
-            
-            
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml("<ACTIVITYDATA>" + 
-                            string.Format(DataFormat,
+
+
+
+                siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                         string.Format(DataFormat,
                             dataReader.GetInt32NullAsZero("complaintantID_userid"), complainantUserName, type,
                             dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"),
                             dataReader.GetStringNullAsEmpty("subject"), dataReader.GetStringNullAsEmpty("complainttext"))
-                            + "</ACTIVITYDATA>");
-                siteEvent.ActivityData = doc.DocumentElement;
-                
+                           );
+                siteEvent.UserId = dataReader.GetInt32NullAsZero("complaintantID_userid");
+                siteEvent.SaveEvent(creator);
+                 
             }
             catch(Exception e)
             {
                 siteEvent = null;
                 SiteEventsProcessor.SiteEventLogger.LogException(e);
-            }
-
-            if (siteEvent != null)
-            {
-                siteEvent.SaveEvent(creator);
             }
 
             return siteEvent;

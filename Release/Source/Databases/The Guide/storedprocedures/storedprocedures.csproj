@@ -1278,6 +1278,8 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
+    <None Include="getuserevents.sql" />
+    <None Include="InsertUserPostEvents.sql" />
     <None Include="getmoderationpostsfastmodfirst.sql" />
     <None Include="Extdev_ApplyRoles.sql" />
     <None Include="ismodclasslifoqueue.sql" />

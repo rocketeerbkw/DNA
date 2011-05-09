@@ -51,9 +51,16 @@
 				<xsl:if test="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION"><span><xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = /H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE]/DESCRIPTION" /></span></xsl:if>
 			</xsl:if>
 		</h1>
-	</xsl:template>	
-	
-	<xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="objects_title">
+	</xsl:template>
+
+  <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE']" mode="objects_title">
+    <h1>
+      User Activity Page
+      
+    </h1>
+  </xsl:template>
+
+  <xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="objects_title">
 		<h1>User Contributions</h1>
 	</xsl:template>	
 	

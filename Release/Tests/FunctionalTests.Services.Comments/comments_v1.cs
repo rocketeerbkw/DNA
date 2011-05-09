@@ -764,6 +764,49 @@ namespace FunctionalTests.Services.Comments
         /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
+        public void CreateComment_PreModForumWithProcessPremod()
+        {
+
+            try
+            {
+                SetSiteOption(1, "Moderation", "ProcessPreMod", 1, "1");
+
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+                //create the forum
+                CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString(), ModerationStatus.ForumStatus.PreMod);
+
+                string text = "Functiontest Title" + Guid.NewGuid().ToString();
+                string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                    "<text>{0}</text>" +
+                    "</comment>", text);
+
+                // Setup the request url
+                string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+                // now get the response
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaComment);
+                validator.Validate();
+
+                CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+                Assert.IsTrue(returnedComment.text == "This post is awaiting moderation.");
+                Assert.IsTrue(returnedComment.hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration);
+                Assert.IsNotNull(returnedComment.User);
+                Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+            }
+            finally
+            {
+                RemoveSiteOption(1, "ProcessPreMod");
+            }
+
+        }
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
         public void CreateComment_PostModForum()
         {
             Console.WriteLine("Before CreateComment");

@@ -13,7 +13,7 @@
 			<ul class="dna-dashboard-links">
 				<li><a href="hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}">Dashboard</a></li>
 				<li> &gt; 
-					<xsl:if test="/H2G2/@TYPE = 'HOSTDASHBOARDACTIVITYPAGE'">
+					<xsl:if test="/H2G2/@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or /H2G2/@TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE'">
 						<xsl:call-template name="objects_subheading">
 							<xsl:with-param name="objecttype">breadcrumb</xsl:with-param>
 						</xsl:call-template>

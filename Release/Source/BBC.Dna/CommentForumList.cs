@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using BBC.Dna.Data;
+using BBC.Dna.Api;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Component
 {
@@ -27,6 +29,11 @@ namespace BBC.Dna.Component
         /// </summary>
         public override void ProcessRequest()
         {
+            if (!InputContext.ViewingUser.IsEditor && !InputContext.ViewingUser.IsSuperUser)
+            {
+                AddErrorXml("not authorised", "Not Authorised", null);
+                return;
+            }
             //Clean any existing XML.
             RootElement.RemoveAll();
 
@@ -44,6 +51,71 @@ namespace BBC.Dna.Component
             string action = String.Empty;
             if (InputContext.TryGetParamString("dnaaction", ref action, "Action to take on this request. 'update' is the only action currently recognised"))
             {
+                if (action == "create")
+                {
+                    string uid = String.Empty;
+                    if (InputContext.DoesParamExist("dnauid", "The uid of the given comment forum."))
+                    {
+                        InputContext.TryGetParamString("dnauid", ref uid, "The uid of the given comment forum.");
+                        if (uid == String.Empty)
+                        {
+                            return AddErrorXml("invalidparameters", "blank unique id provided", null);
+                        }
+                    }
+                    else
+                    {
+                        //Cannot continue.
+                        return AddErrorXml("invalidparameters", "No unique id provided", null);
+                    }
+
+                    string hostPageUrl = String.Empty;
+                    if (InputContext.DoesParamExist("dnahostpageurl", "The url of the given comment forum."))
+                    {
+                        InputContext.TryGetParamString("dnahostpageurl", ref hostPageUrl, "The url of the given comment forum.");
+                        if (hostPageUrl == String.Empty)
+                        {
+                            return AddErrorXml("invalidparameters", "blank url provided", null);
+                        }
+                    }
+                    else
+                    {
+                        //Cannot continue.
+                        return AddErrorXml("invalidparameters", "No url provided", null);
+                    }
+
+                    string title = String.Empty;
+                    if (InputContext.DoesParamExist("dnatitle", "The title of the given comment forum."))
+                    {
+                        InputContext.TryGetParamString("dnatitle", ref title, "The title of the given comment forum.");
+                        if (title == String.Empty)
+                        {
+                            return AddErrorXml("invalidparameters", "blank title provided", null);
+                        }
+                    }
+                    else
+                    {
+                        //Cannot continue.
+                        return AddErrorXml("invalidparameters", "No title provided", null);
+                    }
+                    CommentForum forum = new CommentForum()
+                    {
+                        Id = uid,
+                        ParentUri = hostPageUrl,
+                        Title = title
+                    };
+
+                    Comments comments = new Comments(AppContext.TheAppContext.Diagnostics, AppContext.ReaderCreator, CacheFactory.GetCacheManager(), InputContext.TheSiteList);
+                    try
+                    {
+                        comments.CreateCommentForum(forum, InputContext.CurrentSite);
+                    }
+                    catch(ApiException e) 
+                    {
+                        return AddErrorXml(e.type.ToString(), e.Message, null);
+                    }
+
+
+                }
                 if (action == "update")
                 {
                     string newCloseDateParam = String.Empty;

@@ -152,6 +152,20 @@ namespace BBC.Dna.Data
         /// <returns>Int32 value of the column.</returns>
         int GetInt32(string name);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        short GetInt16(int i);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        short GetInt16(string name);
+
 		/// <summary>
 		/// Gets the column value as a string
 		/// </summary>

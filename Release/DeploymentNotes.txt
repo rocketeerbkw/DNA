@@ -633,10 +633,7 @@ Marcus
 		set ItemRetrievalType=2
 		where name <> 'Vulnerable' and name <> 'Kids'
 		
-	In htaccess file, lock down /dna/api to all internal traffic except for:
-		CBBCLIVENDEADLY
-		CBBCTMIFRIDAY
-		ELECTRICDREAMS
+	
 
 
 ============== v 3.5.59.0 ============
@@ -644,3 +641,21 @@ Ali
 	Change to /Skins/common/configuration.xsl needs to be made.
 	Under the <host> node another node needs to be added.
 	<sslurl>https://ssl.bbc.co.uk</sslurl>
+
+
+============== v 3.5.61.0 ============
+Marcus P
+	Run dbscript in this order - change the date at the top of the file to the commented out date
+	ComplaintantEvents.sql
+	User reputation Migration.sql
+	User reputation Cummulative Score Update.sql
+
+Marcus P	
+	Add a new job to run nightly and execs insertuserpostevents
+	
+
+Marcus P
+	In htaccess file, lock down /dna/api to all internal traffic except for:
+		CBBCLIVENDEADLY
+		CBBCTMIFRIDAY
+		ELECTRICDREAMS

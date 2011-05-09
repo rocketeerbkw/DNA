@@ -8,6 +8,7 @@ using BBC.Dna.Data;
 using System.Xml.Serialization;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
+using System.Xml.Linq;
 
 namespace BBC.Dna.Moderation
 {
@@ -19,21 +20,23 @@ namespace BBC.Dna.Moderation
     {
         public SiteEvent()
         {
-            XmlDocument xdoc = new XmlDocument();
-            ActivityData = xdoc.DocumentElement;
+            ActivityData = new XElement("ACTIVITYDATA");
         }
 
         [XmlElement(Order = 1, ElementName = "TYPE")]
         public SiteActivityType Type { get; set; }
 
         [XmlAnyElement(Order=2)]
-        public XmlElement ActivityData { get; set; }
+        public XElement ActivityData { get; set; }
 
         [XmlElement(Order = 3, ElementName = "DATE")]
         public Date Date { get; set; }
 
         [XmlElement(Order = 4, ElementName = "SITEID")]
         public int SiteId { get; set; }
+
+        [XmlIgnore]
+        public int UserId { get; set; }
 
         /// <summary>
         /// Stores the event in the db...
@@ -44,9 +47,10 @@ namespace BBC.Dna.Moderation
             using (IDnaDataReader reader = creator.CreateDnaDataReader("insertsiteactivityitem"))
             {
                 reader.AddParameter("type", (int)Type);
-                reader.AddParameter("activitydata", ActivityData.OuterXml);
+                reader.AddParameter("activitydata", ActivityData.ToString());
                 reader.AddParameter("datetime", Date.DateTime);
                 reader.AddParameter("siteid", SiteId);
+                reader.AddParameter("userid", UserId);
                 reader.Execute();
             }
         }

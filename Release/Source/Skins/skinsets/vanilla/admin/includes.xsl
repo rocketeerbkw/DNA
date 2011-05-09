@@ -48,6 +48,7 @@
 	<xsl:include href="objects/moderator/queuedreffered.xsl"/>
 	<xsl:include href="objects/moderator/queuesummary.xsl"/>
 	<xsl:include href="objects/moderator/siteevent.xsl"/>
+  <xsl:include href="objects/moderator/userevent.xsl"/>
 	<xsl:include href="objects/moderator/sites.xsl"/>
 	<xsl:include href="objects/moderator/sitesummarystats.xsl"/>
   
@@ -65,6 +66,7 @@
 	<xsl:include href="pages/error.xsl"/>
 	<xsl:include href="pages/hostdashboard.xsl"/>
 	<xsl:include href="pages/hostdashboardactivity.xsl"/>
+  <xsl:include href="pages/hostdashboarduseractivity.xsl"/>
 	<xsl:include href="pages/lightboxes.xsl"/>
 	<xsl:include href="pages/mbbackuprestore.xsl"/>
 	<xsl:include href="pages/memberdetails.xsl"/>

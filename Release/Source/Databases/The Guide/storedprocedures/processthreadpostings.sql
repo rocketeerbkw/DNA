@@ -25,8 +25,8 @@ select 	TOP 1
 	@inreplyto = Parent,
 	@curtime = DatePosted
 	from ThreadPostingsQueue q
-		join ThreadEntries t ON q.EntryID = t.EntryID
-		join threads th on t.ThreadID = th.ThreadID
+		join ThreadEntries t WITH(NOLOCK) ON q.EntryID = t.EntryID
+		join threads th WITH(NOLOCK) on t.ThreadID = th.ThreadID
 	order by q.ID
 	
 IF @threadid IS NOT NULL
