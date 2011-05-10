@@ -40,9 +40,13 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'USERLIST']" mode="objects_title">
 		<h1>User List</h1>
-	</xsl:template>	
-	
-	<xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="objects_title">
+	</xsl:template>
+
+  <xsl:template match="H2G2[@TYPE = 'SECUREREQUIRED']" mode="objects_title">
+    <h1>Secure Session Required</h1>
+  </xsl:template>
+
+  <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="objects_title">
 		<h1>
 			Activity Page 
 			<xsl:if test="$dashboardtype != 'all'">

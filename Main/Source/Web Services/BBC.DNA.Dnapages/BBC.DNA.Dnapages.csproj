@@ -129,6 +129,13 @@
     <Compile Include="ContentSignifPage.aspx.designer.cs">
       <DependentUpon>ContentSignifPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SecureRequired.aspx.cs">
+      <DependentUpon>SecureRequired.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SecureRequired.aspx.designer.cs">
+      <DependentUpon>SecureRequired.aspx</DependentUpon>
+    </Compile>
     <Compile Include="HostDashboardUserActivity.aspx.cs">
       <DependentUpon>HostDashboardUserActivity.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -925,6 +932,7 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="SecureRequired.aspx" />
     <Content Include="HostDashboardUserActivity.aspx" />
     <Content Include="EditPost.aspx" />
     <Content Include="mbfrontpage.aspx" />

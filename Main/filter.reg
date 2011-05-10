@@ -355,3 +355,4 @@ REGEDIT4
 
 "/OldEditPost"="/ripleyserver.dll?EditPost?"
 "/EditPost"="/dna/dnapages/editpost.aspx?"
+"/SecureRequired"="/dna/dnapages/SecureRequired.aspx?"
