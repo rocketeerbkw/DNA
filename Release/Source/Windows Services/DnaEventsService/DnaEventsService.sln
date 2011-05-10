@@ -76,13 +76,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Objects", "..\..\Sh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaIdentityWebServiceProxy", "..\..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj", "{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation.Tests", "..\..\Shared\BBC.Dna.Moderation.Tests\BBC.Dna.Moderation.Tests.csproj", "{4F451D92-54A1-4013-B703-8F339F741935}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api", "..\..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj", "{A46E6756-CA6A-4C8A-A063-8515AFD1C614}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 27
+		SccNumberOfProjects = 26
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection
 		SccLocalPath0 = .
@@ -183,14 +181,10 @@ Global
 		SccProjectTopLevelParentUniqueName24 = DnaEventsService.sln
 		SccProjectName24 = ../../Shared/DnaIdentityWebServiceProxy
 		SccLocalPath24 = ..\\..\\Shared\\DnaIdentityWebServiceProxy
-		SccProjectUniqueName25 = ..\\..\\Shared\\BBC.Dna.Moderation.Tests\\BBC.Dna.Moderation.Tests.csproj
+		SccProjectUniqueName25 = ..\\..\\Shared\\BBC.Dna.Api\\BBC.Dna.Api.csproj
 		SccProjectTopLevelParentUniqueName25 = DnaEventsService.sln
-		SccProjectName25 = ../../Shared/BBC.Dna.Moderation.Tests
-		SccLocalPath25 = ..\\..\\Shared\\BBC.Dna.Moderation.Tests
-		SccProjectUniqueName26 = ..\\..\\Shared\\BBC.Dna.Api\\BBC.Dna.Api.csproj
-		SccProjectTopLevelParentUniqueName26 = DnaEventsService.sln
-		SccProjectName26 = ../../Shared/BBC.Dna.Api
-		SccLocalPath26 = ..\\..\\Shared\\BBC.Dna.Api
+		SccProjectName25 = ../../Shared/BBC.Dna.Api
+		SccLocalPath25 = ..\\..\\Shared\\BBC.Dna.Api
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DnaEventsService.vsmdi
@@ -343,12 +337,6 @@ Global
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F451D92-54A1-4013-B703-8F339F741935}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F451D92-54A1-4013-B703-8F339F741935}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F451D92-54A1-4013-B703-8F339F741935}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F451D92-54A1-4013-B703-8F339F741935}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
-		{4F451D92-54A1-4013-B703-8F339F741935}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F451D92-54A1-4013-B703-8F339F741935}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.DebugSmallGuide|Any CPU.ActiveCfg = DebugSmallGuide|Any CPU
@@ -372,7 +360,6 @@ Global
 		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
 		{B4EA926E-7D99-4077-8315-882F413B994D} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
-		{4F451D92-54A1-4013-B703-8F339F741935} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614} = {B78F9520-5F2C-41FA-824D-5DB93F02D1AD}
 		{A2A07BB9-8417-4859-932A-AC92BDB599F9} = {D1380547-12A9-4DD5-9028-9C4F0D998768}
 		{1602E3CC-025E-482F-9781-8C93F272142E} = {D1380547-12A9-4DD5-9028-9C4F0D998768}
