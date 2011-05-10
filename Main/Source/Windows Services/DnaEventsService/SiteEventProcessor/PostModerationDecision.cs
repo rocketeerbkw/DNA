@@ -40,7 +40,7 @@ namespace Dna.SiteEventProcessor
 
 
 
-        static public SiteEvent CreatePostModerationDecisionActivity(IDnaDataReader dataReader, IDnaDataReaderCreator creator)
+        static public List<SiteEvent> CreatePostModerationDecisionActivity(IDnaDataReader dataReader, IDnaDataReaderCreator creator)
         {
             List<SiteEvent> siteEventList = new List<SiteEvent>();
             try
@@ -144,7 +144,7 @@ namespace Dna.SiteEventProcessor
 
 
 
-            return null;
+            return siteEventList;
         }
 
 
