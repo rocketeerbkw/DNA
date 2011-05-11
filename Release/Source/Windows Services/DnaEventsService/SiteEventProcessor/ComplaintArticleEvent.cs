@@ -15,7 +15,7 @@ namespace Dna.SiteEventProcessor
     public class ComplaintArticleEvent
     {
 
-        public static string DataFormat = "<USER USERID=\"{0}\">{1}</USER> alerted an article on <ARTICLE H2G2ID=\"{2}\">'{3}'</ARTICLE> because <NOTES>{4}</NOTES>";
+        public static string DataFormat = "<ACTIVITYDATA><USER USERID=\"{0}\">{1}</USER> alerted an article on <ARTICLE H2G2ID=\"{2}\">'{3}'</ARTICLE> because <NOTES>{4}</NOTES></ACTIVITYDATA>";
 
 
         public ComplaintArticleEvent()
@@ -53,7 +53,7 @@ namespace Dna.SiteEventProcessor
                     complainantUserName = "Anonymous";
                 }
 
-                siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                siteEvent.ActivityData = XElement.Parse(
                            string.Format(DataFormat,
                             dataReader.GetInt32NullAsZero("complaintantID_userid"), complainantUserName,
                             dataReader.GetInt32NullAsZero("h2g2id"), dataReader.GetStringNullAsEmpty("subject"),

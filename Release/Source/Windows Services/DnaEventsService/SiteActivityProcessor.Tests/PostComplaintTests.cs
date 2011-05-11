@@ -43,8 +43,8 @@ namespace SiteActivityProcessor.Tests
             var forumid = 6;
             var url = "";
             var type = "post";
-            var data = new XElement("ACTIVITYDATA", string.Format(ComplaintPostEvent.DataFormat, authorUserId, authorUsername, type, forumid, postid, threadid, url
-                    , subject, modReason));
+            var data = string.Format(ComplaintPostEvent.DataFormat, authorUserId, authorUsername, type, forumid, postid, threadid, url
+                    , subject, modReason);
 
 
             var dataReader = Mocks.DynamicMock<IDnaDataReader>();
@@ -70,7 +70,7 @@ namespace SiteActivityProcessor.Tests
             Assert.AreEqual(siteId, result.SiteId);
             Assert.AreEqual(dateCreated, result.Date.DateTime);
             Assert.AreEqual(statusId, result.Type);
-            Assert.AreEqual(data.ToString(), result.ActivityData.ToString());
+            Assert.AreEqual(data, result.ActivityData.ToString(SaveOptions.DisableFormatting));
 
 
         }
@@ -90,8 +90,8 @@ namespace SiteActivityProcessor.Tests
             var forumid = 6;
             var url = "http://bbc.co.uk";
             var type = "comment";
-            var data = new XElement("ACTIVITYDATA", string.Format(ComplaintPostEvent.DataFormat, authorUserId, authorUsername, type, forumid, postid, threadid, url
-                    , subject, modReason));
+            var data = string.Format(ComplaintPostEvent.DataFormat, authorUserId, authorUsername, type, forumid, postid, threadid, url
+                    , subject, modReason);
 
 
             var dataReader = Mocks.DynamicMock<IDnaDataReader>();
@@ -118,7 +118,7 @@ namespace SiteActivityProcessor.Tests
             Assert.AreEqual(siteId, result.SiteId);
             Assert.AreEqual(dateCreated, result.Date.DateTime);
             Assert.AreEqual(statusId, result.Type);
-            Assert.AreEqual(data.ToString(), result.ActivityData.ToString());
+            Assert.AreEqual(data, result.ActivityData.ToString(SaveOptions.DisableFormatting));
 
 
         }

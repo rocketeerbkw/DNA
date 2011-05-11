@@ -44,8 +44,8 @@ namespace SiteActivityProcessor.Tests
             var forumid = 6;
             var url = "";
             var type = "post";
-            var data = new XElement("ACTIVITYDATA", string.Format(PostModerationDecision.DataFormatFailed, forumid, postid, threadid, url, type, authorUserId, authorUsername, modUserId, modUsername,
-                modReason));
+            var data = string.Format(PostModerationDecision.DataFormatFailed, forumid, postid, threadid, url, type, authorUserId, authorUsername, modUserId, modUsername,
+                modReason);
 
             var dataReader = Mocks.DynamicMock<IDnaDataReader>();
             var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
@@ -92,8 +92,8 @@ namespace SiteActivityProcessor.Tests
             var forumid = 6;
             var url = "";
             var type = "post";
-            var data = new XElement("ACTIVITYDATA", string.Format(PostModerationDecision.DataFormatReferred, forumid, postid, threadid, url, type, authorUserId, authorUsername, modUserId, modUsername,
-                modReason));
+            var data = string.Format(PostModerationDecision.DataFormatReferred, forumid, postid, threadid, url, type, authorUserId, authorUsername, modUserId, modUsername,
+                modReason);
 
             var dataReader = Mocks.DynamicMock<IDnaDataReader>();
             var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
@@ -140,8 +140,8 @@ namespace SiteActivityProcessor.Tests
             var forumid = 6;
             var url = "http://bbc.co.uk";
             var type = "comment";
-            var data = new XElement("ACTIVITYDATA", string.Format(PostModerationDecision.DataFormatReferred, forumid, postid, threadid, url, type, authorUserId, authorUsername, modUserId, modUsername,
-                modReason));
+            var data = string.Format(PostModerationDecision.DataFormatReferred, forumid, postid, threadid, url, type, authorUserId, authorUsername, modUserId, modUsername,
+                modReason);
 
             var dataReader = Mocks.DynamicMock<IDnaDataReader>();
             var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();

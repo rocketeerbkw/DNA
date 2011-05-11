@@ -15,8 +15,8 @@ namespace Dna.SiteEventProcessor
     public class ArticleModerationDecision
     {
 
-        public static string DataFormatFailed = "An <ARTICLE h2g2id=\"{0}\">article</ARTICLE> by <USER USERID=\"{1}\">{2}</USER> was failed in moderation by <USER USERID=\"{3}\">{4}</USER> because it was deemed <NOTES>{5}</NOTES>";
-        public static string DataFormatReferred = "An <ARTICLE h2g2id=\"{0}\">article</ARTICLE> by <USER USERID=\"{1}\">{2}</USER> was referred by <USER USERID=\"{3}\">{4}</USER> because <NOTES>{5}</NOTES>";
+        public static string DataFormatFailed = "<ACTIVITYDATA>An <ARTICLE h2g2id=\"{0}\">article</ARTICLE> by <USER USERID=\"{1}\">{2}</USER> was failed in moderation by <USER USERID=\"{3}\">{4}</USER> because it was deemed <NOTES>{5}</NOTES></ACTIVITYDATA>";
+        public static string DataFormatReferred = "<ACTIVITYDATA>An <ARTICLE h2g2id=\"{0}\">article</ARTICLE> by <USER USERID=\"{1}\">{2}</USER> was referred by <USER USERID=\"{3}\">{4}</USER> because <NOTES>{5}</NOTES></ACTIVITYDATA>";
 
         public ArticleModerationDecision()
         {
@@ -53,7 +53,7 @@ namespace Dna.SiteEventProcessor
                 {
                     case ModerationDecisionStatus.Fail:
                         siteEventArticleModerationDecision.Type = SiteActivityType.ModerateArticleFailed;
-                        siteEventArticleModerationDecision.ActivityData = new XElement("ACTIVITYDATA",
+                        siteEventArticleModerationDecision.ActivityData = XElement.Parse(
                             string.Format(DataFormatFailed, dataReader.GetInt32NullAsZero("h2g2id"),
                             dataReader.GetInt32NullAsZero("author_userid"), dataReader.GetStringNullAsEmpty("author_username"),
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
@@ -65,7 +65,7 @@ namespace Dna.SiteEventProcessor
 
                     case ModerationDecisionStatus.Referred:
                         siteEventArticleModerationDecision.Type = SiteActivityType.ModerateArticleReferred;
-                        siteEventArticleModerationDecision.ActivityData = new XElement("ACTIVITYDATA",
+                        siteEventArticleModerationDecision.ActivityData = XElement.Parse(
                             string.Format(DataFormatReferred, dataReader.GetInt32NullAsZero("h2g2id"),
                             dataReader.GetInt32NullAsZero("author_userid"), dataReader.GetStringNullAsEmpty("author_username"),
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),

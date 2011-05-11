@@ -16,7 +16,7 @@ namespace Dna.SiteEventProcessor
     public class UserModeratedEvent
     {
 
-        public static string DataFormat = "<USER USERID=\"{0}\">{1}</USER> was <MODERATIONSTATUS ID=\"{2}\">{3}</MODERATIONSTATUS> on <SITE ID=\"{4}\" /> by <USER USERID=\"{5}\">{6}</USER>{7} because <NOTES>{8}</NOTES>";
+        public static string DataFormat = "<ACTIVITYDATA><USER USERID=\"{0}\">{1}</USER> was <MODERATIONSTATUS ID=\"{2}\">{3}</MODERATIONSTATUS> on <SITE ID=\"{4}\" /> by <USER USERID=\"{5}\">{6}</USER>{7} because <NOTES>{8}</NOTES></ACTIVITYDATA>";
 
 
         public UserModeratedEvent()
@@ -94,7 +94,7 @@ namespace Dna.SiteEventProcessor
                         break;
                 }
 
-                siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                siteEvent.ActivityData = XElement.Parse(
                           string.Format(DataFormat,
                             dataReader.GetInt32NullAsZero("user_userid"), dataReader.GetStringNullAsEmpty("user_username"),
                             dataReader.GetInt32NullAsZero("status"), moderationStatus, dataReader.GetInt32NullAsZero("siteid"),
