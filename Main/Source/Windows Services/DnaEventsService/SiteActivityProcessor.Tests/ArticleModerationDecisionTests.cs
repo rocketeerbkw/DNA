@@ -40,8 +40,8 @@ namespace SiteActivityProcessor.Tests
             var modUsername = "modUsername";
             var modReason = "Unsuitable/Broken URL";
             var h2g2Id = 4;
-            var data = new XElement("ACTIVITYDATA", string.Format(ArticleModerationDecision.DataFormatFailed, h2g2Id, authorUserId, authorUsername, modUserId, modUsername,
-                modReason));
+            var data = string.Format(ArticleModerationDecision.DataFormatFailed, h2g2Id, authorUserId, authorUsername, modUserId, modUsername,
+                modReason);
 
             var dataReader = Mocks.DynamicMock<IDnaDataReader>();
             var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
@@ -82,8 +82,8 @@ namespace SiteActivityProcessor.Tests
             var modUsername = "modUsername";
             var modReason = "Unsuitable/Broken URL";
             var h2g2Id = 4;
-            var data = new XElement("ACTIVITYDATA", string.Format(ArticleModerationDecision.DataFormatReferred, h2g2Id, authorUserId, authorUsername, modUserId, modUsername,
-                modReason));
+            var data =string.Format(ArticleModerationDecision.DataFormatReferred, h2g2Id, authorUserId, authorUsername, modUserId, modUsername,
+                modReason);
 
             var dataReader = Mocks.DynamicMock<IDnaDataReader>();
             var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();

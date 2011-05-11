@@ -16,10 +16,10 @@ namespace Dna.SiteEventProcessor
     public class PostModerationDecision
     {
 
-        public static string DataFormatFailed = "A <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was failed in moderation by <USER USERID=\"{7}\">{8}</USER> because it was deemed <NOTES>{9}</NOTES>";
-        public static string DataFormatReferred = "A <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was referred by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES>";
-        public static string DataFormatReject = "A complaint on <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was rejected by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES>";
-        public static string DataFormatUpHeld = "A complaint on <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was upheld by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES>";
+        public static string DataFormatFailed = "<ACTIVITYDATA>A <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was failed in moderation by <USER USERID=\"{7}\">{8}</USER> because it was deemed <NOTES>{9}</NOTES></ACTIVITYDATA>";
+        public static string DataFormatReferred = "<ACTIVITYDATA>A <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was referred by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES></ACTIVITYDATA>";
+        public static string DataFormatReject = "<ACTIVITYDATA>A complaint on <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was rejected by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES></ACTIVITYDATA>";
+        public static string DataFormatUpHeld = "<ACTIVITYDATA>A complaint on <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was upheld by <USER USERID=\"{7}\">{8}</USER> because <NOTES>{9}</NOTES></ACTIVITYDATA>";
 
         public PostModerationDecision()
         {
@@ -62,7 +62,7 @@ namespace Dna.SiteEventProcessor
                 {
                     case ModerationDecisionStatus.Fail:
                         siteEvent1.Type = SiteActivityType.ModeratePostFailed;
-                        siteEvent1.ActivityData = new XElement("ACTIVITYDATA",
+                        siteEvent1.ActivityData = XElement.Parse(
                           string.Format(DataFormatFailed,
                             dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
@@ -79,7 +79,7 @@ namespace Dna.SiteEventProcessor
                             siteEvent2.SiteId = dataReader.GetInt32NullAsZero("siteid");
                             siteEvent2.Date = new Date(dataReader.GetDateTime("DateCreated"));
                             siteEvent2.Type = SiteActivityType.ComplaintPostUpHeld;
-                            siteEvent2.ActivityData = new XElement("ACTIVITYDATA",
+                            siteEvent2.ActivityData = XElement.Parse(
                               string.Format(DataFormatUpHeld,
                                 dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                                 dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
@@ -95,7 +95,7 @@ namespace Dna.SiteEventProcessor
 
                     case ModerationDecisionStatus.Referred:
                         siteEvent1.Type = SiteActivityType.ModeratePostReferred;
-                        siteEvent1.ActivityData = new XElement("ACTIVITYDATA",
+                        siteEvent1.ActivityData = XElement.Parse(
                          string.Format(DataFormatReferred,
                             dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
@@ -111,7 +111,7 @@ namespace Dna.SiteEventProcessor
                         if (dataReader.GetInt32NullAsZero("complainantid") != 0)
                         {//complaint rejected
                             siteEvent1.Type = SiteActivityType.ComplaintPostRejected;
-                            siteEvent1.ActivityData = new XElement("ACTIVITYDATA",
+                            siteEvent1.ActivityData = XElement.Parse(
                              string.Format(DataFormatReject,
                                 dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                                 dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,

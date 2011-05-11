@@ -16,7 +16,7 @@ namespace Dna.SiteEventProcessor
     public class NewUserEvent
     {
 
-        public static string DataFormat = "<USER USERID=\"{0}\">{1}</USER> joined <SITE ID=\"{2}\" />";
+        public static string DataFormat = "<ACTIVITYDATA><USER USERID=\"{0}\">{1}</USER> joined <SITE ID=\"{2}\" /></ACTIVITYDATA>";
 
 
         public NewUserEvent()
@@ -47,7 +47,7 @@ namespace Dna.SiteEventProcessor
                 siteEvent.SiteId = dataReader.GetInt32NullAsZero("siteid");
                 siteEvent.Date = new Date(dataReader.GetDateTime("DateCreated"));
                 siteEvent.Type = SiteActivityType.NewUserToSite;
-                siteEvent.ActivityData = new XElement("ACTIVITYDATA",
+                siteEvent.ActivityData = XElement.Parse(
                            string.Format(DataFormat,
                             dataReader.GetInt32NullAsZero("user_userid"), dataReader.GetStringNullAsEmpty("user_username"),
                             dataReader.GetInt32NullAsZero("siteid"))
