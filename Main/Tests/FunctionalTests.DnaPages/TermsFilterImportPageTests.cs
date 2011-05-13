@@ -158,6 +158,8 @@ namespace FunctionalTests
         [TestMethod]
         public void TermsFilterImportPage_AddSingleTermToAll_PassesValidation()
         {
+            //refresh mod classes
+            SendSignal();
             //set up data
             var reason = "this has a reason";
             var term = "bollocks";
@@ -501,7 +503,14 @@ namespace FunctionalTests
             Assert.AreEqual(expectedMessage, result.ChildNodes[0].InnerText);
         }
 
-        
-        
+
+        private void SendSignal()
+        {
+            var request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserNormal();
+            request.RequestPage("dnasignal?action=recache-moderationclasses");
+
+
+        }   
     }
 }
