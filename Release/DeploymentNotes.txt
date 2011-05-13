@@ -659,3 +659,6 @@ Marcus P
 		CBBCLIVENDEADLY
 		CBBCTMIFRIDAY
 		ELECTRICDREAMS
+		
+Marcus P
+	Deploy Event service 3.5.61.x
