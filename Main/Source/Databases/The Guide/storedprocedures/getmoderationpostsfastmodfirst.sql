@@ -44,8 +44,7 @@ BEGIN
 	select distinct s.siteid from 
 	dbo.sites s
 	inner join dbo.groupmembers gm on gm.siteid = s.siteid
-	where (gm.groupid = @moderatorgroup or gm.groupid = @refereegroup)
-	and gm.userid =@userid
+	where (@issuperuser =1 or (gm.groupid = @moderatorgroup or gm.groupid = @refereegroup) and gm.userid =@userid)
 END
 
 --Create a temporary table of entries from the threadmod queue that are going to be displayed
@@ -93,7 +92,7 @@ SELECT	tm.ModID,
 		CASE WHEN gmhosts.GroupId = @hostgroup THEN 1 ELSE 0 END 'host'
 		
 FROM ThreadMod tm WITH (UPDLOCK)
-INNER JOIN Sites s WITH (NOLOCK) ON s.SiteId = tm.SiteId AND (@issuperuser =1 or s.SiteId in (select siteid from @moderateSiteAccess))
+INNER JOIN Sites s WITH (NOLOCK) ON s.SiteId = tm.SiteId AND (s.SiteId in (select siteid from @moderateSiteAccess))
 INNER JOIN Forums f WITH(NOLOCK) ON f.ForumId = tm.ForumId 
 
 LEFT JOIN GroupMembers gmeditors WITH (NOLOCK) ON gmeditors.UserId = @userid AND gmeditors.SiteId = s.SiteId AND gmeditors.groupid = @editorgroup		--check user is editor
