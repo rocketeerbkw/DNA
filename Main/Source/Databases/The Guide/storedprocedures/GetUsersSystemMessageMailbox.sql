@@ -2,6 +2,10 @@ CREATE PROCEDURE getuserssystemmessagemailbox @userid INT, @siteid INT = NULL, @
 AS
 	DECLARE @TotalNumberOfMessages INT
 
+	-- hack to allow newsround comments module to share smm page with mbnewsround
+	set @siteid = null
+
+
 	IF (@siteid IS NULL)
 	BEGIN
 		SELECT @TotalNumberOfMessages = count(*)
