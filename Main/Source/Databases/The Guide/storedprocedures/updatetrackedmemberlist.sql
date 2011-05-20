@@ -22,7 +22,7 @@ BEGIN TRY
 	(@viewinguser, @reason, 0, 0)
 
 	declare @auditId int
-	select @auditId = max(UserUpdateId) from UserPrefStatusAudit
+	select @auditId = SCOPE_IDENTITY()
 	
 	--add details of actions taken
 	insert into UserPrefStatusAuditActions
@@ -45,6 +45,45 @@ BEGIN TRY
 	WHERE preferences.userid = usids.userid AND preferences.siteid = usids.siteid
 
 	EXEC addtoeventqueueinternal 'ET_USERMODERATION', @auditId, 'IT_USERAUDIT', @prefstatus, 'IT_USERPREFSTATUS', @viewinguser
+
+	-- banned user - add ip/bbcuids to banned list
+	declare @userid int
+	if @prefstatus = 4
+	BEGIN
+		
+		DECLARE rt_cursorUsers CURSOR
+		FOR
+		select distinct userid  from #usersiteidpairs
+		
+		OPEN rt_cursorUsers
+		
+		FETCH NEXT FROM rt_cursorUsers INTO @userid
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			exec addbannedusersipaddress @userid 
+			FETCH NEXT FROM rt_cursorUsers INTO @userid
+		END
+		CLOSE rt_cursorUsers
+		DEALLOCATE rt_cursorUsers
+	END
+	ELSE
+	BEGIN
+	
+		DECLARE rt_cursorUsers CURSOR
+		FOR
+		select distinct userid  from UserPrefStatusAuditActions where PreviousPrefStatus=4 and UserUpdateId=@auditId
+		
+		OPEN rt_cursorUsers
+		
+		FETCH NEXT FROM rt_cursorUsers INTO @userid
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			exec removebannedusersipaddress  @userid 
+			FETCH NEXT FROM rt_cursorUsers INTO @userid
+		END
+		CLOSE rt_cursorUsers
+		DEALLOCATE rt_cursorUsers
+	END
 
 	COMMIT TRANSACTION
 END TRY
