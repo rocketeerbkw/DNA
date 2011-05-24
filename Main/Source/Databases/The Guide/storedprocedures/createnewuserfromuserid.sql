@@ -4,7 +4,9 @@ CREATE PROCEDURE createnewuserfromuserid	@userid int,
 											@siteid int = 1,
 											@firstnames varchar(255) = null,
 											@lastname varchar(255) = null,
-											@displayname nvarchar(255) = null
+											@displayname nvarchar(255) = null,
+											@ipaddress varchar(25)=null, 
+											@bbcuid uniqueidentifier=null
 As
 
 -- create the new account
@@ -137,11 +139,18 @@ EXEC addtoeventqueueinternal 'ET_NEWUSERTOSITE', @UserID, 'IT_USER', @SiteID, 'I
 	END
 END
 
+
+
 EXEC @Err = populateuseraccount @userid, @siteid
+SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
+
+EXEC @Err = verifyuseragainstbannedipaddress @userid, @siteid, @ipaddress, @bbcuid
 SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
 	
 EXEC @Err = finduserfromid @userid, NULL, @siteid
 SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
+
+
 	
 COMMIT TRANSACTION
 

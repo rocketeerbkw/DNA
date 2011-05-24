@@ -74,9 +74,9 @@ namespace BBC.Dna.Users
         /// <param name="siteID">The id of the site you want to sign them into</param>
         /// <param name="identityUserName">The identity username if in identity mode. Found in the IDENTITY-NAME cookie</param>
         /// <returns>True if they are signed in, false if not</returns>
-        public bool IsUserSignedIn(string cookie, string policy, int siteID, string identityUserName)
+        public bool IsUserSignedIn(string cookie, string policy, int siteID, string identityUserName, string ipAddress, Guid BBCUid)
         {
-            return IsUserSignedInSecure(cookie, "", policy, siteID);
+            return IsUserSignedInSecure(cookie, "", policy, siteID, ipAddress, BBCUid);
         }
         /// <summary>
         /// Tries to sign the user in using their cookie.
@@ -86,7 +86,7 @@ namespace BBC.Dna.Users
         /// <param name="policy">This is either the poilicy to use when using identity OR the service name to use with SSO</param>
         /// <param name="siteID">The id of the site you want to sign them into</param>
         /// <returns>True if they are signed in, false if not</returns>
-        public bool IsUserSignedInSecure(string cookie, string secureCookie, string policy, int siteID)
+        public bool IsUserSignedInSecure(string cookie, string secureCookie, string policy, int siteID, string ipAddress, Guid BBCUid )
         {
             _isSecureRequest = false;
 
@@ -107,7 +107,7 @@ namespace BBC.Dna.Users
                     if (emailToCheck.Length == 0 || !emails.IsEmailInBannedFromSignInList(emailToCheck))
                     {
                         // The users email is not in the banned list, get the rest of the details from the database
-                        if (CreateUserFromSignInUserID(authenticatedUser.SignInUserID, authenticatedUser.LegacyUserID, _signInSystem, siteID, authenticatedUser.LoginName, authenticatedUser.Email, authenticatedUser.UserName))
+                        if (CreateUserFromSignInUserID(authenticatedUser.SignInUserID, authenticatedUser.LegacyUserID, _signInSystem, siteID, authenticatedUser.LoginName, authenticatedUser.Email, authenticatedUser.UserName, ipAddress, BBCUid))
                         {
                             _signedInStatus = SigninStatus.SignedInLoggedIn;
 

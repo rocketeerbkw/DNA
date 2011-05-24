@@ -163,12 +163,12 @@ namespace BBC.Dna.Services
                 if (String.IsNullOrEmpty(site.IdentityPolicy))
                 {
                     callingUser = new CallingUser(SignInSystem.SSO, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
-                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "");
+                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "", _iPAddress, bbcUidCookie);
                 }
                 else
                 {
                     callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
-                    userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID);
+                    userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID, _iPAddress, bbcUidCookie);
                 }
                 // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs
                 if (callingUser.GetSigninStatus == CallingUser.SigninStatus.SignedInNotLoggedIn)
@@ -198,12 +198,12 @@ namespace BBC.Dna.Services
                 if (String.IsNullOrEmpty(site.IdentityPolicy))
                 {
                     callingUser = new CallingUser(SignInSystem.SSO, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
-                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "");
+                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "", _iPAddress, bbcUidCookie);
                 }
                 else
                 {
                     callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
-                    userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID);
+                    userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID, _iPAddress, bbcUidCookie);
                 }
                 // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs
                 if (callingUser.GetSigninStatus == CallingUser.SigninStatus.SignedInNotLoggedIn)
@@ -235,12 +235,12 @@ namespace BBC.Dna.Services
                 if (String.IsNullOrEmpty(site.IdentityPolicy))
                 {
                     callingUser = new CallingUser(SignInSystem.SSO, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
-                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "");
+                    userSignedIn = callingUser.IsUserSignedIn(QueryStringHelper.GetCookieValueAsString("SSO2-UID", ""), site.SSOService, site.SiteID, "", _iPAddress, bbcUidCookie);
                 }
                 else
                 {
                     callingUser = new CallingUser(SignInSystem.Identity, readerCreator, dnaDiagnostic, cacheManager, debugDnaUserId, siteList);
-                    userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID);
+                    userSignedIn = callingUser.IsUserSignedInSecure(QueryStringHelper.GetCookieValueAsString("IDENTITY", ""), QueryStringHelper.GetCookieValueAsString("IDENTITY-HTTPS", ""), site.IdentityPolicy, site.SiteID, _iPAddress, bbcUidCookie);
                 }
                 // Check to see if we've got a user who's signed in, but not logged in. This usualy means they haven't agreed T&Cs
                 if (callingUser.GetSigninStatus == CallingUser.SigninStatus.SignedInNotLoggedIn)

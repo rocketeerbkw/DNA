@@ -1279,6 +1279,7 @@
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
     <None Include="addbannedusersipaddress.sql" />
+    <None Include="verifyuseragainstbannedipaddress.sql" />
     <None Include="removebannedusersipaddress.sql" />
     <None Include="getuserevents.sql" />
     <None Include="InsertUserPostEvents.sql" />
