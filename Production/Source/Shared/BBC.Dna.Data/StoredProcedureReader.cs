@@ -876,6 +876,16 @@ namespace BBC.Dna.Data
         /// <summary>
         /// Get the value of the specified column as a Int32.
         /// </summary>
+        /// <param name="name">Name of the column.</param>
+        /// <returns>Int32 value of the column.</returns>
+        public short GetInt16(string name)
+        {
+            return _dataReader.GetInt16(GetOrdinal(name));
+        }
+
+        /// <summary>
+        /// Get the value of the specified column as a Int32.
+        /// </summary>
         /// <param name="i">Zero-based column ordinal.</param>
         /// <returns>Int32 value of the column.</returns>
         public int GetInt32(int i)

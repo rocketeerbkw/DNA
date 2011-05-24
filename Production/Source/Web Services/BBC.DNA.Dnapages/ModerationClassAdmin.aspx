@@ -57,7 +57,10 @@
         <asp:Button ID="btnAddModClass" runat="server" Height="24px" OnClick="btnAddModClass_Click"
             Style="z-index: 109; position: relative; left: 8px; top: 0px;" Text="Add"
             Width="64px" />
-    
+            <br />
+         <asp:Button ID="btnRefreshCaches" runat="server" Height="24px" OnClick="btnRefreshCaches_Click"
+            Style="z-index: 109; position: relative; left: 8px; top: 0px;" Text="Refresh Caches"
+            Width="164px" />
     </div>
     </dna:form>
 </body>

@@ -8,13 +8,14 @@ using System.Xml;
 using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using BBC.Dna.Objects;
+using System.Xml.Linq;
 
 namespace Dna.SiteEventProcessor
 {
     public class ComplaintPostEvent
     {
 
-        public static string DataFormat = "<USER USERID=\"{0}\">{1}</USER> alerted a {2} on <POST FORUMID=\"{3}\" POSTID=\"{4}\" THREADID=\"{5}\" URL=\"{6}\">'{7}'</POST> because <NOTES>{8}</NOTES>";
+        public static string DataFormat = "<ACTIVITYDATA><USER USERID=\"{0}\">{1}</USER> alerted a {2} on <POST FORUMID=\"{3}\" POSTID=\"{4}\" THREADID=\"{5}\" URL=\"{6}\">'{7}'</POST> because <NOTES>{8}</NOTES></ACTIVITYDATA>";
         
 
         public ComplaintPostEvent()
@@ -56,29 +57,23 @@ namespace Dna.SiteEventProcessor
                 {
                     type = "comment";
                 }
-            
-            
-            
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml("<ACTIVITYDATA>" + 
-                            string.Format(DataFormat,
+
+
+                siteEvent.ActivityData = XElement.Parse(
+                         string.Format(DataFormat,
                             dataReader.GetInt32NullAsZero("complaintantID_userid"), complainantUserName, type,
                             dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
                             dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"),
                             dataReader.GetStringNullAsEmpty("subject"), dataReader.GetStringNullAsEmpty("complainttext"))
-                            + "</ACTIVITYDATA>");
-                siteEvent.ActivityData = doc.DocumentElement;
-                
+                           );
+                siteEvent.UserId = dataReader.GetInt32NullAsZero("complaintantID_userid");
+                siteEvent.SaveEvent(creator);
+                 
             }
             catch(Exception e)
             {
                 siteEvent = null;
                 SiteEventsProcessor.SiteEventLogger.LogException(e);
-            }
-
-            if (siteEvent != null)
-            {
-                siteEvent.SaveEvent(creator);
             }
 
             return siteEvent;

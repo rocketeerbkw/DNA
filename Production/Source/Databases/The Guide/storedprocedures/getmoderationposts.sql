@@ -10,7 +10,7 @@
 	Referred Items require referee / superuser /editor status.
 	Otherwise user must be a member of appropriate modclass or Moderator / Editor / Superuser / Host
 */
-CREATE PROCEDURE getmoderationposts @userid int, @status int = 0, @alerts int = 0,  @lockeditems int = 0, @fastmod int = 0, @issuperuser bit = 0, @modclassid int = NULL, @postid int = NULL, @duplicatecomplaints bit = 0, @show int = 10
+create PROCEDURE getmoderationposts @userid int, @status int = 0, @alerts int = 0,  @lockeditems int = 0, @fastmod int = 0, @issuperuser bit = 0, @modclassid int = NULL, @postid int = NULL, @duplicatecomplaints bit = 0, @show int = 10
 As
 
 DECLARE @ErrorCode INT
@@ -29,6 +29,23 @@ select @refereegroup = GroupID FROM Groups WHERE Name = 'Referee'
 
 declare @hostgroup INT
 select @hostgroup = GroupID FROM Groups WHERE name = 'Host'
+
+declare @moderateSiteAccess table(siteid INT)
+if isnull(@modclassid, 0) > 0
+BEGIN
+	insert into @moderateSiteAccess
+	select siteid from sites where modclassid=@modclassid
+END
+ELSE
+BEGIN
+-- only include the ones that the moderator can moderate
+	insert into @moderateSiteAccess
+	select distinct s.siteid from 
+	dbo.sites s
+	inner join dbo.groupmembers gm on gm.siteid = s.siteid
+	where (@issuperuser =1 or (gm.groupid = @moderatorgroup or gm.groupid = @refereegroup) and gm.userid =@userid)
+END
+
 
 --Create a temporary table of entries from the threadmod queue that are going to be displayed
 --Priority is given to items that the viewing user has already locked, then date queued
@@ -75,7 +92,7 @@ SELECT	tm.ModID,
 		CASE WHEN gmhosts.GroupId = @hostgroup THEN 1 ELSE 0 END 'host'
 		
 FROM ThreadMod tm WITH (UPDLOCK)
-INNER JOIN Sites s WITH (NOLOCK) ON s.SiteId = tm.SiteId AND (@modclassid = 0 or s.ModClassId = ISNULL(@modclassid,s.ModClassId))
+INNER JOIN Sites s WITH (NOLOCK) ON s.SiteId = tm.SiteId AND s.SiteId in (select siteid from @moderateSiteAccess)
 INNER JOIN Forums f WITH(NOLOCK) ON f.ForumId = tm.ForumId 
 
 LEFT JOIN GroupMembers gmeditors WITH (NOLOCK) ON gmeditors.UserId = @userid AND gmeditors.SiteId = s.SiteId AND gmeditors.groupid = @editorgroup		--check user is editor

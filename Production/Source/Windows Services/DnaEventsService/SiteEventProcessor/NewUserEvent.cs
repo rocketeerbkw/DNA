@@ -9,13 +9,14 @@ using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
+using System.Xml.Linq;
 
 namespace Dna.SiteEventProcessor
 {
     public class NewUserEvent
     {
 
-        public static string DataFormat = "<USER USERID=\"{0}\">{1}</USER> joined <SITE ID=\"{2}\" />";
+        public static string DataFormat = "<ACTIVITYDATA><USER USERID=\"{0}\">{1}</USER> joined <SITE ID=\"{2}\" /></ACTIVITYDATA>";
 
 
         public NewUserEvent()
@@ -46,15 +47,13 @@ namespace Dna.SiteEventProcessor
                 siteEvent.SiteId = dataReader.GetInt32NullAsZero("siteid");
                 siteEvent.Date = new Date(dataReader.GetDateTime("DateCreated"));
                 siteEvent.Type = SiteActivityType.NewUserToSite;
-           
-
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml("<ACTIVITYDATA>" + 
-                            string.Format(DataFormat,
+                siteEvent.ActivityData = XElement.Parse(
+                           string.Format(DataFormat,
                             dataReader.GetInt32NullAsZero("user_userid"), dataReader.GetStringNullAsEmpty("user_username"),
                             dataReader.GetInt32NullAsZero("siteid"))
-                            + "</ACTIVITYDATA>");
-                siteEvent.ActivityData = doc.DocumentElement;
+                            );
+                siteEvent.UserId = dataReader.GetInt32NullAsZero("user_userid");
+                siteEvent.SaveEvent(creator);
                 
             }
             catch(Exception e)
@@ -62,12 +61,6 @@ namespace Dna.SiteEventProcessor
                 siteEvent = null;
                 SiteEventsProcessor.SiteEventLogger.LogException(e);
             }
-
-            if (siteEvent != null)
-            {
-                siteEvent.SaveEvent(creator);
-            }
-
             return siteEvent;
         }
 

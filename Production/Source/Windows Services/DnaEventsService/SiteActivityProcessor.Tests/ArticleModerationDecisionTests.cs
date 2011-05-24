@@ -9,6 +9,7 @@ using BBC.DNA.Moderation.Utils;
 using Dna.SiteEventProcessor;
 using BBC.Dna.Moderation;
 using BBC.Dna.Objects;
+using System.Xml.Linq;
 
 namespace SiteActivityProcessor.Tests
 {
@@ -31,7 +32,7 @@ namespace SiteActivityProcessor.Tests
         public void SiteEventArticleModerationDecisionTests_FailedModPost_ReturnsCorrectObject()
         {
             var siteId = 1;
-            var dateCreated = DateTime.Now;
+            var dateCreated = DateTime.UtcNow;
             var statusId = SiteActivityType.ModerateArticleFailed;
             var authorUserId = 2;
             var modUserId = 3;
@@ -64,7 +65,7 @@ namespace SiteActivityProcessor.Tests
             Assert.AreEqual(siteId, result.SiteId);
             Assert.AreEqual(dateCreated, result.Date.DateTime);
             Assert.AreEqual(statusId, result.Type);
-            Assert.AreEqual(data, result.ActivityData.InnerXml);
+            Assert.AreEqual(data.ToString(), result.ActivityData.ToString());
 
 
         }
@@ -73,7 +74,7 @@ namespace SiteActivityProcessor.Tests
         public void SiteEventArticleModerationDecisionTests_ReferredModPost_ReturnsCorrectObject()
         {
             var siteId = 1;
-            var dateCreated = DateTime.Now;
+            var dateCreated = DateTime.UtcNow;
             var statusId = SiteActivityType.ModerateArticleReferred;
             var authorUserId = 2;
             var modUserId = 3;
@@ -81,7 +82,7 @@ namespace SiteActivityProcessor.Tests
             var modUsername = "modUsername";
             var modReason = "Unsuitable/Broken URL";
             var h2g2Id = 4;
-            var data = string.Format(ArticleModerationDecision.DataFormatReferred, h2g2Id, authorUserId, authorUsername, modUserId, modUsername,
+            var data =string.Format(ArticleModerationDecision.DataFormatReferred, h2g2Id, authorUserId, authorUsername, modUserId, modUsername,
                 modReason);
 
             var dataReader = Mocks.DynamicMock<IDnaDataReader>();
@@ -106,7 +107,7 @@ namespace SiteActivityProcessor.Tests
             Assert.AreEqual(siteId, result.SiteId);
             Assert.AreEqual(dateCreated, result.Date.DateTime);
             Assert.AreEqual(statusId, result.Type);
-            Assert.AreEqual(data, result.ActivityData.InnerXml);
+            Assert.AreEqual(data.ToString(), result.ActivityData.ToString());
 
 
         }

@@ -8,6 +8,7 @@ using Rhino.Mocks;
 using BBC.DNA.Moderation.Utils;
 using Dna.SiteEventProcessor;
 using BBC.Dna.Moderation;
+using System.Xml.Linq;
 
 namespace SiteActivityProcessor.Tests
 {
@@ -31,7 +32,7 @@ namespace SiteActivityProcessor.Tests
         public void PostModerationDecisionTests_FailedModPost_ReturnsCorrectObject()
         {
             var siteId = 1;
-            var dateCreated = DateTime.Now;
+            var dateCreated = DateTime.UtcNow;
             var statusId = SiteActivityType.ModeratePostFailed;
             var authorUserId = 2;
             var modUserId = 3;
@@ -67,10 +68,10 @@ namespace SiteActivityProcessor.Tests
 
             var result = PostModerationDecision.CreatePostModerationDecisionActivity(dataReader, creator);
 
-            Assert.AreEqual(siteId, result.SiteId);
-            Assert.AreEqual(dateCreated, result.Date.DateTime);
-            Assert.AreEqual(statusId, result.Type);
-            Assert.AreEqual(data, result.ActivityData.InnerXml);
+            Assert.AreEqual(siteId, result[0].SiteId);
+            Assert.AreEqual(dateCreated, result[0].Date.DateTime);
+            Assert.AreEqual(statusId, result[0].Type);
+            Assert.AreEqual(data.ToString(), result[0].ActivityData.ToString());
 
 
         }
@@ -79,7 +80,7 @@ namespace SiteActivityProcessor.Tests
         public void PostModerationDecisionTests_ReferredModPost_ReturnsCorrectObject()
         {
             var siteId = 1;
-            var dateCreated = DateTime.Now;
+            var dateCreated = DateTime.UtcNow;
             var statusId = SiteActivityType.ModeratePostReferred;
             var authorUserId = 2;
             var modUserId = 3;
@@ -115,10 +116,10 @@ namespace SiteActivityProcessor.Tests
 
             var result = PostModerationDecision.CreatePostModerationDecisionActivity(dataReader, creator);
 
-            Assert.AreEqual(siteId, result.SiteId);
-            Assert.AreEqual(dateCreated, result.Date.DateTime);
-            Assert.AreEqual(statusId, result.Type);
-            Assert.AreEqual(data, result.ActivityData.InnerXml);
+            Assert.AreEqual(siteId, result[0].SiteId);
+            Assert.AreEqual(dateCreated, result[0].Date.DateTime);
+            Assert.AreEqual(statusId, result[0].Type);
+            Assert.AreEqual(data.ToString(), result[0].ActivityData.ToString());
 
 
         }
@@ -127,7 +128,7 @@ namespace SiteActivityProcessor.Tests
         public void PostModerationDecisionTests_ReferredModComment_ReturnsCorrectObject()
         {
             var siteId = 1;
-            var dateCreated = DateTime.Now;
+            var dateCreated = DateTime.UtcNow;
             var statusId = SiteActivityType.ModeratePostReferred;
             var authorUserId = 2;
             var modUserId = 3;
@@ -164,10 +165,10 @@ namespace SiteActivityProcessor.Tests
 
             var result = PostModerationDecision.CreatePostModerationDecisionActivity(dataReader, creator);
 
-            Assert.AreEqual(siteId, result.SiteId);
-            Assert.AreEqual(dateCreated, result.Date.DateTime);
-            Assert.AreEqual(statusId, result.Type);
-            Assert.AreEqual(data, result.ActivityData.InnerXml);
+            Assert.AreEqual(siteId, result[0].SiteId);
+            Assert.AreEqual(dateCreated, result[0].Date.DateTime);
+            Assert.AreEqual(statusId, result[0].Type);
+            Assert.AreEqual(data.ToString(), result[0].ActivityData.ToString());
 
 
         }

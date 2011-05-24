@@ -137,9 +137,24 @@
                 </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:variable>    
-	
-	<xsl:variable name="root-rss">
+    </xsl:variable>
+
+  <xsl:variable name="root-secure-moderation">
+    <xsl:choose>
+      <xsl:when test="/H2G2/FORUMTHREADPOSTS/@HOSTPAGEURL">
+
+      </xsl:when>
+      <xsl:otherwise>
+
+        <!-- make url absolute so can ping off to https from http pages -->
+        <xsl:value-of select="$configuration/host/sslurl" />
+
+        <xsl:text>/dna/moderation</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable name="root-rss">
 		<xsl:value-of select="concat($root-base, '/rss')"/>
 	</xsl:variable>
 		

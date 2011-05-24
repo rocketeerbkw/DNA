@@ -105,6 +105,14 @@
 						<td><font xsl:use-attribute-sets="mainfont"><b>Last Name:</b> <br/><input type="text" name="LastName" value="{USER/LAST-NAME}"/></font></td>
 						<td>&nbsp;</td>
 						<td><font xsl:use-attribute-sets="mainfont"><b>BBC User ID:</b> <br/><input type="text" name="BBCUID" value="{USER/BBCUID}" disabled="disabled"/></font></td>
+						<td>&nbsp;</td>
+						<td>
+							<font xsl:use-attribute-sets="mainfont">
+								<b>Site Suffix:</b>
+								<br/>
+								<input type="text" name="SiteSuffix" value="{USER/SITESUFFIX}"/>
+							</font>
+						</td>
 					</tr>
 					<tr valign="top">
 						<td>

@@ -9,13 +9,14 @@ using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
+using System.Xml.Linq;
 
 namespace Dna.SiteEventProcessor
 {
     public class UserModeratedEvent
     {
 
-        public static string DataFormat = "<USER USERID=\"{0}\">{1}</USER> was <MODERATIONSTATUS ID=\"{2}\">{3}</MODERATIONSTATUS> on <SITE ID=\"{4}\" /> by <USER USERID=\"{5}\">{6}</USER>{7} because <NOTES>{8}</NOTES>";
+        public static string DataFormat = "<ACTIVITYDATA><USER USERID=\"{0}\">{1}</USER> was <MODERATIONSTATUS ID=\"{2}\">{3}</MODERATIONSTATUS> on <SITE ID=\"{4}\" /> by <USER USERID=\"{5}\">{6}</USER>{7} because <NOTES>{8}</NOTES></ACTIVITYDATA>";
 
 
         public UserModeratedEvent()
@@ -92,28 +93,26 @@ namespace Dna.SiteEventProcessor
                         }
                         break;
                 }
-            
 
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml("<ACTIVITYDATA>" + 
-                            string.Format(DataFormat,
+                siteEvent.ActivityData = XElement.Parse(
+                          string.Format(DataFormat,
                             dataReader.GetInt32NullAsZero("user_userid"), dataReader.GetStringNullAsEmpty("user_username"),
                             dataReader.GetInt32NullAsZero("status"), moderationStatus, dataReader.GetInt32NullAsZero("siteid"),
                             dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
                             duration, dataReader.GetStringNullAsEmpty("modreason"))
-                            + "</ACTIVITYDATA>");
-                siteEvent.ActivityData = doc.DocumentElement;
+                           );
+                siteEvent.UserId = dataReader.GetInt32NullAsZero("user_userid");
+
+                if (siteEvent != null)
+                {
+                    siteEvent.SaveEvent(creator);
+                }
                 
             }
             catch(Exception e)
             {
                 siteEvent = null;
                 SiteEventsProcessor.SiteEventLogger.LogException(e);
-            }
-
-            if (siteEvent != null)
-            {
-                siteEvent.SaveEvent(creator);
             }
 
             return siteEvent;

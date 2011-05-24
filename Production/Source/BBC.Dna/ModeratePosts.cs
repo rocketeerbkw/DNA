@@ -7,6 +7,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Api;
+using BBC.Dna.Utils;
 using System.Linq;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 
@@ -189,7 +190,7 @@ namespace BBC.Dna.Component
                         }
                         AddTextTag(post, "SUBJECT", dataReader.GetStringNullAsEmpty("subject"));
 
-                        AddTextTag(post, "RAWTEXT", dataReader.GetStringNullAsEmpty("text"));
+                        AddTextTag(post, "RAWTEXT", StringUtils.StripInvalidXmlChars(dataReader.GetStringNullAsEmpty("text")));
                         
                         String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, true, false);
                         if (!dataReader.IsDBNull("commentforumurl"))
