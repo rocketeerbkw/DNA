@@ -56,17 +56,9 @@ namespace FunctionalTests
             var siteName = "moderation";
             var request = new DnaTestURLRequest(siteName) { UseEditorAuthentication = false, UseDebugUserSecureCookie=false};
             request.SetCurrentUserSuperUser();
-            bool exceptionThrown=false;
-            try
-            {
-                request.RequestPage("termsfilterimport?&skin=purexml", false, null);
-            }
-            catch (Exception)
-            {
-                exceptionThrown = true;
-            }
-
-            Assert.IsTrue(exceptionThrown);
+            request.RequestPage("termsfilterimport?&skin=purexml", false, null);
+            var xml = request.GetLastResponseAsXML();
+            Assert.AreEqual("ERROR", xml.DocumentElement.Attributes[0].Value);
         }
 
         [TestMethod]

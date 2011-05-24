@@ -55,18 +55,11 @@ namespace FunctionalTests
             var siteName = "moderation";
             var request = new DnaTestURLRequest(siteName) {UseEditorAuthentication = false};
             request.SetCurrentUserSuperUser();
-            bool exceptionThrown=false;
-            try
-            {
-                request.UseDebugUserSecureCookie = false;
-                request.RequestPage("termsfilteradmin?modclassid=2&skin=purexml", false, null);
-            }
-            catch (Exception)
-            {
-                exceptionThrown = true;
-            }
+            request.UseDebugUserSecureCookie = false;
+            request.RequestPage("termsfilteradmin?modclassid=2&skin=purexml", false, null);
 
-            Assert.IsTrue(exceptionThrown);
+            var xml = request.GetLastResponseAsXML();
+            Assert.AreEqual("ERROR", xml.DocumentElement.Attributes[0].Value);
         }
 
         [TestMethod]
