@@ -1172,7 +1172,7 @@
 			</ul>
 		</div>
 		
-		<div id="my606Nav">
+		<!-- <div id="my606Nav">
 			<div class="inner">
 				<h3>My 606</h3>
 				<ul class="my606List">
@@ -1197,16 +1197,15 @@
 				</ul>
 			</div>
 			<div class="bot"></div>
-		</div>
+		</div> -->
 		
 		<!-- hide rest of nav when in typed article -->
 		<xsl:if test="/H2G2/@TYPE != 'TYPED-ARTICLE'">
-			<div id="createNav">
+			<!-- <div id="createNav">
 				<ul class="createList">
 					<li>
 						<a>
 							<xsl:attribute name="href">
-								<!--  don't want to change the variable name as I don't know where else this could be affected -->
 								<xsl:choose>
 									<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0">
 										<xsl:call-template name="sso_typedarticle_signin"/>
@@ -1219,8 +1218,8 @@
 							<xsl:text>Create 606</xsl:text>
 						</a>
 					</li>
-				</ul>
-			</div>
+				</ul> 
+			</div> -->
 		
 			<div id="browseNav">
 				<xsl:call-template name="GENERATE_LEFT_HAND_NAV_BROWSE"/>

@@ -1463,7 +1463,7 @@
 			
 				<xsl:call-template name="RATE_BARS" />
 			
-				<div class="arrowlink">
+				<!-- <div class="arrowlink">
 					<a>
 						<xsl:attribute name="href">
 							<xsl:choose>
@@ -1483,7 +1483,7 @@
 							</xsl:choose>
 						</xsl:attribute>
 						<strong>Sign in if you want to vote</strong></a>
-				</div>
+				</div> -->
 			
 			</div>
 		 </div>
