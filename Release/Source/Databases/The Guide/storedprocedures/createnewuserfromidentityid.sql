@@ -5,7 +5,9 @@ CREATE PROCEDURE createnewuserfromidentityid	@identityuserid varchar(40),
 												@siteid int = 1,
 												@firstnames varchar(255) = null,
 												@lastname varchar(255) = null,
-												@displayname nvarchar(255) = null
+												@displayname nvarchar(255) = null,
+												@ipaddress varchar(25)=null, 
+												@bbcuid uniqueidentifier=null
 AS
 -- Try to get the dnauserid from the sign in mapping table
 DECLARE @DnaUserID int
@@ -30,4 +32,4 @@ BEGIN
 END
 
 -- Now call the internal create new user from id
-EXEC createnewuserfromuserid @DnaUserID, @username, @email, @siteid, @firstnames, @lastname, @displayname
+EXEC createnewuserfromuserid @DnaUserID, @username, @email, @siteid, @firstnames, @lastname, @displayname, @ipaddress, @bbcuid

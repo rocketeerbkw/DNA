@@ -662,3 +662,8 @@ Marcus P
 		
 Marcus P
 	Deploy Event service 3.5.61.x
+
+============== v 3.5.63.0 ============
+Marcus P
+	Run MigrateBannedIpaddresses.sql in dbscripts
+	

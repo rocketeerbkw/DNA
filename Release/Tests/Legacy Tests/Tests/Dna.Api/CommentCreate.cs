@@ -126,7 +126,7 @@ namespace Tests
 
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.IdentityPolicy, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName);
+            _comments.CallingUser.IsUserSignedIn(TestUserAccounts.GetNormalUserAccount.Cookie, site.IdentityPolicy, site.SiteID, TestUserAccounts.GetNormalUserAccount.IdentityUserName, null, Guid.Empty);
 
             try
             {
@@ -159,7 +159,7 @@ namespace Tests
 
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
@@ -186,7 +186,7 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
 
 
@@ -231,7 +231,7 @@ namespace Tests
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetBannedUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetBannedUserAccount.Cookie, TestUtils.TestUserAccounts.GetBannedUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetBannedUserAccount.Cookie, TestUtils.TestUserAccounts.GetBannedUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
 
             try
@@ -253,7 +253,7 @@ namespace Tests
             //create comments objects
 
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
             var callingUser = _comments.CallingUser;
             //set up test data
             CommentInfo comment = new CommentInfo
@@ -310,7 +310,7 @@ namespace Tests
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -339,7 +339,7 @@ namespace Tests
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -369,7 +369,7 @@ namespace Tests
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie,site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie,site.IdentityPolicy, site.SiteID, null, Guid.Empty);
             
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -399,7 +399,7 @@ with a carrage return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
@@ -429,7 +429,7 @@ return.";
             
             CommentForum commentForum = CommentForumCreate(commentForumID);
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             bool exceptionThrown = false;
             try
@@ -473,7 +473,7 @@ return.";
             CommentForum commentForum = CommentForumCreate(commentForumID);
 
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
@@ -501,7 +501,7 @@ return.";
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie,TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
@@ -562,7 +562,7 @@ return.";
                 CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.Unknown);//should override this with the site value
                 //normal user
                 _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-                _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+                _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
                 CommentInfo result = _comments.CreateComment(commentForum, comment);
 
@@ -620,7 +620,7 @@ return.";
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetEditorUserAccount.Cookie, TestUtils.TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetEditorUserAccount.Cookie, TestUtils.TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
@@ -648,7 +648,7 @@ return.";
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
@@ -690,7 +690,7 @@ return.";
             CommentForum commentForum = CommentForumCreate(commentForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             CommentInfo result = _comments.CreateComment(commentForum, comment);
             Assert.IsTrue(result != null);
@@ -729,7 +729,7 @@ return.";
             }
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             bool exceptionThrown = false;
             try
@@ -760,7 +760,7 @@ return.";
             CommentForum commentForum = CommentForumCreate(commentForumID);
             //normal user
             _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             
             try
@@ -798,7 +798,7 @@ return.";
                 CommentInfo comment = new CommentInfo{text = Guid.NewGuid().ToString().Substring(0,10)};
                 //normal user
                 _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-                _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+                _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
                 CommentInfo result = _comments.CreateComment(commentForum, comment);//should pass successfully
                 Assert.IsTrue(result != null);
                 Assert.IsTrue(result.ID > 0);
