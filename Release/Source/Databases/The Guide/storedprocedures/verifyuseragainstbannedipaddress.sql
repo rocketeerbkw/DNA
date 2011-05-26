@@ -6,6 +6,11 @@ BEGIN
 	RETURN
 END
 
+if @bbcuid = '00000000-0000-0000-0000-000000000000'
+BEGIN 
+	RETURN
+END
+
 IF exists(select * from bannedipaddress where ipaddress=@ipaddress and bbcuid=@bbcuid)
 BEGIN
 
