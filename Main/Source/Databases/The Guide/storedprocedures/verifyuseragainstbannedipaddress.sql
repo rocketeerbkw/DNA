@@ -15,6 +15,6 @@ BEGIN
 		@prefstatus=4, --banned
 		@prefstatusduration=0,
 		@reason='Matching banned ipaddress/BBC UID combination found',
-		@viewinguser=6
+		@viewinguser=1-- system user
 
 END
