@@ -9,12 +9,12 @@ END
 IF exists(select * from bannedipaddress where ipaddress=@ipaddress and bbcuid=@bbcuid)
 BEGIN
 
-	exec updatetrackedmemberlist
+	exec updatetrackedmemberlistinternal
 		@userids= @userid,
 		@siteids= @siteid, 
 		@prefstatus=4, --banned
 		@prefstatusduration=0,
 		@reason='Matching banned ipaddress/BBC UID combination found',
-		@viewinguser=6
+		@viewinguser=5-- system user
 
 END

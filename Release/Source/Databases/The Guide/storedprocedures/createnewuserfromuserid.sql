@@ -137,6 +137,8 @@ EXEC addtoeventqueueinternal 'ET_NEWUSERTOSITE', @UserID, 'IT_USER', @SiteID, 'I
 			SET @Err = @@ERROR; IF @Err <> 0 GOTO HandleError
 		END
 	END
+	
+	
 END
 
 
@@ -145,7 +147,7 @@ EXEC @Err = populateuseraccount @userid, @siteid
 SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
 
 EXEC @Err = verifyuseragainstbannedipaddress @userid, @siteid, @ipaddress, @bbcuid
-SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
+	SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
 	
 EXEC @Err = finduserfromid @userid, NULL, @siteid
 SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
