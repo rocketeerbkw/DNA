@@ -6,3 +6,6 @@ where te.userid in
 (
 	select distinct userid from preferences where prefstatus=4
 	)
+and ipaddress is not null 
+and bbcuid is not null
+and bbcuid <> '00000000-0000-0000-0000-000000000000'
