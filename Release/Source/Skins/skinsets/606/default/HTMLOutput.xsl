@@ -254,19 +254,12 @@
 		<xsl:choose>
 			<xsl:when test="/H2G2/SERVERNAME = $development_server">
 				<div class="banner">
-				<h1 class="banner"><img src="{$imagesource}refresh/606_banner1.gif" border="0" vspace="0" width="760" height="64" alt="606: comment - debate - create" usemap="#banner" id="banner" /></h1>
-				<map id="banner606" name="banner">
-					<area href="http://www.bbc.co.uk/fivelive/" coords="571,2,664,42" alt="BBC Five Live"/>
-					<area href="http://news.bbc.co.uk/sport/" coords="667,12,754,33" alt="BBC Sport Interactive"/>
-					<area href="http://news.bbc.co.uk/sport1/hi/606/default.stm" coords="125,2,401,44" alt="606 homepage"/>					
-				</map>
-				<div class="crumb"><a href="http://news.bbc.co.uk/sport1/hi/2809419.stm">Help</a></div>
+					<a href="http://news.bbc.co.uk/sport"><img src="/dnaimages/606/606_close_760.gif" border="0" width="760" height="66" alt="The 606 website is no longer open to comments and is not being maintained." id="banner" /></a>
 				</div>
 			</xsl:when>
 			<xsl:otherwise>
 				<div class="banner">
-				<xsl:comment>#include virtual="/606/2/includes/banners/<xsl:value-of select="$banner"/>.ssi"</xsl:comment>
-				<div class="crumb"><a href="http://news.bbc.co.uk/sport1/hi/2809419.stm">Help</a></div>
+					<a href="http://news.bbc.co.uk/sport"><img src="/dnaimages/606/606_close_760.gif" border="0" width="760" height="66" alt="The 606 website is no longer open to comments and is not being maintained." id="banner" /></a>
 				</div>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -654,7 +647,7 @@
                 	<xsl:otherwise>
                 		<xsl:choose>
 	                		<xsl:when test="not(/H2G2/@TYPE = 'ONLINE')">
-	                			<xsl:call-template name="identity_statusbar"/>
+	                			<!-- <xsl:call-template name="identity_statusbar"/> -->
 	                		</xsl:when>
 	                		<xsl:otherwise>
 	                			<div id="sso">&#160;</div>
@@ -1179,7 +1172,7 @@
 			</ul>
 		</div>
 		
-		<div id="my606Nav">
+		<!-- <div id="my606Nav">
 			<div class="inner">
 				<h3>My 606</h3>
 				<ul class="my606List">
@@ -1204,16 +1197,15 @@
 				</ul>
 			</div>
 			<div class="bot"></div>
-		</div>
+		</div> -->
 		
 		<!-- hide rest of nav when in typed article -->
 		<xsl:if test="/H2G2/@TYPE != 'TYPED-ARTICLE'">
-			<div id="createNav">
+			<!-- <div id="createNav">
 				<ul class="createList">
 					<li>
 						<a>
 							<xsl:attribute name="href">
-								<!--  don't want to change the variable name as I don't know where else this could be affected -->
 								<xsl:choose>
 									<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN = 0">
 										<xsl:call-template name="sso_typedarticle_signin"/>
@@ -1226,8 +1218,8 @@
 							<xsl:text>Create 606</xsl:text>
 						</a>
 					</li>
-				</ul>
-			</div>
+				</ul> 
+			</div> -->
 		
 			<div id="browseNav">
 				<xsl:call-template name="GENERATE_LEFT_HAND_NAV_BROWSE"/>
