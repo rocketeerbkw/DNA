@@ -229,5 +229,63 @@ namespace FunctionalTests
                 Assert.AreEqual("a@b.c", reader.GetString("Email"), "The users email does not match the one entered");
             }
         }
+
+        /// <summary>
+        /// Check to make sure that a user is correctly set when created in a site with auto sin bin set
+        /// </summary>
+        [TestMethod]
+        public void TestUserIsCreatedCorrectlyForSIteWithBannedIPAddress()
+        {
+            Console.WriteLine("Before CreateNewUserProcedureTests - TestUserIsCreatedCorrectlyForSIteWithBannedIPAddress");
+
+            // Restore the database
+            SnapshotInitialisation.RestoreFromSnapshot();
+
+            // Create a context that will provide us with real data reader support
+            IInputContext testContext = DnaMockery.CreateDatabaseInputContext();
+
+            var ipAddress = "192.168.0.1";
+            var BBCUid = Guid.NewGuid();
+            string identityUserID = "987654322";
+            int newDnaUserID = 0;
+            using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(string.Format("insert into bannedIPAddress (userid, ipaddress, bbcuid) values ({0},'{1}','{2}')", 1, ipAddress, BBCUid));
+            }
+
+
+            using (IDnaDataReader reader = testContext.CreateDnaDataReader("createnewuserfromidentityid"))
+            {
+                reader.AddParameter("identityuserid", identityUserID);
+                reader.AddParameter("UserName", "TestUserIsCreatedCorrectlyForSIteWithBannedIPAddress");
+                reader.AddParameter("Email", "a@b.c");
+                reader.AddParameter("SiteID", 1);
+                reader.AddParameter("FirstNames", "MR");
+                reader.AddParameter("LastName", "TESTER");
+                reader.AddParameter("ipaddress", ipAddress);
+                reader.AddParameter("BBCUid", BBCUid);
+                reader.Execute();
+
+                // Check to make sure that we got something back
+                Assert.IsTrue(reader.HasRows, "Creating a new user returned no data!");
+                Assert.IsTrue(reader.Read(), "Failed to read the first row of data!");
+
+                // Get the new DNAUserID
+                newDnaUserID = reader.GetInt32("UserID");
+
+                // Now check the values comming back from the database
+                Assert.AreEqual("TestUserIsCreatedCorrectlyForSIteWithBannedIPAddress", reader.GetString("LoginName"), "Users login name does not match the one entered");
+                Assert.AreEqual("TestUserIsCreatedCorrectlyForSIteWithBannedIPAddress", reader.GetString("UserName"), "Users name does not match the one entered");
+                //**************************************************************************************
+                // SPF 3/12/09 Due to the removal of First Names Last Name due to legal issues,
+                // the First Names and Last Name will be NULL
+                //**************************************************************************************
+                Assert.IsTrue(reader.IsDBNull("FirstNames"), "Users first name is not NULL");
+                Assert.IsTrue(reader.IsDBNull("LastName"), "The users last name is not NULL");
+                // *************************************************************************************
+                Assert.AreEqual("a@b.c", reader.GetString("Email"), "The users email does not match the one entered");
+                Assert.AreEqual(4, reader.GetInt32NullAsZero("prefstatus"));
+            }
+        }
     }
 }

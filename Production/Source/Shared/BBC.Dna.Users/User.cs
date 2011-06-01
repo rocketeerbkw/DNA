@@ -258,13 +258,13 @@ namespace BBC.Dna.Users
         /// <param name="email">The users email</param>
         /// <param name="displayName">The users display name if gievn</param>
         /// <returns>True if they we're created ok, false if not</returns>
-        public bool CreateUserFromSignInUserID(string userSignInID, int legacyUserID, SignInSystem signInType, int siteID, string loginName, string email, string displayName)
+        public bool CreateUserFromSignInUserID(string userSignInID, int legacyUserID, SignInSystem signInType, int siteID, string loginName, string email, string displayName,string ipAddress, Guid BBCUid )
         {
             bool userCreated = false;
             
             IdentityUserID = userSignInID;
             Trace.WriteLine("CreateUserFromSignInUserID() - Using Identity");
-            userCreated = CreateNewUserFromId(siteID, IdentityUserID, legacyUserID, loginName, email, displayName);
+            userCreated = CreateNewUserFromId(siteID, IdentityUserID, legacyUserID, loginName, email, displayName,ipAddress, BBCUid );
 
             if (userCreated)
             {
@@ -324,11 +324,11 @@ namespace BBC.Dna.Users
         /// <param name="signInLoginName">The users signin system login name</param>
         /// <param name="signInEmail">The users signin system email address</param>
         /// <param name="displayName">The users signin system display name</param>
-        private bool CreateNewUserFromId(int siteID, string identityUserID, int ssoUserID, string signInLoginName, string signInEmail, string displayName)
+        private bool CreateNewUserFromId(int siteID, string identityUserID, int ssoUserID, string signInLoginName, string signInEmail, string displayName,string ipAddress, Guid BBCUid )
         {
             if (siteID != 0)
             {
-                return CreateUserFromSignInUserID(siteID, identityUserID, ssoUserID, signInLoginName, signInEmail, displayName);
+                return CreateUserFromSignInUserID(siteID, identityUserID, ssoUserID, signInLoginName, signInEmail, displayName, ipAddress, BBCUid);
             }
             return false;
         }
@@ -343,7 +343,8 @@ namespace BBC.Dna.Users
         /// <param name="email">The users Email</param>
         /// <param name="displayName">The users displayname</param>
         /// <returns>True if the user is created, false if not</returns>
-        private bool CreateUserFromSignInUserID(int siteID, string identityUserID, int ssoUserID, string loginName, string email, string displayName)
+        private bool CreateUserFromSignInUserID(int siteID, string identityUserID, int ssoUserID, string loginName,
+            string email, string displayName, string ipAddress, Guid BBCUid)
         {
             string procedureName = "createnewuserfromidentityid";
 
@@ -362,7 +363,8 @@ namespace BBC.Dna.Users
                 {
                     reader.AddParameter("displayname", displayName);
                 }
-
+                reader.AddParameter("ipaddress", ipAddress);
+                reader.AddParameter("bbcuid", BBCUid);
                 reader.Execute();
                 if (reader.Read() && reader.HasRows)
                 {

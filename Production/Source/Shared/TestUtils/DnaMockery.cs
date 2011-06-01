@@ -166,6 +166,9 @@ namespace Tests
             Stub.On(mockedInput).GetProperty("IsSecureRequest").Will(Return.Value(true));
             Stub.On(mockedInput).SetProperty("IsSecureRequest").To(true);
 
+            Stub.On(mockedInput).GetProperty("IpAddress").Will(Return.Value(""));
+            Stub.On(mockedInput).GetProperty("BBCUid").Will(Return.Value(Guid.Empty));
+
             // Create the cookies
             DnaCookie cookie = new DnaCookie();
             cookie.Name = "SSO2-UID";

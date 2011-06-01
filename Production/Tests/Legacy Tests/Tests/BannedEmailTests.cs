@@ -1044,6 +1044,9 @@ namespace Tests
             Stub.On(mockedInput).Method("GetCookie").With("IDENTITY").Will(Return.Value(new DnaCookie(new System.Web.HttpCookie("IDENTITY", loginName + "|huhi|7907980"))));
             Stub.On(mockedInput).Method("GetCookie").With("IDENTITY-HTTPS").Will(Return.Value(new DnaCookie(new System.Web.HttpCookie("IDENTITY-HTTPS", ""))));
 
+            Stub.On(mockedInput).GetProperty("IpAddress").Will(Return.Value(""));
+            Stub.On(mockedInput).GetProperty("BBCUid").Will(Return.Value(Guid.Empty));
+
             Stub.On(mockedInput).GetProperty("IsSecureRequest").Will(Return.Value(true));
             Stub.On(mockedInput).SetProperty("IsSecureRequest").To(true);
 

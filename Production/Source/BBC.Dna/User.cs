@@ -494,7 +494,7 @@ namespace BBC.Dna
                         ReadUserSSODetails(signInComponent, out ssoLoginName, out ssoEmail, out ssoFirstNames, out ssoLastName, out identityUserID, out ssoUserID, out ssoDisplayName);
 
                         // Create the new user in the database with the given information
-                        if (CreateNewUserFromId(identityUserID, ssoUserID, ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, InputContext.CurrentSite.SiteID, ssoDisplayName))
+                        if (CreateNewUserFromId(identityUserID, ssoUserID, ssoLoginName, ssoEmail, ssoFirstNames, ssoLastName, InputContext.CurrentSite.SiteID, ssoDisplayName, InputContext.IpAddress, InputContext.BBCUid))
                         {
                             // Get the extra details from our dtabase
                             GetUserDetails();
@@ -975,7 +975,8 @@ namespace BBC.Dna
         /// <summary>
         /// Gets the user data details and fills in the XML block
         /// </summary>
-        private bool CreateNewUserFromId(string identityUserID, int ssoUserID, string ssoLoginName, string ssoEmail, string ssoFirstNames, string ssoLastName, int siteId, string ssoDisplayName )
+        private bool CreateNewUserFromId(string identityUserID, int ssoUserID, string ssoLoginName, string ssoEmail,
+           string ssoFirstNames, string ssoLastName, int siteId, string ssoDisplayName, string ipAddress, Guid BBCUid )
         {
             if (InputContext.CurrentSite.SiteID != 0)
             {
@@ -1006,6 +1007,8 @@ namespace BBC.Dna
                         {
                             dataReader.AddParameter("displayname", ssoDisplayName);
                         }
+                        dataReader.AddParameter("ipaddress", ipAddress);
+                        dataReader.AddParameter("bbcuid", BBCUid);
 
                         dataReader.Execute();
                         if (dataReader.Read() && dataReader.HasRows)

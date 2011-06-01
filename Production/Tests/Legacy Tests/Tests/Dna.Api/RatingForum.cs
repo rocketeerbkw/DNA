@@ -452,7 +452,7 @@ namespace Tests
 
             //create first rating
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             byte[] ratings = { 1, 2, 5 };
             RatingInfo rating = new RatingInfo
@@ -465,14 +465,14 @@ namespace Tests
 
             //create second rating
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
-            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
             rating.rating = ratings[1];
             ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
 
             //create third rating
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNotableUserAccount.UserName, _siteList);
-            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
             rating.rating = ratings[2];
             ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
@@ -507,7 +507,7 @@ namespace Tests
 
             //create first rating
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             byte[] ratings = { 1, 2, 1 };
             RatingInfo rating = new RatingInfo
@@ -518,7 +518,7 @@ namespace Tests
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
             //create third rating
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNotableUserAccount.UserName, _siteList);
-            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
             rating.rating = ratings[2];
             RatingInfo ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
@@ -558,7 +558,7 @@ namespace Tests
 
             //create first rating
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
             byte[] ratings = { 1, 2, 1 };
             RatingInfo rating = new RatingInfo
@@ -571,13 +571,13 @@ namespace Tests
 
             //create second rating
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNotableUserAccount.UserName, _siteList);
-            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetNotableUserAccount.Cookie, TestUserAccounts.GetNotableUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
             rating.rating = ratings[1];
             ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
             //create third rating
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetSuperUserAccount.UserName, _siteList);
-            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetSuperUserAccount.Cookie, TestUserAccounts.GetSuperUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID);
+            _ratings.CallingUser.IsUserSignedInSecure(TestUserAccounts.GetSuperUserAccount.Cookie, TestUserAccounts.GetSuperUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
             rating.rating = ratings[2];
             ratingReturned = _ratings.RatingCreate(ratingForum, rating);
 
