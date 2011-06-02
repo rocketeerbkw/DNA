@@ -244,13 +244,13 @@
 	      									<a href="http://dna-extdev.bbc.co.uk/dna/{SITECONFIG/BOARDROOT}admin/messageboardadmin">Messageboard Admin</a>
 	      								</xsl:when>
 	      								<xsl:otherwise>
-	      									<a href="{$root-secure}/admin/mbadmin">Messageboard Admin</a>
+	      									<a href="{$root}/admin/mbadmin">Messageboard Admin</a>
 	      								</xsl:otherwise>
 	      							</xsl:choose>
 	      						</li>
 	      						<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2" >
 	      							<li>
-	      								<a href="{$root-secure}/boards-admin/siteoptions">Site Options</a>
+	      								<a href="{$root}/boards-admin/siteoptions">Site Options</a>
 	      							</li>
 	      						</xsl:if>
 	      					</ul>
