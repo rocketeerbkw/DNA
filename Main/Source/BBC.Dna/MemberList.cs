@@ -106,10 +106,15 @@ namespace BBC.Dna.Component
                 int newPrefStatusDuration = InputContext.GetParamIntOrZero("duration", _docDnaNewPrefStatusDuration);
                 bool hideAllContent = InputContext.DoesParamExist("hideAllPosts","hideAllPosts");
                 string reason = InputContext.GetParamStringOrEmpty("reasonChange", "");
-                if (String.IsNullOrEmpty(reason))
+                if (string.IsNullOrEmpty(reason))
                 {
                     AddErrorXml("EmptyReason", "Please provide a valid reason for this change for auditing purposes.", null);
                     return false;
+                }
+                var extraNotes = InputContext.GetParamStringOrEmpty("additionalNotes", "");
+                if (!String.IsNullOrEmpty(extraNotes))
+                {
+                    reason += " - " + extraNotes; 
                 }
                 if (hideAllContent && newPrefStatus != 5)
                 {

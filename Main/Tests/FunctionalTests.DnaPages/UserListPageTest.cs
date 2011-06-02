@@ -407,6 +407,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("userStatusDescription", newModStatus));
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
+            postData.Enqueue(new KeyValuePair<string, string>("additionalNotes", "additionalNotes"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
 
 
@@ -422,6 +423,13 @@ namespace FunctionalTests
 
             CheckUpdateApplied(xml, "Banned", newDuration);
             CheckUpdateApplied(xml, "Banned", newDuration, false, secondSite);
+
+            using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY("select * from UserPrefStatusAudit where userid=" + TestUserAccounts.GetSuperUserAccount.UserID + " and userupdateid in (select max(UserUpdateId) from UserPrefStatusAudit)");
+                Assert.IsTrue(reader.Read());
+                Assert.AreEqual("test - additionalNotes", reader.GetString("Reason"));
+            }
         }
 
         [TestMethod]

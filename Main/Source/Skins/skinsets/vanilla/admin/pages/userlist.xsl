@@ -224,9 +224,27 @@
 				<label for="hideAllPosts">Hide all content: </label>
 				<input type="checkbox" name="hideAllPosts" id="hideAllPosts" /> 
 			</div>
+      <div>
+        <label for="reasonChange">Reason for change:</label>
+        <select id="reasonChange" name="reasonChange">
+          <option value=""></option>
+          <option value="Spam">Spam</option>
+          <option value="Advertising">Advertising</option>
+          <option value="Off topic">Off topic</option>
+          <option value="Offensive">Offensive</option>
+          <option value="Illegal activity">Illegal activity</option>
+          <option value="Impersonation">Impersonation</option>
+          <option value="Harassment">Harassment</option>
+          <option value="Multiple accounts">Multiple accounts</option>
+          <option value="Re-registered user">Re-registered user</option>
+          <option value="Under or over age">Under or over age</option>
+          <option value="Complaints abuse">Complaints abuse</option>
+          <option value="Custom (otherwise disruptive)">Custom (otherwise disruptive)</option>
+        </select>
+      </div>
 			<div>
-				<label for="reasonChange">Reason for change:</label>
-				<textarea id="reasonChange" name="reasonChange" cols="50" rows="5">
+				<label for="additionalNotes">Additional Notes:</label>
+				<textarea id="additionalNotes" name="additionalNotes" cols="50" rows="3">
 					<xsl:text>&#x0A;</xsl:text>
 				</textarea>
 			</div>
