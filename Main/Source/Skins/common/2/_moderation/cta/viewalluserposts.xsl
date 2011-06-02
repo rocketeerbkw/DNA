@@ -19,10 +19,10 @@
     
 		<xsl:choose>
 			<xsl:when test="self::USER">
-				<a class="popup" target="_blank" href="{$root-secure}/US{USERID}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
+				<a target="_blank" href="{$configuration/host/sslurl}/dna/moderation/admin/usercontributions?s_user={USERID}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
 			</xsl:when>
 			<xsl:otherwise>
-				<a class="popup" target="_blank" href="{$root-secure}/US{.}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
+				<a target="_blank" href="{$configuration/host/sslurl}/dna/moderation/admin/usercontributions?s_user={.}"><xsl:value-of select="$label"/><span class="blq-hide"><xsl:text>:&#32;</xsl:text><xsl:value-of select="$user"/></span></a>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
