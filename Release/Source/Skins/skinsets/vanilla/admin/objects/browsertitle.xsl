@@ -57,9 +57,9 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="objects_browsertitle">
 		BBC - Host Dashboard - User Contributions
-	</xsl:template>	
-	
-	<xsl:template name="objects_browsertitle">
+	</xsl:template>
+
+  <xsl:template name="objects_browsertitle">
 		<xsl:if test="@TYPE='ERROR'">
 			DNA Site Admin | <xsl:value-of select="SITE/SHORTNAME"/>
 		</xsl:if>	

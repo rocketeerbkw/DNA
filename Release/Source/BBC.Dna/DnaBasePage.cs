@@ -310,50 +310,53 @@ namespace BBC.Dna.Page
                     //_skinSelector.Initialise(this, this);
 				}
                 InitialisePage();
-                if (!IsUserAllowed())
-                {
-                    
-                    Response.StatusCode = 401;
+                
+				// Intialise the page
+                Statistics.AddRawRequest();
+
+                if (!IsDnaUserAllowed() && !_useDotNetRendering )
+                {//not logged in
+                    if (!_skinSelector.IsPureXml(this))
+                    {
+                        _skinSelector.SkinName = "admin";
+                        _skinSelector.SkinSet = "vanilla";
+                    }
+                    _page = new WholePage(this);
+                    _page.InitialisePage("ERROR");
+                    _page.AddErrorXml("Authorization", "You are not authorised to view this page.", _page.RootElement.FirstChild);
+                }
+                else if (!IsSecureAccessAllowed())
+                {//logged in but not secure
+                    if (!_skinSelector.IsPureXml(this))
+                    {
+                        _skinSelector.SkinName = "admin";
+                        _skinSelector.SkinSet = "vanilla";
+                    }
+                    _page = new WholePage(this);
+                    _page.InitialisePage("ERROR");
+                    _page.AddErrorXml("NotSecure", "You must access this page be secure methods.", _page.RootElement.FirstChild);
                 }
                 else
-				{
-					// Intialise the page
-                    Statistics.AddRawRequest();
+                {
+                    // Now call the add components
+                    _dnapage.OnPageLoad();
 
-                    if (!IsDnaUserAllowed() && !_useDotNetRendering )
-                    {
-                        _page = new WholePage(this);
-                        _page.InitialisePage("ERROR");
-                        _page.AddErrorXml("Authorization", "You are not authorised to view this page.", _page.RootElement.FirstChild);
-                    }
-                    else if (!IsSecureAccessAllowed())
-                    {
-                        _page = new WholePage(this);
-                        _page.InitialisePage("ERROR");
-                        _page.AddErrorXml("NotSecure", "You must access this page be secure methods.", _page.RootElement.FirstChild);
-                    }
-                    else
-                    {
-                        // Now call the add components
-                        _dnapage.OnPageLoad();
+                    AddComponent(new SkinParams(this));
 
-                        AddComponent(new SkinParams(this));
+                    _page.ProcessRequest();
 
-                        _page.ProcessRequest();
+                    // Update any data source controls on the page
+                    _dnapage.UpdateDataSourceControls();
 
-                        // Update any data source controls on the page
-                        _dnapage.UpdateDataSourceControls();
+                    // Allow the page to do any post process request actions.
+                    _dnapage.OnPostProcessRequest();
+                }
 
-                        // Allow the page to do any post process request actions.
-                        _dnapage.OnPostProcessRequest();
-                    }
-
-                    //Finish off other related BasePage stuff
-                    FinalisePage();
-                    Statistics.AddRequestDuration((int)requesttimer.ElapsedMilliseconds);
-                    _page.AddTimeForPage(Diagnostics.ElapsedMilliseconds);
-                    _page.AddInside(_tracker, "H2G2");
-				}
+                //Finish off other related BasePage stuff
+                FinalisePage();
+                Statistics.AddRequestDuration((int)requesttimer.ElapsedMilliseconds);
+                _page.AddTimeForPage(Diagnostics.ElapsedMilliseconds);
+                _page.AddInside(_tracker, "H2G2");
 			}
 			finally
 			{
@@ -692,13 +695,7 @@ namespace BBC.Dna.Page
         {
             try
             {
-                if (!IsUserAllowed())
-                {
-                    Response.StatusCode = 401;
-                    Response.ContentType = "text/plain";
-                    Response.Write("Please do not press this button again");
-                }
-                else if (UseDotNetRendering)
+                if (UseDotNetRendering)
                 {
                     _dnapage.DotNetRender(writer);
                 }
@@ -942,8 +939,12 @@ namespace BBC.Dna.Page
             {
                 return true;
             }
+            else
+            {
+                return false;
+            }
 
-			string userName = Request.LogonUserIdentity.Name;
+			/*string userName = Request.LogonUserIdentity.Name;
 			if (userName.Contains(@"\"))
 			{
 				userName = userName.Substring(userName.IndexOf('\\')+1);
@@ -975,7 +976,7 @@ namespace BBC.Dna.Page
 			else
 			{
 				return false;
-			}
+			}*/
 		}
 		/// <summary>
 		/// Checks whether if the page must be accessed by secure means that it is
@@ -983,10 +984,10 @@ namespace BBC.Dna.Page
         /// <returns>true if the page must be accessed securely.</returns>
         public bool IsSecureAccessAllowed()
         {
-            if (!this.IsSecureRequest)
-            {
-                if (_dnapage.MustBeSecure)
-                {
+            if (!_isSecureRequest)
+            {//not a secure request
+                if (_dnapage.AllowedUsers != UserTypes.Any && _dnapage.AllowedUsers != UserTypes.Volunteer)
+                {//must be secure
                     return false;
                 }
             }
