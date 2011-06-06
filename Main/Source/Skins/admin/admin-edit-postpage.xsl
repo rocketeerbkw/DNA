@@ -103,6 +103,7 @@
           <b><xsl:value-of select="."/></b><BR/><BR/>
 				</xsl:for-each>
 				<b>Edit Post '<xsl:value-of select="POST-EDIT-FORM/SUBJECT"/>' by <xsl:apply-templates select="POST-EDIT-FORM/AUTHOR"/></b>
+        <a href="moderationhistory?postid={POST-EDIT-FORM/POST-ID}">View Moderation History</a>
 				<form name="TextForm" method="post" action="{$root}EditPost">
 					<input type="hidden" name="PostID" value="{POST-EDIT-FORM/POST-ID}"/>
 					Subject:
