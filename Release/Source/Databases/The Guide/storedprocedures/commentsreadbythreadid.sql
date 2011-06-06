@@ -14,14 +14,14 @@ where te.threadid = @threadid and te.postindex <> 0
 
 ;with cte_usersposts as
 (
-	select row_number() over ( order by te.DatePosted asc) as n, te.EntryID
+	select row_number() over ( order by te.threadid, te.PostIndex asc) as n, te.EntryID
 	from dbo.ThreadEntries te
 	where te.threadid = @threadid and te.postindex <> 0
 	and @sortBy = 'created' and @sortDirection = 'ascending'
 
 	union all
 
-	select row_number() over ( order by te.DatePosted desc) as n, te.EntryID
+	select row_number() over ( order by te.threadid, te.PostIndex desc) as n, te.EntryID
 	from dbo.ThreadEntries te
 	where te.threadid = @threadid and postindex <> 0
 	and @sortBy = 'created' and @sortDirection = 'descending'

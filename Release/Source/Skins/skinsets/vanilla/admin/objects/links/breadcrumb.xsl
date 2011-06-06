@@ -11,7 +11,7 @@
 		
 		<div class="dna-breadcrumb blq-clearfix">
 			<ul class="dna-dashboard-links">
-				<li><a href="hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}">Dashboard</a></li>
+				<li><a href="{$configuration/host/sslurl}/dna/moderation/admin/hostdashboard?{$dashboardtypeid}{$dashboardsiteuser}{$dashboardsiteid}">Dashboard</a></li>
 				<li> &gt; 
 					<xsl:if test="/H2G2/@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or /H2G2/@TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE'">
 						<xsl:call-template name="objects_subheading">

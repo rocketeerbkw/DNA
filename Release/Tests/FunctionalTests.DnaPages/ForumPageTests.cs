@@ -1341,6 +1341,24 @@ links: http://www.bbc.co.uk and other stuff";
             Assert.AreEqual((lastPostIndex+1).ToString(), lastReadPostIndex);
         }
 
+        [TestMethod]
+        public void ForumPageBuilder_44ForumPageWrongSite()
+        {
+
+            var siteName = "dev";
+
+            var request = new DnaTestURLRequest(siteName);
+            request.RequestPage(string.Format("NF7325075?skin=purexml"));
+
+            var xml = request.GetLastResponseAsXML();
+
+            var errorXml = xml.SelectSingleNode("//H2G2/ERROR");
+            Assert.IsNotNull(errorXml);
+            Assert.AreEqual("ForumOrThreadNotFound", errorXml.Attributes["TYPE"].Value);
+            Assert.IsNotNull(xml.SelectSingleNode("//H2G2/TOPICLIST"));
+
+        }
+
         #region Private helper functions
 
         /// <summary>
