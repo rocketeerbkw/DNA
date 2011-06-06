@@ -88,7 +88,8 @@ BEGIN
 	LEFT JOIN Journals J2 with(nolock) on j2.userid = u2.userid and j2.siteid = @currentsiteid
 	LEFT JOIN GuideEntries clubarticle WITH(NOLOCK) ON clubarticle.H2G2ID = ISNULL(c.H2G2Id, ISNULL(c1.H2G2Id,c2.H2G2Id) )
 	LEFT JOIN CommentForums CF WITH (NOLOCK) on CF.ForumID = F.ForumID
-	WHERE f.ForumID = @forumid
+	WHERE f.ForumID = @forumid 
+	and (@currentsiteid = 0 or f.siteid=@currentsiteid)
 END
 ELSE
 BEGIN
@@ -180,5 +181,6 @@ BEGIN
 	LEFT JOIN GuideEntries clubarticle WITH(NOLOCK) ON clubarticle.H2G2ID = ISNULL(c.H2G2Id, ISNULL(c1.H2G2Id,c2.H2G2Id) )
 	LEFT JOIN CommentForums CF WITH(NOLOCK) on CF.ForumID = F.ForumID
 	WHERE f.ForumID IN (SELECT ForumID FROM Threads WITH(NOLOCK) WHERE ThreadID = @threadid)
+	and (@currentsiteid = 0 or f.siteid=@currentsiteid)
 END
 	return (0)
