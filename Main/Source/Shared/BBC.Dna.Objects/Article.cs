@@ -800,6 +800,16 @@ namespace BBC.Dna.Objects
                 reader.AddParameter("groupnumber", DBNull.Value);
                 reader.Execute();
             }
+
+            RemoveArticleFromCache(cache);
+        }
+
+        private void RemoveArticleFromCache(ICacheManager cache)
+        {
+            string key = GetCacheKey(EntryId, false);
+            cache.Remove(key);
+            key = GetCacheKey(EntryId, true);
+            cache.Remove(key);
         }
 
 

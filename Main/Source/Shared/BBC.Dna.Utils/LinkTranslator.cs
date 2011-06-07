@@ -27,6 +27,22 @@ namespace BBC.Dna.Utils
         static Regex regCategoryEx = new Regex(@"(\A|(?<=\s))C[0-9]+(?!\d)");
         static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(?!\d)");
 
+        static string re1 = "(F)";	// Any Single Character 1
+        static string re2 = "(\\d+)";	// Integer Number 1
+        static string re3 = "(\\?)";	// Any Single Character 2
+        static string re4 = "(thread)";	// Variable Name 1
+        static string re5 = "(=)";	// Any Single Character 3
+        static string re6 = "(\\d+)";	// Integer Number 2
+
+        static string re7 = "(\\/)";	// Any Single Character 3
+        static string re8 = "(T)";	// Any Single Character 4
+
+        static Regex regOldForumThreadEx = new Regex(re1 + re2 + re3 + re4 + re5 + re6, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        static Regex regNewForumThreadEx = new Regex(re1 + re2 + re7 + re8 + re6, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+       
+        
+        
         /// <summary>
         /// Check the input string for matches.
         /// If match found then expand into LINK XML .
@@ -332,6 +348,43 @@ namespace BBC.Dna.Utils
                     result = result.Insert(match.Index, replace.Replace("***", s));
                 }
             }
+
+            if (regOldForumThreadEx.IsMatch(result))
+            {
+                String replace = "<LINK DNAID=\"***\">***</LINK>";
+                MatchCollection matches = regOldForumThreadEx.Matches(result);
+                Stack stack = new Stack();
+                foreach (Match match in matches)
+                {
+                    stack.Push(match);
+                }
+
+                foreach (Match match in stack)
+                {
+                    String s = match.Value;
+                    result = result.Remove(match.Index, match.Length);
+                    result = result.Insert(match.Index, replace.Replace("***", s));
+                }
+            }
+
+            if (regNewForumThreadEx.IsMatch(result))
+            {
+                String replace = "<LINK DNAID=\"***\">***</LINK>";
+                MatchCollection matches = regNewForumThreadEx.Matches(result);
+                Stack stack = new Stack();
+                foreach (Match match in matches)
+                {
+                    stack.Push(match);
+                }
+
+                foreach (Match match in stack)
+                {
+                    String s = match.Value;
+                    result = result.Remove(match.Index, match.Length);
+                    result = result.Insert(match.Index, replace.Replace("***", s));
+                }
+            }
+
             return result;
         }
     }
