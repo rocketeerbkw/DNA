@@ -149,9 +149,19 @@
 	</xsl:template>
 
   <xsl:template match="//H2G2[@TYPE = 'ERROR']" mode="library_identity_ptrt">
-    <xsl:call-template name="library_string_urlencode">
-      <xsl:with-param name="string" select="concat($host, $root)"/>
-    </xsl:call-template>
+    	<xsl:choose>
+    		<xsl:when test="/H2G2/ERROR/@TYPE = 'Authorization' and /H2G2/SITE/NAME = 'moderation'">
+    			<!-- If user is on hostdashboard page then use ssl. -->
+    			<xsl:call-template name="library_string_urlencode">
+    				<xsl:with-param name="string" select="concat($sslhost, $root)"/>
+    			</xsl:call-template>
+    		</xsl:when>
+    		<xsl:otherwise>
+    			<xsl:call-template name="library_string_urlencode">
+    				<xsl:with-param name="string" select="concat($host, $root)"/>
+    			</xsl:call-template>
+    		</xsl:otherwise>
+    	</xsl:choose>
     <xsl:text>/</xsl:text>
   </xsl:template>
 	

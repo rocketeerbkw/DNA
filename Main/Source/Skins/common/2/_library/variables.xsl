@@ -29,6 +29,15 @@
         </xsl:choose>
     </xsl:variable>
     
+    <xsl:variable name="sslhost">
+        <xsl:choose>
+            <xsl:when test="$configuration/host/sslurl and not($configuration/host/sslurl = '')"><xsl:value-of select="$configuration/host/sslurl"/></xsl:when>
+            <xsl:otherwise>
+                <xsl:text>https://ssl.bbc.co.uk</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>    
+    
     <xsl:variable name="root">
         <xsl:choose>
             <xsl:when test="/H2G2/FORUMTHREADPOSTS/@HOSTPAGEURL">
