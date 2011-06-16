@@ -96,7 +96,7 @@
                 <xsl:when test="$siteClosed = 'true' or parent::FORUMTHREADPOSTS/@CANWRITE = 0 or $autogenname_required = 'true'">
                     <!-- Nowt -->
                 </xsl:when>
-                <xsl:when test="@CANWRITE = 0 or /H2G2/VIEWING-USER/USER/STATUS = 0 or (@HIDDEN = 8 and not(/H2G2/VIEWING-USER/USER))  or (@HIDDEN = 8 and /H2G2/VIEWING-USER/USER/STATUS = 1)"><!-- nothing --></xsl:when>
+                <xsl:when test="@CANWRITE = 0 or @HIDDEN != 0 or /H2G2/VIEWING-USER/USER/STATUS = 0 or (@HIDDEN = 8 and not(/H2G2/VIEWING-USER/USER))  or (@HIDDEN = 8 and /H2G2/VIEWING-USER/USER/STATUS = 1)"><!-- nothing --></xsl:when>
                 <xsl:otherwise>
                     <p class="dna-boards-inreplyto">
                     	<xsl:choose>
@@ -142,10 +142,12 @@
                 </div>
                 </xsl:with-param>
             </xsl:call-template>
-            
-            <xsl:apply-templates select="@INDEX" mode="library_itemdetail"/>
-            
-            <xsl:apply-templates select="USER[STATUS != 0]" mode="library_userstate_editor">
+
+            <xsl:if test="@HIDDEN = 0 ">
+              <xsl:apply-templates select="@INDEX" mode="library_itemdetail"/>
+
+          
+              <xsl:apply-templates select="USER[STATUS != 0]" mode="library_userstate_editor">
                 <xsl:with-param name="false">
                     <p class="flag">
                         <a class="popup">
@@ -163,7 +165,7 @@
                     </p>
                 </xsl:with-param>
             </xsl:apply-templates>
-            
+            </xsl:if>
         </li>
         
     </xsl:template>
