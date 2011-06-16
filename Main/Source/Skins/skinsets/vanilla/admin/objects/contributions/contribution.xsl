@@ -101,22 +101,23 @@
 						<xsl:otherwise>
 							<xsl:if test="MODERATIONSTATUS = 0">
 								<p class="dna-boards-failedpost">Live</p>
-							</xsl:if>						
-							<a class="popup">
-								<xsl:attribute name="href">
-									<xsl:value-of select="concat('/dna/secure/', SITEURL,'/comments/UserComplaintPage?PostID=' , THREADENTRYID, '&amp;s_start=1&amp;s_ptrt=')" />
-									<xsl:call-template name="library_serialise_ptrt_in">
-										<xsl:with-param name="string">
-											<xsl:apply-templates select="/H2G2" mode="library_memberservice_ptrt" />
-										</xsl:with-param>
-									</xsl:call-template>
-								</xsl:attribute>
-								<xsl:text>Report message</xsl:text>
-								<span class="blq-hide">
-									<xsl:value-of select="count(preceding-sibling::*)" />
-								</span>
-							</a>
-						</xsl:otherwise>
+											
+							  <a class="popup">
+								  <xsl:attribute name="href">
+									  <xsl:value-of select="concat('/dna/secure/', SITEURL,'/comments/UserComplaintPage?PostID=' , THREADENTRYID, '&amp;s_start=1&amp;s_ptrt=')" />
+									  <xsl:call-template name="library_serialise_ptrt_in">
+										  <xsl:with-param name="string">
+											  <xsl:apply-templates select="/H2G2" mode="library_memberservice_ptrt" />
+										  </xsl:with-param>
+									  </xsl:call-template>
+								  </xsl:attribute>
+								  <xsl:text>Report message</xsl:text>
+								  <span class="blq-hide">
+									  <xsl:value-of select="count(preceding-sibling::*)" />
+								  </span>
+							  </a>
+              </xsl:if>
+            </xsl:otherwise>
 					</xsl:choose>
 					<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
 						<p>
