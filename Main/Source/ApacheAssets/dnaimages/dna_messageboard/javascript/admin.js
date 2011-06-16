@@ -231,7 +231,7 @@
                 var myOverlay = new glow.widgets.Overlay("#" + whichDiv, {
                     modal: true
                 });
-                
+
                 myOverlay.show();
 
                 function resetForm() {
@@ -423,34 +423,46 @@
                 document.getElementById("hideAllPosts").checked = false;
 
 
-                if (selected == "Premoderate" || selected == "Postmoderate") {
+                if (selected == "Premoderated" || selected == "Postmoderated") {
                     document.getElementById("durationContainer").style.display = "block";
                 }
-                if (selected == "Deactivate") {
+                if (selected == "Deactivated") {
                     document.getElementById("hideAllPostsContainer").style.display = "block";
                 }
 
             });
 
+            var selected = document.getElementById("userStatusDescription").value;
+            if (selected == "Premoderated" || selected == "Postmoderated") {
+                document.getElementById("durationContainer").style.display = "block";
+            }
+            if (selected == "Deactivated") {
+                document.getElementById("hideAllPostsContainer").style.display = "block";
+            }
+
             var ignoreValidation = false;
 
 
-            var resetUsernameObj = document.getElementById("ApplyNickNameReset");
-            addListener(resetUsernameObj, "mousedown", function() {
-                ignoreValidation = true;
-            });
+            if (document.getElementById("ApplyNickNameReset")) {
+                var resetUsernameObj = document.getElementById("ApplyNickNameReset");
+                addListener(resetUsernameObj, "mousedown", function() {
+                    ignoreValidation = true;
+                });
+            }
 
-            var applyToAllObj = document.getElementById("applyToAll");
-            var applyToCheckBoxList = $(".dna-userlist .applyToCheckBox");
-            addListener(applyToCheckBoxList, "mousedown", function() {
-                applyToAllObj.checked = false;
-            });
+            if (document.getElementById("ApplyNickNameReset")) {
+                var applyToAllObj = document.getElementById("applyToAll");
+                var applyToCheckBoxList = $(".dna-userlist .applyToCheckBox");
+                addListener(applyToCheckBoxList, "mousedown", function() {
+                    applyToAllObj.checked = false;
+                });
 
-            addListener(applyToAllObj, "mousedown", function() {
-                for (i = 0; i < applyToCheckBoxList.length; i++) {
-                    applyToCheckBoxList[i].checked = !applyToAllObj.checked;
-                }
-            });
+                addListener(applyToAllObj, "mousedown", function() {
+                    for (i = 0; i < applyToCheckBoxList.length; i++) {
+                        applyToCheckBoxList[i].checked = !applyToAllObj.checked;
+                    }
+                });
+            }
 
             var applyActionObj = document.getElementById("modStatusForm");
             addListener(applyActionObj, "submit", function() {
@@ -480,15 +492,15 @@
             });
 
         }
-        
-		addListener(
+
+        addListener(
 			'.popup',
 			'click',
-			function (e) { 
-				window.open(this.href,this.target,'status=no,scrollbars=yes,resizable=yes,width=800,height=550');
-				return false; 
+			function(e) {
+			    window.open(this.href, this.target, 'status=no,scrollbars=yes,resizable=yes,width=800,height=550');
+			    return false;
 			}
-		);  
+		);
 
     }
 })();

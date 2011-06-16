@@ -15,14 +15,14 @@
 				<xsl:value-of select="DATEPOST/@RELATIVE"/>
 			</td>
 			<td>
-				<a>
+				<a target="_blank">
 					<xsl:attribute name="href">
 						<xsl:choose>
-							<xsl:when test="SITETYPE = 'Blog'">
-								<xsl:value-of select="concat(COMMENTFORUMURL, '?postid=', THREADENTRYID)"/>
+							<xsl:when test="COMMENTFORUMURL = ''">
+                <xsl:value-of select="concat('/dna/', SITEURL, '/NF', FORUMID, '?thread=', THREADID, '&amp;post=', THREADENTRYID, '#p', THREADENTRYID)"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="concat('/dna/', SITEURL, '/NF', FORUMID, '?thread=', THREADID, '&amp;post=', THREADENTRYID, '#p', THREADENTRYID)"/>
+                <xsl:value-of select="concat(COMMENTFORUMURL, '?postId=', THREADENTRYID, '#comment_', THREADENTRYID)"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>

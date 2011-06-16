@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:doc="http://www.bbc.co.uk/dna/documentation"  exclude-result-prefixes="doc">
     
-  <xsl:template match="TYPE | USERSTATUSDESCRIPTION | STATUS | USER" mode="objects_user_typeicon" >
+  <xsl:template match="TYPE | USERSTATUSDESCRIPTION | STATUS | USER | USERREPUTATION/CURRENTSTATUS | USERREPUTATION/REPUTATIONDETERMINEDSTATUS" mode="objects_user_typeicon" >
   		
       <xsl:choose>
         <xsl:when test="text() = 'NewUserToSite'">
@@ -49,4 +49,27 @@
       </xsl:choose>
       
     </xsl:template>
+
+  <xsl:template match="USERREPUTATION/CURRENTSTATUS | USERREPUTATION/REPUTATIONDETERMINEDSTATUS" mode="objects_user_typeicon" >
+
+    <xsl:choose>
+      <xsl:when test="text() = 'Standard'">
+        <img src="/dnaimages/dna_messageboard/img/icons/standard_user.png" width="30" height="30" alt="standard user" title="standard user" />
+      </xsl:when>
+      <xsl:when test="text() = 'Premoderated'">
+        <img src="/dnaimages/dna_messageboard/img/icons/pre-mod_user.png" width="30" height="30" alt="pre-moderated user" title="pre-moderated user"  />
+      </xsl:when>
+      <xsl:when test="text() = 'Postmoderated'">
+        <img src="/dnaimages/dna_messageboard/img/icons/post-mod_user.png" width="30" height="30" alt="post-moderated user" title="post-moderated user" />
+      </xsl:when>
+      <xsl:when test="text() = 'Restricted'">
+        <img src="/dnaimages/dna_messageboard/img/icons/banned_user.png" width="30" height="30" alt="banned user" title="banned user" />
+      </xsl:when>
+      <xsl:when test="text() = 'Deactivated'">
+        <img src="/dnaimages/dna_messageboard/img/icons/deactivated_user.png" width="30" height="30" alt="deactivated user" title="deactivated user" />
+      </xsl:when>
+
+    </xsl:choose>
+
+  </xsl:template>
 </xsl:stylesheet>

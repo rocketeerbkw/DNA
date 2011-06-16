@@ -1279,6 +1279,8 @@
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
     <None Include="addbannedusersipaddress.sql" />
+    <None Include="updatetrackedmemberformodclass.sql" />
+    <None Include="GetUserReputation.sql" />
     <None Include="updatetrackedmemberlistinternal.sql" />
     <None Include="verifyuseragainstbannedipaddress.sql" />
     <None Include="removebannedusersipaddress.sql" />

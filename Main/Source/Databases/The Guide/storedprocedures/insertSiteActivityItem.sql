@@ -28,14 +28,14 @@ BEGIN
 	begin tran
 
 	update dbo.userreputationscore
-	set accumulativescore  = accumulativescore+@score
+	set accumulativescore  = accumulativescore+@score, lastupdated=getdate()
 	where userid=@userid
 	and modclassid= (select modclassid from sites where siteid=@siteid)
 	
 	if @@rowcount =0
 	BEGIN
 		insert into dbo.userreputationscore --(userid, modclassid, accumulativescore)
-		select @userid, modclassid, @score
+		select @userid, modclassid, @score, getdate()
 		from sites where 
 		siteid=@siteid
 	END

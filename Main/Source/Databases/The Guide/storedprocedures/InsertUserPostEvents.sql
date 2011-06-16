@@ -3,6 +3,7 @@ CREATE PROCEDURE insertuserpostevents
 AS
 BEGIN
 
+set nocount on
 set transaction isolation level read uncommitted
 
 declare @startdate datetime 
@@ -42,6 +43,7 @@ declare @acummulativescore smallint
 declare @userid int 
 declare @userscore smallint 
 declare @numberofposts int 
+declare @maxscore smallint
 
 DECLARE rt_cursor CURSOR FAST_FORWARD
 FOR
@@ -62,15 +64,24 @@ WHILE @@FETCH_STATUS = 0
 BEGIN
 	set @userscore = null
 	
+	select @maxscore = maxscore 
+	from dbo.userreputationthreshold
+	where modclassid= @modclassid
+	
 	select @score = score
 	from dbo.UserEventScore
 	where typeid=@typeid and modclassid=@modclassid
 
 	set @userscore = (@score* @numberofposts)
+	
+	if @userscore > @maxscore
+	begin
+		set @userscore = @maxscore
+	end
 
 	-- get current accumulativescore
 	update dbo.UserReputationScore
-	set accumulativescore = accumulativescore + @userscore
+	set accumulativescore = accumulativescore + @userscore, lastupdated=getdate()
 	where userid=@userid
 	and modclassid= @modclassid
 	
