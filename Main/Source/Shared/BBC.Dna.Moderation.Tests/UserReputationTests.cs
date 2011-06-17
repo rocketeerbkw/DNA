@@ -31,7 +31,7 @@ namespace BBC.Dna.Moderation.Tests
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetInt32NullAsZero("currentstatus")).Return((int)ModerationStatus.UserStatus.Premoderated);
             reader.Stub(x => x.GetInt32NullAsZero("ReputationDeterminedStatus")).Return((int)ModerationStatus.UserStatus.Postmoderated);
-            reader.Stub(x => x.GetInt32NullAsZero("accumulativescore")).Return(1);
+            reader.Stub(x => x.GetInt16("accumulativescore")).Return(1);
 
             creator.Stub(x => x.CreateDnaDataReader("getuserreputation")).Return(reader);
             Mocks.ReplayAll();
