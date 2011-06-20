@@ -41,7 +41,6 @@
     <None Include="trg_GuideEntries_d.sql" />
     <None Include="trg_GuideEntries_i.sql" />
     <None Include="trg_GuideEntries_u.sql" />
-    <None Include="trg_ThreadEntriesIPAddress_iu.sql" />
     <None Include="trg_Topics_iu.sql" />
     <None Include="trg_Forums_u.sql" />
     <None Include="trg_Threads_iu.sql" />
