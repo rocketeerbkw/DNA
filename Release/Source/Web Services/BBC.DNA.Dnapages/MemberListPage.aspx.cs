@@ -17,7 +17,9 @@ using BBC.Dna;
 using BBC.Dna.Page;
 using BBC.Dna.Component;
 using BBC.Dna.Moderation;
+using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Users;
+using System.Collections.Generic;
 
 
 public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
@@ -662,9 +664,9 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
         int rowCount = 0;
         CheckBox applyToAll = (CheckBox) tblResults.Rows[0].FindControl("ApplyToAll");
         MemberList memberList = new MemberList(_basePage);
-        ArrayList userIDList = new ArrayList();
-        ArrayList siteIDList = new ArrayList();
-        ArrayList deactivatedUsers = new ArrayList();
+        List<int> userIDList = new List<int>();
+        List<int> siteIDList = new List<int>();
+        List<int> deactivatedUsers = new List<int>();
 
         int newPrefStatusValue = 0;
         bool hideAllPosts = chkHideAllContent.Checked;
@@ -715,12 +717,13 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
         {
             if (newPrefStatusValue == 5)//deactivate in user table)
             {
-                memberList.DeactivateAccount(userIDList, hideAllPosts, reason);
+                ModerationStatus.DeactivateAccount(AppContext.ReaderCreator, userIDList, hideAllPosts, reason, memberList.InputContext.ViewingUser.UserID);
             }
             else
             {
-                memberList.ReactivateAccount(deactivatedUsers, reason);
-                memberList.UpdateModerationStatuses(userIDList, siteIDList, newPrefStatusValue, newPrefStatusDuration, reason);
+                ModerationStatus.ReactivateAccount(AppContext.ReaderCreator, deactivatedUsers, reason, memberList.InputContext.ViewingUser.UserID);
+                ModerationStatus.UpdateModerationStatuses(AppContext.ReaderCreator, userIDList, siteIDList, newPrefStatusValue,
+                    newPrefStatusDuration, reason, memberList.InputContext.ViewingUser.UserID);
             }
         }
 

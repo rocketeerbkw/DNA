@@ -127,6 +127,7 @@
     </None>
     <None Include="Club.xsd" />
     <None Include="ContentSignifSettings.xsd" />
+    <None Include="userreputation.xsd" />
     <None Include="Dna.Services.Articles\articleInfo.xsd" />
     <None Include="Dna.Services.Articles\articleList.xsd" />
     <None Include="Dna.Services.Articles\articleSummary.xsd" />

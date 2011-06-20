@@ -51,6 +51,7 @@
   <xsl:include href="objects/moderator/userevent.xsl"/>
 	<xsl:include href="objects/moderator/sites.xsl"/>
 	<xsl:include href="objects/moderator/sitesummarystats.xsl"/>
+  <xsl:include href="objects/moderator/moderationactions.xsl"/>
   
 	<xsl:include href="objects/user/typeicon.xsl"/>
 	<xsl:include href="objects/user/welcome.xsl"/>

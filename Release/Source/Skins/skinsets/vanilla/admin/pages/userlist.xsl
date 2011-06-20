@@ -107,7 +107,25 @@
 							<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 								<div class="dna-fl dna-main-full">
 									<div class="dna-box">
+                    <h3>Moderation Actions</h3>
 										<xsl:call-template name="moderation_actions" />
+                    <fieldset class="dna-fl dna-search-userlist">
+                      <ul class="blq-clearfix">
+                        <li class="dna-fl">
+                          <span class="dna-buttons">
+                            <input type="submit" value="Apply action to marked accounts" id="ApplyAction" name="ApplyAction"></input>
+                          </span>
+                        </li>
+
+                        <li class="dna-fl reset-display-name">
+                          <strong>Alternatively:</strong>
+                          <span class="dna-buttons">
+                            <input type="submit" id="ApplyNickNameReset" value="Reset display name" name="ApplyNickNameReset" />
+                          </span>
+                        </li>
+
+                      </ul>
+                    </fieldset>
 									</div>
 								</div>
 							</div>							
@@ -195,75 +213,6 @@
 		</tr>
 	</xsl:template>
 	
-	<xsl:template name="moderation_actions">
-		<h3>Moderation Actions</h3>
-		<fieldset class="dna-fl dna-search-userlist">
-			<div>
-				<label for="userStatusDescription">Moderation status:  </label>
-				<select id="userStatusDescription" name="userStatusDescription">
-					<option value="Standard" selected="selected">Standard</option>
-					<option value="Premoderate">Premoderate</option>
-					<option value="Postmoderate">Postmoderate</option>
-					<option value="Restricted">Banned</option>
-					<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = '2'">
-						<option value="Deactivate">Deactivate</option>
-					</xsl:if>
-				</select>
-			</div>
-			<div id="durationContainer">
-				<label for="duration">Duration:</label>
-				<select id="duration" name="duration">
-					<option value="0" selected="selected">no limit</option>
-					<option value="1440">1 day</option>
-					<option value="10080">1 week</option>
-					<option value="20160">2 weeks</option>
-					<option value="40320">1 month</option>
-				</select>
-			</div>
-			<div id="hideAllPostsContainer">
-				<label for="hideAllPosts">Hide all content: </label>
-				<input type="checkbox" name="hideAllPosts" id="hideAllPosts" /> 
-			</div>
-      <div>
-        <label for="reasonChange">Reason for change:</label>
-        <select id="reasonChange" name="reasonChange">
-          <option value=""></option>
-          <option value="Spam">Spam</option>
-          <option value="Advertising">Advertising</option>
-          <option value="Off topic">Off topic</option>
-          <option value="Offensive">Offensive</option>
-          <option value="Illegal activity">Illegal activity</option>
-          <option value="Impersonation">Impersonation</option>
-          <option value="Harassment">Harassment</option>
-          <option value="Multiple accounts">Multiple accounts</option>
-          <option value="Re-registered user">Re-registered user</option>
-          <option value="Under or over age">Under or over age</option>
-          <option value="Complaints abuse">Complaints abuse</option>
-          <option value="Custom (otherwise disruptive)">Custom (otherwise disruptive)</option>
-        </select>
-      </div>
-			<div>
-				<label for="additionalNotes">Additional Notes:</label>
-				<textarea id="additionalNotes" name="additionalNotes" cols="50" rows="3">
-					<xsl:text>&#x0A;</xsl:text>
-				</textarea>
-			</div>
-		</fieldset>
-		<fieldset class="dna-fl dna-search-userlist">
-			<ul class="blq-clearfix">
-				<li class="dna-fl">
-					<span class="dna-buttons">
-						<input type="submit" value="Apply action to marked accounts" id="ApplyAction" name="ApplyAction"></input>
-					</span>
-				</li>
-				<li class="dna-fl reset-display-name">
-					<strong>Alternatively:</strong>
-					<span class="dna-buttons">
-						<input type="submit" id="ApplyNickNameReset" value="Reset display name" name="ApplyNickNameReset" />
-					</span>
-				</li>	
-			</ul>
-		</fieldset>
-	</xsl:template>
+	
 
 </xsl:stylesheet>
