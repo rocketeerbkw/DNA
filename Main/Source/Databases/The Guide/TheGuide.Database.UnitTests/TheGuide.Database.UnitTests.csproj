@@ -35,6 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Data.Schema, Version=9.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.Data.Schema.UnitTesting, Version=9.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -43,15 +45,19 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="verifyuseragainstbannedipaddressTests.cs" />
     <Compile Include="updatetrackedmemberlistTests.cs" />
+    <Compile Include="IDnaDataReaderExtensions.cs" />
+    <Compile Include="trg_ThreadEntriesIPAddress_iu_Tests.cs" />
     <Compile Include="trg_Threadmod_uTest.cs" />
     <Compile Include="getmoderationpostsmostrecentfirstTests.cs" />
     <Compile Include="getmoderationpostsfastmodfirstTests.cs" />
     <Compile Include="getmoderationpostsTests.cs" />
     <Compile Include="CreateNewSiteTests.cs" />
+    <Compile Include="DatabaseSetup.cs" />
     <Compile Include="GetIndexOfComment.cs" />
     <Compile Include="GetModerationExLinks.cs" />
     <Compile Include="FetchArticleModerationHistory.cs" />
@@ -61,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GetAllPostingStatsBasicTests.cs" />
     <Compile Include="GetThreadPostContentsTests.cs" />
+    <Compile Include="RiskModTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
