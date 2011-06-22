@@ -19,7 +19,7 @@ USE TheGuide
 GO
 IF NOT EXISTS(SELECT * FROM sys.symmetric_keys WHERE name = 'key_EmailAddress')
 BEGIN
-	CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Dev Master Key PW';
+	CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Dev Master Key PW c0mPl3x!';
 
 	CREATE CERTIFICATE cert_keyProtection WITH SUBJECT = 'Key Protection';
 	-- You can ignore error "Warning: The certificate you created is not yet valid; its start date is in the future."

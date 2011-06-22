@@ -43,10 +43,13 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="verifyuseragainstbannedipaddressTests.cs" />
     <Compile Include="updatetrackedmemberlistTests.cs" />
+    <Compile Include="IDnaDataReaderExtensions.cs" />
+    <Compile Include="trg_ThreadEntriesIPAddress_iu_Tests.cs" />
     <Compile Include="trg_Threadmod_uTest.cs" />
     <Compile Include="getmoderationpostsmostrecentfirstTests.cs" />
     <Compile Include="getmoderationpostsfastmodfirstTests.cs" />
@@ -61,6 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GetAllPostingStatsBasicTests.cs" />
     <Compile Include="GetThreadPostContentsTests.cs" />
+    <Compile Include="RiskModTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
