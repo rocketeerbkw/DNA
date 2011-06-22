@@ -680,3 +680,6 @@ Marcus P
 
 Marcus P
 	In htaccess file, lock down /dna/api to all internal traffic
+
+Marcus P
+	FTP dnaimages\dna_messageboard\javascript\admin.js
