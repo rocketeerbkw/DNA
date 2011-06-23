@@ -26,10 +26,10 @@ DECLARE @runningTotal TABLE
 (
   userid int,
   modclassid int,
-  accumulativescore smallint
+  accumulativescore smallint,
+  unique(userid,modclassid)
 )
 
-truncate table dbo.UserReputationScore
 truncate table dbo.UserEventScore
 
 
@@ -145,10 +145,9 @@ END
 CLOSE rt_cursor
 DEALLOCATE rt_cursor
 
+truncate table dbo.UserReputationScore
 insert into dbo.UserReputationScore
-select *
+select *,getdate()
 from @runningTotal
-
-
 
 --drop table @runningTotal
