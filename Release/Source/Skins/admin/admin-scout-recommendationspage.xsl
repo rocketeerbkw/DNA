@@ -120,11 +120,13 @@
 							<td>
 								<font xsl:use-attribute-sets="mainfont">
 									<input type="button" value="Accept">
-										<xsl:attribute name="onClick">javascript:window.open('<xsl:value-of select="$root"/>ProcessRecommendation?RecommendationID=' + <xsl:value-of select="RECOMMENDATION-ID"/> + '&amp;Reject=0' + '&amp;mode=POPUP', 'ProcessRecommendation', 'resizable=1,scrollbars=1,width=750,height=550')</xsl:attribute>
+										<xsl:attribute name="onClick">
+                      javascript:window.open('https://ssl.bbc.co.uk/dna/moderation/ProcessRecommendation?RecommendationID=' + <xsl:value-of select="RECOMMENDATION-ID"/> + '&amp;Reject=0' + '&amp;mode=POPUP', 'ProcessRecommendation', 'resizable=1,scrollbars=1,width=750,height=550')</xsl:attribute>
 									</input>
 								&nbsp;
 								<input type="button" value="Reject">
-										<xsl:attribute name="onClick">javascript:window.open('<xsl:value-of select="$root"/>ProcessRecommendation?RecommendationID=' + <xsl:value-of select="RECOMMENDATION-ID"/> + '&amp;Accept=0' + '&amp;mode=POPUP', 'ProcessRecommendation', 'resizable=1,scrollbars=1,width=375,height=550')</xsl:attribute>
+										<xsl:attribute name="onClick">
+                      javascript:window.open('https://ssl.bbc.co.uk/dna/moderation/ProcessRecommendation?RecommendationID=' + <xsl:value-of select="RECOMMENDATION-ID"/> + '&amp;Accept=0' + '&amp;mode=POPUP', 'ProcessRecommendation', 'resizable=1,scrollbars=1,width=375,height=550')</xsl:attribute>
 									</input>
 								</font>
 							</td>
