@@ -930,7 +930,7 @@
           <td>
             <nobr>
               <font xsl:use-attribute-sets="mainfont">
-                <a href="{$root}MemberList?UserID={//INSPECT-USER-FORM/USER/USERID}" target="_top">Moderate User</a>
+                <a href="https://ssl.bbc.co.uk/dna/moderation/admin/userList?UserID={//INSPECT-USER-FORM/USER/USERID}" target="_top">Moderate User</a>
               </font>
             </nobr>
           </td>
@@ -941,7 +941,7 @@
 						<td>
 							<nobr>
 								<font xsl:use-attribute-sets="mainfont">
-									<a href="{$rootbase}moderation/Moderate?newstyle=1" target="_top">Moderation Home Page</a>
+									<a href="https://ssl.bbc.co.uk/dna/moderation/Moderate?newstyle=1" target="_top">Moderation Home Page</a>
 								</font>
 							</nobr>
 						</td>
@@ -964,7 +964,7 @@
 					<td>
 						<nobr>
 							<font xsl:use-attribute-sets="mainfont">
-								<a href="{$root}ModerationHistory" target="_top">Moderation History</a>
+								<a href="https://ssl.bbc.co.uk/dna/moderation/boards-admin/ModerationHistory" target="_top">Moderation History</a>
 							</font>
 						</nobr>
 					</td>

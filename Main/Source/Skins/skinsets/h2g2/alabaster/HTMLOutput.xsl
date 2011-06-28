@@ -3091,7 +3091,7 @@ Click to see newer posts
 				<TD ALIGN="RIGHT">
 					<xsl:if test="/H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME='EDITOR' or /H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME='MODERATOR'">
 						<font size="1">
-							<a target="_top" href="{$root}ModerationHistory?PostID={@POSTID}">moderation history</a>
+							<a target="_top" href="https://ssl.bbc.co.uk/dna/moderation/boards-admin/ModerationHistory?PostID={@POSTID}">moderation history</a>
 						</font>
 					</xsl:if>
 					<xsl:if test="@HIDDEN=0">
@@ -3109,7 +3109,7 @@ Click to see newer posts
 					</xsl:if>
 					<xsl:if test="/H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME='EDITOR' or /H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME='MODERATOR'">
 						<xsl:text> </xsl:text>
-						<a href="{$root}EditPost?PostID={@POSTID}" target="_top" onClick="javascript:popupwindow('{$root}EditPost?PostID={@POSTID}', 'EditPostPopup', 'status=1,resizable=1,scrollbars=1,width=400,height=450');return false;">edit</a>
+						<a href="https://ssl.bbc.co.uk/dna/moderation/boards-admin/EditPost?PostID={@POSTID}" target="_top" onClick="javascript:popupwindow('https://ssl.bbc.co.uk/dna/moderation/boards-admin/EditPost?PostID={@POSTID}', 'EditPostPopup', 'status=1,resizable=1,scrollbars=1,width=400,height=450');return false;">edit</a>
 					</xsl:if>
 				</TD>
 			</TR>
