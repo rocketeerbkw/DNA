@@ -50,6 +50,10 @@
     <h1>User Reputation Report</h1>
   </xsl:template>
 
+  <xsl:template match="H2G2[@TYPE = 'SITEMANAGER']" mode="objects_title">
+    <h1>Site Manager</h1>
+  </xsl:template>
+
   <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="objects_title">
 		<h1>
 			Activity Page 

@@ -79,5 +79,6 @@
 	<xsl:include href="pages/usercontributions.xsl"/>
 	<xsl:include href="pages/userlist.xsl"/>
   <xsl:include href="pages/userreputationreport.xsl"/>
+  <xsl:include href="pages/sitemanager.xsl"/>
   
 </xsl:stylesheet>

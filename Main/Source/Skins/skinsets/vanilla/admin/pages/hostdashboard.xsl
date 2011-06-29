@@ -85,7 +85,17 @@
 							<xsl:call-template name="objects_links_admin" />
 						</xsl:if>
 						<li><a href="userlist?{$dashboardsiteuser}">Look up user</a></li>
-						<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2"><li><a href="{$moderationemail}">To add user status, email Moderation Services Team</a></li></xsl:if>								
+						<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 1">
+              <li><a href="{$moderationemail}">To add user status, email Moderation Services Team</a></li>
+            </xsl:if>								
+            <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
+              <li><a href="sitemanager">Site Manager</a></li>
+              <li><a href="userreputationreport">User Reputation Report</a></li>
+              <li><a href="/dna/moderation/termsfilteradmin" target="_blank">Terms Filter Admin</a></li>
+              <li>
+                <a href="/dna/moderation/moderate?newstyle=1" target="_blank">Moderation Homepage</a>
+              </li>
+            </xsl:if>								
 					</ul>
 				</div>
 			</div>
