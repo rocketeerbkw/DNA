@@ -29,6 +29,7 @@
         <xs:element name="NOAUTOSWITCH" type="xs:unsignedByte" />
         <xs:element name="MODERATIONCLASSID" type="xs:unsignedByte" />
         <xs:element name="CURRENTIDENTITYPOLICY" type="xs:string" />
+        <xs:element name="BBCDIVISIONID" type="xs:int" />
         <xs:element name="RISKMODONOFF" type="xs:boolean" />
         <xs:element name="RISKMODPUBLISHMETHOD">
           <xs:simpleType>
