@@ -16,11 +16,19 @@
               <xs:element name="DESCRIPTION" type="xs:string" />
               <xs:element name="LANGUAGE" type="xs:string" />
               <xs:element name="ITEMRETRIEVALTYPE" type="xs:string" />
+              
             </xs:sequence>
             <xs:attribute name="CLASSID" type="xs:unsignedByte" use="required" />
           </xs:complexType>
         </xs:element>
         <xs:element name="USERID" type="xs:unsignedInt" />
+        <xs:element name="LASTUPDATED">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="DATE" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>

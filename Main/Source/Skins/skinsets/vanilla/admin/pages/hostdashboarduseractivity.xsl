@@ -33,26 +33,36 @@
           <h3>User Reputation</h3>
           <div class="dna-fl dna-main-right">
             <p>
-              User: <a href="memberdetails?userid={USEREVENTLIST/@USERID}">
+              User:<br/> <a href="memberdetails?userid={USEREVENTLIST/@USERID}">
                 <xsl:value-of select="USEREVENTLIST/@USERID"/>
               </a>
             </p>
             <p>
-              Current User Reputation Score: <xsl:value-of select="USERREPUTATION/REPUTATIONSCORE"/>
+              Current User Reputation Score:<br/> <xsl:value-of select="USERREPUTATION/REPUTATIONSCORE"/>
             </p>
             <p>
-              Current Moderation Status:
+              Current Moderation Status:<br/>
               <xsl:apply-templates select="USERREPUTATION/CURRENTSTATUS" mode="objects_user_typeicon" />
             </p>
             <p>
-              Reputation Determined Status:
+              Reputation Determined Status:<br/>
               <xsl:apply-templates select="USERREPUTATION/REPUTATIONDETERMINEDSTATUS" mode="objects_user_typeicon" />
+            </p>
+            <p>
+              Last Update:<br/>
+              <xsl:apply-templates select="USERREPUTATION/LASTUPDATED/DATE" mode="library_time_shortformat" />
+            <xsl:text> on </xsl:text>
+            <span class="date">
+              <xsl:apply-templates select="USERREPUTATION/LASTUPDATED/DATE" mode="library_date_shortformat" />
+            </span>
+            <br/>
+            <xsl:text>(</xsl:text><xsl:value-of select="USERREPUTATION/LASTUPDATED/DATE/@RELATIVE"/><xsl:text>)</xsl:text>
             </p>
           </div>
           <xsl:if test="VIEWING-USER/USER/STATUS = 2">
             <div class="dna-fl dna-main-right">
 
-              <form method="post" action="hostdashboarduseractivity?s_user={USEREVENTLIST/@USERID}&amp;s_siteid={/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE}" id="modStatusForm">
+              <form method="post" action="hostdashboarduseractivity?s_user={USEREVENTLIST/@USERID}&amp;s_siteid={/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE}&amp;s_modclassid={/H2G2/PARAMS/PARAM[NAME = 's_modclassid']/VALUE}" id="modStatusForm">
                 <xsl:call-template name="moderation_actions" />
                 <input type="submit" value="Update user status" id="ApplyAction" name="ApplyAction"></input>
               </form>

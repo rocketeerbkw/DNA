@@ -1,10 +1,9 @@
-CREATE PROCEDURE getuserreputation @userid int, @modclassid int
+CREATE PROCEDURE getuserreputation @userid int, @modclassid int, @currentstatus int output, @reputationdeterminedstatus int output
 	
 AS
 BEGIN
 
 -- get the current status
-declare @currentStatus int
 
 if exists(select * from users where userid=@userid and status=0)
 BEGIN
@@ -26,12 +25,11 @@ END
 
 
 --get the reputation based status
-declare @reputationDeterminedStatus int
 select 
 @reputationDeterminedStatus = case when urs.accumulativescore >= urt.normalscore then 0 else -- standard
-	case when urs.accumulativescore < urt.normalscore and urs.accumulativescore >= urt.postmodscore then 1 else --post mod score
-		case when urs.accumulativescore < urt.postmodscore and urs.accumulativescore >= urt.premodscore then 2 else --premod score
-			case when urs.accumulativescore < urt.premodscore  then 4 else 0 end -- banned
+	case when urs.accumulativescore < urt.normalscore and urs.accumulativescore >= urt.premodscore then 2 else --post mod score
+		case when urs.accumulativescore < urt.premodscore and urs.accumulativescore >= urt.bannedscore then 1 else --premod score
+			case when urs.accumulativescore < urt.bannedscore  then 4 else 0 end -- banned
 		end
 	end
 end
@@ -43,7 +41,8 @@ where urs.userid=@userid and urs.modclassid=@modclassid
 select 
 	@currentStatus as currentstatus,
 	@reputationDeterminedStatus as reputationDeterminedStatus,
-	urs.accumulativescore
+	urs.accumulativescore,
+	urs.lastupdated
 from dbo.userreputationscore urs 
 inner join dbo.userreputationthreshold urt on urt.modclassid = urs.modclassid
 where urs.userid=@userid and urs.modclassid=@modclassid

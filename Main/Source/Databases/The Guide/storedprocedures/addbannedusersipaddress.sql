@@ -2,7 +2,7 @@ Create Procedure addbannedusersipaddress		@userid int
 As
 	if exists(select userid from [dbo].[BannedIPAddress] where userid=@userid)
 	BEGIN
-		exec removebanneduseripaddress @userid
+		exec removebannedusersipaddress @userid
 	END
 	
 	

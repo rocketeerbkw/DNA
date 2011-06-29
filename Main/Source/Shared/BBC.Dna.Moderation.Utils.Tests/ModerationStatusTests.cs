@@ -35,12 +35,12 @@ namespace BBC.Dna.Moderation.Utils.Tests
             reader.Stub(x => x.Execute());
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("updatetrackedmemberformodclass")).Return(reader);
+            creator.Stub(x => x.CreateDnaDataReader("updatetrackedmemberlist")).Return(reader);
             _mocks.ReplayAll();
 
             ModerationStatus.UpdateModerationStatuses(creator, userIDList, siteList, 0,0,"",0);
 
-            reader.AssertWasCalled(x => x.AddParameter("userID", 1));
+            reader.AssertWasCalled(x => x.AddParameter("userIDs", "1"));
             reader.AssertWasCalled(x => x.AddParameter("siteIDs", "1"));
         }
 
