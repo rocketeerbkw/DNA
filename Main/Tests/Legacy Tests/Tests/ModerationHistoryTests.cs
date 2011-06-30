@@ -94,14 +94,19 @@ namespace Tests
                 string IpAddress = "192.168.238.1";
                 Guid BBCUid = new Guid();
 
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
                 modId = RegisterTestComplaint(context, postId, userId, modId, email, complaintText, IpAddress, BBCUid);
+
+                ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
+                Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
 
                 Stub.On(context).Method("GetParamStringOrEmpty").With("reference", "reference").Will(Return.Value(""));
                 Stub.On(context).Method("GetParamIntOrZero").With("postid", "postid").Will(Return.Value(postId));
                 Stub.On(context).Method("GetParamIntOrZero").With("h2g2id", "h2g2id").Will(Return.Value(0));
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
+                Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+                
 
                 IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
                 AppContext.ReaderCreator = creator;
@@ -154,6 +159,9 @@ namespace Tests
                 string IpAddress = "192.168.238.3";
                 Guid BBCUid = new Guid();
 
+                ICacheManager groupsCache = new StaticCacheManager();
+                var g = new BBC.Dna.Users.UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache, null, null);
+
                 modId = RegisterTestComplaint(context, postId, userId, modId, email, complaintText, IpAddress, BBCUid);
 
                 Stub.On(context).Method("GetParamStringOrEmpty").With("reference", "reference").Will(Return.Value(""));
@@ -162,6 +170,9 @@ namespace Tests
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
                 ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+                ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
+                Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
+                Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));
 
                 IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
                 AppContext.ReaderCreator = creator;
@@ -217,6 +228,9 @@ namespace Tests
                 string IpAddress = "192.168.238.1";
                 Guid BBCUid = new Guid();
 
+                ICacheManager groupsCache = new StaticCacheManager();
+                var g = new BBC.Dna.Users.UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache, null, null);
+
                 modId = RegisterTestComplaint(context, postId, userId, modId, email, complaintText, IpAddress, BBCUid);
 
                 Stub.On(context).Method("GetParamStringOrEmpty").With("reference", "reference").Will(Return.Value(""));
@@ -225,6 +239,9 @@ namespace Tests
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
                 ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+                ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
+                Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
+                Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));
 
                 IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
                 AppContext.ReaderCreator = creator;
@@ -274,6 +291,8 @@ namespace Tests
                 string complaintText = "This is testing that the complainant details are correctly displayed";
                 string IpAddress = "192.168.238.1";
                 Guid BBCUid = new Guid();
+                ICacheManager groupsCache = new StaticCacheManager();
+                var g = new BBC.Dna.Users.UserGroups(DnaMockery.CreateDatabaseReaderCreator(), null, groupsCache, null, null);
 
                 modId = RegisterTestComplaint(context, postId, userId, modId, email, complaintText, IpAddress, BBCUid);
 
@@ -283,6 +302,9 @@ namespace Tests
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
                 ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+                ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
+                Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
+                Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));
 
                 IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
                 AppContext.ReaderCreator = creator;
