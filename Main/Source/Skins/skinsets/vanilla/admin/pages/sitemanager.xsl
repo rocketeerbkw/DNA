@@ -45,7 +45,7 @@
               </td>
             </tr>
             <tr>
-              <td class="title">Division:</td>
+              <td class="title">Product:</td>
               <td class="value">
                 <select name="division">
                   <xsl:apply-templates select="/H2G2/DIVISIONS/DIVISIONS/DIVISION" mode="sitemanager">
