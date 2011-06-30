@@ -113,6 +113,7 @@ namespace BBC.Dna
                     XmlElement moderation = AddElementTag(modHistory, "MODERATION");
                     AddAttribute(moderation, "MODID", reader.GetInt32NullAsZero("modid"));
                     AddIntElement(moderation, "STATUS", reader.GetInt32NullAsZero("status"));
+                    AddTextElement(moderation, "URLNAME", InputContext.TheSiteList.GetSite(reader.GetInt32NullAsZero("siteid")).SiteName);
                     if (reader.DoesFieldExist("reasonid") && reader.GetInt32NullAsZero("reasonid") > 0)
                     {
                         AddIntElement(moderation, "REASONID", reader.GetInt32NullAsZero("reasonid"));
@@ -143,7 +144,6 @@ namespace BBC.Dna
                     AddTextElement(complaint, "IPADDRESS", reader.GetStringNullAsEmpty("ipaddress"));
                     AddTextElement(complaint, "BBCUID", reader.GetGuidAsStringOrEmpty("bbcuid").ToString());
                     AddTextElement(complaint, "EMAIL-ADDRESS", reader.GetStringNullAsEmpty("correspondenceemail"));
-
                     AddTextElement(moderation, "NOTES", HtmlUtils.ReplaceCRsWithBRs(reader.GetStringNullAsEmpty("notes")));
 
                     AddDateXml(reader.GetDateTime("datequeued"), moderation, "DATE-QUEUED");

@@ -145,7 +145,7 @@
             <b>Subject</b>:
             <xsl:choose>
               <xsl:when test="@POSTID">
-                <a href="{$root}F{@FORUMID}?thread={@THREADID}&amp;post={@POSTID}#p{@POSTID}">
+                <a href="/dna/{MODERATION/URLNAME}/F{@FORUMID}?thread={@THREADID}&amp;post={@POSTID}#p{@POSTID}">
                   <xsl:value-of select="SUBJECT"/>
                 </a>
               </xsl:when>
