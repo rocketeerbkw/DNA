@@ -1280,6 +1280,10 @@
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
     <None Include="addbannedusersipaddress.sql" />
+    <None Include="ApplyUserReputation.sql" />
+    <None Include="ApplyUserReputations.sql" />
+    <None Include="getBBCDivisions.sql" />
+    <None Include="GetUserReputationList.sql" />
     <None Include="updatetrackedmemberformodclass.sql" />
     <None Include="GetUserReputation.sql" />
     <None Include="updatetrackedmemberlistinternal.sql" />

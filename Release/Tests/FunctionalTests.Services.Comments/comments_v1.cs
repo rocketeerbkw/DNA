@@ -1319,7 +1319,7 @@ namespace FunctionalTests.Services.Comments
             expectedResponse = "5 Minutes Ago";
             ago = xml.SelectSingleNode("api:commentForum/api:commentsList/api:comments/api:comment/api:created/api:ago", nsmgr);
 
-            Assert.IsTrue(ago.InnerText == expectedResponse); 
+            Assert.AreEqual(expectedResponse, ago.InnerText); 
 
             
         }

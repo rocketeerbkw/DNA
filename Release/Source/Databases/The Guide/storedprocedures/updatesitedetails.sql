@@ -23,7 +23,8 @@ CREATE PROCEDURE updatesitedetails	@siteid int,
 										@queuepostings int,	
 										@ssoservice varchar(50) = null,					
 										@siteemergencyclosed int = 0,
-										@identitypolicy varchar(255) = null
+										@identitypolicy varchar(255) = null,
+										@bbcdivisionid int =0
 As
 if EXISTS (SELECT * FROM SiteSkins WHERE SiteID = @siteid AND SkinName = @defaultskin)
 BEGIN
@@ -54,7 +55,8 @@ BEGIN
 			QueuePostings			= @queuepostings,
 			SSOService				= ISNULL(@ssoservice,urlname),
 			SiteEmergencyClosed		= siteemergencyclosed,
-			IdentityPolicy			= ISNULL(@identitypolicy,IdentityPolicy)
+			IdentityPolicy			= ISNULL(@identitypolicy,IdentityPolicy),
+			BBCDivisionID			= @bbcdivisionid
 		WHERE SiteID = @siteid
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)

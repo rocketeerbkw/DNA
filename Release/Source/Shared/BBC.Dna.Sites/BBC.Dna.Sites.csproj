@@ -91,6 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BBCDivisions.cs" />
     <Compile Include="ISite.cs" />
     <Compile Include="ISiteList.cs" />
     <Compile Include="OpenCloseTimes.cs" />

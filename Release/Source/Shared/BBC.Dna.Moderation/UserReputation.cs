@@ -7,6 +7,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Data;
 using System.Xml.Serialization;
 using System.Xml.Schema;
+using BBC.Dna.Objects;
 
 namespace BBC.Dna.Moderation
 {
@@ -42,6 +43,10 @@ namespace BBC.Dna.Moderation
         [XmlElementAttribute(Form = XmlSchemaForm.Unqualified, Order = 5, ElementName = "USERID")]
         public int UserId { get; set; }
 
+        [DataMember(Name = "lastUpdated")]
+        [XmlElementAttribute(Form = XmlSchemaForm.Unqualified, Order = 6, ElementName = "LASTUPDATED")]
+        public DateElement LastUpdated { get; set; }
+
         /// <summary>
         /// Generates user reputation object
         /// </summary>
@@ -58,6 +63,8 @@ namespace BBC.Dna.Moderation
             {
                 dataReader.AddParameter("userid", userId);
                 dataReader.AddParameter("modclassid", modClass.ClassId);
+                dataReader.AddIntOutputParameter("@currentStatus");
+                dataReader.AddIntOutputParameter("@reputationDeterminedStatus");
                 dataReader.Execute();
 
                 if (dataReader.Read())
@@ -65,9 +72,47 @@ namespace BBC.Dna.Moderation
                     userRep.CurrentStatus = (ModerationStatus.UserStatus)dataReader.GetInt32NullAsZero("currentstatus");
                     userRep.ReputationDeterminedStatus = (ModerationStatus.UserStatus)dataReader.GetInt32NullAsZero("ReputationDeterminedStatus");
                     userRep.ReputationScore = dataReader.GetInt16("accumulativescore");
+                    userRep.LastUpdated = new DateElement(dataReader.GetDateTime("lastupdated"));
                 }
             }
             return userRep;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="creator"></param>
+        public void ApplyModerationStatus(IDnaDataReaderCreator readerCreator, bool applyToAllSites, int duration, string notes, int viewingUser)
+        {
+            if(UserId == 0)
+            {
+                throw new Exception("UserId cannot be zero");
+            }
+            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("updatetrackedmemberformodclass"))
+            {
+                dataReader.AddParameter("userid", UserId);
+                if (applyToAllSites)
+                {
+                    dataReader.AddParameter("modclassid", 0);
+                }
+                else
+                {
+                    dataReader.AddParameter("modclassid", ModClass.ClassId);
+                }
+                dataReader.AddParameter("prefstatus", (int)ReputationDeterminedStatus);
+                dataReader.AddParameter("prefstatusduration", duration);
+                if(string.IsNullOrEmpty(notes))
+                {
+                    dataReader.AddParameter("reason", "User Reputation Determined");
+                }
+                else
+                {
+                    dataReader.AddParameter("reason", notes);
+                }
+                dataReader.AddParameter("viewinguser", viewingUser);
+
+                dataReader.Execute();
+            }
         }
 
     }

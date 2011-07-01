@@ -343,6 +343,7 @@ REGEDIT4
 "/HostDashboard"="/dna/dnapages/HostDashboard.aspx?"
 "/HostDashboardActivity"="/dna/dnapages/HostDashboardActivity.aspx?"
 "/HostDashboardUserActivity"="/dna/dnapages/HostDashboardUserActivity.aspx?"
+"/UserReputationReport"="/dna/dnapages/UserReputationReport.aspx?"
 
 
 "/searchposts"="/dna/dnapages/SearchThreadPostPage.aspx?"

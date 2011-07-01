@@ -164,24 +164,10 @@ namespace BBC.Dna.Moderation.Utils
             }
             //Remove the last one
             siteIDs = siteIDs.TrimEnd('|');
-
-            var spName = "updatetrackedmemberlist";
-            if (userIDList.Count == 1)
-            {
-                spName = "updatetrackedmemberformodclass";
-            }
-
             //Set all the user id and siteid pairs to the passed in Status and duration
-            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader(spName))
+            using (IDnaDataReader dataReader = readerCreator.CreateDnaDataReader("updatetrackedmemberlist"))
             {
-                if (userIDList.Count == 1)
-                {
-                    dataReader.AddParameter("userID", userIDList[0]);
-                }
-                else
-                {
-                    dataReader.AddParameter("userIDs", userIDs);
-                }
+                dataReader.AddParameter("userIDs", userIDs);
                 dataReader.AddParameter("siteIDs", siteIDs);
                 dataReader.AddParameter("prefstatus", newPrefStatus);
                 dataReader.AddParameter("prefstatusduration", newPrefStatusDuration);

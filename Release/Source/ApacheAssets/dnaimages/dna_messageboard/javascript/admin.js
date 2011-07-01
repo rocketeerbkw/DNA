@@ -404,6 +404,19 @@
 
         //UserList functions
         ///////////////////////
+        if (document.getElementById("applyToAll")) {
+            var applyToAllObj = document.getElementById("applyToAll");
+            var applyToCheckBoxList = $(".dna-userlist .applyToCheckBox");
+            addListener(applyToCheckBoxList, "mousedown", function() {
+                applyToAllObj.checked = false;
+            });
+
+            addListener(applyToAllObj, "mousedown", function() {
+                for (i = 0; i < applyToCheckBoxList.length; i++) {
+                    applyToCheckBoxList[i].checked = !applyToAllObj.checked;
+                }
+            });
+        }
 
         if (document.getElementById("modStatusForm")) {
             document.getElementById("durationContainer").style.display = "none";
@@ -450,19 +463,7 @@
                 });
             }
 
-            if (document.getElementById("ApplyNickNameReset")) {
-                var applyToAllObj = document.getElementById("applyToAll");
-                var applyToCheckBoxList = $(".dna-userlist .applyToCheckBox");
-                addListener(applyToCheckBoxList, "mousedown", function() {
-                    applyToAllObj.checked = false;
-                });
-
-                addListener(applyToAllObj, "mousedown", function() {
-                    for (i = 0; i < applyToCheckBoxList.length; i++) {
-                        applyToCheckBoxList[i].checked = !applyToAllObj.checked;
-                    }
-                });
-            }
+            
 
             var applyActionObj = document.getElementById("modStatusForm");
             addListener(applyActionObj, "submit", function() {

@@ -88,14 +88,10 @@ namespace BBC.Dna
             if (_updateStatus)
             {
                 bool hideAllSites = InputContext.DoesParamExist("hideAllSites", "hideAllSites");
-                List<int> userIDs = new List<int>() { _userId };
-                List<int> siteIDs = InputContext.TheSiteList.Ids
-                    .Where(x => x.Value.ModClassID == modClass.ClassId || hideAllSites)
-                    .Select(x => x.Key).ToList();
-
-                int newPrefStatus = (int)Enum.Parse(typeof(BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus), InputContext.GetParamStringOrEmpty("userStatusDescription", "new status")) ;
+                var newPrefStatus = (BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus)Enum.Parse(typeof(BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus), InputContext.GetParamStringOrEmpty("userStatusDescription", "new status"));
                 int newPrefStatusDuration = InputContext.GetParamIntOrZero("duration", "new status");
                 bool hideAllContent = InputContext.DoesParamExist("hideAllPosts", "hideAllPosts");
+                
                 
                 string reason = InputContext.GetParamStringOrEmpty("reasonChange", "");
                 if (string.IsNullOrEmpty(reason))
@@ -108,32 +104,39 @@ namespace BBC.Dna
                 {
                     reason += " - " + extraNotes;
                 }
-                if (hideAllContent && newPrefStatus != 5)
+                if (hideAllContent && newPrefStatus != BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus.Deactivated)
                 {
                     AddErrorXml("InvalidStatus", "To hide all content you must deactivate the users account.", null);
                     return false;
                 }
 
-                if (newPrefStatusDuration != 0 && (newPrefStatus != 2 && newPrefStatus != 1))
+                if (newPrefStatusDuration != 0 && (newPrefStatus != BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus.Postmoderated
+                    && newPrefStatus != BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus.Premoderated))
                 {
                     AddErrorXml("UnableToSetDuration", "You cannot set a status duration when the status is not premoderation or postmoderation.", null);
                     return false;
                 }
 
-                if (newPrefStatus == 5)//deactivate account
+                if (newPrefStatus == BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus.Deactivated)//deactivate account
                 {
                     if (!InputContext.ViewingUser.IsSuperUser)
                     {
                         AddErrorXml("InsufficientPermissions", "You do not have sufficient permissions to deactivate users.", null);
                         return false;
                     }
-                    BBC.Dna.Moderation.Utils.ModerationStatus.DeactivateAccount(AppContext.ReaderCreator, userIDs,
+                    BBC.Dna.Moderation.Utils.ModerationStatus.DeactivateAccount(AppContext.ReaderCreator, new List<int>{_userId},
                         hideAllContent, reason, InputContext.ViewingUser.UserID);
                 }
                 else
                 {
-                    BBC.Dna.Moderation.Utils.ModerationStatus.UpdateModerationStatuses(AppContext.ReaderCreator, userIDs, siteIDs,
-                        newPrefStatus, newPrefStatusDuration, reason, InputContext.ViewingUser.UserID);
+                    UserReputation userRep = new UserReputation()
+                    {
+                        ModClass = modClass,
+                        UserId = _userId,
+                        ReputationDeterminedStatus = newPrefStatus
+                    };
+                    userRep.ApplyModerationStatus(AppContext.ReaderCreator, hideAllSites, newPrefStatusDuration, reason,
+                        InputContext.ViewingUser.UserID); 
                 }
 
             }

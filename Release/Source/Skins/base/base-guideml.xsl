@@ -48,7 +48,7 @@
 			<xsl:when test="starts-with(.,'http://www.h2g2.com/')">
 				<xsl:value-of select="concat('/dna/h2g2/',substring-after(.,'http://www.h2g2.com/'))"/>
 			</xsl:when>
-			<xsl:when test="starts-with(.,'http://') or starts-with(.,'#') or starts-with(.,'mailto:') or (starts-with(.,'/') and contains(substring-after(.,'/'),'/'))">
+			<xsl:when test="starts-with(.,'https://') or starts-with(.,'http://') or starts-with(.,'#') or starts-with(.,'mailto:') or (starts-with(.,'/') and contains(substring-after(.,'/'),'/'))">
 				<xsl:value-of select="."/>
 			</xsl:when>
 			<xsl:when test="starts-with(.,'/') and string-length(.) &gt; 1">
@@ -443,7 +443,7 @@ Call:		<xsl:call-template name="renderfootnotetext"/>.
 			<xsl:when test="starts-with(.,'http://www.h2g2.com/')">
 				<xsl:value-of select="concat('/dna/h2g2/',substring-after(.,'http://www.h2g2.com/'))"/>
 			</xsl:when>
-			<xsl:when test="starts-with(.,'http://') or starts-with(.,'#') or starts-with(.,'mailto:') or (starts-with(.,'/') and contains(substring-after(.,'/'),'/'))">
+			<xsl:when test="starts-with(.,'http://') or starts-with(.,'https://') or starts-with(.,'#') or starts-with(.,'mailto:') or (starts-with(.,'/') and contains(substring-after(.,'/'),'/'))">
 				<xsl:value-of select="."/>
 			</xsl:when>
 			<xsl:when test="starts-with(.,'/') and string-length(.) &gt; 1">

@@ -1,6 +1,6 @@
 CREATE PROCEDURE updatetrackedmemberformodclass
 	@userid int, 
-	@siteids VARCHAR(8000), 
+	@modclassid int = 0, -- 0 means update for all sites 
 	@prefstatus INT, 
 	@prefstatusduration INT,
 	@reason nvarchar(max),
@@ -10,11 +10,7 @@ BEGIN
 
 begin transaction
 
-SELECT * INTO #usersiteid
-FROM udf_splitint(@siteids)
 
-
-	
 --create entry in audit table
 insert into UserPrefStatusAudit
 (UserId, Reason, DeactivateAccount, HideContent)
@@ -28,21 +24,25 @@ select @auditId = SCOPE_IDENTITY()
 insert into UserPrefStatusAuditActions
 (UserUpdateId, SiteId, UserId, PreviousPrefStatus, NewPrefStatus, PrefDuration)
 select @auditId as 'UserUpdateId',
-	usids.element as 'SiteId',
+	s.siteid as 'SiteId',
 	@userid as 'UserId',
-	preferences.prefstatus as 'PreviousPrefStatus',
+	p.prefstatus as 'PreviousPrefStatus',
 	@prefstatus as 'NewPrefStatus',
 	@prefstatusduration as 'PrefDuration'
-FROM #usersiteid usids
-inner join preferences on preferences.userid = @userid AND preferences.siteid = usids.element
+FROM preferences p 
+inner join sites s on p.siteid = s.siteid
+where p.userid = @userid 
+and (@modclassId = 0 or s.modclassid=@modclassId)
 
 --update preference table with new preferences
 UPDATE preferences
 SET PrefStatus = @prefstatus,
 	PrefStatusduration = @prefstatusduration,
 	PrefStatuschangeddate = CASE WHEN @PrefStatus = 0 THEN NULL ELSE GETDATE() END
-FROM #usersiteid usids
-WHERE preferences.userid = @userid AND preferences.siteid = usids.element
+FROM preferences p 
+inner join sites s on p.siteid = s.siteid
+where p.userid = @userid 
+and (@modclassId = 0 or s.modclassid=@modclassId)
 
 EXEC addtoeventqueueinternal 'ET_USERMODERATION', @auditId, 'IT_USERAUDIT', @prefstatus, 'IT_USERPREFSTATUS', @viewinguser
 
