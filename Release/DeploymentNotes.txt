@@ -687,3 +687,8 @@ Marcus P
 ============== v 3.5.65.0 ============
 Marcus P
 	FTP dnaimages\dna_messageboard\javascript\admin.js
+	
+Marcus P
+	Re run these to fix a bug
+	insertuserpostevents (sp)
+	User reputation Cummulative Score Update.sql
