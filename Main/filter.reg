@@ -81,7 +81,7 @@ REGEDIT4
 "/Moderate"="/ripleyserver.dll?ModerateHome?"
 --"/Moderate"="/ripleyserver.dll?ModerateHome?newstyle=1&"
 --"/ModerateOld"="/ripleyserver.dll?ModerateHome?"
-"/NModerate"="/dna/dnapages/ModerateHomePage.aspx?"
+"/moderationhome"="/dna/dnapages/ModerateHomePage.aspx?newstyle=1&"
 "/ModeratePosts"="/dna/dnapages/ModeratePostsPage.aspx?"
 "/UserComplaint"="/ripleyserver.dll?UserComplaint?"
 

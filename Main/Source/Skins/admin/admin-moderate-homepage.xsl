@@ -139,7 +139,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'forumcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'forumcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -192,7 +192,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'forum'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'forum'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -245,7 +245,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'forumcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'forumcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -298,7 +298,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'forum'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'forum'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -398,7 +398,7 @@
 															<xsl:choose>
 																<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'generalcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queued']">
 																	<p>
-																		<xsl:text>submitted </xsl:text>
+																		 
 																		<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'generalcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queued']/DATE" mode="mod_home"/>
 																	</p>
 																</xsl:when>
@@ -451,7 +451,7 @@
 															<xsl:choose>
 																<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'generalcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered']">
 																	<p>
-																		<xsl:text>submitted </xsl:text>
+																		 
 																		<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'generalcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered']/DATE" mode="mod_home"/>
 																	</p>
 																</xsl:when>
@@ -531,7 +531,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'entrycomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'entrycomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -584,7 +584,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'entry'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'entry'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -637,7 +637,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'entrycomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'entrycomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -690,7 +690,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'entry'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'entry'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -768,7 +768,7 @@
 															<xsl:choose>
 																<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'nickname'][@CLASSID = current()/@CLASSID][STATE = 'queued']">
 																	<p>
-																		<xsl:text>submitted </xsl:text>
+																		 
 																		<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'nickname'][@CLASSID = current()/@CLASSID][STATE = 'queued']/DATE" mode="mod_home"/>
 																	</p>
 																</xsl:when>
@@ -849,7 +849,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlinkcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlinkcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -902,7 +902,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlink'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlink'][@CLASSID = current()/@CLASSID][STATE = 'queued'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -955,7 +955,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlinkcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlinkcomplaint'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -1008,7 +1008,7 @@
 														<xsl:choose>
 															<xsl:when test="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlink'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]">
 																<p>
-																	<xsl:text>submitted </xsl:text>
+																	 
 																	<xsl:apply-templates select="/H2G2/MODERATOR-HOME/MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE = 'exlink'][@CLASSID = current()/@CLASSID][STATE = 'queuedreffered'][@FASTMOD = /H2G2/MODERATOR-HOME/@FASTMOD]/DATE" mode="mod_home"/>
 																</p>
 															</xsl:when>
@@ -1877,7 +1877,13 @@ function confirmUnlockOnOtherUser()
 	<!--===========================================================================-->
 	<xsl:template match="DATE" mode="mod_home">
 		<xsl:choose>
-			<xsl:when test="../../@TOTAL > 0 and @YEAR = /H2G2/DATE/@YEAR and @MONTH = /H2G2/DATE/@MONTH and @DAY = /H2G2/DATE/@DAY ">
+      <xsl:when test="../@TOTAL = 0  and @YEAR ='1'">
+        <xsl:text></xsl:text>
+      </xsl:when>
+      <xsl:when test="../@TOTAL > 0  and @RELATIVE !=''">
+        <xsl:text></xsl:text><xsl:value-of select="@RELATIVE"/>
+      </xsl:when>
+			<xsl:when test="../@TOTAL > 0 and @YEAR = /H2G2/DATE/@YEAR and @MONTH = /H2G2/DATE/@MONTH and @DAY = /H2G2/DATE/@DAY ">
 				<xsl:text>from </xsl:text>
 				<xsl:value-of select="@HOURS"/>
 				<xsl:text>:</xsl:text>
@@ -1898,8 +1904,9 @@ function confirmUnlockOnOtherUser()
 						<xsl:with-param name="day" select="@DAY"/>
 					</xsl:call-template>
 				</xsl:variable>
-				<xsl:value-of select="$todays-date - $submitted-date"/>
-				<xsl:text> days ago</xsl:text>
+        <xsl:text>submitted </xsl:text>
+        <xsl:value-of select="$todays-date - $submitted-date"/>
+        <xsl:text> days ago</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

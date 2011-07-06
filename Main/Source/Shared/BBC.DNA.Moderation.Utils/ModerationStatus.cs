@@ -113,6 +113,10 @@ namespace BBC.Dna.Moderation.Utils
             /// 
             /// </summary>
             Deactivated=5,
+            /// <summary>
+            /// 
+            /// </summary>
+            Trusted = 6
 
         }
 

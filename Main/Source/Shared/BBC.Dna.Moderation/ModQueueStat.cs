@@ -48,7 +48,7 @@ namespace BBC.Dna.Moderation
         }
 
         /// <remarks/>
-        [XmlElementAttribute("OBJECTTYPE", Order = 0)]
+        [XmlElementAttribute("OBJECT-TYPE", Order = 0)]
         public string ObjectType
         {
             get;
