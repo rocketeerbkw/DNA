@@ -104,7 +104,7 @@ SELECT 	NM.ModID,
 	LEFT JOIN Preferences p WITH(NOLOCK) ON p.UserID = u.UserID AND p.SiteId = NM.SiteId
 	LEFT JOIN UsersTags ut WITH(NOLOCK) ON ut.UserID = NM.UserID AND ut.SiteID = NM.SiteId 
 	LEFT JOIN UserTags tags WITH(NOLOCK) ON tags.UserTagID = ut.UserTagId
-	LEFT JOIN Users alternate WITH(NOLOCK) ON alternate.email = u.email AND alternate.UserId <> NM.UserID AND u.email like '%@%'
+	LEFT JOIN Users alternate WITH(NOLOCK) ON  alternate.hashedemail = u.hashedemail AND alternate.UserId <> NM.UserID
 	LEFT JOIN Users complainant WITH(NOLOCK) ON complainant.UserID = NM.ComplainantID
 	LEFT JOIN Preferences pcomplainant WITH(NOLOCK) ON pcomplainant.UserID = complainant.UserID AND pcomplainant.SiteId = NM.SiteId
 ORDER BY mq.id ASC

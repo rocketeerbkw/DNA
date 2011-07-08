@@ -19,8 +19,11 @@ END
 ELSE
 BEGIN
 	BEGIN TRANSACTION
-		INSERT INTO Users (LoginName, UserName, Email, Password, Active, Status, BBCUID)
-	VALUES(@loginname, @loginname, @email, @password, 1, 1, newid())
+	
+	EXEC openemailaddresskey
+		
+	INSERT INTO Users (LoginName, UserName, Password, Active, Status, BBCUID)
+	VALUES(@loginname, @loginname, @password, 1, 1, newid())
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
@@ -28,7 +31,13 @@ BEGIN
 		EXEC Error @ErrorCode
 		RETURN @ErrorCode
 	END
-	SELECT @userid = @@IDENTITY
+	SELECT @userid = SCOPE_IDENTITY()
+	
+	UPDATE Users
+		SET EncryptedEmail = dbo.udf_encryptemailaddress(@email,UserId),
+			HashedEmail = dbo.udf_hashemailaddress(@email)
+		WHERE UserId = @userid
+	
 	COMMIT TRANSACTION
 	SELECT UserID, LoginName, Cookie, BBCUID FROM Users WHERE UserID = @userid
 END

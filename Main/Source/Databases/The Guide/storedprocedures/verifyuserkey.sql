@@ -1,5 +1,9 @@
 CREATE PROCEDURE verifyuserkey @userid int, @key int
 As
+RAISERROR('verifyuserkey DEPRECATED',16,1)
+
+/* deprecated - never called
+
 declare @cookie uniqueidentifier, 
 		@active int, 
 		@sinbin int, 
@@ -32,3 +36,4 @@ BEGIN
 		SELECT 'Result' = 3, 'Reason' = 'The key does not match the account', 'Active' = 0
 	END
 END
+*/

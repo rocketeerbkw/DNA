@@ -207,9 +207,12 @@ begin
 		RETURN @ErrorCode
 	END
 
+	EXEC openemailaddresskey
+
 	-- return a field to indicate success if we get here with no errors
 	-- also return data required to send personalised email to scout
-	select 'Success' = 1, U1.Email as ScoutEmail, U1.Username as ScoutName, U2.Email as AuthorEmail, U2.Username as AuthorName, G.h2g2ID, G.Subject, SR.DateRecommended
+	select 'Success' = 1, dbo.udf_decryptemailaddress(U1.EncryptedEmail,U1.userid) as ScoutEmail, U1.Username as ScoutName, 
+		dbo.udf_decryptemailaddress(U2.EncryptedEmail,U2.UserID) as AuthorEmail, U2.Username as AuthorName, G.h2g2ID, G.Subject, SR.DateRecommended
 	from ScoutRecommendations SR
 	inner join Users U1 on U1.UserID = SR.ScoutID
 	inner join AcceptedRecommendations AR on AR.RecommendationID = SR.RecommendationID

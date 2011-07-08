@@ -1,8 +1,11 @@
 CREATE PROCEDURE searchforuserviauserid @viewinguserid int, @usertofindid int, @checkallsites tinyint
 AS
+
+EXEC openemailaddresskey
+
 -- Get the users email that matches the userid gievn
 DECLARE @Email varchar(255)
-SELECT @EMail = Email FROM Users WITH(NOLOCK) WHERE UserID = @UserToFindID
+SELECT @EMail = dbo.udf_decryptemailaddress(EncryptedEmail,UserId) FROM Users WITH(NOLOCK) WHERE UserID = @UserToFindID
 
 -- Check to see if we found a valid email. Empty or NULL will cause major problems for the database!
 IF (@Email != '' AND @Email IS NOT NULL AND @Email != '0')
@@ -30,7 +33,7 @@ BEGIN
 		SELECT	u.UserID,
 				u.UserName,
 				u.LoginName,
-				u.Email,
+				dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) AS Email,
 				p.PrefStatus,
 				us.UserStatusDescription,
 				ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,
@@ -58,7 +61,7 @@ BEGIN
 		SELECT	u.UserID,
 				u.UserName,
 				u.LoginName,
-				u.Email,
+				dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) AS Email,
 				p.PrefStatus,
 				us.UserStatusDescription,
 				ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,

@@ -3,6 +3,8 @@ AS
 
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
+EXEC openemailaddresskey
+
 DECLARE @EditorGroupID INT
 SELECT @EditorGroupID = GroupID FROM Groups WHERE Name = 'Editor'
 
@@ -44,7 +46,7 @@ SELECT DISTINCT
 u.userid, 
 u.username, 
 u.loginname, 
-u.Email, 
+dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as Email,
 u.Active, 
 p.PrefStatus, 
 p.PrefStatusChangedDate, 

@@ -55,7 +55,7 @@ BEGIN
 
 		-- Get the identity of the new nickname mod entry
 		DECLARE @ModID int
-		SET @ModID = @@IDENTITY
+		SET @ModID = SCOPE_IDENTITY()
 		
 		EXEC @Err = addnicknamemodhistory @ModID,0,0,NULL,3,NULL,@date
 		SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
@@ -67,12 +67,18 @@ BEGIN
 		SET @nickname = 'U' + CAST(@userid AS varchar(20))
 	END
 	
-	--Create user 
-	INSERT INTO Users (UserID, UserName, LoginName,  Email, Active, FirstNames, LastName )
-	--VALUES(@userid, @nickname, @username,  @email, 1, @firstnames, @lastname) <-- Reinsert to correctly collect firstname/lastname
-	VALUES(@userid, @nickname, @username,  @email, 1, NULL, NULL)
-	SET @Err = @@ERROR; IF @Err <> 0 GOTO HandleError
-	
+	BEGIN TRY
+		EXEC openemailaddresskey
+		--Create user 
+		INSERT INTO Users (UserID, UserName, LoginName,  EncryptedEmail, Active, FirstNames, LastName )
+		--VALUES(@userid, @nickname, @username,  @email, 1, @firstnames, @lastname) <-- Reinsert to correctly collect firstname/lastname
+		VALUES(@userid, @nickname, @username,  dbo.udf_encryptemailaddress(@email,@userid), 1, NULL, NULL)
+	END TRY
+	BEGIN CATCH
+		SET @Err = ERROR_NUMBER();
+		GOTO HandleError
+	END CATCH
+
 END
 
 -- See if we need to check the preferences table to see if the user has an entry for this site?

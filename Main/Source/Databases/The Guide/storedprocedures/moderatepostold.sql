@@ -28,6 +28,8 @@ END
 BEGIN TRANSACTION
 DECLARE @ErrorCode INT, @Success int, @authorsemail varchar(255), @complainantsemail varchar(255), @islegacy int, @authorid int, @complainantid int
 
+EXEC openemailaddresskey
+
 -- Update the ThreadMod line for this moderation
 -- make sure we don't overwrite any existing dates however
 UPDATE ThreadMod
@@ -109,7 +111,7 @@ BEGIN
 	RETURN 50000
 END
 
-select	@authorsemail = U.Email,
+select	@authorsemail = dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId),
 		@authorid = U.UserID,
 		@complainantsemail = TM.CorrespondenceEmail,
 		@complainantid = TM.ComplainantID, 

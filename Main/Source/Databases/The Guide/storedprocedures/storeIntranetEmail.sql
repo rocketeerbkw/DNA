@@ -10,7 +10,11 @@ Given only an email address, locates the next free user record and returns a coo
 
 CREATE   PROCEDURE storeintranetemail @email varchar(255)
 AS
+RAISERROR('storeintranetemail DEPRECATED',16,1)
 
+/*
+	Deprecated - no longer called
+	
 declare @uid int, @exists int
 declare @cookie uniqueidentifier, @userid int
 declare @checksum int, @active int
@@ -29,3 +33,4 @@ END
 EXEC checksumcookie @cookie, @checksum OUTPUT
 SELECT 'UserID' = @userid, 'Cookie' = @cookie, 'Checksum' = @checksum, 'Exists' = @exists, 'Worked' = 1
 
+*/

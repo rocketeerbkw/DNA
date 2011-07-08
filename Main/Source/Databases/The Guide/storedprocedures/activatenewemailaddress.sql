@@ -1,5 +1,9 @@
 Create Procedure activatenewemailaddress @userid int, @secretkey int
 As
+	-- This is an old system no longer used in DNA
+	SELECT 'Success' = 0, 'Message' = 'Failed to update email address.  Feature Depricated'
+	RETURN 0
+/*
 	declare @newemail varchar(255)
 	SELECT @newemail = newemail FROM EmailChange WHERE UserID = @userid AND SecretKey = @secretkey AND DateCompleted IS NULL
 	IF @newemail IS NULL
@@ -45,3 +49,4 @@ As
 		SELECT 'Success' = 1, 'Message' = 'Successfully updated email address'
 	END
 	return (0)
+*/

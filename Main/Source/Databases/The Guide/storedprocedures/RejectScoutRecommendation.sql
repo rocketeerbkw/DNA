@@ -17,7 +17,9 @@ if ((select count(RecommendationID)
 	 from ScoutRecommendations
 	 where RecommendationID = @recommendationid and Status = 2) > 0)
 begin
-	select 'Success' = 1, 'ScoutEmail' = U.Email, 'ScoutName' = U.Username, G.h2g2ID, G.Subject, SR.DateRecommended
+	EXEC openemailaddresskey
+
+	select 'Success' = 1, 'ScoutEmail' = dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId), 'ScoutName' = U.Username, G.h2g2ID, G.Subject, SR.DateRecommended
 	from ScoutRecommendations SR
 	inner join Users U on U.UserID = SR.ScoutID
 	inner join GuideEntries G on G.EntryID = SR.EntryID

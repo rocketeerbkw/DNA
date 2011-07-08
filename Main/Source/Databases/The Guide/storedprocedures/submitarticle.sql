@@ -1,5 +1,6 @@
 CREATE PROCEDURE submitarticle @subject varchar(255), @body varchar(max), @userid int, @keywords varchar(255)
 AS
+RAISERROR('submitarticle DEPRECATED',16,1)
 
 /*
 declare @userid int
@@ -10,6 +11,9 @@ EXEC storenewemaildirect @email
 SELECT @userid = @@IDENTITY
 END
 */
+/*
+	Deprecated - never called 
+
 if (NOT (@userid IS NULL))
 BEGIN
 	BEGIN TRANSACTION
@@ -63,3 +67,4 @@ BEGIN
 	SELECT 'EntryID' = @guideentry, 'ForumID' = @forumid, 'Checksum' = @checksum
 END
 
+*/

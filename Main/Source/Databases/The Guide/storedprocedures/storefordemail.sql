@@ -1,5 +1,9 @@
 Create Procedure storefordemail @email varchar(255), @userid int
 As
+RAISERROR('storefordemail DEPRECATED',16,1)
+/*
+	Deprecated - no longer called
+	
 	IF @userid <> 0
 	BEGIN
 		declare @oldemail varchar(255)
@@ -20,3 +24,4 @@ As
 			INSERT INTO Users (email) VALUES(@email)
 	END
 	return (0)
+*/

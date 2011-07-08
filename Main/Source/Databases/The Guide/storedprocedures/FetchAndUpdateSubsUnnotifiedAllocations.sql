@@ -8,12 +8,14 @@ CREATE PROCEDURE fetchandupdatesubsunnotifiedallocations @subid INT, @currentsit
 AS
 BEGIN
 
+	EXEC openemailaddresskey
+
 	-- first select all the necessary fields
 	SELECT	
 			RecommendationID,
 			SubEditorID,
 			'SubName' = U.Username,
-			'SubEmail' = U.Email,
+			'SubEmail' = dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserID),
 			AR.EntryID,
 			G.h2g2ID,
 			G.Subject,

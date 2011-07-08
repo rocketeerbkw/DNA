@@ -1,10 +1,12 @@
 CREATE PROCEDURE getmoderatorsforsite @siteid int
 AS
 
+EXEC openemailaddresskey
+
 declare @modgroupid int
 SELECT @modgroupid = groupid from Groups where name='Moderator'
 
-select 	u.userid, u.email, u.username,u.username, u.lastname,u.loginname, s.siteid
+select 	u.userid, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as email, u.username,u.username, u.lastname,u.loginname, s.siteid
 	 from groupmembers m inner join sites s on m.siteid = s.siteid 
 			     inner join users u on u.userid = m.userid 
 

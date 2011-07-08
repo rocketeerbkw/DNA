@@ -4,6 +4,7 @@ Copy a guide entry, making the given editor the editor of the article
 Superceding the entry appropriately
 */
 As
+RAISERROR('copyguideentry DEPRECATED',16,1)
 return (0)
 -- deprecated - do not use
 declare @oldentryid int, @newentryid int, @oldeditor int

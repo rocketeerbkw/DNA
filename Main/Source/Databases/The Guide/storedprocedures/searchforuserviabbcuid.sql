@@ -6,6 +6,9 @@ SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 -- Check to see we've been given a valid name. Don't do anything if it's empty or NULL
 IF (@bbcuid IS NOT NULL) 
 BEGIN
+
+	EXEC openemailaddresskey
+
 	IF (@CheckAllSites = 0)
 	BEGIN
 		-- Get the Editor group id from the groups table
@@ -27,7 +30,7 @@ BEGIN
 		SELECT DISTINCT u.UserID,
 				u.UserName,
 				u.LoginName,
-				u.Email,
+				dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) AS Email,
 				p.PrefStatus,
 				us.UserStatusDescription,
 				ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,
@@ -68,7 +71,7 @@ BEGIN
 		SELECT DISTINCT	u.UserID,
 				u.UserName,
 				u.LoginName,
-				u.Email,
+				dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) AS Email,
 				p.PrefStatus,
 				us.UserStatusDescription,
 				ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,

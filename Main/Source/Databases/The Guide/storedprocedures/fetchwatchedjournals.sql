@@ -1,12 +1,14 @@
 CREATE PROCEDURE fetchwatchedjournals @userid int, @skip int = 0, @show int = 100000
 as
 
+EXEC openemailaddresskey;
+
 WITH WatchedJournals AS
 (
 	SELECT fo.*,
 		u.UserID,
 		u.Cookie,
-		u.email,
+		dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as email ,
 		u.UserName,
 		siuidm.IdentityUserID, 
 		'IdentityUserName' = u.LoginName, 
