@@ -680,35 +680,23 @@ INSERT INTO [dbo].[EMailEventQueue] ([ListID],[SiteID],[ItemID],[ItemType],[Even
                     AddEmailToBannedList(reader, "letters@dot.com",0,0);
                     AddEmailToBannedList(reader, "whatever@dot.com",0,0);
 
-                    var emails = EmailEnc_Test_getbannedemailsstartingwithletter_helper(reader, 't');
+                    var emails = reader.ExecuteGetStrings("email", "Exec getbannedemailsstartingwithletter 0,1000,'t',1,1,1");
                     Assert.AreEqual(1, emails.Count);
                     Assert.AreEqual("trying@afew.com", emails[0]);
 
-                    emails = EmailEnc_Test_getbannedemailsstartingwithletter_helper(reader, 'w');
+                    emails = reader.ExecuteGetStrings("email", "Exec getbannedemailsstartingwithletter 0,1000,'w',1,1,1");
                     Assert.AreEqual(2, emails.Count);
                     Assert.IsTrue(emails.Contains("whichstart@withdifferent.com"));
                     Assert.IsTrue(emails.Contains("whatever@dot.com"));
 
-                    emails = EmailEnc_Test_getbannedemailsstartingwithletter_helper(reader, 'l');
+                    emails = reader.ExecuteGetStrings("email", "Exec getbannedemailsstartingwithletter 0,1000,'l',1,1,1");
                     Assert.AreEqual(1, emails.Count);
                     Assert.AreEqual("letters@dot.com", emails[0]);
 
-                    emails = EmailEnc_Test_getbannedemailsstartingwithletter_helper(reader, 'z');
+                    emails = reader.ExecuteGetStrings("email", "Exec getbannedemailsstartingwithletter 0,1000,'z',1,1,1");
                     Assert.AreEqual(0, emails.Count);
                 }
             }
-        }
-
-        List<string> EmailEnc_Test_getbannedemailsstartingwithletter_helper(IDnaDataReader reader,char letter)
-        {
-            reader.ExecuteWithinATransaction("Exec getbannedemailsstartingwithletter 0,1000,'"+letter+"',1,1,1");
-            var emails = new List<string>();
-            while (reader.Read())
-            {
-                emails.Add(reader.GetString("email"));
-            }
-            reader.Close();
-            return emails;
         }
 
         [TestMethod]
@@ -741,24 +729,24 @@ INSERT INTO [dbo].[EMailEventQueue] ([ListID],[SiteID],[ItemID],[ItemType],[Even
             {
                 using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
                 {
-                    // Find a thread entry that satisfies the joins
-                    string sql=@"select top 1 te.entryid,s.siteid"+NL+
-                                "from sites s"+NL+
-                                "join forums f on f.siteid=s.siteid"+NL+
-                                "join threadentries te on te.forumid = f.forumid"+NL+
-                                "join topics t on t.siteid=s.siteid"+NL+
-                                "join guideentries g on g.h2g2id=t.h2g2id";
+                    // Find any thread entry
+                    var entryId = reader.ExecuteGetInts("entryid", "select top 1 entryid from threadentries")[0];
+
+                    // Find a topic to attach the thread entry to
+                    var sql = @"select top 1 g.forumid, t.siteid" + NL +
+                            "from topics t" + NL +
+                            "join guideentries g on g.h2g2id=t.h2g2id";
                     reader.ExecuteWithinATransaction(sql);
                     reader.Read();
-                    var entryId = reader.GetInt32("entryid");
                     var siteId = reader.GetInt32("siteid");
+                    var forumId = reader.GetInt32("forumid");
                     reader.Close();
 
-                    // update the thread entry so the user and date posted will get picked up by the SP
-                    sql =  @"update te" + NL +
-                            "    SET te.userid=6, te.dateposted='2011-06-29'" + NL +
+                    // update the thread entry so that it's attached to the topic
+                    sql = @"update te" + NL +
+                            "    SET te.userid=6, te.dateposted='2011-06-29', te.forumid=" + forumId + NL +
                             "    from threadentries te" + NL +
-                            "    where te.entryid = "+entryId;
+                            "    where te.entryid = " + entryId;
                     reader.ExecuteWithinATransaction(sql);
 
                     // Make sure the user has an email address we can test
@@ -778,26 +766,27 @@ INSERT INTO [dbo].[EMailEventQueue] ([ListID],[SiteID],[ItemID],[ItemType],[Even
             {
                 using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
                 {
-                    // Find a thread entry that satisfies the joins
-                    string sql = @"select top 1 te.entryid,s.siteid" + NL +
-                                "from sites s" + NL +
-                                "join forums f on f.siteid=s.siteid" + NL +
-                                "join threadentries te on te.forumid = f.forumid" + NL +
-                                "join topics t on t.siteid=s.siteid" + NL +
-                                "join guideentries g on g.h2g2id=t.h2g2id";
+                    // Find any thread entry
+                    var entryId = reader.ExecuteGetInts("entryid","select top 1 entryid from threadentries")[0];
+
+                    // Find a topic to attach the thread entry to
+                    var sql = @"select top 1 g.forumid, t.siteid"+NL+
+                            "from topics t" + NL +
+                            "join guideentries g on g.h2g2id=t.h2g2id";
                     reader.ExecuteWithinATransaction(sql);
                     reader.Read();
-                    var entryId = reader.GetInt32("entryid");
                     var siteId = reader.GetInt32("siteid");
+                    var forumId = reader.GetInt32("forumid");
                     reader.Close();
 
-                    // update the thread entry so the user and date posted will get picked up by the SP
+                    // update the thread entry so that it's attached to the topic
                     sql =  @"update te" + NL +
-                            "    SET te.userid=6, te.dateposted='2011-06-29'" + NL +
+                            "    SET te.userid=6, te.dateposted='2011-06-29', te.forumid="+forumId + NL +
                             "    from threadentries te" + NL +
                             "    where te.entryid = " + entryId;
                     reader.ExecuteWithinATransaction(sql);
 
+                    // Associate a threadmod record to the thread entry
                     sql =  @"update tm" + NL +
                             "	set tm.forumid=te.forumid, tm.datequeued='2011-06-29',tm.lockedby=6" + NL +
                             "	from threadmod tm, threadentries te" + NL +
