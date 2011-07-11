@@ -1,7 +1,7 @@
 CREATE    PROCEDURE verifyuseragainstbannedipaddress @userid int, @siteid int, @ipaddress varchar(25)=null, @bbcuid uniqueidentifier=null
 AS
 
-IF @ipaddress is null and @bbcuid is null
+IF @ipaddress is null or @bbcuid is null
 BEGIN
 	RETURN
 END

@@ -72,6 +72,13 @@ END
 declare @journalowner int, @siteid int
 SELECT @journalowner = JournalOwner, @siteid = siteid FROM Forums WITH(NOLOCK) WHERE ForumID = @forumid
 
+-- Great big dirty hack to stop people posting to 606 FOREVER!
+--IF @siteid=67
+--BEGIN
+	--select @returnthread = 0, @returnpost = 0
+	--return (0)
+--END
+
 declare @premoderation int, @unmoderated int
 if (@ignoremoderation = 1)
 BEGIN

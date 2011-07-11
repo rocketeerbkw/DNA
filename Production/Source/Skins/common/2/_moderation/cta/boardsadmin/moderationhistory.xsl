@@ -17,7 +17,7 @@
         <xsl:param name="label"/>
         <xsl:param name="post" />
       
-        <a href="{$root-secure}/boards-admin/ModerationHistory?PostId={.}" target="_blank" class="popup">
+        <a href="{$configuration/host/sslurl}/dna/moderation/boards-admin/ModerationHistory?PostId={.}" target="_blank" class="popup">
             <xsl:value-of select="$label"/>
             <span class="blq-hide"><xsl:text> of post: </xsl:text><xsl:value-of select="$post" /></span>
         </a>

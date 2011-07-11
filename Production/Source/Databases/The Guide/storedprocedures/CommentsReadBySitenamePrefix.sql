@@ -32,7 +32,7 @@ as
 	
 	;with cte_usersposts as
 	(
-		select row_number() over ( order by te.DatePosted asc) as n, te.EntryID
+		select row_number() over ( order by te.threadid, te.PostIndex asc) as n, te.EntryID
 		from dbo.ThreadEntries te
 		INNER JOIN dbo.CommentForums cf ON cf.ForumID = te.ForumID
 		where  cf.siteid = @siteid
@@ -41,7 +41,7 @@ as
 
 		union all
 
-		select row_number() over ( order by te.DatePosted desc) as n, te.EntryID
+		select row_number() over ( order by te.threadid, te.PostIndex desc) as n, te.EntryID
 		from dbo.ThreadEntries te
 		INNER JOIN dbo.CommentForums cf ON cf.ForumID = te.ForumID
 		where  cf.siteid = @siteid

@@ -1,5 +1,9 @@
+-- new guide 2:18:51
+
 set nocount on
 
+
+declare @mindate datetime
 declare @typeid int
 declare @eventdate datetime
 declare @siteid int 
@@ -12,16 +16,22 @@ declare @userid int
 declare @userscore smallint 
 declare @numberofposts int 
 declare @logdate datetime
+declare @maxscore smallint
+
+set @maxscore = 11
+--change this date 
+--set @mindate = '20110601'
 
 DECLARE @runningTotal TABLE
 (
   userid int,
   modclassid int,
-  accumulativescore smallint
+  accumulativescore smallint,
+  unique(userid,modclassid)
 )
 
-truncate table dbo.UserReputationScore
 truncate table dbo.UserEventScore
+
 
 
 -- add scores to UserEventScore table
@@ -43,11 +53,13 @@ from
 (
 select typeid, eventdate, 0 as 'siteid', modclassid, null as 'siteeventid', score, accumulativescore, userid, numberofposts
 from UserPostEvents
+where eventdate > @mindate
 
 union all
 
 select typeid, eventdate, siteid, modclassid, siteeventid, score, accumulativescore, userid, 0
 from UserSiteEvents
+where eventdate > @mindate
 ) events
 order by eventdate
  
@@ -88,11 +100,20 @@ BEGIN
 		values (@userid, @modclassid, @userscore)
 	END
 	
-	
 	select @userscore =  accumulativescore
 	from @runningTotal
 	where userid=@userid and modclassid=@modclassid
 
+	-- ensure maximum score enforced
+	if @userscore > @maxscore
+	BEGIN
+		set @userscore = @maxscore
+	
+		update @runningTotal
+		set accumulativescore = @maxscore
+		where userid=@userid
+		and modclassid= @modclassid
+	END
 
 	if @siteeventid is null
 	BEGIN
@@ -124,10 +145,9 @@ END
 CLOSE rt_cursor
 DEALLOCATE rt_cursor
 
+truncate table dbo.UserReputationScore
 insert into dbo.UserReputationScore
-select *
+select *,getdate()
 from @runningTotal
-
-
 
 --drop table @runningTotal

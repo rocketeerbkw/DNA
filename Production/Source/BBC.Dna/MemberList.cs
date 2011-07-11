@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Component
 {
@@ -93,23 +94,27 @@ namespace BBC.Dna.Component
         /// </summary>
         private bool TryUpdateMemberList(string action)
         {
-            ArrayList userIDs = new ArrayList();
-            ArrayList siteIDs = new ArrayList();
-            ArrayList userNames = new ArrayList();
-            ArrayList deactivatedUserIds = new ArrayList();
+            List<int> userIDs = new List<int>();
+            List<int> siteIDs = new List<int>();
+            List<string> userNames = new List<string>();
+            List<int> deactivatedUserIds = new List<int>();
             TryGetUserSiteList(ref userIDs, ref siteIDs, ref userNames, ref deactivatedUserIds);
 
             if (action.ToUpper() == "APPLYACTION")
             {
-                int newPrefStatus = 0;
-                GetPrefStatusValueFromDescription(InputContext.GetParamStringOrEmpty("userStatusDescription", _docDnaNewPrefStatus), ref newPrefStatus);
+                int newPrefStatus = (int)Enum.Parse(typeof(BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus), InputContext.GetParamStringOrEmpty("userStatusDescription", "new status"));                 
                 int newPrefStatusDuration = InputContext.GetParamIntOrZero("duration", _docDnaNewPrefStatusDuration);
                 bool hideAllContent = InputContext.DoesParamExist("hideAllPosts","hideAllPosts");
                 string reason = InputContext.GetParamStringOrEmpty("reasonChange", "");
-                if (String.IsNullOrEmpty(reason))
+                if (string.IsNullOrEmpty(reason))
                 {
                     AddErrorXml("EmptyReason", "Please provide a valid reason for this change for auditing purposes.", null);
                     return false;
+                }
+                var extraNotes = InputContext.GetParamStringOrEmpty("additionalNotes", "");
+                if (!String.IsNullOrEmpty(extraNotes))
+                {
+                    reason += " - " + extraNotes; 
                 }
                 if (hideAllContent && newPrefStatus != 5)
                 {
@@ -130,7 +135,7 @@ namespace BBC.Dna.Component
                         AddErrorXml("InsufficientPermissions", "You do not have sufficient permissions to deactivate users.", null);
                         return false;
                     }
-                    DeactivateAccount(userIDs, hideAllContent, reason);
+                    ModerationStatus.DeactivateAccount(AppContext.ReaderCreator, userIDs, hideAllContent, reason, InputContext.ViewingUser.UserID);
                 }
                 else
                 {
@@ -142,9 +147,10 @@ namespace BBC.Dna.Component
                     else
                     if(deactivatedUserIds.Count > 0)
                     {
-                        ReactivateAccount(deactivatedUserIds, reason);
+                        ModerationStatus.ReactivateAccount(AppContext.ReaderCreator, deactivatedUserIds, reason, InputContext.ViewingUser.UserID);
                     }
-                    UpdateModerationStatuses(userIDs, siteIDs, newPrefStatus, newPrefStatusDuration, reason);
+                    ModerationStatus.UpdateModerationStatuses(AppContext.ReaderCreator, userIDs, siteIDs, 
+                        newPrefStatus, newPrefStatusDuration, reason, InputContext.ViewingUser.UserID);
                 }
             }
             if (action.ToUpper() == "APPLYNICKNAMERESET")
@@ -161,7 +167,7 @@ namespace BBC.Dna.Component
         /// <param name="siteIDs"></param>
         /// <param name="userNames"></param>
         /// <returns></returns>
-        private bool ResetNickNamesForUsers(ArrayList userIDs, ArrayList siteIDs, ArrayList userNames)
+        private bool ResetNickNamesForUsers(List<int> userIDs, List<int> siteIDs, List<string> userNames)
         {
             ModerateNickNames resetNickName = new ModerateNickNames(InputContext);
             for (int i = 0; i < userIDs.Count && i < siteIDs.Count && i < userNames.Count; i++)
@@ -174,50 +180,7 @@ namespace BBC.Dna.Component
             return true;
         }
 
-        /// <summary>
-        /// Function to update the moderation statuses of a list of member list accounts
-        /// </summary>
-        /// <param name="userIDList">List of User ID to update with the new moderation status</param>
-        /// <param name="siteIDList">List of Site ID to update with the new moderation status</param>
-        /// <param name="newPrefStatus">The value of the new moderation status</param>
-        /// <param name="newPrefStatusDuration">The value of the duration of the new moderation status</param>
-        /// <param name="reason">reason for changes</param>
-        public void UpdateModerationStatuses(ArrayList userIDList, ArrayList siteIDList, int newPrefStatus, int newPrefStatusDuration, string reason)
-        {
-            //New function to take lists of users and sites
-            string storedProcedureName = @"updatetrackedmemberlist";
-            string userIDs = @"";
-            string siteIDs = @"";
-            foreach (int userID in userIDList)
-            {
-                userIDs += userID.ToString();
-                userIDs += "|";
-            }
-            //Remove the last one
-            userIDs = userIDs.TrimEnd('|');
-
-            foreach (int siteID in siteIDList)
-            {
-                siteIDs += siteID.ToString();
-                siteIDs += "|";
-            }
-            //Remove the last one
-            siteIDs = siteIDs.TrimEnd('|');
-
-            //Set all the user id and siteid pairs to the passed in Status and duration
-            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader(storedProcedureName))
-            {
-                dataReader.AddParameter("userIDs", userIDs)
-                    .AddParameter("siteIDs", siteIDs)
-                    .AddParameter("prefstatus", newPrefStatus)
-                    .AddParameter("prefstatusduration", newPrefStatusDuration)
-                    .AddParameter("reason", reason)
-                    .AddParameter("viewinguser", InputContext.ViewingUser.UserID); 
-
-                dataReader.Execute();
-            }
-        }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -225,12 +188,12 @@ namespace BBC.Dna.Component
         /// <param name="siteIDs"></param>
         /// <param name="userNames"></param>
         /// <param name="deactivatedUsers"></param>
-        private void TryGetUserSiteList(ref ArrayList userIDs, ref ArrayList siteIDs, ref ArrayList userNames, ref ArrayList deactivatedUsers)
+        private void TryGetUserSiteList(ref List<int> userIDs, ref List<int> siteIDs, ref List<string> userNames, ref List<int> deactivatedUsers)
         {
-            userIDs = new ArrayList();
-            siteIDs = new ArrayList();
-            userNames = new ArrayList();
-            deactivatedUsers = new ArrayList();
+            userIDs = new List<int>();
+            siteIDs = new List<int>();
+            userNames = new List<string>();
+            deactivatedUsers = new List<int>();
 
             bool applyToAll = InputContext.DoesParamExist("applyToAll", "applyToAll");
 
@@ -411,7 +374,7 @@ namespace BBC.Dna.Component
                         AddTextTag(userAccount, "EMAIL", dataReader.GetStringNullAsEmpty("EMAIL"));
                         AddTextTag(userAccount, "PREFSTATUS", dataReader.GetInt32NullAsZero("PREFSTATUS"));
                         AddTextTag(userAccount, "PREFSTATUSDURATION", dataReader.GetInt32NullAsZero("PREFSTATUSDURATION"));
-                        AddTextTag(userAccount, "USERSTATUSDESCRIPTION", dataReader.GetStringNullAsEmpty("USERSTATUSDESCRIPTION"));
+                        AddTextTag(userAccount, "USERSTATUSDESCRIPTION", ((ModerationStatus.UserStatus)dataReader.GetInt32NullAsZero("PREFSTATUS")).ToString());
                         if (!dataReader.IsDBNull("DATEJOINED"))
                         {
                             AddDateXml(dataReader.GetDateTime("DATEJOINED"), userAccount, "DATEJOINED");
@@ -623,48 +586,6 @@ namespace BBC.Dna.Component
             return newPrefStatusValue;
         }
 
-        /// <summary>
-        /// Deactivates account and optionally removes all content
-        /// </summary>
-        /// <param name="userIDList"></param>
-        /// <param name="hideAllPosts"></param>
-        /// <param name="reason"></param>
-        public bool DeactivateAccount(ArrayList userIDList, bool hideAllPosts, string reason)
-        {
-            foreach (int userId in userIDList)
-            {
-                using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("deactivateaccount"))
-                {
-                    dataReader.AddParameter("userid", userId)
-                        .AddParameter("hidecontent", hideAllPosts ? 1 : 0)
-                        .AddParameter("reason", reason)
-                        .AddParameter("viewinguser", InputContext.ViewingUser.UserID);
-
-                    dataReader.Execute();
-                }
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Activates accounts
-        /// </summary>
-        /// <param name="userIDList"></param>
-        /// <param name="reason"></param>
-        public bool ReactivateAccount(ArrayList userIDList,string reason)
-        {
-            foreach (int userId in userIDList)
-            {
-                using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("reactivateaccount"))
-                {
-                    dataReader.AddParameter("userid", userId)
-                        .AddParameter("reason", reason)
-                        .AddParameter("viewinguser", InputContext.ViewingUser.UserID);
-
-                    dataReader.Execute();
-                }
-            }
-            return true;
-        }
+        
     }
 }

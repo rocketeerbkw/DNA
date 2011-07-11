@@ -666,4 +666,29 @@ Marcus P
 ============== v 3.5.63.0 ============
 Marcus P
 	Run MigrateBannedIpaddresses.sql in dbscripts
+
+============== v 3.5.64.0 ============
+Marcus P
+	Run dbscript in this order - change the date at the top of the file to the commented out date
+
+	insertuserpostevents (sp)
+	User reputation Cummulative Score Update.sql
+
+Marcus P	
+	Add a new job to run nightly and execs insertuserpostevents
 	
+
+Marcus P
+	In htaccess file, lock down /dna/api to all internal traffic
+
+Marcus P
+	FTP dnaimages\dna_messageboard\javascript\admin.js
+	
+============== v 3.5.65.0 ============
+Marcus P
+	FTP dnaimages\dna_messageboard\javascript\admin.js
+	
+Marcus P
+	Re run these to fix a bug
+	insertuserpostevents (sp)
+	User reputation Cummulative Score Update.sql

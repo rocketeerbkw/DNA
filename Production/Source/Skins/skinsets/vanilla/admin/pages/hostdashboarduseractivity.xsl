@@ -25,70 +25,63 @@
 		<xsl:call-template name="objects_links_breadcrumb">
 			<xsl:with-param name="pagename" > activity page</xsl:with-param>
 		</xsl:call-template>
-		
-		<div class="dna-mb-intro blq-clearfix">
-			<div class="dna-fl dna-main-full">
-				
-				<form method="get" action="hostdashboarduseractivity">
-          <input type="hidden" name="s_user" id="s_user">
-            <xsl:attribute name="value">
-              <xsl:value-of select="USEREVENTLIST/@USERID"/>
-            </xsl:attribute>
-          </input>
-          <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE != '0'">
-            <input type="hidden" name="s_siteid" id="s_siteid">
-              <xsl:attribute name="value">
-                <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"/>
-              </xsl:attribute>
-            </input>
+
+    <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
+      <div class="dna-fl dna-main-full">
+        <div class="dna-box">
+
+          <h3>User Reputation</h3>
+          <div class="dna-fl dna-main-right">
+            <p>
+              User:<br/> <a href="memberdetails?userid={USEREVENTLIST/@USERID}">
+                <xsl:value-of select="USEREVENTLIST/@USERID"/>
+              </a>
+            </p>
+            <p>
+              Current User Reputation Score:<br/> <xsl:value-of select="USERREPUTATION/REPUTATIONSCORE"/>
+            </p>
+            <p>
+              Current Moderation Status:<br/>
+              <xsl:apply-templates select="USERREPUTATION/CURRENTSTATUS" mode="objects_user_typeicon" />
+            </p>
+            <p>
+              Reputation Determined Status:<br/>
+              <xsl:apply-templates select="USERREPUTATION/REPUTATIONDETERMINEDSTATUS" mode="objects_user_typeicon" />
+            </p>
+            <p>
+              Last Update:<br/>
+              <xsl:apply-templates select="USERREPUTATION/LASTUPDATED/DATE" mode="library_time_shortformat" />
+            <xsl:text> on </xsl:text>
+            <span class="date">
+              <xsl:apply-templates select="USERREPUTATION/LASTUPDATED/DATE" mode="library_date_shortformat" />
+            </span>
+            <br/>
+            <xsl:text>(</xsl:text><xsl:value-of select="USERREPUTATION/LASTUPDATED/DATE/@RELATIVE"/><xsl:text>)</xsl:text>
+            </p>
+          </div>
+          <xsl:if test="VIEWING-USER/USER/STATUS = 2">
+            <div class="dna-fl dna-main-right">
+
+              <form method="post" action="hostdashboarduseractivity?s_user={USEREVENTLIST/@USERID}&amp;s_siteid={/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE}&amp;s_modclassid={/H2G2/PARAMS/PARAM[NAME = 's_modclassid']/VALUE}" id="modStatusForm">
+                <xsl:call-template name="moderation_actions" />
+                <input type="submit" value="Update user status" id="ApplyAction" name="ApplyAction"></input>
+              </form>
+
+
+            </div>
           </xsl:if>
-          <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_modclassid']/VALUE != '0'">
-            <input type="hidden" name="s_modclassid" id="s_modclassid">
-              <xsl:attribute name="value">
-                <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_modclassid']/VALUE"/>
-              </xsl:attribute>
-            </input>
-          </xsl:if>
-					<fieldset>
-						<label for="s_startdate">Start date:</label> <small> (Format:YYYY-MM-DD)</small>
-						<input type="text" name="s_startdate" id="s_startdate">
-							<xsl:attribute name="value">
-								<xsl:if test="USEREVENTLIST/STARTDATE">
-									<xsl:value-of select="concat(USEREVENTLIST/STARTDATE/DATE/@YEAR,'-',USEREVENTLIST/STARTDATE/DATE/@MONTH,'-',USEREVENTLIST/STARTDATE/DATE/@DAY)"/>
-								</xsl:if>
-							</xsl:attribute>
-						</input>
-					</fieldset>
-					<fieldset>
-						<label for="s_enddate">End date:</label>
-						<small> (Format:YYYY-MM-DD)</small>
-						<input type="text" name="s_enddate" id="s_enddate">
-							<xsl:attribute name="value">
-								<xsl:if test="USEREVENTLIST/ENDDATE">
-									<xsl:value-of select="concat(USEREVENTLIST/ENDDATE/DATE/@YEAR,'-',USEREVENTLIST/ENDDATE/DATE/@MONTH,'-',USEREVENTLIST/ENDDATE/DATE/@DAY)"/>
-								</xsl:if>
-							</xsl:attribute>
-						</input>
-					</fieldset>
-					<div class="dna-fr dna-buttons">
-						<input type="submit" value="go" />
-					</div>
-				</form>	
-			</div>
-		</div>
-		
-		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
-			<div class="dna-fl dna-main-full">
-				<div class="dna-box">
-          <div class="dna-box-title">
-          Activity for user 
-            
-            <a href="memberdetails?userid={USEREVENTLIST/@USERID}">
-            <xsl:value-of select="USEREVENTLIST/@USERID"/>
-            </a> on moderation class
+        </div>
+      </div>
+  </div>
+
+  <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
+    <div class="dna-fl dna-main-full">
+      <div class="dna-box">
+        <h3>
+          Activity for user <xsl:value-of select="USEREVENTLIST/@USERID"/> on moderation class
           "<xsl:value-of select="USEREVENTLIST/MODERATIONCLASS/NAME"/>"
-  				</div>
-					<xsl:choose>
+        </h3>
+        <xsl:choose>
 						<xsl:when test="USEREVENTLIST/USEREVENTLIST/USEREVENT != ''">
 							<xsl:apply-templates select="USEREVENTLIST" mode="library_pagination_forumthreadposts"/>
 							

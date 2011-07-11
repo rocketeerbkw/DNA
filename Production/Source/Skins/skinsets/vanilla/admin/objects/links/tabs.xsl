@@ -11,7 +11,7 @@
 		<ul>
 			<!-- admin tool tabs -->
 			<xsl:choose>
-				<xsl:when test="@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN' or @TYPE = 'ERROR' or @TYPE = 'MESSAGEBOARDSCHEDULE' or @TYPE = 'TOPICBUILDER' or @TYPE = 'MBADMINASSETS' or @TYPE = 'FRONTPAGE'">
+				<xsl:when test="@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN'  or @TYPE = 'MESSAGEBOARDSCHEDULE' or @TYPE = 'TOPICBUILDER' or @TYPE = 'MBADMINASSETS' or @TYPE = 'FRONTPAGE'">
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_mode']/VALUE = 'admin' or not(PARAMS/PARAM[NAME = 's_mode'])">
 							<xsl:attribute name="class">selected</xsl:attribute>
@@ -25,7 +25,7 @@
 						<a href="messageboardadmin_design?s_mode=design">Design</a>
 					</li>
 				</xsl:when>
-				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS' or @TYPE = 'COMMENTFORUMLIST'  or @TYPE = 'USERLIST'">
+				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS' or @TYPE = 'COMMENTFORUMLIST'  or @TYPE = 'USERLIST' or @TYPE = 'ERROR' or @TYPE = 'USERREPUTATIONREPORT' or @TYPE = 'SITEMANAGER'">
 					<!-- no tabs for the host dashboard activity page -->
 					<li>&#160;</li>
 				</xsl:when>

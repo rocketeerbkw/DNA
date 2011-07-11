@@ -1784,7 +1784,7 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
         /// Needs guide entry cat on smallguide created
         /// </summary>
                    
-        [TestMethod]
+        [Ignore]
         public void GetSearchArticles_VariousTerms_ReturnsValidResults()
         {
             SetupFullTextIndex();

@@ -23,6 +23,7 @@ namespace BBC.Dna
             {
                 return _skinName;
             }
+            set { _skinName = value; }
         }
 
         /// <summary>
@@ -34,6 +35,7 @@ namespace BBC.Dna
             {
                 return _skinSet;
             }
+            set { _skinSet = value; }
         }
 
         /// <summary>

@@ -33,10 +33,16 @@
 			<li><a href="/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
 		</xsl:if>			
 		<li><a href="/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
-		<li><xsl:value-of select="$dashboardmodstatus" /><br /><br />
-			To change moderation status, contact the <a href="{$moderationemail}">Moderation Services team</a>.
-		</li>
 
-	</xsl:template>
+    <li>
+      <xsl:value-of select="$dashboardmodstatus" />
+      <br />
+      <br />
+      <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 1">
+        To change moderation status, contact the <a href="{$moderationemail}">Moderation Services team</a>.
+      </xsl:if>
+    </li>
+
+  </xsl:template>
 	
 </xsl:stylesheet>

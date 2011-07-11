@@ -51,6 +51,7 @@
   <xsl:include href="objects/moderator/userevent.xsl"/>
 	<xsl:include href="objects/moderator/sites.xsl"/>
 	<xsl:include href="objects/moderator/sitesummarystats.xsl"/>
+  <xsl:include href="objects/moderator/moderationactions.xsl"/>
   
 	<xsl:include href="objects/user/typeicon.xsl"/>
 	<xsl:include href="objects/user/welcome.xsl"/>
@@ -77,5 +78,7 @@
 	<xsl:include href="pages/topicbuilder.xsl"/>
 	<xsl:include href="pages/usercontributions.xsl"/>
 	<xsl:include href="pages/userlist.xsl"/>
+  <xsl:include href="pages/userreputationreport.xsl"/>
+  <xsl:include href="pages/sitemanager.xsl"/>
   
 </xsl:stylesheet>

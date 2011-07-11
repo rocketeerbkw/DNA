@@ -301,7 +301,7 @@
 		<xsl:if test="($test_IsEditor) or (/H2G2/VIEWING-USER/USER/GROUPS/HOSTS)">
 			<div class="moveThread">
 				<!--<a onclick="window.open('/dna/{/H2G2/SITE-LIST/SITE[@ID = current()/../SITEID]/URLNAME}/iplookup?id={.}&amp;DestinationID=F0&amp;mode=POPUP&amp;s_frommod=1','IP Address Lookup Window','scrollbars=1,resizable=1,width=400,height=400')" href="/dna/{/H2G2/SITE-LIST/SITE[@ID = current()/../SITEID]/URLNAME}/iplookup?id={.}&amp;DestinationID=F0&amp;mode=POPUP&amp;s_frommod=1">-->
-        <a onclick="window.open('/dna/{/H2G2/SITE-LIST/SITE[@ID = current()/SITEID]/NAME}/iplookup?id={@POSTID}&amp;modid={@MODERATIONID}','','scrollbars=1,resizable=1,width=460,height=400');return false;" href="#">
+        <a onclick="window.open('/dna/moderation/iplookup?id={@POSTID}&amp;modid={@MODERATIONID}','','scrollbars=1,resizable=1,width=460,height=400');return false;" href="#">
 					<xsl:text>lookup ip address</xsl:text>
 				</a>
 			</div>
@@ -321,7 +321,7 @@
 					<!--<xsl:apply-templates select="STATUS" mode="user_status"/>-->
 					<xsl:value-of select="USER/USERNAME"/>
 					<xsl:text> </xsl:text>
-					<a href="memberdetails?userid={USER/USERID}" target="_blank">[member profile]</a>
+					<a href="admin/memberdetails?userid={USER/USERID}" target="_blank">[member profile]</a>
 				</xsl:when>
 				<xsl:otherwise>member</xsl:otherwise>
 			</xsl:choose>
@@ -358,7 +358,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:text> </xsl:text>
-			<a href="moderationhistory?PostID={@POSTID}" target="_blank">[post history]</a>
+			<a href="boards-admin/moderationhistory?PostID={@POSTID}" target="_blank">[post history]</a>
 		</p>
 	</xsl:template>
 	<!-- 

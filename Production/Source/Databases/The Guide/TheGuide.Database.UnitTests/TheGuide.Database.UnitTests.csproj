@@ -43,10 +43,15 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GetUserReputationListTests.cs" />
+    <Compile Include="GetUserReputationTests.cs" />
     <Compile Include="verifyuseragainstbannedipaddressTests.cs" />
     <Compile Include="updatetrackedmemberlistTests.cs" />
+    <Compile Include="IDnaDataReaderExtensions.cs" />
+    <Compile Include="trg_ThreadEntriesIPAddress_iu_Tests.cs" />
     <Compile Include="trg_Threadmod_uTest.cs" />
     <Compile Include="getmoderationpostsmostrecentfirstTests.cs" />
     <Compile Include="getmoderationpostsfastmodfirstTests.cs" />
@@ -61,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GetAllPostingStatsBasicTests.cs" />
     <Compile Include="GetThreadPostContentsTests.cs" />
+    <Compile Include="RiskModTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
@@ -69,6 +75,10 @@
     <ProjectReference Include="..\..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
       <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Shared\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
+      <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
+      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>

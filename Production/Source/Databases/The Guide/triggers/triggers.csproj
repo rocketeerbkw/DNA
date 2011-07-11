@@ -43,7 +43,9 @@
     <None Include="trg_GuideEntries_u.sql" />
     <None Include="trg_Topics_iu.sql" />
     <None Include="trg_Forums_u.sql" />
+    <None Include="trg_ThreadEntriesIPAddress_iu.sql" />
     <None Include="trg_Threads_iu.sql" />
+    <None Include="trg_Users_iu.sql" />
   </ItemGroup>
   <!--<Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />-->
 </Project>

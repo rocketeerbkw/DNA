@@ -3707,7 +3707,7 @@ SRC attributes not allowed in GuideML
 			<xsl:when test="starts-with(.,'http://www.h2g2.com/')">
 				<xsl:value-of select="concat('/dna/h2g2/',substring-after(.,'http://www.h2g2.com/'))"/>
 			</xsl:when>
-			<xsl:when test="starts-with(.,'http://') or starts-with(.,'#') or starts-with(.,'mailto:') or (starts-with(.,'/') and contains(substring-after(.,'/'),'/'))">
+			<xsl:when test="starts-with(.,'http://') or starts-with(.,'https://') or starts-with(.,'#') or starts-with(.,'mailto:') or (starts-with(.,'/') and contains(substring-after(.,'/'),'/'))">
 				<xsl:value-of select="."/>
 			</xsl:when>
 			<xsl:when test="starts-with(.,'/') and string-length(.) &gt; 1">
@@ -14151,7 +14151,7 @@ The following specifies the attributes that MUST appear on an <input> element fo
 	<xsl:template match="@POSTID" mode="editpost">
 		<xsl:param name="attributes"/>
 		<xsl:param name="embodiment" select="$m_editpost"/>
-		<a href="{$root}EditPost?PostID={.}" target="_top" onClick="popupwindow('{$root}EditPost?PostID={.}', 'EditPostPopup', 'status=1,resizable=1,scrollbars=1,width=400,height=450');return false;" xsl:use-attribute-sets="maPOSTID_editpost">
+		<a href="https://ssl.bbc.co.uk/dna/moderation/boards-admin/EditPost?PostID={.}" target="_top" onClick="popupwindow('https://ssl.bbc.co.uk/dna/moderation/boards-admin/EditPost?PostID={.}', 'EditPostPopup', 'status=1,resizable=1,scrollbars=1,width=400,height=450');return false;" xsl:use-attribute-sets="maPOSTID_editpost">
 			<xsl:call-template name="ApplyAttributes">
 				<xsl:with-param name="attributes" select="$attributes"/>
 			</xsl:call-template>
@@ -14165,7 +14165,7 @@ The following specifies the attributes that MUST appear on an <input> element fo
 	Purpose:	Creates a link to the Moderation History page page
 -->
 	<xsl:template match="@POSTID" mode="moderation">
-		<a target="_top" href="{$root}ModerationHistory?PostID={.}" xsl:use-attribute-sets="maPOSTID_moderation">
+		<a target="_top" href="https://ssl.bbc.co.uk/dna/moderation/boards-admin/ModerationHistory?PostID={.}" xsl:use-attribute-sets="maPOSTID_moderation">
 			<xsl:value-of select="$m_moderationhistory"/>
 		</a>
 	</xsl:template>

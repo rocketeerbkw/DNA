@@ -358,17 +358,23 @@ namespace BBC.Dna.Services
 
         private Article SetWritableArticleProperties(Article article, GuideEntryStyle style, string subject, string guideML,  int[] researcherUserIds)
         {
+            //Need to set this before processing the guideML
+            article.Style = style;
+
             // populate the writable parts of the object graph with the input article
             if (guideML != String.Empty)
             {
                 article.GuideMLAsString = guideML;
                 article.ArticleInfo.GetReferences(readerCreator, article.OriginalGuideMLAsXmlElement);
                 
-                if (!article.IsGuideMLWellFormed) { throw new Exception("GuideML is badly formed"); }
+                if (!article.IsGuideMLWellFormed) 
+                { 
+                    article.XmlError = "GuideML is badly formed2";
+                    throw new Exception("GuideML is badly formed"); 
+                }
             }
 
 
-            article.Style = style;
             if (subject != String.Empty)
             {
                 article.Subject = subject;
@@ -537,6 +543,8 @@ namespace BBC.Dna.Services
         public Stream GetArticle(string siteName, string articleId)
         {
             bool applySkin = QueryStringHelper.GetQueryParameterAsBool("applyskin", true);
+            bool ignoreCache = QueryStringHelper.GetQueryParameterAsBool("ignorecache", false);
+
             ISite site = GetSite(siteName);
 
             CallingUser callingUser = null;
@@ -559,12 +567,12 @@ namespace BBC.Dna.Services
                 //if it's an int assume it's an articleId and get the article based on that
                 if (Int32.TryParse(articleId, out actualId))
                 {
-                    article = Article.CreateArticle(cacheManager, readerCreator, callingUser, actualId, false, applySkin);
+                    article = Article.CreateArticle(cacheManager, readerCreator, callingUser, actualId, ignoreCache, applySkin);
                 }
                 else
                 {
                     //if it's a string assume it's a named article and try to get the article by that
-                    article = Article.CreateNamedArticle(cacheManager, readerCreator, callingUser, site.SiteID, articleId, false, applySkin);
+                    article = Article.CreateNamedArticle(cacheManager, readerCreator, callingUser, site.SiteID, articleId, ignoreCache, applySkin);
                 }
             }
             catch (ApiException ex)

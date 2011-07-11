@@ -15,14 +15,14 @@
 				<xsl:value-of select="DATEPOST/@RELATIVE"/>
 			</td>
 			<td>
-				<a>
+				<a target="_blank">
 					<xsl:attribute name="href">
 						<xsl:choose>
-							<xsl:when test="SITETYPE = 'Blog'">
-								<xsl:value-of select="concat(COMMENTFORUMURL, '?postid=', THREADENTRYID)"/>
+							<xsl:when test="COMMENTFORUMURL = ''">
+                <xsl:value-of select="concat('/dna/', SITEURL, '/NF', FORUMID, '?thread=', THREADID, '&amp;post=', THREADENTRYID, '#p', THREADENTRYID)"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="concat('/dna/', SITEURL, '/NF', FORUMID, '?thread=', THREADID, '&amp;post=', THREADENTRYID, '#p', THREADENTRYID)"/>
+                <xsl:value-of select="concat(COMMENTFORUMURL, '?postId=', THREADENTRYID, '#comment_', THREADENTRYID)"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
@@ -101,22 +101,23 @@
 						<xsl:otherwise>
 							<xsl:if test="MODERATIONSTATUS = 0">
 								<p class="dna-boards-failedpost">Live</p>
-							</xsl:if>						
-							<a class="popup">
-								<xsl:attribute name="href">
-									<xsl:value-of select="concat('/dna/secure/', SITEURL,'/comments/UserComplaintPage?PostID=' , THREADENTRYID, '&amp;s_start=1&amp;s_ptrt=')" />
-									<xsl:call-template name="library_serialise_ptrt_in">
-										<xsl:with-param name="string">
-											<xsl:apply-templates select="/H2G2" mode="library_memberservice_ptrt" />
-										</xsl:with-param>
-									</xsl:call-template>
-								</xsl:attribute>
-								<xsl:text>Report message</xsl:text>
-								<span class="blq-hide">
-									<xsl:value-of select="count(preceding-sibling::*)" />
-								</span>
-							</a>
-						</xsl:otherwise>
+											
+							  <a class="popup">
+								  <xsl:attribute name="href">
+									  <xsl:value-of select="concat('/dna/secure/', SITEURL,'/comments/UserComplaintPage?PostID=' , THREADENTRYID, '&amp;s_start=1&amp;s_ptrt=')" />
+									  <xsl:call-template name="library_serialise_ptrt_in">
+										  <xsl:with-param name="string">
+											  <xsl:apply-templates select="/H2G2" mode="library_memberservice_ptrt" />
+										  </xsl:with-param>
+									  </xsl:call-template>
+								  </xsl:attribute>
+								  <xsl:text>Report message</xsl:text>
+								  <span class="blq-hide">
+									  <xsl:value-of select="count(preceding-sibling::*)" />
+								  </span>
+							  </a>
+              </xsl:if>
+            </xsl:otherwise>
 					</xsl:choose>
 					<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
 						<p>

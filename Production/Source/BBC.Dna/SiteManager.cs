@@ -32,6 +32,7 @@ namespace BBC.Dna.Component
         /// <returns></returns>
         public bool GenerateXML( int siteId)
         {
+
             XmlElement xml = AddElementTag(RootElement, "SITEMANAGER");
             AddAttribute(xml, "SITEID", siteId);
 
@@ -70,6 +71,7 @@ namespace BBC.Dna.Component
                         AddIntElement(xml, "NOAUTOSWITCH", dataReader.GetByteNullAsZero("noautoswitch"));
                         AddIntElement(xml, "MODERATIONCLASSID", dataReader.GetInt32NullAsZero("modclassid"));
                         AddTextElement(xml, "CURRENTIDENTITYPOLICY", dataReader.GetStringNullAsEmpty("IdentityPolicy"));
+                        AddIntElement(xml, "BBCDIVISION", dataReader.GetInt16("BBCDivisionid"));
                     }
                 }
 
@@ -115,6 +117,7 @@ namespace BBC.Dna.Component
                 AddIntElement(xml, "NOAUTOSWITCH", 0);
                 AddIntElement(xml, "MODERATIONCLASSID", 1);
                 AddTextElement(xml, "CURRENTIDENTITYPOLICY", "");
+                AddIntElement(xml, "BBCDIVISION", 0);
             }
 
             // Get the Identity Policies and add them to the xml
@@ -139,6 +142,9 @@ namespace BBC.Dna.Component
             {
                 InputContext.Diagnostics.WriteExceptionToLog(ex);
             }
+
+            var divisions = Divisions.GetDivisions(AppContext.ReaderCreator);
+            SerialiseAndAppend(divisions, "");
 
             return true;
         }
@@ -208,6 +214,8 @@ namespace BBC.Dna.Component
                 dataReader.AddParameter("queuepostings", queuePostings);
                 dataReader.AddParameter("ssoservice", ssoService);
                 dataReader.AddParameter("IdentityPolicy", identityPolicy);
+                dataReader.AddParameter("bbcdivisionid", InputContext.GetParamIntOrZero("division", "division"));
+                
                 dataReader.Execute();
 
                 if (dataReader.Read())
@@ -376,6 +384,7 @@ namespace BBC.Dna.Component
                 if ( modClassId > 0 )
                     reader.AddParameter("modclassid", modClassId);
 
+                reader.AddParameter("bbcdivisionid", InputContext.GetParamIntOrZero("division", "division"));
                 reader.Execute();
                 reader.Read();
                 siteId = reader.GetInt32("SiteID");

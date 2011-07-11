@@ -25,7 +25,8 @@
           </xsl:choose>
         </xsl:for-each>
         <br/>
-        <a href="{$root}ModerateStats">Moderation Stats Page</a>
+        <a href="{$root}ModerateStats">Moderation Stats Page</a>&nbsp;&nbsp;
+        
         <br/>
         <br/>
         <xsl:choose>
@@ -33,7 +34,10 @@
             Enter an Entry ID or Post ID and click 'Fetch History'.<br/>
           </xsl:when>
           <xsl:when test="not(MODERATION-HISTORY/MODERATION)">
-            <b>There is no moderation history for the item specified.</b>
+            <b>
+              There is no moderation history for the item specified -
+              <a href="editpost?postid={MODERATION-HISTORY/@POSTID}">Edit post.</a>
+            </b>
             <br/>
           </xsl:when>
           <xsl:when test="not(number(MODERATION-HISTORY/@H2G2ID) &gt; 0 or number(MODERATION-HISTORY/@POSTID) &gt; 0 or MODERATION-HISTORY/@EXLINKURL)">
@@ -124,7 +128,8 @@
                     Moderation History for Entry A<xsl:value-of select="@H2G2ID"/>
                   </xsl:when>
                   <xsl:when test="@POSTID">
-                    Moderation History for Post P<xsl:value-of select="@POSTID"/>
+                    Moderation History for Post P<xsl:value-of select="@POSTID"/> -
+                    <a href="editpost?postid={@POSTID}">Edit post.</a>
                   </xsl:when>
                   <xsl:when test="@URL">
                     Moderation History for URL <xsl:value-of select="@URL"/>
@@ -140,7 +145,7 @@
             <b>Subject</b>:
             <xsl:choose>
               <xsl:when test="@POSTID">
-                <a href="{$root}F{@FORUMID}?thread={@THREADID}&amp;post={@POSTID}#p{@POSTID}">
+                <a href="/dna/{MODERATION/URLNAME}/F{@FORUMID}?thread={@THREADID}&amp;post={@POSTID}#p{@POSTID}">
                   <xsl:value-of select="SUBJECT"/>
                 </a>
               </xsl:when>

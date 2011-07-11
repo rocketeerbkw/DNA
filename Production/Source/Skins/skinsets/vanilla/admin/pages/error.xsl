@@ -23,6 +23,9 @@
     <div class="dna-error-box dna-main dna-main-bg dna-main-pad blq-clearfix">
 
       <xsl:choose>
+        <xsl:when test="ERROR/@TYPE='NotSecure'">
+          <h2>Secure Session Required</h2>
+        </xsl:when>
         <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
           <h2>Welcome to the Host Dashboard</h2>
         </xsl:when>
@@ -41,6 +44,13 @@
         </xsl:apply-templates>
 
         <xsl:choose>
+          <xsl:when test="ERROR/@TYPE='NotSecure'">
+            <p>To access this page, you must use a secure request as it may include some private user information.</p>
+
+            <p>To do this, in the address bar above, please change the beginning of the address from <b>"http://www.bbc.co.uk"</b> to <b>"https://ssl.bbc.co.uk"</b> and resubmit your request.</p>
+
+            <p>If you have arrived to this page from a link, please submit a bug to the Social Publishing Team.</p>
+          </xsl:when>
           <xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
             <p>
               You need to be granted the appropriate permissions to use this tool.<br />If you are having trouble logging in, please contact your <strong>social media representative</strong>.

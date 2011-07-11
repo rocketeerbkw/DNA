@@ -61,9 +61,14 @@
           </td>
         </tr>
         <tr>
-          <td align="right">SSO Service:</td>
+          <td align="right">Division:</td>
           <td>
-            <input type="text" name="ssoservice" value="{SSOSERVICE}"/>
+            <select name="division">
+              <xsl:apply-templates select="/H2G2/DIVISIONS/DIVISIONS/DIVISION" mode="sitemanager">
+                <xsl:with-param name="currentDivisionId" select="BBCDIVISION"/>
+              </xsl:apply-templates>
+            </select>
+            <input type="hidden" name="ssoservice" value="{SSOSERVICE}"/>
           </td>
         </tr>
         <tr>
@@ -358,8 +363,8 @@
           <td>
           </td>
           <td>
-            <input type="submit" name="update" value="Update Site"/>
-            <input type="submit" name="create" value="Create Site"/>
+            <input type="submit" name="update" value="Update Site"  onClick="return confirm('Are you sure you want update the service {DESCRIPTION}?')"/>
+            <input type="submit" name="create" value="Create Site"  onClick="return confirm('Are you sure you want create this service?"/>
           </td>
           <td>
             <xsl:variable name="siteconfigfields"><![CDATA[<MULTI-INPUT><ELEMENT NAME='SITECONFIG'></ELEMENT></MULTI-INPUT>]]></xsl:variable>
@@ -426,5 +431,18 @@
     </option>
   </xsl:template>
 
-
+  <xsl:template match="DIVISION" mode="sitemanager">
+    <xsl:param name="currentDivisionId"/>
+    <option>
+      <xsl:attribute name="value">
+        <xsl:value-of select="@ID"/>
+      </xsl:attribute>
+      <xsl:if test="$currentDivisionId = @ID">
+        <xsl:attribute name="selected">
+          <xsl:text>selected</xsl:text>
+        </xsl:attribute>
+      </xsl:if>
+      <xsl:value-of select="@NAME"/>
+    </option>
+  </xsl:template>
 </xsl:stylesheet>

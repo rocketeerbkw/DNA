@@ -38,6 +38,8 @@
   <ItemGroup>
     <None Include="udf_calcdistance.sql" />
     <None Include="udf_checkerr.sql" />
+    <None Include="udf_decryptemailaddress.sql" />
+    <None Include="udf_encryptemailaddress.sql" />
     <None Include="udf_generateh2g2id.sql" />
     <None Include="udf_getdnauseridfromloginname.sql" />
     <None Include="udf_GetGuideEntryType.sql" />
@@ -46,6 +48,7 @@
     <None Include="udf_GetSiteOptionSetting.sql" />
     <None Include="udf_GetVisibleSites.sql" />
     <None Include="udf_getusersiteidpairs.sql" />
+    <None Include="udf_hashemailaddress.sql" />
     <None Include="udf_HasUserAcceptedTermsAndConditionsOfSite.sql" />
     <None Include="udf_IsUserAcceptingSubscriptions.sql" />
     <None Include="udf_isusermemberofgroup.sql" />

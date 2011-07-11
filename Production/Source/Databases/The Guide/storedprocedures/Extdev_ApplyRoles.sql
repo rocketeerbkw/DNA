@@ -75,6 +75,20 @@ BEGIN
 	where userid= @superId
 END
 
+--add superuserkid to all sites
+select @superId = userid from users where loginname= @prefix+'_kidsuperuser'
+print @prefix+'_kidsuperuser:' +  cast(@superId as varchar(10))
+if @superId is null 
+BEGIN
+	RAISERROR('Missing kidsuperuser id',16,1);
+END
+ELSE
+BEGIN
+	update users 
+	set status=2
+	where userid= @superId
+END
+
 
 --add normal to all sites
 declare @normalId int

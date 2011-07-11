@@ -18,7 +18,7 @@ namespace RipleyTests
         //NOTE ENDDate values returned from the database will be the day after they values input
         //So in these tests we are just checking the database values are as we expect
 
-        [TestMethod]
+        [Ignore]
         public void TestTypedArticleUpdateCancelled()
         {
             Console.WriteLine("Before TestTypedArticleUpdateCancelled");
@@ -42,7 +42,7 @@ namespace RipleyTests
             }
         }
 
-        [TestMethod]
+        [Ignore]
         public void TestTypedArticleCreateCancelled()
         {
             Console.WriteLine("Before TestTypedArticleUpdateCancelled");
@@ -61,7 +61,7 @@ namespace RipleyTests
             }
         }
 
-        [TestMethod]
+        [Ignore]
         public void TestTypedArticleEditWithDateRange()
         {
             Console.WriteLine("Before TestTypedArticleEditWithDateRange");
@@ -116,7 +116,7 @@ namespace RipleyTests
             }
         }
 
-        [TestMethod]
+        [Ignore]
         public void TestTypedArticleEditWithDateRangeUsingFreeTextDates()
         {
             //create article first...
@@ -167,7 +167,7 @@ namespace RipleyTests
             }
         }
 
-        [TestMethod]
+        [Ignore]
         public void TestTypedArticleCreateWithDateRangeUsingFreeTextDates()
         {
             Console.WriteLine("Before TestTypedArticleCreateWithDateRangeUsingFreeTextDates");
@@ -230,7 +230,7 @@ namespace RipleyTests
             }
         }
 
-        [TestMethod]
+        [Ignore]
         public void TestTypedArticleCreateWithDateRange()
         {
             Console.WriteLine("Before TestTypedArticleCreateWithDateRange");

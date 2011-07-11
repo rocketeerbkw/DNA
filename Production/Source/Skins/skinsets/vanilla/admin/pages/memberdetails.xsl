@@ -180,7 +180,7 @@
 			</td>
 			<td>
 				<h5 class="blq-hide">Post <xsl:value-of select="position()" /></h5>
-				<xsl:value-of select="SITE/NAME"/>
+				<xsl:value-of select="SITE/DESCRIPTION"/>
 			</td>
 			<td>
         <a href="hostdashboarduseractivity?s_user={$userid}&amp;s_siteid={SITE/@ID}">

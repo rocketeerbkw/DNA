@@ -166,7 +166,7 @@ namespace FunctionalTests
         [TestMethod]
         public void UserList_SetPostModUser_ReturnsCorrectResults()
         {
-            var newModStatus = "Postmoderate";
+            var newModStatus = "Postmoderated";
             var newDuration = "1440";
 
             var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId); 
@@ -194,7 +194,7 @@ namespace FunctionalTests
         [TestMethod]
         public void UserList_SetPreModUser_ReturnsCorrectResults()
         {
-            var newModStatus = "Premoderate";
+            var newModStatus = "Premoderated";
             var newDuration = "1440";
 
             var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId);
@@ -244,13 +244,13 @@ namespace FunctionalTests
 
             CheckValidXml(xml, true);
 
-            CheckUpdateApplied(xml, "Banned", newDuration);
+            CheckUpdateApplied(xml, "Restricted", newDuration);
         }
 
         [TestMethod]
-        public void UserList_SetDeactivate_ReturnsCorrectResults()
+        public void UserList_SetDeactivated_ReturnsCorrectResults()
         {
-            var newModStatus = "Deactivate";
+            var newModStatus = "Deactivated";
             var newDuration = "0";
 
             var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId);
@@ -288,9 +288,9 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void UserList_SetDeactivateWithRemoveContent_ReturnsCorrectResults()
+        public void UserList_SetDeactivatedWithRemoveContent_ReturnsCorrectResults()
         {
-            var newModStatus = "Deactivate";
+            var newModStatus = "Deactivated";
             var newDuration = "0";
             var removeContent =true;
 
@@ -316,9 +316,9 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void UserList_SetDeactivateAsEditor_ReturnsError()
+        public void UserList_SetDeactivatedAsEditor_ReturnsError()
         {
-            var newModStatus = "Deactivate";
+            var newModStatus = "Deactivated";
             var newDuration = "0";
 
             var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId);
@@ -407,6 +407,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("userStatusDescription", newModStatus));
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
+            postData.Enqueue(new KeyValuePair<string, string>("additionalNotes", "additionalNotes"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
 
 
@@ -420,8 +421,15 @@ namespace FunctionalTests
 
             CheckValidXml(xml, true);
 
-            CheckUpdateApplied(xml, "Banned", newDuration);
-            CheckUpdateApplied(xml, "Banned", newDuration, false, secondSite);
+            CheckUpdateApplied(xml, "Restricted", newDuration);
+            CheckUpdateApplied(xml, "Restricted", newDuration, false, secondSite);
+
+            using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY("select * from UserPrefStatusAudit where userid=" + TestUserAccounts.GetSuperUserAccount.UserID + " and userupdateid in (select max(UserUpdateId) from UserPrefStatusAudit)");
+                Assert.IsTrue(reader.Read());
+                Assert.AreEqual("test - additionalNotes", reader.GetString("Reason"));
+            }
         }
 
         [TestMethod]
@@ -441,8 +449,8 @@ namespace FunctionalTests
                 }
             }
 
-            //deactivate user
-            var newModStatus = "Deactivate";
+            //Deactivated user
+            var newModStatus = "Deactivated";
             var newDuration = "0";
             var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId);
             Queue<KeyValuePair<string, string>> postData = new Queue<KeyValuePair<string, string>>();
@@ -520,8 +528,8 @@ namespace FunctionalTests
                 Assert.AreNotEqual(CommentStatus.Hidden.Removed_UserContentRemoved, post.hidden);
             }
 
-            //deactivate user
-            var newModStatus = "Deactivate";
+            //Deactivated user
+            var newModStatus = "Deactivated";
             var newDuration = "0";
             var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId);
             Queue<KeyValuePair<string, string>> postData = new Queue<KeyValuePair<string, string>>();
@@ -590,7 +598,7 @@ namespace FunctionalTests
 
             Assert.IsNotNull(userAccount);
 
-            if (newModStatus.ToUpper() != "DEACTIVATE")
+            if (newModStatus.ToUpper() != "DEACTIVATED")
             {
                 Assert.AreEqual(newModStatus.ToUpper(), userAccount.SelectSingleNode("USERSTATUSDESCRIPTION").InnerText.ToUpper());
             }
@@ -609,7 +617,7 @@ namespace FunctionalTests
                 }
             }
 
-            if (newModStatus.ToUpper() == "DEACTIVATE")
+            if (newModStatus.ToUpper() == "DEACTIVATED")
             {//audit does not contain site info
                 siteId = 0;
             }
@@ -620,7 +628,7 @@ namespace FunctionalTests
                 reader.ExecuteDEBUGONLY("select * from UserPrefStatusAudit where userid=" + TestUserAccounts.GetSuperUserAccount.UserID + " and userupdateid in (select max(UserUpdateId) from UserPrefStatusAudit)" );
                 Assert.IsTrue(reader.Read());
                 int auditId = reader.GetInt32("UserUpdateId");
-                Assert.AreEqual(newModStatus.ToUpper() == "DEACTIVATE", reader.GetBoolean("DeactivateAccount"));
+                Assert.AreEqual(newModStatus.ToUpper() == "DEACTIVATED", reader.GetBoolean("DeactivateAccount"));
                 Assert.AreEqual(removeContent, reader.GetBoolean("HideContent"));
 
 
@@ -629,13 +637,14 @@ namespace FunctionalTests
                 Assert.IsTrue(reader.HasRows);
                 switch(newModStatus.ToUpper())
                 {
-                    case "POSTMODERATE":
+                    case "POSTMODERATED":
                         Assert.AreEqual(2, reader.GetInt32("NewPrefStatus")); break;
-                    case "PREMODERATE":
+                    case "PREMODERATED":
                         Assert.AreEqual(1, reader.GetInt32("NewPrefStatus")); break;
-                    case "BANNED":
+                    case "RESTRICTED":
                         Assert.AreEqual(4, reader.GetInt32("NewPrefStatus")); break;
                 }
+
                 Assert.AreEqual(Int32.Parse(duration), reader.GetInt32("PrefDuration"));
 
             }
