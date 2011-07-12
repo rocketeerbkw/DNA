@@ -30,7 +30,7 @@ BEGIN
 		SET LockedBy = @userid, DateLocked = getdate()
 		FROM
 		(
-			SELECT TOP 10 g.* FROM ExLinkMod g
+			SELECT TOP 10 g.* FROM ExLinkMod g WITH(UPDLOCK)
 				INNER JOIN Sites s on s.siteid = g.siteid
 				LEFT JOIN GroupMembers m ON m.UserID = @UserID AND g.SiteID = m.SiteID AND m.GroupID = @modgroupid
 				WHERE (m.GroupID is not null or @issuperuser = 1) 
@@ -47,7 +47,7 @@ BEGIN
 		SET LockedBy = @userid, DateLocked = getdate()
 		FROM
 		(
-			SELECT TOP 10 g.* FROM ExLinkMod g 
+			SELECT TOP 10 g.* FROM ExLinkMod g WITH(UPDLOCK)
 				INNER JOIN Sites s on s.siteid = g.siteid
 				LEFT JOIN GroupMembers m ON m.UserID = @UserID AND g.SiteID = m.SiteID AND m.GroupID = @refgroupid
 				WHERE (m.GroupID is not null or @issuperuser = 1) 
