@@ -702,6 +702,9 @@ namespace BBC.Dna
                 {
                     InputContext.Diagnostics.WriteToLog("---** SignIn **---", "Set user with secure cookie failed!!! - " + secureCookie);
                 }
+
+                InputContext.Diagnostics.WriteToLog("---** SignIn **---", "Timing Info: "+signInComponent.GetLastTimingInfo());
+
                 return false;
             }
 

@@ -210,7 +210,7 @@ REGEDIT4
 "/acswithoutapi"="/dna/dnapages/CommentBox.aspx?"
 "/acsapi"="/dna/dnapages/CommentBoxUsingApi.aspx?"
 
-
+"/TestIdentity"="/dna/dnapages/TestIdentity.aspx?"
 "/DnaSignal"="/dna/dnapages/DnaSignal.aspx?"
 "/CommentForumList"="/dna/dnapages/CommentForumListPage.aspx?"
 "/Hierarchy"="/dna/dnapages/HierarchyPage.aspx?"
