@@ -672,7 +672,7 @@ namespace Tests
                 // Quickly update the user with a test email
                 using (IDnaDataReader reader = context.CreateDnaDataReader(""))
                 {
-                    reader.ExecuteDEBUGONLY("UPDATE dbo.Users SET EMail = 'TestFetchUserFromIDReturnsComplaintBannedStatus@Test.com' WHERE UserID = 24");
+                    reader.ExecuteDEBUGONLY("exec openemailaddresskey; UPDATE dbo.Users SET EncryptedEMail = dbo.udf_encryptemailaddress('TestFetchUserFromIDReturnsComplaintBannedStatus@Test.com',24) WHERE UserID = 24");
                 }
             }
 
