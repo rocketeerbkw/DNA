@@ -13,4 +13,5 @@ if it doesn't, otherwise returns one record for each entry in the table which ma
 
 CREATE PROCEDURE doesemailexist @email varchar(255)
 AS
-SELECT UserID, Cookie From Users WHERE email = @email AND Status <> 0
+	EXEC openemailaddresskey
+	SELECT UserID, Cookie From Users WHERE dbo.udf_decryptemailaddress(EncryptedEmail,UserID) = @email AND Status <> 0

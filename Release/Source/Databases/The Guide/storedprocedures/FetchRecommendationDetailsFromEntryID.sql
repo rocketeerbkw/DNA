@@ -5,13 +5,16 @@
 
 create procedure fetchrecommendationdetailsfromentryid @entryid int
 as
+
+EXEC openemailaddresskey
+
 select	RecommendationID,
 		SR.EntryID,
 		h2g2ID,
 		Subject,
 		ScoutID,
 		'ScoutName'			= U.Username,
-		'ScoutEmail'		= U.Email,
+		'ScoutEmail'		= dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId),
 		'ScoutFirstNames'	= U.FirstNames,
 		'ScoutLastName'		= U.LastName,
 		'ScoutTaxonomyNode'	= U.TaxonomyNode,

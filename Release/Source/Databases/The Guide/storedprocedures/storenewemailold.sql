@@ -11,6 +11,11 @@ a cookie checksum and a UID.
 */
 CREATE   PROCEDURE storenewemailold @email varchar(255)
 AS
+RAISERROR('storenewemailold DEPRECATED',16,1)
+
+/*
+	Deprecated - never called
+
 declare @uid int, @exists int
 declare @cookie uniqueidentifier, @userid int
 declare @checksum int, @active int
@@ -29,3 +34,5 @@ BEGIN
 END
 EXEC checksumcookie @cookie, @checksum OUTPUT
 SELECT 'UserID' = @userid, 'Cookie' = @cookie, 'Checksum' = @checksum, 'Exists' = @exists
+
+*/

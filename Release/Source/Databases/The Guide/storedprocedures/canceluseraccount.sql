@@ -20,10 +20,10 @@
 CREATE PROCEDURE canceluseraccount @userid int, @key int
 As
 
-declare @checksum int, @cookie uniqueidentifier, @email varchar(255)
+declare @checksum int, @cookie uniqueidentifier, @email varbinary(300)
 declare @result int, @reason varchar(255)
 -- Get the cookie from the database
-SELECT @cookie = Cookie, @email = email FROM Users WHERE UserID = @userid
+SELECT @cookie = Cookie, @email = EncryptedEmail FROM Users WHERE UserID = @userid
 IF @cookie IS NULL
 BEGIN
 	SELECT @result = 1, @reason = 'The user does not exist'
@@ -45,7 +45,7 @@ BEGIN
 	ELSE
 	BEGIN
 		UPDATE Users
-			SET Active = 0, email = NULL, Password = NULL, Cookie = newid()
+			SET Active = 0, EncryptedEmail = NULL, Password = NULL, Cookie = newid()
 			WHERE UserID = @userid
 		SELECT @result = 0
 	END

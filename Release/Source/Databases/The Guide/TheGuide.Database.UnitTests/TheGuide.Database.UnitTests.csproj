@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="GetUserReputationListTests.cs" />
     <Compile Include="GetUserReputationTests.cs" />
+    <Compile Include="EmailEncryptionTests.cs" />
     <Compile Include="verifyuseragainstbannedipaddressTests.cs" />
     <Compile Include="updatetrackedmemberlistTests.cs" />
     <Compile Include="IDnaDataReaderExtensions.cs" />

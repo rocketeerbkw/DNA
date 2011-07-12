@@ -1,5 +1,6 @@
 Create Procedure getuserstats @userid int
 As
+RAISERROR('getuserstats DEPRECATED',16,1)
 return (0)
 /*
 deprecated

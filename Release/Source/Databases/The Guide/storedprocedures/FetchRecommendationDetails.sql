@@ -4,13 +4,16 @@
 
 create procedure fetchrecommendationdetails @recommendationid int
 as
+
+EXEC openemailaddresskey
+
 select	RecommendationID,
 		SR.EntryID,
 		h2g2ID,
 		Subject,
 		ScoutID,
 		U1.Username		as ScoutName,
-		U1.Email		as ScoutEmail,
+		dbo.udf_decryptemailaddress(U1.EncryptedEmail,U1.UserId) as ScoutEmail,
 		U1.FirstNames	as ScoutFirstNames,
 		U1.LastName		as ScoutLastName,
 		U1.Area			as ScoutArea,
@@ -22,7 +25,7 @@ select	RecommendationID,
 		P1.SiteSuffix	as ScoutSiteSuffix,
 		Editor			as EditorID,
 		U2.Username		as EditorName,
-		U2.Email		as EditorEmail,
+		dbo.udf_decryptemailaddress(U2.EncryptedEmail,U2.UserId) as EditorEmail,
 		U2.FirstNames	as EditorFirstNames,
 		U2.LastName		as EditorLastName,
 		U2.Area			as EditorArea,

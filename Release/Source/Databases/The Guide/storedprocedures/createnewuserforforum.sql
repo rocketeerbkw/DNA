@@ -22,7 +22,7 @@ IF @userid = 0
 BEGIN
 
 	INSERT INTO dbo.SignInUserIDMapping SELECT SSOUserID = 0, IdentityUserID = 0
-	SELECT @userid = @@IDENTITY
+	SELECT @userid = SCOPE_IDENTITY()
 
 	-- Make sure the exact same time is used throughout
 	DECLARE @date datetime
@@ -41,11 +41,13 @@ BEGIN
 		SET @nickname = @displayname
 	END
 
+	DECLARE @encryptedEmail varbinary(8000)
+	EXEC openemailaddresskey
+	SET @encryptedEmail=dbo.udf_encryptemailaddress(@email,@userid)
 	
 	--Create user 
-	INSERT INTO Users (UserID, UserName, LoginName,  Email, Active, FirstNames, LastName )
-	--VALUES(@userid, @nickname, @username,  @email, 1, @firstnames, @lastname) <-- Reinsert to correctly collect firstname/lastname
-	VALUES(@userid, @nickname, @username,  @email, 1, NULL, NULL)
+	INSERT INTO Users ( UserID,  UserName,  LoginName,  EncryptedEmail, Active, FirstNames, LastName )
+	VALUES            (@userid, @nickname, @username,  @encryptedEmail, 1,      NULL,       NULL)
 	
 	--update forum with userid
 	update commentforums

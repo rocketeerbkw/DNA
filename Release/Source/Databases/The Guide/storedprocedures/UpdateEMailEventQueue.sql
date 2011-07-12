@@ -2,6 +2,8 @@ CREATE PROCEDURE updateemaileventqueue
 AS	
 BEGIN TRANSACTION
 
+EXEC openemailaddresskey
+
 -- Update the EMailEventQueue with items from the eventqueue that matches any users alerts
 DECLARE @Error int
 	INSERT INTO dbo.EmailEventQueue
@@ -109,7 +111,7 @@ EXEC SetEventTypeValInternal 'ET_CLUBEDITED', @ClubEdit OUTPUT
 EXEC SetEventTypeValInternal 'ET_CATEGORYHIDDEN', @NodeHidden OUTPUT
 
 -- Do the User Tagged bit 'ET_CATEGORYUSERTAGGED'
-SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 		eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 		eeq.ItemID, eeq.ItemType,
 		'ItemName' = h1.DisplayName,
@@ -136,7 +138,7 @@ LEFT JOIN dbo.Preferences p2 WITH(NOLOCK) ON p2.UserID = u2.UserID AND p2.SiteID
 WHERE eeq.ItemID2 = 0 AND eeq.EventType = @UserTagged
 UNION ALL
 (
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = h1.DisplayName,
@@ -165,7 +167,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the Post To Thread Bit 'ET_POSTNEWTHREAD'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = f.Title,
@@ -208,7 +210,7 @@ UNION ALL
 	WHERE eeq.ItemID2 = 0 AND eeq.EventType = @NewThread
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = f.Title,
@@ -254,7 +256,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the Forum Bit 'ET_FORUMEDITED'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = f.Title,
@@ -297,7 +299,7 @@ UNION ALL
 	WHERE eeq.EventType = @ForumEdit
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = f.Title,
@@ -343,7 +345,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the Post bit 'ET_POSTREPLIEDTO'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = t.FirstSubject,
@@ -386,7 +388,7 @@ UNION ALL
 	WHERE eeq.EventType = @PostRepliedTo
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = t.FirstSubject,
@@ -432,7 +434,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the Tagged Thread bit 'ET_CATEGORYTHREADTAGGED'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = h2.DisplayName,
@@ -460,7 +462,7 @@ UNION ALL
 	WHERE eeq.EventType = @ThreadTagged
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = h2.DisplayName,
@@ -491,7 +493,7 @@ UNION ALL
 UNION ALL
 (
 	 -- Do the Edit Club Bit 'ET_CLUBEDITED'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = c.Name,
@@ -518,7 +520,7 @@ UNION ALL
 	WHERE eeq.ItemType2 = 0 AND ItemID2 = 0 AND eeq.EventType = @ClubEdit
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = c.Name,
@@ -548,7 +550,7 @@ UNION ALL
 UNION ALL
 (
 	 -- Do the Tagged Club Bit 'ET_CATEGORYCLUBTAGGED'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = h2.DisplayName,
@@ -576,7 +578,7 @@ UNION ALL
 	WHERE eeq.EventType = @ClubTagged
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = h2.DisplayName,
@@ -607,7 +609,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the Article tagged 'ET_CATEGORYARTICLETAGGED'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = h2.DisplayName,
@@ -635,7 +637,7 @@ UNION ALL
 	WHERE eeq.EventType = @ArticleTagged
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = h2.DisplayName,
@@ -665,7 +667,7 @@ UNION ALL
 )UNION ALL
 (
 	-- Do the Article Edited bit 'ET_ARTICLEEDITED'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = g1.Subject,
@@ -692,7 +694,7 @@ UNION ALL
 	WHERE eeq.ItemType2 = 0 AND eeq.ItemID2 = 0 AND eeq.EventType = @ArticleEdit
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = g1.Subject,
@@ -722,7 +724,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the New team member for clubs 'ET_NEWTEAMMEMBER', 'ET_CLUBOWNERTEAMCHANGE', 'ET_CLUBMEMBERTEAMCHANGE' and 'ET_CLUBMEMBERAPPLICATIONCHANGE'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = c.Name,
@@ -749,7 +751,7 @@ UNION ALL
 	WHERE eeq.EventType IN (@NewTeamMember, @OwnerTeamChange, @MemberTeamChange, @MemberApplication) AND eeq.IsOwner = 1
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = c.Name,
@@ -779,7 +781,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the New team member for clubs 'ET_VOTEADDED'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = c.Name,
@@ -807,7 +809,7 @@ UNION ALL
 	WHERE eeq.EventType = @VoteAdded
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = c.Name,
@@ -838,7 +840,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the New team member for clubs 'ET_VOTEREMOVED'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = c.Name,
@@ -865,7 +867,7 @@ UNION ALL
 	WHERE eeq.EventType = @VoteRemoved
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = c.Name,
@@ -896,7 +898,7 @@ UNION ALL
 (
 	-- Do the links added 'ET_URL'
 	-- FIRST THE ARTICLE LINKS
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = c.Name,
@@ -924,7 +926,7 @@ UNION ALL
 	WHERE eeq.EventType = @LinkAdded AND eeq.ItemType2 = @ArticleType
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = c.Name,
@@ -956,7 +958,7 @@ UNION ALL
 (
 	-- Do the links added 'ET_URL'
 	-- FIRST THE URL LINKS
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = c.Name,
@@ -984,7 +986,7 @@ UNION ALL
 	WHERE eeq.EventType = @LinkAdded AND eeq.ItemType2 = @URLType
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = c.Name,
@@ -1015,7 +1017,7 @@ UNION ALL
 UNION ALL
 (
 	-- Do the links added 'ET_CATEGORYHIDDEN'
-	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+	SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 			eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 1, eeq.IsOwner,
 			eeq.ItemID, eeq.ItemType,
 			'ItemName' = h.DisplayName,
@@ -1043,7 +1045,7 @@ UNION ALL
 	WHERE eeq.EventType = @NodeHidden
 	UNION ALL
 	(
-		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, u.EMail,
+		SELECT	u.UserID, u.UserName, u.FirstNames, u.LastName, p.SiteSuffix, p.Title, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS EMail,
 				eeq.EventType, eeq.EventDate, eeq.NotifyType, eeq.SiteID, 'EMailType' = 2, eeq.IsOwner,
 				eeq.ItemID, eeq.ItemType,
 				'ItemName' = h.DisplayName,

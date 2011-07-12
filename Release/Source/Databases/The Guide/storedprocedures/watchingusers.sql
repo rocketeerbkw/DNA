@@ -1,12 +1,14 @@
 CREATE PROCEDURE watchingusers @userid int, @siteid int, @skip int = 0, @show int = 100000
 as
 
+EXEC openemailaddresskey;
+
 WITH WatchingUsers AS
 (
 	select 
 		u.UserID,
 		u.Cookie,
-		u.email,
+		dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) AS  email,
 		u.UserName,
 		u.Password,
 		u.FirstNames,

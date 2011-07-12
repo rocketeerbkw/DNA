@@ -29,7 +29,9 @@ DECLARE @ErrorCode INT
 declare @authorsemail varchar(255), @complainantsemail varchar(255), @assetid int
 declare @authorid int, @complainantid int
 
-select	@authorsemail = U.Email, 
+EXEC openemailaddresskey
+
+select	@authorsemail = dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId), 
 		@authorid = U.UserID, 
 		@complainantsemail = mod.Email, 
 		@complainantid = mod.complainantid,

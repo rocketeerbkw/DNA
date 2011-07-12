@@ -8,7 +8,7 @@
 				<xs:element name="MODERATOR">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element ref="USER"/>
+							<xs:element ref="USER" minOccurs="0"/>
               <xs:element name="CLASSES">
                 <xs:complexType>
                   <xs:sequence minOccurs="0">
@@ -23,6 +23,7 @@
 											<xs:complexType>
 												<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
 												<xs:attribute name="CLASSID" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="TYPE" type="xs:unsignedByte" use="required" />
 											</xs:complexType>
 										</xs:element>
 									</xs:sequence>
@@ -31,7 +32,7 @@
               <xs:element name="ACTIONITEMS">
                 <xs:complexType>
                   <xs:sequence>
-                    <xs:element maxOccurs="unbounded" name="ACTIONITEM">
+                    <xs:element maxOccurs="unbounded" name="ACTIONITEM" minOccurs="0">
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element name="TYPE" type="xs:string" />

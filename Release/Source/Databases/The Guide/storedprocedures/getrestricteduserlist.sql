@@ -22,6 +22,8 @@ AS
 
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
+	EXEC openemailaddresskey
+	
 	DECLARE @sql nvarchar(max)
 	
 	DECLARE @EditorGroupID int
@@ -47,7 +49,7 @@ AS
 					u.HideLocation, 
 					u.HideUserName, 
 					u.LoginName,
-					u.Email,
+					dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as Email,
 					p.PrefStatus,
 					us.UserStatusDescription,
 					ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,

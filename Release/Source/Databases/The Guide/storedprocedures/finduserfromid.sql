@@ -1,5 +1,8 @@
+
 CREATE  PROCEDURE finduserfromid @userid int = NULL, @h2g2id int = NULL, @siteid int = 1
 AS
+
+EXEC openemailaddresskey;
 
 -- If no userid supplied, assume the h2g2id of the user's masthead has been supplied
 IF @userid IS NULL
@@ -21,7 +24,7 @@ select TOP 1
 			'IdentityUserName'	= u.LoginName, 
 			sm.IdentityUserID,
 			u.Cookie,
-			u.email,
+			dbo.udf_decryptemailaddress(u.EncryptedEmail,u.userid) as email,
 			u.UserName,
 			u.Password,
 			u.FirstNames,
@@ -68,7 +71,7 @@ select TOP 1
 			PrefStatus,
 			CASE WHEN mcm.ModClassId IS NULL THEN 0 ELSE 1 END 'IsModClassMember',
 			'AutoSinBin' = @AutoSinBin,
-			'BannedFromComplaints' = CASE WHEN be.EMail IS NULL THEN 0 ELSE 1 END,
+			'BannedFromComplaints' = CASE WHEN be.EncryptedEmail IS NULL THEN 0 ELSE 1 END,
 			ISNULL(u.LastUpdatedDate, DATEADD(YEAR, -1, u.DateJoined)) as LastUpdatedDate
 from Users U WITH(NOLOCK)
 INNER JOIN MastHeads m WITH(NOLOCK) on U.UserID = m.UserID AND m.SiteID = @siteid
@@ -78,7 +81,7 @@ left join Preferences P WITH(NOLOCK) on (P.UserID = U.UserID OR P.UserID = 0) AN
 INNER JOIN Sites s WITH(NOLOCK) ON s.SiteId = @siteid
 LEFT JOIN ModerationClassMembers mcm WITH(NOLOCK) ON mcm.UserId = @userid AND s.ModClassId = mcm.ModClassId
 INNER JOIN Journals J WITH(NOLOCK) on J.UserID = u.UserID and J.SiteID = @siteid
-LEFT JOIN dbo.BannedEMails be WITH(NOLOCK) ON u.EMail = be.Email AND be.ComplaintBanned = 1
+LEFT JOIN dbo.BannedEMails be WITH(NOLOCK) ON dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) = dbo.udf_decryptemailaddress(be.EncryptedEmail,0) AND be.ComplaintBanned = 1
 LEFT JOIN SignInUserIdMapping sm WITH(NOLOCK) ON sm.DnaUserID = U.UserID
 where U.UserID = @userid
 and u.status<>0 -- deactivated users shouldn't be returned

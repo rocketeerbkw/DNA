@@ -34,7 +34,7 @@
 	           		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
 				    	<select name="s_siteid" id="s_siteid">
 				    		<option selected="selected" value="all">All <xsl:value-of select="$dashboardtypeplural" /></option>
-				    		<xsl:apply-templates select="MODERATORHOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
+				    		<xsl:apply-templates select="MODERATOR-HOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
 				    	</select>
 				    	<div class="dna-buttons">
 				    		<input type="submit" value="go" />
@@ -50,14 +50,14 @@
 			<div class="dna-fl dna-main-threequarter">
 				<div class="dna-box">
 					<h3>Referrals <xsl:call-template name="objects_subheading" /></h3>
-					<xsl:apply-templates select="MODERATORHOME/MODERATIONQUEUES" mode="objects_moderator_queuedreffered" />
+					<xsl:apply-templates select="MODERATOR-HOME/MODERATION-QUEUES" mode="objects_moderator_queuedreffered" />
 				</div>
 			</div>
 			
 			<div class="dna-fr dna-main-threequarter">
 				<div class="dna-box dna-mod-stats">
 					<h3>Moderation statistics  <xsl:call-template name="objects_subheading" /></h3>
-					<xsl:apply-templates select="MODERATORHOME/MODERATIONQUEUES" mode="objects_moderator_queued" />
+					<xsl:apply-templates select="MODERATOR-HOME/MODERATION-QUEUES" mode="objects_moderator_queued" />
 				</div>
 			</div>			
 		</div>

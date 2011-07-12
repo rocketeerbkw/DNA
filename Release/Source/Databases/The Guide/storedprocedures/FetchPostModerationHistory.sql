@@ -6,6 +6,8 @@ create procedure fetchpostmoderationhistory @postid int
 as
 set transaction isolation level read uncommitted
 
+EXEC openemailaddresskey
+
 declare @rows int
 
 select @rows = count(*)
@@ -59,7 +61,7 @@ BEGIN
 	U4.LastName as ComplainantLastName, 
 	case when P4.PrefStatus is null then 0 else P4.PrefStatus end as ComplainantStatus, 
 	U4.TaxonomyNode as ComplainantTaxonomyNode, 
-	U4.Email as ComplainantEmail
+	dbo.udf_decryptemailaddress(U4.EncryptedEmail,U4.UserId) as ComplainantEmail
 from ThreadMod TM
 inner join threadmodhistory tmh on tm.modid = tmh.modid
 inner join ThreadEntries TE on TE.EntryID = TM.PostID
@@ -107,7 +109,7 @@ BEGIN
 		U4.LastName as ComplainantLastName, 
 		case when P4.PrefStatus is null then 0 else P4.PrefStatus end as ComplainantStatus, 
 		U4.TaxonomyNode as ComplainantTaxonomyNode, 
-		U4.Email as ComplainantEmail,
+		dbo.udf_decryptemailaddress(U4.EncryptedEmail,U4.UserId) as ComplainantEmail, 
 		0 as ReasonId
 	from ThreadMod TM
 	inner join ThreadEntries TE on TE.EntryID = TM.PostID

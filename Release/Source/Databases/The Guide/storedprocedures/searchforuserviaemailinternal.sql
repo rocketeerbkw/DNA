@@ -1,5 +1,8 @@
 CREATE PROCEDURE searchforuserviaemailinternal @viewinguserid int, @email varchar(255), @checkallsites tinyint
 AS
+
+EXEC openemailaddresskey
+
 -- Please note that you should check to make sure that the email is not null or empty before calling this procedure
 -- as doing so will most likley cause a database slow down
 -- See if we want all sites or just the ones the viewing user is an editor on
@@ -13,7 +16,7 @@ BEGIN
 	SELECT	u.UserID,
 			u.UserName,
 			u.LoginName,
-			u.Email,
+			dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) AS Email,
 			p.PrefStatus,
 			us.UserStatusDescription,
 			ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,
@@ -32,7 +35,7 @@ BEGIN
 		INNER JOIN Userstatuses us WITH(NOLOCK) ON us.UserStatusID = p.PrefStatus
 		INNER JOIN GroupMembers g WITH(NOLOCK) ON g.UserID = @ViewingUserID AND g.GroupID = @EditorGroupID AND g.SiteID = s.SiteID
 		INNER JOIN SignInUserIdMapping sm WITH(NOLOCK) ON sm.DnaUserID = u.UserID
-		WHERE u.Email = @Email
+		WHERE u.HashedEmail = dbo.udf_hashemailaddress(@Email)
 		ORDER BY u.UserID DESC, s.SiteID
 END
 ELSE
@@ -41,7 +44,7 @@ BEGIN
 	SELECT	u.UserID,
 			u.UserName,
 			u.LoginName,
-			u.Email,
+			dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) AS Email,
 			p.PrefStatus,
 			us.UserStatusDescription,
 			ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,
@@ -59,6 +62,6 @@ BEGIN
 		INNER JOIN Sites s WITH(NOLOCK) ON s.SiteID = p.SiteID
 		INNER JOIN Userstatuses us WITH(NOLOCK) ON us.UserStatusID = p.PrefStatus
 		INNER JOIN SignInUserIdMapping sm WITH(NOLOCK) ON sm.DnaUserID = u.UserID
-		WHERE u.Email = @Email
+		WHERE u.HashedEmail = dbo.udf_hashemailaddress(@Email)
 		ORDER BY u.UserID DESC, s.SiteID
 END

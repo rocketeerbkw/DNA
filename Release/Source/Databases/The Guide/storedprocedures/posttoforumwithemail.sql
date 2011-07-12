@@ -2,8 +2,9 @@ CREATE PROCEDURE posttoforumwithemail @email varchar(255), @forumid int, @inrepl
 AS
 declare @userid int
 
+EXEC openemailaddresskey
 
-SELECT @userid = UserID FROM Users WHERE @email = email
+SELECT @userid = UserID FROM Users WHERE dbo.udf_hashemailaddress(@email) = hashedemail
 
 BEGIN TRANSACTION
 DECLARE @ErrorCode INT

@@ -8,6 +8,7 @@ Create Procedure createuser	@email varchar(255) = NULL,
 								@status int = 1,
 								@anonymous bit = 0
 As
+RAISERROR('createuser DEPRECATED',16,1)
 
 -- DEPRECATED. This procedure is no longer used by DNA
 

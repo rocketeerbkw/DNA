@@ -1,5 +1,8 @@
 CREATE PROCEDURE searchforuserviausername @viewinguserid int, @username varchar(255), @checkallsites tinyint
 AS
+
+EXEC openemailaddresskey
+
 -- Check to see we've been given a valid name. Don't do anything if it's empty or NULL
 IF (@UserName != '' AND @UserName IS NOT NULL) 
 BEGIN
@@ -13,7 +16,7 @@ BEGIN
 		SELECT	u.UserID,
 				u.UserName,
 				u.LoginName,
-				u.Email,
+				dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) AS Email,
 				p.PrefStatus,
 				us.UserStatusDescription,
 				ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,
@@ -41,7 +44,7 @@ BEGIN
 		SELECT	u.UserID,
 				u.UserName,
 				u.LoginName,
-				u.Email,
+				dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) AS Email,
 				p.PrefStatus,
 				us.UserStatusDescription,
 				ISNULL(p.PrefStatusDuration,0) As PrefStatusDuration,

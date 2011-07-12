@@ -1,8 +1,11 @@
 CREATE PROCEDURE getusernamefromid @iuserid int, @siteid int
 AS
+
+EXEC openemailaddresskey
+
 SELECT u.UserID,
 	   u.Cookie,
-	   u.email,
+	   dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as email,
 	   u.UserName,
 	   u.Password,
 	   u.FirstNames,

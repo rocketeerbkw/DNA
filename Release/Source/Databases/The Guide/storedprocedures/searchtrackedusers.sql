@@ -62,6 +62,8 @@ begin
 	begin
 		set @searchterm = '%' + @emailaddress + '%'
 		
+		EXEC openemailaddresskey
+		
 		insert into #tempmemberslist
 		select U.UserID, 
 			U.Username, 
@@ -73,7 +75,7 @@ begin
 		inner join Users U WITH(NOLOCK) on U.UserID = P.UserID
 		left join UsersTags UT WITH(NOLOCK) on UT.UserID = U.UserID and UT.SiteID = @siteid
 		left join UserTags UT2 WITH(NOLOCK) on UT2.UserTagID = UT.UserTagID
-		where P.SiteID = @siteid and U.Email LIKE @searchterm AND P.ContentFailedOrEdited = 1
+		where P.SiteID = @siteid and dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserID) LIKE @searchterm AND P.ContentFailedOrEdited = 1
 		
 		set @rowcount = @@ROWCOUNT
 	end

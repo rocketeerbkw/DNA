@@ -14,9 +14,11 @@ BEGIN
 	BEGIN TRANSACTION
 	DECLARE @ErrorCode INT
 
+	EXEC openemailaddresskey
+
 	-- Get the First, last, and user names from the DNA db
 	DECLARE @firstnamesInDNA varchar(255), @lastnameInDNA varchar(255), @UserNameInDNA nvarchar(255), @CurrentEmail varchar(255)
-	SELECT @firstnamesInDNA = FirstNames, @lastnameInDNA = LastName, @UserNameInDNA = UserName, @CurrentEmail = Email
+	SELECT @firstnamesInDNA = FirstNames, @lastnameInDNA = LastName, @UserNameInDNA = UserName, @CurrentEmail = dbo.udf_decryptemailaddress(EncryptedEmail,UserId)
 			FROM Users WHERE UserID = @UserID
 		
 	IF (@displayname IS NOT NULL AND @displayname != @UserNameInDNA AND LEN(@displayname) > 0)
@@ -65,8 +67,9 @@ BEGIN
 	END
 
 	UPDATE Users
-	--SET EMail = @email, FirstNames = @firstnames, LastName = @lastname, LoginName = @loginname, username = @UserNameInDNA, LastUpdatedDate = GetDate() where UserID = @userid <-- Reinsert to correctly collect firstname/lastname
-	SET EMail = @email, FirstNames = NULL, LastName = NULL, LoginName = @loginname, username = @UserNameInDNA, LastUpdatedDate = ISNULL(@LastUpdated, GetDate()) where UserID = @userid
+	  --SET EMail = @email, FirstNames = @firstnames, LastName = @lastname, LoginName = @loginname, username = @UserNameInDNA, LastUpdatedDate = GetDate() where UserID = @userid <-- Reinsert to correctly collect firstname/lastname
+		SET EncryptedEMail = dbo.udf_encryptemailaddress(@email,UserId), FirstNames = NULL, LastName = NULL, LoginName = @loginname, username = @UserNameInDNA, LastUpdatedDate = ISNULL(@LastUpdated, GetDate()) 
+		where UserID = @userid
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN

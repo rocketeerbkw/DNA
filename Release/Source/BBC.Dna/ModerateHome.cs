@@ -61,16 +61,7 @@ namespace BBC.Dna.Component
         {
             RootElement.RemoveAll();
 
-            TryGetModerateHomePageXml();
-        }
-        /// <summary>
-        /// Method called to try and create the moderate home page xml, gathers the input params, 
-        /// gets the correct records from the DB and formulates the XML
-        /// </summary>
-        private void TryGetModerateHomePageXml()
-        {
             ModHomeParameters modHomeParams = new ModHomeParameters();
-
             TryGetPageParams(ref modHomeParams);
 
             GenerateModerateHomePageXml(modHomeParams);
@@ -144,39 +135,18 @@ namespace BBC.Dna.Component
             AddInside(_pageOwnerElement, pageOwner);
 
             ProcessSubmission(modHomeParams);
-            CreateForm(modHomeParams);
-
-            //ModClasses component added seperately in the aspx page
-        }
-
-        private void CreateForm(ModHomeParameters modHomeParams)
-        {
             bool isRefereeForAnySite = false;
             isRefereeForAnySite = CheckRefereeForAnySite();
 
-            XmlElement modHomeForm = AddElementTag(RootElement, "MODERATOR-HOME");
-            AddAttribute(modHomeForm, "USER-ID", modHomeParams.OwnerID);
-            AddAttribute(modHomeForm, "ISREFEREE", isRefereeForAnySite);
-            AddAttribute(modHomeForm, "FASTMOD", modHomeParams.FastMod);
-            AddAttribute(modHomeForm, "NOTFASTMOD", modHomeParams.NotFastMod);
-
-            GenerateModStatsXml(modHomeForm, modHomeParams, isRefereeForAnySite);
-        }
-
-        private void GenerateModStatsXml(XmlElement parent, ModHomeParameters modHomeParams, bool isRefereeForAnySite)
-        {
             var moderatorInfo = ModeratorInfo.GetModeratorInfo(AppContext.ReaderCreator, modHomeParams.OwnerID, InputContext.TheSiteList);
-            SerialiseAndAppend(moderatorInfo, parent.Name);
 
             bool referrals = InputContext.ViewingUser.IsSuperUser;
-	        if ( !referrals )
-	        {
-		        referrals = isRefereeForAnySite;
-	        }
-
-            XmlElement modQueues = AddElementTag(parent, "MODERATION-QUEUES");
+            if (!referrals)
+            {
+                referrals = isRefereeForAnySite;
+            }
             ModStats modStats = ModStats.FetchModStatsByModClass(AppContext.ReaderCreator, modHomeParams.OwnerID, moderatorInfo, referrals, modHomeParams.FastMod != 0);
-            SerialiseAndAppend(modStats, parent.Name);
+            SerialiseAndAppend(modStats, "");
         }
 
         private bool CheckRefereeForAnySite()

@@ -85,7 +85,7 @@ namespace FunctionalTests
                 IInputContext context = DnaMockery.CreateDatabaseInputContext();
                 using (IDnaDataReader reader = context.CreateDnaDataReader(""))
                 {
-                    reader.ExecuteDEBUGONLY("delete from bannedemails where email='mark.howitt@bbc.co.uk'");//this is dotnetnormaluser's email
+                    reader.ExecuteDEBUGONLY("exec removebannedemail @email='mark.howitt@bbc.co.uk'");//this is dotnetnormaluser's email
                     request.RequestPage("dnasignal?action=recache-bannedEmails");
                 }
             }

@@ -4,6 +4,9 @@
 
 create procedure fetcharticlemoderationhistory @h2g2id int
 as
+
+EXEC openemailaddresskey
+
 select AM.*, 
 	AM.NewArticle as NewItem, 
 	G.Subject, 
@@ -31,7 +34,7 @@ select AM.*,
 	U4.UserName as ComplainantUserName, 
 	U4.FirstNames as ComplainantFirstNames, 
 	U4.Lastname as ComplainantLastName, 
-	U4.Email as ComplainantEmail, 
+	dbo.udf_decryptemailaddress(U4.EncryptedEmail,U4.UserId) as ComplainantEmail, 
 	case when P4.PrefStatus is null then 0 else P4.PrefStatus end  as ComplainantStatus, 
 	U4.TaxonomyNode as complainanttaxonomynode
 from ArticleMod AM

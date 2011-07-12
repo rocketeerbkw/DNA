@@ -3,6 +3,8 @@ Create Procedure finduserfromnameoremail @nameoremail varchar(255)
 -- horrible fat query but 
 
 As
+	RAISERROR('finduserfromnameoremail DEPRECATED',16,1)
+
 	return (0)
 	-- this procedure is deprecated
 	/*

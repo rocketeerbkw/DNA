@@ -1282,6 +1282,7 @@
     <None Include="addbannedusersipaddress.sql" />
     <None Include="ApplyUserReputation.sql" />
     <None Include="ApplyUserReputations.sql" />
+    <None Include="getuserstatus.sql" />
     <None Include="getBBCDivisions.sql" />
     <None Include="GetUserReputationList.sql" />
     <None Include="updatetrackedmemberformodclass.sql" />
@@ -1334,6 +1335,7 @@
     <None Include="getuserfromidentityusername.sql" />
     <None Include="QueueThreadEntryForModeration.sql" />
     <None Include="removehandledbievents.sql" />
+    <None Include="rethrowerror.sql" />
     <None Include="riskmod_getsitestate.sql" />
     <None Include="riskmod_postriskmodthreadentrytoforum.sql" />
     <None Include="riskmod_processriskassessmentforthreadentry.sql" />
