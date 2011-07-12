@@ -143,9 +143,14 @@
 		</xsl:call-template>
     	<xsl:text>%2FUserComplaintPage%3FPostId=</xsl:text>
 		<xsl:value-of select="USER-COMPLAINT-FORM/POST-ID | USERCOMPLAINT/@POSTID | USERCOMPLAINT/@H2G2ID"/>
-		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_step']">
-			<xsl:value-of select="concat('&amp;s_step=', number(/H2G2/PARAMS/PARAM[NAME = 's_step']/VALUE) + 1)"/>
-		</xsl:if>
+    <xsl:choose>
+      <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_start']">
+        <xsl:value-of select="concat('%26s_start=', number(/H2G2/PARAMS/PARAM[NAME = 's_start']/VALUE) + 1)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>%26s_start=2</xsl:text>
+      </xsl:otherwise>
+    </xsl:choose>
 	</xsl:template>
 
   <xsl:template match="//H2G2[@TYPE = 'ERROR']" mode="library_identity_ptrt">
