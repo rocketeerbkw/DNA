@@ -12,32 +12,6 @@ namespace BBC.Dna
     /// </summary>
     public class ModerationUserStatuses : DnaInputComponent
     {
-        /// <summary>
-        /// User Moderation Statuses.
-        /// </summary>
-        public enum Status
-        {
-            /// <summary>
-            /// 
-            /// </summary>
-            Standard,
-            /// <summary>
-            /// 
-            /// </summary>
-            Premoderated,
-            /// <summary>
-            /// 
-            /// </summary>
-            Postmoderated,
-            /// <summary>
-            /// 
-            /// </summary>
-            SendForReview,
-            /// <summary>
-            /// 
-            /// </summary>
-            Restricted
-        }
 
         /// <summary>
         /// 

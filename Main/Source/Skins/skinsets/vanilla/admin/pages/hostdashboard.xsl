@@ -93,7 +93,7 @@
               <li><a href="userreputationreport">User Reputation Report</a></li>
               <li><a href="/dna/moderation/termsfilteradmin" target="_blank">Terms Filter Admin</a></li>
               <li>
-                <a href="/dna/moderation/moderate?newstyle=1" target="_blank">Moderation Homepage</a>
+                <a href="/dna/moderation/moderationhome" target="_blank">Moderation Homepage</a>
               </li>
             </xsl:if>								
 					</ul>

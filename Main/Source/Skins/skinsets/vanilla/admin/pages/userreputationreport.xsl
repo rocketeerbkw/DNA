@@ -47,7 +47,7 @@
             </select>
           </fieldset>
           <fieldset class="dna-fl dna-search-userlist">
-            <label>Moderation Status:</label>
+            <label>Determined Status:</label>
             <select id="s_modstatus" name="s_modstatus">
               
               <xsl:apply-templates select="USERREPUTATIONLIST" mode="search_modstatus"/>
@@ -189,6 +189,12 @@
         <xsl:attribute name="selected">selected</xsl:attribute>
       </xsl:if>
       Banned
+    </option>
+    <option value="Trusted">
+      <xsl:if test="@MODSTATUS = '6'">
+        <xsl:attribute name="selected">selected</xsl:attribute>
+      </xsl:if>
+      Trusted
     </option>
   </xsl:template>
 

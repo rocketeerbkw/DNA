@@ -183,6 +183,15 @@ namespace TestUtils
         }
 
         /// <summary>
+        /// Creates the user account details for the trusted user
+        /// </summary>
+        /// <returns>The user account details for the user</returns>
+        public static UserAccount GetTrustedUserAccount
+        {
+            get { return new UserAccount("test_trusted", "d0ntt3ll", "1309952850216|test_trusted|test_trusted|1278932260628|0|a815ee222d1cabee1209b3dcba5f324daabea7579747", "2e331bab30933c96fea83276ef383b17b5d85a43", 1165333430, true); }
+        }
+
+        /// <summary>
         /// Creates the user account details for a user that's not logged in
         /// </summary>
         /// <returns>The user account details for the user</returns>

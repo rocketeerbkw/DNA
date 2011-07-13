@@ -154,6 +154,25 @@ namespace DnaIdentityWebServiceProxy
             }
         }
 
+        private string Trusted_Test
+        {
+            get
+            {
+                StringBuilder details = new StringBuilder();
+                details.Append("<signInDetails>");
+                details.Append(string.Format("<{0}>{1}</{0}>", "logInName", "trusted_test"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "identityUserID", "1309952850216"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "displayName", "trusted_test"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "1309952850216|trusted_test|trusted_test|0|DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
+                details.Append("</signInDetails>");
+
+                return details.ToString();
+            }
+        }
+
         private string ProfileAPITest
         {
             get
@@ -254,6 +273,10 @@ namespace DnaIdentityWebServiceProxy
             else if (userID == "dotnetnotableuser")
             {
                 userDetails = DotNetNotableUser;
+            }
+            else if (userID == "test_trusted")
+            {
+                userDetails = Trusted_Test;
             }
             else if (userID == "profileapitest")
             {

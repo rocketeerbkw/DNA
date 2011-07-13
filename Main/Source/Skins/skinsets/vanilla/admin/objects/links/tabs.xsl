@@ -35,32 +35,32 @@
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
 						<a href="hostdashboard?{$dashboardsiteuser}" class="all">
-							All <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS" mode="objects_moderator_allactionitemtotal"/>
+							All <xsl:apply-templates select="MODERATOR-HOME/MODERATOR/ACTIONITEMS" mode="objects_moderator_allactionitemtotal"/>
 						</a>
 					</li>
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '1'">
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
-			            <a href="hostdashboard?s_type=1{$dashboardsiteuser}" class="blogs">Blogs <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Blog']" mode="objects_moderator_actionitemtotal"/></a>
+			            <a href="hostdashboard?s_type=1{$dashboardsiteuser}" class="blogs">Blogs <xsl:apply-templates select="MODERATOR-HOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Blog']" mode="objects_moderator_actionitemtotal"/></a>
 					</li>
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '2'">
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
-						<a href="hostdashboard?s_type=2{$dashboardsiteuser}" class="messageboards">Messageboards <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']" mode="objects_moderator_actionitemtotal" /></a>
+						<a href="hostdashboard?s_type=2{$dashboardsiteuser}" class="messageboards">Messageboards <xsl:apply-templates select="MODERATOR-HOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Messageboard']" mode="objects_moderator_actionitemtotal" /></a>
 					</li>
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '3'">
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
-						<a href="hostdashboard?s_type=3{$dashboardsiteuser}" class="communities">Communities <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Community']" mode="objects_moderator_actionitemtotal" /></a>
+						<a href="hostdashboard?s_type=3{$dashboardsiteuser}" class="communities">Communities <xsl:apply-templates select="MODERATOR-HOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Community']" mode="objects_moderator_actionitemtotal" /></a>
 					</li>
 					<li>
 						<xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '4'">
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
-						<a href="hostdashboard?s_type=4{$dashboardsiteuser}" class="stories">Stories <xsl:apply-templates select="MODERATORHOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'EmbeddedComments']" mode="objects_moderator_actionitemtotal" /></a>
+						<a href="hostdashboard?s_type=4{$dashboardsiteuser}" class="stories">Stories <xsl:apply-templates select="MODERATOR-HOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'EmbeddedComments']" mode="objects_moderator_actionitemtotal" /></a>
 					</li>																
 				</xsl:otherwise>
 			</xsl:choose>

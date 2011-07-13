@@ -25,6 +25,7 @@ namespace BBC.Dna.Moderation
         UserModeratedStandard = 16,
         UserPost = 17,
         ComplaintPostUpHeld = 18,
-        ComplaintPostRejected = 19
+        ComplaintPostRejected = 19,
+        UserModeratedTrusted = 20
     }
 }
