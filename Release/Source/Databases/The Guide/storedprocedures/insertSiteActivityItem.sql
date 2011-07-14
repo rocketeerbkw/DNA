@@ -24,18 +24,42 @@ BEGIN
 	inner join dbo.ModerationClass m on m.modclassid = s.modclassid
 	inner join dbo.UserEventScore ues on ues.modclassid = m.modclassid
 	where s.siteid=@siteid and ues.typeid=@type
+--print '@score=' + convert(varchar(50), @score)
+	
+	declare @maxscore smallint
+	select @maxscore = maxscore 
+	from dbo.userreputationthreshold urpt
+	inner join sites s on s.modclassid = urpt.modclassid
+	where s.siteid=@siteid
+--print '@maxscore=' + convert(varchar(50), @maxscore)
+	--get current score
+	declare @currentscore smallint
+	set @currentscore =0
+	select @currentscore = isnull(accumulativescore,0)
+	from dbo.UserReputationScore urs
+	inner join sites s on s.modclassid = urs.modclassid
+	where userid=@userid
+	and s.siteid=@siteid
+--print '@currentscore=' + convert(varchar(50), @currentscore)
 
+	declare @userscore smallint
+	set @userscore = @score + @currentscore
+	if @userscore > @maxscore
+	begin
+		set @userscore = @maxscore
+	end
+--print '@userscore=' + convert(varchar(50), @userscore)
 	begin tran
 
 	update dbo.userreputationscore
-	set accumulativescore  = accumulativescore+@score, lastupdated=getdate()
+	set accumulativescore  = @userscore, lastupdated=getdate()
 	where userid=@userid
 	and modclassid= (select modclassid from sites where siteid=@siteid)
 	
 	if @@rowcount =0
 	BEGIN
 		insert into dbo.userreputationscore --(userid, modclassid, accumulativescore)
-		select @userid, modclassid, @score, getdate()
+		select @userid, modclassid, @userscore, getdate()
 		from sites where 
 		siteid=@siteid
 	END

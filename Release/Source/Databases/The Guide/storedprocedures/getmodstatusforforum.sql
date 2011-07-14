@@ -78,7 +78,7 @@ begin
 	select @premoderation = 0, @unmoderated = 0
 end
 
-if (@prefstatus = 0)
+if (@prefstatus = 0 or @prefstatus = 6)-- trusted user or standard user
 begin
 	-- make sure that if premoderated, the unmoderated flag is not in an illegal state
 	if (@premoderation = 1)

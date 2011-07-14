@@ -39,6 +39,12 @@
           <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = '2'">
             <option value="Deactivated">Deactivate</option>
           </xsl:if>
+          <option value="Trusted">
+            <xsl:if test="USERREPUTATION/REPUTATIONDETERMINEDSTATUS = 'Trusted'">
+              <xsl:attribute name="selected">selected</xsl:attribute>
+            </xsl:if>
+            Trusted
+          </option>
         </select>
       </div>
       <div id="durationContainer">

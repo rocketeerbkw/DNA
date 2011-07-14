@@ -264,6 +264,46 @@ namespace FunctionalTests.Services.Comments
         }
 
         /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsTrustedUser()
+        {
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserTrustedUser();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "</comment>", text);
+
+            // Setup the request url
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            //check the TextAsHtml element
+            //string textAsHtml = xml.DocumentElement.ChildNodes[2].InnerXml;
+            //Assert.IsTrue(textAsHtml == "<div class=\"dna-comment text\" xmlns=\"\">" + text + "</div>");
+
+            CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+            Assert.IsTrue(returnedComment.text == text);
+            Assert.IsNotNull(returnedComment.User);
+            Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+
+            DateTime created = DateTime.Parse(returnedComment.Created.At);
+            DateTime createdTest = BBC.Dna.Utils.TimeZoneInfo.GetTimeZoneInfo().ConvertUtcToTimeZone(DateTime.Now.AddMinutes(5));
+            Assert.IsTrue(created < createdTest);//should be less than 5mins
+            Assert.IsTrue(!String.IsNullOrEmpty(returnedComment.Created.Ago));
+        }
+
+        /// <summary>
         /// Test the auto-creation of a forum using XML
         /// Also show that the call can be repeatedly used and will simply append comments on 2nd (and subsequent?) call(s)
         /// </summary>

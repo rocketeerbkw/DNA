@@ -11,7 +11,7 @@ namespace BBC.Dna.Objects
     
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "MODERATIONSTATUS")]
-    public partial class ModerationStatus
+    public partial class ModerationStatusObj
     {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute(AttributeName = "ID")]

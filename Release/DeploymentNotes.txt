@@ -692,3 +692,8 @@ Marcus P
 	Re run these to fix a bug
 	insertuserpostevents (sp)
 	User reputation Cummulative Score Update.sql
+	
+============== v 3.5.66.0 ============
+Marcus P
+	Install new version of event processor
+	Install new identityproxy dll

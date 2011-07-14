@@ -35,7 +35,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElement(Order = 0, ElementName = "MODERATIONSTATUS")]
-        public ModerationStatus ModerationStatus { get; set; }
+        public ModerationStatusObj ModerationStatus { get; set; }
 
         [XmlIgnore]
         [DataMember(Name = ("moderationStatus"))]
@@ -506,7 +506,7 @@ namespace BBC.Dna.Objects
                         threads.LastForumUpdated = reader.GetDateTime("ForumLastUpdated");
                     }
                     
-                    threads.ModerationStatus = new ModerationStatus
+                    threads.ModerationStatus = new ModerationStatusObj
                                                    {
                                                        Id = forumId,
                                                        Value = reader.GetInt32NullAsZero("ModerationStatus").ToString()

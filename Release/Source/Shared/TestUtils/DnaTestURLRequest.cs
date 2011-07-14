@@ -232,6 +232,21 @@ namespace Tests
             _useDebugIdentityUser = true;
         }
 
+        /// <summary>
+        /// Helper function that sets the current user to be a Notable user
+        /// </summary>
+        public void SetCurrentUserTrustedUser()
+        {
+            UserAccount user = TestUserAccounts.GetTrustedUserAccount;
+            _userName = user.UserName;
+            _password = user.Password;
+            _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
+            _userid = user.UserID;
+            _useIdentity = user.UsesIdentity;
+            _useDebugIdentityUser = true;
+        }
+
 /*        /// <summary>
         /// Helper function that sets the current user to be a Scout user
         /// </summary>

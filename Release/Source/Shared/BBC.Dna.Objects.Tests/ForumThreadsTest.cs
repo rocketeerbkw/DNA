@@ -25,7 +25,7 @@ namespace BBC.Dna.Objects.Tests
         {
             var threads = new ForumThreads
                               {
-                                  ModerationStatus = new ModerationStatus
+                                  ModerationStatus = new ModerationStatusObj
                                                          {
                                                              Value = "",
                                                              Id = 0

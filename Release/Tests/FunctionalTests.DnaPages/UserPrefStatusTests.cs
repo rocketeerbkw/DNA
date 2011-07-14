@@ -11,6 +11,7 @@ using DnaIdentityWebServiceProxy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using Tests;
+using BBC.Dna.Moderation.Utils;
 
 
 
@@ -68,13 +69,13 @@ namespace FunctionalTests
             CheckUsersPrefStatus(context, userID, 1);
 
             // Users Moderation Status is no longer put into GROUPS.
-            CheckUserXML(context, userID, ModerationUserStatuses.Status.Premoderated);
+            CheckUserXML(context, userID, ModerationStatus.UserStatus.Premoderated);
 
             // Now put the user into premod
             SetUsersModerationStatus(context, userID, 2);
 
             // Check to make sure that users is not in the premod group.
-            CheckUserXML(context, userID, ModerationUserStatuses.Status.Postmoderated);
+            CheckUserXML(context, userID, ModerationStatus.UserStatus.Postmoderated);
 
             // Check to make sure that the status of the user is correct
             CheckUsersPrefStatus(context, userID, 2);
@@ -89,7 +90,7 @@ namespace FunctionalTests
             SetUsersModerationStatus(context, userID, 4);
 
             // Check to make sure that users is not in the premod group.
-            CheckUserXML(context, userID, ModerationUserStatuses.Status.Restricted);
+            CheckUserXML(context, userID, ModerationStatus.UserStatus.Restricted);
 
             // Check to make sure that the status of the user is correct
             CheckUsersPrefStatus(context, userID, 4);
@@ -102,7 +103,17 @@ namespace FunctionalTests
             CheckUsersPrefStatus(context, userID, 0);
 
             // Check to see if they are in the correct group in the XML
-            CheckUserXML(context, userID, ModerationUserStatuses.Status.Standard);
+            CheckUserXML(context, userID, ModerationStatus.UserStatus.Standard);
+
+
+            // Now put the user into trusted
+            SetUsersModerationStatus(context, userID, 6);
+
+            // Check to make sure that the status of the user is correct
+            CheckUsersPrefStatus(context, userID, 6);
+
+            // Check to see if they are in the correct group in the XML
+            CheckUserXML(context, userID, ModerationStatus.UserStatus.Trusted);
 
             Console.WriteLine("Finishing CheckPrefStatusAndChangedDateForUserBeingPutIntoPreMod");
         }
@@ -192,7 +203,7 @@ namespace FunctionalTests
         /// <param name="userID">The id of the user you want to check against</param>
         /// <param name="groupToCheck">The group you want tocheck against</param>
         /// <param name="expectedResult">The expected outcome of the test</param>
-        private static void CheckUserXML(IInputContext context, int userID, ModerationUserStatuses.Status prefStatus )
+        private static void CheckUserXML(IInputContext context, int userID, ModerationStatus.UserStatus prefStatus )
         {
             // Create a user object using this userid so we can check that the XML contains the correct group information
             User user = new User(context);
