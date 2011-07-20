@@ -498,7 +498,7 @@ namespace TheGuide.Database.UnitTests
                     var userId = reader.GetInt32("userid");
                     reader.Close();
                     
-                    UpdateUserEmailAddress(reader, 6, "thebest@thebestbestman.dude.uk");
+                    UpdateUserEmailAddress(reader, userId, "thebest@thebestbestman.dude.uk");
 
                     reader.ExecuteWithinATransaction("EXEC finduserfromid @userid="+userId+", @h2g2id = NULL, @siteid = 1");
                     reader.Read();

@@ -81,7 +81,7 @@ left join Preferences P WITH(NOLOCK) on (P.UserID = U.UserID OR P.UserID = 0) AN
 INNER JOIN Sites s WITH(NOLOCK) ON s.SiteId = @siteid
 LEFT JOIN ModerationClassMembers mcm WITH(NOLOCK) ON mcm.UserId = @userid AND s.ModClassId = mcm.ModClassId
 INNER JOIN Journals J WITH(NOLOCK) on J.UserID = u.UserID and J.SiteID = @siteid
-LEFT JOIN dbo.BannedEMails be WITH(NOLOCK) ON dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) = dbo.udf_decryptemailaddress(be.EncryptedEmail,0) AND be.ComplaintBanned = 1
+LEFT JOIN dbo.BannedEMails be WITH(NOLOCK) ON u.hashedemail = be.hashedemail AND be.ComplaintBanned = 1
 LEFT JOIN SignInUserIdMapping sm WITH(NOLOCK) ON sm.DnaUserID = U.UserID
 where U.UserID = @userid
 and u.status<>0 -- deactivated users shouldn't be returned
