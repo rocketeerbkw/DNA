@@ -38,7 +38,7 @@
           <img src="/dnaimages/dna_messageboard/img/icons/deactivated_user.png" width="30" height="30" alt="deactivated user" title="deactivated user" />
         </xsl:when>       
         <xsl:when test="text() = 'UserModeratedTrusted' or (text() = 'Trusted' and parent::USERACCOUNT/ACTIVE = '1') or (STATUS/@STATUSID = '6' and ACTIVE = '1')">
-          <img src="/dnaimages/dna_messageboard/img/icons/trusted_user.png" width="30" height="30" alt="trusted user" title="trusted user" />
+          <img src="/dnaimages/dna_messageboard/img/icons/trusted_user.jpg" width="30" height="30" alt="trusted user" title="trusted user" />
         </xsl:when>
         <xsl:when test="text() = 'Standard' and parent::USERACCOUNT/ACTIVE = '1' or (STATUS/@STATUSID = '0' and ACTIVE = '1') or ACTIVE = '1'">
           <img src="/dnaimages/dna_messageboard/img/icons/standard_user.png" width="30" height="30" alt="standard user" title="standard user" />
