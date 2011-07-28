@@ -20,7 +20,7 @@ declare @maxscore smallint
 
 set @maxscore = 11
 --change this date 
---set @mindate = '20110601'
+set @mindate = '20110601'
 
 DECLARE @runningTotal TABLE
 (
@@ -36,7 +36,7 @@ truncate table dbo.UserEventScore
 
 -- add scores to UserEventScore table
 insert into dbo.UserEventScore
-select m.modclassid, s.activitytype,0
+select m.modclassid, s.activitytype,0, 0
 from  ModerationClass m, siteactivitytypes s
 
 --modify events scores
@@ -44,6 +44,12 @@ update dbo.UserEventScore set score = -5 where typeid=1 --Moderate Post Failed
 update dbo.UserEventScore set score = 1 where typeid=17 --User Post Successful
 update dbo.UserEventScore set score = 1 where typeid=18 --Complaint Upheld
 update dbo.UserEventScore set score = -1 where typeid=19 --Complaint Rejected
+update dbo.usereventscore set score = -7, overridescore=1 where typeid=10 --premod
+update dbo.usereventscore set score = -2, overridescore=1 where typeid=11 --postmod
+update dbo.usereventscore set score = -11, overridescore=1 where typeid=12 --banned
+update dbo.usereventscore set score = -11, overridescore=1 where typeid=13 --deactiviated
+update dbo.usereventscore set score = 0, overridescore=1 where typeid=16 --standard
+update dbo.usereventscore set score = 7, overridescore=1 where typeid=20 --trusted
 
 
 DECLARE rt_cursor CURSOR FAST_FORWARD
@@ -72,7 +78,8 @@ WHILE @@FETCH_STATUS = 0
 BEGIN
 	set @userscore = null
 	
-	select @score = score
+	declare @override bit
+	select @score = score, @override = overridescore
 	from dbo.UserEventScore
 	where typeid=@typeid and modclassid=@modclassid
 
@@ -87,6 +94,7 @@ BEGIN
 	
 	
 	-- get current accumulativescore
+	
 	
 	update @runningTotal
 	set accumulativescore = accumulativescore + @userscore
@@ -111,6 +119,16 @@ BEGIN
 	
 		update @runningTotal
 		set accumulativescore = @maxscore
+		where userid=@userid
+		and modclassid= @modclassid
+	END
+	
+	if @override > @maxscore
+	BEGIN
+		set @userscore = @score
+	
+		update @runningTotal
+		set accumulativescore = @score
 		where userid=@userid
 		and modclassid= @modclassid
 	END
