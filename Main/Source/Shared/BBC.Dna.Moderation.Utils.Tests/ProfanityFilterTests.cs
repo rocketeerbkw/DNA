@@ -202,6 +202,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh yid", out matching), "Will either refer or block - probably should block");
             Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh", out matching), "Will either refer or block - probably should block");
             Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity yid 84 Fresh", out matching), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanities piss Poska Macca", out matching), "Matching the referred profanities");
             Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "", out matching), "No match with trailing characters");
 
             //Check punctuation trimming
@@ -254,6 +255,36 @@ namespace BBC.Dna.Moderation.Utils.Tests
             Assert.IsFalse(ProfanityFilter.DoesTextContain(testdata, contalist, true, false, out match), "Test 1 for badly formed delimited string");
             Assert.IsFalse(ProfanityFilter.DoesTextContain(testdata, contalist2, true, false, out match), "Test 2 for badly formed delimited string");
             Assert.IsFalse(ProfanityFilter.DoesTextContain(testdata, contalist2, true, false, out match), "Test 3 for badly formed delimited string");
+        }
+
+        /// <summary>
+        /// Quick list of test cases for Terms filter
+        /// </summary>
+        [TestMethod]
+        public void CheckForProfanities_TermsList()
+        {
+            Console.WriteLine("Terms filtering");
+            string testdata1 = "Hello piss off";
+            string testdata2 = "Hi Poska Macca";
+            string testdata3 = "Hi poska macca Poska macca";
+            string testdata4 = "Hi piss poska Macca piss macca Poska";
+            string match;
+
+            List<string> quicklist = new List<string>(new string[] { "piss", "Poska", "Macca" });
+
+            bool isMatch = ProfanityFilter.DoesTextContain(testdata1, quicklist, false, false, out match);
+            Assert.AreEqual("piss", match);
+
+            isMatch = ProfanityFilter.DoesTextContain(testdata2, quicklist, false, false, out match);
+            Assert.AreEqual("Poska Macca", match);
+
+            isMatch = ProfanityFilter.DoesTextContain(testdata3, quicklist, false, false, out match);
+            Assert.AreEqual("Poska", match);
+            Assert.AreNotEqual("poska", match);
+
+            isMatch = ProfanityFilter.DoesTextContain(testdata4, quicklist, false, false, out match);
+            Assert.AreNotEqual("piss Poska", match);
+            Assert.AreEqual("piss Poska Macca", match);
         }
 
         /// <summary>

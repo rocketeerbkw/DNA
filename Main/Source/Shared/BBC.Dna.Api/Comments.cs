@@ -1146,6 +1146,12 @@ namespace BBC.Dna.Api
             forceModeration = false;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
                                                                                     out matchingProfanity);
+
+            if (false == string.IsNullOrEmpty(matchingProfanity))
+            {
+                matchingProfanity = "Terms filtered are: " + matchingProfanity; // Adding an extra bit of information for clarity
+            }
+
             if (ProfanityFilter.FilterState.FailBlock == state)
             {
                 throw ApiException.GetError(ErrorType.ProfanityFoundInText);

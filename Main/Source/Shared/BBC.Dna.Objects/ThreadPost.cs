@@ -713,6 +713,11 @@ namespace BBC.Dna.Objects
             }
             CheckForProfanities(site, postString, out forceModeration, out matchingProfanity);
 
+            if (false == string.IsNullOrEmpty(matchingProfanity))
+            {
+                matchingProfanity = "Terms filtered are: " + matchingProfanity; // Adding an extra bit of information for clarity
+            }
+
             //check posting frequency
             if (!viewingUser.IsEditor && !viewingUser.IsSuperUser && !viewingUser.IsNotable)
             {

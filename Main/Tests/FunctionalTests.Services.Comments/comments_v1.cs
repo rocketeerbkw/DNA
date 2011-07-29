@@ -995,6 +995,56 @@ namespace FunctionalTests.Services.Comments
 
         /// <summary>
         /// Test CreateCommentForum method from service
+        /// Testing the terms filter functionality
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsPlainText_TermsFilterTest()
+        {
+            Console.WriteLine("Before CreateComment");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title : Hello cruk sentomod";
+            PostStyle.Style postStyle = PostStyle.Style.plaintext;
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "<poststyle>{1}</poststyle>" +
+                "</comment>", text, postStyle);
+
+            // Setup the request url
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+            
+            CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+            Assert.IsTrue(returnedComment.text == text);
+            Assert.IsTrue(returnedComment.PostStyle == postStyle);
+            Assert.IsNotNull(returnedComment.User);
+            Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+
+            Console.WriteLine("After CreateComment");
+
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("select * from threadmod where postId = 65");
+                    Assert.IsTrue(reader.Read());
+                    Assert.AreEqual("Terms filtered are: cruk sentomod", reader.GetStringNullAsEmpty("notes"));
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
         public void CreateComment_AsPlainTextWithHTMLTags()

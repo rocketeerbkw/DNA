@@ -284,71 +284,97 @@ namespace BBC.Dna.Moderation.Utils
 			int pCharBefore = -1;
 			int pCharAfter = -1;
 			matchingWord = string.Empty;
+            List<string> matchingWordList = new List<string>();
 			bool bMatch = false;
 			int whichword = 0;
 			string thisword = string.Empty;
-			while (whichword < words.Count && !bMatch)
-			{
-				thisword = words[whichword];
-				if (thisword.Length == 0)
-				{
-					whichword++;
-					continue;
-				}
-				// Start from the beginning
-				pSearch = textToCheck.IndexOf(thisword);
 
-				// If we're checking prefixes, do so
-				if ((!bAllowPrefixChars || !bAllowSuffixChars) && pSearch >= 0)
-				{
-					// Keep checking while we have a search pointer
-					while (pSearch >= 0 && !bMatch)
-					{
-						// Get the chars before and after the matching word
-						pCharBefore = pSearch - 1;
-						pCharAfter = pSearch + thisword.Length;
+            try
+            {
+                while (whichword < words.Count) 
+                {
+                    thisword = words[whichword];
+                    if (thisword.Length == 0)
+                    {
+                        whichword++;
+                        continue;
+                    }
+                    // Start from the beginning
+                    pSearch = textToCheck.IndexOf(thisword);
 
-						// Check to see if we've got a leading char when checking for prefix OR/AND
-						// trailing chars when checking for suffix.
-						if ((!bAllowPrefixChars && (pCharBefore > 0) && Char.IsLetter(textToCheck[pCharBefore])) ||
-							(!bAllowSuffixChars && (pCharAfter < textToCheck.Length) && (Char.IsLetter(textToCheck[pCharAfter]))))
-						{
-							// We found chars! Find the next match
-							pSearch = textToCheck.IndexOf(thisword, pSearch + 1);	// TODO: Make sure there's no off-by-one errors
-						}
-						else
-						{
-							// We have a non alphabetical char in front! We've found a match.
-							bMatch = true;
-						}
-					}
-				}
-				else
-				{
-					// Have we found a match?
-					if (pSearch >= 0)
-					{
-						bMatch = true;
-					}
-				}
+                    // If we're checking prefixes, do so
+                    if ((!bAllowPrefixChars || !bAllowSuffixChars) && pSearch >= 0)
+                    {
+                        // Keep checking while we have a search pointer
+                        while (pSearch >= 0 && !bMatch)
+                        {
+                            // Get the chars before and after the matching word
+                            pCharBefore = pSearch - 1;
+                            pCharAfter = pSearch + thisword.Length;
 
-				// If still don't have a match, get the next word to search for.
-				if (!bMatch)
-				{
-					whichword++;
-					if (whichword < words.Count)
-					{
-						thisword = words[whichword];
-					}
-				}
-			}
+                            // Check to see if we've got a leading char when checking for prefix OR/AND
+                            // trailing chars when checking for suffix.
+                            if ((!bAllowPrefixChars && (pCharBefore > 0) && Char.IsLetter(textToCheck[pCharBefore])) ||
+                                (!bAllowSuffixChars && (pCharAfter < textToCheck.Length) && (Char.IsLetter(textToCheck[pCharAfter]))))
+                            {
+                                // We found chars! Find the next match
+                                pSearch = textToCheck.IndexOf(thisword, pSearch + 1);	// TODO: Make sure there's no off-by-one errors
+                            }
+                            else
+                            {
+                                // We have a non alphabetical char in front! We've found a match.
+                                bMatch = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Have we found a match?
+                        if (pSearch >= 0)
+                        {
+                            bMatch = true;
+                        }
+                    }
 
-			// If we've found a match and we have a valid FirstMatch pointer, fill it in.
-			if (bMatch)
-			{
-				matchingWord = thisword;
-			}
+                    // If still don't have a match, get the next word to search for.
+                    if (!bMatch)
+                    {
+                        whichword++;
+                        if (whichword < words.Count)
+                        {
+                            thisword = words[whichword];
+                        }
+                    }
 
+                  
+                    // Checks for duplicates and adds the match to the list
+                    if (bMatch)
+                    {
+                        if (false == matchingWordList.Contains(thisword))
+                        {
+                            matchingWordList.Add(thisword);
+                        }
+                        whichword++;
+                        bMatch = false;
+                    }
+                }
+
+                if (matchingWordList.Count > 0)
+                {
+                    foreach (string word in matchingWordList)
+                    {
+                        matchingWord += word + " ";
+                    }
+                    matchingWord = matchingWord.Trim();
+                    bMatch = true;
+                }
+                
+            }
+            finally
+            {
+                matchingWordList.Clear();
+                matchingWordList = null;
+            }
 			// Return the verdict!
 			return bMatch;
 		}

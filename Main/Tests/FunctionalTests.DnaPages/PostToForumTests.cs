@@ -459,6 +459,7 @@ namespace FunctionalTests
 
         }
 
+
         [TestMethod]
         public void PostToForum_WithMaxCharLimitExceeded_CorrectError()
         {
@@ -594,6 +595,39 @@ namespace FunctionalTests
             CheckPostInThread(xml, expectedPostStatus, processPreMod);
 
         }
+
+
+        [TestMethod]
+        public void PostToForum_ReferredTermsInPost_CorrectModeratedPost()
+        {
+            var processPreMod = false;
+            var siteStatus = ModerationStatus.SiteStatus.UnMod;
+            var forumStatus = ModerationStatus.ForumStatus.Reactive;
+            var threadStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
+            var expectedPostStatus = ModerationStatus.ForumStatus.PostMod;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserNormal();
+
+            request = PostToForumWithException(request, "Testing the terms filter with grrrrrrrrrrrr and humbugsweet");
+
+            var xml = request.GetLastResponseAsXML();
+
+            CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
+            CheckPostInThread(xml, expectedPostStatus, processPreMod);
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("select * from threadmod where postId = 65");
+                Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual("Terms filtered are: grrrrrrrrrrrr humbugsweet", dataReader.GetStringNullAsEmpty("notes"));
+            }
+        }
+
 
         [TestMethod]
         public void PostToForum_WithinPostFrequency_CorrectError()
