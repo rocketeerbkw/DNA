@@ -423,10 +423,10 @@
 						<xsl:text>[No member info]</xsl:text>
 					</xsl:when>
 					<xsl:when test="USER/USERID = 0 and not(USER/COMPLAINANTIDVIAEMAIL = -1)">
-						<a href="memberdetails?userid={USER/COMPLAINANTIDVIAEMAIL}" target="_blank">[member profile from email]</a>
+						<a href="admin/memberdetails?userid={USER/COMPLAINANTIDVIAEMAIL}" target="_blank">[member profile from email]</a>
 					</xsl:when>
 					<xsl:otherwise>
-						<a href="memberdetails?userid={USER/USERID}" target="_blank">[member profile]</a>
+						<a href="admin/memberdetails?userid={USER/USERID}" target="_blank">[member profile]</a>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>			
