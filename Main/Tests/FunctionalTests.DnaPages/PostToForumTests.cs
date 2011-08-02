@@ -612,7 +612,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
 
-            request = PostToForumWithException(request, "Testing the terms filter with grrrrrrrrrrrr and humbugsweet");
+            request = PostToForumWithException(request, "Testing the terms filter with arse and humbugsweet");
 
             var xml = request.GetLastResponseAsXML();
 
@@ -622,9 +622,9 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("select * from threadmod where postId = 65");
+                dataReader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
                 Assert.IsTrue(dataReader.Read());
-                Assert.AreEqual("Terms filtered are: grrrrrrrrrrrr humbugsweet", dataReader.GetStringNullAsEmpty("notes"));
+                Assert.AreEqual("Filtered terms: arse", dataReader.GetStringNullAsEmpty("notes"));
             }
         }
 

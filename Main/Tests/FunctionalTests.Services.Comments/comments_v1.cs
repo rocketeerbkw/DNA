@@ -31,6 +31,7 @@ namespace FunctionalTests.Services.Comments
     [TestClass]
     public class CommentsTests_V1
     {
+
         private const string _schemaCommentForumList = "Dna.Services\\commentForumList.xsd";
         private const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         private const string _schemaComment = "Dna.Services\\comment.xsd";
@@ -1007,7 +1008,7 @@ namespace FunctionalTests.Services.Comments
             //create the forum
             CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
 
-            string text = "Functiontest Title : Hello cruk sentomod";
+            string text = "Functiontest Title : Hello arse sentomod";
             PostStyle.Style postStyle = PostStyle.Style.plaintext;
             string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
                 "<text>{0}</text>" +
@@ -1035,9 +1036,9 @@ namespace FunctionalTests.Services.Comments
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
-                    reader.ExecuteDEBUGONLY("select * from threadmod where postId = 65");
+                    reader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
                     Assert.IsTrue(reader.Read());
-                    Assert.AreEqual("Terms filtered are: cruk sentomod", reader.GetStringNullAsEmpty("notes"));
+                    Assert.AreEqual("Filtered terms: arse", reader.GetStringNullAsEmpty("notes"));
                 }
             }
         }

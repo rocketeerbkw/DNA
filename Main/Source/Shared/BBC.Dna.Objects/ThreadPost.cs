@@ -715,7 +715,7 @@ namespace BBC.Dna.Objects
 
             if (false == string.IsNullOrEmpty(matchingProfanity))
             {
-                matchingProfanity = "Terms filtered are: " + matchingProfanity; // Adding an extra bit of information for clarity
+                matchingProfanity = "Filtered terms: " + matchingProfanity; // Adding an extra bit of information for clarity
             }
 
             //check posting frequency

@@ -1149,7 +1149,7 @@ namespace BBC.Dna.Api
 
             if (false == string.IsNullOrEmpty(matchingProfanity))
             {
-                matchingProfanity = "Terms filtered are: " + matchingProfanity; // Adding an extra bit of information for clarity
+                matchingProfanity = "Filtered terms: " + matchingProfanity; // Adding an extra bit of information for clarity
             }
 
             if (ProfanityFilter.FilterState.FailBlock == state)
