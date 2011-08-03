@@ -110,17 +110,21 @@ namespace Dna.SiteEventProcessor
                     case ModerationDecisionStatus.Passed:
                         if (dataReader.GetInt32NullAsZero("complainantid") != 0)
                         {//complaint rejected
-                            siteEvent1.Type = SiteActivityType.ComplaintPostRejected;
-                            siteEvent1.ActivityData = XElement.Parse(
-                             string.Format(DataFormatReject,
-                                dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
-                                dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
-                                dataReader.GetInt32NullAsZero("author_userid"), dataReader.GetStringNullAsEmpty("author_username"),
-                                dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
-                                dataReader.GetStringNullAsEmpty("Notes"))
-                               );
-                            siteEvent1.UserId = dataReader.GetInt32NullAsZero("complainantid");
-                            siteEventList.Add(siteEvent1);
+                            if (dataReader.GetStringNullAsEmpty("complainttext").IndexOf("EditPost:") < 0)
+                            {
+                                siteEvent1.Type = SiteActivityType.ComplaintPostRejected;
+                                siteEvent1.ActivityData = XElement.Parse(
+                                 string.Format(DataFormatReject,
+                                    dataReader.GetInt32NullAsZero("forumid"), dataReader.GetInt32NullAsZero("postid"),
+                                    dataReader.GetInt32NullAsZero("threadid"), dataReader.GetStringNullAsEmpty("parenturl"), type,
+                                    dataReader.GetInt32NullAsZero("author_userid"), dataReader.GetStringNullAsEmpty("author_username"),
+                                    dataReader.GetInt32NullAsZero("mod_userid"), dataReader.GetStringNullAsEmpty("mod_username"),
+                                    dataReader.GetStringNullAsEmpty("Notes"))
+                                   );
+                                siteEvent1.UserId = dataReader.GetInt32NullAsZero("complainantid");
+                                siteEventList.Add(siteEvent1);
+                            }
+                            
                         }
                         break;
                     default:
