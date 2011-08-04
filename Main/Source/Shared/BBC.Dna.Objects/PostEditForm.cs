@@ -18,7 +18,6 @@ namespace BBC.Dna.Objects
     [XmlRootAttribute("POST-EDIT-FORM", Namespace = "", IsNullable = false)]
     public class PostEditForm
     {
-        public static string DataFormatReversed = "<ACTIVITYDATA>A <POST FORUMID=\"{0}\" POSTID=\"{1}\" THREADID=\"{2}\" URL=\"{3}\">{4}</POST> by <USER USERID=\"{5}\">{6}</USER> was reinstated in moderation by <USER USERID=\"{7}\">{8}</USER> because it was deemed <NOTES>{9}</NOTES></ACTIVITYDATA>";
         private const string ComplaintStringPrefix = "From EditPost:";
 
         public PostEditForm(IDnaDataReaderCreator creator)
@@ -254,16 +253,6 @@ namespace BBC.Dna.Objects
             ModerationPosts.ApplyModerationDecision(_creator, forumId, ref threadId, ref postId, modId,
                 ModerationItemStatus.Passed, notes, 0, 0, "", out complainantEmails, out complainantIds,
                 out modIds, out authorEmail, out authorId, viewingUser.UserId);
-
-            //register siteevent for reversal
-            SiteEvent siteEvent1 = new SiteEvent();
-            siteEvent1.SiteId = SiteId;
-            siteEvent1.Date = new Date(DateTime.Now);
-            siteEvent1.Type = SiteActivityType.ModeratePostFailedReversal;
-            siteEvent1.ActivityData = XElement.Parse(string.Format(DataFormatReversed, ForumId, PostId, ThreadId, ParentUrl, "post", 
-                Author.user.UserId, Author.user.UserName, viewingUser.UserId, viewingUser.UserName, notes));
-            siteEvent1.UserId = authorId;
-            siteEvent1.SaveEvent(_creator);
 
             Hidden = 0;
         }
