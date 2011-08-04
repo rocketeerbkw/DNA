@@ -693,7 +693,21 @@ Marcus P
 	insertuserpostevents (sp)
 	User reputation Cummulative Score Update.sql
 	
-============== v 3.5.66.0 ============
+============== v 3.5.68.0 ============
 Marcus P
 	Install new version of event processor
 	Install new identityproxy dll
+	
+	Fix for users not get correct points:
+	Step 1.)
+	delete from userpostevents
+	where eventdate > '2011-06-26 23:59:59.000'
+
+	Step 2.)
+	exec insertuserpostevents
+	
+	Step 3.)
+	dbscripts/User reputation Cummulative Score Update.sql
+	
+	
+	
