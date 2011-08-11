@@ -41,6 +41,20 @@
                       </xs:complexType>
                     </xs:element>
                     <xs:element name="NOTES" />
+                    <xs:element name="TERMS">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="TERMDETAILS">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="REASON"/>
+                                <xs:element ref="DATE"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
                     <xs:element name="LOCKED">
                       <xs:complexType>
                         <xs:sequence>

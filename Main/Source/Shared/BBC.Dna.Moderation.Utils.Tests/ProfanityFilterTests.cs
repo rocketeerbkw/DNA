@@ -8,6 +8,7 @@ using BBC.Dna.Utils;
 using System.Xml;
 using BBC.Dna.Common;
 using System;
+using BBC.DNA.Moderation.Utils;
 
 namespace BBC.Dna.Moderation.Utils.Tests
 {
@@ -168,7 +169,8 @@ namespace BBC.Dna.Moderation.Utils.Tests
         {
             Console.WriteLine("TestEmptyString");
             string matching;
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "", out matching));
+            List<Term> terms = null;
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "", out matching, out terms));
         }
 
         /// <summary>
@@ -179,7 +181,8 @@ namespace BBC.Dna.Moderation.Utils.Tests
         {
             Console.WriteLine("TestSimpleString");
             string matching;
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "No bad words here. This will pass. [Honestly].", out matching));
+            List<Term> terms = null;
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "No bad words here. This will pass. [Honestly].", out matching, out terms));
         }
 
         /// <summary>
@@ -190,35 +193,36 @@ namespace BBC.Dna.Moderation.Utils.Tests
         {
             Console.WriteLine("ReferContent");
             string matching;
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity Adam Khatib (No idea who that is)", out matching), "Matching a referred name");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity adam khatiB (No idea who that is)", out matching), "Matching a referred name (mixed up case)");
+            List<Term> terms = null;
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms), "Matching a referred name");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity adam khatiB (No idea who that is)", out matching, out terms), "Matching a referred name (mixed up case)");
             Assert.AreEqual("adam khatib", matching, "Wrong matching string returned");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "This contains the profanity Adam Khatib (No idea who that is)", out matching), "No match from a different site");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms), "No match from a different site");
 
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching), "Matching a blocked thing");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching), "Matching a blocked thing (mixed case)");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching), "No match with trailing characters");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching), "No match to mod class with no profanities");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh yid", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity yid 84 Fresh", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanities piss Poska Macca", out matching), "Matching the referred profanities");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "", out matching), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching, out terms), "Matching a blocked thing");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching, out terms), "Matching a blocked thing (mixed case)");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms), "No match to mod class with no profanities");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh yid", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity yid 84 Fresh", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanities piss Poska Macca", out matching, out terms), "Matching the referred profanities");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "", out matching, out terms), "No match with trailing characters");
 
             //Check punctuation trimming
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "Adam Khatib><!!", out matching), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "@@@@Adam Khatib", out matching), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity ####yid@@@@", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "yid@@@@", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "yid!", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, " yid ", out matching), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "Adam Khatib><!!", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "@@@@Adam Khatib", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity ####yid@@@@", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "yid@@@@", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "yid!", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, " yid ", out matching, out terms), "Will either refer or block - probably should block");
 
             //Test a profanity that includes punctuation
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a f*** test", out matching), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a f***!!!!!!!!! test", out matching), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a *ff***!!!!!!!!! test", out matching), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a *f***f!!!!!!!!! test", out matching), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a f*** test", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a f***!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a *ff***!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a *f***f!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
         }
 
         /// <summary>
@@ -350,34 +354,35 @@ namespace BBC.Dna.Moderation.Utils.Tests
             int modclass2 =  2;
 
             string matching;
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity Adam Khatib (No idea who that is)", out matching), "Matching a referred name");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity adam khatiB (No idea who that is)", out matching), "Matching a referred name (mixed up case)");
+            List<Term> terms = null;
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms), "Matching a referred name");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity adam khatiB (No idea who that is)", out matching, out terms), "Matching a referred name (mixed up case)");
             Assert.AreEqual("adam khatib", matching, "Wrong matching string returned");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "This contains the profanity Adam Khatib (No idea who that is)", out matching), "No match from a different site");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms), "No match from a different site");
 
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching), "Matching a blocked thing");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching), "Matching a blocked thing (mixed case)");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching), "No match with trailing characters");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching), "No match to mod class with no profanities");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh yid", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity yid 84 Fresh", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "", out matching), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching, out terms), "Matching a blocked thing");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching, out terms), "Matching a blocked thing (mixed case)");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms), "No match to mod class with no profanities");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh yid", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity yid 84 Fresh", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "", out matching, out terms), "No match with trailing characters");
 
             //Check punctuation trimming
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "Adam Khatib><!!", out matching), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "@@@@Adam Khatib", out matching), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity ####yid@@@@", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid@@@@", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid!", out matching), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, " yid ", out matching), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "Adam Khatib><!!", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "@@@@Adam Khatib", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity ####yid@@@@", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid@@@@", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid!", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, " yid ", out matching, out terms), "Will either refer or block - probably should block");
 
             //Test a profanity that includes punctuation
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f*** test", out matching), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f***!!!!!!!!! test", out matching), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *ff***!!!!!!!!! test", out matching), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *f***f!!!!!!!!! test", out matching), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f*** test", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f***!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *ff***!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *f***f!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
         }
 
         [TestMethod]
@@ -443,11 +448,11 @@ namespace BBC.Dna.Moderation.Utils.Tests
                 }
                 if(refer == 1)
                 {
-                    profanityCache.ProfanityClasses[modClassId].ReferList.Add(node.Attributes["Profanity"].Value.ToLower());
+                    profanityCache.ProfanityClasses[modClassId].ReferList.Add(new KeyValuePair<int,string> (Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()),node.Attributes["Profanity"].Value.ToLower()));
                 }
                 else
                 {
-                    profanityCache.ProfanityClasses[modClassId].ProfanityList.Add(node.Attributes["Profanity"].Value.ToLower());
+                    profanityCache.ProfanityClasses[modClassId].ProfanityList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
                 }
 
             }

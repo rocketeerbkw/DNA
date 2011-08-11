@@ -13,6 +13,8 @@ using BBC.Dna.Utils;
 using BBC.Dna.Api;
 using BBC.Dna.Users;
 using BBC.Dna.Moderation.Utils;
+using BBC.DNA.Moderation.Utils;
+using System.Collections.Generic;
 
 
 namespace BBC.Dna.Services
@@ -639,8 +641,9 @@ namespace BBC.Dna.Services
         {
             string matchingProfanity;
             forceModeration = false;
+            List<Term> terms = null;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
-                                                                                    out matchingProfanity);
+                                                                                    out matchingProfanity, out terms);
             if (ProfanityFilter.FilterState.FailBlock == state)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ProfanityFoundInText));

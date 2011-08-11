@@ -14,6 +14,7 @@ using BBC.Dna.Api;
 using System.Net;
 using System.Threading;
 using FunctionalTests.Services.Comments;
+using BBC.Dna.Moderation.Utils;
 
 namespace FunctionalTests
 {
@@ -87,7 +88,7 @@ namespace FunctionalTests
 
             var doc = request.GetLastResponseAsXML();
             var termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM");
-            var termText = termNode.InnerText;
+            var termText = termNode.Attributes["TERM"].Value;
             var action = (TermAction) Enum.Parse(typeof (TermAction), termNode.Attributes["ACTION"].Value);
             TermAction expectedAction = (action == TermAction.ReEdit ? TermAction.Refer : TermAction.ReEdit);
 
@@ -104,7 +105,7 @@ namespace FunctionalTests
             doc = request.GetLastResponseAsXML();
             termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM");
             Assert.AreEqual(expectedAction.ToString(), termNode.Attributes["ACTION"].Value);
-            Assert.AreEqual(termText, termNode.InnerText);
+            Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
 
             //check history audit
             var terms = new List<Term>();
@@ -154,7 +155,7 @@ namespace FunctionalTests
 
             var doc = request.GetLastResponseAsXML();
             var termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM");
-            var termText = termNode.InnerText;
+            var termText = termNode.Attributes["TERM"].Value;
             var action = (TermAction)Enum.Parse(typeof(TermAction), termNode.Attributes["ACTION"].Value);
             TermAction expectedAction = (action == TermAction.ReEdit ? TermAction.Refer : TermAction.ReEdit);
 
@@ -170,7 +171,7 @@ namespace FunctionalTests
 
             termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM");
             Assert.AreEqual(action.ToString(), termNode.Attributes["ACTION"].Value);//should not have changed
-            Assert.AreEqual(termText, termNode.InnerText);
+            Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
         }
 
         [TestMethod]
@@ -231,9 +232,9 @@ namespace FunctionalTests
             ValidateResponse(request);
             ValidateOkResult(request, "TermsUpdateSuccess", "Terms updated successfully.");
             doc = request.GetLastResponseAsXML();
-            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM[text()='" + termText +"']");
+            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM[@TERM='" + termText +"']");
             Assert.AreEqual(expectedAction.ToString(), termNode.Attributes["ACTION"].Value);
-            Assert.AreEqual(termText, termNode.InnerText);
+            Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
             Assert.AreEqual(termNodeCount + 1, doc.SelectNodes("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM").Count);
 
             //check history audit
@@ -269,9 +270,9 @@ namespace FunctionalTests
             ValidateResponse(request);
             ValidateOkResult(request, "TermsUpdateSuccess", "Terms updated successfully.");
             doc = request.GetLastResponseAsXML();
-            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM[text()='" + termText + "']");
+            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM[@TERM='" + termText + "']");
             Assert.AreEqual(expectedAction.ToString(), termNode.Attributes["ACTION"].Value);
-            Assert.AreEqual(termText, termNode.InnerText);
+            Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
             Assert.AreEqual(termNodeCount + 1, doc.SelectNodes("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM").Count);
 
             //check history audit
@@ -338,9 +339,9 @@ namespace FunctionalTests
             ValidateResponse(request);
             ValidateOkResult(request, "TermsUpdateSuccess", "Terms updated successfully.");
             doc = request.GetLastResponseAsXML();
-            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM[text()='" + termText + "']");
+            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM[@TERM='" + termText + "']");
             Assert.AreEqual(expectedAction.ToString(), termNode.Attributes["ACTION"].Value);
-            Assert.AreEqual(termText, termNode.InnerText);
+            Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
             Assert.AreEqual(termNodeCount + 1, doc.SelectNodes("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM").Count);
 
             //check history audit
@@ -397,9 +398,9 @@ namespace FunctionalTests
             ValidateResponse(request);
             ValidateOkResult(request, "TermsUpdateSuccess", "Terms updated successfully.");
             doc = request.GetLastResponseAsXML();
-            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM[text()='" + termText + "']");
+            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM[@TERM='" + termText + "']");
             Assert.AreEqual(expectedAction.ToString(), termNode.Attributes["ACTION"].Value);
-            Assert.AreEqual(termText, termNode.InnerText);
+            Assert.AreEqual(termText, termNode.Attributes["TERM"].Value );
             Assert.AreEqual(termNodeCount + 1, doc.SelectNodes("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERM").Count);
 
             //check history audit

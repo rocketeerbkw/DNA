@@ -7,6 +7,7 @@ using BBC.Dna.Component;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
+using BBC.DNA.Moderation.Utils;
 
 
 namespace BBC.Dna
@@ -616,8 +617,8 @@ namespace BBC.Dna
         private bool HasProfanities(string value)
         {
             string matchingProfanity;
-            
-            ProfanityFilter.FilterState profanityState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, value, out matchingProfanity);
+            List<Term> terms = null;
+            ProfanityFilter.FilterState profanityState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, value, out matchingProfanity, out terms);
             _profanityFilterState = profanityState;
 
             if (profanityState != ProfanityFilter.FilterState.FailBlock)

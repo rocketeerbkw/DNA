@@ -22,7 +22,8 @@ CREATE PROCEDURE generatepremodposting
 	@threadwrite int,
 	@modnotes varchar(255),
 	@forcepremodpostingdate datetime,
-	@riskmodthreadentryqueueid int
+	@riskmodthreadentryqueueid int,
+	@profanityxml xml = null  
 AS
 
 IF (@@TRANCOUNT = 0)
@@ -38,6 +39,11 @@ DECLARE @ModID INT
 INSERT INTO ThreadMod (ForumID, ThreadID, PostID, Status, NewPost, SiteID, IsPreModPosting, Notes)
 	VALUES (@forumid, @threadid, 0, 0, 1, @siteid, 1, @modnotes)
 SELECT @ModID = SCOPE_IDENTITY()
+
+-- Now insert the modid and the profanity ids/termsid into the ModTermMapping table  
+  
+INSERT INTO dbo.ModTermMapping (ModID, TermID)  
+SELECT @ModID, ParamValues.ID.value('.','VARCHAR(20)') FROM @profanityxml.nodes('/Profanities/id') as ParamValues(ID) 
 
 -- Now insert the values into the PreModPostings tables
 INSERT INTO dbo.PreModPostings (ModID, UserID, ForumID, ThreadID, InReplyTo, Subject, Body,

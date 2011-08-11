@@ -5,6 +5,7 @@ using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Objects;
 using Rhino.Mocks;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Moderation.Tests
 {

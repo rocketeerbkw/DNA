@@ -5,6 +5,7 @@ using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
+using BBC.DNA.Moderation.Utils;
 
 
 namespace BBC.Dna.Component
@@ -84,7 +85,8 @@ namespace BBC.Dna.Component
             
 
             string failed = string.Empty;
-            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, searchQuery, out failed);
+            List<Term> terms = null;
+            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, searchQuery, out failed, out terms);
             if ( state == ProfanityFilter.FilterState.FailBlock && !InputContext.ViewingUser.IsEditor )
             {
                 //Error - search query failed profanity check.

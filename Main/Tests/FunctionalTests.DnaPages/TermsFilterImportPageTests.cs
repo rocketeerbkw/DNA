@@ -15,6 +15,7 @@ using BBC.Dna.Api;
 using System.Net;
 using System.Threading;
 using BBC.Dna.Utils;
+using BBC.Dna.Moderation.Utils;
 
 namespace FunctionalTests
 {

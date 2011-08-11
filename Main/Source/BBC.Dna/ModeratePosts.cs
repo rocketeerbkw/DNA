@@ -10,6 +10,8 @@ using BBC.Dna.Api;
 using BBC.Dna.Utils;
 using System.Linq;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.DNA.Moderation.Utils;
+using System.Xml.Linq;
 
 namespace BBC.Dna.Component
 {
@@ -174,6 +176,10 @@ namespace BBC.Dna.Component
                         }
 
                         AddAttribute(post, "POSTID", dataReader.GetInt32NullAsZero("entryid"));
+
+                        int modTermMappingId = 0;
+                        modTermMappingId = Convert.ToInt32(dataReader.GetInt32NullAsZero("modid").ToString());
+
                         AddAttribute(post, "MODERATIONID", dataReader.GetInt32NullAsZero("modid"));
                         AddAttribute(post, "THREADID", dataReader.GetInt32NullAsZero("threadid"));
                         AddAttribute(post, "FORUMID", dataReader.GetInt32NullAsZero("forumid"));
@@ -203,6 +209,20 @@ namespace BBC.Dna.Component
                         String notes = dataReader.GetStringNullAsEmpty("notes");
                         notes = notes.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "NOTES", notes );
+
+                        //Adds the term details to the Term node
+                        IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
+                        XmlElement termXml = AddElementTag(post, "TERMS");
+                        var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, modTermMappingId, false);
+                        if (termsList.TermDetails.Count > 0)
+                        {
+                            foreach (TermDetails termDetails in termsList.TermDetails)
+                            {
+                                XmlNode termDetailsNode = SerialiseAndAppend(termDetails, "/DNAROOT/POSTMODERATION/POST");
+                                termXml.AppendChild(termDetailsNode);
+                            }
+                        }
+
 
                         XmlElement lockedXml = AddElementTag(post, "LOCKED");
                         AddDateXml(dataReader.GetDateTime("datelocked"), lockedXml, "DATELOCKED");

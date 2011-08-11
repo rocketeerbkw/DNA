@@ -1283,6 +1283,7 @@
     <None Include="addbannedusersipaddress.sql" />
     <None Include="ApplyUserReputation.sql" />
     <None Include="ApplyUserReputations.sql" />
+    <None Include="gettermsbymodclassidfromthreadmod.sql" />
     <None Include="getuserstatus.sql" />
     <None Include="getBBCDivisions.sql" />
     <None Include="GetUserReputationList.sql" />

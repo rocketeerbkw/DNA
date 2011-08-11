@@ -84,6 +84,8 @@
     <Compile Include="ProfanityCache.cs" />
     <Compile Include="ProfanityFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Term.cs" />
+    <Compile Include="TermDetails.cs" />
     <Compile Include="UrlFilter.cs" />
   </ItemGroup>
   <ItemGroup>
