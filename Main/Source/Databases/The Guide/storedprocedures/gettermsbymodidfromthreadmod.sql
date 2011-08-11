@@ -12,7 +12,7 @@ PURPOSE		-
 */
 
 CREATE PROCEDURE gettermsbymodidfromthreadmod
-	@modId INT
+	@modid INT
 AS
 
 BEGIN   

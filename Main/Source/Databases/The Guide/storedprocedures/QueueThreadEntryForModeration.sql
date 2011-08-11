@@ -1,4 +1,4 @@
-CREATE PROCEDURE queuethreadentryformoderation @forumid int, @threadid int, @entryid int, @siteid int, @modnotes VARCHAR(255),, @profanityxml xml = null
+CREATE PROCEDURE queuethreadentryformoderation @forumid int, @threadid int, @entryid int, @siteid int, @modnotes VARCHAR(255), @profanityxml xml = null
 AS
 	 -- Add an entry into the ThreadMod table and get the ModId
 	DECLARE @ModID INT
