@@ -13,7 +13,7 @@ from  dbo.UserPostEvents
 insert into dbo.UserPostEvents --typeid, eventdate, siteid, modclassid,entryid, score, accumulativescore, userid
 select
 	17 --UserPost
-	, convert(datetime, convert(varchar(4), datepart(yyyy, te.dateposted)) + '/' + convert(varchar(2), datepart(mm, te.dateposted)) + '/' + convert(varchar(2),datepart(dd, te.dateposted)) + ' 23:59:59')
+	, convert(datetime, convert(varchar(4), datepart(yyyy, te.dateposted)) + '/' + convert(varchar(2), datepart(mm, te.dateposted)) + '/' + convert(varchar(2),datepart(dd, te.dateposted)) + ' 23:59:59.997')
 	--, f.siteid
 	, m.modclassid
 	, ues.score
@@ -25,9 +25,9 @@ inner join forums f on f.forumid=te.forumid
 inner join sites s on s.siteid = f.siteid
 inner join ModerationClass m on m.modclassid = s.modclassid
 inner join dbo.UserEventScore ues on ues.typeid = 17 and m.modclassid=ues.modclassid
-where te.dateposted >= @startdate --min date from site events
+where te.dateposted > @startdate --min date from site events
 and isnull(te.hidden, 0) = 0
-group by convert(datetime, convert(varchar(4), datepart(yyyy, te.dateposted)) + '/' + convert(varchar(2), datepart(mm, te.dateposted)) + '/' + convert(varchar(2),datepart(dd, te.dateposted))+ ' 23:59:59')
+group by convert(datetime, convert(varchar(4), datepart(yyyy, te.dateposted)) + '/' + convert(varchar(2), datepart(mm, te.dateposted)) + '/' + convert(varchar(2),datepart(dd, te.dateposted))+ ' 23:59:59.997')
 , m.modclassid, ues.score, te.userid
 
 --select 0
@@ -53,7 +53,7 @@ from
 (
 	select typeid, eventdate, 0 as 'siteid', modclassid, null as 'siteeventid', score, accumulativescore, userid, numberofposts
 	from UserPostEvents
-	where eventdate >= @startdate
+	where eventdate > @startdate
 ) events
 order by eventdate
  
