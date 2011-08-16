@@ -39,14 +39,7 @@
 	                    	<xsl:with-param name="label" select="'Move discussion'" />
                         <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId]/SUBJECT"/>
 	                    </xsl:apply-templates>
-                    <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@THREAD = '0']" mode="moderation_cta_subscribethread">
-                      <xsl:with-param name="label" select="'Subscribe to discussion'" />
-                      <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
-                    </xsl:apply-templates>
-                    <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@THREAD = '1']" mode="moderation_cta_unsubscribethread">
-                      <xsl:with-param name="label" select="'Unsubscribe'" />
-                      <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
-                    </xsl:apply-templates>
+                   
                     <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@FROMTHREADID = $threadId]" mode="moderation_cta_unsubscribethreadresult">
                       <xsl:with-param name="label" select="'Subscribe to discussion'" />
                       <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
@@ -66,7 +59,18 @@
           <p class="closed">This discussion has been closed.</p>
         </div>
     	</xsl:if>
-        
+      <xsl:if test="/H2G2/VIEWING-USER/USER">
+        <p class="subscribe">
+        <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@THREAD = '0']" mode="moderation_cta_subscribethread">
+          <xsl:with-param name="label" select="'Subscribe to discussion'" />
+          <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
+        </xsl:apply-templates>
+        <xsl:apply-templates select="/H2G2/SUBSCRIBE-STATE[@THREAD = '1']" mode="moderation_cta_unsubscribethread">
+          <xsl:with-param name="label" select="'Unsubscribe from discussion'" />
+          <xsl:with-param name="subject" select="/H2G2/FORUMTHREADS/THREAD[@THREADID = $threadId][@CANWRITE = '1']/SUBJECT"/>
+        </xsl:apply-templates>
+        </p>
+      </xsl:if>
         <xsl:apply-templates select="." mode="library_pagination_forumthreadposts" />
         
         <div class="numDiscussions"><strong>Messages: </strong><xsl:value-of select="@SKIPTO + 1" /><xsl:text> - </xsl:text><xsl:value-of select="/H2G2/FORUMTHREADPOSTS/POST[last()]/@INDEX+1" /> of <xsl:value-of select="/H2G2/FORUMTHREADPOSTS/@TOTALPOSTCOUNT" /></div>
