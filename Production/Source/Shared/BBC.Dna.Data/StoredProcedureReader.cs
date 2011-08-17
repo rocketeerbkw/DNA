@@ -706,6 +706,21 @@ namespace BBC.Dna.Data
             return null;
         }
 
+        public SqlBinary GetSqlBinary(int i)
+        {
+            return _dataReader.GetSqlBinary(i);
+        }
+
+        /// <summary>
+        /// Get the value of the specified column as a Boolean.
+        /// </summary>
+        /// <param name="name">Name of the column.</param>
+        /// <returns>Int32 value of the column.</returns>
+        public SqlBinary GetSqlBinary(string name)
+        {
+            return GetSqlBinary(GetOrdinal(name));
+        }
+
 
         /// <summary>
         /// Get the value of the specified column as a byte.
@@ -1174,6 +1189,9 @@ namespace BBC.Dna.Data
         /// <returns>String value of the column</returns>
         public string GetString(int i)
         {
+            if (IsDBNull(i))
+                return null;
+
             return _dataReader.GetString(i);
         }
 
@@ -1184,6 +1202,9 @@ namespace BBC.Dna.Data
         /// <returns>String value of the column</returns>
         public string GetString(string name)
         {
+            if (IsDBNull(name))
+                return null;
+
             return _dataReader.GetString(_dataReader.GetOrdinal(name));
         }
 

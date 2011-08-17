@@ -94,7 +94,7 @@ SELECT @comma = ' , '
 END
 IF NOT (@email IS NULL)
 BEGIN
-SELECT @setuser = @setuser + @comma + 'email = @i_email'
+SELECT @setuser = @setuser + @comma + 'EncryptedEmail = @i_encryptedemail'
 SELECT @comma = ' , '
 END
 IF NOT (@EscapedUserName IS NULL)
@@ -218,10 +218,15 @@ END
 BEGIN TRANSACTION
 DECLARE @ErrorCode INT
 
+EXEC openemailaddresskey
+
 IF (@setuser <> '')
 BEGIN
 	declare @query nvarchar(4000)
 	SELECT @query = 'UPDATE Users SET ' + @setuser + ' WHERE UserID = @i_userid'
+	
+	declare @encryptedemail varbinary(8000)
+	set @encryptedemail = dbo.udf_encryptemailaddress(@email,@userid)
 	
 	--EXEC (@query)
 	exec sp_executesql @query,
@@ -232,7 +237,7 @@ BEGIN
 	@i_latitude float,
 	@i_longitude float,
 	@i_anonymous int,
-	@i_email varchar(255),
+	@i_encryptedemail varbinary(8000),
 	@i_username varchar(1200),
 	@i_postcode varchar(20),
 	@i_area varchar(100),
@@ -253,7 +258,7 @@ BEGIN
 	@i_latitude = @latitude,
 	@i_longitude = @longitude,
 	@i_anonymous = @anonymous,
-	@i_email = @email,
+	@i_encryptedemail = @encryptedemail,
 	@i_username = @EscapedUserName,
 	@i_postcode = @postcode,
 	@i_area = @area,

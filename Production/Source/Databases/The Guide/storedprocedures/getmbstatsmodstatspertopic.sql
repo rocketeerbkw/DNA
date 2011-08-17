@@ -16,16 +16,18 @@ END
 -- Work out the next day's date
 SET @NextDay = DATEADD(day,1,@Day)
 
+EXEC openemailaddresskey;
+
 IF NOT EXISTS(SELECT * FROM MBStatsModStatsPerTopic WITH(NOLOCK) WHERE SiteID=@siteid AND Day=@Day)
 BEGIN
 	INSERT INTO MBStatsModStatsPerTopic (SiteID,Day,TopicTitle,ForumID,UserID,UserName,Email,StatusID,Status,Total)
-		SELECT @siteid, @Day, g.subject, tm.forumid, u.userid, u.username, u.email, tm.status, ms.status, count(*) FROM Topics t WITH(NOLOCK)
+		SELECT @siteid, @Day, g.subject, tm.forumid, u.userid, u.username, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserID), tm.status, ms.status, count(*) FROM Topics t WITH(NOLOCK)
 			INNER JOIN GuideEntries g WITH(NOLOCK) ON g.h2g2id=t.h2g2id
 			INNER JOIN ThreadMod tm WITH(NOLOCK) ON tm.forumid = g.forumid and tm.DateQueued >= @Day and tm.DateQueued < @NextDay
 			INNER JOIN Users u WITH(NOLOCK) ON u.userid = tm.lockedby
 			INNER JOIN ModStatus ms WITH(NOLOCK) ON ms.statusid=tm.status
 			WHERE t.siteid=@siteid
-			GROUP BY g.subject, tm.forumid, u.userid, u.username, u.email, tm.status, ms.status
+			GROUP BY g.subject, tm.forumid, u.userid, u.username, dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserID), tm.status, ms.status
 END
 
 SELECT SiteID, Day, TopicTitle, ForumID, UserID, UserName, Email, StatusID, Status, Total

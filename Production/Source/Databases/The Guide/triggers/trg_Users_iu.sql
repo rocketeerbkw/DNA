@@ -12,14 +12,3 @@ AS
 			FROM Users
 			INNER JOIN inserted i ON i.UserId=Users.UserId
 	END
-
-	IF UPDATE(Email)
-	BEGIN
-		EXEC openemailaddresskey
-		
-		UPDATE Users
-			SET HashedEmail = dbo.udf_hashemailaddress(Users.Email),
-				EncryptedEmail = dbo.udf_encryptemailaddress(Users.Email,Users.UserId)
-			FROM Users
-			INNER JOIN inserted i ON i.UserId=Users.UserId
-	END

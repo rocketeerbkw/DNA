@@ -1,10 +1,13 @@
 create procedure getmoderatorinfo @userid int
 as
+
+EXEC openemailaddresskey
+
 select	u.UserID, 
 		u.UserName, 
 		u.FirstNames, 
 		u.LastName, 
-		u.Email,
+		dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as Email,
 		u.taxonomynode,
 		u.area,
 		u.Active,
@@ -28,7 +31,7 @@ select	u.UserID,
 		u.UserName, 
 		u.FirstNames, 
 		u.LastName, 
-		u.Email,
+		dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as Email,
 		u.taxonomynode,
 		u.area,
 		u.Active,

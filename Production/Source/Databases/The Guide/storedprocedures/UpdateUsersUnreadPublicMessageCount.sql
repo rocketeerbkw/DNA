@@ -1,5 +1,7 @@
 CREATE PROCEDURE updateusersunreadpublicmessagecount @userid int
 AS
+RAISERROR('updateusersunreadpublicmessagecount DEPRECATED',16,1)
+
 return (0)
 /*   Deprecated - only used in other unused procedure shiftuserid
      Future implementation must use SiteID and the mastheads table

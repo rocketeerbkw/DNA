@@ -9,6 +9,9 @@ Create Procedure updateuser	@userid int,
 								@status int = NULL,
 								@anonymous int = NULL
 As
+
+EXEC openemailaddresskey
+
 declare @set varchar(4000)
 declare @comma varchar(5)
 IF @username IS NOT NULL
@@ -40,7 +43,7 @@ SELECT @comma = ' , '
 END
 IF NOT (@email IS NULL)
 BEGIN
-SELECT @set = @set + @comma + 'email = ' + QUOTENAME(@email,'''')
+SELECT @set = @set + @comma + 'EncryptedEmail = dbo.udf_encryptemailaddress(' + QUOTENAME(@email,'''') + ',UserId)'
 SELECT @comma = ' , '
 END
 IF NOT (@username IS NULL)

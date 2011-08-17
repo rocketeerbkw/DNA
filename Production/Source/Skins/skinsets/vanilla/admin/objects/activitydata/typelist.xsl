@@ -120,15 +120,25 @@
 				</input>
 			</li>
 			<li>
-				<label for="new_users">New users</label>
+				<label for="new_users">Trusted users</label>
 				<input type="checkbox" name="s_eventtype" id="new_users" value="14">
-					<xsl:if test="TYPEID[text() = 14]">
+					<xsl:if test="TYPEID[text() = 20]">
 						<xsl:attribute name="checked">
 							<xsl:text>checked</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
 				</input>
 			</li>
+      <li>
+        <label for="new_users">New users</label>
+        <input type="checkbox" name="s_eventtype" id="new_users" value="14">
+          <xsl:if test="TYPEID[text() = 14]">
+            <xsl:attribute name="checked">
+              <xsl:text>checked</xsl:text>
+            </xsl:attribute>
+          </xsl:if>
+        </input>
+      </li>
 		</ul>
 	</xsl:template>
 </xsl:stylesheet>

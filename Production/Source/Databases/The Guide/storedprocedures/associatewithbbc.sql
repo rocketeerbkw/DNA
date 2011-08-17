@@ -3,6 +3,12 @@ CREATE PROCEDURE associatewithbbc	@email varchar(255), -- email address in h2g2 
 										@password varchar(255), -- h2g2 password
 										@loginname varchar(255) -- BBC loginname
 As
+
+RAISERROR('associatewithbbc DEPRECATED',16,1)
+
+-- This is only called from CStoredProcedure::AssociateBBCUID(), but no code actually calls CStoredProcedure::AssociateBBCUID()
+-- so this SP has been depricated
+/*
 declare @userid int, @cookie uniqueidentifier, @existinguid uniqueidentifier
 
 SELECT @userid = UserID, @cookie = Cookie, @existinguid = BBCUID FROM Users
@@ -30,3 +36,4 @@ BEGIN
 		SELECT 'UserID' = @userid, 'Cookie' = @cookie, 'Error' = 0, 'Reason' = '', 'FirstTime' = CASE WHEN @existinguid IS NULL THEN 1 ELSE 0 END
 	END
 END
+*/

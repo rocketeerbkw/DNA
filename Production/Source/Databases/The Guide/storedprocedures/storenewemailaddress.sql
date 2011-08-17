@@ -1,5 +1,10 @@
 Create Procedure storenewemailaddress @userid int, @oldemail varchar(255), @newemail varchar(255)
 As
+RAISERROR('storenewemailaddress DEPRECATED',16,1)
+
+/*
+	Deprecated - never called
+	
 	declare @message varchar(255)
 	IF NOT EXISTS (SELECT * FROM Users WHERE UserID = @userid AND email = @oldemail)
 	BEGIN
@@ -22,3 +27,4 @@ As
 		SELECT 'Success' = 1, SecretKey, 'Message' = 'Success' FROM EmailChange WHERE rownum = @rownum
 	END
 	return (0)
+*/

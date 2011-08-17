@@ -15,6 +15,8 @@ As
 
 DECLARE @ErrorCode INT
 
+EXEC openemailaddresskey
+
 --declare @modgroupid int
 --SELECT @modgroupid = groupid from Groups where name='Moderator'
 
@@ -254,8 +256,8 @@ LEFT JOIN Users lu WITH (NOLOCK) ON lu.UserId = tm.LockedBy
 LEFT JOIN GuideEntries ge WITH (NOLOCK) ON ge.ForumId = tm.ForumId
 
 -- Annonymous complainants: see if we can get a user record for the complainant from the email address. Only do it if we don't have a ComplaintantID and the email address is neither null nor blank. 
-LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND tm.CorrespondenceEmail = users_emails.email AND users_emails.email is not null AND users_emails.email != ''
-		AND users_emails.userid = (select min(userid) from users WITH (NOLOCK) where email = users_emails.email)
+LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND dbo.udf_hashemailaddress(tm.CorrespondenceEmail) = users_emails.hashedemail AND users_emails.hashedemail is not null 
+		AND users_emails.userid = (select min(userid) from users WITH (NOLOCK) where hashedemail = users_emails.hashedemail)
 
 -- Get the UID & URL if it's a comment forum. 
 LEFT JOIN CommentForums cf WITH (NOLOCK) ON te.ForumID = cf.ForumID
@@ -353,8 +355,9 @@ LEFT JOIN Users lu WITH (NOLOCK) ON lu.UserId = tm.LockedBy
 LEFT JOIN GuideEntries ge WITH (NOLOCK) ON ge.ForumId = tm.ForumId
 
 -- Annonymous complainants: see if we can get a user record for the complainant from the email address. Only do it if we don't have a ComplaintantID and the email address is neither null nor blank. 
-LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND tm.CorrespondenceEmail = users_emails.email AND users_emails.email is not null AND users_emails.email != ''
-		AND users_emails.userid = (select min(userid) from users WITH (NOLOCK) where email = users_emails.email)
+LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND dbo.udf_hashemailaddress(tm.CorrespondenceEmail) = users_emails.hashedemail AND users_emails.hashedemail is not null 
+		AND users_emails.userid = (select min(userid) from users WITH (NOLOCK) where hashedemail = users_emails.hashedemail)
+
 
 -- Get the UID & URL if it's a comment forum. 
 LEFT JOIN CommentForums cf WITH (NOLOCK) ON pmp.ForumID = cf.ForumID

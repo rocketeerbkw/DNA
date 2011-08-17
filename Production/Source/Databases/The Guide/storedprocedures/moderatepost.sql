@@ -35,6 +35,8 @@ END
 BEGIN TRANSACTION
 DECLARE @ErrorCode INT, @Success int, @authorsemail varchar(255), @complainantsemail varchar(255), @islegacy int, @authorid int, @complainantid int
 
+EXEC openemailaddresskey
+
 -- Update the ThreadMod line for this moderation
 -- Make sure we don't overwrite any existing dates however
 UPDATE ThreadMod
@@ -399,7 +401,7 @@ SELECT
 		DupComplaints.ModID
 	 FROM
 (
-	SELECT	U.Email 'authorsemail',
+	SELECT	dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) 'authorsemail',
 			U.UserID 'authorid', 
 			TM.CorrespondenceEmail 'complaintsemail',
 			TM.ComplainantID,
@@ -415,7 +417,7 @@ SELECT
 	
 	UNION ALL
 	
-	SELECT	U.Email 'authorsemail',
+	SELECT	dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) 'authorsemail',
 			U.UserID 'authorid', 
 			TM.CorrespondenceEmail 'complaintsemail',
 			TM.ComplainantID,

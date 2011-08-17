@@ -10,20 +10,23 @@
 	    
 		<xsl:variable name="referraltype">
 	    	<xsl:choose>
-	    		<xsl:when test="OBJECTTYPE = 'forum'">post</xsl:when>
-	    		<xsl:when test="OBJECTTYPE = 'entry'">article</xsl:when>
-	    		<xsl:when test="OBJECTTYPE = 'forumcomplaint'">alert</xsl:when>
-	    		<xsl:when test="OBJECTTYPE = 'entrycomplaint'">article alert</xsl:when>
-	    		<xsl:when test="OBJECTTYPE = 'generalcomplaint'">general complaint</xsl:when>
-	    		<xsl:when test="OBJECTTYPE = 'nickname'">nickname</xsl:when>
-	    	</xsl:choose>
+	    		<xsl:when test="OBJECT-TYPE = 'forum'">post</xsl:when>
+	    		<xsl:when test="OBJECT-TYPE = 'entry'">article</xsl:when>
+	    		<xsl:when test="OBJECT-TYPE = 'forumcomplaint'">alert</xsl:when>
+	    		<xsl:when test="OBJECT-TYPE = 'entrycomplaint'">article alert</xsl:when>
+	    		<xsl:when test="OBJECT-TYPE = 'generalcomplaint'">general complaint</xsl:when>
+	    		<xsl:when test="OBJECT-TYPE = 'nickname'">nickname</xsl:when>
+          <xsl:when test="OBJECT-TYPE = 'exlink'">ex-link</xsl:when>
+          <xsl:when test="OBJECT-TYPE = 'exlinkcomplaint'">ex-link alert</xsl:when>
+          
+        </xsl:choose>
 	    	<xsl:if test="@TOTAL != 1">
 	    		<xsl:text>s</xsl:text>
 	    	</xsl:if>
 	    </xsl:variable>
-    <xsl:variable name="selfObject" select="OBJECTTYPE" />
+    <xsl:variable name="selfObject" select="OBJECT-TYPE" />
     <xsl:variable name="combinedTotal">
-      <xsl:value-of select="number(parent::MODERATIONQUEUES/MODERATION-QUEUE-SUMMARY[OBJECTTYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/@TOTAL) + @TOTAL"/>
+      <xsl:value-of select="number(parent::MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/@TOTAL) + @TOTAL"/>
     </xsl:variable>
     
     <xsl:variable name="lowestDate">
@@ -33,8 +36,8 @@
             <xsl:when test="DATE/@YEAR != '1'">
               <xsl:value-of select="DATE/@RELATIVE"/>
             </xsl:when>
-            <xsl:when test="parent::MODERATIONQUEUES/MODERATION-QUEUE-SUMMARY[OBJECTTYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/DATE/@YEAR != '1'">
-              <xsl:value-of select="parent::MODERATIONQUEUES/MODERATION-QUEUE-SUMMARY[OBJECTTYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/DATE/@RELATIVE"/>
+            <xsl:when test="parent::MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/DATE/@YEAR != '1'">
+              <xsl:value-of select="parent::MODERATION-QUEUES/MODERATION-QUEUE-SUMMARY[OBJECT-TYPE=$selfObject and STATE ='queued' and @FASTMOD='0']/DATE/@RELATIVE"/>
             </xsl:when>
           </xsl:choose>
 
@@ -47,7 +50,7 @@
     
 	    <!-- STATE = 'queuedreffered' -->
 		<xsl:if test="(STATE = 'queued' and  @FASTMOD ='1') or STATE = 'lockedreffered'">
-			<xsl:if test="(OBJECTTYPE != 'entry' and OBJECTTYPE != 'entrycomplaint') or $dashboardtype='community' or $dashboardtype = 'all'">
+			<xsl:if test="(OBJECT-TYPE != 'entry' and OBJECT-TYPE != 'entrycomplaint') or $dashboardtype='community' or $dashboardtype = 'all'">
 			    <tr>
 					<th>
 						<xsl:if test="STATE = 'queuedreffered'">

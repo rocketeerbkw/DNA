@@ -57,8 +57,10 @@ BEGIN
 		RETURN @ErrorCode
 	END
 
+	EXEC openemailaddresskey
+
 	-- finally return the authors and complainants email addresses
-	SELECT	'AuthorsEmail' = u.Email,
+	SELECT	'AuthorsEmail' = dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId),
 			'AuthorID' = u.UserID, 
 			'ComplainantsEmail' = im.CorrespondenceEmail,
 			'ComplainantID' = im.ComplainantID

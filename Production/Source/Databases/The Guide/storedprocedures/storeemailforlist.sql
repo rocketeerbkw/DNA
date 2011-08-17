@@ -1,5 +1,10 @@
 CREATE   PROCEDURE storeemailforlist @email varchar(255), @listid int
 AS
+RAISERROR('storeemailforlist DEPRECATED',16,1)
+
+/*
+	Deprecated - no longer called
+
 DECLARE @uid int
 IF EXISTS (SELECT * FROM Users WHERE email = @email)
 BEGIN
@@ -34,3 +39,4 @@ BEGIN
 	SELECT 'Success' = 1
 END
 
+*/

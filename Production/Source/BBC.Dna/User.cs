@@ -9,6 +9,7 @@ using BBC.Dna.Data;
 using System.Threading;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna
 {
@@ -306,7 +307,7 @@ namespace BBC.Dna
         {
             get
             {
-                return _prefStatus == (int)ModerationUserStatuses.Status.Premoderated;
+                return _prefStatus == (int)ModerationStatus.UserStatus.Premoderated;
             }
         }
 
@@ -317,7 +318,7 @@ namespace BBC.Dna
         {
             get
             {
-                return _prefStatus == (int) ModerationUserStatuses.Status.Postmoderated;
+                return _prefStatus == (int)ModerationStatus.UserStatus.Postmoderated;
             }
         }
 
@@ -328,7 +329,7 @@ namespace BBC.Dna
         {
             get
             {
-                return _prefStatus == (int)ModerationUserStatuses.Status.Restricted;
+                return _prefStatus == (int)ModerationStatus.UserStatus.Restricted;
             }
         }
 
@@ -702,6 +703,9 @@ namespace BBC.Dna
                 {
                     InputContext.Diagnostics.WriteToLog("---** SignIn **---", "Set user with secure cookie failed!!! - " + secureCookie);
                 }
+
+                InputContext.Diagnostics.WriteToLog("---** SignIn **---", "Timing Info: "+signInComponent.GetLastTimingInfo());
+
                 return false;
             }
 

@@ -15,10 +15,12 @@ set @startdate = dateadd(dd, @days *-1, getdate())
 	from 
 	(
 		select urs.userid, urs.modclassid, urs.accumulativescore,urs.lastupdated, 
-		case when urs.accumulativescore >= urt.normalscore then 0 else -- standard
-			case when urs.accumulativescore < urt.normalscore and urs.accumulativescore >= urt.premodscore then 2 else --post mod score
-				case when urs.accumulativescore < urt.premodscore and urs.accumulativescore >= urt.bannedscore then 1 else --premod score
-					case when urs.accumulativescore < urt.bannedscore  then 4 else 0 end -- banned
+		case when urs.accumulativescore >= urt.trustedscore then 6 else -- trusted
+			case when urs.accumulativescore < urt.trustedscore and urs.accumulativescore >= urt.normalscore then 0 else --standard
+				case when urs.accumulativescore < urt.normalscore and urs.accumulativescore >= urt.premodscore then 2 else --post mod score
+					case when urs.accumulativescore < urt.premodscore and urs.accumulativescore >= urt.bannedscore then 1 else --premod score
+						case when urs.accumulativescore < urt.bannedscore  then 4 else 0 end -- banned
+					end
 				end
 			end
 		end as reputationDeterminedStatus

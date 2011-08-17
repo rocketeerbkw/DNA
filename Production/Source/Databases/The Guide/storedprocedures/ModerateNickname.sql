@@ -15,9 +15,11 @@ DECLARE @SiteID INT
 -- make sure we use the same date for all updates
 SET @CurrentDate = getdate()
 
+EXEC openemailaddresskey
+
 -- get the UserID we are updating, and also get their email at the same time
 SELECT	@UserID = NM.UserID, 
-		@Email = U.Email,
+		@Email = dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId),
 		@newnickname = NM.NickName,
 		@nickname = U.UserName, 
 		@SiteID = NM.SiteID

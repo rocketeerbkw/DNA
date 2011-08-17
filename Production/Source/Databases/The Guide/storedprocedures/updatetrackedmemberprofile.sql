@@ -8,6 +8,11 @@ create procedure updatetrackedmemberprofile
 	@applytoaltids bit = 0,
 	@allprofiles bit = 0
 as
+	RAISERROR('updatetrackedmemberprofile DEPRECATED',16,1)
+
+/*
+	Deprecated - This relies on data in UsersTags table.  This table on live is empty, so this SP cannot be used anymore
+
 begin
 	create table #usertagids (tagid int)
 	
@@ -28,8 +33,10 @@ begin
 	select tagid, @userid, @siteid
 	from #usertagids
 	
+	EXEC openemailaddresskey
+	
 	declare @email varchar(255)
-	select @email = NULLIF(U2.Email,'0') from Users U2 where UserID = @userid
+	select @email = NULLIF(dbo.udf_decryptemailaddress(U2.EncryptedEmail,U2.UserId),'0') from Users U2 where UserID = @userid
 
 	if (@email is not null)
 	begin
@@ -42,7 +49,7 @@ begin
 			select u.userid 
 			from Users u WITH(NOLOCK) 
 			inner join Preferences P WITH(NOLOCK) on P.UserID = U.UserID
-			where Email = @email and P.SiteID = @siteid
+			where HashedEmail = dbo.udf_hashemailaddress(@email) and P.SiteID = @siteid
 
 			delete from userstags 
 			where userid in (select userid from #userids) and siteid = @siteid
@@ -69,7 +76,7 @@ begin
 			select DISTINCT u.userid, p.siteid
 			from Users u WITH(NOLOCK) 
 			inner join Preferences P WITH(NOLOCK) on P.UserID = U.UserID
-			where Email = @email
+			where HashedEmail = dbo.udf_hashemailaddress(@email)
 
 			delete userstags
 			from userstags ut
@@ -91,3 +98,4 @@ begin
 	
 	drop table #usertagids
 end
+*/

@@ -11,6 +11,8 @@ BEGIN
 
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
+	EXEC openemailaddresskey
+
 	DECLARE @groupid INT
 	SELECT @groupid=GroupID FROM Groups WHERE [NAME] = 'Subs'
 
@@ -35,7 +37,7 @@ BEGIN
 				U.Active,
 				P.Title,
 				P.SiteSuffix,
-				U.Email,
+				dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) as Email,
 				ISNULL(SD.Quota, 4) AS SubQuota,
 				DateLastNotified,
 				(SELECT COUNT(EntryID) FROM AcceptedRecommendations WHERE SubEditorID = U.UserID AND Status = 2) AS Allocations

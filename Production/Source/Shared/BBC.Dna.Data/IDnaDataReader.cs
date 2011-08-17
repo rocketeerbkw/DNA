@@ -5,6 +5,7 @@ using System.Xml;
 using System.Data;
 using System.Collections;
 using System.Web.Caching;
+using System.Data.SqlTypes;
 
 namespace BBC.Dna.Data
 {
@@ -173,7 +174,14 @@ namespace BBC.Dna.Data
 		/// <returns>String value of the column</returns>
 		string GetString(string name);
 
-		/// <summary>
+        /// <summary>
+        /// Gets the value of the SqlBinary column
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>The int return value</returns>
+        SqlBinary GetSqlBinary(string name);
+
+        /// <summary>
 		/// Gets the column value as a DateTime
 		/// </summary>
 		/// <param name="name">name of column</param>

@@ -1,5 +1,6 @@
 CREATE  PROCEDURE findcookie1 @cookie uniqueidentifier
 AS
+RAISERROR('findcookie1 DEPRECATED',16,1)
 return (0)
 -- This has been deprecated
 /*

@@ -5,9 +5,14 @@ CREATE PROCEDURE updatememberprofilesacrosssites
 	@prefstatus int, 
 	@prefstatusduration int 
 AS
+
+EXEC openemailaddresskey
+
 -- Get the users email that matches the userid gievn
-DECLARE @Email varchar(255)
-SELECT @EMail = Email FROM Users WITH(NOLOCK) WHERE UserID = @UserToFindID
+DECLARE @Email varchar(255), @HashedEmail varbinary(900)
+SELECT  @Email = dbo.udf_decryptemailaddress(EncryptedEmail,UserId),
+		@HashedEmail  = HashedEmail 
+		FROM Users WITH(NOLOCK) WHERE UserID = @UserToFindID
 
 CREATE TABLE #useridsbysite (userid int, siteid int)
 
@@ -25,7 +30,7 @@ IF (@Email != '' AND @Email IS NOT NULL AND @Email != '0')
 		FROM Users u WITH(NOLOCK) 
 		INNER JOIN Preferences P WITH(NOLOCK) on P.UserID = U.UserID
 		INNER JOIN GroupMembers g WITH(NOLOCK) ON g.UserID = @ViewingUserID AND g.GroupID = @EditorGroupID AND g.SiteID = p.SiteID
-		WHERE Email = @email
+		WHERE u.HashedEmail = @HashedEmail
 	END
 ELSE
 	BEGIN

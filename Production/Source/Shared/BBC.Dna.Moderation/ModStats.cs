@@ -17,8 +17,8 @@ namespace BBC.Dna.Moderation
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [XmlTypeAttribute(AnonymousType = true, TypeName = "MODERATORHOME")]
-    [XmlRootAttribute("MODERATORHOME", Namespace = "", IsNullable = false)]
+    [XmlTypeAttribute(AnonymousType = true, TypeName = "MODERATOR-HOME")]
+    [XmlRootAttribute("MODERATOR-HOME", Namespace = "", IsNullable = false)]
     public class ModStats
     {
         public ModStats()
@@ -34,7 +34,7 @@ namespace BBC.Dna.Moderation
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute("MODERATIONQUEUES", Order = 1)]
+        [System.Xml.Serialization.XmlArrayAttribute("MODERATION-QUEUES", Order = 1)]
         [System.Xml.Serialization.XmlArrayItemAttribute("MODERATION-QUEUE-SUMMARY", IsNullable = false)]
         public List<ModQueueStat> ModerationQueues
         {
@@ -43,7 +43,7 @@ namespace BBC.Dna.Moderation
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute("USERID")]
+        [System.Xml.Serialization.XmlAttributeAttribute("USER-ID")]
         public int UserId
         {
             get;
@@ -194,7 +194,10 @@ namespace BBC.Dna.Moderation
         /// <returns></returns>
         public static ModStats FetchModStatsByModClass(IDnaDataReaderCreator creator, int userID, ModeratorInfo moderatorInfo, bool referrals, bool isFastMod)
         {
-            var modStats = new ModStats() { Moderator = moderatorInfo, UserId = userID, IsReferee = (byte)(referrals ? 1 : 0) };
+            var modStats = new ModStats() { Moderator = moderatorInfo, UserId = userID, IsReferee = (byte)(referrals ? 1 : 0),
+                                            FastMod = (byte)(isFastMod ? 1 : 0),
+                                            NotFastMod = (byte)(!isFastMod ? 1 : 0)
+            };
             modStats.CreateEmptyQueues(moderatorInfo, referrals, isFastMod);
 
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("fetchmoderationstatistics"))
@@ -291,6 +294,20 @@ namespace BBC.Dna.Moderation
             //referred general complaints
             ModerationQueues.Add(new ModQueueStat("queuedreffered", "generalcomplaint", fastMod, modClassID));
             ModerationQueues.Add(new ModQueueStat("lockedreffered", "generalcomplaint", fastMod, modClassID));
+
+            ModerationQueues.Add(new ModQueueStat("queued", "exlink", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("locked", "exlink", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("queued", "exlinkcomplaint", fastMod, modClassID));
+            ModerationQueues.Add(new ModQueueStat("locked", "exlinkcomplaint", fastMod, modClassID));
+
+            if (referrals)
+            {
+                //referred forum posts and complaints
+                ModerationQueues.Add(new ModQueueStat("queuedreffered", "exlink", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("lockedreffered", "exlink", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("queuedreffered", "exlinkcomplaint", fastMod, modClassID));
+                ModerationQueues.Add(new ModQueueStat("lockedreffered", "exlinkcomplaint", fastMod, modClassID));
+            }
         }
     }
 

@@ -73,6 +73,21 @@ BEGIN
 		sites.urlname as SiteUrl,
 		sites.Description as SiteDescription,
 		div.BBCDivisionName as Division,
+
+		(select count(distinct userid) from 
+			(
+			select userid from threadentries te
+			inner join forums f on f.forumid=te.forumid
+			where f.SiteID = sites.siteid and	
+			DatePosted between @startDate and @endDate
+			union all
+			select editor as userid from guideentries ge
+			where ge.SiteID = sites.siteid and	
+			DateCreated between @startDate and @endDate and
+			Type <= 1000 and status<>10 -- status 10 is frontpage
+			) s
+		) as ActiveUsers,
+
 		(select count(*) from threadmod tm
 		where 
 		tm.SiteID = sites.siteid and	
@@ -90,19 +105,6 @@ BEGIN
 		DateQueued > @startDate and DateQueued < @endDate and
 		 (tm.ComplaintText is not null)) as TotalComplaints,
 		
-		(select count(distinct userid) from 
-			(
-			select userid from threadentries te
-			inner join forums f on f.forumid=te.forumid
-			where f.SiteID = sites.siteid and	
-			DatePosted between @startDate and @endDate
-			union all
-			select editor as userid from guideentries ge
-			where ge.SiteID = sites.siteid and	
-			DateCreated between @startDate and @endDate and
-			Type <= 1000 and status<>10 -- status 10 is frontpage
-			) s
-		) as ActiveUsers,
 
 		(select  count(*) from threadentries te 
 		inner join users u on u.userid = te.userid		

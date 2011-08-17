@@ -7,10 +7,12 @@ AS
 declare @AutoSinBin int
 exec updateautosinbinstatus @userid, @siteid, @AutoSinBin output
 
+EXEC openemailaddresskey;
+
 select TOP 1 
 			u.UserID,
 			u.Cookie,
-			u.email,
+			dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as email,
 			u.UserName,
 			u.Password,
 			u.FirstNames,
@@ -57,7 +59,7 @@ select TOP 1
 			PrefStatus,
 			CASE WHEN mcm.ModClassId IS NULL THEN 0 ELSE 1 END 'IsModClassMember',
 			'AutoSinBin' = @AutoSinBin,
-			'BannedFromComplaints' = CASE WHEN be.EMail IS NULL THEN 0 ELSE 1 END
+			'BannedFromComplaints' = CASE WHEN be.EncryptedEmail IS NULL THEN 0 ELSE 1 END
 from Users U WITH(NOLOCK)
 LEFT JOIN UserTeams ut WITH(NOLOCK) ON ut.UserID = u.UserID AND ut.SiteID = @siteid
 LEFT JOIN Teams t WITH(NOLOCK) ON ut.TeamID = t.TeamID
@@ -66,6 +68,6 @@ INNER JOIN Sites s WITH(NOLOCK) ON s.SiteId = @siteid
 LEFT JOIN ModerationClassMembers mcm WITH(NOLOCK) ON mcm.UserId = @userid AND s.ModClassId = mcm.ModClassId
 LEFT JOIN Journals J WITH(NOLOCK) on J.UserID = u.UserID and J.SiteID = @siteid
 LEFT JOIN MastHeads m WITH(NOLOCK) on U.UserID = m.UserID AND m.SiteID = @siteid
-LEFT JOIN dbo.BannedEMails be WITH(NOLOCK) ON u.EMail = be.Email AND be.ComplaintBanned = 1
+LEFT JOIN dbo.BannedEMails be WITH(NOLOCK) ON dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) = dbo.udf_decryptemailaddress(be.EncryptedEmail,0) AND be.ComplaintBanned = 1
 where U.UserID = @userid
 ORDER BY P.UserID DESC

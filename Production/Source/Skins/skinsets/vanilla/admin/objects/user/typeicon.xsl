@@ -37,10 +37,12 @@
         <xsl:when test="text() = 'UserModeratedDeactivated'">
           <img src="/dnaimages/dna_messageboard/img/icons/deactivated_user.png" width="30" height="30" alt="deactivated user" title="deactivated user" />
         </xsl:when>       
+        <xsl:when test="text() = 'UserModeratedTrusted' or (text() = 'Trusted' and parent::USERACCOUNT/ACTIVE = '1') or (STATUS/@STATUSID = '6' and ACTIVE = '1')">
+          <img src="/dnaimages/dna_messageboard/img/icons/trusted_user.jpg" width="30" height="30" alt="trusted user" title="trusted user" />
+        </xsl:when>
         <xsl:when test="text() = 'Standard' and parent::USERACCOUNT/ACTIVE = '1' or (STATUS/@STATUSID = '0' and ACTIVE = '1') or ACTIVE = '1'">
           <img src="/dnaimages/dna_messageboard/img/icons/standard_user.png" width="30" height="30" alt="standard user" title="standard user" />
-        </xsl:when>  
-        
+        </xsl:when>
         <xsl:when test="parent::USERACCOUNT/ACTIVE = '0' or parent::USER/ACTIVE = '0' or ACTIVE = '0' or USER/ACTIVE = '0'">
         	<xsl:if test="/H2G2/@TYPE != 'USERLIST'"><xsl:value-of select="text()"/></xsl:if>
         	<img src="/dnaimages/dna_messageboard/img/icons/deactivated_user.png" width="30" height="30" alt="deactivated user" title="deactivated user" />
@@ -67,6 +69,9 @@
       </xsl:when>
       <xsl:when test="text() = 'Deactivated'">
         <img src="/dnaimages/dna_messageboard/img/icons/deactivated_user.png" width="30" height="30" alt="deactivated user" title="deactivated user" />
+      </xsl:when>
+      <xsl:when test="text() = 'Trusted'">
+        <img src="/dnaimages/dna_messageboard/img/icons/trusted_user.png" width="30" height="30" alt="trusted user" title="trusted user" />
       </xsl:when>
 
     </xsl:choose>

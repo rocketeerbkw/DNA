@@ -1,9 +1,17 @@
 CREATE PROCEDURE getbannedemailsstartingwithletter @skip int, @show int, @letter varchar(1), @showsigninbanned bit, @showcomplaintbanned bit, @showall bit
 AS
+
+EXEC openemailaddresskey;
+
+-- Decrypted all the banned emails is one shotm rather than multiple times in the CTE
+SELECT * INTO #BannedEmails FROM dbo.BannedEmails
+ALTER TABLE #BannedEmails ADD Email varchar(255)
+UPDATE #BannedEmails SET Email = dbo.udf_decryptemailaddress(EncryptedEmail,0);
+
 WITH EMailsCTE AS
 (
 	SELECT (ROW_NUMBER() OVER (ORDER BY EMail) - 1) AS 'Row', EMail, DateAdded, EditorID, SignInBanned, ComplaintBanned
-		FROM dbo.BannedEmails WITH(NOLOCK)
+		FROM #BannedEmails WITH(NOLOCK)
 			WHERE EMail LIKE @letter + '%'
 			AND
 			(

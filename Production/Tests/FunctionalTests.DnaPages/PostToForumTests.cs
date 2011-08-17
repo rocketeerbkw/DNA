@@ -45,7 +45,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             //var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
             UnSetSiteOptions();
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -59,10 +59,29 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus =ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             SetPermissions(siteStatus, forumStatus,threadStatus, userStatus, processPreMod);
+
+            var xml = PostToForum();
+
+            CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
+            CheckPostInThread(xml, expectedPostStatus, processPreMod);
+
+        }
+
+        [TestMethod]
+        public void PostToForum_TrustedUser_CorrectPost()
+        {
+            var processPreMod = false;
+            var siteStatus = ModerationStatus.SiteStatus.UnMod;
+            var forumStatus = ModerationStatus.ForumStatus.Reactive;
+            var threadStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Trusted;
+            var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             var xml = PostToForum();
 
@@ -78,7 +97,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
@@ -95,7 +114,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.PostMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -114,7 +133,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.PreMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -137,7 +156,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.PreMod;
             var forumStatus = ModerationStatus.ForumStatus.PreMod;
             var threadStatus = ModerationStatus.ForumStatus.PreMod;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -161,7 +180,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.PreMod;
             var forumStatus = ModerationStatus.ForumStatus.PreMod;
             var threadStatus = ModerationStatus.ForumStatus.PreMod;
-            var userStatus = ModerationStatus.ForumStatus.PreMod;
+            var userStatus = ModerationStatus.UserStatus.Premoderated;
             var expectedPostStatus = ModerationStatus.ForumStatus.PreMod;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -182,7 +201,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.PostMod;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -201,7 +220,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.PreMod;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -220,7 +239,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.PostMod;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.PostMod;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -239,7 +258,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.PreMod;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.PreMod;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -258,7 +277,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.PostMod;
+            var userStatus = ModerationStatus.UserStatus.Postmoderated;
             var expectedPostStatus = ModerationStatus.ForumStatus.PostMod;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -277,7 +296,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.PreMod;
+            var userStatus = ModerationStatus.UserStatus.Premoderated;
             var expectedPostStatus = ModerationStatus.ForumStatus.PreMod;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -326,7 +345,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.PreMod;
             var forumStatus = ModerationStatus.ForumStatus.PreMod;
             var threadStatus = ModerationStatus.ForumStatus.PreMod;
-            var userStatus = ModerationStatus.ForumStatus.PostMod;
+            var userStatus = ModerationStatus.UserStatus.Postmoderated;
             var expectedPostStatus = ModerationStatus.ForumStatus.PreMod;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -426,7 +445,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
 
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -537,7 +556,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.PreMod;
             var forumStatus = ModerationStatus.ForumStatus.PreMod;
             var threadStatus = ModerationStatus.ForumStatus.PreMod;
-            var userStatus = ModerationStatus.ForumStatus.PreMod;
+            var userStatus = ModerationStatus.UserStatus.Premoderated;
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -560,7 +579,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.PostMod;
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -700,7 +719,7 @@ namespace FunctionalTests
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
-            var userStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
 
 
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
@@ -783,7 +802,7 @@ namespace FunctionalTests
         }
 
         private void SetPermissions(ModerationStatus.SiteStatus siteStatus, ModerationStatus.ForumStatus forumStatus, 
-            ModerationStatus.ForumStatus threadStatus, ModerationStatus.ForumStatus userStatus, bool processPreMod)
+            ModerationStatus.ForumStatus threadStatus, ModerationStatus.UserStatus userStatus, bool processPreMod)
         {
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
@@ -808,10 +827,10 @@ namespace FunctionalTests
 
 
                 dataReader.ExecuteDEBUGONLY(string.Format("delete from Preferences where userid={0} and siteid={1}", _userId, _siteId));
-                if (userStatus != ModerationStatus.ForumStatus.Reactive)
+                if (userStatus != ModerationStatus.UserStatus.Standard)
                 {
                     dataReader.ExecuteDEBUGONLY(string.Format("insert into Preferences (userid, siteid, AutoSinBin, prefstatus, AgreedTerms, DateJoined,PrefStatusDuration, PrefStatusChangedDate) values ({0},{1},{2},{3},1,'2010/1/1',{4},'2020/1/1')", 
-                        _userId, _siteId,(userStatus == ModerationStatus.ForumStatus.PreMod) ? 1 : 0, (int)userStatus, 1000));
+                        _userId, _siteId,(userStatus == ModerationStatus.UserStatus.Premoderated) ? 1 : 0, (int)userStatus, 1000));
                 }
                 else
                 {

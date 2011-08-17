@@ -1,8 +1,11 @@
 CREATE PROCEDURE getbannedemails @skip int, @show int, @showsigninbanned bit, @showcomplaintbanned bit, @showall bit
 AS
+
+EXEC openemailaddresskey;
+
 WITH EMailsCTE AS
 (
-	SELECT (ROW_NUMBER() OVER (ORDER BY DateAdded desc) - 1) AS 'Row', EMail, DateAdded, EditorID, SignInBanned, ComplaintBanned
+	SELECT (ROW_NUMBER() OVER (ORDER BY DateAdded desc) - 1) AS 'Row', EncryptedEMail, DateAdded, EditorID, SignInBanned, ComplaintBanned
 		FROM dbo.BannedEmails WITH(NOLOCK)
 			WHERE
 				(
@@ -16,7 +19,8 @@ WITH EMailsCTE AS
 				OR
 					@showall = 1
 )
-SELECT (SELECT COUNT(*) FROM EMailsCTE) 'total', be.Row, be.EMail, be.DateAdded, be.EditorID, 'EditorName' = u.Username, be.SignInBanned, be.ComplaintBanned
+SELECT (SELECT COUNT(*) FROM EMailsCTE) 'total', 
+	be.Row, dbo.udf_decryptemailaddress(be.EncryptedEmail,0) as EMail, be.DateAdded, be.EditorID, 'EditorName' = u.Username, be.SignInBanned, be.ComplaintBanned
 	FROM EMailsCTE be WITH(NOLOCK)
 	INNER JOIN dbo.Users u WITH(NOLOCK) ON u.UserID = be.EditorID
 		WHERE be.Row BETWEEN @skip

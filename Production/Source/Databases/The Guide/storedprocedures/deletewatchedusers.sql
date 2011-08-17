@@ -22,6 +22,8 @@ CREATE PROCEDURE deletewatchedusers				@userid int,
 																		@currentsiteid INT =0 
 AS
 BEGIN
+	EXEC openemailaddresskey
+
 	DELETE FROM FaveForums
 	WHERE UserID = @userid AND ForumID IN 
 																( 
@@ -53,12 +55,13 @@ BEGIN
 																		--end J.SiteID = @currentsiteid /* -- ? -- */
 																)
 
+	
 
 
 	SELECT f.*, 
 	u.UserID,
 	u.Cookie,
-	u.email,
+	dbo.udf_decryptemailaddress(u.EncryptedEmail,u.userid) AS 'email',
 	u.UserName,
 	u.Password,
 	u.FirstNames,

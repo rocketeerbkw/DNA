@@ -1,5 +1,10 @@
 CREATE Procedure transferuserid @userid int, @newuserid int
 As
+RAISERROR('transferuserid DEPRECATED',16,1)
+
+/*
+	Deprecated - never called
+
 BEGIN TRANSACTION
 DECLARE @ErrorCode INT
 	INSERT INTO Users (	Cookie, 
@@ -41,10 +46,10 @@ DECLARE @ErrorCode INT
 		RETURN @ErrorCode
 	END
 
-/* 
-@createdid is the ID of teh new account into which the user @newuserid's details
-have been copied
-*/
+
+-- @createdid is the ID of teh new account into which the user @newuserid's details
+-- have been copied
+
 	DECLARE @createdid int
 	SELECT @createdid = @@IDENTITY
 
@@ -111,7 +116,7 @@ have been copied
 	END
 
 
-/* reset the old account where the old user was */
+-- reset the old account where the old user was
 	UPDATE Users
 		SET	Cookie = newid(), 
 			email = NULL, 
@@ -135,8 +140,7 @@ have been copied
 		RETURN @ErrorCode
 	END
 
-/* Now update all activity records accordingly
-*/
+-- Now update all activity records accordingly
 
 	UPDATE ThreadEntries
 		SET UserID = @createdid WHERE UserID = @newuserid
@@ -400,3 +404,4 @@ have been copied
 
 COMMIT TRANSACTION
 	return (0)
+*/

@@ -34,8 +34,10 @@ END
 BEGIN TRANSACTION
 DECLARE @ErrorCode INT
 
+EXEC openemailaddresskey
+
 declare @authorsemail varchar(255), @complainantsemail varchar(255), @assetid int
-select	@authorsemail = U.Email, @complainantsemail = mod.Email, @assetid = ma.ID
+select	@authorsemail = dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId), @complainantsemail = mod.Email, @assetid = ma.ID
 	from MediaAssetMod mod WITH(UPDLOCK)
 	inner join mediaasset ma ON ma.[ID] = mod.mediaassetid
 	inner join Users U WITH(NOLOCK) on U.UserID = ma.OwnerID

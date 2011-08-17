@@ -135,19 +135,27 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.DoesFieldExist("modId")).Return(true);
             reader.Stub(x => x.GetInt32NullAsZero("modId")).Return(modId);
 
+            var readerEvents = Mocks.DynamicMock<IDnaDataReader>();
+            readerEvents.Stub(x => x.Read()).Return(true).Repeat.Once();
+
             var readerCreator = Mocks.DynamicMock<IDnaDataReaderCreator>();
             readerCreator.Stub(x => x.CreateDnaDataReader("registerpostingcomplaint")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("moderatepost")).Return(readerModPost);
+            readerCreator.Stub(x => x.CreateDnaDataReader("insertsiteactivityitem")).Return(readerEvents);
+            
 
             var user = Mocks.DynamicMock<IUser>();
             user.Stub(x => x.IsSuperUser).Return(true);
+            user.Stub(x => x.UserName).Return("");
             Mocks.ReplayAll();
 
             var editForm = new PostEditForm(readerCreator) { Hidden = 1 };
+            editForm.Author = new UserElement() { user = new User() { UserId = 0, UserName = string.Empty } };
             editForm.UnHidePost(user, "");
              
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("registerpostingcomplaint"));
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("moderatepost"));
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("insertsiteactivityitem"));
             Assert.AreEqual(0, editForm.Hidden);
         }
 

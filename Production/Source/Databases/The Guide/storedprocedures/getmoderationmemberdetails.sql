@@ -2,29 +2,31 @@ CREATE PROCEDURE getmoderationmemberdetails @viewinguserid int, @usertofindid in
 AS
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
 
+	EXEC openemailaddresskey
+
 	-- Get the Editor group id from the groups table
 	DECLARE @EditorGroupID INT
 	SELECT @EditorGroupID = GroupID FROM Groups WHERE Name = 'Editor'
 
-	DECLARE @email VARCHAR(255)
+	DECLARE @hashedemail VARBINARY(900)
 	DECLARE @issuperuser INT
 	SELECT @issuperuser = CASE WHEN Status = 2 THEN 1 ELSE 0 END FROM Users WHERE userid = @viewinguserid
-	SELECT @email = email FROM users WHERE userid = @usertofindid
+	SELECT @hashedemail = hashedemail FROM users WHERE userid = @usertofindid
 	
-	IF (@Email != '' AND @Email IS NOT NULL AND @Email != '0')
+	IF (@hashedemail IS NOT NULL)
 	BEGIN
 	
 	    DECLARE @userids AS TABLE ( userid INT )
 	    INSERT INTO @userids( userid )
 	    SELECT uu.userid
 	    FROM Users uu
-	    WHERE  uu.email =  @Email AND uu.Email LIKE '%@%'
+	    WHERE  uu.hashedemail =  @hashedemail
 	    
 		-- Get all the user entries for the given email fo sites that the viewing user is an Editor
 		SELECT	u.UserID,
 				u.UserName,
 				u.LoginName,
-				u.Email,
+				dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as Email,
 				u.Active,
 				p.PrefStatus,
 				us.UserStatusDescription,
@@ -88,7 +90,7 @@ AS
 		SELECT	u.UserID,
 				u.UserName,
 				u.LoginName,
-				u.Email,
+				dbo.udf_decryptemailaddress(u.EncryptedEmail,u.UserId) as Email,
 				u.Active,
 				p.PrefStatus,
 				us.UserStatusDescription,

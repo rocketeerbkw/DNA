@@ -194,9 +194,11 @@ END
 
 COMMIT TRANSACTION
 
+EXEC openemailaddresskey
+
 -- return the email addresses and IDs of the author and the complainant, if any
 -- also return if this was a legacy moderation or not
-select	U.Email as AuthorsEmail,
+select	dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) as AuthorsEmail,
 		U.UserID as AuthorID,
 		AM.CorrespondenceEmail as ComplainantsEmail,
 		AM.ComplainantID,

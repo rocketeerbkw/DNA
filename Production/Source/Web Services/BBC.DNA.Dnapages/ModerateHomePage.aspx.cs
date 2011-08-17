@@ -45,7 +45,7 @@ public partial class ModerateHomePage : BBC.Dna.Page.DnaWebPage
     /// </summary>
     public override DnaBasePage.UserTypes AllowedUsers
     {
-        get { return DnaBasePage.UserTypes.ModeratorAndAbove; }
+        get { return DnaBasePage.UserTypes.EditorAndAbove; }
     }
 
     /// <summary> 

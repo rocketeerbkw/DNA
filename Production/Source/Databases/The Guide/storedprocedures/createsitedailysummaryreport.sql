@@ -137,7 +137,7 @@ begin
 		
 		(select count(*) from dbo.Preferences p
 		where
-		prefstatus<>0 and --3 = banned
+		prefstatus<>0 and prefstatus<>6  and --standard and trusted
 		p.SiteID = sites.siteid and	
 		PrefStatusChangedDate > @startDate and PrefStatusChangedDate < @tmpenddate) as 'TotalRestrictedUsers'
 		
