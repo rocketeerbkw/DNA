@@ -116,7 +116,7 @@ namespace BBC.Dna.Component
             }
             if (modHomeParams.OwnerID != 0 && InputContext.ViewingUser.UserID != modHomeParams.OwnerID && InputContext.ViewingUser.IsEditor)
             {
-		        // only editors can view other peoples moderation home page
+                // only editors can view other peoples moderation home page
                 AddErrorXml("NOT-EDITOR", "You cannot view someone elses Moderation Home Page unless you are logged in as an Editor.", RootElement);
                 return;
             }
@@ -141,14 +141,12 @@ namespace BBC.Dna.Component
             var moderatorInfo = ModeratorInfo.GetModeratorInfo(AppContext.ReaderCreator, modHomeParams.OwnerID, InputContext.TheSiteList);
 
             bool referrals = InputContext.ViewingUser.IsSuperUser;
-	        if ( !referrals )
-	        {
-		        referrals = isRefereeForAnySite;
-	        }
-
-            XmlElement modQueues = AddElementTag(parent, "MODERATION-QUEUES");
+            if (!referrals)
+            {
+                referrals = isRefereeForAnySite;
+            }
             ModStats modStats = ModStats.FetchModStatsByModClass(AppContext.ReaderCreator, modHomeParams.OwnerID, moderatorInfo, referrals, modHomeParams.FastMod != 0);
-            SerialiseAndAppend(modStats, parent.Name);
+            SerialiseAndAppend(modStats, "");
         }
 
         private bool CheckRefereeForAnySite()
@@ -193,33 +191,33 @@ namespace BBC.Dna.Component
         private void ProcessSubmission(ModHomeParameters modHomeParams)
         {
             string redirect = String.Empty;
-	        if (modHomeParams.FastMod == 1)
-	        {
-		        redirect += "fastmod=1&";
-	        }
-	        if (modHomeParams.NotFastMod == 1)
-	        {
-		        redirect += "notfastmod=1";
-	        }
+            if (modHomeParams.FastMod == 1)
+            {
+                redirect += "fastmod=1&";
+            }
+            if (modHomeParams.NotFastMod == 1)
+            {
+                redirect += "notfastmod=1";
+            }
 
-	        // now find out what the command is
-	        if (modHomeParams.UnlockForums)
-	        {
-		        UnlockAllForumModerations(modHomeParams.OwnerID);
+            // now find out what the command is
+            if (modHomeParams.UnlockForums)
+            {
+                UnlockAllForumModerations(modHomeParams.OwnerID);
                 ModerateRedirect(redirect);
-	        }
-	        else if (modHomeParams.UnlockForumReferrals)
-	        {
-		        UnlockAllForumReferrals(modHomeParams.OwnerID);
+            }
+            else if (modHomeParams.UnlockForumReferrals)
+            {
+                UnlockAllForumReferrals(modHomeParams.OwnerID);
                 ModerateRedirect(redirect);
-	        }
-	        else if (modHomeParams.UnlockUserPosts)
-	        {
-		        //Unlock Posts for moderator
+            }
+            else if (modHomeParams.UnlockUserPosts)
+            {
+                //Unlock Posts for moderator
                 UnlockModeratePostsForUser(modHomeParams.OwnerID, modHomeParams.ModClassID);
-	        }
-	        else if (modHomeParams.UnlockSitePosts)
-	        {
+            }
+            else if (modHomeParams.UnlockSitePosts)
+            {
                 if (modHomeParams.SiteID > 0)
                 {
                     //Unlock posts for given site - user must be an editor for given site / superuser
@@ -229,47 +227,47 @@ namespace BBC.Dna.Component
                 {
                     throw new DnaException("Invalid SiteId");
                 }
-	        }
-	        else if (modHomeParams.UnlockAllPosts)
-	        {
-		        //Unlock all posts for all sites user is an editor / superuser.
-		        UnlockModeratePosts(modHomeParams.OwnerID);
-	        }
-	        else if (modHomeParams.UnlockArticles)
-	        {
-		        UnlockAllArticleModerations(modHomeParams.OwnerID, InputContext.ViewingUser.UserID, modHomeParams.ModClassID);
-	        }
-	        else if (modHomeParams.UnlockArticleReferrals)
-	        {
-		        UnlockAllArticleReferrals(modHomeParams.OwnerID, InputContext.ViewingUser.UserID);
-	        }
-	        else if (modHomeParams.UnlockGeneral)
-	        {
-		        UnlockAllGeneralModerations(modHomeParams.OwnerID);
-	        }
-	        else if (modHomeParams.UnlockGeneralReferrals)
-	        {
-		        UnlockAllGeneralReferrals(modHomeParams.OwnerID);
-	        }
-	        else if (modHomeParams.UnlockNicknames)
-	        {
-                UnlockNickNamesForUser(modHomeParams.OwnerID, modHomeParams.ModClassID);
-	        }
-	        else if (modHomeParams.UnlockAll)
-	        {
-		        UnlockAllForumModerations(modHomeParams.OwnerID);
-                UnlockAllArticleModerations(modHomeParams.OwnerID, InputContext.ViewingUser.UserID, 0);
-		        UnlockAllGeneralModerations(modHomeParams.OwnerID);
-		        UnlockAllForumReferrals(modHomeParams.OwnerID);
+            }
+            else if (modHomeParams.UnlockAllPosts)
+            {
+                //Unlock all posts for all sites user is an editor / superuser.
+                UnlockModeratePosts(modHomeParams.OwnerID);
+            }
+            else if (modHomeParams.UnlockArticles)
+            {
+                UnlockAllArticleModerations(modHomeParams.OwnerID, InputContext.ViewingUser.UserID, modHomeParams.ModClassID);
+            }
+            else if (modHomeParams.UnlockArticleReferrals)
+            {
                 UnlockAllArticleReferrals(modHomeParams.OwnerID, InputContext.ViewingUser.UserID);
-		        UnlockAllGeneralReferrals(modHomeParams.OwnerID);
-		        UnlockAllNicknameModerations(modHomeParams.OwnerID,0);
-	        }
-	        else
-	        {
-		        // else do nothing as there is no recognised command
-	        }
-	    }
+            }
+            else if (modHomeParams.UnlockGeneral)
+            {
+                UnlockAllGeneralModerations(modHomeParams.OwnerID);
+            }
+            else if (modHomeParams.UnlockGeneralReferrals)
+            {
+                UnlockAllGeneralReferrals(modHomeParams.OwnerID);
+            }
+            else if (modHomeParams.UnlockNicknames)
+            {
+                UnlockNickNamesForUser(modHomeParams.OwnerID, modHomeParams.ModClassID);
+            }
+            else if (modHomeParams.UnlockAll)
+            {
+                UnlockAllForumModerations(modHomeParams.OwnerID);
+                UnlockAllArticleModerations(modHomeParams.OwnerID, InputContext.ViewingUser.UserID, 0);
+                UnlockAllGeneralModerations(modHomeParams.OwnerID);
+                UnlockAllForumReferrals(modHomeParams.OwnerID);
+                UnlockAllArticleReferrals(modHomeParams.OwnerID, InputContext.ViewingUser.UserID);
+                UnlockAllGeneralReferrals(modHomeParams.OwnerID);
+                UnlockAllNicknameModerations(modHomeParams.OwnerID, 0);
+            }
+            else
+            {
+                // else do nothing as there is no recognised command
+            }
+        }
         private void UnlockAllArticleModerations(int userID, int calledBy, int modClassID)
         {
             UnlockCalledBy("UnlockAllArticleModerations", userID, calledBy, modClassID);
@@ -368,7 +366,7 @@ namespace BBC.Dna.Component
             XmlElement redirectNode = AddElementTag(RootElement, "REDIRECT");
             AddAttribute(redirectNode, "URL", "Moderate?" + redirect);
         }
-        
+
         /* OLD IF NEWSTYLE==0 NOT NEEDED
         XmlElement GetQueuedModPerSiteXml(int ownerId)
         {
@@ -380,94 +378,94 @@ namespace BBC.Dna.Component
 
                 bool bOk = m_pSP->GetQueuedModPerSite(iOwnerId);
 
-	            if (bOk == false)
-	            {
-		            sXml << "<ERROR TYPE='NO-QUEUED-MOD-PER-SITE'>No moderation statistics " \
-			            "per site could be found</ERROR>";
-		            return false;
-	            }
+                if (bOk == false)
+                {
+                    sXml << "<ERROR TYPE='NO-QUEUED-MOD-PER-SITE'>No moderation statistics " \
+                        "per site could be found</ERROR>";
+                    return false;
+                }
 
                 int iPrevSiteID = -1;
-	            int iSiteID = -1;
-	            int iComplaints = 0;
-	            int iComplaintsRef = 0;
-	            int iNotComplaints = 0;
-	            int iNotComplaintsRef = 0;
-	            int iIsModerator = 0;
-	            int iIsReferee = 0;
-	            CTDVString sShortName;
-	            CTDVString sURL;
-	            sXml << "<QUEUED-PER-SITE>";
-	            while (!m_pSP->IsEOF())
-	            {
-		        iSiteID = m_pSP->GetIntField("SiteID");
+                int iSiteID = -1;
+                int iComplaints = 0;
+                int iComplaintsRef = 0;
+                int iNotComplaints = 0;
+                int iNotComplaintsRef = 0;
+                int iIsModerator = 0;
+                int iIsReferee = 0;
+                CTDVString sShortName;
+                CTDVString sURL;
+                sXml << "<QUEUED-PER-SITE>";
+                while (!m_pSP->IsEOF())
+                {
+                iSiteID = m_pSP->GetIntField("SiteID");
 
-		        if (iPrevSiteID != iSiteID )
-		        {
-			        if (iPrevSiteID != -1)
-			        {
-				        sXml << "<SITE>";
-				        sXml << "<NAME>" << sShortName << "</NAME>";
-				        sXml << "<COMPLAINTS>" << iComplaints << "</COMPLAINTS>";
-				        sXml << "<COMPLAINTS-REF>" << iComplaintsRef << "</COMPLAINTS-REF>";
-				        sXml << "<NOT-COMPLAINTS>" << iNotComplaints << "</NOT-COMPLAINTS>";
-				        sXml << "<NOT-COMPLAINTS-REF>" << iNotComplaintsRef << "</NOT-COMPLAINTS-REF>";
-				        sXml << "<ISMODERATOR>" << iIsModerator << "</ISMODERATOR>";
-				        sXml << "<ISREFEREE>" << iIsReferee << "</ISREFEREE>";
-				        sXml << "<URL>" << sURL << "</URL>";
-				        sXml << "</SITE>";
-				        iComplaints = 0;
-				        iNotComplaints = 0;
-				        iComplaintsRef = 0;
-				        iNotComplaintsRef = 0;
-			        }
+                if (iPrevSiteID != iSiteID )
+                {
+                    if (iPrevSiteID != -1)
+                    {
+                        sXml << "<SITE>";
+                        sXml << "<NAME>" << sShortName << "</NAME>";
+                        sXml << "<COMPLAINTS>" << iComplaints << "</COMPLAINTS>";
+                        sXml << "<COMPLAINTS-REF>" << iComplaintsRef << "</COMPLAINTS-REF>";
+                        sXml << "<NOT-COMPLAINTS>" << iNotComplaints << "</NOT-COMPLAINTS>";
+                        sXml << "<NOT-COMPLAINTS-REF>" << iNotComplaintsRef << "</NOT-COMPLAINTS-REF>";
+                        sXml << "<ISMODERATOR>" << iIsModerator << "</ISMODERATOR>";
+                        sXml << "<ISREFEREE>" << iIsReferee << "</ISREFEREE>";
+                        sXml << "<URL>" << sURL << "</URL>";
+                        sXml << "</SITE>";
+                        iComplaints = 0;
+                        iNotComplaints = 0;
+                        iComplaintsRef = 0;
+                        iNotComplaintsRef = 0;
+                    }
 
-			        iIsModerator = m_pSP->GetIntField("Moderator");
-			        iIsReferee = m_pSP->GetIntField("Referee");
-			        m_pSP->GetField("ShortName", sShortName);
-			        m_pSP->GetField("URLName", sURL);
-		        }
+                    iIsModerator = m_pSP->GetIntField("Moderator");
+                    iIsReferee = m_pSP->GetIntField("Referee");
+                    m_pSP->GetField("ShortName", sShortName);
+                    m_pSP->GetField("URLName", sURL);
+                }
 
-		        if (m_pSP->GetIntField("Complaint"))
-		        {
-			        if (m_pSP->GetIntField("Status") == 2)
-			        {
-				        iComplaintsRef = m_pSP->GetIntField("Total");
-			        }
-			        else
-			        {
-				        iComplaints = m_pSP->GetIntField("Total");
-			        }
-		        }
-		        else
-		        {	
-			        if (m_pSP->GetIntField("Status") == 2)
-			        {
-				        iNotComplaintsRef = m_pSP->GetIntField("Total");
-			        }
-			        else
-			        {
-				        iNotComplaints = m_pSP->GetIntField("Total");
-			        }
-		        }
+                if (m_pSP->GetIntField("Complaint"))
+                {
+                    if (m_pSP->GetIntField("Status") == 2)
+                    {
+                        iComplaintsRef = m_pSP->GetIntField("Total");
+                    }
+                    else
+                    {
+                        iComplaints = m_pSP->GetIntField("Total");
+                    }
+                }
+                else
+                {	
+                    if (m_pSP->GetIntField("Status") == 2)
+                    {
+                        iNotComplaintsRef = m_pSP->GetIntField("Total");
+                    }
+                    else
+                    {
+                        iNotComplaints = m_pSP->GetIntField("Total");
+                    }
+                }
 
-		        iPrevSiteID = iSiteID;
-		        m_pSP->MoveNext();
-	        }
-	        sXml << "<SITE>";
-	        sXml << "<NAME>" << sShortName << "</NAME>";
-	        sXml << "<COMPLAINTS>" << iComplaints << "</COMPLAINTS>";
-	        sXml << "<COMPLAINTS-REF>" << iComplaintsRef << "</COMPLAINTS-REF>";
-	        sXml << "<NOT-COMPLAINTS>" << iNotComplaints << "</NOT-COMPLAINTS>";
-	        sXml << "<NOT-COMPLAINTS-REF>" << iNotComplaintsRef << "</NOT-COMPLAINTS-REF>";
-	        sXml << "<ISMODERATOR>" << iIsModerator << "</ISMODERATOR>";
-	        sXml << "<ISREFEREE>" << iIsReferee << "</ISREFEREE>";
-	        sXml << "<URL>" << sURL << "</URL>";
-	        sXml << "</SITE>";
+                iPrevSiteID = iSiteID;
+                m_pSP->MoveNext();
+            }
+            sXml << "<SITE>";
+            sXml << "<NAME>" << sShortName << "</NAME>";
+            sXml << "<COMPLAINTS>" << iComplaints << "</COMPLAINTS>";
+            sXml << "<COMPLAINTS-REF>" << iComplaintsRef << "</COMPLAINTS-REF>";
+            sXml << "<NOT-COMPLAINTS>" << iNotComplaints << "</NOT-COMPLAINTS>";
+            sXml << "<NOT-COMPLAINTS-REF>" << iNotComplaintsRef << "</NOT-COMPLAINTS-REF>";
+            sXml << "<ISMODERATOR>" << iIsModerator << "</ISMODERATOR>";
+            sXml << "<ISREFEREE>" << iIsReferee << "</ISREFEREE>";
+            sXml << "<URL>" << sURL << "</URL>";
+            sXml << "</SITE>";
 
-	        sXml << "</QUEUED-PER-SITE>";
+            sXml << "</QUEUED-PER-SITE>";
 
-	        return bOk;
+            return bOk;
         }*/
     }
 }
