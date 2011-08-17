@@ -615,7 +615,11 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
 
-            request = PostToForumWithException(request, "Testing the terms filter with arse and humbugsweet");
+            //Add the terms to the terms update history
+
+            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleTermToAll_PassesValidation();
+
+            request = PostToForumWithException(request, "Testing terms with refferred item arse post");
 
             var xml = request.GetLastResponseAsXML();
 
@@ -658,12 +662,15 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
 
-            request = PostToForumWithException(request, "Testing the terms filter with arse, bum and humbugsweet");
+            //Add the terms to the terms update history
+
+            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleTermToAll_PassesValidation();
+
+            request = PostToForumWithException(request, "Testing terms with refferred item post arse");
 
             var xml = request.GetLastResponseAsXML();
 
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
-            CheckPostInThread(xml, expectedPostStatus, processPreMod);
 
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))

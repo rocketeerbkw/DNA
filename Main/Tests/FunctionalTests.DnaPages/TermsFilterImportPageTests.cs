@@ -155,7 +155,7 @@ namespace FunctionalTests
             SendSignal();
             //set up data
             var reason = "this has a reason";
-            var term = "bollocks";
+            var term = "arse";
             var action = TermAction.ReEdit;
 
             var moderationClasses = new ModerationClassListCache(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);

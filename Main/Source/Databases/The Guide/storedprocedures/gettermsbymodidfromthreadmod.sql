@@ -6,9 +6,9 @@ PURPOSE	-	Gets the terms list with the details
 */
 
 /* MODIFICATION HISTORY
-MODIFIED BY -	
-DATE		-	
-PURPOSE		-	
+MODIFIED BY -	Srihari
+DATE		-	16-AUG-2011
+PURPOSE		-	Used CROSS APPLY to get the latest term updates
 */
 
 CREATE PROCEDURE gettermsbymodidfromthreadmod
@@ -18,26 +18,18 @@ AS
 BEGIN   
  BEGIN TRY  
   
-  SELECT DISTINCT 
-   T.id        AS TermID  
-   , T.term       AS Term  
-   , (CASE   
-	  WHEN TUH.notes IS NULL THEN ''
-	  ELSE CAST(TUH.notes AS NVARCHAR(MAX))
-	 END) AS Reason
-   , (CASE
-	  WHEN TUH.updatedate IS NULL THEN ''
-      ELSE TUH.updatedate
-	 END) AS UpdatedDate
-   , (CASE 
-	  WHEN TUH.userid IS NULL THEN 0
-	  ELSE TUH.userid
-	  END) AS UserID
-  FROM ThreadMod AS TM  
-  INNER JOIN ModTermMapping AS MTM ON TM.ModID = MTM.ModID  
-  INNER JOIN TermsLookup AS T ON T.id = MTM.TermID  
-  LEFT JOIN TermsByModClassHistory AS TMCH ON tmch.termid = MTM.TermID  
-  LEFT JOIN TermsUpdateHistory AS TUH ON TMCH.updateid = TUH.id  
+  SELECT     
+	T.id        AS TermID      
+	, T.term       AS Term      
+	,TERMDETAILS.Reason
+	,TERMDETAILS.UpdatedDate
+	,TERMDETAILS.UserID
+  FROM ThreadMod AS TM      
+  INNER JOIN ModTermMapping AS MTM ON TM.ModID = MTM.ModID      
+  INNER JOIN TermsLookup AS T ON T.id = MTM.TermID 
+  INNER JOIN Sites AS S ON S.SiteID = TM.SiteId     
+	CROSS APPLY (SELECT ISNULL(notes,'') Reason, ISNULL(updatedate,'') UpdatedDate,ISNULL(userid,0) UserID FROM TermsUpdateHistory 
+					WHERE id=(SELECT MAX(updateid) FROM TermsByModClassHistory WHERE termid=MTM.TermID AND modclassid = S.ModClassID)) TERMDETAILS  
   WHERE  
    TM.ModID = @modId  
   ORDER BY T.term ASC  

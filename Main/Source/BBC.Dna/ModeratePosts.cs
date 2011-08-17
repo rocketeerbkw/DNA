@@ -203,6 +203,20 @@ namespace BBC.Dna.Component
                         {
                             translated = CommentInfo.FormatComment(dataReader.GetStringNullAsEmpty("text"), BBC.Dna.Api.PostStyle.Style.richtext, CommentStatus.Hidden.NotHidden, false);
                         }
+
+                        IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
+                        var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, modTermMappingId, false);
+                        if (termsList != null && termsList.TermDetails != null && termsList.TermDetails.Count > 0)
+                        {
+                            foreach(TermDetails termDetails in termsList.TermDetails)
+                            {
+                                if (true == translated.Contains(termDetails.Value))
+                                {
+                                    translated = translated.Replace(termDetails.Value, "<TERMFOUND ID=" + "\"" + termDetails.Id.ToString() + "\"" + "> " + termDetails.Value + "</TERMFOUND>");
+                                }
+                            }
+                        }
+
                         //translated = translated.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "TEXT", translated );
 
@@ -211,9 +225,9 @@ namespace BBC.Dna.Component
                         AddXmlTextTag(post, "NOTES", notes );
 
                         //Adds the term details to the Term node
-                        IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
+                        //IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
                         XmlElement termXml = AddElementTag(post, "TERMS");
-                        var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, modTermMappingId, false);
+                        //var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, modTermMappingId, false);
                         if (termsList.TermDetails.Count > 0)
                         {
                             foreach (TermDetails termDetails in termsList.TermDetails)

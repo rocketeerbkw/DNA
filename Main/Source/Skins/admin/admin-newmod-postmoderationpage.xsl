@@ -393,9 +393,62 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<div class="postContent">
-			<xsl:apply-templates select="TEXT"/>
+      <xsl:apply-templates select="TEXT" mode="moderate-term-found"/>
 		</div>
 	</xsl:template>
+
+  <!-- 
+		<xsl:template match="TERMFOUND" mode="moderate-term-found">
+		Author:	  Srihari
+		Context:  /H2G2/POSTMODERATION/POST/TERMS/TERMDETAILS
+		Purpose:	Displays the details of the term found in the POST if there is one
+	-->
+  <xsl:template match="TERMFOUND" mode="moderate-term-found">
+    <xsl:variable name="term-id">
+      <xsl:value-of select="@ID" />
+    </xsl:variable>
+
+    <xsl:variable name="moderated-term-reason">
+      <xsl:value-of select="../../TERMS/TERMDETAILS[@ID = $term-id]/REASON" />
+    </xsl:variable>
+
+    <xsl:variable name="moderated-term-date">
+      <xsl:value-of select="../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/@RELATIVE" />
+    </xsl:variable>
+
+    <strong>
+      <span title="{$moderated-term-reason} - {$moderated-term-date}">
+        <xsl:apply-templates mode="moderate-term-found"/>
+      </span>
+    </strong>
+  </xsl:template>
+
+  
+  <!-- Util template for string replace
+  -->
+  <xsl:template name="string-replace-all">
+    <xsl:param name="text" />
+    <xsl:param name="replace" />
+    <xsl:param name="by" />
+    <xsl:choose>
+      <xsl:when test="contains($text, $replace)">
+        <xsl:value-of select="substring-before($text,$replace)" />
+        <xsl:value-of select="$by" />
+        <xsl:call-template name="string-replace-all">
+          <xsl:with-param name="text"
+          select="substring-after($text,$replace)" />
+          <xsl:with-param name="replace" select="$replace" />
+          <xsl:with-param name="by" select="$by" />
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$text" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+
+  
 	<!-- 
 		<xsl:template match="ALERT" mode="complaintuser_info">
 		Author:	Andy Harris
