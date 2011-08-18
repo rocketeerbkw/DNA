@@ -70,7 +70,24 @@ namespace BBC.Dna.Objects
             PostThreadInfo postThreadInfo = new PostThreadInfo();
             postThreadInfo.ForumId = reader.GetInt32NullAsZero("ForumId");
             postThreadInfo.ThreadId = reader.GetInt32NullAsZero("ThreadId");
-            postThreadInfo.Type = reader.GetInt32NullAsZero("Type");
+            string type = reader.GetStringNullAsEmpty("Type");
+            if (type == "")
+            {
+                postThreadInfo.Type = 0;
+            }
+            else if (type == "Notice")
+            {
+                postThreadInfo.Type = 1;
+            }
+            else if (type == "Event")
+            {
+                postThreadInfo.Type = 2;
+            }
+            else 
+            {
+                postThreadInfo.Type = 3;
+            }
+
             if (reader.DoesFieldExist("FirstPostId"))
             {
                 postThreadInfo.FirstPostId = reader.GetInt32NullAsZero("FirstPostId");

@@ -1421,7 +1421,7 @@ default comment.", CommentStatus.Hidden.NotHidden, true, false);
 
             var reader = readerCreator.CreateDnaDataReader("posttoforum");
             reader.AssertWasCalled(x => x.AddParameter("forcemoderate", true));
-            reader.AssertWasCalled(x => x.AddParameter("modnotes","bomb"));
+            reader.AssertWasCalled(x => x.AddParameter("modnotes","Filtered terms: bomb"));
         }
 
         [TestMethod]

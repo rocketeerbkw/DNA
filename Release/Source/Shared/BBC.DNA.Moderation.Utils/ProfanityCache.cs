@@ -10,6 +10,7 @@ namespace BBC.Dna.Moderation.Utils
     {
         public ProfanityCache()
         {
+            //New structure to add the profanity list for a particular mod class
             ProfanityClasses = new Dictionary<int, ProfanityPair>();
         }
 
@@ -21,27 +22,57 @@ namespace BBC.Dna.Moderation.Utils
 
     }
 
+    /// <summary>
+    /// This keyvalue pair contains both the id and the value of the term
+    /// </summary>
     [Serializable]
     public class ProfanityPair
     {
+        #region private prop(s)
+
+        private List<KeyValuePair<int, string>> _termList = null;
+        private List<KeyValuePair<int, string>> _referList = null;
+
+        #endregion
+
+
+        #region cons(s)
+
         public ProfanityPair()
         {
-            ProfanityList = new List<string>();
-            ReferList = new List<string>();
-
+            ProfanityList = new List<KeyValuePair<int, string>>();
+            ReferList = new List<KeyValuePair<int, string>>();
         }
-        
 
-        public List<string> ProfanityList
+        #endregion
+
+
+        #region public prop(s)
+
+        public List<KeyValuePair<int, string>> ProfanityList
         {
-            get;
-            set;
+            get
+            {
+                return _termList;
+            }
+            set
+            {
+                _termList = value;
+            }
         }
 
-        public List<string> ReferList
+        public List<KeyValuePair<int, string>> ReferList
         {
-            get;
-            set;
+            get
+            {
+                return _referList;
+            }
+            set
+            {
+                _referList = value;
+            }
         }
+
+        #endregion
     }
 }

@@ -47,6 +47,7 @@ CREATE PROCEDURE posttoforuminternal @userid int,
 										@modnotes VARCHAR(255) = NULL,
 										@isthreadedcomment tinyint = 0,
 										@ignoreriskmoderation bit = 0,
+										@profanityxml xml = NULL,  
 										@forcepremodposting bit = 0,
 										@forcepremodpostingdate datetime = NULL,
 										@riskmodthreadentryqueueid int = NULL
@@ -202,7 +203,7 @@ BEGIN
 										@content, @poststyle, @hash, @keywords, @nickname, @type, 
 										@eventdate, @clubid, @allowevententries, @nodeid, @ipaddress,
 										@bbcuid, @iscomment, @threadread, @threadwrite, @modnotes, @forcepremodpostingdate,
-										@riskmodthreadentryqueueid
+										@riskmodthreadentryqueueid, @profanityxml
 										
 		-- COMMIT and Now Set the IsPreModPosting flag and return
 		COMMIT TRANSACTION
@@ -545,7 +546,7 @@ END
 IF (@unmoderated = 0)
 BEGIN
 	BEGIN TRY
-		EXEC QueueThreadEntryForModeration @forumid, @threadid, @entryid, @siteid, @modnotes
+		EXEC QueueThreadEntryForModeration @forumid, @threadid, @entryid, @siteid, @modnotes, @profanityxml
 	END TRY
 	BEGIN CATCH
 		SET @ErrorCode = ERROR_NUMBER()

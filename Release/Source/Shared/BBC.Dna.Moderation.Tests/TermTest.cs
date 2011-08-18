@@ -3,8 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using TestUtils;
 using System.Xml;
-using BBC.Dna.Moderation;
+//using BBC.Dna.Moderation;
 using BBC.Dna.Data;
+using BBC.Dna.Moderation.Utils;
 
 
 namespace BBC.Dna.Moderation.Tests
@@ -26,14 +27,14 @@ namespace BBC.Dna.Moderation.Tests
         public void TermConstructor_CorrectObject_ValidXml()
         {
             Term target = CreateTerm();
-            var expected = "<TERM xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"ReEdit\">term</TERM>";
+            var expected = "<TERM xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" />";
             XmlDocument xml = Serializer.SerializeToXml(target);
             Assert.AreEqual(expected, xml.SelectSingleNode("TERM").OuterXml);
         }
 
         public static Term CreateTerm()
         {
-            return new Term() {Id = 0, Action = TermAction.ReEdit, Value = "term"};
+            return new Term() { Id = 0, Action = TermAction.ReEdit, Value = "term" };
         }
 
         /// <summary>

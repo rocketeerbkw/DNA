@@ -1,20 +1,22 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 using BBC.Dna.Data;
-using BBC.Dna.Moderation.Utils;
-namespace BBC.Dna.Moderation
+using System.Xml.Linq;
+
+namespace BBC.Dna.Moderation.Utils
 {
-    
-    
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "TERM")]
-    public class Term_old
+    public class Term
     {
         /// <remarks/>
-        [XmlAttributeAttribute(AttributeName="ID")]
+        [XmlAttributeAttribute(AttributeName = "ID")]
         public int Id { get; set; }
 
 
@@ -27,8 +29,9 @@ namespace BBC.Dna.Moderation
         [XmlIgnore]
         private string _value;
         /// <remarks/>
-        [XmlTextAttribute()]
-        public string Value {
+        [XmlAttributeAttribute(AttributeName = "TERM")]
+        public string Value
+        {
             get { return CleanString(_value); }
             set { _value = CleanString(value); }
         }
@@ -84,21 +87,36 @@ namespace BBC.Dna.Moderation
             return text;
         }
 
+        /// <summary>
+        /// Creates the profanity xml by using the list of terms 
+        /// </summary>
+        /// <param name="terms"></param>
+        /// <returns></returns>
+        public string GetProfanityXML(List<Term> terms)
+        {
+
+            XElement xml = new XElement("Profanities",
+                                   from c in terms
+                                   select new XElement("id", c.Id.ToString()));
+
+            return xml.ToString();
+
+        }
     }
 
-    public enum TermActionOld
+    public enum TermAction
     {
         /// <summary>
         /// No action required
         /// </summary>
-        NoAction =0,
+        NoAction = 0,
         /// <summary>
         /// Action to moderation
         /// </summary>
-        Refer =1,
+        Refer = 1,
         /// <summary>
         /// Ask user to reedit
         /// </summary>
-        ReEdit=2
+        ReEdit = 2
     }
 }

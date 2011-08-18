@@ -9,6 +9,7 @@ using System.Xml.Xsl;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
+using BBC.DNA.Moderation.Utils;
 
 
 namespace BBC.Dna.Component
@@ -396,7 +397,8 @@ Possible values are 'reactive', 'postmod' and 'premod'";
 					if (noError)
 					{
 						string matchingProfanity;
-                        ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, comment, out matchingProfanity);
+                        List<Term> terms = null;
+                        ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, comment, out matchingProfanity, out terms);
 						if (ProfanityFilter.FilterState.FailBlock == state)
 						{
 							noError = false;

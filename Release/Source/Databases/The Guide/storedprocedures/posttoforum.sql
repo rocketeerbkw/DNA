@@ -31,7 +31,8 @@ CREATE PROCEDURE posttoforum @userid int,
 							@bbcuid uniqueidentifier = NULL,
 							@isnotable tinyint = 0, 
 							@iscomment tinyint = 0, -- Flag to control if ThreadPostings is populated. != 0 equates to don't populate. Also indicates this is a comment, not a conversation post, so we try not to create multiple threads
-							@modnotes varchar(255) = NULL -- Moderation Notes if post is entered into mod queue
+							@modnotes varchar(255) = NULL, -- Moderation Notes if post is entered into mod queue
+							@profanityxml xml = NULL -- ProfanityIds if post is entered into the threadmod
 AS
 declare @returnthreadid int, @returnpostid int, @ispremodposting int, @ispremoderated int
 SET @ispremodposting = 0
@@ -40,7 +41,7 @@ DECLARE @ReturnCode INT
 EXEC @ReturnCode = posttoforuminternal  @userid, @forumid, @inreplyto, @threadid, @subject, @content, @poststyle, @hash, @keywords, @nickname, @returnthreadid OUTPUT, 
 										@returnpostid OUTPUT, @type, @eventdate, @forcemoderate, @forcepremoderation, @ignoremoderation, DEFAULT, @nodeid, @ipaddress, 
 										NULL, @clubid, @ispremodposting OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment, @modnotes,
-										/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0
+										/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0, @profanityxml
 
 --Update Clubs Last Updated if new post to clubs forum.
 IF ( @clubid <> 0 AND ( @inreplyto Is NULL OR @inreplyto = 0 ) )

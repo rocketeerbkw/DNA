@@ -1532,7 +1532,7 @@ namespace BBC.Dna.Api.Tests
             comments.CallingUser = callingUser;
             comments.CreateComment(commentForum, commentInfo);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentcreate"));
-            reader.AssertWasCalled(x => x.AddParameter("modnotes", "bomb"));
+            reader.AssertWasCalled(x => x.AddParameter("modnotes", "Filtered terms: bomb"));
         }
 
         /// <summary>

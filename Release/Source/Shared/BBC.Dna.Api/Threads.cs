@@ -7,6 +7,9 @@ using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
+using BBC.DNA.Moderation.Utils;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace BBC.Dna.Api
 {
@@ -132,7 +135,13 @@ namespace BBC.Dna.Api
             bool ignoreModeration;
             bool forceModeration;
             var notes = string.Empty;
-            commentsObj.ValidateComment(forum, rating, site, out ignoreModeration, out forceModeration, out notes);
+            var profanityxml = string.Empty; 
+
+            List<Term> terms = null;
+
+            commentsObj.ValidateComment(forum, rating, site, out ignoreModeration, out forceModeration, out notes, out terms);
+
+            profanityxml = new Term().GetProfanityXML(terms); ;
 
             //create unique comment hash
             Guid guid = DnaHasher.GenerateCommentHashValue(rating.text, forum.Id, CallingUser.UserID);
@@ -156,6 +165,10 @@ namespace BBC.Dna.Api
                     if (!String.IsNullOrEmpty(notes))
                     {
                         reader.AddParameter("modnotes", notes);
+                    }
+                    if (false == String.IsNullOrEmpty(profanityxml))
+                    {
+                        reader.AddParameter("profanityxml", profanityxml);
                     }
                     reader.Execute();
                     if (reader.HasRows && reader.Read())

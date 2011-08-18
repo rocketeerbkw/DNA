@@ -10,6 +10,10 @@ using BBC.Dna.Common;
 using System.Configuration;
 using BBC.Dna.Sites;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.DNA.Moderation.Utils;
+using System.Xml.Linq;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace BBC.Dna.Objects
 {
@@ -706,12 +710,24 @@ namespace BBC.Dna.Objects
 
             bool forceModeration;
             string matchingProfanity= string.Empty;
+            string profanityxml = string.Empty;
             string postString = Subject + " " + Text;
+            List<Term> terms = null;
             if (InReplyTo > 0)
             {//only check text if not first post
                 postString = Text;
             }
-            CheckForProfanities(site, postString, out forceModeration, out matchingProfanity);
+            CheckForProfanities(site, postString, out forceModeration, out matchingProfanity, out terms);
+
+            if (false == string.IsNullOrEmpty(matchingProfanity))
+            {
+                matchingProfanity = "Filtered terms: " + matchingProfanity; // Adding an extra bit of information for clarity
+            }
+
+            if (terms != null && terms.Count > 0)
+            {
+                profanityxml = new Term().GetProfanityXML(terms);
+            }
 
             //check posting frequency
             if (!viewingUser.IsEditor && !viewingUser.IsSuperUser && !viewingUser.IsNotable)
@@ -746,7 +762,7 @@ namespace BBC.Dna.Objects
             }
             else
             {
-                CreateForumPost(readerCreator, viewingUser.UserId, forumId, ignoreModeration, isNotable, _iPAddress, bbcUidCookie, false, false, forcePreModeration, forceModeration, matchingProfanity);
+                CreateForumPost(readerCreator, viewingUser.UserId, forumId, ignoreModeration, isNotable, _iPAddress, bbcUidCookie, false, false, forcePreModeration, forceModeration, matchingProfanity, profanityxml);
             }
         }
 
@@ -765,7 +781,7 @@ namespace BBC.Dna.Objects
         /// <param name="isQueued"> Indicates whether post was Queued</param>
         /// <param name="isPreModPosting"></param>
         /// <param name="isPreModerated"></param>
-        public void CreateForumPost(IDnaDataReaderCreator readerCreator, int userid, int forumId, bool ignoreModeration, bool isNotable, string ipAddress, Guid bbcUID, bool isComment, bool allowQueuing, bool forcePreModerate, bool forceModeration, string modNotes)
+        public void CreateForumPost(IDnaDataReaderCreator readerCreator, int userid, int forumId, bool ignoreModeration, bool isNotable, string ipAddress, Guid bbcUID, bool isComment, bool allowQueuing, bool forcePreModerate, bool forceModeration, string modNotes, string strProfanityxml)
         {
 
             String source = this.Subject + "<:>" + this.Text + "<:>" + Convert.ToString(userid) + "<:>" + Convert.ToString(forumId) + "<:>" + Convert.ToString(ThreadId) + "<:>" + Convert.ToString(this.InReplyTo);
@@ -798,6 +814,11 @@ namespace BBC.Dna.Objects
                 dataReader.AddParameter("iscomment", isComment);
                 dataReader.AddParameter("modnotes", modNotes);
                 
+                if (false == string.IsNullOrEmpty(strProfanityxml))
+                {
+                    dataReader.AddParameter("profanityxml", strProfanityxml);
+                }
+
                 dataReader.Execute();
                 if (dataReader.Read())
                 {
@@ -828,6 +849,7 @@ namespace BBC.Dna.Objects
                     // isQueued = dataReader.GetBoolean("wasqueued");
                 }
             }
+
         }
 
         /// <summary>
@@ -878,11 +900,11 @@ namespace BBC.Dna.Objects
         /// <param name="site"></param>
         /// <param name="textToCheck"></param>
         /// <param name="forceModeration"></param>
-        private void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity)
+        private void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity, out List<Term> terms)
         {
             forceModeration = false;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
-                                                                                    out matchingProfanity);
+                                                                                    out matchingProfanity, out terms);
             if (ProfanityFilter.FilterState.FailBlock == state)
             {
                 throw ApiException.GetError(ErrorType.ProfanityFoundInText);

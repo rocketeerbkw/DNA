@@ -141,7 +141,7 @@ namespace BBC.Dna.Objects.Tests
             var readerCreator = Mocks.DynamicMock<IDnaDataReaderCreator>();
             readerCreator.Stub(x => x.CreateDnaDataReader("registerpostingcomplaint")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("moderatepost")).Return(readerModPost);
-            readerCreator.Stub(x => x.CreateDnaDataReader("insertsiteactivityitem")).Return(readerEvents);
+
             
 
             var user = Mocks.DynamicMock<IUser>();
@@ -155,7 +155,7 @@ namespace BBC.Dna.Objects.Tests
              
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("registerpostingcomplaint"));
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("moderatepost"));
-            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("insertsiteactivityitem"));
+
             Assert.AreEqual(0, editForm.Hidden);
         }
 

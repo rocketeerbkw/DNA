@@ -7,6 +7,10 @@ using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
+using BBC.DNA.Moderation.Utils;
+using System.Xml.Linq;
+using System.Linq;
+
 
 namespace BBC.Dna.Api
 {
@@ -436,8 +440,16 @@ namespace BBC.Dna.Api
             bool ignoreModeration;
             bool forceModeration;
             var notes = string.Empty;
+            string profanityxml = string.Empty;
 
-            ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration, out notes);
+            List<Term> terms = null;
+
+            ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration, out notes, out terms);
+
+            if (terms != null && terms.Count > 0)
+            {
+                profanityxml = new Term().GetProfanityXML(terms);
+            }
 
             //create unique comment hash
             Guid guid = DnaHasher.GenerateCommentHashValue(comment.text, commentForum.Id, CallingUser.UserID);
@@ -471,6 +483,12 @@ namespace BBC.Dna.Api
                     {
                         reader.AddParameter("modnotes", notes);
                     }
+
+                    if (false == string.IsNullOrEmpty(profanityxml))
+                    {
+                        reader.AddParameter("profanityxml", profanityxml);
+                    }
+
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
@@ -591,7 +609,7 @@ namespace BBC.Dna.Api
         /// <param name="ignoreModeration"></param>
         /// <param name="forceModeration"></param>
         public void ValidateComment(Forum commentForum, CommentInfo comment, ISite site, 
-            out bool ignoreModeration, out bool forceModeration, out string notes)
+            out bool ignoreModeration, out bool forceModeration, out string notes, out List<Term> terms)
         {
             if (CallingUser == null || CallingUser.UserID == 0)
             {
@@ -680,7 +698,7 @@ namespace BBC.Dna.Api
             }
             //run against profanity filter
             notes = string.Empty;
-            CheckForProfanities(site, comment.text, out forceModeration, out notes);
+            CheckForProfanities(site, comment.text, out forceModeration, out notes, out terms);
             forceModeration = forceModeration ||
                               (commentForum.ModerationServiceGroup > ModerationStatus.ForumStatus.Reactive);
                 //force moderation if anything greater than reactive
@@ -827,7 +845,16 @@ namespace BBC.Dna.Api
             bool ignoreModeration;
             bool forceModeration;
             var notes = string.Empty;
-            ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration, out notes);
+            string profanityxml = string.Empty;
+
+            List<Term> terms = null;
+
+            ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration, out notes, out terms);
+
+            if (terms != null && terms.Count > 0)
+            {
+                profanityxml = new Term().GetProfanityXML(terms);
+            }
 
             //create unique comment hash
             var guid = DnaHasher.GenerateCommentHashValue(comment.text, commentForum.Id, CallingUser.UserID);
@@ -853,6 +880,12 @@ namespace BBC.Dna.Api
                     {
                         reader.AddParameter("modnotes", notes);
                     }
+
+                    if (false == string.IsNullOrEmpty(profanityxml))
+                    {
+                        reader.AddParameter("profanityxml", profanityxml);
+                    }
+
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
@@ -1140,12 +1173,18 @@ namespace BBC.Dna.Api
         /// <param name="site">the current site</param>
         /// <param name="textToCheck">The text to check</param>
         /// <param name="forceModeration">Whether to force moderation or not</param>
-        private static void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity)
+        private static void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity, out List<Term> terms)
         {
             matchingProfanity = string.Empty;
             forceModeration = false;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
-                                                                                    out matchingProfanity);
+                                                                                    out matchingProfanity, out terms);
+
+            if (false == string.IsNullOrEmpty(matchingProfanity))
+            {
+                matchingProfanity = "Filtered terms: " + matchingProfanity; // Adding an extra bit of information for clarity
+            }
+
             if (ProfanityFilter.FilterState.FailBlock == state)
             {
                 throw ApiException.GetError(ErrorType.ProfanityFoundInText);
@@ -1345,6 +1384,7 @@ namespace BBC.Dna.Api
             CacheManager.Remove(cacheKey + CacheLastupdated);
             CacheManager.Remove(cacheKey);
         }
+
 
         #endregion
     }

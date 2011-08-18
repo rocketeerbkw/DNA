@@ -10,6 +10,7 @@ using System.Web.Configuration;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
+using BBC.DNA.Moderation.Utils;
 
 
 namespace BBC.Dna.Component
@@ -164,7 +165,8 @@ namespace BBC.Dna.Component
             //check profanity filter
             
             string matchingProfanity;
-            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, search, out matchingProfanity);
+            List<Term> terms = null;
+            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, search, out matchingProfanity, out terms);
             
 
             if (ProfanityFilter.FilterState.Pass == state)

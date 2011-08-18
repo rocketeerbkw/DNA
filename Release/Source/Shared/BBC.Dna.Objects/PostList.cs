@@ -49,6 +49,10 @@ namespace BBC.Dna.Objects
         [XmlAttribute(AttributeName = "MORE")]
         [DataMember(Name = "more", Order = 4)]
         public int More { get; set; }
+        /// <remarks/>
+        [XmlAttribute(AttributeName = "TOTAL")]
+        [DataMember(Name = "total", Order = 5)]
+        public int Total { get; set; }
 
         [XmlElement(Order = 2, ElementName = "USER")]
         [DataMember(Name = "user", Order = 8)]
@@ -56,7 +60,7 @@ namespace BBC.Dna.Objects
 
         /// <remarks/>
         [XmlElement("POSTS", Form = XmlSchemaForm.Unqualified)]
-        [DataMember(Name = "posts", Order = 4)]
+        [DataMember(Name = "posts", Order = 6)]
         public List<Post> Posts { get; set; }
 
         /// <summary>
@@ -88,26 +92,29 @@ namespace BBC.Dna.Objects
             PostList postList = new PostList();
             postList.Skip = skip;
             postList.Show = show;
+            postList.Total = 0;
 
             int count = 0;
             // fetch all the lovely intellectual property from the database
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getalluserpostingstats3"))
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("getalluserpostingstats4"))
             {
                 reader.AddParameter("siteid", site.SiteID);
                 reader.AddParameter("userid", dnaUserId);
-                reader.AddParameter("maxresults", skip + show);
+                reader.AddParameter("skip", skip);
+                reader.AddParameter("show", show);
 
                 reader.Execute();
 
                 if (reader.HasRows && reader.Read())
                 {
-                    if (skip > 0)
+/*                    if (skip > 0)
                     {
                         for (int i = 1; i < skip; i++)
                         {
                             reader.Read();
                         }
                     }
+ * */
                     postList.User = new UserElement() { user = BBC.Dna.Objects.User.CreateUserFromReader(reader) };
 
                     bool more = true;
@@ -135,6 +142,7 @@ namespace BBC.Dna.Objects
                             }
 
                         }
+                        postList.Total = reader.GetInt32NullAsZero("Total");
                         postList.Posts.Add(post);
 
                         more = reader.Read();

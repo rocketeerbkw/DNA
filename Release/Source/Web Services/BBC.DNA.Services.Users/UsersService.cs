@@ -15,6 +15,7 @@ using System.Xml;
 using BBC.Dna.Users;
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation.Utils;
+using System.Collections.Generic;
 
 namespace BBC.Dna.Services
 {
@@ -726,8 +727,9 @@ namespace BBC.Dna.Services
                 {
                     // Check to make sure the site suffix doesn't contain a profanity
                     string matchingProfanity;
+                    List<Term> terms = null;
                     ProfanityFilter.FilterState siteSuffixProfanity = ProfanityFilter.FilterState.Pass;
-                    siteSuffixProfanity = ProfanityFilter.CheckForProfanities(site.ModClassID, siteSuffix, out matchingProfanity);
+                    siteSuffixProfanity = ProfanityFilter.CheckForProfanities(site.ModClassID, siteSuffix, out matchingProfanity, out terms);
                     if (siteSuffixProfanity == ProfanityFilter.FilterState.FailBlock)
                     {
                         throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ProfanityFoundInText));

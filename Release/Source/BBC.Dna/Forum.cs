@@ -9,6 +9,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
+using BBC.DNA.Moderation.Utils;
 
 
 namespace BBC.Dna
@@ -1136,13 +1137,14 @@ namespace BBC.Dna
             string textToCheck = subject + " " + body;
 
             string matchedProfanity = String.Empty;
+            List<Term> terms = null;
 
             bool forceModerate = false;
             profanityFound = false;
             nonAllowedURLsFound = false;
             emailAddressFound = false;
 
-            ProfanityFilter.FilterState filterState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, textToCheck, out matchedProfanity);
+            ProfanityFilter.FilterState filterState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, textToCheck, out matchedProfanity, out terms);
 
             if (filterState == ProfanityFilter.FilterState.FailBlock)
             {

@@ -8,9 +8,11 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Data;
 using System.Collections.Generic;
 using BBC.Dna.Common;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Objects;
+
 namespace BBC.Dna.Moderation
 {
-
 
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
@@ -37,10 +39,24 @@ namespace BBC.Dna.Moderation
             Terms = new List<Term>();
         }
 
+
+        /// <summary>
+        /// Overloaded constructor if details from ThreadMod
+        /// </summary>
+        /// <param name="modClassId"></param>
+        public TermsList(int modId, bool isFromThreadMod)
+        {
+            this.ModClassId = modId;
+            TermDetails = new List<TermDetails>();
+        }
+
         #region Properties
         /// <remarks/>
         [XmlElementAttribute("TERM", Order = 0)]
         public List<Term> Terms { get; set; }
+
+        [XmlElementAttribute("TERMDETAILS", Order = 1)]
+        public List<TermDetails> TermDetails {get;set;}
 
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName = "MODCLASSID")]
@@ -94,6 +110,43 @@ namespace BBC.Dna.Moderation
                 }
             }
 
+            return termsList;
+        }
+
+
+        /// <summary>
+        /// Get the terms list from the ThreadMod table
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="modClassId"></param>
+        /// <param name="isFromThreadMod"></param>
+        /// <returns></returns>
+        public static TermsList GetTermsListByThreadModIdFromThreadModDB(IDnaDataReaderCreator readerCreator,
+            int modId, bool isFromThreadMod)
+        {
+            var termsList = new TermsList ( modId, isFromThreadMod );
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettermsbymodidfromthreadmod"))
+            {
+                reader.AddParameter("modId", modId);
+                reader.Execute();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var termDetails = new TermDetails
+                                                {
+                                                    Id = reader.GetInt32NullAsZero("TermID"),
+                                                    Value = reader.GetStringNullAsEmpty("Term"),
+                                                    Reason = reader.GetStringNullAsEmpty("Reason"),
+                                                    UpdatedDate = new Date(reader.GetDateTime("UpdatedDate")),
+                                                    UserID = reader.GetInt32NullAsZero("UserID")
+                                                };
+
+                        termsList.TermDetails.Add(termDetails);
+                    }
+                }
+            }
             return termsList;
         }
 

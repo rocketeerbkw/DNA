@@ -8,6 +8,7 @@ using BBC.Dna.Moderation;
 using System.Threading;
 using System.ComponentModel;
 using BBC.Dna.Moderation.Utils;
+using BBC.DNA.Moderation.Utils;
 
 namespace BBC.Dna
 {
