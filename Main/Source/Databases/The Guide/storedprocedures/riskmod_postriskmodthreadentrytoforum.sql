@@ -46,8 +46,8 @@ DECLARE @ReturnCode INT
 EXEC @ReturnCode = posttoforuminternal  @userid, @forumid, @inreplyto, @threadid, @subject, @content, @poststyle, @hash, @keywords, @nickname, @returnthreadid OUTPUT, 
 										@newthreadentryid OUTPUT, @type, @eventdate, @forcemoderate, @forcepremoderation, @ignoremoderation, /*@AllowEventEntries*/DEFAULT, 
 										@nodeid, @ipaddress, /*@queueid*/NULL, @clubid, @ispremodposting OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, 
-										@IsComment, @modnotes, @isthreadedcomment, /*@ignoreriskmoderation*/ 1, @forcepremodposting, /* @forcepremodpostingdate*/ @dateposted,
-										@riskmodthreadentryqueueid
+										@IsComment, @modnotes, @isthreadedcomment, /*@ignoreriskmoderation*/ 1, NULL /* @profanityxml */, @forcepremodposting, 
+										/* @forcepremodpostingdate*/ @dateposted, @riskmodthreadentryqueueid
 
 IF @ReturnCode = 0
 BEGIN
