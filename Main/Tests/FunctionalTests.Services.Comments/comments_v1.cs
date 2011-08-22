@@ -1035,27 +1035,10 @@ namespace FunctionalTests.Services.Comments
 
             Console.WriteLine("After CreateComment");
 
-            using (FullInputContext inputcontext = new FullInputContext(""))
-            {
-                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                {
-                    reader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
-                    Assert.IsTrue(reader.Read());
-                    Assert.AreEqual("Filtered terms: arse", reader.GetStringNullAsEmpty("notes"));
-
-                    reader.ExecuteDEBUGONLY("select * from ModTermMapping where modid = (select max(modid) from threadmod)");
-                    Assert.IsTrue(reader.Read());
-                    Assert.AreEqual(6, reader.GetInt32("TermID"));
-
-                    threadModId = reader.GetInt32("ModID");
-                }
-            }
-
-            IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
-
-            var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual("arse", termsList.TermDetails[0].Value);
+            CheckTermsInDB("arse");
         }
+
+       
 
         /// <summary>
         /// Test CreateCommentForum method from service
@@ -1099,26 +1082,7 @@ namespace FunctionalTests.Services.Comments
 
                 Console.WriteLine("After CreateComment");
 
-                using (FullInputContext inputcontext = new FullInputContext(""))
-                {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                    {
-                        reader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
-                        Assert.IsTrue(reader.Read());
-                        Assert.AreEqual("Filtered terms: arse", reader.GetStringNullAsEmpty("notes"));
-
-                        reader.ExecuteDEBUGONLY("select * from ModTermMapping where modid = (select max(modid) from threadmod)");
-                        Assert.IsTrue(reader.Read());
-                        Assert.AreEqual(6, reader.GetInt32("TermID"));
-
-                        threadModId = reader.GetInt32("ModID");
-                    }
-                }
-
-                IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
-
-                var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-                Assert.AreEqual("arse", termsList.TermDetails[0].Value);
+                CheckTermsInDB("arse");
             }
             finally
             {
@@ -1898,6 +1862,42 @@ namespace FunctionalTests.Services.Comments
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
             myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site&siteid=1", "", "text/xml");
 
+        }
+
+        /// <summary>
+        /// Checks the term is in the db correctly
+        /// </summary>
+        /// <param name="termStr"></param>
+        private void CheckTermsInDB(string termStr)
+        {
+            var threadModId = 0;
+            var userId = 6;
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
+                    Assert.IsTrue(reader.Read());
+                    Assert.AreEqual("Filtered terms: " + termStr, reader.GetStringNullAsEmpty("notes"));
+
+                    reader.ExecuteDEBUGONLY("select * from ModTermMapping where modid = (select max(modid) from threadmod)");
+                    Assert.IsTrue(reader.Read());
+                    Assert.AreEqual(6, reader.GetInt32("TermID"));
+
+                    threadModId = reader.GetInt32("ModID");
+                }
+            }
+
+            var reason = "test reason";
+            IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
+            var term = new Term() { Value = termStr, Action = TermAction.Refer };
+            var termsList = new TermsList(threadModId);
+            termsList.Terms.Add(term);
+            termsList.UpdateTermsInDatabase(creator, CacheFactory.GetCacheManager(), reason, userId);
+
+            termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
+            Assert.AreEqual(term, termsList.TermDetails[0].Value);
+            Assert.AreEqual(reason, termsList.TermDetails[0].Reason);
         }
     }
 }
