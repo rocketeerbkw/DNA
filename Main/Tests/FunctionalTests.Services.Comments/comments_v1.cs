@@ -1871,6 +1871,7 @@ namespace FunctionalTests.Services.Comments
         private void CheckTermsInDB(string termStr)
         {
             var threadModId = 0;
+            var modClassId = 0;
             var userId = 6;
             using (FullInputContext inputcontext = new FullInputContext(""))
             {
@@ -1885,18 +1886,22 @@ namespace FunctionalTests.Services.Comments
                     Assert.AreEqual(6, reader.GetInt32("TermID"));
 
                     threadModId = reader.GetInt32("ModID");
+
+                    reader.ExecuteDEBUGONLY("SELECT s.modclassid AS ModClassID FROM threadmod TM INNER JOIN sites S ON TM.SiteID = S.SiteID WHERE modid = (select max(modid) from threadmod) ");
+                    Assert.IsTrue(reader.Read());
+                    modClassId = reader.GetInt32("ModClassID");
                 }
             }
 
             var reason = "test reason";
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
             var term = new Term() { Value = termStr, Action = TermAction.Refer };
-            var termsList = new TermsList(threadModId);
+            var termsList = new TermsList(modClassId);
             termsList.Terms.Add(term);
             termsList.UpdateTermsInDatabase(creator, CacheFactory.GetCacheManager(), reason, userId);
 
             termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual(term, termsList.TermDetails[0].Value);
+            Assert.AreEqual(termStr, termsList.TermDetails[0].Value);
             Assert.AreEqual(reason, termsList.TermDetails[0].Reason);
         }
     }
