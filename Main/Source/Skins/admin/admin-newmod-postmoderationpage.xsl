@@ -393,7 +393,8 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<div class="postContent">
-      <xsl:apply-templates select="TEXT" mode="moderate-term-found"/>
+      <!-- xsl:apply-templates  select="TEXT" mode="moderate-term-found"/ -->
+      <xsl:apply-templates select="TEXT"/>
 		</div>
 	</xsl:template>
 
