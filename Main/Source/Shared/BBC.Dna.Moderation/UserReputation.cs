@@ -47,6 +47,10 @@ namespace BBC.Dna.Moderation
         [XmlElementAttribute(Form = XmlSchemaForm.Unqualified, Order = 6, ElementName = "LASTUPDATED")]
         public DateElement LastUpdated { get; set; }
 
+        [DataMember(Name = "userName")]
+        [XmlElementAttribute(Form = XmlSchemaForm.Unqualified, Order = 7, ElementName = "USERNAME")]
+        public string UserName { get; set; }
+
         /// <summary>
         /// Generates user reputation object
         /// </summary>

@@ -47,8 +47,9 @@ CTE_TOTAL AS
 (
 	SELECT (SELECT CAST(MAX(n) AS INT) FROM cte_usersstatus) AS 'total', * FROM cte_usersstatus
 )
-select *
-from CTE_TOTAL
+select *, u.username
+from CTE_TOTAL cte
+inner join users u on cte.userid = u.userid
 where 
 	n > @startindex and n <= @startindex + @itemsperpage
 	

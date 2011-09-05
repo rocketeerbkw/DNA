@@ -70,9 +70,9 @@ namespace BBC.Dna.Component
             }
 
             _startIndex = 0;
-            if (InputContext.DoesParamExist("startIndex", "startIndex"))
+            if (InputContext.DoesParamExist("s_startIndex", "startIndex"))
             {
-                _days = InputContext.GetParamIntOrZero("startIndex", "startIndex");
+                _startIndex = InputContext.GetParamIntOrZero("s_startIndex", "s_startIndex");
             }
 
         }

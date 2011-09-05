@@ -94,7 +94,7 @@
       </div>
       <xsl:if test="/H2G2/USERREPUTATION">
       <div id="hideAllSitesContainer">
-        <label for="hideAllSites">Hide on all sites: </label>
+        <label for="hideAllSites">Apply to all sites: </label>
         <input type="checkbox" name="hideAllSites" id="hideAllSites" />
       </div>
       </xsl:if>
