@@ -34,7 +34,7 @@
           <div class="dna-fl dna-main-right">
             <p>
               User:<br/> <a href="memberdetails?userid={USEREVENTLIST/@USERID}">
-                <xsl:value-of select="USEREVENTLIST/@USERID"/>
+                <xsl:value-of select="USERREPUTATION/USERNAME"/>
               </a>
             </p>
             <p>

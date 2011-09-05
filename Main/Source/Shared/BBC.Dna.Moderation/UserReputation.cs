@@ -76,6 +76,7 @@ namespace BBC.Dna.Moderation
                     userRep.CurrentStatus = (ModerationStatus.UserStatus)dataReader.GetInt32NullAsZero("currentstatus");
                     userRep.ReputationDeterminedStatus = (ModerationStatus.UserStatus)dataReader.GetInt32NullAsZero("ReputationDeterminedStatus");
                     userRep.ReputationScore = dataReader.GetInt16("accumulativescore");
+                    userRep.UserName = dataReader.GetStringNullAsEmpty("username");
                     userRep.LastUpdated = new DateElement(dataReader.GetDateTime("lastupdated"));
                 }
             }
