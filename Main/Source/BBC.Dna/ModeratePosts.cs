@@ -212,6 +212,9 @@ namespace BBC.Dna.Component
 
                         try
                         {
+                            string uniqueStr = "[" + Guid.NewGuid().ToString() + "]";
+                            translated = translated.Replace("&gt;", uniqueStr);
+
                             XElement translatedXml = XElement.Parse(translated);
                             var textNodeList = translatedXml.DescendantNodes().OfType<XText>().ToList();
                             if (textNodeList != null && textNodeList.Count > 0)
@@ -231,6 +234,11 @@ namespace BBC.Dna.Component
                                 }
                             }
                            translated = translatedXml.ToString();
+
+                           translated = translated.Replace("&lt;TERMFOUND", "<TERMFOUND");
+                           translated = translated.Replace("&lt;/TERMFOUND&gt;", "</TERMFOUND>");
+                           translated = translated.Replace("&gt;", ">");
+                           translated = translated.Replace(uniqueStr, "&gt;");
                         }
                         catch (Exception)
                         {
