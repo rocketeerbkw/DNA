@@ -132,6 +132,7 @@
             <xsl:include href="_library/pagination/siteevents.xsl" />
             <xsl:include href="_library/pagination/contributions.xsl" />
             <xsl:include href="_library/pagination/userevents.xsl" />
+            <xsl:include href="_library/pagination/userreputationreport.xsl" />
   
 
 

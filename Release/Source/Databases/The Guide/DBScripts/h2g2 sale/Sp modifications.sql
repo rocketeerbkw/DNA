@@ -1,0 +1,2 @@
+-- SPs to modify
+-- processeventqueue - comment out all "generate" calls or stub addevent SP

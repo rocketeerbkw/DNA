@@ -47,6 +47,10 @@ namespace BBC.Dna.Moderation
         [XmlElementAttribute(Form = XmlSchemaForm.Unqualified, Order = 6, ElementName = "LASTUPDATED")]
         public DateElement LastUpdated { get; set; }
 
+        [DataMember(Name = "userName")]
+        [XmlElementAttribute(Form = XmlSchemaForm.Unqualified, Order = 7, ElementName = "USERNAME")]
+        public string UserName { get; set; }
+
         /// <summary>
         /// Generates user reputation object
         /// </summary>
@@ -72,6 +76,7 @@ namespace BBC.Dna.Moderation
                     userRep.CurrentStatus = (ModerationStatus.UserStatus)dataReader.GetInt32NullAsZero("currentstatus");
                     userRep.ReputationDeterminedStatus = (ModerationStatus.UserStatus)dataReader.GetInt32NullAsZero("ReputationDeterminedStatus");
                     userRep.ReputationScore = dataReader.GetInt16("accumulativescore");
+                    userRep.UserName = dataReader.GetStringNullAsEmpty("username");
                     userRep.LastUpdated = new DateElement(dataReader.GetDateTime("lastupdated"));
                 }
             }

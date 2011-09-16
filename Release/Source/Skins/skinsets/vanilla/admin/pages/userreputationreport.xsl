@@ -84,11 +84,12 @@
 	<xsl:template match="USERREPUTATIONLIST">
 		<div class="dna-fl dna-main-full">
 			<p><strong><xsl:value-of select="@TOTALITEMS"/> instances found.</strong></p>
+      <xsl:apply-templates select="." mode="library_pagination_userreputationlist"/>
 			<table class="dna-dashboard-activity dna-userlist">
 				<thead>
 					<tr>
 						<th class="narrow"><label for="applyToAll">All</label><input type="checkbox" name="applyToAll" id="applyToAll" /></th>
-						<th>User Id</th>
+						<th>User</th>
 						<th>Score</th>
 						<th>Current Status</th>
 						<th>Reputation Status</th>
@@ -100,6 +101,7 @@
 					<xsl:apply-templates select="USERS/USERREPUTATION" />
 				</tbody>
 			</table>
+      <xsl:apply-templates select="." mode="library_pagination_userreputationlist"/>
 			<p><strong><xsl:value-of select="@TOTALITEMS"/> instances found.</strong></p>
       <input type="submit" value="Apply action to all select users" id="ApplyAction" name="ApplyAction"/>
 		</div>
@@ -116,7 +118,7 @@
         <input type="hidden" id="{position()}|userid" name="{position()}|userid" value="{USERID}"/>
         <input type="hidden" id="{position()}|modclassid" name="{position()}|modclassid" value="{MODERATIONCLASS/@CLASSID}"/>
         <a href="memberdetails?userid={USERID}">
-          <xsl:value-of select="USERID"/>
+          <xsl:value-of select="USERNAME"/>
         </a>
 			</td>
 			<td>

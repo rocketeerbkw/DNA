@@ -145,7 +145,7 @@ namespace BBC.Dna
                 if (!errorThrown)
                 {
                     //add cookie as per https://confluence.dev.bbc.co.uk/display/iStats/iStats+for+DNA+Message+Board+Pages
-                    HttpCookie dnaCookie = new HttpCookie("cmc_ux", "mb_post=true");
+                    HttpCookie dnaCookie = new HttpCookie("sa_labels", "mb_post=true");
                     dnaCookie.Expires = DateTime.Now.AddMinutes(1);
                     InputContext.AddCookie(dnaCookie);
 
