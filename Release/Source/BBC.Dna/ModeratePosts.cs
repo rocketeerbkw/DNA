@@ -204,7 +204,7 @@ namespace BBC.Dna.Component
                             translated = CommentInfo.FormatComment(dataReader.GetStringNullAsEmpty("text"), BBC.Dna.Api.PostStyle.Style.richtext, CommentStatus.Hidden.NotHidden, false);
                         }
 
-                        translated = translated.Replace(translated, "<HEAD>" + translated + "</HEAD>");
+                        translated = translated.Replace(translated, "<DUMMYHEAD>" + translated + "</DUMMYHEAD>");
 
 
                         IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
@@ -216,7 +216,7 @@ namespace BBC.Dna.Component
                             translated = translated.Replace("&gt;", uniqueStr);
 
                             XElement translatedXml = XElement.Parse(translated);
-                            var textNodeList = translatedXml.DescendantNodes().OfType<XText>().ToList();
+                            var textNodeList = translatedXml.DescendantNodes().OfType<XText>().Where(n => !n.Parent.Name.LocalName.Equals("LINK")).ToList();
                             if (textNodeList != null && textNodeList.Count > 0)
                             {
                                 foreach (XText text in textNodeList)
@@ -244,7 +244,9 @@ namespace BBC.Dna.Component
                         {
                         }
 
-                        
+                        translated = translated.Replace("<DUMMYHEAD>", "");
+                        translated = translated.Replace("</DUMMYHEAD>", "").Trim();
+                                                
                         //translated = translated.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "TEXT", translated );
 
