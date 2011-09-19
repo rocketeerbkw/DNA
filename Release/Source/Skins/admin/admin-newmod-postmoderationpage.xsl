@@ -393,17 +393,17 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<div class="postContent">
-      <xsl:apply-templates  select="TEXT" mode="moderate-term-found"/>
+      <xsl:apply-templates  select="TEXT" />
 		</div>
 	</xsl:template>
 
   <!-- 
-		<xsl:template match="TERMFOUND" mode="moderate-term-found">
-		Author:	  Srihari
+		<xsl:template match="TERMFOUND">
+		Author:	  Srihari & Mark N
 		Context:  /H2G2/POSTMODERATION/POST/TERMS/TERMDETAILS
 		Purpose:	Displays the details of the term found in the POST if there is one
 	-->
-  <xsl:template match="TERMFOUND" mode="moderate-term-found">
+  <xsl:template match="TERMFOUND">
     <xsl:variable name="term-id">
       <xsl:value-of select="@ID" />
     </xsl:variable>
@@ -418,7 +418,7 @@
 
     <strong>
       <span title="{$moderated-term-reason} - {$moderated-term-date}">
-        <xsl:apply-templates mode="moderate-term-found"/>
+        <xsl:apply-templates />
       </span>
     </strong>
   </xsl:template>
