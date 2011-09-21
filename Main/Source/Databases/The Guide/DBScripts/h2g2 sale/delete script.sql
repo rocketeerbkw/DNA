@@ -126,7 +126,7 @@ drop table dbo.Totals
 drop table dbo.UserPrefSnapshot0801111738
 drop table dbo.usersWithWrongDateJoined
 drop table dbo.usersWithWrongDateJoinedWithMinDate
-drop table dbo.Whiteblobs
+--drop table dbo.Whiteblobs  -- I think this may be used by h2g2
 drop table dbo.ww2faves
 GO
 
@@ -147,7 +147,7 @@ truncate table dbo.BannedIPAddress
 truncate table dbo.BBCDivision
 truncate table dbo.BIEventQueue
 truncate table dbo.BIEventQueueHandled
-truncate table dbo.blobs
+--truncate table dbo.blobs -- Mistake, this is deffo needed by h2g2
 truncate table dbo.Clubs
 truncate table dbo.ClubPermissions
 truncate table dbo.ClubVotes
