@@ -204,14 +204,15 @@ namespace BBC.Dna.Component
                             translated = CommentInfo.FormatComment(dataReader.GetStringNullAsEmpty("text"), BBC.Dna.Api.PostStyle.Style.richtext, CommentStatus.Hidden.NotHidden, false);
                         }
 
-                        translated = translated.Replace(translated, "<DUMMYHEAD>" + translated + "</DUMMYHEAD>");
-
+                        string translatedBeforeTermsHiglighting = translated;
 
                         IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
                         var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, modTermMappingId, false);
 
                         try
                         {
+                            translated = "<DUMMYHEAD>" + translated + "</DUMMYHEAD>";
+
                             string uniqueStr = "[" + Guid.NewGuid().ToString() + "]";
                             translated = translated.Replace("&gt;", uniqueStr);
 
@@ -239,14 +240,15 @@ namespace BBC.Dna.Component
                            translated = translated.Replace("&lt;/TERMFOUND&gt;", "</TERMFOUND>");
                            translated = translated.Replace("&gt;", ">");
                            translated = translated.Replace(uniqueStr, "&gt;");
+
+                           translated = translated.Replace("<DUMMYHEAD>", "");
+                           translated = translated.Replace("</DUMMYHEAD>", "").Trim();
                         }
                         catch (Exception)
                         {
+                            translated = translatedBeforeTermsHiglighting;
                         }
 
-                        translated = translated.Replace("<DUMMYHEAD>", "");
-                        translated = translated.Replace("</DUMMYHEAD>", "").Trim();
-                                                
                         //translated = translated.Replace("\r\n", "<BR/>");
                         AddXmlTextTag(post, "TEXT", translated );
 
