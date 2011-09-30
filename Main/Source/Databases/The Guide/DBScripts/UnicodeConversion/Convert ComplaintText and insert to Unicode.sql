@@ -51,7 +51,7 @@ GO
 --drop old column
 EXECUTE sp_rename N'dbo.ThreadMod.ComplaintTextTemp', N'ComplaintText', 'COLUMN' 
 GO
-Commit transaction
+
 
 
 
