@@ -514,7 +514,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(returnedComment.text == text);
             Assert.IsNotNull(returnedComment.User);
             Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
-
+            Assert.AreEqual(string.Format("http://www.bbc.co.uk/dna/{0}/comments/UserComplaintPage?PostID={1}&s_start=1",_sitename, returnedComment.ID), returnedComment.ComplaintUri);
             Console.WriteLine("After CreateComment");
         }
 
@@ -992,6 +992,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(returnedComment.PostStyle == postStyle);
             Assert.IsNotNull(returnedComment.User);
             Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+            Assert.AreEqual(string.Format("http://www.bbc.co.uk/dna/{0}/comments/UserComplaintPage?PostID={1}&s_start=1", _sitename, returnedComment.ID), returnedComment.ComplaintUri);
 
             Console.WriteLine("After CreateComment");
         }

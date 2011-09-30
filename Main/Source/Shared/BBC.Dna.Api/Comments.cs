@@ -516,8 +516,8 @@ namespace BBC.Dna.Api
                             replacement.Add("sitename", site.SiteName);
                             replacement.Add("postid", comment.ID.ToString());
                             comment.ComplaintUri = UriDiscoverability.GetUriWithReplacments(BasePath,
-                                                                                            UriDiscoverability.UriType.
-                                                                                                Complaint, replacement);
+                                                                                            SiteList.GetSiteOptionValueString(site.SiteID, "General", "ComplaintUrl")
+                                                                                            , replacement);
 
                             replacement = new Dictionary<string, string>();
                             replacement.Add("commentforumid", commentForum.Id);
@@ -908,8 +908,8 @@ namespace BBC.Dna.Api
                             replacement.Add("sitename", site.SiteName);
                             replacement.Add("postid", comment.ID.ToString());
                             comment.ComplaintUri = UriDiscoverability.GetUriWithReplacments(BasePath,
-                                                                                            UriDiscoverability.UriType.
-                                                                                                Complaint, replacement);
+                                                                                            SiteList.GetSiteOptionValueString(site.SiteID, "General", "ComplaintUrl")
+                                                                                            , replacement);
 
                             replacement = new Dictionary<string, string>();
                             replacement.Add("commentforumid", commentForum.Id);
@@ -1139,7 +1139,7 @@ namespace BBC.Dna.Api
             replacement.Add("sitename", site.SiteName);
             replacement.Add("postid", commentInfo.ID.ToString());
             commentInfo.ComplaintUri = UriDiscoverability.GetUriWithReplacments(BasePath,
-                                                                                UriDiscoverability.UriType.Complaint,
+                                                                                SiteList.GetSiteOptionValueString(site.SiteID, "General", "ComplaintUrl"),
                                                                                 replacement);
 
             replacement = new Dictionary<string, string>();

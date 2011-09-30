@@ -552,7 +552,7 @@ namespace BBC.Dna.Api
             Dictionary<string, string> replacement = new Dictionary<string, string>();
             replacement.Add("sitename", site.SiteName);
             replacement.Add("postid", ratingInfo.ID.ToString());
-            ratingInfo.ComplaintUri = UriDiscoverability.GetUriWithReplacments(BasePath, UriDiscoverability.UriType.Complaint, replacement);
+            ratingInfo.ComplaintUri = UriDiscoverability.GetUriWithReplacments(BasePath, SiteList.GetSiteOptionValueString(site.SiteID, "General", "ComplaintUrl"), replacement);
             
             replacement = new Dictionary<string, string>();
             replacement.Add("RatingForumid", reader.GetString("forumuid"));

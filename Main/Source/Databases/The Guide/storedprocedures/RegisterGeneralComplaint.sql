@@ -6,7 +6,7 @@ create procedure registergeneralcomplaint
 	@complainantid int,
 	@url varchar(255),
 	@correspondenceemail varchar(255),
-	@complainttext text,
+	@complainttext nvarchar(max),
 	@siteid int,
 	@hash uniqueidentifier,
 	@ipaddress varchar(25) = null,
