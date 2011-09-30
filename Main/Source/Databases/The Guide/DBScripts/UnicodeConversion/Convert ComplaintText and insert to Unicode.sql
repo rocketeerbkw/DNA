@@ -55,3 +55,20 @@ GO
 
 
 
+IF DB_NAME() = 'SmallGuide'
+BEGIN
+	--Create New SnapShot.
+	DECLARE @filename VARCHAR(128), @SQL nvarchar(1000)
+	SELECT @filename = physical_name
+	FROM sys.master_files
+	WHERE database_id = DB_ID('smallguidess')
+
+	IF ( @filename IS NOT NULL )
+	BEGIN
+		DROP DATABASE SmallGuideSS
+		SET @SQL = 'CREATE DATABASE SmallGuideSS ON 
+		( NAME = SmallGuide, FILENAME = ''' + @filename + ''') AS SNAPSHOT OF SmallGuide'
+		EXEC sp_executeSQL @SQL
+		PRINT 'Recreating SmallGuide SnapShot'
+	END
+END
