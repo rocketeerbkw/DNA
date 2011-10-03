@@ -53,7 +53,7 @@ namespace BBC.Dna.Api
             string uri = UriTypeMapping[type];
             if (uri.IndexOf("http:") != 0)
             {
-                return baseUrl + "/" + uri;
+                uri  = baseUrl + "/" + uri;
             }
             return GetUriWithReplacments(baseUrl, uri, replacements);
         }
