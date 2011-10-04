@@ -8,5 +8,9 @@ AS
 		                
 	-- Now insert the modid and the profanity ids/termsid into the ModTermMapping table  
 	  
-	INSERT INTO dbo.ModTermMapping (ModID, TermID)  
-	SELECT @ModID, ParamValues.ID.value('.','VARCHAR(20)') FROM @profanityxml.nodes('/Profanities/id') as ParamValues(ID) 
+	 INSERT INTO dbo.ForumModTermMapping (ThreadModID, ModClassID, ForumID, TermID)
+	 SELECT @ModID,
+			A.B.value('(ModClassID)[1]', 'int' ) ModClassID,
+			A.B.value('(ForumID)[1]', 'int' ) ForumID,
+			A.B.value('(TermID)[1]', 'int' ) TermID
+	 FROM   @profanityxml.nodes('/Profanities/Terms/TermDetails') A(B) 

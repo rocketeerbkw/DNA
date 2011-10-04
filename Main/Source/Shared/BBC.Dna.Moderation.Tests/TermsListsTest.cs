@@ -45,10 +45,14 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsLists target = new TermsLists();
             target.Termslist.Add(TermsListTest.GetTermsList());
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
+
+            Error forumActual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, false);
+            Assert.AreEqual(expected.ErrorMessage, forumActual.ErrorMessage);
+            Assert.AreEqual(expected.Type, forumActual.Type);
 
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addtermsfilterterm"));
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addtermsfilterupdate"));
@@ -78,10 +82,15 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsLists target = new TermsLists();
             target.Termslist.Add(TermsListTest.GetTermsList());
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
+
+            Error forumActual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, false);
+
+            Assert.AreEqual(expected.ErrorMessage, forumActual.ErrorMessage);
+            Assert.AreEqual(expected.Type, forumActual.Type);
 
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addtermsfilterterm"));
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addtermsfilterupdate"));
@@ -111,10 +120,15 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsLists target = new TermsLists();
             target.Termslist.Add(TermsListTest.GetTermsList());
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
+
+            Error forumActual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, false);
+
+            Assert.AreEqual(expected.ErrorMessage, forumActual.ErrorMessage);
+            Assert.AreEqual(expected.Type, forumActual.Type);
 
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addtermsfilterterm"));
             creator.AssertWasCalled(x => x.CreateDnaDataReader("addtermsfilterupdate"));
@@ -144,12 +158,42 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsLists target = new TermsLists();
             target.Termslist.Add(TermsListTest.GetTermsList());
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.IsNull(actual);
 
             creator.AssertWasCalled(x => x.CreateDnaDataReader("addtermsfilterterm"));
             creator.AssertWasCalled(x => x.CreateDnaDataReader("addtermsfilterupdate"));
+        }
+
+
+        /// <summary>
+        ///A test for UpdateTermsInDatabase By ForumId
+        ///</summary>
+        [TestMethod()]
+        public void UpdateTermsInDatabaseForumSpecific_CorrectValue_ReturnsNullError()
+        {
+            var cacheManager = Mocks.DynamicMock<ICacheManager>();
+            var historyReader = Mocks.DynamicMock<IDnaDataReader>();
+            historyReader.Stub(x => x.GetInt32NullAsZero("historyId")).Return(1);
+            historyReader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("addtermsfilterterm")).Return(Mocks.DynamicMock<IDnaDataReader>());
+            creator.Stub(x => x.CreateDnaDataReader("addtermsfilterupdate")).Return(historyReader);
+            var getTermsReader = Mocks.DynamicMock<IDnaDataReader>();
+            getTermsReader.Stub(x => x.Read()).Return(false);
+            creator.Stub(x => x.CreateDnaDataReader("gettermsbyforumid")).Return(getTermsReader);
+
+            Mocks.ReplayAll();
+            string reason = "a reason";
+            int userId = 1;
+            Error expected = new Error { Type = "UpdateTermsInDatabase", ErrorMessage = "Unable to get history id" };
+
+            TermsLists target = new TermsLists();
+            target.Termslist.Add(TermsListTest.GetTermsListForAForum());
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, false);
+
+            Assert.AreEqual(actual.ErrorMessage, "Object reference not set to an instance of an object.");
         }
 
         /// <summary>
@@ -179,10 +223,48 @@ namespace BBC.Dna.Moderation.Tests
             TermsLists target = new TermsLists();
             target.Termslist.Add(termsList);
             target.Termslist.Add(termsList);
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
+
+            creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addtermsfilterterm"));
+            creator.AssertWasCalled(x => x.CreateDnaDataReader("addtermsfilterupdate"));
+        }
+
+        /// <summary>
+        ///A test for UpdateTermsInDatabase Forum Specific
+        ///</summary>
+        [TestMethod()]
+        public void UpdateTermsInDatabaseForumSpecific_InvalidTerms_ReturnsCorrectError()
+        {
+            var cacheManager = Mocks.DynamicMock<ICacheManager>();
+            var historyReader = Mocks.DynamicMock<IDnaDataReader>();
+            historyReader.Stub(x => x.GetInt32NullAsZero("historyId")).Return(1);
+            historyReader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("addtermsfilterterm")).Return(Mocks.DynamicMock<IDnaDataReader>());
+            creator.Stub(x => x.CreateDnaDataReader("addtermsfilterupdate")).Return(historyReader);
+            var getTermsReader = Mocks.DynamicMock<IDnaDataReader>();
+            getTermsReader.Stub(x => x.Read()).Return(false);
+
+            creator.Stub(x => x.CreateDnaDataReader("gettermsbyforumid")).Return(getTermsReader);
+
+            Mocks.ReplayAll();
+            string forumReason = "a forum specific reason";
+            int forumUserId = 3;
+            Error forumExpected = new Error { Type = "UpdateTermForForumId", ErrorMessage = "Term value cannot be empty./r/nTerm value cannot be empty." };
+
+
+            var termsForumList = new TermsList(1, false, true);
+            termsForumList.Terms.Add(new Term());
+            TermsLists targetForum = new TermsLists();
+            targetForum.Termslist.Add(termsForumList);
+            targetForum.Termslist.Add(termsForumList);
+            Error forumActual = targetForum.UpdateTermsInDatabase(creator, cacheManager, forumReason, forumUserId, false);
+
+            Assert.AreEqual(forumExpected.ErrorMessage, forumActual.ErrorMessage);
+            Assert.AreEqual(forumExpected.Type, forumActual.Type);
 
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addtermsfilterterm"));
             creator.AssertWasCalled(x => x.CreateDnaDataReader("addtermsfilterupdate"));

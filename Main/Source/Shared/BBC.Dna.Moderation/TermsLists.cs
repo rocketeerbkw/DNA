@@ -80,7 +80,7 @@ namespace BBC.Dna.Moderation
         /// <param name="userId"></param>
         /// <returns></returns>
         public Error UpdateTermsInDatabase(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
-            string reason, int userId)
+            string reason, int userId, bool isForModClass)
         {
 
             if (reason == string.Empty)
@@ -111,7 +111,7 @@ namespace BBC.Dna.Moderation
             }
 
             foreach (var lastError in
-                Termslist.Select(termsList => termsList.UpdateTermsWithHistoryId(readerCreator, cacheManager, historyId)).Where(lastError => lastError != null))
+                Termslist.Select(termsList => termsList.UpdateTermsWithHistoryId(readerCreator, cacheManager, historyId, isForModClass)).Where(lastError => lastError != null))
             {
                 if (error == null)
                 {

@@ -211,7 +211,8 @@ namespace BBC.Dna.Services
 
                 string matchingProfanity = String.Empty;
                 List<Term> terms = null;
-                ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, article.Subject + " " + article.GuideMLAsString, out matchingProfanity, out terms);
+                int forumID = 0;
+                ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, article.Subject + " " + article.GuideMLAsString, out matchingProfanity, out terms, forumID);
                 if (state == ProfanityFilter.FilterState.FailBlock)
                 {
                     article.ProfanityTriggered = 1;
@@ -527,7 +528,8 @@ namespace BBC.Dna.Services
         public void CheckForProfanities(ISite site, string text, out bool moderateProfanities, out string matchingProfanity, out List<Term> terms)
         {            
             moderateProfanities = false;
-            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, text, out matchingProfanity, out terms);
+            int forumID = 0;
+            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, text, out matchingProfanity, out terms, forumID);
             if (state == ProfanityFilter.FilterState.FailBlock)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ProfanityFoundInText));

@@ -226,9 +226,9 @@ namespace BBC.Dna.Component
                                     {
                                         foreach (TermDetails termDetails in termsList.TermDetails)
                                         {
-                                            if (text.Value.Contains(termDetails.Value))
+                                            if (text.Value.ToLower().Contains(termDetails.Value))
                                             {
-                                                text.Value = text.Value.Replace(termDetails.Value, "<TERMFOUND ID=" + "\"" + termDetails.Id.ToString() + "\"" + "> " + termDetails.Value + "</TERMFOUND>");
+                                                text.Value = text.Value.ReplaceCaseInsensitive(termDetails.Value, "<TERMFOUND ID=" + "\"" + termDetails.Id.ToString() + "\"" + " FROMMODCLASS=" + "\"" + termDetails.FromModClass.ToString() + "\"" + "> " + termDetails.Value + "</TERMFOUND>", StringComparison.OrdinalIgnoreCase);
                                             }
                                         }
                                     }

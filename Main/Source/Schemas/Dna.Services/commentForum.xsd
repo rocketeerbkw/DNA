@@ -18,6 +18,7 @@
 				<xs:element name="isClosed" type="xs:boolean" />
         <xs:element name="identityPolicy" type="xs:string" />
         <xs:element name="allowNotSignedInCommenting" type="xs:boolean" />
+        <xs:element name="forumId" type="xs:integer" />
 				<xs:element ref="commentsSummary"/>
 				<xs:element ref="commentsList"/>
 			</xs:sequence>

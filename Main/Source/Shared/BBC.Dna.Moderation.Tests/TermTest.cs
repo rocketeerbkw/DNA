@@ -27,7 +27,7 @@ namespace BBC.Dna.Moderation.Tests
         public void TermConstructor_CorrectObject_ValidXml()
         {
             Term target = CreateTerm();
-            var expected = "<TERM xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" />";
+            var expected = "<TERM xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" />";
             XmlDocument xml = Serializer.SerializeToXml(target);
             Assert.AreEqual(expected, xml.SelectSingleNode("TERM").OuterXml);
         }
@@ -129,6 +129,102 @@ namespace BBC.Dna.Moderation.Tests
             target.UpdateTermForModClassId(creator, 1, 1);
 
             creator.AssertWasCalled(x => x.CreateDnaDataReader("addtermsfilterterm"));
+
+        }
+
+        /// <summary>
+        ///A test for UpdateTermForForumId
+        ///</summary>
+        [TestMethod()]
+        public void UpdateTermForForumId_WithoutForumId_ThrowsException()
+        {
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            
+            Mocks.ReplayAll();
+
+            var target = new Term { Value = "term" };
+            int forumId = 0;
+
+            try
+            {
+                target.UpdateTermForForumId(creator, forumId, 1);
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("ForumId cannot be 0.", e.Message);
+            }
+            creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addforumfilterterm"));
+
+        }
+
+        /// <summary>
+        ///A test for UpdateTermForForumId
+        ///</summary>
+        [TestMethod()]
+        public void UpdateTermForForumId_WithBlankTerm_ThrowsException()
+        {
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+
+
+            Mocks.ReplayAll();
+
+            var target = new Term { Value = "" };
+            try
+            {
+                target.UpdateTermForForumId(creator, 1, 1);
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("Term value cannot be empty.", e.Message);
+            }
+            creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addforumfilterterm"));
+
+        }
+
+
+        /// <summary>
+        ///A test for UpdateTermForForumId
+        ///</summary>
+        [TestMethod()]
+        public void UpdateTermForForumId_WithoutHistoryId_ThrowsException()
+        {
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+
+
+            Mocks.ReplayAll();
+
+            var target = new Term { Value = "term" };
+            int historyId = 0;
+
+            try
+            {
+                target.UpdateTermForForumId(creator, 1, historyId);
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("HistoryId cannot be 0.", e.Message);
+            }
+            creator.AssertWasNotCalled(x => x.CreateDnaDataReader("addforumfilterterm"));
+
+        }
+
+
+        /// <summary>
+        ///A test for UpdateTermForForumId
+        ///</summary>
+        [TestMethod()]
+        public void UpdateTermForForumId_ValueInput_ReturnsNoException()
+        {
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("addforumfilterterm")).Return(reader);
+
+            Mocks.ReplayAll();
+
+            var target = new Term { Value = "term" };
+            target.UpdateTermForForumId(creator, 1, 1);
+
+            creator.AssertWasCalled(x => x.CreateDnaDataReader("addforumfilterterm"));
 
         }
     }

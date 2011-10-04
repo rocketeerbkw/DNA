@@ -24,12 +24,21 @@ BEGIN
 	,TERMDETAILS.Reason
 	,TERMDETAILS.UpdatedDate
 	,TERMDETAILS.UserID
-  FROM ThreadMod AS TM      
-  INNER JOIN ModTermMapping AS MTM ON TM.ModID = MTM.ModID      
-  INNER JOIN TermsLookup AS T ON T.id = MTM.TermID 
-  INNER JOIN Sites AS S ON S.SiteID = TM.SiteId     
-	CROSS APPLY (SELECT ISNULL(notes,'') Reason, ISNULL(updatedate,'') UpdatedDate,ISNULL(userid,0) UserID FROM TermsUpdateHistory 
-					WHERE id=(SELECT MAX(updateid) FROM TermsByModClassHistory WHERE termid=MTM.TermID AND modclassid = S.ModClassID)) TERMDETAILS  
+    ,TERMDETAILS.FromModClass  
+  FROM ThreadMod AS TM        
+  INNER JOIN ForumModTermMapping AS MTM ON TM.ModID = MTM.ThreadModID        
+  INNER JOIN TermsLookup AS T ON T.id = MTM.TermID   
+  INNER JOIN Sites AS S ON S.SiteID = TM.SiteId       
+  CROSS APPLY
+  (
+		SELECT ISNULL(notes,'') Reason, ISNULL(updatedate,'') UpdatedDate,ISNULL(userid,0) UserID, CAST(1 AS BIT) AS FromModClass
+		FROM TermsUpdateHistory   
+		WHERE id=(SELECT MAX(updateid) FROM TermsByModClassHistory WHERE MTM.ModClassID <> 0 AND termid=MTM.TermID AND modclassid = S.ModClassID)
+		UNION ALL
+		SELECT ISNULL(notes,'') Reason, ISNULL(updatedate,'') UpdatedDate,ISNULL(userid,0) UserID, CAST(0 AS BIT) AS FromModClass
+		FROM TermsUpdateHistory   
+		WHERE id=(SELECT MAX(updateid) FROM TermsByForumHistory WHERE MTM.ModClassID = 0 AND MTM.ForumID <> 0 AND termid=MTM.TermID AND forumid = TM.ForumId)
+  ) TERMDETAILS     
   WHERE  
    TM.ModID = @modId  
   ORDER BY T.term ASC  

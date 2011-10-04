@@ -642,8 +642,9 @@ namespace BBC.Dna.Services
             string matchingProfanity;
             forceModeration = false;
             List<Term> terms = null;
+            int forumID = 0;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
-                                                                                    out matchingProfanity, out terms);
+                                                                                    out matchingProfanity, out terms, forumID);
             if (ProfanityFilter.FilterState.FailBlock == state)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ProfanityFoundInText));

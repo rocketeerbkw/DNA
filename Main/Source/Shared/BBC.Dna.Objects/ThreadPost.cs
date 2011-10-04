@@ -717,7 +717,7 @@ namespace BBC.Dna.Objects
             {//only check text if not first post
                 postString = Text;
             }
-            CheckForProfanities(site, postString, out forceModeration, out matchingProfanity, out terms);
+            CheckForProfanities(site, postString, out forceModeration, out matchingProfanity, out terms, forumId);
 
             if (false == string.IsNullOrEmpty(matchingProfanity))
             {
@@ -900,11 +900,11 @@ namespace BBC.Dna.Objects
         /// <param name="site"></param>
         /// <param name="textToCheck"></param>
         /// <param name="forceModeration"></param>
-        private void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity, out List<Term> terms)
+        private void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity, out List<Term> terms, int forumId)
         {
             forceModeration = false;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
-                                                                                    out matchingProfanity, out terms);
+                                                                                    out matchingProfanity, out terms, forumId);
             if (ProfanityFilter.FilterState.FailBlock == state)
             {
                 throw ApiException.GetError(ErrorType.ProfanityFoundInText);

@@ -192,6 +192,51 @@ namespace FunctionalTests
             ValidateTermAssociations(request, termsLists);
         }
 
+
+        [TestMethod]
+        public void TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation()
+        {
+            //refresh mod classes
+            SendSignal();
+            //set up data
+            var reason = "this has a reason";
+            var term = "potato";
+            var action = TermAction.Refer;
+
+            var moderationClasses = new ModerationClassListCache(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
+
+
+            var moderationClassList = moderationClasses.GetObjectFromCache();
+
+            var termsLists = new TermsLists();
+            foreach (var modClass in moderationClassList.ModClassList)
+            {
+                var termsList = new TermsList { ModClassId = modClass.ClassId };
+                termsList.Terms.Add(new Term { Value = term, Action = action });
+                termsLists.Termslist.Add(termsList);
+            }
+            Assert.AreNotEqual(0, termsLists.Termslist.Count);
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("reason", reason));
+            postParams.Enqueue(new KeyValuePair<string, string>("termtext", term));
+            postParams.Enqueue(new KeyValuePair<string, string>("action_modclassid_all", action.ToString()));
+
+
+
+            var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
+            request.SetCurrentUserSuperUser();
+            request.RequestPage("termsfilterimport?action=UPDATETERMS&skin=purexml", postParams);
+            ValidateResponse(request);
+
+            //check correct error message returned
+            ValidateOkResult(request, "TermsUpdateSuccess", "Term updated successfully.");
+            //check history table
+            termsLists = ValidateHistory(request, reason, termsLists);
+            //Check that all terms are actually associated
+            ValidateTermAssociations(request, termsLists);
+        }
+
         [TestMethod]
         public void TermsFilterImportPage_AddSingleTermWithoutReason_ReturnsCorrectError()
         {
@@ -497,7 +542,7 @@ namespace FunctionalTests
         }
 
 
-        private void SendSignal()
+        public void SendSignal()
         {
             var request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();

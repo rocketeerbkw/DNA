@@ -10,12 +10,15 @@
               <xs:attribute name="ID" type="xs:unsignedShort" use="required" />
               <xs:attribute name="ACTION" type="xs:string" use="required" />
               <xs:attribute name="TERM" type="xs:string" use="required" />
+			  <xs:attribute name="ModClassID" type="xs:unsignedShort" use="required" />
+			  <xs:attribute name="ForumID" type="xs:unsignedShort" use="required" />
             </xs:extension>
           </xs:simpleContent>
         </xs:complexType>
       </xs:element>
     </xs:sequence>
     <xs:attribute name="MODCLASSID" type="xs:unsignedByte" use="required" />
+	<xs:attribute name="FORUMID" type="xs:unsignedByte" use="required" />
   </xs:complexType>
 </xs:element>
 </xs:schema>

@@ -441,7 +441,7 @@ namespace BBC.Dna.Api
             bool forceModeration;
             var notes = string.Empty;
             string profanityxml = string.Empty;
-
+            
             List<Term> terms = null;
 
             ValidateComment(commentForum, comment, site, out ignoreModeration, out forceModeration, out notes, out terms);
@@ -698,7 +698,7 @@ namespace BBC.Dna.Api
             }
             //run against profanity filter
             notes = string.Empty;
-            CheckForProfanities(site, comment.text, out forceModeration, out notes, out terms);
+            CheckForProfanities(site, comment.text, out forceModeration, out notes, out terms, commentForum.ForumID);
             forceModeration = forceModeration ||
                               (commentForum.ModerationServiceGroup > ModerationStatus.ForumStatus.Reactive);
                 //force moderation if anything greater than reactive
@@ -1173,12 +1173,12 @@ namespace BBC.Dna.Api
         /// <param name="site">the current site</param>
         /// <param name="textToCheck">The text to check</param>
         /// <param name="forceModeration">Whether to force moderation or not</param>
-        private static void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity, out List<Term> terms)
+        private static void CheckForProfanities(ISite site, string textToCheck, out bool forceModeration, out string matchingProfanity, out List<Term> terms, int forumId)
         {
             matchingProfanity = string.Empty;
             forceModeration = false;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
-                                                                                    out matchingProfanity, out terms);
+                                                                                    out matchingProfanity, out terms, forumId);
 
             if (false == string.IsNullOrEmpty(matchingProfanity))
             {

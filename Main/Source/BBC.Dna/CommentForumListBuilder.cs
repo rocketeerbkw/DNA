@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Component;
 using System.Web.Caching;
 using BBC.Dna.Utils;
+using BBC.Dna.Moderation;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna
 {
@@ -22,13 +26,22 @@ namespace BBC.Dna
         private bool _skipUidProcessing = false;
         private bool _skipUrlProcessing = false;
 
+        private readonly ICacheManager _cache;
+        private bool _ignoreCache;
+        private int _forumId = 1;
+        private string _cmd = String.Empty;
+        private int _termId;
+
         /// <summary>
-        /// 
+        /// The default constructor
         /// </summary>
         /// <param name="inputContext"></param>
         public CommentForumListBuilder(IInputContext inputContext)
             : base(inputContext)
-        { 
+        {
+            _ignoreCache = false;
+
+            _cache = CacheFactory.GetCacheManager();
         }
 
         /// <summary>
@@ -68,6 +81,13 @@ namespace BBC.Dna
             int dnaListCount = 0;
 
             GetPageParams(ref siteID, ref hostpageurl, ref skip, ref show, ref dnaUidCount, out dnaUids, ref dnaListNs, ref dnaListCount);
+
+            BaseResult result = ProcessCommand(siteID, skip, show);
+            if (result != null)
+            {
+                SerialiseAndAppend(result, "");
+            }
+
             if (hostpageurl == String.Empty || _skipUrlProcessing == true)
             {
                 if (dnaUidCount != 0 && _skipUidProcessing != true)
@@ -92,6 +112,81 @@ namespace BBC.Dna
 				GeneratePageXmlByUrl(hostpageurl, skip, show);
 			}
 
+            
+        }
+
+        /// <summary>
+        /// Takes the cmd parameter from querystring and do the processing based on the result.
+        /// </summary>
+        private BaseResult ProcessCommand(int siteID, int skip, int show)
+        {
+            switch (_cmd.ToUpper())
+            {
+                case "SHOWUPDATEFORM":
+                    return null;//do nothing - this is just for the skins...
+
+                case "UPDATETERMS":
+                    {
+                        UpdateTerm();
+
+                        ProfanityFilter.GetObject().SendSignal();
+
+                        return new Result("TermsUpdateSuccess & SiteRefreshSuccess", "Terms filter by Forum refresh initiated.");
+                    }
+            }
+            return null;
+        }
+
+
+        /// <summary>
+        /// Checks the parameters and updates the term passed in
+        /// </summary>
+        /// <returns></returns>
+        private BaseResult UpdateTerm()
+        {
+            var forumId = InputContext.GetParamIntOrZero("forumid", "Forum ID");
+            if (forumId == 0)   
+            {
+                return new Error { Type = "UPDATETERM", ErrorMessage = "Forum ID cannot be 0." };
+            }
+            var termText = InputContext.GetParamStringOrEmpty("termtext", "the text of the term");
+            string[] terms = termText.Split('\n');
+            terms = terms.Where(x => x != String.Empty).Distinct().ToArray();
+            if (terms.Length == 0)
+            {
+                return new Error { Type = "UPDATETERMMISSINGTERM", ErrorMessage = "Terms text must contain newline delimited terms." };
+            }
+            var termReason = InputContext.GetParamStringOrEmpty("reason", "Reason for the term added.");
+            if (string.IsNullOrEmpty(termReason))
+            {
+                return new Error { Type = "UPDATETERMMISSINGDESCRIPTION", ErrorMessage = "Term reason cannot be empty." };
+            }
+            string actionParam = string.Format("action_forumid_all");
+            TermAction termAction;
+            if (Enum.IsDefined(typeof(TermAction), InputContext.GetParamStringOrEmpty(actionParam, "Forum action value")))
+            {
+                termAction = (TermAction)Enum.Parse(typeof(TermAction), InputContext.GetParamStringOrEmpty(actionParam, "Forum action value"));
+            }
+            else
+            {
+                return new Error { Type = "UPDATETERMINVALIDACTION", ErrorMessage = "Terms action invalid." };
+            }
+            var termsLists = new TermsLists();
+            var termList = new TermsList(forumId, false, true);
+            foreach (var term in terms)
+            {
+                termList.Terms.Add(new Term { Value = term, Action = termAction });
+            }
+            termsLists.Termslist.Add(termList);
+            BaseResult error = termsLists.UpdateTermsInDatabase(AppContext.ReaderCreator, _cache, termReason.Trim(),
+                                           InputContext.ViewingUser.UserID, false);
+
+            if (error == null)
+            {
+                return new Result("TermsUpdateSuccess", String.Format("{0} updated successfully.", terms.Length == 1 ? "Term" : "Terms"));
+            }
+
+            return error;
         }
 
 		/// <summary>
@@ -364,6 +459,25 @@ namespace BBC.Dna
             {
                 show = defaultShow;
             }
+
+            if(InputContext.DoesParamExist("s_termid", "The id of the term to check"))
+            {
+                _termId = InputContext.GetParamIntOrZero("s_termid", "The id of the term to check");
+            }
+
+            if (InputContext.DoesParamExist("forumid", "Forum ID"))
+            {
+                _forumId = InputContext.GetParamIntOrZero("forumid", "Forum ID");
+                if (_forumId == 0)
+                {
+                    //TODO
+                }
+            }
+
+            if (InputContext.DoesParamExist("action", "Command string for flow"))
+            {
+                _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
+            }
         }
 
         /// <summary>
@@ -454,6 +568,12 @@ namespace BBC.Dna
                 DateTime dateLastUpdated = dataReader.GetDateTime("LastUpdated");
                 AddElement(commentForum, "LASTUPDATED", DnaDateTime.GetDateTimeAsElement(RootElement.OwnerDocument, dateLastUpdated));
             }
+
+            int forumId = Convert.ToInt32(dataReader.GetInt32NullAsZero("forumID").ToString());
+            //get terms admin object
+            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateForumTermAdmin(AppContext.ReaderCreator, _cache, forumId, _ignoreCache);
+            XmlNode termNode = SerialiseAndAppend(termsAdmin, "");
+            AddXmlTextTag(commentForum, "TERMS", termNode.InnerXml.ToString());
 
             commentForumList.AppendChild(commentForum);
         }

@@ -30,6 +30,16 @@ namespace BBC.Dna.Moderation
             ModerationClasses = new ModerationClassList();
         }
 
+        /// <summary>
+        /// Constructor for Terms By Forum
+        /// </summary>
+        /// <param name="forumId"></param>
+        /// <param name="isForForum"></param>
+        public TermsFilterAdmin(int forumId, bool isForForum)
+        {
+            TermsList = new TermsList(forumId, false, isForForum);
+        }
+
         #region Properties
         /// <remarks />
         [XmlElement(Order = 1, ElementName = "TERMSLIST")]
@@ -56,6 +66,24 @@ namespace BBC.Dna.Moderation
 
             termAdmin.TermsList = TermsList.GetTermsListByModClassId(readerCreator, cacheManager, modClassId,
                                                                      ignoreCache);
+            return termAdmin;
+        }
+
+        /// <summary>
+        /// Creates the forum specific term admin object
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="cacheManager"></param>
+        /// <param name="forumId"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static TermsFilterAdmin CreateForumTermAdmin(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
+            int forumId, bool ignoreCache)
+        {
+            var termAdmin = new TermsFilterAdmin(forumId, true);
+            
+            termAdmin.TermsList = TermsList.GetTermsListByForumId(readerCreator, cacheManager, forumId, ignoreCache);
+
             return termAdmin;
         }
     }

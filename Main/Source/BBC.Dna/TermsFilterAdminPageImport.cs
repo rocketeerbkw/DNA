@@ -140,7 +140,7 @@ namespace BBC.Dna
                 termsLists.Termslist.Add(termsList);
             }
             BaseResult error = termsLists.UpdateTermsInDatabase(AppContext.ReaderCreator, _cache, reason,
-                                                                InputContext.ViewingUser.UserID);
+                                                                InputContext.ViewingUser.UserID, true);
 
             if (error == null)
             {

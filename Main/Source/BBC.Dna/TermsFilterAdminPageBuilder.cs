@@ -110,7 +110,7 @@ namespace BBC.Dna
             var termList = new TermsList { ModClassId = modClassId };
             termList.Terms.Add(new Term { Value = termText, Action = termAction });
             Error error = termList.UpdateTermsInDatabase(AppContext.ReaderCreator, _cache, "Update through moderation tools",
-                                           InputContext.ViewingUser.UserID);
+                                           InputContext.ViewingUser.UserID, true);
 
             if (error == null)
             {
