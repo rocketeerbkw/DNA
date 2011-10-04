@@ -1,7 +1,8 @@
 CREATE PROCEDURE commentcreate @commentforumid VARCHAR(255), @userid INT, @content NVARCHAR(MAX), @hash uniqueidentifier, 
 	@forcemoderation tinyint = 0, @forcepremoderation tinyint = 0 , @ignoremoderation tinyint = 0, 
 	@isnotable tinyint = 0, @ipaddress varchar(50) = null, @bbcuid uniqueidentifier = null,
-	@poststyle int =1, @modnotes varchar(255) = NULL, @nickname nvarchar(255) = NULL
+	@poststyle int =1, @modnotes varchar(255) = NULL, @nickname nvarchar(255) = NULL, 
+	@profanityxml xml = NULL  -- List of profanity ids to be added to the ModTermMapping table
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -61,7 +62,8 @@ BEGIN
 	@poststyle, @hash, NULL, @nickname, @newthreadid OUTPUT, @newpostid OUTPUT, NULL, NULL, @forcemoderation, 
 	@forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, @ispremodposting OUTPUT, 
 	@ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment,
-	@modnotes,/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0
+	@modnotes,/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0,
+	@profanityxml
 
 	
 

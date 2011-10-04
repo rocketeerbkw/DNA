@@ -9,6 +9,7 @@
 				<xs:element name="show" type="xs:int" />
 				<xs:element name="count" type="xs:int" />
 				<xs:element name="more" type="xs:int" />
+				<xs:element name="total" type="xs:int" minOccurs="0" />
 				<xs:element name="posts">
 					<xs:complexType>
 						<xs:sequence>

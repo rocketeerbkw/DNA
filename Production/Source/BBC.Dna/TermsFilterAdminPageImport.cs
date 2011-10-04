@@ -7,6 +7,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.DNA.Moderation.Utils;
 
 namespace BBC.Dna
 {
@@ -119,11 +120,11 @@ namespace BBC.Dna
 
                 //parse term id
                 TermAction termAction;
-                if(Enum.IsDefined(typeof(TermAction), InputContext.GetParamStringOrEmpty(actionParam, "Modclass action value")))
+                if (Enum.IsDefined(typeof(TermAction), InputContext.GetParamStringOrEmpty(actionParam, "Modclass action value")))
                 {
                     termAction =
                         (TermAction)
-                        Enum.Parse(typeof (TermAction),
+                        Enum.Parse(typeof(TermAction),
                                    InputContext.GetParamStringOrEmpty(actionParam, "Modclass action value"));
                 }
                 else

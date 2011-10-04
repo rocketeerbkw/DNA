@@ -19,7 +19,8 @@ set @id = scope_identity()
 if @userid > 0
 BEGIN
 	declare @score smallint
-	select @score = ues.score
+	declare @override bit
+	select @score = ues.score, @override = ues.overridescore
 	from dbo.sites s
 	inner join dbo.ModerationClass m on m.modclassid = s.modclassid
 	inner join dbo.UserEventScore ues on ues.modclassid = m.modclassid
@@ -43,7 +44,15 @@ BEGIN
 --print '@currentscore=' + convert(varchar(50), @currentscore)
 
 	declare @userscore smallint
-	set @userscore = @score + @currentscore
+	if @override = 1
+	BEGIN
+		set @userscore = @score
+	END
+	ELSE
+	BEGIN
+		set @userscore = @score + @currentscore
+	END
+	
 	if @userscore > @maxscore
 	begin
 		set @userscore = @maxscore

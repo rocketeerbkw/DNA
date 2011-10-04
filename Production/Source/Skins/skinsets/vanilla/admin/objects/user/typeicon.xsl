@@ -71,7 +71,7 @@
         <img src="/dnaimages/dna_messageboard/img/icons/deactivated_user.png" width="30" height="30" alt="deactivated user" title="deactivated user" />
       </xsl:when>
       <xsl:when test="text() = 'Trusted'">
-        <img src="/dnaimages/dna_messageboard/img/icons/trusted_user.png" width="30" height="30" alt="trusted user" title="trusted user" />
+        <img src="/dnaimages/dna_messageboard/img/icons/trusted_user.jpg" width="30" height="30" alt="trusted user" title="trusted user" />
       </xsl:when>
 
     </xsl:choose>

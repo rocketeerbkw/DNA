@@ -204,8 +204,9 @@ namespace BBC.Dna.Component
             {
                 // Check to make sure the site suffix doesn't contain a profanity
                 string matchingProfanity;
+                List<Term> terms = null;
                 ProfanityFilter.FilterState siteSuffixProfanity = ProfanityFilter.FilterState.Pass;
-                siteSuffixProfanity = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, siteSuffix, out matchingProfanity);
+                siteSuffixProfanity = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, siteSuffix, out matchingProfanity, out terms);
                 if (siteSuffixProfanity == ProfanityFilter.FilterState.FailBlock)
                 {
                     statusMessage = "Site suffix failed profanity check.";

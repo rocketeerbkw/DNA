@@ -6,6 +6,7 @@ using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
+using BBC.DNA.Moderation.Utils;
 
 
 namespace BBC.Dna.Component
@@ -505,7 +506,8 @@ namespace BBC.Dna.Component
 		        // Check the user input for profanities!
 		        //ProfanityFilter profanityFilter = new ProfanityFilter(InputContext);
                 string matchingProfanity = String.Empty;
-		        ProfanityFilter.FilterState filterState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, generatedSubject + " " + generatedBody, out matchingProfanity);
+                List<Term> terms = null;
+		        ProfanityFilter.FilterState filterState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, generatedSubject + " " + generatedBody, out matchingProfanity, out terms);
 
 		        bool forceModeration = false;
 		        if (filterState == ProfanityFilter.FilterState.FailBlock)

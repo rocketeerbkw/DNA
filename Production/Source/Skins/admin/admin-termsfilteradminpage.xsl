@@ -138,7 +138,7 @@
 	<xsl:template name="TERMSFILTER">
 		<tr>
 			<td>
-				<xsl:value-of select="."/>
+				<xsl:value-of select="@TERM"/>
 			</td>
 			<td>
 				<xsl:choose>

@@ -16,6 +16,7 @@ using BBC.Dna.Sites;
 using System.Data;
 using System.Data.SqlClient;
 using BBC.Dna.Moderation.Utils;
+using BBC.DNA.Moderation.Utils;
 
 namespace BBC.Dna.Objects
 {
@@ -185,6 +186,7 @@ namespace BBC.Dna.Objects
                 false, 
                 false, 
                 forceModeration,
+                string.Empty,
                 string.Empty);
         
         }
@@ -212,9 +214,10 @@ namespace BBC.Dna.Objects
         private static void CheckForProfanities(BBC.Dna.Sites.ISite site, string textToCheck, out bool forceModeration)
         {
             string matchingProfanity;
+            List<Term> terms = null;
             forceModeration = false;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
-                                                                                    out matchingProfanity);
+                                                                                    out matchingProfanity, out terms);
             if (ProfanityFilter.FilterState.FailBlock == state)
             {
                 throw ApiException.GetError(ErrorType.ProfanityFoundInText);

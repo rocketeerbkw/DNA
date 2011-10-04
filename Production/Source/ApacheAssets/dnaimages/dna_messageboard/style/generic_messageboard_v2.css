@@ -267,6 +267,7 @@ p.permalink {margin-top:15px;text-align:right}
 
 .dna-boards-membername {display:none}
 .dna-boards p.preview {font-style:italic; margin-left:1em}
+p.subscribe {margin-right:1em; text-align:right}
 
 /* crazy override to customise the frontpage */
 a.rsslink {float:right; width:16px; height:16px; margin-right:14px; background:url('/dnaimages/dna_messageboard/img/rss.gif') no-repeat scroll 0 0}

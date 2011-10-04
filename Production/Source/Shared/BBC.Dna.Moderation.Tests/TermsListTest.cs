@@ -8,6 +8,7 @@ using Rhino.Mocks;
 using TestUtils;
 using System.Xml;
 using BBC.Dna.Objects;
+using BBC.Dna.Moderation.Utils;
 
 namespace BBC.Dna.Moderation.Tests
 {
@@ -111,6 +112,18 @@ namespace BBC.Dna.Moderation.Tests
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static TermsList GetTermDetailsList()
+        {
+            var expected = new TermsList(1, true);
+            expected.TermDetails.Add(TermDetailsTest.CreateTermDetails());
+            return expected;
+        }
+
+
+        /// <summary>
         ///A test for GetTermsListByModClassId
         ///</summary>
         [TestMethod]
@@ -136,10 +149,58 @@ namespace BBC.Dna.Moderation.Tests
 
         }
 
+
+        /// <summary>
+        ///A test for GetTermsListByModClassIdFromThreadModDB
+        ///</summary>
+        [TestMethod]
+        public void GetTermsListByModClassIdFromThreadModDB_ReadIsFalse_ReturnsEmptyList()
+        {
+
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.Read()).Return(false);
+
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("gettermsbymodidfromthreadmod")).Return(reader);
+
+            Mocks.ReplayAll();
+
+            TermsList actual = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, 0, true);
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(0, actual.TermDetails.Count);
+        }
+
+        
+        /// <summary>
+        ///A test for GetTermsListByModClassId
+        ///</summary>
+        [TestMethod]
+        public void GetTermsListByThreadModIdFromThreadModDB_ReturnsNonEmptyList()
+        {
+            var expected = new TermsList(7, true);
+            expected.TermDetails.Add(TermDetailsTest.CreateTermDetails());
+            string key = expected.GetCacheKey(0);
+
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.HasRows).Return(true).Repeat.Once();
+
+            var readerCreator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            readerCreator.Stub(x => x.CreateDnaDataReader("gettermsbymodidfromthreadmod")).Return(reader);
+
+
+            Mocks.ReplayAll();
+
+            TermsList actual = TermsList.GetTermsListByThreadModIdFromThreadModDB(readerCreator, 0, false);
+            Assert.AreEqual(expected.TermDetails.Count, actual.TermDetails.Count);
+
+        }
+
+
         [TestMethod]
         public void TermsListSchemaValidation()
         {
-            var expected = "<TERMSLIST xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" MODCLASSID=\"0\"><TERM ID=\"0\" ACTION=\"ReEdit\">term</TERM></TERMSLIST>";
+            var expected = "<TERMSLIST xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" MODCLASSID=\"0\"><TERM ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" /></TERMSLIST>";
 
             var target = new TermsList{ModClassId = 0};
             target.Terms.Add(TermTest.CreateTerm());

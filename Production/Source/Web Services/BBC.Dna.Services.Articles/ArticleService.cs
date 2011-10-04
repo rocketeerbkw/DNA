@@ -210,7 +210,8 @@ namespace BBC.Dna.Services
                 article.ApplySkinOnGuideML = applySkin;
 
                 string matchingProfanity = String.Empty;
-                ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, article.Subject + " " + article.GuideMLAsString, out matchingProfanity);
+                List<Term> terms = null;
+                ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, article.Subject + " " + article.GuideMLAsString, out matchingProfanity, out terms);
                 if (state == ProfanityFilter.FilterState.FailBlock)
                 {
                     article.ProfanityTriggered = 1;
@@ -406,7 +407,8 @@ namespace BBC.Dna.Services
             // Check: profanities
             bool moderateProfanities = false;
             string matchingProfanity;
-            CheckForProfanities(site, article.Subject + " " + article.GuideMLAsString, out moderateProfanities, out matchingProfanity);
+            List<Term> terms = null;
+            CheckForProfanities(site, article.Subject + " " + article.GuideMLAsString, out moderateProfanities, out matchingProfanity, out terms);
 
             // Check: url filter
             if ((siteList.GetSiteOptionValueBool(site.SiteID, "General", "IsURLFiltered")) && !((callingUser.IsUserA(UserTypes.Editor) || callingUser.IsUserA(UserTypes.Notable))))
@@ -522,10 +524,10 @@ namespace BBC.Dna.Services
             }
         }
 
-        public void CheckForProfanities(ISite site, string text, out bool moderateProfanities, out string matchingProfanity)
+        public void CheckForProfanities(ISite site, string text, out bool moderateProfanities, out string matchingProfanity, out List<Term> terms)
         {            
             moderateProfanities = false;
-            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, text, out matchingProfanity);
+            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, text, out matchingProfanity, out terms);
             if (state == ProfanityFilter.FilterState.FailBlock)
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ProfanityFoundInText));

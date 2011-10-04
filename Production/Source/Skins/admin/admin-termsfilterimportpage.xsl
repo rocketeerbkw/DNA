@@ -31,12 +31,12 @@
             <xsl:choose>
               <xsl:when test="/H2G2/ERROR/@TYPE = 'UPDATETERMMISSINGTERM'">
                 <textarea id="termtext" name="termtext" cols="20" rows="20" style="border: 2px solid red">
-                  <xsl:value-of select="/H2G2/TERM"/>
+                  <xsl:value-of select="/H2G2/TERM/@TERM"/>
                 </textarea>
               </xsl:when>
               <xsl:otherwise>
                 <textarea id="termtext" name="termtext" cols="20" rows="20">
-                  <xsl:value-of select="/H2G2/TERM"/>
+                  <xsl:value-of select="/H2G2/TERM/@TERM"/>
                 </textarea>
               </xsl:otherwise>
             </xsl:choose>

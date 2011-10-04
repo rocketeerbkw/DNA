@@ -13,7 +13,7 @@ SELECT	@PrefStatus = PrefStatus,
 	WHERE SiteID = @SiteID AND UserID = @UserID
 
 -- Check to see if the user has the auto sin bin feature turned on
-IF (@AutoSinBin = 1 AND @PrefStatus <> 1 AND @PrefStatus <> 4)
+IF (@AutoSinBin = 1 AND @PrefStatus <> 1 AND @PrefStatus <> 4  AND @PrefStatus <> 6)
 BEGIN
 	SET @PrefStatus = 1
 END

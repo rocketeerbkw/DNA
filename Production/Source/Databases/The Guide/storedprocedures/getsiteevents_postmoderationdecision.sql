@@ -25,6 +25,7 @@ SELECT
       , mr.displayname as 'modreason'
       , cf.url as 'parenturl'
       , isnull(tm.complainantid,0) as complainantid
+      , complainttext
 from dbo.SiteActivityQueue saq
 inner join dbo.threadmodhistory tmh on tmh.historymodid=saq.ItemID
 inner join dbo.threadmod tm on tm.modid = tmh.modid

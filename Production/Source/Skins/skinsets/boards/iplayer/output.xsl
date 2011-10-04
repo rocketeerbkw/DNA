@@ -266,10 +266,10 @@ body {font-size:50%;}
 	<xsl:template name="boardclosed">
 		<xsl:choose>
 			<xsl:when test="$boardClosed = 'true'">
-				The <xsl:value-of select="/H2G2/SITECONFIG/BOARDNAME"/> message board is currently closed for posting. It is left here for reference
+        The <xsl:value-of select="/H2G2/SITECONFIG/BOARDNAME"/> message board has now closed. It is left here for reference.
       </xsl:when>
 			<xsl:otherwise>
-        The iPlayer message board has now closed. It is left here for reference
+        The iPlayer message board has now closed. It is left here for reference.
       </xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

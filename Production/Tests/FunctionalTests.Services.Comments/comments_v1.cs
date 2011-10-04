@@ -20,6 +20,8 @@ using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using TestUtils;
+using BBC.Dna.Moderation;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 
 
@@ -31,6 +33,7 @@ namespace FunctionalTests.Services.Comments
     [TestClass]
     public class CommentsTests_V1
     {
+
         private const string _schemaCommentForumList = "Dna.Services\\commentForumList.xsd";
         private const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         private const string _schemaComment = "Dna.Services\\comment.xsd";
@@ -995,6 +998,101 @@ namespace FunctionalTests.Services.Comments
 
         /// <summary>
         /// Test CreateCommentForum method from service
+        /// Testing the terms filter functionality
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsPlainText_TermsFilterTest()
+        {
+            Console.WriteLine("Before CreateComment");
+
+            var threadModId = 0;
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title : Hello arse arse hello";
+            PostStyle.Style postStyle = PostStyle.Style.plaintext;
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "<poststyle>{1}</poststyle>" +
+                "</comment>", text, postStyle);
+
+            // Setup the request url
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+            
+            CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+            Assert.IsTrue(returnedComment.text == text);
+            Assert.IsTrue(returnedComment.PostStyle == postStyle);
+            Assert.IsNotNull(returnedComment.User);
+            Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+
+            Console.WriteLine("After CreateComment");
+
+            CheckTermsInDB("arse");
+        }
+
+       
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// Testing the terms filter functionality
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsPlainText_TermsFilterTestWithProcessPreMod()
+        {
+            Console.WriteLine("Before CreateComment");
+            try
+            {
+                SetSiteOption(1, "Moderation", "ProcessPreMod", 1, "1");
+
+                var threadModId = 0;
+                DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+                request.SetCurrentUserNormal();
+                //create the forum
+                CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+                string text = "Functiontest Title : Hello arse arse hello";
+                PostStyle.Style postStyle = PostStyle.Style.plaintext;
+                string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                    "<text>{0}</text>" +
+                    "<poststyle>{1}</poststyle>" +
+                    "</comment>", text, postStyle);
+
+                // Setup the request url
+                string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+                // now get the response
+                request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+                // Check to make sure that the page returned with the correct information
+                XmlDocument xml = request.GetLastResponseAsXML();
+                DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+                validator.Validate();
+
+                CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+                Assert.IsTrue(returnedComment.text == text);
+                Assert.IsTrue(returnedComment.PostStyle == postStyle);
+                Assert.IsNotNull(returnedComment.User);
+                Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+
+                Console.WriteLine("After CreateComment");
+
+                CheckTermsInDB("arse");
+            }
+            finally
+            {
+                RemoveSiteOption(1, "ProcessPreMod");
+            }
+        }
+
+
+        /// <summary>
+        /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
         public void CreateComment_AsPlainTextWithHTMLTags()
@@ -1764,6 +1862,47 @@ namespace FunctionalTests.Services.Comments
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);
             myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site&siteid=1", "", "text/xml");
 
+        }
+
+        /// <summary>
+        /// Checks the term is in the db correctly
+        /// </summary>
+        /// <param name="termStr"></param>
+        private void CheckTermsInDB(string termStr)
+        {
+            var threadModId = 0;
+            var modClassId = 0;
+            var userId = 6;
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
+                    Assert.IsTrue(reader.Read());
+                    Assert.AreEqual("Filtered terms: " + termStr, reader.GetStringNullAsEmpty("notes"));
+
+                    reader.ExecuteDEBUGONLY("select * from ModTermMapping where modid = (select max(modid) from threadmod)");
+                    Assert.IsTrue(reader.Read());
+                    Assert.AreEqual(6, reader.GetInt32("TermID"));
+
+                    threadModId = reader.GetInt32("ModID");
+
+                    reader.ExecuteDEBUGONLY("SELECT s.modclassid AS ModClassID FROM threadmod TM INNER JOIN sites S ON TM.SiteID = S.SiteID WHERE modid = (select max(modid) from threadmod) ");
+                    Assert.IsTrue(reader.Read());
+                    modClassId = reader.GetInt32("ModClassID");
+                }
+            }
+
+            var reason = "test reason";
+            IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
+            var term = new Term() { Value = termStr, Action = TermAction.Refer };
+            var termsList = new TermsList(modClassId);
+            termsList.Terms.Add(term);
+            termsList.UpdateTermsInDatabase(creator, CacheFactory.GetCacheManager(), reason, userId);
+
+            termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
+            Assert.AreEqual(termStr, termsList.TermDetails[0].Value);
+            Assert.AreEqual(reason, termsList.TermDetails[0].Reason);
         }
     }
 }

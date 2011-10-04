@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.DirectoryServices;
+using System.ServiceProcess;
 
 
 namespace Tests
@@ -53,6 +54,7 @@ namespace Tests
         public void RestartTestSite()
         {
             RestoreDefaultSite();
+
             StartTestSite();
 
         }
@@ -65,9 +67,28 @@ namespace Tests
         /// </summary>
         private static void StartTestSite()
         {
+
+            //Memcached service
+            ServiceController service = new ServiceController("memcached Server");
+            TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+
             //Stop Default Site
             DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC/1");
             entry.Invoke("stop");
+
+            //Stop the memcached service
+            if (service.CanStop)
+            {
+                service.Stop();
+                service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+            }
+
+            //start memcached service
+            if (service.Status != ServiceControllerStatus.Running)
+            {
+                service.Start();
+                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+            }
 
             //Start Test Site.
             entry = new DirectoryEntry("IIS://LocalHost/W3SVC/2");
@@ -210,6 +231,12 @@ namespace Tests
         /// </summary>
         private void RestoreDefaultSite()
         {
+
+            //Memcached service
+            ServiceController service = new ServiceController("memcached Server");
+            TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+
+
             /*IIsAdministrator iisadmin = new IIsAdministrator();
             IIsWebSite current = iisadmin.WebSites.ActiveWebSite;
 
@@ -228,6 +255,20 @@ namespace Tests
             //Start Test Site.
             DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC/2");
             entry.Invoke("stop");
+
+            //Stop the memcached service
+            if (service.CanStop)
+            {
+                service.Stop();
+                service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+            }
+
+            //start memcached service
+            if (service.Status != ServiceControllerStatus.Running)
+            {
+                service.Start();
+                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+            }
 
             //Stop Default Site
             entry = new DirectoryEntry("IIS://LocalHost/W3SVC/1");

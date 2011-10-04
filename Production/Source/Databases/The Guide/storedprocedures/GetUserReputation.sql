@@ -45,9 +45,11 @@ select
 	@currentStatus as currentstatus,
 	@reputationDeterminedStatus as reputationDeterminedStatus,
 	urs.accumulativescore,
-	urs.lastupdated
+	urs.lastupdated,
+	u.username
 from dbo.userreputationscore urs 
 inner join dbo.userreputationthreshold urt on urt.modclassid = urs.modclassid
+inner join users u on u.userid = urs.userid
 where urs.userid=@userid and urs.modclassid=@modclassid
 	 
 END

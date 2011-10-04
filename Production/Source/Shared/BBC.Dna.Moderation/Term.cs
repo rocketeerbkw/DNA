@@ -1,6 +1,7 @@
 using System;
 using System.Xml.Serialization;
 using BBC.Dna.Data;
+using BBC.Dna.Moderation.Utils;
 namespace BBC.Dna.Moderation
 {
     
@@ -10,7 +11,7 @@ namespace BBC.Dna.Moderation
     [System.SerializableAttribute]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [XmlRoot(Namespace = "", IsNullable = false, ElementName = "TERM")]
-    public class Term
+    public class Term_old
     {
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName="ID")]
@@ -31,6 +32,7 @@ namespace BBC.Dna.Moderation
             get { return CleanString(_value); }
             set { _value = CleanString(value); }
         }
+
 
         /// <summary>
         /// Calls the db and updates the term and action for a given modclassid
@@ -84,7 +86,7 @@ namespace BBC.Dna.Moderation
 
     }
 
-    public enum TermAction
+    public enum TermActionOld
     {
         /// <summary>
         /// No action required

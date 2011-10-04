@@ -29,6 +29,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="USERNAME" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
