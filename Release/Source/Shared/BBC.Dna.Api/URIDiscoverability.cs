@@ -50,10 +50,25 @@ namespace BBC.Dna.Api
         /// <returns>The new URI</returns>
         public static string GetUriWithReplacments(string baseUrl, UriType type, Dictionary<string, string> replacements)
         {
-            string uri = string.Empty;
+            string uri = UriTypeMapping[type];
+            if (uri.IndexOf("http:") != 0)
+            {
+                uri  = baseUrl + "/" + uri;
+            }
+            return GetUriWithReplacments(baseUrl, uri, replacements);
+        }
+
+        /// <summary>
+        /// Takes a type of URI and a bunch of key/value pairs to replace within the string
+        /// </summary>
+        /// <param name="baseUrl">The current path without trailing slash</param>
+        /// <param name="type">the type to return</param>
+        /// <param name="replacements">the key value replacements to use within the URI</param>
+        /// <returns>The new URI</returns>
+        public static string GetUriWithReplacments(string baseUrl, string uri, Dictionary<string, string> replacements)
+        {
             try
             {
-                uri = UriTypeMapping[type];
                 if (replacements != null)
                 {
                     uri = replacements.Keys.Aggregate(uri, (current, key) => current.Replace(string.Format("[{0}]", key), replacements[key]));
@@ -63,11 +78,9 @@ namespace BBC.Dna.Api
             {
             }
 
-            if (uri.IndexOf("http:") != 0)
-            {
-                return baseUrl + "/" + uri;
-            }
+           
             return uri;
         }
     }
 }
+

@@ -58,6 +58,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("RatingForumreadbyuid")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumid")).Return(readerComments);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -103,6 +105,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("RatingForumreadbyuid")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumid")).Return(readerComments);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -158,7 +162,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumid")).Return(readerComments);
             readerCreator.Stub(x => x.CreateDnaDataReader("CommentforumGetLastUpdate")).Return(readerLastUpdate);
 
-
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -214,7 +219,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumid")).Return(readerComments);
             readerCreator.Stub(x => x.CreateDnaDataReader("CommentforumGetLastUpdate")).Return(readerLastUpdate);
 
-
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -318,6 +324,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("RatingForumreadbyuid")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("RatingsReadByForumandUsers")).Return(readerComments);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -419,6 +427,8 @@ namespace BBC.Dna.Api.Tests
             readerUserRating.Stub(x => x.Read()).Return(false);
             readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumanduser")).Return(readerUserRating);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -1033,6 +1043,8 @@ namespace BBC.Dna.Api.Tests
             readerUserRating.Stub(x => x.Read()).Return(true);
             readerCreator.Stub(x => x.CreateDnaDataReader("ratingsreadbyforumanduser")).Return(readerUserRating);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 

@@ -211,6 +211,7 @@ namespace BBC.Dna.Api.Tests
             var cacheManager = mocks.DynamicMock<ICacheManager>();
             var siteName = "h2g2";
             var uid = "";
+            var postId = 1;
 
             cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
@@ -219,14 +220,19 @@ namespace BBC.Dna.Api.Tests
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
+            
 
             readerComments.Stub(x => x.HasRows).Return(true);
             readerComments.Stub(x => x.Read()).Return(true).Repeat.Once();
             readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
-            
+            readerComments.Stub(x => x.GetInt32NullAsZero("id")).Return(postId);
+
             readerCreator.Stub(x => x.CreateDnaDataReader("commentforumreadbyuid")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
-            
+
+            site.Stub(x => x.SiteID).Return(1);
+            site.Stub(x => x.SiteName).Return(siteName);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("[sitename]-[postid]");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -236,6 +242,7 @@ namespace BBC.Dna.Api.Tests
             Assert.IsNotNull(forum);
             Assert.AreEqual(1, forum.commentList.TotalCount);
             Assert.AreEqual(1, forum.commentList.comments.Count);
+            Assert.AreEqual( siteName + "-" + postId.ToString(), forum.commentList.comments[0].ComplaintUri);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumreadbyuid"));
         }
 
@@ -273,6 +280,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("commentforumreadbyuid")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -328,7 +337,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
             readerCreator.Stub(x => x.CreateDnaDataReader("CommentforumGetLastUpdate")).Return(readerLastUpdate);
 
-
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -384,7 +394,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
             readerCreator.Stub(x => x.CreateDnaDataReader("CommentforumGetLastUpdate")).Return(readerLastUpdate);
 
-
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -485,7 +496,9 @@ namespace BBC.Dna.Api.Tests
             readerComments.Stub(x => x.DoesFieldExist("SiteSpecificDisplayName")).Return(true);
             readerComments.Stub(x => x.GetStringNullAsEmpty("SiteSpecificDisplayName")).Return(userName);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbysitename")).Return(readerComments);
-            
+
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             siteList.Stub(x => x.GetSiteOptionValueBool(siteId, "User", "UseSiteSuffix")).Return(false);
             mocks.ReplayAll();
@@ -526,6 +539,8 @@ namespace BBC.Dna.Api.Tests
             readerComments.Stub(x => x.DoesFieldExist("AnonymousUserName")).Return(true);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbysitename")).Return(readerComments);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             siteList.Stub(x => x.GetSiteOptionValueBool(siteId, "User", "UseSiteSuffix")).Return(false);
             mocks.ReplayAll();
@@ -570,6 +585,8 @@ namespace BBC.Dna.Api.Tests
             readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbysitenameeditorpicksfilter")).Return(readerComments);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             siteList.Stub(x => x.GetSiteOptionValueBool(siteId, "User", "UseSiteSuffix")).Return(true);
             mocks.ReplayAll();
@@ -610,6 +627,8 @@ namespace BBC.Dna.Api.Tests
             readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbysitenameprefix")).Return(readerComments);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -655,6 +674,8 @@ namespace BBC.Dna.Api.Tests
              readerLastUpdate.Stub(x => x.Read()).Return(true).Repeat.Once();
              readerLastUpdate.Stub(x => x.GetDateTime("lastupdated")).Return(DateTime.Now.AddDays(-1));
 
+             site.Stub(x => x.SiteID).Return(1);
+             siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
              siteList.Stub(x => x.GetSite(siteName)).Return(site);
              mocks.ReplayAll();
 
@@ -702,6 +723,8 @@ namespace BBC.Dna.Api.Tests
             readerLastUpdate.Stub(x => x.Read()).Return(true).Repeat.Once();
             readerLastUpdate.Stub(x => x.GetDateTime("lastupdated")).Return(lastUpdate);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -796,6 +819,8 @@ namespace BBC.Dna.Api.Tests
 
             readerCreator.Stub(x => x.CreateDnaDataReader("commentcreate")).Return(reader);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -843,6 +868,8 @@ namespace BBC.Dna.Api.Tests
 
             readerCreator.Stub(x => x.CreateDnaDataReader("commentcreate")).Return(reader);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 
@@ -2092,6 +2119,7 @@ namespace BBC.Dna.Api.Tests
             site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
             site.Stub(x => x.IsEmergencyClosed).Return(false);
             site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+            
             reader.Stub(x => x.HasRows).Return(true);
             reader.Stub(x => x.Read()).Return(true).Repeat.Once();
             reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
@@ -2104,6 +2132,8 @@ namespace BBC.Dna.Api.Tests
             readerCreator.Stub(x => x.CreateDnaDataReader("commentforumreadbyuid")).Return(reader);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
 
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             siteList.Stub(x => x.GetSite(siteName)).Return(site);
             mocks.ReplayAll();
 

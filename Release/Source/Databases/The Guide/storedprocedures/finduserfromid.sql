@@ -24,7 +24,7 @@ select TOP 1
 			'IdentityUserName'	= u.LoginName, 
 			sm.IdentityUserID,
 			u.Cookie,
-			dbo.udf_decryptemailaddress(u.EncryptedEmail,u.userid) as email,
+			ISNULL(dbo.udf_decryptemailaddress(u.EncryptedEmail,u.userid),'') as email,
 			u.UserName,
 			u.Password,
 			u.FirstNames,
