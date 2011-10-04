@@ -505,3 +505,88 @@
 
     }
 })();
+
+
+function divToggle(div)
+{
+	var ele = document.getElementById(div);
+	if(ele.style.display == "block") {
+			ele.style.display = "none";		
+	}
+	else {
+		ele.style.display = "block";	
+	}
+}
+
+function toggle(divTerms, textArea) 
+{
+	var ele = document.getElementById(divTerms);
+	var text = document.getElementById(divTerms);
+	var termHolder = document.getElementById(textArea);
+	termHolder.value = "";
+	if(ele.style.display == "block") {
+			ele.style.display = "none";		
+	}
+	else {
+		ele.style.display = "block";	
+	}
+} 
+
+function termToggle(divTerms, term, textArea)
+{
+	var ele = document.getElementById(divTerms);
+	if(ele.style.display == "block") {
+			ele.style.display = "none";		
+	}
+	else {
+		ele.style.display = "block";	
+	}	
+	var str = document.getElementById(term).value;
+
+	var termHolder = document.getElementById(textArea);
+	termHolder.value = str;
+
+}
+
+
+
+function validateForm(theForm)
+{
+	var errorStyle="2px solid red";
+	var error = document.getElementById("errorDiv");
+	var serverResponse = document.getElementById("serverResponse");
+	if(serverResponse != null)
+	{
+		serverResponse.style.display="none";
+	}
+
+	with(theForm)
+	{
+		//alert(termtext.value);
+		if(reason.value == '')
+		{
+			alert('entered empty block');
+			error.innerHTML = "<p>Import reason cannot be empty.</p>";
+			reason.style.border = errorStyle;
+			error.style.display ="block";
+			return false;
+		}
+
+		if(termtext.value == '')
+		{
+			error.innerHTML = "<p>Terms cannot be empty.</p>";
+			termtext.style.border = errorStyle;
+			error.style.display ="block";
+
+			return false;
+		}
+		
+	}
+
+	reason.style.border = "";
+	termtext.style.border = "";
+	error.style.display ="none";
+	return confirm("Are you sure you want make this update?");
+}
+
+
