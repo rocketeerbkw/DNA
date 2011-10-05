@@ -11,7 +11,7 @@ PURPOSE		-
 */    
     
 CREATE PROCEDURE gettermsbyforumidfromforums    
- @forumId INT    
+ @forumid INT    
 AS    
     
 BEGIN       
@@ -31,7 +31,7 @@ BEGIN
 						WHERE id=(SELECT MAX(updateid) FROM TermsByForumHistory WHERE termid = FTM.TermID AND modclassid = S.ModClassID)) TERMDETAILS
 		
 	  WHERE      
-		F.ForumID = @forumId      
+		F.ForumID = @forumid      
 	  ORDER BY T.term ASC 
 
  END TRY
