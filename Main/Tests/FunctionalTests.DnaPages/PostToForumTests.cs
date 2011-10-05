@@ -650,6 +650,7 @@ namespace FunctionalTests
         public void PostToForum_ReferredTermsInPost_CorrectModeratedPostWithProcessPreMod()
         {
             var threadModId = 0;
+            var referedTerm = "humbugsweet";
             var processPreMod = true;
             var siteStatus = ModerationStatus.SiteStatus.PreMod;
             var forumStatus = ModerationStatus.ForumStatus.PreMod;
@@ -662,11 +663,7 @@ namespace FunctionalTests
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
 
-            //Add the terms to the terms update history
-
-            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleTermToAll_PassesValidation();
-
-            request = PostToForumWithException(request, "Testing terms with refferred item post arse");
+            request = PostToForumWithException(request, "Testing terms with refferred item post " + referedTerm);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -675,20 +672,26 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
+                var termId = 0;
+
                 dataReader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
                 Assert.IsTrue(dataReader.Read());
-                Assert.AreEqual("Filtered terms: arse", dataReader.GetStringNullAsEmpty("notes"));
+                Assert.AreEqual("Filtered terms: humbugsweet", dataReader.GetStringNullAsEmpty("notes"));
+
+                dataReader.ExecuteDEBUGONLY("select ID from TermsLookup where term like '" + referedTerm + "'");
+                Assert.IsTrue(dataReader.Read());
+                termId = dataReader.GetInt32("ID");
 
                 dataReader.ExecuteDEBUGONLY("select * from ForumModTermMapping where threadmodid = (select max(modid) from threadmod)");
                 Assert.IsTrue(dataReader.Read());
-                Assert.AreEqual(6, dataReader.GetInt32("TermID"));
+                Assert.AreEqual(termId, dataReader.GetInt32("TermID"));
                 threadModId = dataReader.GetInt32("ThreadModID");
             }
 
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
 
             var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual("arse", termsList.TermDetails[0].Value);
+            Assert.AreEqual("humbugsweet", termsList.TermDetails[0].Value);
         }
 
         [TestMethod]

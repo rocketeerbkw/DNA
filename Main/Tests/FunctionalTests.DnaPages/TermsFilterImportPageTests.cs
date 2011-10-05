@@ -198,6 +198,7 @@ namespace FunctionalTests
         {
             //refresh mod classes
             SendSignal();
+
             //set up data
             var reason = "this has a reason";
             var term = "potato";
@@ -235,6 +236,7 @@ namespace FunctionalTests
             termsLists = ValidateHistory(request, reason, termsLists);
             //Check that all terms are actually associated
             ValidateTermAssociations(request, termsLists);
+            
         }
 
         [TestMethod]

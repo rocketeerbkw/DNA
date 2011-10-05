@@ -640,7 +640,7 @@ namespace FunctionalTests
                 Assert.IsFalse(dataReader.HasRows);
             }
 
-            string requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=enabled&forumid=" + _forumId + "&termtext=" + term + "&reason=" + reason + "&action_forumid_all=Refer&action=UPDATETERM&skin=purexml";
+            string requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=enabled&forumid=" + _forumId + "&termtext=" + term + "&reason=" + reason + "&action_forumid_all=Refer&action=UPDATETERMS&skin=purexml";
             _request.RequestPage(requesturl);
 
             XmlDocument xml = _request.GetLastResponseAsXML();
