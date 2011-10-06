@@ -108,7 +108,7 @@ namespace BBC.Dna
                 return new Error { Type = "UPDATETERM", ErrorMessage = "Terms action invalid." };
             }
             var termList = new TermsList { ModClassId = modClassId };
-            termList.Terms.Add(new Term { Value = termText, Action = termAction });
+            termList.Terms.Add(new TermDetails { Value = termText, Action = termAction });
             Error error = termList.UpdateTermsInDatabase(AppContext.ReaderCreator, _cache, "Update through moderation tools",
                                            InputContext.ViewingUser.UserID, true);
 

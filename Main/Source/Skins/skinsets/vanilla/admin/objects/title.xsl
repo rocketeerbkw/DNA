@@ -54,6 +54,10 @@
     <h1>Site Manager</h1>
   </xsl:template>
 
+  <xsl:template match="H2G2[@TYPE = 'TERMSFILTERADMIN' or @TYPE = 'TERMSFILTERIMPORT']" mode="objects_title">
+    <h1>Terms Filter Administration</h1>
+  </xsl:template>
+
   <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDACTIVITYPAGE']" mode="objects_title">
 		<h1>
 			Activity Page 

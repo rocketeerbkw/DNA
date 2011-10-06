@@ -31,7 +31,7 @@ BEGIN
 						WHERE id=(SELECT MAX(updateid) FROM TermsByForumHistory WHERE termid = FTM.TermID AND modclassid = S.ModClassID)) TERMDETAILS
 		
 	  WHERE      
-		F.ForumID = @forumid      
+		F.ForumID = @forumId      
 	  ORDER BY T.term ASC 
 
  END TRY

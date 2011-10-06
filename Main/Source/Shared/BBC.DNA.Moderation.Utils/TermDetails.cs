@@ -25,7 +25,7 @@ namespace BBC.Dna.Moderation.Utils
         /// Gets the date 
         /// </summary>
         [XmlElement(ElementName = "UPDATEDDATE")]
-        public Date UpdatedDate { get; set; }
+        public DateElement UpdatedDate { get; set; }
        
         /// <summary>
         /// Gets the id of the user who last updated
@@ -34,10 +34,10 @@ namespace BBC.Dna.Moderation.Utils
         public int UserID { get; set; }
 
         /// <summary>
-        /// Required to display the reason of the term filtered according to this flag
+        /// Gets the user who changes the reason
         /// </summary>
-        [XmlAttributeAttribute(AttributeName = "FromModClass")]
-        public bool FromModClass { get; set; }
-        
+        [XmlElement(ElementName = "USERNAME")]
+        public string UserName { get; set; }
+
     }
 }

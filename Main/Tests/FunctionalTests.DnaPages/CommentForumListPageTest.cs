@@ -640,7 +640,7 @@ namespace FunctionalTests
                 Assert.IsFalse(dataReader.HasRows);
             }
 
-            string requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=enabled&forumid=" + _forumId + "&termtext=" + term + "&reason=" + reason + "&action_forumid_all=Refer&action=UPDATETERMS&skin=purexml";
+            string requesturl = "CommentForumList?action=UPDATETERMS&dnauid=" + _firstUid + "&dnafastmod=enabled&forumid=" + _forumId + "&termtext=" + term + "&reason=" + reason + "&action_forumid_all=Refer&skin=purexml";
             _request.RequestPage(requesturl);
 
             XmlDocument xml = _request.GetLastResponseAsXML();
@@ -650,14 +650,15 @@ namespace FunctionalTests
             node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']");
 
             if (node != null)
+
             {
                 node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST");
                 if (node != null)
                 {
-                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/@FORUMID").Value,_forumId);
-                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERM/@TERM").Value, term);
-                    Assert.AreNotEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERM/@TERM").Value, "humbugsweet");
-                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERM/@ACTION").Value, "Refer");
+                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/@FORUMID").Value, _forumId);
+                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERMDETAILS/@TERM").Value, term);
+                    Assert.AreNotEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERMDETAILS/@TERM").Value, "humbugsweet");
+                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERMDETAILS/@ACTION").Value, "Refer");
                 }
             }
 

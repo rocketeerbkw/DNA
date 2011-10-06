@@ -111,7 +111,7 @@ namespace BBC.Dna.Moderation
             }
 
             foreach (var lastError in
-                Termslist.Select(termsList => termsList.UpdateTermsWithHistoryId(readerCreator, cacheManager, historyId, isForModClass)).Where(lastError => lastError != null))
+                                Termslist.Select(termsList => termsList.UpdateTermsWithHistoryId(readerCreator, cacheManager, historyId, isForModClass)).Where(lastError => lastError != null))
             {
                 if (error == null)
                 {

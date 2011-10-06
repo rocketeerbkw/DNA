@@ -139,7 +139,6 @@
     <Compile Include="TermsFilterAdmin.cs" />
     <Compile Include="TermsLists.cs" />
     <Compile Include="TermsList.cs" />
-    <Compile Include="Term.cs" />
     <Compile Include="UserReputation.cs" />
   </ItemGroup>
   <ItemGroup>

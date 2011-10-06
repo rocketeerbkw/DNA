@@ -118,10 +118,10 @@ namespace FunctionalTests
             var reason = "this has a reason";
             var termsLists = new TermsLists();
             var termsList = new TermsList(1);
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = "bollocks" });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.ReEdit, Value = "bollocks" });
             termsLists.Termslist.Add(termsList);
             termsList = new TermsList(2);
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = "bollocks" });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.Refer, Value = "bollocks" });
             termsLists.Termslist.Add(termsList);
 
             string postText = termsLists.Termslist.Aggregate("", (current1, tmpTermsList) => tmpTermsList.Terms.Aggregate(current1, (current, term) => current + (term.Value + "\n")));
@@ -167,7 +167,7 @@ namespace FunctionalTests
             foreach(var modClass in moderationClassList.ModClassList)
             {
                 var termsList = new TermsList {ModClassId = modClass.ClassId};
-                termsList.Terms.Add(new Term { Value = term, Action = action });
+                termsList.Terms.Add(new TermDetails { Value = term, Action = action });
                 termsLists.Termslist.Add(termsList);
             }
             Assert.AreNotEqual(0, termsLists.Termslist.Count);
@@ -191,7 +191,6 @@ namespace FunctionalTests
             //Check that all terms are actually associated
             ValidateTermAssociations(request, termsLists);
         }
-
 
         [TestMethod]
         public void TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation()
@@ -213,7 +212,7 @@ namespace FunctionalTests
             foreach (var modClass in moderationClassList.ModClassList)
             {
                 var termsList = new TermsList { ModClassId = modClass.ClassId };
-                termsList.Terms.Add(new Term { Value = term, Action = action });
+                termsList.Terms.Add(new TermDetails { Value = term, Action = action });
                 termsLists.Termslist.Add(termsList);
             }
             Assert.AreNotEqual(0, termsLists.Termslist.Count);
@@ -236,7 +235,7 @@ namespace FunctionalTests
             termsLists = ValidateHistory(request, reason, termsLists);
             //Check that all terms are actually associated
             ValidateTermAssociations(request, termsLists);
-            
+
         }
 
         [TestMethod]
@@ -246,10 +245,10 @@ namespace FunctionalTests
             var reason = "";//empty for test
             var termsLists = new TermsLists();
             var termsList = new TermsList(1);
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = "bollocks" });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.ReEdit, Value = "bollocks" });
             termsLists.Termslist.Add(termsList);
             termsList = new TermsList(2);
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = "bollocks" });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.Refer, Value = "bollocks" });
             termsLists.Termslist.Add(termsList);
 
             string postText = termsLists.Termslist.Aggregate("", (current1, tmpTermsList) => tmpTermsList.Terms.Aggregate(current1, (current, term) => current + (term.Value + "\n")));
@@ -276,10 +275,10 @@ namespace FunctionalTests
             var reason = "Not Empty";//empty for test
             var termsLists = new TermsLists();
             var termsList = new TermsList(1);
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = "bollocks" });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.ReEdit, Value = "bollocks" });
             termsLists.Termslist.Add(termsList);
             termsList = new TermsList(2);
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = "bollocks" });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.Refer, Value = "bollocks" });
             termsLists.Termslist.Add(termsList);
 
             string postText = "";//breaks test
@@ -308,12 +307,12 @@ namespace FunctionalTests
             var reason = "this has a reason";
             var termsLists = new TermsLists();
             var termsList = new TermsList(1);
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = term1 });
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = term2 });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.Refer, Value = term1 });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.Refer, Value = term2 });
             termsLists.Termslist.Add(termsList);
             termsList = new TermsList(2);
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = term1 });
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = term2 });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.ReEdit, Value = term1 });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.ReEdit, Value = term2 });
             termsLists.Termslist.Add(termsList);
 
             string postText = termsLists.Termslist.Aggregate("", (current1, tmpTermsList) => tmpTermsList.Terms.Aggregate(current1, (current, term) => current + (term.Value + "\n")));
@@ -349,12 +348,12 @@ namespace FunctionalTests
             var reason = "this has a reason";
             var termsLists = new TermsLists();
             var termsList = new TermsList(1);
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = term1 });
-            termsList.Terms.Add(new Term { Action = TermAction.Refer, Value = term2 });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.Refer, Value = term1 });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.Refer, Value = term2 });
             termsLists.Termslist.Add(termsList);
             termsList = new TermsList(2);
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = term1 });
-            termsList.Terms.Add(new Term { Action = TermAction.ReEdit, Value = term2 });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.ReEdit, Value = term1 });
+            termsList.Terms.Add(new TermDetails { Action = TermAction.ReEdit, Value = term2 });
             termsLists.Termslist.Add(termsList);
 
             string postText = termsLists.Termslist.Aggregate("", (current1, tmpTermsList) => tmpTermsList.Terms.Aggregate(current1, (current, term) => current + (term.Value + "\n")));
@@ -544,7 +543,7 @@ namespace FunctionalTests
         }
 
 
-        public void SendSignal()
+        private void SendSignal()
         {
             var request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();

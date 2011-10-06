@@ -91,7 +91,7 @@
             <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
               <li><a href="sitemanager">Site Manager</a></li>
               <li><a href="userreputationreport">User Reputation Report</a></li>
-              <li><a href="/dna/moderation/termsfilteradmin" target="_blank">Terms Filter Admin</a></li>
+              <li><a href="termsfilteradmin">Terms Filter Admin</a></li>
               <li>
                 <a href="/dna/moderation/moderationhome" target="_blank">Moderation Homepage</a>
               </li>

@@ -1069,7 +1069,7 @@ namespace FunctionalTests.Services.Comments
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
 
             var termList = new TermsList(commentForum.ForumID, false, true);
-            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.Refer });
+            termList.Terms.Add(new TermDetails { Value = forumTerm, Action = TermAction.Refer });
             Error error = termList.UpdateTermsInDatabase(creator, _cache, forumReason, 6, false);
             SendTermsSignal();
 
@@ -1115,8 +1115,8 @@ namespace FunctionalTests.Services.Comments
             }
 
             var terms = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual(forumTerm, terms.TermDetails[0].Value);
-            Assert.AreEqual(forumReason, terms.TermDetails[0].Reason);
+            Assert.AreEqual(forumTerm, terms.Terms[0].Value);
+            Assert.AreEqual(forumReason, terms.Terms[0].Reason);
 
         }
 
@@ -1150,7 +1150,7 @@ namespace FunctionalTests.Services.Comments
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
 
             var termList = new TermsList(commentForum.ForumID, false, true);
-            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.Refer });
+            termList.Terms.Add(new TermDetails { Value = forumTerm, Action = TermAction.Refer });
             Error error = termList.UpdateTermsInDatabase(creator, _cache, forumReason, 6, false);
             SendTermsSignal();
 
@@ -2047,14 +2047,14 @@ namespace FunctionalTests.Services.Comments
 
             var reason = "test reason";
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
-            var term = new Term() { Value = termStr, Action = TermAction.Refer };
+            var term = new TermDetails() { Value = termStr, Action = TermAction.Refer };
             var termsList = new TermsList(modClassId);
             termsList.Terms.Add(term);
             termsList.UpdateTermsInDatabase(creator, CacheFactory.GetCacheManager(), reason, userId, true);
 
             termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual(termStr, termsList.TermDetails[0].Value);
-            Assert.AreEqual(reason, termsList.TermDetails[0].Reason);
+            Assert.AreEqual(termStr, termsList.Terms[0].Value);
+            Assert.AreEqual(reason, termsList.Terms[0].Reason);
         }
     }
 }

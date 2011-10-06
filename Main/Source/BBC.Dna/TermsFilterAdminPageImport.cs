@@ -135,7 +135,7 @@ namespace BBC.Dna
                 var termsList = new TermsList(modClass.ClassId);
                 foreach (var term in terms)
                 {
-                    termsList.Terms.Add(new Term { Value = term, Action = termAction });
+                    termsList.Terms.Add(new TermDetails { Value = term, Action = termAction });
                 }
                 termsLists.Termslist.Add(termsList);
             }

@@ -27,14 +27,14 @@ namespace BBC.Dna.Moderation.Tests
         {
             TermDetails target = CreateTermDetails();
             //var expected = "<TERMDETAILS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" TERM=\"term\" REASON=\"no change\" UPDATEDDATE=\"\" USERID=\"0\" />";
-            var expected = "<TERMDETAILS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"NoAction\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\" FromModClass=\"false\"><REASON>no change</REASON><UPDATEDDATE DAYNAME=\"Monday\" SECONDS=\"0\" MINUTES=\"0\" HOURS=\"0\" DAY=\"1\" MONTH=\"1\" MONTHNAME=\"January\" YEAR=\"1\" SORT=\"00010101000000\" RELATIVE=\"Jan 1, 1\" /></TERMDETAILS>";
+            var expected = "<TERMDETAILS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"NoAction\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\"><REASON>no change</REASON><UPDATEDDATE /></TERMDETAILS>";
             XmlDocument xml = Serializer.SerializeToXml(target);
             Assert.AreEqual(expected, xml.SelectSingleNode("TERMDETAILS").OuterXml);
         }
 
         public static TermDetails CreateTermDetails()
         {
-            return new TermDetails() { Id = 0, Value = "term", Reason = "no change", UpdatedDate = new Date(), UserID = 0 };
+            return new TermDetails() { Id = 0, Value = "term", Reason = "no change", UpdatedDate = new DateElement(), UserID = 0 };
         }
     }
 }

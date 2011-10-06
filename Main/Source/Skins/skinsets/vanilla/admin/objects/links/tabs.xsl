@@ -25,7 +25,7 @@
 						<a href="messageboardadmin_design?s_mode=design">Design</a>
 					</li>
 				</xsl:when>
-				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS' or @TYPE = 'COMMENTFORUMLIST'  or @TYPE = 'USERLIST' or @TYPE = 'ERROR' or @TYPE = 'USERREPUTATIONREPORT' or @TYPE = 'SITEMANAGER'">
+				<xsl:when test="@TYPE = 'HOSTDASHBOARDACTIVITYPAGE' or @TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE' or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS' or @TYPE = 'COMMENTFORUMLIST'  or @TYPE = 'USERLIST' or @TYPE = 'ERROR' or @TYPE = 'USERREPUTATIONREPORT' or @TYPE = 'SITEMANAGER' or @TYPE = 'TERMSFILTERADMIN' or @TYPE = 'TERMSFILTERIMPORT'">
 					<!-- no tabs for the host dashboard activity page -->
 					<li>&#160;</li>
 				</xsl:when>

@@ -105,7 +105,7 @@
 				</div>
    
 				<div id="blq-content">
-					<xsl:if test="/H2G2[@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN']">
+					<xsl:if test="/H2G2[@TYPE = 'MBADMIN' or @TYPE = 'MBADMINDESIGN' or @TYPE = 'MESSAGEBOARDSCHEDULE']">
 						<xsl:choose>
 							<xsl:when test="SITE/SITEOPTIONS/SITEOPTION[NAME='IsMessageboard']/VALUE='0'">
 								<xsl:call-template name="emergency-stop"><xsl:with-param name="type" select="'SITE'" /></xsl:call-template>

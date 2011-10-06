@@ -26,7 +26,7 @@ namespace BBC.Dna.Moderation
         /// </summary>
         public TermsList()
         {
-            Terms = new List<Term>();
+            Terms = new List<TermDetails>();
         }
 
         /// <summary>
@@ -36,9 +36,8 @@ namespace BBC.Dna.Moderation
         public TermsList(int modClassId)
         {
             ModClassId = modClassId;
-            Terms = new List<Term>();
+            Terms = new List<TermDetails>();
         }
-
 
         /// <summary>
         /// Overloaded constructor if details from ThreadMod
@@ -47,7 +46,7 @@ namespace BBC.Dna.Moderation
         public TermsList(int modId, bool isFromThreadMod)
         {
             this.ModClassId = modId;
-            TermDetails = new List<TermDetails>();
+            Terms = new List<TermDetails>();
         }
 
         /// <summary>
@@ -57,17 +56,14 @@ namespace BBC.Dna.Moderation
         public TermsList(int forumId, bool isFromThreadMod, bool isForForum)
         {
             this.ForumId = forumId;
-            Terms = new List<Term>();
-            TermDetails = new List<TermDetails>();
+            Terms = new List<TermDetails>();
         }
+
 
         #region Properties
         /// <remarks/>
-        [XmlElementAttribute("TERM", Order = 0)]
-        public List<Term> Terms { get; set; }
-
-        [XmlElementAttribute("TERMDETAILS", Order = 1)]
-        public List<TermDetails> TermDetails {get;set;}
+        [XmlElementAttribute("TERMDETAILS", Order = 0)]
+        public List<TermDetails> Terms { get; set; }
 
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName = "MODCLASSID")]
@@ -76,7 +72,6 @@ namespace BBC.Dna.Moderation
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName = "FORUMID")]
         public int ForumId { get; set; }
-
         #endregion
 
         public static TermsList GetTermsListByModClassId(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
@@ -116,54 +111,21 @@ namespace BBC.Dna.Moderation
                 reader.Execute();
                 while(reader.Read())
                 {
-                    var term = new Term
-                                    {
-                                        Id = reader.GetInt32NullAsZero("termId"),
-                                        Action = (TermAction)reader.GetByteNullAsZero("actionId"),
-                                        Value = reader.GetStringNullAsEmpty("term")
-                                    };
-                    termsList.Terms.Add(term);
-                }
-            }
-
-            return termsList;
-        }
-
-
-        /// <summary>
-        /// Get the terms list from the ThreadMod table
-        /// </summary>
-        /// <param name="readerCreator"></param>
-        /// <param name="modClassId"></param>
-        /// <param name="isFromThreadMod"></param>
-        /// <returns></returns>
-        public static TermsList GetTermsListByThreadModIdFromThreadModDB(IDnaDataReaderCreator readerCreator,
-            int modId, bool isFromThreadMod)
-        {
-            var termsList = new TermsList ( modId, isFromThreadMod );
-
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettermsbymodidfromthreadmod"))
-            {
-                reader.AddParameter("modId", modId);
-                reader.Execute();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
+                    var termDetails = new TermDetails
                     {
-                        var termDetails = new TermDetails
-                                                {
-                                                    Id = reader.GetInt32NullAsZero("TermID"),
-                                                    Value = reader.GetStringNullAsEmpty("Term"),
-                                                    Reason = reader.GetStringNullAsEmpty("Reason"),
-                                                    UpdatedDate = new Date(reader.GetDateTime("UpdatedDate")),
-                                                    UserID = reader.GetInt32NullAsZero("UserID"),
-                                                    FromModClass = reader.GetBoolean("FromModClass")
-                                                };
+                        Id = reader.GetInt32NullAsZero("TermID"),
+                        Value = reader.GetStringNullAsEmpty("Term"),
+                        Reason = reader.GetStringNullAsEmpty("Reason"),
+                        UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
+                        UserID = reader.GetInt32NullAsZero("UserID"),
+                        UserName = reader.GetStringNullAsEmpty("UserName"),
+                        Action = (TermAction)reader.GetByteNullAsZero("actionId"),
+                    };
 
-                        termsList.TermDetails.Add(termDetails);
-                    }
+                    termsList.Terms.Add(termDetails);
                 }
             }
+
             return termsList;
         }
 
@@ -212,11 +174,15 @@ namespace BBC.Dna.Moderation
                 reader.Execute();
                 while (reader.Read())
                 {
-                    var term = new Term
+                    var term = new TermDetails
                     {
                         Id = reader.GetInt32NullAsZero("termId"),
                         Action = (TermAction)reader.GetByteNullAsZero("actionId"),
-                        Value = reader.GetStringNullAsEmpty("term")
+                        Value = reader.GetStringNullAsEmpty("term"),
+                        Reason = reader.GetStringNullAsEmpty("Reason"),
+                        UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
+                        UserID = reader.GetInt32NullAsZero("UserID"),
+                        UserName = reader.GetStringNullAsEmpty("UserName"),
                     };
                     termsList.Terms.Add(term);
                 }
@@ -224,6 +190,45 @@ namespace BBC.Dna.Moderation
 
             return termsList;
         }
+
+
+        /// <summary>
+        /// Get the terms list from the ThreadMod table
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="modClassId"></param>
+        /// <param name="isFromThreadMod"></param>
+        /// <returns></returns>
+        public static TermsList GetTermsListByThreadModIdFromThreadModDB(IDnaDataReaderCreator readerCreator,
+            int modId, bool isFromThreadMod)
+        {
+            var termsList = new TermsList ( modId, isFromThreadMod );
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettermsbymodidfromthreadmod"))
+            {
+                reader.AddParameter("modId", modId);
+                reader.Execute();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var termDetails = new TermDetails
+                                                {
+                                                    Id = reader.GetInt32NullAsZero("TermID"),
+                                                    Value = reader.GetStringNullAsEmpty("Term"),
+                                                    Reason = reader.GetStringNullAsEmpty("Reason"),
+                                                    UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
+                                                    UserID = reader.GetInt32NullAsZero("UserID"),
+                                                    UserName = reader.GetStringNullAsEmpty("UserName"),
+                                                };
+
+                        termsList.Terms.Add(termDetails);
+                    }
+                }
+            }
+            return termsList;
+        }
+
 
         /// <summary>
         /// not used as its just a inmemory cache
@@ -243,7 +248,7 @@ namespace BBC.Dna.Moderation
         /// <param name="reason"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Error UpdateTermsInDatabase(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager, 
+        public Error UpdateTermsInDatabase(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
             string reason, int userId, bool isForModClass)
         {
             if(String.IsNullOrEmpty(reason))
@@ -284,7 +289,7 @@ namespace BBC.Dna.Moderation
         public Error UpdateTermsWithHistoryId(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager, int historyId, bool isForModClass)
         {
             Error error = null;
-            foreach(var term in Terms)
+            foreach (var term in Terms)
             {
                 if (true == isForModClass)
                 {
@@ -322,7 +327,7 @@ namespace BBC.Dna.Moderation
                         }
                     }
                 }
-                
+
             }
             //refresh cache
             if (true == isForModClass)
@@ -335,6 +340,7 @@ namespace BBC.Dna.Moderation
             }
             return error;
         }
+
 
         /// <summary>
         /// Filters list by a term

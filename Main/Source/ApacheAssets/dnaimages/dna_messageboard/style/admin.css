@@ -130,6 +130,14 @@
     
     .dna-emergency-stop a.dna-stop {background:url(/dnaimages/dna_messageboard/img/icon-stop.gif) no-repeat 5px 50%}
     .dna-emergency-stop a.dna-go {background:url(/dnaimages/dna_messageboard/img/icon-go.gif) no-repeat 5px 50%}
+    
+    /* Refresh Cache*/
+    .dna-refresh-cache {float:right; margin-right:10px; width:10.6em; background:#f6f6f6 url(/dnaimages/dna_messageboard/img/bg-stop.gif) repeat-x 0 100%; border:1px solid #bcbcbc}
+    *+html .dna-refresh-cache {position:relative; top:20px}
+    *html .dna-refresh-cache {position:relative; top:20px}
+    .dna-refresh-cache strong {display:block; margin-bottom:3px}
+
+   
 
 
     /* INTRO text */
@@ -388,6 +396,9 @@
     .dna-dashboard .dna-siteManager td{padding: 5px;word-wrap:break-word;}
     .dna-dashboard .dna-siteManager td.title{font-weight: bold; text-align: right;}
     .dna-dashboard .dna-siteManager td.value{text-align: left;}
+    
+    .dna-dashboard .dna-termslist table {}
+    .dna-dashboard .dna-termslist td {text-align: left; padding: 2px; word-wrap:break-word;}
     
 }
 

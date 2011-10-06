@@ -27,7 +27,6 @@ namespace BBC.Dna
         private bool _skipUrlProcessing = false;
 
         private readonly ICacheManager _cache;
-        private bool _ignoreCache;
         private int _forumId = 1;
         private string _cmd = String.Empty;
         private int _termId;
@@ -39,7 +38,6 @@ namespace BBC.Dna
         public CommentForumListBuilder(IInputContext inputContext)
             : base(inputContext)
         {
-            _ignoreCache = false;
 
             _cache = CacheFactory.GetCacheManager();
         }
@@ -127,10 +125,12 @@ namespace BBC.Dna
 
                 case "UPDATETERMS":
                     {
-                        UpdateTerm();
-
+                        BaseResult result = UpdateTerm();
+                        if (result.IsError())
+                        {
+                            return result;
+                        }
                         ProfanityFilter.GetObject().SendSignal();
-
                         return new Result("TermsUpdateSuccess & SiteRefreshSuccess", "Terms filter by Forum refresh initiated.");
                     }
             }
@@ -156,7 +156,7 @@ namespace BBC.Dna
             {
                 return new Error { Type = "UPDATETERMMISSINGTERM", ErrorMessage = "Terms text must contain newline delimited terms." };
             }
-            var termReason = InputContext.GetParamStringOrEmpty("reason", "Reason for the term added.");
+            var termReason = InputContext.GetParamStringOrEmpty("reason", "Reason for the term added.").Trim();
             if (string.IsNullOrEmpty(termReason))
             {
                 return new Error { Type = "UPDATETERMMISSINGDESCRIPTION", ErrorMessage = "Term reason cannot be empty." };
@@ -175,7 +175,7 @@ namespace BBC.Dna
             var termList = new TermsList(forumId, false, true);
             foreach (var term in terms)
             {
-                termList.Terms.Add(new Term { Value = term, Action = termAction });
+                termList.Terms.Add(new TermDetails { Value = term, Action = termAction });
             }
             termsLists.Termslist.Add(termList);
             BaseResult error = termsLists.UpdateTermsInDatabase(AppContext.ReaderCreator, _cache, termReason.Trim(),
@@ -468,10 +468,6 @@ namespace BBC.Dna
             if (InputContext.DoesParamExist("forumid", "Forum ID"))
             {
                 _forumId = InputContext.GetParamIntOrZero("forumid", "Forum ID");
-                if (_forumId == 0)
-                {
-                    //TODO
-                }
             }
 
             if (InputContext.DoesParamExist("action", "Command string for flow"))
@@ -571,7 +567,7 @@ namespace BBC.Dna
 
             int forumId = Convert.ToInt32(dataReader.GetInt32NullAsZero("forumID").ToString());
             //get terms admin object
-            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateForumTermAdmin(AppContext.ReaderCreator, _cache, forumId, _ignoreCache);
+            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateForumTermAdmin(AppContext.ReaderCreator, _cache, forumId, true);
             XmlNode termNode = SerialiseAndAppend(termsAdmin, "");
             AddXmlTextTag(commentForum, "TERMS", termNode.InnerXml.ToString());
 
