@@ -2045,6 +2045,7 @@ namespace FunctionalTests.Services.Comments
                 }
             }
 
+            //ensure an update so that there is a reson in db
             var reason = "test reason";
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
             var term = new TermDetails() { Value = termStr, Action = TermAction.Refer };
@@ -2052,6 +2053,7 @@ namespace FunctionalTests.Services.Comments
             termsList.Terms.Add(term);
             termsList.UpdateTermsInDatabase(creator, CacheFactory.GetCacheManager(), reason, userId, true);
 
+            //check reason is valid in output
             termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
             Assert.AreEqual(termStr, termsList.Terms[0].Value);
             Assert.AreEqual(reason, termsList.Terms[0].Reason);
