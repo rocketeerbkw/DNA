@@ -34,6 +34,12 @@ namespace BBC.Dna.Moderation.Utils
         public int UserID { get; set; }
 
         /// <summary>
+        /// Required to display the reason of the term filtered according to this flag
+        /// </summary>
+        [XmlAttributeAttribute(AttributeName = "FromModClass")]
+        public bool FromModClass { get; set; }
+
+        /// <summary>
         /// Gets the user who changes the reason
         /// </summary>
         [XmlElement(ElementName = "USERNAME")]

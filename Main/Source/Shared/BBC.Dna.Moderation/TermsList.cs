@@ -26,7 +26,7 @@ namespace BBC.Dna.Moderation
         /// </summary>
         public TermsList()
         {
-            Terms = new List<TermDetails>();
+            Terms = new List<Term>();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace BBC.Dna.Moderation
         public TermsList(int modClassId)
         {
             ModClassId = modClassId;
-            Terms = new List<TermDetails>();
+            Terms = new List<Term>();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace BBC.Dna.Moderation
         public TermsList(int modId, bool isFromThreadMod)
         {
             this.ModClassId = modId;
-            Terms = new List<TermDetails>();
+            TermDetails = new List<TermDetails>();
         }
 
         /// <summary>
@@ -56,14 +56,18 @@ namespace BBC.Dna.Moderation
         public TermsList(int forumId, bool isFromThreadMod, bool isForForum)
         {
             this.ForumId = forumId;
-            Terms = new List<TermDetails>();
+            Terms = new List<Term>();
+            TermDetails = new List<TermDetails>();
         }
 
 
         #region Properties
         /// <remarks/>
-        [XmlElementAttribute("TERMDETAILS", Order = 0)]
-        public List<TermDetails> Terms { get; set; }
+        [XmlElementAttribute("TERM", Order = 0)]
+        public List<Term> Terms { get; set; }
+
+        [XmlElementAttribute("TERMDETAILS", Order = 1)]
+        public List<TermDetails> TermDetails { get; set; }
 
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName = "MODCLASSID")]
@@ -109,9 +113,10 @@ namespace BBC.Dna.Moderation
             {
                 reader.AddParameter("modClassId", modClassId);
                 reader.Execute();
-                while(reader.Read())
+                while (reader.Read())
                 {
                     var termDetails = new TermDetails
+
                     {
                         Id = reader.GetInt32NullAsZero("TermID"),
                         Value = reader.GetStringNullAsEmpty("Term"),
@@ -119,15 +124,55 @@ namespace BBC.Dna.Moderation
                         UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
                         UserID = reader.GetInt32NullAsZero("UserID"),
                         UserName = reader.GetStringNullAsEmpty("UserName"),
-                        Action = (TermAction)reader.GetByteNullAsZero("actionId"),
+                        Action = (TermAction)reader.GetByteNullAsZero("actionId")
                     };
-
                     termsList.Terms.Add(termDetails);
                 }
             }
 
             return termsList;
         }
+
+        /// <summary>
+        /// Get the terms list from the ThreadMod table
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="modClassId"></param>
+        /// <param name="isFromThreadMod"></param>
+        /// <returns></returns>
+        public static TermsList GetTermsListByThreadModIdFromThreadModDB(IDnaDataReaderCreator readerCreator,
+            int modId, bool isFromThreadMod)
+        {
+            var termsList = new TermsList(modId, isFromThreadMod);
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettermsbymodidfromthreadmod"))
+            {
+                reader.AddParameter("modId", modId);
+                reader.Execute();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var termDetails = new TermDetails
+                        {
+                            Id = reader.GetInt32NullAsZero("TermID"),
+                            Value = reader.GetStringNullAsEmpty("Term"),
+                            Reason = reader.GetStringNullAsEmpty("Reason"),
+                            UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
+                            UserID = reader.GetInt32NullAsZero("UserID"),
+                            UserName = reader.GetStringNullAsEmpty("UserName"),
+                            FromModClass = reader.GetBoolean("FromModClass")
+                        };
+
+                        termsList.TermDetails.Add(termDetails);
+                    }
+                }
+            }
+
+            return termsList;
+        }
+
+       
 
         /// <summary>
         /// Checks the cache and gets the terms from the cache else calls the db method to fetch the terms
@@ -191,43 +236,6 @@ namespace BBC.Dna.Moderation
             return termsList;
         }
 
-
-        /// <summary>
-        /// Get the terms list from the ThreadMod table
-        /// </summary>
-        /// <param name="readerCreator"></param>
-        /// <param name="modClassId"></param>
-        /// <param name="isFromThreadMod"></param>
-        /// <returns></returns>
-        public static TermsList GetTermsListByThreadModIdFromThreadModDB(IDnaDataReaderCreator readerCreator,
-            int modId, bool isFromThreadMod)
-        {
-            var termsList = new TermsList ( modId, isFromThreadMod );
-
-            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettermsbymodidfromthreadmod"))
-            {
-                reader.AddParameter("modId", modId);
-                reader.Execute();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        var termDetails = new TermDetails
-                                                {
-                                                    Id = reader.GetInt32NullAsZero("TermID"),
-                                                    Value = reader.GetStringNullAsEmpty("Term"),
-                                                    Reason = reader.GetStringNullAsEmpty("Reason"),
-                                                    UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
-                                                    UserID = reader.GetInt32NullAsZero("UserID"),
-                                                    UserName = reader.GetStringNullAsEmpty("UserName"),
-                                                };
-
-                        termsList.Terms.Add(termDetails);
-                    }
-                }
-            }
-            return termsList;
-        }
 
 
         /// <summary>

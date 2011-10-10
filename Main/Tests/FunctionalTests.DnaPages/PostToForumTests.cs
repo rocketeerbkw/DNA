@@ -14,7 +14,6 @@ using BBC.Dna.Moderation.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Moderation;
 
-
 namespace FunctionalTests
 {
     /// <summary>
@@ -589,7 +588,11 @@ namespace FunctionalTests
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
-            request = PostToForumWithException(request, "my with refferred item arse post");
+
+            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation();
+            SendTermsSignal();
+
+            request = PostToForumWithException(request, "my with refferred item potato post");
 
             var xml = request.GetLastResponseAsXML();
 
@@ -603,6 +606,7 @@ namespace FunctionalTests
         public void PostToForum_ReferredTermsInPost_CorrectModeratedPost()
         {
             var threadModId = 0;
+            var termStr = "potato";
             var processPreMod = false;
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
             var forumStatus = ModerationStatus.ForumStatus.Reactive;
@@ -617,32 +621,39 @@ namespace FunctionalTests
 
             //Add the terms to the terms update history
 
-            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleTermToAll_PassesValidation();
+            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation();
+            SendTermsSignal();
 
-            request = PostToForumWithException(request, "Testing terms with refferred item arse post");
+            request = PostToForumWithException(request, "Testing terms with refferred item potato post");
 
             var xml = request.GetLastResponseAsXML();
 
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
             CheckPostInThread(xml, expectedPostStatus, processPreMod);
 
+            var termId = 0;
+
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
                 dataReader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
                 Assert.IsTrue(dataReader.Read());
-                Assert.AreEqual("Filtered terms: arse", dataReader.GetStringNullAsEmpty("notes"));
+                Assert.AreEqual("Filtered terms: potato", dataReader.GetStringNullAsEmpty("notes"));
 
-                dataReader.ExecuteDEBUGONLY("select * from ModTermMapping where modid = (select max(modid) from threadmod)");
+                dataReader.ExecuteDEBUGONLY("select ID from TermsLookUp where term='" + termStr + "'");
                 Assert.IsTrue(dataReader.Read());
-                Assert.AreEqual(6, dataReader.GetInt32("TermID"));
-                threadModId = dataReader.GetInt32("ModID");
+                termId = dataReader.GetInt32("ID");
+
+                dataReader.ExecuteDEBUGONLY("select * from ForumModTermMapping where threadmodid = (select max(modid) from threadmod)");
+                Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual(termId, dataReader.GetInt32("TermID"));
+                threadModId = dataReader.GetInt32("ThreadModID");
             }
 
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
 
             var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual("arse", termsList.Terms[0].Value);
+            Assert.AreEqual("potato", termsList.TermDetails[0].Value);
         }
 
 
@@ -650,6 +661,7 @@ namespace FunctionalTests
         public void PostToForum_ReferredTermsInPost_CorrectModeratedPostWithProcessPreMod()
         {
             var threadModId = 0;
+            var termStr = "potato";
             var processPreMod = true;
             var siteStatus = ModerationStatus.SiteStatus.PreMod;
             var forumStatus = ModerationStatus.ForumStatus.PreMod;
@@ -664,32 +676,275 @@ namespace FunctionalTests
 
             //Add the terms to the terms update history
 
-            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleTermToAll_PassesValidation();
+            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation();
+            SendTermsSignal();
 
-            request = PostToForumWithException(request, "Testing terms with refferred item post arse");
+            request = PostToForumWithException(request, "Testing terms with refferred item post potato");
 
             var xml = request.GetLastResponseAsXML();
 
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
+
+            var termId = 0;
 
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
                 dataReader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
                 Assert.IsTrue(dataReader.Read());
-                Assert.AreEqual("Filtered terms: arse", dataReader.GetStringNullAsEmpty("notes"));
+                Assert.AreEqual("Filtered terms: potato", dataReader.GetStringNullAsEmpty("notes"));
 
-                dataReader.ExecuteDEBUGONLY("select * from ModTermMapping where modid = (select max(modid) from threadmod)");
+                dataReader.ExecuteDEBUGONLY("select ID from TermsLookUp where term='" + termStr + "'");
                 Assert.IsTrue(dataReader.Read());
-                Assert.AreEqual(6, dataReader.GetInt32("TermID"));
-                threadModId = dataReader.GetInt32("ModID");
+                termId = dataReader.GetInt32("ID");
+
+                dataReader.ExecuteDEBUGONLY("select * from ForumModTermMapping where threadmodid = (select max(modid) from threadmod)");
+                Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual(termId, dataReader.GetInt32("TermID"));
+                threadModId = dataReader.GetInt32("ThreadModID");
             }
 
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
 
             var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual("arse", termsList.Terms[0].Value);
+            Assert.AreEqual("potato", termsList.TermDetails[0].Value);
         }
+
+        [TestMethod]
+        public void PostToForum_ReferredForumTermsInPost_CorrectModeratedPost()
+        {
+            var forumTerm = "humbug123";
+            var processPreMod = false;
+            var siteStatus = ModerationStatus.SiteStatus.UnMod;
+            var forumStatus = ModerationStatus.ForumStatus.Reactive;
+            var threadStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
+            var expectedPostStatus = ModerationStatus.ForumStatus.PostMod;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserNormal();
+
+            //Add the terms to the terms update history
+
+            ICacheManager _cache = CacheFactory.GetCacheManager();
+            IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
+
+            var termsLists = new TermsLists();
+
+            var termList = new TermsList(_forumId, false, true);
+            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.Refer });
+
+            termsLists.Termslist.Add(termList);
+
+            Error error = termsLists.UpdateTermsInDatabase(creator, _cache, "Testing humbug123", 6, false);
+            SendTermsSignal();
+
+            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post");
+
+            var xml = request.GetLastResponseAsXML();
+
+            CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
+            CheckPostInThread(xml, expectedPostStatus, processPreMod);
+
+            CheckModerationTerms(forumTerm, creator);
+
+        }
+
+        [TestMethod]
+        public void PostToForum_ReferredForumBlockedModClassTermsInPost_CorrectModeratedPost()
+        {
+            var forumTerm = "hum123";
+            var processPreMod = false;
+            var siteStatus = ModerationStatus.SiteStatus.UnMod;
+            var forumStatus = ModerationStatus.ForumStatus.Reactive;
+            var threadStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
+            var expectedPostStatus = ModerationStatus.ForumStatus.PostMod;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserNormal();
+
+            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleTermToAll_PassesValidation();
+            SendTermsSignal();
+            //Add the terms to the terms update history
+
+            ICacheManager _cache = CacheFactory.GetCacheManager();
+            IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
+
+            var termList = new TermsList(_forumId, false, true);
+            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.Refer });
+            Error error = termList.UpdateTermsInDatabase(creator, _cache, "Testing hum123", 6, false);
+            SendTermsSignal();
+
+            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post");
+
+            var xml = request.GetLastResponseAsXML();
+
+            CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
+            CheckPostInThread(xml, expectedPostStatus, processPreMod);
+
+            var termId = 0;
+            var threadModId = 0;
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("select ID from TermsLookUp where term = '" + forumTerm + "'");
+                Assert.IsTrue(dataReader.Read());
+                termId = dataReader.GetInt32("ID");
+
+                dataReader.ExecuteDEBUGONLY("select * from ForumModTermMapping where ThreadModID = (select max(modid) from threadmod)");
+                Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual(termId, dataReader.GetInt32("TermID"));
+                threadModId = dataReader.GetInt32("ThreadModID");
+            }
+
+            var terms = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
+            Assert.AreEqual(forumTerm, terms.TermDetails[0].Value);
+        }
+
+        [TestMethod]
+        public void PostToForum_ReferredForumReferredModClassTermsInPost_CorrectModeratedPost()
+        {
+            var forumTerm = "potato";
+            var processPreMod = false;
+            var siteStatus = ModerationStatus.SiteStatus.UnMod;
+            var forumStatus = ModerationStatus.ForumStatus.Reactive;
+            var threadStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
+            var expectedPostStatus = ModerationStatus.ForumStatus.PostMod;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserNormal();
+
+            new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation();
+            SendTermsSignal();
+            //Add the terms to the terms update history
+
+            ICacheManager _cache = CacheFactory.GetCacheManager();
+            IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
+
+            var termsLists = new TermsLists();
+
+            var termList = new TermsList(_forumId, false, true);
+            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.Refer });
+
+            termsLists.Termslist.Add(termList);
+
+            Error error = termsLists.UpdateTermsInDatabase(creator, _cache, "Testing potato", 6, false);
+            SendTermsSignal();
+
+            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post");
+
+            var xml = request.GetLastResponseAsXML();
+
+            CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
+            CheckPostInThread(xml, expectedPostStatus, processPreMod);
+
+            var termId = 0;
+            var threadModId = 0;
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("select ID from TermsLookUp where term = '" + forumTerm + "'");
+                Assert.IsTrue(dataReader.Read());
+                termId = dataReader.GetInt32("ID");
+
+                dataReader.ExecuteDEBUGONLY("select * from ForumModTermMapping where ThreadModID = (select max(modid) from threadmod)");
+                Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual(termId, dataReader.GetInt32("TermID"));
+                threadModId = dataReader.GetInt32("ThreadModID");
+            }
+
+            var terms = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
+            Assert.AreEqual(forumTerm, terms.TermDetails[0].Value);
+            Assert.AreEqual("this has a reason", terms.TermDetails[0].Reason);
+        }
+
+        [TestMethod]
+        public void PostToForum_BlockedForumTermsInPost_CorrectModeratedPost()
+        {
+            var forumTerm = "bum1234";
+            var processPreMod = false;
+            var siteStatus = ModerationStatus.SiteStatus.UnMod;
+            var forumStatus = ModerationStatus.ForumStatus.Reactive;
+            var threadStatus = ModerationStatus.ForumStatus.Reactive;
+            var userStatus = ModerationStatus.UserStatus.Standard;
+            //var expectedPostStatus = ModerationStatus.ForumStatus.PostMod;
+
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserNormal();
+
+            //Add the terms to the terms update history
+
+            ICacheManager _cache = CacheFactory.GetCacheManager();
+            IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
+
+            var termsLists = new TermsLists();
+
+            var termList = new TermsList(_forumId, false, true);
+            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.ReEdit });
+
+            termsLists.Termslist.Add(termList);
+
+            Error error = termsLists.UpdateTermsInDatabase(creator, _cache, "Testing bum1234", 6, false);
+            SendTermsSignal();
+
+            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post");
+
+            var xml = request.GetLastResponseAsXML();
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("select * from ForumModTermMapping where ThreadModID = (select max(modid) from threadmod where notes like '%" + forumTerm + "%')");
+                Assert.IsFalse(dataReader.Read());
+            }
+        }
+
+        private static void CheckModerationTerms(string forumTerm, IDnaDataReaderCreator creator)
+        {
+            var threadModId = 0;
+            var termId = 0;
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                dataReader.ExecuteDEBUGONLY("select * from threadmod where modid = (select max(modid) from threadmod)");
+                Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual("Filtered terms: " + forumTerm, dataReader.GetStringNullAsEmpty("notes"));
+
+                dataReader.ExecuteDEBUGONLY("select ID from TermsLookUp where term = '" + forumTerm + "'");
+                Assert.IsTrue(dataReader.Read());
+                termId = dataReader.GetInt32("ID");
+
+                dataReader.ExecuteDEBUGONLY("select * from ForumModTermMapping where ThreadModID = (select max(modid) from threadmod)");
+                Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual(termId, dataReader.GetInt32("TermID"));
+                threadModId = dataReader.GetInt32("ThreadModID");
+            }
+
+            var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
+            Assert.AreEqual(forumTerm, termsList.TermDetails[0].Value);
+
+        }
+
+        public void SendTermsSignal()
+        {
+            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-terms", DnaTestURLRequest.CurrentServer);
+            var request = new DnaTestURLRequest(_siteName);
+            //request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(url, null, "text/xml");
+        }
+
 
         [TestMethod]
         public void PostToForum_WithinPostFrequency_CorrectError()

@@ -44,6 +44,8 @@ namespace Tests
             Mockery mock = new Mockery();
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
 
+            Stub.On(context).Method("GetParamIntOrZero").WithAnyArguments().Will(Return.Value(0));
+
             // Create a mocked site for the context
             ISite mockedSite = DnaMockery.CreateMockedSite(context, 70, "mbiplayer", "mbiplayer", true, "http://identity/policies/dna/adult");//changed to miss cache
             Stub.On(context).GetProperty("CurrentSite").Will(Return.Value(mockedSite));

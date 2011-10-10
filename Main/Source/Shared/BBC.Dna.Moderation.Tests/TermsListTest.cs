@@ -195,7 +195,7 @@ namespace BBC.Dna.Moderation.Tests
         public static TermsList GetTermDetailsList()
         {
             var expected = new TermsList(1, true);
-            expected.Terms.Add(TermDetailsTest.CreateTermDetails());
+            expected.TermDetails.Add(TermDetailsTest.CreateTermDetails());
             return expected;
         }
 
@@ -226,6 +226,31 @@ namespace BBC.Dna.Moderation.Tests
 
         }
 
+        /// <summary>
+        ///A test for GetTermsListByForumId
+        ///</summary>
+        [TestMethod]
+        public void GetTermsListByForumId_NonCachedVersion_ReturnsCachedVersion()
+        {
+            var expected = new TermsList();
+            expected.Terms.Add(TermTest.CreateTerm());
+            string key = expected.GetCacheKey(0);
+
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+
+            var readerCreator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            readerCreator.Stub(x => x.CreateDnaDataReader("gettermsbyforumid")).Return(reader);
+
+            var cacheManager = Mocks.DynamicMock<ICacheManager>();
+            cacheManager.Stub(x => x.GetData(key)).Return(null);
+
+            Mocks.ReplayAll();
+
+            TermsList actual = TermsList.GetTermsListByForumId(readerCreator, cacheManager, 0, false);
+            Assert.AreEqual(expected.Terms.Count, actual.Terms.Count);
+
+        }
 
         /// <summary>
         ///A test for GetTermsListByModClassIdFromThreadModDB
@@ -244,9 +269,32 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsList actual = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, 0, true);
             Assert.IsNotNull(actual);
-            Assert.AreEqual(0, actual.Terms.Count);
+            Assert.AreEqual(0, actual.TermDetails.Count);
         }
 
+        /// <summary>
+        ///A test for GetTermsListByModClassIdFromThreadModDB
+        ///</summary>
+        [TestMethod]
+        public void GetTermsListByModClassIdForumIdFromThreadModDB_ReadIsFalse_ReturnsEmptyList()
+        {
+
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.Read()).Return(false);
+
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("gettermsbymodidfromthreadmod")).Return(reader);
+
+            Mocks.ReplayAll();
+
+            TermsList actual = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, 0, true);
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(0, actual.TermDetails.Count);
+
+            TermsList forumActual = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, 0, false);
+            Assert.IsNotNull(forumActual);
+            Assert.AreEqual(0, forumActual.TermDetails.Count);
+        }
         
         /// <summary>
         ///A test for GetTermsListByModClassId
@@ -255,7 +303,7 @@ namespace BBC.Dna.Moderation.Tests
         public void GetTermsListByThreadModIdFromThreadModDB_ReturnsNonEmptyList()
         {
             var expected = new TermsList(7, true);
-            expected.Terms.Add(TermDetailsTest.CreateTermDetails());
+            expected.TermDetails.Add(TermDetailsTest.CreateTermDetails());
             string key = expected.GetCacheKey(0);
 
             var reader = Mocks.DynamicMock<IDnaDataReader>();
@@ -269,7 +317,7 @@ namespace BBC.Dna.Moderation.Tests
             Mocks.ReplayAll();
 
             TermsList actual = TermsList.GetTermsListByThreadModIdFromThreadModDB(readerCreator, 0, false);
-            Assert.AreEqual(expected.Terms.Count, actual.Terms.Count);
+            Assert.AreEqual(expected.TermDetails.Count, actual.TermDetails.Count);
 
         }
 
@@ -277,7 +325,7 @@ namespace BBC.Dna.Moderation.Tests
         [TestMethod]
         public void TermsListSchemaValidation()
         {
-            var expected = "<TERMSLIST xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" FORUMID=\"0\" MODCLASSID=\"0\"><TERMDETAILS ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\" /></TERMSLIST>";
+            var expected = "<TERMSLIST xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" FORUMID=\"0\" MODCLASSID=\"0\"><TERM xsi:type=\"TermDetails\" ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\" FromModClass=\"false\" /></TERMSLIST>";
 
             var target = new TermsList{ModClassId = 0};
             target.Terms.Add(TermTest.CreateTerm());
@@ -308,7 +356,7 @@ namespace BBC.Dna.Moderation.Tests
             Error expected = new Error { Type = "UpdateTermsInDatabase", ErrorMessage = "Valid reason must be supplied" };
 
             var target = GetTermsList();
-            Error actual = target.UpdateTermsInDatabase(readerCreator, cacheManager, reason, userId, false);
+            Error actual = target.UpdateTermsInDatabase(readerCreator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
@@ -370,7 +418,7 @@ namespace BBC.Dna.Moderation.Tests
             Error expected = new Error { Type = "UpdateTermsInDatabase", ErrorMessage = "Unable to get history id" };
 
             var target = GetTermsList();
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, false);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
@@ -413,6 +461,35 @@ namespace BBC.Dna.Moderation.Tests
         }
 
         /// <summary>
+        ///A test for UpdateTermsInDatabase Forum Specific
+        ///</summary>
+        [TestMethod()]
+        public void UpdateTermsInDatabaseForumSpecific_CorrectResponse_ReturnsNullError()
+        {
+            var cacheManager = Mocks.DynamicMock<ICacheManager>();
+            var historyReader = Mocks.DynamicMock<IDnaDataReader>();
+            historyReader.Stub(x => x.GetInt32NullAsZero("historyId")).Return(1);
+            historyReader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            var creator = Mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("addtermsfilterterm")).Return(Mocks.DynamicMock<IDnaDataReader>());
+            creator.Stub(x => x.CreateDnaDataReader("addtermsfilterupdate")).Return(historyReader);
+            var getTermsReader = Mocks.DynamicMock<IDnaDataReader>();
+            getTermsReader.Stub(x => x.Read()).Return(false);
+            creator.Stub(x => x.CreateDnaDataReader("gettermsbyforumid")).Return(getTermsReader);
+
+            Mocks.ReplayAll();
+
+
+            string reason = "a forum specific reason";
+            int userId = 3;
+
+            var target = GetTermsListForAForum();
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, false);
+
+            Assert.AreEqual(actual.ErrorMessage, "Object reference not set to an instance of an object.");
+        }
+
+        /// <summary>
         ///A test for UpdateTermsWithHistoryId
         ///</summary>
         [TestMethod()]
@@ -430,13 +507,21 @@ namespace BBC.Dna.Moderation.Tests
             Error expected = new Error { Type = "UpdateTermForModClassId", ErrorMessage = "Term value cannot be empty." + Environment.NewLine + "Term value cannot be empty." };
 
             var target = new TermsList();
-            target.Terms.Add(new TermDetails());//empty is invalid
-            target.Terms.Add(new TermDetails());
+            target.Terms.Add(new Term());//empty is invalid
+            target.Terms.Add(new Term());
 
             var actual = target.UpdateTermsWithHistoryId(creator, cacheManager, 1, true);
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
-            
+
+            creator.Stub(x => x.CreateDnaDataReader("gettermsbyforumid")).Return(historyReader);
+
+            Mocks.ReplayAll();
+
+            Error forumExpected = new Error { Type = "UpdateTermForForumId", ErrorMessage = "Term value cannot be empty." + Environment.NewLine + "Term value cannot be empty." };
+            var forumActual = target.UpdateTermsWithHistoryId(creator, cacheManager, 1, false);
+            Assert.AreEqual(forumExpected.ErrorMessage, forumActual.ErrorMessage);
+            Assert.AreEqual(forumExpected.Type, forumActual.Type);
         }
 
         /// <summary>
@@ -457,12 +542,24 @@ namespace BBC.Dna.Moderation.Tests
             Error expected = new Error { Type = "UpdateTermForModClassId", ErrorMessage = "Term value cannot be empty." };
 
             var target = GetTermsList();
-            target.Terms.Add(new TermDetails());//empty is invalid
+            target.Terms.Add(new Term());//empty is invalid
 
             var actual = target.UpdateTermsWithHistoryId(creator, cacheManager, 1, true);
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
 
+            creator.Stub(x => x.CreateDnaDataReader("gettermsbyforumid")).Return(historyReader);
+
+            Mocks.ReplayAll();
+
+            Error forumExpected = new Error { Type = "UpdateTermForForumId", ErrorMessage = "Term value cannot be empty." };
+
+            var forumTarget = GetTermsListForAForum();
+            forumTarget.Terms[0].Value = string.Empty;
+
+            var forumActual = forumTarget.UpdateTermsWithHistoryId(creator, cacheManager, 1, false);
+            Assert.AreEqual(forumExpected.ErrorMessage, forumActual.ErrorMessage);
+            Assert.AreEqual(forumExpected.Type, forumActual.Type);
         }
 
         /// <summary>
@@ -515,8 +612,8 @@ namespace BBC.Dna.Moderation.Tests
         public void FilterByTermId_WithValidTerms_ReturnsCorrectList()
         {
             TermsList target = new TermsList(); 
-            target.Terms.Add(new TermDetails(){Id=1});
-            target.Terms.Add(new TermDetails() { Id = 2 });
+            target.Terms.Add(new Term(){Id=1});
+            target.Terms.Add(new Term() { Id = 2 });
             int termId = 1; 
             target.FilterByTermId(termId);
             

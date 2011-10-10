@@ -24,6 +24,7 @@ BEGIN
 	,TERMDETAILS.Reason
 	,TERMDETAILS.UpdatedDate
 	,TERMDETAILS.UserID
+	,TERMDETAILS.FromModClass
 	,u.username
   FROM ThreadMod AS TM        
   INNER JOIN ForumModTermMapping AS MTM ON TM.ModID = MTM.ThreadModID        

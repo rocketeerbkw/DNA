@@ -204,17 +204,49 @@ namespace BBC.Dna.Component
                             translated = CommentInfo.FormatComment(dataReader.GetStringNullAsEmpty("text"), BBC.Dna.Api.PostStyle.Style.richtext, CommentStatus.Hidden.NotHidden, false);
                         }
 
+                        string translatedBeforeTermsHiglighting = translated;
+
                         IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
                         var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, modTermMappingId, false);
-                        if (termsList != null && termsList.Terms != null && termsList.Terms.Count > 0)
+
+                        try
                         {
-                            foreach (TermDetails termDetails in termsList.Terms)
+                            translated = "<DUMMYHEAD>" + translated + "</DUMMYHEAD>";
+
+                            string uniqueStr = "[" + Guid.NewGuid().ToString() + "]";
+                            translated = translated.Replace("&gt;", uniqueStr);
+
+                            XElement translatedXml = XElement.Parse(translated);
+                            var textNodeList = translatedXml.DescendantNodes().OfType<XText>().Where(n => !n.Parent.Name.LocalName.Equals("LINK")).ToList();
+                            if (textNodeList != null && textNodeList.Count > 0)
                             {
-                                if (true == translated.Contains(termDetails.Value))
+                                foreach (XText text in textNodeList)
                                 {
-                                    translated = translated.Replace(termDetails.Value, "<TERMFOUND ID=" + "\"" + termDetails.Id.ToString() + "\"" + "> " + termDetails.Value + "</TERMFOUND>");
+                                    if (termsList != null && termsList.TermDetails != null && termsList.TermDetails.Count > 0)
+                                    {
+                                        foreach (TermDetails termDetails in termsList.TermDetails)
+                                        {
+                                            if (text.Value.ToLower().Contains(termDetails.Value))
+                                            {
+                                                text.Value = text.Value.ReplaceCaseInsensitive(termDetails.Value, "<TERMFOUND ID=" + "\"" + termDetails.Id.ToString() + "\"" + " FROMMODCLASS=" + "\"" + termDetails.FromModClass.ToString() + "\"" + "> " + termDetails.Value + "</TERMFOUND>", StringComparison.OrdinalIgnoreCase);
+                                            }
+                                        }
+                                    }
                                 }
                             }
+                            translated = translatedXml.ToString();
+
+                            translated = translated.Replace("&lt;TERMFOUND", "<TERMFOUND");
+                            translated = translated.Replace("&lt;/TERMFOUND&gt;", "</TERMFOUND>");
+                            translated = translated.Replace("&gt;", ">");
+                            translated = translated.Replace(uniqueStr, "&gt;");
+
+                            translated = translated.Replace("<DUMMYHEAD>", "");
+                            translated = translated.Replace("</DUMMYHEAD>", "").Trim();
+                        }
+                        catch (Exception)
+                        {
+                            translated = translatedBeforeTermsHiglighting;
                         }
 
                         //translated = translated.Replace("\r\n", "<BR/>");
@@ -228,9 +260,9 @@ namespace BBC.Dna.Component
                         //IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
                         XmlElement termXml = AddElementTag(post, "TERMS");
                         //var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, modTermMappingId, false);
-                        if (termsList.Terms.Count > 0)
+                        if (termsList.TermDetails.Count > 0)
                         {
-                            foreach (TermDetails termDetails in termsList.Terms)
+                            foreach (TermDetails termDetails in termsList.TermDetails)
                             {
                                 XmlNode termDetailsNode = SerialiseAndAppend(termDetails, "/DNAROOT/POSTMODERATION/POST");
                                 termXml.AppendChild(termDetailsNode);
