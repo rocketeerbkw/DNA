@@ -23,6 +23,7 @@
           <xs:attribute name="ModClassID" type="xs:int" use="required" />
           <xs:attribute name="ForumID" type="xs:int" use="required" />
           <xs:attribute name="USERID" type="xs:int" use="required" />
+          <xs:attribute name="FromModClass" type="xs:string" use="required" />
         </xs:complexType>
       </xs:element>
     </xs:sequence>
