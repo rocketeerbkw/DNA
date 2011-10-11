@@ -26,7 +26,7 @@ namespace BBC.Dna.Moderation
         /// </summary>
         public TermsList()
         {
-            Terms = new List<Term>();
+            Terms = new List<TermDetails>();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace BBC.Dna.Moderation
         public TermsList(int modClassId)
         {
             ModClassId = modClassId;
-            Terms = new List<Term>();
+            Terms = new List<TermDetails>();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace BBC.Dna.Moderation
         public TermsList(int modId, bool isFromThreadMod)
         {
             this.ModClassId = modId;
-            TermDetails = new List<TermDetails>();
+            Terms = new List<TermDetails>();
         }
 
         /// <summary>
@@ -56,18 +56,14 @@ namespace BBC.Dna.Moderation
         public TermsList(int forumId, bool isFromThreadMod, bool isForForum)
         {
             this.ForumId = forumId;
-            Terms = new List<Term>();
-            TermDetails = new List<TermDetails>();
+            Terms = new List<TermDetails>();
         }
 
 
         #region Properties
         /// <remarks/>
-        [XmlElementAttribute("TERM", Order = 0)]
-        public List<Term> Terms { get; set; }
-
-        [XmlElementAttribute("TERMDETAILS", Order = 1)]
-        public List<TermDetails> TermDetails { get; set; }
+        [XmlElementAttribute("TERMDETAILS", Order = 0)]
+        public List<TermDetails> Terms { get; set; }
 
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName = "MODCLASSID")]
@@ -164,7 +160,7 @@ namespace BBC.Dna.Moderation
                             FromModClass = reader.GetBoolean("FromModClass")
                         };
 
-                        termsList.TermDetails.Add(termDetails);
+                        termsList.Terms.Add(termDetails);
                     }
                 }
             }

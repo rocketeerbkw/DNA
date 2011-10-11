@@ -89,67 +89,36 @@
 
               </table>
               <input type="submit" value="Apply"></input>
+              <xsl:apply-templates select="TERMDETAILS" mode="lastupdate" />              
+
               <div id="dnaTermErrorDiv" name="dnaTermErrorDiv" style="clear:both; float:left; margin-top:10px;border: 1px solid red;display: none;"></div>
+
               
-              
+              <div style="clear: both">
+                <xsl:choose>
+                  <xsl:when test="/H2G2/RESULT/MESSAGE != ''">
+                    <div id="serverResponse" name="serverResponse" style="float:left; margin-top:10px; border: 1px solid green;">
+                      <p>
+                        <xsl:value-of select="/H2G2/RESULT/MESSAGE"/>
+                      </p>
+                    </div>
+                  </xsl:when>
+                  <xsl:when test="/H2G2/ERROR/ERRORMESSAGE != ''">
+                    <div id="serverResponse" name="serverResponse" style="float:left; margin-top:10px; border: 1px solid red;">
+                      <p>
+                        <b>An error has occurred:</b>
+                        <BR/>
+                        <xsl:value-of select="/H2G2/ERROR/ERRORMESSAGE"/>
+                      </p>
+                    </div>
+                  </xsl:when>
+                  <xsl:otherwise>
 
-              <xsl:if test="/H2G2/TERMDETAILS">
-                <div>
-                  <strong>Last Update</strong>
-                  <br />
-                  <xsl:choose>
-                    <xsl:when test="/H2G2/TERMDETAILS/REASON = 'Reason Unknown'">
-                    </xsl:when>
-                    <xsl:otherwise>
-                      "<xsl:value-of select="/H2G2/TERMDETAILS/REASON"/>"
-                    </xsl:otherwise>
-                  </xsl:choose>
+                  </xsl:otherwise>
+                </xsl:choose>
 
-                  <xsl:choose>
-                    <xsl:when test="/H2G2/TERMDETAILS/REASON = 'Reason Unknown'">
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <br />by <a href="memberdetails?userid={/H2G2/TERMDETAILS/@USERID}">
-                      <xsl:value-of select="/H2G2/TERMDETAILS/USERNAME"/>
-                    </a>
-                    </xsl:otherwise>
-                  </xsl:choose>
-                  <xsl:choose>
-                    <xsl:when test="/H2G2/TERMDETAILS/REASON = 'Reason Unknown'">
-                    </xsl:when>
-                    <xsl:otherwise>
-                      (<xsl:value-of select="/H2G2/TERMDETAILS/UPDATEDDATE/DATE/@RELATIVE"/>)
-                    </xsl:otherwise>
-                  </xsl:choose>
 
-                </div>
-
-                <div style="clear: both">
-                  <xsl:choose>
-                    <xsl:when test="/H2G2/RESULT/MESSAGE != ''">
-                      <div id="serverResponse" name="serverResponse" style="float:left; margin-top:10px; border: 1px solid green;">
-                        <p>
-                          <xsl:value-of select="/H2G2/RESULT/MESSAGE"/>
-                        </p>
-                      </div>
-                    </xsl:when>
-                    <xsl:when test="/H2G2/ERROR/ERRORMESSAGE != ''">
-                      <div id="serverResponse" name="serverResponse" style="float:left; margin-top:10px; border: 1px solid red;">
-                        <p>
-                          <b>An error has occurred:</b>
-                          <BR/>
-                          <xsl:value-of select="/H2G2/ERROR/ERRORMESSAGE"/>
-                        </p>
-                      </div>
-                    </xsl:when>
-                    <xsl:otherwise>
-
-                    </xsl:otherwise>
-                  </xsl:choose>
-
-                  
-                </div>
-              </xsl:if>
+              </div>
             </div>
           </form>
         </div>
@@ -204,6 +173,41 @@
 
     </tr>
 
+  </xsl:template>
+
+  <xsl:template match="TERMDETAILS" mode="lastupdate">
+    
+      <div>
+        <strong>Last Update</strong>
+        <br />
+        <xsl:choose>
+          <xsl:when test="REASON = 'Reason Unknown'">
+          </xsl:when>
+          <xsl:otherwise>
+            "<xsl:value-of select="REASON"/>"
+          </xsl:otherwise>
+        </xsl:choose>
+
+        <xsl:choose>
+          <xsl:when test="REASON = 'Reason Unknown'">
+          </xsl:when>
+          <xsl:otherwise>
+            <br />by <a href="memberdetails?userid={@USERID}">
+              <xsl:value-of select="USERNAME"/>
+            </a>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:choose>
+          <xsl:when test="REASON = 'Reason Unknown'">
+          </xsl:when>
+          <xsl:otherwise>
+            (<xsl:value-of select="UPDATEDDATE/DATE/@RELATIVE"/>)
+          </xsl:otherwise>
+        </xsl:choose>
+
+      </div>
+
+    
   </xsl:template>
 
 </xsl:stylesheet>

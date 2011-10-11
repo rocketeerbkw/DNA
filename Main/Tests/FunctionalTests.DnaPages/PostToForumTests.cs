@@ -653,7 +653,7 @@ namespace FunctionalTests
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
 
             var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual("potato", termsList.TermDetails[0].Value);
+            Assert.AreEqual("potato", termsList.Terms[0].Value);
         }
 
 
@@ -707,7 +707,7 @@ namespace FunctionalTests
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
 
             var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual("potato", termsList.TermDetails[0].Value);
+            Assert.AreEqual("potato", termsList.Terms[0].Value);
         }
 
         [TestMethod]
@@ -734,7 +734,7 @@ namespace FunctionalTests
             var termsLists = new TermsLists();
 
             var termList = new TermsList(_forumId, false, true);
-            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.Refer });
+            termList.Terms.Add(new TermDetails { Value = forumTerm, Action = TermAction.Refer });
 
             termsLists.Termslist.Add(termList);
 
@@ -776,7 +776,7 @@ namespace FunctionalTests
             IDnaDataReaderCreator creator = DnaMockery.CreateDatabaseReaderCreator();
 
             var termList = new TermsList(_forumId, false, true);
-            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.Refer });
+            termList.Terms.Add(new TermDetails { Value = forumTerm, Action = TermAction.Refer });
             Error error = termList.UpdateTermsInDatabase(creator, _cache, "Testing hum123", 6, false);
             SendTermsSignal();
 
@@ -804,7 +804,7 @@ namespace FunctionalTests
             }
 
             var terms = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual(forumTerm, terms.TermDetails[0].Value);
+            Assert.AreEqual(forumTerm, terms.Terms[0].Value);
         }
 
         [TestMethod]
@@ -833,7 +833,7 @@ namespace FunctionalTests
             var termsLists = new TermsLists();
 
             var termList = new TermsList(_forumId, false, true);
-            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.Refer });
+            termList.Terms.Add(new TermDetails { Value = forumTerm, Action = TermAction.Refer });
 
             termsLists.Termslist.Add(termList);
 
@@ -864,8 +864,8 @@ namespace FunctionalTests
             }
 
             var terms = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual(forumTerm, terms.TermDetails[0].Value);
-            Assert.AreEqual("this has a reason", terms.TermDetails[0].Reason);
+            Assert.AreEqual(forumTerm, terms.Terms[0].Value);
+            Assert.AreEqual("this has a reason", terms.Terms[0].Reason);
         }
 
         [TestMethod]
@@ -892,7 +892,7 @@ namespace FunctionalTests
             var termsLists = new TermsLists();
 
             var termList = new TermsList(_forumId, false, true);
-            termList.Terms.Add(new Term { Value = forumTerm, Action = TermAction.ReEdit });
+            termList.Terms.Add(new TermDetails { Value = forumTerm, Action = TermAction.ReEdit });
 
             termsLists.Termslist.Add(termList);
 
@@ -933,7 +933,7 @@ namespace FunctionalTests
             }
 
             var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, threadModId, true);
-            Assert.AreEqual(forumTerm, termsList.TermDetails[0].Value);
+            Assert.AreEqual(forumTerm, termsList.Terms[0].Value);
 
         }
 

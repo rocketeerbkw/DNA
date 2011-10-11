@@ -27,7 +27,7 @@ namespace BBC.Dna.Moderation.Tests
         {
             TermDetails target = CreateTermDetails();
             //var expected = "<TERMDETAILS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" TERM=\"term\" REASON=\"no change\" UPDATEDDATE=\"\" USERID=\"0\" />";
-            var expected = "<TERMDETAILS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"NoAction\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\"><REASON>no change</REASON><UPDATEDDATE /></TERMDETAILS>";
+            var expected = "<TERMDETAILS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"NoAction\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\" FromModClass=\"false\"><REASON>no change</REASON><UPDATEDDATE /></TERMDETAILS>";
             XmlDocument xml = Serializer.SerializeToXml(target);
             Assert.AreEqual(expected, xml.SelectSingleNode("TERMDETAILS").OuterXml);
         }

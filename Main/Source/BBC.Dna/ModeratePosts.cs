@@ -222,9 +222,9 @@ namespace BBC.Dna.Component
                             {
                                 foreach (XText text in textNodeList)
                                 {
-                                    if (termsList != null && termsList.TermDetails != null && termsList.TermDetails.Count > 0)
+                                    if (termsList != null && termsList.Terms != null && termsList.Terms.Count > 0)
                                     {
-                                        foreach (TermDetails termDetails in termsList.TermDetails)
+                                        foreach (TermDetails termDetails in termsList.Terms)
                                         {
                                             if (text.Value.ToLower().Contains(termDetails.Value))
                                             {
@@ -260,9 +260,9 @@ namespace BBC.Dna.Component
                         //IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
                         XmlElement termXml = AddElementTag(post, "TERMS");
                         //var termsList = TermsList.GetTermsListByThreadModIdFromThreadModDB(creator, modTermMappingId, false);
-                        if (termsList.TermDetails.Count > 0)
+                        if (termsList.Terms.Count > 0)
                         {
-                            foreach (TermDetails termDetails in termsList.TermDetails)
+                            foreach (TermDetails termDetails in termsList.Terms)
                             {
                                 XmlNode termDetailsNode = SerialiseAndAppend(termDetails, "/DNAROOT/POSTMODERATION/POST");
                                 termXml.AppendChild(termDetailsNode);
