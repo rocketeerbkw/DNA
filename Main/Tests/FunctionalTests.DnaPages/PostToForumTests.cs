@@ -164,7 +164,7 @@ namespace FunctionalTests
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserSuperUser();
-            request = PostToForumWithException(request, "my with refferred item arse post");
+            request = PostToForumWithException(request, "my with refferred item post");
 
             var xml = request.GetLastResponseAsXML();
 
