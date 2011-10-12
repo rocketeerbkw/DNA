@@ -17,6 +17,7 @@ BEGIN
 END
 GO
 
+
 DECLARE @type varchar(128)
 SET @type = dbo.udf_getcolumntype('Threadmod','ComplaintText')
 IF @type IS NULL RAISERROR ('Failed to find type for column',20,1) WITH LOG
@@ -26,34 +27,40 @@ BEGIN
 	-- Level 20 is used as it will kill the connection, preventing any further script after the GO from executing
 	RAISERROR ('This table has already been converted to Unicode.  No need to run this script',20,1) WITH LOG
 END
-GO
 
--- Put the db into SIMPLE recovery mode so that the operations are minimally logged
-ALTER DATABASE [TheGuide] SET RECOVERY SIMPLE 
-
---BEGIN TRANSACTION
-GO
 --add temp column
 ALTER TABLE dbo.ThreadMod ADD
 	ComplaintTextTemp nvarchar(MAX) NULL
 	
-GO
 --migrate data to temp column
-UPDATE dbo.ThreadMod
-SET ComplaintTextTemp = ComplaintText
-GO
+-- DROP TABLE #ThreadModToUpdate
+
+SELECT ModID INTO #ThreadModToUpdate FROM ThreadMod
+CREATE CLUSTERED INDEX IX_ThreadModToUpdate ON #ThreadModToUpdate(ModId)
+
+DECLARE @n INT
+SET @n=1
+WHILE @n > 0
+BEGIN
+	;WITH toUpdate as (SELECT TOP(10000) ModID FROM #ThreadModToUpdate ORDER BY ModId)
+	UPDATE tm
+		SET ComplaintTextTemp = ComplaintText
+	FROM ThreadMod tm
+	JOIN toUpdate u ON u.ModId = tm.ModId
+
+	;WITH toUpdate as (SELECT TOP(10000) ModID FROM #ThreadModToUpdate ORDER BY ModId)
+	DELETE toUpdate
+	SET @n=@@ROWCOUNT
+END
+-- 37 minutes on NewGuide
 
 --drop old column
 ALTER TABLE dbo.ThreadMod
 	DROP COLUMN ComplaintText
 
-GO
---drop old column
+--Rename column
 EXECUTE sp_rename N'dbo.ThreadMod.ComplaintTextTemp', N'ComplaintText', 'COLUMN' 
 GO
-
-
-
 
 IF DB_NAME() = 'SmallGuide'
 BEGIN
