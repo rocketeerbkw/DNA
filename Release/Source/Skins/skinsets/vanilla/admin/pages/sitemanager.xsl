@@ -381,6 +381,9 @@
       <option value="">
         Not using Identity
       </option>
+      <option value="comment">
+        IDv4 Comments Policy
+      </option>
       <xsl:for-each select="POLICY">
         <option value="{.}">
           <xsl:if test=". = $currentidentitypolicy">
