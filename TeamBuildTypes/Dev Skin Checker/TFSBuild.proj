@@ -281,7 +281,7 @@
 
     <!-- Copy ModerationApi to int drop location -->
     <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web1\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web3\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <!-- Copy SourceFiles="@(Skins)" DestinationFolder="\\vp-dev-dna-web3\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/ -->
     
 
     <!-- Close Access to vp-dev-dna-web1 -->
