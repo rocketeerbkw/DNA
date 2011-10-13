@@ -183,6 +183,9 @@ namespace BBC.Dna
 
             if (error == null)
             {
+                //Send email to the distribution list
+                SendTermUpdateEmail(terms, forumId, termReason.Trim(), termAction, InputContext.ViewingUser.UserID);
+
                 return new Result("TermsUpdateSuccess", String.Format("{0} updated successfully.", terms.Length == 1 ? "Term" : "Terms"));
             }
 
@@ -572,6 +575,97 @@ namespace BBC.Dna
             AddXmlTextTag(commentForum, "TERMS", termNode.InnerXml.ToString());
 
             commentForumList.AppendChild(commentForum);
+        }
+
+        /// <summary>
+        /// Send the email to the configured recipients once a term is added/updated
+        /// </summary>
+        /// <param name="terms"></param>
+        /// <param name="forumId"></param>
+        /// <param name="termReason"></param>
+        /// <param name="termAction"></param>
+        /// <param name="userId"></param>
+        private void SendTermUpdateEmail(string[] terms, int forumId, string termReason, TermAction termAction, int userId)
+        {
+            #region local var(s) declaration
+
+            var _forumTitle = string.Empty;
+            var _forumURL = string.Empty;
+            var _siteId = InputContext.CurrentSite.SiteID;
+            var _emailSubject = string.Empty;
+            var _emailBody = string.Empty;
+            
+            #region Terms Details
+
+            var _emailCustomBody = string.Empty;
+            var _termAction = string.Empty;
+
+            var _strTerms = String.Join(",", terms.ToArray());
+
+            _emailCustomBody += "\r\n" + "Terms    : " + _strTerms + "\r\n";
+            _emailCustomBody += "Reason   : " + termReason + "\r\n";
+            
+            switch(termAction)
+            {
+                case TermAction.Refer:
+                    _termAction = "Send to moderation";
+                    break;
+                case TermAction.ReEdit:
+                    _termAction = "Ask to re-edit"; 
+                    break;
+                case TermAction.NoAction:
+                    _termAction = "Terms deleted";
+                    break;
+            }
+
+            _emailCustomBody += "Action   : " + _termAction + "\r\n";
+            _emailCustomBody += "Author   : " + InputContext.ViewingUser.UserName + "\r\n";
+            _emailCustomBody += "DateTime : " + System.DateTime.Now.ToString();
+
+            #endregion
+
+            var _sender = InputContext.ViewingUser.Email;
+
+            var _recipient = System.Configuration.ConfigurationManager.AppSettings["ModerateEmailGroup"].ToString();
+            _recipient += ";" + InputContext.CurrentSite.EditorsEmail;
+            _recipient += ";" + InputContext.ViewingUser.Email;
+
+            var _termsFilterLink = "https://ssl.bbc.co.uk/dna/moderation/admin/termsfilterimport";
+
+            #endregion
+
+            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("getcommentforumdetailsbyforumid"))
+            {
+                dataReader.AddParameter("@forumid", forumId);
+                dataReader.Execute();
+                if (true == dataReader.HasRows && true == dataReader.Read())
+                {
+                    _forumTitle = dataReader.GetStringNullAsEmpty("TITLE");
+                    _forumURL = dataReader.GetStringNullAsEmpty("URL");
+                }
+            }
+           
+            EmailTemplates.FetchEmailText(AppContext.ReaderCreator, _siteId, "TermsAddedToCommentForumEmail", out _emailSubject, out _emailBody);
+    
+            _emailBody = _emailBody.Replace("++**forum_title**++", _forumTitle);
+            _emailBody = _emailBody.Replace("++**forum_url**++", _forumURL);
+            _emailBody = _emailBody.Replace("++**term_details**++", _emailCustomBody);
+            _emailBody = _emailBody.Replace("++**terms_filter**++", _termsFilterLink);
+            _emailBody = _emailBody.Replace("++**new_line**++", "\r\n");
+            _emailSubject = _emailSubject.Replace("++**forum_title**++", _forumTitle);
+
+
+            try
+            {
+                //Actually send the email.
+                DnaMessage sendMessage = new DnaMessage(InputContext);
+                sendMessage.SendEmailOrSystemMessage(userId, _sender, _recipient, _siteId, _emailSubject, _emailBody);
+            }
+            catch (DnaEmailException e)
+            {
+                AddErrorXml("EMAIL", "Unable to send email." + e.Message, RootElement);
+            }
+           
         }
 
     }

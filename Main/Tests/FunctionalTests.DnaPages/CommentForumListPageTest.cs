@@ -7,6 +7,7 @@ using BBC.Dna.Component;
 using BBC.Dna.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using System.IO;
 
 
 namespace FunctionalTests
@@ -40,7 +41,51 @@ namespace FunctionalTests
                 _setupRun = true;
 
                 MakeSureWeHaveACommentForum();
+
+                ClearAllEmails();
             }
+        }
+
+        /// <summary>
+        /// Clears all the emails from the directory specified
+        /// </summary>
+        private void ClearAllEmails()
+        {
+            DirectoryInfo dir = new DirectoryInfo(TestConfig.GetConfig().GetRipleyConfSetting("CACHEROOT") + "failedmails");
+
+            if (dir.Exists)
+            {
+                foreach (var file in dir.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Check if the email was sent
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="expectedInEmail"></param>
+        private void CheckEmailWasSent(string subject, string expectedInEmail)
+        {
+            DirectoryInfo dir = new DirectoryInfo(TestConfig.GetConfig().GetRipleyConfSetting("CACHEROOT") + "failedmails");
+            Assert.IsTrue(dir.Exists);
+            Assert.AreEqual(1, dir.GetFiles().Length);
+
+            string email = string.Empty;
+            var emailFile = dir.GetFiles()[0];
+            using (var stream = emailFile.OpenText())
+            {
+                email = stream.ReadToEnd();
+                stream.Close();
+            }
+            Assert.IsTrue(email.IndexOf(expectedInEmail) >= 0);
+
+            email = email.Replace("\r\n", "\n");
+            var emailLines = email.Split('\n');
+            Assert.AreEqual(subject, emailLines[2]);//third line is the subject
         }
 
         /// <summary>
@@ -645,6 +690,8 @@ namespace FunctionalTests
 
             XmlDocument xml = _request.GetLastResponseAsXML();
 
+            CheckEmailWasSent("Terms section updated for the forum, test.", "The Terms section of the forum");
+            
             XmlNode node;
 
             node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']");

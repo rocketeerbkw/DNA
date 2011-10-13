@@ -708,6 +708,12 @@ Marcus P
 	
 	Step 3.)
 	dbscripts/User reputation Cummulative Score Update.sql
+
+============== v 3.5.72.0 ============
+Srihari T
+	<add key="ModerateEmailGroup" value="Value provided by the Moderation team"/>
 	
+	The above entry has to be added to the AppSettings section of the Web.Config file 
+	and the value of the key should be updated to the DL supplied by Susie/Paul 
 	
 	
