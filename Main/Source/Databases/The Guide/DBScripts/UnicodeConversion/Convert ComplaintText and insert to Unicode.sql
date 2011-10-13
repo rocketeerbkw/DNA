@@ -33,8 +33,12 @@ ALTER TABLE dbo.ThreadMod ADD
 	ComplaintTextTemp nvarchar(MAX) NULL
 	
 --migrate data to temp column
--- DROP TABLE #ThreadModToUpdate
 
+-- Record the max mod id before we procede
+DECLARE @MaxModId INT
+SELECT @MaxModId = MAX(ModId) FROM ThreadMod
+
+-- Get the list of records that need updating
 SELECT ModID INTO #ThreadModToUpdate FROM ThreadMod
 CREATE CLUSTERED INDEX IX_ThreadModToUpdate ON #ThreadModToUpdate(ModId)
 
@@ -54,12 +58,21 @@ BEGIN
 END
 -- 37 minutes on NewGuide
 
+-- Update any new rows that might have been added in the interim
+-- locking the table while it does the switch to the new column
+BEGIN TRAN
+
+UPDATE ThreadMod WITH(TABLOCKX)
+	SET ComplaintTextTemp = ComplaintText
+	WHERE ModId > @MaxModId
+
 --drop old column
 ALTER TABLE dbo.ThreadMod
 	DROP COLUMN ComplaintText
 
 --Rename column
 EXECUTE sp_rename N'dbo.ThreadMod.ComplaintTextTemp', N'ComplaintText', 'COLUMN' 
+COMMIT TRAN
 GO
 
 IF DB_NAME() = 'SmallGuide'
