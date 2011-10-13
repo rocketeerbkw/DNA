@@ -728,8 +728,9 @@ namespace BBC.Dna.Services
                     // Check to make sure the site suffix doesn't contain a profanity
                     string matchingProfanity;
                     List<Term> terms = null;
+                    int forumID = 0;
                     ProfanityFilter.FilterState siteSuffixProfanity = ProfanityFilter.FilterState.Pass;
-                    siteSuffixProfanity = ProfanityFilter.CheckForProfanities(site.ModClassID, siteSuffix, out matchingProfanity, out terms);
+                    siteSuffixProfanity = ProfanityFilter.CheckForProfanities(site.ModClassID, siteSuffix, out matchingProfanity, out terms, forumID);
                     if (siteSuffixProfanity == ProfanityFilter.FilterState.FailBlock)
                     {
                         throw new DnaWebProtocolException(ApiException.GetError(ErrorType.ProfanityFoundInText));

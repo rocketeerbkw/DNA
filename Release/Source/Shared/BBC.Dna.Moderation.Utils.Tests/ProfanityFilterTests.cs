@@ -61,7 +61,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
 
-            Assert.AreEqual(2, profanityObj.GetObjectFromCache().ProfanityClasses.Keys.Count);
+            Assert.AreEqual(2, profanityObj.GetObjectFromCache().ProfanityClasses.ModClassProfanities.Keys.Count);
             creator.AssertWasCalled(x => x.CreateDnaDataReader("getallprofanities"));
         }
 
@@ -85,7 +85,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
 
-            Assert.AreEqual(0, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.Keys.Count);
+            Assert.AreEqual(0, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.ModClassProfanities.Keys.Count);
             creator.AssertWasCalled(x => x.CreateDnaDataReader("getallprofanities"));
         }
 
@@ -111,7 +111,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
 
-            Assert.AreEqual(cacheObj.ProfanityClasses.Count, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.Keys.Count);
+            Assert.AreEqual(cacheObj.ProfanityClasses.ModClassProfanities.Count, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.ModClassProfanities.Keys.Count);
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("getallprofanities"));
         }
 
@@ -124,6 +124,12 @@ namespace BBC.Dna.Moderation.Utils.Tests
             modclassId.Enqueue(1);
             modclassId.Enqueue(2);
             modclassId.Enqueue(2);
+            
+            var forumId = new Queue<int>();
+            forumId.Enqueue(1);
+            forumId.Enqueue(2);
+            forumId.Enqueue(2);
+            
             var profanity = new Queue<string>();
             profanity.Enqueue("hello");
             profanity.Enqueue("hello1");
@@ -141,6 +147,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             var reader = _mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(3);
             reader.Stub(x => x.GetInt32("ModClassID")).Return(0).WhenCalled(x => x.ReturnValue = modclassId.Dequeue());
+            reader.Stub(x => x.GetInt32("ForumID")).Return(0).WhenCalled(x => x.ReturnValue = forumId.Dequeue());
             reader.Stub(x => x.GetStringNullAsEmpty("Profanity")).Return("").WhenCalled(x => x.ReturnValue = profanity.Dequeue());
             reader.Stub(x => x.GetByte("Refer")).Return(1).WhenCalled(x => x.ReturnValue = refer.Dequeue());
 
@@ -153,7 +160,8 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var profanityObj = new ProfanityFilter(creator, diag, cache, null, null);
             creator.AssertWasNotCalled(x => x.CreateDnaDataReader("getallprofanities"));
-            Assert.AreEqual(cacheObj.ProfanityClasses.Count, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.Keys.Count);
+            Assert.AreEqual(cacheObj.ProfanityClasses.ModClassProfanities.Count, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.ModClassProfanities.Keys.Count);
+            Assert.AreEqual(cacheObj.ProfanityClasses.ForumProfanities.Count, ProfanityFilter.GetObject().GetObjectFromCache().ProfanityClasses.ForumProfanities.Keys.Count);
 
             Assert.IsTrue(profanityObj.HandleSignal(signalType, null));
 
@@ -170,7 +178,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             Console.WriteLine("TestEmptyString");
             string matching;
             List<Term> terms = null;
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "", out matching, out terms));
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "", out matching, out terms, 0));
         }
 
         /// <summary>
@@ -182,7 +190,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             Console.WriteLine("TestSimpleString");
             string matching;
             List<Term> terms = null;
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "No bad words here. This will pass. [Honestly].", out matching, out terms));
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "No bad words here. This will pass. [Honestly].", out matching, out terms, 0));
         }
 
         /// <summary>
@@ -193,36 +201,37 @@ namespace BBC.Dna.Moderation.Utils.Tests
         {
             Console.WriteLine("ReferContent");
             string matching;
+            int forumID = 0;
             List<Term> terms = null;
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms), "Matching a referred name");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity adam khatiB (No idea who that is)", out matching, out terms), "Matching a referred name (mixed up case)");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms, forumID), "Matching a referred name");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity adam khatiB (No idea who that is)", out matching, out terms, forumID), "Matching a referred name (mixed up case)");
             Assert.AreEqual("adam khatib", matching, "Wrong matching string returned");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(1, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms), "No match from a different site");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(1, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms, forumID), "No match from a different site");
 
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching, out terms), "Matching a blocked thing");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching, out terms), "Matching a blocked thing (mixed case)");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms), "No match with trailing characters");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms), "No match to mod class with no profanities");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh yid", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity yid 84 Fresh", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanities piss Poska Macca", out matching, out terms), "Matching the referred profanities");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "", out matching, out terms), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching, out terms, forumID), "Matching a blocked thing");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching, out terms, forumID), "Matching a blocked thing (mixed case)");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(3, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms, forumID), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms, forumID), "No match to mod class with no profanities");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh yid", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity 84 Fresh", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity yid 84 Fresh", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanities piss Poska Macca", out matching, out terms, forumID), "Matching the referred profanities");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(2, "", out matching, out terms, forumID), "No match with trailing characters");
 
             //Check punctuation trimming
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "Adam Khatib><!!", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "@@@@Adam Khatib", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity ####yid@@@@", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "yid@@@@", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "yid!", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, " yid ", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "Adam Khatib><!!", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "@@@@Adam Khatib", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(3, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This contains the profanity ####yid@@@@", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "yid@@@@", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "yid!", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, " yid ", out matching, out terms, forumID), "Will either refer or block - probably should block");
 
             //Test a profanity that includes punctuation
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a f*** test", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a f***!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a *ff***!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a *f***f!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a f*** test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a f***!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a *ff***!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(3, "This is a *f***f!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
         }
 
         /// <summary>
@@ -352,37 +361,90 @@ namespace BBC.Dna.Moderation.Utils.Tests
             Console.WriteLine("ReferContent");
             int modclass1 = 3;
             int modclass2 =  2;
-
+            int forumID = 0;
             string matching;
             List<Term> terms = null;
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms), "Matching a referred name");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity adam khatiB (No idea who that is)", out matching, out terms), "Matching a referred name (mixed up case)");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms, forumID), "Matching a referred name");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity adam khatiB (No idea who that is)", out matching, out terms, forumID), "Matching a referred name (mixed up case)");
             Assert.AreEqual("adam khatib", matching, "Wrong matching string returned");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms), "No match from a different site");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms, forumID), "No match from a different site");
 
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching, out terms), "Matching a blocked thing");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching, out terms), "Matching a blocked thing (mixed case)");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms), "No match with trailing characters");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms), "No match to mod class with no profanities");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh yid", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity yid 84 Fresh", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "", out matching, out terms), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching, out terms, forumID), "Matching a blocked thing");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching, out terms, forumID), "Matching a blocked thing (mixed case)");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms, forumID), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms, forumID), "No match to mod class with no profanities");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh yid", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity yid 84 Fresh", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass2, "", out matching, out terms, forumID), "No match with trailing characters");
 
             //Check punctuation trimming
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "Adam Khatib><!!", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "@@@@Adam Khatib", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity ####yid@@@@", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid@@@@", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid!", out matching, out terms), "Will either refer or block - probably should block");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, " yid ", out matching, out terms), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "Adam Khatib><!!", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "@@@@Adam Khatib", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity ####yid@@@@", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid@@@@", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid!", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, " yid ", out matching, out terms, forumID), "Will either refer or block - probably should block");
 
             //Test a profanity that includes punctuation
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f*** test", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f***!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *ff***!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
-            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *f***f!!!!!!!!! test", out matching, out terms), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f*** test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f***!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *ff***!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *f***f!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+        }
+
+        [TestMethod]
+        public void CheckForProfanities_CheckForProfanitiesUsingForumId()
+        {
+            Console.WriteLine("ReferContent");
+            int modclass1 = 3;
+            int forumID = 1;
+            string matching;
+            List<Term> terms = null;
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms, forumID), "Matching a referred name");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity adam khatiB (No idea who that is)", out matching, out terms, forumID), "Matching a referred name (mixed up case)");
+            Assert.AreEqual("adam khatib", matching, "Wrong matching string returned");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity Adam Khatib (No idea who that is)", out matching, out terms, forumID), "No match from a different site");
+
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.p", out matching, out terms, forumID), "Matching a blocked thing");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.NET/speakerScorner/speakerscorner/index.p", out matching, out terms, forumID), "Matching a blocked thing (mixed case)");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms, forumID), "No match with trailing characters");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity www.mfbb.net/speakerscorner/speakerscorner/index.php", out matching, out terms, forumID), "No match to mod class with no profanities but with forum");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh yid", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity 84 Fresh", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity yid 84 Fresh", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass1, "", out matching, out terms, forumID), "No match with trailing characters");
+
+            //Check punctuation trimming
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "Adam Khatib><!!", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "@@@@Adam Khatib", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity with punctuation in the middle @@@Adam--- !£Khatib><!! (No idea who that is)", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity ####yid@@@@", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid@@@@", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "yid!", out matching, out terms, forumID), "Will either refer or block - probably should block");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, " yid ", out matching, out terms, forumID), "Will either refer or block - probably should block");
+
+            //Test a profanity that includes punctuation
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f*** test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsTrue(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a f***!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *ff***!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+            Assert.IsFalse(ProfanityFilter.FilterState.FailBlock == ProfanityFilter.CheckForProfanities(modclass1, "This is a *f***f!!!!!!!!! test", out matching, out terms, forumID), "Matching a referred name with punctuation");
+        }
+
+        [TestMethod]
+        public void CheckForProfanities_CheckForProfanitiesUsingModClassId_ForumID()
+        {
+            Console.WriteLine("ReferContent");
+            int modclass1 = 1;
+            int forumID = 1;
+            string matching;
+            List<Term> terms = null;
+
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass1, "This contains the profanity rag head and Celtic Music(No idea who that is)", out matching, out terms, forumID), "Matching a referred name");
+            Assert.AreNotEqual("rag head Celtic Music", matching);
+            Assert.AreEqual("rag head celtic music", matching); 
+
         }
 
         [TestMethod]
@@ -410,7 +472,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             var stats = profanityObj.GetStats(typeof(ProfanityFilter));
             Assert.IsNotNull(stats);
             Assert.AreEqual(typeof(ProfanityFilter).AssemblyQualifiedName, stats.Name);
-            foreach (var modclass in profanityObj.GetObjectFromCache().ProfanityClasses)
+            foreach (var modclass in profanityObj.GetObjectFromCache().ProfanityClasses.ModClassProfanities)
             {
                 Assert.AreEqual(modclass.Value.ProfanityList.Count.ToString(), stats.Values["ModClassID_" + modclass.Key.ToString() + "_ProfanityList"]);
                 Assert.AreEqual(modclass.Value.ReferList.Count.ToString(), stats.Values["ModClassID_" + modclass.Key.ToString() + "_ReferList"]);
@@ -435,24 +497,42 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             profanityCache = new ProfanityCache();
             var testXml = new XmlDocument();
-            testXml.LoadXml(profanityTestXml);
+            testXml.LoadXml(ProfanityTestXml);
 
             var nodes = testXml.SelectNodes("//profanities/P");
             foreach(XmlNode node in nodes)
             {
                 int modClassId = int.Parse(node.Attributes["ModClassID"].Value);
                 int refer = int.Parse(node.Attributes["Refer"].Value);
-                if (!profanityCache.ProfanityClasses.ContainsKey(modClassId))
+
+                int forumId = 0;
+
+                if (node.Attributes["ForumID"] != null)
                 {
-                    profanityCache.ProfanityClasses.Add(modClassId, new ProfanityPair());
+                    forumId = int.Parse(node.Attributes["ForumID"].Value);
                 }
+
+                if (!profanityCache.ProfanityClasses.ModClassProfanities.ContainsKey(modClassId))
+                {
+                    profanityCache.ProfanityClasses.ModClassProfanities.Add(modClassId, new ProfanityPair());
+                }
+
+                //Adding the profanities based on the forumID
+                if (!profanityCache.ProfanityClasses.ForumProfanities.ContainsKey(forumId))
+                {
+                    profanityCache.ProfanityClasses.ForumProfanities.Add(forumId, new ProfanityPair());
+                }
+
+
                 if(refer == 1)
                 {
-                    profanityCache.ProfanityClasses[modClassId].ReferList.Add(new KeyValuePair<int,string> (Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()),node.Attributes["Profanity"].Value.ToLower()));
+                    profanityCache.ProfanityClasses.ModClassProfanities[modClassId].ReferList.Add(new KeyValuePair<int,string> (Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()),node.Attributes["Profanity"].Value.ToLower()));
+                    profanityCache.ProfanityClasses.ForumProfanities[forumId].ReferList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
                 }
                 else
                 {
-                    profanityCache.ProfanityClasses[modClassId].ProfanityList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
+                    profanityCache.ProfanityClasses.ModClassProfanities[modClassId].ProfanityList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
+                    profanityCache.ProfanityClasses.ForumProfanities[forumId].ProfanityList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
                 }
 
             }
@@ -488,488 +568,488 @@ namespace BBC.Dna.Moderation.Utils.Tests
         }
 
         #region Test XML
-        private static string profanityTestXml = @"<profanities>
-    <P ProfanityID=""2145"" Profanity=""batty boy"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4122"" Profanity=""Beshenivsky"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4143"" Profanity=""Bomb"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4144"" Profanity=""Bombing"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4095"" Profanity=""Bradley John Murdoch"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4096"" Profanity=""Bradley Murdoch"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""2142"" Profanity=""cu nt"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""1784"" Profanity=""cunt"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""1785"" Profanity=""cunts"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""2143"" Profanity=""f uck"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4093"" Profanity=""Falconio"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""2144"" Profanity=""fck ing"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""2148"" Profanity=""Felching"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""3997"" Profanity=""Gina Ford"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4206"" Profanity=""Heather Mills"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4094"" Profanity=""Joanne Lees"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""2153"" Profanity=""knob head"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""3975"" Profanity=""Lawrence"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""3976"" Profanity=""Lawrence's"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""3977"" Profanity=""Lawrences"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4222"" Profanity=""Macca"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4083"" Profanity=""maxine carr"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4205"" Profanity=""McCartney"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""1782"" Profanity=""motherfucker"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""1783"" Profanity=""motherfuckers"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4221"" Profanity=""Mucca"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4092"" Profanity=""Peter Falconio"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4134"" Profanity=""rag head"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4133"" Profanity=""raghead"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""3973"" Profanity=""Stephen Lawrence’s"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""3974"" Profanity=""Stephen Lawrences"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4132"" Profanity=""towel head"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""4131"" Profanity=""towelhead"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""2147"" Profanity=""tw at"" ModClassID=""1"" Refer=""1"" />
-    <P ProfanityID=""2273"" Profanity=""(ock"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1522"" Profanity=""A$$hole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1524"" Profanity=""A$$hole$"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1523"" Profanity=""A$$holes"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1579"" Profanity=""A+*hole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3512"" Profanity=""a.rse"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1571"" Profanity=""ar$ehole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1525"" Profanity=""Ar$hole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1526"" Profanity=""Ar$holes"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1701"" Profanity=""ar5h0le"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1703"" Profanity=""ar5h0les"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2636"" Profanity=""ars3"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2635"" Profanity=""arse hole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""970"" Profanity=""arseh0le"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""972"" Profanity=""arseh0les"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""917"" Profanity=""arsehol"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""865"" Profanity=""arsehole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""866"" Profanity=""arseholes"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3482"" Profanity=""arsewipe"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""971"" Profanity=""arsh0le"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""867"" Profanity=""arshole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""868"" Profanity=""arsholes"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""869"" Profanity=""ashole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2638"" Profanity=""ass h0le"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2637"" Profanity=""ass hole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""973"" Profanity=""assh0le"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""974"" Profanity=""assh0les"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""870"" Profanity=""asshole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""871"" Profanity=""assholes"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3520"" Profanity=""b.astard"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3511"" Profanity=""b.ollocks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3519"" Profanity=""b.ugger"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1756"" Profanity=""b00tha"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1757"" Profanity=""b00thas"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""875"" Profanity=""b0ll0cks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1531"" Profanity=""B0llocks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3820"" Profanity=""bastards"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3484"" Profanity=""basterd"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2261"" Profanity=""batty&amp;nbsp;boi"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2260"" Profanity=""batty&amp;nbsp;boy"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4079"" Profanity=""bbchidden.blogspot.com"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4147"" Profanity=""Beef curtains"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1749"" Profanity=""bo****ks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1532"" Profanity=""Boll0cks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""872"" Profanity=""bollocks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""490"" Profanity=""bollox"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""492"" Profanity=""bolocks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""491"" Profanity=""bolox"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1755"" Profanity=""bootha"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1754"" Profanity=""boothas"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""925"" Profanity=""Bukkake"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1533"" Profanity=""Bullsh!t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2919"" Profanity=""bum bandit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2634"" Profanity=""bum hole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2923"" Profanity=""bum-bandit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2921"" Profanity=""bumbandit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2633"" Profanity=""bumh0l3"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2631"" Profanity=""bumh0le"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2632"" Profanity=""bumhol3"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2630"" Profanity=""bumhole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1481"" Profanity=""C&amp;nbsp;u&amp;nbsp;n&amp;nbsp;t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""815"" Profanity=""C**t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""819"" Profanity=""C**t's"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""818"" Profanity=""C**ts"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""360"" Profanity=""c.u.n.t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3514"" Profanity=""c.unt"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3507"" Profanity=""c.untyb.ollocks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""504"" Profanity=""c00n"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1808"" Profanity=""C0cksucka"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1809"" Profanity=""C0cksucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1720"" Profanity=""cnut"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1719"" Profanity=""cnuts"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2272"" Profanity=""Co(k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2255"" Profanity=""coc&amp;nbsp;k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1807"" Profanity=""Cocksucka"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1806"" Profanity=""Cocksucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1886"" Profanity=""Cok"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""503"" Profanity=""coon"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1974"" Profanity=""cu&amp;nbsp;nt"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1975"" Profanity=""cu&amp;nbsp;nts"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""358"" Profanity=""Cunt"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""362"" Profanity=""Cunt's"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""879"" Profanity=""cunting"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""361"" Profanity=""Cunts"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1758"" Profanity=""cvnt"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1759"" Profanity=""cvnts"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2453"" Profanity=""D**khead"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2541"" Profanity=""dick&amp;nbsp;head"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""933"" Profanity=""dickhead"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""471"" Profanity=""dumbfuck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""472"" Profanity=""dumbfucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2454"" Profanity=""Dxxkhead"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1641"" Profanity=""effing"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2778"" Profanity=""F o a d"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2869"" Profanity=""f u c k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2900"" Profanity=""f u c ked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1588"" Profanity=""f###"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1497"" Profanity=""f##k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3525"" Profanity=""f##king"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3524"" Profanity=""f#cked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""449"" Profanity=""F$cks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2527"" Profanity=""f&amp;nbsp;cked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1521"" Profanity=""f&amp;nbsp;u&amp;nbsp;c&amp;nbsp;k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2258"" Profanity=""f&amp;nbsp;uck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2537"" Profanity=""f&amp;nbsp;ucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2532"" Profanity=""f&amp;nbsp;ucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3523"" Profanity=""F'ck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1587"" Profanity=""f***"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1489"" Profanity=""f*****g"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""888"" Profanity=""f****d"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""890"" Profanity=""f***ed"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""991"" Profanity=""f***in"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""939"" Profanity=""f***ing"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""941"" Profanity=""f**k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""855"" Profanity=""f**ked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""859"" Profanity=""f**ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""945"" Profanity=""f**kin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""853"" Profanity=""f**king"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""857"" Profanity=""f**ks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""467"" Profanity=""f*ck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""856"" Profanity=""f*ked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""860"" Profanity=""f*ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""858"" Profanity=""f*ks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""466"" Profanity=""f*uck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1527"" Profanity=""F*uk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2777"" Profanity=""F-o-a-d"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2775"" Profanity=""F.O.A.D"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2776"" Profanity=""F.O.A.D."" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""431"" Profanity=""f.u.c.k."" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3508"" Profanity=""f.uck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1885"" Profanity=""f@ck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2767"" Profanity=""f@g"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2766"" Profanity=""f@gs"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2828"" Profanity=""f^^k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2829"" Profanity=""f^^ked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2833"" Profanity=""f^^ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2830"" Profanity=""f^^king"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2831"" Profanity=""f^ck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2834"" Profanity=""f^cker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2836"" Profanity=""f^cking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2866"" Profanity=""f00k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2299"" Profanity=""Fack"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2307"" Profanity=""Fackin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2318"" Profanity=""facking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""854"" Profanity=""fc*king"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4070"" Profanity=""fck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2259"" Profanity=""fck&amp;nbsp;ing"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1748"" Profanity=""fck1ng"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1747"" Profanity=""fcking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4071"" Profanity=""fcks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1792"" Profanity=""fckw1t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1791"" Profanity=""fckwit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""433"" Profanity=""fcuk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""439"" Profanity=""fcuked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""445"" Profanity=""fcuker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""455"" Profanity=""fcukin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""436"" Profanity=""fcuking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""442"" Profanity=""fcuks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2300"" Profanity=""feck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2309"" Profanity=""feckin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2319"" Profanity=""fecking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3486"" Profanity=""fekking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""495"" Profanity=""felch"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""498"" Profanity=""felched"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2263"" Profanity=""Felching"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""494"" Profanity=""feltch"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""497"" Profanity=""feltcher"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""496"" Profanity=""feltching"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2774"" Profanity=""FOAD"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2303"" Profanity=""frig"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2323"" Profanity=""frigging"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2312"" Profanity=""frigin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2322"" Profanity=""friging"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2256"" Profanity=""fu&amp;nbsp;ck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2528"" Profanity=""fu&amp;nbsp;cked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2538"" Profanity=""fu&amp;nbsp;cker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2533"" Profanity=""fu&amp;nbsp;cking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2433"" Profanity=""fu(k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""468"" Profanity=""fu*k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1811"" Profanity=""fu@k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1812"" Profanity=""fu@ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2832"" Profanity=""fu^k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2835"" Profanity=""fu^ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2837"" Profanity=""fu^king"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""470"" Profanity=""fuc"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2529"" Profanity=""fuc&amp;nbsp;ked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2539"" Profanity=""fuc&amp;nbsp;ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2534"" Profanity=""fuc&amp;nbsp;king"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""430"" Profanity=""fuck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2871"" Profanity=""Fùck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""886"" Profanity=""fúck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2865"" Profanity=""Fúçk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2870"" Profanity=""Fûck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2872"" Profanity=""Fück"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2530"" Profanity=""fuck&amp;nbsp;ed"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2535"" Profanity=""fuck&amp;nbsp;ing"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1788"" Profanity=""fuck-wit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2531"" Profanity=""fucke&amp;nbsp;d"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""437"" Profanity=""fucked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""443"" Profanity=""fucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1563"" Profanity=""fuckers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2536"" Profanity=""fucki&amp;nbsp;ng"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""453"" Profanity=""fuckin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""434"" Profanity=""fucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""881"" Profanity=""fúcking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""463"" Profanity=""fuckk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""440"" Profanity=""fucks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2271"" Profanity=""Fuckup"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1790"" Profanity=""fuckw1t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1786"" Profanity=""fuckwit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1794"" Profanity=""fucw1t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1793"" Profanity=""fucwit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3500"" Profanity=""Fudge p@cker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2965"" Profanity=""fudge packer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3501"" Profanity=""Fudge-p@cker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3497"" Profanity=""Fudge-packer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3499"" Profanity=""fudgep@cker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2963"" Profanity=""fudgepacker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3498"" Profanity=""Fudgpacker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""432"" Profanity=""fuk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""465"" Profanity=""fukced"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""438"" Profanity=""fuked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""444"" Profanity=""fuker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""454"" Profanity=""fukin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""435"" Profanity=""fuking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2304"" Profanity=""fukk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""459"" Profanity=""fukked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""461"" Profanity=""fukker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""460"" Profanity=""fukkin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2324"" Profanity=""fukking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""441"" Profanity=""fuks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2002"" Profanity=""fvck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1810"" Profanity=""Fvck-up"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1813"" Profanity=""Fvckup"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1789"" Profanity=""fvckw1t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1787"" Profanity=""fvckwit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1969"" Profanity=""Gypo"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1970"" Profanity=""Gypos"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1968"" Profanity=""Gyppo"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2915"" Profanity=""Gyppos"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4062"" Profanity=""http://excoboard.com/exco/index.php?boardid=19215"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4000"" Profanity=""http://kingsofclay.proboards100.com/index.cgi "" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4223"" Profanity=""http://www.kitbag.com/stores/celtic/products/produ"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3454"" Profanity=""http://www.scots.8k.com"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4090"" Profanity=""http://www.yesitshelpful.com"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4009"" Profanity=""Icebreaker uk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4006"" Profanity=""Icebreakeruk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""816"" Profanity=""K**t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1960"" Profanity=""k@ffir"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1961"" Profanity=""k@ffirs"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1959"" Profanity=""k@fir"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1962"" Profanity=""k@firs"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1963"" Profanity=""Kaf1r"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1964"" Profanity=""Kaff1r"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1956"" Profanity=""Kaffir"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1958"" Profanity=""Kaffirs"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1955"" Profanity=""Kafir"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1957"" Profanity=""Kafirs"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2617"" Profanity=""kafr"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1887"" Profanity=""Khunt"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""953"" Profanity=""kike"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4227"" Profanity=""kitbag.com"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2268"" Profanity=""knob&amp;nbsp;head"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2269"" Profanity=""Knobber"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2615"" Profanity=""knobhead"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""359"" Profanity=""Kunt"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""954"" Profanity=""kyke"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2683"" Profanity=""L m f a o"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2685"" Profanity=""L.m.f.a.o"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2684"" Profanity=""L.m.f.a.o."" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2682"" Profanity=""Lmfa0"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2681"" Profanity=""Lmfao"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3515"" Profanity=""m.inge"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3506"" Profanity=""M.otherf.ucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2913"" Profanity=""M1nge"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3938"" Profanity=""mfbb.net/speakerscorner/speakerscorner/index.php?m"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2823"" Profanity=""Minge"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""825"" Profanity=""mof**ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""847"" Profanity=""mof**kers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""386"" Profanity=""mofuccer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""368"" Profanity=""mofucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""408"" Profanity=""mofuckers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""397"" Profanity=""mofucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""373"" Profanity=""mofukcer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""823"" Profanity=""mohterf**ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""841"" Profanity=""mohterf**kers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""824"" Profanity=""mohterf*kcer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""385"" Profanity=""mohterfuccer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""423"" Profanity=""mohterfuccers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""377"" Profanity=""mohterfuck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""366"" Profanity=""mohterfucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""406"" Profanity=""mohterfuckers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""395"" Profanity=""mohterfucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""416"" Profanity=""mohterfucks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""378"" Profanity=""mohterfuk"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""367"" Profanity=""mohterfukcer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""407"" Profanity=""mohterfukcers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""396"" Profanity=""mohterfuking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""417"" Profanity=""mohterfuks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""822"" Profanity=""moterf**ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""384"" Profanity=""moterfuccer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""376"" Profanity=""moterfuck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""365"" Profanity=""moterfucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""405"" Profanity=""moterfuckers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""394"" Profanity=""moterfucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""415"" Profanity=""moterfucks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1805"" Profanity=""motha-fucka"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""831"" Profanity=""mothaf**k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""826"" Profanity=""mothaf**ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""844"" Profanity=""mothaf**kers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""834"" Profanity=""mothaf**king"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""848"" Profanity=""mothaf**ks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""387"" Profanity=""mothafuccer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""380"" Profanity=""mothafuck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1804"" Profanity=""Mothafucka"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""369"" Profanity=""mothafucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""409"" Profanity=""mothafuckers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""398"" Profanity=""mothafucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""419"" Profanity=""mothafucks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""820"" Profanity=""motherf**ked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""821"" Profanity=""Motherf**ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""840"" Profanity=""Motherf**kers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""383"" Profanity=""Motherfuccer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""422"" Profanity=""Motherfuccers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""375"" Profanity=""Motherfuck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""363"" Profanity=""motherfucked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""364"" Profanity=""Motherfucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""404"" Profanity=""Motherfuckers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""393"" Profanity=""Motherfucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""414"" Profanity=""Motherfucks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""402"" Profanity=""motherfukkker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""829"" Profanity=""mthaf**ka"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""390"" Profanity=""mthafucca"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""429"" Profanity=""mthafuccas"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""372"" Profanity=""mthafucka"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""412"" Profanity=""mthafuckas"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""374"" Profanity=""mthafukca"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""413"" Profanity=""mthafukcas"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""401"" Profanity=""muth@fucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""832"" Profanity=""muthaf**k"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""827"" Profanity=""muthaf**ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""845"" Profanity=""muthaf**kers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""835"" Profanity=""muthaf**king"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""849"" Profanity=""muthaf**ks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""388"" Profanity=""muthafuccer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""381"" Profanity=""muthafuck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""403"" Profanity=""muthafuck@"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4051"" Profanity=""Muthafucka"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""370"" Profanity=""muthafucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""410"" Profanity=""muthafuckers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""399"" Profanity=""muthafucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""420"" Profanity=""muthafucks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1884"" Profanity=""Muthafukas"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1972"" Profanity=""N1gger"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1973"" Profanity=""N1ggers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3528"" Profanity=""nig nog"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3527"" Profanity=""nig-nog"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3961"" Profanity=""Nigel Cooke"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""500"" Profanity=""nigga"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""502"" Profanity=""niggaz"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""499"" Profanity=""Nigger"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""501"" Profanity=""niggers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3529"" Profanity=""nignog"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2267"" Profanity=""nob&amp;nbsp;head"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2266"" Profanity=""Nobhead"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1671"" Profanity=""p**i"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1668"" Profanity=""p*ki"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3516"" Profanity=""p.iss-flaps"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1669"" Profanity=""p@ki"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1684"" Profanity=""p@kis"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1670"" Profanity=""pak1"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""507"" Profanity=""paki"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1680"" Profanity=""pakis"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1753"" Profanity=""pench0d"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1752"" Profanity=""pench0ds"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1750"" Profanity=""penchod"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1751"" Profanity=""penchods"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3505"" Profanity=""Peter dow"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2327"" Profanity=""phelching"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1881"" Profanity=""Phuck"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1883"" Profanity=""Phucker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2315"" Profanity=""phuckin"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1882"" Profanity=""Phucking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1965"" Profanity=""Phucks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3526"" Profanity=""Piss off"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3517"" Profanity=""Pissflaps"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4148"" Profanity=""Poo stabber"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4150"" Profanity=""Poo stabbers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""515"" Profanity=""poofter"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1890"" Profanity=""Prik"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""758"" Profanity=""raghead"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""760"" Profanity=""ragheads"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3509"" Profanity=""s.hit"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2264"" Profanity=""S1ut"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3450"" Profanity=""scots.8k.com"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3504"" Profanity=""Scottish National Standard Bearer"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2917"" Profanity=""shirtlifter"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2925"" Profanity=""shirtlifters"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4149"" Profanity=""Shit stabber"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4151"" Profanity=""Shit stabbers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""510"" Profanity=""spic"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1976"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1977"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t&amp;nbsp;s "" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3513"" Profanity=""t.wat"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2452"" Profanity=""t0$$er"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""985"" Profanity=""t0sser"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1767"" Profanity=""t0ssers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""979"" Profanity=""to55er"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1768"" Profanity=""to55ers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1769"" Profanity=""tossers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4135"" Profanity=""towel head"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4136"" Profanity=""towelhead"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2262"" Profanity=""tw&amp;nbsp;at"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4076"" Profanity=""tw@"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""474"" Profanity=""tw@t"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1967"" Profanity=""tw@ts"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""473"" Profanity=""twat"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1730"" Profanity=""twats"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1888"" Profanity=""Twunt"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1924"" Profanity=""twunts"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2657"" Profanity=""w anker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3522"" Profanity=""W#nker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3521"" Profanity=""W#nkers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3510"" Profanity=""w.ank"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""957"" Profanity=""w@nker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""958"" Profanity=""w@nkers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""975"" Profanity=""w0g"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""976"" Profanity=""w0gs"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2658"" Profanity=""wa nker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4152"" Profanity=""Wan k er"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4153"" Profanity=""Wan k ers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2659"" Profanity=""wan ker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""475"" Profanity=""wank"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""480"" Profanity=""wank's"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4050"" Profanity=""Wanka"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2661"" Profanity=""wanke r"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""478"" Profanity=""wanked"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""477"" Profanity=""wanker"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""987"" Profanity=""wankers"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""476"" Profanity=""wanking"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""479"" Profanity=""wanks"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""508"" Profanity=""wog"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""3937"" Profanity=""www.mfbb.net/speakerscorner/speakerscorner/index.p"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""4089"" Profanity=""www.yesitshelpful.com"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""2265"" Profanity=""Xxxhole"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""1520"" Profanity=""Y*d"" ModClassID=""3"" Refer=""0"" />
-    <P ProfanityID=""511"" Profanity=""yid"" ModClassID=""3"" Refer=""0"" />
+        private static string ProfanityTestXml = @"<profanities>
+    <P ProfanityID=""2145"" Profanity=""batty boy"" ModClassID=""1"" Refer=""1"" ForumID=""1"" />
+    <P ProfanityID=""4122"" Profanity=""Beshenivsky"" ModClassID=""1"" Refer=""1"" ForumID=""2""  />
+    <P ProfanityID=""4143"" Profanity=""Bomb"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4144"" Profanity=""Bombing"" ModClassID=""1"" Refer=""1"" ForumID=""2""  />
+    <P ProfanityID=""4095"" Profanity=""Bradley John Murdoch"" ModClassID=""1"" Refer=""1"" ForumID=""3""  />
+    <P ProfanityID=""4096"" Profanity=""Bradley Murdoch"" ModClassID=""1"" Refer=""1"" ForumID=""2""  />
+    <P ProfanityID=""2142"" Profanity=""cu nt"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""1784"" Profanity=""cunt"" ModClassID=""1"" Refer=""1"" ForumID=""2""  />
+    <P ProfanityID=""1785"" Profanity=""cunts"" ModClassID=""1"" Refer=""1"" ForumID=""3""  />
+    <P ProfanityID=""2143"" Profanity=""f uck"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4093"" Profanity=""Falconio"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""2144"" Profanity=""fck ing"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""2148"" Profanity=""Felching"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""3997"" Profanity=""Gina Ford"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4206"" Profanity=""Heather Mills"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4094"" Profanity=""Joanne Lees"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""2153"" Profanity=""knob head"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""3975"" Profanity=""Lawrence"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""3976"" Profanity=""Lawrence's"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""3977"" Profanity=""Lawrences"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4222"" Profanity=""Macca"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4083"" Profanity=""maxine carr"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4205"" Profanity=""McCartney"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""1782"" Profanity=""motherfucker"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""1783"" Profanity=""motherfuckers"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4221"" Profanity=""Mucca"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4092"" Profanity=""Peter Falconio"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4134"" Profanity=""rag head"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4133"" Profanity=""raghead"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""3973"" Profanity=""Stephen Lawrence’s"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""3974"" Profanity=""Stephen Lawrences"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4132"" Profanity=""towel head"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""4131"" Profanity=""towelhead"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""2147"" Profanity=""tw at"" ModClassID=""1"" Refer=""1"" ForumID=""1""  />
+    <P ProfanityID=""2273"" Profanity=""(ock"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1522"" Profanity=""A$$hole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1524"" Profanity=""A$$hole$"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1523"" Profanity=""A$$holes"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1579"" Profanity=""A+*hole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3512"" Profanity=""a.rse"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1571"" Profanity=""ar$ehole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1525"" Profanity=""Ar$hole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1526"" Profanity=""Ar$holes"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1701"" Profanity=""ar5h0le"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1703"" Profanity=""ar5h0les"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2636"" Profanity=""ars3"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2635"" Profanity=""arse hole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""970"" Profanity=""arseh0le"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""972"" Profanity=""arseh0les"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""917"" Profanity=""arsehol"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""865"" Profanity=""arsehole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""866"" Profanity=""arseholes"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3482"" Profanity=""arsewipe"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""971"" Profanity=""arsh0le"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""867"" Profanity=""arshole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""868"" Profanity=""arsholes"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""869"" Profanity=""ashole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2638"" Profanity=""ass h0le"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2637"" Profanity=""ass hole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""973"" Profanity=""assh0le"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""974"" Profanity=""assh0les"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""870"" Profanity=""asshole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""871"" Profanity=""assholes"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3520"" Profanity=""b.astard"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3511"" Profanity=""b.ollocks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3519"" Profanity=""b.ugger"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1756"" Profanity=""b00tha"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1757"" Profanity=""b00thas"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""875"" Profanity=""b0ll0cks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1531"" Profanity=""B0llocks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3820"" Profanity=""bastards"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3484"" Profanity=""basterd"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2261"" Profanity=""batty&amp;nbsp;boi"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2260"" Profanity=""batty&amp;nbsp;boy"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""4079"" Profanity=""bbchidden.blogspot.com"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""4147"" Profanity=""Beef curtains"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1749"" Profanity=""bo****ks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1532"" Profanity=""Boll0cks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""872"" Profanity=""bollocks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""490"" Profanity=""bollox"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""492"" Profanity=""bolocks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""491"" Profanity=""bolox"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1755"" Profanity=""bootha"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1754"" Profanity=""boothas"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""925"" Profanity=""Bukkake"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1533"" Profanity=""Bullsh!t"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2919"" Profanity=""bum bandit"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2634"" Profanity=""bum hole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2923"" Profanity=""bum-bandit"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2921"" Profanity=""bumbandit"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2633"" Profanity=""bumh0l3"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2631"" Profanity=""bumh0le"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2632"" Profanity=""bumhol3"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2630"" Profanity=""bumhole"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1481"" Profanity=""C&amp;nbsp;u&amp;nbsp;n&amp;nbsp;t"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""815"" Profanity=""C**t"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""819"" Profanity=""C**t's"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""818"" Profanity=""C**ts"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""360"" Profanity=""c.u.n.t"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3514"" Profanity=""c.unt"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3507"" Profanity=""c.untyb.ollocks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""504"" Profanity=""c00n"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1808"" Profanity=""C0cksucka"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1809"" Profanity=""C0cksucker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1720"" Profanity=""cnut"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1719"" Profanity=""cnuts"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2272"" Profanity=""Co(k"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2255"" Profanity=""coc&amp;nbsp;k"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1807"" Profanity=""Cocksucka"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1806"" Profanity=""Cocksucker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1886"" Profanity=""Cok"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""503"" Profanity=""coon"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1974"" Profanity=""cu&amp;nbsp;nt"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1975"" Profanity=""cu&amp;nbsp;nts"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""358"" Profanity=""Cunt"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""362"" Profanity=""Cunt's"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""879"" Profanity=""cunting"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""361"" Profanity=""Cunts"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1758"" Profanity=""cvnt"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1759"" Profanity=""cvnts"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2453"" Profanity=""D**khead"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2541"" Profanity=""dick&amp;nbsp;head"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""933"" Profanity=""dickhead"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""471"" Profanity=""dumbfuck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""472"" Profanity=""dumbfucker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2454"" Profanity=""Dxxkhead"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1641"" Profanity=""effing"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2778"" Profanity=""F o a d"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2869"" Profanity=""f u c k"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2900"" Profanity=""f u c ked"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1588"" Profanity=""f###"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1497"" Profanity=""f##k"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3525"" Profanity=""f##king"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3524"" Profanity=""f#cked"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""449"" Profanity=""F$cks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2527"" Profanity=""f&amp;nbsp;cked"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1521"" Profanity=""f&amp;nbsp;u&amp;nbsp;c&amp;nbsp;k"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2258"" Profanity=""f&amp;nbsp;uck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2537"" Profanity=""f&amp;nbsp;ucker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2532"" Profanity=""f&amp;nbsp;ucking"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3523"" Profanity=""F'ck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1587"" Profanity=""f***"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1489"" Profanity=""f*****g"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""888"" Profanity=""f****d"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""890"" Profanity=""f***ed"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""991"" Profanity=""f***in"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""939"" Profanity=""f***ing"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""941"" Profanity=""f**k"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""855"" Profanity=""f**ked"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""859"" Profanity=""f**ker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""945"" Profanity=""f**kin"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""853"" Profanity=""f**king"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""857"" Profanity=""f**ks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""467"" Profanity=""f*ck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""856"" Profanity=""f*ked"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""860"" Profanity=""f*ker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""858"" Profanity=""f*ks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""466"" Profanity=""f*uck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1527"" Profanity=""F*uk"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2777"" Profanity=""F-o-a-d"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2775"" Profanity=""F.O.A.D"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2776"" Profanity=""F.O.A.D."" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""431"" Profanity=""f.u.c.k."" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3508"" Profanity=""f.uck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1885"" Profanity=""f@ck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2767"" Profanity=""f@g"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2766"" Profanity=""f@gs"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2828"" Profanity=""f^^k"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2829"" Profanity=""f^^ked"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2833"" Profanity=""f^^ker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2830"" Profanity=""f^^king"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2831"" Profanity=""f^ck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2834"" Profanity=""f^cker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2836"" Profanity=""f^cking"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2866"" Profanity=""f00k"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2299"" Profanity=""Fack"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2307"" Profanity=""Fackin"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2318"" Profanity=""facking"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""854"" Profanity=""fc*king"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""4070"" Profanity=""fck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2259"" Profanity=""fck&amp;nbsp;ing"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1748"" Profanity=""fck1ng"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1747"" Profanity=""fcking"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""4071"" Profanity=""fcks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1792"" Profanity=""fckw1t"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""1791"" Profanity=""fckwit"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""433"" Profanity=""fcuk"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""439"" Profanity=""fcuked"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""445"" Profanity=""fcuker"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""455"" Profanity=""fcukin"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""436"" Profanity=""fcuking"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""442"" Profanity=""fcuks"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2300"" Profanity=""feck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2309"" Profanity=""feckin"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2319"" Profanity=""fecking"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""3486"" Profanity=""fekking"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""495"" Profanity=""felch"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""498"" Profanity=""felched"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2263"" Profanity=""Felching"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""494"" Profanity=""feltch"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""497"" Profanity=""feltcher"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""496"" Profanity=""feltching"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2774"" Profanity=""FOAD"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2303"" Profanity=""frig"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2323"" Profanity=""frigging"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2312"" Profanity=""frigin"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2322"" Profanity=""friging"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2256"" Profanity=""fu&amp;nbsp;ck"" ModClassID=""3"" Refer=""0"" ForumID=""1""  />
+    <P ProfanityID=""2528"" Profanity=""fu&amp;nbsp;cked"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2538"" Profanity=""fu&amp;nbsp;cker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2533"" Profanity=""fu&amp;nbsp;cking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2433"" Profanity=""fu(k"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""468"" Profanity=""fu*k"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1811"" Profanity=""fu@k"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1812"" Profanity=""fu@ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2832"" Profanity=""fu^k"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2835"" Profanity=""fu^ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2837"" Profanity=""fu^king"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""470"" Profanity=""fuc"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2529"" Profanity=""fuc&amp;nbsp;ked"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2539"" Profanity=""fuc&amp;nbsp;ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2534"" Profanity=""fuc&amp;nbsp;king"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""430"" Profanity=""fuck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2871"" Profanity=""Fùck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""886"" Profanity=""fúck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2865"" Profanity=""Fúçk"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2870"" Profanity=""Fûck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2872"" Profanity=""Fück"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2530"" Profanity=""fuck&amp;nbsp;ed"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2535"" Profanity=""fuck&amp;nbsp;ing"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1788"" Profanity=""fuck-wit"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2531"" Profanity=""fucke&amp;nbsp;d"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""437"" Profanity=""fucked"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""443"" Profanity=""fucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1563"" Profanity=""fuckers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2536"" Profanity=""fucki&amp;nbsp;ng"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""453"" Profanity=""fuckin"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""434"" Profanity=""fucking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""881"" Profanity=""fúcking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""463"" Profanity=""fuckk"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""440"" Profanity=""fucks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2271"" Profanity=""Fuckup"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1790"" Profanity=""fuckw1t"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1786"" Profanity=""fuckwit"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1794"" Profanity=""fucw1t"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1793"" Profanity=""fucwit"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3500"" Profanity=""Fudge p@cker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2965"" Profanity=""fudge packer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3501"" Profanity=""Fudge-p@cker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3497"" Profanity=""Fudge-packer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3499"" Profanity=""fudgep@cker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2963"" Profanity=""fudgepacker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3498"" Profanity=""Fudgpacker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""432"" Profanity=""fuk"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""465"" Profanity=""fukced"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""438"" Profanity=""fuked"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""444"" Profanity=""fuker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""454"" Profanity=""fukin"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""435"" Profanity=""fuking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2304"" Profanity=""fukk"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""459"" Profanity=""fukked"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""461"" Profanity=""fukker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""460"" Profanity=""fukkin"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2324"" Profanity=""fukking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""441"" Profanity=""fuks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2002"" Profanity=""fvck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1810"" Profanity=""Fvck-up"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1813"" Profanity=""Fvckup"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1789"" Profanity=""fvckw1t"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1787"" Profanity=""fvckwit"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1969"" Profanity=""Gypo"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1970"" Profanity=""Gypos"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1968"" Profanity=""Gyppo"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2915"" Profanity=""Gyppos"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4062"" Profanity=""http://excoboard.com/exco/index.php?boardid=19215"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4000"" Profanity=""http://kingsofclay.proboards100.com/index.cgi "" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4223"" Profanity=""http://www.kitbag.com/stores/celtic/products/produ"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3454"" Profanity=""http://www.scots.8k.com"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4090"" Profanity=""http://www.yesitshelpful.com"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4009"" Profanity=""Icebreaker uk"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4006"" Profanity=""Icebreakeruk"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""816"" Profanity=""K**t"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1960"" Profanity=""k@ffir"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1961"" Profanity=""k@ffirs"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1959"" Profanity=""k@fir"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1962"" Profanity=""k@firs"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1963"" Profanity=""Kaf1r"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1964"" Profanity=""Kaff1r"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1956"" Profanity=""Kaffir"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1958"" Profanity=""Kaffirs"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1955"" Profanity=""Kafir"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1957"" Profanity=""Kafirs"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2617"" Profanity=""kafr"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1887"" Profanity=""Khunt"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""953"" Profanity=""kike"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4227"" Profanity=""kitbag.com"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2268"" Profanity=""knob&amp;nbsp;head"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2269"" Profanity=""Knobber"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2615"" Profanity=""knobhead"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""359"" Profanity=""Kunt"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""954"" Profanity=""kyke"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2683"" Profanity=""L m f a o"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2685"" Profanity=""L.m.f.a.o"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2684"" Profanity=""L.m.f.a.o."" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2682"" Profanity=""Lmfa0"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2681"" Profanity=""Lmfao"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3515"" Profanity=""m.inge"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3506"" Profanity=""M.otherf.ucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2913"" Profanity=""M1nge"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3938"" Profanity=""mfbb.net/speakerscorner/speakerscorner/index.php?m"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2823"" Profanity=""Minge"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""825"" Profanity=""mof**ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""847"" Profanity=""mof**kers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""386"" Profanity=""mofuccer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""368"" Profanity=""mofucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""408"" Profanity=""mofuckers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""397"" Profanity=""mofucking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""373"" Profanity=""mofukcer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""823"" Profanity=""mohterf**ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""841"" Profanity=""mohterf**kers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""824"" Profanity=""mohterf*kcer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""385"" Profanity=""mohterfuccer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""423"" Profanity=""mohterfuccers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""377"" Profanity=""mohterfuck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""366"" Profanity=""mohterfucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""406"" Profanity=""mohterfuckers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""395"" Profanity=""mohterfucking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""416"" Profanity=""mohterfucks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""378"" Profanity=""mohterfuk"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""367"" Profanity=""mohterfukcer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""407"" Profanity=""mohterfukcers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""396"" Profanity=""mohterfuking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""417"" Profanity=""mohterfuks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""822"" Profanity=""moterf**ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""384"" Profanity=""moterfuccer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""376"" Profanity=""moterfuck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""365"" Profanity=""moterfucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""405"" Profanity=""moterfuckers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""394"" Profanity=""moterfucking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""415"" Profanity=""moterfucks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1805"" Profanity=""motha-fucka"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""831"" Profanity=""mothaf**k"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""826"" Profanity=""mothaf**ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""844"" Profanity=""mothaf**kers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""834"" Profanity=""mothaf**king"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""848"" Profanity=""mothaf**ks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""387"" Profanity=""mothafuccer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""380"" Profanity=""mothafuck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1804"" Profanity=""Mothafucka"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""369"" Profanity=""mothafucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""409"" Profanity=""mothafuckers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""398"" Profanity=""mothafucking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""419"" Profanity=""mothafucks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""820"" Profanity=""motherf**ked"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""821"" Profanity=""Motherf**ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""840"" Profanity=""Motherf**kers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""383"" Profanity=""Motherfuccer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""422"" Profanity=""Motherfuccers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""375"" Profanity=""Motherfuck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""363"" Profanity=""motherfucked"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""364"" Profanity=""Motherfucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""404"" Profanity=""Motherfuckers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""393"" Profanity=""Motherfucking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""414"" Profanity=""Motherfucks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""402"" Profanity=""motherfukkker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""829"" Profanity=""mthaf**ka"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""390"" Profanity=""mthafucca"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""429"" Profanity=""mthafuccas"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""372"" Profanity=""mthafucka"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""412"" Profanity=""mthafuckas"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""374"" Profanity=""mthafukca"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""413"" Profanity=""mthafukcas"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""401"" Profanity=""muth@fucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""832"" Profanity=""muthaf**k"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""827"" Profanity=""muthaf**ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""845"" Profanity=""muthaf**kers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""835"" Profanity=""muthaf**king"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""849"" Profanity=""muthaf**ks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""388"" Profanity=""muthafuccer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""381"" Profanity=""muthafuck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""403"" Profanity=""muthafuck@"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4051"" Profanity=""Muthafucka"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""370"" Profanity=""muthafucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""410"" Profanity=""muthafuckers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""399"" Profanity=""muthafucking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""420"" Profanity=""muthafucks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1884"" Profanity=""Muthafukas"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1972"" Profanity=""N1gger"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1973"" Profanity=""N1ggers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3528"" Profanity=""nig nog"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3527"" Profanity=""nig-nog"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3961"" Profanity=""Nigel Cooke"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""500"" Profanity=""nigga"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""502"" Profanity=""niggaz"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""499"" Profanity=""Nigger"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""501"" Profanity=""niggers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3529"" Profanity=""nignog"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2267"" Profanity=""nob&amp;nbsp;head"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2266"" Profanity=""Nobhead"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1671"" Profanity=""p**i"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1668"" Profanity=""p*ki"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3516"" Profanity=""p.iss-flaps"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1669"" Profanity=""p@ki"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1684"" Profanity=""p@kis"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1670"" Profanity=""pak1"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""507"" Profanity=""paki"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1680"" Profanity=""pakis"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1753"" Profanity=""pench0d"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1752"" Profanity=""pench0ds"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1750"" Profanity=""penchod"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1751"" Profanity=""penchods"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3505"" Profanity=""Peter dow"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2327"" Profanity=""phelching"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1881"" Profanity=""Phuck"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1883"" Profanity=""Phucker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2315"" Profanity=""phuckin"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1882"" Profanity=""Phucking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1965"" Profanity=""Phucks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3526"" Profanity=""Piss off"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3517"" Profanity=""Pissflaps"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4148"" Profanity=""Poo stabber"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4150"" Profanity=""Poo stabbers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""515"" Profanity=""poofter"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1890"" Profanity=""Prik"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""758"" Profanity=""raghead"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""760"" Profanity=""ragheads"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3509"" Profanity=""s.hit"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2264"" Profanity=""S1ut"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3450"" Profanity=""scots.8k.com"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3504"" Profanity=""Scottish National Standard Bearer"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2917"" Profanity=""shirtlifter"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2925"" Profanity=""shirtlifters"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4149"" Profanity=""Shit stabber"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4151"" Profanity=""Shit stabbers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""510"" Profanity=""spic"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1976"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1977"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t&amp;nbsp;s "" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3513"" Profanity=""t.wat"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2452"" Profanity=""t0$$er"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""985"" Profanity=""t0sser"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1767"" Profanity=""t0ssers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""979"" Profanity=""to55er"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1768"" Profanity=""to55ers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1769"" Profanity=""tossers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4135"" Profanity=""towel head"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4136"" Profanity=""towelhead"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2262"" Profanity=""tw&amp;nbsp;at"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4076"" Profanity=""tw@"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""474"" Profanity=""tw@t"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1967"" Profanity=""tw@ts"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""473"" Profanity=""twat"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1730"" Profanity=""twats"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1888"" Profanity=""Twunt"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1924"" Profanity=""twunts"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2657"" Profanity=""w anker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3522"" Profanity=""W#nker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3521"" Profanity=""W#nkers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3510"" Profanity=""w.ank"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""957"" Profanity=""w@nker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""958"" Profanity=""w@nkers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""975"" Profanity=""w0g"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""976"" Profanity=""w0gs"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2658"" Profanity=""wa nker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4152"" Profanity=""Wan k er"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4153"" Profanity=""Wan k ers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2659"" Profanity=""wan ker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""475"" Profanity=""wank"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""480"" Profanity=""wank's"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4050"" Profanity=""Wanka"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2661"" Profanity=""wanke r"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""478"" Profanity=""wanked"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""477"" Profanity=""wanker"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""987"" Profanity=""wankers"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""476"" Profanity=""wanking"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""479"" Profanity=""wanks"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""508"" Profanity=""wog"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3937"" Profanity=""www.mfbb.net/speakerscorner/speakerscorner/index.p"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4089"" Profanity=""www.yesitshelpful.com"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2265"" Profanity=""Xxxhole"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1520"" Profanity=""Y*d"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""511"" Profanity=""yid"" ModClassID=""3"" Refer=""0"" ForumID=""1"" />
     <P ProfanityID=""3999"" Profanity=""84 Fresh"" ModClassID=""3"" Refer=""1"" />
     <P ProfanityID=""4037"" Profanity=""Abdul Muneem Patel"" ModClassID=""3"" Refer=""1"" />
     <P ProfanityID=""4045"" Profanity=""Abdul Patel"" ModClassID=""3"" Refer=""1"" />
@@ -998,7 +1078,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
     <P ProfanityID=""3873"" Profanity=""CASH PRIZE"" ModClassID=""3"" Refer=""1"" />
     <P ProfanityID=""3874"" Profanity=""cash prizes"" ModClassID=""3"" Refer=""1"" />
     <P ProfanityID=""3885"" Profanity=""Celtic Distribution"" ModClassID=""3"" Refer=""1"" />
-    <P ProfanityID=""3888"" Profanity=""Celtic Music"" ModClassID=""3"" Refer=""1"" />
+    <P ProfanityID=""3888"" Profanity=""Celtic Music"" ModClassID=""3"" Refer=""1"" ForumID=""1"" />
     <P ProfanityID=""549"" Profanity=""clit"" ModClassID=""3"" Refer=""1"" />
     <P ProfanityID=""1714"" Profanity=""cock"" ModClassID=""3"" Refer=""1"" />
     <P ProfanityID=""4042"" Profanity=""Cossor"" ModClassID=""3"" Refer=""1"" />
@@ -1094,444 +1174,444 @@ namespace BBC.Dna.Moderation.Utils.Tests
     <P ProfanityID=""3542"" Profanity=""win cash prizes"" ModClassID=""3"" Refer=""1"" />
     <P ProfanityID=""509"" Profanity=""wop"" ModClassID=""3"" Refer=""1"" />
     <P ProfanityID=""4049"" Profanity=""Zamen"" ModClassID=""3"" Refer=""1"" />
-    <P ProfanityID=""2227"" Profanity=""(ock"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1508"" Profanity=""A$$hole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1510"" Profanity=""A$$hole$"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1509"" Profanity=""A$$holes"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1583"" Profanity=""A+*hole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1573"" Profanity=""ar$ehole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1511"" Profanity=""Ar$hole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1512"" Profanity=""Ar$holes"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1707"" Profanity=""ar5h0l3"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1705"" Profanity=""ar5h0le"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1706"" Profanity=""ar5h0les"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2627"" Profanity=""ars3"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2626"" Profanity=""arse hole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""965"" Profanity=""arseh0le"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""967"" Profanity=""arseh0les"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""135"" Profanity=""arsehol "" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""128"" Profanity=""arsehole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""129"" Profanity=""arseholes"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3476"" Profanity=""arsewipe"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""966"" Profanity=""arsh0le"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""134"" Profanity=""arshole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""131"" Profanity=""arsholes"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""133"" Profanity=""ashole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2629"" Profanity=""ass h0le"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2628"" Profanity=""ass hole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""968"" Profanity=""assh0le"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""969"" Profanity=""assh0les"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""132"" Profanity=""asshole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""130"" Profanity=""assholes"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1743"" Profanity=""b00tha"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1744"" Profanity=""b00thas"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""877"" Profanity=""b0ll0cks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1517"" Profanity=""B0llocks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3818"" Profanity=""bastards"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3480"" Profanity=""basterd"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2215"" Profanity=""batty&amp;nbsp;boi"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2214"" Profanity=""batty&amp;nbsp;boy"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4081"" Profanity=""bbchidden.blogspot.com"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4159"" Profanity=""Beef curtains"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1736"" Profanity=""bo****ks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1518"" Profanity=""Boll0cks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""136"" Profanity=""bollocks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""137"" Profanity=""bollox"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""139"" Profanity=""bolocks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""138"" Profanity=""bolox"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1742"" Profanity=""bootha"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1741"" Profanity=""boothas"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""927"" Profanity=""Bukkake"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1519"" Profanity=""Bullsh!t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2625"" Profanity=""bum hole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2624"" Profanity=""bumh0l3"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2622"" Profanity=""bumh0le"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2623"" Profanity=""bumhol3"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2621"" Profanity=""bumhole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1483"" Profanity=""C&amp;nbsp;u&amp;nbsp;n&amp;nbsp;t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""766"" Profanity=""C**t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""770"" Profanity=""C**t's"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""769"" Profanity=""C**ts"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""7"" Profanity=""c.u.n.t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""151"" Profanity=""c00n"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1827"" Profanity=""C0cksucka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1828"" Profanity=""C0cksucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2226"" Profanity=""Co(k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2209"" Profanity=""coc&amp;nbsp;k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1826"" Profanity=""Cocksucka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1825"" Profanity=""Cocksucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1919"" Profanity=""Cok"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""150"" Profanity=""coon"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2211"" Profanity=""cu&amp;nbsp;nt"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""5"" Profanity=""Cunt"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""9"" Profanity=""Cunt's"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""884"" Profanity=""cunting"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""8"" Profanity=""Cunts"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1745"" Profanity=""cvnt"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1746"" Profanity=""cvnts"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2461"" Profanity=""D**khead"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""152"" Profanity=""darkie"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""153"" Profanity=""darky"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""755"" Profanity=""dickhead"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""118"" Profanity=""dumbfuck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""119"" Profanity=""dumbfucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2462"" Profanity=""Dxxkhead"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1643"" Profanity=""effing"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2785"" Profanity=""F o a d"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2877"" Profanity=""f u c k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2898"" Profanity=""f u c ked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1590"" Profanity=""f###"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1499"" Profanity=""f##k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""96"" Profanity=""F$cks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2559"" Profanity=""f&amp;nbsp;cked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1507"" Profanity=""f&amp;nbsp;u&amp;nbsp;c&amp;nbsp;k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2212"" Profanity=""f&amp;nbsp;uck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2569"" Profanity=""f&amp;nbsp;ucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2564"" Profanity=""f&amp;nbsp;ucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1589"" Profanity=""f***"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1515"" Profanity=""F*****"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1516"" Profanity=""F******"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1491"" Profanity=""f*****g"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""892"" Profanity=""f****d"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""893"" Profanity=""f***ed"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""993"" Profanity=""f***in"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""937"" Profanity=""f***ing"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""943"" Profanity=""f**k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""806"" Profanity=""f**ked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""810"" Profanity=""f**ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""947"" Profanity=""f**kin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""804"" Profanity=""f**king"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""808"" Profanity=""f**ks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""114"" Profanity=""f*ck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""807"" Profanity=""f*ked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""811"" Profanity=""f*ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""809"" Profanity=""f*ks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""113"" Profanity=""f*uck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1513"" Profanity=""F*uk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2784"" Profanity=""F-o-a-d"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2782"" Profanity=""F.O.A.D"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2783"" Profanity=""F.O.A.D."" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""78"" Profanity=""f.u.c.k."" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1918"" Profanity=""f@ck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2769"" Profanity=""f@g"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2768"" Profanity=""f@gs"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2826"" Profanity=""f^^k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2838"" Profanity=""f^^ked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2842"" Profanity=""f^^ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2839"" Profanity=""f^^king"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2840"" Profanity=""f^ck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2843"" Profanity=""f^cker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2845"" Profanity=""f^cking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2874"" Profanity=""f00k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2330"" Profanity=""Fack"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2338"" Profanity=""Fackin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2349"" Profanity=""facking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""805"" Profanity=""fc*king"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4072"" Profanity=""fck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2213"" Profanity=""fck&amp;nbsp;ing"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1735"" Profanity=""fck1ng"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1734"" Profanity=""fcking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4073"" Profanity=""fcks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1820"" Profanity=""fckw1t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1819"" Profanity=""fckwit"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""80"" Profanity=""fcuk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""86"" Profanity=""fcuked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""92"" Profanity=""fcuker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""102"" Profanity=""fcukin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""83"" Profanity=""fcuking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""89"" Profanity=""fcuks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2331"" Profanity=""feck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2340"" Profanity=""feckin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2350"" Profanity=""fecking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3478"" Profanity=""feking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""142"" Profanity=""felch"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""145"" Profanity=""felched"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2432"" Profanity=""felchin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2431"" Profanity=""felchin'"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2217"" Profanity=""Felching"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""141"" Profanity=""feltch"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""144"" Profanity=""feltcher"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""143"" Profanity=""feltching"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2781"" Profanity=""FOAD"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2336"" Profanity=""fook"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2345"" Profanity=""fookin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2356"" Profanity=""fooking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2607"" Profanity=""free ipod"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2342"" Profanity=""frickin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2352"" Profanity=""fricking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2334"" Profanity=""frig"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2348"" Profanity=""friggin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2354"" Profanity=""frigging"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2343"" Profanity=""frigin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2353"" Profanity=""friging"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2210"" Profanity=""fu&amp;nbsp;ck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2560"" Profanity=""fu&amp;nbsp;cked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2570"" Profanity=""fu&amp;nbsp;cker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2565"" Profanity=""fu&amp;nbsp;cking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2436"" Profanity=""fu(k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""115"" Profanity=""fu*k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1830"" Profanity=""fu@k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1831"" Profanity=""fu@ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2841"" Profanity=""fu^k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2844"" Profanity=""fu^ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2846"" Profanity=""fu^king"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""117"" Profanity=""fuc"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2561"" Profanity=""fuc&amp;nbsp;ked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2571"" Profanity=""fuc&amp;nbsp;ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2566"" Profanity=""fuc&amp;nbsp;king"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""77"" Profanity=""fuck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2879"" Profanity=""Fùck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""885"" Profanity=""fúck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2873"" Profanity=""Fúçk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2878"" Profanity=""Fûck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2880"" Profanity=""Fück"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2562"" Profanity=""fuck&amp;nbsp;ed"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2567"" Profanity=""fuck&amp;nbsp;ing"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1816"" Profanity=""fuck-wit"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2563"" Profanity=""fucke&amp;nbsp;d"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""84"" Profanity=""fucked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""90"" Profanity=""fucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1567"" Profanity=""fuckers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2568"" Profanity=""fucki&amp;nbsp;ng"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""100"" Profanity=""fuckin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""81"" Profanity=""fucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""883"" Profanity=""fúcking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""110"" Profanity=""fuckk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""87"" Profanity=""fucks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2225"" Profanity=""Fuckup"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1818"" Profanity=""fuckw1t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1814"" Profanity=""fuckwit"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1822"" Profanity=""fucw1t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1821"" Profanity=""fucwit"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2953"" Profanity=""fudge packer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2951"" Profanity=""fudgepacker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""79"" Profanity=""fuk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""112"" Profanity=""fukced"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""85"" Profanity=""fuked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""91"" Profanity=""fuker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""101"" Profanity=""fukin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""82"" Profanity=""fuking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2335"" Profanity=""fukk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""106"" Profanity=""fukked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""108"" Profanity=""fukker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""107"" Profanity=""fukkin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2355"" Profanity=""fukking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""88"" Profanity=""fuks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2003"" Profanity=""fvck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1829"" Profanity=""Fvck-up"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1832"" Profanity=""Fvckup"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1817"" Profanity=""fvckw1t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1815"" Profanity=""fvckwit"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3963"" Profanity=""http://directory.myfreebulletinboard.com/category."" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4063"" Profanity=""http://excoboard.com/exco/index.php?boardid=19215"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3816"" Profanity=""http://freespeach.proboards3.com/index.cgi"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4001"" Profanity=""http://kingsofclay.proboards100.com/index.cgi "" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3831"" Profanity=""http://www.globalresearch.ca/index.php?context=vie"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3824"" Profanity=""http://www.infowars.net/Pages/Aug05/020805Aswat.ht"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3826"" Profanity=""http://www.israelnationalnews.com/news.php3?id=853"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4224"" Profanity=""http://www.kitbag.com/stores/celtic/products/produ"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3949"" Profanity=""http://www.mfbb.net/"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3953"" Profanity=""http://www.mfbb.net/?mforum=free"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3957"" Profanity=""http://www.mfbb.net/free-about1306.html"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3955"" Profanity=""http://www.mfbb.net/free-forum-8.html"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3950"" Profanity=""http://www.myfreebulletinboard.com/"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3828"" Profanity=""http://www.prisonplanet.com/archives/london/index."" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3825"" Profanity=""http://www.prisonplanet.com/articles/august2005/02"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3829"" Profanity=""http://www.prisonplanet.com/articles/july2005/0907"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3830"" Profanity=""http://www.prisonplanet.com/articles/july2005/1507"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3832"" Profanity=""http://www.theinsider.org/news/article.asp?id=1425"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3827"" Profanity=""http://www.wtvq.com/servlet/Satellite?c=MGArticle&amp;"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4008"" Profanity=""Icebreaker uk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4007"" Profanity=""Icebreakeruk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""767"" Profanity=""K**t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2097"" Profanity=""k@ffir"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2100"" Profanity=""k@ffirs"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2098"" Profanity=""k@fir"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2099"" Profanity=""k@firs"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2094"" Profanity=""kaffir"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2096"" Profanity=""kaffirs"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2093"" Profanity=""kafir"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2095"" Profanity=""kafirs"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2619"" Profanity=""kafr"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1920"" Profanity=""Khunt"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""955"" Profanity=""kike"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4226"" Profanity=""kitbag.com"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2222"" Profanity=""knob&amp;nbsp;head"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2223"" Profanity=""Knobber"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2613"" Profanity=""knobhead"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""6"" Profanity=""Kunt"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""956"" Profanity=""kyke"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2690"" Profanity=""L m f a o"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2692"" Profanity=""L.m.f.a.o"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2691"" Profanity=""L.m.f.a.o."" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2689"" Profanity=""Lmfa0"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2688"" Profanity=""Lmfao"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""776"" Profanity=""mof**ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""798"" Profanity=""mof**kers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""33"" Profanity=""mofuccer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""15"" Profanity=""mofucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""55"" Profanity=""mofuckers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""44"" Profanity=""mofucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""20"" Profanity=""mofukcer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""774"" Profanity=""mohterf**ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""792"" Profanity=""mohterf**kers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""775"" Profanity=""mohterf*kcer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""32"" Profanity=""mohterfuccer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""70"" Profanity=""mohterfuccers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""24"" Profanity=""mohterfuck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""13"" Profanity=""mohterfucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""53"" Profanity=""mohterfuckers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""42"" Profanity=""mohterfucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""63"" Profanity=""mohterfucks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""25"" Profanity=""mohterfuk"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""14"" Profanity=""mohterfukcer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""54"" Profanity=""mohterfukcers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""43"" Profanity=""mohterfuking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""64"" Profanity=""mohterfuks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""773"" Profanity=""moterf**ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""31"" Profanity=""moterfuccer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""23"" Profanity=""moterfuck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""12"" Profanity=""moterfucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""52"" Profanity=""moterfuckers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""41"" Profanity=""moterfucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""62"" Profanity=""moterfucks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1824"" Profanity=""motha-fucka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""782"" Profanity=""mothaf**k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""777"" Profanity=""mothaf**ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""795"" Profanity=""mothaf**kers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""785"" Profanity=""mothaf**king"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""799"" Profanity=""mothaf**ks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""34"" Profanity=""mothafuccer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""27"" Profanity=""mothafuck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1823"" Profanity=""Mothafucka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""16"" Profanity=""mothafucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""56"" Profanity=""mothafuckers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""45"" Profanity=""mothafucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""66"" Profanity=""mothafucks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""771"" Profanity=""motherf**ked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""772"" Profanity=""Motherf**ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""791"" Profanity=""Motherf**kers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3857"" Profanity=""motherfracking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""30"" Profanity=""Motherfuccer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""69"" Profanity=""Motherfuccers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""22"" Profanity=""Motherfuck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""10"" Profanity=""motherfucked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""11"" Profanity=""Motherfucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""51"" Profanity=""Motherfuckers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""40"" Profanity=""Motherfucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""61"" Profanity=""Motherfucks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""49"" Profanity=""motherfukkker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""780"" Profanity=""mthaf**ka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""37"" Profanity=""mthafucca"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""76"" Profanity=""mthafuccas"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""19"" Profanity=""mthafucka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""59"" Profanity=""mthafuckas"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""21"" Profanity=""mthafukca"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""60"" Profanity=""mthafukcas"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""48"" Profanity=""muth@fucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""783"" Profanity=""muthaf**k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""778"" Profanity=""muthaf**ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""796"" Profanity=""muthaf**kers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""786"" Profanity=""muthaf**king"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""800"" Profanity=""muthaf**ks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""35"" Profanity=""muthafuccer"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""28"" Profanity=""muthafuck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""50"" Profanity=""muthafuck@"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4054"" Profanity=""Muthafucka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""17"" Profanity=""muthafucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""57"" Profanity=""muthafuckers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""46"" Profanity=""muthafucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""67"" Profanity=""muthafucks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1917"" Profanity=""Muthafuka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1916"" Profanity=""Muthafukas"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2438"" Profanity=""n0b"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2575"" Profanity=""n0bhead"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2587"" Profanity=""Nige&amp;nbsp;Cooke"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3962"" Profanity=""Nigel Cooke"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2588"" Profanity=""Nigel&amp;nbsp;C00k"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2589"" Profanity=""Nigel&amp;nbsp;C00ke"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2590"" Profanity=""Nigel&amp;nbsp;Cook"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2591"" Profanity=""Nigel&amp;nbsp;Cook3"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2592"" Profanity=""Nigel&amp;nbsp;Cooke"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""147"" Profanity=""nigga"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""149"" Profanity=""niggaz"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""146"" Profanity=""Nigger"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""148"" Profanity=""niggers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2437"" Profanity=""nob"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2221"" Profanity=""nob&amp;nbsp;head"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2220"" Profanity=""Nobhead"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1667"" Profanity=""p**i"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1664"" Profanity=""p*ki"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1665"" Profanity=""p@ki"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1683"" Profanity=""p@kis"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1666"" Profanity=""pak1"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""154"" Profanity=""paki"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1682"" Profanity=""pakis&#xD;"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1740"" Profanity=""pench0d"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1739"" Profanity=""pench0ds"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1737"" Profanity=""penchod"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1738"" Profanity=""penchods"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2358"" Profanity=""phelching"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1913"" Profanity=""Phuck"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1915"" Profanity=""Phucker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2346"" Profanity=""phuckin"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1914"" Profanity=""Phucking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4160"" Profanity=""Poo stabber"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4162"" Profanity=""Poo stabbers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1923"" Profanity=""Prik"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""762"" Profanity=""raghead"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""764"" Profanity=""ragheads"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2218"" Profanity=""S1ut"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4161"" Profanity=""Shit stabber"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4163"" Profanity=""Shit stabbers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""320"" Profanity=""slut"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""157"" Profanity=""spic"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2460"" Profanity=""t0$$er"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""983"" Profanity=""t0sser"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1764"" Profanity=""t0ssers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""981"" Profanity=""to55er"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1765"" Profanity=""to55ers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""754"" Profanity=""tosser"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1766"" Profanity=""tossers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2216"" Profanity=""tw&amp;nbsp;at"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4077"" Profanity=""tw@"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""121"" Profanity=""tw@t"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""120"" Profanity=""twat"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1716"" Profanity=""twats"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1921"" Profanity=""Twunt"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1926"" Profanity=""twunts"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2662"" Profanity=""w anker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""951"" Profanity=""w*****"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1631"" Profanity=""w******"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""952"" Profanity=""w****r"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""961"" Profanity=""w@nker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""962"" Profanity=""w@nkers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""977"" Profanity=""w0g"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""978"" Profanity=""w0gs"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2663"" Profanity=""wa nker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4164"" Profanity=""Wan k er"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4165"" Profanity=""Wan k ers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2664"" Profanity=""wan ker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""122"" Profanity=""wank"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""127"" Profanity=""wank's"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""4053"" Profanity=""Wanka"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2666"" Profanity=""wanke r"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""125"" Profanity=""wanked"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""124"" Profanity=""wanker"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""989"" Profanity=""wankers"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""123"" Profanity=""wanking"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""126"" Profanity=""wanks"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""155"" Profanity=""wog"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3960"" Profanity=""www.mfbb.net"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3952"" Profanity=""www.mfbb.net/"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3954"" Profanity=""www.mfbb.net/?mforum=free"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3958"" Profanity=""www.mfbb.net/free-about1306.html"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3956"" Profanity=""www.mfbb.net/free-forum-8.html"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3959"" Profanity=""www.myfreebulletinboard.com"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""3951"" Profanity=""www.myfreebulletinboard.com/"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""2219"" Profanity=""Xxxhole"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""1505"" Profanity=""y*d"" ModClassID=""4"" Refer=""0"" />
-    <P ProfanityID=""158"" Profanity=""yid"" ModClassID=""4"" Refer=""0"" />
+    <P ProfanityID=""2227"" Profanity=""(ock"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1508"" Profanity=""A$$hole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1510"" Profanity=""A$$hole$"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1509"" Profanity=""A$$holes"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1583"" Profanity=""A+*hole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1573"" Profanity=""ar$ehole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1511"" Profanity=""Ar$hole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1512"" Profanity=""Ar$holes"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1707"" Profanity=""ar5h0l3"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1705"" Profanity=""ar5h0le"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1706"" Profanity=""ar5h0les"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2627"" Profanity=""ars3"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2626"" Profanity=""arse hole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""965"" Profanity=""arseh0le"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""967"" Profanity=""arseh0les"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""135"" Profanity=""arsehol "" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""128"" Profanity=""arsehole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""129"" Profanity=""arseholes"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3476"" Profanity=""arsewipe"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""966"" Profanity=""arsh0le"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""134"" Profanity=""arshole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""131"" Profanity=""arsholes"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""133"" Profanity=""ashole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2629"" Profanity=""ass h0le"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2628"" Profanity=""ass hole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""968"" Profanity=""assh0le"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""969"" Profanity=""assh0les"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""132"" Profanity=""asshole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""130"" Profanity=""assholes"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1743"" Profanity=""b00tha"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1744"" Profanity=""b00thas"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""877"" Profanity=""b0ll0cks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1517"" Profanity=""B0llocks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3818"" Profanity=""bastards"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3480"" Profanity=""basterd"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2215"" Profanity=""batty&amp;nbsp;boi"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2214"" Profanity=""batty&amp;nbsp;boy"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4081"" Profanity=""bbchidden.blogspot.com"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4159"" Profanity=""Beef curtains"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1736"" Profanity=""bo****ks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1518"" Profanity=""Boll0cks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""136"" Profanity=""bollocks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""137"" Profanity=""bollox"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""139"" Profanity=""bolocks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""138"" Profanity=""bolox"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1742"" Profanity=""bootha"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1741"" Profanity=""boothas"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""927"" Profanity=""Bukkake"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1519"" Profanity=""Bullsh!t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2625"" Profanity=""bum hole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2624"" Profanity=""bumh0l3"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2622"" Profanity=""bumh0le"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2623"" Profanity=""bumhol3"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2621"" Profanity=""bumhole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1483"" Profanity=""C&amp;nbsp;u&amp;nbsp;n&amp;nbsp;t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""766"" Profanity=""C**t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""770"" Profanity=""C**t's"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""769"" Profanity=""C**ts"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""7"" Profanity=""c.u.n.t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""151"" Profanity=""c00n"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1827"" Profanity=""C0cksucka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1828"" Profanity=""C0cksucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2226"" Profanity=""Co(k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2209"" Profanity=""coc&amp;nbsp;k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1826"" Profanity=""Cocksucka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1825"" Profanity=""Cocksucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1919"" Profanity=""Cok"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""150"" Profanity=""coon"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2211"" Profanity=""cu&amp;nbsp;nt"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""5"" Profanity=""Cunt"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""9"" Profanity=""Cunt's"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""884"" Profanity=""cunting"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""8"" Profanity=""Cunts"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1745"" Profanity=""cvnt"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1746"" Profanity=""cvnts"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2461"" Profanity=""D**khead"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""152"" Profanity=""darkie"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""153"" Profanity=""darky"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""755"" Profanity=""dickhead"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""118"" Profanity=""dumbfuck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""119"" Profanity=""dumbfucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2462"" Profanity=""Dxxkhead"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1643"" Profanity=""effing"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2785"" Profanity=""F o a d"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2877"" Profanity=""f u c k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2898"" Profanity=""f u c ked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1590"" Profanity=""f###"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1499"" Profanity=""f##k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""96"" Profanity=""F$cks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2559"" Profanity=""f&amp;nbsp;cked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1507"" Profanity=""f&amp;nbsp;u&amp;nbsp;c&amp;nbsp;k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2212"" Profanity=""f&amp;nbsp;uck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2569"" Profanity=""f&amp;nbsp;ucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2564"" Profanity=""f&amp;nbsp;ucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1589"" Profanity=""f***"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1515"" Profanity=""F*****"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1516"" Profanity=""F******"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1491"" Profanity=""f*****g"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""892"" Profanity=""f****d"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""893"" Profanity=""f***ed"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""993"" Profanity=""f***in"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""937"" Profanity=""f***ing"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""943"" Profanity=""f**k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""806"" Profanity=""f**ked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""810"" Profanity=""f**ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""947"" Profanity=""f**kin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""804"" Profanity=""f**king"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""808"" Profanity=""f**ks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""114"" Profanity=""f*ck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""807"" Profanity=""f*ked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""811"" Profanity=""f*ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""809"" Profanity=""f*ks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""113"" Profanity=""f*uck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1513"" Profanity=""F*uk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2784"" Profanity=""F-o-a-d"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2782"" Profanity=""F.O.A.D"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2783"" Profanity=""F.O.A.D."" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""78"" Profanity=""f.u.c.k."" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1918"" Profanity=""f@ck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2769"" Profanity=""f@g"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2768"" Profanity=""f@gs"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2826"" Profanity=""f^^k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2838"" Profanity=""f^^ked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2842"" Profanity=""f^^ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2839"" Profanity=""f^^king"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2840"" Profanity=""f^ck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2843"" Profanity=""f^cker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2845"" Profanity=""f^cking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2874"" Profanity=""f00k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2330"" Profanity=""Fack"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2338"" Profanity=""Fackin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2349"" Profanity=""facking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""805"" Profanity=""fc*king"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4072"" Profanity=""fck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2213"" Profanity=""fck&amp;nbsp;ing"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1735"" Profanity=""fck1ng"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1734"" Profanity=""fcking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4073"" Profanity=""fcks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1820"" Profanity=""fckw1t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1819"" Profanity=""fckwit"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""80"" Profanity=""fcuk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""86"" Profanity=""fcuked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""92"" Profanity=""fcuker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""102"" Profanity=""fcukin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""83"" Profanity=""fcuking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""89"" Profanity=""fcuks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2331"" Profanity=""feck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2340"" Profanity=""feckin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2350"" Profanity=""fecking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3478"" Profanity=""feking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""142"" Profanity=""felch"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""145"" Profanity=""felched"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2432"" Profanity=""felchin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2431"" Profanity=""felchin'"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2217"" Profanity=""Felching"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""141"" Profanity=""feltch"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""144"" Profanity=""feltcher"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""143"" Profanity=""feltching"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2781"" Profanity=""FOAD"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2336"" Profanity=""fook"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2345"" Profanity=""fookin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2356"" Profanity=""fooking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2607"" Profanity=""free ipod"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2342"" Profanity=""frickin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2352"" Profanity=""fricking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2334"" Profanity=""frig"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2348"" Profanity=""friggin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2354"" Profanity=""frigging"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2343"" Profanity=""frigin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2353"" Profanity=""friging"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2210"" Profanity=""fu&amp;nbsp;ck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2560"" Profanity=""fu&amp;nbsp;cked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2570"" Profanity=""fu&amp;nbsp;cker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2565"" Profanity=""fu&amp;nbsp;cking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2436"" Profanity=""fu(k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""115"" Profanity=""fu*k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1830"" Profanity=""fu@k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1831"" Profanity=""fu@ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2841"" Profanity=""fu^k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2844"" Profanity=""fu^ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2846"" Profanity=""fu^king"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""117"" Profanity=""fuc"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2561"" Profanity=""fuc&amp;nbsp;ked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2571"" Profanity=""fuc&amp;nbsp;ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2566"" Profanity=""fuc&amp;nbsp;king"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""77"" Profanity=""fuck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2879"" Profanity=""Fùck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""885"" Profanity=""fúck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2873"" Profanity=""Fúçk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2878"" Profanity=""Fûck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2880"" Profanity=""Fück"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2562"" Profanity=""fuck&amp;nbsp;ed"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2567"" Profanity=""fuck&amp;nbsp;ing"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1816"" Profanity=""fuck-wit"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2563"" Profanity=""fucke&amp;nbsp;d"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""84"" Profanity=""fucked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""90"" Profanity=""fucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1567"" Profanity=""fuckers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2568"" Profanity=""fucki&amp;nbsp;ng"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""100"" Profanity=""fuckin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""81"" Profanity=""fucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""883"" Profanity=""fúcking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""110"" Profanity=""fuckk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""87"" Profanity=""fucks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2225"" Profanity=""Fuckup"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1818"" Profanity=""fuckw1t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1814"" Profanity=""fuckwit"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1822"" Profanity=""fucw1t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1821"" Profanity=""fucwit"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2953"" Profanity=""fudge packer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2951"" Profanity=""fudgepacker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""79"" Profanity=""fuk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""112"" Profanity=""fukced"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""85"" Profanity=""fuked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""91"" Profanity=""fuker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""101"" Profanity=""fukin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""82"" Profanity=""fuking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2335"" Profanity=""fukk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""106"" Profanity=""fukked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""108"" Profanity=""fukker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""107"" Profanity=""fukkin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2355"" Profanity=""fukking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""88"" Profanity=""fuks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2003"" Profanity=""fvck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1829"" Profanity=""Fvck-up"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1832"" Profanity=""Fvckup"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1817"" Profanity=""fvckw1t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1815"" Profanity=""fvckwit"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3963"" Profanity=""http://directory.myfreebulletinboard.com/category."" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4063"" Profanity=""http://excoboard.com/exco/index.php?boardid=19215"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3816"" Profanity=""http://freespeach.proboards3.com/index.cgi"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4001"" Profanity=""http://kingsofclay.proboards100.com/index.cgi "" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3831"" Profanity=""http://www.globalresearch.ca/index.php?context=vie"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3824"" Profanity=""http://www.infowars.net/Pages/Aug05/020805Aswat.ht"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3826"" Profanity=""http://www.israelnationalnews.com/news.php3?id=853"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4224"" Profanity=""http://www.kitbag.com/stores/celtic/products/produ"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3949"" Profanity=""http://www.mfbb.net/"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3953"" Profanity=""http://www.mfbb.net/?mforum=free"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3957"" Profanity=""http://www.mfbb.net/free-about1306.html"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3955"" Profanity=""http://www.mfbb.net/free-forum-8.html"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3950"" Profanity=""http://www.myfreebulletinboard.com/"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3828"" Profanity=""http://www.prisonplanet.com/archives/london/index."" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3825"" Profanity=""http://www.prisonplanet.com/articles/august2005/02"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3829"" Profanity=""http://www.prisonplanet.com/articles/july2005/0907"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3830"" Profanity=""http://www.prisonplanet.com/articles/july2005/1507"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3832"" Profanity=""http://www.theinsider.org/news/article.asp?id=1425"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3827"" Profanity=""http://www.wtvq.com/servlet/Satellite?c=MGArticle&amp;"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4008"" Profanity=""Icebreaker uk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4007"" Profanity=""Icebreakeruk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""767"" Profanity=""K**t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2097"" Profanity=""k@ffir"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2100"" Profanity=""k@ffirs"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2098"" Profanity=""k@fir"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2099"" Profanity=""k@firs"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2094"" Profanity=""kaffir"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2096"" Profanity=""kaffirs"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2093"" Profanity=""kafir"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2095"" Profanity=""kafirs"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2619"" Profanity=""kafr"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1920"" Profanity=""Khunt"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""955"" Profanity=""kike"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4226"" Profanity=""kitbag.com"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2222"" Profanity=""knob&amp;nbsp;head"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2223"" Profanity=""Knobber"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2613"" Profanity=""knobhead"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""6"" Profanity=""Kunt"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""956"" Profanity=""kyke"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2690"" Profanity=""L m f a o"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2692"" Profanity=""L.m.f.a.o"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2691"" Profanity=""L.m.f.a.o."" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2689"" Profanity=""Lmfa0"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2688"" Profanity=""Lmfao"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""776"" Profanity=""mof**ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""798"" Profanity=""mof**kers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""33"" Profanity=""mofuccer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""15"" Profanity=""mofucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""55"" Profanity=""mofuckers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""44"" Profanity=""mofucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""20"" Profanity=""mofukcer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""774"" Profanity=""mohterf**ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""792"" Profanity=""mohterf**kers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""775"" Profanity=""mohterf*kcer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""32"" Profanity=""mohterfuccer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""70"" Profanity=""mohterfuccers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""24"" Profanity=""mohterfuck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""13"" Profanity=""mohterfucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""53"" Profanity=""mohterfuckers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""42"" Profanity=""mohterfucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""63"" Profanity=""mohterfucks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""25"" Profanity=""mohterfuk"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""14"" Profanity=""mohterfukcer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""54"" Profanity=""mohterfukcers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""43"" Profanity=""mohterfuking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""64"" Profanity=""mohterfuks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""773"" Profanity=""moterf**ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""31"" Profanity=""moterfuccer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""23"" Profanity=""moterfuck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""12"" Profanity=""moterfucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""52"" Profanity=""moterfuckers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""41"" Profanity=""moterfucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""62"" Profanity=""moterfucks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1824"" Profanity=""motha-fucka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""782"" Profanity=""mothaf**k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""777"" Profanity=""mothaf**ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""795"" Profanity=""mothaf**kers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""785"" Profanity=""mothaf**king"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""799"" Profanity=""mothaf**ks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""34"" Profanity=""mothafuccer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""27"" Profanity=""mothafuck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1823"" Profanity=""Mothafucka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""16"" Profanity=""mothafucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""56"" Profanity=""mothafuckers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""45"" Profanity=""mothafucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""66"" Profanity=""mothafucks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""771"" Profanity=""motherf**ked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""772"" Profanity=""Motherf**ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""791"" Profanity=""Motherf**kers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3857"" Profanity=""motherfracking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""30"" Profanity=""Motherfuccer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""69"" Profanity=""Motherfuccers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""22"" Profanity=""Motherfuck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""10"" Profanity=""motherfucked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""11"" Profanity=""Motherfucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""51"" Profanity=""Motherfuckers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""40"" Profanity=""Motherfucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""61"" Profanity=""Motherfucks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""49"" Profanity=""motherfukkker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""780"" Profanity=""mthaf**ka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""37"" Profanity=""mthafucca"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""76"" Profanity=""mthafuccas"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""19"" Profanity=""mthafucka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""59"" Profanity=""mthafuckas"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""21"" Profanity=""mthafukca"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""60"" Profanity=""mthafukcas"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""48"" Profanity=""muth@fucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""783"" Profanity=""muthaf**k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""778"" Profanity=""muthaf**ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""796"" Profanity=""muthaf**kers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""786"" Profanity=""muthaf**king"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""800"" Profanity=""muthaf**ks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""35"" Profanity=""muthafuccer"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""28"" Profanity=""muthafuck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""50"" Profanity=""muthafuck@"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4054"" Profanity=""Muthafucka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""17"" Profanity=""muthafucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""57"" Profanity=""muthafuckers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""46"" Profanity=""muthafucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""67"" Profanity=""muthafucks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1917"" Profanity=""Muthafuka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1916"" Profanity=""Muthafukas"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2438"" Profanity=""n0b"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2575"" Profanity=""n0bhead"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2587"" Profanity=""Nige&amp;nbsp;Cooke"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3962"" Profanity=""Nigel Cooke"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2588"" Profanity=""Nigel&amp;nbsp;C00k"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2589"" Profanity=""Nigel&amp;nbsp;C00ke"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2590"" Profanity=""Nigel&amp;nbsp;Cook"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2591"" Profanity=""Nigel&amp;nbsp;Cook3"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2592"" Profanity=""Nigel&amp;nbsp;Cooke"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""147"" Profanity=""nigga"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""149"" Profanity=""niggaz"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""146"" Profanity=""Nigger"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""148"" Profanity=""niggers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2437"" Profanity=""nob"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2221"" Profanity=""nob&amp;nbsp;head"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2220"" Profanity=""Nobhead"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1667"" Profanity=""p**i"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1664"" Profanity=""p*ki"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1665"" Profanity=""p@ki"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1683"" Profanity=""p@kis"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1666"" Profanity=""pak1"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""154"" Profanity=""paki"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1682"" Profanity=""pakis&#xD;"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1740"" Profanity=""pench0d"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1739"" Profanity=""pench0ds"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1737"" Profanity=""penchod"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1738"" Profanity=""penchods"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2358"" Profanity=""phelching"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1913"" Profanity=""Phuck"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1915"" Profanity=""Phucker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2346"" Profanity=""phuckin"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1914"" Profanity=""Phucking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4160"" Profanity=""Poo stabber"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4162"" Profanity=""Poo stabbers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1923"" Profanity=""Prik"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""762"" Profanity=""raghead"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""764"" Profanity=""ragheads"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2218"" Profanity=""S1ut"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4161"" Profanity=""Shit stabber"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4163"" Profanity=""Shit stabbers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""320"" Profanity=""slut"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""157"" Profanity=""spic"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2460"" Profanity=""t0$$er"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""983"" Profanity=""t0sser"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1764"" Profanity=""t0ssers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""981"" Profanity=""to55er"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1765"" Profanity=""to55ers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""754"" Profanity=""tosser"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1766"" Profanity=""tossers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2216"" Profanity=""tw&amp;nbsp;at"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4077"" Profanity=""tw@"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""121"" Profanity=""tw@t"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""120"" Profanity=""twat"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1716"" Profanity=""twats"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1921"" Profanity=""Twunt"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1926"" Profanity=""twunts"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2662"" Profanity=""w anker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""951"" Profanity=""w*****"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1631"" Profanity=""w******"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""952"" Profanity=""w****r"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""961"" Profanity=""w@nker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""962"" Profanity=""w@nkers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""977"" Profanity=""w0g"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""978"" Profanity=""w0gs"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2663"" Profanity=""wa nker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4164"" Profanity=""Wan k er"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4165"" Profanity=""Wan k ers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2664"" Profanity=""wan ker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""122"" Profanity=""wank"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""127"" Profanity=""wank's"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4053"" Profanity=""Wanka"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2666"" Profanity=""wanke r"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""125"" Profanity=""wanked"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""124"" Profanity=""wanker"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""989"" Profanity=""wankers"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""123"" Profanity=""wanking"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""126"" Profanity=""wanks"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""155"" Profanity=""wog"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3960"" Profanity=""www.mfbb.net"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3952"" Profanity=""www.mfbb.net/"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3954"" Profanity=""www.mfbb.net/?mforum=free"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3958"" Profanity=""www.mfbb.net/free-about1306.html"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3956"" Profanity=""www.mfbb.net/free-forum-8.html"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3959"" Profanity=""www.myfreebulletinboard.com"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3951"" Profanity=""www.myfreebulletinboard.com/"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2219"" Profanity=""Xxxhole"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1505"" Profanity=""y*d"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""158"" Profanity=""yid"" ModClassID=""4"" Refer=""0"" ForumID=""1"" />
     <P ProfanityID=""4017"" Profanity=""Abdul Muneem Patel"" ModClassID=""4"" Refer=""1"" />
     <P ProfanityID=""4025"" Profanity=""Abdul Patel"" ModClassID=""4"" Refer=""1"" />
     <P ProfanityID=""4010"" Profanity=""Abdula Ahmed Ali"" ModClassID=""4"" Refer=""1"" />
@@ -1665,399 +1745,399 @@ namespace BBC.Dna.Moderation.Utils.Tests
     <P ProfanityID=""321"" Profanity=""whore"" ModClassID=""4"" Refer=""1"" />
     <P ProfanityID=""156"" Profanity=""wop"" ModClassID=""4"" Refer=""1"" />
     <P ProfanityID=""4029"" Profanity=""Zamen"" ModClassID=""4"" Refer=""1"" />
-    <P ProfanityID=""2204"" Profanity=""(ock"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1536"" Profanity=""A$$hole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1538"" Profanity=""A$$hole$"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1537"" Profanity=""A$$holes"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1581"" Profanity=""A+*hole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1575"" Profanity=""ar$ehole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1539"" Profanity=""Ar$hole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1540"" Profanity=""Ar$holes"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1710"" Profanity=""ar5h0l3"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1708"" Profanity=""ar5h0le"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1709"" Profanity=""ar5h0les"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2645"" Profanity=""ars3"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1179"" Profanity=""arse"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2644"" Profanity=""arse hole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""995"" Profanity=""arseh0le"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""996"" Profanity=""arseh0les"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""997"" Profanity=""arsehol"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""998"" Profanity=""arsehole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""999"" Profanity=""arseholes"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1000"" Profanity=""arsh0le"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1001"" Profanity=""arshole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1002"" Profanity=""arsholes"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1003"" Profanity=""ashole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2647"" Profanity=""ass h0le"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2646"" Profanity=""ass hole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1004"" Profanity=""assh0le"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1005"" Profanity=""assh0les"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1006"" Profanity=""asshole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1007"" Profanity=""assholes"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1008"" Profanity=""b0ll0cks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1545"" Profanity=""B0llocks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1183"" Profanity=""b1tch"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1184"" Profanity=""bastard"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2192"" Profanity=""batty&amp;nbsp;boi"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2191"" Profanity=""batty&amp;nbsp;boy"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4171"" Profanity=""Beef curtains"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1185"" Profanity=""bitch"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1546"" Profanity=""Boll0cks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1009"" Profanity=""bollocks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1010"" Profanity=""bollox"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1011"" Profanity=""bolocks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1012"" Profanity=""bolox"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1186"" Profanity=""bugger"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1013"" Profanity=""Bukkake"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1547"" Profanity=""Bullsh!t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1238"" Profanity=""Bullshit"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2643"" Profanity=""bum hole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2642"" Profanity=""bumh0l3"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2640"" Profanity=""bumh0le"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2641"" Profanity=""bumhol3"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2639"" Profanity=""bumhole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1485"" Profanity=""C&amp;nbsp;u&amp;nbsp;n&amp;nbsp;t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1014"" Profanity=""C**t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1015"" Profanity=""C**t's"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1016"" Profanity=""C**ts"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1017"" Profanity=""c.u.n.t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1018"" Profanity=""c00n"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1846"" Profanity=""C0cksucka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1847"" Profanity=""C0cksucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1728"" Profanity=""cnut"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1727"" Profanity=""cnuts"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2203"" Profanity=""Co(k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2186"" Profanity=""coc&amp;nbsp;k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1845"" Profanity=""Cocksucka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1844"" Profanity=""Cocksucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1897"" Profanity=""Cok"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1019"" Profanity=""coon"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1190"" Profanity=""crap"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1997"" Profanity=""cu&amp;nbsp;nt"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1998"" Profanity=""cu&amp;nbsp;nts"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1020"" Profanity=""Cunt"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1021"" Profanity=""Cunt's"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1022"" Profanity=""cunting"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1023"" Profanity=""Cunts"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2469"" Profanity=""D**khead"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1024"" Profanity=""darkie"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1025"" Profanity=""darky"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2557"" Profanity=""dick&amp;nbsp;head"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1026"" Profanity=""dickhead"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1027"" Profanity=""dumbfuck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1028"" Profanity=""dumbfucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2470"" Profanity=""Dxxkhead"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1645"" Profanity=""effing"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2893"" Profanity=""f u c k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2899"" Profanity=""f u c ked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1592"" Profanity=""f###"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1501"" Profanity=""f##k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1029"" Profanity=""F$cks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2543"" Profanity=""f&amp;nbsp;cked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1535"" Profanity=""f&amp;nbsp;u&amp;nbsp;c&amp;nbsp;k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2189"" Profanity=""f&amp;nbsp;uck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2553"" Profanity=""f&amp;nbsp;ucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2548"" Profanity=""f&amp;nbsp;ucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1591"" Profanity=""f***"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1543"" Profanity=""F*****"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1544"" Profanity=""F******"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1493"" Profanity=""f*****g"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1030"" Profanity=""f****d"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1031"" Profanity=""f***ed"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1032"" Profanity=""f***ing"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1033"" Profanity=""f**k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1034"" Profanity=""f**ked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1035"" Profanity=""f**ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1036"" Profanity=""f**kin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1037"" Profanity=""f**king"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1038"" Profanity=""f**ks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1039"" Profanity=""f*ck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1040"" Profanity=""f*ked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1041"" Profanity=""f*ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1042"" Profanity=""f*ks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1043"" Profanity=""f*uck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1541"" Profanity=""F*uk"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1044"" Profanity=""f.u.c.k."" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1896"" Profanity=""f@ck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2890"" Profanity=""f00k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2361"" Profanity=""Fack"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2369"" Profanity=""Fackin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2380"" Profanity=""facking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1194"" Profanity=""fagg0t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1195"" Profanity=""faggot"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1045"" Profanity=""fc*king"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2190"" Profanity=""fck&amp;nbsp;ing"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1839"" Profanity=""fckw1t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1838"" Profanity=""fckwit"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1046"" Profanity=""fcuk"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1047"" Profanity=""fcuked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1048"" Profanity=""fcuker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1049"" Profanity=""fcukin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1050"" Profanity=""fcuking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1051"" Profanity=""fcuks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2362"" Profanity=""feck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2371"" Profanity=""feckin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2381"" Profanity=""fecking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1052"" Profanity=""felch"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1053"" Profanity=""felched"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2194"" Profanity=""Felching"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1054"" Profanity=""feltch"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1055"" Profanity=""feltcher"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1056"" Profanity=""feltching"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2367"" Profanity=""fook"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2376"" Profanity=""fookin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2387"" Profanity=""fooking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2364"" Profanity=""frick"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2373"" Profanity=""frickin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2383"" Profanity=""fricking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2365"" Profanity=""frig"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2379"" Profanity=""friggin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2385"" Profanity=""frigging"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2374"" Profanity=""frigin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2384"" Profanity=""friging"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2187"" Profanity=""fu&amp;nbsp;ck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2544"" Profanity=""fu&amp;nbsp;cked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2554"" Profanity=""fu&amp;nbsp;cker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2549"" Profanity=""fu&amp;nbsp;cking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2439"" Profanity=""fu(k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1057"" Profanity=""fu*k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1849"" Profanity=""fu@k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1850"" Profanity=""fu@ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1058"" Profanity=""fuc"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2545"" Profanity=""fuc&amp;nbsp;ked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2555"" Profanity=""fuc&amp;nbsp;ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2550"" Profanity=""fuc&amp;nbsp;king"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1059"" Profanity=""fuck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2895"" Profanity=""Fùck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1060"" Profanity=""fúck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2889"" Profanity=""Fúçk"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2894"" Profanity=""Fûck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2896"" Profanity=""Fück"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2546"" Profanity=""fuck&amp;nbsp;ed"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2551"" Profanity=""fuck&amp;nbsp;ing"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1835"" Profanity=""fuck-wit"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2547"" Profanity=""fucke&amp;nbsp;d"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1061"" Profanity=""fucked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1062"" Profanity=""fucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1569"" Profanity=""fuckers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2552"" Profanity=""fucki&amp;nbsp;ng"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1063"" Profanity=""fuckin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1064"" Profanity=""fucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1065"" Profanity=""fúcking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1066"" Profanity=""fuckk"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1067"" Profanity=""fucks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2202"" Profanity=""Fuckup"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1837"" Profanity=""fuckw1t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1833"" Profanity=""fuckwit"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1841"" Profanity=""fucw1t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1840"" Profanity=""fucwit"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2957"" Profanity=""fudge packer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2955"" Profanity=""fudgepacker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1068"" Profanity=""fuk"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1069"" Profanity=""fukced"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1070"" Profanity=""fuked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1071"" Profanity=""fuker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1072"" Profanity=""fukin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1073"" Profanity=""fuking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2366"" Profanity=""fukk"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1074"" Profanity=""fukked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1075"" Profanity=""fukker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1076"" Profanity=""fukkin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2386"" Profanity=""fukking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1077"" Profanity=""fuks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2001"" Profanity=""Fvck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1848"" Profanity=""Fvck-up"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1851"" Profanity=""Fvckup"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1836"" Profanity=""fvckw1t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1834"" Profanity=""fvckwit"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1197"" Profanity=""gimp"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1992"" Profanity=""Gypo"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1993"" Profanity=""Gypos"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1991"" Profanity=""Gyppo"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1994"" Profanity=""Gyppos"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1198"" Profanity=""h0m0"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1199"" Profanity=""h0mo"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1200"" Profanity=""homo"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1078"" Profanity=""K**t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1983"" Profanity=""k@ffir"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1984"" Profanity=""k@ffirs"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1982"" Profanity=""k@fir"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1985"" Profanity=""k@firs"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1986"" Profanity=""Kaf1r"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1987"" Profanity=""Kaff1r"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1979"" Profanity=""Kaffir"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1981"" Profanity=""Kaffirs"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1978"" Profanity=""Kafir"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1980"" Profanity=""Kafirs"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1898"" Profanity=""Khunt"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1079"" Profanity=""kike"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2199"" Profanity=""knob&amp;nbsp;head"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2200"" Profanity=""Knobber"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1080"" Profanity=""Kunt"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1081"" Profanity=""kyke"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2704"" Profanity=""L m f a o"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2706"" Profanity=""L.m.f.a.o"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2705"" Profanity=""L.m.f.a.o."" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2703"" Profanity=""Lmfa0"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2702"" Profanity=""Lmfao"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1082"" Profanity=""mof**ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1083"" Profanity=""mof**kers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1084"" Profanity=""mofuccer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1085"" Profanity=""mofucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1086"" Profanity=""mofuckers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1087"" Profanity=""mofucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1088"" Profanity=""mofukcer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1089"" Profanity=""mohterf**ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1090"" Profanity=""mohterf**kers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1091"" Profanity=""mohterf*kcer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1092"" Profanity=""mohterfuccer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1093"" Profanity=""mohterfuccers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1094"" Profanity=""mohterfuck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1095"" Profanity=""mohterfucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1096"" Profanity=""mohterfuckers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1097"" Profanity=""mohterfucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1098"" Profanity=""mohterfucks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1099"" Profanity=""mohterfuk"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1100"" Profanity=""mohterfukcer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1101"" Profanity=""mohterfukcers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1102"" Profanity=""mohterfuking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1103"" Profanity=""mohterfuks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1104"" Profanity=""moterf**ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1105"" Profanity=""moterfuccer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1106"" Profanity=""moterfuck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1107"" Profanity=""moterfucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1108"" Profanity=""moterfuckers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1109"" Profanity=""moterfucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1110"" Profanity=""moterfucks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1843"" Profanity=""motha-fucka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1111"" Profanity=""mothaf**k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1112"" Profanity=""mothaf**ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1113"" Profanity=""mothaf**kers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1114"" Profanity=""mothaf**king"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1115"" Profanity=""mothaf**ks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1116"" Profanity=""mothafuccer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1117"" Profanity=""mothafuck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1842"" Profanity=""Mothafucka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1118"" Profanity=""mothafucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1119"" Profanity=""mothafuckers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1120"" Profanity=""mothafucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1121"" Profanity=""mothafucks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1122"" Profanity=""motherf**ked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1123"" Profanity=""Motherf**ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1124"" Profanity=""Motherf**kers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1125"" Profanity=""Motherfuccer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1126"" Profanity=""Motherfuccers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1127"" Profanity=""Motherfuck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1128"" Profanity=""motherfucked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1129"" Profanity=""Motherfucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1130"" Profanity=""Motherfuckers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1131"" Profanity=""Motherfucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1132"" Profanity=""Motherfucks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1133"" Profanity=""motherfukkker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1134"" Profanity=""mthaf**ka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1135"" Profanity=""mthafucca"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1136"" Profanity=""mthafuccas"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1137"" Profanity=""mthafucka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1138"" Profanity=""mthafuckas"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1139"" Profanity=""mthafukca"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1140"" Profanity=""mthafukcas"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1141"" Profanity=""muth@fucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1142"" Profanity=""muthaf**k"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1143"" Profanity=""muthaf**ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1144"" Profanity=""muthaf**kers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1145"" Profanity=""muthaf**king"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1146"" Profanity=""muthaf**ks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1147"" Profanity=""muthafuccer"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1148"" Profanity=""muthafuck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1149"" Profanity=""muthafuck@"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4057"" Profanity=""Muthafucka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1150"" Profanity=""muthafucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1151"" Profanity=""muthafuckers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1152"" Profanity=""muthafucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1153"" Profanity=""muthafucks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1895"" Profanity=""Muthafuka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1894"" Profanity=""Muthafukas"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2441"" Profanity=""n0b"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1995"" Profanity=""N1gger"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1996"" Profanity=""N1ggers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1154"" Profanity=""nigga"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1155"" Profanity=""niggaz"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1156"" Profanity=""Nigger"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1157"" Profanity=""niggers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2440"" Profanity=""nob"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2198"" Profanity=""nob&amp;nbsp;head"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2197"" Profanity=""Nobhead"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1675"" Profanity=""p**i"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1672"" Profanity=""p*ki"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1673"" Profanity=""p@ki"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1674"" Profanity=""pak1"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1158"" Profanity=""paki"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2389"" Profanity=""phelching"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1891"" Profanity=""Phuck"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1893"" Profanity=""Phucker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2377"" Profanity=""phuckin"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1892"" Profanity=""Phucking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1988"" Profanity=""Phucks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1206"" Profanity=""piss"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4172"" Profanity=""Poo stabber"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4174"" Profanity=""Poo stabbers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1901"" Profanity=""Prik"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1159"" Profanity=""raghead"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1160"" Profanity=""ragheads"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1213"" Profanity=""retard"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2195"" Profanity=""S1ut"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2201"" Profanity=""Scat"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1218"" Profanity=""shag"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1219"" Profanity=""shat"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1220"" Profanity=""shit"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4173"" Profanity=""Shit stabber"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4175"" Profanity=""Shit stabbers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1221"" Profanity=""shite"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1222"" Profanity=""slag"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1162"" Profanity=""spic"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2064"" Profanity=""Sylvestor"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1999"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2000"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t&amp;nbsp;s"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2468"" Profanity=""t0$$er"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1779"" Profanity=""t0ssers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1780"" Profanity=""to55ers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1163"" Profanity=""tosser"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1781"" Profanity=""tossers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4137"" Profanity=""towel head"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4138"" Profanity=""towelhead"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1224"" Profanity=""turd"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2193"" Profanity=""tw&amp;nbsp;at"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1164"" Profanity=""tw@t"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1990"" Profanity=""tw@ts"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1165"" Profanity=""twat"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1726"" Profanity=""twats"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1899"" Profanity=""Twunt"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1930"" Profanity=""twunts"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2672"" Profanity=""w anker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1637"" Profanity=""w******"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1226"" Profanity=""w****r"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1166"" Profanity=""w@nker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1167"" Profanity=""w@nkers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1168"" Profanity=""w0g"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1169"" Profanity=""w0gs"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2673"" Profanity=""wa nker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4176"" Profanity=""Wan k er"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4177"" Profanity=""Wan k ers"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2674"" Profanity=""wan ker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1170"" Profanity=""wank"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1171"" Profanity=""wank's"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""4056"" Profanity=""Wanka"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2676"" Profanity=""wanke r"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1172"" Profanity=""wanked"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1173"" Profanity=""wanker"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1174"" Profanity=""wanking"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1175"" Profanity=""wanks"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1227"" Profanity=""whore"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1176"" Profanity=""wog"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1177"" Profanity=""wop"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""2196"" Profanity=""Xxxhole"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1534"" Profanity=""Y*d"" ModClassID=""5"" Refer=""0"" />
-    <P ProfanityID=""1178"" Profanity=""yid"" ModClassID=""5"" Refer=""0"" />
+    <P ProfanityID=""2204"" Profanity=""(ock"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1536"" Profanity=""A$$hole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1538"" Profanity=""A$$hole$"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1537"" Profanity=""A$$holes"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1581"" Profanity=""A+*hole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1575"" Profanity=""ar$ehole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1539"" Profanity=""Ar$hole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1540"" Profanity=""Ar$holes"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1710"" Profanity=""ar5h0l3"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1708"" Profanity=""ar5h0le"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1709"" Profanity=""ar5h0les"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2645"" Profanity=""ars3"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1179"" Profanity=""arse"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2644"" Profanity=""arse hole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""995"" Profanity=""arseh0le"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""996"" Profanity=""arseh0les"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""997"" Profanity=""arsehol"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""998"" Profanity=""arsehole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""999"" Profanity=""arseholes"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1000"" Profanity=""arsh0le"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1001"" Profanity=""arshole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1002"" Profanity=""arsholes"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1003"" Profanity=""ashole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2647"" Profanity=""ass h0le"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2646"" Profanity=""ass hole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1004"" Profanity=""assh0le"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1005"" Profanity=""assh0les"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1006"" Profanity=""asshole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1007"" Profanity=""assholes"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1008"" Profanity=""b0ll0cks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1545"" Profanity=""B0llocks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1183"" Profanity=""b1tch"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1184"" Profanity=""bastard"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2192"" Profanity=""batty&amp;nbsp;boi"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2191"" Profanity=""batty&amp;nbsp;boy"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4171"" Profanity=""Beef curtains"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1185"" Profanity=""bitch"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1546"" Profanity=""Boll0cks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1009"" Profanity=""bollocks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1010"" Profanity=""bollox"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1011"" Profanity=""bolocks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1012"" Profanity=""bolox"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1186"" Profanity=""bugger"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1013"" Profanity=""Bukkake"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1547"" Profanity=""Bullsh!t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1238"" Profanity=""Bullshit"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2643"" Profanity=""bum hole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2642"" Profanity=""bumh0l3"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2640"" Profanity=""bumh0le"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2641"" Profanity=""bumhol3"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2639"" Profanity=""bumhole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1485"" Profanity=""C&amp;nbsp;u&amp;nbsp;n&amp;nbsp;t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1014"" Profanity=""C**t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1015"" Profanity=""C**t's"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1016"" Profanity=""C**ts"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1017"" Profanity=""c.u.n.t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1018"" Profanity=""c00n"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1846"" Profanity=""C0cksucka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1847"" Profanity=""C0cksucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1728"" Profanity=""cnut"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1727"" Profanity=""cnuts"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2203"" Profanity=""Co(k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2186"" Profanity=""coc&amp;nbsp;k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1845"" Profanity=""Cocksucka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1844"" Profanity=""Cocksucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1897"" Profanity=""Cok"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1019"" Profanity=""coon"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1190"" Profanity=""crap"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1997"" Profanity=""cu&amp;nbsp;nt"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1998"" Profanity=""cu&amp;nbsp;nts"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1020"" Profanity=""Cunt"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1021"" Profanity=""Cunt's"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1022"" Profanity=""cunting"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1023"" Profanity=""Cunts"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2469"" Profanity=""D**khead"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1024"" Profanity=""darkie"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1025"" Profanity=""darky"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2557"" Profanity=""dick&amp;nbsp;head"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1026"" Profanity=""dickhead"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1027"" Profanity=""dumbfuck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1028"" Profanity=""dumbfucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2470"" Profanity=""Dxxkhead"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1645"" Profanity=""effing"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2893"" Profanity=""f u c k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2899"" Profanity=""f u c ked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1592"" Profanity=""f###"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1501"" Profanity=""f##k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1029"" Profanity=""F$cks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2543"" Profanity=""f&amp;nbsp;cked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1535"" Profanity=""f&amp;nbsp;u&amp;nbsp;c&amp;nbsp;k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2189"" Profanity=""f&amp;nbsp;uck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2553"" Profanity=""f&amp;nbsp;ucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2548"" Profanity=""f&amp;nbsp;ucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1591"" Profanity=""f***"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1543"" Profanity=""F*****"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1544"" Profanity=""F******"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1493"" Profanity=""f*****g"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1030"" Profanity=""f****d"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1031"" Profanity=""f***ed"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1032"" Profanity=""f***ing"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1033"" Profanity=""f**k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1034"" Profanity=""f**ked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1035"" Profanity=""f**ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1036"" Profanity=""f**kin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1037"" Profanity=""f**king"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1038"" Profanity=""f**ks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1039"" Profanity=""f*ck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1040"" Profanity=""f*ked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1041"" Profanity=""f*ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1042"" Profanity=""f*ks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1043"" Profanity=""f*uck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1541"" Profanity=""F*uk"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1044"" Profanity=""f.u.c.k."" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1896"" Profanity=""f@ck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2890"" Profanity=""f00k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2361"" Profanity=""Fack"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2369"" Profanity=""Fackin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2380"" Profanity=""facking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1194"" Profanity=""fagg0t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1195"" Profanity=""faggot"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1045"" Profanity=""fc*king"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2190"" Profanity=""fck&amp;nbsp;ing"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1839"" Profanity=""fckw1t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1838"" Profanity=""fckwit"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1046"" Profanity=""fcuk"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1047"" Profanity=""fcuked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1048"" Profanity=""fcuker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1049"" Profanity=""fcukin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1050"" Profanity=""fcuking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1051"" Profanity=""fcuks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2362"" Profanity=""feck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2371"" Profanity=""feckin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2381"" Profanity=""fecking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1052"" Profanity=""felch"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1053"" Profanity=""felched"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2194"" Profanity=""Felching"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1054"" Profanity=""feltch"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1055"" Profanity=""feltcher"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1056"" Profanity=""feltching"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2367"" Profanity=""fook"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2376"" Profanity=""fookin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2387"" Profanity=""fooking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2364"" Profanity=""frick"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2373"" Profanity=""frickin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2383"" Profanity=""fricking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2365"" Profanity=""frig"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2379"" Profanity=""friggin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2385"" Profanity=""frigging"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2374"" Profanity=""frigin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2384"" Profanity=""friging"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2187"" Profanity=""fu&amp;nbsp;ck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2544"" Profanity=""fu&amp;nbsp;cked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2554"" Profanity=""fu&amp;nbsp;cker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2549"" Profanity=""fu&amp;nbsp;cking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2439"" Profanity=""fu(k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1057"" Profanity=""fu*k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1849"" Profanity=""fu@k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1850"" Profanity=""fu@ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1058"" Profanity=""fuc"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2545"" Profanity=""fuc&amp;nbsp;ked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2555"" Profanity=""fuc&amp;nbsp;ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2550"" Profanity=""fuc&amp;nbsp;king"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1059"" Profanity=""fuck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2895"" Profanity=""Fùck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1060"" Profanity=""fúck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2889"" Profanity=""Fúçk"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2894"" Profanity=""Fûck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2896"" Profanity=""Fück"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2546"" Profanity=""fuck&amp;nbsp;ed"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2551"" Profanity=""fuck&amp;nbsp;ing"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1835"" Profanity=""fuck-wit"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2547"" Profanity=""fucke&amp;nbsp;d"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1061"" Profanity=""fucked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1062"" Profanity=""fucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1569"" Profanity=""fuckers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2552"" Profanity=""fucki&amp;nbsp;ng"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1063"" Profanity=""fuckin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1064"" Profanity=""fucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1065"" Profanity=""fúcking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1066"" Profanity=""fuckk"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1067"" Profanity=""fucks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2202"" Profanity=""Fuckup"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1837"" Profanity=""fuckw1t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1833"" Profanity=""fuckwit"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1841"" Profanity=""fucw1t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1840"" Profanity=""fucwit"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2957"" Profanity=""fudge packer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2955"" Profanity=""fudgepacker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1068"" Profanity=""fuk"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1069"" Profanity=""fukced"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1070"" Profanity=""fuked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1071"" Profanity=""fuker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1072"" Profanity=""fukin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1073"" Profanity=""fuking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2366"" Profanity=""fukk"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1074"" Profanity=""fukked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1075"" Profanity=""fukker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1076"" Profanity=""fukkin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2386"" Profanity=""fukking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1077"" Profanity=""fuks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2001"" Profanity=""Fvck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1848"" Profanity=""Fvck-up"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1851"" Profanity=""Fvckup"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1836"" Profanity=""fvckw1t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1834"" Profanity=""fvckwit"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1197"" Profanity=""gimp"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1992"" Profanity=""Gypo"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1993"" Profanity=""Gypos"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1991"" Profanity=""Gyppo"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1994"" Profanity=""Gyppos"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1198"" Profanity=""h0m0"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1199"" Profanity=""h0mo"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1200"" Profanity=""homo"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1078"" Profanity=""K**t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1983"" Profanity=""k@ffir"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1984"" Profanity=""k@ffirs"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1982"" Profanity=""k@fir"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1985"" Profanity=""k@firs"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1986"" Profanity=""Kaf1r"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1987"" Profanity=""Kaff1r"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1979"" Profanity=""Kaffir"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1981"" Profanity=""Kaffirs"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1978"" Profanity=""Kafir"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1980"" Profanity=""Kafirs"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1898"" Profanity=""Khunt"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1079"" Profanity=""kike"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2199"" Profanity=""knob&amp;nbsp;head"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2200"" Profanity=""Knobber"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1080"" Profanity=""Kunt"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1081"" Profanity=""kyke"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2704"" Profanity=""L m f a o"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2706"" Profanity=""L.m.f.a.o"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2705"" Profanity=""L.m.f.a.o."" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2703"" Profanity=""Lmfa0"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2702"" Profanity=""Lmfao"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1082"" Profanity=""mof**ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1083"" Profanity=""mof**kers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1084"" Profanity=""mofuccer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1085"" Profanity=""mofucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1086"" Profanity=""mofuckers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1087"" Profanity=""mofucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1088"" Profanity=""mofukcer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1089"" Profanity=""mohterf**ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1090"" Profanity=""mohterf**kers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1091"" Profanity=""mohterf*kcer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1092"" Profanity=""mohterfuccer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1093"" Profanity=""mohterfuccers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1094"" Profanity=""mohterfuck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1095"" Profanity=""mohterfucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1096"" Profanity=""mohterfuckers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1097"" Profanity=""mohterfucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1098"" Profanity=""mohterfucks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1099"" Profanity=""mohterfuk"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1100"" Profanity=""mohterfukcer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1101"" Profanity=""mohterfukcers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1102"" Profanity=""mohterfuking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1103"" Profanity=""mohterfuks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1104"" Profanity=""moterf**ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1105"" Profanity=""moterfuccer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1106"" Profanity=""moterfuck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1107"" Profanity=""moterfucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1108"" Profanity=""moterfuckers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1109"" Profanity=""moterfucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1110"" Profanity=""moterfucks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1843"" Profanity=""motha-fucka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1111"" Profanity=""mothaf**k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1112"" Profanity=""mothaf**ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1113"" Profanity=""mothaf**kers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1114"" Profanity=""mothaf**king"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1115"" Profanity=""mothaf**ks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1116"" Profanity=""mothafuccer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1117"" Profanity=""mothafuck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1842"" Profanity=""Mothafucka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1118"" Profanity=""mothafucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1119"" Profanity=""mothafuckers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1120"" Profanity=""mothafucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1121"" Profanity=""mothafucks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1122"" Profanity=""motherf**ked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1123"" Profanity=""Motherf**ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1124"" Profanity=""Motherf**kers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1125"" Profanity=""Motherfuccer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1126"" Profanity=""Motherfuccers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1127"" Profanity=""Motherfuck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1128"" Profanity=""motherfucked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1129"" Profanity=""Motherfucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1130"" Profanity=""Motherfuckers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1131"" Profanity=""Motherfucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1132"" Profanity=""Motherfucks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1133"" Profanity=""motherfukkker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1134"" Profanity=""mthaf**ka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1135"" Profanity=""mthafucca"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1136"" Profanity=""mthafuccas"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1137"" Profanity=""mthafucka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1138"" Profanity=""mthafuckas"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1139"" Profanity=""mthafukca"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1140"" Profanity=""mthafukcas"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1141"" Profanity=""muth@fucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1142"" Profanity=""muthaf**k"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1143"" Profanity=""muthaf**ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1144"" Profanity=""muthaf**kers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1145"" Profanity=""muthaf**king"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1146"" Profanity=""muthaf**ks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1147"" Profanity=""muthafuccer"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1148"" Profanity=""muthafuck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1149"" Profanity=""muthafuck@"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4057"" Profanity=""Muthafucka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1150"" Profanity=""muthafucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1151"" Profanity=""muthafuckers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1152"" Profanity=""muthafucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1153"" Profanity=""muthafucks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1895"" Profanity=""Muthafuka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1894"" Profanity=""Muthafukas"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2441"" Profanity=""n0b"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1995"" Profanity=""N1gger"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1996"" Profanity=""N1ggers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1154"" Profanity=""nigga"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1155"" Profanity=""niggaz"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1156"" Profanity=""Nigger"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1157"" Profanity=""niggers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2440"" Profanity=""nob"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2198"" Profanity=""nob&amp;nbsp;head"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2197"" Profanity=""Nobhead"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1675"" Profanity=""p**i"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1672"" Profanity=""p*ki"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1673"" Profanity=""p@ki"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1674"" Profanity=""pak1"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1158"" Profanity=""paki"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2389"" Profanity=""phelching"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1891"" Profanity=""Phuck"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1893"" Profanity=""Phucker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2377"" Profanity=""phuckin"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1892"" Profanity=""Phucking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1988"" Profanity=""Phucks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1206"" Profanity=""piss"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4172"" Profanity=""Poo stabber"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4174"" Profanity=""Poo stabbers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1901"" Profanity=""Prik"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1159"" Profanity=""raghead"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1160"" Profanity=""ragheads"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1213"" Profanity=""retard"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2195"" Profanity=""S1ut"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2201"" Profanity=""Scat"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1218"" Profanity=""shag"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1219"" Profanity=""shat"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1220"" Profanity=""shit"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4173"" Profanity=""Shit stabber"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4175"" Profanity=""Shit stabbers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1221"" Profanity=""shite"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1222"" Profanity=""slag"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1162"" Profanity=""spic"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2064"" Profanity=""Sylvestor"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1999"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2000"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t&amp;nbsp;s"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2468"" Profanity=""t0$$er"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1779"" Profanity=""t0ssers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1780"" Profanity=""to55ers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1163"" Profanity=""tosser"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1781"" Profanity=""tossers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4137"" Profanity=""towel head"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4138"" Profanity=""towelhead"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1224"" Profanity=""turd"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2193"" Profanity=""tw&amp;nbsp;at"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1164"" Profanity=""tw@t"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1990"" Profanity=""tw@ts"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1165"" Profanity=""twat"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1726"" Profanity=""twats"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1899"" Profanity=""Twunt"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1930"" Profanity=""twunts"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2672"" Profanity=""w anker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1637"" Profanity=""w******"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1226"" Profanity=""w****r"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1166"" Profanity=""w@nker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1167"" Profanity=""w@nkers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1168"" Profanity=""w0g"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1169"" Profanity=""w0gs"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2673"" Profanity=""wa nker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4176"" Profanity=""Wan k er"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4177"" Profanity=""Wan k ers"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2674"" Profanity=""wan ker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1170"" Profanity=""wank"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1171"" Profanity=""wank's"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4056"" Profanity=""Wanka"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2676"" Profanity=""wanke r"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1172"" Profanity=""wanked"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1173"" Profanity=""wanker"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1174"" Profanity=""wanking"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1175"" Profanity=""wanks"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1227"" Profanity=""whore"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1176"" Profanity=""wog"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1177"" Profanity=""wop"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2196"" Profanity=""Xxxhole"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1534"" Profanity=""Y*d"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1178"" Profanity=""yid"" ModClassID=""5"" Refer=""0"" ForumID=""1"" />
     <P ProfanityID=""1180"" Profanity=""b******"" ModClassID=""5"" Refer=""1"" />
     <P ProfanityID=""1181"" Profanity=""b*****d"" ModClassID=""5"" Refer=""1"" />
     <P ProfanityID=""1182"" Profanity=""b****r"" ModClassID=""5"" Refer=""1"" />
@@ -2097,386 +2177,386 @@ namespace BBC.Dna.Moderation.Utils.Tests
     <P ProfanityID=""1223"" Profanity=""spastic"" ModClassID=""5"" Refer=""1"" />
     <P ProfanityID=""4119"" Profanity=""spliff"" ModClassID=""5"" Refer=""1"" />
     <P ProfanityID=""1225"" Profanity=""w*****"" ModClassID=""5"" Refer=""1"" />
-    <P ProfanityID=""2181"" Profanity=""(ock"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1550"" Profanity=""A$$hole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1552"" Profanity=""A$$hole$"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1551"" Profanity=""A$$holes"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1585"" Profanity=""A+*hole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1577"" Profanity=""ar$ehole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1553"" Profanity=""Ar$hole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1554"" Profanity=""Ar$holes"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1713"" Profanity=""ar5h0l3"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1711"" Profanity=""ar5h0le"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1712"" Profanity=""ar5h0les"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2654"" Profanity=""ars3"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2653"" Profanity=""arse hole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1247"" Profanity=""arseh0le"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1248"" Profanity=""arseh0les"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1249"" Profanity=""arsehol"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1250"" Profanity=""arsehole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1251"" Profanity=""arseholes"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""3488"" Profanity=""arsewipe"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1252"" Profanity=""arsh0le"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1253"" Profanity=""arshole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1254"" Profanity=""arsholes"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1255"" Profanity=""ashole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2656"" Profanity=""ass h0le"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2655"" Profanity=""ass hole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1256"" Profanity=""assh0le"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1257"" Profanity=""assh0les"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1258"" Profanity=""asshole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1259"" Profanity=""assholes"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1260"" Profanity=""b0ll0cks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1559"" Profanity=""B0llocks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2169"" Profanity=""batty&amp;nbsp;boi"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2168"" Profanity=""batty&amp;nbsp;boy"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4183"" Profanity=""Beef curtains"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1560"" Profanity=""Boll0cks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1261"" Profanity=""bollocks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1262"" Profanity=""bollox"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1263"" Profanity=""bolocks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1264"" Profanity=""bolox"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1265"" Profanity=""Bukkake"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1561"" Profanity=""Bullsh!t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2652"" Profanity=""bum hole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2651"" Profanity=""bumh0l3"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2649"" Profanity=""bumh0le"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2650"" Profanity=""bumhol3"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2648"" Profanity=""bumhole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1487"" Profanity=""C&amp;nbsp;u&amp;nbsp;n&amp;nbsp;t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1266"" Profanity=""C**t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1267"" Profanity=""C**t's"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1268"" Profanity=""C**ts"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1269"" Profanity=""c.u.n.t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1270"" Profanity=""c00n"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1865"" Profanity=""C0cksucka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1866"" Profanity=""C0cksucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2068"" Profanity=""Clohosy"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1724"" Profanity=""cnut"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1723"" Profanity=""cnuts"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2180"" Profanity=""Co(k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2163"" Profanity=""coc&amp;nbsp;k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1864"" Profanity=""Cocksucka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1863"" Profanity=""Cocksucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1908"" Profanity=""Cok"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1271"" Profanity=""coon"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1951"" Profanity=""cu&amp;nbsp;nt"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1952"" Profanity=""cu&amp;nbsp;nts"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1272"" Profanity=""Cunt"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1273"" Profanity=""Cunt's"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1274"" Profanity=""cunting"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1275"" Profanity=""Cunts"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2477"" Profanity=""D**khead"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1276"" Profanity=""darkie"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1277"" Profanity=""darky"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2523"" Profanity=""dick&amp;nbsp;head"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1278"" Profanity=""dickhead"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1279"" Profanity=""dumbfuck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1280"" Profanity=""dumbfucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2478"" Profanity=""Dxxkhead"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1647"" Profanity=""effing"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4082"" Profanity=""excoboard.com/exco/index.php?boardid=19215"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2792"" Profanity=""F o a d"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2885"" Profanity=""f u c k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2897"" Profanity=""f u c ked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1594"" Profanity=""f###"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1503"" Profanity=""f##k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1281"" Profanity=""F$cks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2509"" Profanity=""f&amp;nbsp;cked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1549"" Profanity=""f&amp;nbsp;u&amp;nbsp;c&amp;nbsp;k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2166"" Profanity=""f&amp;nbsp;uck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2519"" Profanity=""f&amp;nbsp;ucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2514"" Profanity=""f&amp;nbsp;ucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1593"" Profanity=""f***"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1557"" Profanity=""F*****"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1558"" Profanity=""F******"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1495"" Profanity=""f*****g"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1282"" Profanity=""f****d"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1283"" Profanity=""f***ed"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1284"" Profanity=""f***ing"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1285"" Profanity=""f**k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1286"" Profanity=""f**ked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1287"" Profanity=""f**ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1288"" Profanity=""f**kin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1289"" Profanity=""f**king"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1290"" Profanity=""f**ks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1291"" Profanity=""f*ck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1292"" Profanity=""f*ked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1293"" Profanity=""f*ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1294"" Profanity=""f*ks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1295"" Profanity=""f*uck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1555"" Profanity=""F*uk"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2791"" Profanity=""F-o-a-d"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2789"" Profanity=""F.O.A.D"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2790"" Profanity=""F.O.A.D."" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1296"" Profanity=""f.u.c.k."" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1907"" Profanity=""f@ck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2882"" Profanity=""f00k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2392"" Profanity=""Fack"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2400"" Profanity=""Fackin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2411"" Profanity=""facking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1297"" Profanity=""fc*king"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4074"" Profanity=""fck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2167"" Profanity=""fck&amp;nbsp;ing"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4075"" Profanity=""fcks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1858"" Profanity=""fckw1t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1857"" Profanity=""fckwit"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1298"" Profanity=""fcuk"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1299"" Profanity=""fcuked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1300"" Profanity=""fcuker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1301"" Profanity=""fcukin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1302"" Profanity=""fcuking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1303"" Profanity=""fcuks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2393"" Profanity=""feck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2402"" Profanity=""feckin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2412"" Profanity=""fecking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1304"" Profanity=""felch"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1305"" Profanity=""felched"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2171"" Profanity=""Felching"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1306"" Profanity=""feltch"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1307"" Profanity=""feltcher"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1308"" Profanity=""feltching"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2788"" Profanity=""FOAD"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2398"" Profanity=""fook"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2407"" Profanity=""fookin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2418"" Profanity=""fooking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2395"" Profanity=""frick"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2404"" Profanity=""frickin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2414"" Profanity=""fricking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2396"" Profanity=""frig"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2410"" Profanity=""friggin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2416"" Profanity=""frigging"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2405"" Profanity=""frigin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2415"" Profanity=""friging"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2164"" Profanity=""fu&amp;nbsp;ck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2510"" Profanity=""fu&amp;nbsp;cked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2520"" Profanity=""fu&amp;nbsp;cker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2515"" Profanity=""fu&amp;nbsp;cking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2442"" Profanity=""fu(k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1309"" Profanity=""fu*k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1868"" Profanity=""fu@k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1869"" Profanity=""fu@ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1310"" Profanity=""fuc"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2511"" Profanity=""fuc&amp;nbsp;ked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2521"" Profanity=""fuc&amp;nbsp;ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2516"" Profanity=""fuc&amp;nbsp;king"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1311"" Profanity=""fuck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2887"" Profanity=""Fùck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1312"" Profanity=""fúck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2881"" Profanity=""Fúçk"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2886"" Profanity=""Fûck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2888"" Profanity=""Fück"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2512"" Profanity=""fuck&amp;nbsp;ed"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2517"" Profanity=""fuck&amp;nbsp;ing"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1854"" Profanity=""fuck-wit"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2513"" Profanity=""fucke&amp;nbsp;d"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1313"" Profanity=""fucked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1314"" Profanity=""fucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1562"" Profanity=""fuckers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2518"" Profanity=""fucki&amp;nbsp;ng"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1315"" Profanity=""fuckin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1316"" Profanity=""fucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1317"" Profanity=""fúcking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1318"" Profanity=""fuckk"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1319"" Profanity=""fucks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2179"" Profanity=""Fuckup"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1856"" Profanity=""fuckw1t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1852"" Profanity=""fuckwit"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1860"" Profanity=""fucw1t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1859"" Profanity=""fucwit"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2961"" Profanity=""fudge packer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2959"" Profanity=""fudgepacker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1320"" Profanity=""fuk"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1321"" Profanity=""fukced"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1322"" Profanity=""fuked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1323"" Profanity=""fuker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1324"" Profanity=""fukin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1325"" Profanity=""fuking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2397"" Profanity=""fukk"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1326"" Profanity=""fukked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1327"" Profanity=""fukker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1328"" Profanity=""fukkin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2417"" Profanity=""fukking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1329"" Profanity=""fuks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2005"" Profanity=""fvck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1867"" Profanity=""Fvck-up"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1870"" Profanity=""Fvckup"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1855"" Profanity=""fvckw1t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1853"" Profanity=""fvckwit"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1946"" Profanity=""Gypo"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1947"" Profanity=""Gypos"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1945"" Profanity=""Gyppo"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1948"" Profanity=""Gyppos"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4064"" Profanity=""http://excoboard.com/exco/index.php?boardid=19215"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1330"" Profanity=""K**t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1937"" Profanity=""k@ffir"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1938"" Profanity=""k@ffirs"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1936"" Profanity=""k@fir"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1939"" Profanity=""k@firs"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1940"" Profanity=""Kaf1r"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1941"" Profanity=""Kaff1r"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1933"" Profanity=""Kaffir"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1935"" Profanity=""Kaffirs"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1932"" Profanity=""Kafir"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1934"" Profanity=""Kafirs"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1909"" Profanity=""Khunt"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1331"" Profanity=""kike"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2176"" Profanity=""knob&amp;nbsp;head"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2177"" Profanity=""Knobber"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1332"" Profanity=""Kunt"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1333"" Profanity=""kyke"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2696"" Profanity=""L m f a o"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2699"" Profanity=""L.m.f.a.o"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2697"" Profanity=""L.m.f.a.o."" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2695"" Profanity=""Lmfa0"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2694"" Profanity=""Lmfao"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1334"" Profanity=""mof**ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1335"" Profanity=""mof**kers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1336"" Profanity=""mofuccer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1337"" Profanity=""mofucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1338"" Profanity=""mofuckers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1339"" Profanity=""mofucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1340"" Profanity=""mofukcer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1341"" Profanity=""mohterf**ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1342"" Profanity=""mohterf**kers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1343"" Profanity=""mohterf*kcer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1344"" Profanity=""mohterfuccer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1345"" Profanity=""mohterfuccers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1346"" Profanity=""mohterfuck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1347"" Profanity=""mohterfucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1348"" Profanity=""mohterfuckers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1349"" Profanity=""mohterfucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1350"" Profanity=""mohterfucks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1351"" Profanity=""mohterfuk"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1352"" Profanity=""mohterfukcer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1353"" Profanity=""mohterfukcers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1354"" Profanity=""mohterfuking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1355"" Profanity=""mohterfuks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1356"" Profanity=""moterf**ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1357"" Profanity=""moterfuccer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1358"" Profanity=""moterfuck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1359"" Profanity=""moterfucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1360"" Profanity=""moterfuckers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1361"" Profanity=""moterfucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1362"" Profanity=""moterfucks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1862"" Profanity=""motha-fucka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1363"" Profanity=""mothaf**k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1364"" Profanity=""mothaf**ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1365"" Profanity=""mothaf**kers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1366"" Profanity=""mothaf**king"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1367"" Profanity=""mothaf**ks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1368"" Profanity=""mothafuccer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1369"" Profanity=""mothafuck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1861"" Profanity=""Mothafucka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1370"" Profanity=""mothafucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1371"" Profanity=""mothafuckers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1372"" Profanity=""mothafucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1373"" Profanity=""mothafucks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1374"" Profanity=""motherf**ked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1375"" Profanity=""Motherf**ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1376"" Profanity=""Motherf**kers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1377"" Profanity=""Motherfuccer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1378"" Profanity=""Motherfuccers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1379"" Profanity=""Motherfuck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1380"" Profanity=""motherfucked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1381"" Profanity=""Motherfucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1382"" Profanity=""Motherfuckers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1383"" Profanity=""Motherfucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1384"" Profanity=""Motherfucks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1385"" Profanity=""motherfukkker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1386"" Profanity=""mthaf**ka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1387"" Profanity=""mthafucca"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1388"" Profanity=""mthafuccas"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1389"" Profanity=""mthafucka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1390"" Profanity=""mthafuckas"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1391"" Profanity=""mthafukca"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1392"" Profanity=""mthafukcas"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1393"" Profanity=""muth@fucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1394"" Profanity=""muthaf**k"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1395"" Profanity=""muthaf**ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1396"" Profanity=""muthaf**kers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1397"" Profanity=""muthaf**king"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1398"" Profanity=""muthaf**ks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1399"" Profanity=""muthafuccer"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1400"" Profanity=""muthafuck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1401"" Profanity=""muthafuck@"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4060"" Profanity=""Muthafucka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1402"" Profanity=""muthafucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1403"" Profanity=""muthafuckers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1404"" Profanity=""muthafucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1405"" Profanity=""muthafucks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1906"" Profanity=""Muthafuka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1905"" Profanity=""Muthafukas"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2444"" Profanity=""n0b"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1949"" Profanity=""N1gger"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1950"" Profanity=""N1ggers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1406"" Profanity=""nigga"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1407"" Profanity=""niggaz"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1408"" Profanity=""Nigger"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1409"" Profanity=""niggers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2443"" Profanity=""nob"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2175"" Profanity=""nob&amp;nbsp;head"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2174"" Profanity=""Nobhead"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1679"" Profanity=""p**i"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1676"" Profanity=""p*ki"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1677"" Profanity=""p@ki"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1678"" Profanity=""pak1"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1410"" Profanity=""paki"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2420"" Profanity=""phelching"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1902"" Profanity=""Phuck"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1904"" Profanity=""Phucker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2408"" Profanity=""phuckin"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1903"" Profanity=""Phucking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1942"" Profanity=""Phucks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4184"" Profanity=""Poo stabber"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4186"" Profanity=""Poo stabbers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1912"" Profanity=""Prik"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1411"" Profanity=""raghead"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1412"" Profanity=""ragheads"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2172"" Profanity=""S1ut"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4185"" Profanity=""Shit stabber"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4187"" Profanity=""Shit stabbers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1413"" Profanity=""slut"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1414"" Profanity=""spic"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1953"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1954"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t&amp;nbsp;s"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2476"" Profanity=""t0$$er"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1776"" Profanity=""t0ssers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1777"" Profanity=""to55ers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1415"" Profanity=""tosser"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1778"" Profanity=""tossers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4139"" Profanity=""towel head"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4140"" Profanity=""towelhead"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2170"" Profanity=""tw&amp;nbsp;at"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1416"" Profanity=""tw@t"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1944"" Profanity=""tw@ts"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1417"" Profanity=""twat"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1722"" Profanity=""twats"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1910"" Profanity=""Twunt"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1928"" Profanity=""twunts"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2667"" Profanity=""w anker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1635"" Profanity=""w******"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1418"" Profanity=""w@nker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1419"" Profanity=""w@nkers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1420"" Profanity=""w0g"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1421"" Profanity=""w0gs"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2668"" Profanity=""wa nker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4188"" Profanity=""Wan k er"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4189"" Profanity=""Wan k ers"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2669"" Profanity=""wan ker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1422"" Profanity=""wank"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1423"" Profanity=""wank's"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""4059"" Profanity=""Wanka"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2671"" Profanity=""wanke r"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1424"" Profanity=""wanked"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1425"" Profanity=""wanker"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1426"" Profanity=""wanking"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1427"" Profanity=""wanks"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1428"" Profanity=""wog"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1429"" Profanity=""wop"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""2173"" Profanity=""Xxxhole"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1548"" Profanity=""Y*d"" ModClassID=""6"" Refer=""0"" />
-    <P ProfanityID=""1430"" Profanity=""yid"" ModClassID=""6"" Refer=""0"" />
+    <P ProfanityID=""2181"" Profanity=""(ock"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1550"" Profanity=""A$$hole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1552"" Profanity=""A$$hole$"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1551"" Profanity=""A$$holes"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1585"" Profanity=""A+*hole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1577"" Profanity=""ar$ehole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1553"" Profanity=""Ar$hole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1554"" Profanity=""Ar$holes"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1713"" Profanity=""ar5h0l3"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1711"" Profanity=""ar5h0le"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1712"" Profanity=""ar5h0les"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2654"" Profanity=""ars3"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2653"" Profanity=""arse hole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1247"" Profanity=""arseh0le"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1248"" Profanity=""arseh0les"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1249"" Profanity=""arsehol"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1250"" Profanity=""arsehole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1251"" Profanity=""arseholes"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""3488"" Profanity=""arsewipe"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1252"" Profanity=""arsh0le"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1253"" Profanity=""arshole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1254"" Profanity=""arsholes"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1255"" Profanity=""ashole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2656"" Profanity=""ass h0le"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2655"" Profanity=""ass hole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1256"" Profanity=""assh0le"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1257"" Profanity=""assh0les"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1258"" Profanity=""asshole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1259"" Profanity=""assholes"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1260"" Profanity=""b0ll0cks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1559"" Profanity=""B0llocks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2169"" Profanity=""batty&amp;nbsp;boi"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2168"" Profanity=""batty&amp;nbsp;boy"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4183"" Profanity=""Beef curtains"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1560"" Profanity=""Boll0cks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1261"" Profanity=""bollocks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1262"" Profanity=""bollox"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1263"" Profanity=""bolocks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1264"" Profanity=""bolox"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1265"" Profanity=""Bukkake"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1561"" Profanity=""Bullsh!t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2652"" Profanity=""bum hole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2651"" Profanity=""bumh0l3"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2649"" Profanity=""bumh0le"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2650"" Profanity=""bumhol3"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2648"" Profanity=""bumhole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1487"" Profanity=""C&amp;nbsp;u&amp;nbsp;n&amp;nbsp;t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1266"" Profanity=""C**t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1267"" Profanity=""C**t's"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1268"" Profanity=""C**ts"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1269"" Profanity=""c.u.n.t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1270"" Profanity=""c00n"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1865"" Profanity=""C0cksucka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1866"" Profanity=""C0cksucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2068"" Profanity=""Clohosy"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1724"" Profanity=""cnut"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1723"" Profanity=""cnuts"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2180"" Profanity=""Co(k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2163"" Profanity=""coc&amp;nbsp;k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1864"" Profanity=""Cocksucka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1863"" Profanity=""Cocksucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1908"" Profanity=""Cok"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1271"" Profanity=""coon"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1951"" Profanity=""cu&amp;nbsp;nt"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1952"" Profanity=""cu&amp;nbsp;nts"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1272"" Profanity=""Cunt"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1273"" Profanity=""Cunt's"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1274"" Profanity=""cunting"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1275"" Profanity=""Cunts"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2477"" Profanity=""D**khead"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1276"" Profanity=""darkie"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1277"" Profanity=""darky"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2523"" Profanity=""dick&amp;nbsp;head"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1278"" Profanity=""dickhead"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1279"" Profanity=""dumbfuck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1280"" Profanity=""dumbfucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2478"" Profanity=""Dxxkhead"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1647"" Profanity=""effing"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4082"" Profanity=""excoboard.com/exco/index.php?boardid=19215"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2792"" Profanity=""F o a d"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2885"" Profanity=""f u c k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2897"" Profanity=""f u c ked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1594"" Profanity=""f###"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1503"" Profanity=""f##k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1281"" Profanity=""F$cks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2509"" Profanity=""f&amp;nbsp;cked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1549"" Profanity=""f&amp;nbsp;u&amp;nbsp;c&amp;nbsp;k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2166"" Profanity=""f&amp;nbsp;uck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2519"" Profanity=""f&amp;nbsp;ucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2514"" Profanity=""f&amp;nbsp;ucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1593"" Profanity=""f***"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1557"" Profanity=""F*****"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1558"" Profanity=""F******"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1495"" Profanity=""f*****g"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1282"" Profanity=""f****d"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1283"" Profanity=""f***ed"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1284"" Profanity=""f***ing"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1285"" Profanity=""f**k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1286"" Profanity=""f**ked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1287"" Profanity=""f**ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1288"" Profanity=""f**kin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1289"" Profanity=""f**king"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1290"" Profanity=""f**ks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1291"" Profanity=""f*ck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1292"" Profanity=""f*ked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1293"" Profanity=""f*ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1294"" Profanity=""f*ks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1295"" Profanity=""f*uck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1555"" Profanity=""F*uk"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2791"" Profanity=""F-o-a-d"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2789"" Profanity=""F.O.A.D"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2790"" Profanity=""F.O.A.D."" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1296"" Profanity=""f.u.c.k."" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1907"" Profanity=""f@ck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2882"" Profanity=""f00k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2392"" Profanity=""Fack"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2400"" Profanity=""Fackin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2411"" Profanity=""facking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1297"" Profanity=""fc*king"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4074"" Profanity=""fck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2167"" Profanity=""fck&amp;nbsp;ing"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4075"" Profanity=""fcks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1858"" Profanity=""fckw1t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1857"" Profanity=""fckwit"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1298"" Profanity=""fcuk"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1299"" Profanity=""fcuked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1300"" Profanity=""fcuker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1301"" Profanity=""fcukin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1302"" Profanity=""fcuking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1303"" Profanity=""fcuks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2393"" Profanity=""feck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2402"" Profanity=""feckin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2412"" Profanity=""fecking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1304"" Profanity=""felch"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1305"" Profanity=""felched"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2171"" Profanity=""Felching"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1306"" Profanity=""feltch"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1307"" Profanity=""feltcher"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1308"" Profanity=""feltching"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2788"" Profanity=""FOAD"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2398"" Profanity=""fook"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2407"" Profanity=""fookin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2418"" Profanity=""fooking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2395"" Profanity=""frick"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2404"" Profanity=""frickin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2414"" Profanity=""fricking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2396"" Profanity=""frig"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2410"" Profanity=""friggin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2416"" Profanity=""frigging"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2405"" Profanity=""frigin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2415"" Profanity=""friging"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2164"" Profanity=""fu&amp;nbsp;ck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2510"" Profanity=""fu&amp;nbsp;cked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2520"" Profanity=""fu&amp;nbsp;cker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2515"" Profanity=""fu&amp;nbsp;cking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2442"" Profanity=""fu(k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1309"" Profanity=""fu*k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1868"" Profanity=""fu@k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1869"" Profanity=""fu@ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1310"" Profanity=""fuc"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2511"" Profanity=""fuc&amp;nbsp;ked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2521"" Profanity=""fuc&amp;nbsp;ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2516"" Profanity=""fuc&amp;nbsp;king"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1311"" Profanity=""fuck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2887"" Profanity=""Fùck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1312"" Profanity=""fúck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2881"" Profanity=""Fúçk"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2886"" Profanity=""Fûck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2888"" Profanity=""Fück"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2512"" Profanity=""fuck&amp;nbsp;ed"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2517"" Profanity=""fuck&amp;nbsp;ing"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1854"" Profanity=""fuck-wit"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2513"" Profanity=""fucke&amp;nbsp;d"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1313"" Profanity=""fucked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1314"" Profanity=""fucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1562"" Profanity=""fuckers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2518"" Profanity=""fucki&amp;nbsp;ng"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1315"" Profanity=""fuckin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1316"" Profanity=""fucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1317"" Profanity=""fúcking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1318"" Profanity=""fuckk"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1319"" Profanity=""fucks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2179"" Profanity=""Fuckup"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1856"" Profanity=""fuckw1t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1852"" Profanity=""fuckwit"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1860"" Profanity=""fucw1t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1859"" Profanity=""fucwit"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2961"" Profanity=""fudge packer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2959"" Profanity=""fudgepacker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1320"" Profanity=""fuk"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1321"" Profanity=""fukced"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1322"" Profanity=""fuked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1323"" Profanity=""fuker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1324"" Profanity=""fukin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1325"" Profanity=""fuking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2397"" Profanity=""fukk"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1326"" Profanity=""fukked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1327"" Profanity=""fukker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1328"" Profanity=""fukkin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2417"" Profanity=""fukking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1329"" Profanity=""fuks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2005"" Profanity=""fvck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1867"" Profanity=""Fvck-up"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1870"" Profanity=""Fvckup"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1855"" Profanity=""fvckw1t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1853"" Profanity=""fvckwit"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1946"" Profanity=""Gypo"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1947"" Profanity=""Gypos"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1945"" Profanity=""Gyppo"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1948"" Profanity=""Gyppos"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4064"" Profanity=""http://excoboard.com/exco/index.php?boardid=19215"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1330"" Profanity=""K**t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1937"" Profanity=""k@ffir"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1938"" Profanity=""k@ffirs"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1936"" Profanity=""k@fir"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1939"" Profanity=""k@firs"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1940"" Profanity=""Kaf1r"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1941"" Profanity=""Kaff1r"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1933"" Profanity=""Kaffir"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1935"" Profanity=""Kaffirs"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1932"" Profanity=""Kafir"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1934"" Profanity=""Kafirs"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1909"" Profanity=""Khunt"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1331"" Profanity=""kike"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2176"" Profanity=""knob&amp;nbsp;head"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2177"" Profanity=""Knobber"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1332"" Profanity=""Kunt"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1333"" Profanity=""kyke"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2696"" Profanity=""L m f a o"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2699"" Profanity=""L.m.f.a.o"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2697"" Profanity=""L.m.f.a.o."" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2695"" Profanity=""Lmfa0"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2694"" Profanity=""Lmfao"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1334"" Profanity=""mof**ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1335"" Profanity=""mof**kers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1336"" Profanity=""mofuccer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1337"" Profanity=""mofucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1338"" Profanity=""mofuckers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1339"" Profanity=""mofucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1340"" Profanity=""mofukcer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1341"" Profanity=""mohterf**ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1342"" Profanity=""mohterf**kers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1343"" Profanity=""mohterf*kcer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1344"" Profanity=""mohterfuccer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1345"" Profanity=""mohterfuccers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1346"" Profanity=""mohterfuck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1347"" Profanity=""mohterfucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1348"" Profanity=""mohterfuckers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1349"" Profanity=""mohterfucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1350"" Profanity=""mohterfucks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1351"" Profanity=""mohterfuk"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1352"" Profanity=""mohterfukcer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1353"" Profanity=""mohterfukcers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1354"" Profanity=""mohterfuking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1355"" Profanity=""mohterfuks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1356"" Profanity=""moterf**ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1357"" Profanity=""moterfuccer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1358"" Profanity=""moterfuck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1359"" Profanity=""moterfucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1360"" Profanity=""moterfuckers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1361"" Profanity=""moterfucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1362"" Profanity=""moterfucks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1862"" Profanity=""motha-fucka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1363"" Profanity=""mothaf**k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1364"" Profanity=""mothaf**ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1365"" Profanity=""mothaf**kers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1366"" Profanity=""mothaf**king"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1367"" Profanity=""mothaf**ks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1368"" Profanity=""mothafuccer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1369"" Profanity=""mothafuck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1861"" Profanity=""Mothafucka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1370"" Profanity=""mothafucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1371"" Profanity=""mothafuckers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1372"" Profanity=""mothafucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1373"" Profanity=""mothafucks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1374"" Profanity=""motherf**ked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1375"" Profanity=""Motherf**ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1376"" Profanity=""Motherf**kers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1377"" Profanity=""Motherfuccer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1378"" Profanity=""Motherfuccers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1379"" Profanity=""Motherfuck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1380"" Profanity=""motherfucked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1381"" Profanity=""Motherfucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1382"" Profanity=""Motherfuckers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1383"" Profanity=""Motherfucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1384"" Profanity=""Motherfucks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1385"" Profanity=""motherfukkker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1386"" Profanity=""mthaf**ka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1387"" Profanity=""mthafucca"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1388"" Profanity=""mthafuccas"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1389"" Profanity=""mthafucka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1390"" Profanity=""mthafuckas"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1391"" Profanity=""mthafukca"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1392"" Profanity=""mthafukcas"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1393"" Profanity=""muth@fucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1394"" Profanity=""muthaf**k"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1395"" Profanity=""muthaf**ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1396"" Profanity=""muthaf**kers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1397"" Profanity=""muthaf**king"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1398"" Profanity=""muthaf**ks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1399"" Profanity=""muthafuccer"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1400"" Profanity=""muthafuck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1401"" Profanity=""muthafuck@"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4060"" Profanity=""Muthafucka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1402"" Profanity=""muthafucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1403"" Profanity=""muthafuckers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1404"" Profanity=""muthafucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1405"" Profanity=""muthafucks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1906"" Profanity=""Muthafuka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1905"" Profanity=""Muthafukas"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2444"" Profanity=""n0b"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1949"" Profanity=""N1gger"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1950"" Profanity=""N1ggers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1406"" Profanity=""nigga"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1407"" Profanity=""niggaz"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1408"" Profanity=""Nigger"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1409"" Profanity=""niggers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2443"" Profanity=""nob"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2175"" Profanity=""nob&amp;nbsp;head"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2174"" Profanity=""Nobhead"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1679"" Profanity=""p**i"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1676"" Profanity=""p*ki"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1677"" Profanity=""p@ki"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1678"" Profanity=""pak1"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1410"" Profanity=""paki"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2420"" Profanity=""phelching"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1902"" Profanity=""Phuck"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1904"" Profanity=""Phucker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2408"" Profanity=""phuckin"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1903"" Profanity=""Phucking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1942"" Profanity=""Phucks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4184"" Profanity=""Poo stabber"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4186"" Profanity=""Poo stabbers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1912"" Profanity=""Prik"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1411"" Profanity=""raghead"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1412"" Profanity=""ragheads"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2172"" Profanity=""S1ut"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4185"" Profanity=""Shit stabber"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4187"" Profanity=""Shit stabbers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1413"" Profanity=""slut"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1414"" Profanity=""spic"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1953"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1954"" Profanity=""t&amp;nbsp;w&amp;nbsp;a&amp;nbsp;t&amp;nbsp;s"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2476"" Profanity=""t0$$er"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1776"" Profanity=""t0ssers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1777"" Profanity=""to55ers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1415"" Profanity=""tosser"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1778"" Profanity=""tossers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4139"" Profanity=""towel head"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4140"" Profanity=""towelhead"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2170"" Profanity=""tw&amp;nbsp;at"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1416"" Profanity=""tw@t"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1944"" Profanity=""tw@ts"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1417"" Profanity=""twat"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1722"" Profanity=""twats"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1910"" Profanity=""Twunt"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1928"" Profanity=""twunts"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2667"" Profanity=""w anker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1635"" Profanity=""w******"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1418"" Profanity=""w@nker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1419"" Profanity=""w@nkers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1420"" Profanity=""w0g"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1421"" Profanity=""w0gs"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2668"" Profanity=""wa nker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4188"" Profanity=""Wan k er"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4189"" Profanity=""Wan k ers"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2669"" Profanity=""wan ker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1422"" Profanity=""wank"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1423"" Profanity=""wank's"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4059"" Profanity=""Wanka"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2671"" Profanity=""wanke r"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1424"" Profanity=""wanked"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1425"" Profanity=""wanker"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1426"" Profanity=""wanking"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1427"" Profanity=""wanks"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1428"" Profanity=""wog"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1429"" Profanity=""wop"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""2173"" Profanity=""Xxxhole"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1548"" Profanity=""Y*d"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""1430"" Profanity=""yid"" ModClassID=""6"" Refer=""0"" ForumID=""1"" />
     <P ProfanityID=""1431"" Profanity=""arse"" ModClassID=""6"" Refer=""1"" />
     <P ProfanityID=""1432"" Profanity=""b******"" ModClassID=""6"" Refer=""1"" />
     <P ProfanityID=""1433"" Profanity=""b*****d"" ModClassID=""6"" Refer=""1"" />
@@ -2561,13 +2641,13 @@ namespace BBC.Dna.Moderation.Utils.Tests
     <P ProfanityID=""1476"" Profanity=""w*****"" ModClassID=""6"" Refer=""1"" />
     <P ProfanityID=""1477"" Profanity=""w****r"" ModClassID=""6"" Refer=""1"" />
     <P ProfanityID=""1478"" Profanity=""whore"" ModClassID=""6"" Refer=""1"" />
-    <P ProfanityID=""4195"" Profanity=""Beef curtains"" ModClassID=""7"" Refer=""0"" />
-    <P ProfanityID=""4196"" Profanity=""Poo stabber"" ModClassID=""7"" Refer=""0"" />
-    <P ProfanityID=""4198"" Profanity=""Poo stabbers"" ModClassID=""7"" Refer=""0"" />
-    <P ProfanityID=""4197"" Profanity=""Shit stabber"" ModClassID=""7"" Refer=""0"" />
-    <P ProfanityID=""4199"" Profanity=""Shit stabbers"" ModClassID=""7"" Refer=""0"" />
-    <P ProfanityID=""4200"" Profanity=""Wan k er"" ModClassID=""7"" Refer=""0"" />
-    <P ProfanityID=""4201"" Profanity=""Wan k ers"" ModClassID=""7"" Refer=""0"" />
+    <P ProfanityID=""4195"" Profanity=""Beef curtains"" ModClassID=""7"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4196"" Profanity=""Poo stabber"" ModClassID=""7"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4198"" Profanity=""Poo stabbers"" ModClassID=""7"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4197"" Profanity=""Shit stabber"" ModClassID=""7"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4199"" Profanity=""Shit stabbers"" ModClassID=""7"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4200"" Profanity=""Wan k er"" ModClassID=""7"" Refer=""0"" ForumID=""1"" />
+    <P ProfanityID=""4201"" Profanity=""Wan k ers"" ModClassID=""7"" Refer=""0"" ForumID=""1"" />
     <P ProfanityID=""2967"" Profanity=""(ock"" ModClassID=""7"" Refer=""1"" />
     <P ProfanityID=""2968"" Profanity=""A$$hole"" ModClassID=""7"" Refer=""1"" />
     <P ProfanityID=""2969"" Profanity=""A$$hole$"" ModClassID=""7"" Refer=""1"" />

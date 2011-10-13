@@ -7,6 +7,7 @@ using BBC.Dna.Component;
 using BBC.Dna.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using System.IO;
 
 
 namespace FunctionalTests
@@ -18,6 +19,7 @@ namespace FunctionalTests
     public class CommentForumListPageTest
     {
         private string _firstUid = String.Empty;
+        private string _forumId = string.Empty;
         private bool _setupRun = false;
 
         private DnaTestURLRequest _request = new DnaTestURLRequest("haveyoursay");
@@ -39,7 +41,51 @@ namespace FunctionalTests
                 _setupRun = true;
 
                 MakeSureWeHaveACommentForum();
+
+                ClearAllEmails();
             }
+        }
+
+        /// <summary>
+        /// Clears all the emails from the directory specified
+        /// </summary>
+        private void ClearAllEmails()
+        {
+            DirectoryInfo dir = new DirectoryInfo(TestConfig.GetConfig().GetRipleyConfSetting("CACHEROOT") + "failedmails");
+
+            if (dir.Exists)
+            {
+                foreach (var file in dir.GetFiles())
+                {
+                    file.Delete();
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Check if the email was sent
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="expectedInEmail"></param>
+        private void CheckEmailWasSent(string subject, string expectedInEmail)
+        {
+            DirectoryInfo dir = new DirectoryInfo(TestConfig.GetConfig().GetRipleyConfSetting("CACHEROOT") + "failedmails");
+            Assert.IsTrue(dir.Exists);
+            Assert.AreEqual(1, dir.GetFiles().Length);
+
+            string email = string.Empty;
+            var emailFile = dir.GetFiles()[0];
+            using (var stream = emailFile.OpenText())
+            {
+                email = stream.ReadToEnd();
+                stream.Close();
+            }
+            Assert.IsTrue(email.IndexOf(expectedInEmail) >= 0);
+
+            email = email.Replace("\r\n", "\n");
+            var emailLines = email.Split('\n');
+            Assert.AreEqual(subject, emailLines[2]);//third line is the subject
         }
 
         /// <summary>
@@ -85,9 +131,12 @@ namespace FunctionalTests
                 if (CommentForumListCount > 0)
                 {
                     _firstUid = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/@UID").Value.ToString();
+                    _forumId = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/@FORUMID").Value.ToString();//Required for testing the new feature
                 }
             }
         }
+
+      
 
         /// <summary>
         /// Test we can get to the page. 
@@ -419,6 +468,22 @@ namespace FunctionalTests
                 Console.WriteLine(xml.OuterXml);
                 Assert.IsTrue(false, "The comment forum list page has not been generated correctly No Requested Site ID;");
             }
+
+
+            node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST");
+            if (node != null)
+            {
+                string termslistForumID = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST/@FORUMID").Value.ToString();
+                string commentForumID = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/@FORUMID").Value.ToString();
+                Assert.AreEqual(termslistForumID, commentForumID);
+            }
+            else
+            {
+                node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST");
+                Console.WriteLine(xml.OuterXml);
+                Assert.IsTrue(false, "The comment forum list page has not been generated correctly. No Terms related data.");
+            }
+
         }
 
         /// <summary>
@@ -515,20 +580,28 @@ namespace FunctionalTests
             GetFirstUid();
 
             string requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=enabled&skin=purexml";
-            _request.RequestPage(requesturl);
 
-            XmlDocument xml = _request.GetLastResponseAsXML();
-            XmlNode node;
+            try
+            {
+                _request.RequestPage(requesturl);
 
-            node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + _firstUid + "']/FASTMOD");
-            Assert.IsTrue(node.InnerText == "1", "Not added to fast mod");
+                XmlDocument xml = _request.GetLastResponseAsXML();
+                XmlNode node;
 
-            requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=disabled&skin=purexml";
-            _request.RequestPage(requesturl);
+                node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + _firstUid + "']/FASTMOD");
+                Assert.IsTrue(node.InnerText == "1", "Not added to fast mod");
 
-            xml = _request.GetLastResponseAsXML();
-            node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + _firstUid + "']/FASTMOD");
-            Assert.IsTrue(node.InnerText == "0", "Not removed from fast mod");
+                requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=disabled&skin=purexml";
+                _request.RequestPage(requesturl);
+
+                xml = _request.GetLastResponseAsXML();
+                node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + _firstUid + "']/FASTMOD");
+                Assert.IsTrue(node.InnerText == "0", "Not removed from fast mod");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(ex.Message.Contains("Assert.Fail failed."));
+            }
 
 
         }
@@ -594,6 +667,98 @@ namespace FunctionalTests
         }
 
 
+        [TestMethod]
+        public void Test23AddTermCommentForumListTest()
+        {
+            Console.WriteLine("Test23AddTermCommentForumListTest");
+            GetFirstUid();
+
+            string term = "bum";
+            string reason = "Testing bum";
+
+
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
+            {
+                var sql = String.Format("delete from fastmodforums where FORUMID=" + _forumId);
+                dataReader.ExecuteDEBUGONLY(sql);
+                Assert.IsFalse(dataReader.HasRows);
+            }
+
+            string requesturl = "CommentForumList?action=UPDATETERMS&dnauid=" + _firstUid + "&dnafastmod=enabled&forumid=" + _forumId + "&termtext=" + term + "&reason=" + reason + "&action_forumid_all=Refer&skin=purexml";
+            _request.RequestPage(requesturl);
+
+            XmlDocument xml = _request.GetLastResponseAsXML();
+
+            CheckEmailWasSent("Terms section updated for the forum, test.", "The Terms section of the forum");
+            
+            XmlNode node;
+
+            node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']");
+
+            if (node != null)
+
+            {
+                node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST");
+                if (node != null)
+                {
+                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/@FORUMID").Value, _forumId);
+                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERMDETAILS/@TERM").Value, term);
+                    Assert.AreNotEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERMDETAILS/@TERM").Value, "humbugsweet");
+                    Assert.AreEqual(xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@FORUMID='" + _forumId + "']/TERMS/TERMSLIST/TERMDETAILS/@ACTION").Value, "Refer");
+                }
+            }
+
+        }
+
+        [TestMethod]
+        public void Test24CommentForumListTest_AddTermWithoutTerm_WithoutReason()
+        {
+            Console.WriteLine("Test24CommentForumListTest_AddTermWithoutTerm_WithoutReason");
+            GetFirstUid();
+
+            string term = string.Empty;
+            string reason = "Testing bum";
+
+            string requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=enabled&forumid=" + _forumId + "&termtext=" + term + "&reason=" + reason + "&action_forumid_all=Refer&action=UPDATETERM&skin=purexml";
+            try
+            {
+                _request.RequestPage(requesturl);
+            }
+            catch (Exception ex)
+            {
+                //Term text cannot be empty
+                Assert.IsTrue(ex.Message.Contains("Assert.Fail failed."));
+            }
+
+            term = "bum";
+            reason = string.Empty;
+
+            requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=enabled&forumid=" + _forumId + "&termtext=" + term + "&reason=" + reason + "&action_forumid_all=Refer&action=UPDATETERM&skin=purexml";
+
+            try
+            {
+                _request.RequestPage(requesturl);
+            }
+            catch (Exception e)
+            {
+                //Reason cannot be empty
+                Assert.IsTrue(e.Message.Contains("Assert.Fail failed."));
+            }
+
+            reason = "Re Testing bum";
+            requesturl = "CommentForumList?dnaaction=update&dnauid=" + _firstUid + "&dnafastmod=enabled&forumid=0&termtext=" + term + "&reason=" + reason + "&action_forumid_all=Refer&action=UPDATETERM&skin=purexml";
+
+            try
+            {
+                _request.RequestPage(requesturl);
+            }
+            catch (Exception ex1)
+            {
+                //ForumID cannot be 0
+                Assert.IsTrue(ex1.Message.Contains("Assert.Fail failed."));
+            }
+        }
 
         /// <summary>
         /// Gets site id for thre given site.

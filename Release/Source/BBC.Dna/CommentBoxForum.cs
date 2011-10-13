@@ -398,7 +398,14 @@ Possible values are 'reactive', 'postmod' and 'premod'";
 					{
 						string matchingProfanity;
                         List<Term> terms = null;
-                        ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, comment, out matchingProfanity, out terms);
+
+                        int forumId = 0;
+                        if (InputContext.DoesParamExist("forumid", "forumid"))
+                        {
+                            forumId = InputContext.GetParamIntOrZero("forumid", "forumid");
+                        }
+
+                        ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, comment, out matchingProfanity, out terms, forumId);
 						if (ProfanityFilter.FilterState.FailBlock == state)
 						{
 							noError = false;

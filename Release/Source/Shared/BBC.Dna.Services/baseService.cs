@@ -115,8 +115,22 @@ namespace BBC.Dna.Services
             prefix = QueryStringHelper.GetQueryParameterAsString("prefix", "");
             signOnType = QueryStringHelper.GetQueryParameterAsString("signOnType", "identity");
             summaryLength= QueryStringHelper.GetQueryParameterAsInt("summaryLength", 256);
-            string cookie = QueryStringHelper.GetCookieValueAsString("BBC-UID", Guid.Empty.ToString());
-            bbcUidCookie = UidCookieDecoder.Decode(cookie, ConfigurationManager.AppSettings["SecretKey"]);
+            if(!String.IsNullOrEmpty(QueryStringHelper.GetCookieValueAsString("BGUID", Guid.Empty.ToString())))
+            {//try for BGUID first
+                try
+                {
+                    bbcUidCookie = new Guid(QueryStringHelper.GetCookieValueAsString("BGUID", Guid.Empty.ToString()));
+                }
+                catch
+                {
+                    bbcUidCookie = Guid.Empty;
+                }
+            }
+            if(bbcUidCookie == Guid.Empty)
+            {
+                string cookie = QueryStringHelper.GetCookieValueAsString("BBC-UID", Guid.Empty.ToString());
+                bbcUidCookie = UidCookieDecoder.Decode(cookie, ConfigurationManager.AppSettings["SecretKey"]);
+            }
             _iPAddress = QueryStringHelper.GetQueryParameterAsString("clientIP", "");
             if (string.IsNullOrEmpty(_iPAddress))
             {

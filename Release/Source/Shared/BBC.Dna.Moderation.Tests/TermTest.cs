@@ -27,14 +27,14 @@ namespace BBC.Dna.Moderation.Tests
         public void TermConstructor_CorrectObject_ValidXml()
         {
             Term target = CreateTerm();
-            var expected = "<TERM xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" />";
+            var expected = "<TERMDETAILS xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\" FromModClass=\"false\" />";
             XmlDocument xml = Serializer.SerializeToXml(target);
-            Assert.AreEqual(expected, xml.SelectSingleNode("TERM").OuterXml);
+            Assert.AreEqual(expected, xml.SelectSingleNode("TERMDETAILS").OuterXml);
         }
 
-        public static Term CreateTerm()
+        public static TermDetails CreateTerm()
         {
-            return new Term() { Id = 0, Action = TermAction.ReEdit, Value = "term" };
+            return new TermDetails() { Id = 0, Action = TermAction.ReEdit, Value = "term" };
         }
 
         /// <summary>

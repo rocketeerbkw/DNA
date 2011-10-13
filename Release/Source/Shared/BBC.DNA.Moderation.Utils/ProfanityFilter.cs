@@ -1,4 +1,6 @@
+
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
@@ -12,15 +14,15 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Collections.Specialized;
 using BBC.DNA.Moderation.Utils;
 
-
+using BBC.Dna;
 namespace BBC.Dna.Moderation.Utils
 {
 
-	/// <summary>
-	/// General class for handling the profanity list and filtering user input
-	/// </summary>
-	public class ProfanityFilter : SignalBase<ProfanityCache>
-	{
+    /// <summary>
+    /// General class for handling the profanity list and filtering user input
+    /// </summary>
+    public class ProfanityFilter : SignalBase<ProfanityCache>
+    {
 
         private const string _signalKey = "recache-terms";
 
@@ -59,66 +61,77 @@ namespace BBC.Dna.Moderation.Utils
             SignalHelper.AddObject(typeof(ProfanityFilter), this);
         }
 
-	    /// <summary>
-	    /// Initialises the terms list
-	    /// </summary>
-	    /// <returns>Cachable object</returns>
+        /// <summary>
+        /// Initialises the terms list
+        /// </summary>
+        /// <returns>Cachable object</returns>
         private void InitialiseProfanities(params object[] args)
-	    {
+        {
             var profanityCache = new ProfanityCache();
 
             using (IDnaDataReader reader = _readerCreator.CreateDnaDataReader("getallprofanities"))
             {
                 reader.Execute();
-
-                while (reader.Read())
+                try
                 {
-                    KeyValuePair<int, string> profanity = new KeyValuePair<int, string>();
-
-                    int modClassID = reader.GetInt32("ModClassID");
-                    string Profanity = reader.GetStringNullAsEmpty("Profanity").ToLower();
-                    int Refer = reader.GetByte("Refer");
-
-                    int profanityId = reader.GetInt32("ProfanityID");
-
-                    
-                    /* Profanity cache is changed
-                    if (!profanityCache.ProfanityClasses.ContainsKey(modClassID))
+                    while (reader.Read())
                     {
-                        profanityCache.ProfanityClasses.Add(modClassID, new ProfanityPair());
-                    }
+                        int modClassID = reader.GetInt32("ModClassID");
+                        string Profanity = reader.GetStringNullAsEmpty("Profanity").ToLower();
+                        int Refer = reader.GetByte("Refer");
 
-                    if (Refer == 1)
-                    {
-                        profanityCache.ProfanityClasses[modClassID].ReferList.Add(Profanity);
-                        //ReferLists[modClassID].Add(Profanity);
-                    }
-                    else
-                    {
-                        profanityCache.ProfanityClasses[modClassID].ProfanityList.Add(Profanity);
-                        //ProfanityLists[modClassID].Add(Profanity);
-                    }
-                     * 
-                     * */
+                        int profanityId = reader.GetInt32("ProfanityID");
 
-                    if (false == profanityCache.ProfanityClasses.ContainsKey(modClassID))
-                    {
-                        profanityCache.ProfanityClasses.Add(modClassID, new ProfanityPair());
-                    }
+                        int forumID = reader.GetInt32("ForumID");
+                       
+                        if (false == profanityCache.ProfanityClasses.ModClassProfanities.ContainsKey(modClassID))
+                        {
+                            if (modClassID != 0)
+                            {
+                                profanityCache.ProfanityClasses.ModClassProfanities.Add(modClassID, new ProfanityPair());
+                            }
+                        }
 
-                    if (Refer == 1)
-                    {
-                        profanityCache.ProfanityClasses[modClassID].ReferList.Add(new KeyValuePair<int, string>(profanityId, Profanity));
-                    }
-                    else
-                    {
-                        profanityCache.ProfanityClasses[modClassID].ProfanityList.Add(new KeyValuePair<int, string>(profanityId, Profanity));
-                    }
+                        if (false == profanityCache.ProfanityClasses.ForumProfanities.ContainsKey(forumID))
+                        {
+                            if (forumID != 0)
+                            {
+                                profanityCache.ProfanityClasses.ForumProfanities.Add(forumID, new ProfanityPair());
+                            }
+                        }
 
+                        if (Refer == 1)
+                        {
+                            if (modClassID != 0)
+                            {
+                                profanityCache.ProfanityClasses.ModClassProfanities[modClassID].ReferList.Add(new KeyValuePair<int, string>(profanityId, Profanity));
+                            }
+                            if (forumID != 0)
+                            {
+                                profanityCache.ProfanityClasses.ForumProfanities[forumID].ReferList.Add(new KeyValuePair<int, string>(profanityId, Profanity));
+                            }
+                        }
+                        else
+                        {
+                            if (modClassID != 0)
+                            {
+                                profanityCache.ProfanityClasses.ModClassProfanities[modClassID].ProfanityList.Add(new KeyValuePair<int, string>(profanityId, Profanity));
+                            }
+                            if (forumID != 0)
+                            {
+                                profanityCache.ProfanityClasses.ForumProfanities[forumID].ProfanityList.Add(new KeyValuePair<int, string>(profanityId, Profanity));
+                            }
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
             }
             AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), profanityCache);
-	    }
+        }
 
         /// <summary>
         /// Delegate for handling a signal
@@ -138,15 +151,25 @@ namespace BBC.Dna.Moderation.Utils
         private NameValueCollection GetTermsStats()
         {
             var values = new NameValueCollection();
-
+            var modTermValues = new NameValueCollection();
+            var forumTermValues = new NameValueCollection();
 
             var _object = (ProfanityCache)GetObjectFromCache();
-            //foreach (var modclass in _object.ProfanityClasses) //Modified the profanity pair to include the profanityid also
-            foreach (var modclass in _object.ProfanityClasses)
+
+            //loop for mod class term values
+            foreach (var modclass in _object.ProfanityClasses.ModClassProfanities)
             {
                 values.Add("ModClassID_" + modclass.Key.ToString() + "_ProfanityList", modclass.Value.ProfanityList.Count.ToString());
                 values.Add("ModClassID_" + modclass.Key.ToString() + "_ReferList", modclass.Value.ReferList.Count.ToString());
             }
+
+            //loop for forum term values
+            foreach (var forum in _object.ProfanityClasses.ForumProfanities)
+            {
+                values.Add("ForumID_" + forum.Key.ToString() + "_ProfanityList", forum.Value.ProfanityList.Count.ToString());
+                values.Add("ForumID_" + forum.Key.ToString() + "_ReferList", forum.Value.ReferList.Count.ToString());
+            }
+
             return values;
         }
 
@@ -163,72 +186,148 @@ namespace BBC.Dna.Moderation.Utils
             }
             return null;
         }
-       
-		/// <summary>
-		/// Check the given string for profanities according to our internal list
-		/// Can either Pass, FailBlock (meaning they have to resubmit) or FailRefer (which
-		/// puts the post into the moderation queue)
-		/// </summary>
-		/// <param name="modClassID">Which moderation class are we in</param>
-		/// <param name="textToCheck">String containing the text to check against the list</param>
-		/// <param name="matchingProfanity">Which profanity caused it to fail</param>
-		/// <returns>
-		/// <para>Pass: No profanities found</para>
-		/// <para>FailBlock: A profanity was found which means the user must resubmit</para>
-		/// <para>FailRefer: A profanity was found whic means the post is put in the moderation queue</para>
-		///</returns>
-		///<remarks>
-		/// We want this as a static function primarily to make it testable. This version is less likely to
-		/// be called than the above non-static version, which can get the current moderation class from the
-		/// input context.
-		///</remarks>
-		public static FilterState CheckForProfanities(int modClassID, string textToCheck, out string matchingProfanity, out List<Term> terms)
-		{
+
+        /// <summary>
+        /// Check the given string for profanities according to our internal list
+        /// Can either Pass, FailBlock (meaning they have to resubmit) or FailRefer (which
+        /// puts the post into the moderation queue)
+        /// </summary>
+        /// <param name="modClassID">Which moderation class are we in</param>
+        /// <param name="textToCheck">String containing the text to check against the list</param>
+        /// <param name="matchingProfanity">Which profanity caused it to fail</param>
+        /// <returns>
+        /// <para>Pass: No profanities found</para>
+        /// <para>FailBlock: A profanity was found which means the user must resubmit</para>
+        /// <para>FailRefer: A profanity was found whic means the post is put in the moderation queue</para>
+        ///</returns>
+        ///<remarks>
+        /// We want this as a static function primarily to make it testable. This version is less likely to
+        /// be called than the above non-static version, which can get the current moderation class from the
+        /// input context.
+        ///</remarks>
+        public static FilterState CheckForProfanities(int modClassID, string textToCheck, out string matchingProfanity, out List<Term> terms, int forumID)
+        {
             //Updated the profanity cache to add the profanityid also
-            //var _profanityClasses = ((ProfanityCache)ProfanityFilter.GetObject().GetObjectFromCache()).ProfanityClasses;
-
+            
             var _profanityClasses = ((ProfanityCache)ProfanityFilter.GetObject().GetObjectFromCache()).ProfanityClasses;
-			if (false == _profanityClasses.ContainsKey(modClassID))
-			{
-				matchingProfanity = string.Empty;
+            if (false == _profanityClasses.ModClassProfanities.ContainsKey(modClassID))
+            {
+                matchingProfanity = string.Empty;
                 terms = null;
-				return FilterState.Pass;
-			}
-			// Check the list of known profanities to see if we have any in the given text.
-			// First create a local version of the string to check and make it lowercase.
-			string lowerText = textToCheck.ToLower();   
+                return FilterState.Pass;
+            }
+            // Check the list of known profanities to see if we have any in the given text.
+            // First create a local version of the string to check and make it lowercase.
+            string lowerText = textToCheck.ToLower();
 
-			// Now get the profanity list from the cache and call the contains function
-			/*List<string> ProfanityList;
-			ProfanityList = _profanityClasses[modClassID].ProfanityList;
-			List<string> ReferList = _profanityClasses[modClassID].ReferList;
-
-			if (DoesTextContain( lowerText, ProfanityList, false, false, out matchingProfanity))
-			{
-				return FilterState.FailBlock;
-			}
-
-			if (DoesTextContain( lowerText, ReferList, false, false, out matchingProfanity))
-			{
-				return FilterState.FailRefer;
-			}
-             * */
+            
             // Now get the profanity list with the profanity id from the cache and call the contains function
-            List<KeyValuePair<int,string>> ProfanityList = _profanityClasses[modClassID].ProfanityList;
-            List<KeyValuePair<int,string>> ReferList = _profanityClasses[modClassID].ReferList;
 
-            if (DoesTextContain(lowerText, ProfanityList, false, false, out matchingProfanity, out terms))
+            var profanity = new TermClasses();
+
+            List<KeyValuePair<int, string>> ModClassProfanityList = new List<KeyValuePair<int, string>>();
+            List<KeyValuePair<int, string>> ModClassReferList = new List<KeyValuePair<int, string>>();
+            List<KeyValuePair<int, string>> ForumProfanityList = new List<KeyValuePair<int, string>>();
+            List<KeyValuePair<int, string>> ForumReferList = new List<KeyValuePair<int, string>>();
+
+            if (_profanityClasses.ModClassProfanities != null && _profanityClasses.ModClassProfanities.Count > 0
+                && (true == _profanityClasses.ModClassProfanities.ContainsKey(modClassID))
+                && _profanityClasses.ModClassProfanities[modClassID].ProfanityList != null
+                && _profanityClasses.ModClassProfanities[modClassID].ProfanityList.Count > 0)
+            {
+                ModClassProfanityList = _profanityClasses.ModClassProfanities[modClassID].ProfanityList;
+            }
+
+            if (_profanityClasses.ModClassProfanities != null && _profanityClasses.ModClassProfanities.Count > 0
+                && (true == _profanityClasses.ModClassProfanities.ContainsKey(modClassID))
+                && _profanityClasses.ModClassProfanities[modClassID].ReferList != null
+                && _profanityClasses.ModClassProfanities[modClassID].ReferList.Count > 0)
+            {
+                ModClassReferList = _profanityClasses.ModClassProfanities[modClassID].ReferList;
+            }
+
+            if (_profanityClasses.ForumProfanities != null && _profanityClasses.ForumProfanities.Count > 0
+                && (true == _profanityClasses.ForumProfanities.ContainsKey(forumID) )
+                && _profanityClasses.ForumProfanities[forumID].ProfanityList != null
+                && _profanityClasses.ForumProfanities[forumID].ProfanityList.Count > 0)
+            {
+                ForumProfanityList = _profanityClasses.ForumProfanities[forumID].ProfanityList;
+            }
+
+            if (_profanityClasses.ForumProfanities != null &&  _profanityClasses.ForumProfanities.Count > 0
+                && (true == _profanityClasses.ForumProfanities.ContainsKey(forumID))
+                && _profanityClasses.ForumProfanities[forumID].ReferList != null
+                && _profanityClasses.ForumProfanities[forumID].ReferList.Count > 0)
+            {
+                ForumReferList = _profanityClasses.ForumProfanities[forumID].ReferList;
+            }
+
+            if (true == DoesTextContain(lowerText, ModClassProfanityList, false, false, out matchingProfanity, out terms, modClassID, true))
+            {
+                return FilterState.FailBlock;
+            }
+            
+            if (true == DoesTextContain(lowerText, ForumProfanityList, false, false, out matchingProfanity, out terms, forumID, false))
             {
                 return FilterState.FailBlock;
             }
 
-            if (DoesTextContain(lowerText, ReferList, false, false, out matchingProfanity, out terms))
+
+            if (true == DoesTextContain(lowerText, ModClassReferList, false, false, out matchingProfanity, out terms, modClassID, true))
             {
+                List<Term> ReferTerms = new List<Term>();
+                Term referTerm;
+                foreach (Term term in terms)
+                {
+                    referTerm = new Term();
+                    referTerm.Action = term.Action;
+                    referTerm.ForumID = term.ForumID;
+                    referTerm.Id = term.Id;
+                    referTerm.ModClassID = term.ModClassID;
+                    referTerm.Value = term.Value;
+
+                    ReferTerms.Add(referTerm);
+                }
+                string strModClassProfanity = matchingProfanity;
+
+                // Remove the checked term
+                //if (terms != null && terms.Count > 0)
+                //{
+                //    foreach (Term term in terms)
+                //    {
+                //        if (true == lowerText.Contains(term.Value))
+                //        {
+                //            lowerText = lowerText.Replace(term.Value, "");
+                //        }
+                //    }
+                //}
+                terms.Clear();
+                matchingProfanity = string.Empty;
+
+                if (true == DoesTextContain(lowerText, ForumReferList, false, false, out matchingProfanity, out terms, forumID, false))
+                {
+                    ReferTerms.AddRange(terms.Where(x => !ReferTerms.Exists(z => z.Id == x.Id))); // Add the terms filtered by forum to the Terms filtered by Moderation Class
+                }
+
+                terms = ReferTerms;
+
+                if (true == matchingProfanity.Contains(strModClassProfanity))
+                {
+                    matchingProfanity = matchingProfanity.Replace(strModClassProfanity, "").Trim();
+                }
+                
+                matchingProfanity = strModClassProfanity + " " + matchingProfanity;
+                
+                matchingProfanity = matchingProfanity.Trim();
                 return FilterState.FailRefer;
             }
 
-			return FilterState.Pass;
-		}
+            if(true == DoesTextContain(lowerText, ForumReferList, false, false, out matchingProfanity, out terms, forumID, false))
+            {
+                return FilterState.FailRefer;
+            }
+            return FilterState.Pass;
+        }
 
         /// <summary>
         /// Function to Trim punctuation form start and end of word.
@@ -255,7 +354,7 @@ namespace BBC.Dna.Moderation.Utils
                     newWord = false;
                     noPunctuation.Append(c);
                 }
-                else if ( !newWord && !Char.IsControl(c) )
+                else if (!newWord && !Char.IsControl(c))
                 {
                     noPunctuation.Append(c);
                 }
@@ -263,7 +362,7 @@ namespace BBC.Dna.Moderation.Utils
 
             //Right Trim Punctuation
             newWord = true;
-            for (int i = noPunctuation.Length-1; i >= 0; --i)
+            for (int i = noPunctuation.Length - 1; i >= 0; --i)
             {
                 char c = noPunctuation[i];
                 if (Char.IsWhiteSpace(c))
@@ -274,7 +373,7 @@ namespace BBC.Dna.Moderation.Utils
                 {
                     newWord = false;
                 }
-                else if ( newWord || Char.IsControl(c) )
+                else if (newWord || Char.IsControl(c))
                 {
                     noPunctuation.Remove(i, 1);
                 }
@@ -291,50 +390,50 @@ namespace BBC.Dna.Moderation.Utils
         {
             //URL match expression taken from O'Reilly C# Cookbook 2nd Edition pg. 587
             Regex RE = new Regex(@"(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&%\$#\=~])*", RegexOptions.Compiled);
-            return RE.Replace(inputText, "");            
+            return RE.Replace(inputText, "");
         }
 
-		/// <summary>
-		/// Helper function to scan a string for a list of words and return the first one found
+        /// <summary>
+        /// Helper function to scan a string for a list of words and return the first one found
         /// If bAllowPrefixChars is false the word must be preceded by a non-alphanumeric character
         /// If bAllowSuffixChars is false the word must be followed by a non-alphanumeric character.
-		/// </summary>
-		/// <param name="textToCheck">Text to scan</param>
-		/// <param name="words">Delimited words to search for</param>
-		/// <param name="bAllowPrefixChars">True if we allow partial matches with leading characters</param>
-		/// <param name="bAllowSuffixChars">True if we allow partial matches with trailing characters</param>
-		/// <param name="matchingWord"></param>
-		/// <returns>true if a search word matched any of the text</returns>
-		/// <remarks>
-		/// <para>The Prefix chars flags indicate whether partial words are valid matches</para>
-		/// <para>bAllowPrefixChars will allow leading alphabetic characters to match</para>
-		/// <para>bAllowSuffixChars will allow trailing alphabetic characters to match</para>
-		/// <para>prefix = true, suffix = true, search word = 'fred', 'alfredo', 'alfred', 'fredo' and 'fred' will all match</para>
-		/// <para>prefix = true, suffix = false, searchword = 'fred', 'alfredo' and 'fredo' will not match, 'alfred' and 'fred' will match</para>
-		/// <para>prefix = false, suffix = true, searchword = 'fred', 'alfredo' and 'alfred' will fail, 'fred' and 'fredo' will match</para>
-		/// <para>prefix = false, suffix = false, searchword = 'fred', 'alfredo', 'alfred', 'fredo' will fail, 'fred' will match</para>
-		/// <para>Note that the prefix and suffix flags are not used by the profanity filter</para>
-		/// </remarks>
+        /// </summary>
+        /// <param name="textToCheck">Text to scan</param>
+        /// <param name="words">Delimited words to search for</param>
+        /// <param name="bAllowPrefixChars">True if we allow partial matches with leading characters</param>
+        /// <param name="bAllowSuffixChars">True if we allow partial matches with trailing characters</param>
+        /// <param name="matchingWord"></param>
+        /// <returns>true if a search word matched any of the text</returns>
+        /// <remarks>
+        /// <para>The Prefix chars flags indicate whether partial words are valid matches</para>
+        /// <para>bAllowPrefixChars will allow leading alphabetic characters to match</para>
+        /// <para>bAllowSuffixChars will allow trailing alphabetic characters to match</para>
+        /// <para>prefix = true, suffix = true, search word = 'fred', 'alfredo', 'alfred', 'fredo' and 'fred' will all match</para>
+        /// <para>prefix = true, suffix = false, searchword = 'fred', 'alfredo' and 'fredo' will not match, 'alfred' and 'fred' will match</para>
+        /// <para>prefix = false, suffix = true, searchword = 'fred', 'alfredo' and 'alfred' will fail, 'fred' and 'fredo' will match</para>
+        /// <para>prefix = false, suffix = false, searchword = 'fred', 'alfredo', 'alfred', 'fredo' will fail, 'fred' will match</para>
+        /// <para>Note that the prefix and suffix flags are not used by the profanity filter</para>
+        /// </remarks>
         public static bool DoesTextContain(string textToCheck, List<string> words,
-								 bool bAllowPrefixChars, bool bAllowSuffixChars,
-								 out string matchingWord)
-		{
+                                 bool bAllowPrefixChars, bool bAllowSuffixChars,
+                                 out string matchingWord)
+        {
             //links in the text are not tested for profanities so remove them.
             //textToCheck = RemoveLinksFromText(textToCheck);
 
-			// Go through the list of words.
-			int pSearch = -1;
-			int pCharBefore = -1;
-			int pCharAfter = -1;
-			matchingWord = string.Empty;
+            // Go through the list of words.
+            int pSearch = -1;
+            int pCharBefore = -1;
+            int pCharAfter = -1;
+            matchingWord = string.Empty;
             List<string> matchingWordList = new List<string>();
-			bool bMatch = false;
-			int whichword = 0;
-			string thisword = string.Empty;
+            bool bMatch = false;
+            int whichword = 0;
+            string thisword = string.Empty;
 
             try
             {
-                while (whichword < words.Count) 
+                while (whichword < words.Count)
                 {
                     thisword = words[whichword];
                     if (thisword.Length == 0)
@@ -389,7 +488,7 @@ namespace BBC.Dna.Moderation.Utils
                         }
                     }
 
-                  
+
                     // Checks for duplicates and adds the match to the list
                     if (bMatch)
                     {
@@ -411,16 +510,16 @@ namespace BBC.Dna.Moderation.Utils
                     matchingWord = matchingWord.Trim();
                     bMatch = true;
                 }
-                
+
             }
             finally
             {
                 matchingWordList.Clear();
                 matchingWordList = null;
             }
-			// Return the verdict!
-			return bMatch;
-		}
+            // Return the verdict!
+            return bMatch;
+        }
 
 
 
@@ -446,13 +545,13 @@ namespace BBC.Dna.Moderation.Utils
         /// <para>prefix = false, suffix = false, searchword = 'fred', 'alfredo', 'alfred', 'fredo' will fail, 'fred' will match</para>
         /// <para>Note that the prefix and suffix flags are not used by the profanity filter</para>
         /// </remarks>
-        public static bool DoesTextContain(string textToCheck, List<KeyValuePair<int,string>> words,
+        public static bool DoesTextContain(string textToCheck, List<KeyValuePair<int, string>> words,
                                  bool bAllowPrefixChars, bool bAllowSuffixChars,
-                                 out string matchingWord, out List<Term> terms)
+                                 out string matchingWord, out List<Term> terms, int modClassOrForumID, bool isByModClass)
         {
             //links in the text are not tested for profanities so remove them.
             //textToCheck = RemoveLinksFromText(textToCheck);
-            
+
             // Go through the list of words.
             int pSearch = -1;
             int pCharBefore = -1;
@@ -537,9 +636,43 @@ namespace BBC.Dna.Moderation.Utils
                         bMatch = false;
 
                         //Filling up the terms object and adding it to the terms list
+                        //term = new Term();
+                        //term.Id = termId;
+                        //term.Value = thisword;
+                        //if (true == isByModClass)
+                        //{
+                        //    term.ModClassID = modClassOrForumID;
+                        //}
+                        //else
+                        //{
+                        //    term.ForumID = modClassOrForumID;
+                        //}
+                        //if (false == terms.Contains(term))
+                        //{
+                        //    terms.Add(term);
+                        //}
+
+                        //Filling up the termfiltered object and adding it to the termfiletered list
                         term = new Term();
                         term.Id = termId;
                         term.Value = thisword;
+                        if (true == isByModClass)
+                        {
+                            //term.ModTerms.ModClassID = modClassOrForumID;
+                            //term.ModTerms.ModTermList.Add(new KeyValuePair<int, string>(termId, thisword));
+
+                            term.ModClassID = modClassOrForumID;
+                            term.ForumID = 0;
+                        }
+                        else
+                        {
+                            //term.ForumTerms.ForumID = modClassOrForumID;
+                            //term.ForumTerms.ForumTermList.Add(new KeyValuePair<int, string>(termId, thisword));
+
+                            term.ForumID = modClassOrForumID;
+                            term.ModClassID = 0;
+                        }
+
                         if (false == terms.Contains(term))
                         {
                             terms.Add(term);
@@ -586,5 +719,5 @@ namespace BBC.Dna.Moderation.Utils
             return (ProfanityCache)GetCachedObject();
         }
 
-	}
+    }
 }

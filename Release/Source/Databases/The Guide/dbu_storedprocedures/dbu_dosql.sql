@@ -1,4 +1,4 @@
-CREATE PROCEDURE dbu_dosql @uid nvarchar(256), @sql nvarchar(4000), @actiondescription nvarchar(255), @errornum int OUTPUT
+CREATE PROCEDURE dbu_dosql @uid nvarchar(256), @sql nvarchar(max), @actiondescription nvarchar(255), @errornum int OUTPUT
 AS
 IF @@TRANCOUNT = 0
 BEGIN

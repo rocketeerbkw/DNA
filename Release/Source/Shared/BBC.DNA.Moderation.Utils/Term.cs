@@ -36,6 +36,13 @@ namespace BBC.Dna.Moderation.Utils
             set { _value = CleanString(value); }
         }
 
+        /// <remarks/>
+        [XmlAttributeAttribute(AttributeName = "ModClassID")]
+        public int ModClassID { get; set; }
+
+        /// <remarks/>
+        [XmlAttributeAttribute(AttributeName = "ForumID")]
+        public int ForumID { get; set; }
 
         /// <summary>
         /// Calls the db and updates the term and action for a given modclassid
@@ -69,6 +76,37 @@ namespace BBC.Dna.Moderation.Utils
         }
 
         /// <summary>
+        /// Calls the db and updates the term and action for a given forumId
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="modClassId"></param>
+        /// <param name="historyId"></param>
+        public void UpdateTermForForumId(IDnaDataReaderCreator readerCreator, int forumId, int historyId)
+        {
+            if (string.IsNullOrEmpty(Value))
+            {//if empty then throw exception
+                throw new Exception("Term value cannot be empty.");
+            }
+            if (historyId == 0)
+            {//if empty then throw exception
+                throw new Exception("HistoryId cannot be 0.");
+            }
+            if (forumId == 0)
+            {//if empty then throw exception
+                throw new Exception("ForumId cannot be 0.");
+            }
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("addforumfilterterm"))
+            {
+                reader.AddParameter("term", Value);
+                reader.AddParameter("actionId", (byte)Action);
+                reader.AddParameter("forumId", forumId);
+                reader.AddParameter("historyId", historyId);
+                reader.Execute();
+            }
+        }
+
+        /// <summary>
         /// cleans up the term string
         /// </summary>
         /// <param name="text"></param>
@@ -96,8 +134,10 @@ namespace BBC.Dna.Moderation.Utils
         {
 
             XElement xml = new XElement("Profanities",
-                                   from c in terms
-                                   select new XElement("id", c.Id.ToString()));
+                                new XElement("Terms",
+                                    from c in terms
+                                    select new XElement("TermDetails", new XElement("ModClassID", c.ModClassID.ToString()), 
+                                        new XElement("ForumID", c.ForumID.ToString()), new XElement("TermID", c.Id.ToString()))));
 
             return xml.ToString();
 

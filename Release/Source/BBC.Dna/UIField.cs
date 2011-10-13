@@ -618,7 +618,12 @@ namespace BBC.Dna
         {
             string matchingProfanity;
             List<Term> terms = null;
-            ProfanityFilter.FilterState profanityState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, value, out matchingProfanity, out terms);
+            int forumId = 0;
+            if (InputContext.DoesParamExist("forumid", "forumid"))
+            {
+                forumId = InputContext.GetParamIntOrZero("forumid", "forumid");
+            }
+            ProfanityFilter.FilterState profanityState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, value, out matchingProfanity, out terms, forumId);
             _profanityFilterState = profanityState;
 
             if (profanityState != ProfanityFilter.FilterState.FailBlock)
