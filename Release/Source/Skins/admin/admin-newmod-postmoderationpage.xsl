@@ -421,11 +421,11 @@
 
     <xsl:variable name="moderated-term-date">
 		<xsl:choose>
-			<xsl:when test="../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/@RELATIVE != ''">
-				<xsl:value-of select="../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/@RELATIVE" />	
+			<xsl:when test="../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/DATE/@RELATIVE != ''">
+				<xsl:value-of select="../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/DATE/@RELATIVE" />	
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="../../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/@RELATIVE" />	
+				<xsl:value-of select="../../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/DATE/@RELATIVE" />	
 			</xsl:otherwise>
 		</xsl:choose>
     </xsl:variable>
