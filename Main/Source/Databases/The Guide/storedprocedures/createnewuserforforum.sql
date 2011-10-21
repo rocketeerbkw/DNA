@@ -21,7 +21,7 @@ BEGIN TRANSACTION
 IF @userid = 0
 BEGIN
 
-	INSERT INTO dbo.SignInUserIDMapping SELECT SSOUserID = 0, IdentityUserID = 0
+	INSERT INTO dbo.SignInUserIDMapping(SSOUserID,IdentityUserID) VALUES(0,0)
 	SELECT @userid = SCOPE_IDENTITY()
 
 	-- Make sure the exact same time is used throughout
