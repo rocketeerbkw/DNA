@@ -506,6 +506,19 @@ namespace BBC.Dna.Component
                 }
             }
 
+            XmlDocument xml = SerialiseToXmlDoc(obj);
+
+            // Import and Append the node.
+            return appendToNode.AppendChild(_XMLDoc.ImportNode(xml.DocumentElement, true));
+        }
+
+        /// <summary>
+        /// Serialises the given object to an XmlDocument
+        /// </summary>
+        /// <param name="obj">The given object</param>
+        /// <returns>An XmlDocument representing the serialised object</returns>
+        protected XmlDocument SerialiseToXmlDoc(object obj)
+        {
             XmlDocument xml = new XmlDocument();
             using (StringWriterWithEncoding writer = new StringWriterWithEncoding(Encoding.UTF8))
             {
@@ -520,12 +533,10 @@ namespace BBC.Dna.Component
                     System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(obj.GetType());
                     x.Serialize(xWriter, obj, ns);
                     xWriter.Flush();
-                    xml.InnerXml = Entities.GetEntities() +  writer.ToString();
+                    xml.InnerXml = Entities.GetEntities() + writer.ToString();
                 }
             }
-
-            // Import and Append the node.
-            return appendToNode.AppendChild(_XMLDoc.ImportNode(xml.DocumentElement, true));
+            return xml;
         }
 
         /// <summary>
