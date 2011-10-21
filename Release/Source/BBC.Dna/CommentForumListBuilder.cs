@@ -527,6 +527,7 @@ namespace BBC.Dna
 
             //TODO: Move this to the right place
             RootElement.AppendChild(commentForumList);
+           
         }
 
         /// <summary>
@@ -568,11 +569,12 @@ namespace BBC.Dna
                 AddElement(commentForum, "LASTUPDATED", DnaDateTime.GetDateTimeAsElement(RootElement.OwnerDocument, dateLastUpdated));
             }
 
-            int forumId = Convert.ToInt32(dataReader.GetInt32NullAsZero("forumID").ToString());
+            int forumId = dataReader.GetInt32NullAsZero("forumID");
             //get terms admin object
             TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateForumTermAdmin(AppContext.ReaderCreator, _cache, forumId, true);
-            XmlNode termNode = SerialiseAndAppend(termsAdmin, "");
-            AddXmlTextTag(commentForum, "TERMS", termNode.InnerXml.ToString());
+            XmlDocument termNodeDoc = SerialiseToXmlDoc(termsAdmin);
+            string termNodeText = termNodeDoc.DocumentElement.InnerXml.ToString();
+            AddXmlTextTag(commentForum, "TERMS", termNodeText);
 
             commentForumList.AppendChild(commentForum);
         }
