@@ -188,6 +188,28 @@ namespace BBC.Dna
         }
 
         /// <summary>
+        /// Returns all sites that the user is an editor for
+        /// </summary>
+        /// <param name="sites"></param>
+        /// <returns></returns>
+        public XmlNode GenerateSitesForUserAsEditorXml(ISiteList sites)
+        {
+            if (IsEmpty)
+            {
+                
+                XmlElement root = AddElementTag(RootElement, "SITE-LIST");
+                foreach (var id in sites.Ids.Values)
+                {
+                    if(InputContext.ViewingUser.IsSuperUser || UserGroupsHelper.IsUserEditorForSite(InputContext.ViewingUser.UserID, id.SiteID, InputContext))
+                    {
+                        GenerateXml(null, id, root);
+                    }
+                }
+            }
+            return RootElement;
+        }
+
+        /// <summary>
         /// Returns all the site options in XML format
         /// </summary>
         /// <param name="site">The site to read options from</param>

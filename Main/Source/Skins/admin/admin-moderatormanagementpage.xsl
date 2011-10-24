@@ -218,6 +218,14 @@
           Notables
         </a>
       </li>
+      <li id="Group4">
+        <xsl:if test="$managegroup='referees'">
+          <xsl:attribute name="class">selected4</xsl:attribute>
+        </xsl:if>
+        <a href="#top" onclick="submitGroup('referees')">
+          Referees
+        </a>
+      </li>
     </ul>
   </xsl:template>
 	<!--
