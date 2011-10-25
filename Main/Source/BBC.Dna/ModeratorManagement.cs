@@ -139,7 +139,7 @@ namespace BBC.Dna.Component
                 userId = InputContext.GetParamIntOrZero("userid", "UserId");
 
                 updateUser(groupName, userId);
-                UserGroups.GetObject().SendSignal(userId);
+                UserGroups.GetObject().SendSignal();
 
                 //Produce Found User XML.
                 XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
@@ -154,6 +154,7 @@ namespace BBC.Dna.Component
                         find.AddUserXMLBlock(reader, userId, foundUsers);
                     }
                 }
+                
             }
             else if (InputContext.DoesParamExist("giveaccess", "Give Access"))
             {
