@@ -20,19 +20,21 @@ if @userid > 0
 BEGIN
 	declare @score smallint
 	declare @override bit
+
+	-- get score for event
 	select @score = ues.score, @override = ues.overridescore
 	from dbo.sites s
 	inner join dbo.ModerationClass m on m.modclassid = s.modclassid
 	inner join dbo.UserEventScore ues on ues.modclassid = m.modclassid
 	where s.siteid=@siteid and ues.typeid=@type
---print '@score=' + convert(varchar(50), @score)
-	
+
+	-- get maxscore for class
 	declare @maxscore smallint
 	select @maxscore = maxscore 
 	from dbo.userreputationthreshold urpt
 	inner join sites s on s.modclassid = urpt.modclassid
 	where s.siteid=@siteid
---print '@maxscore=' + convert(varchar(50), @maxscore)
+
 	--get current score
 	declare @currentscore smallint
 	set @currentscore =0
@@ -41,8 +43,8 @@ BEGIN
 	inner join sites s on s.modclassid = urs.modclassid
 	where userid=@userid
 	and s.siteid=@siteid
---print '@currentscore=' + convert(varchar(50), @currentscore)
 
+	-- determine new user score...
 	declare @userscore smallint
 	if @override = 1
 	BEGIN
@@ -51,15 +53,16 @@ BEGIN
 	ELSE
 	BEGIN
 		set @userscore = @score + @currentscore
+		-- adhere to max score if not an override
+		if @userscore > @maxscore
+		begin
+			set @userscore = @maxscore
+		end
 	END
-	
-	if @userscore > @maxscore
-	begin
-		set @userscore = @maxscore
-	end
---print '@userscore=' + convert(varchar(50), @userscore)
+
 	begin tran
 
+	-- update/insert score
 	update dbo.userreputationscore
 	set accumulativescore  = @userscore, lastupdated=getdate()
 	where userid=@userid
@@ -73,19 +76,17 @@ BEGIN
 		siteid=@siteid
 	END
 
-	
 	insert into dbo.UserSiteEvents --typeid, eventdate, siteid, modclassid,siteeventid, score, accumulativescore, userid
 	select @type
 		, @datetime
 		, @siteid
 		, m.modclassid
 		, @id
-		, ues.score
-		, isnull(urs.accumulativescore, 0)
+		, @score
+		, @userscore
 		, @userid
 	from dbo.sites s
 	inner join dbo.ModerationClass m on m.modclassid = s.modclassid
-	inner join dbo.UserEventScore ues on ues.typeid = @type and m.modclassid=ues.modclassid
 	left join dbo.userreputationscore urs on m.modclassid = urs.modclassid and urs.userid = @userid
 	where s.siteid=@siteid
 	
