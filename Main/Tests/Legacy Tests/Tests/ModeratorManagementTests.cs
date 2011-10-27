@@ -80,8 +80,18 @@ namespace Tests
         public void TestUpdateUser()
         {
             IInputContext context = DnaMockery.CurrentMockery.NewMock<IInputContext>();
+
+            ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            ISite siteModeration = DnaMockery.CreateMockedSite(context, 66, "moderation", "moderation", true, "http://identity/policies/dna/adult");
+
+            ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
+            Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
+            Stub.On(siteList).Method("GetSite").With("moderation").Will(Return.Value(siteModeration));
+
+            
             //Stub.On(context).Method("GetParamIntOrZero").With("manage").Will(Return.Value("editor"));
             Stub.On(context).Method("GetParamIntOrZero").With("userid","UserId").Will(Return.Value(6));
+            Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));
 
             // Mock the viewing user
             IUser mockedUser = DnaMockery.CurrentMockery.NewMock<IUser>();
@@ -108,7 +118,7 @@ namespace Tests
             // Mock the stored procedure call
             IDnaDataReader mockedReader = DnaMockery.CurrentMockery.NewMock<IDnaDataReader>();
             Stub.On(context).Method("CreateDnaDataReader").With("addnewmoderatortosites").Will(Return.Value(mockedReader));
-            Expect.Once.On(mockedReader).Method("AddParameter").With("sitelist", "1|2|3");
+            Expect.Once.On(mockedReader).Method("AddParameter").With("sitelist", "1|2|3|66");
             Expect.Exactly(3).On(mockedReader).Method("AddParameter").With("userid", 6);
             Expect.Exactly(2).On(mockedReader).Method("AddParameter").With("groupname", "editor");
             
