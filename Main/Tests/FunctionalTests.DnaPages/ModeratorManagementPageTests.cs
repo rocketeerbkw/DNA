@@ -342,8 +342,6 @@ namespace FunctionalTests
 
             CheckUserPermissions("EDITOR");
 
-            SendSignal();
-
             request.SetCurrentUserNormal();
             request.UseEditorAuthentication = true;
 
@@ -382,8 +380,6 @@ namespace FunctionalTests
 
             CheckUserPermissions("EDITOR");
 
-            SendSignal();
-
             request.SetCurrentUserNormal();
             request.UseEditorAuthentication = true;
 
@@ -402,6 +398,9 @@ namespace FunctionalTests
             var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-groups", DnaTestURLRequest.CurrentServer);
             var request = new DnaTestURLRequest("h2g2");
             //request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            url = String.Format("http://{0}/dna/api/comments/status.aspx?action=recache-groups", DnaTestURLRequest.CurrentServer);
             request.RequestPageWithFullURL(url, null, "text/xml");
 
 
