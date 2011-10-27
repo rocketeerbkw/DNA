@@ -7,7 +7,7 @@ create procedure registerpostingcomplaint
 	@complainantid int,
 	@correspondenceemail varchar(255),
 	@postid int,
-	@complainttext text,
+	@complainttext nvarchar(max),
 	@hash uniqueidentifier,
 	@ipaddress varchar(25) = null,
 	@bbcuid uniqueidentifier = null

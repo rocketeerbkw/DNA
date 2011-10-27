@@ -1139,12 +1139,18 @@ namespace BBC.Dna
             string matchedProfanity = String.Empty;
             List<Term> terms = null;
 
+            int forumId = 0;
+            //if (InputContext.DoesParamExist("forumid", "forumid"))
+            //{
+            //    forumId = InputContext.GetParamIntOrZero("forumid", "forumid");
+            //}
+
             bool forceModerate = false;
             profanityFound = false;
             nonAllowedURLsFound = false;
             emailAddressFound = false;
 
-            ProfanityFilter.FilterState filterState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, textToCheck, out matchedProfanity, out terms);
+            ProfanityFilter.FilterState filterState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, textToCheck, out matchedProfanity, out terms, forumId);
 
             if (filterState == ProfanityFilter.FilterState.FailBlock)
             {

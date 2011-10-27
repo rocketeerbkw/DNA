@@ -507,7 +507,7 @@ namespace BBC.Dna.Component
 		        //ProfanityFilter profanityFilter = new ProfanityFilter(InputContext);
                 string matchingProfanity = String.Empty;
                 List<Term> terms = null;
-		        ProfanityFilter.FilterState filterState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, generatedSubject + " " + generatedBody, out matchingProfanity, out terms);
+		        ProfanityFilter.FilterState filterState = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, generatedSubject + " " + generatedBody, out matchingProfanity, out terms, forumID);
 
 		        bool forceModeration = false;
 		        if (filterState == ProfanityFilter.FilterState.FailBlock)

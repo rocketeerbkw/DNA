@@ -217,7 +217,7 @@ namespace BBC.Dna.Objects
             List<Term> terms = null;
             forceModeration = false;
             ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(site.ModClassID, textToCheck,
-                                                                                    out matchingProfanity, out terms);
+                                                                                    out matchingProfanity, out terms, 0);
             if (ProfanityFilter.FilterState.FailBlock == state)
             {
                 throw ApiException.GetError(ErrorType.ProfanityFoundInText);

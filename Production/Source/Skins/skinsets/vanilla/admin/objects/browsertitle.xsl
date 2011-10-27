@@ -41,6 +41,10 @@
   <xsl:template match="H2G2[@TYPE = 'SITEMANAGER']" mode="objects_browsertitle">
     Site Manager
   </xsl:template>
+
+  <xsl:template match="H2G2[@TYPE = 'TERMSFILTERADMIN' or @TYPE = 'TERMSFILTERIMPORT']" mode="objects_browsertitle">
+    Terms Filter Administration
+  </xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'COMMENTFORUMLIST']" mode="objects_browsertitle">
 		BBC - Host Dashboard - Manage entries/stories | <xsl:value-of select="SITE/SHORTNAME" />

@@ -10,16 +10,49 @@ namespace BBC.Dna.Moderation.Utils
     {
         public ProfanityCache()
         {
-            //New structure to add the profanity list for a particular mod class
-            ProfanityClasses = new Dictionary<int, ProfanityPair>();
+            //New structure to add the profanity list for both the mod class and forum
+            ProfanityClasses = new TermClasses();
         }
+
+        /// <summary>
+        /// The main, static data structure to hold the profanities
+        /// It's a class which maps a pair of word lists to each moderation class and forum
+        /// </summary>
+        public TermClasses ProfanityClasses;
+
+    }
+
+    /// <summary>
+    /// Class that holds two lists of profanities, one based on the modclass and the other based on the forum 
+    /// </summary>
+    [Serializable]
+    public class TermClasses
+    {
+        #region con(s)
+
+        public TermClasses()
+        {
+            ModClassProfanities = new Dictionary<int, ProfanityPair>();
+            ForumProfanities = new Dictionary<int, ProfanityPair>();
+        }
+
+        #endregion
+
+        #region public prop(s)
 
         /// <summary>
         /// The main, static data structure to hold the profanities
         /// It's a dictionary which maps a pair of word lists to each moderation class
         /// </summary>
-        public Dictionary<int, ProfanityPair> ProfanityClasses;
+        public Dictionary<int, ProfanityPair> ModClassProfanities;
 
+        /// <summary>
+        /// The main, static data structure to hold the profanities
+        /// It's a dictionary which maps a pair of word lists to each forum
+        /// </summary>
+        public Dictionary<int, ProfanityPair> ForumProfanities;
+
+        #endregion
     }
 
     /// <summary>

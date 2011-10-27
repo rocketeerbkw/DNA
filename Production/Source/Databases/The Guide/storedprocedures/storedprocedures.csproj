@@ -1265,6 +1265,7 @@
     <None Include="getcommentforumcachedependencycheck.sql" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="addforumfilterterm.sql" />
     <None Include="cachegetarticleinfo2.sql" />
     <None Include="cachegetcategory.sql" />
     <None Include="CommentForumsReadBySiteNamePrefixWithinTimeFrame.sql" />
@@ -1283,6 +1284,9 @@
     <None Include="addbannedusersipaddress.sql" />
     <None Include="ApplyUserReputation.sql" />
     <None Include="ApplyUserReputations.sql" />
+    <None Include="getcommentforumdetailsbyforumid.sql" />
+    <None Include="gettermsbyforumid.sql" />
+    <None Include="gettermsbyforumidfromforums.sql" />
     <None Include="gettermsbymodidfromthreadmod.sql" />
     <None Include="getuserstatus.sql" />
     <None Include="getBBCDivisions.sql" />

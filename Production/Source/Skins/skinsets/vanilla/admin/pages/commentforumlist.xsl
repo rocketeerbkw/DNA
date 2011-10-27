@@ -76,8 +76,9 @@
 				</div>
 			</div>
 		</xsl:if>
+						
 	</xsl:template>
-
+	
 	<xsl:template match="COMMENTFORUM">
 		<tr>
 			<xsl:call-template name="objects_stripe" />			
@@ -260,8 +261,244 @@
 				</form>
 			</td>
 		</tr>
-	 </xsl:template>
+		
+		<tr>
+			<xsl:call-template name="objects_stripe" />
+			<xsl:variable name="termId" select="/H2G2/PARAMS/PARAM[NAME='s_termid']/VALUE" />
+			<xsl:variable name="divForumId" select="@FORUMID"/>			
+			
+			<th><a id="displayTermDetailsBlock" href="javascript:commentforumlist_divToggle('COMMENTFORUM-TERMDETAILS-{$divForumId}');">Terms Filter</a></th>
+				
+				<td colspan="4">
+					<div id="COMMENTFORUM-TERMDETAILS-{$divForumId}" style="display:none">
+						<table>
+							<thead>
+								<tr>
+									<th>Term</th>
+									<th>Action</th>
+                  <th>Reason</th>
+                  <th>User</th>
+                  <th>Date</th>
+									<th> </th>
+								</tr>
+							</thead>
+							<tbody>
+								  <xsl:apply-templates mode="COMMENTFORUMLIST_TERMSFILTER" select="TERMS/TERMSLIST/TERMDETAILS"/>
+							</tbody>
+						</table>
+						 <p>					
+							<a id="displayTermBlock" href="javascript:commentforumlist_divToggle('COMMENTFORUM-TERMDETAILS-{$divForumId}-FORM');">Import More Terms</a>
+						</p>
 
+            <div id="COMMENTFORUM-TERMDETAILS-{$divForumId}-FORM" style="display:none">
+              <form action="commentforumlist?dnahostpageurl={HOSTPAGEURL}" method="post" id="COMMENTFORUM-{$divForumId}" onsubmit="return dnaterms_validateForm(this);" >
+                <input type="hidden" value="UPDATETERMS" name="action" />
+                <input type="hidden" value="s_termid" name="{$termId}" />
+                <input type="hidden" value="{@FORUMID}" name="forumid" />
+                <table cellpadding="2" cellspacing="0" width="100%">
+                  <tr>
+                    <th >Terms:</th>
+                    <td colspan="3">
+                      <xsl:choose>
+                        <xsl:when test="/H2G2/ERROR/@TYPE = 'UPDATETERMMISSINGTERM'">
+                          <textarea id="termtext" name="termtext" cols="50" rows="2" style="border: 2px solid red">
+                            <xsl:value-of select="/H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST[@FORUMID=$divForumId]/TERM[@ID=$termId]/@TERM"/>
+                          </textarea>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <textarea id="termtext" name="termtext" cols="50" rows="2">
+                            <xsl:value-of select="/H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST[@FORUMID=$divForumId]/TERM[@ID=$termId]/@TERM"/>
+                          </textarea>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Reason:</th>
+                    <td colspan="3">
+                      <xsl:choose>
+                        <xsl:when test="/H2G2/ERROR/@TYPE = 'UPDATETERMMISSINGDESCRIPTION'">
+                          <textarea id="reason" name="reason" cols="50" rows="2" style="border: 2px solid red"><xsl:value-of select="/H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST[@FORUMID=$divForumId]/TERM[@ID=$termId]/@TERM"/></textarea>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <textarea id="reason" name="reason" cols="50" rows="2"><xsl:value-of select="/H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST[@FORUMID=$divForumId]/TERM[@ID=$termId]/@TERM"/></textarea>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <p>
+                        <input type="radio" name="action_forumid_all" id="action_forumid_all_ReEdit_{$divForumId}" value="ReEdit" style="float:right" />
+                        <label for="action_forumid_all_ReEdit_{$divForumId}">Ask user to re-edit</label>
+                      </p>
+                    </td>
+                    <td>
+                      <p>
+                        <input type="radio" name="action_forumid_all" id='action_forumid_all_Refer_{$divForumId}' value="Refer" style="float:right" />
+                        <label for="action_forumid_all_Refer_{$divForumId}">Send to moderator</label>
+                      </p>
+
+                    </td>
+                    <td>
+                      <p>
+                        <input type="radio" name="action_forumid_all" id='action_forumid_all_NoAction_{$divForumId}' value="NoAction" style="float:right" />
+                        <label for="action_forumid_all_NoAction_{$divForumId}">No Action</label>
+                      </p>
+
+                    </td>
+                    <td>
+                      <p>
+                        <input type="submit" value="Apply" />
+                      </p>
+                    </td>
+                  </tr>
+                  <xsl:apply-templates select="FORUM-CLASS" mode="mainArea" />
+                  <tr>
+                    <div style="clear:both;margin:0px; padding:0px;">
+                      <xsl:choose>
+                        <xsl:when test="/H2G2/RESULT/MESSAGE != ''">
+                          <div id="serverResponse" name="serverResponse" style="float:left; margin-top:10px; border: 1px solid green;">
+                            <p>
+                              <xsl:value-of select="/H2G2/RESULT/MESSAGE"/>
+                            </p>
+                          </div>
+                        </xsl:when>
+                        <xsl:when test="/H2G2/ERROR/ERRORMESSAGE != ''">
+                          <div id="serverResponse" name="serverResponse" style="float:left; margin-top:10px; border: 1px solid red;">
+                            <p>
+                              <b>An error has occurred:</b>
+                              <BR/>
+                              <xsl:value-of select="/H2G2/ERROR/ERRORMESSAGE"/>
+                            </p>
+                          </div>
+                        </xsl:when>
+                        <xsl:otherwise>
+
+                        </xsl:otherwise>
+                      </xsl:choose>
+
+                      <div id="dnaTermErrorDiv" name="dnaTermErrorDiv" style="float:left; margin-top:10px;border: 1px solid red;display: none;"></div>
+                    </div>
+                  </tr>
+                </table>
+              </form>
+              </div>
+            </div>
+				</td>				
+		</tr>
+	 </xsl:template>	 
+	 
+	 <xsl:template mode="COMMENTFORUMLIST_TERMSFILTER" match="TERMDETAILS">
+		<tr>
+			<td>
+				<xsl:value-of select="@TERM"/>
+			</td>
+			<td>
+        <xsl:choose>
+          <xsl:when test="@ACTION = 'Refer'">
+            <img src="/dnaimages/dna_messageboard/img/icons/post_REFERRED.png" width="30" height="30" alt="Send message to moderation" title="Send message to moderation" />
+          </xsl:when>
+          <xsl:when test="@ACTION = 'ReEdit'">
+            <img src="/dnaimages/dna_messageboard/img/icons/post_FAILED.png" width="30" height="30" alt="Ask user to re-edit word" title="Ask user to re-edit word" />
+          </xsl:when>
+          <xsl:otherwise>
+            -
+          </xsl:otherwise>
+        </xsl:choose>
+			</td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="REASON = 'Reason Unknown'">
+            -
+          </xsl:when>
+          <xsl:otherwise>
+            <span class="dna-termslist-reason" title="{REASON}">
+              <xsl:call-template name="fixedLines">
+                <xsl:with-param name="originalString" select="REASON" />
+                <xsl:with-param name="charsPerLine" select="33" />
+                <xsl:with-param name="lines" select="1" />
+              </xsl:call-template>
+            </span>
+          </xsl:otherwise>
+        </xsl:choose>
+      </td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="REASON = 'Reason Unknown'">
+            -
+          </xsl:when>
+          <xsl:otherwise>
+            <a href="/dna/moderation/admin/memberdetails?userid={@USERID}">
+              <xsl:value-of select="USERNAME"/>
+            </a>
+          </xsl:otherwise>
+        </xsl:choose>
+      </td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="REASON = 'Reason Unknown'">
+            -
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="UPDATEDDATE/DATE/@RELATIVE"/>
+          </xsl:otherwise>
+        </xsl:choose>
+
+      </td>
+			<td>
+				<xsl:variable name="forumid" select="../@FORUMID"/>
+				<input type="hidden" value="{@TERM}" name="TERM-{$forumid}-{position()}" id="TERM-{$forumid}-{position()}"><xsl:value-of select="TERM" /></input>				
+				<a id="displayTermBlock" href="javascript:commentforumlist_termToggle('COMMENTFORUM-TERMDETAILS-{$forumid}-FORM','{@TERM}',document.getElementById('COMMENTFORUM-{$forumid}'));">edit</a>
+			</td>
+		</tr>
+	</xsl:template>
+	
+	<xsl:template match="FORUM-CLASS" mode="mainArea">
+    <xsl:variable name="forumId" select="@FORUMID"/>
+    <tr>
+	
+      <td>
+        <a href="commentforumlist?forumid={$forumId}"><xsl:value-of select="NAME"/></a>
+      </td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="/H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST[@FORUMID=$forumId]/TERM/@ACTION='ReEdit'">
+            <input type="radio" name="action_forumid_{@FORUMID}" value="ReEdit" checked="checked" />
+          </xsl:when>
+          <xsl:otherwise>
+            <input type="radio" name="action_forumid_{@FORUMID}" value="ReEdit" onclick="unMarkAllRadioButtons();" />
+          </xsl:otherwise>
+        </xsl:choose>
+      </td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="/H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST[@FORUMID=$forumId]/TERM/@ACTION='Refer'">
+            <input type="radio" name="action_forumid_{@FORUMID}" value="Refer" checked="checked"  onclick="unMarkAllRadioButtons();"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <input type="radio" name="action_forumid_{@FORUMID}" value="Refer"  onclick="unMarkAllRadioButtons();"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </td>
+      <td>
+        <xsl:choose>
+          <xsl:when test="/H2G2/COMMENTFORUMLIST/COMMENTFORUM/TERMS/TERMSLIST[@FORUMID=$forumId]">
+            
+            <input type="radio" name="action_forumid_{@FORUMID}" value="NoAction"  onclick="unMarkAllRadioButtons();"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <input type="radio" name="action_forumid_{@FORUMID}" value="NoAction" checked="checked"  onclick="unMarkAllRadioButtons();"/>
+          </xsl:otherwise>
+        </xsl:choose>
+        
+      </td>
+
+    </tr>
+    
+	</xsl:template>
+	
+	
 	<xsl:template name="cfl-skip-show">
 		<xsl:param name="comments_per_page" select="/H2G2/COMMENTFORUMLIST/@SHOW"/>
 		<xsl:param name="page_count" select="ceiling(/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT div /H2G2/COMMENTFORUMLIST/@SHOW)"/>
@@ -376,6 +613,8 @@
 				</xsl:choose>
 			</li>
 		</xsl:if>
+		
+		
 	</xsl:template>
 
 </xsl:stylesheet>

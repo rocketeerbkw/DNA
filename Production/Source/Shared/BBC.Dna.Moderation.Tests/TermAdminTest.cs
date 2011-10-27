@@ -63,7 +63,7 @@ namespace BBC.Dna.Moderation.Tests
 
 
             var expected = "<TERMSFILTERADMIN xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">" +
-                "<TERMSLIST MODCLASSID=\"1\"><TERM ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" /></TERMSLIST>" +
+                "<TERMSLIST FORUMID=\"0\" MODCLASSID=\"1\"><TERMDETAILS ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\" FromModClass=\"false\" /></TERMSLIST>" +
                 "<MODERATION-CLASSES><MODERATION-CLASS CLASSID=\"1\"><NAME>test</NAME><DESCRIPTION>test</DESCRIPTION><ITEMRETRIEVALTYPE>Standard</ITEMRETRIEVALTYPE></MODERATION-CLASS></MODERATION-CLASSES>" +
                 "</TERMSFILTERADMIN>";
 

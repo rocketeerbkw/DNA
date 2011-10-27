@@ -26,7 +26,7 @@ namespace BBC.Dna.Moderation
         /// </summary>
         public TermsList()
         {
-            Terms = new List<Term>();
+            Terms = new List<TermDetails>();
         }
 
         /// <summary>
@@ -36,9 +36,8 @@ namespace BBC.Dna.Moderation
         public TermsList(int modClassId)
         {
             ModClassId = modClassId;
-            Terms = new List<Term>();
+            Terms = new List<TermDetails>();
         }
-
 
         /// <summary>
         /// Overloaded constructor if details from ThreadMod
@@ -47,20 +46,32 @@ namespace BBC.Dna.Moderation
         public TermsList(int modId, bool isFromThreadMod)
         {
             this.ModClassId = modId;
-            TermDetails = new List<TermDetails>();
+            Terms = new List<TermDetails>();
         }
+
+        /// <summary>
+        /// Overloaded constructor for Forum terms
+        /// </summary>
+        /// <param name="forumId"></param>
+        public TermsList(int forumId, bool isFromThreadMod, bool isForForum)
+        {
+            this.ForumId = forumId;
+            Terms = new List<TermDetails>();
+        }
+
 
         #region Properties
         /// <remarks/>
-        [XmlElementAttribute("TERM", Order = 0)]
-        public List<Term> Terms { get; set; }
-
-        [XmlElementAttribute("TERMDETAILS", Order = 1)]
-        public List<TermDetails> TermDetails {get;set;}
+        [XmlElementAttribute("TERMDETAILS", Order = 0)]
+        public List<TermDetails> Terms { get; set; }
 
         /// <remarks/>
         [XmlAttributeAttribute(AttributeName = "MODCLASSID")]
-        public int ModClassId { get; set; } 
+        public int ModClassId { get; set; }
+
+        /// <remarks/>
+        [XmlAttributeAttribute(AttributeName = "FORUMID")]
+        public int ForumId { get; set; }
         #endregion
 
         public static TermsList GetTermsListByModClassId(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
@@ -98,21 +109,25 @@ namespace BBC.Dna.Moderation
             {
                 reader.AddParameter("modClassId", modClassId);
                 reader.Execute();
-                while(reader.Read())
+                while (reader.Read())
                 {
-                    var term = new Term
-                                    {
-                                        Id = reader.GetInt32NullAsZero("termId"),
-                                        Action = (TermAction)reader.GetByteNullAsZero("actionId"),
-                                        Value = reader.GetStringNullAsEmpty("term")
-                                    };
-                    termsList.Terms.Add(term);
+                    var termDetails = new TermDetails
+
+                    {
+                        Id = reader.GetInt32NullAsZero("TermID"),
+                        Value = reader.GetStringNullAsEmpty("Term"),
+                        Reason = reader.GetStringNullAsEmpty("Reason"),
+                        UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
+                        UserID = reader.GetInt32NullAsZero("UserID"),
+                        UserName = reader.GetStringNullAsEmpty("UserName"),
+                        Action = (TermAction)reader.GetByteNullAsZero("actionId")
+                    };
+                    termsList.Terms.Add(termDetails);
                 }
             }
 
             return termsList;
         }
-
 
         /// <summary>
         /// Get the terms list from the ThreadMod table
@@ -124,7 +139,7 @@ namespace BBC.Dna.Moderation
         public static TermsList GetTermsListByThreadModIdFromThreadModDB(IDnaDataReaderCreator readerCreator,
             int modId, bool isFromThreadMod)
         {
-            var termsList = new TermsList ( modId, isFromThreadMod );
+            var termsList = new TermsList(modId, isFromThreadMod);
 
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettermsbymodidfromthreadmod"))
             {
@@ -135,20 +150,88 @@ namespace BBC.Dna.Moderation
                     while (reader.Read())
                     {
                         var termDetails = new TermDetails
-                                                {
-                                                    Id = reader.GetInt32NullAsZero("TermID"),
-                                                    Value = reader.GetStringNullAsEmpty("Term"),
-                                                    Reason = reader.GetStringNullAsEmpty("Reason"),
-                                                    UpdatedDate = new Date(reader.GetDateTime("UpdatedDate")),
-                                                    UserID = reader.GetInt32NullAsZero("UserID")
-                                                };
+                        {
+                            Id = reader.GetInt32NullAsZero("TermID"),
+                            Value = reader.GetStringNullAsEmpty("Term"),
+                            Reason = reader.GetStringNullAsEmpty("Reason"),
+                            UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
+                            UserID = reader.GetInt32NullAsZero("UserID"),
+                            UserName = reader.GetStringNullAsEmpty("UserName"),
+                            FromModClass = reader.GetBoolean("FromModClass")
+                        };
 
-                        termsList.TermDetails.Add(termDetails);
+                        termsList.Terms.Add(termDetails);
                     }
                 }
             }
+
             return termsList;
         }
+
+       
+
+        /// <summary>
+        /// Checks the cache and gets the terms from the cache else calls the db method to fetch the terms
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="cacheManager"></param>
+        /// <param name="forumId"></param>
+        /// <param name="ignoreCache"></param>
+        /// <returns></returns>
+        public static TermsList GetTermsListByForumId(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
+            int forumId, bool ignoreCache)
+        {
+            var termsList = new TermsList(forumId, false, true);
+            if (!ignoreCache)
+            {
+                termsList = (TermsList)cacheManager.GetData(termsList.GetCacheKey(forumId));
+                if (termsList != null)
+                {
+                    return termsList;
+                }
+
+            }
+
+            termsList = GetTermsListByForumIdFromDB(readerCreator, forumId);
+            cacheManager.Add(termsList.GetCacheKey(forumId), termsList);
+
+            return termsList;
+        }
+
+        /// <summary>
+        /// Gets the terms list from the db...
+        /// </summary>
+        /// <param name="readerCreator"></param>
+        /// <param name="modClassId"></param>
+        /// <returns></returns>
+        public static TermsList GetTermsListByForumIdFromDB(IDnaDataReaderCreator readerCreator,
+            int forumId)
+        {
+            var termsList = new TermsList(forumId, false, true);
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettermsbyforumid"))
+            {
+                reader.AddParameter("forumId", forumId);
+                reader.Execute();
+                while (reader.Read())
+                {
+                    var term = new TermDetails
+                    {
+                        Id = reader.GetInt32NullAsZero("termId"),
+                        Action = (TermAction)reader.GetByteNullAsZero("actionId"),
+                        Value = reader.GetStringNullAsEmpty("term"),
+                        Reason = reader.GetStringNullAsEmpty("Reason"),
+                        UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
+                        UserID = reader.GetInt32NullAsZero("UserID"),
+                        UserName = reader.GetStringNullAsEmpty("UserName"),
+                    };
+                    termsList.Terms.Add(term);
+                }
+            }
+
+            return termsList;
+        }
+
 
 
         /// <summary>
@@ -169,8 +252,8 @@ namespace BBC.Dna.Moderation
         /// <param name="reason"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Error UpdateTermsInDatabase(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager, 
-            string reason, int userId)
+        public Error UpdateTermsInDatabase(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
+            string reason, int userId, bool isForModClass)
         {
             if(String.IsNullOrEmpty(reason))
             {
@@ -197,7 +280,7 @@ namespace BBC.Dna.Moderation
                 return new Error {Type = "UpdateTermsInDatabase", ErrorMessage = "Unable to get history id"};
             }
 
-            return UpdateTermsWithHistoryId(readerCreator, cacheManager, historyId);
+            return UpdateTermsWithHistoryId(readerCreator, cacheManager, historyId, isForModClass);
         }
 
         /// <summary>
@@ -207,32 +290,61 @@ namespace BBC.Dna.Moderation
         /// <param name="cacheManager"></param>
         /// <param name="historyId"></param>
         /// <returns></returns>
-        public Error UpdateTermsWithHistoryId(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager, int historyId)
+        public Error UpdateTermsWithHistoryId(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager, int historyId, bool isForModClass)
         {
             Error error = null;
-            foreach(var term in Terms)
+            foreach (var term in Terms)
             {
-                try
+                if (true == isForModClass)
                 {
-                    term.UpdateTermForModClassId(readerCreator, ModClassId, historyId);
-                }
-                catch(Exception e)
-                {
-                    if(error == null)
+                    try
                     {
-                        error = new Error {Type = "UpdateTermForModClassId", ErrorMessage = e.Message};
+                        term.UpdateTermForModClassId(readerCreator, ModClassId, historyId);
                     }
-                    else
-                    {//add the new error
-                        error.ErrorMessage += Environment.NewLine + e.Message;
+                    catch (Exception e)
+                    {
+                        if (error == null)
+                        {
+                            error = new Error { Type = "UpdateTermForModClassId", ErrorMessage = e.Message };
+                        }
+                        else
+                        {//add the new error
+                            error.ErrorMessage += Environment.NewLine + e.Message;
+                        }
                     }
                 }
-                
+                else
+                {
+                    try
+                    {
+                        term.UpdateTermForForumId(readerCreator, ForumId, historyId);
+                    }
+                    catch (Exception e)
+                    {
+                        if (error == null)
+                        {
+                            error = new Error { Type = "UpdateTermForForumId", ErrorMessage = e.Message };
+                        }
+                        else
+                        {//add the new error
+                            error.ErrorMessage += Environment.NewLine + e.Message;
+                        }
+                    }
+                }
+
             }
             //refresh cache
-            GetTermsListByModClassId(readerCreator, cacheManager, ModClassId, true);
+            if (true == isForModClass)
+            {
+                GetTermsListByModClassId(readerCreator, cacheManager, ModClassId, true);
+            }
+            else
+            {
+                GetTermsListByForumId(readerCreator, cacheManager, ForumId, true);
+            }
             return error;
         }
+
 
         /// <summary>
         /// Filters list by a term

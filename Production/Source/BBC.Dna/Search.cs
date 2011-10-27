@@ -83,10 +83,14 @@ namespace BBC.Dna.Component
                 }
             }
             
-
+            int forumid = 0;
+            if (InputContext.DoesParamExist("forumid", "forumid"))
+            {
+                forumid = InputContext.GetParamIntOrZero("forumid", "forumid");
+            }
             string failed = string.Empty;
             List<Term> terms = null;
-            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, searchQuery, out failed, out terms);
+            ProfanityFilter.FilterState state = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, searchQuery, out failed, out terms, forumid);
             if ( state == ProfanityFilter.FilterState.FailBlock && !InputContext.ViewingUser.IsEditor )
             {
                 //Error - search query failed profanity check.

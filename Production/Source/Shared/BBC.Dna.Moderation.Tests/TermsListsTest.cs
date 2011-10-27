@@ -45,7 +45,7 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsLists target = new TermsLists();
             target.Termslist.Add(TermsListTest.GetTermsList());
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
@@ -78,7 +78,7 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsLists target = new TermsLists();
             target.Termslist.Add(TermsListTest.GetTermsList());
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
@@ -111,7 +111,7 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsLists target = new TermsLists();
             target.Termslist.Add(TermsListTest.GetTermsList());
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
@@ -144,7 +144,7 @@ namespace BBC.Dna.Moderation.Tests
 
             TermsLists target = new TermsLists();
             target.Termslist.Add(TermsListTest.GetTermsList());
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.IsNull(actual);
 
@@ -175,11 +175,11 @@ namespace BBC.Dna.Moderation.Tests
             Error expected = new Error { Type = "UpdateTermForModClassId", ErrorMessage = "Term value cannot be empty./r/nTerm value cannot be empty." };
 
             var termsList = new TermsList(1);
-            termsList.Terms.Add(new Term());
+            termsList.Terms.Add(new TermDetails());
             TermsLists target = new TermsLists();
             target.Termslist.Add(termsList);
             target.Termslist.Add(termsList);
-            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId);
+            Error actual = target.UpdateTermsInDatabase(creator, cacheManager, reason, userId, true);
 
             Assert.AreEqual(expected.ErrorMessage, actual.ErrorMessage);
             Assert.AreEqual(expected.Type, actual.Type);
@@ -222,7 +222,7 @@ namespace BBC.Dna.Moderation.Tests
         [TestMethod()]
         public void FilterListByTermIdTest()
         {
-            var term = new Term(){Id=1};
+            var term = new TermDetails(){Id=1};
             var termsList = new TermsList(1);
             termsList.Terms.Add(term);
 

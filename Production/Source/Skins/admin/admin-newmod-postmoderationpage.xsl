@@ -393,11 +393,11 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<div class="postContent">
-      <xsl:apply-templates  select="TEXT" />
+      <xsl:apply-templates select="TEXT"/>
 		</div>
 	</xsl:template>
 
-  <!-- 
+   <!-- 
 		<xsl:template match="TERMFOUND">
 		Author:	  Srihari & Mark N
 		Context:  /H2G2/POSTMODERATION/POST/TERMS/TERMDETAILS
@@ -409,15 +409,42 @@
     </xsl:variable>
 
     <xsl:variable name="moderated-term-reason">
-      <xsl:value-of select="../../TERMS/TERMDETAILS[@ID = $term-id]/REASON" />
-    </xsl:variable>
+		<xsl:choose>
+			<xsl:when test="../../TERMS/TERMDETAILS[@ID = $term-id]/REASON != ''">
+				<xsl:value-of select="../../TERMS/TERMDETAILS[@ID = $term-id]/REASON" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="../../../TERMS/TERMDETAILS[@ID = $term-id]/REASON" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 
     <xsl:variable name="moderated-term-date">
-      <xsl:value-of select="../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/@RELATIVE" />
+		<xsl:choose>
+			<xsl:when test="../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/DATE/@RELATIVE != ''">
+				<xsl:value-of select="../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/DATE/@RELATIVE" />	
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="../../../TERMS/TERMDETAILS[@ID = $term-id]/UPDATEDDATE/DATE/@RELATIVE" />	
+			</xsl:otherwise>
+		</xsl:choose>
     </xsl:variable>
 
+	
+	<xsl:variable name="moderated-term-filteredfrom">
+		<xsl:choose> 
+			<xsl:when test="@FROMMODCLASS = 'True'">
+				<xsl:text> Filtered by Moderation Class </xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text> Filtered by Forum </xsl:text>
+			</xsl:otherwise>
+	    </xsl:choose>		
+	</xsl:variable>
+
+	
     <strong>
-      <span title="{$moderated-term-reason} - {$moderated-term-date}">
+      <span title="{$moderated-term-reason} - {$moderated-term-date} - {$moderated-term-filteredfrom}">
         <xsl:apply-templates />
       </span>
     </strong>

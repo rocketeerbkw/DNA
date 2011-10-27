@@ -505,3 +505,103 @@
 
     }
 })();
+
+
+/******************************************/
+// Terms filter validation
+/******************************************/
+function dnaterms_markAllRadio(type) {
+    var inputs = document.getElementsByTagName("input");
+    for (var index = 0; index < inputs.length; index++) {
+        if (inputs[index].type == 'radio' && inputs[index].value == type) {
+            inputs[index].checked = 'checked';
+        }
+
+
+    }
+}
+
+function dnaterms_unMarkAllRadioButtons() {
+    var inputs = document.getElementsByTagName("input");
+    for (var index = 0; index < inputs.length; index++) {
+        if (inputs[index].name == 'action_modclassid_all') {
+            inputs[index].checked = false;
+        }
+
+
+    }
+}
+
+function dnaterms_validateForm(theForm) {
+    var errorStyle = "2px solid red";
+    var error = document.getElementById("dnaTermErrorDiv");
+    if (error == null) {
+        error = new Div();
+    }
+    var serverResponse = document.getElementById("serverResponse");
+    if (serverResponse != null) {
+        serverResponse.style.display = "none";
+    }
+    error.style.display = "none";
+    theForm.reason.style.border = "";
+    theForm.termtext.style.border = "";
+   
+
+    with (theForm) {
+        termtext.value = termtext.value.replace(/^\s*/, "").replace(/\s*$/, "")
+        if (termtext.value == '') {
+            error.innerHTML = "<p>Terms cannot be empty.</p>";
+            termtext.style.border = errorStyle;
+            error.style.display = "block";
+
+            return false;
+        }
+        
+        reason.value = reason.value.replace(/^\s*/, "").replace(/\s*$/, "")
+        if (reason.value == '') {
+            error.innerHTML = "<p>Import reason cannot be empty.</p>";
+            reason.style.border = errorStyle;
+            error.style.display = "block";
+            return false;
+        }
+
+        
+
+    }
+
+    theForm.reason.style.border = "";
+    theForm.termtext.style.border = "";
+    error.style.display = "none";
+    return confirm("Are you sure you want make this update?");
+}
+
+function commentforumlist_divToggle(div) {
+    var ele = document.getElementById(div);
+    if (ele.style.display == "block") {
+        ele.style.display = "none";
+    }
+    else {
+        ele.style.display = "block";
+    }
+}
+
+function commentforumlist_toggle(divTerms, textArea) {
+    var ele = document.getElementById(divTerms);
+    var text = document.getElementById(divTerms);
+    var termHolder = document.getElementById(textArea);
+    termHolder.value = "";
+    if (ele.style.display == "block") {
+        ele.style.display = "none";
+    }
+    else {
+        ele.style.display = "block";
+    }
+}
+
+function commentforumlist_termToggle(divTerms, term, theForm) {
+    var ele = document.getElementById(divTerms);
+    ele.style.display = "block";
+
+    theForm.termtext.value = term;
+
+}

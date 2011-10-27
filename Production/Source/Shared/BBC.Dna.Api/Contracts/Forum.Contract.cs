@@ -115,6 +115,7 @@ namespace BBC.Dna.Api
         /// <summary>
         /// the forum internal ID
         /// </summary>
+        [DataMember(Name = ("forumId"), Order = 14)]
         public int ForumID = 0;
 
         /// <summary>

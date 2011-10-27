@@ -206,7 +206,13 @@ namespace BBC.Dna.Component
                 string matchingProfanity;
                 List<Term> terms = null;
                 ProfanityFilter.FilterState siteSuffixProfanity = ProfanityFilter.FilterState.Pass;
-                siteSuffixProfanity = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, siteSuffix, out matchingProfanity, out terms);
+                int forumId = 0;
+                if (InputContext.DoesParamExist("forumid", "forumid"))
+                {
+                    forumId = InputContext.GetParamIntOrZero("forumid", "forumid");
+                }
+
+                siteSuffixProfanity = ProfanityFilter.CheckForProfanities(InputContext.CurrentSite.ModClassID, siteSuffix, out matchingProfanity, out terms, forumId);
                 if (siteSuffixProfanity == ProfanityFilter.FilterState.FailBlock)
                 {
                     statusMessage = "Site suffix failed profanity check.";

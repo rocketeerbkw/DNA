@@ -80,5 +80,7 @@
 	<xsl:include href="pages/userlist.xsl"/>
   <xsl:include href="pages/userreputationreport.xsl"/>
   <xsl:include href="pages/sitemanager.xsl"/>
+  <xsl:include href="pages/termsfilteradmin.xsl"/>
+  <xsl:include href="pages/termsfilterimport.xsl"/>
   
 </xsl:stylesheet>

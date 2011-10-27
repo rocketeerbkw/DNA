@@ -135,12 +135,12 @@ namespace BBC.Dna
                 var termsList = new TermsList(modClass.ClassId);
                 foreach (var term in terms)
                 {
-                    termsList.Terms.Add(new Term { Value = term, Action = termAction });
+                    termsList.Terms.Add(new TermDetails { Value = term, Action = termAction });
                 }
                 termsLists.Termslist.Add(termsList);
             }
             BaseResult error = termsLists.UpdateTermsInDatabase(AppContext.ReaderCreator, _cache, reason,
-                                                                InputContext.ViewingUser.UserID);
+                                                                InputContext.ViewingUser.UserID, true);
 
             if (error == null)
             {
