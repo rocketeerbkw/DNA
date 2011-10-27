@@ -355,9 +355,13 @@ BEGIN
 	END
 	ELSE IF @realstatus = 3 
 	BEGIN
-		--Open thread automatically if post is passed.
-		UPDATE Threads SET CanWrite = 1, VisibleTo = NULL
-		WHERE ThreadId = @threadid
+		IF (dbo.udf_getsiteoptionsetting(@siteid, 'Moderation', 'ProcessPreMod') != 1)	
+		BEGIN
+			--Open thread automatically if post is passed and if not a process pre mod thread.
+			-- fixing bug for kids where editing first post opened a closed forum
+			UPDATE Threads SET CanWrite = 1, VisibleTo = NULL
+			WHERE ThreadId = @threadid
+		END
 	END
 END
 

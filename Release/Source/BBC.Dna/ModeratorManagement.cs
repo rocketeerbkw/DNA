@@ -6,6 +6,8 @@ using BBC.Dna.Moderation;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Users;
+using System.Linq;
+using System.Collections.ObjectModel;
 
 namespace BBC.Dna.Component
 {
@@ -29,7 +31,7 @@ namespace BBC.Dna.Component
         public override void ProcessRequest()
         {
 
-            if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsSuperUser)
+            if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsEditor)
             {
                 AddErrorXml("Unauthorised", "User not authorised", RootElement);
                 return;
@@ -45,30 +47,31 @@ namespace BBC.Dna.Component
                 groupName = "moderator";
 
             // Process Input
-            ProcessSubmission( groupName );
+            var foundUserId = ProcessSubmission( groupName );
 
             // Generate XML
-            GenerateXml( groupName );
+            GenerateXml( groupName, foundUserId );
 
             // Get a list of all the sites.
             SiteXmlBuilder siteXml = new SiteXmlBuilder(InputContext);
-            RootElement.AppendChild(ImportNode(siteXml.GenerateAllSitesXml(InputContext.TheSiteList).FirstChild));
+            RootElement.AppendChild(ImportNode(siteXml.GenerateSitesForUserAsEditorXml(InputContext.TheSiteList).FirstChild));
 
         }
 
         /// <summary>
         /// Generates XML for ModeratorManagement page.
         /// </summary>
-        public void GenerateXml(  string groupName )
+        public void GenerateXml(  string groupName, int foundUserid )
         {
             XmlElement modList = AddElementTag(RootElement,"MODERATOR-LIST");
             AddAttribute(modList, "GROUPNAME", groupName);
             XmlElement sites = null;
             XmlElement classes = null;
-            
             using ( IDnaDataReader dataReader = InputContext.CreateDnaDataReader("getfullmoderatorlist") )
             {
                 dataReader.AddParameter("groupname", groupName);
+                dataReader.AddParameter("userid", InputContext.ViewingUser.UserID);
+                dataReader.AddParameter("founduserid", foundUserid);
                 dataReader.Execute();
 
                 int userId = 0;
@@ -108,32 +111,35 @@ namespace BBC.Dna.Component
                     }
                 }
             }
+
+            AddModerationClasses();
         }
 
         /// <summary>
         /// Checks parameters and performs moderator actions.
         /// </summary>
-        public void ProcessSubmission( string groupName )
+        public int ProcessSubmission( string groupName )
         {
+            var userId=0;
             if (InputContext.DoesParamExist("finduser", "Find User"))
             {
                 XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
                 String emailorId = InputContext.GetParamStringOrEmpty("email", "email");
                 if (EmailAddressFilter.IsValidEmailAddresses(emailorId))
                 {
-                    FindUserFromEmail(foundUsers, emailorId);
+                    userId= FindUserFromEmail(foundUsers, emailorId);
                 }
                 else
                 {
-                    FindUserFromUserId(foundUsers, emailorId);
+                    userId = FindUserFromUserId(foundUsers, emailorId);
                 }
             }
             if (InputContext.DoesParamExist("updateuser", "UpdateUser"))
             {
-                int userId = InputContext.GetParamIntOrZero("userid", "UserId");
+                userId = InputContext.GetParamIntOrZero("userid", "UserId");
 
                 updateUser(groupName, userId);
-                UserGroups.GetObject().SendSignal(userId);
+                UserGroups.GetObject().SendSignal();
 
                 //Produce Found User XML.
                 XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
@@ -148,6 +154,7 @@ namespace BBC.Dna.Component
                         find.AddUserXMLBlock(reader, userId, foundUsers);
                     }
                 }
+                
             }
             else if (InputContext.DoesParamExist("giveaccess", "Give Access"))
             {
@@ -159,6 +166,8 @@ namespace BBC.Dna.Component
                 RemoveAccess(groupName);
                 UserGroups.GetObject().SendSignal();
             }
+
+            return userId;
         }
 
         /// <summary>
@@ -260,7 +269,13 @@ namespace BBC.Dna.Component
                 int siteId = InputContext.GetParamIntOrZero("tosite", index, "tosite");
                 siteList += Convert.ToString(siteId);
             }
-
+            
+            //add access to moderation tools
+            if(!string.IsNullOrEmpty(siteList))
+            {
+                siteList += "|" + InputContext.TheSiteList.GetSite("moderation").SiteID;
+            }
+            
             using (IDnaDataReader reader = InputContext.CreateDnaDataReader("addnewmoderatortosites"))
             {
                 reader.AddParameter("sitelist", siteList);
@@ -296,12 +311,13 @@ namespace BBC.Dna.Component
         /// </summary>
         /// <param name="foundUsers"></param>
         /// <param name="email"></param>
-        private void FindUserFromUserId(XmlElement foundUsers, String email)
+        private int FindUserFromUserId(XmlElement foundUsers, String email)
         {
+            int userId;
             //Search for user by userid.
             using (IDnaDataReader reader = InputContext.CreateDnaDataReader("finduserfromidwithorwithoutmasthead"))
             {
-                int userId;
+                
                 if (Int32.TryParse(email, out userId))
                 {
                     reader.AddParameter("userid", userId);
@@ -312,9 +328,11 @@ namespace BBC.Dna.Component
                     {
                         User find = new User(InputContext);
                         find.AddUserXMLBlock(reader, userId, foundUsers);
+                        userId = reader.GetInt32NullAsZero("userid");
                     }
                 }
             }
+            return userId;
         }
 
         /// <summary>
@@ -322,8 +340,9 @@ namespace BBC.Dna.Component
         /// </summary>
         /// <param name="foundUsers"></param>
         /// <param name="email"></param>
-        private void FindUserFromEmail(XmlElement foundUsers, String email)
+        private int FindUserFromEmail(XmlElement foundUsers, String email)
         {
+            int userId = 0;
             using (IDnaDataReader reader = InputContext.CreateDnaDataReader("finduserfromemail"))
             {
                 reader.AddParameter("email", email);
@@ -332,7 +351,46 @@ namespace BBC.Dna.Component
                 {
                     User find = new User(InputContext);
                     find.AddUserXMLBlock(reader, reader.GetInt32NullAsZero("userid"), foundUsers);
+                    userId = reader.GetInt32NullAsZero("userid");
                 }
+            }
+            return userId;
+        }
+
+        /// <summary>
+        /// determines which moderation classes should be shown
+        /// </summary>
+        private void AddModerationClasses()
+        {
+            ModerationClassList moderationClassList =
+                ModerationClassListCache.GetObject();
+            if (InputContext.ViewingUser.IsSuperUser)
+            {
+                SerialiseAndAppend(moderationClassList, "");
+            }
+            else
+            {
+
+                using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("getmoderatingclassbyuser"))
+                {
+                    dataReader.AddParameter("userid", InputContext.ViewingUser.UserID);
+                    dataReader.Execute();
+
+                    List<int> modClasses = new List<int>();
+                    while (dataReader.Read())
+                    {
+                        modClasses.Add(dataReader.GetInt32NullAsZero("ModClassID"));
+                    }
+
+                    var classes = moderationClassList.ModClassList.Where(y => modClasses.Contains(y.ClassId)).ToList<ModerationClass>();
+                    var tmpList = new ModerationClassList();
+                    foreach (var modClass in classes)
+                    {
+                        tmpList.ModClassList.Add(modClass);
+                    }
+                    SerialiseAndAppend(tmpList, "");
+                }
+                
             }
         }
     }

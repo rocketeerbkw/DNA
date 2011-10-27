@@ -16,7 +16,7 @@
         </xs:element>
         <xs:element name="id" type="xs:unsignedInt" />
         <xs:element name="identityUserID" type="xs:string" />
-		<xs:element name="identityUserName" type="xs:string" nillable="true" />
+		    <xs:element name="identityUserName" type="xs:string" nillable="true" />
         <xs:element name="lastName" nillable="true" />
         <xs:element name="lastSynchronisedDate" type="xs:dateTime" />
         <xs:element name="siteID" type="xs:unsignedByte" />
@@ -24,6 +24,7 @@
         <xs:element name="ssoUserID" type="xs:int" />
         <xs:element name="status" type="xs:string" />
         <xs:element name="teamID" type="xs:int" />
+        <xs:element name="twitterUserID" type="xs:string" nillable="true"/>
         <xs:element name="userName" type="xs:string" />
 	  </xs:sequence>
     </xs:complexType>

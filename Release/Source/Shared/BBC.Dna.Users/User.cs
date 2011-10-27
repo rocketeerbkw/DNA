@@ -72,6 +72,15 @@ namespace BBC.Dna.Users
         /// </summary>
         Super = 2
     }
+
+    /// <summary>
+    /// Different types of external users
+    /// </summary>
+    public enum ExternalUserTypes
+    {
+        TwitterUser,
+        FacebookUser
+    }
     
     /// <summary>
     /// The dna user class
@@ -114,6 +123,12 @@ namespace BBC.Dna.Users
         /// </summary>
         [DataMember(Name = "identityUserID")]
         public virtual string IdentityUserID  {get; set;}
+
+        /// <summary>
+        /// The get property for the users twitter user id
+        /// </summary>
+        [DataMember(Name = "twitterUserID")]
+        public virtual string TwitterUserID { get; set; }
 
         /// <summary>
         /// The get property for the users name
@@ -257,7 +272,7 @@ namespace BBC.Dna.Users
         /// <param name="loginName">The login name for the user</param>
         /// <param name="email">The users email</param>
         /// <param name="displayName">The users display name if gievn</param>
-        /// <returns>True if they we're created ok, false if not</returns>
+        /// <returns>True if they we're created ok, false if not</returns> 
         public bool CreateUserFromSignInUserID(string userSignInID, int legacyUserID, SignInSystem signInType, int siteID, string loginName, string email, string displayName,string ipAddress, Guid BBCUid )
         {
             bool userCreated = false;
@@ -272,6 +287,11 @@ namespace BBC.Dna.Users
             }
 
             return userCreated;
+        }
+
+        public bool CreateTweetUserFromSignInTwitterUserID( int siteID, string twitterUserSignInID, string loginName, string displayName)
+        {
+            return CreateTweetUserFromSignInUserID(siteID, twitterUserSignInID, loginName, displayName);
         }
 
         /// <summary>
@@ -333,6 +353,7 @@ namespace BBC.Dna.Users
             return false;
         }
 
+
         /// <summary>
         /// Helper method for creating and getting users via signin userids
         /// </summary>
@@ -372,6 +393,44 @@ namespace BBC.Dna.Users
                     SiteID = siteID;
                     ReadUserDetails(reader);
                     return UserID > 0;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Method to create a twitter user
+        /// </summary>
+        /// <param name="siteID"></param>
+        /// <param name="identityUserID"></param>
+        /// <param name="twitterUserID"></param>
+        /// <param name="loginName"></param>
+        /// <param name="email"></param>
+        /// <param name="displayName"></param>
+        /// <param name="ipAddress"></param>
+        /// <param name="BBCUid"></param>
+        /// <returns></returns>
+        private bool CreateTweetUserFromSignInUserID(int siteID, string twitterUserID, string loginName, string displayName)
+        {
+            string procedureName = "createnewuserfromtwitteruserid";
+
+            using (IDnaDataReader reader = CreateStoreProcedureReader(procedureName))
+            {
+                
+                reader.AddParameter("twitteruserid", twitterUserID);
+                reader.AddParameter("username", loginName);
+                reader.AddParameter("siteid", siteID);
+                if (displayName.Length > 0)
+                {
+                    reader.AddParameter("displayname", displayName);
+                }
+                reader.Execute();
+                if (reader.Read() && reader.HasRows)
+                {
+                    // Get the id for the user.
+                    SiteID = siteID;
+                    ReadUserDetails(reader);
+                    return (false == string.IsNullOrEmpty(twitterUserID));
                 }
             }
             return false;
@@ -433,6 +492,7 @@ namespace BBC.Dna.Users
             }
             return false;
         }
+        
 
         /// <summary>
         /// Finds a user using their Identity User ID

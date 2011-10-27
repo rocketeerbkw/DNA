@@ -58,7 +58,6 @@ public partial class ModeratorManagementPage : BBC.Dna.Page.DnaWebPage
         }
 
         AddComponent(new ModeratorManagement(_basePage));
-        AddComponent(new ModerationClasses(_basePage));
 
     }
 }

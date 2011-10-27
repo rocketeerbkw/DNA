@@ -26,7 +26,7 @@ BEGIN
 	ELSE
 	BEGIN
 		-- We still didn't find the DNAUserID. Create a new entry for the user
-		INSERT INTO dbo.SignInUserIDMapping SELECT SSOUserID = @legacyssoid, IdentityUserID = @identityuserid
+		INSERT INTO dbo.SignInUserIDMapping(SSOUserID, IdentityUserID) VALUES(@legacyssoid, @identityuserid)
 		SELECT @DnaUserID = @@IDENTITY
 	END
 END

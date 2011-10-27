@@ -82,5 +82,6 @@
   <xsl:include href="pages/sitemanager.xsl"/>
   <xsl:include href="pages/termsfilteradmin.xsl"/>
   <xsl:include href="pages/termsfilterimport.xsl"/>
+  <xsl:include href="pages/moderatormanagement.xsl"/>
   
 </xsl:stylesheet>

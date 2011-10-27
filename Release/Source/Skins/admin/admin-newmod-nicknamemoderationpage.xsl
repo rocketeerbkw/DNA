@@ -155,7 +155,7 @@
 	</xsl:template>
 
   <xsl:template match="USER" mode="profile_withusername">
-    <a href="memberdetails?userid={USERID}" class="profile" target="_blank">
+    <a href="/dna/moderation/admin/memberdetails?userid={USERID}" class="profile" target="_blank">
       <xsl:apply-templates select="USERNAME"/>
     </a>
   </xsl:template>

@@ -605,3 +605,53 @@ function commentforumlist_termToggle(divTerms, term, theForm) {
     theForm.termtext.value = term;
 
 }
+
+///Moderator management js
+function modmanagement_hilightRow(targetCheckboxMember) {
+    targetRow = targetCheckboxMember.parentNode.parentNode;
+    if ((targetRow.previousSibling != null && targetRow.previousSibling.className == 'stripeOne') || (targetRow.nextSibling && targetRow.nextSibling.classname == 'stripeOne')) {
+        newClass = 'stripeTwo'
+    } else {
+        newClass = 'stripeOne'
+    }
+    targetCheckboxMember.checked ? targetRow.className = 'selectedRow' : targetRow.className = newClass;
+}
+function modmanagement_counted() {
+    count = 0;
+    targetForm = document.forms['moderatormanagement'];
+    checkboxGroup = targetForm.elements['userid'];
+    if (checkboxGroup.type == 'checkbox') {
+        if (checkboxGroup.checked) {
+            count++;
+        }
+    }
+
+    for (i = 0; i < checkboxGroup.length; i++) {
+        if (checkboxGroup[i].checked) { count++ };
+    }
+    return count;
+}
+
+function modmanagement_submitGroup(managegroup) {
+    targetForm = document.forms['moderatormanagement'];
+    targetForm.elements['manage'].value = managegroup;
+    targetForm.submit();
+}
+
+function modmanagement_access(sel) {
+    var label = sel.options[sel.selectedIndex].parentNode.label;
+    if (label == 'Sites') {
+        targetForm = document.forms['moderatormanagement'];
+        targetForm.elements['accessobject'].name = 'siteid';
+    }
+    else if (label == 'Classes') {
+        targetForm = document.forms['moderatormanagement'];
+        targetForm.elements['accessobject'].name = 'classid';
+    }
+}
+
+
+function modmanagement_addmoderator() {
+    targetForm = document.forms['moderatormanagement'];
+    targetForm.elements['viewtype'].value = 'addmoderator';
+}

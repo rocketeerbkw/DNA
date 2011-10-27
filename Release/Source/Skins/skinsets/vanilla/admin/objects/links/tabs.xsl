@@ -29,6 +29,40 @@
 					<!-- no tabs for the host dashboard activity page -->
 					<li>&#160;</li>
 				</xsl:when>
+        <xsl:when test="@TYPE = 'MODERATOR-MANAGEMENT'">
+          <li >
+            <xsl:if test="/H2G2/MODERATOR-LIST/@GROUPNAME='moderator'">
+              <xsl:attribute name="class">selected</xsl:attribute>
+            </xsl:if>
+            <a href="#top" onclick="modmanagement_submitGroup('moderator')" class="moderator">
+              Moderator
+            </a>
+          </li>
+          <li >
+            <xsl:if test="/H2G2/MODERATOR-LIST/@GROUPNAME='editor'">
+              <xsl:attribute name="class">selected</xsl:attribute>
+            </xsl:if>
+            <a href="#top" onclick="modmanagement_submitGroup('editor')" class="editor">
+              Editor
+            </a>
+          </li>
+          <li>
+            <xsl:if test="/H2G2/MODERATOR-LIST/@GROUPNAME='notables'">
+              <xsl:attribute name="class">selected</xsl:attribute>
+            </xsl:if>
+            <a href="#top" onclick="modmanagement_submitGroup('notables')"  class="notables">
+              Notables
+            </a>
+          </li>
+          <li>
+            <xsl:if test="/H2G2/MODERATOR-LIST/@GROUPNAME='referees'">
+              <xsl:attribute name="class">selected</xsl:attribute>
+            </xsl:if>
+            <a href="#top" onclick="modmanagement_submitGroup('referees')"  class="referees">
+              Referees
+            </a>
+          </li>
+        </xsl:when>
 				<xsl:otherwise>
 					<li>
 						<xsl:if test="not(PARAMS/PARAM[NAME = 's_type']/VALUE )">

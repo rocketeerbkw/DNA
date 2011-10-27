@@ -85,5 +85,9 @@
 			<h1>DNA Site Admin <span><xsl:value-of select="SITE/SHORTNAME"/></span></h1>
 		</xsl:if>	
 	</xsl:template>
-	
+
+  <xsl:template match="H2G2[@TYPE = 'MODERATOR-MANAGEMENT']" mode="objects_title">
+    <h1>Moderation Management</h1>
+  </xsl:template>
+
 </xsl:stylesheet>
