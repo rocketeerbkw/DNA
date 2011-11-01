@@ -219,10 +219,10 @@
         </a>
       </li>
       <li id="Group4">
-        <xsl:if test="$managegroup='referees'">
+        <xsl:if test="$managegroup='referee'">
           <xsl:attribute name="class">selected4</xsl:attribute>
         </xsl:if>
-        <a href="#top" onclick="submitGroup('referees')">
+        <a href="#top" onclick="submitGroup('referee')">
           Referees
         </a>
       </li>

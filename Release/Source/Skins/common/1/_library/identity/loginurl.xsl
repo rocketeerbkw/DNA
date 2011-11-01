@@ -17,8 +17,8 @@
     
     <xsl:template match="VIEWING-USER" mode="library_identity_loginurl">
         <xsl:param name="ptrt" />
-        
-    	<xsl:value-of select="concat($configuration/identity/url, '/users/login?target_resource=')"/>
+        <xsl:param name="loc" />
+      <xsl:value-of select="concat($configuration/identity/url, '/users/login?target_resource=')"/>
     	
     	<!-- hard coded hack to allow the sign in link to show the 'contact me' details in have your say -->
 	    <xsl:variable name="policy">	
@@ -35,11 +35,17 @@
     	<xsl:call-template name="library_string_urlencode">
 			<xsl:with-param name="string" select="$policy" />
     	</xsl:call-template>
-    	
+      
+      <xsl:if test="$loc">
+        <xsl:text>&#38;loc=</xsl:text>
+        <xsl:value-of select="$loc"/>
+      </xsl:if>
          <xsl:if test="$ptrt">
          	<xsl:text>&#38;ptrt=</xsl:text>
          	<xsl:apply-templates select="/H2G2" mode="library_identity_ptrt" />
-        </xsl:if>   
+        </xsl:if>
+
+      
     </xsl:template>
     
 </xsl:stylesheet>
