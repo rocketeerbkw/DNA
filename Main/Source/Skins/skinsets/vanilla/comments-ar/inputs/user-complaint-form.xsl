@@ -46,12 +46,13 @@
 	                		<xsl:when test="/H2G2/SITE/IDENTITYSIGNIN != 1">
                               <xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_memberservice_loginurl">
                                   <xsl:with-param name="ptrt" select="concat($root,  '/UserComplaintPage?PostID=', (POST-ID | @POSTID)[1], '&amp;s_start=2')" />
+                                <xsl:with-param name="loc">ar-SA</xsl:with-param>
                               </xsl:apply-templates>
-		                          
 		                     </xsl:when>
 		                     <xsl:otherwise>
                               <xsl:apply-templates select="/H2G2/VIEWING-USER" mode="library_identity_loginurl">
                                   <xsl:with-param name="ptrt" select="concat('/UserComplaintPage?PostID=', (POST-ID | @POSTID)[1])" />
+                                <xsl:with-param name="loc">ar-SA</xsl:with-param>
                               </xsl:apply-templates>
 		                     </xsl:otherwise>
 		                  </xsl:choose>
