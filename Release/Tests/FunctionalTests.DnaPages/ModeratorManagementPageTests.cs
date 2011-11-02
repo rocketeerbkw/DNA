@@ -274,7 +274,7 @@ namespace FunctionalTests
                     reader.ExecuteDEBUGONLY("delete from GroupMembers where UserId=" + TestUserAccounts.GetNormalUserAccount.UserID);
                     reader.ExecuteDEBUGONLY("delete from ModerationClassMembers where UserId=" + TestUserAccounts.GetNormalUserAccount.UserID);
                 }
-                inputcontext.SendSignal("action=recache-groups&userid=" + TestUserAccounts.GetNormalUserAccount.UserID);
+                SendSignal();
             }
         }
 
@@ -340,6 +340,7 @@ namespace FunctionalTests
             XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, _siteId));
             Assert.IsNotNull(node);
 
+            SendSignal();
             CheckUserPermissions("EDITOR");
 
             request.SetCurrentUserNormal();
@@ -378,6 +379,7 @@ namespace FunctionalTests
             XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/CLASSES[CLASSID/text()='{1}']", TestUserAccounts.GetNormalUserAccount.UserID, _modClassId));
             Assert.IsNotNull(node);
 
+            SendSignal();
             CheckUserPermissions("EDITOR");
 
             request.SetCurrentUserNormal();
