@@ -49,10 +49,11 @@ namespace Tests
             Stub.On(context).Method("GetParamStringOrEmpty").With("email", "email").Will(Return.Value("dotnetuser@bbc.com"));
             Stub.On(context).Method("DoesParamExist").With("finduser", "Find User").Will(Return.Value(true));
             Stub.On(context).Method("DoesParamExist").With("updateuser", "UpdateUser").Will(Return.Value(false));
+            Stub.On(context).Method("DoesParamExist").With("updateuser", "UpdateUser").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("giveaccess", "Give Access").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeaccess", "removeaccess").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeallaccess", "removeallaccess").Will(Return.Value(false));
-
+            Stub.On(context).Method("DoesParamExist").With("userid", "user working on").Will(Return.Value(false));
             // Mock the stored procedure call
             IDnaDataReader mockedReader = DnaMockery.CurrentMockery.NewMock<IDnaDataReader>();
             Stub.On(context).Method("CreateDnaDataReader").With("finduserfromemail").Will(Return.Value(mockedReader)); 
@@ -104,6 +105,7 @@ namespace Tests
             Stub.On(context).Method("DoesParamExist").With("giveaccess", "Give Access").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeaccess", "removeaccess").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeallaccess", "removeallaccess").Will(Return.Value(false));
+            Stub.On(context).Method("DoesParamExist").With("userid", "user working on").Will(Return.Value(false));
 
             Stub.On(context).Method("GetParamCountOrZero").With("tosite","SiteId").Will(Return.Value(3) );
             Stub.On(context).Method("GetParamIntOrZero").With("tosite", 0, "tosite").Will(Return.Value(1));
@@ -119,7 +121,7 @@ namespace Tests
             IDnaDataReader mockedReader = DnaMockery.CurrentMockery.NewMock<IDnaDataReader>();
             Stub.On(context).Method("CreateDnaDataReader").With("addnewmoderatortosites").Will(Return.Value(mockedReader));
             Expect.Once.On(mockedReader).Method("AddParameter").With("sitelist", "1|2|3|66");
-            Expect.Exactly(3).On(mockedReader).Method("AddParameter").With("userid", 6);
+            Expect.Exactly(2).On(mockedReader).Method("AddParameter").With("userid", 6);
             Expect.Exactly(2).On(mockedReader).Method("AddParameter").With("groupname", "editor");
             
             Stub.On(context).Method("CreateDnaDataReader").With("addnewmoderatortoclasses").Will(Return.Value(mockedReader));
@@ -158,7 +160,7 @@ namespace Tests
             Stub.On(context).Method("DoesParamExist").With("giveaccess", "Give Access").Will(Return.Value(true));
             Stub.On(context).Method("DoesParamExist").With("removeaccess", "removeaccess").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeallaccess", "removeallaccess").Will(Return.Value(false));
-
+            Stub.On(context).Method("DoesParamExist").With("userid", "user working on").Will(Return.Value(false));
 
             Stub.On(context).Method("GetParamCountOrZero").With("userid","UserId").Will(Return.Value(3));
             Stub.On(context).Method("GetParamIntOrZero").With("userid",0,"UserId").Will(Return.Value(1));
@@ -211,7 +213,7 @@ namespace Tests
             Stub.On(context).Method("DoesParamExist").With("giveaccess", "Give Access").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeaccess", "removeaccess").Will(Return.Value(true));
             Stub.On(context).Method("DoesParamExist").With("removeallaccess", "removeallaccess").Will(Return.Value(false));
-
+            Stub.On(context).Method("DoesParamExist").With("userid", "user working on").Will(Return.Value(false));
 
             Stub.On(context).Method("GetParamCountOrZero").With("userid", "UserId").Will(Return.Value(3));
             Stub.On(context).Method("GetParamIntOrZero").With("userid", 0, "UserId").Will(Return.Value(1));

@@ -121,7 +121,7 @@ namespace BBC.Dna.Component
         public int ProcessSubmission( string groupName )
         {
             var userId=0;
-            XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
+            
             
             if (InputContext.DoesParamExist("updateuser", "UpdateUser"))
             {
@@ -144,7 +144,7 @@ namespace BBC.Dna.Component
 
             if (InputContext.DoesParamExist("finduser", "Find User"))
             {
-
+                XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
                 String emailorId = InputContext.GetParamStringOrEmpty("email", "email");
                 if (EmailAddressFilter.IsValidEmailAddresses(emailorId))
                 {
@@ -157,6 +157,7 @@ namespace BBC.Dna.Component
             }
             else if (InputContext.DoesParamExist("userid", "user working on"))
             {
+                XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
                 userId = FindUserFromUserId(foundUsers, InputContext.GetParamStringOrEmpty("userid", "userid"));
             }
 
@@ -264,7 +265,7 @@ namespace BBC.Dna.Component
             }
             
             //add access to moderation tools
-            if (!string.IsNullOrEmpty(siteList) && InputContext.GetParamCountOrZero("toclass", "ModerationClassId") == 0)
+            if (!string.IsNullOrEmpty(siteList) || InputContext.GetParamCountOrZero("toclass", "ModerationClassId") != 0)
             {
                 siteList += "|" + InputContext.TheSiteList.GetSite("moderation").SiteID;
             }
