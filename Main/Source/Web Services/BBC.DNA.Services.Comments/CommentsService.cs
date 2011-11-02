@@ -264,7 +264,7 @@ namespace BBC.Dna.Services
 
                 if (_internalRequest || _commentObj.CallingUser.IsUserA(UserTypes.Editor))
                 {
-                    commentForumData = _commentObj.CreateCommentForum(commentForum, site);
+                    commentForumData = _commentObj.CreateAndUpdateCommentForum(commentForum, site);
                 }
                 else
                 {

@@ -2192,5 +2192,112 @@ namespace BBC.Dna.Api.Tests
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumcreate"));
         }
 
+        [TestMethod]
+        public void CreateAndUpdateCommentForum_AlreadyExists_ThenUpdate()
+        {
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var readerComments = mocks.DynamicMock<IDnaDataReader>();
+            var readerUpdate = mocks.DynamicMock<IDnaDataReader>();
+
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var siteName = "h2g2";
+            var uid = "uid";
+            var commentForum = new CommentForum
+            {
+                Id = uid,
+                Title = "title",
+                ParentUri = "https://www.bbc.co.uk"
+
+            };
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+            site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Twice();
+            reader.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
+            reader.Stub(x => x.GetStringNullAsEmpty("UID")).Return(uid);
+            reader.Stub(x => x.GetStringNullAsEmpty("Title")).Return(uid);
+            reader.Stub(x => x.GetStringNullAsEmpty("Url")).Return("https://www.bbc.co.uk");
+            
+
+            readerUpdate.Stub(x => x.HasRows).Return(true);
+            readerUpdate.Stub(x => x.Read()).Return(true).Repeat.Once();
+            readerUpdate.Stub(x => x.GetStringNullAsEmpty("sitename")).Return(siteName);
+
+
+            readerComments.Stub(x => x.HasRows).Return(true);
+            readerComments.Stub(x => x.Read()).Return(true).Repeat.Twice();
+            readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
+
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumreadbyuid")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumupdate")).Return(readerUpdate);
+            
+
+            site.Stub(x => x.SiteID).Return(1);
+            siteList.Stub(x => x.GetSiteOptionValueString(1, "General", "ComplaintUrl")).Return("http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            var forum = comments.CreateAndUpdateCommentForum(commentForum, site);
+
+            Assert.IsNotNull(forum);
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumreadbyuid"));
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumupdate"));
+            readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("commentforumcreate"));
+        }
+
+        [TestMethod]
+        public void CreateAndUpdateCommentForum_NoExists_CreatesForum()
+        {
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var readerCreate = mocks.DynamicMock<IDnaDataReader>();
+            var readerComments = mocks.DynamicMock<IDnaDataReader>();
+
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var siteName = "h2g2";
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+            site.Stub(x => x.ModerationStatus).Return(ModerationStatus.SiteStatus.UnMod);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.Read()).Return(false);
+            readerComments.Stub(x => x.HasRows).Return(false);
+            readerComments.Stub(x => x.Read()).Return(false);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumreadbyuid")).Return(reader);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbyforumid")).Return(readerComments);
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumcreate")).Return(readerCreate);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+
+            var commentForum = new Forum
+            {
+                Id = "".PadRight(10, 'a'),
+                ParentUri = "http://www.bbc.co.uk/dna",
+                Title = "title",
+                ModerationServiceGroup = ModerationStatus.ForumStatus.PostMod
+            };
+
+
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            var forum = comments.CreateAndUpdateCommentForum(commentForum, site);
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumreadbyuid"));
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumcreate"));
+        }
+
     }
 }
