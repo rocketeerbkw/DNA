@@ -121,40 +121,15 @@ namespace BBC.Dna.Component
         public int ProcessSubmission( string groupName )
         {
             var userId=0;
-            if (InputContext.DoesParamExist("finduser", "Find User"))
-            {
-                XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
-                String emailorId = InputContext.GetParamStringOrEmpty("email", "email");
-                if (EmailAddressFilter.IsValidEmailAddresses(emailorId))
-                {
-                    userId= FindUserFromEmail(foundUsers, emailorId);
-                }
-                else
-                {
-                    userId = FindUserFromUserId(foundUsers, emailorId);
-                }
-            }
+            XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
+            
             if (InputContext.DoesParamExist("updateuser", "UpdateUser"))
             {
                 userId = InputContext.GetParamIntOrZero("userid", "UserId");
 
                 updateUser(groupName, userId);
                 UserGroups.GetObject().SendSignal();
-
-                //Produce Found User XML.
-                XmlElement foundUsers = AddElementTag(RootElement, "FOUNDUSERS");
-                using (IDnaDataReader reader = InputContext.CreateDnaDataReader("finduserfromid"))
-                {
-                    reader.AddParameter("userid", userId);
-                    reader.Execute();
-
-                    while (reader.Read())
-                    {
-                        User find = new User(InputContext);
-                        find.AddUserXMLBlock(reader, userId, foundUsers);
-                    }
-                }
-                
+               
             }
             else if (InputContext.DoesParamExist("giveaccess", "Give Access"))
             {
@@ -165,6 +140,24 @@ namespace BBC.Dna.Component
             {
                 RemoveAccess(groupName);
                 UserGroups.GetObject().SendSignal();
+            }
+
+            if (InputContext.DoesParamExist("finduser", "Find User"))
+            {
+
+                String emailorId = InputContext.GetParamStringOrEmpty("email", "email");
+                if (EmailAddressFilter.IsValidEmailAddresses(emailorId))
+                {
+                    userId = FindUserFromEmail(foundUsers, emailorId);
+                }
+                else
+                {
+                    userId = FindUserFromUserId(foundUsers, emailorId);
+                }
+            }
+            else if (InputContext.DoesParamExist("userid", "user working on"))
+            {
+                userId = FindUserFromUserId(foundUsers, InputContext.GetParamStringOrEmpty("userid", "userid"));
             }
 
             return userId;
@@ -271,7 +264,7 @@ namespace BBC.Dna.Component
             }
             
             //add access to moderation tools
-            if(!string.IsNullOrEmpty(siteList))
+            if (!string.IsNullOrEmpty(siteList) && InputContext.GetParamCountOrZero("toclass", "ModerationClassId") == 0)
             {
                 siteList += "|" + InputContext.TheSiteList.GetSite("moderation").SiteID;
             }
