@@ -138,7 +138,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="sortingEnum.cs" />
     <Compile Include="Threads.cs" />
     <Compile Include="URIDiscoverability.cs" />
   </ItemGroup>

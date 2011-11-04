@@ -5,6 +5,7 @@ using System.Text;
 
 
 using System.Runtime.Serialization;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Api
 {

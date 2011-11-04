@@ -9,6 +9,7 @@ using System.Threading;
 using System.ComponentModel;
 using BBC.Dna.Moderation.Utils;
 using BBC.DNA.Moderation.Utils;
+using BBC.Dna.Common;
 
 namespace BBC.Dna
 {
@@ -21,7 +22,8 @@ namespace BBC.Dna
         private string _cmd = String.Empty;
         private int _modClassId = 1;
         private bool _ignoreCache;
-
+        private SortBy sortBy = SortBy.Term;
+        private SortDirection sortDirection = SortDirection.Ascending;
 
         /// <summary>
         /// The default constructor
@@ -55,6 +57,7 @@ namespace BBC.Dna
 
             //get terms admin object
             TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateTermAdmin(AppContext.ReaderCreator, _cache, _modClassId, _ignoreCache);
+            termsAdmin.TermsList.SortList(sortBy, sortDirection);
             SerialiseAndAppend(termsAdmin, "");
 
 
@@ -130,6 +133,16 @@ namespace BBC.Dna
                 _modClassId = 1;
             }
             _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
+
+            if(InputContext.DoesParamExist("s_sortby","sortby"))
+            {
+                sortBy = (SortBy)Enum.Parse(typeof(SortBy), InputContext.GetParamStringOrEmpty("s_sortby", ""));
+            }
+
+            if (InputContext.DoesParamExist("s_sortdirection", "sortdirection"))
+            {
+                sortDirection = (SortDirection)Enum.Parse(typeof(SortDirection), InputContext.GetParamStringOrEmpty("s_sortdirection", "s_sortdirection"));
+            }
 
 #if DEBUG
             _ignoreCache = InputContext.GetParamIntOrZero("ignorecache", "Ignore the cache") == 1;

@@ -49,11 +49,19 @@
     <table class="dna-termslist">
       <thead>
         <tr>
-          <th>Term</th>
+          <th>
+            <xsl:call-template name="sortTerms">
+              <xsl:with-param name="sortBy">Term</xsl:with-param>
+            </xsl:call-template>
+          </th>
           <th>Action</th>
           <th>Reason</th>
           <th>User</th>
-          <th>Date</th>
+          <th>
+            <xsl:call-template name="sortTerms">
+              <xsl:with-param name="sortBy">Date</xsl:with-param>
+            </xsl:call-template>
+          </th>
           <th colspan="2">&#160;</th>
         </tr>
       </thead>
@@ -253,6 +261,33 @@
         <xsl:value-of select="$length" />
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="sortTerms">
+    <!-- declare that it takes two parameters 
+	  - the string and the char -->
+    <xsl:param name="sortBy" />
+    <xsl:param name="sortByEnum">
+      <xsl:choose>
+        <!-- if the string contains the character... -->
+        <xsl:when test="$sortBy ='Term'">Term</xsl:when>
+        <!-- otherwise, return the value of the string -->
+        <xsl:otherwise>Created</xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
+    <xsl:param name="sortDirection">
+      <xsl:choose>
+        <xsl:when test="/H2G2/PARAMS/PARAM[NAME='s_sortDirection']/VALUE = 'Descending'">Ascending</xsl:when>
+        <xsl:otherwise>Descending</xsl:otherwise>
+      </xsl:choose>        
+    </xsl:param>
+
+      <a>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat('termsfilteradmin?modclassid=', /H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID, '&amp;s_sortDirection=',$sortDirection, '&amp;s_sortBy=', $sortByEnum)"/> 
+        </xsl:attribute>
+        <xsl:value-of select="$sortBy"/>
+      </a>
   </xsl:template>
 
 </xsl:stylesheet>

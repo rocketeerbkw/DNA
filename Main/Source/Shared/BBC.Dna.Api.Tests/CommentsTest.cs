@@ -10,6 +10,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
+using BBC.Dna.Common;
 
 
 namespace BBC.Dna.Api.Tests

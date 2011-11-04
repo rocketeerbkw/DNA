@@ -19,7 +19,7 @@
 				<div>
 					<table>
 						<tbody>
-							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'queued' and OBJECT-TYPE != 'exlink' and OBJECT-TYPE != 'exlinkcomplaint']" mode="objects_moderator_queuesummary" />
+							<xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'queued' and (OBJECT-TYPE = 'forum' or OBJECT-TYPE = 'forumcomplaint')]" mode="objects_moderator_queuesummary" />
 						</tbody>
 					</table>
 				</div>				

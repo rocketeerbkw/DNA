@@ -8,6 +8,7 @@ using BBC.Dna.Data;
 using System.Xml.Serialization;
 using System.Xml.Schema;
 using BBC.Dna.Objects;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Moderation
 {
@@ -48,13 +49,20 @@ namespace BBC.Dna.Moderation
         [XmlAttribute(Form = XmlSchemaForm.Unqualified, AttributeName = "TOTALITEMS")]
         public int totalItems { get; set; }
 
+        [DataMember(Name = "sortBy")]
+        [XmlAttribute(Form = XmlSchemaForm.Unqualified, AttributeName = "SORTBY")]
+        public SortBy sortBy { get; set; }
+
+        [DataMember(Name = "sortDirection")]
+        [XmlAttribute(Form = XmlSchemaForm.Unqualified, AttributeName = "SORTDIRECTION")]
+        public SortDirection sortDirection { get; set; }
 
         [DataMember(Name = "users")]
         [XmlArray(Form = XmlSchemaForm.Unqualified, Order = 1, ElementName = "USERS")]
         [XmlArrayItem(Form = XmlSchemaForm.Unqualified, ElementName = "USERREPUTATION")]
         public List<UserReputation> Users { get; set; }
 
-        /// <summary>
+         /// <summary>
         /// Generates user reputation object
         /// </summary>
         /// <param name="creator"></param>
@@ -64,13 +72,28 @@ namespace BBC.Dna.Moderation
         public static UserReputationList GetUserReputationList(IDnaDataReaderCreator creator, int modClassId, int modStatus,
             int days, int startIndex, int itemsPerPage)
         {
+            return GetUserReputationList(creator, modClassId, modStatus, days, startIndex, itemsPerPage, SortBy.Created, SortDirection.Ascending);
+        }
+
+        /// <summary>
+        /// Generates user reputation object
+        /// </summary>
+        /// <param name="creator"></param>
+        /// <param name="modClass"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static UserReputationList GetUserReputationList(IDnaDataReaderCreator creator, int modClassId, int modStatus,
+            int days, int startIndex, int itemsPerPage, SortBy sortBy, SortDirection sortDirection)
+        {
             UserReputationList userRepList = new UserReputationList()
             {
                 days = days,
                 modClassId = modClassId,
                 modStatus = modStatus,
                 startIndex = startIndex,
-                itemsPerPage = itemsPerPage
+                itemsPerPage = itemsPerPage,
+                sortBy = sortBy,
+                sortDirection = sortDirection
             };
 
             using (IDnaDataReader dataReader = creator.CreateDnaDataReader("getuserreputationlist"))
@@ -80,6 +103,9 @@ namespace BBC.Dna.Moderation
                 dataReader.AddParameter("startIndex", startIndex);
                 dataReader.AddParameter("itemsPerPage", itemsPerPage);
                 dataReader.AddParameter("days", days);
+                dataReader.AddParameter("sortby", sortBy.ToString());
+                dataReader.AddParameter("sortdirection", sortDirection.ToString());
+                
                 dataReader.Execute();
 
                 while(dataReader.Read())

@@ -20,6 +20,7 @@ using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using TestUtils;
+using BBC.Dna.Common;
 
 
 

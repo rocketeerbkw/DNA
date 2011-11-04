@@ -7,6 +7,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Moderation;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Component
 {
@@ -17,6 +18,8 @@ namespace BBC.Dna.Component
     {
         private int _modClassId, _modStatus, _days, _startIndex;
         private int _itemsPerPage = 20;
+        private SortBy sortBy = SortBy.Created;
+        private SortDirection sortDirection = SortDirection.Ascending;
        
         /// <summary>
         /// Default constructor for the Member List component
@@ -44,7 +47,7 @@ namespace BBC.Dna.Component
             UpdateUserList();
 
             var userRepList = UserReputationList.GetUserReputationList(AppContext.ReaderCreator, _modClassId, _modStatus,
-            _days, _startIndex, _itemsPerPage);
+            _days, _startIndex, _itemsPerPage, sortBy, sortDirection);
             SerialiseAndAppend(userRepList, "");
         }
 
@@ -57,7 +60,7 @@ namespace BBC.Dna.Component
                 _modClassId = InputContext.GetParamIntOrZero("s_modclassid", "s_modclassid");
             }
 
-            _modStatus =-10;
+            _modStatus = (int)BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus.Restricted;
             if(InputContext.DoesParamExist("s_modstatus", "s_modstatus"))
             {
                 _modStatus = (int)Enum.Parse(typeof(BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus), InputContext.GetParamStringOrEmpty("s_modstatus", "s_modstatus")); ;
@@ -73,6 +76,16 @@ namespace BBC.Dna.Component
             if (InputContext.DoesParamExist("s_startIndex", "startIndex"))
             {
                 _startIndex = InputContext.GetParamIntOrZero("s_startIndex", "s_startIndex");
+            }
+
+            if (InputContext.DoesParamExist("s_sortby", "sortby"))
+            {
+                sortBy = (SortBy)Enum.Parse(typeof(SortBy), InputContext.GetParamStringOrEmpty("s_sortby", ""));
+            }
+
+            if (InputContext.DoesParamExist("s_sortdirection", "sortdirection"))
+            {
+                sortDirection = (SortDirection)Enum.Parse(typeof(SortDirection), InputContext.GetParamStringOrEmpty("s_sortdirection", "s_sortdirection"));
             }
 
         }

@@ -76,6 +76,7 @@
     <Compile Include="SignalHelper.cs" />
     <Compile Include="SignalBase.cs" />
     <Compile Include="SignalStatus.cs" />
+    <Compile Include="sortingEnum.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">

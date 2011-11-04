@@ -4,6 +4,7 @@ using BBC.Dna.Api;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using BBC.Dna.Common;
 
 namespace FunctionalTests.Services.Comments
 {

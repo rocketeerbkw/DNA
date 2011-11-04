@@ -127,7 +127,7 @@ namespace BBC.Dna.Api
                 return null;
             }
             //currently only post count supported
-            SortBy = SortBy.PostCount;
+            SortBy = BBC.Dna.Common.SortBy.PostCount;
             var commentForumList = new CommentForumList
                                        {
                                            CommentForums = new List<CommentForum>(),
