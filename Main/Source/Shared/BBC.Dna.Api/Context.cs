@@ -181,7 +181,7 @@ namespace BBC.Dna.Api
         /// <param name="commentForum">The comment forum object</param>
         /// <param name="site"></param>
         /// <returns>The comment forum (either new or existing) which matches to the </returns>
-        public void UpdateForum(Forum commentForum, ISite site)
+        public void UpdateForum(Forum commentForum, ISite site, bool? isClosed )
         {
             //validate data
             if (string.IsNullOrEmpty(commentForum.Id) || commentForum.Id.Length > 255)
@@ -210,6 +210,10 @@ namespace BBC.Dna.Api
                     reader.AddParameter("sitename", site.SiteName);
                     reader.AddParameter("moderationstatus", (int) commentForum.ModerationServiceGroup);
                     reader.AddParameter("closeDate", commentForum.CloseDate);
+                    if (isClosed.HasValue)
+                    {
+                        reader.AddParameter("canwrite", !isClosed);
+                    }
                     reader.Execute();
                 }
                 catch (Exception ex)

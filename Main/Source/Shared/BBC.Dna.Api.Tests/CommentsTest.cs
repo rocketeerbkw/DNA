@@ -2247,7 +2247,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forum = comments.CreateAndUpdateCommentForum(commentForum, site);
+            var forum = comments.CreateAndUpdateCommentForum(commentForum, site, null);
 
             Assert.IsNotNull(forum);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumreadbyuid"));
@@ -2295,7 +2295,7 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             var comments = new Comments(null, readerCreator, cacheManager, siteList);
-            var forum = comments.CreateAndUpdateCommentForum(commentForum, site);
+            var forum = comments.CreateAndUpdateCommentForum(commentForum, site, null);
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumreadbyuid"));
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumcreate"));
         }

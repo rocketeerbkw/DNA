@@ -2065,6 +2065,121 @@ namespace FunctionalTests.Services.Comments
 
         }
 
+        [TestMethod]
+        public void OpenCloseCommentForum_ValidRequest_ReturnsCorrectUpdate()
+        {
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserEditor();
+
+            string id = "FunctiontestCommentForum-" + Guid.NewGuid(); //have to randomize the string to post
+            string title = "Functiontest Title";
+            string parentUri = "http://www.bbc.co.uk/dna/h2g2/";
+            ModerationStatus.ForumStatus moderationStatus = ModerationStatus.ForumStatus.PostMod;
+            DateTime closeDate = DateTime.Now.AddDays(10);
+            string commentForumXml = String.Format("<commentForum xmlns=\"BBC.Dna.Api\">" +
+                                                   "<id>{0}</id>" +
+                                                   "<title>{1}</title>" +
+                                                   "<parentUri>{2}</parentUri>" +
+                                                   "<moderationServiceGroup>{3}</moderationServiceGroup>" +
+                                                   "</commentForum>", id, title, parentUri,
+                                                   moderationStatus, closeDate.ToString("yyyy-MM-dd"));
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/",
+                                       _sitename);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            var returnedForum =
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.AreEqual(id, returnedForum.Id);
+            Assert.IsFalse(returnedForum.isClosed);
+            Assert.AreEqual(title, returnedForum.Title);
+            Assert.AreEqual(parentUri, returnedForum.ParentUri);
+            Assert.AreEqual(moderationStatus, returnedForum.ModerationServiceGroup);
+
+            //close using method
+            url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/close",
+                                       _sitename, id);
+            request.RequestPageWithFullURL(url, "", "text/xml", "POST");
+            // Check to make sure that the page returned with the correct information
+            xml = request.GetLastResponseAsXML();
+            validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            returnedForum =
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.AreEqual(id, returnedForum.Id);
+            Assert.IsTrue(returnedForum.isClosed);
+            Assert.AreEqual(title, returnedForum.Title);
+            Assert.AreEqual(parentUri, returnedForum.ParentUri);
+            Assert.AreEqual(moderationStatus, returnedForum.ModerationServiceGroup);
+
+            // open using method
+            url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/open",
+                                       _sitename, id);
+            request.RequestPageWithFullURL(url, "", "text/xml", "POST");
+            // Check to make sure that the page returned with the correct information
+            xml = request.GetLastResponseAsXML();
+            validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            returnedForum =
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            Assert.AreEqual(id, returnedForum.Id);
+            Assert.IsFalse(returnedForum.isClosed);
+            Assert.AreEqual(title, returnedForum.Title);
+            Assert.AreEqual(parentUri, returnedForum.ParentUri);
+            Assert.AreEqual(moderationStatus, returnedForum.ModerationServiceGroup);
+
+        }
+
+        [TestMethod]
+        public void OpenCloseCommentForum_AsNonEditor_ReturnsError()
+        {
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            var commentForum = CommentForumCreateHelper();
+           
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/close",
+                                       _sitename, commentForum.Id);
+            try
+            {
+                request.RequestPageWithFullURL(url, "", "text/xml", "POST");
+            }
+            catch
+            {
+                // Check to make sure that the page returned with the correct information
+            }
+            //Should return 401 unauthorised
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.Unauthorized);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+            url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/open",
+                                       _sitename, commentForum.Id);
+            try
+            {
+                request.RequestPageWithFullURL(url, "", "text/xml", "POST");
+            }
+            catch
+            {
+                // Check to make sure that the page returned with the correct information
+            }
+            //Should return 401 unauthorised
+            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.Unauthorized);
+            CheckErrorSchema(request.GetLastResponseAsXML());
+
+
+
+        }
+
 
         /// <summary>
         /// Test GetCommentForumsBySitenameXML method from service

@@ -434,7 +434,7 @@ namespace BBC.Dna.Api
         /// <param name="commentForum"></param>
         /// <param name="site"></param>
         /// <returns></returns>
-        public CommentForum CreateAndUpdateCommentForum(Forum commentForum, ISite site)
+        public CommentForum CreateAndUpdateCommentForum(Forum commentForum, ISite site, bool? isClosed)
         {
             if (site == null)
             {
@@ -447,7 +447,7 @@ namespace BBC.Dna.Api
             }
             else 
             {
-                UpdateForum(commentForum, site);
+                UpdateForum(commentForum, site, isClosed);
             }
             //return comment forum data
             tmpCommentForum = GetCommentForumByUid(commentForum.Id, site);

@@ -73,7 +73,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                context.UpdateForum(commentForum, site);
+                context.UpdateForum(commentForum, site, null);
                 throw new Exception("Error not thrown within code");
             }
             catch (ApiException ex)
@@ -135,7 +135,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                context.UpdateForum(commentForum, site);
+                context.UpdateForum(commentForum, site, true);
                 throw new Exception("Error not thrown within code");
             }
             catch (ApiException ex)
@@ -202,7 +202,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                context.UpdateForum(commentForum, site);
+                context.UpdateForum(commentForum, site, false);
                 throw new Exception("Error not thrown within code");
             }
             catch (ApiException ex)
@@ -270,7 +270,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                context.UpdateForum(commentForum, site);
+                context.UpdateForum(commentForum, site, null);
                 throw new Exception("Error not thrown within code");
             }
             catch (ApiException ex)
@@ -340,7 +340,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                context.UpdateForum(commentForum, site);
+                context.UpdateForum(commentForum, site, true);
                 throw new Exception("Error not thrown within code");
             }
             catch (ApiException ex)
@@ -410,7 +410,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                context.UpdateForum(commentForum, null);
+                context.UpdateForum(commentForum, null, true);
                 throw new Exception("Error not thrown within code");
             }
             catch (ApiException ex)
@@ -475,7 +475,7 @@ namespace BBC.Dna.Api.Tests
 
             var context = new Context(null, readerCreator, cacheManager, null);
 
-            context.UpdateForum(commentForum, site);
+            context.UpdateForum(commentForum, site, null);
             Assert.IsNotNull(context.DnaDiagnostics);
             Assert.IsNotNull(context.DnaDataReaderCreator);
             Assert.IsNotNull(context.CacheManager);
@@ -538,7 +538,7 @@ namespace BBC.Dna.Api.Tests
 
             var context = new Context(null, readerCreator, cacheManager, null);
 
-            context.UpdateForum(commentForum, site);
+            context.UpdateForum(commentForum, site, null);
 
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumupdate"));
         }
@@ -611,7 +611,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                context.UpdateForum(commentForum, site);
+                context.UpdateForum(commentForum, site, null);
                 throw new Exception("Error not thrown within code");
             }
             catch (ApiException ex)

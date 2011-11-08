@@ -242,7 +242,7 @@ namespace BBC.Dna.Services
 
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{sitename}/")]
-        [WebHelp(Comment = "Create a new comment forum for the specified site")]
+        [WebHelp(Comment = "Create/Update a  comment forum for the specified site")]
         [OperationContract]
         public Stream CreateCommentForum(string sitename, CommentForum commentForum)
         {
@@ -264,7 +264,7 @@ namespace BBC.Dna.Services
 
                 if (_internalRequest || _commentObj.CallingUser.IsUserA(UserTypes.Editor))
                 {
-                    commentForumData = _commentObj.CreateAndUpdateCommentForum(commentForum, site);
+                    commentForumData = _commentObj.CreateAndUpdateCommentForum(commentForum, site, null);
                 }
                 else
                 {
@@ -276,6 +276,97 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
             return GetOutputStream(commentForumData);
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/open")]
+        [WebHelp(Comment = "Get the comments forum by ID")]
+        [OperationContract]
+        public Stream OpenCommentForum(string commentForumId, string siteName)
+        {
+            ISite site = GetSite(siteName);
+            CommentForum commentForum;
+            Stream output = null;
+            try
+            {
+                try
+                {
+                    _commentObj.CallingUser = GetCallingUser(site);
+                }
+                catch (ApiException e)
+                {
+                    if (!_internalRequest)
+                    {
+                        throw e;
+                    }
+                }
+                commentForum = _commentObj.GetCommentForumByUid(commentForumId, site);
+
+                //if null then send back 404
+                if (commentForum == null)
+                {
+                    throw ApiException.GetError(ErrorType.ForumUnknown);
+                }
+                if (_internalRequest || _commentObj.CallingUser.IsUserA(UserTypes.Editor))
+                {
+                    commentForum = _commentObj.CreateAndUpdateCommentForum(commentForum, site, false);
+                }
+                else
+                {
+                    throw ApiException.GetError(ErrorType.MissingEditorCredentials);
+                }
+                output = GetOutputStream(commentForum);
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+            return output;
+        }
+
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/close")]
+        [WebHelp(Comment = "Get the comments forum by ID")]
+        [OperationContract]
+        public Stream CloseCommentForum(string commentForumId, string siteName)
+        {
+            ISite site = GetSite(siteName);
+            CommentForum commentForum;
+            Stream output = null;
+            try
+            {
+                try
+                {
+                    _commentObj.CallingUser = GetCallingUser(site);
+                }
+                catch (ApiException e)
+                {
+                    if (!_internalRequest)
+                    {
+                        throw e;
+                    }
+                }
+                commentForum = _commentObj.GetCommentForumByUid(commentForumId, site);
+                //if null then send back 404
+                if (commentForum == null)
+                {
+                    throw ApiException.GetError(ErrorType.ForumUnknown);
+                }
+                if (_internalRequest || _commentObj.CallingUser.IsUserA(UserTypes.Editor))
+                {
+                    commentForum = _commentObj.CreateAndUpdateCommentForum(commentForum, site, true);
+                }
+                else
+                {
+                    throw ApiException.GetError(ErrorType.MissingEditorCredentials);
+                }
+                output = GetOutputStream(commentForum);
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+            return output;
         }
 
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{sitename}/create.htm")]
