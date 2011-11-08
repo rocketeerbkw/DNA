@@ -128,7 +128,11 @@ namespace BBC.Dna.Api
             //get the inital moderation status...
             var moderationStatus = (int) commentForum.ModerationServiceGroup;
             //get forum duration in days
-            int duration = (commentForum.CloseDate.Subtract(DateTime.Today)).Days; //the plus one takes to midnight
+            int duration = 0;
+            if (commentForum.CloseDate != DateTime.MinValue)
+            {
+                duration = (commentForum.CloseDate.Subtract(DateTime.Today)).Days; //the plus one takes to midnight
+            }
             
             using (IDnaDataReader reader = CreateReader("commentforumcreate"))
             {
@@ -142,7 +146,7 @@ namespace BBC.Dna.Api
                     {
                         reader.AddParameter("moderationstatus", moderationStatus);
                     }
-                    if (duration >= 0)
+                    if (duration > 0)
                     {
                         reader.AddParameter("duration", duration);
                     }
