@@ -40,6 +40,8 @@ namespace Tests
             
             _secureServer = SecureServerAddress;
 
+            AssertWebRequestFailure = true;
+
             //SnapshotInitialisation.RestoreFromSnapshot();
         }
 
@@ -108,7 +110,6 @@ namespace Tests
         private XmlDocument _responseAsXML = null;
         private bool _allowAutoRedirect = false;
 
-        private bool _assertWebFailure = true;
         private bool _lastRequestWasASPX = false;
 
         private static Host _hostRequest;
@@ -572,17 +573,7 @@ namespace Tests
         /// <summary>
         /// Propert on whether to automaticall asset web failure
         /// </summary>
-        public bool AssertWebRequestFailure
-        {
-            get 
-            { 
-                return _assertWebFailure; 
-            }
-            set 
-            {
-                _assertWebFailure = value; 
-            }
-        }
+        public bool AssertWebRequestFailure {get; set;}
 
         /// <summary>
         /// Adds the given cookie to the request
@@ -916,7 +907,7 @@ namespace Tests
             }
             catch (Exception ex)
             {
-                if (_assertWebFailure)
+                if (AssertWebRequestFailure)
                 {
                     // Problems!
                     Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
@@ -1153,7 +1144,7 @@ namespace Tests
                     error += " : " + ex.InnerException.Message;
                 }
 
-                if (_assertWebFailure)
+                if (AssertWebRequestFailure)
                 {
                     Assert.Fail("DNARequest Failed!!! - " + error);
                 }
@@ -1295,7 +1286,7 @@ namespace Tests
             }
             catch (Exception ex)
             {
-                if (_assertWebFailure)
+                if (AssertWebRequestFailure)
                 {
                     // Problems!
                     Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);

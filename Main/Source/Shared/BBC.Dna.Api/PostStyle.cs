@@ -10,6 +10,7 @@
             richtext = 1,
             plaintext = 2,
             rawtext = 3,
+            tweet = 4
         } ;
 
         #endregion

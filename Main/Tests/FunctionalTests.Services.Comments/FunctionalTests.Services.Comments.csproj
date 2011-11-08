@@ -87,6 +87,7 @@
     <Compile Include="ratingsforums_v1.cs" />
     <Compile Include="ratingsForum_formpost.cs" />
     <Compile Include="ratings_v1.cs" />
+    <Compile Include="TwitterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\BBC.Dna\BBC.DNA.csproj">

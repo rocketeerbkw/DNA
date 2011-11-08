@@ -104,6 +104,7 @@
     <Compile Include="samples\commentboxtestharness.aspx.designer.cs">
       <DependentUpon>commentboxtestharness.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TwitterService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
@@ -157,6 +158,7 @@
     <Content Include="memcachedstatus.aspx" />
     <Content Include="samples\commentboxtestharness.aspx" />
     <Content Include="samples\dna_comments.css" />
+    <Content Include="TwitterService.svc" />
     <Content Include="version.aspx" />
     <Content Include="xslt\2.0\comment.xsl" />
     <Content Include="xslt\2.0\commentinfo.xsl" />

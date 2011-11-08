@@ -101,8 +101,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticateUser.cs" />
+    <Compile Include="CallingTwitterUser.cs" />
     <Compile Include="CallingUser.cs" />
-    <Compile Include="ICallingExternalUser.cs" />
     <Compile Include="ICallingUser.cs" />
     <Compile Include="IUser.cs" />
     <Compile Include="ProfileAPI.cs" />
@@ -119,7 +119,6 @@
     <Compile Include="SignInComponentFactory.cs" />
     <Compile Include="SSOService.cs" />
     <Compile Include="SSOUser.cs" />
-    <Compile Include="CallingExternalUser.cs" />
     <Compile Include="User.cs" />
     <Compile Include="UserExceptions.cs" />
     <Compile Include="UserGroup.cs" />

@@ -11,9 +11,8 @@ SELECT @DnaUserID = DNAUserID FROM dbo.SignInUserIDMapping WHERE TwitterUserID =
 IF (@DnaUserID IS NULL)
 BEGIN
 		-- We still didn't find the DNAUserID. Create a new entry for the user
-	INSERT INTO dbo.SignInUserIDMapping ( TwitterUserID)
-		SELECT @twitteruserid
-		SELECT @DnaUserID = @@IDENTITY
+	INSERT INTO dbo.SignInUserIDMapping(TwitterUserID) VALUES (@twitteruserid)
+	SELECT @DnaUserID = @@IDENTITY
 END
 
 -- Now call the internal create new user from id
