@@ -33,9 +33,9 @@ namespace FunctionalTests.Services.Comments
 
             // these will come out of the call to createForum so that they can be used in the checking
             string title1 = "";
-            string title2 = "";
+            string title2 = "test2";
             string parentUri1 = "";
-            string parentUri2 = "";
+            string parentUri2 = "url2";
 
             // working data
             int newSiteCount = 0;
@@ -59,7 +59,7 @@ namespace FunctionalTests.Services.Comments
 
             // second time around, 
             // expect this to fail because the ID is the same
-
+            parentUri2 = parentUri1 + "2";
             theRequest = createForum(ref sharedId, ref title2, ref parentUri2);
 
             /*
@@ -77,8 +77,8 @@ namespace FunctionalTests.Services.Comments
             // the returned forum should be the one that was initially created
             returnedForum = (BBC.Dna.Api.CommentForum)StringUtils.DeserializeObject(theRequest.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentForum));
             Assert.IsTrue(returnedForum.Id == sharedIdRemembered, "The new forum's ID has chagned from " +sharedIdRemembered+" to " +returnedForum.Id);
-            Assert.IsTrue(returnedForum.Title == title1, "The new forum's Title has cahgned from " +title1+ " to " +returnedForum.Title);
-            Assert.IsTrue(returnedForum.ParentUri == parentUri1, "The new forum's ParentURI has changed from " +parentUri1+ " to " +returnedForum.ParentUri);
+            Assert.IsTrue(returnedForum.Title == title2, "The new forum's Title has cahgned from " +title1+ " to " +returnedForum.Title);
+            Assert.IsTrue(returnedForum.ParentUri == parentUri2, "The new forum's ParentURI has changed from " +parentUri1+ " to " +returnedForum.ParentUri);
             Assert.IsTrue(returnedForum.commentList.TotalCount == 0, "The new forum's should have an empty commentList, it is not empty");
             
             Console.WriteLine("After uniqueId - repeatCreateForum");

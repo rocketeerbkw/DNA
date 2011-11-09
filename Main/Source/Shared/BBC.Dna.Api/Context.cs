@@ -209,7 +209,11 @@ namespace BBC.Dna.Api
                     reader.AddParameter("title", commentForum.Title);
                     reader.AddParameter("sitename", site.SiteName);
                     reader.AddParameter("moderationstatus", (int) commentForum.ModerationServiceGroup);
-                    reader.AddParameter("closeDate", commentForum.CloseDate);
+                    if (commentForum.CloseDate != DateTime.MinValue)
+                    {
+                        reader.AddParameter("closeDate", commentForum.CloseDate);
+                    }
+                    
                     if (isClosed.HasValue)
                     {
                         reader.AddParameter("canwrite", !isClosed);
