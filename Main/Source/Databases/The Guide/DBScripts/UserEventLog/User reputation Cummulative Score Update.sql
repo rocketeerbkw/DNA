@@ -52,6 +52,14 @@ update dbo.usereventscore set score = 0, overridescore=1 where typeid=16 --stand
 update dbo.usereventscore set score = 11, overridescore=1 where typeid=20 --trusted
 set @maxscore = 15
 
+--clear all thresholds
+truncate table dbo.UserReputationThreshold
+
+-- add new thresholds
+insert into dbo.UserReputationThreshold (modclassid, maxscore, trustedscore, normalscore, postmodscore, premodscore, bannedscore)
+select m.modclassid, @maxscore, 11, 0, -2, -7, -17
+from  ModerationClass m
+
 DECLARE rt_cursor CURSOR FAST_FORWARD
 FOR
 select *
