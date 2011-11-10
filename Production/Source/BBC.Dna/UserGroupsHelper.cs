@@ -122,7 +122,7 @@ namespace BBC.Dna
         public static bool IsUserEditorForSite(int userID, int siteID, IInputContext context)
         {
             var usersGroups = UserGroups.GetObject().GetUsersGroupsForSite(userID, siteID);
-            return usersGroups.Exists(x => x.Name =="editor");           
+            return usersGroups.Exists(x => x.Name.ToUpper() =="EDITOR");           
         }
 
 

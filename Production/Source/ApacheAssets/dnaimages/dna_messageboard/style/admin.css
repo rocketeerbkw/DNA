@@ -329,6 +329,28 @@
     .story .dna-buttons input {border:1px solid #897455;background:#b48540 url(/dnaimages/dna_messageboard/img/bg-btn-story.gif) repeat-x 0 100%;}
     #blq-local-nav li a.stories {color:#b48540}
     
+    .moderator #blq-local-nav {background:#58608e url(/dnaimages/dna_messageboard/img/bg-header-blogs.gif) repeat-x 0 100%}
+    .moderator .dna-main h3 {background-color:#58608e}
+    .moderator .dna-buttons input {border:1px solid #50546d;background:#58608e url(/dnaimages/dna_messageboard/img/bg-btn-blog.gif) repeat-x 0 100%;}
+    #blq-local-nav li a.moderator {color:#58608e}
+    
+    .editor #blq-local-nav {background:#38464e url(/dnaimages/dna_messageboard/img/bg-header-mb.gif) repeat-x 0 100%}
+    .editor .dna-main h3 {background-color:#38464e}
+    .editor .dna-buttons input {border:1px solid #36444c;background:#38464e url(/dnaimages/dna_messageboard/img/bg-btn-mb.gif) repeat-x 0 100%;}
+    #blq-local-nav li a.editor {color:#38464e}
+    
+    .notables #blq-local-nav {background:#5f7a59 url(/dnaimages/dna_messageboard/img/bg-header-community.gif) repeat-x 0 100%}
+    .notables .dna-main h3 {background-color:#5f7a59}
+    .notables .dna-buttons input {border:1px solid #5a6a56;background:#5f7a59 url(/dnaimages/dna_messageboard/img/bg-btn-community.gif) repeat-x 0 100%;}
+    #blq-local-nav li a.notables {color:#5f7a59}
+    
+    .referees #blq-local-nav {background:#b48540 url(/dnaimages/dna_messageboard/img/bg-header-story.gif) repeat-x 0 100%}
+    .referees .dna-main h3 {background-color:#b48540}
+    .referees .dna-buttons input {border:1px solid #897455;background:#b48540 url(/dnaimages/dna_messageboard/img/bg-btn-story.gif) repeat-x 0 100%;}
+    #blq-local-nav li a.referees {color:#b48540}
+    
+    
+    
     .dna-dashboard .dna-dashboard-box .dna-box {margin-top:0.8em;min-height: 20em} 
     .dna-dashboard .capitalize {text-transform:capitalize}
     .dna-dashboard .dna-main-right {width:311px}

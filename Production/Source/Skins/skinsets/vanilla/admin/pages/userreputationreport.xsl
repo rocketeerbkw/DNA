@@ -22,21 +22,16 @@
               <option value="1">
                 <xsl:if test="USERREPUTATIONLIST/@DAYS='1'"><xsl:attribute name="selected">selected</xsl:attribute></xsl:if>
                 1</option>
+              <option value="3">
+                <xsl:if test="USERREPUTATIONLIST/@DAYS='3'">
+                  <xsl:attribute name="selected">selected</xsl:attribute>
+                </xsl:if>
+                3</option>
               <option value="7">
                 <xsl:if test="USERREPUTATIONLIST/@DAYS='7'">
                   <xsl:attribute name="selected">selected</xsl:attribute>
                 </xsl:if>
                 7</option>
-              <option value="21">
-                <xsl:if test="USERREPUTATIONLIST/@DAYS='21'">
-                  <xsl:attribute name="selected">selected</xsl:attribute>
-                </xsl:if>
-                21</option>
-              <option value="30">
-                <xsl:if test="USERREPUTATIONLIST/@DAYS='30'">
-                  <xsl:attribute name="selected">selected</xsl:attribute>
-                </xsl:if>
-                30</option>
             </select>
 					</fieldset>
           <fieldset class="dna-fl dna-search-userlist">
@@ -47,7 +42,7 @@
             </select>
           </fieldset>
           <fieldset class="dna-fl dna-search-userlist">
-            <label>Determined Status:</label>
+            <label>Recommended Status:</label>
             <select id="s_modstatus" name="s_modstatus">
               
               <xsl:apply-templates select="USERREPUTATIONLIST" mode="search_modstatus"/>

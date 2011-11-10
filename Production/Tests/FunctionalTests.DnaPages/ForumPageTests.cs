@@ -24,7 +24,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void Setup()
         {
-            SnapshotInitialisation.RestoreFromSnapshot();
+            SnapshotInitialisation.ForceRestore();
             //clean ripley cache
             CleanRiplyCache();
 

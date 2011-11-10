@@ -19,8 +19,8 @@
         <xs:element ref="SITECONFIG" />
         <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
         <xs:element ref="MODERATOR-LIST"/>
-        <xs:element ref="SITE-LIST"/>
         <xs:element ref="MODERATION-CLASSES"/>
+        <xs:element ref="SITE-LIST"/>
         <xs:element name="PARAMS" />
         <xs:element ref="SITE"/>
         <xs:element name="TIMEFORPAGE" type="xs:int"/>

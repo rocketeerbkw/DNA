@@ -31,7 +31,8 @@ END
 --add temp column
 ALTER TABLE dbo.ThreadMod ADD
 	ComplaintTextTemp nvarchar(MAX) NULL
-	
+GO
+
 --migrate data to temp column
 
 -- Record the max mod id before we procede

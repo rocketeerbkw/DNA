@@ -125,7 +125,10 @@ namespace BBC.Dna
             {
                 System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
                 message.From = new System.Net.Mail.MailAddress(sender);
-                message.To.Add(new System.Net.Mail.MailAddress(recipient));
+
+                foreach (string r in recipient.Split(';'))
+                    message.To.Add(new System.Net.Mail.MailAddress(r));
+
                 message.CC.Add(new System.Net.Mail.MailAddress(sender));
                 message.Subject = subject;
                 message.Body = AddLineBreaks(body);

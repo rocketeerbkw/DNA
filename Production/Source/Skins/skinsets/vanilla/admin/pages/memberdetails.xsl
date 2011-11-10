@@ -87,6 +87,7 @@
 			<li><a href="usercontributions?s_user={$userid}">View contributions</a></li>
 			<li><a href="MemberDetails?userid={$userid}">Find alternate identities using email</a></li>
 			<li><a href="MemberDetails?userid={$userid}&amp;findbbcuidaltidentities=1">Find alternate identities using BBCUID</a></li>
+      <li><a href="/dna/moderation/moderatormanagement?addmoderator=Add+Selected+User&amp;s_userid={$userid}&amp;s_viewid={$userid}&amp;s_view=user&amp;manage=notables&amp;finduser=1&amp;email={$userid}" target="_blank">Edit Roles</a></li>
 		</ul>
 		
 		<p>

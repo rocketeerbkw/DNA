@@ -1280,6 +1280,8 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
+    <None Include="getmoderatingclassbyuser.sql" />
+    <None Include="createnewuserfromtwitteruserid.sql" />
     <None Include="getalluserpostingstats4.sql" />
     <None Include="addbannedusersipaddress.sql" />
     <None Include="ApplyUserReputation.sql" />

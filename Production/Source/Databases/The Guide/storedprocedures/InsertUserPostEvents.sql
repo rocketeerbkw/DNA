@@ -10,6 +10,11 @@ declare @startdate datetime
 select @startdate = max(eventdate)
 from  dbo.UserPostEvents
 
+if datediff(second, @startdate, getdate()) < 86400
+begin-- still the same day so nothing to process here...
+	return
+end
+
 insert into dbo.UserPostEvents --typeid, eventdate, siteid, modclassid,entryid, score, accumulativescore, userid
 select
 	17 --UserPost
@@ -25,7 +30,7 @@ inner join forums f on f.forumid=te.forumid
 inner join sites s on s.siteid = f.siteid
 inner join ModerationClass m on m.modclassid = s.modclassid
 inner join dbo.UserEventScore ues on ues.typeid = 17 and m.modclassid=ues.modclassid
-where te.dateposted > @startdate --min date from site events
+where (te.dateposted > @startdate and te.dateposted < convert(datetime, convert(char(10),getdate(),121)) )
 and isnull(te.hidden, 0) = 0
 group by convert(datetime, convert(varchar(4), datepart(yyyy, te.dateposted)) + '/' + convert(varchar(2), datepart(mm, te.dateposted)) + '/' + convert(varchar(2),datepart(dd, te.dateposted))+ ' 23:59:59.997')
 , m.modclassid, ues.score, te.userid

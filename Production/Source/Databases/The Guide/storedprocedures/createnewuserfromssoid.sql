@@ -12,7 +12,7 @@ SELECT @DnaUserID = DNAUserID FROM dbo.SignInUserIDMapping WHERE SSOUserID = @ss
 IF (@DnaUserID IS NULL)
 BEGIN
 	-- We still didn't find the DNAUserID. Create a new entry for the user
-	INSERT INTO dbo.SignInUserIDMapping SELECT SSOUserID = @ssouserid, IdentityUserID = NULL
+	INSERT INTO dbo.SignInUserIDMapping(SSOUserID) VALUES(@ssouserid)
 	SELECT @DnaUserID = @@IDENTITY
 END
 

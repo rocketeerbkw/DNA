@@ -26,18 +26,22 @@
     
     <xsl:template match="VIEWING-USER" mode="library_memberservice_loginurl">
         <xsl:param name="ptrt" />
+        <xsl:param name="loc" />
         
         <xsl:apply-templates select="(/H2G2/SSOSERVICE | /H2G2/CURRENTSITESSOSERVICE | /H2G2/SITE/SSOSERVICE)[1]" mode="library_sso_loginurl">
-            <xsl:with-param name="ptrt" select="$ptrt" />            
+            <xsl:with-param name="ptrt" select="$ptrt" />
+          <xsl:with-param name="loc" select="$loc" />
         </xsl:apply-templates>
     </xsl:template>
     
     
     <xsl:template match="VIEWING-USER[/H2G2/SITE/IDENTITYSIGNIN = 1]" mode="library_memberservice_loginurl">
         <xsl:param name="ptrt" />
-        
+        <xsl:param name="loc" />
+      
         <xsl:apply-templates select="." mode="library_identity_loginurl">
-            <xsl:with-param name="ptrt" select="$ptrt" />            
+            <xsl:with-param name="ptrt" select="$ptrt" />
+            <xsl:with-param name="loc" select="$loc" />
         </xsl:apply-templates>
     </xsl:template>
     

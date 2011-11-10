@@ -49,10 +49,11 @@ namespace Tests
             Stub.On(context).Method("GetParamStringOrEmpty").With("email", "email").Will(Return.Value("dotnetuser@bbc.com"));
             Stub.On(context).Method("DoesParamExist").With("finduser", "Find User").Will(Return.Value(true));
             Stub.On(context).Method("DoesParamExist").With("updateuser", "UpdateUser").Will(Return.Value(false));
+            Stub.On(context).Method("DoesParamExist").With("updateuser", "UpdateUser").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("giveaccess", "Give Access").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeaccess", "removeaccess").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeallaccess", "removeallaccess").Will(Return.Value(false));
-
+            Stub.On(context).Method("DoesParamExist").With("userid", "user working on").Will(Return.Value(false));
             // Mock the stored procedure call
             IDnaDataReader mockedReader = DnaMockery.CurrentMockery.NewMock<IDnaDataReader>();
             Stub.On(context).Method("CreateDnaDataReader").With("finduserfromemail").Will(Return.Value(mockedReader)); 
@@ -80,8 +81,18 @@ namespace Tests
         public void TestUpdateUser()
         {
             IInputContext context = DnaMockery.CurrentMockery.NewMock<IInputContext>();
+
+            ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            ISite siteModeration = DnaMockery.CreateMockedSite(context, 66, "moderation", "moderation", true, "http://identity/policies/dna/adult");
+
+            ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
+            Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
+            Stub.On(siteList).Method("GetSite").With("moderation").Will(Return.Value(siteModeration));
+
+            
             //Stub.On(context).Method("GetParamIntOrZero").With("manage").Will(Return.Value("editor"));
             Stub.On(context).Method("GetParamIntOrZero").With("userid","UserId").Will(Return.Value(6));
+            Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));
 
             // Mock the viewing user
             IUser mockedUser = DnaMockery.CurrentMockery.NewMock<IUser>();
@@ -94,6 +105,7 @@ namespace Tests
             Stub.On(context).Method("DoesParamExist").With("giveaccess", "Give Access").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeaccess", "removeaccess").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeallaccess", "removeallaccess").Will(Return.Value(false));
+            Stub.On(context).Method("DoesParamExist").With("userid", "user working on").Will(Return.Value(false));
 
             Stub.On(context).Method("GetParamCountOrZero").With("tosite","SiteId").Will(Return.Value(3) );
             Stub.On(context).Method("GetParamIntOrZero").With("tosite", 0, "tosite").Will(Return.Value(1));
@@ -108,8 +120,8 @@ namespace Tests
             // Mock the stored procedure call
             IDnaDataReader mockedReader = DnaMockery.CurrentMockery.NewMock<IDnaDataReader>();
             Stub.On(context).Method("CreateDnaDataReader").With("addnewmoderatortosites").Will(Return.Value(mockedReader));
-            Expect.Once.On(mockedReader).Method("AddParameter").With("sitelist", "1|2|3");
-            Expect.Exactly(3).On(mockedReader).Method("AddParameter").With("userid", 6);
+            Expect.Once.On(mockedReader).Method("AddParameter").With("sitelist", "1|2|3|66");
+            Expect.Exactly(2).On(mockedReader).Method("AddParameter").With("userid", 6);
             Expect.Exactly(2).On(mockedReader).Method("AddParameter").With("groupname", "editor");
             
             Stub.On(context).Method("CreateDnaDataReader").With("addnewmoderatortoclasses").Will(Return.Value(mockedReader));
@@ -148,7 +160,7 @@ namespace Tests
             Stub.On(context).Method("DoesParamExist").With("giveaccess", "Give Access").Will(Return.Value(true));
             Stub.On(context).Method("DoesParamExist").With("removeaccess", "removeaccess").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeallaccess", "removeallaccess").Will(Return.Value(false));
-
+            Stub.On(context).Method("DoesParamExist").With("userid", "user working on").Will(Return.Value(false));
 
             Stub.On(context).Method("GetParamCountOrZero").With("userid","UserId").Will(Return.Value(3));
             Stub.On(context).Method("GetParamIntOrZero").With("userid",0,"UserId").Will(Return.Value(1));
@@ -201,7 +213,7 @@ namespace Tests
             Stub.On(context).Method("DoesParamExist").With("giveaccess", "Give Access").Will(Return.Value(false));
             Stub.On(context).Method("DoesParamExist").With("removeaccess", "removeaccess").Will(Return.Value(true));
             Stub.On(context).Method("DoesParamExist").With("removeallaccess", "removeallaccess").Will(Return.Value(false));
-
+            Stub.On(context).Method("DoesParamExist").With("userid", "user working on").Will(Return.Value(false));
 
             Stub.On(context).Method("GetParamCountOrZero").With("userid", "UserId").Will(Return.Value(3));
             Stub.On(context).Method("GetParamIntOrZero").With("userid", 0, "UserId").Will(Return.Value(1));
