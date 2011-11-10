@@ -10,6 +10,7 @@ using BBC.Dna.Component;
 using DnaIdentityWebServiceProxy;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
+using BBC.Dna.Data;
 
 namespace BBC.Dna
 {
@@ -322,5 +323,11 @@ namespace BBC.Dna
         /// </summary>
         /// <returns></returns>
         bool IsPreviewMode();
+
+        /// <summary>
+        /// Returns a IDnaDataReaderCreator relevant to the current context
+        /// </summary>
+        /// <returns></returns>
+        IDnaDataReaderCreator CreateDnaDataReaderCreator();
     }
 }

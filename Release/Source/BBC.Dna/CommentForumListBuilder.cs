@@ -178,7 +178,7 @@ namespace BBC.Dna
                 termList.Terms.Add(new TermDetails { Value = term, Action = termAction });
             }
             termsLists.Termslist.Add(termList);
-            BaseResult error = termsLists.UpdateTermsInDatabase(AppContext.ReaderCreator, _cache, termReason.Trim(),
+            BaseResult error = termsLists.UpdateTermsInDatabase(InputContext.CreateDnaDataReaderCreator(), _cache, termReason.Trim(),
                                            InputContext.ViewingUser.UserID, false);
 
             if (error == null)
@@ -571,7 +571,7 @@ namespace BBC.Dna
 
             int forumId = dataReader.GetInt32NullAsZero("forumID");
             //get terms admin object
-            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateForumTermAdmin(AppContext.ReaderCreator, _cache, forumId, true);
+            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateForumTermAdmin(InputContext.CreateDnaDataReaderCreator(), _cache, forumId, true);
             XmlDocument termNodeDoc = SerialiseToXmlDoc(termsAdmin);
             string termNodeText = termNodeDoc.DocumentElement.InnerXml.ToString();
             AddXmlTextTag(commentForum, "TERMS", termNodeText);
@@ -647,7 +647,7 @@ namespace BBC.Dna
                 }
             }
            
-            EmailTemplates.FetchEmailText(AppContext.ReaderCreator, _siteId, "TermsAddedToCommentForumEmail", out _emailSubject, out _emailBody);
+            EmailTemplates.FetchEmailText(InputContext.CreateDnaDataReaderCreator(), _siteId, "TermsAddedToCommentForumEmail", out _emailSubject, out _emailBody);
     
             _emailBody = _emailBody.Replace("++**forum_title**++", _forumTitle);
             _emailBody = _emailBody.Replace("++**forum_url**++", _forumURL);

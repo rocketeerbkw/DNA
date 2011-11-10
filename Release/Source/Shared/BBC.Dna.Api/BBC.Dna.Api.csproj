@@ -125,6 +125,8 @@
     <Compile Include="Contracts\Rating.Contract.cs" />
     <Compile Include="Contracts\ThreadInfo.Contract.cs" />
     <Compile Include="Contracts\ThreadList.Contract.cs" />
+    <Compile Include="Contracts\Tweet.Contract.cs" />
+    <Compile Include="Contracts\TweetUser.Contract.cs" />
     <Compile Include="Contracts\User.Contract.cs" />
     <Compile Include="Comments.cs" />
     <Compile Include="ApiException.cs" />
@@ -138,7 +140,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="sortingEnum.cs" />
     <Compile Include="Threads.cs" />
     <Compile Include="URIDiscoverability.cs" />
   </ItemGroup>

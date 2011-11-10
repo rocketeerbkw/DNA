@@ -7,6 +7,7 @@ using BBC.Dna.Utils;
 using System.Linq;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Moderation;
+using BBC.Dna.Common;
 
 namespace BBC.Dna
 {
@@ -56,7 +57,7 @@ namespace BBC.Dna
 
             var userContributions = Contributions.GetUserContributions(CacheFactory.GetCacheManager(),
                 AppContext.ReaderCreator, siteName, _userId.ToString(), _itemsPerPage, _startIndex,
-                BBC.Dna.Api.SortDirection.Descending, _type, "dnauserid",
+                SortDirection.Descending, _type, "dnauserid",
                 InputContext.ViewingUser.IsEditor || InputContext.ViewingUser.IsSuperUser, _ignoreCache, _startDate, false);
 
 

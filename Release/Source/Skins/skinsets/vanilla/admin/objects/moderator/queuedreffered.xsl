@@ -15,7 +15,7 @@
 				<p>You are not a referee for this <xsl:value-of select="$dashboardtype" /></p>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="queuetotal"><xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered'  and OBJECT-TYPE != 'exlink' and OBJECT-TYPE != 'exlinkcomplaint']" mode="objects_moderator_queueitems" /></xsl:variable>
+				<xsl:variable name="queuetotal"><xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered'  and (OBJECT-TYPE = 'forum' or OBJECT-TYPE = 'forumcomplaint')]" mode="objects_moderator_queueitems" /></xsl:variable>
 				<p>
 					<xsl:choose>
 						<xsl:when test="$queuetotal = 0">
@@ -45,7 +45,7 @@
             High Priority Items
             <table>
               <tbody>
-                <xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered' and @FASTMOD='1' and @TOTAL != '0' and OBJECT-TYPE != 'exlink' and OBJECT-TYPE != 'exlinkcomplaint']" mode="objects_moderator_queuesummary" />
+                <xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered' and @FASTMOD='1' and @TOTAL != '0' and (OBJECT-TYPE = 'forum' or OBJECT-TYPE = 'forumcomplaint')]" mode="objects_moderator_queuesummary" />
               </tbody>
             </table>
               Standard Priority Items
@@ -53,7 +53,7 @@
 					
           <table>
             <tbody>
-              <xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered' and @FASTMOD='0' and OBJECT-TYPE != 'exlink' and OBJECT-TYPE != 'exlinkcomplaint']" mode="objects_moderator_queuesummary" />
+              <xsl:apply-templates select="MODERATION-QUEUE-SUMMARY[STATE = 'lockedreffered' and @FASTMOD='0' and (OBJECT-TYPE = 'forum' or OBJECT-TYPE = 'forumcomplaint')]" mode="objects_moderator_queuesummary" />
             </tbody>
           </table>
 				</div>				

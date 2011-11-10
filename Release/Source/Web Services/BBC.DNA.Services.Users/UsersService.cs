@@ -16,6 +16,7 @@ using BBC.Dna.Users;
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation.Utils;
 using System.Collections.Generic;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Services
 {

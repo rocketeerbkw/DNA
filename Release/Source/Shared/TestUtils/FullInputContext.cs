@@ -912,5 +912,14 @@ namespace Tests
         {
             get { return null; }
         }
+
+        /// <summary>
+        /// Creates a IDnaDataReaderCreator object relevent to the this Input Context
+        /// </summary>
+        /// <returns></returns>
+        public IDnaDataReaderCreator CreateDnaDataReaderCreator()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

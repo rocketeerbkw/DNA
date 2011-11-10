@@ -110,7 +110,7 @@ namespace BBC.Dna
 		{
 			_dnaConfig = new DnaConfig(rootPath);
 			//_dnaConfig.Initialise();
-			_dnaAppDiagnostics = new DnaDiagnostics(0, DateTime.Now);
+			_dnaAppDiagnostics = new DnaDiagnostics(-1, DateTime.Now);
 
 			if (WebConfigurationManager.AppSettings["maxrequests"] != null)
 			{

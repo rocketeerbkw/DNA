@@ -13,14 +13,16 @@ declare @siteeventid int
 declare @score smallint 
 declare @acummulativescore smallint 
 declare @userid int 
-declare @userscore smallint 
+declare @addscore smallint 
 declare @numberofposts int 
 declare @logdate datetime
 declare @maxscore smallint
+declare @newaccummulativescore smallint 
+declare @override bit
 
-set @maxscore = 11
+
 --change this date 
-set @mindate = '20110601'
+set @mindate = '20100601'
 
 DECLARE @runningTotal TABLE
 (
@@ -29,10 +31,8 @@ DECLARE @runningTotal TABLE
   accumulativescore smallint,
   unique(userid,modclassid)
 )
-
+-- clear all scores
 truncate table dbo.UserEventScore
-
-
 
 -- add scores to UserEventScore table
 insert into dbo.UserEventScore
@@ -42,15 +42,23 @@ from  ModerationClass m, siteactivitytypes s
 --modify events scores
 update dbo.UserEventScore set score = -5 where typeid=1 --Moderate Post Failed
 update dbo.UserEventScore set score = 1 where typeid=17 --User Post Successful
-update dbo.UserEventScore set score = 1 where typeid=18 --Complaint Upheld
-update dbo.UserEventScore set score = -1 where typeid=19 --Complaint Rejected
+update dbo.UserEventScore set score = 0 where typeid=18 --Complaint Upheld
+update dbo.UserEventScore set score = 0 where typeid=19 --Complaint Rejected
 update dbo.usereventscore set score = -7, overridescore=1 where typeid=10 --premod
 update dbo.usereventscore set score = -2, overridescore=1 where typeid=11 --postmod
-update dbo.usereventscore set score = -11, overridescore=1 where typeid=12 --banned
-update dbo.usereventscore set score = -11, overridescore=1 where typeid=13 --deactiviated
+update dbo.usereventscore set score = -17, overridescore=1 where typeid=12 --banned
+update dbo.usereventscore set score = -17, overridescore=1 where typeid=13 --deactiviated
 update dbo.usereventscore set score = 0, overridescore=1 where typeid=16 --standard
-update dbo.usereventscore set score = 7, overridescore=1 where typeid=20 --trusted
+update dbo.usereventscore set score = 11, overridescore=1 where typeid=20 --trusted
+set @maxscore = 15
 
+--clear all thresholds
+truncate table dbo.UserReputationThreshold
+
+-- add new thresholds
+insert into dbo.UserReputationThreshold (modclassid, maxscore, trustedscore, normalscore, postmodscore, premodscore, bannedscore)
+select m.modclassid, @maxscore, 11, 0, -2, -7, -17
+from  ModerationClass m
 
 DECLARE rt_cursor CURSOR FAST_FORWARD
 FOR
@@ -76,28 +84,49 @@ set @logdate = @eventdate
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
-	set @userscore = null
+	set @addscore = null
+	set @newaccummulativescore = null
 	
-	declare @override bit
+	
 	select @score = score, @override = overridescore
 	from dbo.UserEventScore
 	where typeid=@typeid and modclassid=@modclassid
 
 	if @siteeventid is null
 	BEGIN
-		set @userscore = (@score* @numberofposts)
+		set @addscore = (@score* @numberofposts)
 	END
 	ELSE
 	BEGIN
-		set @userscore = @score
+		set @addscore = @score
 	END
 	
 	
 	-- get current accumulativescore
+	if @override = 1
+	BEGIN
+		set @newaccummulativescore = @score
+	END
+	ELSE
+	BEGIN
+		select  @newaccummulativescore = accumulativescore + @addscore
+		from @runningTotal
+		where userid=@userid and modclassid= @modclassid
+		
+		if @newaccummulativescore is null
+		BEGIN
+			set @newaccummulativescore = @addscore
+		END
+	END
 	
+	if @newaccummulativescore > @maxscore
+	BEGIN
+		set @newaccummulativescore = @maxscore
+	END
 	
+	--apply update
 	update @runningTotal
-	set accumulativescore = accumulativescore + @userscore
+	set accumulativescore = @newaccummulativescore
 	where userid=@userid
 	and modclassid= @modclassid
 	
@@ -105,39 +134,14 @@ BEGIN
 	BEGIN -- add if new user
 		--print 'adding UserReputationScore:' + convert(varchar(20), @userid) + ' and modclassid' + convert(varchar(20), @modclassid)
 		insert into @runningTotal(userid, modclassid, accumulativescore)
-		values (@userid, @modclassid, @userscore)
-	END
-	
-	select @userscore =  accumulativescore
-	from @runningTotal
-	where userid=@userid and modclassid=@modclassid
-
-	-- ensure maximum score enforced
-	if @userscore > @maxscore
-	BEGIN
-		set @userscore = @maxscore
-	
-		update @runningTotal
-		set accumulativescore = @maxscore
-		where userid=@userid
-		and modclassid= @modclassid
-	END
-	
-	if @override > @maxscore
-	BEGIN
-		set @userscore = @score
-	
-		update @runningTotal
-		set accumulativescore = @score
-		where userid=@userid
-		and modclassid= @modclassid
+		values (@userid, @modclassid, @newaccummulativescore)
 	END
 
 	if @siteeventid is null
 	BEGIN
 		--print 'adding @entryid:' + convert(varchar(20), @entryid)
 		update dbo.UserPostEvents
-		set accumulativescore = @userscore
+		set accumulativescore = @newaccummulativescore
 		, score = @score
 		where userid=@userid
 		and modclassid= @modclassid
@@ -146,7 +150,7 @@ BEGIN
 	ELSE
 	BEGIN
 		update  dbo.UserSiteEvents
-		set accumulativescore = @userscore 
+		set accumulativescore = @newaccummulativescore 
 		, score = @score
 		where siteeventid = @siteeventid
 	END
@@ -168,4 +172,3 @@ insert into dbo.UserReputationScore
 select *,getdate()
 from @runningTotal
 
---drop table @runningTotal

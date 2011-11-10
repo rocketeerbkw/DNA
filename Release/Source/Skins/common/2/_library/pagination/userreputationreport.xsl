@@ -33,9 +33,17 @@
       <xsl:variable name="querymodstatus">
         <xsl:value-of select="concat('&amp;s_modstatus=', @MODSTATUS)"/>
       </xsl:variable>
+
+      <xsl:variable name="querysortBy">
+        <xsl:value-of select="concat('&amp;s_sortby=', @SORTBY)"/>
+      </xsl:variable>
+
+      <xsl:variable name="querysortDirection">
+        <xsl:value-of select="concat('&amp;s_sortdirection=', @SORTDIRECTION)"/>
+      </xsl:variable>
 			
 			<xsl:variable name="querystring">
-				<xsl:value-of select="concat($querymodclass,$querydays, $querymodstatus)"/>
+				<xsl:value-of select="concat($querymodclass,$querydays, $querymodstatus, $querysortBy, $querysortDirection)"/>
 			</xsl:variable>
 			
 			<xsl:variable name="itemcount" select="count(USERS/USERREPUTATION)" />
