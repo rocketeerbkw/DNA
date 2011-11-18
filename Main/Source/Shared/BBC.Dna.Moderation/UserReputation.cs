@@ -118,6 +118,8 @@ namespace BBC.Dna.Moderation
 
                 dataReader.Execute();
             }
+            BannedEmails.GetObject().UpdateCacheAndSendSignal();
+            
         }
 
     }
