@@ -24,8 +24,8 @@ BEGIN
 	-- get score for event
 	select @score = ues.score, @override = ues.overridescore
 	from dbo.sites s
-	inner join dbo.ModerationClass m on m.modclassid = s.modclassid
-	inner join dbo.UserEventScore ues on ues.modclassid = m.modclassid
+	--inner join dbo.ModerationClass m on m.modclassid = s.modclassid
+	inner join dbo.UserEventScore ues on ues.modclassid = 1 --m.modclassid
 	where s.siteid=@siteid and ues.typeid=@type
 
 	-- get maxscore for class
@@ -40,7 +40,7 @@ BEGIN
 	set @currentscore =0
 	select @currentscore = isnull(accumulativescore,0)
 	from dbo.UserReputationScore urs
-	inner join sites s on s.modclassid = urs.modclassid
+	inner join sites s on s.modclassid = 1 --urs.modclassid
 	where userid=@userid
 	and s.siteid=@siteid
 
@@ -66,28 +66,28 @@ BEGIN
 	update dbo.userreputationscore
 	set accumulativescore  = @userscore, lastupdated=getdate()
 	where userid=@userid
-	and modclassid= (select modclassid from sites where siteid=@siteid)
+	and modclassid= 1 --(select modclassid from sites where siteid=@siteid)
 	
 	if @@rowcount =0
 	BEGIN
-		insert into dbo.userreputationscore --(userid, modclassid, accumulativescore)
-		select @userid, modclassid, @userscore, getdate()
+		insert into dbo.userreputationscore (userid, modclassid, accumulativescore)
+		select @userid, 1, @userscore, getdate()
 		from sites where 
 		siteid=@siteid
 	END
 
-	insert into dbo.UserSiteEvents --typeid, eventdate, siteid, modclassid,siteeventid, score, accumulativescore, userid
+	insert into dbo.UserSiteEvents (typeid, eventdate, siteid, modclassid,siteeventid, score, accumulativescore, userid)
 	select @type
 		, @datetime
 		, @siteid
-		, m.modclassid
+		, 1 --m.modclassid
 		, @id
 		, @score
 		, @userscore
 		, @userid
 	from dbo.sites s
 	inner join dbo.ModerationClass m on m.modclassid = s.modclassid
-	left join dbo.userreputationscore urs on m.modclassid = urs.modclassid and urs.userid = @userid
+	left join dbo.userreputationscore urs on urs.modclassid = 1 and urs.userid = @userid
 	where s.siteid=@siteid
 	
 	commit

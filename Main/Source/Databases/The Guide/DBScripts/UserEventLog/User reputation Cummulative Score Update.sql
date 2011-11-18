@@ -1,5 +1,7 @@
 -- new guide 2:18:51
 
+-- Changing to only use a single moderation class - using moderation class 1
+
 set nocount on
 
 
@@ -36,8 +38,8 @@ truncate table dbo.UserEventScore
 
 -- add scores to UserEventScore table
 insert into dbo.UserEventScore
-select m.modclassid, s.activitytype,0, 0
-from  ModerationClass m, siteactivitytypes s
+select 1, s.activitytype,0, 0
+from  siteactivitytypes s
 
 --modify events scores
 update dbo.UserEventScore set score = -5 where typeid=1 --Moderate Post Failed
@@ -59,6 +61,10 @@ truncate table dbo.UserReputationThreshold
 insert into dbo.UserReputationThreshold (modclassid, maxscore, trustedscore, normalscore, postmodscore, premodscore, bannedscore)
 select m.modclassid, @maxscore, 11, 0, -2, -7, -17
 from  ModerationClass m
+
+-- fix to update all events to have moderation class
+update UserPostEvents set modclassid = 1
+update UserSiteEvents set modclassid = 1
 
 DECLARE rt_cursor CURSOR FAST_FORWARD
 FOR

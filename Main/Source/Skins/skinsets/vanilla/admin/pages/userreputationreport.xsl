@@ -34,13 +34,13 @@
                 7</option>
             </select>
 					</fieldset>
-          <fieldset class="dna-fl dna-search-userlist">
+          <!-- fieldset class="dna-fl dna-search-userlist">
             <label>Moderation Class:</label>
             <select id="s_modclassid" name="s_modclassid">
               <option value="0">All</option>
               <xsl:apply-templates select="MODERATION-CLASSES/MODERATION-CLASS" mode="moderation_class_select"/>
             </select>
-          </fieldset>
+          </fieldset -->
           <fieldset class="dna-fl dna-search-userlist">
             <label>Recommended Status:</label>
             <select id="s_modstatus" name="s_modstatus">

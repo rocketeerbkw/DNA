@@ -78,8 +78,8 @@
     <div class="dna-fl dna-main-full">
       <div class="dna-box">
         <h3>
-          Activity for user <xsl:value-of select="USEREVENTLIST/@USERID"/> on moderation class
-          "<xsl:value-of select="USEREVENTLIST/MODERATIONCLASS/NAME"/>"
+          Activity for user <xsl:value-of select="USEREVENTLIST/@USERID"/><!--  on moderation class
+          "<xsl:value-of select="USEREVENTLIST/MODERATIONCLASS/NAME"/>" -->
         </h3>
         <xsl:choose>
 						<xsl:when test="USEREVENTLIST/USEREVENTLIST/USEREVENT != ''">
