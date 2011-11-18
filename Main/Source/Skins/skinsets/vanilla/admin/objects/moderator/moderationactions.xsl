@@ -93,9 +93,9 @@
         </textarea>
       </div>
       <xsl:if test="/H2G2/USERREPUTATION">
-      <div id="hideAllSitesContainer">
+      <div id="hideAllSitesContainer" style="display:none;">
         <label for="hideAllSites">Apply to all sites: </label>
-        <input type="checkbox" name="hideAllSites" id="hideAllSites" />
+        <input type="checkbox" name="hideAllSites" id="hideAllSites" checked="checked" />
       </div>
       </xsl:if>
     </fieldset>
