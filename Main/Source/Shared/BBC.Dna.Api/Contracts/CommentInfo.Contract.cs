@@ -106,6 +106,13 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = ("applyProcessPremodExpiryTime"), Order = 13)]
+        public bool ApplyProcessPremodExpiryTime
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Is the comment premod
         /// </summary>
