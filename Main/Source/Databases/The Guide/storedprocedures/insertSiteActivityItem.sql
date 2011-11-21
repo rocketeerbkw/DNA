@@ -70,7 +70,7 @@ BEGIN
 	
 	if @@rowcount =0
 	BEGIN
-		insert into dbo.userreputationscore (userid, modclassid, accumulativescore)
+		insert into dbo.userreputationscore (userid, modclassid, accumulativescore, lastupdated)
 		select @userid, 1, @userscore, getdate()
 		from sites where 
 		siteid=@siteid
