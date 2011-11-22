@@ -106,7 +106,11 @@ namespace BBC.Dna.Api
             set;
         }
 
-        [DataMember(Name = ("applyProcessPremodExpiryTime"), Order = 13)]
+        /// <summary>
+        /// When true, this comment should go into the premodpostings table (if it requires moderation)
+        /// and if the configured time ellapses since it was queued before it's moderated, it is removed from the queue
+        /// Used by tweets
+        /// </summary>
         public bool ApplyProcessPremodExpiryTime
         {
             get;
