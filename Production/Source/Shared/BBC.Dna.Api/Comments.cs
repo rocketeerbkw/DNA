@@ -127,7 +127,7 @@ namespace BBC.Dna.Api
                 return null;
             }
             //currently only post count supported
-            SortBy = SortBy.PostCount;
+            SortBy = BBC.Dna.Common.SortBy.PostCount;
             var commentForumList = new CommentForumList
                                        {
                                            CommentForums = new List<CommentForum>(),
@@ -423,8 +423,34 @@ namespace BBC.Dna.Api
             {
                 CreateForum(commentForum, site);
                 //return comment forum data
-                tmpCommentForum =  GetCommentForumByUid(commentForum.Id, site);
+                tmpCommentForum = GetCommentForumByUid(commentForum.Id, site);
             }
+            return tmpCommentForum;
+        }
+
+        /// <summary>
+        /// performs update as well as creation
+        /// </summary>
+        /// <param name="commentForum"></param>
+        /// <param name="site"></param>
+        /// <returns></returns>
+        public CommentForum CreateAndUpdateCommentForum(Forum commentForum, ISite site, bool? isClosed)
+        {
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
+            var tmpCommentForum = GetCommentForumByUid(commentForum.Id, site);
+            if (tmpCommentForum == null)
+            {
+                CreateForum(commentForum, site);
+            }
+            else 
+            {
+                UpdateForum(commentForum, site, isClosed);
+            }
+            //return comment forum data
+            tmpCommentForum = GetCommentForumByUid(commentForum.Id, site);
             return tmpCommentForum;
         }
 

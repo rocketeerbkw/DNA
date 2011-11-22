@@ -104,11 +104,16 @@
     <Compile Include="samples\commentboxtestharness.aspx.designer.cs">
       <DependentUpon>commentboxtestharness.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TwitterService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
       <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
       <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj">
+      <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
+      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
@@ -153,6 +158,7 @@
     <Content Include="memcachedstatus.aspx" />
     <Content Include="samples\commentboxtestharness.aspx" />
     <Content Include="samples\dna_comments.css" />
+    <Content Include="TwitterService.svc" />
     <Content Include="version.aspx" />
     <Content Include="xslt\2.0\comment.xsl" />
     <Content Include="xslt\2.0\commentinfo.xsl" />

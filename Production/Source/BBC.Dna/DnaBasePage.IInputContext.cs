@@ -537,6 +537,14 @@ namespace BBC.Dna.Page
                 _isSecureRequest = value;
             }
         }
-    
+
+        /// <summary>
+        /// Creates a IDnaDataReaderCreator object relevent to the this Input Context
+        /// </summary>
+        /// <returns></returns>
+        public IDnaDataReaderCreator CreateDnaDataReaderCreator()
+        {
+            return new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, Diagnostics);
+        }
     }
 }

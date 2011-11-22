@@ -583,5 +583,14 @@ namespace BBC.Dna
         {
             get { throw new NotImplementedException(); }
         }
+
+        /// <summary>
+        /// Creates a IDnaDataReaderCreator object relevent to the this Input Context
+        /// </summary>
+        /// <returns></returns>
+        public IDnaDataReaderCreator CreateDnaDataReaderCreator()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

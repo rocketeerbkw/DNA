@@ -354,5 +354,39 @@ namespace BBC.Dna.Moderation
         {
             Terms = (Terms.Where(x => x.Id == termId)).ToList();
         }
+
+        /// <summary>
+        /// Sorts list by reputation ascending/descending
+        /// </summary>
+        /// <param name="sortBy"></param>
+        /// <param name="sortDirection"></param>
+        public void SortList(SortBy sortBy, SortDirection sortDirection)
+        {
+            switch (sortBy)
+            {
+                case SortBy.Created:
+                    if (sortDirection == SortDirection.Ascending)
+                    {
+                        Terms = Terms.OrderBy(x => x.UpdatedDate.Date.DateTime).ToList<TermDetails>();
+                    }
+                    else
+                    {
+                        Terms = Terms.OrderByDescending(x => x.UpdatedDate.Date.DateTime).ToList<TermDetails>();
+                    }
+                    break;
+
+                case SortBy.Term:
+                    if (sortDirection == SortDirection.Ascending)
+                    {
+                        Terms = Terms.OrderBy(x => x.Value).ToList<TermDetails>();
+                    }
+                    else
+                    {
+                        Terms = Terms.OrderByDescending(x => x.Value).ToList<TermDetails>();
+                    }
+                    break;
+
+            }
+        }
     }
 }

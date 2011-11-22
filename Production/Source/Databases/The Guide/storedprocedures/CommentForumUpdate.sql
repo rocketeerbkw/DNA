@@ -1,4 +1,5 @@
-CREATE PROCEDURE commentforumupdate @uid varchar(255), @url varchar(255), @title nvarchar(255), @sitename varchar(255), @moderationstatus int, @closedate datetime
+CREATE PROCEDURE commentforumupdate @uid varchar(255), @url varchar(255), @title nvarchar(255), @sitename varchar(255), @moderationstatus int, @closedate datetime = null,
+	@canwrite bit = null
 AS
 BEGIN TRANSACTION
 	
@@ -24,8 +25,7 @@ BEGIN TRANSACTION
 	--update commentforum elements
 	update commentforums
 	set
-	url = @url,
-	forumclosedate = @closedate
+	url = @url
 	where forumid=@forumid
 	
 	--update forum elements
@@ -34,6 +34,22 @@ BEGIN TRANSACTION
 	Title = @title,
 	moderationstatus = @moderationstatus
 	WHERE ForumID = @forumid
+	
+	if @canwrite is not null
+	BEGIN
+		UPDATE Forums 
+		Set 
+		canwrite = @canwrite
+		WHERE ForumID = @forumid
+	END
+	
+	if @closedate is not null
+	BEGIN
+		update commentforums
+		set
+		forumclosedate = @closedate
+		where forumid=@forumid
+	END
 	
 	INSERT INTO ForumLastUpdated(forumid, lastupdated) values (@forumid, getdate())
 	

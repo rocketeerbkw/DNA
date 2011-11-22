@@ -4,6 +4,7 @@ using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Common;
 
 namespace BBC.Dna.Api
 {
@@ -127,7 +128,11 @@ namespace BBC.Dna.Api
             //get the inital moderation status...
             var moderationStatus = (int) commentForum.ModerationServiceGroup;
             //get forum duration in days
-            int duration = (commentForum.CloseDate.Subtract(DateTime.Today)).Days; //the plus one takes to midnight
+            int duration = 0;
+            if (commentForum.CloseDate != DateTime.MinValue)
+            {
+                duration = (commentForum.CloseDate.Subtract(DateTime.Today)).Days; //the plus one takes to midnight
+            }
             
             using (IDnaDataReader reader = CreateReader("commentforumcreate"))
             {
@@ -141,7 +146,7 @@ namespace BBC.Dna.Api
                     {
                         reader.AddParameter("moderationstatus", moderationStatus);
                     }
-                    if (duration >= 0)
+                    if (duration > 0)
                     {
                         reader.AddParameter("duration", duration);
                     }
@@ -176,7 +181,7 @@ namespace BBC.Dna.Api
         /// <param name="commentForum">The comment forum object</param>
         /// <param name="site"></param>
         /// <returns>The comment forum (either new or existing) which matches to the </returns>
-        public void UpdateForum(Forum commentForum, ISite site)
+        public void UpdateForum(Forum commentForum, ISite site, bool? isClosed )
         {
             //validate data
             if (string.IsNullOrEmpty(commentForum.Id) || commentForum.Id.Length > 255)
@@ -204,7 +209,15 @@ namespace BBC.Dna.Api
                     reader.AddParameter("title", commentForum.Title);
                     reader.AddParameter("sitename", site.SiteName);
                     reader.AddParameter("moderationstatus", (int) commentForum.ModerationServiceGroup);
-                    reader.AddParameter("closeDate", commentForum.CloseDate);
+                    if (commentForum.CloseDate != DateTime.MinValue)
+                    {
+                        reader.AddParameter("closeDate", commentForum.CloseDate);
+                    }
+                    
+                    if (isClosed.HasValue)
+                    {
+                        reader.AddParameter("canwrite", !isClosed);
+                    }
                     reader.Execute();
                 }
                 catch (Exception ex)

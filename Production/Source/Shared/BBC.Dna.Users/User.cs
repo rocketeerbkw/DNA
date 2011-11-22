@@ -289,9 +289,33 @@ namespace BBC.Dna.Users
             return userCreated;
         }
 
-        public bool CreateTweetUserFromSignInTwitterUserID( int siteID, string twitterUserSignInID, string loginName, string displayName)
+        public bool CreateUserFromTwitterUserID(int siteID, string twitterUserId, string loginName, string displayName)
         {
-            return CreateTweetUserFromSignInUserID(siteID, twitterUserSignInID, loginName, displayName);
+            if (twitterUserId == null || twitterUserId.Length == 0)
+                throw new ArgumentException("Invalid twitterUserId parameter");
+
+            if (siteID == 0)
+                throw new ArgumentException("Invalid siteID parameter");
+
+            using (IDnaDataReader reader = CreateStoreProcedureReader("createnewuserfromtwitteruserid"))
+            {
+                reader.AddParameter("twitteruserid", twitterUserId);
+                reader.AddParameter("username", loginName);
+                reader.AddParameter("siteid", siteID);
+                if (displayName.Length > 0)
+                {
+                    reader.AddParameter("displayname", displayName);
+                }
+                reader.Execute();
+                if (reader.Read() && reader.HasRows)
+                {
+                    // Get the id for the user.
+                    SiteID = siteID;
+                    ReadUserDetails(reader);
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
@@ -393,44 +417,6 @@ namespace BBC.Dna.Users
                     SiteID = siteID;
                     ReadUserDetails(reader);
                     return UserID > 0;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Method to create a twitter user
-        /// </summary>
-        /// <param name="siteID"></param>
-        /// <param name="identityUserID"></param>
-        /// <param name="twitterUserID"></param>
-        /// <param name="loginName"></param>
-        /// <param name="email"></param>
-        /// <param name="displayName"></param>
-        /// <param name="ipAddress"></param>
-        /// <param name="BBCUid"></param>
-        /// <returns></returns>
-        private bool CreateTweetUserFromSignInUserID(int siteID, string twitterUserID, string loginName, string displayName)
-        {
-            string procedureName = "createnewuserfromtwitteruserid";
-
-            using (IDnaDataReader reader = CreateStoreProcedureReader(procedureName))
-            {
-                
-                reader.AddParameter("twitteruserid", twitterUserID);
-                reader.AddParameter("username", loginName);
-                reader.AddParameter("siteid", siteID);
-                if (displayName.Length > 0)
-                {
-                    reader.AddParameter("displayname", displayName);
-                }
-                reader.Execute();
-                if (reader.Read() && reader.HasRows)
-                {
-                    // Get the id for the user.
-                    SiteID = siteID;
-                    ReadUserDetails(reader);
-                    return (false == string.IsNullOrEmpty(twitterUserID));
                 }
             }
             return false;

@@ -29,6 +29,29 @@ namespace BBC.Dna.Users.Tests
             //
         }
 
+        private User CreateUser(int siteId, string twitterUserID, string loginName, string displayName, bool hasRows)
+        {
+            var cache = _mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+
+            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
+            readerMembers.Stub(x => x.Read()).Return(true);
+            readerMembers.Stub(x => x.HasRows).Return(hasRows);
+            readerMembers.Stub(x => x.GetString("username")).Return(loginName);
+            readerMembers.Stub(x => x.GetString("displayname")).Return(displayName);
+            readerMembers.Stub(x => x.GetInt32("siteid")).Return(siteId);
+            readerMembers.Stub(x => x.GetString("twitteruserid")).Return(twitterUserID);
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("createnewuserfromtwitteruserid")).Return(readerMembers);
+
+            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
+            _mocks.ReplayAll();
+
+            var obj = new User(creator, diag, cache);
+            return obj;
+        }
+
         [TestMethod]
         public void CreateTweetUserFromSignInTwitterUserID_ValidInput_ReturnsTrue()
         {
@@ -38,91 +61,50 @@ namespace BBC.Dna.Users.Tests
             var loginName = "Sachin";
             var displayName = "Sachin";
 
-            var cache = _mocks.DynamicMock<ICacheManager>();
-            cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+            var obj = CreateUser(siteId, twitterUserID, loginName, displayName, true);
 
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true);
-            readerMembers.Stub(x => x.HasRows).Return(true);
-            readerMembers.Stub(x => x.GetString("username")).Return(loginName);
-            readerMembers.Stub(x => x.GetString("displayname")).Return(displayName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(siteId);
-            readerMembers.Stub(x => x.GetString("twitteruserid")).Return(twitterUserID);
-
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("createnewuserfromtwitteruserid")).Return(readerMembers);
-
-            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
-            _mocks.ReplayAll();
-
-            var obj = new User(creator, diag, cache);
-
-            _userCreated = obj.CreateTweetUserFromSignInTwitterUserID( siteId, twitterUserID, loginName, displayName);
+            _userCreated = obj.CreateUserFromTwitterUserID(siteId, twitterUserID, loginName, displayName);
             Assert.IsTrue(_userCreated);
         }
+
 
         [TestMethod]
         public void CreateTweetUserFromSignInTwitterUserID_NoSiteID_ReturnsFalse()
         {
             bool _userCreated = false;
             var siteId = 0;
-            var twitterUserID = string.Empty;
+            var twitterUserID = "1";
             var loginName = "Sachin";
             var displayName = "Sachin";
 
-            var cache = _mocks.DynamicMock<ICacheManager>();
-            cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+            var obj = CreateUser(siteId, twitterUserID, loginName, displayName, true);
 
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true);
-            readerMembers.Stub(x => x.HasRows).Return(true);
-            readerMembers.Stub(x => x.GetString("username")).Return(loginName);
-            readerMembers.Stub(x => x.GetString("displayname")).Return(displayName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(siteId);
-            readerMembers.Stub(x => x.GetString("twitteruserid")).Return(twitterUserID);
-
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("createnewuserfromtwitteruserid")).Return(readerMembers);
-
-            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
-            _mocks.ReplayAll();
-
-            var obj = new User(creator, diag, cache);
-
-            _userCreated = obj.CreateTweetUserFromSignInTwitterUserID(siteId, twitterUserID, loginName, displayName);
-            Assert.IsFalse(_userCreated);
+            try
+            {
+                _userCreated = obj.CreateUserFromTwitterUserID(siteId, twitterUserID, loginName, displayName);
+            }
+            catch (ArgumentException ex)
+            {
+                // Expecting an ArgumentException that mentions the twitterUserID id
+                Assert.IsTrue(ex.Message.ToLower().Contains("siteid"));
+                return;
+            }
+            Assert.Fail("Shouldn't get this far");
         }
 
         [TestMethod]
         public void CreateTweetUserFromSignInTwitterUserID_NoRows_ReturnsFalse()
         {
-            bool _userCreated = false;
+            bool userCreated = false;
             var siteId = 1;
             var twitterUserID = "1";
             var loginName = "Sachin";
             var displayName = "Sachin";
 
-            var cache = _mocks.DynamicMock<ICacheManager>();
-            cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+            var obj = CreateUser(siteId, twitterUserID, loginName, displayName, false);
 
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(false);
-            readerMembers.Stub(x => x.HasRows).Return(false);
-            readerMembers.Stub(x => x.GetString("username")).Return(loginName);
-            readerMembers.Stub(x => x.GetString("displayname")).Return(displayName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(siteId);
-            readerMembers.Stub(x => x.GetString("twitteruserid")).Return(twitterUserID);
-
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("createnewuserfromtwitteruserid")).Return(readerMembers);
-
-            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
-            _mocks.ReplayAll();
-
-            var obj = new User(creator, diag, cache);
-
-            _userCreated = obj.CreateTweetUserFromSignInTwitterUserID( siteId, twitterUserID, loginName, displayName);
-            Assert.IsFalse(_userCreated);
+            userCreated = obj.CreateUserFromTwitterUserID(siteId, twitterUserID, loginName, displayName);
+            Assert.IsFalse(userCreated);
         }
 
         [TestMethod]
@@ -134,99 +116,20 @@ namespace BBC.Dna.Users.Tests
             var loginName = "Sachin";
             var displayName = "Sachin";
 
-            var cache = _mocks.DynamicMock<ICacheManager>();
-            cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+            var obj = CreateUser(siteId, twitterUserID, loginName, displayName, true);
 
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true);
-            readerMembers.Stub(x => x.HasRows).Return(true);
-            readerMembers.Stub(x => x.GetString("username")).Return(loginName);
-            readerMembers.Stub(x => x.GetString("displayname")).Return(displayName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(siteId);
-            readerMembers.Stub(x => x.GetString("twitteruserid")).Return(twitterUserID);
+            try
+            {
+                _userCreated = obj.CreateUserFromTwitterUserID(siteId, twitterUserID, loginName, displayName);
+            }
+            catch (ArgumentException ex)
+            {
+                // Expecting an ArgumentException that mentions the twitterUserID id
+                Assert.IsTrue(ex.Message.ToLower().Contains("twitteruserid"));
+                return;
+            }
 
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("createnewuserfromtwitteruserid")).Return(readerMembers);
-
-            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
-            _mocks.ReplayAll();
-
-            var obj = new User(creator, diag, cache);
-
-            _userCreated = obj.CreateTweetUserFromSignInTwitterUserID( siteId, twitterUserID,loginName, displayName);
-            Assert.IsFalse(_userCreated);
-        }
-
-        [TestMethod]
-        public void CreateExternalUserFromSignInUserID_ValidInput_ValidOutput()
-        {
-            bool _userCreated = false;
-            var siteId = 1;
-            var externalUserID = "1";
-            var loginName = "Sachin";
-            var displayName = "Sachin";
-
-            ISiteList siteList = null;
-
-            var cache = UserGroupsTests.GetGroupsCache(_mocks);
-
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true);
-            readerMembers.Stub(x => x.HasRows).Return(true);
-            readerMembers.Stub(x => x.GetString("username")).Return(loginName);
-            readerMembers.Stub(x => x.GetString("displayname")).Return(displayName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(siteId);
-            readerMembers.Stub(x => x.GetString("twitteruserid")).Return(externalUserID);
-
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("createnewuserfromtwitteruserid")).Return(readerMembers);
-
-            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
-            _mocks.ReplayAll();
-
-            var obj1 = new UserGroups(creator, diag, cache, null, null);
-
-            var obj = new CallingExternalUser(SignInSystem.Identity, creator, diag, cache, string.Empty, siteList);
-
-            _userCreated = obj.CreateExternalUserFromSignInUserID(externalUserID, ExternalUserTypes.TwitterUser, siteId, loginName, displayName);
-
-            Assert.IsTrue(_userCreated);
-        }
-
-        [TestMethod]
-        public void CreateExternalUserFromSignInUserID_EmptyTwitterUserID_ReturnsFalse()
-        {
-            bool _userCreated = false;
-            var siteId = 1;
-            var externalUserID = string.Empty;
-            var loginName = "Sachin";
-            var displayName = "Sachin";
-
-            ISiteList siteList = null;
-
-            var cache = UserGroupsTests.GetGroupsCache(_mocks);
-
-            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
-            readerMembers.Stub(x => x.Read()).Return(true);
-            readerMembers.Stub(x => x.HasRows).Return(true);
-            readerMembers.Stub(x => x.GetString("username")).Return(loginName);
-            readerMembers.Stub(x => x.GetString("displayname")).Return(displayName);
-            readerMembers.Stub(x => x.GetInt32("siteid")).Return(siteId);
-            readerMembers.Stub(x => x.GetString("twitteruserid")).Return(externalUserID);
-
-            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("createnewuserfromtwitteruserid")).Return(readerMembers);
-
-            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
-            _mocks.ReplayAll();
-
-            var obj1 = new UserGroups(creator, diag, cache, null, null);
-
-            var obj = new CallingExternalUser(SignInSystem.Identity, creator, diag, cache, string.Empty, siteList);
-
-            _userCreated = obj.CreateExternalUserFromSignInUserID(externalUserID, ExternalUserTypes.TwitterUser, siteId, loginName, displayName);
-
-            Assert.IsFalse(_userCreated);
+            Assert.Fail("Shouldn't get this far");
         }
     }
 }

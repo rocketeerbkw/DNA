@@ -85,10 +85,17 @@
 					<tr>
 						<th class="narrow"><label for="applyToAll">All</label><input type="checkbox" name="applyToAll" id="applyToAll" /></th>
 						<th>User</th>
-						<th>Score</th>
+						<th>
+              <xsl:call-template name="sortTermsReputation">
+                <xsl:with-param name="sortBy">Score</xsl:with-param>
+              </xsl:call-template>
+            </th>
 						<th>Current Status</th>
 						<th>Reputation Status</th>
-						<th>Last Updated</th>
+						<th>
+              <xsl:call-template name="sortTermsReputation">
+                <xsl:with-param name="sortBy">Last Updated</xsl:with-param>
+              </xsl:call-template></th>
 						<th class="mid"></th>
 					</tr>
 				</thead>
@@ -193,6 +200,37 @@
       </xsl:if>
       Trusted
     </option>
+  </xsl:template>
+
+  <xsl:template name="sortTermsReputation">
+    <!-- declare that it takes two parameters 
+	  - the string and the char -->
+    <xsl:param name="sortBy" />
+    <xsl:param name="sortByEnum">
+      <xsl:choose>
+        <!-- if the string contains the character... -->
+        <xsl:when test="$sortBy ='Score'">ReputationScore</xsl:when>
+        <!-- otherwise, return the value of the string -->
+        <xsl:otherwise>Created</xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
+    <xsl:param name="sortDirection">
+      <xsl:choose>
+        <xsl:when test="/H2G2/PARAMS/PARAM[NAME='s_sortDirection']/VALUE = 'Descending'">Ascending</xsl:when>
+        <xsl:otherwise>Descending</xsl:otherwise>
+      </xsl:choose>
+    </xsl:param>
+
+    <xsl:variable name="querystring">
+      <xsl:value-of select="concat(concat('&amp;s_modclassid=', @MODCLASSID),concat('&amp;s_days=', @DAYS), concat('&amp;s_modstatus=', @MODSTATUS))"/>
+    </xsl:variable>
+
+    <a>
+      <xsl:attribute name="href">
+        <xsl:value-of select="concat('userreputationreport?', $querystring, '&amp;s_sortDirection=',$sortDirection, '&amp;s_sortBy=', $sortByEnum)"/>
+      </xsl:attribute>
+      <xsl:value-of select="$sortBy"/>
+    </a>
   </xsl:template>
 
 </xsl:stylesheet>

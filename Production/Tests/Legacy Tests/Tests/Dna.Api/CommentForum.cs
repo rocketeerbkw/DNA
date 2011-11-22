@@ -13,6 +13,7 @@ using NMock2;
 using Tests;
 using TestUtils;
 using BBC.Dna.Moderation;
+using BBC.Dna.Common;
 
 namespace Tests
 {

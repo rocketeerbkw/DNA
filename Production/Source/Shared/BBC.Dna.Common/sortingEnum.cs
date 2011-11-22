@@ -1,4 +1,4 @@
-﻿namespace BBC.Dna.Api
+﻿namespace BBC.Dna.Common
 {
     public enum SortBy
     {
@@ -8,7 +8,9 @@
         Created,
         LastPosted,
         PostCount,
-        RatingValue
+        RatingValue,
+        Term,
+        ReputationScore
     }
 
     public enum SortDirection
