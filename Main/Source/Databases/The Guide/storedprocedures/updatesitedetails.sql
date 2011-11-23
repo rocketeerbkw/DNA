@@ -24,7 +24,10 @@ CREATE PROCEDURE updatesitedetails	@siteid int,
 										@ssoservice varchar(50) = null,					
 										@siteemergencyclosed int = 0,
 										@identitypolicy varchar(255) = null,
-										@bbcdivisionid int =0
+										@bbcdivisionid int =0,
+										@sampleurl varchar(255) = '',
+										@notes varchar(max) ='',
+										@viewinguser int
 As
 if EXISTS (SELECT * FROM SiteSkins WHERE SiteID = @siteid AND SkinName = @defaultskin)
 BEGIN
@@ -56,7 +59,8 @@ BEGIN
 			SSOService				= ISNULL(@ssoservice,urlname),
 			SiteEmergencyClosed		= siteemergencyclosed,
 			IdentityPolicy			= ISNULL(@identitypolicy,IdentityPolicy),
-			BBCDivisionID			= @bbcdivisionid
+			BBCDivisionID			= @bbcdivisionid,
+			sampleurl				= @sampleurl
 		WHERE SiteID = @siteid
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
@@ -65,6 +69,10 @@ BEGIN
 		SELECT 'Result' = 1, 'Error' = 'Internal error' 
 		RETURN @ErrorCode
 	END
+
+	insert into siteupdate (userid, siteid, notes)
+	values
+	(@viewinguser, @siteid, @notes)
 
 	update Preferences
 		SET AgreedTerms = CASE WHEN @customterms = 1 THEN NULL ELSE 1 END

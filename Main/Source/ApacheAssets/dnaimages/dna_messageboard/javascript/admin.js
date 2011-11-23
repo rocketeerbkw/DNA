@@ -655,3 +655,47 @@ function modmanagement_addmoderator() {
     targetForm = document.forms['moderatormanagement'];
     targetForm.elements['viewtype'].value = 'addmoderator';
 }
+
+function sitemanager_showHideAdvanced(div, toggleOptions) {
+    var ele = document.getElementById(div);
+    var toggleLink = document.getElementById(toggleOptions);
+
+    if (ele.style.display == "block") {
+        ele.style.display = "none";
+        toggleLink.innerHTML = "Show Advanced Options";
+        
+    }
+    else {
+        ele.style.display = "block";
+        toggleLink.innerHTML = "Hide Advanced Options";
+    }
+}
+
+function sitemanager_validateForm(theForm) {
+    var errorStyle = "2px solid red";
+    var error = document.getElementById("dnaErrorDiv");
+    if (error == null) {
+        error = new Div();
+    }
+    
+    error.style.display = "none";
+    theForm.notes.style.border = "";
+
+
+    with (theForm) {
+        notes.value = notes.value.replace(/^\s*/, "").replace(/\s*$/, "")
+        if (notes.value == '') {
+            error.innerHTML = "<p>Update notes cannot be empty.</p>";
+            notes.style.border = errorStyle;
+            error.style.display = "block";
+
+            return false;
+        }
+    }
+
+    theForm.reason.style.border = "";
+    theForm.termtext.style.border = "";
+    error.style.display = "none";
+    return confirm("Are you sure you want update the service " + theForm.urlname + "?");
+    
+}

@@ -46,6 +46,7 @@ namespace BBC.Dna.Component
                     if (dataReader.Read())
                     {
                         AddTextElement(xml, "URLNAME", dataReader.GetStringNullAsEmpty("urlname"));
+                        AddTextElement(xml, "SAMPLEURL", dataReader.GetStringNullAsEmpty("sampleurl"));
                         AddTextElement(xml, "SHORTNAME", dataReader.GetStringNullAsEmpty("shortname"));
                         AddTextElement(xml, "SSOSERVICE", dataReader.GetStringNullAsEmpty("ssoservice"));
                         AddTextElement(xml, "DESCRIPTION", dataReader.GetStringNullAsEmpty("description"));
@@ -92,6 +93,7 @@ namespace BBC.Dna.Component
             else
             {
                 AddTextElement(xml, "URLNAME", "");
+                AddTextElement(xml, "SAMPLEURL", "");
                 AddTextElement(xml, "SHORTNAME", "");
                 AddTextElement(xml, "SSOSERVICE", "");
                 AddTextElement(xml, "DESCRIPTION","");
@@ -186,6 +188,8 @@ namespace BBC.Dna.Component
             string eventEmailSubject = InputContext.GetParamStringOrEmpty("eventemailsubject", "EventEmailSubject");
             int queuePostings = InputContext.GetParamIntOrZero("queuePostings", "QueuePostings");
             string identityPolicy = InputContext.GetParamStringOrEmpty("identitypolicy", "IdentityPolicy");
+            string sampleUrl = InputContext.GetParamStringOrEmpty("sampleurl", "SAMPLEURL");
+            string notes = InputContext.GetParamStringOrEmpty("notes", "notes");
 
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("updatesitedetails"))
             {
@@ -215,7 +219,10 @@ namespace BBC.Dna.Component
                 dataReader.AddParameter("ssoservice", ssoService);
                 dataReader.AddParameter("IdentityPolicy", identityPolicy);
                 dataReader.AddParameter("bbcdivisionid", InputContext.GetParamIntOrZero("division", "division"));
-                
+                dataReader.AddParameter("sampleurl", sampleUrl);
+                dataReader.AddParameter("notes", notes);
+                dataReader.AddParameter("viewinguser", InputContext.ViewingUser.UserID);
+
                 dataReader.Execute();
 
                 if (dataReader.Read())
@@ -272,6 +279,8 @@ namespace BBC.Dna.Component
         private bool CreateSite(ref int siteId)
         {
             string urlName = InputContext.GetParamStringOrEmpty("urlname", "UrlName");
+            string sampleUrl = InputContext.GetParamStringOrEmpty("sampleurl", "SAMPLEURL");
+            string notes = InputContext.GetParamStringOrEmpty("notes", "notes");
             string shortName = InputContext.GetParamStringOrEmpty("shortname", "ShortName");
             string description = InputContext.GetParamStringOrEmpty("description", "Description");
             string skinSet = InputContext.GetParamStringOrEmpty("skinset", "SkinSet");
@@ -385,6 +394,9 @@ namespace BBC.Dna.Component
                     reader.AddParameter("modclassid", modClassId);
 
                 reader.AddParameter("bbcdivisionid", InputContext.GetParamIntOrZero("division", "division"));
+                reader.AddParameter("sampleurl", sampleUrl);
+                reader.AddParameter("notes", notes);
+                reader.AddParameter("viewinguser", InputContext.ViewingUser.UserID);
                 reader.Execute();
                 reader.Read();
                 siteId = reader.GetInt32("SiteID");

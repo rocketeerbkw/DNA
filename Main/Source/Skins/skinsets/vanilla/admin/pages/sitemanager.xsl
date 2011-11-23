@@ -15,12 +15,12 @@
 		<div class="dna-mb-intro blq-clearfix">
 			<div class="dna-fl dna-main-full">
 				<p>Create and edit site values and links to site options.</p>
-        <form method="post" action="SiteManager">
+        <form method="post" action="SiteManager" onsubmit="return sitemanager_validateForm(this);">
           <table cellspacing="5" class="dna-siteManager">
             <tr>
               <td class="title">Select Site:</td>
               <td>
-                <xsl:apply-templates select="/H2G2/SITE-LIST" mode="select"/> <input type="submit" value="Select"/>
+                <xsl:apply-templates select="/H2G2/SITE-LIST" mode="select"/>
               </td>
               <td>
                 <a href="/dna/moderation/SiteOptions?siteid={/H2G2/SITEMANAGER/@SITEID}"  target="_blank">Edit Site Options</a>
@@ -30,6 +30,12 @@
               <td class="title" >URL Name: </td>
               <td class="value">
                 <input type="text" name="urlname" value="{SITEMANAGER/URLNAME}"/>
+              </td>
+            </tr>
+            <tr>
+              <td class="title" >Sample URL: </td>
+              <td class="value">
+                <input type="text" name="sampleurl" value="{SITEMANAGER/SAMPLEURL}" style="width:400px"/>
               </td>
             </tr>
             <tr>
@@ -116,7 +122,7 @@
             <tr>
               <td class="title" >Feedback email:</td>
               <td class="value">
-                <input type="text" name="FeedbackEmail" value="{SITEMANAGER/FEEDBACKEMAIL}"/>
+                <input type="text" name="feedbackemail" value="{SITEMANAGER/FEEDBACKEMAIL}"/>
               </td>
             </tr>
             <tr>
@@ -125,6 +131,73 @@
                 <input type="text" name="AutoMessageUserID" value="{SITEMANAGER/AUTOMESSAGEUSERID}"/>
               </td>
             </tr>
+            <tr>
+              <td class="title" >Risk Mod State:</td>
+              <td class="value">
+                <select name="riskmodonoff">
+                  <option value="0">
+                    <xsl:if test="SITEMANAGER/RISKMODONOFF=0">
+                      <xsl:attribute name="selected"/>
+                    </xsl:if>
+                    Off
+                  </option>
+                  <option value="1">
+                    <xsl:if test="SITEMANAGER/RISKMODONOFF=1">
+                      <xsl:attribute name="selected"/>
+                    </xsl:if>
+                    On
+                  </option>
+                </select>
+
+                <select name="riskModPublishMethod">
+                  <option value="A">
+                    <xsl:if test="SITEMANAGER/RISKMODPUBLISHMETHOD='A'">
+                      <xsl:attribute name="selected"/>
+                    </xsl:if>
+                    Publish After Risk Assessment
+                  </option>
+                  <option value="B">
+                    <xsl:if test="SITEMANAGER/RISKMODPUBLISHMETHOD='B'">
+                      <xsl:attribute name="selected"/>
+                    </xsl:if>
+                    Publish Before Risk Assessment
+                  </option>
+                </select>
+                value:<xsl:value-of select="RISKMODPUBLISHMETHOD"/>
+                <xsl:if test="SITEMANAGER/RISKMODPUBLISHMETHOD='A'">
+                  A
+                </xsl:if>
+                <xsl:if test="SITEMANAGER/RISKMODPUBLISHMETHOD='B'">
+                  B
+                </xsl:if>
+                <xsl:if test="SITEMANAGER/RISKMODONOFF=0">
+                  Off
+                </xsl:if>
+                <xsl:if test="SITEMANAGER/RISKMODONOFF=1">
+                  On
+                </xsl:if>
+              </td>
+            </tr>
+            <tr>
+              <td class="title" >Identity Policy:</td>
+              <td class="value">
+                <xsl:apply-templates select="/H2G2/SITEMANAGER/IDENTITYPOLICIES" mode="select"/>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td class="title" >&#160;</td>
+              <td class="value">
+                <a href="javascript:sitemanager_showHideAdvanced('siteManagerAdvancedOptions', 'toggleOptions');" id="toggleOptions">Show Advanced Options</a>
+              </td>
+            </tr>
+            
+          </table>
+          
+          <div id="siteManagerAdvancedOptions" style="display:none;">
+            <table cellspacing="5" class="dna-siteManager">
+            
             <tr>
               <td class="title" >Event Alert Message User ID:</td>
               <td class="value">
@@ -288,74 +361,12 @@
                 </input> No
               </td>
             </tr>
-            <tr>
-              <td class="title" >Identity Policy:</td>
-              <td class="value">
-                <xsl:apply-templates select="/H2G2/SITEMANAGER/IDENTITYPOLICIES" mode="select"/>
-              </td>
-            </tr>
+           
 
-            <tr>
-              <td class="title" >Risk Mod State:</td>
-              <td class="value">
-                <select name="SITEMANAGER/RISKMODONOFF">
-                  <option value="0">
-                    <xsl:if test="SITEMANAGER/RISKMODONOFF=0">
-                      <xsl:attribute name="selected"/>
-                    </xsl:if>
-                    Off
-                  </option>
-                  <option value="1">
-                    <xsl:if test="SITEMANAGER/RISKMODONOFF=1">
-                      <xsl:attribute name="selected"/>
-                    </xsl:if>
-                    On
-                  </option>
-                </select>
-
-                <select name="riskModPublishMethod">
-                  <option value="A">
-                    <xsl:if test="SITEMANAGER/RISKMODPUBLISHMETHOD='A'">
-                      <xsl:attribute name="selected"/>
-                    </xsl:if>
-                    Publish After Risk Assessment
-                  </option>
-                  <option value="B">
-                    <xsl:if test="SITEMANAGER/RISKMODPUBLISHMETHOD='B'">
-                      <xsl:attribute name="selected"/>
-                    </xsl:if>
-                    Publish Before Risk Assessment
-                  </option>
-                </select>
-                value:<xsl:value-of select="RISKMODPUBLISHMETHOD"/>
-                <xsl:if test="SITEMANAGER/RISKMODPUBLISHMETHOD='A'">
-                  A
-                </xsl:if>
-                <xsl:if test="SITEMANAGER/RISKMODPUBLISHMETHOD='B'">
-                  B
-                </xsl:if>
-                <xsl:if test="SITEMANAGER/RISKMODONOFF=0">
-                  Off
-                </xsl:if>
-                <xsl:if test="SITEMANAGER/RISKMODONOFF=1">
-                  On
-                </xsl:if>
-              </td>
-            </tr>
+            
 
 
-            <tr>
-              <td>
-              </td>
-              <td>
-                <input type="submit" name="update" value="Update Site"  onClick="return confirm('Are you sure you want update the service {SITEMANAGER/DESCRIPTION}?')"/>
-                <input type="submit" name="create" value="Create Site"  onClick="return confirm('Are you sure you want create this service?"/>
-              </td>
-              <td>
-                <xsl:variable name="siteconfigfields"><![CDATA[<MULTI-INPUT><ELEMENT NAME='SITECONFIG'></ELEMENT></MULTI-INPUT>]]></xsl:variable>
-                <a href="/dna/moderation/SiteConfig?siteid={/H2G2/SITEMANAGER/@SITEID}&amp;_msxml={$siteconfigfields}" target="_blank">Edit Site Config</a>
-              </td>
-            </tr>
+            
             <!--<tr>
           <td >Select Site Type:</td>
           <td>
@@ -367,6 +378,28 @@
             </select>
           </td>
         </tr>-->
+          </table>
+          </div>
+          <table cellspacing="5" class="dna-siteManager">
+            <tr>
+              <td class="title" valign="top">Update Notes</td>
+              <td class="value">
+                <textarea id="notes" name="notes" rows="5" cols="50"><xsl:text> </xsl:text></textarea>
+                <div id="dnaErrorDiv" name="dnaErrorDiv" style="color:red;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+              </td>
+              <td>
+                <input type="submit" name="update" value="Update Site"/>
+                <input type="submit" name="create" value="Create Site"/>
+              </td>
+              <td>
+                <xsl:variable name="siteconfigfields"><![CDATA[<MULTI-INPUT><ELEMENT NAME='SITECONFIG'></ELEMENT></MULTI-INPUT>]]></xsl:variable>
+                <a href="/dna/moderation/SiteConfig?siteid={/H2G2/SITEMANAGER/@SITEID}&amp;_msxml={$siteconfigfields}" target="_blank">Edit Site Config</a>
+              </td>
+            </tr>
           </table>
         </form>			
 			</div>
@@ -397,7 +430,7 @@
 
   <xsl:template match="SITE-LIST" mode="select">
     <xsl:variable name="siteid" select="/H2G2/SITEMANAGER/@SITEID"/>
-    <select name="siteid">
+    <select name="siteid" onchange="this.form.submit();">
       <option value="-1">
         None - New Site
       </option>
@@ -422,6 +455,7 @@
       <xsl:value-of select="NAME"/>
     </option>
   </xsl:template>
+  
 
   <xsl:template match="DIVISION" mode="sitemanager">
     <xsl:param name="currentDivisionId"/>
