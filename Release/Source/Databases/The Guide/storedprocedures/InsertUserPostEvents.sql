@@ -20,20 +20,20 @@ select
 	17 --UserPost
 	, convert(datetime, convert(varchar(4), datepart(yyyy, te.dateposted)) + '/' + convert(varchar(2), datepart(mm, te.dateposted)) + '/' + convert(varchar(2),datepart(dd, te.dateposted)) + ' 23:59:59.997')
 	--, f.siteid
-	, m.modclassid
+	, 1 --m.modclassid
 	, ues.score
 	, 0 as 'accumulativescore'
 	, te.userid
 	, count(*) as 'numberofposts'
 from dbo.Threadentries te 
-inner join forums f on f.forumid=te.forumid
-inner join sites s on s.siteid = f.siteid
-inner join ModerationClass m on m.modclassid = s.modclassid
-inner join dbo.UserEventScore ues on ues.typeid = 17 and m.modclassid=ues.modclassid
+--inner join forums f on f.forumid=te.forumid
+--inner join sites s on s.siteid = f.siteid
+--inner join ModerationClass m on m.modclassid = s.modclassid
+inner join dbo.UserEventScore ues on ues.typeid = 17 and ues.modclassid=1 --m.modclassid
 where (te.dateposted > @startdate and te.dateposted < convert(datetime, convert(char(10),getdate(),121)) )
 and isnull(te.hidden, 0) = 0
 group by convert(datetime, convert(varchar(4), datepart(yyyy, te.dateposted)) + '/' + convert(varchar(2), datepart(mm, te.dateposted)) + '/' + convert(varchar(2),datepart(dd, te.dateposted))+ ' 23:59:59.997')
-, m.modclassid, ues.score, te.userid
+, ues.score, te.userid
 
 --select 0
 --update scores

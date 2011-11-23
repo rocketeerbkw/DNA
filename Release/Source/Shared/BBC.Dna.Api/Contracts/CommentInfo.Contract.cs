@@ -107,6 +107,17 @@ namespace BBC.Dna.Api
         }
 
         /// <summary>
+        /// When true, this comment should go into the premodpostings table (if it requires moderation)
+        /// and if the configured time ellapses since it was queued before it's moderated, it is removed from the queue
+        /// Used by tweets
+        /// </summary>
+        public bool ApplyProcessPremodExpiryTime
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Is the comment premod
         /// </summary>
         public bool IsPreModerated = false;

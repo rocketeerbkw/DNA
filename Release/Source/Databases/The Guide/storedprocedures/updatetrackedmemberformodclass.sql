@@ -48,15 +48,20 @@ EXEC addtoeventqueueinternal 'ET_USERMODERATION', @auditId, 'IT_USERAUDIT', @pre
 
 commit tran
 -- banned user - add ip/bbcuids to banned list
+declare @email nvarchar(255)
+EXEC openemailaddresskey
+select @email = dbo.udf_decryptemailaddress(EncryptedEmail,userid) from users where userid=@userid
+
 if @prefstatus = 4
 BEGIN
 	
 	exec addbannedusersipaddress @userid 
-	
+	exec addemailtobannedlist @email, 1, 1, @viewinguser
 END
 ELSE
 BEGIN
 	exec removebannedusersipaddress  @userid 
+	exec removebannedemail @email
 END
 	
 

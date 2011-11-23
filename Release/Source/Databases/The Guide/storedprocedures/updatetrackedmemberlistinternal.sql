@@ -51,7 +51,11 @@ WHERE preferences.userid = usids.userid AND preferences.siteid = usids.siteid
 EXEC addtoeventqueueinternal 'ET_USERMODERATION', @auditId, 'IT_USERAUDIT', @prefstatus, 'IT_USERPREFSTATUS', @viewinguser
 
 -- banned user - add ip/bbcuids to banned list
+
 declare @userid int
+declare @email nvarchar(255)
+EXEC openemailaddresskey
+
 if @prefstatus = 4
 BEGIN
 	
@@ -65,6 +69,10 @@ BEGIN
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		exec addbannedusersipaddress @userid 
+		
+		select @email = dbo.udf_decryptemailaddress(EncryptedEmail,userid) from users where userid=@userid
+		exec addemailtobannedlist @email, 1, 1, @viewinguser
+		
 		FETCH NEXT FROM rt_cursorUsers INTO @userid
 	END
 	CLOSE rt_cursorUsers
@@ -72,6 +80,8 @@ BEGIN
 END
 ELSE
 BEGIN
+
+	
 
 	DECLARE rt_cursorUsers CURSOR
 	FOR
@@ -83,6 +93,10 @@ BEGIN
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		exec removebannedusersipaddress  @userid 
+		
+		select @email = dbo.udf_decryptemailaddress(EncryptedEmail,userid) from users where userid=@userid
+		exec removebannedemail @email
+		
 		FETCH NEXT FROM rt_cursorUsers INTO @userid
 	END
 	CLOSE rt_cursorUsers

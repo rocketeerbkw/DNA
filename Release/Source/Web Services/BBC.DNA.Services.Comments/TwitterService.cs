@@ -64,6 +64,7 @@ namespace BBC.Dna.Services
                 var callingUser = new CallingTwitterUser(readerCreator, dnaDiagnostic, cacheManager);
 
                 callingUser.CreateUserFromTwitterUser(site.SiteID, tweet.user.id.ToString(), tweet.user.Name, tweet.user.ScreenName);
+                callingUser.SynchroniseSiteSuffix(tweet.user.ProfileImageUrl);
 
                 _commentObj.CallingUser = callingUser;
 

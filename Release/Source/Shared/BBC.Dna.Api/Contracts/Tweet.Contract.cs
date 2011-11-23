@@ -27,12 +27,16 @@ namespace BBC.Dna.Api
         [DataMember(Name = ("text"))]
         public string Text;
 
+        [DataMember(Name = ("profile_image_url"))]
+        public string profileImageUrl;
+
         public CommentInfo CreateCommentInfo()
         {
             return new CommentInfo()
             {
                 text = Text,
                 PostStyle = PostStyle.Style.tweet,
+                ApplyProcessPremodExpiryTime = true // We want moderated tweets to be queued and to expire if they're queued for too long
             };
         }
     }
