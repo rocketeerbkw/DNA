@@ -107,18 +107,18 @@
 							<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 								<div class="dna-fl dna-main-full">
 									<div class="dna-box">
-                    <!-- h3>Moderation Actions</h3>
-										<xsl:call-template name="moderation_actions" /-->
+                    <h3>Moderation Actions</h3>
+										<xsl:call-template name="moderation_actions" />
                     <fieldset class="dna-fl dna-search-userlist">
                       <ul class="blq-clearfix">
-                        <!-- li class="dna-fl">
+                        <li class="dna-fl">
                           <span class="dna-buttons">
                             <input type="submit" value="Apply action to marked accounts" id="ApplyAction" name="ApplyAction"></input>
                           </span>
-                        </li -->
+                        </li>
 
                         <li class="dna-fl reset-display-name">
-                          <!--strong>Alternatively:</strong -->
+                          <strong>Alternatively:</strong>
                           <span class="dna-buttons">
                             <input type="submit" id="ApplyNickNameReset" value="Reset display name" name="ApplyNickNameReset" />
                           </span>
