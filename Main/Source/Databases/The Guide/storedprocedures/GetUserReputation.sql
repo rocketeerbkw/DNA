@@ -16,9 +16,14 @@ BEGIN
 
 	select @currentStatus = min(prefstatus) -- potentially mixed values
 	from preferences p
-	inner join sites s on s.siteid=p.siteid and s.modclassid=@modclassid
+	inner join mastheads m on m.userid=p.userid and m.siteid=p.siteid -- see comment below *
 	where p.userid=@userid
 
+	-- * only consider preferences that have a matching Masthead record
+	-- This ensures that the statuses that it considers match the ones displayed
+	-- in the MemberDetails page.  This fixed a bug Pete found with user 14902551
+	-- where the user was showing a status of "Standard", yet was premodded on all sites
+	-- the user was active on
 
 END
 
@@ -38,7 +43,7 @@ case when urs.accumulativescore >= urt.trustedscore then 6 else -- trusted
 end
 from dbo.userreputationscore urs 
 inner join dbo.userreputationthreshold urt on urt.modclassid = urs.modclassid
-where urs.userid=@userid and urs.modclassid=@modclassid
+where urs.userid=@userid and urs.modclassid=1 --@modclassid
 	
 --return everyhing
 select 
@@ -50,6 +55,6 @@ select
 from dbo.userreputationscore urs 
 inner join dbo.userreputationthreshold urt on urt.modclassid = urs.modclassid
 inner join users u on u.userid = urs.userid
-where urs.userid=@userid and urs.modclassid=@modclassid
+where urs.userid=@userid and urs.modclassid=1 --@modclassid
 	 
 END

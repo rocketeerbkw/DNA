@@ -71,7 +71,10 @@ BEGIN
 		exec addbannedusersipaddress @userid 
 		
 		select @email = dbo.udf_decryptemailaddress(EncryptedEmail,userid) from users where userid=@userid
-		exec addemailtobannedlist @email, 1, 1, @viewinguser
+		IF @email IS NOT NULL
+		BEGIN
+			exec addemailtobannedlist @email, 1, 1, @viewinguser
+		END
 		
 		FETCH NEXT FROM rt_cursorUsers INTO @userid
 	END
