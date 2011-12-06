@@ -4,6 +4,7 @@
 
 set nocount on
 
+set tran isolation level read uncommitted
 
 declare @mindate datetime
 declare @typeid int

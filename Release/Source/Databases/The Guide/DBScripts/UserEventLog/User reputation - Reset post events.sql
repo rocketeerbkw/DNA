@@ -24,7 +24,7 @@ update dbo.usereventscore set score = -17, overridescore=1 where typeid=13 --dea
 update dbo.usereventscore set score = 0, overridescore=1 where typeid=16 --standard
 update dbo.usereventscore set score = 11, overridescore=1 where typeid=20 --trusted
 
-
+set tran isolation level read uncommitted
 
 -- insert user post events
 insert into dbo.UserPostEvents --typeid, eventdate, modclassid,entryid, score, accumulativescore, userid

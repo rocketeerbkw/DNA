@@ -94,13 +94,13 @@ BEGIN
 
 	-- get current accumulativescore
 	update dbo.UserReputationScore
-	set accumulativescore = @userscore, lastupdated=@eventdate
+	set accumulativescore = isnull(@userscore,0), lastupdated=@eventdate
 	where userid=@userid
 	and modclassid= @modclassid
 	
 	--print 'adding @entryid:' + convert(varchar(20), @entryid)
 	update dbo.UserPostEvents
-	set accumulativescore = @userscore, score = @score
+	set accumulativescore = isnull(@userscore,0), score = @score
 	where userid=@userid
 	and modclassid= @modclassid
 	and eventdate = @eventdate
