@@ -23,7 +23,8 @@ CREATE PROCEDURE generatepremodposting
 	@modnotes varchar(255),
 	@forcepremodpostingdate datetime,
 	@riskmodthreadentryqueueid int,
-	@profanityxml xml = null  
+	@profanityxml xml = null,
+	@applyprocesspremodexpirytime bit = 0
 AS
 
 IF (@@TRANCOUNT = 0)
@@ -52,10 +53,10 @@ SELECT @ModID = SCOPE_IDENTITY()
 -- Now insert the values into the PreModPostings tables
 INSERT INTO dbo.PreModPostings (ModID, UserID, ForumID, ThreadID, InReplyTo, Subject, Body,
 								PostStyle, Hash, Keywords, Nickname, Type, EventDate,
-								ClubID, NodeID, IPAddress, ThreadRead, ThreadWrite, SiteID, AllowEventEntries, BBCUID, IsComment)
+								ClubID, NodeID, IPAddress, ThreadRead, ThreadWrite, SiteID, AllowEventEntries, BBCUID, IsComment, ApplyExpiryTime)
 	VALUES (@ModID, @userid, @forumid, @threadid, @inreplyto, @subject, @content,
 			@poststyle, @hash, @keywords, @nickname, @type, @eventdate,
-			@clubid, @Nodeid, @ipaddress, @threadread, @threadwrite, @SiteID, @AllowEventEntries, @bbcuid, @IsComment)
+			@clubid, @Nodeid, @ipaddress, @threadread, @threadwrite, @SiteID, @AllowEventEntries, @bbcuid, @IsComment, @applyprocesspremodexpirytime)
 
 IF @forcepremodpostingdate IS NOT NULL
 BEGIN

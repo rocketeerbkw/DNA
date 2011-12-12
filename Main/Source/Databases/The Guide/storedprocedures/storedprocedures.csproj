@@ -1293,6 +1293,7 @@
     <None Include="getuserstatus.sql" />
     <None Include="getBBCDivisions.sql" />
     <None Include="GetUserReputationList.sql" />
+    <None Include="processexpiredpremodpostings.sql" />
     <None Include="updatetrackedmemberformodclass.sql" />
     <None Include="GetUserReputation.sql" />
     <None Include="updatetrackedmemberlistinternal.sql" />

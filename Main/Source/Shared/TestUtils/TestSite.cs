@@ -420,6 +420,29 @@ namespace Tests
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="value"></param>
+        public static void SetSiteOption(string server, string urlname, string section, string name, int type, string value)
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY(string.Format(
+                        @"  declare @siteid int
+                            select @siteid=siteid from sites where urlname = '{0}';
+                            delete siteoptions where siteid=@siteid and section='{1}' and name='{2}';
+                            insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(@siteid,'{1}', '{2}','{3}',{4},'test option')
+                        ", urlname, section, name, value, type));
+                }
+            }
+            DnaTestURLRequest myRequest = new DnaTestURLRequest(urlname);
+            myRequest.RequestPageWithFullURL("http://" + server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site", "", "text/xml");
+
+        }
 
         #region IDnaComponent Members
 
