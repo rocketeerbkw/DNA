@@ -36,8 +36,8 @@ public partial class UserListPage : DnaWebPage
     /// </summary>
     public override void OnPageLoad()
     {
-
-        AddComponent(new MemberList(_basePage));
+        //Calling the overloaded constructor
+        AddComponent(new MemberList(_basePage, _basePage.CreateDnaDataReaderCreator() ,_basePage.Diagnostics));
     }
 
     /// <summary>

@@ -51,6 +51,7 @@
 			<xs:attribute name="SEARCHTEXT" type="xs:string" use="required" />
 			<xs:attribute name="CHECKALLSITES" type="xs:string" use="required" />
 			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="TWITTEREXCEPTION" type="xs:string" use="required" />
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

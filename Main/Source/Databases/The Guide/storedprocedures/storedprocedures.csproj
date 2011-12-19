@@ -1280,6 +1280,7 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
+    <None Include="getcommentratingstats.sql" />
     <None Include="getmoderatingclassbyuser.sql" />
     <None Include="createnewuserfromtwitteruserid.sql" />
     <None Include="getalluserpostingstats4.sql" />
@@ -1287,6 +1288,7 @@
     <None Include="ApplyUserReputation.sql" />
     <None Include="ApplyUserReputations.sql" />
     <None Include="getcommentforumdetailsbyforumid.sql" />
+    <None Include="getnewssitestats.sql" />
     <None Include="gettermsbyforumid.sql" />
     <None Include="gettermsbyforumidfromforums.sql" />
     <None Include="gettermsbymodidfromthreadmod.sql" />
@@ -1294,6 +1296,7 @@
     <None Include="getBBCDivisions.sql" />
     <None Include="GetUserReputationList.sql" />
     <None Include="processexpiredpremodpostings.sql" />
+    <None Include="SearchForTwitterUserViaScreenName.sql" />
     <None Include="updatetrackedmemberformodclass.sql" />
     <None Include="GetUserReputation.sql" />
     <None Include="updatetrackedmemberlistinternal.sql" />
