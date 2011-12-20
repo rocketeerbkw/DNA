@@ -76,7 +76,7 @@ namespace TheGuide.Database.UnitTests
             int siteID = 0;
             using (IDnaDataReader reader = StoredProcedureReader.Create("", _connectionDetails))
             {
-                string sql = "exec createnewsite 'mbtestnewsite', 'New Site', 'DNA TestSite', 'boards', 'boards skin', 'vanilla', 0, 0, 1, 0, 'mod@bbc.co.uk', 'editor@bbc.co.uk', 'feedback@bbc.co.uk', 123, 0, 1, 1, 1, 120, 'Event Email', 24, 1, 1, 'old sso service name', 0, 0, 0, 1, 'http://identity/policies/dna/adult'";
+                string sql = "exec createnewsite 'mbtestnewsite', 'New Site', 'DNA TestSite', 'boards', 'boards skin', 'vanilla', 0, 0, 1, 0, 'mod@bbc.co.uk', 'editor@bbc.co.uk', 'feedback@bbc.co.uk', 123, 0, 1, 1, 1, 120, 'Event Email', 24, 1, 1, 'old sso service name', 0, 0, 0, 1, 'http://identity/policies/dna/adult', 0,'','',6";
                 reader.ExecuteDEBUGONLY(sql);
                 Assert.IsTrue(reader.HasRows);
                 Assert.IsTrue(reader.Read());
