@@ -392,15 +392,20 @@ namespace BBC.Dna.Component
             {
                 InputContext.Diagnostics.WriteExceptionToLog(ex);
 
-                if (ex.Message.Contains("Rate limit exceeded."))
+                var twitterRateLimitException = "Rate limit exceeded.";
+                var twitterErrorNotFound = "The remote server returned an error: (404) Not Found.";
+                var twitterUnexpectedResponseException = "The remote server returned an unexpected response: (400) Bad Request.";
+
+                if (ex.Message.Contains(twitterRateLimitException))
                 {
                     twitterException = "Twitter API has reached its rate limit. Please try again later.";
                 }
-                else if (ex.Message.Equals("The remote server returned an error: (404) Not Found."))
+                else if (ex.Message.Equals(twitterErrorNotFound) ||
+                    ex.InnerException.Message.Equals(twitterErrorNotFound))
                 {
                     twitterException = "Searched user not found in Twitter";
                 }
-                else if (ex.Message.Equals("The remote server returned an unexpected response: (400) Bad Request."))
+                else if (ex.Message.Equals(twitterUnexpectedResponseException))
                 {
                     twitterException = "Twitter Exception: " + ex.Message + " Please try again in few minutes.";
                 }
