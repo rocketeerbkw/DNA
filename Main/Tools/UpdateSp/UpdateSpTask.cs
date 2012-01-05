@@ -75,6 +75,11 @@ namespace updatesp
                 // The build config file has not been passed in during the build, so read the app's config setting
                 Log.LogMessage(MessageImportance.High, "Looking for 'updatespBuildConfigurationsFile' in app settings", updatespBuildConfigurationsFile);
                 updatespBuildConfigurationsFile = ConfigurationManager.AppSettings["updatespBuildConfigurationsFile"];
+
+                // If we can't find a value for key "updatespBuildConfigurationsFile" in the app or machine config
+                // look for it in a config file local to the updatesp exe
+                if (updatespBuildConfigurationsFile == null)
+                    updatespBuildConfigurationsFile = GetConfigFromAppConfigFile();
             }
             else
             {
@@ -102,6 +107,20 @@ namespace updatesp
 
             return configFile;
 		}
+
+        /// <summary>
+        /// This looks for key "updatespBuildConfigurationsFile" in a file called (exename).config (e.g. updatesp.exe.config)
+        /// </summary>
+        /// <returns></returns>
+        private string GetConfigFromAppConfigFile()
+        {
+            var exeLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            Log.LogMessage(MessageImportance.High, "Looking for configuration in " + exeLocation + ".config");
+            var conf = ConfigurationManager.OpenExeConfiguration(exeLocation);
+            KeyValueConfigurationCollection settings = conf.AppSettings.Settings;
+            var confFile = settings["updatespBuildConfigurationsFile"].Value;
+            return confFile;
+        }
 
         private void LogDatabaseAndServerPairs(DataReader dataReader)
         {
