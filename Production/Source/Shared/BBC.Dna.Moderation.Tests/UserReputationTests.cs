@@ -68,6 +68,10 @@ namespace BBC.Dna.Moderation.Tests
         [TestMethod()]
         public void ApplyModerationStatus_ValidDB_NoErrors()
         {
+            var bannedEmailsTests = new BannedEmailsTests();
+            bannedEmailsTests.InitializebannedEmails_EmptyCacheValidRecordSet_ReturnsValidObject();
+
+
             var notes = "somenotes";
             var duration = 5;
             var reader = Mocks.DynamicMock<IDnaDataReader>();
@@ -100,6 +104,10 @@ namespace BBC.Dna.Moderation.Tests
         [TestMethod()]
         public void ApplyModerationStatus_ApplyToAllSites_NoErrors()
         {
+
+            var bannedEmailsTests  = new BannedEmailsTests();
+            bannedEmailsTests.InitializebannedEmails_EmptyCacheValidRecordSet_ReturnsValidObject();
+
             var notes = "";
             var duration = 5;
             var reader = Mocks.DynamicMock<IDnaDataReader>();

@@ -1,4 +1,4 @@
-CREATE PROCEDURE getuserreputationlist @modclassid int =0, @modstatus int =-10, @startindex int =0, @itemsperpage int =20,
+CREATE PROCEDURE getuserreputationlist @modclassid int =1, @modstatus int =-10, @startindex int =0, @itemsperpage int =20,
 										@days int =1, @sortby varchar(20) ='created', @sortdirection varchar(20) = 'descending'
 	
 AS
@@ -33,19 +33,17 @@ from
 	end as reputationDeterminedStatus
 	from dbo.userreputationscore urs 
 	inner join dbo.userreputationthreshold urt on urt.modclassid = urs.modclassid
-	where (@modclassid = 0 or urs.modclassid = @modclassid)
+	where (urs.modclassid = 1)
 	and urs.lastupdated > @startdate
 ) rds
 inner join
 (
-	select min(prefstatus) as currentStatus, s.modclassid, p.userid
+	select min(prefstatus) as currentStatus, p.userid
 	from preferences p
-	inner join sites s on s.siteid=p.siteid 
-	where (@modclassid = 0 or s.modclassid = @modclassid)
-	group by s.modclassid, p.userid
+	group by p.userid
 
 	
-) cs on cs.modclassid = rds.modclassid and cs.userid = rds.userid
+) cs on cs.userid = rds.userid
 where 
 	rds.reputationDeterminedStatus <> cs.currentStatus
 	and (@modstatus =-10 or rds.reputationDeterminedStatus = @modstatus)

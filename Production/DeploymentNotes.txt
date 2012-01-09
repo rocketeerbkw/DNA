@@ -718,3 +718,11 @@ Srihari T
 	
 Mark N
 	Update admin.js from \\ops-dna1\DeployApacheAssests\Deploy-3.5.72.1\dna_messageboard\javascript
+	
+
+============== v 3.5.76.0 ============
+Marcus P
+	Run: User reputation - Reset post events.sql
+	Run: User reputation Cummulative Score Update.sql
+	
+	

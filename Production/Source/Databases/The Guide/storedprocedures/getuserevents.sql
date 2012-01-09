@@ -8,6 +8,7 @@ create procedure getuserevents
 
 as
 
+set @modclassid=1 -- At the moment, all activity is recorded under mod class 1
 
 --get events
 ;WITH CTE_EVENTS AS

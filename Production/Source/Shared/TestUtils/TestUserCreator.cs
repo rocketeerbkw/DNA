@@ -224,7 +224,7 @@ namespace TestUtils
             postParams.Add(_wrDateOfBirth, dateOfBirth);
             postParams.Add(_wrAgreementAcceptedFlag, acceptedIdentityTCs ? "1" : "0");
             postParams.Add(_wremail, email);
-            postParams.Add(_wremailvalidated, "1");
+            postParams.Add(_wremailvalidated, acceptedPolicyTCs ? "1" : "0");
             if (policy != IdentityPolicies.Adult && acceptedIdentityTCs)
             {
                 postParams.Add(_wrGuardianAcceptedFlag, "1");
