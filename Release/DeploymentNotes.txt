@@ -724,5 +724,37 @@ Mark N
 Marcus P
 	Run: User reputation - Reset post events.sql
 	Run: User reputation Cummulative Score Update.sql
+
+============== v 3.5.77.0 ============
+Mark N
+	Run: Create Process Expired PremodPostings Job.sql
+
+Srihari T	
+	<!-- Keys required for the twitter authentication -->
+	<add key="TwitterUserName" value="BBC_DNA_Search" />
+	<add key="TwitterPassword" value="WelCome12" />
 	
-	
+	Following service entries are required inside the <system.serviceModel> node
+	<client>
+	  <endpoint binding="webHttpBinding" contract="BBC.Dna.SocialAPI.ITwitter" name="TwitterClient" bindingConfiguration="IncreasedTimeout"
+	  address="http://api.twitter.com/1" behaviorConfiguration="twitter"/>
+    </client>
+    <bindings>
+		<webHttpBinding>
+			<binding name="IncreasedTimeout"
+					 sendTimeout="00:15:00" useDefaultWebProxy="true" bypassProxyOnLocal="false" 
+					 openTimeout="00:15:00" closeTimeout="00:15:00" receiveTimeout="00:15:00" maxReceivedMessageSize="65536000" >
+					  <security mode = "TransportCredentialOnly">
+						<transport clientCredentialType="Basic" realm="Twitter API" />
+					 </security>
+			</binding>
+		</webHttpBinding>
+	</bindings>
+	<behaviors>
+      <endpointBehaviors>
+		<behavior name="twitter">
+          <webHttp /> 
+		  <dataContractSerializer maxItemsInObjectGraph="2147483647" />
+        </behavior>
+      </endpointBehaviors>
+    </behaviors>

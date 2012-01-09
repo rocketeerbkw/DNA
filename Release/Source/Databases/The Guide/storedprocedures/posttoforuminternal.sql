@@ -50,7 +50,8 @@ CREATE PROCEDURE posttoforuminternal @userid int,
 										@profanityxml xml = NULL,  
 										@forcepremodposting bit = 0,
 										@forcepremodpostingdate datetime = NULL,
-										@riskmodthreadentryqueueid int = NULL
+										@riskmodthreadentryqueueid int = NULL,
+										@applyprocesspremodexpirytime bit = 0
 
 AS
 declare @curtime datetime
@@ -100,7 +101,7 @@ BEGIN
 	IF (@isnotable = 1 AND @premoderation = 1)
 	BEGIN
 		SET @premoderation = 0
-		SET @unmoderated = 0	
+		SET @unmoderated = 0
 	END
 	ELSE
 	BEGIN
@@ -191,11 +192,18 @@ END
 INSERT INTO PostDuplicates (HashValue, DatePosted, ForumID, ThreadID, Parent, UserID)
 	VALUES(@hash, @curtime, @forumid, @threadid, @inreplyto, @userid)
 
+-- If we are applying the process premod expiry time, act as if the ProcessPreMod site option is on
+DECLARE @ProcessPreMod char(1)
+IF @applyprocesspremodexpirytime = 1
+	SET @ProcessPreMod = '1'
+ELSE
+	SET @ProcessPreMod = dbo.udf_getsiteoptionsetting (@siteid,'Moderation','ProcessPreMod')
+
 /*
 	Check to see if the site has the process premod messages set. This basically means that the post will not
 	be inserted into the threads table untill it has passed moderation.
 */
-IF (@forcepremodposting=1 OR (@premoderation = 1 AND dbo.udf_getsiteoptionsetting (@siteid,'Moderation','ProcessPreMod') = '1') )
+IF (@forcepremodposting=1 OR (@premoderation = 1 AND @ProcessPreMod = '1') )
 BEGIN
 
 	BEGIN TRY
@@ -203,7 +211,7 @@ BEGIN
 										@content, @poststyle, @hash, @keywords, @nickname, @type, 
 										@eventdate, @clubid, @allowevententries, @nodeid, @ipaddress,
 										@bbcuid, @iscomment, @threadread, @threadwrite, @modnotes, @forcepremodpostingdate,
-										@riskmodthreadentryqueueid, @profanityxml
+										@riskmodthreadentryqueueid, @profanityxml, @applyprocesspremodexpirytime
 										
 		-- COMMIT and Now Set the IsPreModPosting flag and return
 		COMMIT TRANSACTION

@@ -14,6 +14,14 @@ BEGIN
 	INSERT INTO dbo.SignInUserIDMapping(TwitterUserID) VALUES (@twitteruserid)
 	SELECT @DnaUserID = @@IDENTITY
 END
+ELSE 
+BEGIN
+	-- update the screenname if the user already exists and the screenname is changed
+	UPDATE dbo.users 
+	SET UserName = @username
+	WHERE UserID = @DnaUserID AND UserName <> @username
+
+END
 
 -- Now call the internal create new user from id
 EXEC createnewuserfromuserid @DnaUserID, @username, null, @siteid, null, null, @displayname, null, null

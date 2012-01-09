@@ -415,7 +415,7 @@
 	.dna-dashboard .dna-dashboard-cfl li {line-height:1.6em}
 	
 	.dna-dashboard table.dna-siteManager {padding-top: 10px;padding-bottom: 10px;width:auto}
-    .dna-dashboard .dna-siteManager td{padding: 5px;word-wrap:break-word;}
+    .dna-dashboard .dna-siteManager td{padding: 5px;word-wrap:break-word; width: 200px}
     .dna-dashboard .dna-siteManager td.title{font-weight: bold; text-align: right;}
     .dna-dashboard .dna-siteManager td.value{text-align: left;}
     

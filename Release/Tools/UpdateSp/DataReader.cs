@@ -20,8 +20,23 @@ namespace updatesp
 
             public string makeConnectionString(string dbName)
             {
-                return "server=" + server + ";database=" + dbName + ";User Id=" + username + ";Password=" + pw + "; Pooling=false; Connection Timeout=0; Application Name=UpdateSp";
+                return makeConnectionString(dbName, 0);
             }
+
+            private string makeConnectionString(string dbName, int ConnectionTimeout)
+            {
+                return "server=" + server + ";database=" + dbName + ";User Id=" + username + ";Password=" + pw + "; Pooling=false; Connection Timeout=" + ConnectionTimeout + "; Application Name=UpdateSp";
+            }
+
+            public void TestConnection()
+            {
+                using (SqlConnection MySqlConn = new SqlConnection(makeConnectionString("master", 5)))
+                {
+                    MySqlConn.Open();
+                    MySqlConn.Close();
+                }
+            }
+
         }
 
         private class ConfigDatabase
@@ -80,6 +95,8 @@ namespace updatesp
                 conn.server = node.SelectSingleNode("server").InnerText;
                 conn.username = node.SelectSingleNode("username").InnerText;
                 conn.pw = node.SelectSingleNode("pw").InnerText;
+
+                conn.TestConnection();
 
                 _configConnections.Add(conn.name, conn);
             }

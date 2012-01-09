@@ -25,7 +25,7 @@ namespace TheGuide.Database.UnitTests
 
         private string _connectionDetails;
         private int _userid = 1090558354;
-        private int _modClassId = 3;
+        private int _modClassId = 1;
         
 
         [TestMethod]
@@ -119,10 +119,10 @@ namespace TheGuide.Database.UnitTests
             using (IDnaDataReader reader = StoredProcedureReader.Create("getuserreputationlist", _connectionDetails))
             {
                 reader.AddParameter("@modstatus", reputationDeterminedStatus);
-                reader.AddParameter("@modclassid", _modClassId*2);
+                reader.AddParameter("@modclassid", _modClassId);
                 reader.Execute();
 
-                Assert.IsFalse(reader.HasRows);
+                Assert.IsTrue(reader.HasRows);
                
             }
 

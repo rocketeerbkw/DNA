@@ -4,6 +4,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element name="URLNAME" type="xs:string" />
+        <xs:element name="SAMPLEURL" type="xs:string" minOccurs="0" />
         <xs:element name="SHORTNAME" type="xs:string" />
         <xs:element name="SSOSERVICE" type="xs:string" />
         <xs:element name="DESCRIPTION" type="xs:string" />

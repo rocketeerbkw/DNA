@@ -25,6 +25,6 @@ namespace BBC.Dna.Api
         public string ProfileImageUrl;
 
         [DataMember(Name = ("id"))]
-        public long id;
+        public string id;
     }
 }

@@ -25,7 +25,7 @@ namespace TheGuide.Database.UnitTests
 
         private string _connectionDetails;
         private int _userid = 1090558354;
-        private int _modClassId = 3;
+        private int _modClassId = 1;
         
 
         [TestMethod]

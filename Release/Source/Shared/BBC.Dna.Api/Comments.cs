@@ -492,6 +492,7 @@ namespace BBC.Dna.Api
                     //reader.AddParameter("forcepremoderation", (commentForum.ModerationServiceGroup == ModerationStatus.ForumStatus.PreMod?1:0));
                     reader.AddParameter("ignoremoderation", ignoreModeration);
                     reader.AddParameter("isnotable", CallingUser.IsUserA(UserTypes.Notable));
+                    reader.AddParameter("applyprocesspremodexpirytime", comment.ApplyProcessPremodExpiryTime);
 
                     if (CallingUser.UserID != commentForum.NotSignedInUserId)
                     {//dont include as this is data protection

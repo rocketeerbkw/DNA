@@ -2,7 +2,8 @@ CREATE PROCEDURE commentcreate @commentforumid VARCHAR(255), @userid INT, @conte
 	@forcemoderation tinyint = 0, @forcepremoderation tinyint = 0 , @ignoremoderation tinyint = 0, 
 	@isnotable tinyint = 0, @ipaddress varchar(50) = null, @bbcuid uniqueidentifier = null,
 	@poststyle int =1, @modnotes varchar(255) = NULL, @nickname nvarchar(255) = NULL, 
-	@profanityxml xml = NULL  -- List of profanity ids to be added to the ModTermMapping table
+	@profanityxml xml = NULL,  -- List of profanity ids to be added to the ModTermMapping table
+	@applyprocesspremodexpirytime bit=0
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -63,7 +64,8 @@ BEGIN
 	@forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, @ispremodposting OUTPUT, 
 	@ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment,
 	@modnotes,/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0,
-	@profanityxml
+	@profanityxml, /*@forcepremodposting*/ 0,/*@forcepremodpostingdate*/ NULL,/*@riskmodthreadentryqueueid*/NULL,
+	@applyprocesspremodexpirytime
 
 	
 
