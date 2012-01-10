@@ -1,0 +1,7 @@
+; H2G2FILTER.def : declares the module parameters for the DLL.
+
+LIBRARY	     "H2G2FILTER"
+
+EXPORTS
+	HttpFilterProc
+	GetFilterVersion
