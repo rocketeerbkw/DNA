@@ -15,8 +15,8 @@
 
 CWinApp theApp;
 
-REGSAM RegAccess = KEY_READ|KEY_WOW64_64KEY;  // This will work on IIS7
-//REGSAM RegAccess = KEY_READ;  // This will work on IIS6
+REGSAM RegAccess = KEY_READ|KEY_WOW64_64KEY;  // This will work on Window 7 64 bit
+//REGSAM RegAccess = KEY_READ;  // This will work on 32 bit Windows
 
 ///////////////////////////////////////////////////////////////////////
 // The one and only CH2g2Filter object
