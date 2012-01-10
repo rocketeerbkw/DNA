@@ -33,6 +33,7 @@
                     <xs:element name="TOPICTITLE" type="xs:string" />
                     <xs:element name="SUBJECT" type="xs:string" />
                     <xs:element name="RAWTEXT" type="xs:string" />
+                    <xs:element name="POSTSTYLE" type="xs:int" />
                     <xs:element name="TEXT">
                       <xs:complexType mixed="true">
                         <xs:sequence>
@@ -90,6 +91,7 @@
                             <xs:complexType>
                               <xs:attribute name="STATUSID" type="xs:unsignedByte" use="required" />
                               <xs:attribute name="DURATION" type="xs:unsignedByte" use="required" />
+                              <xs:attribute name="SITESUFFIX" type="xs:string" use="required" />
                             </xs:complexType>
                           </xs:element>
                           <xs:element name="GROUPS">
@@ -122,6 +124,7 @@
                                   <xs:complexType>
                                     <xs:attribute name="STATUSID" type="xs:unsignedByte" use="required" />
                                     <xs:attribute name="DURATION" type="xs:unsignedByte" use="required" />
+                                    <xs:attribute name="SITESUFFIX" type="xs:string" use="required" />
                                   </xs:complexType>
                                 </xs:element>
                                 <xs:element name="GROUPS">
