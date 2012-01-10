@@ -100,7 +100,7 @@
 			</xsl:choose>
 		</p>
 		
-		<xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = '2'">
+		
 			<p><strong>User ID: </strong><xsl:value-of select="$userid"/></p>
 			<p>
 				<strong>Email: </strong>
@@ -111,7 +111,6 @@
 					<xsl:otherwise>No email</xsl:otherwise>
 				</xsl:choose>
 			</p>
-		</xsl:if>
 
 	</xsl:template>
 
