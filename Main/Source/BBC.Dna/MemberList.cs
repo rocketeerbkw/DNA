@@ -384,6 +384,7 @@ namespace BBC.Dna.Component
 
                     //Create the twitter user and map it to DNA with site id 1
                     callingUser.CreateUserFromTwitterUser(1, tweetUser.id, tweetUser.Name, tweetUser.ScreenName);
+                    callingUser.SynchroniseSiteSuffix(tweetUser.ProfileImageUrl);
 
                     dataReader.Execute();
                 }
