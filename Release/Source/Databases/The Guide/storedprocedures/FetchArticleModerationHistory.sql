@@ -7,7 +7,22 @@ as
 
 EXEC openemailaddresskey
 
-select AM.*, 
+select 
+    AM.ModID,
+    AM.h2g2ID,
+    AM.DateQueued,
+    AM.DateLocked,
+    AM.LockedBy,
+    AM.Status,
+    AM.Notes,
+    AM.DateReferred,
+    AM.DateCompleted,
+    AM.ReferredBy,
+    AM.NewArticle,
+    AM.ComplainantID,
+    dbo.udf_decryptemailaddress(AM.EncryptedCorrespondenceEmail,AM.ModId) as CorrespondenceEmail,
+    AM.ComplaintText,
+    AM.SiteID,
 	AM.NewArticle as NewItem, 
 	G.Subject, 
 	ip.IPAddress, 

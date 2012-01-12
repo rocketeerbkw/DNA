@@ -197,6 +197,8 @@ namespace BBC.Dna.Component
                         AddTextTag(post, "SUBJECT", dataReader.GetStringNullAsEmpty("subject"));
 
                         AddTextTag(post, "RAWTEXT", StringUtils.StripInvalidXmlChars(dataReader.GetStringNullAsEmpty("text")));
+
+                        AddIntElement(post, "POSTSTYLE", dataReader.GetInt32NullAsZero("PostStyle"));
                         
                         String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, true, false);
                         if (!dataReader.IsDBNull("commentforumurl"))
@@ -292,6 +294,7 @@ namespace BBC.Dna.Component
                                 XmlElement statusXml = AddElementTag(authorXml, "STATUS");
                                 AddAttribute(statusXml, "STATUSID", dataReader.GetInt32NullAsZero("prefstatus"));
                                 AddAttribute(statusXml, "DURATION", dataReader.GetInt32NullAsZero("prefstatusduration"));
+                                AddAttribute(statusXml, "SITESUFFIX", dataReader.GetStringNullAsEmpty("SiteSuffix"));
                                 if ( !dataReader.IsDBNull("prefstatuschangeddate"))
                                 {
                                     AddDateXml(dataReader.GetDateTime("prefstatuschangeddate"), statusXml, "STATUSCHANGEDDATE");
@@ -325,6 +328,7 @@ namespace BBC.Dna.Component
                                 XmlElement status = AddElementTag(alertUserXml, "STATUS");
                                 AddAttribute(status, "STATUSID", dataReader.GetInt32NullAsZero("complainantprefstatus"));
                                 AddAttribute(status, "DURATION", dataReader.GetInt32NullAsZero("complainantprefstatusduration"));
+                                AddAttribute(status, "SITESUFFIX", dataReader.GetStringNullAsEmpty("SiteSuffix"));
                                 if (!dataReader.IsDBNull("complainantprefstatuschangeddate"))
                                 {
                                     AddDateXml(dataReader.GetDateTime("complainantprefstatuschangeddate"), alertUserXml, "STATUSCHANGEDDATE");

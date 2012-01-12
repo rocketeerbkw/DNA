@@ -1,0 +1,5 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Extensions]
+"/B"="D:\\Projects\\h2g2\\live\\B\\"
+

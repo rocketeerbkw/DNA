@@ -63,18 +63,17 @@ begin
 		return (0) -- This error is expected for duplicate complaints.
 	END CATCH
 
+	EXEC openemailaddresskey
 	-- edited entries and help pages go straight to referrals queue
 	-- but set LockedBy to UserID 1 in this case to avoid mysterious errors
-	insert into ArticleMod (h2g2ID, DateQueued, Status, LockedBy, NewArticle, 
-		ComplainantID, CorrespondenceEmail, ComplaintText, DateReferred,
-		SiteID)
-		values 
-		(@h2g2id, getdate(), @status, null, 1, @complainantid, 
-		@correspondenceemail, @complainttext, null,	@SiteID)
+	insert into ArticleMod ( h2g2ID, DateQueued, Status, LockedBy, NewArticle, ComplainantID,  ComplaintText, DateReferred, SiteID)
+		values             (@h2g2id, getdate(), @status, null,     1,         @complainantid, @complainttext, null,	       @SiteID)
 	select @ErrorCode = @@ERROR; if (@ErrorCode <> 0) goto HandleError;
 	-- capture the key value
-	set @ModID = @@identity
+	set @ModID = SCOPE_IDENTITY();
 	
+	UPDATE ArticleMod SET EncryptedCorrespondenceEmail = dbo.udf_encryptemailaddress(@correspondenceemail,ModId) WHERE ModId = @ModID
+		
 	if @ipaddress IS NOT NULL
 	BEGIN
 		insert into ArticleModIPAddress (ArticleModID, IPAddress, BBCUID) VALUES (@ModID, @ipaddress, @bbcuid)

@@ -45,13 +45,15 @@ BEGIN
 	END
 END
 
+EXEC openemailaddresskey
+
 SELECT	AM.ModID,
 		AM.h2g2ID,
 		G.EntryID,
 		G.Subject,
 		AM.Notes,
 		AM.ComplainantID,
-		AM.CorrespondenceEmail,
+		dbo.udf_decryptemailaddress(AM.EncryptedCorrespondenceEmail,AM.ModID) as CorrespondenceEmail, 
 		AM.ComplaintText,
 		AM.ReferredBy as ReferrerID,
 		U.UserName as ReferrerName,

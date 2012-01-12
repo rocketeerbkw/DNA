@@ -71,12 +71,14 @@ BEGIN
 	end
 END
 
+EXEC openemailaddresskey
+
 SELECT	a.ModID,
  		g.h2g2ID,
 		g.Subject,
 		a.Notes,
 		a.ComplainantID,
-		a.CorrespondenceEmail,
+		dbo.udf_decryptemailaddress(a.EncryptedCorrespondenceEmail,a.ModID) as CorrespondenceEmail, 
 		a.ComplaintText,
 		g.text
  FROM GuideEntries g

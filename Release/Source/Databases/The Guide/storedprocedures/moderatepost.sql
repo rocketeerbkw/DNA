@@ -410,7 +410,7 @@ SELECT
 (
 	SELECT	dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) 'authorsemail',
 			U.UserID 'authorid', 
-			TM.CorrespondenceEmail 'complaintsemail',
+			dbo.udf_decryptemailaddress(TM.EncryptedCorrespondenceEmail,TM.ModID) 'complaintsemail',
 			TM.ComplainantID,
 			case when TM.NewPost = 0 then 1 else 0 end 'IsLegacy',
 			@processed 'processed', 
@@ -426,7 +426,7 @@ SELECT
 	
 	SELECT	dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) 'authorsemail',
 			U.UserID 'authorid', 
-			TM.CorrespondenceEmail 'complaintsemail',
+			dbo.udf_decryptemailaddress(TM.EncryptedCorrespondenceEmail,TM.ModID) 'complaintsemail',
 			TM.ComplainantID,
 			case when TM.NewPost = 0 then 1 else 0 end 'IsLegacy',
 			@processed 'processed', 
