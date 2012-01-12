@@ -33,6 +33,8 @@ FROM (	SELECT TOP 20 tm.*
 WHERE t1.ModID = ThreadMod.ModID
 END
 
+EXEC openemailaddresskey
+
 SELECT TOP 20 * FROM
 (
 	SELECT TOP 20 
@@ -44,7 +46,7 @@ SELECT TOP 20 * FROM
 			t.Subject,
 			th.Notes,
 			th.ComplainantID,
-			th.CorrespondenceEmail,
+			dbo.udf_decryptemailaddress(th.EncryptedCorrespondenceEmail,th.ModID) as CorrespondenceEmail, 
 			th.ComplaintText,
 			th.ReferredBy as ReferrerID,
 			u.UserName as ReferrerName,
@@ -73,7 +75,7 @@ SELECT TOP 20 * FROM
 			pmp.Subject,
 			th.Notes,
 			th.ComplainantID,
-			th.CorrespondenceEmail,
+			dbo.udf_decryptemailaddress(th.EncryptedCorrespondenceEmail,th.ModID) as CorrespondenceEmail, 
 			th.ComplaintText,
 			th.ReferredBy as ReferrerID,
 			u.UserName as ReferrerName,

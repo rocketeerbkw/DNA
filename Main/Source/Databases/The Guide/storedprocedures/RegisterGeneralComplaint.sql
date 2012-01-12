@@ -38,10 +38,15 @@ begin
 		return (0) -- This error is expected for duplicate complaints.
 	END CATCH
 	
-	insert into GeneralMod (URL, DateQueued, Status, ComplainantID, CorrespondenceEmail, ComplaintText,SiteID)
-	values (@url, getdate(), 0, @complainantid, @correspondenceemail, @complainttext,@siteid)
+	EXEC openemailaddresskey
+	
+	insert into GeneralMod (URL, DateQueued, Status, ComplainantID,  ComplaintText, SiteID)
+	values                (@url, getdate(),  0,     @complainantid, @complainttext,@siteid)
 	-- capture the key value
-	set @ModID = @@identity
+	set @ModID = SCOPE_IDENTITY();
+	
+	UPDATE GeneralMod SET EncryptedCorrespondenceEmail = dbo.udf_encryptemailaddress(@correspondenceemail,ModId) WHERE ModId = @ModID
+	
 	if @ipaddress IS NOT NULL
 	BEGIN
 		insert into GeneralModIPAddress (GeneralModID, IPAddress, BBCUID) VALUES(@ModID, @ipaddress, @bbcuid)

@@ -113,7 +113,7 @@ END
 
 select	@authorsemail = dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId),
 		@authorid = U.UserID,
-		@complainantsemail = TM.CorrespondenceEmail,
+		@complainantsemail = dbo.udf_decryptemailaddress(TM.EncryptedCorrespondenceEmail,TM.ModID),
 		@complainantid = TM.ComplainantID, 
 		@islegacy = case when TM.NewPost = 0 then 1 else 0 end
 	from ThreadMod TM WITH(UPDLOCK)

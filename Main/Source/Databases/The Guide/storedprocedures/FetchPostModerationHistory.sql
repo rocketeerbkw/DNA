@@ -29,7 +29,7 @@ BEGIN
 	tmh.eventdate as 'datecompleted',
 	tm.newpost,
 	tm.complainantid,
-	tm.correspondenceemail,
+	dbo.udf_decryptemailaddress(tm.EncryptedCorrespondenceEmail,tm.modid) as CorrespondenceEmail, 
 	tm.complainttext,
 	tm.siteid,
 	tm.ispremodposting,

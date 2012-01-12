@@ -23,8 +23,23 @@ FROM (	SELECT TOP 1 g.*
 WHERE t1.ModID = GeneralMod.ModID
 END
 
-SELECT	*
-FROM	GeneralMod
+EXEC openemailaddresskey
+
+SELECT	[ModID]
+      ,[URL]
+      ,[ComplainantID]
+      ,dbo.udf_decryptemailaddress(GM.EncryptedCorrespondenceEmail,GM.ModID) as CorrespondenceEmail
+      ,[ComplaintText]
+      ,[DateQueued]
+      ,[DateLocked]
+      ,[LockedBy]
+      ,[Status]
+      ,[Notes]
+      ,[ReferredBy]
+      ,[DateReferred]
+      ,[DateCompleted]
+      ,[SiteID]
+FROM	GeneralMod GM
 WHERE	Status = 2
 		AND LockedBy = @userid
 ORDER BY DateQueued asc, ModID asc

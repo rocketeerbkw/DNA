@@ -244,25 +244,65 @@ namespace TheGuide.Database.UnitTests
                     // Set up email address on complainant
                     UpdateUserEmailAddress(reader, 6, "federer@knockedout.com");
 
-                    // Find a GuideEntry
-                    string sql = @"select top 1 h2g2id, siteid from guideentries g inner join users u on u.userid=g.editor order by entryid desc";
-                    reader.ExecuteWithinATransaction(sql);
-                    reader.Read();
-                    var h2g2Id = reader.GetInt32("h2g2id");
-                    var siteId = reader.GetInt32("siteid");
-                    reader.Close();
-
                     // Insert entry into mod queue,
-                    reader.ExecuteWithinATransaction("INSERT INTO ArticleMod ([h2g2ID],[ComplainantID],[SiteID]) VALUES (" + h2g2Id + ",6," + siteId+")");
-                    reader.Close();
+                    int h2g2Id = InsertIntoArticleMod(6, 0, 6, "nasty@disease.com");
 
                     // Fetch history, and check complainant's email address
                     reader.ExecuteWithinATransaction("exec fetcharticlemoderationhistory " + h2g2Id);
                     reader.Read();
                     var complainantEmail = reader.GetString("ComplainantEmail");
+                    var correspondenceEmail = reader.GetString("CorrespondenceEmail");
 
                     Assert.AreEqual("federer@knockedout.com", complainantEmail);
+                    Assert.AreEqual("nasty@disease.com", correspondenceEmail);
                 }
+            }
+        }
+
+        [TestMethod]
+        public void EmailEnc_Test_fetcharticlereferralsbatch()
+        {
+            using (new TransactionScope())
+            {
+                using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
+                {
+                    // Insert entry into mod queue,
+                    InsertIntoArticleMod(6, 2, 6, "texan@bigmouth.com");
+
+                    // Fetch history, and check complainant's email address
+                    reader.ExecuteWithinATransaction("exec fetcharticlereferralsbatch 6,1,1");
+                    reader.Read();
+                    var correspondenceEmail = reader.GetString("CorrespondenceEmail");
+
+                    Assert.AreEqual("texan@bigmouth.com", correspondenceEmail);
+                }
+            }
+        }
+
+        int InsertIntoArticleMod(int complainantId, int status, int lockedBy, string correspondenceEmail)
+        {
+            using (IDnaDataReader reader = StoredProcedureReader.Create("", ConnectionDetails))
+            {
+                // Find a GuideEntry
+                string sql = @"select top 1 h2g2id, siteid from guideentries g inner join users u on u.userid=g.editor order by entryid desc";
+                reader.ExecuteWithinATransaction(sql);
+                reader.Read();
+                var h2g2Id = reader.GetInt32("h2g2id");
+                var siteId = reader.GetInt32("siteid");
+                reader.Close();
+
+                string sqlFormat = @"
+                    DECLARE @modid int;
+                    INSERT INTO ArticleMod ([h2g2ID],[ComplainantID],[SiteID],status,lockedBy) VALUES ({0},{1},{2},{3},{4});
+                    SET @ModId = SCOPE_IDENTITY();
+                    EXEC openemailaddresskey;
+                    UPDATE ArticleMod SET EncryptedCorrespondenceEmail=dbo.udf_encryptemailaddress('{5}',@ModId) WHERE Modid=@ModID;
+                    ";
+
+                sql = string.Format(sqlFormat, h2g2Id, complainantId, siteId, status, lockedBy, correspondenceEmail);
+                reader.ExecuteWithinATransaction(sql);
+
+                return h2g2Id;
             }
         }
 
@@ -924,7 +964,9 @@ INSERT INTO [dbo].[EMailEventQueue] ([ListID],[SiteID],[ItemID],[ItemType],[Even
 
                     foreach (var modId in modIds)
                     {
-                        reader.ExecuteWithinATransaction("update threadmod set correspondenceemail='popsquits@theapprentice.com' where modid=" + modId);
+                        reader.ExecuteWithinATransaction(@"
+                                exec openemailaddresskey;
+                                update threadmod set encryptedcorrespondenceemail=dbo.udf_encryptemailaddress('popsquits@theapprentice.com',"+modId+") where modid=" + modId);
                     }
 
                     UpdateUserEmailAddress(reader, 42, "popsquits@theapprentice.com");
@@ -1603,6 +1645,9 @@ INSERT INTO [dbo].[EMailEventQueue] ([ListID],[SiteID],[ItemID],[ItemType],[Even
                 }
             }
         }
+
+//        create procedure fetcharticlemoderationhistory @h2g2id int
+
 
         /*
 
