@@ -42,8 +42,8 @@ as
 	
 	--Add New Moderation item to queue.
 	insert into ThreadMod 
-	(PostID, ThreadID, ForumID, DateQueued, Status, NewPost, ComplainantID, EncryptedCorrespondenceEmail, ComplaintText, SiteID )
-	select postid, threadid, forumid, getdate(), 0, 1, 0 , dbo.udf_encryptemailaddress(@correspondenceemail,@ModID), ComplaintText, SiteID
+	(PostID, ThreadID, ForumID, DateQueued, Status, NewPost, ComplainantID, ComplaintText, SiteID )
+	select postid, threadid, forumid, getdate(), 0, 1, 0, ComplaintText, SiteID
 	from ThreadModAwaitingEmailVerification
 	where id = @verificationCode
 	
@@ -52,7 +52,12 @@ as
 		return(-1)
 	END
 	-- capture the key value
-	set @ModID = @@identity
+	set @ModID = SCOPE_IDENTITY()
+
+	-- Now we have the ModId, we can encrypt the correspondence email address
+	UPDATE dbo.ThreadMod 
+		SET EncryptedCorrespondenceEmail = dbo.udf_encryptemailaddress(@correspondenceemail,ModID)
+		WHERE ModId = @ModID
 
 	--update threadmodipaddress
 	insert into ThreadModIPAddress 
