@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-
 namespace BBC.Dna.Utils
 {
     /// <summary>
@@ -27,6 +26,9 @@ namespace BBC.Dna.Utils
         static Regex regCategoryEx = new Regex(@"(\A|(?<=\s))C[0-9]+(?!\d)");
         static Regex regUserEx = new Regex(@"(\A|(?<=\s))U(?!2\b|8\b|9\b|10\b|11\b|14\b|15\b|16\b|17\b|18\b|20\b|21\b)[0-9]+(?!\d)");
 
+        static Regex regTwitterUserName = new Regex(@"(@)((?:[A-Za-z0-9-_]+))");
+        static Regex regTwitterHashTag = new Regex(@"(#)((?:[A-Za-z0-9-_]+))");
+        
         static string re1 = "(F)";	// Any Single Character 1
         static string re2 = "(\\d+)";	// Integer Number 1
         static string re3 = "(\\?)";	// Any Single Character 2
@@ -40,8 +42,10 @@ namespace BBC.Dna.Utils
         static Regex regOldForumThreadEx = new Regex(re1 + re2 + re3 + re4 + re5 + re6, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         static Regex regNewForumThreadEx = new Regex(re1 + re2 + re7 + re8 + re6, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-       
+
         
+        static string twitterUser = "http://twitter.com/";
+        static string twitterSearch = "http://search.twitter.com/search?q=";
         
         /// <summary>
         /// Check the input string for matches.
@@ -263,6 +267,61 @@ namespace BBC.Dna.Utils
                 raw = ReplaceExLinks(raw, replace);
             }
             return raw;
+        }
+
+        /// <summary>
+        /// Finds the Twitter related tags - @ and #.
+        /// Replaces the tags with the twitter urls in a href links
+        /// </summary>
+        /// <param name="raw"></param>
+        /// <returns></returns>
+        public static string TranslateTwitterTags(string raw)
+        {
+            if (regTwitterUserName.IsMatch(raw))
+            {
+                raw = Regex.Replace(raw, regTwitterUserName.ToString(), new MatchEvaluator(LinkTranslator.Username));
+            }
+            if (regTwitterHashTag.IsMatch(raw))
+            {
+                raw = Regex.Replace(raw, regTwitterHashTag.ToString(), new MatchEvaluator(LinkTranslator.Hashtag));
+            }
+            return raw;
+        }
+
+        /// <summary>
+        /// Translates the @ tag to the corresponding twitter url
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        private static string Username(Match m)
+        {
+            string twitterText = m.ToString();
+            string username = twitterText.Replace("@", "");
+            return LinkTranslator.TranslateToTwitterUrl(twitterUser, username, twitterText);
+        }
+
+        /// <summary>
+        /// Translates the # tag to the corresponding twitter url
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        private static string Hashtag(Match m)
+        {
+            string twitterText = m.ToString();
+            string tag = twitterText.Replace("#", "%23");
+            return LinkTranslator.TranslateToTwitterUrl(twitterSearch, tag, twitterText);
+        }
+
+        /// <summary>
+        /// Formation of the anchor tag with the twitter details
+        /// </summary>
+        /// <param name="twitterUrl"></param>
+        /// <param name="twitterMatch"></param>
+        /// <param name="twitterText"></param>
+        /// <returns></returns>
+        private static string TranslateToTwitterUrl(string twitterUrl, string twitterMatch, string twitterText)
+        {
+            return string.Format("<a href=\"{0}{1}\" target=\"_blank\">{2}</a>", twitterUrl, twitterMatch, twitterText);
         }
         /// <summary>
         /// Changes the H2G2 specific links

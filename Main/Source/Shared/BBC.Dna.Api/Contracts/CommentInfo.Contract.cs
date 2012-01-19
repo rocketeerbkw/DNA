@@ -177,6 +177,14 @@ namespace BBC.Dna.Api
                     //do nothing
                     break;
 
+                case Api.PostStyle.Style.tweet:
+                    if (!isEditor)
+                    {
+                        _text = HtmlUtils.RemoveAllHtmlTags(_text);
+                    }
+                    _text = LinkTranslator.TranslateTwitterTags(_text);
+                    break;
+
                 case Api.PostStyle.Style.unknown:
                     //do nothing
                     break;
