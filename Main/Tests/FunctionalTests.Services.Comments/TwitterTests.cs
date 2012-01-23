@@ -75,6 +75,8 @@ namespace FunctionalTests.Services.Comments
             TestCommentInfo(returnedCommentInfo, text, twitterUserId, screenName);
         }
 
+
+
         [TestMethod]
         public void CreateTweet_WithJsonData()
         {
@@ -258,6 +260,29 @@ namespace FunctionalTests.Services.Comments
                 Assert.IsTrue(reader.Read());
                 Assert.AreEqual(7, reader.GetInt32("c"));
             }
+        }
+
+        [TestMethod]
+        public void CreateTweet_WithXmlData_TestTwitterTranslation()
+        {
+            var request = new DnaTestURLRequest(_sitename);
+
+            var text = "This is a test post from @furrygeezer and @#srihari03 to search for #FactsWithoutWikipedia and ##WithoutWiki";
+            var expectedText = "This is a test post from <a href=\"http://twitter.com/furrygeezer\" target=\"_blank\">@furrygeezer</a> and @<a href=\"http://search.twitter.com/search?q=%23srihari03\" target=\"_blank\">#srihari03</a> to search for " +
+                                "<a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a> and #" +
+                                "<a href=\"http://search.twitter.com/search?q=%23WithoutWiki\" target=\"_blank\">#WithoutWiki</a>";
+            var twitterUserId = "24870599";
+            var screenName = "ccharlesworth";
+            var tweetData = CreatTweetXmlData(text, twitterUserId, screenName);
+
+            // now get the response
+            request.RequestPageWithFullURL(_tweetPostUrlReactive, tweetData, "text/xml");
+
+            // Check to make sure that the page returned with the correct information
+            var returnedCommentInfo = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+
+            Assert.AreEqual(PostStyle.Style.tweet, returnedCommentInfo.PostStyle);
+            Assert.AreEqual(expectedText, returnedCommentInfo.text);
         }
 
         private void ClearModerationQueues()
