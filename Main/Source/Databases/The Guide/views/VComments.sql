@@ -21,12 +21,15 @@ AS
 		dbo.Preferences.sitesuffix as 'SiteSpecificDisplayName',
 		case when threadentryeditorpicks.entryid is not null then 1 else 0 end as 'IsEditorPick',
 		ThreadEntries.PostIndex,
-		dbo.ThreadEntries.username as 'AnonymousUserName'
+		dbo.ThreadEntries.username as 'AnonymousUserName',
+		isnull(dbo.ThreadEntriesTweetInfo.tweetid, 0) as 'TweetId',
+		case when dbo.ThreadEntries.PostStyle = 4 then dbo.users.loginname else '' end as 'TwittertUserName' -- only return loginname for a tweet 
 	FROM         dbo.ThreadEntries 
 	INNER JOIN dbo.CommentForums ON dbo.CommentForums.ForumID = dbo.ThreadEntries.ForumID 
 	INNER JOIN dbo.Users ON dbo.Users.UserID = dbo.ThreadEntries.UserID 
 	INNER JOIN dbo.Preferences on dbo.Preferences.userid = dbo.Users.UserID and  dbo.Preferences.siteid = dbo.CommentForums.siteid
   	INNER JOIN dbo.SignInUserIDMapping ON dbo.Users.UserID = dbo.SignInUserIDMapping.DnaUserID 
   	left join threadentryeditorpicks  on ThreadEntries.entryid = threadentryeditorpicks.entryid
+  	left join ThreadEntriesTweetInfo  on ThreadEntries.entryid = ThreadEntriesTweetInfo.threadentryid
                     
                      

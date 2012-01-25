@@ -496,6 +496,10 @@ namespace BBC.Dna.Api.Tests
             readerComments.Stub(x => x.GetInt32NullAsZero("totalresults")).Return(1);
             readerComments.Stub(x => x.DoesFieldExist("SiteSpecificDisplayName")).Return(true);
             readerComments.Stub(x => x.GetStringNullAsEmpty("SiteSpecificDisplayName")).Return(userName);
+            readerComments.Stub(x => x.DoesFieldExist("tweetid")).Return(true);
+            readerComments.Stub(x => x.GetLongNullAsZero("tweetid")).Return(1);
+            readerComments.Stub(x => x.DoesFieldExist("nerovalue")).Return(true);
+            readerComments.Stub(x => x.GetInt32NullAsZero("nerovalue")).Return(1);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentsreadbysitename")).Return(readerComments);
 
             site.Stub(x => x.SiteID).Return(1);

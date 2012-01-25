@@ -1187,6 +1187,11 @@ namespace BBC.Dna.Api
                 commentInfo.NeroRatingValue = reader.GetInt32NullAsZero("nerovalue");
             }
 
+            if (reader.DoesFieldExist("tweetid"))
+            {
+                commentInfo.TweetId = reader.GetLongNullAsZero("tweetid");
+            }
+
             commentInfo.text = CommentInfo.FormatComment(reader.GetString("text"), commentInfo.PostStyle, commentInfo.hidden, commentInfo.User.Editor);
             return commentInfo;
         }
