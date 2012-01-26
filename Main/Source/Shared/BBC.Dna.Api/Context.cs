@@ -252,9 +252,9 @@ namespace BBC.Dna.Api
             {
                 user.BbcId = reader.GetStringNullAsEmpty("identityUserId");
             }
-            if (reader.DoesFieldExist("TwittertUserName"))
+            if (reader.DoesFieldExist("TwitterScreenName"))
             {
-                user.TwitterUserName = reader.GetStringNullAsEmpty("TwittertUserName");
+                user.TwitterScreenName = reader.GetStringNullAsEmpty("TwitterScreenName");
             }
 
             user.SiteSpecificDisplayName = string.Empty;

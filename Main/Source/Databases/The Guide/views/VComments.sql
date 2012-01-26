@@ -23,7 +23,7 @@ AS
 		ThreadEntries.PostIndex,
 		dbo.ThreadEntries.username as 'AnonymousUserName',
 		isnull(dbo.ThreadEntriesTweetInfo.tweetid, 0) as 'TweetId',
-		case when dbo.ThreadEntries.PostStyle = 4 then dbo.users.loginname else '' end as 'TwittertUserName' -- only return loginname for a tweet 
+		case when dbo.ThreadEntries.PostStyle = 4 then dbo.users.loginname else '' end as 'TwitterScreenName' -- only return loginname for a tweet this is the @username
 	FROM         dbo.ThreadEntries 
 	INNER JOIN dbo.CommentForums ON dbo.CommentForums.ForumID = dbo.ThreadEntries.ForumID 
 	INNER JOIN dbo.Users ON dbo.Users.UserID = dbo.ThreadEntries.UserID 
