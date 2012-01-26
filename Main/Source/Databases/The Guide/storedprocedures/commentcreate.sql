@@ -24,8 +24,8 @@ BEGIN
 		return 1
 	END
 	
-	-- Check to see if the forum has gone past it's closing date, bypass for ignored moderation.
-	IF (@ignoremoderation = 0 AND @ForumCloseDate < GetDate())
+	-- Check to see if the forum has gone past it's closing date, bypass for ignored moderation and for notable users.
+	IF (@ignoremoderation = 0 AND @ForumCloseDate < GetDate() AND @isnotable = 0)
 	BEGIN
 		return 2
 	END
@@ -35,7 +35,7 @@ BEGIN
 	DECLARE @canwrite INT
 	EXEC @returncode = getforumpermissions @userid, @forumid, @canread output, @canwrite output
 	
-	IF ( @canwrite = 0 AND @ignoremoderation = 0 )
+	IF ( @canwrite = 0 AND @ignoremoderation = 0 AND @isnotable = 0) --bypass for notable users
 	BEGIN
 		return 3
 		

@@ -1645,6 +1645,7 @@ namespace BBC.Dna.Api.Tests
             callingUser.Stub(x => x.IsSecureRequest).Return(true);
 
             callingUser.Stub(x => x.UserID).Return(1);
+            
             callingUser.Stub(x => x.IsUserA(UserTypes.SuperUser)).Return(false).Constraints(Is.Anything());
 
             cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
@@ -1679,6 +1680,52 @@ namespace BBC.Dna.Api.Tests
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentcreate"));
         }
 
+        /// <summary>
+        ///A test for CommentInfo Constructor
+        ///</summary>
+        [TestMethod]
+        public void CommentCreate_ForumClosed_NotableUser_ReturnResults()
+        {
+            var siteName = "h2g2";
+            var siteId = 1;
+            var uid = "uid";
+            var text = "test comment";
+            var siteList = mocks.DynamicMock<ISiteList>();
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var site = mocks.DynamicMock<ISite>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            var callingUser = mocks.DynamicMock<ICallingUser>();
+            var commentForum = new CommentForum { Id = uid, SiteName = siteName };
+            var commentInfo = new CommentInfo { text = text };
+
+            callingUser.Stub(x => x.IsSecureRequest).Return(true);
+
+            callingUser.Stub(x => x.UserID).Return(1);
+
+            callingUser.Stub(x => x.IsUserA(UserTypes.Notable)).Return(true);
+
+            cacheManager.Stub(x => x.GetData("")).Return(null).Constraints(Is.Anything());
+
+            site.Stub(x => x.SiteID).Return(siteId);
+            site.Stub(x => x.IsEmergencyClosed).Return(false);
+            site.Stub(x => x.IsSiteScheduledClosed(DateTime.Now)).Return(false);
+
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentcreate")).Return(reader);
+
+            siteList.Stub(x => x.GetSite(siteName)).Return(site);
+            mocks.ReplayAll();
+
+            var comments = new Comments(null, readerCreator, cacheManager, siteList);
+            comments.CallingUser = callingUser;
+           
+            var retVal = comments.CreateComment(commentForum, commentInfo);
+            Assert.AreEqual(text, retVal.text);
+            reader.AssertWasCalled(x => x.Execute());
+           
+        }
 
         /// <summary>
         ///A test for CommentInfo Constructor

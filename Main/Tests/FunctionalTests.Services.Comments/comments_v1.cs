@@ -267,6 +267,53 @@ namespace FunctionalTests.Services.Comments
         }
 
         /// <summary>
+        /// Test CreateCommentForum method from service as a notable user for a closed forum
+        /// </summary>
+        [TestMethod]
+        public void CreateComment_AsNotable_WithClosedForum()
+        {
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNotableUser();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            using (FullInputContext _context = new FullInputContext(""))
+            {
+                using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatecommentforumstatus"))
+                {
+                    dataReader.AddParameter("uid", commentForum.Id);
+                    dataReader.AddParameter("canwrite", 0);
+                    dataReader.Execute();
+                }
+            }
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "</comment>", text);
+
+            // Setup the request url
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            validator.Validate();
+
+            CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+            Assert.IsTrue(returnedComment.text == text);
+            Assert.IsNotNull(returnedComment.User);
+            Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
+            Assert.AreEqual(true, returnedComment.User.Notable);
+
+            DateTime created = DateTime.Parse(returnedComment.Created.At);
+            DateTime createdTest = BBC.Dna.Utils.TimeZoneInfo.GetTimeZoneInfo().ConvertUtcToTimeZone(DateTime.Now.AddMinutes(5));
+            Assert.IsTrue(created < createdTest);//should be less than 5mins
+            Assert.IsTrue(!String.IsNullOrEmpty(returnedComment.Created.Ago));
+        }
+
+        /// <summary>
         /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
