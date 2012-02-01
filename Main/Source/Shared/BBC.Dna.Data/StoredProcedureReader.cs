@@ -899,6 +899,21 @@ namespace BBC.Dna.Data
         }
 
         /// <summary>
+        /// Get the value of the specified column as a Int32. Null values returned as 0.
+        /// </summary>
+        /// <param name="name">Name of the column.</param>
+        /// <returns>Int32 value of the column.</returns>
+        public short GetInt16NullAsZero(string name)
+        {
+            short retval = 0;
+            if (!IsDBNull(name))
+            {
+                retval = GetInt16(name);
+            }
+            return retval;
+        }
+
+        /// <summary>
         /// Get the value of the specified column as a Int32.
         /// </summary>
         /// <param name="i">Zero-based column ordinal.</param>
@@ -1117,11 +1132,22 @@ namespace BBC.Dna.Data
         /// <summary>
         /// Get the value of the specified column as a Int64.
         /// </summary>
-        /// <param name="i">Name of the column.</param>
+        /// <param name="i">Index of the column.</param>
         /// <returns>Int64 value of the column.</returns>
         public long GetInt64(int i)
         {
             return _dataReader.GetInt64(i);
+        }
+
+        
+        /// <summary>
+        /// Get the value of the specified column as a Int64.
+        /// </summary>
+        /// <param name="name">Name of the column.</param>
+        /// <returns>Int64 value of the column.</returns>
+        public long GetInt64(string name)
+        {
+            return _dataReader.GetInt64(GetOrdinal(name));
         }
 
         /// <summary>

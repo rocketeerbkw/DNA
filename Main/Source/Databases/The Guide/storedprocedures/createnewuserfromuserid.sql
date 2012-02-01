@@ -1,5 +1,5 @@
 CREATE PROCEDURE createnewuserfromuserid	@userid int,
-											@username varchar(255),
+											@loginname varchar(255),
 											@email varchar(255),
 											@siteid int = 1,
 											@firstnames varchar(255) = null,
@@ -38,7 +38,7 @@ BEGIN
 	-- Use Displayname if provided otherwise loginname
 	IF (@displayname IS NULL OR LEN(@displayname) = 0 )
 	BEGIN
-		SET @nickname = @username
+		SET @nickname = @loginname
 	END
 	ELSE
 	BEGIN
@@ -71,8 +71,8 @@ BEGIN
 		EXEC openemailaddresskey
 		--Create user 
 		INSERT INTO Users (UserID, UserName, LoginName,  EncryptedEmail, Active, FirstNames, LastName )
-		--VALUES(@userid, @nickname, @username,  @email, 1, @firstnames, @lastname) <-- Reinsert to correctly collect firstname/lastname
-		VALUES(@userid, @nickname, @username,  dbo.udf_encryptemailaddress(@email,@userid), 1, NULL, NULL)
+		--VALUES(@userid, @nickname, @loginname,  @email, 1, @firstnames, @lastname) <-- Reinsert to correctly collect firstname/lastname
+		VALUES(@userid, @nickname, @loginname,  dbo.udf_encryptemailaddress(@email,@userid), 1, NULL, NULL)
 	END TRY
 	BEGIN CATCH
 		SET @Err = ERROR_NUMBER();

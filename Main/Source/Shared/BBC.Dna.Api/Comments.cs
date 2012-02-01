@@ -517,10 +517,11 @@ namespace BBC.Dna.Api
                     }
 
                     reader.Execute();
+
                     if (reader.HasRows && reader.Read())
                     {
 //all good - create comment
-                        comment.IsPreModPosting = reader.GetInt32NullAsZero("IsPreModPosting") == 1;
+                        comment.PreModPostingsModId = reader.GetInt32NullAsZero("PreModPostingModId");
                         comment.IsPreModerated = (reader.GetInt32NullAsZero("IsPreModerated") == 1);
                         comment.hidden = (comment.IsPreModerated
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
@@ -585,20 +586,36 @@ namespace BBC.Dna.Api
         /// <param name="commentForum"></param>
         /// <param name="comment">The comment to add</param>
         /// <returns>The created comment object</returns>
-        public int CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, int value)
+        public int CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, short value)
         {
             if (userId == 0 && (BbcUid == Guid.Empty || string.IsNullOrEmpty(IpAddress)))
             {
                 throw ApiException.GetError(ErrorType.MissingUserAttributes);
             }
 
-            var updatedValue = 0;
-            //create unique comment hash
             Guid userHash = Guid.Empty;
             if (userId == 0)
             {
                 userHash = DnaHasher.GenerateHash(BbcUid + "|" + IpAddress);
             }
+
+            return CreateCommentRating(commentForum, site, entryId, userId, value, userHash);
+        }
+
+        public int CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, short value, Guid userHash)
+        {
+            if (userId == 0 && userHash == Guid.Empty)
+            {
+                throw ApiException.GetError(ErrorType.MissingUserAttributes);
+            }
+
+            if (entryId <= 0)
+            {
+                throw ApiException.GetError(ErrorType.InvalidEntryId);
+            }
+
+            var updatedValue = 0;
+            //create unique comment hash
             //add comment to db
             try
             {
@@ -607,11 +624,11 @@ namespace BBC.Dna.Api
                     reader.AddParameter("postid", entryId);
                     reader.AddParameter("forumid", commentForum.ForumID);
                     reader.AddParameter("siteid", site.SiteID);
-                    
+
                     reader.AddParameter("userid", userId);
                     reader.AddParameter("userhash", userHash);
                     reader.AddParameter("value", value);
-                    
+
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
@@ -669,7 +686,7 @@ namespace BBC.Dna.Api
             {
                 throw ApiException.GetError(ErrorType.SiteIsClosed);
             }
-            //is comment forum closed
+            // reject comments that do not have any text
             if (String.IsNullOrEmpty(comment.text))
             {
                 throw ApiException.GetError(ErrorType.EmptyText);
@@ -917,7 +934,7 @@ namespace BBC.Dna.Api
                     if (reader.HasRows && reader.Read())
                     {
                         //all good - create comment
-                        comment.IsPreModPosting = reader.GetInt32NullAsZero("IsPreModPosting") == 1;
+                        comment.PreModPostingsModId = reader.GetInt32NullAsZero("PreModPostingModId");
                         comment.IsPreModerated = (reader.GetInt32NullAsZero("IsPreModerated") == 1);
                         comment.hidden = (comment.IsPreModerated
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
@@ -1043,6 +1060,39 @@ namespace BBC.Dna.Api
                 
             }
             return startIndex;
+        }
+
+        public void CreateTweetInfoForComment(int postId, long tweetId)
+        {
+            using (IDnaDataReader reader = CreateReader("createtweetinfoforcomment"))
+            {
+                reader.AddParameter("postid", postId);
+                reader.AddParameter("tweetid", tweetId);
+                reader.Execute();
+            }
+        }
+
+        public int GetCommentIdFromTweetId(long tweetId)
+        {
+            using (IDnaDataReader reader = CreateReader("getcommentidfromtweetid"))
+            {
+                reader.AddParameter("tweetid", tweetId);
+                reader.Execute();
+                if (reader.Read())
+                    return reader.GetInt32NullAsZero("threadentryid");
+
+                return 0;
+            }
+        }
+
+        public void CreateTweetInfoForPreModPostings(int modId, long tweetId)
+        {
+            using (IDnaDataReader reader = CreateReader("createtweetinfoforpremodpostings"))
+            {
+                reader.AddParameter("modid", modId);
+                reader.AddParameter("tweetid", tweetId);
+                reader.Execute();
+            }
         }
 
         #region Private Functions

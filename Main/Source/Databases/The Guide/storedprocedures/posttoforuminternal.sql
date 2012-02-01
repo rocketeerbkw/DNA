@@ -12,7 +12,7 @@ In: @userid - id of user posting
 @ipaddress varchar(25) = null,
 @queueid int  = NULL, 
 @clubid int = 0, 
-@ispremodposting int OUTPUT, 
+@premodpostingmodid int OUTPUT, 
 @bbcuid uniqueidentifier = NULL,
 @isnotable tinyint = 0, 
 @IsComment tinyint = 0 -- Flag to control if ThreadPostings is populated. != 0 equates to don't populate.
@@ -39,7 +39,7 @@ CREATE PROCEDURE posttoforuminternal @userid int,
 										@ipaddress varchar(25) = null,
 										@queueid int  = NULL, 
 										@clubid int = 0, 
-										@ispremodposting int OUTPUT,
+										@premodpostingmodid int OUTPUT,
 										@ispremoderated int OUTPUT, 
 										@bbcuid uniqueidentifier = NULL,
 										@isnotable tinyint = 0, 
@@ -52,7 +52,6 @@ CREATE PROCEDURE posttoforuminternal @userid int,
 										@forcepremodpostingdate datetime = NULL,
 										@riskmodthreadentryqueueid int = NULL,
 										@applyprocesspremodexpirytime bit = 0
-
 AS
 declare @curtime datetime
 DECLARE @privmsg 	INT
@@ -192,12 +191,12 @@ END
 INSERT INTO PostDuplicates (HashValue, DatePosted, ForumID, ThreadID, Parent, UserID)
 	VALUES(@hash, @curtime, @forumid, @threadid, @inreplyto, @userid)
 
--- If we are applying the process premod expiry time, act as if the ProcessPreMod site option is on
 DECLARE @ProcessPreMod char(1)
+SET @ProcessPreMod = dbo.udf_getsiteoptionsetting (@siteid,'Moderation','ProcessPreMod')
+
+-- If we are applying the process premod expiry time, act as if the ProcessPreMod site option is on
 IF @applyprocesspremodexpirytime = 1
 	SET @ProcessPreMod = '1'
-ELSE
-	SET @ProcessPreMod = dbo.udf_getsiteoptionsetting (@siteid,'Moderation','ProcessPreMod')
 
 /*
 	Check to see if the site has the process premod messages set. This basically means that the post will not
@@ -211,11 +210,11 @@ BEGIN
 										@content, @poststyle, @hash, @keywords, @nickname, @type, 
 										@eventdate, @clubid, @allowevententries, @nodeid, @ipaddress,
 										@bbcuid, @iscomment, @threadread, @threadwrite, @modnotes, @forcepremodpostingdate,
-										@riskmodthreadentryqueueid, @profanityxml, @applyprocesspremodexpirytime
+										@riskmodthreadentryqueueid, @profanityxml, @applyprocesspremodexpirytime,
+										@premodpostingmodid OUTPUT
 										
-		-- COMMIT and Now Set the IsPreModPosting flag and return
+		-- COMMIT. The PreModPostingModId value will be returned in @premodpostingmodid
 		COMMIT TRANSACTION
-		SET @ispremodposting = 1
 		RETURN 0
 	    
 	END TRY

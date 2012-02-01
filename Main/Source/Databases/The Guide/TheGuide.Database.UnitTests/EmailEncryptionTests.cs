@@ -167,7 +167,7 @@ namespace TheGuide.Database.UnitTests
                 {
                     int userId = GetNextUserId(reader);
 
-                    string sql = string.Format(@"EXEC createnewuserfromuserid {0},@username ='Test',@email ='groucho@marx.com',@siteid = 1", userId);
+                    string sql = string.Format(@"EXEC createnewuserfromuserid {0},@loginname ='Test',@email ='groucho@marx.com',@siteid = 1", userId);
                     reader.ExecuteWithinATransaction(sql);
                     reader.Read();
                     var email = reader.GetString("email");

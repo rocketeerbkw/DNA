@@ -1053,7 +1053,6 @@ namespace FunctionalTests.Services.Comments
         {
             Console.WriteLine("Before CreateComment");
 
-            var threadModId = 0;
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
             //create the forum
@@ -1235,7 +1234,6 @@ namespace FunctionalTests.Services.Comments
             {
                 SetSiteOption(1, "Moderation", "ProcessPreMod", 1, "1");
 
-                var threadModId = 0;
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
                 request.SetCurrentUserNormal();
                 //create the forum
@@ -2035,7 +2033,18 @@ namespace FunctionalTests.Services.Comments
             {
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
-                    reader.ExecuteDEBUGONLY(string.Format("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values({0},'{1}', '{2}','{3}',{4},'test option')", siteId, section, name, value, type));
+                    reader.ExecuteDEBUGONLY(
+                        string.Format(
+                            @"  IF EXISTS(SELECT * FROM SiteOptions Where SiteID={0} AND Section='{1}' AND Name='{2}')
+                                BEGIN
+                                    UPDATE SiteOptions
+                                        SET Value = '{3}', Type = '{4}', Description = 'test option'
+                                        WHERE SiteID={0} AND Section='{1}' AND Name='{2}'
+                                END
+                                ELSE 
+                                    insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values({0},'{1}', '{2}','{3}',{4},'test option')
+
+                            ", siteId, section, name, value, type));
                 }
             }
             DnaTestURLRequest myRequest = new DnaTestURLRequest(_sitename);

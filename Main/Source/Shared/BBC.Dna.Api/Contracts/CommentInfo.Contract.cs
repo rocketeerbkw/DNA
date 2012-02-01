@@ -130,9 +130,18 @@ namespace BBC.Dna.Api
         public bool IsPreModerated = false;
 
         /// <summary>
+        /// This is the modid returned by the posting system if the post has gone straight
+        /// into the PreModPostings table
+        /// </summary>
+        public int PreModPostingsModId { get; set; }
+
+        /// <summary>
         /// The comment in the premod table
         /// </summary>
-        public bool IsPreModPosting = false;
+        public bool IsPreModPosting
+        {
+            get { return PreModPostingsModId > 0; }
+        }
 
 
         /// <summary>

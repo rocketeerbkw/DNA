@@ -383,7 +383,7 @@ namespace BBC.Dna.Component
                     var callingUser = new CallingTwitterUser(this.readerCreator, this.dnaDiagnostic, cacheManager);
 
                     //Create the twitter user and map it to DNA with site id 1
-                    callingUser.CreateUserFromTwitterUser(1, tweetUser.id, tweetUser.Name, tweetUser.ScreenName);
+                    callingUser.CreateUserFromTwitterUser(1, tweetUser);
                     callingUser.SynchroniseSiteSuffix(tweetUser.ProfileImageUrl);
 
                     dataReader.Execute();

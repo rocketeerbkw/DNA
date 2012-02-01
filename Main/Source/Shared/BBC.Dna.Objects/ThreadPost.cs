@@ -838,9 +838,9 @@ namespace BBC.Dna.Objects
                             ThreadId = dataReader.GetInt32NullAsZero("threadid");
                         }
                     }
-                    if (dataReader.DoesFieldExist("ispremodposting"))
+                    if (dataReader.DoesFieldExist("premodpostingmodid"))
                     {
-                        IsPreModPosting = dataReader.GetBoolean("ispremodposting");
+                        IsPreModPosting = dataReader.GetInt32NullAsZero("premodpostingmodid") > 0;
                     }
                     if (dataReader.DoesFieldExist("ispremoderated"))
                     {

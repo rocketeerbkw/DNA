@@ -1285,7 +1285,7 @@ namespace BBC.Dna
                 {
                     postId = dataReader.GetInt32NullAsZero("postid");
                     threadId = dataReader.GetInt32NullAsZero("threadid");
-                    isPreModPosting = dataReader.GetBoolean("ispremodposting");
+                    isPreModPosting = (dataReader.GetInt32("premodpostingmodid") > 0);
                     isPreModerated = dataReader.GetBoolean("ispremoderated");
                     isQueued = dataReader.GetBoolean("wasqueued");
                 }

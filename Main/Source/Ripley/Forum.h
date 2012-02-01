@@ -73,7 +73,7 @@ public:
 	bool PostToJournal(int iUserID, int iJournalID, const TDVCHAR* pUsername, const TDVCHAR* pSubject, const TDVCHAR* pBody, int iSiteID, int iPostStyle, bool* pbProfanityFound, bool* pbNonAllowedURLsFound, bool* pbEmailAddressFound );
 	bool PostToForum(CUser* pPoster, int iForumID, int iReplyTo, int iThreadID, const TDVCHAR* pSubject, const TDVCHAR* pBody, int iPostStyle, int* oThreadID, int* oPostID, 
 			const TDVCHAR *pType = NULL, const TDVCHAR *pEventDate = NULL, bool* pbProfanityFound = NULL, int iClub = 0, int iNodeID = 0, const TDVCHAR* pPhrases = NULL, 
-			bool bAllowQueuing = false , bool* pbWasQueued = NULL, bool bIgnoreModeration = false, int* pSecondsToWait = NULL, bool* pbNonAllowedURLsFound = NULL, bool* pbIsPreModPosting = NULL, bool* pbIsPreModerated = NULL, bool* pbEmailAddressFound = NULL );
+			bool bAllowQueuing = false , bool* pbWasQueued = NULL, bool bIgnoreModeration = false, int* pSecondsToWait = NULL, bool* pbNonAllowedURLsFound = NULL, int* pbPreModPostingModId = NULL, bool* pbIsPreModerated = NULL, bool* pbEmailAddressFound = NULL );
 	bool GetPostContents(CUser* pViewer, int iReplyTo, int* iForumID, int* iThreadID, CTDVString* sUserName, CTDVString* sBody, CTDVString* pSubject, int* oPostStyle, int* oPostIndex, int* oUserID, CTDVString *pSiteSuffix);
 	bool GetJournal(CUser* pViewer, int iForumID, int NumToShow, int NumSkipped, bool bShowUserHidden = false );
 	bool GetUserStatistics(int iForumID, int NumToShow, int NumSkipped, int iMode, CTDVDateTime dtStartDate, CTDVDateTime dtEndDate);

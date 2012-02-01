@@ -49,10 +49,10 @@ BEGIN
 				from PostingQueue order by QueueID
 	if @queueid IS NOT NULL
 	BEGIN
-		declare @returnthreadid int, @returnpostid int, @ispremodposting int, @ispremoderated int
+		declare @returnthreadid int, @returnpostid int, @premodpostingmodid int, @ispremoderated int
 		EXEC posttoforuminternal @userid, @forumid, @inreplyto, @threadid, @subject, '', 
 				@poststyle, @hash, @keywords, @nickname, @returnthreadid OUTPUT, @returnpostid OUTPUT
-				, @type, @eventdate, @forcemoderate, @forcepremoderation, @ignoremoderation, DEFAULT, @nodeid, @ipaddress, @queueid, DEFAULT, @ispremodposting, @ispremoderated, @bbcuid, @IsComment
+				, @type, @eventdate, @forcemoderate, @forcepremoderation, @ignoremoderation, DEFAULT, @nodeid, @ipaddress, @queueid, DEFAULT, @premodpostingmodid, @ispremoderated, @bbcuid, @IsComment
 				
 --		Update ThreadEntries set text = p.Content
 --		from ThreadEntries t, PostingQueue p

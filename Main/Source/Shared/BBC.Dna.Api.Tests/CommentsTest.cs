@@ -1963,7 +1963,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+                comments.CreateCommentRating(commentForum, site, postId, userid, (short)value);
             }
             catch (ApiException ex)
             {
@@ -1999,7 +1999,7 @@ namespace BBC.Dna.Api.Tests
                 BbcUid = Guid.NewGuid()
             };
 
-            var retVal = comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            var retVal = comments.CreateCommentRating(commentForum, site, postId, userid, (short)value);
             Assert.AreEqual(value, retVal);
             reader.AssertWasCalled(x => x.Execute());
         }
@@ -2031,7 +2031,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+                comments.CreateCommentRating(commentForum, site, postId, userid, (short)value);
             }
             catch (ApiException ex)
             {
@@ -2068,7 +2068,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+                comments.CreateCommentRating(commentForum, site, postId, userid, (short)value);
             }
             catch (ApiException ex)
             {
@@ -2105,7 +2105,7 @@ namespace BBC.Dna.Api.Tests
                 BbcUid = Guid.NewGuid()
             };
 
-            var retVal = comments.CreateCommentRating(commentForum, site, postId, userid, value);
+            var retVal = comments.CreateCommentRating(commentForum, site, postId, userid, (short)value);
             Assert.AreEqual(value, retVal);
             reader.AssertWasCalled(x => x.Execute());
         }
@@ -2138,7 +2138,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                comments.CreateCommentRating(commentForum, site, postId, userid, value);
+                comments.CreateCommentRating(commentForum, site, postId, userid, (short)value);
             }
             catch (ApiException ex)
             {

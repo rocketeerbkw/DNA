@@ -53,13 +53,13 @@ BEGIN
 
 	DECLARE @newpostid INT
 	DECLARE @newthreadid INT
-	DECLARE @ispremodposting INT
+	DECLARE @premodpostingmodid INT
 	DECLARE @ispremoderated INT
 	DECLARE @IsComment TINYINT
 	SELECT @IsComment = 1 -- User's do not want comments appearing on their MorePosts page. This flag controls if ThreadPostings is populated. != 0 equates to don't populate.
 	EXEC @returncode = posttoforuminternal @userid, @forumid, @inreplyto, @threadid, @subject, @content, 
 	@poststyle, @hash, NULL, NULL, @newthreadid OUTPUT, @newpostid OUTPUT, NULL, NULL, @forcemoderation, 
-	@forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, @ispremodposting OUTPUT, 
+	@forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, @premodpostingmodid OUTPUT, 
 	@ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment,
 	@modnotes,/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0, @profanityxml  
 
@@ -76,7 +76,7 @@ SELECT @threadcount = ThreadPostCount FROM Threads th WITH(NOLOCK)
 	--	SET @premoderation = 0 
 	--END
 	
-	SELECT 'ThreadID' = @newthreadid, 'PostID' = @newpostid, 'WasQueued' = 0, 'IsPreModPosting' = @ispremodposting, 'IsPreModerated' = @ispremoderated, 'ThreadPostCount' = @threadcount
+	SELECT 'ThreadID' = @newthreadid, 'PostID' = @newpostid, 'WasQueued' = 0, 'PreModPostingModId' = @premodpostingmodid, 'IsPreModerated' = @ispremoderated, 'ThreadPostCount' = @threadcount
 
 	RETURN @ReturnCode
     
