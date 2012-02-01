@@ -113,6 +113,7 @@ namespace BBC.Dna.Utils.Tests
                 "this is a test with in brackets (at the end http://en.wikipedia.org/wiki/Sink_or_Swim_(song))",
                 "this is a test with a anchor tag at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>",
                 "this is a test with a tag directly after link http://en.wikipedia.org/wiki/<br/>",
+                "this is a test for t links http://t.co/H3G9ZQGc and ftp://t.co/H3G9ZQGc",
                 @"123<BR /><BR />http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf"
                              };
             string[] expected = {"<a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</a>",
@@ -121,6 +122,7 @@ namespace BBC.Dna.Utils.Tests
                                     "this is a test with in brackets (at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song))\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song))</a>", // this is not entirely correct but unable to work out if last ) is matched
                                     "this is a test with a anchor tag at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>",
                                     "this is a test with a tag directly after link <a href=\"http://en.wikipedia.org/wiki/\">http://en.wikipedia.org/wiki/</a><br/>",
+                                    "this is a test for t links <a href=\"http://t.co/H3G9ZQGc\">http://t.co/H3G9ZQGc</a> and ftp://t.co/H3G9ZQGc",
                                     "123<BR /><BR /><a href=\"http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf\">http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf</a>"
                                 };
 

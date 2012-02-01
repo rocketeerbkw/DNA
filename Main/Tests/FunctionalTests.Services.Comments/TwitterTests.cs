@@ -267,10 +267,11 @@ namespace FunctionalTests.Services.Comments
         {
             var request = new DnaTestURLRequest(_sitename);
 
-            var text = "This is a test post from @furrygeezer and @#srihari03 to search for #FactsWithoutWikipedia and ##WithoutWiki";
+            var text = "This is a test post from @furrygeezer and @#srihari03 to search for #FactsWithoutWikipedia, ##WithoutWiki and for the link http://t.co/H3G9ZQGc and ftp://t.co/H3G9ZQGc";
             var expectedText = "This is a test post from <a href=\"http://twitter.com/furrygeezer\" target=\"_blank\">@furrygeezer</a> and @<a href=\"http://search.twitter.com/search?q=%23srihari03\" target=\"_blank\">#srihari03</a> to search for " +
-                                "<a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a> and #" +
-                                "<a href=\"http://search.twitter.com/search?q=%23WithoutWiki\" target=\"_blank\">#WithoutWiki</a>";
+                                "<a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a>, #" +
+                                "<a href=\"http://search.twitter.com/search?q=%23WithoutWiki\" target=\"_blank\">#WithoutWiki</a> and for the link " +
+                                "<a href=\"http://t.co/H3G9ZQGc\">http://t.co/H3G9ZQGc</a> and ftp://t.co/H3G9ZQGc";
             var twitterUserId = "24870599";
             var screenName = "ccharlesworth";
             var tweetData = CreatTweetXmlData(text, twitterUserId, screenName);

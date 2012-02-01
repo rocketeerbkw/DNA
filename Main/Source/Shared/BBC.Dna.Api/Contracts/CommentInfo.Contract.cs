@@ -189,6 +189,7 @@ namespace BBC.Dna.Api
                     {
                         _text = HtmlUtils.RemoveAllHtmlTags(_text);
                     }
+                    _text = LinkTranslator.TranslateExLinksToHtml(_text);
                     _text = LinkTranslator.TranslateTwitterTags(_text);
                     break;
 
