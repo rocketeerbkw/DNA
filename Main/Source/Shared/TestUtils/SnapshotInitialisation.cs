@@ -38,21 +38,30 @@ namespace Tests
         public void Dispose()
         {}
 
+        public static void RestoreFromSnapshot()
+        {
+            RestoreFromSnapshot(true);
+        }
         /// <summary>
         /// Restores Small Guide From SnapShot.
         /// </summary>
-        public static void RestoreFromSnapshot()
+        public static void RestoreFromSnapshot(bool clearConnections)
         {
 			if (_hasRestored)
 			{
 				return;
 			}
             //Execute Restore from snapshot.
-			ForceRestore();
+			ForceRestore(clearConnections);
 
             //System.Diagnostics.EventLog evlog = new System.Diagnostics.EventLog();
             //evlog.WriteEntry("Dispose");
             //System.Diagnostics.Debugger.Break();
+        }
+
+        public static void ForceRestore()
+        {
+            ForceRestore(true);
         }
 
 		/// <summary>
@@ -63,7 +72,7 @@ namespace Tests
 		/// In most cases, you don't need to call this method because the test input context and the URL test object
 		/// will call it for you. Those will call the one-off RestoreFromSnapshot method instead.
 		/// </summary>
-		public static void ForceRestore()
+		public static void ForceRestore(bool clearConnections)
 		{
 			try
 			{
@@ -100,6 +109,8 @@ namespace Tests
 
                 string updateSpConnString = node.Attributes["connectionString"].Value;
 
+
+
                 // Check to make sure there are no connection on the small guide database
                 bool noConnections = false;
                 int tries = 0;
@@ -122,9 +133,18 @@ namespace Tests
 
                         if (!noConnections)
                         {
-                            // Goto sleep for 5 secs
-                            System.Threading.Thread.Sleep(5000);
-                            Console.Write("-");
+                            if (clearConnections)
+                            {
+                                string clearConSql = @"ALTER DATABASE " + smallGuideName + @" SET OFFLINE WITH ROLLBACK IMMEDIATE;" +
+                                                     @"ALTER DATABASE " + smallGuideName + @" SET ONLINE;";
+                                reader.ExecuteDEBUGONLY(clearConSql);
+                            }
+                            else
+                            {
+                                // Goto sleep for 5 secs
+                                System.Threading.Thread.Sleep(5000);
+                                Console.Write("-");
+                            }
                         }
                     }
                 }
