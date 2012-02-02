@@ -115,7 +115,7 @@ namespace Tests
                 Assert.IsTrue(reader.GetInt32("PostID") > 0, "No post id was returned!");
                 Assert.IsTrue(reader.GetStringNullAsEmpty("HostPageURL") != String.Empty, "The host page url was not present");
                 Assert.IsTrue(reader.GetBoolean("ispremoderated"), "The premod value was not 1");
-                Assert.IsFalse(reader.GetBoolean("IsPreModPosting"), "The post should not of been in the premod posting queue");
+                Assert.IsTrue(reader.GetInt32("PreModPostingModId")==0, "The post should not of been in the premod posting queue");
             }
 
             // Now update the users sinbin status
@@ -155,7 +155,7 @@ namespace Tests
                 Assert.IsTrue(reader.GetInt32("PostID") > 0, "No post id was returned!");
                 Assert.IsTrue(reader.GetStringNullAsEmpty("HostPageURL") != String.Empty, "The host page url was not present");
                 Assert.IsFalse(reader.GetBoolean("ispremoderated"), "The premod value was not 0");
-                Assert.IsFalse(reader.GetBoolean("IsPreModPosting"), "The post should not of been in the premod posting queue");
+                Assert.IsTrue(reader.GetInt32("PreModPostingModId") == 0, "The post should not of been in the premod posting queue");
             }
         }
 

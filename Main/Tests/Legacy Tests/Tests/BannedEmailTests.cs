@@ -438,12 +438,12 @@ namespace Tests
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
                 reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+                var duplicate = reader.GetIntReturnValue();
+
+                Assert.AreEqual(0,duplicate, "The Duplicate result should be false (0)");
             }
 
             // Now check again
@@ -486,12 +486,12 @@ namespace Tests
                 reader.AddParameter("SigninBanned", 1);
                 reader.AddParameter("ComplaintBanned", 0);
                 reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
                 reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+                var duplicate = reader.GetIntReturnValue();
+
+                Assert.AreEqual(0,duplicate, "The Duplicate result should be false (0)");
             }
 
             // Now check again
@@ -521,12 +521,12 @@ namespace Tests
                 reader.AddParameter("SigninBanned", 1);
                 reader.AddParameter("ComplaintBanned", 0);
                 reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
                 reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+                var duplicate = reader.GetIntReturnValue();
+
+                Assert.AreEqual(0,duplicate, "The Duplicate result should be false (0)");
             }
 
             // Now try to add it again
@@ -536,12 +536,12 @@ namespace Tests
                 reader.AddParameter("SigninBanned", 1);
                 reader.AddParameter("ComplaintBanned", 0);
                 reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
                 reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                Assert.IsTrue(reader.GetBoolean("Duplicate"), "The Duplicate result should be true!");
+                var duplicate = reader.GetIntReturnValue();
+
+                Assert.AreEqual(1,duplicate, "The Duplicate result should be true (1)");
             }
         }
 
@@ -559,12 +559,12 @@ namespace Tests
                 reader.AddParameter("SigninBanned", 1);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
                 reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+                var duplicate = reader.GetIntReturnValue();
+
+                Assert.AreEqual(0,duplicate, "The Duplicate result should be false (0)");
             }
 
             // Now get the email from the database using the getbannedemails stored procedure
@@ -683,12 +683,12 @@ namespace Tests
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
                 reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+                var duplicate = reader.GetIntReturnValue();
+
+                Assert.AreEqual(0,duplicate, "The Duplicate result should be false (0)");
             }
 
             // Now recall the find user procedure to check it now comes back as this user is banned from complaints
