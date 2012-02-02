@@ -15,7 +15,7 @@ cscript.exe c:\Inetpub\AdminScripts\adsutil.vbs SET w3svc/2/serverbindings ":808
 
 REM - Create Schemas Directory
 c:\Inetpub\AdminScripts\adsutil.vbs CREATE w3svc/2/root/Schemas "IIsWebVirtualDir"
-c:\Inetpub\AdminScripts\adsutil.vbs SET w3svc/2/root/Schemas/path "C:\Projects\BBC.DNA.root\Schemas"
+c:\Inetpub\AdminScripts\adsutil.vbs SET w3svc/2/root/Schemas/path "D:\vp-dev-dna-1\User Services\Main\Source\Schemas"
 
 cscript.exe c:\InetPub\AdminScripts\adsutil.vbs enum w3svc
 

@@ -7,6 +7,7 @@ using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Diagnostics;
 using BBC.Dna.Api;
+using BBC.Dna.SocialAPI;
 
 namespace BBC.Dna.Users
 {
@@ -17,16 +18,16 @@ namespace BBC.Dna.Users
         {
         }
 
-        public bool CreateUserFromTwitterUser(int siteID, string twitterUserId, string loginName, string displayName)
+        public bool CreateUserFromTwitterUser(int siteID, TweetUser tweetUser)
         {
-            if (twitterUserId == null || twitterUserId.Length == 0)
+            if (tweetUser.id == null || tweetUser.id.Length == 0)
                 throw new ArgumentException("Invalid twitterUserId parameter");
 
             if (siteID == 0)
                 throw new ArgumentException("Invalid siteID parameter");
 
-            TwitterUserID = twitterUserId;
-            if (base.CreateUserFromTwitterUserID(siteID, TwitterUserID, loginName, displayName))
+            TwitterUserID = tweetUser.id;
+            if (base.CreateUserFromTwitterUserID(siteID, tweetUser))
             {
                 //method for retrieving the twitter user groups
                 GetUsersGroupsForSite();

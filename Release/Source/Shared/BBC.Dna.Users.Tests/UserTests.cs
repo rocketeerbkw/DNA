@@ -11,6 +11,7 @@ using BBC.Dna.Utils;
 using BBC.Dna.Users;
 using BBC.Dna.Sites;
 using System.Collections.Specialized;
+using BBC.Dna.SocialAPI;
 
 namespace BBC.Dna.Users.Tests
 {
@@ -29,7 +30,7 @@ namespace BBC.Dna.Users.Tests
             //
         }
 
-        private User CreateUser(int siteId, string twitterUserID, string loginName, string displayName, bool hasRows)
+        private User CreateTwitterUser(int siteId, string twitterUserID, string twitterScreenName, bool hasRows)
         {
             var cache = _mocks.DynamicMock<ICacheManager>();
             cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
@@ -37,8 +38,7 @@ namespace BBC.Dna.Users.Tests
             var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
             readerMembers.Stub(x => x.Read()).Return(true);
             readerMembers.Stub(x => x.HasRows).Return(hasRows);
-            readerMembers.Stub(x => x.GetString("username")).Return(loginName);
-            readerMembers.Stub(x => x.GetString("displayname")).Return(displayName);
+            readerMembers.Stub(x => x.GetString("twitterscreenname")).Return(twitterScreenName);
             readerMembers.Stub(x => x.GetInt32("siteid")).Return(siteId);
             readerMembers.Stub(x => x.GetString("twitteruserid")).Return(twitterUserID);
 
@@ -48,8 +48,8 @@ namespace BBC.Dna.Users.Tests
             var diag = _mocks.DynamicMock<IDnaDiagnostics>();
             _mocks.ReplayAll();
 
-            var obj = new User(creator, diag, cache);
-            return obj;
+            var user = new User(creator, diag, cache);
+            return user;
         }
 
         [TestMethod]
@@ -57,13 +57,11 @@ namespace BBC.Dna.Users.Tests
         {
             bool _userCreated = false;
             var siteId = 1;
-            var twitterUserID = "1";
-            var loginName = "Sachin";
-            var displayName = "Sachin";
+            var tweetUser = new TweetUser() { ScreenName = "Sachin", id = "1" };
 
-            var obj = CreateUser(siteId, twitterUserID, loginName, displayName, true);
+            var user = CreateTwitterUser(siteId, tweetUser.id, tweetUser.ScreenName, true);
 
-            _userCreated = obj.CreateUserFromTwitterUserID(siteId, twitterUserID, loginName, displayName);
+            _userCreated = user.CreateUserFromTwitterUserID(siteId, tweetUser);
             Assert.IsTrue(_userCreated);
         }
 
@@ -73,15 +71,13 @@ namespace BBC.Dna.Users.Tests
         {
             bool _userCreated = false;
             var siteId = 0;
-            var twitterUserID = "1";
-            var loginName = "Sachin";
-            var displayName = "Sachin";
+            var tweetUser = new TweetUser() { ScreenName = "Sachin", id = "1" };
 
-            var obj = CreateUser(siteId, twitterUserID, loginName, displayName, true);
+            var user = CreateTwitterUser(siteId, tweetUser.id, tweetUser.ScreenName, true);
 
             try
             {
-                _userCreated = obj.CreateUserFromTwitterUserID(siteId, twitterUserID, loginName, displayName);
+                _userCreated = user.CreateUserFromTwitterUserID(siteId, tweetUser);
             }
             catch (ArgumentException ex)
             {
@@ -97,13 +93,11 @@ namespace BBC.Dna.Users.Tests
         {
             bool userCreated = false;
             var siteId = 1;
-            var twitterUserID = "1";
-            var loginName = "Sachin";
-            var displayName = "Sachin";
+            var tweetUser = new TweetUser() { ScreenName = "Sachin", id = "1" };
 
-            var obj = CreateUser(siteId, twitterUserID, loginName, displayName, false);
+            var user = CreateTwitterUser(siteId, tweetUser.id, tweetUser.ScreenName, false);
 
-            userCreated = obj.CreateUserFromTwitterUserID(siteId, twitterUserID, loginName, displayName);
+            userCreated = user.CreateUserFromTwitterUserID(siteId, tweetUser);
             Assert.IsFalse(userCreated);
         }
 
@@ -112,15 +106,13 @@ namespace BBC.Dna.Users.Tests
         {
             bool _userCreated = false;
             var siteId = 1;
-            var twitterUserID = string.Empty;
-            var loginName = "Sachin";
-            var displayName = "Sachin";
+            var tweetUser = new TweetUser() { ScreenName = "Sachin", id = string.Empty };
 
-            var obj = CreateUser(siteId, twitterUserID, loginName, displayName, true);
+            var user = CreateTwitterUser(siteId, tweetUser.id, tweetUser.ScreenName, true);
 
             try
             {
-                _userCreated = obj.CreateUserFromTwitterUserID(siteId, twitterUserID, loginName, displayName);
+                _userCreated = user.CreateUserFromTwitterUserID(siteId, tweetUser);
             }
             catch (ArgumentException ex)
             {

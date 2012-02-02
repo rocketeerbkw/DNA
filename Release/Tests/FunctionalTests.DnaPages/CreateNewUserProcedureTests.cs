@@ -248,6 +248,7 @@ namespace FunctionalTests
             var BBCUid = Guid.NewGuid();
             string identityUserID = "987654322";
             int newDnaUserID = 0;
+            //.string strUserID = string.Empty;
             using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
             {
                 reader.ExecuteDEBUGONLY(string.Format("insert into bannedIPAddress (userid, ipaddress, bbcuid) values ({0},'{1}','{2}')", 1, ipAddress, BBCUid));
@@ -271,6 +272,7 @@ namespace FunctionalTests
                 Assert.IsTrue(reader.Read(), "Failed to read the first row of data!");
 
                 // Get the new DNAUserID
+                //strUserID = reader.GetDataTypeName("UserID");
                 newDnaUserID = reader.GetInt32("UserID");
 
                 // Now check the values comming back from the database

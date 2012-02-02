@@ -18,6 +18,7 @@
         <xs:element name="isEditorPick" type="xs:boolean" />
         <xs:element name="index" type="xs:int" />
         <xs:element name="neroRatingValue" type="xs:int" />
+        <xs:element name="tweetId" type="xs:long" />
       </xs:sequence>
 		</xs:complexType>
 	</xs:element>

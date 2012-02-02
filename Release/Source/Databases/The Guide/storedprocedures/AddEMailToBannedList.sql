@@ -2,7 +2,7 @@ CREATE PROCEDURE addemailtobannedlist @email VARCHAR(255), @signinbanned bit, @c
 AS
 
 DECLARE @duplicate int
-IF @email IS NOT NULL
+IF @email IS NOT NULL AND LEN(@email) > 0
 BEGIN
 	EXEC openemailaddresskey
 
@@ -14,5 +14,5 @@ BEGIN
 		SET @duplicate = 0
 	END
 END
--- Return either 1, 0 or NULL if @email is NULL
-SELECT 'Duplicate' = @duplicate
+-- Return either 1, 0
+RETURN ISNULL(@duplicate,0)

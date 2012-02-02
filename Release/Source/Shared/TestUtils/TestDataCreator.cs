@@ -177,7 +177,7 @@ namespace TestUtils
                 using (IDnaDataReader reader = InputContext.CreateDnaDataReader("createnewuserfromuserid"))
                 {
                     reader.AddParameter("userid", userID);
-                    reader.AddParameter("username", CreateRandomString(30));
+                    reader.AddParameter("loginname", CreateRandomString(30));
                     reader.AddParameter("email", String.Format("{0}@{1}.co.uk", CreateRandomString(30), CreateRandomString(30)));
                     reader.AddParameter("siteid", siteID);
                     reader.AddParameter("firstnames", CreateRandomString(30));

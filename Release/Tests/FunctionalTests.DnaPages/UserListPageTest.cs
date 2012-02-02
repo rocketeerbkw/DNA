@@ -161,9 +161,18 @@ namespace FunctionalTests
 
             var xml = request.GetLastResponseAsXML();
 
+            var expectedTwitterError = "Searched user not found in Twitter";
+
             var expectedTwitterException = "Twitter Exception: The remote server returned an unexpected response: (400) Bad Request. Please try again in few minutes.";
 
-            Assert.AreEqual(xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value, expectedTwitterException);
+            if (true == xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value.Contains("Twitter Exception:"))
+            {
+                Assert.AreEqual(expectedTwitterException, xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value);
+            }
+            else
+            {
+                Assert.AreEqual(expectedTwitterError, xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value);
+            }
             
         }
 

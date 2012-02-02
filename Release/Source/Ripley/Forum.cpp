@@ -2401,7 +2401,7 @@ bool CForum::GetPostContents(CUser* pViewer, int iReplyTo, int *pForumID, int *p
 				pbProfanityFound - A flag that gets set true if the post was forced into moderation.
 				pbNonAllowedURLsFound- A flag that gets set to true if the post contains a non allowed url
 				pbEmailAddressFound - Indicates email address found.
-				pbIsPreModPosting - Indicates that post was not actually created due to site option processPreMod.
+				pbPreModPostingModId - A value > 0 indicates that post was not actually created due to site option processPreMod.
 				pbIsPreModerated - Indicates that post was premoderated .
 	Returns:	true if successful, false otherwise
 	Purpose:	Posts a thread entry to a conversation, either to create a new
@@ -2413,7 +2413,7 @@ bool CForum::GetPostContents(CUser* pViewer, int iReplyTo, int *pForumID, int *p
 bool CForum::PostToForum(CUser* pPoster, int iForumID, int iReplyTo, int iThreadID, const TDVCHAR *pSubject, const TDVCHAR *pBody, int iPostStyle, int* oThreadID, int* oPostID, 
 						 const TDVCHAR *pType, const TDVCHAR *pEventDate, bool* pbProfanityFound, int iClub, int iNodeID /* = 0*/, const TDVCHAR* pPhrases /* = NULL */, 
 						 bool bAllowQueuing /* = false */, bool* pbWasQueued /* = NULL */, bool bIgnoreModeration /* = false */, int* pSecondsToWait /* = NULL */, bool* pbNonAllowedURLsFound /* = NULL */,
-						 bool* pbIsPreModPosting, bool* pbIsPreModerated, bool* pbEmailAddressFound )
+						 int* pbPreModPostingModId, bool* pbIsPreModerated, bool* pbEmailAddressFound )
 {
 	if (pbWasQueued != NULL)
 	{
@@ -2562,7 +2562,7 @@ bool CForum::PostToForum(CUser* pPoster, int iForumID, int iReplyTo, int iThread
 	}
 
 	// Now post to the forum
-	if ((bIgnoreModeration || bCanWrite) && SP.PostToForum(iUserID, iForumID, iReplyTo, iThreadID, pSubject, pBody, iPostStyle, oThreadID, oPostID, pType, pEventDate, bForceModerate, bForcePreModeration, bIgnoreModeration, iClub, iNodeID, m_InputContext.GetIPAddress(), pPhrases, bAllowQueuing, pbWasQueued, pbIsPreModPosting, pbIsPreModerated, m_InputContext.GetBBCUIDFromCookie(), bIsNotable, sModNotes) )
+	if ((bIgnoreModeration || bCanWrite) && SP.PostToForum(iUserID, iForumID, iReplyTo, iThreadID, pSubject, pBody, iPostStyle, oThreadID, oPostID, pType, pEventDate, bForceModerate, bForcePreModeration, bIgnoreModeration, iClub, iNodeID, m_InputContext.GetIPAddress(), pPhrases, bAllowQueuing, pbWasQueued, pbPreModPostingModId, pbIsPreModerated, m_InputContext.GetBBCUIDFromCookie(), bIsNotable, sModNotes) )
 	{
 		return true;
 	}

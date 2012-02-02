@@ -21,9 +21,6 @@ namespace TheGuide.Database.UnitTests
         private int _postId = 61;
         private int _forumId = 7325075;
         private int _threadId = 34;
-        private int _modClassId = 4;
-        private int _userId = TestUserAccounts.GetModeratorAccount.UserID;
-
 
         public trg_Threadmod_uTest()
         {

@@ -6179,7 +6179,7 @@ bool CStoredProcedure::GetPostContents(int iReplyTo, int iUserID, int *iForumID,
 bool CStoredProcedure::PostToForum(int iUserID, int iForumID, int iReplyTo, int iThreadID, const TDVCHAR *pSubject, const TDVCHAR *pBody,
 								   int iPostStyle, int* oThreadID, int* oPostID, const TDVCHAR *pType, const TDVCHAR *pEventDate, bool bForceModerate, bool bForcePreModerate, bool bIgnoreModeration,
 								   int iClub, int iNodeID /* = 0 */, const TDVCHAR* pIPAddress /* = NULL */, const TDVCHAR* pPhrases /* = NULL */,
-								   bool bAllowQueuing /* = false */, bool* pbWasQueued /* = NULL */, bool* pbIsPreModPosting /* =NULL */,
+								   bool bAllowQueuing /* = false */, bool* pbWasQueued /* = NULL */, int* pbPreModPostingModId /* =NULL */,
 								   bool* pbIsPreModerated /* = NULL */, const TDVCHAR* pBBCUID /*= NULL*/, bool bIsNotable /* = false */, const TDVCHAR* pModNotes /* = NULL */)
 {
 	CTDVString sHash;
@@ -6329,9 +6329,9 @@ bool CStoredProcedure::PostToForum(int iUserID, int iForumID, int iReplyTo, int 
 			*pbWasQueued = GetBoolField("WasQueued");
 		}
 
-		if (pbIsPreModPosting != NULL)
+		if (pbPreModPostingModId != NULL)
 		{
-			*pbIsPreModPosting = GetBoolField("IsPreModPosting");
+			*pbPreModPostingModId = GetIntField("PreModPostingModId");
 		}
 		if ( pbIsPreModerated != NULL ) 
 		{

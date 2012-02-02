@@ -154,11 +154,11 @@ namespace BBC.Dna.Data
         int GetInt32(string name);
 
         /// <summary>
-        /// 
+        /// Get the value of the specified column as Int64.
         /// </summary>
-        /// <param name="i"></param>
-        /// <returns></returns>
-        short GetInt16(int i);
+        /// <param name="name">Name of the column</param>
+        /// <returns>Int32 value of the column.</returns>
+        long GetInt64(string name);
 
         /// <summary>
         /// 
@@ -166,6 +166,13 @@ namespace BBC.Dna.Data
         /// <param name="name"></param>
         /// <returns></returns>
         short GetInt16(string name);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        short GetInt16NullAsZero(string name);
 
 		/// <summary>
 		/// Gets the column value as a string

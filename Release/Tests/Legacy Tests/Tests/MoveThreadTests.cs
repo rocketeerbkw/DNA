@@ -324,7 +324,7 @@ namespace Tests
                     Assert.Fail("Failed to create a new post for the test.");
                 }
 
-                Assert.AreEqual(1, reader.GetInt32("IsPreModPosting"), "The last post did not go in as a premod posting!");
+                Assert.IsTrue(reader.GetInt32("PreModPostingModId") > 0, "The last post did not go in as a premod posting!");
             }
 
             // check to make sure the thread is in the mod table

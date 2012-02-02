@@ -52,7 +52,7 @@ namespace BBC.Dna.Services
             {
                 throw ApiException.GetError(ErrorType.UnknownSite);
             }
-            CommentInfo commentInfo;
+
             try
             {
                 CommentForum commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
@@ -61,19 +61,49 @@ namespace BBC.Dna.Services
                     throw ApiException.GetError(ErrorType.ForumUnknown);
                 }
 
-                var callingUser = new CallingTwitterUser(readerCreator, dnaDiagnostic, cacheManager);
-
-                callingUser.CreateUserFromTwitterUser(site.SiteID, tweet.user.id, tweet.user.Name, tweet.user.ScreenName);
-                callingUser.SynchroniseSiteSuffix(tweet.user.ProfileImageUrl);
-
-                _commentObj.CallingUser = callingUser;
-
-                commentInfo = _commentObj.CreateComment(commentForumData, tweet.CreateCommentInfo());
+                if (tweet.IsRetweet)
+                    return HandleRetweet(site, commentForumData, tweet);
+                else
+                    return HandleTweet(site, commentForumData, tweet);
             }
             catch (ApiException ex)
             {
                 throw new DnaWebProtocolException(ex);
             }
+
+        }
+
+        private Stream HandleRetweet(ISite site, CommentForum commentForumData, Tweet tweet)
+        {
+            var commentId = _commentObj.GetCommentIdFromTweetId(tweet.RetweetedStatus.id);
+            if (commentId > 0)
+            {
+                Guid userHash = DnaHasher.GenerateHash(tweet.RetweetedStatus.id.ToString());
+                short ratingValue = tweet.RetweetedStatus.RetweetCount();
+                var newValue = _commentObj.CreateCommentRating(commentForumData, site, commentId, 0, ratingValue, userHash);
+                return GetOutputStream("Retweet handled");
+            }
+
+            return GetOutputStream("Retweet ignored");
+        }
+
+        private Stream HandleTweet(ISite site, CommentForum commentForumData, Tweet tweet)
+        {
+            var callingUser = new CallingTwitterUser(readerCreator, dnaDiagnostic, cacheManager);
+
+            callingUser.CreateUserFromTwitterUser(site.SiteID, tweet.user);
+            callingUser.SynchroniseSiteSuffix(tweet.user.ProfileImageUrl);
+
+            _commentObj.CallingUser = callingUser;
+
+            CommentInfo commentInfo = _commentObj.CreateComment(commentForumData, tweet.CreateCommentInfo());
+
+            // If the comment has a ModId, this means that it's
+            if (commentInfo.IsPreModPosting)
+                _commentObj.CreateTweetInfoForPreModPostings(commentInfo.PreModPostingsModId, tweet.id);
+            else
+                _commentObj.CreateTweetInfoForComment(commentInfo.ID, tweet.id);
+
             return GetOutputStream(commentInfo);
         }
      }

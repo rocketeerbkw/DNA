@@ -174,7 +174,7 @@ namespace BBC.Dna.Api
                     if (reader.HasRows && reader.Read())
                     {
 //all good - create comment
-                        threadInfo.rating.IsPreModPosting = reader.GetInt32NullAsZero("IsPreModPosting") == 1;
+                        threadInfo.rating.PreModPostingsModId = reader.GetInt32NullAsZero("PreModPostingModId");
                         threadInfo.rating.IsPreModerated = (reader.GetInt32NullAsZero("IsPreModerated") == 1);
                         threadInfo.rating.hidden = (threadInfo.rating.IsPreModerated
                                                         ? CommentStatus.Hidden.Hidden_AwaitingPreModeration

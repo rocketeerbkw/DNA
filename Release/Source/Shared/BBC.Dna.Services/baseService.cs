@@ -303,13 +303,11 @@ namespace BBC.Dna.Services
                     WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
                     return StringUtils.SerializeToXml(data);
                     //output = output.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "<?xml version=\"1.0\" encoding=\"utf-8\"?>" + Entities.GetEntities());
-                    break;
 
                 case WebFormat.format.JSON:
                     WebOperationContext.Current.OutgoingResponse.ContentType = outputContentType;
                     WebOperationContext.Current.OutgoingResponse.Headers.Add("Content-Language", _languageCode);
                     return StringUtils.SerializeToJson(data);
-                    break;
 
                 //case WebFormat.format.HTML:
                     //string xsltFile = String.Format("{0}/{1}.xsl", ConfigurationManager.AppSettings["xslt_directory"], data.GetType().Name);

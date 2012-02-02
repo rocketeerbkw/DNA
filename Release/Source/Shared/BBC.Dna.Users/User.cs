@@ -9,6 +9,7 @@ using System.Diagnostics;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.SocialAPI;
 
 namespace BBC.Dna.Users
 {
@@ -289,9 +290,9 @@ namespace BBC.Dna.Users
             return userCreated;
         }
 
-        public bool CreateUserFromTwitterUserID(int siteID, string twitterUserId, string loginName, string displayName)
+        public bool CreateUserFromTwitterUserID(int siteID, TweetUser tweetUser)
         {
-            if (twitterUserId == null || twitterUserId.Length == 0)
+            if (tweetUser.id == null || tweetUser.id.Length == 0)
                 throw new ArgumentException("Invalid twitterUserId parameter");
 
             if (siteID == 0)
@@ -299,13 +300,10 @@ namespace BBC.Dna.Users
 
             using (IDnaDataReader reader = CreateStoreProcedureReader("createnewuserfromtwitteruserid"))
             {
-                reader.AddParameter("twitteruserid", twitterUserId);
-                reader.AddParameter("username", loginName);
+                reader.AddParameter("twitteruserid", tweetUser.id);
+                reader.AddParameter("twitterscreenname", tweetUser.ScreenName);
+                reader.AddParameter("twittername", tweetUser.Name);
                 reader.AddParameter("siteid", siteID);
-                if (displayName.Length > 0)
-                {
-                    reader.AddParameter("displayname", displayName);
-                }
                 reader.Execute();
                 if (reader.Read() && reader.HasRows)
                 {

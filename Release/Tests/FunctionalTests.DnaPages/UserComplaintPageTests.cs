@@ -104,12 +104,12 @@ namespace FunctionalTests
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
                 reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+                var duplicate = reader.GetIntReturnValue();
+
+                Assert.AreEqual(0,duplicate, "The Duplicate result should be false (0)");
             }
 
              // Now try to complain again
@@ -588,7 +588,9 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("select * from ThreadModAwaitingEmailVerification where CorrespondenceEmail='" + email + "' and postid=" + _postId.ToString());
+                dataReader.ExecuteDEBUGONLY(@"
+                    exec openemailaddresskey
+                    select * from ThreadModAwaitingEmailVerification where dbo.udf_decryptemailaddress(EncryptedCorrespondenceEmail,PostID)='" + email + "' and postid=" + _postId.ToString());
                 Assert.IsTrue(dataReader.Read());
 
                 verificationCode = dataReader.GetGuid("ID");
@@ -601,19 +603,26 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
+                string sql = @"
+                        exec openemailaddresskey
+                        select dbo.udf_decryptemailaddress(EncryptedCorrespondenceEmail,ModID) as CorrespondenceEmail,*
+                            from <table> 
+                            where modid=" + modId;
+
                 if (h2g2id != 0)
                 {
-                    dataReader.ExecuteDEBUGONLY("select * from articlemod where modid=" + modId);
+                    sql = sql.Replace("<table>", "articlemod");
                 }
                 else if (postid != 0)
                 {
-                    dataReader.ExecuteDEBUGONLY("select * from threadmod where modid=" + modId);
+                    sql = sql.Replace("<table>", "threadmod");
                 }
                 else if (!String.IsNullOrEmpty(complaintUrl))
                 {
-                    dataReader.ExecuteDEBUGONLY("select * from generalmod where modid=" + modId);
+                    sql = sql.Replace("<table>", "generalmod");
                 }
 
+                dataReader.ExecuteDEBUGONLY(sql);
                 Assert.IsTrue(dataReader.HasRows);
                 Assert.IsTrue(dataReader.Read());
                 Assert.AreEqual(complaintText, dataReader.GetStringNullAsEmpty("ComplaintText"));

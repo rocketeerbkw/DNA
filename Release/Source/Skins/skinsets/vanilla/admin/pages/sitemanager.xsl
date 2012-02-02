@@ -61,18 +61,7 @@
                 <input type="hidden" name="ssoservice" value="{SITEMANAGER/SSOSERVICE}"/>
               </td>
             </tr>
-            <tr>
-              <td class="title" >Default skin:</td>
-              <td class="value">
-                <input type="text" name="defaultskin" value="{SITEMANAGER/DEFAULTSKIN}"/>
-              </td>
-            </tr>
-            <tr>
-              <td class="title" >Skinset:</td>
-              <td class="value">
-                <input type="text" name="skinset" value="{SITEMANAGER/SKINSET}"/>
-              </td>
-            </tr>
+            
             <tr>
               <td class="title" >Moderation:</td>
               <td class="value">
@@ -197,7 +186,18 @@
           
           <div id="siteManagerAdvancedOptions" style="display:none;">
             <table cellspacing="5" class="dna-siteManager">
-            
+              <tr>
+                <td class="title" >Default skin:</td>
+                <td class="value">
+                  <input type="text" name="defaultskin" value="{SITEMANAGER/DEFAULTSKIN}"/>
+                </td>
+              </tr>
+              <tr>
+                <td class="title" >Skinset:</td>
+                <td class="value">
+                  <input type="text" name="skinset" value="{SITEMANAGER/SKINSET}"/>
+                </td>
+              </tr>
             <tr>
               <td class="title" >Event Alert Message User ID:</td>
               <td class="value">

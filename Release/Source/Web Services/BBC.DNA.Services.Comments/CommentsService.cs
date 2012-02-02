@@ -654,7 +654,7 @@ namespace BBC.Dna.Services
         /// <param name="commentId"></param>
         /// <param name="value"></param>
         /// <returns>The new aggregate value for the given comment</returns>
-        private Stream ApplyNeroRating(string sitename, string commentForumUid, string commentIdStr, int value)
+        private Stream ApplyNeroRating(string sitename, string commentForumUid, string commentIdStr, short value)
         {
             ISite site = GetSite(sitename);
             var userId = 0;

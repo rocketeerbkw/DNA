@@ -835,7 +835,7 @@ Possible values are 'reactive', 'postmod' and 'premod'";
                     newPostId = dataReader.GetInt32("postid");
                     hostPageUrl = dataReader.GetStringNullAsEmpty("hostpageurl");
                     isPreModerated = dataReader.GetBoolean("ispremoderated");
-                    isPreModProcessed = dataReader.GetBoolean("ispremodposting");
+                    isPreModProcessed = (dataReader.GetInt32("premodpostingmodid") > 0);
                     canRead = dataReader.GetBoolean("canRead");
                     canWrite = dataReader.GetBoolean("canWrite");
                     contentSiteId = dataReader.GetInt32("contentsiteid");

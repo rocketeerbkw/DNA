@@ -2006,7 +2006,6 @@ namespace FunctionalTests.Services.Comments
             string title = "Functiontest Title";
             string parentUri = "http://www.bbc.co.uk/dna/h2g2/";
             ModerationStatus.ForumStatus moderationStatus = ModerationStatus.ForumStatus.PostMod;
-            bool isClosed = false;
             DateTime closeDate = DateTime.Now.AddDays(10);
             string commentForumXml = String.Format("<commentForum xmlns=\"BBC.Dna.Api\">" +
                                                    "<id>{0}</id>" +
@@ -2039,7 +2038,6 @@ namespace FunctionalTests.Services.Comments
             title = "Functiontest Title1";
             parentUri = "http://www.bbc.co.uk/dna/h2g2/1";
             moderationStatus = ModerationStatus.ForumStatus.Reactive;
-            isClosed = true;
             closeDate = DateTime.Now.AddDays(1);
             commentForumXml = String.Format("<commentForum xmlns=\"BBC.Dna.Api\">" +
                                                    "<id>{0}</id>" +

@@ -60,12 +60,11 @@ namespace FunctionalTests
                     reader.AddParameter("SigninBanned", 0);
                     reader.AddParameter("ComplaintBanned", 1);
                     reader.AddParameter("EditorID", 6);
+                    reader.AddIntReturnValue();
                     reader.Execute();
 
-                    Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                    Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                    Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
-                    Assert.IsFalse(reader.GetBoolean("Duplicate"), "The Duplicate result should be false!");
+                    var duplicate = reader.GetIntReturnValue();
+                    Assert.AreEqual(0, duplicate, "The Duplicate result should be false (0)");
 
                     request.RequestPage("dnasignal?action=recache-bannedEmails");
                 }
@@ -115,11 +114,12 @@ namespace FunctionalTests
                 reader.AddParameter("SigninBanned", 0);
                 reader.AddParameter("ComplaintBanned", 1);
                 reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
                 reader.Execute();
 
-                Assert.IsTrue(reader.HasRows, "No rows came back from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Read(), "Failed to read the first set of results from the AddEMailToBannedList storedprocedure");
-                Assert.IsTrue(reader.Exists("Duplicate"), "The Duplicate result field is not in the AddEMailToBannedList dataset");
+                var duplicate = reader.GetIntReturnValue();
+
+                Assert.AreEqual(0, duplicate, "The Duplicate result should be false (0)");
             }
 
             // Now try to complain again
@@ -129,6 +129,30 @@ namespace FunctionalTests
             // Check to make sure that no errors came back
             Assert.IsTrue(xml.SelectSingleNode("//ERROR") != null, "There should be an error present in the XML!");
             Assert.IsTrue(xml.SelectSingleNode("//ERROR[@TYPE='EMAILNOTALLOWED']") != null, "There should be an EMAILNOTALLOWED error present in the XML!");
+        }
+
+        [TestMethod]
+        public void TestBannedEmailReturnValues()
+        {
+            Assert.AreEqual(0, AddEmailToBannedList("frank@tortoise.com"), "This email should not be a duplicate, so should return 0");
+            Assert.AreEqual(1, AddEmailToBannedList("frank@tortoise.com"), "This email should be a duplicate, so should return 1");
+            Assert.AreEqual(0, AddEmailToBannedList(null), "A NULL email should be ignored and return 0");
+            Assert.AreEqual(0, AddEmailToBannedList(""), "An empty email should be ignored and return 0");
+        }
+
+        private int AddEmailToBannedList(string email)
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = context.CreateDnaDataReader("AddEMailToBannedList"))
+            {
+                reader.AddParameter("Email", email);
+                reader.AddParameter("SigninBanned", 0);
+                reader.AddParameter("ComplaintBanned", 0);
+                reader.AddParameter("EditorID", 6);
+                reader.AddIntReturnValue();
+                reader.Execute();
+                return reader.GetIntReturnValue();
+            }
         }
     }
 }

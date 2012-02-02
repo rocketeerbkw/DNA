@@ -113,6 +113,7 @@ namespace BBC.Dna.Utils.Tests
                 "this is a test with in brackets (at the end http://en.wikipedia.org/wiki/Sink_or_Swim_(song))",
                 "this is a test with a anchor tag at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>",
                 "this is a test with a tag directly after link http://en.wikipedia.org/wiki/<br/>",
+                "this is a test for t links http://t.co/H3G9ZQGc and ftp://t.co/H3G9ZQGc",
                 @"123<BR /><BR />http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf"
                              };
             string[] expected = {"<a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song)</a>",
@@ -121,6 +122,7 @@ namespace BBC.Dna.Utils.Tests
                                     "this is a test with in brackets (at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song))\">http://en.wikipedia.org/wiki/Sink_or_Swim_(song))</a>", // this is not entirely correct but unable to work out if last ) is matched
                                     "this is a test with a anchor tag at the end <a href=\"http://en.wikipedia.org/wiki/Sink_or_Swim_(song)\">tests</a>",
                                     "this is a test with a tag directly after link <a href=\"http://en.wikipedia.org/wiki/\">http://en.wikipedia.org/wiki/</a><br/>",
+                                    "this is a test for t links <a href=\"http://t.co/H3G9ZQGc\">http://t.co/H3G9ZQGc</a> and ftp://t.co/H3G9ZQGc",
                                     "123<BR /><BR /><a href=\"http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf\">http://www.statistics.gov.uk/pdfdir/lmsuk1110.pdf</a>"
                                 };
 
@@ -130,6 +132,50 @@ namespace BBC.Dna.Utils.Tests
             }
         }
 
-       
+        [TestMethod]
+        public void TranslateTwitterUserName_PassValidText_ReturnCorrectResult()
+        {
+            string[] input = {"This is a test post from @srihari03",
+                             "This is a test post from @@srihari03",
+                             "This is a test post from @srihari03 and @furrygeezer",
+                             "This is a test post from @srihari03_1"};
+            string[] expected = {"This is a test post from <a href=\"http://twitter.com/srihari03\" target=\"_blank\">@srihari03</a>",
+                                "This is a test post from @<a href=\"http://twitter.com/srihari03\" target=\"_blank\">@srihari03</a>",
+                                "This is a test post from <a href=\"http://twitter.com/srihari03\" target=\"_blank\">@srihari03</a> and <a href=\"http://twitter.com/furrygeezer\" target=\"_blank\">@furrygeezer</a>",
+                                "This is a test post from <a href=\"http://twitter.com/srihari03_1\" target=\"_blank\">@srihari03_1</a>"};
+
+            for (int postIndex = 0; postIndex < input.Length; postIndex++)
+            {
+                Assert.AreEqual(expected[postIndex], LinkTranslator.TranslateTwitterTags(input[postIndex]));
+            }
+        }
+
+        [TestMethod]
+        public void TranslateTwitterHashTag_PassValidText_ReturnCorrectResult()
+        {
+            string[] input = {"This is a test post for #FactsWithoutWikipedia",
+                             "This is a test post for ##FactsWithoutWikipedia",
+                             "This is a test post for #FactsWithoutWikipedia and #TheBestThingInLifeIs",
+                             "This is a test post for #FactsWithoutWikipedia_1"};
+            string[] expected = {"This is a test post for <a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a>",
+                "This is a test post for #<a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a>",
+                "This is a test post for <a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a> and <a href=\"http://search.twitter.com/search?q=%23TheBestThingInLifeIs\" target=\"_blank\">#TheBestThingInLifeIs</a>",
+                "This is a test post for <a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia_1\" target=\"_blank\">#FactsWithoutWikipedia_1</a>"};
+            for (int postIndex = 0; postIndex < input.Length; postIndex++)
+            {
+                Assert.AreEqual(expected[postIndex], LinkTranslator.TranslateTwitterTags(input[postIndex]));
+            }
+        }
+
+        [TestMethod]
+        public void TranslateTwitterDetails_PassValidText_ReturnCorrectResult()
+        {
+            string[] input = {"This is a test post from @#srihari03" };
+            string[] expected = {"This is a test post from @<a href=\"http://search.twitter.com/search?q=%23srihari03\" target=\"_blank\">#srihari03</a>"};
+            for (int postIndex = 0; postIndex < input.Length; postIndex++)
+            {
+                Assert.AreEqual(expected[postIndex], LinkTranslator.TranslateTwitterTags(input[postIndex]));
+            }
+        }
     }
 }

@@ -244,6 +244,9 @@ namespace BBC.Dna.Api
                     error = new ApiException("The time period between posting has not expired yet.", innerException);
                     break;
                     
+                case ErrorType.InvalidEntryId:
+                    error = new ApiException("Entry Id is invalid or out of range", innerException);
+                    break;
 
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
@@ -320,6 +323,7 @@ namespace BBC.Dna.Api
         UnableToHideUnHideThread,
         NotAuthorized,
         MissingUserAttributes,
-        PostFrequencyTimePeriodNotExpired
+        PostFrequencyTimePeriodNotExpired,
+        InvalidEntryId
     }
 }

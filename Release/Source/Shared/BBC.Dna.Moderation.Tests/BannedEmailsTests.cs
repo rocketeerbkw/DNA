@@ -365,7 +365,7 @@ namespace BBC.Dna.Moderation.Tests
             var readerAddEmail = _mocks.DynamicMock<IDnaDataReader>();
             readerAddEmail.Stub(x => x.Read()).Return(true).Repeat.Once();
             readerAddEmail.Stub(x => x.HasRows).Return(true).Repeat.Once();
-            readerAddEmail.Stub(x => x.GetInt32("Duplicate")).Return(1);
+            readerAddEmail.Stub(x => x.GetIntReturnValue()).Return(1);
 
             var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("getbannedemails")).Return(reader);
