@@ -59,6 +59,6 @@ as
 	left join dbo.VCommentsRatingValue crv WITH(NOEXPAND)  on crv.entryid = cte_usersposts.EntryID
 	where n > @startindex and n <= @startindex + @itemsPerPage
 	order by n
-	OPTION (OPTIMIZE FOR (@prefix='%',@siteid=1))
+	OPTION (OPTIMIZE FOR (@prefix='%',@siteid=0))
 	
 	
