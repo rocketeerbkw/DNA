@@ -35,6 +35,7 @@
 	<xsl:include href="objects/activitydata/user.xsl"/>
 	
 	<xsl:include href="objects/contributions/contribution.xsl"/>
+	<xsl:include href="objects/comments/comment.xsl"/>
 		
 	<xsl:include href="objects/links/admin.xsl"/>
 	<xsl:include href="objects/links/breadcrumb.xsl"/>
@@ -83,5 +84,6 @@
   <xsl:include href="pages/termsfilteradmin.xsl"/>
   <xsl:include href="pages/termsfilterimport.xsl"/>
   <xsl:include href="pages/moderatormanagement.xsl"/>
+  <xsl:include href="pages/commentslist.xsl"/>
   
 </xsl:stylesheet>
