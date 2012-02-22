@@ -75,7 +75,9 @@
     BBC - Host Dashboard - Moderator Management
   </xsl:template>
 
-  
+  <xsl:template match="H2G2[@TYPE = 'COMMENTSLIST']" mode="objects_browsertitle">
+		BBC - Host Dashboard - Comments List
+	</xsl:template>
 
   <xsl:template name="objects_browsertitle">
 		<xsl:if test="@TYPE='ERROR'">
