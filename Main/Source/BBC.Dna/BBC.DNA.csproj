@@ -302,6 +302,7 @@
     <Compile Include="UserPageParameters.cs" />
     <Compile Include="UserStatistics.cs" />
     <Compile Include="UserSubscriptionsList.cs" />
+    <Compile Include="ForumCommentsList.cs" />
     <Compile Include="Vote.cs" />
     <Compile Include="WatchList.cs" />
     <Compile Include="WholePage.cs" />

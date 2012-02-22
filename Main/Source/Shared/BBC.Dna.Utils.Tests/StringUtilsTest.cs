@@ -572,5 +572,29 @@ namespace BBC.Dna.Utils.Tests
 
 			Assert.AreEqual(DnaHasher.GenerateHashString("The quick brown fox"), "a2004f37730b9445670a738fa0fc9ee5", "Comparing string result from expected result");
 		}
+
+        /// <summary>
+        /// Test the XMLTags uppercase
+        /// </summary>
+        [TestMethod]
+        public void ConvertXmlTagsToUppercaseTest()
+        {
+            string actualXML = "<commentsList><itemsPerPage>20</itemsPerPage><startIndex>0</startIndex><totalCount>1</totalCount><sortBy>Created</sortBy><sortDirection>Ascending</sortDirection><filterBy>None</filterBy></commentsList>";
+            string expectedXML = "<COMMENTSLIST><ITEMSPERPAGE>20</ITEMSPERPAGE><STARTINDEX>0</STARTINDEX><TOTALCOUNT>1</TOTALCOUNT><SORTBY>Created</SORTBY><SORTDIRECTION>Ascending</SORTDIRECTION><FILTERBY>None</FILTERBY></COMMENTSLIST>";
+
+            Assert.AreEqual(expectedXML, StringUtils.ConvertXmlTagsToUppercase(actualXML));
+        }
+
+        /// <summary>
+        /// Test the XMLTags lowercase
+        /// </summary>
+        [TestMethod]
+        public void ConvertXmlTagsToLowercaseTest()
+        {
+            string actualXML = "<commentsList><itemsPerPage>20</itemsPerPage><startIndex>0</startIndex><totalCount>1</totalCount><sortBy>Created</sortBy><sortDirection>Ascending</sortDirection><filterBy>None</filterBy></commentsList>";
+            string expectedXML = "<commentslist><itemsperpage>20</itemsperpage><startindex>0</startindex><totalcount>1</totalcount><sortby>Created</sortby><sortdirection>Ascending</sortdirection><filterby>None</filterby></commentslist>"; 
+
+            Assert.AreEqual(expectedXML, StringUtils.ConvertXmlTagsToLowercase(actualXML));
+        }
     }
 }

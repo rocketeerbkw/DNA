@@ -596,6 +596,34 @@ namespace BBC.Dna.Utils
             }
             return result;
         }
+
+        /// <summary>
+        /// To convert all the xmltags of an xmlstring to upper case
+        /// </summary>
+        /// <param name="actualXml">xml string</param>
+        /// <returns>string</returns>
+        public static string ConvertXmlTagsToUppercase(string actualXml)
+        {
+            return Regex.Replace(
+                           actualXml,
+                           @"<[^<>]+>",
+                           m => { return m.Value.ToUpper(); },
+                           RegexOptions.Multiline | RegexOptions.Singleline);
+        }
+
+        /// <summary>
+        /// To convert all the xmltags of an xmlstring to lower case
+        /// </summary>
+        /// <param name="actualXml">xml string</param>
+        /// <returns>string</returns>
+        public static string ConvertXmlTagsToLowercase(string actualXml)
+        {
+            return Regex.Replace(
+                           actualXml,
+                           @"<[^<>]+>",
+                           m => { return m.Value.ToLower(); },
+                           RegexOptions.Multiline | RegexOptions.Singleline);
+        }
     }
 
 
