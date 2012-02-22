@@ -218,6 +218,7 @@
     <input type="hidden" name="ForumID" value="{@FORUMID}"/>
     <input type="hidden" name="ModID" value="{@MODERATIONID}"/>
     <input type="hidden" name="SiteID" value="{SITEID}"/>
+    <input type="hidden" name="PostStyle" value="{POSTSTYLE}"/>
     <p class="postInfoBar">
       <xsl:number/>
       <xsl:text>/</xsl:text>

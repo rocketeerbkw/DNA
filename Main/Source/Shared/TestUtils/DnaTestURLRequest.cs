@@ -788,6 +788,21 @@ namespace Tests
             RequestPage(pageAndParams, true, postparams);
         }
 
+        public class ParamList
+        {
+            internal Queue<KeyValuePair<string, string>> paramList = new Queue<KeyValuePair<string, string>>();
+
+            public void Add(string name, object value)
+            {
+                paramList.Enqueue(new KeyValuePair<string, string>(name, value.ToString()));
+            }
+        }
+
+        public void RequestPageWithParamList(string pageAndParams, DnaTestURLRequest.ParamList paramList)
+        {
+            RequestPage(pageAndParams, paramList.paramList);
+        }
+
         /// <summary>
         /// This function is used to send the request
         /// </summary>

@@ -1266,6 +1266,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="addforumfilterterm.sql" />
+    <None Include="ArchivePremodPosting.sql" />
     <None Include="cachegetarticleinfo2.sql" />
     <None Include="cachegetcategory.sql" />
     <None Include="CommentForumsReadBySiteNamePrefixWithinTimeFrame.sql" />
