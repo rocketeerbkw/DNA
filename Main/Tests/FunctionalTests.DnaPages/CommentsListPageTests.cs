@@ -91,6 +91,7 @@ namespace FunctionalTests
                    if (postCommentCount > 0)
                    {
                        _forumId = Int32.Parse(node.Attributes["FORUMID"].Value);
+                       _siteId = Int32.Parse(node.SelectSingleNode("SITEID").InnerText);
 
                        break;
                    }
