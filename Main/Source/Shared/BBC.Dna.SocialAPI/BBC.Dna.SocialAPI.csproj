@@ -58,8 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuzzClient.cs" />
+    <Compile Include="Contracts\BuzzTwitterProfile.Contract.cs" />
+    <Compile Include="Contracts\BuzzTwitterProfiles.Contract.cs" />
     <Compile Include="Contracts\TweetUser.Contract.cs" />
     <Compile Include="Contracts\TweetUsers.Contract.cs" />
+    <Compile Include="IBuzz.cs" />
     <Compile Include="ITwitter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TwitterClient.cs" />
