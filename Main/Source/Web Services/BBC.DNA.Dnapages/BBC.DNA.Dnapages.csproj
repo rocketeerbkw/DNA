@@ -129,6 +129,13 @@
     <Compile Include="ContentSignifPage.aspx.designer.cs">
       <DependentUpon>ContentSignifPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TwitterCreateProfilePage.aspx.cs">
+      <DependentUpon>TwitterCreateProfilePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TwitterCreateProfilePage.aspx.designer.cs">
+      <DependentUpon>TwitterCreateProfilePage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TwitterProfileListPage.aspx.cs">
       <DependentUpon>TwitterProfileListPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -954,6 +961,7 @@
     <Content Include="App_Data\forum scheduled closed.xml" />
     <Content Include="App_Data\test_template6music.htm" />
     <Content Include="App_Data\test_templateBlast.htm" />
+    <Content Include="TwitterCreateProfilePage.aspx" />
     <Content Include="TwitterProfileListPage.aspx" />
     <Content Include="UserReputationReport.aspx" />
     <Content Include="HostDashboardUserActivity.aspx" />

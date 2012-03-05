@@ -22,7 +22,7 @@ namespace BBC.Dna.Component
         IDnaDiagnostics dnaDiagnostic;
 
         /// <summary>
-        /// Default constructor for the Member List component
+        /// Default constructor for the Twitter Profile List component
         /// </summary>
         /// <param name="context">The Context of the DnaPage the component is created in.</param>
         public TwitterProfileList(IInputContext context)

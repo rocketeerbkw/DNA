@@ -190,6 +190,7 @@ REGEDIT4
 "/MemberDetails"="/dna/dnapages/MemberDetails.aspx?"
 "/commentslist"="/dna/dnapages/CommentsListPage.aspx?"
 "/TwitterProfileList"="/dna/dnapages/TwitterProfileListPage.aspx?"
+"/TwitterCreateProfile"="/dna/dnapages/TwitterCreateProfilePage.aspx?"
 --"/MemberDetailsAdmin"="/dna/dnapages/MemberDetails.aspx?"
 
 "/DynamicListAdmin"="/dna/dnapages/DynamicListAdmin.aspx?"
