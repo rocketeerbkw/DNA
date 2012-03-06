@@ -565,6 +565,84 @@ namespace FunctionalTests.Services.Comments
             Console.WriteLine("After CreateComment");
         }
 
+        [TestMethod]
+        public void CreateComment_IPAndBBCUID()
+        {
+            Console.WriteLine("Before CreateComment");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "</comment>", text);
+            string ipAddr = "123.234.111.222";
+
+            var bbcUid = "a49ff1bd14e116a4ea40f185d1e4cb22b92044cc07980e37bd71359ac99014d80Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.75 Safari/535.";
+            var bbcUidCookie = new Cookie("BBC-UID", HttpUtility.UrlEncode(bbcUid));
+            request.AddCookie(bbcUidCookie);
+
+            // Setup the request url
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?format=JSON&clientIp={2}", _sitename, commentForum.Id, ipAddr);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            Assert.AreEqual("application/json", request.CurrentWebResponse.ContentType);
+
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader dataReader = inputcontext.CreateDnaDataReader(""))
+                {
+                    dataReader.ExecuteDEBUGONLY(@"
+                        select top 1 * from threadentries te
+                        left join threadentriesipaddress teip on teip.entryid=te.entryid
+                        order by te.entryid desc");
+                    Assert.IsTrue(dataReader.Read());
+                    Assert.AreEqual(ipAddr, dataReader.GetString("IPAddress"));
+                    Assert.AreEqual(UidCookieDecoder.Decode(bbcUid, ""), dataReader.GetGuid("BBCUID"));
+                }
+            }
+        }
+
+        [TestMethod]
+        public void CreateComment_IPbutNoBBCUID()
+        {
+            Console.WriteLine("Before CreateComment");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+            //create the forum
+            CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
+
+            string text = "Functiontest Title" + Guid.NewGuid().ToString();
+            string commentForumXml = String.Format("<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>{0}</text>" +
+                "</comment>", text);
+            string ipAddr = "123.234.111.222";
+
+            // Setup the request url
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?format=JSON&clientIp={2}", _sitename, commentForum.Id, ipAddr);
+            // now get the response
+            request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
+            Assert.AreEqual("application/json", request.CurrentWebResponse.ContentType);
+
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader dataReader = inputcontext.CreateDnaDataReader(""))
+                {
+                    dataReader.ExecuteDEBUGONLY(@"
+                        select top 1 * from threadentries te
+                        left join threadentriesipaddress teip on teip.entryid=te.entryid
+                        order by te.entryid desc");
+                    Assert.IsTrue(dataReader.Read());
+                    Assert.AreEqual(ipAddr, dataReader.GetString("IPAddress"));
+                    Assert.AreEqual(Guid.Empty, dataReader.GetGuid("BBCUID"),"We expect the empty GUID if an IP address is present but the BBCUID cookie is missing");
+                }
+            }
+        }
+
         /// <summary>
         /// Test CreateCommentForum method from service
         /// </summary>

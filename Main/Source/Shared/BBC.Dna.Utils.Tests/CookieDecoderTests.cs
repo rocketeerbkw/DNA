@@ -632,11 +632,12 @@ namespace BBC.Dna.Utils.Tests
 			
 		};
 
-		private string[] failcookies = 
+		private string[,] failcookies = 
 			{
-			"4446d3571a4c4b188b0f5ea0117525f7c3458c2e9*c*c13102c203739494a5650Mozilla%2f4%2e0%20%28compatible%3b%20MSIE%207%2e0%3b%20Windows%20NT%206%2e0%3b%20SLCC1%3b%20%2eNET%20CLR%202%2e0%2e50727%3b%20%2eNET%20CLR%203%2e0%2e04506%29",
-			"4446d3571a4c4b188b0f5ea0117525f7c3458c2e9*c*c13102c203739494a5650Mozilla%2f4%2e0%20%28compatible%3b%20MSIE%207%2e0%3b%20Windows%20NT%206%2e0%3b%20SLCC1%3b%20%2eNET%20CLR%202%2e0%2e50727%3b%20%2eNET%20CLR%203%2e0%2e04506%29",
-			"b4b6f24421afcee9799ad4d561d5377409d68f507*f*9191920273c344b485150Mozilla%2f4%2e0%20%28compatible%3b%20MSIE%206%2e0%3b%20Windows%20NT%205%2e1%29",
+			{"4446d3571a4c4b188b0f5ea0117525f7c3458c2e9*c*c13102c203739494a5650Mozilla%2f4%2e0%20%28compatible%3b%20MSIE%207%2e0%3b%20Windows%20NT%206%2e0%3b%20SLCC1%3b%20%2eNET%20CLR%202%2e0%2e50727%3b%20%2eNET%20CLR%203%2e0%2e04506%29","d7dad4ad-4db6-5306-e0a9-bc2707de68c3"},
+			{"b4b6f24421afcee9799ad4d561d5377409d68f507*f*9191920273c344b485150Mozilla%2f4%2e0%20%28compatible%3b%20MSIE%206%2e0%3b%20Windows%20NT%205%2e1%29","f5515715-5202-e19c-c197-72b3748aa9e5"},
+            {"a49ff1bd14e116a4ea40f185d1e4cb22b92044cc07980e37bd71359ac99014d80Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.75 Safari/535.","b4615ff9-2399-60a3-bcf2-2776a1340387"},
+            {"00000000-0000-0000-0000-000000000000","00000000-0000-0000-0000-000000000000"} // Special case - don't hash the empty Guid as this is the default when no BBC-UID cookie is present
 			};
 
 		/// <summary>
@@ -651,12 +652,14 @@ namespace BBC.Dna.Utils.Tests
 				string cookie = cookies[i];
 				Assert.IsTrue(UidCookieDecoder.TryDecode(cookie, "simon_brickle", ref guid));
 			}
-			for (int i = 0; i < failcookies.Length; i++)
+			for (int i = 0; i < failcookies.GetLength(0); i++)
 			{
-				string cookie = failcookies[i];
+				string cookie = failcookies[i,0];
 				Assert.IsFalse(UidCookieDecoder.TryDecode(cookie, "simon_brickle", ref guid));
-			}
 
+                guid = UidCookieDecoder.Decode(cookie, "simon_brickle");
+                Assert.AreEqual(failcookies[i, 1], guid.ToString());
+			}
 		}
 	}
 }

@@ -25,7 +25,20 @@ namespace BBC.Dna.Utils
 			}
 			else
 			{
-				return new Guid("00000000000000000000000000000000");
+                // Bug fix for Moderation - SPSMOD-205
+                // If the decoding fails, create a GUID from the cookie anyway, as it's better to have some
+                // value than none at all. 
+                // The special case is when the cookie is set to the empty GUID.  This happens if an API request
+                // cannot find the BBC-UID cookie (it uses the empty GUID as a default value).  In this case
+                // leave it empty.
+
+                if (!Guid.Empty.ToString().Equals(cookie))
+                {
+                    guid = DnaHasher.GenerateHash(cookie);
+                    return guid;
+                }
+                else
+                    return Guid.Empty;
 			}
 		}
 
