@@ -70,10 +70,7 @@
 	</xsl:template>
 
   <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE']" mode="objects_title">
-    <h1>
-      User Activity Page
-      
-    </h1>
+    <h1>User Activity Page</h1>
   </xsl:template>
 
   <xsl:template match="H2G2[@TYPE = 'USERCONTRIBUTIONS']" mode="objects_title">
@@ -90,8 +87,16 @@
 		</xsl:if>	
 	</xsl:template>
 
-  <xsl:template match="H2G2[@TYPE = 'MODERATOR-MANAGEMENT']" mode="objects_title">
-    <h1>Moderation Management</h1>
-  </xsl:template>
+	<xsl:template match="H2G2[@TYPE = 'MODERATOR-MANAGEMENT']" mode="objects_title">
+		<h1>Moderation Management</h1>
+	</xsl:template>
+	
+	<xsl:template match="H2G2[@TYPE = 'TWITTERPROFILELIST']" mode="objects_title">
+		<h1>Twitter Profile List</h1>
+	</xsl:template>
+	
+	<xsl:template match="H2G2[@TYPE = 'TWITTERCREATEPROFILE']" mode="objects_title">
+		<h1>Twitter Profile</h1>
+	</xsl:template>			
 
 </xsl:stylesheet>

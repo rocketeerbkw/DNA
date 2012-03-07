@@ -49,10 +49,12 @@
 	<xsl:include href="objects/moderator/queuedreffered.xsl"/>
 	<xsl:include href="objects/moderator/queuesummary.xsl"/>
 	<xsl:include href="objects/moderator/siteevent.xsl"/>
-  <xsl:include href="objects/moderator/userevent.xsl"/>
+	<xsl:include href="objects/moderator/userevent.xsl"/>
 	<xsl:include href="objects/moderator/sites.xsl"/>
 	<xsl:include href="objects/moderator/sitesummarystats.xsl"/>
-  <xsl:include href="objects/moderator/moderationactions.xsl"/>
+	<xsl:include href="objects/moderator/moderationactions.xsl"/>
+	
+	<xsl:include href="objects/sites/twittersites.xsl"/>
   
 	<xsl:include href="objects/user/typeicon.xsl"/>
 	<xsl:include href="objects/user/welcome.xsl"/>
@@ -65,10 +67,11 @@
 	
 	<!-- pages -->
 	<xsl:include href="pages/commentforumlist.xsl"/>
+	<xsl:include href="pages/commentslist.xsl"/>
 	<xsl:include href="pages/error.xsl"/>
 	<xsl:include href="pages/hostdashboard.xsl"/>
 	<xsl:include href="pages/hostdashboardactivity.xsl"/>
-  <xsl:include href="pages/hostdashboarduseractivity.xsl"/>
+	<xsl:include href="pages/hostdashboarduseractivity.xsl"/>
 	<xsl:include href="pages/lightboxes.xsl"/>
 	<xsl:include href="pages/mbbackuprestore.xsl"/>
 	<xsl:include href="pages/memberdetails.xsl"/>
@@ -76,14 +79,15 @@
 	<xsl:include href="pages/messageboardadmin_assets.xsl"/>
 	<xsl:include href="pages/messageboardadmin_design.xsl"/>
 	<xsl:include href="pages/messageboardschedule.xsl"/>
+	<xsl:include href="pages/moderatormanagement.xsl"/>
+	<xsl:include href="pages/sitemanager.xsl"/>
+	<xsl:include href="pages/termsfilteradmin.xsl"/>
+	<xsl:include href="pages/termsfilterimport.xsl"/>
 	<xsl:include href="pages/topicbuilder.xsl"/>
+	<xsl:include href="pages/twitterprofile.xsl" />
+	<xsl:include href="pages/twitterprofilelist.xsl" />
 	<xsl:include href="pages/usercontributions.xsl"/>
 	<xsl:include href="pages/userlist.xsl"/>
-  <xsl:include href="pages/userreputationreport.xsl"/>
-  <xsl:include href="pages/sitemanager.xsl"/>
-  <xsl:include href="pages/termsfilteradmin.xsl"/>
-  <xsl:include href="pages/termsfilterimport.xsl"/>
-  <xsl:include href="pages/moderatormanagement.xsl"/>
-  <xsl:include href="pages/commentslist.xsl"/>
+	<xsl:include href="pages/userreputationreport.xsl"/>
   
 </xsl:stylesheet>
