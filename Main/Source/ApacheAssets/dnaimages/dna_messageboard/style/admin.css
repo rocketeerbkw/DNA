@@ -423,6 +423,24 @@
     
     .dna-dashboard .dna-termslist table {}
     .dna-dashboard .dna-termslist td {text-align: left; padding: 2px; word-wrap:break-word;}
+	
+	 /* Twitter Admin Console */
+    .twitter-admin .dna-mb-intro {min-height:3.2em;}
+    .twitter-admin table {background-color:#fff;border:1px solid #999;margin-left:10px;width:932px}
+    .twitter-admin table td,.twitter-admin table th {border:1px solid #999;text-align:center}
+    .twitter-admin th {background-color:#56A4CE; border:none !important; color:#fff}
+    .twitter-admin th.profileid {text-align:left;width:30%}
+    .twitter-admin td.profileid {text-align:left}
+    .twitter-admin .dna-buttons {;margin-right: 0 !important;padding-right:0 !important}
+    .twitter-admin .newprofilelink .dna-buttons {float:right}
+    .twitter-admin .dna-buttons li {margin-right: 0 !important}
+    .twitter-admin select {width: 250px}
+	.twitter-admin .twitter-profile li {clear:both;line-height: 2em}
+	.twitter-admin  label {float:left;width:20%}
+	.twitter-admin .twitter-profile input[type="checkbox"] {float:left;margin-top:8px}
+	.twitter-admin .twitter-profile input[type="text"], .twitter-admin .twitter-profile textarea {width:50%}
+	.twitter-admin .dna-box form {margin:10px}
+	.twitter-admin .dna-buttons {float:left;text-align:right;width:100%}
     
 }
 
