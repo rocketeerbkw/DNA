@@ -27,9 +27,10 @@
 		<div class="dna-mb-intro blq-clearfix">
 			<fieldset>
 				<label for="s_forum"><b>Forum Id: </b> <xsl:value-of select="/H2G2/COMMENTSLIST/@FORUMID"/>  </label> <br /><br />
+				<label for="s_title"><b>Forum Title: </b> <xsl:value-of select="/H2G2/COMMENTSLIST/@FORUMTITLE"/> </label> <br /><br />
 				<label for="s_sitename"><b>Site Name: </b><xsl:value-of select="/H2G2/COMMENTSLIST/@SITENAME"/> </label>
 			</fieldset>		
-			<p>List of comments for the comment forum <b> <xsl:value-of select="/H2G2/COMMENTSLIST/@FORUMID"/> </b> that belongs to the site <b> <xsl:value-of select="/H2G2/COMMENTSLIST/@SITENAME"/> </b> </p>
+			<p>List of comments for the comment forum <b> <xsl:value-of select="/H2G2/COMMENTSLIST/@FORUMTITLE"/> </b> that belongs to the site <b> <xsl:value-of select="/H2G2/COMMENTSLIST/@SITENAME"/> </b> </p>
 		</div>
 		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 			<div class="dna-main dna-main-full">

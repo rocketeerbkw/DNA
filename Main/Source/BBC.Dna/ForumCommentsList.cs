@@ -23,11 +23,9 @@ namespace BBC.Dna
     {
         private int _siteId = 0;
         private int _forumId = 0;
-        //private SiteType? _type = null;
+        private string _forumTitle = string.Empty;
         private int _userId = 0;
-        //private DateTime? _startDate =null;
         private int _startIndex = 0;
-        //private int _itemsPerPage = 50;
         private bool _ignoreCache = false;
 
         /// <summary>
@@ -81,6 +79,10 @@ namespace BBC.Dna
             newForumIdAttr.Value = _forumId.ToString();
             appendNode.Attributes.Append(newForumIdAttr);
 
+            XmlAttribute newForumTitleAttr = doc.CreateAttribute("FORUMTITLE");
+            newForumTitleAttr.Value = _forumTitle;
+            appendNode.Attributes.Append(newForumTitleAttr);
+
             XmlAttribute newSiteNameAttr = doc.CreateAttribute("SITENAME");
             newSiteNameAttr.Value = siteName;
             appendNode.Attributes.Append(newSiteNameAttr);
@@ -98,7 +100,9 @@ namespace BBC.Dna
             _siteId = InputContext.GetParamIntOrZero("s_siteid", "s_siteid");
 
             _forumId = InputContext.GetParamIntOrZero("s_forumid", "s_forumid");
-            
+
+            _forumTitle = InputContext.GetParamStringOrEmpty("s_title","s_title");
+
             _userId = InputContext.ViewingUser.UserID;
             if (InputContext.DoesParamExist("s_user", "test userid"))
             {
