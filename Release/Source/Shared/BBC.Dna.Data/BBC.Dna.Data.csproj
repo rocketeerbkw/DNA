@@ -108,6 +108,7 @@
     <Compile Include="IDnaDataReaderCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoredProcedureReader.cs" />
+    <Compile Include="ThreadModDeleteReason.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">

@@ -13,6 +13,7 @@ using BBC.Dna.Utils;
 using BBC.Dna.Data;
 using System.Net;
 using BBC.Dna.SocialAPI;
+using BBC.Dna.Moderation;
 
 namespace FunctionalTests.Services.Comments
 {
@@ -165,9 +166,11 @@ namespace FunctionalTests.Services.Comments
                 reader.ExecuteDEBUGONLY("exec processexpiredpremodpostings");
 
                 // Only 10 rows should have expired, and the ModIds should match between 
-                // tables ThreadModExpired and PremodPostingsExpired
-                reader.ExecuteDEBUGONLY(@"select * from ThreadModExpired tme
-                                            join PremodPostingsExpired ppe on ppe.modid=tme.modid");
+                // tables ThreadModDeleted and PremodPostingsDeleted
+                // Also the reason code should be 'E' for 'Expired'
+                reader.ExecuteDEBUGONLY(@"select * from ThreadModDeleted tmd
+                                            join PremodPostingsDeleted ppd on ppd.modid=tmd.modid
+                                            where ppd.Reason='E' and tmd.Reason='E'");
                 for (i = 0; reader.Read(); i++)
                 {
                     // Extract the number from the Body text, and check that it's even.
@@ -178,9 +181,9 @@ namespace FunctionalTests.Services.Comments
                 }
                 Assert.AreEqual(10, i);
 
-                // There should be no rows that exist in ThreadModExpired AND ThreadMod
-                reader.ExecuteDEBUGONLY(@"select count(*) c from ThreadModExpired tme
-                                            join ThreadMod tm on tm.modid=tme.modid");
+                // There should be no rows that exist in ThreadModDeleted AND ThreadMod
+                reader.ExecuteDEBUGONLY(@"select count(*) c from ThreadModDeleted tmd
+                                            join ThreadMod tm on tm.modid=tmd.modid");
                 Assert.IsTrue(reader.Read());
                 Assert.AreEqual(0, reader.GetInt32("c"));
 
@@ -222,13 +225,13 @@ namespace FunctionalTests.Services.Comments
                 }
                 Assert.AreEqual(-1, i);
 
-                // There should be no rows in ThreadModExpired
-                reader.ExecuteDEBUGONLY(@"select count(*) c from ThreadModExpired");
+                // There should be no rows in ThreadModDeleted
+                reader.ExecuteDEBUGONLY(@"select count(*) c from ThreadModDeleted");
                 Assert.IsTrue(reader.Read());
                 Assert.AreEqual(0, reader.GetInt32("c"));
 
-                // There should be no rows in PremodPostingsExpired
-                reader.ExecuteDEBUGONLY(@"select count(*) c from PremodPostingsExpired");
+                // There should be no rows in PremodPostingsDeleted
+                reader.ExecuteDEBUGONLY(@"select count(*) c from PremodPostingsDeleted");
                 Assert.IsTrue(reader.Read());
                 Assert.AreEqual(0, reader.GetInt32("c"));
             }
@@ -273,10 +276,10 @@ namespace FunctionalTests.Services.Comments
                 }
                 Assert.AreEqual(0, i);
 
-                // There should be 7 rows in ThreadModExpired and PremodPostingsExpired
+                // There should be 7 rows in ThreadModDeleted and PremodPostingsDeleted
                 // And they should have matching mod IDs
-                reader.ExecuteDEBUGONLY(@"select count(*) c from ThreadModExpired tme
-                                            join PremodPostingsExpired ppe on ppe.modid=tme.modid");
+                reader.ExecuteDEBUGONLY(@"select count(*) c from ThreadModDeleted tmd
+                                            join PremodPostingsDeleted ppd on ppd.modid=tmd.modid");
                 Assert.IsTrue(reader.Read());
                 Assert.AreEqual(7, reader.GetInt32("c"));
             }
@@ -398,8 +401,6 @@ namespace FunctionalTests.Services.Comments
             Assert.AreEqual(56, rating.value);
         }
 
-//        exec moderatepost @forumid=11365188,@threadid=8319812,@postid=0,@modid=32749308,@status=3,@notes=N' ',@referto=0,@referredby=14815654,@moderationstatus=0,@emailType=N'or Select failure reason'
-
         [TestMethod]
         public void CreateTweet_Retweet_PreModTweetThenModerated()
         {
@@ -487,11 +488,25 @@ namespace FunctionalTests.Services.Comments
 
         private PreModPosting GetLatestPreModPosting()
         {
+            return GetPreModPosting(1);
+        }
+
+
+        private PreModPosting GetPreModPosting(int n)
+        {
             var result = new PreModPosting();
 
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("select top 1 * from PreModPostings order by modid desc");
+                reader.ExecuteDEBUGONLY(@"
+                    ;with numbered as 
+                    (
+                        select Top 100 *,ROW_NUMBER() OVER(ORDER BY ModID desc) n
+                        from dbo.PreModPostings 
+                        order by modid desc
+	                )
+	                select * from numbered
+	                where n="+n);
                 Assert.IsTrue(reader.Read());
                 result.modId    = reader.GetInt32("modid");
                 result.forumId  = reader.GetInt32("forumId");
@@ -560,16 +575,96 @@ namespace FunctionalTests.Services.Comments
             Assert.AreEqual(expectedText, returnedCommentInfo.text);
         }
 
+        [TestMethod]
+        public void ArchiveFailedTweets_TweetArchived()
+        {
+            ClearModerationQueues();
+
+            var paramList = new DnaTestURLRequest.ParamList();
+
+            // Post three tweets, and collect the param list for the ModeratePost call later
+            // It checked that only failed tweets get archived to the "Deleted" tables
+
+            // This one will fail moderation
+            PostTweet(CreateTestTweet(64645735745376, "I, Partridge", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+            AddLatestPreModPostingToParamList(paramList, ModerationItemStatus.Failed, BBC.Dna.Api.PostStyle.Style.tweet);
+
+            // This one will pass moderation
+            PostTweet(CreateTestTweet(64645735745377, "chat suicide", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+            AddLatestPreModPostingToParamList(paramList, ModerationItemStatus.Passed, BBC.Dna.Api.PostStyle.Style.tweet);
+
+            // This one will fail moderation, but the post style is not a tweet
+            PostTweet(CreateTestTweet(64645735745378, "dormant volcano", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+            AddLatestPreModPostingToParamList(paramList, ModerationItemStatus.Failed, BBC.Dna.Api.PostStyle.Style.plaintext);
+            
+            // Moderate these posts
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserEditor();
+            request.RequestPageWithParamList("ModeratePosts", paramList);
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+
+                reader.ExecuteDEBUGONLY(@"
+                    select * 
+                        from PreModPostingsDeleted pmpd
+                        join PreModPostingsTweetInfoDeleted pmptid on pmptid.modid=pmpd.modid
+                        join ThreadModDeleted tmd on tmd.modid = pmptid.modid
+                        where pmpd.reason='A' and pmptid.reason='A' and tmd.reason='A'");
+                Assert.IsTrue(reader.Read());
+                Assert.AreEqual(64645735745376, reader.GetInt64("tweetid"));
+                Assert.AreEqual("I, Partridge", reader.GetString("body"));
+                Assert.IsFalse(reader.Read(),"Only expecting one row of archived deleted posts");
+
+                // Check the last two posts are the other two moderated posts
+                reader.ExecuteDEBUGONLY(@"
+                    select top 2 * 
+                        from ThreadEntries te
+                        join ThreadEntriesTweetInfo teti on teti.ThreadEntryId=te.EntryId
+                        order by te.entryid desc");
+
+                Assert.IsTrue(reader.Read());
+                Assert.AreEqual(64645735745378, reader.GetInt64("tweetid"));
+                Assert.AreEqual("dormant volcano", reader.GetString("text"));
+                Assert.AreEqual(1, reader.GetInt32("Hidden"),"This post failed moderation so should be hidden");
+
+                Assert.IsTrue(reader.Read());
+                Assert.AreEqual(64645735745377, reader.GetInt64("tweetid"));
+                Assert.AreEqual("chat suicide", reader.GetString("text"));
+                Assert.IsFalse(reader.GetNullableInt32("Hidden").HasValue, "The hidden flag should be NULL, i.e. not hidded");
+            }
+        }
+
+        private void AddLatestPreModPostingToParamList(DnaTestURLRequest.ParamList paramList, ModerationItemStatus status, BBC.Dna.Api.PostStyle.Style postStyle)
+        {
+            paramList.Add("postid", 0);
+            paramList.Add("alerts", 0);
+
+            var pmp = GetLatestPreModPosting();
+            paramList.Add("threadid", pmp.threadId.HasValue ? pmp.threadId.Value : 0);
+            paramList.Add("modid", pmp.modId);
+            paramList.Add("forumid", pmp.forumId);
+            paramList.Add("siteid", _siteid);
+
+            paramList.Add("decision", (int)status);
+            paramList.Add("postStyle", (int)postStyle);
+            paramList.Add("skin", "purexml");
+        }
+
         private void ClearModerationQueues()
         {
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
                 reader.ExecuteDEBUGONLY("delete ThreadModHistory");
+
                 reader.ExecuteDEBUGONLY("delete ThreadMod");
-                reader.ExecuteDEBUGONLY("delete ThreadModExpired");
+                reader.ExecuteDEBUGONLY("delete ThreadModDeleted");
+
                 reader.ExecuteDEBUGONLY("delete PremodPostings");
-                reader.ExecuteDEBUGONLY("delete PremodPostingsExpired");
+                reader.ExecuteDEBUGONLY("delete PremodPostingsDeleted");
+
                 reader.ExecuteDEBUGONLY("delete PremodPostingsTweetInfo");
+                reader.ExecuteDEBUGONLY("delete PremodPostingsTweetInfoDeleted");
             }
         }
 
@@ -649,7 +744,7 @@ namespace FunctionalTests.Services.Comments
             using (var reader = _context.CreateDnaDataReader(""))
             {
                 reader.ExecuteDEBUGONLY("truncate table PremodPostings");
-                reader.ExecuteDEBUGONLY("truncate table ThreadModExpired");
+                reader.ExecuteDEBUGONLY("truncate table ThreadModDeleted");
                 reader.ExecuteDEBUGONLY("truncate table PremodPostings");
             }
 

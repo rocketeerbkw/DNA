@@ -128,6 +128,8 @@
     <Compile Include="ContentSignifAdminBuilder.cs" />
     <Compile Include="ContentSignifSettings.cs" />
     <Compile Include="ContentSignifSettingsParameters.cs" />
+    <Compile Include="TwitterCreateProfile.cs" />
+    <Compile Include="TwitterProfileList.cs" />
     <Compile Include="UserReputationReportBuilder.cs" />
     <Compile Include="HostDashboardUserActivityFeed.cs" />
     <Compile Include="EditPostPageBuilder.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="UserPageParameters.cs" />
     <Compile Include="UserStatistics.cs" />
     <Compile Include="UserSubscriptionsList.cs" />
+    <Compile Include="ForumCommentsList.cs" />
     <Compile Include="Vote.cs" />
     <Compile Include="WatchList.cs" />
     <Compile Include="WholePage.cs" />
