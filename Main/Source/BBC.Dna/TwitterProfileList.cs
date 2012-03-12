@@ -18,6 +18,9 @@ namespace BBC.Dna.Component
     /// </summary>
     public class TwitterProfileList : DnaInputComponent
     {
+        private string _siteType = string.Empty;
+        private string _cmd = string.Empty;
+
         IDnaDataReaderCreator readerCreator;
         IDnaDiagnostics dnaDiagnostic;
 
@@ -52,77 +55,127 @@ namespace BBC.Dna.Component
             //Clean any existing XML.
             RootElement.RemoveAll();
 
-            var profileList = CreateProfileList();
-
-            bool checkAllSites = InputContext.ViewingUser.IsSuperUser;
-
-            GenerateTwitterProfileListPageXml(profileList);
-
-            RootElement.AppendChild(ImportNode(InputContext.ViewingUser.GetSitesThisUserIsEditorOfXML()));
-        }
-
-        private BuzzTwitterProfiles CreateProfileList()
-        {
-            BuzzTwitterProfiles profiles = new BuzzTwitterProfiles();
-
-            BuzzTwitterProfile profile = new BuzzTwitterProfile();
-            profile = CreateProfile("testsite", "grouptest1_group_4", false, false, true, true);
-            profiles.Add(profile);
-
-            profile = CreateProfile("testsite", "bbcdemotabs1", false, false, true, true);
-            profiles.Add(profile);
-
-            profile = CreateProfile("testsite", "bbcdemo1", false, false, false, false);
-            profiles.Add(profile);
-
-            return profiles;
-        }
-
-        private BuzzTwitterProfile CreateProfile(string siteType, string profileId, bool isProfileCountEnabled, bool isProfileKeywordCountEnabled,
-            bool isModerationEnabled, bool isTrustedUserEnabled)
-        {
-            string[] userList = new string[2]{"1234","5678"};
-            string[] keywordList = new string[2] { "mn", "was" };
-
-            return new BuzzTwitterProfile()
+            if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsSuperUser)
             {
-                SiteURL = siteType,
-                Users = userList,
-                ProfileId = profileId,
-                SearchKeywords = keywordList,
-                ProfileCountEnabled = isProfileCountEnabled,
-                ProfileKeywordCountEnabled = isProfileKeywordCountEnabled,
-                ModerationEnabled = isModerationEnabled,
-                TrustedUsersEnabled = isTrustedUserEnabled
-            };
-        }
-
-        /// <summary>
-        /// Method called to try and create Member List, gathers the input params, 
-        /// gets the correct records from the DB and formulates the XML
-        /// </summary>
-        /// <returns>Whether the search has succeeded with out error</returns>
-        private bool TryCreateTwitterProfileList()
-        {
-            bool checkAllSites = InputContext.ViewingUser.IsSuperUser;
-            //int userSearchType = InputContext.GetParamIntOrZero("usersearchtype", _docDnaUserSearchType);
-            string searchText = InputContext.GetParamStringOrEmpty("searchText", "User search text");
-
-            if (String.IsNullOrEmpty(searchText))
-            {
-                return false;
+                AddErrorXml("INVALID PERMISSIONS", "Superuser permissions required", RootElement);
+                return;
             }
 
+            GetQueryParameters();
 
-            //GenerateTwitterProfileListPageXml();
+            var profileList = GenerateProfileList();
 
-            return true;
+            if (false == string.IsNullOrEmpty(_cmd))
+            {
+                profileList = ProcessCommand(profileList, _siteType);
+            }
+
+            if (profileList == null)
+            {
+                BaseResult result = new Error { Type = "PROFILELISTFILTERACTION", ErrorMessage = "Profiles selection based on site type invalid." };
+            }
+            else
+            {
+                GenerateTwitterProfileListPageXml(profileList);
+
+                GenerateTwitterSiteListXml();
+            }
         }
 
         /// <summary>
-        /// List of profiles for a partiular site
+        /// Filtered profile list based on the site type
         /// </summary>
-        public void GenerateTwitterProfileListPageXml(BuzzTwitterProfiles twitterProfiles)
+        /// <param name="profileList">BuzzTwitterProfiles</param>
+        /// <param name="siteType">BuzzSiteType</param>
+        /// <returns></returns>
+        private BuzzTwitterProfiles ProcessCommand(BuzzTwitterProfiles profileList, string siteType)
+        {
+            BuzzTwitterProfiles filteredProfileList = new BuzzTwitterProfiles();
+
+            if (_cmd.ToUpper().Equals("SITESPECIFICPROFILES"))
+            {
+                foreach (BuzzTwitterProfile profile in profileList)
+                {
+                    if (profile.SiteURL.Equals(siteType))
+                    {
+                        filteredProfileList.Add(profile);
+                    }
+                }
+                return filteredProfileList;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Twitter Sites filtered by the SiteType value 5
+        /// </summary>
+        private void GenerateTwitterSiteListXml()
+        {
+            Dictionary<int, BBC.Dna.Sites.Site> siteList = new Dictionary<int, BBC.Dna.Sites.Site>();
+
+            foreach (BBC.Dna.Sites.Site site in InputContext.TheSiteList.Ids.Values)
+            {
+                int twitterSiteType = InputContext.GetSiteOptionValueInt(site.SiteID, "General", "SiteType");
+                if (twitterSiteType == 5)
+                {
+                    if (false == siteList.ContainsKey(site.SiteID))
+                    {
+                        siteList.Add(site.SiteID, site);
+                    }
+                }
+            }
+
+            XmlNode sitesxml = AddElementTag(RootElement, "TWITTER-SITE-LIST");
+            AddAttribute(sitesxml, "COUNT", siteList.Values.Count);
+            foreach (BBC.Dna.Sites.Site site in siteList.Values)
+            {
+                XmlNode sitexml = AddElementTag(sitesxml, "SITE");
+                AddAttribute(sitexml, "ID", site.SiteID);
+                AddTextTag(sitexml, "NAME", site.SiteName);
+                AddTextTag(sitexml, "DESCRIPTION", site.Description);
+                AddTextTag(sitexml, "SHORTNAME", site.ShortName);
+                AddTextTag(sitexml, "SSOSERVICE", site.SSOService);
+                AddTextTag(sitexml, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
+            }
+            //RootElement.AppendChild(ImportNode(sitesxml.FirstChild));
+
+            ////get sitelist
+            //SiteXmlBuilder siteXml = new SiteXmlBuilder(InputContext);
+            //siteXml.CreateXmlSiteList(InputContext.TheSiteList);
+            //RootElement.AppendChild(ImportNode(siteXml.RootElement.FirstChild));
+
+            //SerialiseAndAppend(BBC.Dna.Sites.SiteTypeEnumList.GetSiteTypes(), "");
+        }
+
+       
+        /// <summary>
+        /// Integration with the BuzzApi and retrieves twitter profiles
+        /// </summary>
+        /// <returns></returns>
+        private BuzzTwitterProfiles GenerateProfileList()
+        {
+            BuzzClient client;
+            BuzzTwitterProfiles tweetProfiles = new BuzzTwitterProfiles();
+            var response = string.Empty;
+            try
+            {
+                client = new BuzzClient();
+
+                tweetProfiles = client.GetProfiles();
+            }
+            catch (Exception ex)
+            {
+                InputContext.Diagnostics.WriteExceptionToLog(ex);
+            }
+            return tweetProfiles;
+        }
+
+
+       
+        /// <summary>
+        /// List of twitter profiles
+        /// </summary>
+        private void GenerateTwitterProfileListPageXml(BuzzTwitterProfiles twitterProfiles)
         {
             XmlNode profileList = AddElementTag(RootElement, "TWITTERPROFILELIST");
             AddAttribute(profileList, "COUNT", twitterProfiles.Count);
@@ -136,13 +189,29 @@ namespace BBC.Dna.Component
                 AddAttribute(profileNode, "SITETYPE", profile.SiteURL);
 
                 AddTextTag(profileNode, "PROFILEID", profile.ProfileId);
-                AddTextTag(profileNode, "ACTIVESTATUS", profile.Active.ToString());
-                AddTextTag(profileNode, "TRUSTEDUSERSTATUS", profile.TrustedUsersEnabled.ToString());
-                AddTextTag(profileNode, "PROFILECOUNTSTATUS", profile.ProfileCountEnabled.ToString());
-                AddTextTag(profileNode, "PROFILEKEYWORDCOUNTSTATUS", profile.ProfileKeywordCountEnabled.ToString());
-                AddTextTag(profileNode, "MODERATIONSTATUS", profile.ModerationEnabled.ToString());
+                AddTextTag(profileNode, "ACTIVESTATUS", profile.Active);
+                AddTextTag(profileNode, "TRUSTEDUSERSTATUS", profile.TrustedUsersEnabled);
+                AddTextTag(profileNode, "PROFILECOUNTSTATUS", profile.ProfileCountEnabled);
+                AddTextTag(profileNode, "PROFILEKEYWORDCOUNTSTATUS", profile.ProfileKeywordCountEnabled);
+                AddTextTag(profileNode, "MODERATIONSTATUS", profile.ModerationEnabled);
 
                 profileList.AppendChild(profileNode);
+            }
+        }
+
+        /// <summary>
+        /// Fills private members with querystring variables
+        /// </summary>
+        private void GetQueryParameters()
+        {
+            if (InputContext.DoesParamExist("s_sitename", "s_sitename"))
+            {
+                _siteType = InputContext.GetParamStringOrEmpty("s_sitename", "s_sitename");
+            }
+
+            if (InputContext.DoesParamExist("action", "Command string for flow"))
+            {
+                _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
             }
         }
     }

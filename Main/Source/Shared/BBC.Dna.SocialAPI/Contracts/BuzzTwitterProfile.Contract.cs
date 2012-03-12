@@ -7,8 +7,8 @@ using System.ServiceModel.Syndication;
 
 namespace BBC.Dna.SocialAPI
 {
-    [KnownType(typeof(BuzzTwitterProfile))]
-    [Serializable]
+    //[KnownType(typeof(BuzzTwitterProfile))]
+    //[Serializable]
     [DataContract(Name = "profile", Namespace = "BBC.Dna.SocialAPI")]
     public class BuzzTwitterProfile
     {
@@ -25,19 +25,19 @@ namespace BBC.Dna.SocialAPI
         public string[] SearchKeywords { get; set; }
 
         [DataMember(Name = ("profileCountEnabled"))]
-        public bool ProfileCountEnabled { get; set; }
+        public string ProfileCountEnabled { get; set; }
 
         [DataMember (Name = ("profileKeywordCountEnabled"))]
-        public bool ProfileKeywordCountEnabled { get; set; }
+        public string ProfileKeywordCountEnabled { get; set; }
 
         [DataMember (Name = ("moderationEnabled"))]
-        public bool ModerationEnabled { get; set; }
+        public string ModerationEnabled { get; set; }
 
         [DataMember (Name = ("truestedUsersEnabled"))]
-        public bool TrustedUsersEnabled { get; set; }
+        public string TrustedUsersEnabled { get; set; }
 
         [DataMember (Name = ("active"))]
-        public bool Active { get; set; }
+        public string Active { get; set; }
 
         /*[DataMember (Name = ("id"))]
         public string Id { get; set; }
