@@ -26,7 +26,6 @@ namespace BBC.Dna
         private string _forumTitle = string.Empty;
         private int _userId = 0;
         private int _startIndex = 0;
-        private bool _ignoreCache = false;
 
         /// <summary>
         /// The default constructor
@@ -113,10 +112,6 @@ namespace BBC.Dna
             {
                 _startIndex = InputContext.GetParamIntOrZero("s_startindex", "s_startindex");
             }
-
-#if DEBUG
-            _ignoreCache = InputContext.GetParamIntOrZero("ignorecache", "Ignore the cache") == 1;
-#endif
         }
 
         #region GetViewReadOnlyCommentsXml
