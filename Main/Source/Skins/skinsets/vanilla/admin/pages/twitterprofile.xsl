@@ -86,9 +86,9 @@
 							</input>				
 							</li>
 						</ul>
-						<ul class="dna-buttons">
+						<ul class="dna-buttons profile">
+              <li><input type="submit" value="Create Profile" /></li>
 							<li><a href="twitterprofilelist" class="button">Cancel</a></li>
-							<li><input type="submit" value="Create Profile" /></li>
 						</ul>					
 					</fieldset>
 				</form>
