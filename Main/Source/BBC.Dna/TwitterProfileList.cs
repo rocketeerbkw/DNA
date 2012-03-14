@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Linq;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
@@ -189,11 +190,11 @@ namespace BBC.Dna.Component
                 AddAttribute(profileNode, "SITETYPE", profile.SiteURL);
 
                 AddTextTag(profileNode, "PROFILEID", profile.ProfileId);
-                AddTextTag(profileNode, "ACTIVESTATUS", profile.Active);
-                AddTextTag(profileNode, "TRUSTEDUSERSTATUS", profile.TrustedUsersEnabled);
-                AddTextTag(profileNode, "PROFILECOUNTSTATUS", profile.ProfileCountEnabled);
-                AddTextTag(profileNode, "PROFILEKEYWORDCOUNTSTATUS", profile.ProfileKeywordCountEnabled);
-                AddTextTag(profileNode, "MODERATIONSTATUS", profile.ModerationEnabled);
+                //AddTextTag(profileNode, "ACTIVESTATUS", profile.Active.HasValue ? profile.Active.Value.ToString() : string.Empty);
+                AddTextTag(profileNode, "TRUSTEDUSERSTATUS", profile.TrustedUsersEnabled.HasValue ? profile.TrustedUsersEnabled.Value.ToString() : string.Empty);
+                AddTextTag(profileNode, "PROFILECOUNTSTATUS", profile.ProfileCountEnabled.HasValue ? profile.ProfileCountEnabled.Value.ToString() : string.Empty);
+                AddTextTag(profileNode, "PROFILEKEYWORDCOUNTSTATUS", profile.ProfileKeywordCountEnabled.HasValue ? profile.ProfileKeywordCountEnabled.Value.ToString(): string.Empty);
+                AddTextTag(profileNode, "MODERATIONSTATUS", profile.ModerationEnabled.HasValue ? profile.ModerationEnabled.Value.ToString() : string.Empty);
 
                 profileList.AppendChild(profileNode);
             }

@@ -16,30 +16,30 @@ namespace BBC.Dna.SocialAPI
         public string SiteURL { get; set; }
 
         [DataMember (Name = ("users"))]
-        public string[] Users { get; set; }
+        public List<string> Users { get; set; }
 
         [DataMember (Name = ("profileId"))]
         public string ProfileId { get; set; }
 
         [DataMember(Name = ("keywords"))]
-        public string[] SearchKeywords { get; set; }
+        public List<string> SearchKeywords { get; set; }
 
         [DataMember(Name = ("profileCountEnabled"))]
-        public string ProfileCountEnabled { get; set; }
+        public bool? ProfileCountEnabled { get; set; }
 
         [DataMember (Name = ("profileKeywordCountEnabled"))]
-        public string ProfileKeywordCountEnabled { get; set; }
+        public bool? ProfileKeywordCountEnabled { get; set; }
 
         [DataMember (Name = ("moderationEnabled"))]
-        public string ModerationEnabled { get; set; }
+        public bool? ModerationEnabled { get; set; }
 
-        [DataMember (Name = ("truestedUsersEnabled"))]
-        public string TrustedUsersEnabled { get; set; }
+        [DataMember (Name = ("trustedUsersEnabled"))]
+        public bool? TrustedUsersEnabled { get; set; }
 
-        [DataMember (Name = ("active"))]
-        public string Active { get; set; }
+        /*[DataMember (Name = ("active"))]
+        public bool? Active { get; set; }
 
-        /*[DataMember (Name = ("id"))]
+        [DataMember (Name = ("id"))]
         public string Id { get; set; }
 
         [DataMember (Name = ("version"))]
