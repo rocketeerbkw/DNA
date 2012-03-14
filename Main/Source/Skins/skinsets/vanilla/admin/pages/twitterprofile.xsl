@@ -30,64 +30,67 @@
 		
 		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 			<div class="dna-box">
-				<form method="get" action="twittercreateprofile"> 
+				<div class="dna-fr">
+				  <span>* denotes required field.</span>
+				</div>
+				<form method="get" action="twittercreateprofile" class="twitterprofile"> 
 					<fieldset>
 						<ul class="twitter-profile">
 							<li>
-							<label for="profileid">Profile Id</label>
-							<input type="text" name="profileid" id="profileid" />
+								<label for="profileid">Profile Id <span>*</span>:</label>
+								<input type="text" name="profileid" id="profileid" />
 							</li>
 							<li>
-							<label for="title">Title</label>
-							<input type="text" name="title" id="title" />
+								<label for="title">Title <span>*</span>:</label>
+								<input type="text" name="title" id="title" />
 							</li>
 							<li>
-							<label for="users">Users</label>
-							<textarea name="users" id="users"><xsl:text> </xsl:text></textarea>
+								<label for="users">Users: <br /><em>You must enter at least one user or search term</em></label>
+								<textarea name="users" id="users"><xsl:text> </xsl:text></textarea>
 							</li>
 							<li>
-							<label for="searchterms">Search Terms</label>
-							<textarea name="searchterms" id="searchterms"><xsl:text> </xsl:text></textarea>
+								<label for="searchterms">Search Terms:<br /><em>You must enter at least one user or search term</em></label>
+								<textarea name="searchterms" id="searchterms"><xsl:text> </xsl:text></textarea>
 							</li>
 							<li>
-							<label for="active">Active:</label>
-							<input type="checkbox" name="active" id="active">
-								<xsl:if test="ACTIVEONLY = TRUE">
-									<xsl:attribute name="checked">checked</xsl:attribute>
-								</xsl:if>
-							</input>
+								<label for="active">Active:</label>
+								<input type="checkbox" name="active" id="active">
+									<xsl:if test="ACTIVEONLY = TRUE">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
 							
-							<label for="trustedusers">Truster Users:</label>
-							<input type="checkbox" name="trustedusers" id="trustedusers">
-								<xsl:if test="trustedusers = TRUE">
-									<xsl:attribute name="checked">checked</xsl:attribute>
-								</xsl:if>
-							</input>
+								<label for="trustedusers">Truster Users:</label>
+								<input type="checkbox" name="trustedusers" id="trustedusers">
+									<xsl:if test="trustedusers = TRUE">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
 							
-							<label for="countsonly">Counts Only:</label>
-							<input type="checkbox" name="countsonly" id="countsonly">
-								<xsl:if test="countsonly = TRUE">
-									<xsl:attribute name="checked">checked</xsl:attribute>
-								</xsl:if>
-							</input>
+								<label for="countsonly">Counts Only:</label>
+								<input type="checkbox" name="countsonly" id="countsonly">
+									<xsl:if test="countsonly = TRUE">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
 							
-							<label for="keywordcounts">Keyword Counts:</label>
-							<input type="checkbox" name="keywordcounts" id="keywordcounts">
-								<xsl:if test="ACTIVEONLY = TRUE">
-									<xsl:attribute name="checked">checked</xsl:attribute>
-								</xsl:if>
-							</input>
-							
-							<label for="moderated">Moderated:</label>
-							<input type="checkbox" name="moderated" id="moderated">
-								<xsl:if test="ACTIVEONLY = TRUE">
-									<xsl:attribute name="checked">checked</xsl:attribute>
-								</xsl:if>
-							</input>				
+								<label for="keywordcounts">Keyword Counts:</label>
+								<input type="checkbox" name="keywordcounts" id="keywordcounts">
+									<xsl:if test="ACTIVEONLY = TRUE">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
+    							
+								<label for="moderated">Moderated:</label>
+								<input type="checkbox" name="moderated" id="moderated">
+									<xsl:if test="ACTIVEONLY = TRUE">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>				
 							</li>
 						</ul>
 						<ul class="dna-buttons profile">
-              <li><input type="submit" value="Create Profile" /></li>
+							<li><input type="submit" value="Create Profile" /></li>
 							<li><a href="twitterprofilelist" class="button">Cancel</a></li>
 						</ul>					
 					</fieldset>

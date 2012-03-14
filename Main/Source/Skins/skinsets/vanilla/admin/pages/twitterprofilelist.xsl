@@ -94,16 +94,17 @@
 							  <th>Moderated Tweets</th>
 							  <th></th>
 						  </tr>
-              <xsl:choose>
-                <xsl:when test="/H2G2/TWITTERPROFILELIST/@COUNT = 0">
-                  <tr>
-                    <td colspan="7">There are no Twitter profiles for this site</td>
-                  </tr>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:apply-templates select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE" />
-                </xsl:otherwise>
-              </xsl:choose>
+						
+						  <xsl:choose>
+							<xsl:when test="/H2G2/TWITTERPROFILELIST/@COUNT = 0">
+							  <tr>
+								<td colspan="7">There are no Twitter profiles for this site</td>
+							  </tr>
+							</xsl:when>
+							<xsl:otherwise>
+							  <xsl:apply-templates select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE" />
+							</xsl:otherwise>
+						  </xsl:choose>
   						
 					  </table>
 		
