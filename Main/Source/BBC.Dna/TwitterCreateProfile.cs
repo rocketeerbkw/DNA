@@ -76,6 +76,7 @@ namespace BBC.Dna.Component
             GetQueryParameters();
 
             var siteName = "Test Site";
+            GenerateTwitterCreateProfilePageXml(siteName);
 
             BaseResult result = ProcessCommand(siteName);
             if (result != null)
