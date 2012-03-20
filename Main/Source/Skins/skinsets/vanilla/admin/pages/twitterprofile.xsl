@@ -30,10 +30,12 @@
 		
 		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 			<div class="dna-box">
+				<h3>Update/Create Twitter Profile</h3>
 				<div class="dna-fr">
-				  <span>* denotes required field.</span>
+				  <span>* denotes required field</span>
 				</div>
 				<form method="get" action="twittercreateprofile" class="twitterprofile"> 
+					<input type="hidden" name="type"><xsl:value-of select="/H2G2/TWITTERCREATEPROFILE/@SITENAME" /></input>
 					<fieldset>
 						<ul class="twitter-profile">
 							<li>
@@ -52,37 +54,37 @@
 								<label for="searchterms">Search Terms:<br /><em>You must enter at least one user or search term</em></label>
 								<textarea name="searchterms" id="searchterms"><xsl:text> </xsl:text></textarea>
 							</li>
-							<li>
+							<li class="states blq-clearfix">
 								<label for="active">Active:</label>
-								<input type="checkbox" name="active" id="active">
+								<input type="checkbox" name="active" id="active" value="true">
 									<xsl:if test="ACTIVEONLY = TRUE">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
 								</input>
 							
-								<label for="trustedusers">Truster Users:</label>
-								<input type="checkbox" name="trustedusers" id="trustedusers">
+								<label for="trustedusers">Trusted Users:</label>
+								<input type="checkbox" name="trustedusers" id="trustedusers" value="true">
 									<xsl:if test="trustedusers = TRUE">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
 								</input>
 							
 								<label for="countsonly">Counts Only:</label>
-								<input type="checkbox" name="countsonly" id="countsonly">
+								<input type="checkbox" name="countsonly" id="countsonly" value="true">
 									<xsl:if test="countsonly = TRUE">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
 								</input>
 							
 								<label for="keywordcounts">Keyword Counts:</label>
-								<input type="checkbox" name="keywordcounts" id="keywordcounts">
+								<input type="checkbox" name="keywordcounts" id="keywordcounts" value="true">
 									<xsl:if test="ACTIVEONLY = TRUE">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
 								</input>
     							
 								<label for="moderated">Moderated:</label>
-								<input type="checkbox" name="moderated" id="moderated">
+								<input type="checkbox" name="moderated" id="moderated" value="true">
 									<xsl:if test="ACTIVEONLY = TRUE">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
