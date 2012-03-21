@@ -80,7 +80,8 @@
         <xsl:comment>#set var="blq_nav_color" value="blue"</xsl:comment>
         <xsl:comment>#set var="blq_footer_color" value="grey"</xsl:comment>
         <xsl:comment>#set var="bbcpage_survey" value="no"</xsl:comment>
-        
+        <xsl:comment>#set var="blq_mothball" value="1"</xsl:comment>
+		  
         <xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
       
       <script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"><xsl:text> </xsl:text></script>
