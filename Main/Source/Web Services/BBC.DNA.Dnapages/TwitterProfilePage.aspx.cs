@@ -3,18 +3,18 @@ using BBC.Dna.Page;
 using BBC.Dna.Component;
 
 
-public partial class TwitterCreateProfilePage : BBC.Dna.Page.DnaWebPage
+public partial class TwitterProfilePage : BBC.Dna.Page.DnaWebPage
 {
     /// <summary>
     /// Default constructor.
     /// </summary>
-    public TwitterCreateProfilePage()
+    public TwitterProfilePage()
     {
     }
 
     public override string PageType
     {
-        get { return "TWITTERCREATEPROFILE"; }
+        get { return "TWITTERPROFILE"; }
     }
 
     /// <summary>
@@ -23,7 +23,7 @@ public partial class TwitterCreateProfilePage : BBC.Dna.Page.DnaWebPage
     public override void OnPageLoad()
     {
         // Now create the twitter create profile object
-        AddComponent(new TwitterCreateProfile(_basePage));
+        AddComponent(new TwitterProfile(_basePage, _basePage.CreateDnaDataReaderCreator() ,_basePage.Diagnostics));
     }
 
     public override bool IsHtmlCachingEnabled()

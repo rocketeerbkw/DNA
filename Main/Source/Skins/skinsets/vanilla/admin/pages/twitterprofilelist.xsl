@@ -119,7 +119,7 @@
 	<xsl:template name="newprofilelink">
 		<div class="newprofilelink blq-clearfix">
 			<ul class="dna-buttons">
-				<li><a href="twitterprofile">New Profile</a></li>
+				<li><a href="twitterprofile" target="_blank">New Profile</a></li>
 			</ul>  
 		</div>
 	</xsl:template>
@@ -135,7 +135,7 @@
 			<td><xsl:value-of select="PROFILECOUNTSTATUS" /></td>
 			<td><xsl:value-of select="PROFILEKEYWORDCOUNTSTATUS" /></td>
 			<td><xsl:value-of select="MODERATIONSTATUS" /></td>
-			<td><a href="twitterprofile?type={$sitetype}&amp;profileId={$profileid}">Edit</a></td>
+			<td><a href="twitterprofile?type={$sitetype}&amp;profileId={$profileid}&amp;action=getprofile" target="_blank">Edit</a></td>
 		</tr>  
 	</xsl:template>
 	

@@ -10,7 +10,7 @@
 
 
 
-public partial class TwitterCreateProfilePage {
+public partial class TwitterProfilePage {
     
     /// <summary>
     /// form1 control.

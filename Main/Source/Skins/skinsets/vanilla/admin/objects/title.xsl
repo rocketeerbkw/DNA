@@ -95,7 +95,7 @@
 		<h1>Twitter Profile List</h1>
 	</xsl:template>
 	
-	<xsl:template match="H2G2[@TYPE = 'TWITTERCREATEPROFILE']" mode="objects_title">
+	<xsl:template match="H2G2[@TYPE = 'TWITTERPROFILE']" mode="objects_title">
 		<h1>Twitter Profile</h1>
 	</xsl:template>			
 

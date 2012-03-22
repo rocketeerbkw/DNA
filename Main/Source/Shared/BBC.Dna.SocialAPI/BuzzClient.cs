@@ -62,6 +62,12 @@ namespace BBC.Dna.SocialAPI
             return response;
         }
         */
+
+        /// <summary>
+        /// Request object formed with the certificate details
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         private HttpWebRequest GetWebRequestWithCertificateDetails(string uri)
         {
             var connectionDetails = WebConfigurationManager.ConnectionStrings["IdentityURL"].ConnectionString;
@@ -92,9 +98,13 @@ namespace BBC.Dna.SocialAPI
             return webRequest;
         }
 
+        /// <summary>
+        /// Gets a list of profiles from Buzz
+        /// </summary>
+        /// <returns></returns>
         public BuzzTwitterProfiles GetProfiles()
         {
-            var uri = ConfigurationSettings.AppSettings["BuzzProfileAPI"].ToString();
+            var uri = ConfigurationSettings.AppSettings["BuzzProfileListAPI"].ToString();
 
             HttpWebResponse response = null;
 
@@ -116,10 +126,46 @@ namespace BBC.Dna.SocialAPI
             return profilesObject;
         }
 
+        /// <summary>
+        /// Gets a specific profile from Buzz
+        /// </summary>
+        /// <param name="twitterProfileId"></param>
+        /// <returns></returns>
+        public BuzzTwitterProfile GetProfile(string twitterProfileId)
+        {
+            var uri = ConfigurationSettings.AppSettings["BuzzProfileAPI"].ToString();
+
+            uri += twitterProfileId;
+
+            HttpWebResponse response = null;
+
+            HttpWebRequest webRequest = GetWebRequestWithCertificateDetails(uri);
+
+            try
+            {
+                response = (HttpWebResponse)webRequest.GetResponse();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            Stream stream = response.GetResponseStream();
+            DataContractJsonSerializer obj = new DataContractJsonSerializer(typeof(BuzzTwitterProfile));
+
+            BuzzTwitterProfile profileObject = obj.ReadObject(stream) as BuzzTwitterProfile;
+
+            return profileObject;
+        }
+
+        /// <summary>
+        /// Creates the twitter profile in Buzz
+        /// </summary>
+        /// <param name="twitterProfile"></param>
+        /// <returns></returns>
         public string CreateProfile(BuzzTwitterProfile twitterProfile)
         {
             var resStatus = string.Empty;
-            var uri = ConfigurationSettings.AppSettings["BuzzCreateProfileAPI"].ToString();
+            var uri = ConfigurationSettings.AppSettings["BuzzProfileAPI"].ToString();
 
             HttpWebResponse response = null;
 

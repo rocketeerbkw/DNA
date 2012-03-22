@@ -18,14 +18,14 @@
 		</doc:notes>
 	</doc:documentation>
 
-  <xsl:template match="H2G2[@TYPE = 'TWITTERCREATEPROFILE']" mode="page">
+  <xsl:template match="H2G2[@TYPE = 'TWITTERPROFILE']" mode="page">
   
 	<xsl:call-template name="objects_links_breadcrumb">
 		<xsl:with-param name="pagename">Create/Edit Twitter Profile</xsl:with-param>
 	</xsl:call-template>
 	<div class="twitter-admin">
 		<div class="dna-mb-intro">
-			<h2><xsl:value-of select="/H2G2/TWITTERCREATEPROFILE/@SITENAME" /></h2>
+			<h2><xsl:value-of select="/H2G2/TWITTERPROFILE/@SITENAME" /></h2>
 		</div>
 		
 		<div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
@@ -34,8 +34,8 @@
 				<div class="dna-fr">
 				  <span>* denotes required field</span>
 				</div>
-				<form method="get" action="twittercreateprofile" class="twitterprofile"> 
-					<input type="hidden" name="type"><xsl:value-of select="/H2G2/TWITTERCREATEPROFILE/@SITENAME" /></input>
+				<form method="get" action="twitterprofile" class="twitterprofile"> 
+					<input type="hidden" name="type"><xsl:value-of select="/H2G2/TWITTERPROFILE/@SITENAME" /></input>
 					<fieldset>
 						<ul class="twitter-profile">
 							<li>
@@ -92,6 +92,7 @@
 							</li>
 						</ul>
 						<ul class="dna-buttons profile">
+							<input type="hidden" name="action" value="createupdateprofile" />
 							<li><input type="submit" value="Create Profile" /></li>
 							<li><a href="twitterprofilelist" class="button">Cancel</a></li>
 						</ul>					
