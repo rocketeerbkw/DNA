@@ -314,7 +314,7 @@ namespace BBC.Dna.Component
 
                 if (dataReader.HasRows && dataReader.Read())
                 {
-                    var twitterUserExists = dataReader.GetStringNullAsEmpty("TwitterUserID");
+                    var twitterUserExists = dataReader.GetStringNullAsEmpty("TwitterUserID"); 
                     if (twitterUserExists.Equals("NA"))
                     {
                         UserExists.Add(false, string.Empty);
