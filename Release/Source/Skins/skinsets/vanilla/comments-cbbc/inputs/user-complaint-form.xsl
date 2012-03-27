@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="doesn't stick to the original topic" name="s_complaintText"/><label for="dnaacs-cq-10">doesn't stick to the original topic</label>
-                		<input type="radio" id="dnaacs-cq-11" value="is spam and/or it advertises something" name="s_complaintText"/><label for="dnaacs-cq-11">is spam and/or it advertises something</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="is spam and/or it advertises something" name="s_complaintText"/><label for="dnaacs-cq-11">is spam and/or it advertises something</label>
                 		<input type="radio" id="dnaacs-cq-12" value="describes or encourages dangerous behaviour" name="s_complaintText"/><label for="dnaacs-cq-12">describes or encourages dangerous behaviour</label>
                 		<input type="radio" id="dnaacs-cq-13" value="contains an inappropriate username" name="s_complaintText"/><label for="dnaacs-cq-13">contains an inappropriate username</label>
                 		<input type="radio" id="dnaacs-cq-14" value="breaks the law or allows/encourages unlawful activity" name="s_complaintText"/><label for="dnaacs-cq-14">breaks the law or allows/encourages unlawful activity</label>
