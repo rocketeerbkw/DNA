@@ -62,7 +62,6 @@
             </p>
           </xsl:otherwise>
         </xsl:choose>
-        
       </div>
     </div>
   </xsl:template>
@@ -88,9 +87,15 @@
   </xsl:template>
 
   <xsl:template match="/H2G2/RESULT" mode="page">
-    <p class="dna-no-error">
-       Your updates have been saved.
-    </p>
+    
+    <xsl:choose>
+	    <xsl:when test="@TYPE = 'TwitterProfileCreated'">
+	    	<p class="dna-no-error">Your profile has been created. Return to the <a href="twitterprofilelist">Twitter Profile List</a>.</p>
+	    </xsl:when>
+	    <xsl:otherwise>
+	    	<p class="dna-no-error">Your updates have been saved.</p>
+	    </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
