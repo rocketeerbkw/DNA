@@ -762,3 +762,34 @@ Srihari T
     
 ============== v 3.5.81.0 ============
 	dbscripts/User reputation Cummulative Score Update.sql
+	
+============== v 3.5.84.0 ============
+Srihari T
+	<!-- Buzz Profile API -->
+	<add key="BuzzProfileListAPI" value="https://admin.test.bbc.co.uk/buzz/admin/profiles/" />
+	<add key="BuzzProfileAPI" value="https://admin.test.bbc.co.uk/buzz/admin/profile/" />
+	
+	Following service entries are required inside the <system.serviceModel> node
+	<client>
+		<endpoint binding="webHttpBinding" contract="BBC.Dna.SocialAPI.IBuzz" name="BuzzProfileClient" bindingConfiguration="SecuredBuzzChannel" 
+	    address="http://api.test.bbc.co.uk/buzz/admin/" behaviorConfiguration="buzz"/>
+	</client>
+	
+	<bindings>
+		<webHttpBinding>
+			<binding name="SecuredBuzzChannel"
+					 sendTimeout="00:15:00" useDefaultWebProxy="true" bypassProxyOnLocal="false" 
+					 openTimeout="00:15:00" closeTimeout="00:15:00" receiveTimeout="00:15:00" maxReceivedMessageSize="65536000" >
+					  <security mode = "TransportCredentialOnly">
+						<transport clientCredentialType="Basic" realm="Twitter API" />
+					 </security>
+			</binding>
+		</webHttpBinding>
+	</bindings>
+	<behaviors>
+      <endpointBehaviors>
+		<behavior name="buzz">
+          <webHttp /> 
+        </behavior>
+      </endpointBehaviors>
+    </behaviors>
