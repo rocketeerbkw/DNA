@@ -20,24 +20,31 @@
 	
 	<xsl:template match="H2G2[@TYPE = 'TWITTERPROFILELIST']" mode="page">
 		<xsl:call-template name="objects_links_breadcrumb">
-			<xsl:with-param name="pagename"> Twitter Profile List</xsl:with-param>
+			<xsl:with-param name="pagename">Twitter Profile List</xsl:with-param>
 		</xsl:call-template> 
 		 
 	    <div class="twitter-admin">
 	    	<div class="dna-mb-intro blq-clearfix">
-	    	
-			    <form method="get" action="twitterprofilelist" class="blq-clearfix dna-fl"> 
-			    	<fieldset>
-				    	<label for="sites">Site:</label>
-						  <select name="sites" id="sites">
-                <option value="">Select a site</option>
-				    		<xsl:apply-templates select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE" mode="objects_sites_twittersites" />
-				    	</select>
-				    	<div class="dna-buttons sites">
-				    		<input type="submit" value="Change site" />
-				    	</div>
-			    	</fieldset>
-			    </form>
+	    		
+	    		<xsl:choose>
+		    		<xsl:when test="/H2G2/TWITTER-SITE-LIST/@COUNT != 0">
+					    <form method="get" action="twitterprofilelist" class="blq-clearfix dna-fl"> 
+					    	<fieldset>
+						    	<label for="sites">Site:</label>
+								  <select name="type" id="sites">
+		                			<option value="">Select a site</option>
+						    		<xsl:apply-templates select="/H2G2/TWITTER-SITE-LIST/SITE" mode="objects_sites_twittersites" />
+						    	</select>
+						    	<div class="dna-buttons sites">
+						    		<input type="submit" value="Change site" />
+						    	</div>
+					    	</fieldset>
+					    </form>
+				    </xsl:when>
+				    <xsl:otherwise>
+				    	<p>There are no sites.</p>
+				    </xsl:otherwise>
+			    </xsl:choose>
 			    
 			    <form method="get" action="twitterprofilelist" class="blq-clearfix dna-fr">	
 					  <fieldset>
@@ -81,7 +88,8 @@
 	    	
 		    <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 				<div class="dna-box">
-					<h3>Number of profiles: <xsl:value-of select="/H2G2/TWITTERPROFILELIST/@COUNT" /></h3>
+					<h3>Number of profiles for <strong><xsl:value-of select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE/@SITETYPE" /></strong>: <xsl:value-of select="/H2G2/TWITTERPROFILELIST/@COUNT" /></h3>
+					
 		    		<xsl:call-template name="newprofilelink" />	 
 		    		   	    	
 					  <table>

@@ -6,11 +6,12 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="doc">
 
-	<xsl:template match="TWITTERPROFILE" mode="objects_sites_twittersites">
-		<xsl:variable name="twittersiteid" select="@SITETYPE" />
+	<xsl:template match="SITE" mode="objects_sites_twittersites">
+		<xsl:variable name="twittersiteid" select="@ID" />
+		<xsl:variable name="twittersitename" select="NAME" />
 		
-		<option value="{$twittersiteid}">
-			<xsl:value-of select="$twittersiteid" />
+		<option value="{$twittersitename}">
+			<xsl:value-of select="$twittersitename" />
 		</option> 
 		
 	</xsl:template>

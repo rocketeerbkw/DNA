@@ -29,7 +29,7 @@
 								or @TYPE = 'USERCONTRIBUTIONS' or @TYPE = 'MEMBERDETAILS' or @TYPE = 'COMMENTFORUMLIST'  
 								or @TYPE = 'COMMENTSLIST' or @TYPE = 'USERLIST' or @TYPE = 'ERROR' or @TYPE = 'USERREPUTATIONREPORT' 
 								or @TYPE = 'SITEMANAGER' or @TYPE = 'TERMSFILTERADMIN' or @TYPE = 'TERMSFILTERIMPORT' 
-								or @TYPE = 'TWITTERPROFILELIST' or @TYPE = 'TWITTERCREATEPROFILE'">
+								or @TYPE = 'TWITTERPROFILELIST' or @TYPE = 'TWITTERPROFILE'">
 					<!-- no tabs for the host dashboard activity page -->
 					<li>&#160;</li>
 				</xsl:when>
