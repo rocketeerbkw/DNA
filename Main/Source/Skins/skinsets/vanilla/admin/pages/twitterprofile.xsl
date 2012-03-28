@@ -43,7 +43,11 @@
 				  <span>* denotes required field</span>
 				</div>
 				<form method="get" action="twitterprofile" class="twitterprofile"> 
-					<input type="hidden" name="type"><xsl:value-of select="/H2G2/TWITTERPROFILE/@SITENAME" /></input>
+					<input type="hidden" name="type">
+						<xsl:attribute name="value">
+							<xsl:value-of select="/H2G2/TWITTERPROFILE/@SITENAME" />
+						</xsl:attribute>
+					</input>
 					<fieldset>
 						<ul class="twitter-profile">
 							<li>
@@ -110,9 +114,13 @@
 							</li>
 						</ul>
 						<ul class="dna-buttons profile">
+							<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
+							<xsl:if test="/H2G2/PROFILE">
+								<input type="hidden" name="s_action" value="updateprofile" />
+							</xsl:if>
 							<input type="hidden" name="action" value="createupdateprofile" />
 							<li><input type="submit" value="{$profiletype} Profile" /></li>
-							<li><a href="twitterprofilelist" class="button">Cancel</a></li>
+							<li><a href="twitterprofilelist?type={$sitetype}" class="button">Cancel</a></li>
 						</ul>					
 					</fieldset>
 				</form>

@@ -94,7 +94,18 @@
 		<xsl:otherwise>
 		    <xsl:choose>
 			    <xsl:when test="@TYPE = 'TwitterProfileCreated'">
-			    	<p class="dna-no-error">Your profile has been created. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
+			    
+			    	<xsl:variable name="profiletype">
+			    		<xsl:choose>
+			    			<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'updateprofile'">
+			    				<xsl:text>updated</xsl:text>
+			    			</xsl:when>
+			    			<xsl:otherwise>
+			    				<xsl:text>created</xsl:text>
+			    			</xsl:otherwise>
+			    		</xsl:choose>
+			    	</xsl:variable>
+			    	<p class="dna-no-error">Your Twitter profile has been <xsl:value-of select="$profiletype" />. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
 			    </xsl:when>
 			    <xsl:otherwise>
 			    	<p class="dna-no-error">Your updates have been saved.</p>
