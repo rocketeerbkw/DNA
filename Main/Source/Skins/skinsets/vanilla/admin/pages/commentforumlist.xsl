@@ -120,7 +120,7 @@
 					<li><strong>Forum ID: </strong><xsl:value-of select="@FORUMID"/></li>
 					<li><strong>UID: </strong><xsl:value-of select="@UID"/></li>
 					<li><strong>Comment count: </strong><xsl:value-of select="@FORUMPOSTCOUNT"/></li>
-					<li><strong>Comments: </strong><a href="commentslist?s_siteid={$siteId}&amp;s_forumid={$forumId}&amp;s_title={$title}" target="_blank">Click here</a></li>
+					<li><strong>Comments: </strong><a href="{$root-secure-moderation}/admin/commentslist?s_siteid={$siteId}&amp;s_forumid={$forumId}&amp;s_title={$title}" target="_blank">Click here</a></li>
 				</ul>
 			</td>
 			<td>
