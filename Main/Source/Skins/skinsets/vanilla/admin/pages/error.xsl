@@ -87,14 +87,20 @@
   </xsl:template>
 
   <xsl:template match="/H2G2/RESULT" mode="page">
-    
+  	<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
     <xsl:choose>
-	    <xsl:when test="@TYPE = 'TwitterProfileCreated'">
-	    	<p class="dna-no-error">Your profile has been created. Return to the <a href="twitterprofilelist">Twitter Profile List</a>.</p>
-	    </xsl:when>
-	    <xsl:otherwise>
-	    	<p class="dna-no-error">Your updates have been saved.</p>
-	    </xsl:otherwise>
+    	<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'getprofile'">
+    	</xsl:when>
+		<xsl:otherwise>
+		    <xsl:choose>
+			    <xsl:when test="@TYPE = 'TwitterProfileCreated'">
+			    	<p class="dna-no-error">Your profile has been created. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
+			    </xsl:when>
+			    <xsl:otherwise>
+			    	<p class="dna-no-error">Your updates have been saved.</p>
+			    </xsl:otherwise>
+		    </xsl:choose>		
+		</xsl:otherwise>    
     </xsl:choose>
   </xsl:template>
 

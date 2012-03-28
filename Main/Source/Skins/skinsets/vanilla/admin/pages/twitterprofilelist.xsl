@@ -64,11 +64,6 @@
 								    <xsl:otherwise>Show active profiles only:</xsl:otherwise>
 							    </xsl:choose>
 						    </label>
-						  <!-- input type="checkbox" name="activeonly" id="activeonly">
-							  <xsl:if test="ACTIVEONLY = TRUE">
-								  <xsl:attribute name="checked">checked</xsl:attribute>
-							  </xsl:if>
-						  </input -->
 						  <div class="dna-buttons">
 							  <input type="submit">
 								  <xsl:attribute name="value">
@@ -125,9 +120,10 @@
 	</xsl:template>
   
 	<xsl:template name="newprofilelink">
-		<div class="newprofilelink blq-clearfix">
+		<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE/@SITETYPE"/>
+		<div class="newprofilelink blq-clearfix dna-fr">
 			<ul class="dna-buttons">
-				<li><a href="twitterprofile" target="_blank">New Profile</a></li>
+				<li><a href="twitterprofile?type={$sitetype}">New Profile</a></li>
 			</ul>  
 		</div>
 	</xsl:template>
@@ -143,7 +139,7 @@
 			<td><xsl:value-of select="PROFILECOUNTSTATUS" /></td>
 			<td><xsl:value-of select="PROFILEKEYWORDCOUNTSTATUS" /></td>
 			<td><xsl:value-of select="MODERATIONSTATUS" /></td>
-			<td><a href="twitterprofile?type={$sitetype}&amp;profileId={$profileid}&amp;action=getprofile" target="_blank">Edit</a></td>
+			<td><a href="twitterprofile?type={$sitetype}&amp;profileId={$profileid}&amp;action=getprofile&amp;s_action=getprofile">Edit</a></td>
 		</tr>  
 	</xsl:template>
 	
