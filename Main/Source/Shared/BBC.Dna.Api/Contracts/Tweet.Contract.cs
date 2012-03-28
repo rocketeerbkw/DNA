@@ -15,7 +15,10 @@ namespace BBC.Dna.Api
     [DataContract(Name = "tweet", Namespace = "BBC.Dna.Api")]
     public class Tweet
     {
-        [DataMember(Name = ("id"))]
+        // We always get the id from "id_str" just in case the json client has difficulty processing the 64 bit ID
+        // The general concensus out in the interweb is that you should always use id_str as it's guaranteed to work
+        // https://dev.twitter.com/discussions/3948
+        [DataMember(Name = ("id_str"))]
         public long id;
 
         [DataMember(Name = ("created_at"))]
